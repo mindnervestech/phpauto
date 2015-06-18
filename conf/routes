@@ -31,3 +31,12 @@ GET     /not-authorized             securesocial.controllers.ProviderController.
 GET     /dealerjs/*file               controllers.Assets.at(path="/public/angularjs", file)
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /dealer/*file               controllers.Assets.at(path="/public/angularjs/app", file)
+
+# Vehical Information
+GET		/getVehicleInfo/:vin		controllers.Application.getVehicleInfo(vin:String)
+GET		/getAllSites				controllers.Application.getAllSites()
+POST	/saveVehicle				controllers.Application.saveVehicle()
+POST	/uploadPhotos				controllers.Application.uploadPhotos()
+GET		/getImagesByVin/:vin		controllers.Application.getImagesByVin(vin:String)
+GET		/getImage/:id				controllers.Application.getImageById(id:Long)
+GET		/deleteImage/:id			controllers.Application.deleteImage(id:Long)
