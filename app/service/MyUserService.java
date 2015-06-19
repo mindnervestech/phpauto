@@ -3,16 +3,21 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.AuthUser;
 import play.Application;
-import scala.Array;
+import play.Logger;
+import scala.Option;
+import scala.Some;
+import securesocial.core.AuthenticationMethod;
 import securesocial.core.Identity;
 import securesocial.core.IdentityId;
+import securesocial.core.PasswordInfo;
 import securesocial.core.java.BaseUserService;
 import securesocial.core.java.Token;
 
 public class MyUserService extends BaseUserService {
 
-	public DemoUser demoUser;
+	
 	public List<Token> tokens;
     public MyUserService(Application application) {
         super(application);
@@ -26,12 +31,40 @@ public class MyUserService extends BaseUserService {
      */
     @Override
     public Identity doSave(Identity user) {
-        if(demoUser==null) {
-        	demoUser = new DemoUser(user);
-        } else {
-        	demoUser.userList.add(user);
-        }
-    	return user;
+    	 if (Logger.isDebugEnabled()) {
+             Logger.debug(String.format("user = %s", user));
+         }
+         AuthUser localUser = null;
+         localUser = AuthUser.find.byId(user.identityId().hashCode());
+         if (localUser == null) {
+             localUser = new AuthUser();
+             localUser.id = user.identityId().hashCode();
+             localUser.provider = user.identityId().providerId();
+             localUser.firstName = user.firstName();
+             localUser.lastName = user.lastName();
+             
+             if(user.email().isDefined())
+            	 localUser.email = user.email().get();
+             
+             if(user.passwordInfo().isDefined())
+            	 localUser.password = user.passwordInfo().get().password();
+             
+             localUser.save();
+         } else {
+        	 localUser.id = user.identityId().hashCode();
+             localUser.provider = user.identityId().providerId();
+             localUser.firstName = user.firstName();
+             localUser.lastName = user.lastName();
+             
+             if(user.email().isDefined())
+            	 localUser.email = user.email().get();
+             
+             if(user.passwordInfo().isDefined())
+            	 localUser.password = user.passwordInfo().get().password();
+             
+             localUser.update();
+         }
+         return user;
     }
 
 	/**
@@ -39,15 +72,15 @@ public class MyUserService extends BaseUserService {
      * @return an Identity instance or null if no user matches the specified id
      */
     @Override
-    public Identity doFind(IdentityId id) {
-    	if(demoUser!=null) {
-    		for(Identity identity : demoUser.userList) {
-    			if(identity.identityId().equals(id)) {
-    				return identity;
-    			}
-    		}
-    	}
-    	return null;
+    public Identity doFind(IdentityId userId) {
+    	 if (Logger.isDebugEnabled()) {
+             Logger.debug("find...");
+             Logger.debug(String.format("id = %s", userId.userId()));
+         }
+         AuthUser localUser = AuthUser.find.byId(userId.hashCode());
+         if(localUser == null) return null;
+         
+         return localUser;
     }
 
     /**
@@ -62,14 +95,15 @@ public class MyUserService extends BaseUserService {
      */
     @Override
     public Identity doFindByEmailAndProvider(String email, String providerId) {
-    	if(demoUser!=null) {
-    		for(Identity identity:demoUser.userList) {
-    			if(identity.email().equals(email) && identity.identityId().providerId().equals(providerId)) {
-    				return identity;
-    			}
-    		}
-    	}
-    	return null;
+    	 if (Logger.isDebugEnabled()) {
+             Logger.debug("findByEmailAndProvider...");
+             Logger.debug(String.format("email = %s", email));
+             Logger.debug(String.format("providerId = %s", providerId));
+         }
+         List<AuthUser> list = AuthUser.find.where().eq("email", email).eq("provider", providerId).findList();
+         if(list.size() != 1) return null;
+         AuthUser localUser = list.get(0);
+    	return localUser;
     }
 
     /**
