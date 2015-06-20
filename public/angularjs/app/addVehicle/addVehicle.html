@@ -73,8 +73,11 @@
 
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Mileage</label>
-	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.mileage" type="text">
+	<div class="col-sm-2">
+		<input class="form-control form-white" type="text" ng-model="vinData.specification.city_mileage" placeholder="City">
+	</div>
+	<div class="col-sm-2">
+		<input class="form-control form-white" type="text" ng-model="vinData.specification.highway_mileage" placeholder="Hwy">
 	</div>
 </div>
 
@@ -92,6 +95,50 @@
 		<p>Numbers only,Enter 0 to display "Call"</p>
 	</div>
 </div>
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Made In</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" ng-model="vinData.specification.made_in" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Steering Type</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" ng-model="vinData.specification.steering_type" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Anti Brake System</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" ng-model="vinData.specification.anti_brake_system" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Dimensions</label>
+	<div class="col-sm-2">
+		<input class="form-control form-white" ng-model="vinData.specification.overall_height" type="text" placeholder="Height">
+	</div>
+	<div class="col-sm-2">
+		<input class="form-control form-white" ng-model="vinData.specification.overall_length" type="text" placeholder="Length">
+	</div>
+	<div class="col-sm-2">
+		<input class="form-control form-white" ng-model="vinData.specification.overall_width" type="text" placeholder="Width">
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Standard Seating</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" ng-model="vinData.specification.standard_seating" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Optional Seating</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" ng-model="vinData.specification.optional_seating" type="text">
+	</div>
+</div>
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Exterior Color</label>
 	<div class="col-sm-5">
@@ -107,7 +154,7 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Color Description</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.colorDesc" type="text" placeholder="$">
+		<input class="form-control form-white" ng-model="vinData.specification.colorDesc" type="text">
 		<p>Specific exterior color name,but not required</p>
 	</div>
 </div>
@@ -135,15 +182,7 @@
 		<input class="form-control form-white" ng-model="vinData.specification.tank_size" type="text">
 	</div>
 </div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">MPG</label>
-	<div class="col-sm-2">
-		<input class="form-control form-white" type="text" ng-model="vinData.specification.city_mileage" placeholder="City">
-	</div>
-	<div class="col-sm-2">
-		<input class="form-control form-white" type="text" ng-model="vinData.specification.highway_mileage" placeholder="Hwy">
-	</div>
-</div>
+
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Body Style</label>
 	<div class="col-sm-5">
@@ -189,7 +228,7 @@
 	<div ng-repeat="site in siteList">
 		<label class="">
           <div class="icheckbox_flat-blue"  style="position: relative;">
-          <input type="checkbox"  ng-model="flag" ng-change="setSiteId(site.id,flag)">
+          <input type="checkbox"  ng-model="site.flag" ng-change="setSiteId(site.id,site.flag)">
           <input type="checkbox" data-checkbox="icheckbox_flat-blue" ng-model="flag" ng-change="setSiteId(site.id,flag)" style="position: absolute; opacity: 0;">
           <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
           </div> {{site.name}}

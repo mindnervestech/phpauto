@@ -1,19 +1,28 @@
 package controllers;
 
 import java.awt.image.BufferedImage;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import com.avaje.ebean.Ebean;
+
+import net.coobird.thumbnailator.Thumbnails;
 import models.AuthUser;
 import models.Site;
 import models.Vehicle;
 import models.VehicleImage;
-import net.coobird.thumbnailator.Thumbnails;
+
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -36,6 +45,9 @@ public class Application extends Controller {
   
 	final static String rootDir = Play.application().configuration()
 			.getString("image.storage.path");
+	
+	final static String mashapeKey = Play.application().configuration()
+			.getString("mashapeKey");
 	
     /*public static Result index() {
         return ok(index.render("Your new application is ready."));
@@ -85,41 +97,80 @@ public class Application extends Controller {
     }
     
     public static Result getVehicleInfo(String vin) throws IOException {
-    	/*URL url;
-			url = new URL("https://vindecoder.p.mashape.com/decode_vin?vin="+vin);
-		URLConnection conn = url.openConnection();
-		conn.setRequestProperty("X-Mashape-Key", "");
-		conn.setRequestProperty("Accept", "application/json");
-		
-		BufferedReader br = new BufferedReader(
-                           new InputStreamReader(conn.getInputStream()));*/
-		
-		PinVM pinVM = new PinVM();
-		pinVM.success = true;
-		pinVM.pin = "4F2YU09161KM33122";
-		
-		SpecificationVM specificationVM = new SpecificationVM();
-		specificationVM.vin = "4F2YU09161KM33122";
-		specificationVM.year = "2001";
-		specificationVM.make = "MAZDA";
-		specificationVM.model = "TRIBUTE";
-		specificationVM.trim_level = "LX";
-		specificationVM.engine = "3.0L V6 DOHC 24V";
-		specificationVM.style = "SPORT UTILITY 4-DR";
-		specificationVM.made_in = "UNITED STATES";
-		specificationVM.steering_type = "R&P";
-		specificationVM.anti_brake_system = "Non-ABS | 4-Wheel ABS";
-		specificationVM.tank_size = "16.40 gallon";
-		specificationVM.overall_height = "69.90 in.";
-		specificationVM.overall_length = "173.00 in.";
-		specificationVM.overall_width = "71.90 in.";
-		specificationVM.standard_seating = "5";
-		specificationVM.optional_seating = "";
-		specificationVM.highway_mileage = "24 miles/gallon";
-		specificationVM.city_mileage = "18 miles/gallon";
-		pinVM.specification = specificationVM;
-		
-    	return ok(Json.toJson(pinVM));
+    	
+    	Vehicle vehicle = Vehicle.findByVid(vin); 
+    	if(vehicle == null) {
+	    	URL url;
+				url = new URL("https://vindecoder.p.mashape.com/decode_vin?vin="+vin);
+			URLConnection conn = url.openConnection();
+			conn.setRequestProperty("X-Mashape-Key", mashapeKey);
+			conn.setRequestProperty("Accept", "application/json");
+			
+			BufferedReader br = new BufferedReader(
+	                           new InputStreamReader(conn.getInputStream()));
+			
+			StringBuilder sb = new StringBuilder();
+			String line;
+		    while ((line = br.readLine()) != null) {
+		        sb.append(line);
+		    }
+		   
+			ObjectMapper mapper = new ObjectMapper();
+			
+			PinVM pinObj = new ObjectMapper().readValue(sb.toString(), PinVM.class);
+			
+			return ok(Json.toJson(pinObj));
+			
+    	} else {
+			PinVM pinVM = new PinVM();
+			pinVM.success = true;
+			pinVM.vin = vehicle.getVin();
+			
+			SpecificationVM specificationVM = new SpecificationVM();
+			specificationVM.vin = vehicle.getVin();
+			specificationVM.year = vehicle.getYear();
+			specificationVM.make = vehicle.getMake();
+			specificationVM.model = vehicle.getModel();
+			specificationVM.trim_level = vehicle.getTrim();
+			specificationVM.engine = vehicle.getEngine();
+			specificationVM.style = vehicle.getBodyStyle();
+			specificationVM.made_in = vehicle.getMadeIn();
+			specificationVM.steering_type = vehicle.getSteeringType();
+			specificationVM.anti_brake_system = vehicle.getAntiBrakeSystem();
+			specificationVM.tank_size = vehicle.getFuel();
+			specificationVM.overall_height = vehicle.getHeight();
+			specificationVM.overall_length = vehicle.getLength();
+			specificationVM.overall_width = vehicle.getWidth();
+			specificationVM.standard_seating = vehicle.getStandardSeating();
+			specificationVM.optional_seating = vehicle.getOptionalSeating();
+			specificationVM.highway_mileage = vehicle.getHighwayMileage();
+			specificationVM.city_mileage = vehicle.getCityMileage();
+			specificationVM.category = vehicle.getCategory();
+			specificationVM.colorDesc = vehicle.getColorDescription();
+			specificationVM.cost = vehicle.getCost();
+			specificationVM.description = vehicle.getDescription();
+			specificationVM.doors = vehicle.getDoors();
+			specificationVM.drivetrain = vehicle.getDrivetrain();
+			specificationVM.extColor = vehicle.getExteriorColor();
+			specificationVM.intColor = vehicle.getInteriorColor();
+			specificationVM.label = vehicle.getLabel();
+			specificationVM.mileage = vehicle.getMileage();
+			specificationVM.price = vehicle.getPrice();
+			specificationVM.standardFeatures1 = vehicle.getStandardFeatures1();
+			specificationVM.standardFeatures2 = vehicle.getStandardFeatures2();
+			specificationVM.stereo = vehicle.getStereo();
+			specificationVM.stock = vehicle.getStock();
+			specificationVM.transmission = vehicle.getTransmission();
+			List<Long> siteIds = new ArrayList<>();
+			for(Site site: vehicle.getSite()) {
+				siteIds.add(site.id);
+			}
+			specificationVM.siteIds = siteIds;
+			
+			pinVM.specification = specificationVM;
+			
+	    	return ok(Json.toJson(pinVM));
+    	}
     }
     
     @SecureSocial.SecuredAction
@@ -156,7 +207,16 @@ public class Application extends Controller {
 	    	vehicle.standardFeatures1 = vm.standardFeatures1;
 	    	vehicle.standardFeatures2 = vm.standardFeatures2;
 	    	vehicle.description = vm.description;
-	    	vehicle.user = (AuthUser)user;
+			vehicle.user = (AuthUser)user;
+	    	vehicle.madeIn = vm.made_in;
+	    	vehicle.steeringType = vm.steering_type;
+	    	vehicle.antiBrakeSystem = vm.anti_brake_system;
+	    	vehicle.height = vm.overall_height;
+	    	vehicle.length = vm.overall_length;
+	    	vehicle.width = vm.overall_width;
+	    	vehicle.standardSeating = vm.standard_seating;
+	    	vehicle.optionalSeating = vm.optional_seating;
+	    	
 	    	List<Site> siteList = new ArrayList<>();
 	    	if(vm.siteIds != null) {
 		    	for(Long obj: vm.siteIds) {
@@ -244,10 +304,17 @@ public class Application extends Controller {
     	return ok(Json.toJson(vmList));
     }
     
-    @SecureSocial.SecuredAction
-    public static Result getImageById(Long id) {
+	@SecureSocial.SecuredAction
+    public static Result getImageById(Long id, String type) {
+    	File file = null;
     	VehicleImage image = VehicleImage.findById(id);
-    	File file = new File(rootDir+image.thumbPath);
+    	if(type.equals("thumbnail")) {
+	    	file = new File(rootDir+image.thumbPath);
+    	}
+    	
+    	if(type.equals("full")) {
+    		file = new File(rootDir+image.path);
+    	}
     	return ok(file);
     }
     

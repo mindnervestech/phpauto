@@ -45,10 +45,21 @@ angular.module('newApp')
    };
    
    $scope.getVinData = function() {
- 	  $http.get('/getVehicleInfo/'+$scope.vinNumber)
-		.success(function(data) {
-			$scope.vinData = data;
-		});
+	   if(!angular.isUndefined($scope.vinNumber)) {
+	 	  $http.get('/getVehicleInfo/'+$scope.vinNumber)
+			.success(function(data) {
+				$scope.vinData = data;
+				if($scope.vinData.specification.siteIds != null) {
+					for(var i=0;i<$scope.vinData.specification.siteIds.length;i++) {
+						for(var j=0;j<$scope.siteList.length;j++) {
+							if($scope.vinData.specification.siteIds[i] == $scope.siteList[j].id) {
+								$scope.siteList[j].flag = true;
+							}
+						}
+					}
+				}
+			});
+	   }
    }
    
    $scope.saveVehicle = function() {
@@ -126,12 +137,12 @@ angular.module('newApp')
 				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
 				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
 				       stop: function(event, $element, widget) {
-				    	   console.log(widget.col);
-				    	   console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
+				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
 				    	   $http.get('/savePosition/'+$element[0].getAttribute("data-row")+'/'+$element[0].getAttribute("data-col")+'/'+$element[0].getAttribute("id"))
 					   		.success(function(data) {
-					   			console.log('success');
+					   			//console.log('success');
 					   		});
+				    	   
 				       } // optional callback fired when item is finished dragging
 				    }
 		};
@@ -183,6 +194,11 @@ angular.module('newApp')
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
 		
+	}
+	
+	$scope.showFullImage = function(image) {
+		$scope.imageId = image.id;
+		$scope.imageName = image.name;
 	}
 	
 }]);

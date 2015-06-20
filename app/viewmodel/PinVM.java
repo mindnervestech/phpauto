@@ -2,7 +2,7 @@ package viewmodel;
 
 public class PinVM {
 
-	public String pin;
+	public String vin;
 	public boolean success;
 	public SpecificationVM specification;
 }
