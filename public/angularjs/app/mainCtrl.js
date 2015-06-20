@@ -12,6 +12,7 @@
             $http.get('/getUserInfo').success(function(data,status, headers, config){
             	console.log(data);
             	$scope.name = data.firstName + " " + data.lastName;
+            	$scope.userimage = data.avatarUrl;
             }).error(function(data,status){
             	if(status == 401) {
             		window.location.href = "/login";

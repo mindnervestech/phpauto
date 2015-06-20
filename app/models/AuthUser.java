@@ -22,6 +22,8 @@ public class AuthUser extends Model implements Identity {
 	public String firstName;
 	public String lastName;
 	public String password;
+	public String avatarUrl;
+	
 	@Id
 	public Integer id;
 	public String provider;
