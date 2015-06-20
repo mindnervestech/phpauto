@@ -43,7 +43,7 @@ GET		/deleteImage/:id			controllers.Application.deleteImage(id:Long)
 GET		/setDefaultImage/:id		controllers.Application.setDefaultImage(id:Long)
 GET		/removeDefault/:id			controllers.Application.removeDefault(id:Long)
 GET		/savePosition/:row/:col/:id		controllers.Application.savePosition(row:Integer,col:Integer,id:Long)
-
+GET		/getUserInfo				controllers.Application.getUserInfo()
 
 GET    /getAllVehicles             controllers.Application.getAllVehicles()
 GET    /deleteVehicleById/:id      controllers.Application.deleteVehicleById(id: Long)

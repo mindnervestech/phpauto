@@ -5,11 +5,13 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import play.db.ebean.Model;
+import securesocial.core.Identity;
 
 import com.avaje.ebean.annotation.ConcurrencyMode;
 import com.avaje.ebean.annotation.EntityConcurrencyMode;
-
-import play.db.ebean.Model;
 
 @Entity
 @EntityConcurrencyMode(ConcurrencyMode.NONE)
@@ -48,6 +50,9 @@ public class Vehicle extends Model {
 	
 	@ManyToMany
 	public List<Site> site;
+	
+	@ManyToOne
+	public AuthUser user;
 
 	public Long getId() {
 		return id;
@@ -285,6 +290,11 @@ public class Vehicle extends Model {
 	
 	public static List<Vehicle> getAllVehicles() {
 		return find.all();
+	}
+
+	public static List<Vehicle> getAllVehicles(AuthUser user) {
+		return find.where().eq("user", user).findList();
+		
 	}
 	
 }

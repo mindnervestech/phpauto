@@ -1,12 +1,21 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location',
-        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location) {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http',
+        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http) {
             $(document).ready(function () {
                 applicationService.init();
                 quickViewService.init();
                 builderService.init();
                 pluginsService.init();
                 Dropzone.autoDiscover = false;
+            });
+            
+            $http.get('/getUserInfo').success(function(data,status, headers, config){
+            	console.log(data);
+            	$scope.name = data.firstName + " " + data.lastName;
+            }).error(function(data,status){
+            	if(status == 401) {
+            		window.location.href = "/login";
+            	}
             });
 
             $scope.$on('$viewContentLoaded', function () {

@@ -240,7 +240,9 @@ var MakeApp = angular
             }
         }
     }
-});
+ })
+  
+;
 
 
 // Route State Load Spinner(used on page or content load)

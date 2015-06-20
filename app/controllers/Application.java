@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
 import com.avaje.ebean.Ebean;
 
 import net.coobird.thumbnailator.Thumbnails;
-
+import models.AuthUser;
 import models.Site;
 import models.Vehicle;
 import models.VehicleImage;
@@ -59,6 +59,12 @@ public class Application extends Controller {
         Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
         return ok(index.render(user));
     }
+	
+	@SecureSocial.SecuredAction(ajaxCall = true)
+    public static Result getUserInfo() {
+		AuthUser user = (AuthUser)ctx().args.get(SecureSocial.USER_KEY);
+		return ok(Json.toJson(user));
+	}
 
     @SecureSocial.UserAwareAction
     public static Result userAware() {
@@ -124,7 +130,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(pinVM));
     }
     
+    @SecureSocial.SecuredAction
     public static Result saveVehicle() {
+    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
     	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
     	SpecificationVM vm = form.get();
     	Vehicle vehicleObj = Vehicle.findByVid(vm.vin);
@@ -156,6 +164,7 @@ public class Application extends Controller {
 	    	vehicle.standardFeatures1 = vm.standardFeatures1;
 	    	vehicle.standardFeatures2 = vm.standardFeatures2;
 	    	vehicle.description = vm.description;
+	    	vehicle.user = (AuthUser)user;
 	    	List<Site> siteList = new ArrayList<>();
 	    	if(vm.siteIds != null) {
 		    	for(Long obj: vm.siteIds) {
@@ -169,6 +178,7 @@ public class Application extends Controller {
     	return ok();
     }
     
+    @SecureSocial.SecuredAction
     public static Result uploadPhotos() {
     	MultipartFormData body = request().body().asMultipartFormData();
     	String vin = request().getHeader("vinNum");
@@ -242,12 +252,14 @@ public class Application extends Controller {
     	return ok(Json.toJson(vmList));
     }
     
+    @SecureSocial.SecuredAction
     public static Result getImageById(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
     	File file = new File(rootDir+image.thumbPath);
     	return ok(file);
     }
     
+    @SecureSocial.SecuredAction
     public static Result deleteImage(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
     	File file = new File(rootDir+image.path);
@@ -258,6 +270,7 @@ public class Application extends Controller {
     	return ok();
     }
     
+    @SecureSocial.SecuredAction
     public static Result setDefaultImage(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
     	image.setDefaultImage(true);
@@ -265,6 +278,7 @@ public class Application extends Controller {
     	return ok();
     }
     
+    @SecureSocial.SecuredAction
     public static Result removeDefault(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
     	image.setDefaultImage(false);
@@ -272,6 +286,7 @@ public class Application extends Controller {
     	return ok();
     }
     
+    @SecureSocial.SecuredAction
     public static Result savePosition(Integer row,Integer col,Long id) {
     	VehicleImage image = VehicleImage.findById(id);
     	VehicleImage secondImage = VehicleImage.findByRowCol(row, col, image.getVin());
@@ -286,8 +301,12 @@ public class Application extends Controller {
     	return ok();
     }
     
-	 public static Result getAllVehicles(){
-    	List <Vehicle> vehicleObjList = Vehicle.getAllVehicles();
+    @SecureSocial.SecuredAction
+	public static Result getAllVehicles() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	
+    	//List <Vehicle> vehicleObjList = Vehicle.getAllVehicles();
+    	List <Vehicle> vehicleObjList = Vehicle.getAllVehicles(user);
     	
     	ArrayList<SpecificationVM> VMs = new ArrayList<>(); 
      	for(Vehicle vm : vehicleObjList){
@@ -327,6 +346,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(VMs));
     }
     
+    @SecureSocial.SecuredAction
     public static Result deleteVehicleById(Long id ){
     	Vehicle vm = Vehicle.findById(id);
     	if(vm != null){
@@ -340,6 +360,7 @@ public class Application extends Controller {
     	return ok();
     }
     
+    @SecureSocial.SecuredAction
     public static Result updateVehicleStatus(Long id ){
     	Vehicle vm = Vehicle.findById(id);
     	
@@ -351,6 +372,7 @@ public class Application extends Controller {
     	return ok();
     }
     
+    @SecureSocial.SecuredAction
     public static Result updateVehicle(){
     	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
     	SpecificationVM vm = form.get();
