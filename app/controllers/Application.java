@@ -1,46 +1,37 @@
 package controllers;
 
 import java.awt.image.BufferedImage;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.avaje.ebean.Ebean;
-
-import net.coobird.thumbnailator.Thumbnails;
 import models.AuthUser;
 import models.Site;
 import models.Vehicle;
 import models.VehicleImage;
-
-import play.*;
+import net.coobird.thumbnailator.Thumbnails;
+import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Json;
-import play.mvc.*;
+import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
-
 import viewmodel.ImageVM;
 import viewmodel.PinVM;
 import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
-import views.html.*;
+import views.html.home;
+
+import com.avaje.ebean.Ebean;
 
 public class Application extends Controller {
   
@@ -61,7 +52,8 @@ public class Application extends Controller {
 	@SecureSocial.SecuredAction
     public static Result index() {
         Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
-        return ok(index.render(user));
+        //return ok(index.render(user));
+        return redirect("/dealer/index.html");
     }
 	
 	@SecureSocial.SecuredAction(ajaxCall = true)

@@ -48,7 +48,8 @@ public class MyUserService extends BaseUserService {
              
              if(user.passwordInfo().isDefined())
             	 localUser.password = user.passwordInfo().get().password();
-             
+             if(user.avatarUrl().isDefined())
+            	 localUser.avatarUrl = user.avatarUrl().get();
              localUser.save();
          } else {
         	 localUser.id = user.identityId().hashCode();
