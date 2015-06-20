@@ -45,8 +45,15 @@ public class Vehicle extends Model {
 	public String standardFeatures1;
 	public String standardFeatures2;
 	public String description;
+	public String madeIn;
+	public String steeringType;
+	public String antiBrakeSystem;
+	public String height;
+	public String length;
+	public String width;
+	public String standardSeating;
+	public String optionalSeating;
 	public String status;
-	
 	
 	@ManyToMany
 	public List<Site> site;
@@ -278,6 +285,80 @@ public class Vehicle extends Model {
 		this.site = site;
 	}
 	
+	public String getMadeIn() {
+		return madeIn;
+	}
+
+	public void setMadeIn(String madeIn) {
+		this.madeIn = madeIn;
+	}
+
+	public String getSteeringType() {
+		return steeringType;
+	}
+
+	public void setSteeringType(String steeringType) {
+		this.steeringType = steeringType;
+	}
+
+	public String getAntiBrakeSystem() {
+		return antiBrakeSystem;
+	}
+
+	public void setAntiBrakeSystem(String antiBrakeSystem) {
+		this.antiBrakeSystem = antiBrakeSystem;
+	}
+
+	public String getHeight() {
+		return height;
+	}
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
+	public String getLength() {
+		return length;
+	}
+
+	public void setLength(String length) {
+		this.length = length;
+	}
+
+	public String getWidth() {
+		return width;
+	}
+
+	public void setWidth(String width) {
+		this.width = width;
+	}
+
+	public String getStandardSeating() {
+		return standardSeating;
+	}
+
+	public void setStandardSeating(String standardSeating) {
+		this.standardSeating = standardSeating;
+	}
+
+	public String getOptionalSeating() {
+		return optionalSeating;
+	}
+
+	public void setOptionalSeating(String optionalSeating) {
+		this.optionalSeating = optionalSeating;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
 	public static Finder<Long,Vehicle> find = new Finder<>(Long.class,Vehicle.class);
 	
 	public static Vehicle findById(Long id) {
