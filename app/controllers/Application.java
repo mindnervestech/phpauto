@@ -1,20 +1,28 @@
 package controllers;
 
 import java.awt.image.BufferedImage;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.avaje.ebean.Ebean;
+
+import net.coobird.thumbnailator.Thumbnails;
 import models.AuthUser;
 import models.Site;
 import models.Vehicle;
 import models.VehicleImage;
-import net.coobird.thumbnailator.Thumbnails;
+
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;

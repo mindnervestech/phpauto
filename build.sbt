@@ -5,6 +5,7 @@ version := "1.0-SNAPSHOT"
 libraryDependencies ++= Seq(
 "mysql" % "mysql-connector-java" % "5.1.18",
 "net.coobird" % "thumbnailator" % "0.4.3",
+"org.codehaus.jackson" % "jackson-mapper-asl" % "1.9.5",
 javaJdbc,
   javaEbean,
   cache,

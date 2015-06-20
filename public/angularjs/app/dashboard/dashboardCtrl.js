@@ -45,19 +45,21 @@ angular.module('newApp')
    };
    
    $scope.getVinData = function() {
- 	  $http.get('/getVehicleInfo/'+$scope.vinNumber)
-		.success(function(data) {
-			$scope.vinData = data;
-			if($scope.vinData.specification.siteIds != null) {
-				for(var i=0;i<$scope.vinData.specification.siteIds.length;i++) {
-					for(var j=0;j<$scope.siteList.length;j++) {
-						if($scope.vinData.specification.siteIds[i] == $scope.siteList[j].id) {
-							$scope.siteList[j].flag = true;
+	   if(!angular.isUndefined($scope.vinNumber)) {
+	 	  $http.get('/getVehicleInfo/'+$scope.vinNumber)
+			.success(function(data) {
+				$scope.vinData = data;
+				if($scope.vinData.specification.siteIds != null) {
+					for(var i=0;i<$scope.vinData.specification.siteIds.length;i++) {
+						for(var j=0;j<$scope.siteList.length;j++) {
+							if($scope.vinData.specification.siteIds[i] == $scope.siteList[j].id) {
+								$scope.siteList[j].flag = true;
+							}
 						}
 					}
 				}
-			}
-		});
+			});
+	   }
    }
    
    $scope.saveVehicle = function() {
@@ -192,6 +194,11 @@ angular.module('newApp')
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
 		
+	}
+	
+	$scope.showFullImage = function(image) {
+		$scope.imageId = image.id;
+		$scope.imageName = image.name;
 	}
 	
 }]);
