@@ -16,7 +16,8 @@ var MakeApp = angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'gridster'
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -223,7 +224,19 @@ var MakeApp = angular
         .otherwise({
             redirectTo: '/'
         });
-  });
+  })
+   .directive('onFinishRender', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit('ngRepeatFinished');
+                });
+            }
+        }
+    }
+});
 
 
 // Route State Load Spinner(used on page or content load)

@@ -6,7 +6,8 @@ public class ImageVM {
 	public String vin;
 	public String path;
 	public boolean defaultImage;
-	public String order;
+	public Integer row;
+	public Integer col;
 	public String name;
 	
 }

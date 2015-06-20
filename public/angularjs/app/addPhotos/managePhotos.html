@@ -9,23 +9,40 @@
 </div> -->
 
 
-<div class="row">
-        <div class="col-lg-12 portlets">
-            <div class="panel panel-transparent">
-                <div class="panel-content">
-                    <div class="portfolioContainer grid">
-                        <figure class="animal effect-zoe magnific" ng-repeat="image in imageList" data-mfp-src="../../../assets/global/images/gallery/9.jpg">
-                            <img src="/getImage/{{image.id}}" alt="9" width="270" height="200" />
-                            <figcaption>
-                                <button class="btn btn-info btn-transparent btn-rounded" style="width:47%;">Set Default</button>
+                    <div gridster="gridsterOpts">
+                    	<ul>
+                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" 
+                    			data-sizex="1" data-sizey="1" ng-repeat="image in imageList"
+                    		 	on-finish-render="ngRepeatFinished" >
+                    		 	<div class="imageGroup">
+                        			<img class="myImage" style="width:100%; height:100%;" src="/getImage/{{image.id}}" id="imgId{{$index}}" alt="9" />
+                            		<div>
+                            		<a class="remImage1" ng-click="setAsDefault(image,$index)" style="cursor:pointer;color:red;"><b>Set Default</b></a>
+                            		</div>
+                            		<div>
+                            			<a class="remImage" ng-click="deleteImage(image)" style="color:red;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+                            		</div>
+                        		</div>
+                        	</li>
+                        </ul>
+                        </div>
+    
+ <!-- <div data-gridster>
+    <ul>
+        <li data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="2" data-sizey="6" gridster-item="image" ng-repeat="image in imageList">
+	        <figure class="animal effect-zoe magnific">
+	        	<img src="/getImage/{{image.id}}" id="imgId{{$index}}" alt="9" width="320" height="150" />
+	        	<figcaption>
+                                <button class="btn btn-info btn-transparent btn-rounded" ng-click="setAsDefault(image,$index)" style="width:47%;">Set Default</button>
                                 <button class="btn btn-sm btn-icon btn-rounded btn-danger" ng-click="deleteImage(image)"><b>X</b></button>
                             </figcaption>
-                        </figure>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	        </figure>
+        </li>
+    </ul>
+</div> -->
+    
+    
+    
 </div>    
 <style>
 .portfolioContainer figure {
@@ -34,5 +51,33 @@ margin: 2.5%;
 }
 .grid figure {
   width: 27.5%;
+}
+
+.remImage{
+opacity:0;
+top:0;
+right:-15px;
+position:absolute;
+}
+
+.remImage1{
+opacity:0;
+top:0;
+left:7px;
+position:absolute;
+}
+
+.imageGroup{
+position:relative;
+float:left;
+}
+.imageGroup:hover .remImage{
+opacity:1;
+}
+.imageGroup:hover .remImage1{
+opacity:1;
+}
+.imageGroup:hover .myImage{
+opacity:0.2;
 }
 </style>    

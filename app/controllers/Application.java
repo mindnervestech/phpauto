@@ -179,9 +179,12 @@ public class Application extends Controller {
     	    	fdir.mkdir();
     	    }
     	    String filePath = rootDir+File.separator+vin+File.separator+fileName;
+    	    String thumbnailPath = rootDir+File.separator+vin+File.separator+"thumbnail_"+fileName;
+    	    File thumbFile = new File(thumbnailPath);
     	    File file = picture.getFile();
     	    try {
     	    BufferedImage originalImage = ImageIO.read(file);
+    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
     	    File _f = new File(filePath);
 			Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 			
@@ -191,6 +194,24 @@ public class Application extends Controller {
 				vImage.vin = vin;
 				vImage.imgName = fileName;
 				vImage.path = File.separator+vin+File.separator+fileName;
+				vImage.thumbPath = File.separator+vin+File.separator+"thumbnail_"+fileName;
+				List<VehicleImage> imageList = VehicleImage.getByVin(vin);
+				if(imageList.size() == 0) {
+					vImage.row = 0;
+					vImage.col = 0;
+				} else {
+					int maxRow = 0,maxCol = 0;
+					for(VehicleImage img: imageList) {
+						if(maxRow<=img.getRow()) {
+							maxRow = img.getRow();
+						}
+						if(maxCol<=img.getCol()) {
+							maxCol = img.getCol();
+						}
+					}
+					vImage.row = maxRow+1;
+					vImage.col = maxCol+1;
+				}
 				vImage.save();
 			}
     	  } catch (FileNotFoundException e) {
@@ -210,7 +231,8 @@ public class Application extends Controller {
     		vm.id = image.id;
     		vm.name = image.imgName;
     		vm.defaultImage = image.defaultImage;
-    		vm.order = image.orderNum;
+    		vm.row = image.row;
+    		vm.col = image.col;
     		vm.path = image.path;
     		vmList.add(vm);
     	}
@@ -219,15 +241,45 @@ public class Application extends Controller {
     
     public static Result getImageById(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
-    	File file = new File(rootDir+image.path);
+    	File file = new File(rootDir+image.thumbPath);
     	return ok(file);
     }
     
     public static Result deleteImage(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
     	File file = new File(rootDir+image.path);
+    	File thumbFile = new File(rootDir+image.thumbPath);
     	file.delete();
+    	thumbFile.delete();
     	image.delete();
+    	return ok();
+    }
+    
+    public static Result setDefaultImage(Long id) {
+    	VehicleImage image = VehicleImage.findById(id);
+    	image.setDefaultImage(true);
+    	image.update();
+    	return ok();
+    }
+    
+    public static Result removeDefault(Long id) {
+    	VehicleImage image = VehicleImage.findById(id);
+    	image.setDefaultImage(false);
+    	image.update();
+    	return ok();
+    }
+    
+    public static Result savePosition(Integer row,Integer col,Long id) {
+    	VehicleImage image = VehicleImage.findById(id);
+    	VehicleImage secondImage = VehicleImage.findByRowCol(row, col, image.getVin());
+    	if(secondImage != null) {
+    		secondImage.setRow(image.getRow());
+    		secondImage.setCol(image.getCol());
+    		secondImage.update();
+    	}
+    	image.setRow(row);
+    	image.setCol(col);
+    	image.update();
     	return ok();
     }
     

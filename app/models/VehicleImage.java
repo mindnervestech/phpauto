@@ -16,8 +16,10 @@ public class VehicleImage extends Model {
 	public String vin;
 	public String path;
 	public boolean defaultImage;
-	public String orderNum;
+	public Integer row;
+	public Integer col;
 	public String imgName;
+	public String thumbPath;
 	
 	public Long getId() {
 		return id;
@@ -43,17 +45,29 @@ public class VehicleImage extends Model {
 	public void setDefaultImage(boolean defaultImage) {
 		this.defaultImage = defaultImage;
 	}
-	public String getOrderNum() {
-		return orderNum;
-	}
-	public void setOrderNum(String orderNum) {
-		this.orderNum = orderNum;
-	}
 	public String getImgName() {
 		return imgName;
 	}
 	public void setImgName(String imgName) {
 		this.imgName = imgName;
+	}
+	public Integer getRow() {
+		return row;
+	}
+	public void setRow(Integer row) {
+		this.row = row;
+	}
+	public Integer getCol() {
+		return col;
+	}
+	public void setCol(Integer col) {
+		this.col = col;
+	}
+	public String getThumbPath() {
+		return thumbPath;
+	}
+	public void setThumbPath(String thumbPath) {
+		this.thumbPath = thumbPath;
 	}
 
 
@@ -69,6 +83,10 @@ public class VehicleImage extends Model {
 	
 	public static VehicleImage findById(Long id) {
 		return find.byId(id);
+	}
+	
+	public static VehicleImage findByRowCol(Integer row,Integer col,String vin) {
+		return find.where().eq("vin", vin).eq("row", row).eq("col", col).findUnique();
 	}
 	
 }
