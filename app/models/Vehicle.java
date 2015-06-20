@@ -6,9 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.avaje.ebean.annotation.ConcurrencyMode;
+import com.avaje.ebean.annotation.EntityConcurrencyMode;
+
 import play.db.ebean.Model;
 
 @Entity
+@EntityConcurrencyMode(ConcurrencyMode.NONE)
 public class Vehicle extends Model {
 
 	@Id
@@ -39,6 +43,8 @@ public class Vehicle extends Model {
 	public String standardFeatures1;
 	public String standardFeatures2;
 	public String description;
+	public String status;
+	
 	
 	@ManyToMany
 	public List<Site> site;
@@ -276,4 +282,9 @@ public class Vehicle extends Model {
 	public static Vehicle findByVid(String vid) {
 		return find.where().eq("vin", vid).findUnique();
 	}
+	
+	public static List<Vehicle> getAllVehicles() {
+		return find.all();
+	}
+	
 }

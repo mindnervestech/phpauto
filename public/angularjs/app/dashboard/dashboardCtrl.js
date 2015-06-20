@@ -185,10 +185,127 @@ angular.module('newApp')
 		
 	}
 	
-
-	
 }]);
 
+angular.module('newApp')
+.controller('ViewVehiclesCtrl', ['$scope','$http','$location', function ($scope,$http,$location) {
+  
+	 $scope.$on('$viewContentLoaded', function () {
+
+         function fnFormatDetails(oTable, nTr) {
+             var aData = oTable.fnGetData(nTr);
+             var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+             sOut += '<tr><td>Rendering engine:</td><td>' + aData[1] + ' ' + aData[4] + '</td></tr>';
+             sOut += '<tr><td>Link to source:</td><td>Could provide a link here</td></tr>';
+             sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
+             sOut += '</table>';
+             return sOut;
+         }
+
+         /*  Insert a 'details' column to the table  */
+         var nCloneTh = document.createElement('th');
+         var nCloneTd = document.createElement('td');
+         nCloneTd.innerHTML = '<i class="fa fa-plus-square-o"></i>';
+         nCloneTd.className = "center";
+
+         $('#table2 thead tr').each(function () {
+             this.insertBefore(nCloneTh, this.childNodes[0]);
+         });
+
+         $('#table2 tbody tr').each(function () {
+             this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
+         });
+
+         /*  Initialse DataTables, with no sorting on the 'details' column  */
+         var oTable = $('#table2').dataTable({
+             destroy: true,
+             "aoColumnDefs": [{
+                 "bSortable": false,
+                 "aTargets": [0]
+             }],
+             "aaSorting": [
+                 [1, 'asc']
+             ]
+         });
+
+         /*  Add event listener for opening and closing details  */
+         $(document).on('click', '#table2 tbody td i', function () {
+             var nTr = $(this).parents('tr')[0];
+             if (oTable.fnIsOpen(nTr)) {
+                 /* This row is already open - close it */
+                 $(this).removeClass().addClass('fa fa-plus-square-o');
+                 oTable.fnClose(nTr);
+             } else {
+                 /* Open this row */
+                 $(this).removeClass().addClass('fa fa-minus-square-o');
+                 oTable.fnOpen(nTr, fnFormatDetails(oTable, nTr), 'details');
+             }
+         });
+     });
+
+     $scope.$on('$destroy', function () {
+         $('table').each(function () {
+             if ($.fn.dataTable.isDataTable($(this))) {
+                 $(this).dataTable({
+                     "bDestroy": true
+                 }).fnDestroy();
+             }
+         });
+     });
+
+   $scope.vehiClesList = [];
+   $scope.viewVehiclesInit = function() {
+ 	  $http.get('/getAllVehicles')
+ 		.success(function(data) {
+ 			$scope.vehiClesList = data;
+ 			console.log(data);
+ 		});
+   }
+   
+   $scope.deleteVehicle = function(id){
+	   $http.get('/deleteVehicleById/'+id)
+		.success(function(data) {
+			 $scope.viewVehiclesInit();
+		});
+   }
+   
+   
+   $scope.updateVehicleStatus = function(id){
+	   $http.get('/updateVehicleStatus/'+id)
+		.success(function(data) {
+			 $scope.viewVehiclesInit();
+		});
+   }
+   
+   $scope.editingData = [];
+   
+   for (var i = 0; i <  $scope.vehiClesList.length; i++) {
+     $scope.editingData[$scope.vehiClesList[i].id] = false;
+     $scope.viewField = false;
+   }
+   
+
+   $scope.modify = function(tableData){
+	   $scope.viewField = true;
+       $scope.editingData[tableData.id] = true;
+   };
+
+   $scope.update = function(tableData){
+     console.log(tableData);
+       $scope.editingData[tableData.id] = false;
+       $scope.viewField = false;
+       $http.post('/updateVehicle',tableData)
+		.success(function(data) {
+			console.log('success');
+		});
+   };
+   
+   $scope.cancle = function(tableData){
+	   $scope.editingData[tableData.id] = false;
+	   $scope.viewField = false;
+   }
+   
+}]);
 
 
 

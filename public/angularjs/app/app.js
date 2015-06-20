@@ -37,6 +37,10 @@ var MakeApp = angular
             templateUrl: 'addPhotos/managePhotos.html',
             controller: 'ManagePhotoCtrl'
         })
+         .when('/viewVehicles', {
+            templateUrl: 'viewVehicle/viewVehicles.html',
+            controller: 'ViewVehiclesCtrl'
+        })
         .when('/frontend', {
             templateUrl: 'frontend/frontend.html',
             controller: 'frontendCtrl'

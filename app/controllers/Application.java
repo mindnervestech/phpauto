@@ -1,6 +1,7 @@
 package controllers;
 
 import java.awt.image.BufferedImage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+
+import com.avaje.ebean.Ebean;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -283,4 +286,115 @@ public class Application extends Controller {
     	return ok();
     }
     
+	 public static Result getAllVehicles(){
+    	List <Vehicle> vehicleObjList = Vehicle.getAllVehicles();
+    	
+    	ArrayList<SpecificationVM> VMs = new ArrayList<>(); 
+     	for(Vehicle vm : vehicleObjList){
+     		SpecificationVM vehicle = new SpecificationVM();
+     		vehicle.id = vm.id;
+	    	vehicle.category = vm.category;
+	    	vehicle.vin = vm.vin;
+	    	vehicle.year = vm.year;
+	    	vehicle.year = vm.make;
+	    	vehicle.model = vm.model;
+	    	vehicle.trim_level = vm.trim;
+	    	vehicle.label = vm.label;
+	    	vehicle.stock = vm.stock;
+	    	vehicle.mileage = vm.mileage;
+	    	vehicle.cost = vm.cost;
+	    	vehicle.price = vm.price;
+	    	vehicle.extColor = vm.exteriorColor;
+	    	vehicle.intColor = vm.interiorColor;
+	    	vehicle.colorDesc = vm.colorDescription;
+	    	vehicle.doors = vm.doors;
+	    	vehicle.stereo = vm.stereo;
+	    	vehicle.engine = vm.engine;
+	    	vehicle.fuel = vm.fuel;
+	    	vehicle.city_mileage = vm.cityMileage;
+	    	vehicle.highway_mileage = vm.highwayMileage;
+	    	vehicle.bodyStyle = vm.bodyStyle;
+	    	vehicle.drivetrain = vm.drivetrain;
+	    	vehicle.transmission = vm.transmission;
+	    	vehicle.standardFeatures1 = vm.standardFeatures1;
+	    	vehicle.standardFeatures2 = vm.standardFeatures2;
+	    	vehicle.description = vm.description;
+	    	vehicle.status  =  vm.status;
+	    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+	    	VMs.add(vehicle);
+    	}
+     	
+    	return ok(Json.toJson(VMs));
+    }
+    
+    public static Result deleteVehicleById(Long id ){
+    	Vehicle vm = Vehicle.findById(id);
+    	if(vm != null){
+    		List<VehicleImage> v = VehicleImage.getByVin(vm.vin);
+    		if(v.size() != 0){
+    			Ebean.delete(v);
+    		}
+    		vm.deleteManyToManyAssociations("site");
+    		vm.delete();
+    	}
+    	return ok();
+    }
+    
+    public static Result updateVehicleStatus(Long id ){
+    	Vehicle vm = Vehicle.findById(id);
+    	
+    	if(vm != null){
+    		vm.status = "sold";
+    		vm.update();
+    	}
+    	
+    	return ok();
+    }
+    
+    public static Result updateVehicle(){
+    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
+    	SpecificationVM vm = form.get();
+    	System.out.println(vm.id);
+    	Vehicle vehicle = Vehicle.findById(vm.id);
+    	if(vehicle != null) {
+	    	vehicle.setCategory(vm.category);
+	    	vehicle.setVin(vm.vin);
+	    	vehicle.setYear(vm.year);
+	    	vehicle.setMake(vm.make);
+	    	vehicle.setModel(vm.model);
+	    	vehicle.setTrim(vm.trim_level);
+	    	vehicle.setLabel(vm.label);
+	    	vehicle.setStock(vm.stock);
+	    	vehicle.setMileage(vm.mileage);
+	    	vehicle.setCost(vm.cost);
+	    	vehicle.setPrice(vm.price);
+	    	vehicle.setExteriorColor(vm.extColor);
+	    	vehicle.setInteriorColor(vm.intColor);
+	    	vehicle.setColorDescription(vm.colorDesc);
+	    	vehicle.setDoors(vm.doors);
+	    	vehicle.setStereo(vm.stereo);
+	    	vehicle.setEngine(vm.engine);
+	    	vehicle.setFuel(vm.tank_size);
+	    	vehicle.setCityMileage(vm.city_mileage);
+	    	vehicle.setHighwayMileage(vm.highway_mileage);
+	    	vehicle.setBodyStyle(vm.style);
+	    	vehicle.setDrivetrain(vm.drivetrain);
+	    	vehicle.setTransmission(vm.transmission);
+	    	vehicle.setStandardFeatures1(vm.standardFeatures1);
+	    	vehicle.setStandardFeatures2(vm.standardFeatures2);
+	    	vehicle.setDescription(vm.description);
+	    	/*List<Site> siteList = new ArrayList<>();
+	    	if(vm.siteIds != null) {
+		    	for(Long obj: vm.siteIds) {
+		    		Site siteObj = Site.findById(obj);
+		    		siteList.add(siteObj);
+		    	}
+		    	vehicle.site = siteList;
+	    	}*/
+	    	vehicle.update();
+    	}
+    	return ok();
+    } 
+    
+	
 }

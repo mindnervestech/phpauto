@@ -3,7 +3,8 @@ package viewmodel;
 import java.util.List;
 
 public class SpecificationVM {
-
+    
+	public long id; 
 	public String vin;
 	public String year;
 	public String make;
@@ -38,6 +39,10 @@ public class SpecificationVM {
 	public String stereo;
 	public String stock;
 	public String transmission;
+	public String fuel;
+	public  String bodyStyle;
+	public String status;
+	public  int vehicleCnt;
 	public List<Long> siteIds;
 	
 }
