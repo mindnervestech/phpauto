@@ -67,16 +67,22 @@
                            		 </td>
                            		 
                            		 <td>
-                                	<button ng-hide="editingData[vl.id]" ng-click="modify(vl)">Edit</button>
-                                	<button ng-show="editingData[vl.id]" ng-click="update(vl)">Update</button>
-                                	<button ng-show="viewField" ng-click = "cancle(vl);">Cancel</button>
-                                	<!-- <button ng-hide="viewField">Remove</button> -->
+                                	<i class="glyphicon glyphicon-edit"  ng-hide="editingData[vl.id]"  title="Modify" ng-click="modify(vl)" ></i>
+                                	<div class = "col-md-4">
+                                	<span>
+                                	<i class="fa fa-save" title="Update"   ng-show="editingData[vl.id]" ng-click="update(vl)"></i>
+                                </span>
+                               
+                                	</div>	
                             	</td>
-                           		 
-                                <td><i class="glyphicon glyphicon-share"></i></td>
-                                <td> <i class="fa fa-trash" ng-click = "deleteVehicle(vl.id);"></i></td>
-                                <td><i class="glyphicon glyphicon-print"></i></td>
-                                <td><i class="fa fa-ban" ng-click="updateVehicleStatus(vl.id)"></i></td>
+                           		  <td> <span>
+                                	<i class="icon-close"   title="Cancel"   ng-show="viewField" ng-click = "cancle(vl);" ></i>
+                                	<!-- <button ng-hide="viewField">Remove</button> -->
+                                	</span></td>
+                                <td><i class="glyphicon glyphicon-share" title="Post"></i></td>
+                                <td> <i class="fa fa-trash" title="Delete" ng-click = "deleteVehicle(vl.id);"></i></td>
+                                <td><i class="glyphicon glyphicon-print" title="Print"></i></td>
+                                <td><i class="fa fa-ban" ng-click="updateVehicleStatus(vl.id)"  title="Status"></i></td>
                             </tr>
                            
                         </tbody>
