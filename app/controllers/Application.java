@@ -51,8 +51,9 @@ public class Application extends Controller {
 	final static String mashapeKey = Play.application().configuration()
 			.getString("mashapeKey");
 	
+	static String simulatevin = "{    'success': true,    'specification': {        'vin': 'WDDNG7KB7DA494890',        'year': '2013',        'make': 'Mercedes-Benz',        'model': 'S-Class',        'trim_level': 'S65 AMG',        'engine': '6.0L V12 SOHC 36V TURBO',        'style': 'SEDAN 4-DR',        'made_in': 'GERMANY',        'steering_type': 'R&P',        'anti_brake_system': '4-Wheel ABS',        'tank_size': '23.80 gallon',        'overall_height': '58.00 in.',        'overall_length': '206.50 in.',        'overall_width': '73.70 in.',        'standard_seating': '5',        'optional_seating': null,        'highway_mileage': '19 miles/gallon',        'city_mileage': '12 miles/gallon'    },    'vin': 'WDDNG7KB7DA494890'}";
 
-	private static boolean simulate = true;
+	private static boolean simulate = false;
     /*public static Result index() {
         return ok(index.render("Your new application is ready."));
     }*/
@@ -106,8 +107,10 @@ public class Application extends Controller {
     	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
     	AuthUser userObj = (AuthUser)user;
     	Vehicle vehicle = Vehicle.findByVidAndUser(vin,userObj); 
-    	if(vehicle == null) {
+    	PinVM pinObj;
+		if(vehicle == null) {
     		
+    		if(!simulate ) {
     		URL url;
 				url = new URL("https://vindecoder.p.mashape.com/decode_vin?vin="+vin);
 			URLConnection conn = url.openConnection();
@@ -125,7 +128,10 @@ public class Application extends Controller {
 		 
 			ObjectMapper mapper = new ObjectMapper();
 			
-			pinObj = new ObjectMapper().readValue(sb.toString(), PinVM.class);
+			pinObj = new ObjectMapper().readValue(simulatevin, PinVM.class);
+	    	} else {
+	    		pinObj = new ObjectMapper().readValue(simulatevin, PinVM.class);
+	    	}
 	    	
 			return ok(Json.toJson(pinObj));
 			
