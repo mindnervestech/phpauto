@@ -1,7 +1,6 @@
 package controllers;
 
 import java.awt.image.BufferedImage;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,15 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import org.codehaus.jackson.map.ObjectMapper;
 
-import com.avaje.ebean.Ebean;
-
-import net.coobird.thumbnailator.Thumbnails;
 import models.AuthUser;
 import models.Site;
 import models.Vehicle;
 import models.VehicleImage;
+import net.coobird.thumbnailator.Thumbnails;
+
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -40,6 +41,7 @@ import viewmodel.SpecificationVM;
 import views.html.home;
 
 import com.avaje.ebean.Ebean;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class Application extends Controller {
   
@@ -49,6 +51,9 @@ public class Application extends Controller {
 	final static String mashapeKey = Play.application().configuration()
 			.getString("mashapeKey");
 	
+	static String simulatevin = "{    'success': true,    'specification': {        'vin': 'WDDNG7KB7DA494890',        'year': '2013',        'make': 'Mercedes-Benz',        'model': 'S-Class',        'trim_level': 'S65 AMG',        'engine': '6.0L V12 SOHC 36V TURBO',        'style': 'SEDAN 4-DR',        'made_in': 'GERMANY',        'steering_type': 'R&P',        'anti_brake_system': '4-Wheel ABS',        'tank_size': '23.80 gallon',        'overall_height': '58.00 in.',        'overall_length': '206.50 in.',        'overall_width': '73.70 in.',        'standard_seating': '5',        'optional_seating': null,        'highway_mileage': '19 miles/gallon',        'city_mileage': '12 miles/gallon'    },    'vin': 'WDDNG7KB7DA494890'}";
+
+	private static boolean simulate = true;
     /*public static Result index() {
         return ok(index.render("Your new application is ready."));
     }*/
@@ -100,7 +105,9 @@ public class Application extends Controller {
     	
     	Vehicle vehicle = Vehicle.findByVid(vin); 
     	if(vehicle == null) {
-	    	URL url;
+    		PinVM pinObj;
+    		if(!simulate ) {
+    		URL url;
 				url = new URL("https://vindecoder.p.mashape.com/decode_vin?vin="+vin);
 			URLConnection conn = url.openConnection();
 			conn.setRequestProperty("X-Mashape-Key", mashapeKey);
@@ -114,11 +121,14 @@ public class Application extends Controller {
 		    while ((line = br.readLine()) != null) {
 		        sb.append(line);
 		    }
-		   
+		 
 			ObjectMapper mapper = new ObjectMapper();
 			
-			PinVM pinObj = new ObjectMapper().readValue(sb.toString(), PinVM.class);
-			
+			pinObj = new ObjectMapper().readValue(simulatevin, PinVM.class);
+	    	} else {
+	    		pinObj = new ObjectMapper().readValue(simulatevin, PinVM.class);
+	    	}
+	    	
 			return ok(Json.toJson(pinObj));
 			
     	} else {
@@ -260,7 +270,7 @@ public class Application extends Controller {
 				vImage.imgName = fileName;
 				vImage.path = File.separator+vin+File.separator+fileName;
 				vImage.thumbPath = File.separator+vin+File.separator+"thumbnail_"+fileName;
-				List<VehicleImage> imageList = VehicleImage.getByVin(vin);
+				/*List<VehicleImage> imageList = VehicleImage.getByVin(vin);
 				if(imageList.size() == 0) {
 					vImage.row = 0;
 					vImage.col = 0;
@@ -276,7 +286,7 @@ public class Application extends Controller {
 					}
 					vImage.row = maxRow+1;
 					vImage.col = maxCol+1;
-				}
+				}*/
 				vImage.save();
 			}
     	  } catch (FileNotFoundException e) {
@@ -290,11 +300,12 @@ public class Application extends Controller {
     
     public static Result getImagesByVin(String vin) {
     	List<VehicleImage> imageList = VehicleImage.getByVin(vin);
+    	reorderImagesForFirstTime(imageList);
     	List<ImageVM> vmList = new ArrayList<>();
     	for(VehicleImage image : imageList) {
     		ImageVM vm = new ImageVM();
     		vm.id = image.id;
-    		vm.name = image.imgName;
+    		vm.imgName = image.imgName;
     		vm.defaultImage = image.defaultImage;
     		vm.row = image.row;
     		vm.col = image.col;
@@ -302,6 +313,22 @@ public class Application extends Controller {
     		vmList.add(vm);
     	}
     	return ok(Json.toJson(vmList));
+    }
+    
+    private static void reorderImagesForFirstTime(List<VehicleImage> imageList) {
+    	if(imageList.size() > 0) {
+    		if(imageList.get(0).row == null) {
+    			for(int i = 0, col = 0 ; i < imageList.size() ; i++) {
+    				imageList.get(i).setRow(  col / 6);
+    				imageList.get(i).setCol( col % 6);
+    				col++;
+    				imageList.get(i).update();
+    			}
+    			
+    		}
+    		
+    	}
+		
     }
     
 	@SecureSocial.SecuredAction
@@ -346,17 +373,27 @@ public class Application extends Controller {
     }
     
     @SecureSocial.SecuredAction
-    public static Result savePosition(Integer row,Integer col,Long id) {
-    	VehicleImage image = VehicleImage.findById(id);
-    	VehicleImage secondImage = VehicleImage.findByRowCol(row, col, image.getVin());
-    	if(secondImage != null) {
-    		secondImage.setRow(image.getRow());
-    		secondImage.setCol(image.getCol());
-    		secondImage.update();
-    	}
-    	image.setRow(row);
-    	image.setCol(col);
-    	image.update();
+    public static Result savePosition() {
+    	JsonNode nodes = ctx().request().body().asJson();
+    	ObjectMapper mapper = new ObjectMapper();
+    	try {
+    		List<VehicleImage> images = mapper.readValue(nodes.toString(), new TypeReference<List<VehicleImage>>() {});
+			;
+	    	for(VehicleImage image : images) {
+	    		image.update();
+	    	}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
     	return ok();
     }
     

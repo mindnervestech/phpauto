@@ -8,6 +8,6 @@ public class ImageVM {
 	public boolean defaultImage;
 	public Integer row;
 	public Integer col;
-	public String name;
+	public String imgName;
 	
 }

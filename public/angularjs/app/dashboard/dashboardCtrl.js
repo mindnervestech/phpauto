@@ -137,8 +137,9 @@ angular.module('newApp')
 				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
 				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
 				       stop: function(event, $element, widget) {
+				    	   console.log($scope.imageList);
 				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
-				    	   $http.get('/savePosition/'+$element[0].getAttribute("data-row")+'/'+$element[0].getAttribute("data-col")+'/'+$element[0].getAttribute("id"))
+				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
 					   			//console.log('success');
 					   		});
@@ -150,7 +151,7 @@ angular.module('newApp')
 	$scope.init = function() {
 		$http.get('/getImagesByVin/'+$routeParams.num)
 		.success(function(data) {
-			console.log(data);
+			
 			$scope.imageList = data;
 		});
 	}
@@ -198,7 +199,7 @@ angular.module('newApp')
 	
 	$scope.showFullImage = function(image) {
 		$scope.imageId = image.id;
-		$scope.imageName = image.name;
+		$scope.imageName = image.imgName;
 	}
 	
 }]);
