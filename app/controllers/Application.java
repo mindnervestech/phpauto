@@ -103,7 +103,9 @@ public class Application extends Controller {
     
     public static Result getVehicleInfo(String vin) throws IOException {
     	
-    	Vehicle vehicle = Vehicle.findByVid(vin); 
+    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser)user;
+    	Vehicle vehicle = Vehicle.findByVidAndUser(vin,userObj); 
     	if(vehicle == null) {
     		PinVM pinObj;
     		if(!simulate ) {
@@ -188,7 +190,8 @@ public class Application extends Controller {
     	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
     	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
     	SpecificationVM vm = form.get();
-    	Vehicle vehicleObj = Vehicle.findByVid(vm.vin);
+    	AuthUser userObj = (AuthUser)user;
+    	Vehicle vehicleObj = Vehicle.findByVidAndUser(vm.vin,userObj);
     	if(vehicleObj == null) {
 	    	Vehicle vehicle = new Vehicle();
 	    	vehicle.category = vm.category;
@@ -245,16 +248,19 @@ public class Application extends Controller {
     	MultipartFormData body = request().body().asMultipartFormData();
     	String vin = request().getHeader("vinNum");
     	
+    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser)user;
+    	
     	FilePart picture = body.getFile("file");
     	  if (picture != null) {
     	    String fileName = picture.getFilename();
     	    String contentType = picture.getContentType(); 
-    	    File fdir = new File(rootDir+File.separator+vin);
+    	    File fdir = new File(rootDir+File.separator+vin+"-"+userObj.id);
     	    if(!fdir.exists()) {
     	    	fdir.mkdir();
     	    }
-    	    String filePath = rootDir+File.separator+vin+File.separator+fileName;
-    	    String thumbnailPath = rootDir+File.separator+vin+File.separator+"thumbnail_"+fileName;
+    	    String filePath = rootDir+File.separator+vin+"-"+userObj.id+File.separator+fileName;
+    	    String thumbnailPath = rootDir+File.separator+vin+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
     	    File thumbFile = new File(thumbnailPath);
     	    File file = picture.getFile();
     	    try {
@@ -263,14 +269,14 @@ public class Application extends Controller {
     	    File _f = new File(filePath);
 			Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 			
-			VehicleImage imageObj = VehicleImage.getByImagePath(File.separator+vin+File.separator+fileName);
+			VehicleImage imageObj = VehicleImage.getByImagePath(File.separator+vin+"-"+userObj.id+File.separator+fileName);
 			if(imageObj == null) {
 				VehicleImage vImage = new VehicleImage();
 				vImage.vin = vin;
 				vImage.imgName = fileName;
-				vImage.path = File.separator+vin+File.separator+fileName;
-				vImage.thumbPath = File.separator+vin+File.separator+"thumbnail_"+fileName;
-				/*List<VehicleImage> imageList = VehicleImage.getByVin(vin);
+				vImage.path = File.separator+vin+"-"+userObj.id+File.separator+fileName;
+				vImage.thumbPath = File.separator+vin+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
+				/*List<VehicleImage> imageList = VehicleImage.getByVin(vin,userObj);
 				if(imageList.size() == 0) {
 					vImage.row = 0;
 					vImage.col = 0;
@@ -287,6 +293,7 @@ public class Application extends Controller {
 					vImage.row = maxRow+1;
 					vImage.col = maxCol+1;
 				}*/
+				vImage.user = userObj;
 				vImage.save();
 			}
     	  } catch (FileNotFoundException e) {
@@ -299,7 +306,9 @@ public class Application extends Controller {
     }
     
     public static Result getImagesByVin(String vin) {
-    	List<VehicleImage> imageList = VehicleImage.getByVin(vin);
+    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser)user;
+    	List<VehicleImage> imageList = VehicleImage.getByVin(vin,userObj);
     	reorderImagesForFirstTime(imageList);
     	List<ImageVM> vmList = new ArrayList<>();
     	for(VehicleImage image : imageList) {
@@ -435,7 +444,7 @@ public class Application extends Controller {
 	    	vehicle.standardFeatures2 = vm.standardFeatures2;
 	    	vehicle.description = vm.description;
 	    	vehicle.status  =  vm.status;
-	    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+	    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin,user);
 	    	VMs.add(vehicle);
     	}
      	
@@ -445,8 +454,9 @@ public class Application extends Controller {
     @SecureSocial.SecuredAction
     public static Result deleteVehicleById(Long id ){
     	Vehicle vm = Vehicle.findById(id);
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
     	if(vm != null){
-    		List<VehicleImage> v = VehicleImage.getByVin(vm.vin);
+    		List<VehicleImage> v = VehicleImage.getByVin(vm.vin,user);
     		if(v.size() != 0){
     			Ebean.delete(v);
     		}

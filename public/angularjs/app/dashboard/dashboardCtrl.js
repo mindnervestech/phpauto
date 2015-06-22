@@ -26,6 +26,7 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('addVehicleCtrl', ['$scope','$http','$location', function ($scope,$http,$location) {
   
+	$scope.vinErr = false;
    $scope.vehicleInit = function() {
  	  $http.get('/getAllSites')
  		.success(function(data) {
@@ -48,16 +49,25 @@ angular.module('newApp')
 	   if(!angular.isUndefined($scope.vinNumber)) {
 	 	  $http.get('/getVehicleInfo/'+$scope.vinNumber)
 			.success(function(data) {
-				$scope.vinData = data;
-				if($scope.vinData.specification.siteIds != null) {
-					for(var i=0;i<$scope.vinData.specification.siteIds.length;i++) {
-						for(var j=0;j<$scope.siteList.length;j++) {
-							if($scope.vinData.specification.siteIds[i] == $scope.siteList[j].id) {
-								$scope.siteList[j].flag = true;
+				if(data.success == true) {
+					$scope.vinData = data;
+					if($scope.vinData.specification.siteIds != null) {
+						for(var i=0;i<$scope.vinData.specification.siteIds.length;i++) {
+							for(var j=0;j<$scope.siteList.length;j++) {
+								if($scope.vinData.specification.siteIds[i] == $scope.siteList[j].id) {
+									$scope.siteList[j].flag = true;
+								}
 							}
 						}
 					}
 				}
+				
+				if(data.success == false) {
+					$scope.vinErr = true;
+				} else {
+					$scope.vinErr = false;
+				}
+				
 			});
 	   }
    }

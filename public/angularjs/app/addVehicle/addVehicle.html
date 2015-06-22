@@ -9,11 +9,12 @@
 		<input class="form-control form-white" type="text" ng-model="vinNumber" placeholder="Enter Vin">
 	</div>
 	<button class="btn btn-primary" ng-click="getVinData()">Decode!</button>
+	<p style="color:red;" ng-show="vinErr"><b>Vin is not valid</b></p>
 </div>
 <hr>
 <form>
 <div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Category</label>
+<label class="col-sm-2 control-label" style="text-align: right;">Category *</label>
 	<div class="col-sm-5">
 		<input class="form-control form-white" type="text" ng-model="vinData.specification.category" placeholder="Cars and Trucks">
 	</div>
@@ -21,7 +22,7 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">VIN</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" type="text" ng-model="vinData.specification.vin" placeholder="VIN Number">
+		<input class="form-control form-white" type="text" ng-model="vinData.specification.vin" placeholder="VIN Number" readonly="readonly">
 	</div>
 	<div class="col-sm-6" style="margin-left:17%;">
 		<p>A valid vin is 17 digits and cannot contain the letters I,O or Q</p>
