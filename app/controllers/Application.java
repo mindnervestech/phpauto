@@ -128,7 +128,7 @@ public class Application extends Controller {
 		 
 			ObjectMapper mapper = new ObjectMapper();
 			
-			pinObj = new ObjectMapper().readValue(simulatevin, PinVM.class);
+			pinObj = new ObjectMapper().readValue(sb.toString(), PinVM.class);
 	    	} else {
 	    		pinObj = new ObjectMapper().readValue(simulatevin, PinVM.class);
 	    	}
