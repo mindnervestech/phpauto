@@ -81,11 +81,19 @@ angular.module('newApp')
 			console.log('success');
 		});
  	  
+ 	  if($scope.flagVal == true) {
+ 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
+ 	  }
+ 	  
+   }
+   
+   $scope.setFlagVal = function() {
+	   $scope.flagVal = false;
    }
    
    $scope.addPhoto = function() {
-	   $scope.saveVehicle();
-	   $location.path('/addPhoto/'+$scope.vinData.specification.vin);
+	 $scope.flagVal = true;
+	   
    }
    
 }]);

@@ -28,8 +28,8 @@ public class Vehicle extends Model {
 	public String label;
 	public String stock;
 	public String mileage;
-	public String cost;
-	public String price;
+	public Integer cost;
+	public Integer price;
 	public String exteriorColor;
 	public String interiorColor;
 	public String colorDescription;
@@ -141,20 +141,28 @@ public class Vehicle extends Model {
 		this.mileage = mileage;
 	}
 
-	public String getCost() {
+	public Integer getCost() {
 		return cost;
 	}
 
-	public void setCost(String cost) {
+	public void setCost(Integer cost) {
 		this.cost = cost;
 	}
 
-	public String getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(Integer price) {
 		this.price = price;
+	}
+
+	public AuthUser getUser() {
+		return user;
+	}
+
+	public void setUser(AuthUser user) {
+		this.user = user;
 	}
 
 	public String getExteriorColor() {

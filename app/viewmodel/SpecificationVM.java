@@ -25,7 +25,7 @@ public class SpecificationVM {
 	public String city_mileage;
 	public String category;
 	public String colorDesc;
-	public String cost;
+	public Integer cost;
 	public String description;
 	public String doors;
 	public String drivetrain;
@@ -33,7 +33,7 @@ public class SpecificationVM {
 	public String intColor;
 	public String label;
 	public String mileage;
-	public String price;
+	public Integer price;
 	public String standardFeatures1;
 	public String standardFeatures2;
 	public String stereo;

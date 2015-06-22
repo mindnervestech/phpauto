@@ -26,7 +26,7 @@
                                 <th>Vehicle</th>
                                 <th>Stock</th>
                                 <th>Interior/Exterior(Color)</th>
-                                <th>Mileage</th>
+                                <th>Mileage (City&nbsp;-&nbsp;Highway)</th>
                                 <th>Price</th>
                                 <th>Photos</th>
                             </tr>
@@ -52,8 +52,8 @@
                            		 </td>
                               <!--   <td>{{vl.mileage}}</td> -->
                                  <td>
-                                	<div ng-hide="editingData[vl.id]">{{vl.mileage}}</div>
-                                	<div ng-show="editingData[vl.id]"><input type="text" style="  width: 100%;"  ng-model="vl.mileage" /></div>
+                                	<div ng-hide="editingData[vl.id]">{{vl.city_mileage}} - {{vl.highway_mileage}}</div>
+                                	<div ng-show="editingData[vl.id]"><span><input type="text" style="  width: 40%;"  ng-model="vl.city_mileage" > </span><span><input type="text" ng-model="vl.highway_mileage" style="  width: 40%;"  ></span></div>
                            		 </td>
                               <!--   <td>{{vl.price}}</td> -->
                                  <td>
