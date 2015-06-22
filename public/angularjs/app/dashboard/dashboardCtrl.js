@@ -107,12 +107,19 @@ angular.module('newApp')
 	   headers: { "vinNum": $routeParams.num },
 	   acceptedFiles:"image/*",
 	   addRemoveLinks:true,
-	   autoProcessQueue:false
+	   autoProcessQueue:false,
+	   init:function () {
+		   this.on("queuecomplete", function (file) {
+		          
+		          $location.path('/managePhotos/'+$routeParams.num);
+		          $scope.$apply();
+		      });
+	   }
    });
    $scope.uploadFiles = function() {
 	   Dropzone.autoDiscover = false;
 	   myDropzone.processQueue();
-	   $location.path('/managePhotos/'+$routeParams.num);
+	   
    }
    
 }]);
