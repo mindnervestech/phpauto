@@ -475,7 +475,7 @@ public class Application extends Controller {
     	Vehicle vm = Vehicle.findById(id);
     	
     	if(vm != null){
-    		vm.status = "sold";
+    		vm.setStatus("Sold");
     		vm.update();
     	}
     	

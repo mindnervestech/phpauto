@@ -17,7 +17,10 @@ var MakeApp = angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'gridster'
+    'gridster',
+    'ui.grid',
+    'ui.grid.edit',
+    'ui.grid.pagination'
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -241,8 +244,34 @@ var MakeApp = angular
         }
     }
  })
-  
-;
+.factory('MyHttpInterceptor', function ($q) {
+    return {
+        request: function (config) {
+                    $('#loading').show();
+                    return config || $q.when(config);           
+        },
+   
+        requestError: function (rejection) {
+                    $('#loading').hide();
+            return $q.reject(rejection);
+        },
+        
+        // On response success
+        response: function (response) {
+                    $('#loading').hide();
+            return response || $q.when(response);
+        },
+        
+        // On response failture
+        responseError: function (rejection) {
+                    $('#loading').hide();
+            return $q.reject(rejection);
+        }
+      };
+})
+.config(function ($httpProvider) {
+     $httpProvider.interceptors.push('MyHttpInterceptor');  
+});
 
 
 // Route State Load Spinner(used on page or content load)
@@ -254,7 +283,7 @@ MakeApp.directive('ngSpinnerLoader', ['$rootScope',
                 element.addClass('hide'); // hide spinner bar by default
                 // display the spinner bar whenever the route changes(the content part started loading)
                 $rootScope.$on('$routeChangeStart', function() {
-                    element.removeClass('hide'); // show spinner bar
+                    //element.removeClass('hide'); // show spinner bar
                 });
                 // hide the spinner bar on rounte change success(after the content loaded)
                 $rootScope.$on('$routeChangeSuccess', function() {
@@ -268,4 +297,5 @@ MakeApp.directive('ngSpinnerLoader', ['$rootScope',
             }
         };
     }
+
 ])

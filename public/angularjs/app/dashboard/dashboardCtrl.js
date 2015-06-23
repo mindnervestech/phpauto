@@ -125,7 +125,7 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('ManagePhotoCtrl', ['$scope','$routeParams','$location','$http', function ($scope,$routeParams,$location,$http) {
+.controller('ManagePhotoCtrl', ['$scope','$routeParams','$location','$http','$timeout', function ($scope,$routeParams,$location,$http,$timeout) {
 	$scope.gridsterOpts = {
 		    columns: 6, // the width of the grid, in columns
 		    pushing: true, // whether to push other items out of the way on move or resize
@@ -162,7 +162,7 @@ angular.module('newApp')
 				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
 				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
 				       stop: function(event, $element, widget) {
-				    	   console.log($scope.imageList);
+				    	   console.log(event);
 				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
 				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
@@ -174,11 +174,13 @@ angular.module('newApp')
 		};
 	$scope.imageList = [];
 	$scope.init = function() {
-		$http.get('/getImagesByVin/'+$routeParams.num)
-		.success(function(data) {
-			
-			$scope.imageList = data;
-		});
+		 $timeout(function(){
+			$http.get('/getImagesByVin/'+$routeParams.num)
+			.success(function(data) {
+				console.log(data);
+				$scope.imageList = data;
+			});
+		 }, 3000);
 	}
    
 	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
@@ -230,90 +232,75 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('ViewVehiclesCtrl', ['$scope','$http','$location', function ($scope,$http,$location) {
+.controller('ViewVehiclesCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
   
-	 $scope.$on('$viewContentLoaded', function () {
+     $scope.gridOptions = {
+    		 paginationPageSizes: [10, 25, 50, 75],
+    		    paginationPageSize: 10,
+    		    enableFiltering: true,
+    		    useExternalFiltering: true,
+    		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+    		 };
+    		 $scope.gridOptions.enableHorizontalScrollbar = 2;
+    		 $scope.gridOptions.enableVerticalScrollbar = 2;
+    		 $scope.gridOptions.columnDefs = [
+    		                                 { name: 'category', displayName: 'Vehicle', width:'15%',cellEditableCondition: false},
+    		                                 { name: 'stock', displayName: 'Stock',enableFiltering: false, width:'10%'},
+    		                                 { name: 'intColor', displayName: 'Interior Color',enableFiltering: false, width:'15%',cellEditableCondition: false},
+    		                                 { name: 'extColor', displayName: 'Exterior Color',enableFiltering: false, width:'15%',cellEditableCondition: false},
+    		                                 { name: 'city_mileage', displayName: 'City Mileage',enableFiltering: false, width:'15%',cellEditableCondition: false},
+    		                                 { name: 'highway_mileage', displayName: 'Highway Mileage',enableFiltering: false, width:'15%',cellEditableCondition: false},
+    		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'10%'},
+    		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'10%',cellEditableCondition: false},
+    		                                 { name: 'edit', displayName: '', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+        		                                 cellTemplate:'<i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)"  title="Edit"></i>' },  
+    		                                 { name: 'status', displayName: '',enableFiltering: false, width:'5%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+        		                                 cellTemplate:'<i class="fa fa-ban" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Status"></i>' },  
+    		                                 { name: 'id', displayName: '',enableFiltering: false, width:'5%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    		                                 cellTemplate:'<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>' }  ];  
+     
+    		 $scope.gridOptions.onRegisterApi = function(gridApi){
+    			 $scope.gridApi = gridApi;
+    			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
+    			 $scope.rowData = rowEntity;
+    			 $scope.$apply();
+    			 $http.post('/updateVehicle',$scope.rowData)
+    			 .success(function(data) {
+    					console.log('success');
+    				});
+    			 });
+    			 
+    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
+    		          var grid = this.grid;
+    		          $scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'category':grid.columns[0].filters[0].term},undefined);
+    		        });
+    			 
+    			 
+    			 
+    			 };
 
-         function fnFormatDetails(oTable, nTr) {
-             var aData = oTable.fnGetData(nTr);
-             var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-             sOut += '<tr><td>Rendering engine:</td><td>' + aData[1] + ' ' + aData[4] + '</td></tr>';
-             sOut += '<tr><td>Link to source:</td><td>Could provide a link here</td></tr>';
-             sOut += '<tr><td>Extra info:</td><td>And any further details here (images etc)</td></tr>';
-             sOut += '</table>';
-             return sOut;
-         }
-
-         /*  Insert a 'details' column to the table  */
-         var nCloneTh = document.createElement('th');
-         var nCloneTd = document.createElement('td');
-         nCloneTd.innerHTML = '<i class="fa fa-plus-square-o"></i>';
-         nCloneTd.className = "center";
-
-         $('#table2 thead tr').each(function () {
-             this.insertBefore(nCloneTh, this.childNodes[0]);
-         });
-
-         $('#table2 tbody tr').each(function () {
-             this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-         });
-
-         /*  Initialse DataTables, with no sorting on the 'details' column  */
-         var oTable = $('#table2').dataTable({
-             destroy: true,
-             "aoColumnDefs": [{
-                 "bSortable": false,
-                 "aTargets": [0]
-             }],
-             "aaSorting": [
-                 [1, 'asc']
-             ]
-         });
-
-         /*  Add event listener for opening and closing details  */
-         $(document).on('click', '#table2 tbody td i', function () {
-             var nTr = $(this).parents('tr')[0];
-             if (oTable.fnIsOpen(nTr)) {
-                 /* This row is already open - close it */
-                 $(this).removeClass().addClass('fa fa-plus-square-o');
-                 oTable.fnClose(nTr);
-             } else {
-                 /* Open this row */
-                 $(this).removeClass().addClass('fa fa-minus-square-o');
-                 oTable.fnOpen(nTr, fnFormatDetails(oTable, nTr), 'details');
-             }
-         });
-     });
-
-     $scope.$on('$destroy', function () {
-         $('table').each(function () {
-             if ($.fn.dataTable.isDataTable($(this))) {
-                 $(this).dataTable({
-                     "bDestroy": true
-                 }).fnDestroy();
-             }
-         });
-     });
-
+    		 
+    		 
    $scope.vehiClesList = [];
    $scope.viewVehiclesInit = function() {
  	  $http.get('/getAllVehicles')
  		.success(function(data) {
  			$scope.vehiClesList = data;
+ 			$scope.gridOptions.data = data;
  			console.log(data);
  		});
    }
    
-   $scope.deleteVehicle = function(id){
-	   $http.get('/deleteVehicleById/'+id)
+   $scope.deleteVehicle = function(row){
+	   $http.get('/deleteVehicleById/'+row.entity.id)
 		.success(function(data) {
 			 $scope.viewVehiclesInit();
 		});
    }
    
    
-   $scope.updateVehicleStatus = function(id){
-	   $http.get('/updateVehicleStatus/'+id)
+   $scope.updateVehicleStatus = function(row){
+	   $http.get('/updateVehicleStatus/'+row.entity.id)
 		.success(function(data) {
 			 $scope.viewVehiclesInit();
 		});
