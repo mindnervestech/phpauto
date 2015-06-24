@@ -20,7 +20,8 @@ var MakeApp = angular
     'gridster',
     'ui.grid',
     'ui.grid.edit',
-    'ui.grid.pagination'
+    'ui.grid.pagination',
+    'angularFileUpload'
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -39,6 +40,10 @@ var MakeApp = angular
         .when('/managePhotos/:num', {
             templateUrl: 'addPhotos/managePhotos.html',
             controller: 'ManagePhotoCtrl'
+        })
+        .when('/editVehicle/:id', {
+            templateUrl: 'addVehicle/editVehicle.html',
+            controller: 'EditVehicleCtrl'
         })
          .when('/viewVehicles', {
             templateUrl: 'viewVehicle/viewVehicles.html',

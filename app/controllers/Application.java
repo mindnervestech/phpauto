@@ -16,9 +16,12 @@ import javax.imageio.ImageIO;
 import models.AuthUser;
 import models.Site;
 import models.Vehicle;
+import models.VehicleAudio;
 import models.VehicleImage;
+import models.VirtualTour;
 import net.coobird.thumbnailator.Thumbnails;
 
+import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -34,10 +37,12 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import viewmodel.AudioVM;
 import viewmodel.ImageVM;
 import viewmodel.PinVM;
 import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
+import viewmodel.VirtualTourVM;
 import views.html.home;
 
 import com.avaje.ebean.Ebean;
@@ -231,7 +236,7 @@ public class Application extends Controller {
 	    	vehicle.width = vm.overall_width;
 	    	vehicle.standardSeating = vm.standard_seating;
 	    	vehicle.optionalSeating = vm.optional_seating;
-	    	
+	    	vehicle.status = "Newly Listed";
 	    	List<Site> siteList = new ArrayList<>();
 	    	if(vm.siteIds != null) {
 		    	for(Long obj: vm.siteIds) {
@@ -278,23 +283,6 @@ public class Application extends Controller {
 				vImage.imgName = fileName;
 				vImage.path = File.separator+vin+"-"+userObj.id+File.separator+fileName;
 				vImage.thumbPath = File.separator+vin+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
-				/*List<VehicleImage> imageList = VehicleImage.getByVin(vin,userObj);
-				if(imageList.size() == 0) {
-					vImage.row = 0;
-					vImage.col = 0;
-				} else {
-					int maxRow = 0,maxCol = 0;
-					for(VehicleImage img: imageList) {
-						if(maxRow<=img.getRow()) {
-							maxRow = img.getRow();
-						}
-						if(maxCol<=img.getCol()) {
-							maxCol = img.getCol();
-						}
-					}
-					vImage.row = maxRow+1;
-					vImage.col = maxCol+1;
-				}*/
 				vImage.user = userObj;
 				vImage.save();
 			}
@@ -466,6 +454,8 @@ public class Application extends Controller {
     		}
     		vm.deleteManyToManyAssociations("site");
     		vm.delete();
+    		File file = new File(rootDir+File.separator+vm.vin+"-"+user.id);
+    		file.delete();
     	}
     	return ok();
     }
@@ -480,6 +470,60 @@ public class Application extends Controller {
     	}
     	
     	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getVehicleById(Long id) {
+    	Vehicle vehicle = Vehicle.findById(id);
+    	PinVM pinVM = new PinVM();
+		pinVM.success = true;
+		pinVM.vin = vehicle.getVin();
+		
+		SpecificationVM specificationVM = new SpecificationVM();
+		specificationVM.id = vehicle.getId();
+		specificationVM.vin = vehicle.getVin();
+		specificationVM.year = vehicle.getYear();
+		specificationVM.make = vehicle.getMake();
+		specificationVM.model = vehicle.getModel();
+		specificationVM.trim_level = vehicle.getTrim();
+		specificationVM.engine = vehicle.getEngine();
+		specificationVM.style = vehicle.getBodyStyle();
+		specificationVM.made_in = vehicle.getMadeIn();
+		specificationVM.steering_type = vehicle.getSteeringType();
+		specificationVM.anti_brake_system = vehicle.getAntiBrakeSystem();
+		specificationVM.tank_size = vehicle.getFuel();
+		specificationVM.overall_height = vehicle.getHeight();
+		specificationVM.overall_length = vehicle.getLength();
+		specificationVM.overall_width = vehicle.getWidth();
+		specificationVM.standard_seating = vehicle.getStandardSeating();
+		specificationVM.optional_seating = vehicle.getOptionalSeating();
+		specificationVM.highway_mileage = vehicle.getHighwayMileage();
+		specificationVM.city_mileage = vehicle.getCityMileage();
+		specificationVM.category = vehicle.getCategory();
+		specificationVM.colorDesc = vehicle.getColorDescription();
+		specificationVM.cost = vehicle.getCost();
+		specificationVM.description = vehicle.getDescription();
+		specificationVM.doors = vehicle.getDoors();
+		specificationVM.drivetrain = vehicle.getDrivetrain();
+		specificationVM.extColor = vehicle.getExteriorColor();
+		specificationVM.intColor = vehicle.getInteriorColor();
+		specificationVM.label = vehicle.getLabel();
+		specificationVM.mileage = vehicle.getMileage();
+		specificationVM.price = vehicle.getPrice();
+		specificationVM.standardFeatures1 = vehicle.getStandardFeatures1();
+		specificationVM.standardFeatures2 = vehicle.getStandardFeatures2();
+		specificationVM.stereo = vehicle.getStereo();
+		specificationVM.stock = vehicle.getStock();
+		specificationVM.transmission = vehicle.getTransmission();
+		List<Long> siteIds = new ArrayList<>();
+		for(Site site: vehicle.getSite()) {
+			siteIds.add(site.id);
+		}
+		specificationVM.siteIds = siteIds;
+		
+		pinVM.specification = specificationVM;
+		
+    	return ok(Json.toJson(pinVM));
     }
     
     @SecureSocial.SecuredAction
@@ -528,5 +572,122 @@ public class Application extends Controller {
     	return ok();
     } 
     
+    @SecureSocial.SecuredAction
+    public static Result updateVehicleById(){
+    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
+    	SpecificationVM vm = form.get();
+    	Vehicle vehicle = Vehicle.findById(vm.id);
+    	if(vehicle != null) {
+	    	vehicle.setCategory(vm.category);
+	    	vehicle.setYear(vm.year);
+	    	vehicle.setMake(vm.make);
+	    	vehicle.setModel(vm.model);
+	    	vehicle.setTrim(vm.trim_level);
+	    	vehicle.setLabel(vm.label);
+	    	vehicle.setStock(vm.stock);
+	    	vehicle.setMileage(vm.mileage);
+	    	vehicle.setCost(vm.cost);
+	    	vehicle.setPrice(vm.price);
+	    	vehicle.setExteriorColor(vm.extColor);
+	    	vehicle.setInteriorColor(vm.intColor);
+	    	vehicle.setColorDescription(vm.colorDesc);
+	    	vehicle.setDoors(vm.doors);
+	    	vehicle.setStereo(vm.stereo);
+	    	vehicle.setEngine(vm.engine);
+	    	vehicle.setFuel(vm.tank_size);
+	    	vehicle.setCityMileage(vm.city_mileage);
+	    	vehicle.setHighwayMileage(vm.highway_mileage);
+	    	vehicle.setBodyStyle(vm.style);
+	    	vehicle.setDrivetrain(vm.drivetrain);
+	    	vehicle.setTransmission(vm.transmission);
+	    	vehicle.setStandardFeatures1(vm.standardFeatures1);
+	    	vehicle.setStandardFeatures2(vm.standardFeatures2);
+	    	vehicle.setDescription(vm.description);
+	    	vehicle.setMadeIn(vm.made_in);
+	    	vehicle.setSteeringType(vm.steering_type);
+	    	vehicle.setAntiBrakeSystem(vm.anti_brake_system);
+	    	vehicle.setHeight(vm.overall_height);
+	    	vehicle.setLength(vm.overall_length);
+	    	vehicle.setWidth(vm.overall_width);
+	    	vehicle.setStandardSeating(vm.standard_seating);
+	    	vehicle.setOptionalSeating(vm.optional_seating);
+	    	List<Site> siteList = new ArrayList<>();
+	    	if(vm.siteIds != null) {
+		    	for(Long obj: vm.siteIds) {
+		    		Site siteObj = Site.findById(obj);
+		    		siteList.add(siteObj);
+		    	}
+		    	vehicle.setSite(siteList);
+	    	}
+	    	vehicle.update();
+    	}	
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result uplaodSoundFile() {
+    	MultipartFormData body = request().body().asMultipartFormData();
+    	DynamicForm dynamicForm = Form.form().bindFromRequest();
+		String vin = dynamicForm.get("vinNum");
+    	
+    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser)user;
+    	
+    	FilePart picture = body.getFile("file0");
+    	  if (picture != null) {
+    	    String fileName = picture.getFilename();
+    	    String contentType = picture.getContentType(); 
+    	    File fdir = new File(rootDir+File.separator+vin+"-"+userObj.id+File.separator+"audio");
+    	    if(!fdir.exists()) {
+    	    	fdir.mkdir();
+    	    }
+    	    String filePath = rootDir+File.separator+vin+"-"+userObj.id+File.separator+"audio"+File.separator+fileName;
+    	    File file = picture.getFile();
+    	    try {
+    	    		FileUtils.moveFile(file, new File(filePath));
+    	    		VehicleAudio audio = new VehicleAudio();
+    	    		audio.vin = vin;
+    	    		audio.path = File.separator+vin+"-"+userObj.id+File.separator+"audio"+File.separator+fileName;
+    	    		audio.fileName = fileName;
+    	    		audio.user = userObj;
+    	    		audio.save();
+    	  } catch (FileNotFoundException e) {
+  			e.printStackTrace();
+	  		} catch (IOException e) {
+	  			e.printStackTrace();
+	  		} 
+    	  } 
+    	return ok();
+    }
 	
+    @SecureSocial.SecuredAction
+    public static Result getAllAudio(String vin) {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	List<VehicleAudio> audioList = VehicleAudio.getByUserAndVin(user, vin);
+    	List<AudioVM> vmList = new ArrayList<>();
+    	
+    	for(VehicleAudio audio: audioList) {
+    		AudioVM vm = new AudioVM();
+    		vm.id = audio.id;
+    		vm.path = audio.path;
+    		vm.fileName = audio.fileName;
+    		vmList.add(vm);
+    	}
+    	return ok(Json.toJson(vmList));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result saveVData() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	Form<VirtualTourVM> form = DynamicForm.form(VirtualTourVM.class).bindFromRequest();
+    	VirtualTourVM vm = form.get();
+    	VirtualTour vt = new VirtualTour();
+    	vt.desktopUrl = vm.desktopUrl;
+    	vt.mobileUrl = vm.mobileUrl;
+    	vt.vin = vm.vin;
+    	vt.user = user;
+    	vt.save();
+    	return ok();
+    }
+    
 }
