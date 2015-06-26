@@ -37,6 +37,10 @@ var MakeApp = angular
             templateUrl: 'addPhotos/uploadPhoto.html',
             controller: 'PhotoUploadCtrl'
         })
+        .when('/cropImage/:id', {
+            templateUrl: 'addPhotos/cropImage.html',
+            controller: 'ImageCropCtrl'
+        })
         .when('/managePhotos/:num', {
             templateUrl: 'addPhotos/managePhotos.html',
             controller: 'ManagePhotoCtrl'

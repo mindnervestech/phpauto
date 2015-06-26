@@ -38,6 +38,7 @@ import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
 import viewmodel.AudioVM;
+import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.PinVM;
 import viewmodel.SiteVM;
@@ -346,6 +347,24 @@ public class Application extends Controller {
     	return ok(file);
     }
     
+	@SecureSocial.SecuredAction
+    public static Result getImageDataById(Long id) throws IOException {
+    	VehicleImage image = VehicleImage.findById(id);
+    	File file = new File(rootDir+image.path);
+    	
+    	BufferedImage originalImage = ImageIO.read(file);
+    	
+    	ImageVM vm = new ImageVM();
+		vm.id = image.id;
+		vm.imgName = image.imgName;
+		vm.defaultImage = image.defaultImage;
+		vm.row = originalImage.getHeight();
+		vm.col = originalImage.getWidth();
+		vm.path = image.path;
+		vm.vin = image.vin;
+    	return ok(Json.toJson(vm));
+    }
+	
     @SecureSocial.SecuredAction
     public static Result deleteImage(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
@@ -360,16 +379,23 @@ public class Application extends Controller {
     @SecureSocial.SecuredAction
     public static Result setDefaultImage(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
-    	image.setDefaultImage(true);
+    	boolean val = true;
+    	image.setDefaultImage(val);
     	image.update();
     	return ok();
     }
     
     @SecureSocial.SecuredAction
-    public static Result removeDefault(Long id) {
-    	VehicleImage image = VehicleImage.findById(id);
-    	image.setDefaultImage(false);
+    public static Result removeDefault(Long old,Long newId) {
+    	VehicleImage image = VehicleImage.findById(old);
+    	boolean val = false;
+    	image.setDefaultImage(val);
     	image.update();
+    	
+    	VehicleImage newImage = VehicleImage.findById(newId);
+    	val = true;
+    	newImage.setDefaultImage(val);
+    	newImage.update();
     	return ok();
     }
     
@@ -379,7 +405,7 @@ public class Application extends Controller {
     	ObjectMapper mapper = new ObjectMapper();
     	try {
     		List<VehicleImage> images = mapper.readValue(nodes.toString(), new TypeReference<List<VehicleImage>>() {});
-			;
+			
 	    	for(VehicleImage image : images) {
 	    		image.update();
 	    	}
@@ -687,6 +713,25 @@ public class Application extends Controller {
     	vt.vin = vm.vin;
     	vt.user = user;
     	vt.save();
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result editImage() throws IOException {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+    	EditImageVM vm = form.get();
+    	
+    	VehicleImage image = VehicleImage.findById(vm.imageId);
+    	File file = new File(rootDir+image.path);
+    	File thumbFile = new File(rootDir+image.thumbPath);
+    	
+    	BufferedImage originalImage = ImageIO.read(file);
+    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
+    	
+    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+    	
     	return ok();
     }
     

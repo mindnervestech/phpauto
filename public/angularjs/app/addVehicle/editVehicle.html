@@ -257,6 +257,7 @@
 				                            			<a class="remImage" ng-click="deleteImage(image)" style="color:red;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
 				                            		</div>
 				                            		<a class="remImage2" ng-click="showFullImage(image)" data-toggle="modal" data-target="#modal-image" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+				                        			<a class="remImage3" ng-click="editImage(image)" style="cursor:pointer;color:red;"><b>Edit</b></a>
 				                        		</div>
 				                        	</li>
 				                        </ul>
@@ -343,7 +344,14 @@ position:absolute;
 .remImage2{
 opacity:0;
 top:88px;
-left:70px;
+left:80px;
+position:absolute;
+}
+
+.remImage3{
+opacity:0;
+top:88px;
+left:10px;
 position:absolute;
 }
 
@@ -358,6 +366,9 @@ opacity:1;
 opacity:1;
 }
 .imageGroup:hover .remImage2{
+opacity:1;
+}
+.imageGroup:hover .remImage3{
 opacity:1;
 }
 .imageGroup:hover .myImage{

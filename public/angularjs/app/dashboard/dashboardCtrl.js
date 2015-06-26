@@ -196,22 +196,29 @@ angular.module('newApp')
 		
 		for(var i=0;i<$scope.imageList.length;i++) {
 			if($scope.imageList[i].defaultImage == true) {
-				$http.get('/removeDefault/'+$scope.imageList[i].id)
+				$http.get('/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
 				.success(function(data) {
-					
 				});
 				$('#imgId'+i).removeAttr("style","");
 				$scope.imageList[i].defaultImage = false;
+				image.defaultImage = true;
+				$('#imgId'+index).css("border","3px solid");
+				$('#imgId'+index).css("color","red");
+				break;
 			}
 		}
 		
-		$http.get('/setDefaultImage/'+image.id)
-		.success(function(data) {
-			console.log('success');
+		if(i == $scope.imageList.length) {
+			$http.get('/setDefaultImage/'+image.id)
+			.success(function(data) {
+				console.log('success');
+			});
+			
 			image.defaultImage = true;
 			$('#imgId'+index).css("border","3px solid");
 			$('#imgId'+index).css("color","red");
-		});
+		}
+		
 		
 	}
 	
@@ -227,6 +234,10 @@ angular.module('newApp')
 	$scope.showFullImage = function(image) {
 		$scope.imageId = image.id;
 		$scope.imageName = image.imgName;
+	}
+	
+	$scope.editImage = function(image) {
+		$location.path('/cropImage/'+image.id);
 	}
 	
 }]);
@@ -449,26 +460,33 @@ angular.module('newApp')
 		}
 	});
 	
-	$scope.setAsDefault = function(image,index) {
+$scope.setAsDefault = function(image,index) {
 		
 		for(var i=0;i<$scope.imageList.length;i++) {
 			if($scope.imageList[i].defaultImage == true) {
-				$http.get('/removeDefault/'+$scope.imageList[i].id)
+				$http.get('/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
 				.success(function(data) {
-					
 				});
 				$('#imgId'+i).removeAttr("style","");
 				$scope.imageList[i].defaultImage = false;
+				image.defaultImage = true;
+				$('#imgId'+index).css("border","3px solid");
+				$('#imgId'+index).css("color","red");
+				break;
 			}
 		}
 		
-		$http.get('/setDefaultImage/'+image.id)
-		.success(function(data) {
-			console.log('success');
+		if(i == $scope.imageList.length) {
+			$http.get('/setDefaultImage/'+image.id)
+			.success(function(data) {
+				console.log('success');
+			});
+			
 			image.defaultImage = true;
 			$('#imgId'+index).css("border","3px solid");
 			$('#imgId'+index).css("color","red");
-		});
+		}
+		
 		
 	}
 	
@@ -533,8 +551,49 @@ angular.module('newApp')
 		});
 	}
 	
+	$scope.editImage = function(image) {
+		$location.path('/cropImage/'+image.id);
+	}
+	
 }]);	
 	
-	
-	
+angular.module('newApp')
+.controller('ImageCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+
+	$scope.coords = {};
+	$scope.imgId = $routeParams.id;
+	$scope.init = function() {
+		console.log('init......'+$routeParams.id);
+		 $http.get('/getImageById/'+$routeParams.id)
+			.success(function(data) {
+				$scope.image = data;
+				    $('#target').Jcrop({
+				        onSelect: showCoords,
+				        onChange: showCoords,
+				        setSelect:   [ 200, 200, 100, 100 ],
+				        trueSize: [data.col,data.row]
+				    });
+			});
+	}
+		 function showCoords(c)
+		    {
+				 $scope.coords.x = c.x;
+				 $scope.coords.y = c.y;
+				 $scope.coords.x2 = c.x2;
+				 $scope.coords.y2 = c.y2;
+				 $scope.coords.w = c.w;
+				 $scope.coords.h = c.h;
+		    };
+		 
+		$scope.saveImage = function() {
+			$scope.coords.imageId = $routeParams.id;
+			console.log($scope.coords);
+			
+			$http.post('/editImage',$scope.coords)
+			.success(function(data) {
+				console.log('success');
+			});
+		}    
+		    
+}]);	
 
