@@ -559,40 +559,9 @@ public class Application extends Controller {
     	System.out.println(vm.id);
     	Vehicle vehicle = Vehicle.findById(vm.id);
     	if(vehicle != null) {
-	    	vehicle.setCategory(vm.category);
-	    	vehicle.setVin(vm.vin);
-	    	vehicle.setYear(vm.year);
-	    	vehicle.setMake(vm.make);
-	    	vehicle.setModel(vm.model);
-	    	vehicle.setTrim(vm.trim_level);
-	    	vehicle.setLabel(vm.label);
 	    	vehicle.setStock(vm.stock);
-	    	vehicle.setMileage(vm.mileage);
-	    	vehicle.setCost(vm.cost);
 	    	vehicle.setPrice(vm.price);
-	    	vehicle.setExteriorColor(vm.extColor);
-	    	vehicle.setInteriorColor(vm.intColor);
-	    	vehicle.setColorDescription(vm.colorDesc);
-	    	vehicle.setDoors(vm.doors);
-	    	vehicle.setStereo(vm.stereo);
-	    	vehicle.setEngine(vm.engine);
-	    	vehicle.setFuel(vm.tank_size);
-	    	vehicle.setCityMileage(vm.city_mileage);
-	    	vehicle.setHighwayMileage(vm.highway_mileage);
-	    	vehicle.setBodyStyle(vm.style);
-	    	vehicle.setDrivetrain(vm.drivetrain);
-	    	vehicle.setTransmission(vm.transmission);
-	    	vehicle.setStandardFeatures1(vm.standardFeatures1);
-	    	vehicle.setStandardFeatures2(vm.standardFeatures2);
-	    	vehicle.setDescription(vm.description);
-	    	/*List<Site> siteList = new ArrayList<>();
-	    	if(vm.siteIds != null) {
-		    	for(Long obj: vm.siteIds) {
-		    		Site siteObj = Site.findById(obj);
-		    		siteList.add(siteObj);
-		    	}
-		    	vehicle.site = siteList;
-	    	}*/
+	    	
 	    	vehicle.update();
     	}
     	return ok();
@@ -735,4 +704,12 @@ public class Application extends Controller {
     	return ok();
     }
     
+    @SecureSocial.SecuredAction
+    public static Result deleteAudioFile(Long id) {
+    	VehicleAudio audio = VehicleAudio.findById(id);
+    	File file = new File(rootDir+audio.path);
+    	file.delete();
+    	audio.delete();
+    	return ok();
+    }
 }

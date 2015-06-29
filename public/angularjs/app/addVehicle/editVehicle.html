@@ -262,6 +262,13 @@
 				                        	</li>
 				                        </ul>
 				                        </div>
+				                        <h1>Upload your photographs</h1>
+				                        <form id="dropzoneFrm" action="/uploadPhotos" class="dropzone">
+				                            <div class="fallback">
+				                                <input name="file" type="file" multiple />
+				                            </div>
+				                        </form>
+										 <button class="btn btn-primary" ng-click="uploadFiles()" style="margin-left:44%;margin-top:3%;">Upload</button> 
 				                        
 				                        <div class="modal fade modal-image" id="modal-image" tabindex="-1" role="dialog" aria-hidden="true">
 									        <div class="modal-dialog">
@@ -284,13 +291,17 @@
                                         <button type="button" class="btn btn-blue" ng-click="getAllAudio()">Sound</button>
                                     </tab-heading>
                                     <h3>uploaded Files</h3>
-                                    <ul class="input-group">
-                                    	<li ng-repeat="audio in audioList">{{audio.fileName}}</li>
-                                    </ul>
-                                    <form ng-submit="uploadAudio()" method="post" enctype="multipart/form-data" style="margin-top:5%;">
+                                   
+                                    <table class="table" style="margin-left:35%;width:30%;">
+	                                    	<tr ng-repeat="audio in audioList">
+	                                    	<td>{{audio.fileName}}</td>
+	                                    	<td><i class="fa fa-trash" title="Delete" ng-click="confirmFileDelete(audio.id)" style="cursor:pointer;"></i></td>
+	                                    	</tr>
+                                    </table>
+                                    <form ng-submit="uploadAudio()" method="post" enctype="multipart/form-data" style="margin-top:5%;margin-left:35%;">
                                     	<input type="file" name="soundFile" accept="audio/*" ng-file-select="onFileSelect($files)" required>
                                     	<input type="hidden" name="vinNum" ng-model="vinData.specification.vin">
-                                    	 <button type="submit" class="btn btn-primary" style="margin-left:25%;margin-top:5%;">Upload</button>
+                                    	 <button type="submit" class="btn btn-primary" style="margin-left:5%;margin-top:5%;">Upload</button>
                                     </form>
                                     
                                 </tab>
@@ -318,6 +329,45 @@
 
 
 </div>
+
+<div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-basic"></div>
+<div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Delete Vehicle</strong></h4>
+                </div>
+                <div class="modal-body">
+                   Are you sure to delete vehicle?<br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteVehicleRow()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+<div style="display:none;" id="deleteModal2" data-toggle="modal" data-target="#modal-basic2"></div>
+<div class="modal fade" id="modal-basic2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Delete Vehicle</strong></h4>
+                </div>
+                <div class="modal-body">
+                   Are you sure to delete file?<br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteAudioFile()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
 <style>
 .portfolioContainer figure {
 height: 200px;

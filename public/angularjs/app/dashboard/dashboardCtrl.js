@@ -252,32 +252,88 @@ angular.module('newApp')
     		    useExternalFiltering: true,
     		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
     		 };
-    		 $scope.gridOptions.enableHorizontalScrollbar = 2;
+    		 $scope.gridOptions.enableHorizontalScrollbar = 0;
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 $scope.gridOptions.columnDefs = [
-    		                                 { name: 'category', displayName: 'Vehicle', width:'15%',cellEditableCondition: false},
-    		                                 { name: 'stock', displayName: 'Stock',enableFiltering: false, width:'10%'},
-    		                                 { name: 'intColor', displayName: 'Interior Color',enableFiltering: false, width:'15%',cellEditableCondition: false},
-    		                                 { name: 'extColor', displayName: 'Exterior Color',enableFiltering: false, width:'15%',cellEditableCondition: false},
-    		                                 { name: 'city_mileage', displayName: 'City Mileage',enableFiltering: false, width:'15%',cellEditableCondition: false},
-    		                                 { name: 'highway_mileage', displayName: 'Highway Mileage',enableFiltering: false, width:'15%',cellEditableCondition: false},
-    		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'10%'},
-    		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'10%',cellEditableCondition: false},
-    		                                 { name: 'edit', displayName: '', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:'<i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)"  title="Edit"></i>' },  
-    		                                 { name: 'status', displayName: '',enableFiltering: false, width:'5%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:'<i class="fa fa-ban" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Status">Sold</i>' },  
-    		                                 { name: 'id', displayName: '',enableFiltering: false, width:'5%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		                                 cellTemplate:'<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>' }  ];  
+    		                                 { name: 'category', displayName: 'Vehicle', width:'15%',cellEditableCondition: false,
+    		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                		 if(row.entity.status == "Sold") {
+    		                                           return 'green';
+    		                                		 }
+    		                                       }
+    		                                 },
+    		                                 { name: 'stock', displayName: 'Stock',enableFiltering: false, width:'10%',
+    		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                		 if(row.entity.status == "Sold") {
+    		                                           return 'green';
+    		                                		 }
+    		                                       }
+    		                                 },
+    		                                 { name: 'intColor', displayName: 'Int Color',enableFiltering: false, width:'10%',cellEditableCondition: false,
+    		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                		 if(row.entity.status == "Sold") {
+    		                                           return 'green';
+    		                                		 }
+    		                                       }
+    		                                 },
+    		                                 { name: 'extColor', displayName: 'Ext Color',enableFiltering: false, width:'10%',cellEditableCondition: false,
+    		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                		 if(row.entity.status == "Sold") {
+    		                                           return 'green';
+    		                                		 }
+    		                                       }
+    		                                 },
+    		                                 { name: 'city_mileage', displayName: 'City Mileage',enableFiltering: false, width:'13%',cellEditableCondition: false,
+    		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                		 if(row.entity.status == "Sold") {
+    		                                           return 'green';
+    		                                		 }
+    		                                       }
+    		                                 },
+    		                                 { name: 'highway_mileage', displayName: 'Hghway Mileage',enableFiltering: false, width:'14%',cellEditableCondition: false,
+    		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                		 if(row.entity.status == "Sold") {
+    		                                           return 'green';
+    		                                		 }
+    		                                       }
+    		                                 },
+    		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'10%',
+    		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                		 if(row.entity.status == "Sold") {
+    		                                           return 'green';
+    		                                		 }
+    		                                       }
+    		                                 },
+    		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'8%',cellEditableCondition: false,
+    		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                		 if(row.entity.status == "Sold") {
+    		                                           return 'green';
+    		                                		 }
+    		                                       }
+    		                                 },
+    		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)"  title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-check" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>', 
+        		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+        		                                		 if(row.entity.status == "Sold") {
+        		                                           return 'green';
+        		                                		 }
+        		                                       } 
+    		                                 
+    		                                 },
+        		                                
+        		                                 ];  
      
     		 $scope.gridOptions.onRegisterApi = function(gridApi){
     			 $scope.gridApi = gridApi;
     			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
     			 $scope.rowData = rowEntity;
     			 $scope.$apply();
+    				 var str = $scope.rowData.price.split(" ");
+    				 $scope.rowData.price = str[1];
     			 $http.post('/updateVehicle',$scope.rowData)
     			 .success(function(data) {
     					console.log('success');
+    					$scope.rowData.price = "$ "+$scope.rowData.price;
     				});
     			 });
     			 
@@ -298,6 +354,9 @@ angular.module('newApp')
    $scope.viewVehiclesInit = function() {
  	  $http.get('/getAllVehicles')
  		.success(function(data) {
+ 			for(var i=0;i<data.length;i++) {
+ 				data[i].price = "$ "+data[i].price;
+ 			}
  			$scope.vehiClesList = data;
  			$scope.gridOptions.data = data;
  			console.log(data);
@@ -305,7 +364,12 @@ angular.module('newApp')
    }
    
    $scope.deleteVehicle = function(row){
-	   $http.get('/deleteVehicleById/'+row.entity.id)
+	   $('#deleteModal').click();
+	   $scope.rowDataVal = row;
+   }
+   
+   $scope.deleteVehicleRow = function() {
+	   $http.get('/deleteVehicleById/'+$scope.rowDataVal.entity.id)
 		.success(function(data) {
 			 $scope.viewVehiclesInit();
 		});
@@ -400,6 +464,7 @@ angular.module('newApp')
 		};
 	$scope.imageList = [];
 	$scope.isUpdated = false;
+	$scope.vinData;
 	$scope.init = function() {
 		$scope.isUpdated = false;
 		$http.get('/getAllSites')
@@ -420,9 +485,36 @@ angular.module('newApp')
 						}
 					}
 				}
+				$scope.setDropZone();
 		});
 		
+		
 	}
+	
+	var myDropzone;
+	$scope.setDropZone = function() {
+		myDropzone = new Dropzone("#dropzoneFrm",{
+			   parallelUploads: 30,
+			   headers: { "vinNum": $scope.vinData.specification.vin },
+			   acceptedFiles:"image/*",
+			   addRemoveLinks:true,
+			   autoProcessQueue:false,
+			   init:function () {
+				   this.on("queuecomplete", function (file) {
+				          
+					   $scope.getImages();
+				          $scope.$apply();
+				      });
+			   }
+		   });
+	}
+	
+	
+	   $scope.uploadFiles = function() {
+		   Dropzone.autoDiscover = false;
+		   myDropzone.processQueue();
+		   
+	   }
 	
 	$scope.getImages = function() {
 		$scope.isUpdated = false;
@@ -512,11 +604,16 @@ $scope.setAsDefault = function(image,index) {
 	   }
 	
 	$scope.deleteVehicle = function(){
-		   $http.get('/deleteVehicleById/'+$routeParams.id)
-			.success(function(data) {
-				$location.path('/addVehicle');
-			});
+		 $('#deleteModal').click();
+		   
 	   }
+	
+	$scope.deleteVehicleRow = function() {
+		$http.get('/deleteVehicleById/'+$routeParams.id)
+		.success(function(data) {
+			$location.path('/addVehicle');
+		});
+	}
 	
 	var file;
 	$scope.onFileSelect = function($files) {
@@ -533,6 +630,18 @@ $scope.setAsDefault = function(image,index) {
             console.log('success');
             $scope.getAllAudio();
         });
+	}
+	
+	$scope.confirmFileDelete = function(id) {
+		$scope.audioFileId = id;
+		$('#deleteModal2').click();
+	}
+	
+	$scope.deleteAudioFile = function() {
+		$http.get('/deleteAudioFile/'+$scope.audioFileId)
+		.success(function(data) {
+			$scope.getAllAudio();
+		});
 	}
 	
 	$scope.getAllAudio = function() {
