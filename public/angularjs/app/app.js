@@ -33,6 +33,10 @@ var MakeApp = angular
             templateUrl: 'addVehicle/addVehicle.html',
             controller: 'addVehicleCtrl'
         })
+        .when('/homePage', {
+            templateUrl: 'homePage/homePage.html',
+            controller: 'HomePageCtrl'
+        })
         .when('/addPhoto/:num', {
             templateUrl: 'addPhotos/uploadPhoto.html',
             controller: 'PhotoUploadCtrl'
@@ -40,6 +44,14 @@ var MakeApp = angular
         .when('/cropImage/:id', {
             templateUrl: 'addPhotos/cropImage.html',
             controller: 'ImageCropCtrl'
+        })
+        .when('/cropSliderImage/:id', {
+            templateUrl: 'addPhotos/cropSliderImage.html',
+            controller: 'SliderCropCtrl'
+        })
+        .when('/cropFeaturedImage/:id', {
+            templateUrl: 'addPhotos/cropFeaturedImage.html',
+            controller: 'FeaturedCropCtrl'
         })
         .when('/managePhotos/:num', {
             templateUrl: 'addPhotos/managePhotos.html',

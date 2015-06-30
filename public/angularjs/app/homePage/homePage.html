@@ -1,0 +1,137 @@
+<div ng-init="init()">
+<tabset class="nav-tabs2" >
+        <tab>
+            <tab-heading>
+            	<button type="button" id="sliderBtn" class="btn btn-blue" ng-click="uploadSliderImages()">Slider Images</button>
+            </tab-heading>
+            <div class="row">
+            <ul style="list-style:none;">
+				                    		<li id="{{image.id}}"   ng-repeat="image in sliderList" style="float:left;">
+				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
+				                        			<img class="myImage" style="width:100%; height:100%;" src="/getSliderImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                            		
+				                            		<div>
+				                            			<a class="remImage" ng-click="deleteSliderImage(image)" style="color:red;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            		</div>
+				                            		<a class="remImage2" ng-click="showFullSliderImage(image)" data-toggle="modal" data-target="#modal-image" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+				                        			<a class="remImage3" ng-click="editSliderImage(image)" style="cursor:pointer;color:red;"><b>Edit</b></a>
+				                        		</div>
+				                        	</li>
+				                        </ul>
+			</div>	 
+			<br><br><br>    
+			<div>                   
+            <h1>Upload SliderImages</h1>
+
+					<form id="dropzoneFrm2" action="/uploadSliderPhotos" class="dropzone">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple />
+                            </div>
+                        </form>
+             </div>           
+ 					<button class="btn btn-primary" ng-click="uploadFiles()" style="margin-left:44%;margin-top:3%;">Upload</button>   
+        </tab>
+        <tab>
+            <tab-heading>
+            	<button type="button" class="btn btn-blue" ng-click="uploadFeaturedImages()">Featured Images</button>
+            </tab-heading>
+            <div class="row">
+            <ul style="list-style:none;">
+				                    		<li id="{{image.id}}"   ng-repeat="image in featuredList" style="float:left;">
+				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
+				                        			<img class="myImage" style="width:100%; height:100%;" src="/getFeaturedImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                            		
+				                            		<div>
+				                            			<a class="remImage" ng-click="deleteFeaturedImage(image)" style="color:red;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            		</div>
+				                            		<a class="remImage2" ng-click="showFullFeaturedImage(image)" data-toggle="modal" data-target="#modal-image2" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+				                        			<a class="remImage3" ng-click="editFeaturedImage(image)" style="cursor:pointer;color:red;"><b>Edit</b></a>
+				                        		</div>
+				                        	</li>
+				                        </ul>
+			</div>	
+			<h1>Upload Featured Images</h1>
+            <form id="dropzoneFrm3" action="/uploadFeaturedPhotos" class="dropzone">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple />
+                            </div>
+                        </form>
+ 					<button class="btn btn-primary" ng-click="uploadFeaturedFiles()" style="margin-left:44%;margin-top:3%;">Upload</button>   
+        </tab>
+</tabset>     
+</div>    
+
+										<div class="modal fade modal-image" id="modal-image" tabindex="-1" role="dialog" aria-hidden="true">
+									        <div class="modal-dialog">
+									            <div class="modal-content">
+									                <div class="modal-header">
+									                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+									                </div>
+									                <div class="modal-body">
+									                    <img src="/getSliderImage/{{sliderImgId}}/full" alt="picture 1" class="img-responsive">
+									                </div>
+									                <div class="modal-footer">
+									                    <p>{{sliderImgName}}</p>
+									                </div>
+									            </div>
+									        </div>
+									    </div>  
+									    
+									    <div class="modal fade modal-image" id="modal-image2" tabindex="-1" role="dialog" aria-hidden="true">
+									        <div class="modal-dialog">
+									            <div class="modal-content">
+									                <div class="modal-header">
+									                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+									                </div>
+									                <div class="modal-body">
+									                    <img src="/getFeaturedImage/{{featuredImgId}}/full" alt="picture 1" class="img-responsive">
+									                </div>
+									                <div class="modal-footer">
+									                    <p>{{featuredImgName}}</p>
+									                </div>
+									            </div>
+									        </div>
+									    </div> 
+
+<style>
+.remImage{
+opacity:0;
+top:0;
+right:-15px;
+position:absolute;
+}
+
+
+.remImage2{
+opacity:0;
+top:88px;
+left:80px;
+position:absolute;
+}
+
+.remImage3{
+opacity:0;
+top:88px;
+left:10px;
+position:absolute;
+}
+
+.imageGroup{
+position:relative;
+float:left;
+}
+.imageGroup:hover .remImage{
+opacity:1;
+}
+.imageGroup:hover .remImage2{
+opacity:1;
+}
+.imageGroup:hover .remImage3{
+opacity:1;
+}
+.imageGroup:hover .myImage{
+opacity:0.2;
+}
+</style>
+
+ 

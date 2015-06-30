@@ -9,12 +9,16 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
 import models.AuthUser;
+import models.FeaturedImage;
 import models.Site;
+import models.SliderImage;
 import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleImage;
@@ -705,6 +709,144 @@ public class Application extends Controller {
     }
     
     @SecureSocial.SecuredAction
+    public static Result uploadSliderPhotos() {
+    	MultipartFormData body = request().body().asMultipartFormData();
+    	
+    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser)user;
+    	
+    	FilePart picture = body.getFile("file");
+    	  if (picture != null) {
+    	    String fileName = picture.getFilename();
+    	    String contentType = picture.getContentType(); 
+    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"Slider Images");
+    	    if(!fdir.exists()) {
+    	    	fdir.mkdirs();
+    	    }
+    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"Slider Images"+File.separator+fileName;
+    	    String thumbnailPath = rootDir+File.separator+userObj.id+File.separator+"Slider Images"+File.separator+"thumbnail_"+fileName;
+    	    File thumbFile = new File(thumbnailPath);
+    	    File file = picture.getFile();
+    	    try {
+    	    BufferedImage originalImage = ImageIO.read(file);
+    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
+    	    File _f = new File(filePath);
+			Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+			
+			SliderImage imageObj = SliderImage.getByImagePath(File.separator+userObj.id+File.separator+"Slider Images"+File.separator+fileName);
+			if(imageObj == null) {
+				SliderImage vImage = new SliderImage();
+				vImage.imgName = fileName;
+				vImage.path = File.separator+userObj.id+File.separator+"Slider Images"+File.separator+fileName;
+				vImage.thumbPath = File.separator+userObj.id+File.separator+"Slider Images"+File.separator+"thumbnail_"+fileName;
+				vImage.user = userObj;
+				vImage.save();
+			}
+    	  } catch (FileNotFoundException e) {
+  			e.printStackTrace();
+	  		} catch (IOException e) {
+	  			e.printStackTrace();
+	  		} 
+    	  } 
+    	
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result uploadFeaturedPhotos() {
+    	MultipartFormData body = request().body().asMultipartFormData();
+    	
+    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser)user;
+    	
+    	FilePart picture = body.getFile("file");
+    	  if (picture != null) {
+    	    String fileName = picture.getFilename();
+    	    String contentType = picture.getContentType(); 
+    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"Featured Images");
+    	    if(!fdir.exists()) {
+    	    	fdir.mkdirs();
+    	    }
+    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"Featured Images"+File.separator+fileName;
+    	    String thumbnailPath = rootDir+File.separator+userObj.id+File.separator+"Featured Images"+File.separator+"thumbnail_"+fileName;
+    	    File thumbFile = new File(thumbnailPath);
+    	    File file = picture.getFile();
+    	    try {
+    	    BufferedImage originalImage = ImageIO.read(file);
+    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
+    	    File _f = new File(filePath);
+			Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+			
+			FeaturedImage imageObj = FeaturedImage.getByImagePath(File.separator+userObj.id+File.separator+"Featured Images"+File.separator+fileName);
+			if(imageObj == null) {
+				FeaturedImage vImage = new FeaturedImage();
+				vImage.imgName = fileName;
+				vImage.path = File.separator+userObj.id+File.separator+"Featured Images"+File.separator+fileName;
+				vImage.thumbPath = File.separator+userObj.id+File.separator+"Featured Images"+File.separator+"thumbnail_"+fileName;
+				vImage.user = userObj;
+				vImage.save();
+			}
+    	  } catch (FileNotFoundException e) {
+  			e.printStackTrace();
+	  		} catch (IOException e) {
+	  			e.printStackTrace();
+	  		} 
+    	  } 
+    	
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getSliderImageById(Long id,String type) {
+    	File file = null;
+    	SliderImage image = SliderImage.findById(id);
+    	if(type.equals("thumbnail")) {
+	    	file = new File(rootDir+image.thumbPath);
+    	}
+    	
+    	if(type.equals("full")) {
+    		file = new File(rootDir+image.path);
+    	}
+    	return ok(file);
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getFeaturedImageById(Long id,String type) {
+    	File file = null;
+    	FeaturedImage image = FeaturedImage.findById(id);
+    	if(type.equals("thumbnail")) {
+	    	file = new File(rootDir+image.thumbPath);
+    	}
+    	
+    	if(type.equals("full")) {
+    		file = new File(rootDir+image.path);
+    	}
+    	return ok(file);
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result deleteSliderImage(Long id) {
+    	SliderImage image = SliderImage.findById(id);
+    	File file = new File(rootDir+image.path);
+    	file.delete();
+    	File thumbfile = new File(rootDir+image.thumbPath);
+    	thumbfile.delete();
+    	image.delete();
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result deleteFeaturedImage(Long id) {
+    	FeaturedImage image = FeaturedImage.findById(id);
+    	File file = new File(rootDir+image.path);
+    	file.delete();
+    	File thumbfile = new File(rootDir+image.thumbPath);
+    	thumbfile.delete();
+    	image.delete();
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
     public static Result deleteAudioFile(Long id) {
     	VehicleAudio audio = VehicleAudio.findById(id);
     	File file = new File(rootDir+audio.path);
@@ -712,4 +854,108 @@ public class Application extends Controller {
     	audio.delete();
     	return ok();
     }
+    
+    @SecureSocial.SecuredAction
+    public static Result getSliderAndFeaturedImages() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	
+    	Map<String,List> map = new HashMap<>();
+    	List<SliderImage> sliderList = SliderImage.findByUser(user);
+    	List<ImageVM> sliderVMList = new ArrayList<>();
+    	
+    	for(SliderImage slider: sliderList) {
+    		ImageVM vm = new ImageVM();
+    		vm.id = slider.id;
+    		vm.path = slider.path;
+    		vm.imgName = slider.imgName;
+    		sliderVMList.add(vm);
+    	}
+    	
+    	map.put("sliderList", sliderVMList);
+    	List<FeaturedImage> featuredList = FeaturedImage.findByUser(user);
+    	List<ImageVM> featuredVMList = new ArrayList<>();
+    	
+    	for(FeaturedImage featured: featuredList) {
+    		ImageVM vm = new ImageVM();
+    		vm.id = featured.id;
+    		vm.path = featured.path;
+    		vm.imgName = featured.imgName;
+    		featuredVMList.add(vm);
+    	}
+    	
+    	map.put("featuredList", featuredVMList);
+    	return ok(Json.toJson(map));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getSliderImageDataById(Long id) throws IOException {
+    	SliderImage image = SliderImage.findById(id);
+    	File file = new File(rootDir+image.path);
+    	
+    	BufferedImage originalImage = ImageIO.read(file);
+    	
+    	ImageVM vm = new ImageVM();
+		vm.id = image.id;
+		vm.imgName = image.imgName;
+		vm.row = originalImage.getHeight();
+		vm.col = originalImage.getWidth();
+		vm.path = image.path;
+    	return ok(Json.toJson(vm));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getFeaturedImageDataById(Long id) throws IOException {
+    	FeaturedImage image = FeaturedImage.findById(id);
+    	File file = new File(rootDir+image.path);
+    	
+    	BufferedImage originalImage = ImageIO.read(file);
+    	
+    	ImageVM vm = new ImageVM();
+		vm.id = image.id;
+		vm.imgName = image.imgName;
+		vm.row = originalImage.getHeight();
+		vm.col = originalImage.getWidth();
+		vm.path = image.path;
+    	return ok(Json.toJson(vm));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result editSliderImage() throws IOException {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+    	EditImageVM vm = form.get();
+    	
+    	SliderImage image = SliderImage.findById(vm.imageId);
+    	File file = new File(rootDir+image.path);
+    	File thumbFile = new File(rootDir+image.thumbPath);
+    	
+    	BufferedImage originalImage = ImageIO.read(file);
+    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
+    	
+    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+    	
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result editFeaturedImage() throws IOException {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+    	EditImageVM vm = form.get();
+    	
+    	FeaturedImage image = FeaturedImage.findById(vm.imageId);
+    	File file = new File(rootDir+image.path);
+    	File thumbFile = new File(rootDir+image.thumbPath);
+    	
+    	BufferedImage originalImage = ImageIO.read(file);
+    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
+    	
+    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+    	
+    	return ok();
+    }
+    
+    
 }

@@ -671,21 +671,41 @@ angular.module('newApp')
 
 	$scope.coords = {};
 	$scope.imgId = $routeParams.id;
+	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
-		console.log('init......'+$routeParams.id);
 		 $http.get('/getImageById/'+$routeParams.id)
 			.success(function(data) {
+				imageW = data.col;
+				imageH = data.row;
 				$scope.image = data;
 				    $('#target').Jcrop({
 				        onSelect: showCoords,
 				        onChange: showCoords,
 				        setSelect:   [ 200, 200, 100, 100 ],
-				        trueSize: [data.col,data.row]
+				        trueSize: [data.col,data.row],
+				        aspectRatio: 1
+				    },function(){
+				    	var bounds = this.getBounds();
+				        boundx = bounds[0];
+				        boundy = bounds[1];
+				        //$('#preview')
 				    });
 			});
+		 
 	}
 		 function showCoords(c)
 		    {
+			 	console.log(c);
+			    var rx = imageW / c.w;
+				var ry = imageH / c.h;
+
+				$('#preview').css({
+					width: Math.round(rx * boundx) + 'px',
+					height: Math.round(ry * boundy) + 'px',
+					marginLeft: '-' + Math.round(rx * c.x) + 'px',
+					marginTop: '-' + Math.round(ry * c.y) + 'px'
+				});
+			 
 				 $scope.coords.x = c.x;
 				 $scope.coords.y = c.y;
 				 $scope.coords.x2 = c.x2;
@@ -703,6 +723,224 @@ angular.module('newApp')
 				console.log('success');
 			});
 		}    
-		    
+		 
+		
+}]);	
+
+angular.module('newApp')
+.controller('HomePageCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+	
+	$scope.init = function() {
+		
+		 $http.get('/getSliderAndFeaturedImages')
+			.success(function(data) {
+				console.log(data);
+				$scope.sliderList = data.sliderList;
+				$scope.featuredList = data.featuredList;
+			});
+	}
+	
+	var myDropzone2;
+	
+	$scope.uploadSliderImages = function() {
+		myDropzone2 = new Dropzone("#dropzoneFrm2",{
+			   parallelUploads: 30,
+			   acceptedFiles:"image/*",
+			   addRemoveLinks:true,
+			   autoProcessQueue:false,
+			   init:function () {
+				   this.on("queuecomplete", function (file) {
+				          
+					   $scope.init();
+				          $scope.$apply();
+				      });
+			   }
+		   });
+	}
+	   $scope.uploadFiles = function() {
+		   Dropzone.autoDiscover = false;
+		   myDropzone2.processQueue();
+		   
+	   }
+	   
+	   var myDropzone3;
+	   $scope.uploadFeaturedImages = function() {
+		   myDropzone3 = new Dropzone("#dropzoneFrm3",{
+			   parallelUploads: 30,
+			   acceptedFiles:"image/*",
+			   addRemoveLinks:true,
+			   autoProcessQueue:false,
+			   init:function () {
+				   this.on("queuecomplete", function (file) {
+				          
+					   $scope.init();
+				          $scope.$apply();
+				      });
+			   }
+		   });
+	   }  
+	   
+	   $scope.uploadFeaturedFiles = function() {
+		   Dropzone.autoDiscover = false;
+		   myDropzone3.processQueue();
+		   
+	   }
+	   
+	   $scope.deleteSliderImage = function(image) {
+		   $http.get('/deleteSliderImage/'+image.id)
+			.success(function(data) {
+				$scope.sliderList.splice($scope.sliderList.indexOf(image),1);
+			});
+	   }
+	   
+	   $scope.deleteFeaturedImage = function(image) {
+		   $http.get('/deleteFeaturedImage/'+image.id)
+			.success(function(data) {
+				$scope.featuredList.splice($scope.featuredList.indexOf(image),1);
+			});
+	   }
+	   
+	   $scope.showFullSliderImage = function(image) {
+		   $scope.sliderImgId = image.id;
+		   $scope.sliderImgName = image.imgName;
+	   }
+	   
+	   $scope.showFullFeaturedImage = function(image) {
+		   $scope.featuredImgId = image.id;
+		   $scope.featuredImgName = image.imgName;
+	   }
+	   
+	   $scope.editSliderImage = function(image) {
+		   $location.path('/cropSliderImage/'+image.id);
+	   }
+	   
+	   $scope.editFeaturedImage = function(image) {
+		   $location.path('/cropFeaturedImage/'+image.id);
+	   }
+	   
+}]);
+
+angular.module('newApp')
+.controller('SliderCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+
+	$scope.coords = {};
+	$scope.imgId = $routeParams.id;
+	var imageW, imageH, boundx, boundy;
+	$scope.init = function() {
+		 $http.get('/getSliderImageDataById/'+$routeParams.id)
+			.success(function(data) {
+				imageW = data.col;
+				imageH = data.row;
+				$scope.image = data;
+				    $('#target').Jcrop({
+				        onSelect: showCoords,
+				        onChange: showCoords,
+				        setSelect:   [ 200, 200, 100, 100 ],
+				        trueSize: [data.col,data.row],
+				        aspectRatio: 1
+				    },function(){
+				    	var bounds = this.getBounds();
+				        boundx = bounds[0];
+				        boundy = bounds[1];
+				        //$('#preview')
+				    });
+			});
+		 
+	}
+		 function showCoords(c)
+		    {
+			 	console.log(c);
+			    var rx = imageW / c.w;
+				var ry = imageH / c.h;
+
+				$('#preview').css({
+					width: Math.round(rx * boundx) + 'px',
+					height: Math.round(ry * boundy) + 'px',
+					marginLeft: '-' + Math.round(rx * c.x) + 'px',
+					marginTop: '-' + Math.round(ry * c.y) + 'px'
+				});
+			 
+				 $scope.coords.x = c.x;
+				 $scope.coords.y = c.y;
+				 $scope.coords.x2 = c.x2;
+				 $scope.coords.y2 = c.y2;
+				 $scope.coords.w = c.w;
+				 $scope.coords.h = c.h;
+		    };
+		 
+		$scope.saveImage = function() {
+			$scope.coords.imageId = $routeParams.id;
+			console.log($scope.coords);
+			
+			$http.post('/editSliderImage',$scope.coords)
+			.success(function(data) {
+				console.log('success');
+				$location.path('/homePage');
+			});
+		}    
+		 
+		
+}]);	
+
+angular.module('newApp')
+.controller('FeaturedCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+
+	$scope.coords = {};
+	$scope.imgId = $routeParams.id;
+	var imageW, imageH, boundx, boundy;
+	$scope.init = function() {
+		 $http.get('/getFeaturedImageDataById/'+$routeParams.id)
+			.success(function(data) {
+				imageW = data.col;
+				imageH = data.row;
+				$scope.image = data;
+				    $('#target').Jcrop({
+				        onSelect: showCoords,
+				        onChange: showCoords,
+				        setSelect:   [ 200, 200, 100, 100 ],
+				        trueSize: [data.col,data.row],
+				        aspectRatio: 1
+				    },function(){
+				    	var bounds = this.getBounds();
+				        boundx = bounds[0];
+				        boundy = bounds[1];
+				        //$('#preview')
+				    });
+			});
+		 
+	}
+		 function showCoords(c)
+		    {
+			 	console.log(c);
+			    var rx = imageW / c.w;
+				var ry = imageH / c.h;
+
+				$('#preview').css({
+					width: Math.round(rx * boundx) + 'px',
+					height: Math.round(ry * boundy) + 'px',
+					marginLeft: '-' + Math.round(rx * c.x) + 'px',
+					marginTop: '-' + Math.round(ry * c.y) + 'px'
+				});
+			 
+				 $scope.coords.x = c.x;
+				 $scope.coords.y = c.y;
+				 $scope.coords.x2 = c.x2;
+				 $scope.coords.y2 = c.y2;
+				 $scope.coords.w = c.w;
+				 $scope.coords.h = c.h;
+		    };
+		 
+		$scope.saveImage = function() {
+			$scope.coords.imageId = $routeParams.id;
+			console.log($scope.coords);
+			
+			$http.post('/editFeaturedImage',$scope.coords)
+			.success(function(data) {
+				console.log('success');
+				$location.path('/homePage');
+			});
+		}    
+		 
+		
 }]);	
 
