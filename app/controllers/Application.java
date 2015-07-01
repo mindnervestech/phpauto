@@ -926,6 +926,9 @@ public class Application extends Controller {
     	EditImageVM vm = form.get();
     	
     	SliderImage image = SliderImage.findById(vm.imageId);
+    	image.setImgName(vm.imgName);
+    	image.setDescription(vm.description);
+    	image.update();
     	File file = new File(rootDir+image.path);
     	File thumbFile = new File(rootDir+image.thumbPath);
     	
@@ -945,6 +948,9 @@ public class Application extends Controller {
     	EditImageVM vm = form.get();
     	
     	FeaturedImage image = FeaturedImage.findById(vm.imageId);
+    	image.setImgName(vm.imgName);
+    	image.setDescription(vm.description);
+    	image.update();
     	File file = new File(rootDir+image.path);
     	File thumbFile = new File(rootDir+image.thumbPath);
     	

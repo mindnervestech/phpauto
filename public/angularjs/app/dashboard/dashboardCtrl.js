@@ -726,6 +726,7 @@ angular.module('newApp')
 			$http.post('/editImage',$scope.coords)
 			.success(function(data) {
 				console.log('success');
+				$location.path('/viewVehicles');
 			});
 		}    
 		 
@@ -743,6 +744,8 @@ angular.module('newApp')
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 			});
+		 
+		 
 	}
 	
 	var myDropzone2;
@@ -829,7 +832,7 @@ angular.module('newApp')
 .controller('SliderCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 	$scope.coords = {};
-	$scope.imgId = $routeParams.id;
+	$scope.imgId = "/getSliderImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		 $http.get('/getSliderImageDataById/'+$routeParams.id)
@@ -842,7 +845,7 @@ angular.module('newApp')
 				        onChange: showCoords,
 				        setSelect:   [ 200, 200, 100, 100 ],
 				        trueSize: [data.col,data.row],
-				        aspectRatio: 1
+				        aspectRatio: data.col/data.row
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -854,10 +857,15 @@ angular.module('newApp')
 	}
 		 function showCoords(c)
 		    {
-			 	console.log(c);
-			    var rx = imageW / c.w;
-				var ry = imageH / c.h;
-
+			 console.log(c);
+			    var rx = 200 / c.w;
+				var ry = 200*(imageH/imageW) / c.h;
+				
+				$('#preview-container').css({
+					width: Math.round(200) + 'px',
+					height: Math.round(200*(imageH/imageW)) + 'px'
+				});
+				
 				$('#preview').css({
 					width: Math.round(rx * boundx) + 'px',
 					height: Math.round(ry * boundy) + 'px',
@@ -871,10 +879,16 @@ angular.module('newApp')
 				 $scope.coords.y2 = c.y2;
 				 $scope.coords.w = c.w;
 				 $scope.coords.h = c.h;
+				 $('#set-height').val(parseInt(c.h));
+				 $('#set-width').val(parseInt(c.w));
 		    };
 		 
-		$scope.saveImage = function() {
+		   
+		    
+		$scope.saveImage = function(image) {
 			$scope.coords.imageId = $routeParams.id;
+			$scope.coords.imgName = image.imgName;
+			$scope.coords.description = image.description
 			console.log($scope.coords);
 			
 			$http.post('/editSliderImage',$scope.coords)
@@ -891,7 +905,7 @@ angular.module('newApp')
 .controller('FeaturedCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 	$scope.coords = {};
-	$scope.imgId = $routeParams.id;
+	$scope.imgId = "/getFeaturedImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		 $http.get('/getFeaturedImageDataById/'+$routeParams.id)
@@ -904,7 +918,7 @@ angular.module('newApp')
 				        onChange: showCoords,
 				        setSelect:   [ 200, 200, 100, 100 ],
 				        trueSize: [data.col,data.row],
-				        aspectRatio: 1
+				        aspectRatio: data.col/data.row
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -916,10 +930,15 @@ angular.module('newApp')
 	}
 		 function showCoords(c)
 		    {
-			 	console.log(c);
-			    var rx = imageW / c.w;
-				var ry = imageH / c.h;
-
+			 console.log(c);
+			    var rx = 200 / c.w;
+				var ry = 200*(imageH/imageW) / c.h;
+				
+				$('#preview-container').css({
+					width: Math.round(200) + 'px',
+					height: Math.round(200*(imageH/imageW)) + 'px'
+				});
+				
 				$('#preview').css({
 					width: Math.round(rx * boundx) + 'px',
 					height: Math.round(ry * boundy) + 'px',
@@ -933,10 +952,14 @@ angular.module('newApp')
 				 $scope.coords.y2 = c.y2;
 				 $scope.coords.w = c.w;
 				 $scope.coords.h = c.h;
+				 $('#set-height').val(parseInt(c.h));
+				 $('#set-width').val(parseInt(c.w));
 		    };
 		 
-		$scope.saveImage = function() {
+		$scope.saveImage = function(image) {
 			$scope.coords.imageId = $routeParams.id;
+			$scope.coords.imgName = image.imgName;
+			$scope.coords.description = image.description
 			console.log($scope.coords);
 			
 			$http.post('/editFeaturedImage',$scope.coords)

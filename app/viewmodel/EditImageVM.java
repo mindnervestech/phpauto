@@ -9,5 +9,7 @@ public class EditImageVM {
 	public Double y2;
 	public Double w;
 	public Double h;
+	public String imgName;
+	public String description;
 	
 }

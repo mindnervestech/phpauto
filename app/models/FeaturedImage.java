@@ -17,6 +17,7 @@ public class FeaturedImage extends Model {
 	public String path;
 	public String imgName;
 	public String thumbPath;
+	public String description;
 	
 	@ManyToOne
 	public AuthUser user;
@@ -59,6 +60,14 @@ public class FeaturedImage extends Model {
 
 	public void setUser(AuthUser user) {
 		this.user = user;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public static Finder<Long,FeaturedImage> find = new Finder<>(Long.class,FeaturedImage.class);
