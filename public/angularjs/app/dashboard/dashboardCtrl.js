@@ -670,7 +670,7 @@ angular.module('newApp')
 .controller('ImageCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 	$scope.coords = {};
-	$scope.imgId = $routeParams.id;
+	$scope.imgId = "/getImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		 $http.get('/getImageById/'+$routeParams.id)
@@ -683,7 +683,7 @@ angular.module('newApp')
 				        onChange: showCoords,
 				        setSelect:   [ 200, 200, 100, 100 ],
 				        trueSize: [data.col,data.row],
-				        aspectRatio: 1
+				        aspectRatio: data.col/data.row
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -696,9 +696,14 @@ angular.module('newApp')
 		 function showCoords(c)
 		    {
 			 	console.log(c);
-			    var rx = imageW / c.w;
-				var ry = imageH / c.h;
-
+			    var rx = 200 / c.w;
+				var ry = 200*(imageH/imageW) / c.h;
+				
+				$('#preview-container').css({
+					width: Math.round(200) + 'px',
+					height: Math.round(200*(imageH/imageW)) + 'px'
+				});
+				
 				$('#preview').css({
 					width: Math.round(rx * boundx) + 'px',
 					height: Math.round(ry * boundy) + 'px',
