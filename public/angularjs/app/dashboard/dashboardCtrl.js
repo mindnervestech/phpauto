@@ -164,6 +164,11 @@ angular.module('newApp')
 				       stop: function(event, $element, widget) {
 				    	   console.log(event);
 				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
+				    	   for(var i=0;i<$scope.imageList.length;i++) {
+				    		   delete $scope.imageList[i].description;
+				    		   delete $scope.imageList[i].width;
+				    		   delete $scope.imageList[i].height;
+				    	   } 
 				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
 					   			//console.log('success');
@@ -454,6 +459,11 @@ angular.module('newApp')
 				       stop: function(event, $element, widget) {
 				    	   console.log(event);
 				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
+				    	   for(var i=0;i<$scope.imageList.length;i++) {
+				    		   delete $scope.imageList[i].description;
+				    		   delete $scope.imageList[i].width;
+				    		   delete $scope.imageList[i].height;
+				    	   }
 				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
 					   			//console.log('success');
@@ -837,13 +847,18 @@ angular.module('newApp')
 	$scope.init = function() {
 		 $http.get('/getSliderImageDataById/'+$routeParams.id)
 			.success(function(data) {
+				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
+				$('#set-height').val(data.height);
+				$('#set-width').val(data.width);
 				$scope.image = data;
 				    $('#target').Jcrop({
 				        onSelect: showCoords,
 				        onChange: showCoords,
-				        setSelect:   [ 200, 200, 100, 100 ],
+				        setSelect:   [ 0, 0, data.width, data.height ],
+				        allowResize: false,
+				        allowSelect: false,
 				        trueSize: [data.col,data.row],
 				        aspectRatio: data.col/data.row
 				    },function(){
@@ -879,8 +894,7 @@ angular.module('newApp')
 				 $scope.coords.y2 = c.y2;
 				 $scope.coords.w = c.w;
 				 $scope.coords.h = c.h;
-				 $('#set-height').val(parseInt(c.h));
-				 $('#set-width').val(parseInt(c.w));
+				 
 		    };
 		 
 		   
@@ -895,6 +909,7 @@ angular.module('newApp')
 			.success(function(data) {
 				console.log('success');
 				$location.path('/homePage');
+				$scope.$apply();
 			});
 		}    
 		 
@@ -912,11 +927,15 @@ angular.module('newApp')
 			.success(function(data) {
 				imageW = data.col;
 				imageH = data.row;
+				$('#set-height').val(data.height);
+				$('#set-width').val(data.width);
 				$scope.image = data;
 				    $('#target').Jcrop({
 				        onSelect: showCoords,
 				        onChange: showCoords,
-				        setSelect:   [ 200, 200, 100, 100 ],
+				        setSelect:   [ 0, 0, data.width, data.height ],
+				        allowResize: false,
+				        allowSelect: false,
 				        trueSize: [data.col,data.row],
 				        aspectRatio: data.col/data.row
 				    },function(){
@@ -952,8 +971,7 @@ angular.module('newApp')
 				 $scope.coords.y2 = c.y2;
 				 $scope.coords.w = c.w;
 				 $scope.coords.h = c.h;
-				 $('#set-height').val(parseInt(c.h));
-				 $('#set-width').val(parseInt(c.w));
+				 
 		    };
 		 
 		$scope.saveImage = function(image) {
@@ -966,9 +984,36 @@ angular.module('newApp')
 			.success(function(data) {
 				console.log('success');
 				$location.path('/homePage');
+				$scope.$apply();
 			});
 		}    
 		 
 		
 }]);	
 
+angular.module('newApp')
+.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+
+	$scope.init = function() {
+		$http.get('/getImageConfig')
+		.success(function(data) {
+			$scope.slider = data.slider;
+			$scope.featured = data.featured;
+		});
+	}
+	
+	$scope.saveSlider = function() {
+		$http.get('/saveSliderConfig/'+$scope.slider.width+'/'+$scope.slider.height)
+		.success(function(data) {
+			console.log('success');
+		});
+	}
+	
+	$scope.saveFeatured = function() {
+		$http.get('/saveFeaturedConfig/'+$scope.featured.width+'/'+$scope.featured.height)
+		.success(function(data) {
+			console.log('success');
+		});
+	}
+	
+}]);	

@@ -9,5 +9,7 @@ public class ImageVM {
 	public Integer row;
 	public Integer col;
 	public String imgName;
-	
+	public String description;
+	public Integer width;
+	public Integer height;
 }

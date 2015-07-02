@@ -17,8 +17,10 @@ import javax.imageio.ImageIO;
 
 import models.AuthUser;
 import models.FeaturedImage;
+import models.FeaturedImageConfig;
 import models.Site;
 import models.SliderImage;
+import models.SliderImageConfig;
 import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleImage;
@@ -741,6 +743,16 @@ public class Application extends Controller {
 				vImage.thumbPath = File.separator+userObj.id+File.separator+"Slider Images"+File.separator+"thumbnail_"+fileName;
 				vImage.user = userObj;
 				vImage.save();
+				
+				SliderImageConfig config = SliderImageConfig.findByUser(userObj);
+				
+				if(config == null) {
+					SliderImageConfig configObj = new SliderImageConfig();
+					configObj.cropHeight = 500;
+					configObj.cropWidth = 500;
+					configObj.user = userObj;
+					configObj.save();
+				}
 			}
     	  } catch (FileNotFoundException e) {
   			e.printStackTrace();
@@ -785,6 +797,16 @@ public class Application extends Controller {
 				vImage.thumbPath = File.separator+userObj.id+File.separator+"Featured Images"+File.separator+"thumbnail_"+fileName;
 				vImage.user = userObj;
 				vImage.save();
+				
+				FeaturedImageConfig config = FeaturedImageConfig.findByUser(userObj);
+				
+				if(config == null) {
+					FeaturedImageConfig configObj = new FeaturedImageConfig();
+					configObj.cropHeight = 500;
+					configObj.cropWidth = 500;
+					configObj.user = userObj;
+					configObj.save();
+				}
 			}
     	  } catch (FileNotFoundException e) {
   			e.printStackTrace();
@@ -889,6 +911,7 @@ public class Application extends Controller {
     
     @SecureSocial.SecuredAction
     public static Result getSliderImageDataById(Long id) throws IOException {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
     	SliderImage image = SliderImage.findById(id);
     	File file = new File(rootDir+image.path);
     	
@@ -900,11 +923,16 @@ public class Application extends Controller {
 		vm.row = originalImage.getHeight();
 		vm.col = originalImage.getWidth();
 		vm.path = image.path;
+		vm.description = image.description;
+		SliderImageConfig config = SliderImageConfig.findByUser(user);
+		vm.width = config.cropWidth;
+		vm.height = config.cropHeight;
     	return ok(Json.toJson(vm));
     }
     
     @SecureSocial.SecuredAction
     public static Result getFeaturedImageDataById(Long id) throws IOException {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
     	FeaturedImage image = FeaturedImage.findById(id);
     	File file = new File(rootDir+image.path);
     	
@@ -916,6 +944,10 @@ public class Application extends Controller {
 		vm.row = originalImage.getHeight();
 		vm.col = originalImage.getWidth();
 		vm.path = image.path;
+		vm.description = image.description;
+		FeaturedImageConfig config = FeaturedImageConfig.findByUser(user);
+		vm.width = config.cropWidth;
+		vm.height = config.cropHeight;
     	return ok(Json.toJson(vm));
     }
     
@@ -963,5 +995,51 @@ public class Application extends Controller {
     	return ok();
     }
     
+    @SecureSocial.SecuredAction
+    public static Result getImageConfig() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	Map<String,Object> map = new HashMap<>();
+    	SliderImageConfig config = SliderImageConfig.findByUser(user);
+    	if(config != null) {
+	    	ImageVM vm1 = new ImageVM();
+	    	vm1.width = config.cropWidth;
+	    	vm1.height = config.cropHeight;
+	    	map.put("slider", vm1);
+    	}
+    	FeaturedImageConfig config2 = FeaturedImageConfig.findByUser(user);
+    	if(config2 != null) {
+	    	ImageVM vm2 = new ImageVM();
+	    	vm2.width = config2.cropWidth;
+	    	vm2.height = config2.cropHeight;
+	    	map.put("featured", vm2);
+    	}
+    	return ok(Json.toJson(map));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result saveSliderConfig(Integer width,Integer height) {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	SliderImageConfig config = SliderImageConfig.findByUser(user);
+    	
+    	if(config != null) {
+    		config.setCropHeight(height);
+    		config.setCropWidth(width);
+    		config.update();
+    	}
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result saveFeaturedConfig(Integer width,Integer height) {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	FeaturedImageConfig config = FeaturedImageConfig.findByUser(user);
+    	
+    	if(config != null) {
+    		config.setCropHeight(height);
+    		config.setCropWidth(width);
+    		config.update();
+    	}
+    	return ok();
+    }
     
 }

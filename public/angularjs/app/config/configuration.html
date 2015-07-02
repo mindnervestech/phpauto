@@ -1,0 +1,38 @@
+<div ng-init="init()">
+<h1>Slider Image Best Fit Size</h1>
+
+<form ng-submit="saveSlider()">
+	<div class="form-group col-sm-12" style="margin-top:5%;margin-left:-10%;">
+		<label class="col-sm-2 control-label" style="text-align: right;">Height *</label>
+			<div class="col-sm-3">
+				<input class="form-control form-white" ng-model="slider.height" min="0" type="number" required>
+			</div>
+	</div>
+	<div class="form-group col-sm-12" style="margin-left:-10%;">
+		<label class="col-sm-2 control-label" style="text-align: right;">Width *</label>
+			<div class="col-sm-3">
+				<input class="form-control form-white" ng-model="slider.width" min="0" type="number" required>
+			</div>
+	</div>
+	<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
+</form>
+
+<h1 style="margin-top:5%;">Featured Image Best Fit Size</h1>
+
+<form ng-submit="saveFeatured()">
+	<div class="form-group col-sm-12" style="margin-top:5%;margin-left:-10%;">
+		<label class="col-sm-2 control-label" style="text-align: right;">Height *</label>
+			<div class="col-sm-3">
+				<input class="form-control form-white" ng-model="featured.height" min="0" type="number" required>
+			</div>
+	</div>
+	<div class="form-group col-sm-12" style="margin-left:-10%;">
+		<label class="col-sm-2 control-label" style="text-align: right;">Width *</label>
+			<div class="col-sm-3">
+				<input class="form-control form-white" ng-model="featured.width" min="0" type="number" required>
+			</div>
+	</div>
+	<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
+</form>
+
+</div>

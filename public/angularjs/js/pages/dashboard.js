@@ -4482,7 +4482,7 @@ angular.module('newApp').factory('dashboardService', function () {
     };
 
     function generateNotifDashboard(content) {
-        var position = 'topRight';
+        /*var position = 'topRight';
         if ($('body').hasClass('rtl')) position = 'topLeft';
         var n = noty({
             text: content,
@@ -4504,7 +4504,7 @@ angular.module('newApp').factory('dashboardService', function () {
                     }, 500);
                 }
             }
-        });
+        });*/
     }
 
     dashboard.setHeights = function () {

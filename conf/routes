@@ -68,3 +68,6 @@ GET		/getSliderImageDataById/:id		controllers.Application.getSliderImageDataById
 GET		/getFeaturedImageDataById/:id		controllers.Application.getFeaturedImageDataById(id:Long)
 POST	/editSliderImage			controllers.Application.editSliderImage()
 POST	/editFeaturedImage			controllers.Application.editFeaturedImage()
+GET		/getImageConfig				controllers.Application.getImageConfig
+GET		/saveSliderConfig/:width/:height	controllers.Application.saveSliderConfig(width:Integer,height:Integer)
+GET		/saveFeaturedConfig/:width/:height	controllers.Application.saveFeaturedConfig(width:Integer,height:Integer)

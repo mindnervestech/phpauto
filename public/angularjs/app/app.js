@@ -37,6 +37,10 @@ var MakeApp = angular
             templateUrl: 'homePage/homePage.html',
             controller: 'HomePageCtrl'
         })
+         .when('/configuration', {
+            templateUrl: 'config/configuration.html',
+            controller: 'ConfigPageCtrl'
+        })
         .when('/addPhoto/:num', {
             templateUrl: 'addPhotos/uploadPhoto.html',
             controller: 'PhotoUploadCtrl'
