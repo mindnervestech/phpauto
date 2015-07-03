@@ -924,6 +924,7 @@ public class Application extends Controller {
 		vm.col = originalImage.getWidth();
 		vm.path = image.path;
 		vm.description = image.description;
+		vm.link = image.link;
 		SliderImageConfig config = SliderImageConfig.findByUser(user);
 		vm.width = config.cropWidth;
 		vm.height = config.cropHeight;
@@ -945,6 +946,7 @@ public class Application extends Controller {
 		vm.col = originalImage.getWidth();
 		vm.path = image.path;
 		vm.description = image.description;
+		vm.link = image.link;
 		FeaturedImageConfig config = FeaturedImageConfig.findByUser(user);
 		vm.width = config.cropWidth;
 		vm.height = config.cropHeight;
@@ -960,6 +962,7 @@ public class Application extends Controller {
     	SliderImage image = SliderImage.findById(vm.imageId);
     	image.setImgName(vm.imgName);
     	image.setDescription(vm.description);
+    	image.setLink(vm.link);
     	image.update();
     	File file = new File(rootDir+image.path);
     	File thumbFile = new File(rootDir+image.thumbPath);
@@ -982,6 +985,7 @@ public class Application extends Controller {
     	FeaturedImage image = FeaturedImage.findById(vm.imageId);
     	image.setImgName(vm.imgName);
     	image.setDescription(vm.description);
+    	image.setLink(vm.link);
     	image.update();
     	File file = new File(rootDir+image.path);
     	File thumbFile = new File(rootDir+image.thumbPath);

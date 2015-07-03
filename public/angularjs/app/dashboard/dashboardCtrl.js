@@ -168,6 +168,7 @@ angular.module('newApp')
 				    		   delete $scope.imageList[i].description;
 				    		   delete $scope.imageList[i].width;
 				    		   delete $scope.imageList[i].height;
+				    		   delete $scope.imageList[i].link;
 				    	   } 
 				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
@@ -463,6 +464,7 @@ angular.module('newApp')
 				    		   delete $scope.imageList[i].description;
 				    		   delete $scope.imageList[i].width;
 				    		   delete $scope.imageList[i].height;
+				    		   delete $scope.imageList[i].link;
 				    	   }
 				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
@@ -903,6 +905,7 @@ angular.module('newApp')
 			$scope.coords.imageId = $routeParams.id;
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description
+			$scope.coords.link = image.link;
 			console.log($scope.coords);
 			
 			$http.post('/editSliderImage',$scope.coords)
@@ -978,6 +981,7 @@ angular.module('newApp')
 			$scope.coords.imageId = $routeParams.id;
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description
+			$scope.coords.link = image.link;
 			console.log($scope.coords);
 			
 			$http.post('/editFeaturedImage',$scope.coords)

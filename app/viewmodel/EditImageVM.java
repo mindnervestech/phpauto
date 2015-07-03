@@ -11,5 +11,5 @@ public class EditImageVM {
 	public Double h;
 	public String imgName;
 	public String description;
-	
+	public String link;
 }

@@ -18,7 +18,16 @@ public class FeaturedImage extends Model {
 	public String imgName;
 	public String thumbPath;
 	public String description;
+	public String link;
 	
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
 	@ManyToOne
 	public AuthUser user;
 
