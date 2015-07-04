@@ -748,8 +748,8 @@ public class Application extends Controller {
 				
 				if(config == null) {
 					SliderImageConfig configObj = new SliderImageConfig();
-					configObj.cropHeight = 500;
-					configObj.cropWidth = 500;
+					configObj.cropHeight = 840;
+					configObj.cropWidth = 1400;
 					configObj.user = userObj;
 					configObj.save();
 				}
@@ -802,8 +802,8 @@ public class Application extends Controller {
 				
 				if(config == null) {
 					FeaturedImageConfig configObj = new FeaturedImageConfig();
-					configObj.cropHeight = 500;
-					configObj.cropWidth = 500;
+					configObj.cropHeight = 840;
+					configObj.cropWidth = 1400;
 					configObj.user = userObj;
 					configObj.save();
 				}
@@ -884,6 +884,7 @@ public class Application extends Controller {
     	Map<String,List> map = new HashMap<>();
     	List<SliderImage> sliderList = SliderImage.findByUser(user);
     	List<ImageVM> sliderVMList = new ArrayList<>();
+    	List<ImageVM> configList = new ArrayList<>();
     	
     	for(SliderImage slider: sliderList) {
     		ImageVM vm = new ImageVM();
@@ -906,6 +907,20 @@ public class Application extends Controller {
     	}
     	
     	map.put("featuredList", featuredVMList);
+    	
+    	SliderImageConfig sliderConfig = SliderImageConfig.findByUser(user);
+    	ImageVM slider = new ImageVM();
+    	slider.height = sliderConfig.cropHeight;
+    	slider.width = sliderConfig.cropWidth;
+    	configList.add(slider);
+    	
+    	FeaturedImageConfig featuredConfig = FeaturedImageConfig.findByUser(user);
+    	ImageVM featured = new ImageVM();
+    	featured.height = featuredConfig.cropHeight;
+    	featured.width = featuredConfig.cropWidth;
+    	configList.add(featured);
+    	map.put("configList", configList);
+    	
     	return ok(Json.toJson(map));
     }
     

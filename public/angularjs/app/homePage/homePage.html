@@ -4,7 +4,7 @@
             <tab-heading>
             	<button type="button" id="sliderBtn" class="btn btn-blue" ng-click="uploadSliderImages()">Slider Images</button>
             </tab-heading>
-            <div class="row">
+            <div class="row" style="margin-bottom: 3%;">
             <ul style="list-style:none;">
 				                    		<li id="{{image.id}}"   ng-repeat="image in sliderList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
@@ -22,20 +22,21 @@
 			<br><br><br>    
 			<div>                   
             <h1>Upload SliderImages</h1>
-
+			<p><b>Minimum image dimension should be {{configList[0].width}} X {{configList[0].height}}</b></p>
 					<form id="dropzoneFrm2" action="/uploadSliderPhotos" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" multiple />
                             </div>
                         </form>
-             </div>           
+             </div>       
+                 
  					<button class="btn btn-primary" ng-click="uploadFiles()" style="margin-left:44%;margin-top:3%;">Upload</button>   
         </tab>
         <tab>
             <tab-heading>
             	<button type="button" class="btn btn-blue" ng-click="uploadFeaturedImages()">Featured Images</button>
             </tab-heading>
-            <div class="row">
+            <div class="row" style="margin-bottom: 3%;">
             <ul style="list-style:none;">
 				                    		<li id="{{image.id}}"   ng-repeat="image in featuredList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
@@ -51,6 +52,7 @@
 				                        </ul>
 			</div>	
 			<h1>Upload Featured Images</h1>
+			<p><b>Minimum image dimension should be {{configList[1].width}} X {{configList[1].height}}</b></p>
             <form id="dropzoneFrm3" action="/uploadFeaturedPhotos" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" multiple />

@@ -755,6 +755,7 @@ angular.module('newApp')
 				console.log(data);
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
+				$scope.configList = data.configList;
 			});
 		 
 		 
@@ -768,12 +769,27 @@ angular.module('newApp')
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
+			   
+			   accept: function(file, done) {
+				   file.rejectDimensions = function() { done("Invalid dimension."); };
+				   file.acceptDimensions = done;
+				  
+				  },
 			   init:function () {
 				   this.on("queuecomplete", function (file) {
 				          
 					   $scope.init();
 				          $scope.$apply();
 				      });
+				   this.on("thumbnail", function(file) {
+					      // Do the dimension checks you want to do
+					      if (file.width < $scope.configList[0].width || file.height < $scope.configList[0].height) {
+					        file.rejectDimensions()
+					      }
+					      else {
+					        file.acceptDimensions();
+					      }
+					    });
 			   }
 		   });
 	}
@@ -790,12 +806,27 @@ angular.module('newApp')
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
+			   accept: function(file, done) {
+				   file.rejectDimensions = function() { done("Invalid dimension."); };
+				   file.acceptDimensions = done;
+				  
+				  },
 			   init:function () {
 				   this.on("queuecomplete", function (file) {
 				          
 					   $scope.init();
 				          $scope.$apply();
 				      });
+				   
+				   this.on("thumbnail", function(file) {
+					      // Do the dimension checks you want to do
+					      if (file.width < $scope.configList[1].width || file.height < $scope.configList[1].height) {
+					        file.rejectDimensions()
+					      }
+					      else {
+					        file.acceptDimensions();
+					      }
+					    });
 			   }
 		   });
 	   }  
@@ -850,19 +881,23 @@ angular.module('newApp')
 		 $http.get('/getSliderImageDataById/'+$routeParams.id)
 			.success(function(data) {
 				console.log(data);
-				imageW = data.col;
-				imageH = data.row;
+				imageW = data.width;
+				imageH = data.height;
 				$('#set-height').val(data.height);
 				$('#set-width').val(data.width);
+				$('#target').css({
+					height: Math.round((727)/(data.col/data.row)) + 'px'
+				});
+				
 				$scope.image = data;
 				    $('#target').Jcrop({
 				        onSelect: showCoords,
 				        onChange: showCoords,
 				        setSelect:   [ 0, 0, data.width, data.height ],
-				        allowResize: false,
+				        minSize:[data.width,data.height],
 				        allowSelect: false,
 				        trueSize: [data.col,data.row],
-				        aspectRatio: data.col/data.row
+				        aspectRatio: data.width/data.height
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -928,19 +963,25 @@ angular.module('newApp')
 	$scope.init = function() {
 		 $http.get('/getFeaturedImageDataById/'+$routeParams.id)
 			.success(function(data) {
-				imageW = data.col;
-				imageH = data.row;
+				imageW = data.width;
+				imageH = data.height;
 				$('#set-height').val(data.height);
 				$('#set-width').val(data.width);
+				
 				$scope.image = data;
+				
+				$('#target').css({
+					height: Math.round((727)/(data.col/data.row)) + 'px'
+				});
+				
 				    $('#target').Jcrop({
 				        onSelect: showCoords,
 				        onChange: showCoords,
 				        setSelect:   [ 0, 0, data.width, data.height ],
-				        allowResize: false,
+				        minSize:[data.width,data.height],
 				        allowSelect: false,
 				        trueSize: [data.col,data.row],
-				        aspectRatio: data.col/data.row
+				        aspectRatio: data.width/data.height
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -953,7 +994,7 @@ angular.module('newApp')
 		 function showCoords(c)
 		    {
 			 console.log(c);
-			    var rx = 200 / c.w;
+			 	var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
 				$('#preview-container').css({
