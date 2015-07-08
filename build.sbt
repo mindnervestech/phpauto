@@ -6,6 +6,7 @@ libraryDependencies ++= Seq(
 "mysql" % "mysql-connector-java" % "5.1.18",
 "net.coobird" % "thumbnailator" % "0.4.3",
 "org.codehaus.jackson" % "jackson-mapper-asl" % "1.9.5",
+"net.sf.opencsv" % "opencsv" % "2.3",
 javaJdbc,
   javaEbean,
   cache,
