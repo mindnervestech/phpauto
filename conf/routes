@@ -71,3 +71,6 @@ POST	/editFeaturedImage			controllers.Application.editFeaturedImage()
 GET		/getImageConfig				controllers.Application.getImageConfig
 GET		/saveSliderConfig/:width/:height	controllers.Application.saveSliderConfig(width:Integer,height:Integer)
 GET		/saveFeaturedConfig/:width/:height	controllers.Application.saveFeaturedConfig(width:Integer,height:Integer)
+GET		/exportDataAsCSV			controllers.Application.exportDataAsCSV()
+GET		/exportCarGurusCSV			controllers.Application.exportCarGurusCSV()
+GET		/exportCarfaxCSV			controllers.Application.exportCarfaxCSV()

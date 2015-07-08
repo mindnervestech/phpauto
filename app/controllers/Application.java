@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -51,6 +52,8 @@ import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
 import viewmodel.VirtualTourVM;
 import views.html.home;
+
+import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -720,13 +723,14 @@ public class Application extends Controller {
     	FilePart picture = body.getFile("file");
     	  if (picture != null) {
     	    String fileName = picture.getFilename();
-    	    String contentType = picture.getContentType(); 
-    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"Slider Images");
+    	    String contentType = picture.getContentType();
+    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"SliderImages");
     	    if(!fdir.exists()) {
     	    	fdir.mkdirs();
     	    }
-    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"Slider Images"+File.separator+fileName;
-    	    String thumbnailPath = rootDir+File.separator+userObj.id+File.separator+"Slider Images"+File.separator+"thumbnail_"+fileName;
+    	    
+    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"SliderImages"+File.separator+fileName;
+    	    String thumbnailPath = rootDir+File.separator+userObj.id+File.separator+"SliderImages"+File.separator+"thumbnail_"+fileName;
     	    File thumbFile = new File(thumbnailPath);
     	    File file = picture.getFile();
     	    try {
@@ -735,12 +739,12 @@ public class Application extends Controller {
     	    File _f = new File(filePath);
 			Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 			
-			SliderImage imageObj = SliderImage.getByImagePath(File.separator+userObj.id+File.separator+"Slider Images"+File.separator+fileName);
+			SliderImage imageObj = SliderImage.getByImagePath(File.separator+userObj.id+File.separator+"SliderImages"+File.separator+fileName);
 			if(imageObj == null) {
 				SliderImage vImage = new SliderImage();
 				vImage.imgName = fileName;
-				vImage.path = File.separator+userObj.id+File.separator+"Slider Images"+File.separator+fileName;
-				vImage.thumbPath = File.separator+userObj.id+File.separator+"Slider Images"+File.separator+"thumbnail_"+fileName;
+				vImage.path = "/"+userObj.id+"/"+"SliderImages"+"/"+fileName;
+				vImage.thumbPath = "/"+userObj.id+"/"+"SliderImages"+"/"+"thumbnail_"+fileName;
 				vImage.user = userObj;
 				vImage.save();
 				
@@ -775,12 +779,13 @@ public class Application extends Controller {
     	  if (picture != null) {
     	    String fileName = picture.getFilename();
     	    String contentType = picture.getContentType(); 
-    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"Featured Images");
+    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"FeaturedImages");
     	    if(!fdir.exists()) {
     	    	fdir.mkdirs();
     	    }
-    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"Featured Images"+File.separator+fileName;
-    	    String thumbnailPath = rootDir+File.separator+userObj.id+File.separator+"Featured Images"+File.separator+"thumbnail_"+fileName;
+    	    
+    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"FeaturedImages"+File.separator+fileName;
+    	    String thumbnailPath = rootDir+File.separator+userObj.id+File.separator+"FeaturedImages"+File.separator+"thumbnail_"+fileName;
     	    File thumbFile = new File(thumbnailPath);
     	    File file = picture.getFile();
     	    try {
@@ -789,12 +794,12 @@ public class Application extends Controller {
     	    File _f = new File(filePath);
 			Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 			
-			FeaturedImage imageObj = FeaturedImage.getByImagePath(File.separator+userObj.id+File.separator+"Featured Images"+File.separator+fileName);
+			FeaturedImage imageObj = FeaturedImage.getByImagePath(File.separator+userObj.id+File.separator+"FeaturedImages"+File.separator+fileName);
 			if(imageObj == null) {
 				FeaturedImage vImage = new FeaturedImage();
 				vImage.imgName = fileName;
-				vImage.path = File.separator+userObj.id+File.separator+"Featured Images"+File.separator+fileName;
-				vImage.thumbPath = File.separator+userObj.id+File.separator+"Featured Images"+File.separator+"thumbnail_"+fileName;
+				vImage.path = "/"+userObj.id+"/"+"FeaturedImages"+"/"+fileName;
+				vImage.thumbPath = "/"+userObj.id+"/"+"FeaturedImages"+"/"+"thumbnail_"+fileName;
 				vImage.user = userObj;
 				vImage.save();
 				
@@ -1058,6 +1063,169 @@ public class Application extends Controller {
     		config.setCropWidth(width);
     		config.update();
     	}
+    	return ok();
+    }
+    
+    
+    @SecureSocial.SecuredAction
+    public static Result exportDataAsCSV() throws IOException {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	CSVWriter writer = new CSVWriter(new FileWriter("D:\\vehicleInfo.csv"));
+    	List<Vehicle> vehicleList = Vehicle.getAllVehicles(user);
+    	
+    	for(Vehicle vehicle: vehicleList) {
+    		String []row = new String[22];
+    		row[0] = "";
+    		row[1] = vehicle.stock;
+    		row[2] = vehicle.year;
+    		row[3] = vehicle.make;
+    		row[4] = vehicle.model;
+    		row[5] = vehicle.trim;
+    		row[6] = vehicle.vin;
+    		row[7] = vehicle.mileage;
+    		row[8] = vehicle.price.toString();
+    		row[9] = vehicle.exteriorColor;
+    		row[10] = vehicle.interiorColor;
+    		row[11] = vehicle.transmission;
+    		row[12] = "";
+    		row[13] = vehicle.description;
+    		row[14] = vehicle.bodyStyle;
+    		row[15] = vehicle.engine;
+    		row[16] = vehicle.drivetrain;
+    		row[17] = vehicle.fuel;
+    		row[18] = vehicle.standardFeatures1+","+vehicle.standardFeatures2;
+    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin, user);
+    		String str = "";
+    		for(VehicleImage img : vImageList) {
+    			str = str +rootDir+img.path+",";
+    		}
+    		row[19] = str;
+    		VirtualTour vt = VirtualTour.findByUserAndVin(user,vehicle.vin);
+    		if(vt != null) {
+    			row[20] = vt.desktopUrl;
+    			row[21] = vt.mobileUrl;
+    		} else {
+    			row[20] = "";
+    			row[21] = "";
+    		}
+    		writer.writeNext(row);
+    	}
+    	
+    	 writer.close();
+    	 
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result exportCarfaxCSV() throws IOException {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	CSVWriter writer = new CSVWriter(new FileWriter("D:\\vehicleCarfaxInfo.csv"));
+    	List<Vehicle> vehicleList = Vehicle.getAllVehicles(user);
+    	
+    	for(Vehicle vehicle: vehicleList) {
+    		String []row = new String[42];
+    		row[0] = "";
+    		row[1] = vehicle.vin;
+    		row[2] = vehicle.stock;
+    		row[3] = "";
+    		row[4] = "";
+    		row[5] = vehicle.category;
+    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin, user);
+    		String str = "";
+    		for(VehicleImage img : vImageList) {
+    			str = str +rootDir+img.path+"|";
+    		}
+    		row[6] = str;
+    		row[7] = "";
+    		row[8] = "";
+    		row[9] = "";
+    		row[10] = "";
+    		row[11] = "";
+    		row[12] = "";
+    		row[13] = "";
+    		row[14] = "";
+    		row[15] = "";
+    		row[16] = "";
+    		row[17] = "";
+    		row[18] = vehicle.make;
+    		row[19] = vehicle.model;
+    		row[20] = vehicle.trim;
+    		row[21] = vehicle.bodyStyle;
+    		row[22] = vehicle.mileage;
+    		row[23] = vehicle.year;
+    		row[24] = "";
+    		row[25] = vehicle.price.toString();
+    		row[26] = vehicle.exteriorColor;
+    		row[27] = vehicle.interiorColor;
+    		row[28] = "";
+    		row[29] = vehicle.doors;
+    		row[30] = vehicle.fuel;
+    		row[31] = vehicle.engine;
+    		row[32] = vehicle.drivetrain;
+    		row[33] = vehicle.transmission;
+    		row[34] = "";
+    		row[35] = vehicle.description;
+    		row[36] = vehicle.standardFeatures1;
+    		row[37] = vehicle.standardFeatures2;
+    		row[38] = "";
+    		row[39] = "";
+    		row[40] = "";
+    		row[41] = "";
+    		
+    		writer.writeNext(row);
+    	}
+    	
+    	 writer.close();
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result exportCarGurusCSV() throws IOException {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	CSVWriter writer = new CSVWriter(new FileWriter("D:\\vehicleCarGurusInfo.csv"));
+    	List<Vehicle> vehicleList = Vehicle.getAllVehicles(user);
+    	
+    	for(Vehicle vehicle: vehicleList) {
+    		String []row = new String[29];
+    		row[0] = vehicle.vin;
+    		row[1] = vehicle.make;
+    		row[2] = vehicle.model;
+    		row[3] = vehicle.year;
+    		row[4] = vehicle.trim;
+    		row[5] = vehicle.price.toString();
+    		row[6] = vehicle.mileage;
+    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin, user);
+    		String str = "";
+    		for(VehicleImage img : vImageList) {
+    			str = str +rootDir+img.path+",";
+    		}
+    		row[7] = str;
+    		row[8] = vehicle.exteriorColor;
+    		row[9] = "";
+    		row[10] = vehicle.stock;
+    		row[11] = vehicle.transmission;
+    		row[12] = vehicle.standardFeatures1+","+vehicle.standardFeatures2;
+    		row[13] = "";
+    		row[14] = "";
+    		row[15] = "";
+    		row[16] = "";
+    		row[17] = "";
+    		row[18] = "";
+    		row[19] = "";
+    		row[20] = "";
+    		row[21] = vehicle.interiorColor;
+    		row[22] = "";
+    		row[23] = "";
+    		row[24] = vehicle.engine;
+    		row[25] = "";
+    		row[26] = "";
+    		row[27] = "";
+    		row[28] = "";
+    		
+    		writer.writeNext(row);
+    	}
+    	
+    	 writer.close();
     	return ok();
     }
     

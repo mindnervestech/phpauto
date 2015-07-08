@@ -417,6 +417,27 @@ angular.module('newApp')
 	   $scope.viewField = false;
    }
    
+   $scope.exportDataAsCSV = function() {
+	   $http.get('/exportDataAsCSV')
+		.success(function(data) {
+			 console.log('success');
+		});
+   }
+   
+   $scope.exportCarfaxCSV = function() {
+	   $http.get('/exportCarfaxCSV')
+		.success(function(data) {
+			 console.log('success');
+		});
+   }
+   
+   $scope.exportCarGurusCSV = function() {
+	   $http.get('/exportCarGurusCSV')
+		.success(function(data) {
+			 console.log('success');
+		});
+   }
+   
 }]);
 
 angular.module('newApp')
@@ -939,7 +960,7 @@ angular.module('newApp')
 		$scope.saveImage = function(image) {
 			$scope.coords.imageId = $routeParams.id;
 			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description
+			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
 			console.log($scope.coords);
 			
@@ -1021,7 +1042,7 @@ angular.module('newApp')
 		$scope.saveImage = function(image) {
 			$scope.coords.imageId = $routeParams.id;
 			$scope.coords.imgName = image.imgName;
-			$scope.coords.description = image.description
+			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
 			console.log($scope.coords);
 			

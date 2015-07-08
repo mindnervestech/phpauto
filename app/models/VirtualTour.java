@@ -65,4 +65,8 @@ public class VirtualTour extends Model {
 		return find.byId(id);
 	}
 	
+	public static VirtualTour findByUserAndVin(AuthUser user,String vin) {
+		return find.where().eq("user", user).eq("vin", vin).findUnique();
+	}
+	
 }

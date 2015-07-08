@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 import scala.Option;
 import securesocial.core.AuthenticationMethod;
 import securesocial.core.Identity;
@@ -78,4 +79,8 @@ public class AuthUser extends Model implements Identity {
 		return null;
 	}
 
+	public static AuthUser findById(Integer id) {
+		return find.byId(id);
+	}
+	
 }
