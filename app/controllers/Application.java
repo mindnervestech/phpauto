@@ -185,8 +185,12 @@ public class Application extends Controller {
 			specificationVM.label = vehicle.getLabel();
 			specificationVM.mileage = vehicle.getMileage();
 			specificationVM.price = vehicle.getPrice();
-			specificationVM.standardFeatures1 = vehicle.getStandardFeatures1();
-			specificationVM.standardFeatures2 = vehicle.getStandardFeatures2();
+			specificationVM.styleFeatures = vehicle.getStyleFeatures();
+			specificationVM.safetyFeatures = vehicle.getSafetyFeatures();
+			specificationVM.audioNavFeatures = vehicle.getAudioNavFeatures();
+			specificationVM.performanceFeatures = vehicle.getPerformanceFeatures();
+			specificationVM.otherCarFeatures = vehicle.getOtherCarFeatures();
+			specificationVM.location = vehicle.getLocation();
 			specificationVM.stereo = vehicle.getStereo();
 			specificationVM.stock = vehicle.getStock();
 			specificationVM.transmission = vehicle.getTransmission();
@@ -234,8 +238,12 @@ public class Application extends Controller {
 	    	vehicle.bodyStyle = vm.style;
 	    	vehicle.drivetrain = vm.drivetrain;
 	    	vehicle.transmission = vm.transmission;
-	    	vehicle.standardFeatures1 = vm.standardFeatures1;
-	    	vehicle.standardFeatures2 = vm.standardFeatures2;
+	    	vehicle.styleFeatures = vm.styleFeatures;
+	    	vehicle.safetyFeatures = vm.safetyFeatures;
+	    	vehicle.audioNavFeatures = vm.audioNavFeatures;
+	    	vehicle.performanceFeatures = vm.performanceFeatures;
+	    	vehicle.otherCarFeatures = vm.otherCarFeatures;
+	    	vehicle.location = vm.location;
 	    	vehicle.description = vm.description;
 			vehicle.user = (AuthUser)user;
 	    	vehicle.madeIn = vm.made_in;
@@ -286,13 +294,13 @@ public class Application extends Controller {
     	    File _f = new File(filePath);
 			Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 			
-			VehicleImage imageObj = VehicleImage.getByImagePath(File.separator+vin+"-"+userObj.id+File.separator+fileName);
+			VehicleImage imageObj = VehicleImage.getByImagePath("/"+vin+"-"+userObj.id+"/"+fileName);
 			if(imageObj == null) {
 				VehicleImage vImage = new VehicleImage();
 				vImage.vin = vin;
 				vImage.imgName = fileName;
-				vImage.path = File.separator+vin+"-"+userObj.id+File.separator+fileName;
-				vImage.thumbPath = File.separator+vin+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
+				vImage.path = "/"+vin+"-"+userObj.id+"/"+fileName;
+				vImage.thumbPath = "/"+vin+"-"+userObj.id+"/"+"thumbnail_"+fileName;
 				vImage.user = userObj;
 				vImage.save();
 			}
@@ -467,8 +475,12 @@ public class Application extends Controller {
 	    	vehicle.bodyStyle = vm.bodyStyle;
 	    	vehicle.drivetrain = vm.drivetrain;
 	    	vehicle.transmission = vm.transmission;
-	    	vehicle.standardFeatures1 = vm.standardFeatures1;
-	    	vehicle.standardFeatures2 = vm.standardFeatures2;
+	    	vehicle.styleFeatures = vm.styleFeatures;
+	    	vehicle.safetyFeatures = vm.safetyFeatures;
+	    	vehicle.audioNavFeatures = vm.audioNavFeatures;
+	    	vehicle.performanceFeatures = vm.performanceFeatures;
+	    	vehicle.otherCarFeatures = vm.otherCarFeatures;
+	    	vehicle.location = vm.location;
 	    	vehicle.description = vm.description;
 	    	vehicle.status  =  vm.status;
 	    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin,user);
@@ -545,8 +557,12 @@ public class Application extends Controller {
 		specificationVM.label = vehicle.getLabel();
 		specificationVM.mileage = vehicle.getMileage();
 		specificationVM.price = vehicle.getPrice();
-		specificationVM.standardFeatures1 = vehicle.getStandardFeatures1();
-		specificationVM.standardFeatures2 = vehicle.getStandardFeatures2();
+		specificationVM.styleFeatures = vehicle.styleFeatures;
+		specificationVM.safetyFeatures = vehicle.safetyFeatures;
+		specificationVM.audioNavFeatures = vehicle.audioNavFeatures;
+		specificationVM.performanceFeatures = vehicle.performanceFeatures;
+		specificationVM.otherCarFeatures = vehicle.otherCarFeatures;
+		specificationVM.location = vehicle.location;
 		specificationVM.stereo = vehicle.getStereo();
 		specificationVM.stock = vehicle.getStock();
 		specificationVM.transmission = vehicle.getTransmission();
@@ -604,8 +620,12 @@ public class Application extends Controller {
 	    	vehicle.setBodyStyle(vm.style);
 	    	vehicle.setDrivetrain(vm.drivetrain);
 	    	vehicle.setTransmission(vm.transmission);
-	    	vehicle.setStandardFeatures1(vm.standardFeatures1);
-	    	vehicle.setStandardFeatures2(vm.standardFeatures2);
+	    	vehicle.setStyleFeatures(vm.styleFeatures);
+	    	vehicle.setSafetyFeatures(vm.safetyFeatures);
+	    	vehicle.setAudioNavFeatures(vm.audioNavFeatures);
+	    	vehicle.setPerformanceFeatures(vm.performanceFeatures);
+	    	vehicle.setOtherCarFeatures(vm.otherCarFeatures);
+	    	vehicle.setLocation(vm.location);
 	    	vehicle.setDescription(vm.description);
 	    	vehicle.setMadeIn(vm.made_in);
 	    	vehicle.setSteeringType(vm.steering_type);
@@ -739,7 +759,7 @@ public class Application extends Controller {
     	    File _f = new File(filePath);
 			Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 			
-			SliderImage imageObj = SliderImage.getByImagePath(File.separator+userObj.id+File.separator+"SliderImages"+File.separator+fileName);
+			SliderImage imageObj = SliderImage.getByImagePath("/"+userObj.id+"/"+"SliderImages"+"/"+fileName);
 			if(imageObj == null) {
 				SliderImage vImage = new SliderImage();
 				vImage.imgName = fileName;
@@ -794,7 +814,7 @@ public class Application extends Controller {
     	    File _f = new File(filePath);
 			Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 			
-			FeaturedImage imageObj = FeaturedImage.getByImagePath(File.separator+userObj.id+File.separator+"FeaturedImages"+File.separator+fileName);
+			FeaturedImage imageObj = FeaturedImage.getByImagePath("/"+userObj.id+"/"+"FeaturedImages"+"/"+fileName);
 			if(imageObj == null) {
 				FeaturedImage vImage = new FeaturedImage();
 				vImage.imgName = fileName;
@@ -1093,7 +1113,7 @@ public class Application extends Controller {
     		row[15] = vehicle.engine;
     		row[16] = vehicle.drivetrain;
     		row[17] = vehicle.fuel;
-    		row[18] = vehicle.standardFeatures1+","+vehicle.standardFeatures2;
+    		row[18] = vehicle.styleFeatures+","+vehicle.safetyFeatures+","+vehicle.audioNavFeatures+","+vehicle.performanceFeatures+","+vehicle.otherCarFeatures;
     		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin, user);
     		String str = "";
     		for(VehicleImage img : vImageList) {
@@ -1165,8 +1185,8 @@ public class Application extends Controller {
     		row[33] = vehicle.transmission;
     		row[34] = "";
     		row[35] = vehicle.description;
-    		row[36] = vehicle.standardFeatures1;
-    		row[37] = vehicle.standardFeatures2;
+    		row[36] = vehicle.styleFeatures;
+    		row[37] = vehicle.safetyFeatures;
     		row[38] = "";
     		row[39] = "";
     		row[40] = "";
@@ -1204,7 +1224,7 @@ public class Application extends Controller {
     		row[9] = "";
     		row[10] = vehicle.stock;
     		row[11] = vehicle.transmission;
-    		row[12] = vehicle.standardFeatures1+","+vehicle.standardFeatures2;
+    		row[12] = vehicle.styleFeatures+","+vehicle.safetyFeatures;
     		row[13] = "";
     		row[14] = "";
     		row[15] = "";

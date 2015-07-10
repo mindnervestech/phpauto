@@ -42,8 +42,12 @@ public class Vehicle extends Model {
 	public String bodyStyle;
 	public String drivetrain;
 	public String transmission;
-	public String standardFeatures1;
-	public String standardFeatures2;
+	public String styleFeatures;
+	public String safetyFeatures;
+	public String audioNavFeatures;
+	public String performanceFeatures;
+	public String otherCarFeatures;
+	public String location;
 	public String description;
 	public String madeIn;
 	public String steeringType;
@@ -261,20 +265,52 @@ public class Vehicle extends Model {
 		this.transmission = transmission;
 	}
 
-	public String getStandardFeatures1() {
-		return standardFeatures1;
+	public String getStyleFeatures() {
+		return styleFeatures;
 	}
 
-	public void setStandardFeatures1(String standardFeatures1) {
-		this.standardFeatures1 = standardFeatures1;
+	public void setStyleFeatures(String styleFeatures) {
+		this.styleFeatures = styleFeatures;
 	}
 
-	public String getStandardFeatures2() {
-		return standardFeatures2;
+	public String getSafetyFeatures() {
+		return safetyFeatures;
 	}
 
-	public void setStandardFeatures2(String standardFeatures2) {
-		this.standardFeatures2 = standardFeatures2;
+	public void setSafetyFeatures(String safetyFeatures) {
+		this.safetyFeatures = safetyFeatures;
+	}
+
+	public String getAudioNavFeatures() {
+		return audioNavFeatures;
+	}
+
+	public void setAudioNavFeatures(String audioNavFeatures) {
+		this.audioNavFeatures = audioNavFeatures;
+	}
+
+	public String getPerformanceFeatures() {
+		return performanceFeatures;
+	}
+
+	public void setPerformanceFeatures(String performanceFeatures) {
+		this.performanceFeatures = performanceFeatures;
+	}
+
+	public String getOtherCarFeatures() {
+		return otherCarFeatures;
+	}
+
+	public void setOtherCarFeatures(String otherCarFeatures) {
+		this.otherCarFeatures = otherCarFeatures;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getDescription() {

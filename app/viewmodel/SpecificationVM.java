@@ -34,8 +34,12 @@ public class SpecificationVM {
 	public String label;
 	public String mileage;
 	public Integer price;
-	public String standardFeatures1;
-	public String standardFeatures2;
+	public String styleFeatures;
+	public String safetyFeatures;
+	public String audioNavFeatures;
+	public String performanceFeatures;
+	public String otherCarFeatures;
+	public String location;
 	public String stereo;
 	public String stock;
 	public String transmission;
