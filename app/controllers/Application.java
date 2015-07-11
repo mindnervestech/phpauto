@@ -1009,8 +1009,9 @@ public class Application extends Controller {
     	
     	BufferedImage originalImage = ImageIO.read(file);
     	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
-    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
-    	
+    	SliderImageConfig config = SliderImageConfig.findByUser(user);
+    	//Thumbnails.of(croppedImage).scale(1.0).toFile(file);
+    	Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
     	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
     	
     	return ok();
@@ -1032,7 +1033,9 @@ public class Application extends Controller {
     	
     	BufferedImage originalImage = ImageIO.read(file);
     	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
-    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
+    	FeaturedImageConfig config = FeaturedImageConfig.findByUser(user);
+    	//Thumbnails.of(croppedImage).size(150, 150).toFile(file);
+    	Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
     	
     	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
     	
