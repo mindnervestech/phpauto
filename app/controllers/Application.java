@@ -1069,7 +1069,13 @@ public class Application extends Controller {
     		config.setCropHeight(height);
     		config.setCropWidth(width);
     		config.update();
-    	}
+    	} else {
+           config = new SliderImageConfig();
+           config.setCropHeight(height);
+           config.setCropWidth(width);
+           config.user = user;
+           config.save();
+        }
     	return ok();
     }
     
@@ -1082,7 +1088,14 @@ public class Application extends Controller {
     		config.setCropHeight(height);
     		config.setCropWidth(width);
     		config.update();
-    	}
+    	} else {
+           config = new FeaturedImageConfig();
+           config.setCropHeight(height);
+           config.setCropWidth(width);
+           config.user = user;
+           config.save();
+        }
+
     	return ok();
     }
     
