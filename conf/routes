@@ -45,6 +45,8 @@ GET		/deleteImage/:id			controllers.Application.deleteImage(id:Long)
 GET		/setDefaultImage/:id		controllers.Application.setDefaultImage(id:Long)
 GET		/removeDefault/:old/:newId	controllers.Application.removeDefault(old:Long,newId:Long)
 POST		/savePosition		controllers.Application.savePosition
+POST		/saveSliderPosition		controllers.Application.saveSliderPosition
+POST		/saveFeaturedPosition		controllers.Application.saveFeaturedPosition
 GET		/getUserInfo				controllers.Application.getUserInfo()
 
 GET    	/getAllVehicles             controllers.Application.getAllVehicles()
@@ -74,3 +76,5 @@ GET		/saveFeaturedConfig/:width/:height	controllers.Application.saveFeaturedConf
 GET		/exportDataAsCSV			controllers.Application.exportDataAsCSV()
 GET		/exportCarGurusCSV			controllers.Application.exportCarGurusCSV()
 GET		/exportCarfaxCSV			controllers.Application.exportCarfaxCSV()
+GET		/saveSiteHeading/:heading	controllers.Application.saveSiteHeading(heading:String)
+POST	/saveSiteDescription		controllers.Application.saveSiteDescription()

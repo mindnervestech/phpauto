@@ -769,6 +769,120 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('HomePageCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 	
+	$scope.sliderList = [];
+	$scope.featuredList = [];
+	$scope.gridsterOpts1 = {
+		    columns: 6, // the width of the grid, in columns
+		    pushing: true, // whether to push other items out of the way on move or resize
+		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
+		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
+		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
+		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
+		    rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
+		    margins: [10, 10], // the pixel distance between each widget
+		    outerMargin: true, // whether margins apply to outer edges of the grid
+		    isMobile: false, // stacks the grid items if true
+		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
+		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
+		    minColumns: 6, // the minimum columns the grid must have
+		    minRows: 1, // the minimum height of the grid, in rows
+		    maxRows: 100,
+		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
+		    defaultSizeY: 1, // the default height of a gridster item, if not specified
+		    resizable: {
+			       enabled: false,
+			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
+			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
+			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
+			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
+			    },
+		    /* minSizeX: 1, // minimum column width of an item
+		    maxSizeX: null, // maximum column width of an item
+		    minSizeY: 1, // minumum row height of an item
+		    maxSizeY: null, // maximum row height of an item
+		   */
+			    draggable: {
+				       enabled: true, // whether dragging items is supported
+				       handle: '.my-class', // optional selector for resize handle
+				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
+				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
+				       stop: function(event, $element, widget) {
+				    	   console.log(event);
+				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
+				    	   for(var i=0;i<$scope.sliderList.length;i++) {
+				    		   delete $scope.sliderList[i].description;
+				    		   delete $scope.sliderList[i].width;
+				    		   delete $scope.sliderList[i].height;
+				    		   delete $scope.sliderList[i].link;
+				    		   delete $scope.sliderList[i].vin;
+				    		   delete $scope.sliderList[i].defaultImage;
+				    	   }
+				    	   $http.post('/saveSliderPosition',$scope.sliderList)
+					   		.success(function(data) {
+					   			//console.log('success');
+					   		});
+				    	   
+				       } // optional callback fired when item is finished dragging
+				    }
+		};
+	
+	$scope.gridsterOpts2 = {
+		    columns: 6, // the width of the grid, in columns
+		    pushing: true, // whether to push other items out of the way on move or resize
+		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
+		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
+		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
+		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
+		    rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
+		    margins: [10, 10], // the pixel distance between each widget
+		    outerMargin: true, // whether margins apply to outer edges of the grid
+		    isMobile: false, // stacks the grid items if true
+		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
+		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
+		    minColumns: 6, // the minimum columns the grid must have
+		    minRows: 1, // the minimum height of the grid, in rows
+		    maxRows: 100,
+		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
+		    defaultSizeY: 1, // the default height of a gridster item, if not specified
+		    resizable: {
+			       enabled: false,
+			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
+			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
+			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
+			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
+			    },
+		    /* minSizeX: 1, // minimum column width of an item
+		    maxSizeX: null, // maximum column width of an item
+		    minSizeY: 1, // minumum row height of an item
+		    maxSizeY: null, // maximum row height of an item
+		   */
+			    draggable: {
+				       enabled: true, // whether dragging items is supported
+				       handle: '.my-class', // optional selector for resize handle
+				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
+				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
+				       stop: function(event, $element, widget) {
+				    	   console.log(event);
+				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
+				    	   for(var i=0;i<$scope.featuredList.length;i++) {
+				    		   delete $scope.featuredList[i].description;
+				    		   delete $scope.featuredList[i].width;
+				    		   delete $scope.featuredList[i].height;
+				    		   delete $scope.featuredList[i].link;
+				    		   delete $scope.featuredList[i].vin;
+				    		   delete $scope.featuredList[i].defaultImage;
+				    	   }
+				    	   $http.post('/saveFeaturedPosition',$scope.featuredList)
+					   		.success(function(data) {
+					   			//console.log('success');
+					   		});
+				    	   
+				       } // optional callback fired when item is finished dragging
+				    }
+		};
+	
+	$scope.siteDescription = {};
+	$scope.siteHeading = "";
 	$scope.init = function() {
 		
 		 $http.get('/getSliderAndFeaturedImages')
@@ -777,6 +891,9 @@ angular.module('newApp')
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
+				$scope.siteHeading = data.contentVM[0].heading;
+				$scope.siteDescription.descHeading = data.contentVM[0].descHeading;
+				$scope.siteDescription.description = data.contentVM[0].description;
 			});
 		 
 		 
@@ -786,10 +903,11 @@ angular.module('newApp')
 	
 	$scope.uploadSliderImages = function() {
 		myDropzone2 = new Dropzone("#dropzoneFrm2",{
-			   parallelUploads: 30,
+			   parallelUploads: 1,
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
+			   maxFiles:1,
 			   
 			   accept: function(file, done) {
 				   file.rejectDimensions = function() { done("Invalid dimension."); };
@@ -811,22 +929,29 @@ angular.module('newApp')
 					        file.acceptDimensions();
 					      }
 					    });
+				   
 			   }
+				  
 		   });
 	}
 	   $scope.uploadFiles = function() {
-		   Dropzone.autoDiscover = false;
-		   myDropzone2.processQueue();
+		   if($scope.sliderList.length>=3) {
+			   $('#btnMsg').click();
+		   } else {
+			   Dropzone.autoDiscover = false;
+			   myDropzone2.processQueue();
+		   }
 		   
 	   }
 	   
 	   var myDropzone3;
 	   $scope.uploadFeaturedImages = function() {
 		   myDropzone3 = new Dropzone("#dropzoneFrm3",{
-			   parallelUploads: 30,
+			   parallelUploads: 1,
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
+			   maxFiles:1,
 			   accept: function(file, done) {
 				   file.rejectDimensions = function() { done("Invalid dimension."); };
 				   file.acceptDimensions = done;
@@ -853,8 +978,12 @@ angular.module('newApp')
 	   }  
 	   
 	   $scope.uploadFeaturedFiles = function() {
-		   Dropzone.autoDiscover = false;
-		   myDropzone3.processQueue();
+		   if($scope.featuredList.length>=3) {
+			   $('#btnFeaturedMsg').click();
+		   } else {
+			   Dropzone.autoDiscover = false;
+			   myDropzone3.processQueue();
+		   }
 		   
 	   }
 	   
@@ -889,6 +1018,23 @@ angular.module('newApp')
 	   $scope.editFeaturedImage = function(image) {
 		   $location.path('/cropFeaturedImage/'+image.id);
 	   }
+	 
+	   $scope.saveSiteHeading = function(siteHeading) {
+		   console.log(siteHeading);
+		   $http.get('/saveSiteHeading/'+siteHeading)
+			.success(function(data) {
+				
+			});
+	   }
+	   
+	   $scope.saveSiteDescription = function() {
+		   console.log($scope.siteDescription);
+		   $http.post('/saveSiteDescription',$scope.siteDescription)
+	   		.success(function(data) {
+	   			console.log('success');
+	   		});
+	   }
+	   
 	   
 }]);
 

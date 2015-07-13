@@ -19,6 +19,8 @@ public class FeaturedImage extends Model {
 	public String thumbPath;
 	public String description;
 	public String link;
+	public Integer row;
+	public Integer col;
 	
 	public String getLink() {
 		return link;
@@ -77,6 +79,22 @@ public class FeaturedImage extends Model {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getRow() {
+		return row;
+	}
+
+	public void setRow(Integer row) {
+		this.row = row;
+	}
+
+	public Integer getCol() {
+		return col;
+	}
+
+	public void setCol(Integer col) {
+		this.col = col;
 	}
 
 	public static Finder<Long,FeaturedImage> find = new Finder<>(Long.class,FeaturedImage.class);

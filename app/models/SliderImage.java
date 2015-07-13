@@ -19,6 +19,8 @@ public class SliderImage extends Model {
 	public String thumbPath;
 	public String description;
 	public String link;
+	public Integer row;
+	public Integer col;
 	
 	@ManyToOne
 	public AuthUser user;
@@ -78,6 +80,24 @@ public class SliderImage extends Model {
 	public void setLink(String link) {
 		this.link = link;
 	}
+
+	public Integer getRow() {
+		return row;
+	}
+
+	public void setRow(Integer row) {
+		this.row = row;
+	}
+
+	public Integer getCol() {
+		return col;
+	}
+
+	public void setCol(Integer col) {
+		this.col = col;
+	}
+
+
 
 	public static Finder<Long,SliderImage> find = new Finder<>(Long.class,SliderImage.class);
 	

@@ -5,8 +5,11 @@
             	<button type="button" id="sliderBtn" class="btn btn-blue" ng-click="uploadSliderImages()">Slider Images</button>
             </tab-heading>
             <div class="row" style="margin-bottom: 3%;">
+            <div gridster="gridsterOpts1">
             <ul style="list-style:none;">
-				                    		<li id="{{image.id}}"   ng-repeat="image in sliderList" style="float:left;">
+				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}"
+				                    		data-sizex="1" data-sizey="1"
+				                    		id="{{image.id}}"   ng-repeat="image in sliderList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
 				                        			<img class="myImage" style="width:100%; height:100%;" src="/getSliderImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
 				                            		
@@ -18,6 +21,7 @@
 				                        		</div>
 				                        	</li>
 				                        </ul>
+				</div>                        
 			</div>	 
 			<br><br><br>    
 			<div>                   
@@ -37,8 +41,10 @@
             	<button type="button" class="btn btn-blue" ng-click="uploadFeaturedImages()">Featured Images</button>
             </tab-heading>
             <div class="row" style="margin-bottom: 3%;">
+            <div gridster="gridsterOpts2">
             <ul style="list-style:none;">
-				                    		<li id="{{image.id}}"   ng-repeat="image in featuredList" style="float:left;">
+				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
+				                    		id="{{image.id}}"   ng-repeat="image in featuredList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
 				                        			<img class="myImage" style="width:100%; height:100%;" src="/getFeaturedImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
 				                            		
@@ -50,6 +56,7 @@
 				                        		</div>
 				                        	</li>
 				                        </ul>
+				</div>                        
 			</div>	
 			<h1>Upload Featured Images</h1>
 			<p><b>Minimum image dimension should be {{configList[1].width}} X {{configList[1].height}}</b></p>
@@ -60,6 +67,42 @@
                         </form>
  					<button class="btn btn-primary" ng-click="uploadFeaturedFiles()" style="margin-left:44%;margin-top:3%;">Upload</button>   
         </tab>
+        <tab>
+            <tab-heading>
+            	<button type="button" id="sliderBtn" class="btn btn-blue">Site Heading</button>
+            </tab-heading>
+            <form ng-submit="saveSiteHeading(siteHeading)" style="margin-top:5%;">
+            <div class="form-group col-sm-12">
+				<label class="col-sm-2 control-label" style="text-align: right;">Heading </label>
+				<div class="col-sm-6">
+					<input class="form-control form-white" type="text" ng-model="siteHeading" placeholder="" required>
+				</div>
+			</div>
+			
+			<button type="submit" class="btn btn-primary" style="margin-top:3%;margin-left:20%;">Save</button>
+			</form>
+       </tab> 
+       <tab>
+            <tab-heading>
+            	<button type="button" id="sliderBtn" class="btn btn-blue">Site Description</button>
+            </tab-heading>
+            <form ng-submit="saveSiteDescription()" style="margin-top:5%;">
+            <div class="form-group col-sm-12">
+				<label class="col-sm-2 control-label" style="text-align: right;">Heading </label>
+				<div class="col-sm-6">
+					<input class="form-control form-white" type="text" ng-model="siteDescription.descHeading" placeholder="" required>
+				</div>
+			</div>
+			<div class="form-group col-sm-12" style="margin-top:3%;">
+				<label class="col-sm-2 control-label" style="text-align: right;">Description </label>
+				<div class="col-sm-6">
+					<textarea class="form-control form-white" type="text" ng-model="siteDescription.description" placeholder="" rows="12" required></textarea>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary" style="margin-top:3%;margin-left:20%;">Save</button>
+			</form>
+            
+       </tab>     
 </tabset>     
 </div>    
 
@@ -94,6 +137,44 @@
 									            </div>
 									        </div>
 									    </div> 
+									    
+									    <button id="btnMsg" data-toggle="modal" data-target="#modal-basic" style="display: none;"></button>
+									    <button id="btnFeaturedMsg" data-toggle="modal" data-target="#modal-basic2" style="display: none;"></button>
+									    
+									    <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title"><strong>Max limit</strong> exceeded</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Only 3 slider images can be uploaded<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    <div class="modal fade" id="modal-basic2" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title"><strong>Max limit</strong> exceeded</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Only 3 featured images can be uploaded<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
 <p style="display: none;">{{uploadSliderImages()}}</p>
 <style>
 .remImage{
@@ -134,6 +215,7 @@ opacity:1;
 .imageGroup:hover .myImage{
 opacity:0.2;
 }
+
 </style>
 
  

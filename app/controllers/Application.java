@@ -20,6 +20,7 @@ import models.AuthUser;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.Site;
+import models.SiteContent;
 import models.SliderImage;
 import models.SliderImageConfig;
 import models.Vehicle;
@@ -48,6 +49,7 @@ import viewmodel.AudioVM;
 import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.PinVM;
+import viewmodel.SiteContentVM;
 import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
 import viewmodel.VirtualTourVM;
@@ -424,6 +426,56 @@ public class Application extends Controller {
     		List<VehicleImage> images = mapper.readValue(nodes.toString(), new TypeReference<List<VehicleImage>>() {});
 			
 	    	for(VehicleImage image : images) {
+	    		image.update();
+	    	}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result saveSliderPosition() {
+    	JsonNode nodes = ctx().request().body().asJson();
+    	ObjectMapper mapper = new ObjectMapper();
+    	try {
+    		List<SliderImage> images = mapper.readValue(nodes.toString(), new TypeReference<List<SliderImage>>() {});
+			
+	    	for(SliderImage image : images) {
+	    		image.update();
+	    	}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result saveFeaturedPosition() {
+    	JsonNode nodes = ctx().request().body().asJson();
+    	ObjectMapper mapper = new ObjectMapper();
+    	try {
+    		List<FeaturedImage> images = mapper.readValue(nodes.toString(), new TypeReference<List<FeaturedImage>>() {});
+			
+	    	for(FeaturedImage image : images) {
 	    		image.update();
 	    	}
 		} catch (JsonParseException e) {
@@ -911,11 +963,15 @@ public class Application extends Controller {
     	List<ImageVM> sliderVMList = new ArrayList<>();
     	List<ImageVM> configList = new ArrayList<>();
     	
+    	reorderSliderImagesForFirstTime(sliderList);
+    	
     	for(SliderImage slider: sliderList) {
     		ImageVM vm = new ImageVM();
     		vm.id = slider.id;
     		vm.path = slider.path;
     		vm.imgName = slider.imgName;
+    		vm.row = slider.row;
+    		vm.col = slider.col;
     		sliderVMList.add(vm);
     	}
     	
@@ -923,11 +979,15 @@ public class Application extends Controller {
     	List<FeaturedImage> featuredList = FeaturedImage.findByUser(user);
     	List<ImageVM> featuredVMList = new ArrayList<>();
     	
+    	reorderFeaturedImagesForFirstTime(featuredList);
+    	
     	for(FeaturedImage featured: featuredList) {
     		ImageVM vm = new ImageVM();
     		vm.id = featured.id;
     		vm.path = featured.path;
     		vm.imgName = featured.imgName;
+    		vm.row = featured.row;
+    		vm.col = featured.col;
     		featuredVMList.add(vm);
     	}
     	
@@ -946,8 +1006,93 @@ public class Application extends Controller {
     	configList.add(featured);
     	map.put("configList", configList);
     	
+    	SiteContent content = SiteContent.findByUser(user);
+    	List<SiteContentVM> siteContentList = new ArrayList<>();
+    	SiteContentVM contentVM = new SiteContentVM();
+    	if(content != null) {
+    		contentVM.heading = content.heading;
+    		contentVM.descHeading = content.descHeading;
+    		contentVM.description = content.description;
+    	} else {
+    		contentVM.heading = "";
+    		contentVM.descHeading = "";
+    		contentVM.description = "";
+    	}
+    	siteContentList.add(contentVM);
+    	map.put("contentVM", siteContentList);
+    	
     	return ok(Json.toJson(map));
     }
+    
+    @SecureSocial.SecuredAction
+    private static void reorderSliderImagesForFirstTime(List<SliderImage> imageList) {
+    	if(imageList.size() > 0) {
+    			for(int i = 0, col = 0 ; i < imageList.size() ; i++) {
+    				if(imageList.get(i).row == null) {
+	    				imageList.get(i).setRow(  col / 6);
+	    				imageList.get(i).setCol( col % 6);
+	    				imageList.get(i).update();
+    				}
+    				col++;
+    			}
+    			
+    		
+    	}
+		
+    }
+    
+    @SecureSocial.SecuredAction
+    private static void reorderFeaturedImagesForFirstTime(List<FeaturedImage> imageList) {
+    	if(imageList.size() > 0) {
+    			for(int i = 0, col = 0 ; i < imageList.size() ; i++) {
+    				if(imageList.get(i).row == null) {
+	    				imageList.get(i).setRow(  col / 6);
+	    				imageList.get(i).setCol( col % 6);
+	    				imageList.get(i).update();
+    				}
+    				col++;
+    			}
+    			
+    	}
+		
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result saveSiteHeading(String heading) {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	SiteContent content = SiteContent.findByUser(user);
+    	if(content != null) {
+    		content.setHeading(heading);
+    		content.update();
+    	} else {
+    		SiteContent contentObj = new SiteContent();
+    		contentObj.heading = heading;
+    		contentObj.user = user;
+    		contentObj.save();
+    	}
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result saveSiteDescription() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	Form<SiteContentVM> form = DynamicForm.form(SiteContentVM.class).bindFromRequest();
+    	SiteContentVM vm = form.get();
+    	SiteContent content = SiteContent.findByUser(user);
+    	if(content != null) {
+    		content.setDescHeading(vm.descHeading);
+    		content.setDescription(vm.description);
+    		content.update();
+    	} else {
+    		SiteContent contentObj = new SiteContent();
+    		contentObj.descHeading = vm.descHeading;
+    		contentObj.description = vm.description;
+    		contentObj.user = user;
+    		contentObj.save();
+    	}
+    	return ok();
+    }
+    
     
     @SecureSocial.SecuredAction
     public static Result getSliderImageDataById(Long id) throws IOException {
@@ -1111,7 +1256,7 @@ public class Application extends Controller {
     	
     	for(Vehicle vehicle: vehicleList) {
     		String []row = new String[22];
-    		row[0] = "";
+    		row[0] = "ms5421";
     		row[1] = vehicle.stock;
     		row[2] = vehicle.year;
     		row[3] = vehicle.make;
@@ -1160,11 +1305,11 @@ public class Application extends Controller {
     	
     	for(Vehicle vehicle: vehicleList) {
     		String []row = new String[42];
-    		row[0] = "";
+    		row[0] = "12345678";
     		row[1] = vehicle.vin;
     		row[2] = vehicle.stock;
-    		row[3] = "";
-    		row[4] = "";
+    		row[3] = "2003 Toyota Sequoia";
+    		row[4] = "://www.domain.com/cars/12345679.html";
     		row[5] = vehicle.category;
     		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin, user);
     		String str = "";
@@ -1172,41 +1317,41 @@ public class Application extends Controller {
     			str = str +rootDir+img.path+"|";
     		}
     		row[6] = str;
-    		row[7] = "";
-    		row[8] = "";
-    		row[9] = "";
-    		row[10] = "";
-    		row[11] = "";
-    		row[12] = "";
-    		row[13] = "";
-    		row[14] = "";
-    		row[15] = "";
-    		row[16] = "";
-    		row[17] = "";
+    		row[7] = "1234 Main Street";
+    		row[8] = "San Francisco";
+    		row[9] = "CA";
+    		row[10] = "94105";
+    		row[11] = "United States";
+    		row[12] = "Dealer";
+    		row[13] = "Dealer";
+    		row[14] = "4567";
+    		row[15] = "someone@dealerwebsite.com";
+    		row[16] = "800-123-4567";
+    		row[17] = "dealerwebsite.com";
     		row[18] = vehicle.make;
     		row[19] = vehicle.model;
     		row[20] = vehicle.trim;
     		row[21] = vehicle.bodyStyle;
     		row[22] = vehicle.mileage;
     		row[23] = vehicle.year;
-    		row[24] = "";
+    		row[24] = "USD";
     		row[25] = vehicle.price.toString();
     		row[26] = vehicle.exteriorColor;
     		row[27] = vehicle.interiorColor;
-    		row[28] = "";
+    		row[28] = "fabric";
     		row[29] = vehicle.doors;
     		row[30] = vehicle.fuel;
     		row[31] = vehicle.engine;
     		row[32] = vehicle.drivetrain;
     		row[33] = vehicle.transmission;
-    		row[34] = "";
+    		row[34] = "YES";
     		row[35] = vehicle.description;
     		row[36] = vehicle.styleFeatures;
     		row[37] = vehicle.safetyFeatures;
-    		row[38] = "";
-    		row[39] = "";
-    		row[40] = "";
-    		row[41] = "";
+    		row[38] = "Free text without quotes";
+    		row[39] = "Used";
+    		row[40] = "2012-09-16-11:00:00";
+    		row[41] = "2012-10-16-11:00:00";
     		
     		writer.writeNext(row);
     	}
@@ -1242,21 +1387,21 @@ public class Application extends Controller {
     		row[11] = vehicle.transmission;
     		row[12] = vehicle.styleFeatures+","+vehicle.safetyFeatures;
     		row[13] = "";
-    		row[14] = "";
-    		row[15] = "";
-    		row[16] = "";
-    		row[17] = "";
-    		row[18] = "";
-    		row[19] = "";
-    		row[20] = "";
+    		row[14] = "1234";
+    		row[15] = "Autolinx Inc";
+    		row[16] = "3300 Sonoma Blvd";
+    		row[17] = "Vallejo";
+    		row[18] = "California";
+    		row[19] = "94590";
+    		row[20] = "info@autolinxinc.com";
     		row[21] = vehicle.interiorColor;
     		row[22] = "";
-    		row[23] = "";
+    		row[23] = "N";
     		row[24] = vehicle.engine;
-    		row[25] = "";
-    		row[26] = "";
-    		row[27] = "";
-    		row[28] = "";
+    		row[25] = "38.120301  -122.254508";
+    		row[26] = "1000";
+    		row[27] = "(707)552-5469";
+    		row[28] = "www.autolinxinc.com/";
     		
     		writer.writeNext(row);
     	}
