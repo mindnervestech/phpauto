@@ -50,6 +50,7 @@ POST		/saveFeaturedPosition		controllers.Application.saveFeaturedPosition
 GET		/getUserInfo				controllers.Application.getUserInfo()
 
 GET    	/getAllVehicles             controllers.Application.getAllVehicles()
+GET		/getAllSoldVehicles			controllers.Application.getAllSoldVehicles()
 GET    	/deleteVehicleById/:id      controllers.Application.deleteVehicleById(id: Long)
 GET    	/updateVehicleStatus/:id    controllers.Application.updateVehicleStatus(id: Long )
 POST   	/updateVehicle              controllers.Application.updateVehicle()

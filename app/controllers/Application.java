@@ -497,17 +497,16 @@ public class Application extends Controller {
 	public static Result getAllVehicles() {
     	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
     	
-    	//List <Vehicle> vehicleObjList = Vehicle.getAllVehicles();
-    	List <Vehicle> vehicleObjList = Vehicle.getAllVehicles(user);
-    	
-    	ArrayList<SpecificationVM> VMs = new ArrayList<>(); 
+    	List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus(user, "Newly Arrived");
+        
+    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>(); 
      	for(Vehicle vm : vehicleObjList){
      		SpecificationVM vehicle = new SpecificationVM();
      		vehicle.id = vm.id;
 	    	vehicle.category = vm.category;
 	    	vehicle.vin = vm.vin;
 	    	vehicle.year = vm.year;
-	    	vehicle.year = vm.make;
+	    	vehicle.make = vm.make+" "+vm.model;
 	    	vehicle.model = vm.model;
 	    	vehicle.trim_level = vm.trim;
 	    	vehicle.label = vm.label;
@@ -536,10 +535,61 @@ public class Application extends Controller {
 	    	vehicle.description = vm.description;
 	    	vehicle.status  =  vm.status;
 	    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin,user);
-	    	VMs.add(vehicle);
+	    	NewVMs.add(vehicle);
     	}
      	
-    	return ok(Json.toJson(VMs));
+     	
+     	
+     	
+     	
+    	return ok(Json.toJson(NewVMs));
+    }
+    
+    @SecureSocial.SecuredAction
+	public static Result getAllSoldVehicles() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	List <Vehicle> soldVehicleObjList = Vehicle.getVehiclesByStatus(user, "Sold");
+        
+    	ArrayList<SpecificationVM> soldVMs = new ArrayList<>(); 
+     	for(Vehicle vm : soldVehicleObjList){
+     		SpecificationVM vehicle = new SpecificationVM();
+     		vehicle.id = vm.id;
+	    	vehicle.category = vm.category;
+	    	vehicle.vin = vm.vin;
+	    	vehicle.year = vm.year;
+	    	vehicle.make = vm.make+" "+vm.model;
+	    	vehicle.model = vm.model;
+	    	vehicle.trim_level = vm.trim;
+	    	vehicle.label = vm.label;
+	    	vehicle.stock = vm.stock;
+	    	vehicle.mileage = vm.mileage;
+	    	vehicle.cost = vm.cost;
+	    	vehicle.price = vm.price;
+	    	vehicle.extColor = vm.exteriorColor;
+	    	vehicle.intColor = vm.interiorColor;
+	    	vehicle.colorDesc = vm.colorDescription;
+	    	vehicle.doors = vm.doors;
+	    	vehicle.stereo = vm.stereo;
+	    	vehicle.engine = vm.engine;
+	    	vehicle.fuel = vm.fuel;
+	    	vehicle.city_mileage = vm.cityMileage;
+	    	vehicle.highway_mileage = vm.highwayMileage;
+	    	vehicle.bodyStyle = vm.bodyStyle;
+	    	vehicle.drivetrain = vm.drivetrain;
+	    	vehicle.transmission = vm.transmission;
+	    	vehicle.styleFeatures = vm.styleFeatures;
+	    	vehicle.safetyFeatures = vm.safetyFeatures;
+	    	vehicle.audioNavFeatures = vm.audioNavFeatures;
+	    	vehicle.performanceFeatures = vm.performanceFeatures;
+	    	vehicle.otherCarFeatures = vm.otherCarFeatures;
+	    	vehicle.location = vm.location;
+	    	vehicle.description = vm.description;
+	    	vehicle.status  =  vm.status;
+	    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin,user);
+	    	soldVMs.add(vehicle);
+    	}
+     	
+     	return ok(Json.toJson(soldVMs));
     }
     
     @SecureSocial.SecuredAction

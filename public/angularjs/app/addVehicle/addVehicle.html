@@ -16,7 +16,7 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Category *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" type="text" ng-model="vinData.specification.category" placeholder="Cars and Trucks" required>
+		<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.category" placeholder="Cars and Trucks" required>
 	</div>
 </div>
 <div class="form-group col-sm-12">
@@ -31,20 +31,20 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Year *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.year" type="text" required>
+		<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.year" type="text" required>
 	</div>
 </div>
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Make *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.make" type="text" required>
+		<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.make" type="text" required>
 	</div>
 </div>
 
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Model *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.model" type="text" required>
+		<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.model" type="text" required>
 		<p>745i,Accord,Sierra</p>
 	</div>
 </div>
@@ -52,7 +52,7 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Trim *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.trim_level" type="text" required>
+		<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.trim_level" type="text" required>
 		<p>EX,LX,DX</p>
 	</div>
 </div>
@@ -60,39 +60,38 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Label *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" type="text" ng-model="vinData.specification.label" placeholder="Runs Great,Clean History" required>
-		<p>For the Craiglist Title,All fields above and color are already included</p>
+		<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.label" placeholder="Runs Great,Clean History" required>
 	</div>
 </div>
 
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Stock *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.stock" type="text" required>
+		<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.stock" type="text" required>
 	</div>
 </div>
 
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Mileage *</label>
 	<div class="col-sm-2">
-		<input class="form-control form-white" type="text" ng-model="vinData.specification.city_mileage" placeholder="City" required>
+		<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.city_mileage" placeholder="City" required>
 	</div>
 	<div class="col-sm-2">
-		<input class="form-control form-white" type="text" ng-model="vinData.specification.highway_mileage" placeholder="Hwy" required>
+		<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.highway_mileage" placeholder="Hwy" required>
 	</div>
 </div>
 
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Cost </label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.cost" type="number" min="0" placeholder="$" required>
+		<input class="form-control form-white" ng-model="vinData.specification.cost" type="number" min="0" placeholder="$">
 		<p>Not Required,Numbers only,Internal Use Only,Not Displayed to Customer</p>
 	</div>
 </div>
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Price *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.price" type="number" min="0" placeholder="$" required>
+		<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.price" type="number" min="0" placeholder="$" required>
 		<p>Numbers only,Enter 0 to display "Call"</p>
 	</div>
 </div>
@@ -271,7 +270,7 @@
 	</div>
 </div>
 
-<button type="submit" class="btn btn-primary" style="margin-left:11%;" ng-click="setFlagVal()">Save!</button>
+<button type="submit" class="btn btn-primary" style="margin-left:11%;" ng-click="setFlagVal()">Skip & Publish!</button>
 <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button>
 </form>
 

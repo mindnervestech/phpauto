@@ -422,4 +422,9 @@ public class Vehicle extends Model {
 		
 	}
 	
+	public static List<Vehicle> getVehiclesByStatus(AuthUser user,String status) {
+		return find.where().eq("user", user).eq("status", status).findList();
+		
+	}
+	
 }
