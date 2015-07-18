@@ -102,37 +102,7 @@
 		<input class="form-control form-white" ng-model="vinData.specification.made_in" type="text">
 	</div>
 </div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Steering Type</label>
-	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.steering_type" type="text">
-	</div>
-</div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Anti Brake System</label>
-	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.anti_brake_system" type="text">
-	</div>
-</div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Dimensions</label>
-	<div class="col-sm-2">
-		<input class="form-control form-white" ng-model="vinData.specification.overall_height" type="text" placeholder="Height">
-	</div>
-	<div class="col-sm-2">
-		<input class="form-control form-white" ng-model="vinData.specification.overall_length" type="text" placeholder="Length">
-	</div>
-	<div class="col-sm-2">
-		<input class="form-control form-white" ng-model="vinData.specification.overall_width" type="text" placeholder="Width">
-	</div>
-</div>
 
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Standard Seating</label>
-	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.standard_seating" type="text">
-	</div>
-</div>
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Optional Seating</label>
 	<div class="col-sm-5">
@@ -145,12 +115,7 @@
 		<input class="form-control form-white" ng-model="vinData.specification.extColor" type="text">
 	</div>
 </div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Interior Color</label>
-	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.intColor" type="text">
-	</div>
-</div>
+
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Color Description</label>
 	<div class="col-sm-5">
@@ -176,65 +141,12 @@
 		<input class="form-control form-white" ng-model="vinData.specification.engine" type="text">
 	</div>
 </div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Fuel</label>
-	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.tank_size" type="text">
-	</div>
-</div>
 
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Body Style</label>
 	<div class="col-sm-5">
 		<input class="form-control form-white" ng-model="vinData.specification.style" type="text">
 	</div>
-</div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Drivetrain</label>
-	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.drivetrain" type="text">
-	</div>
-</div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Transmission</label>
-	<div class="col-sm-5">
-		<input class="form-control form-white" ng-model="vinData.specification.transmission" type="text">
-	</div>
-</div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Style and Comfort Features</label>
-	<div class="col-sm-5">
-		<textarea class="form-control form-white" ng-model="vinData.specification.styleFeatures" rows="12"></textarea>
-	</div>
-	<p>Please add features comma seperated</p>
-</div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Safety Features</label>
-	<div class="col-sm-5">
-		<textarea class="form-control form-white" ng-model="vinData.specification.safetyFeatures" rows="12"></textarea>
-	</div>
-	<p>Please add features comma seperated</p>
-</div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Audio and Navigation Features</label>
-	<div class="col-sm-5">
-		<textarea class="form-control form-white" ng-model="vinData.specification.audioNavFeatures" rows="12"></textarea>
-	</div>
-	<p>Please add features comma seperated</p>
-</div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Performane Features</label>
-	<div class="col-sm-5">
-		<textarea class="form-control form-white" ng-model="vinData.specification.performanceFeatures" rows="12"></textarea>
-	</div>
-	<p>Please add features comma seperated</p>
-</div>
-<div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Other Car Features</label>
-	<div class="col-sm-5">
-		<textarea class="form-control form-white" ng-model="vinData.specification.otherCarFeatures" rows="12"></textarea>
-	</div>
-	<p>Please add features comma seperated</p>
 </div>
 
 <div class="form-group col-sm-12">
@@ -245,15 +157,235 @@
 	<p>Please add location for vehicle</p>
 </div>
 
+<h2><b>Vehicle Overview</b></h2>
 <div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Description</label>
-	<div class="col-sm-5">
-		<textarea class="form-control form-white" ng-model="vinData.specification.description" rows="12"></textarea>
-	</div>
+<label class="col-sm-2 control-label" style="text-align: right;">Drive Type</label>
 	<div class="col-sm-4">
-		<p>Write a unique description for each car</p>
+		<input class="form-control form-white" ng-model="vinData.specification.drivetrain" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Fuel Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text">
 	</div>
 </div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Fuel Tank</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.fuelTank" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Headlights</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.headlights" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Mirrors</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.mirrors" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Ground Clearance</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.groundClearance" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Roof</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.roof" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Height</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.height" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Length</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.length" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Width</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.width" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Acceleration</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.acceleration" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Seats</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.standardSeating" type="text">
+	</div>
+</div>
+<h2><b>Engine, Transmission & Brakes</b></h2>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Engine Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.engineType" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Cylinders</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.cylinders" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Displacement</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.displacement" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Cam Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.camType" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Valves</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.valves" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Fuel Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Fuel Quality</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.fuelQuality" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Max. Horse Power</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.horsePower" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Transmission</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.transmission" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Gears</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.gears" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Brakes</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.brakes" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Front Brake Diameter</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.frontBrakeDiameter" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Front Brake Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.frontBrakeType" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Rear Brake Diameter</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.rearBrakeDiameter" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Rear Brake Type</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.rearBrakeType" type="text">
+	</div>
+	
+</div>
+<h2><b>Safety</b></h2>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Active Head Restraints</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.activeHeadRestraints" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Body Side Reinforcements</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.bodySideReinforcements" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Crumple Zones</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.crumpleZones" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Impact Absorbing Bumpers</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.impactAbsorbingBumpers" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Impact Sensors</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.impactSensors" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Parking Sensors</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.parkingSensors" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Seatbelts</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.seatbelts" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Audi Side Assist</label>
+	<div class="col-sm-4">
+		<textarea class="form-control form-white" ng-model="vinData.specification.audiSideAssist" rows="5"></textarea>
+	</div>
+</div>
+<h2><b>Interior & Comfort</b></h2>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Interior Color</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.intColor" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Comfort Features</label>
+	<div class="col-sm-4">
+		<textarea class="form-control form-white" ng-model="vinData.specification.comfortFeatures" rows="5"></textarea>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Power Outlet(s)</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.powerOutLets" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Power Steering</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.powerSteering" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Rear View Camera</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.rearViewCamera" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Rear View Monitor</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.rearViewMonitor" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Remote Trunk Release</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.remoteTrunkRelease" type="text">
+	</div>
+	<label class="col-sm-2 control-label" style="text-align: right;">Steering Wheel</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.steeringWheel" type="text">
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Steering Wheel Mounted Controls</label>
+	<div class="col-sm-4">
+		<input class="form-control form-white" ng-model="vinData.specification.steeringWheelcontrols" type="text">
+	</div>
+</div>
+
+
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Post to:</label>
 	<div class="col-sm-5">

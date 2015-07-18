@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -42,13 +43,10 @@ public class Vehicle extends Model {
 	public String bodyStyle;
 	public String drivetrain;
 	public String transmission;
-	public String styleFeatures;
-	public String safetyFeatures;
-	public String audioNavFeatures;
-	public String performanceFeatures;
-	public String otherCarFeatures;
+	public String brakes;
+	public String horsePower;
+	public String acceleration;
 	public String location;
-	public String description;
 	public String madeIn;
 	public String steeringType;
 	public String antiBrakeSystem;
@@ -58,6 +56,40 @@ public class Vehicle extends Model {
 	public String standardSeating;
 	public String optionalSeating;
 	public String status;
+	public String fuelType;
+	public String fuelTank;
+	public String headlights;
+	public String mirrors;
+	public String groundClearance;
+	public String roof;
+	public String engineType;
+	public String cylinders;
+	public String displacement;
+	public String camType;
+	public String valves;
+	public String fuelQuality;
+	public String gears;
+	public String frontBrakeDiameter;
+	public String frontBrakeType;
+	public String rearBrakeDiameter;
+	public String rearBrakeType;
+	public String activeHeadRestrains;
+	public String bodySideReinforcements;
+	public String crumpleZones;
+	public String impactAbsorbingBumpers;
+	public String impactSensor;
+	public String parkingSensors;
+	public String seatbelts;
+	public String audiSideAssist;
+	public String comfortFeatures;
+	public String powerOutlet;
+	public String powerSteering;
+	public String rearViewCamera;
+	public String rearViewMonitor;
+	public String remoteTrunkRelease;
+	public String steeringWheel;
+	public String steeringWheelControls;
+	public Date postedDate;
 	
 	@ManyToMany
 	public List<Site> site;
@@ -265,60 +297,12 @@ public class Vehicle extends Model {
 		this.transmission = transmission;
 	}
 
-	public String getStyleFeatures() {
-		return styleFeatures;
-	}
-
-	public void setStyleFeatures(String styleFeatures) {
-		this.styleFeatures = styleFeatures;
-	}
-
-	public String getSafetyFeatures() {
-		return safetyFeatures;
-	}
-
-	public void setSafetyFeatures(String safetyFeatures) {
-		this.safetyFeatures = safetyFeatures;
-	}
-
-	public String getAudioNavFeatures() {
-		return audioNavFeatures;
-	}
-
-	public void setAudioNavFeatures(String audioNavFeatures) {
-		this.audioNavFeatures = audioNavFeatures;
-	}
-
-	public String getPerformanceFeatures() {
-		return performanceFeatures;
-	}
-
-	public void setPerformanceFeatures(String performanceFeatures) {
-		this.performanceFeatures = performanceFeatures;
-	}
-
-	public String getOtherCarFeatures() {
-		return otherCarFeatures;
-	}
-
-	public void setOtherCarFeatures(String otherCarFeatures) {
-		this.otherCarFeatures = otherCarFeatures;
-	}
-
 	public String getLocation() {
 		return location;
 	}
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public List<Site> getSite() {
@@ -399,6 +383,302 @@ public class Vehicle extends Model {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getBrakes() {
+		return brakes;
+	}
+
+	public void setBrakes(String brakes) {
+		this.brakes = brakes;
+	}
+
+	public String getHorsePower() {
+		return horsePower;
+	}
+
+	public void setHorsePower(String horsePower) {
+		this.horsePower = horsePower;
+	}
+
+	public String getAcceleration() {
+		return acceleration;
+	}
+
+	public void setAcceleration(String acceleration) {
+		this.acceleration = acceleration;
+	}
+
+	public String getFuelType() {
+		return fuelType;
+	}
+
+	public void setFuelType(String fuelType) {
+		this.fuelType = fuelType;
+	}
+
+	public String getFuelTank() {
+		return fuelTank;
+	}
+
+	public void setFuelTank(String fuelTank) {
+		this.fuelTank = fuelTank;
+	}
+
+	public String getHeadlights() {
+		return headlights;
+	}
+
+	public void setHeadlights(String headlights) {
+		this.headlights = headlights;
+	}
+
+	public String getMirrors() {
+		return mirrors;
+	}
+
+	public void setMirrors(String mirrors) {
+		this.mirrors = mirrors;
+	}
+
+	public String getGroundClearance() {
+		return groundClearance;
+	}
+
+	public void setGroundClearance(String groundClearance) {
+		this.groundClearance = groundClearance;
+	}
+
+	public String getRoof() {
+		return roof;
+	}
+
+	public void setRoof(String roof) {
+		this.roof = roof;
+	}
+
+	public String getEngineType() {
+		return engineType;
+	}
+
+	public void setEngineType(String engineType) {
+		this.engineType = engineType;
+	}
+
+	public String getCylinders() {
+		return cylinders;
+	}
+
+	public void setCylinders(String cylinders) {
+		this.cylinders = cylinders;
+	}
+
+	public String getDisplacement() {
+		return displacement;
+	}
+
+	public void setDisplacement(String displacement) {
+		this.displacement = displacement;
+	}
+
+	public String getCamType() {
+		return camType;
+	}
+
+	public void setCamType(String camType) {
+		this.camType = camType;
+	}
+
+	public String getValves() {
+		return valves;
+	}
+
+	public void setValves(String valves) {
+		this.valves = valves;
+	}
+
+	public String getFuelQuality() {
+		return fuelQuality;
+	}
+
+	public void setFuelQuality(String fuelQuality) {
+		this.fuelQuality = fuelQuality;
+	}
+
+	public String getGears() {
+		return gears;
+	}
+
+	public void setGears(String gears) {
+		this.gears = gears;
+	}
+
+	public String getFrontBrakeDiameter() {
+		return frontBrakeDiameter;
+	}
+
+	public void setFrontBrakeDiameter(String frontBrakeDiameter) {
+		this.frontBrakeDiameter = frontBrakeDiameter;
+	}
+
+	public String getFrontBrakeType() {
+		return frontBrakeType;
+	}
+
+	public void setFrontBrakeType(String frontBrakeType) {
+		this.frontBrakeType = frontBrakeType;
+	}
+
+	public String getRearBrakeDiameter() {
+		return rearBrakeDiameter;
+	}
+
+	public void setRearBrakeDiameter(String rearBrakeDiameter) {
+		this.rearBrakeDiameter = rearBrakeDiameter;
+	}
+
+	public String getRearBrakeType() {
+		return rearBrakeType;
+	}
+
+	public void setRearBrakeType(String rearBrakeType) {
+		this.rearBrakeType = rearBrakeType;
+	}
+
+	public String getActiveHeadRestrains() {
+		return activeHeadRestrains;
+	}
+
+	public void setActiveHeadRestrains(String activeHeadRestrains) {
+		this.activeHeadRestrains = activeHeadRestrains;
+	}
+
+	public String getBodySideReinforcements() {
+		return bodySideReinforcements;
+	}
+
+	public void setBodySideReinforcements(String bodySideReinforcements) {
+		this.bodySideReinforcements = bodySideReinforcements;
+	}
+
+	public String getCrumpleZones() {
+		return crumpleZones;
+	}
+
+	public void setCrumpleZones(String crumpleZones) {
+		this.crumpleZones = crumpleZones;
+	}
+
+	public String getImpactAbsorbingBumpers() {
+		return impactAbsorbingBumpers;
+	}
+
+	public void setImpactAbsorbingBumpers(String impactAbsorbingBumpers) {
+		this.impactAbsorbingBumpers = impactAbsorbingBumpers;
+	}
+
+	public String getImpactSensor() {
+		return impactSensor;
+	}
+
+	public void setImpactSensor(String impactSensor) {
+		this.impactSensor = impactSensor;
+	}
+
+	public String getParkingSensors() {
+		return parkingSensors;
+	}
+
+	public void setParkingSensors(String parkingSensors) {
+		this.parkingSensors = parkingSensors;
+	}
+
+	public String getSeatbelts() {
+		return seatbelts;
+	}
+
+	public void setSeatbelts(String seatbelts) {
+		this.seatbelts = seatbelts;
+	}
+
+	public String getAudiSideAssist() {
+		return audiSideAssist;
+	}
+
+	public void setAudiSideAssist(String audiSideAssist) {
+		this.audiSideAssist = audiSideAssist;
+	}
+
+	public String getComfortFeatures() {
+		return comfortFeatures;
+	}
+
+	public void setComfortFeatures(String comfortFeatures) {
+		this.comfortFeatures = comfortFeatures;
+	}
+
+	public String getPowerOutlet() {
+		return powerOutlet;
+	}
+
+	public void setPowerOutlet(String powerOutlet) {
+		this.powerOutlet = powerOutlet;
+	}
+
+	public String getPowerSteering() {
+		return powerSteering;
+	}
+
+	public void setPowerSteering(String powerSteering) {
+		this.powerSteering = powerSteering;
+	}
+
+	public String getRearViewCamera() {
+		return rearViewCamera;
+	}
+
+	public void setRearViewCamera(String rearViewCamera) {
+		this.rearViewCamera = rearViewCamera;
+	}
+
+	public String getRearViewMonitor() {
+		return rearViewMonitor;
+	}
+
+	public void setRearViewMonitor(String rearViewMonitor) {
+		this.rearViewMonitor = rearViewMonitor;
+	}
+
+	public String getRemoteTrunkRelease() {
+		return remoteTrunkRelease;
+	}
+
+	public void setRemoteTrunkRelease(String remoteTrunkRelease) {
+		this.remoteTrunkRelease = remoteTrunkRelease;
+	}
+
+	public String getSteeringWheel() {
+		return steeringWheel;
+	}
+
+	public void setSteeringWheel(String steeringWheel) {
+		this.steeringWheel = steeringWheel;
+	}
+
+	public String getSteeringWheelControls() {
+		return steeringWheelControls;
+	}
+
+	public void setSteeringWheelControls(String steeringWheelControls) {
+		this.steeringWheelControls = steeringWheelControls;
+	}
+
+	public Date getPostedDate() {
+		return postedDate;
+	}
+
+	public void setPostedDate(Date postedDate) {
+		this.postedDate = postedDate;
 	}
 
 
