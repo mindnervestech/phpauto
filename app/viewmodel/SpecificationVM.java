@@ -26,6 +26,7 @@ public class SpecificationVM {
 	public String engine;
 	public String style;
 	public String location;
+	public String description;
 	
 	public String drivetrain;
 	public String fuelType;

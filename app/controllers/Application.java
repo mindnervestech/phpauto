@@ -329,11 +329,11 @@ public class Application extends Controller {
     				    			   }
     				    		   
     				    		   if(spec.getName().equals("Front brakes")) {
-    				    			   specificationVM.frontBrakeType = spec.getValues().get(0).getValue()+" inches";
+    				    			   specificationVM.frontBrakeType = spec.getValues().get(0).getValue();
     		    				   }
     			    		   
     				    		   if(spec.getName().equals("Rear brakes")) {
-    				    			   specificationVM.rearBrakeType = spec.getValues().get(0).getValue()+" inches";
+    				    			   specificationVM.rearBrakeType = spec.getValues().get(0).getValue();
     		    				   }
     				    		   
     				    		   if(spec.getName().equals("Rear brake diameter")) {
@@ -478,6 +478,7 @@ public class Application extends Controller {
 			specificationVM.engine = vehicle.getEngine();
 			specificationVM.style = vehicle.getBodyStyle();
 			specificationVM.location = vehicle.getLocation();
+			specificationVM.description = vehicle.getDescription();
 			
 			
 			specificationVM.drivetrain = vehicle.getDrivetrain();
@@ -570,7 +571,7 @@ public class Application extends Controller {
 	    	vehicle.engine = vm.engine;
 	    	vehicle.bodyStyle = vm.style;
 	    	vehicle.location = vm.location;
-			
+	    	vehicle.description = vm.description;
 			
 	    	vehicle.drivetrain = vm.drivetrain;
 	    	vehicle.fuelType = vm.fuelType;
@@ -1006,6 +1007,7 @@ public class Application extends Controller {
 		specificationVM.engine = vehicle.getEngine();
 		specificationVM.style = vehicle.getBodyStyle();
 		specificationVM.location = vehicle.getLocation();
+		specificationVM.description = vehicle.getDescription();
 		
 		
 		specificationVM.drivetrain = vehicle.getDrivetrain();
@@ -1107,6 +1109,7 @@ public class Application extends Controller {
 	    	vehicle.setEngine(vm.engine);
 	    	vehicle.setBodyStyle(vm.style);
 	    	vehicle.setLocation(vm.location);
+	    	vehicle.setDescription(vm.description);
 			
 	    	vehicle.setDrivetrain(vm.drivetrain);
 	    	vehicle.setFuelType(vm.fuelType);
@@ -1739,12 +1742,12 @@ public class Application extends Controller {
     		row[10] = vehicle.interiorColor;
     		row[11] = vehicle.transmission;
     		row[12] = "";
-    		row[13] = "";
+    		row[13] = vehicle.description;  //description
     		row[14] = vehicle.bodyStyle;
     		row[15] = vehicle.engine;
     		row[16] = vehicle.drivetrain;
     		row[17] = vehicle.fuel;
-    		row[18] = "";
+    		row[18] = vehicle.activeHeadRestrains+","+vehicle.bodySideReinforcements+","+vehicle.crumpleZones+","+vehicle.impactAbsorbingBumpers+","+vehicle.impactSensor+","+vehicle.parkingSensors+","+vehicle.seatbelts+","+vehicle.interiorColor+","+vehicle.powerOutlet+","+vehicle.powerSteering+","+vehicle.rearViewCamera+","+vehicle.rearViewMonitor+","+vehicle.remoteTrunkRelease+","+vehicle.steeringWheel+","+vehicle.steeringWheelControls;
     		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin, user);
     		String str = "";
     		for(VehicleImage img : vImageList) {
@@ -1828,7 +1831,7 @@ public class Application extends Controller {
     		row[0] = "12345678";
     		row[1] = vehicle.vin;
     		row[2] = vehicle.stock;
-    		row[3] = "2003 Toyota Sequoia";
+    		row[3] = vehicle.year+" "+vehicle.make+" "+vehicle.model;
     		row[4] = "http://www.domain.com/cars/12345679.html";
     		row[5] = vehicle.category;
     		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin, user);
@@ -1866,14 +1869,14 @@ public class Application extends Controller {
     		row[33] = vehicle.interiorColor;
     		row[34] = "fabric";
     		row[35] = vehicle.doors;
-    		row[36] = vehicle.fuel;
+    		row[36] = vehicle.cylinders;
     		row[37] = vehicle.engine;
     		row[38] = vehicle.drivetrain;
     		row[39] = vehicle.transmission;
     		row[40] = "YES";
-    		row[41] = "";
-    		row[42] = "";
-    		row[43] = "";
+    		row[41] = vehicle.description; //description
+    		row[42] = vehicle.drivetrain+","+vehicle.fuelType+","+vehicle.fuelTank+","+vehicle.headlights+","+vehicle.mirrors+","+vehicle.roof+","+vehicle.acceleration+","+vehicle.standardSeating+","+vehicle.engine+","+vehicle.camType+","+vehicle.valves+","+vehicle.cylinders+","+vehicle.fuelQuality+","+vehicle.horsePower+","+vehicle.transmission+","+vehicle.gears+","+vehicle.brakes+","+vehicle.frontBrakeDiameter+","+vehicle.frontBrakeType+","+vehicle.rearBrakeDiameter+","+vehicle.rearBrakeType;
+    		row[43] = vehicle.activeHeadRestrains+","+vehicle.bodySideReinforcements+","+vehicle.crumpleZones+","+vehicle.impactAbsorbingBumpers+","+vehicle.impactSensor+","+vehicle.parkingSensors+","+vehicle.seatbelts+","+vehicle.interiorColor+","+vehicle.powerOutlet+","+vehicle.powerSteering+","+vehicle.rearViewCamera+","+vehicle.rearViewMonitor+","+vehicle.remoteTrunkRelease+","+vehicle.steeringWheel+","+vehicle.steeringWheelControls;
     		row[44] = "Free text without quotes";
     		row[45] = "Used";
     		row[46] = "2012-09-16-11:00:00";
@@ -1944,7 +1947,7 @@ public class Application extends Controller {
     		row[9] = "";
     		row[10] = vehicle.stock;
     		row[11] = vehicle.transmission;
-    		row[12] = "";
+    		row[12] = vehicle.drivetrain+","+vehicle.fuelType+","+vehicle.fuelTank+","+vehicle.headlights+","+vehicle.mirrors+","+vehicle.roof+","+vehicle.acceleration+","+vehicle.standardSeating+","+vehicle.engine+","+vehicle.camType+","+vehicle.valves+","+vehicle.cylinders+","+vehicle.fuelQuality+","+vehicle.horsePower+","+vehicle.transmission+","+vehicle.gears+","+vehicle.brakes+","+vehicle.frontBrakeDiameter+","+vehicle.frontBrakeType+","+vehicle.rearBrakeDiameter+","+vehicle.rearBrakeType;
     		row[13] = "1234";
     		row[14] = "Autolinx Inc";
     		row[15] = "3300 Sonoma Blvd";

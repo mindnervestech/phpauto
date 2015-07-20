@@ -47,6 +47,7 @@ public class Vehicle extends Model {
 	public String horsePower;
 	public String acceleration;
 	public String location;
+	public String description;
 	public String madeIn;
 	public String steeringType;
 	public String antiBrakeSystem;
@@ -681,6 +682,13 @@ public class Vehicle extends Model {
 		this.postedDate = postedDate;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 
 	public static Finder<Long,Vehicle> find = new Finder<>(Long.class,Vehicle.class);
