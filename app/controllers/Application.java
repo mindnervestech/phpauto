@@ -142,7 +142,7 @@ public class Application extends Controller {
     	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
     	AuthUser userObj = (AuthUser)user;
     	Vehicle vehicle = Vehicle.findByVidAndUser(vin,userObj); 
-    	PinVM pinObj;
+    	PinVM pinObj = new pinVM();
 		if(vehicle == null) {
     		
     		if(!simulate ) {
@@ -164,7 +164,7 @@ public class Application extends Controller {
 			ObjectMapper mapper = new ObjectMapper();
 			
 			pinObj = new ObjectMapper().readValue(sb.toString(), PinVM.class);*/
-    			pinObj.success = true;
+    			
     			pinObj.vin = vin;
     			SpecificationVM specificationVM = new SpecificationVM();
     			String postData = "client_id=11178&authorization_code=c382533644b1c8e3a0607671ea0caf1742961b84&decoder_query=";
@@ -198,6 +198,13 @@ public class Application extends Controller {
     		       input.close();
     		       //System.out.print( json.toString() );
     		       ResponseData mapperObj = new com.fasterxml.jackson.databind.ObjectMapper().readValue(json.toString(), ResponseData.class);
+    		       
+    		       if(mapperObj.getQueryResponses().getRequestSample().getQueryError().getErrorMessage().equals("")) {
+    		    	   pinObj.success = true;
+    		       } else {
+    		    	   pinObj.success = false;
+    		    	   return ok(Json.toJson(pinObj));
+    		       }
     		       
     		       specificationVM.year = mapperObj.getQueryResponses().getRequestSample().getUsMarketData().getCommonUsData().getBasicData().getYear();
     		       specificationVM.make = mapperObj.getQueryResponses().getRequestSample().getUsMarketData().getCommonUsData().getBasicData().getMake();
@@ -1747,7 +1754,54 @@ public class Application extends Controller {
     		row[15] = vehicle.engine;
     		row[16] = vehicle.drivetrain;
     		row[17] = vehicle.fuel;
-    		row[18] = vehicle.activeHeadRestrains+","+vehicle.bodySideReinforcements+","+vehicle.crumpleZones+","+vehicle.impactAbsorbingBumpers+","+vehicle.impactSensor+","+vehicle.parkingSensors+","+vehicle.seatbelts+","+vehicle.interiorColor+","+vehicle.powerOutlet+","+vehicle.powerSteering+","+vehicle.rearViewCamera+","+vehicle.rearViewMonitor+","+vehicle.remoteTrunkRelease+","+vehicle.steeringWheel+","+vehicle.steeringWheelControls;
+    		String standardOptions = "";
+    		if(vehicle.activeHeadRestrains != null) {
+    			standardOptions = standardOptions + vehicle.activeHeadRestrains+",";
+    		}
+    		if(vehicle.bodySideReinforcements != null) {
+    			standardOptions = standardOptions + vehicle.bodySideReinforcements+",";
+    		}
+    		if(vehicle.crumpleZones != null) {
+    			standardOptions = standardOptions + vehicle.crumpleZones+",";
+    		}
+    		if(vehicle.impactAbsorbingBumpers != null) {
+    			standardOptions = standardOptions + vehicle.impactAbsorbingBumpers+",";
+    		}
+    		if(vehicle.impactSensor != null) {
+    			standardOptions = standardOptions + vehicle.impactSensor+",";
+    		}
+    		if(vehicle.parkingSensors != null) {
+    			standardOptions = standardOptions + vehicle.parkingSensors+",";
+    		}
+    		if(vehicle.seatbelts != null) {
+    			standardOptions = standardOptions + vehicle.seatbelts+",";
+    		}
+    		if(vehicle.interiorColor != null) {
+    			standardOptions = standardOptions + vehicle.interiorColor+",";
+    		}
+    		if(vehicle.powerOutlet != null) {
+    			standardOptions = standardOptions + vehicle.powerOutlet+",";
+    		}
+    		if(vehicle.powerSteering != null) {
+    			standardOptions = standardOptions + vehicle.powerSteering+",";
+    		}
+    		if(vehicle.rearViewCamera != null) {
+    			standardOptions = standardOptions + vehicle.rearViewCamera+",";
+    		}
+    		if(vehicle.rearViewMonitor != null) {
+    			standardOptions = standardOptions + vehicle.rearViewMonitor+",";
+    		}
+    		if(vehicle.remoteTrunkRelease != null) {
+    			standardOptions = standardOptions + vehicle.remoteTrunkRelease+",";
+    		}
+    		if(vehicle.steeringWheel != null) {
+    			standardOptions = standardOptions + vehicle.steeringWheel+",";
+    		}
+    		if(vehicle.steeringWheelControls != null) {
+    			standardOptions = standardOptions + vehicle.steeringWheelControls;
+    		}
+    		
+    		row[18] = standardOptions;
     		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin, user);
     		String str = "";
     		for(VehicleImage img : vImageList) {
@@ -1860,7 +1914,7 @@ public class Application extends Controller {
     		row[24] = vehicle.year;
     		row[25] = "USD";
     		row[26] = vehicle.price.toString();
-    		row[27] = "";
+    		row[27] = vehicle.getPrice().toString();
     		row[28] = "";
     		row[29] = "";
     		row[30] = "";
@@ -1875,9 +1929,124 @@ public class Application extends Controller {
     		row[39] = vehicle.transmission;
     		row[40] = "YES";
     		row[41] = vehicle.description; //description
-    		row[42] = vehicle.drivetrain+","+vehicle.fuelType+","+vehicle.fuelTank+","+vehicle.headlights+","+vehicle.mirrors+","+vehicle.roof+","+vehicle.acceleration+","+vehicle.standardSeating+","+vehicle.engine+","+vehicle.camType+","+vehicle.valves+","+vehicle.cylinders+","+vehicle.fuelQuality+","+vehicle.horsePower+","+vehicle.transmission+","+vehicle.gears+","+vehicle.brakes+","+vehicle.frontBrakeDiameter+","+vehicle.frontBrakeType+","+vehicle.rearBrakeDiameter+","+vehicle.rearBrakeType;
-    		row[43] = vehicle.activeHeadRestrains+","+vehicle.bodySideReinforcements+","+vehicle.crumpleZones+","+vehicle.impactAbsorbingBumpers+","+vehicle.impactSensor+","+vehicle.parkingSensors+","+vehicle.seatbelts+","+vehicle.interiorColor+","+vehicle.powerOutlet+","+vehicle.powerSteering+","+vehicle.rearViewCamera+","+vehicle.rearViewMonitor+","+vehicle.remoteTrunkRelease+","+vehicle.steeringWheel+","+vehicle.steeringWheelControls;
-    		row[44] = "Free text without quotes";
+    		
+    		String standardFeatures = "";
+    		if(vehicle.drivetrain != null) {
+    			standardFeatures = standardFeatures + vehicle.drivetrain+",";
+    		}
+    		if(vehicle.fuelType != null) {
+    			standardFeatures = standardFeatures + vehicle.fuelType+",";
+    		}
+    		if(vehicle.fuelTank != null) {
+    			standardFeatures = standardFeatures + vehicle.fuelTank+",";
+    		}
+    		if(vehicle.headlights != null) {
+    			standardFeatures = standardFeatures + vehicle.headlights+",";
+    		}
+    		if(vehicle.mirrors != null) {
+    			standardFeatures = standardFeatures + vehicle.mirrors+",";
+    		}
+    		if(vehicle.roof != null) {
+    			standardFeatures = standardFeatures + vehicle.roof+",";
+    		}
+    		if(vehicle.acceleration != null) {
+    			standardFeatures = standardFeatures + vehicle.acceleration+",";
+    		}
+    		if(vehicle.standardSeating != null) {
+    			standardFeatures = standardFeatures + vehicle.standardSeating+",";
+    		}
+    		if(vehicle.engine != null) {
+    			standardFeatures = standardFeatures + vehicle.engine+",";
+    		}
+    		if(vehicle.camType != null) {
+    			standardFeatures = standardFeatures + vehicle.camType+",";
+    		}
+    		if(vehicle.valves != null) {
+    			standardFeatures = standardFeatures + vehicle.valves+",";
+    		}
+    		if(vehicle.cylinders != null) {
+    			standardFeatures = standardFeatures + vehicle.cylinders+",";
+    		}
+    		if(vehicle.fuelQuality != null) {
+    			standardFeatures = standardFeatures + vehicle.fuelQuality+",";
+    		}
+    		if(vehicle.horsePower != null) {
+    			standardFeatures = standardFeatures + vehicle.horsePower+",";
+    		}
+    		if(vehicle.transmission != null) {
+    			standardFeatures = standardFeatures + vehicle.transmission+",";
+    		}
+    		if(vehicle.gears != null) {
+    			standardFeatures = standardFeatures + vehicle.gears+",";
+    		}
+    		if(vehicle.brakes != null) {
+    			standardFeatures = standardFeatures + vehicle.brakes+",";
+    		}
+    		if(vehicle.frontBrakeDiameter != null) {
+    			standardFeatures = standardFeatures + vehicle.frontBrakeDiameter+",";
+    		}
+    		if(vehicle.frontBrakeType != null) {
+    			standardFeatures = standardFeatures + vehicle.frontBrakeType+",";
+    		}
+    		if(vehicle.rearBrakeDiameter != null) {
+    			standardFeatures = standardFeatures + vehicle.rearBrakeDiameter+",";
+    		}
+    		if(vehicle.rearBrakeType != null) {
+    			standardFeatures = standardFeatures + vehicle.rearBrakeType;
+    		}
+    		row[42] = standardFeatures;
+    		
+    		
+    		String standardOptions = "";
+    		
+    		if(vehicle.activeHeadRestrains != null) {
+    			standardOptions = standardOptions + vehicle.activeHeadRestrains+",";
+    		}
+    		if(vehicle.bodySideReinforcements != null) {
+    			standardOptions = standardOptions + vehicle.bodySideReinforcements+",";
+    		}
+    		if(vehicle.crumpleZones != null) {
+    			standardOptions = standardOptions + vehicle.crumpleZones+",";
+    		}
+    		if(vehicle.impactAbsorbingBumpers != null) {
+    			standardOptions = standardOptions + vehicle.impactAbsorbingBumpers+",";
+    		}
+    		if(vehicle.impactSensor != null) {
+    			standardOptions = standardOptions + vehicle.impactSensor+",";
+    		}
+    		if(vehicle.parkingSensors != null) {
+    			standardOptions = standardOptions + vehicle.parkingSensors+",";
+    		}
+    		if(vehicle.seatbelts != null) {
+    			standardOptions = standardOptions + vehicle.seatbelts+",";
+    		}
+    		if(vehicle.interiorColor != null) {
+    			standardOptions = standardOptions + vehicle.interiorColor+",";
+    		}
+    		if(vehicle.powerOutlet != null) {
+    			standardOptions = standardOptions + vehicle.powerOutlet+",";
+    		}
+    		if(vehicle.powerSteering != null) {
+    			standardOptions = standardOptions + vehicle.powerSteering+",";
+    		}
+    		if(vehicle.rearViewCamera != null) {
+    			standardOptions = standardOptions + vehicle.rearViewCamera+",";
+    		}
+    		if(vehicle.rearViewMonitor != null) {
+    			standardOptions = standardOptions + vehicle.rearViewMonitor+",";
+    		}
+    		if(vehicle.remoteTrunkRelease != null) {
+    			standardOptions = standardOptions + vehicle.remoteTrunkRelease+",";
+    		}
+    		if(vehicle.steeringWheel != null) {
+    			standardOptions = standardOptions + vehicle.steeringWheel+",";
+    		}
+    		if(vehicle.steeringWheelControls != null) {
+    			standardOptions = standardOptions + vehicle.steeringWheelControls;
+    		}
+    		
+    		row[43] = standardOptions;
+    		row[44] = "";
     		row[45] = "Used";
     		row[46] = "2012-09-16-11:00:00";
     		row[47] = "2012-10-16-11:00:00";
@@ -1947,7 +2116,73 @@ public class Application extends Controller {
     		row[9] = "";
     		row[10] = vehicle.stock;
     		row[11] = vehicle.transmission;
-    		row[12] = vehicle.drivetrain+","+vehicle.fuelType+","+vehicle.fuelTank+","+vehicle.headlights+","+vehicle.mirrors+","+vehicle.roof+","+vehicle.acceleration+","+vehicle.standardSeating+","+vehicle.engine+","+vehicle.camType+","+vehicle.valves+","+vehicle.cylinders+","+vehicle.fuelQuality+","+vehicle.horsePower+","+vehicle.transmission+","+vehicle.gears+","+vehicle.brakes+","+vehicle.frontBrakeDiameter+","+vehicle.frontBrakeType+","+vehicle.rearBrakeDiameter+","+vehicle.rearBrakeType;
+    		
+    		String standardFeatures = "";
+    		if(vehicle.drivetrain != null) {
+    			standardFeatures = standardFeatures + vehicle.drivetrain+",";
+    		}
+    		if(vehicle.fuelType != null) {
+    			standardFeatures = standardFeatures + vehicle.fuelType+",";
+    		}
+    		if(vehicle.fuelTank != null) {
+    			standardFeatures = standardFeatures + vehicle.fuelTank+",";
+    		}
+    		if(vehicle.headlights != null) {
+    			standardFeatures = standardFeatures + vehicle.headlights+",";
+    		}
+    		if(vehicle.mirrors != null) {
+    			standardFeatures = standardFeatures + vehicle.mirrors+",";
+    		}
+    		if(vehicle.roof != null) {
+    			standardFeatures = standardFeatures + vehicle.roof+",";
+    		}
+    		if(vehicle.acceleration != null) {
+    			standardFeatures = standardFeatures + vehicle.acceleration+",";
+    		}
+    		if(vehicle.standardSeating != null) {
+    			standardFeatures = standardFeatures + vehicle.standardSeating+",";
+    		}
+    		if(vehicle.engine != null) {
+    			standardFeatures = standardFeatures + vehicle.engine+",";
+    		}
+    		if(vehicle.camType != null) {
+    			standardFeatures = standardFeatures + vehicle.camType+",";
+    		}
+    		if(vehicle.valves != null) {
+    			standardFeatures = standardFeatures + vehicle.valves+",";
+    		}
+    		if(vehicle.cylinders != null) {
+    			standardFeatures = standardFeatures + vehicle.cylinders+",";
+    		}
+    		if(vehicle.fuelQuality != null) {
+    			standardFeatures = standardFeatures + vehicle.fuelQuality+",";
+    		}
+    		if(vehicle.horsePower != null) {
+    			standardFeatures = standardFeatures + vehicle.horsePower+",";
+    		}
+    		if(vehicle.transmission != null) {
+    			standardFeatures = standardFeatures + vehicle.transmission+",";
+    		}
+    		if(vehicle.gears != null) {
+    			standardFeatures = standardFeatures + vehicle.gears+",";
+    		}
+    		if(vehicle.brakes != null) {
+    			standardFeatures = standardFeatures + vehicle.brakes+",";
+    		}
+    		if(vehicle.frontBrakeDiameter != null) {
+    			standardFeatures = standardFeatures + vehicle.frontBrakeDiameter+",";
+    		}
+    		if(vehicle.frontBrakeType != null) {
+    			standardFeatures = standardFeatures + vehicle.frontBrakeType+",";
+    		}
+    		if(vehicle.rearBrakeDiameter != null) {
+    			standardFeatures = standardFeatures + vehicle.rearBrakeDiameter+",";
+    		}
+    		if(vehicle.rearBrakeType != null) {
+    			standardFeatures = standardFeatures + vehicle.rearBrakeType;
+    		}
+    		
+    		row[12] = standardFeatures;
     		row[13] = "1234";
     		row[14] = "Autolinx Inc";
     		row[15] = "3300 Sonoma Blvd";
@@ -1955,7 +2190,7 @@ public class Application extends Controller {
     		row[17] = "California";
     		row[18] = "94590";
     		row[19] = "info@autolinxinc.com";
-    		row[20] = "";
+    		row[20] = vehicle.getPrice().toString();
     		row[21] = vehicle.interiorColor;
     		row[22] = "";
     		row[23] = "N";
