@@ -142,7 +142,7 @@ public class Application extends Controller {
     	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
     	AuthUser userObj = (AuthUser)user;
     	Vehicle vehicle = Vehicle.findByVidAndUser(vin,userObj); 
-    	PinVM pinObj = new pinVM();
+    	PinVM pinObj = new PinVM();
 		if(vehicle == null) {
     		
     		if(!simulate ) {
