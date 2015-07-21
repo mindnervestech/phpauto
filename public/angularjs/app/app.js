@@ -41,6 +41,10 @@ var MakeApp = angular
             templateUrl: 'config/configuration.html',
             controller: 'ConfigPageCtrl'
         })
+        .when('/requestMoreInfo', {
+            templateUrl: 'moreInfo/requestMoreInfo.html',
+            controller: 'RequestMoreInfoCtrl'
+        })
         .when('/addPhoto/:num', {
             templateUrl: 'addPhotos/uploadPhoto.html',
             controller: 'PhotoUploadCtrl'

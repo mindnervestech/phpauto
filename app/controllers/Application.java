@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import javax.net.ssl.X509TrustManager;
 import models.AuthUser;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
+import models.RequestMoreInfo;
 import models.Site;
 import models.SiteContent;
 import models.SliderImage;
@@ -59,6 +61,7 @@ import viewmodel.AudioVM;
 import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.PinVM;
+import viewmodel.RequestInfoVM;
 import viewmodel.SiteContentVM;
 import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
@@ -2205,6 +2208,32 @@ public class Application extends Controller {
     	
     	 writer.close();
     	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getAllRequestInfo() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllByDate();
+    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    	for(RequestMoreInfo info: listData) {
+    		RequestInfoVM vm = new RequestInfoVM();
+    		vm.id = info.id;
+    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		vm.vin = info.vin;
+    		if(vehicle != null) {
+    			vm.model = vehicle.model;
+    			vm.make = vehicle.make;
+    		}
+    		vm.name = info.name;
+    		vm.phone = info.phone;
+    		vm.email = info.email;
+    		vm.requestDate = df.format(info.requestDate);
+    		
+    		infoVMList.add(vm);
+    	}
+    	
+    	return ok(Json.toJson(infoVMList));
     }
     
 }
