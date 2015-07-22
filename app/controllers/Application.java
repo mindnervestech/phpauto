@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -67,6 +68,8 @@ import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
 import viewmodel.VirtualTourVM;
 import views.html.home;
+
+import org.apache.commons.net.ftp.FTPClient;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
@@ -552,14 +555,15 @@ public class Application extends Controller {
     }
     
     @SecureSocial.SecuredAction
-    public static Result saveVehicle() {
+    public static Result saveVehicle() throws IOException {
     	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
     	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
     	SpecificationVM vm = form.get();
     	AuthUser userObj = (AuthUser)user;
     	Vehicle vehicleObj = Vehicle.findByVidAndUser(vm.vin,userObj);
+    	Vehicle vehicle = new Vehicle();
     	if(vehicleObj == null) {
-	    	Vehicle vehicle = new Vehicle();
+	    	
 	    	vehicle.category = vm.category;
 	    	vehicle.vin = vm.vin;
 	    	vehicle.year = vm.year;
@@ -645,6 +649,171 @@ public class Application extends Controller {
 	    	}
 	    	vehicle.save();
     	}
+    	
+    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin,userObj);
+    	List<Site> siteList = vehicleObj2.getSite();
+    	
+    	if(!siteList.isEmpty()) {
+	    	for(Site siteObj: siteList) {
+	    		if(siteObj.getName().equals("CarsGuru")) {
+	    			FTPClient client = new FTPClient();
+	    	        FileInputStream fis = null;
+	    	        client.connect("ftp.cargurus.com");
+	                client.login("glider", "GLF8yP");
+	                String filename = vm.vin+".csv";
+	                CSVWriter writer = new CSVWriter(new FileWriter(filename));
+	            	List<Vehicle> vehicleList = Vehicle.getAllVehicles(userObj);
+	            	
+	            	String []rowHeaders = new String[29];
+	            	rowHeaders[0] = "VIN";
+	            	rowHeaders[1] = "Make";
+	            	rowHeaders[2] = "Model";
+	            	rowHeaders[3] = "Year";
+	            	rowHeaders[4] = "Trim";
+	            	rowHeaders[5] = "Price";
+	            	rowHeaders[6] = "Mileage";
+	            	rowHeaders[7] = "Picture Urls";
+	            	rowHeaders[8] = "Exterior Color";
+	            	rowHeaders[9] = "Dealer Comments";
+	            	rowHeaders[10] = "Stock Number";
+	            	rowHeaders[11] = "Transmission Type";
+	            	rowHeaders[12] = "Installed Options";
+	            	rowHeaders[13] = "Dealer Id";
+	            	rowHeaders[14] = "Dealer Name";
+	            	rowHeaders[15] = "Dealer Street Address";
+	            	rowHeaders[16] = "Dealer City";
+	            	rowHeaders[17] = "Delaer State";
+	            	rowHeaders[18] = "Dealer Zip";
+	            	rowHeaders[19] = "Dealer CRM Email";
+	            	rowHeaders[20] = "MSRP";
+	            	rowHeaders[21] = "Interior Color";
+	            	rowHeaders[22] = "Certified";
+	            	rowHeaders[23] = "Is New";
+	            	rowHeaders[24] = "Engine";
+	            	rowHeaders[25] = "Dealer Latitude and Longitude";
+	            	rowHeaders[26] = "Dealer Radius";
+	            	rowHeaders[27] = "Dealer Phone Number";
+	            	rowHeaders[28] = "Dealer Website Url";
+	            	
+	            	writer.writeNext(rowHeaders);
+	            	
+	            	for(Vehicle vehicleData: vehicleList) {
+	            		String []row = new String[29];
+	            		row[0] = vehicleData.vin;
+	            		row[1] = vehicleData.make;
+	            		row[2] = vehicleData.model;
+	            		row[3] = vehicleData.year;
+	            		row[4] = vehicleData.trim;
+	            		row[5] = vehicleData.price.toString();
+	            		row[6] = vehicleData.mileage;
+	            		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicleData.vin, userObj);
+	            		String str = "";
+	            		for(VehicleImage img : vImageList) {
+	            			str = str +rootDir+img.path+",";
+	            		}
+	            		row[7] = str;
+	            		row[8] = vehicleData.exteriorColor;
+	            		row[9] = "";
+	            		row[10] = vehicleData.stock;
+	            		row[11] = vehicleData.transmission;
+	            		
+	            		String standardFeatures = "";
+	            		if(vehicleData.drivetrain != null) {
+	            			standardFeatures = standardFeatures + vehicleData.drivetrain+",";
+	            		}
+	            		if(vehicleData.fuelType != null) {
+	            			standardFeatures = standardFeatures + vehicleData.fuelType+",";
+	            		}
+	            		if(vehicleData.fuelTank != null) {
+	            			standardFeatures = standardFeatures + vehicleData.fuelTank+",";
+	            		}
+	            		if(vehicleData.headlights != null) {
+	            			standardFeatures = standardFeatures + vehicleData.headlights+",";
+	            		}
+	            		if(vehicleData.mirrors != null) {
+	            			standardFeatures = standardFeatures + vehicleData.mirrors+",";
+	            		}
+	            		if(vehicleData.roof != null) {
+	            			standardFeatures = standardFeatures + vehicleData.roof+",";
+	            		}
+	            		if(vehicleData.acceleration != null) {
+	            			standardFeatures = standardFeatures + vehicleData.acceleration+",";
+	            		}
+	            		if(vehicleData.standardSeating != null) {
+	            			standardFeatures = standardFeatures + vehicleData.standardSeating+",";
+	            		}
+	            		if(vehicleData.engine != null) {
+	            			standardFeatures = standardFeatures + vehicleData.engine+",";
+	            		}
+	            		if(vehicleData.camType != null) {
+	            			standardFeatures = standardFeatures + vehicleData.camType+",";
+	            		}
+	            		if(vehicleData.valves != null) {
+	            			standardFeatures = standardFeatures + vehicleData.valves+",";
+	            		}
+	            		if(vehicleData.cylinders != null) {
+	            			standardFeatures = standardFeatures + vehicleData.cylinders+",";
+	            		}
+	            		if(vehicleData.fuelQuality != null) {
+	            			standardFeatures = standardFeatures + vehicleData.fuelQuality+",";
+	            		}
+	            		if(vehicleData.horsePower != null) {
+	            			standardFeatures = standardFeatures + vehicleData.horsePower+",";
+	            		}
+	            		if(vehicleData.transmission != null) {
+	            			standardFeatures = standardFeatures + vehicleData.transmission+",";
+	            		}
+	            		if(vehicleData.gears != null) {
+	            			standardFeatures = standardFeatures + vehicleData.gears+",";
+	            		}
+	            		if(vehicleData.brakes != null) {
+	            			standardFeatures = standardFeatures + vehicleData.brakes+",";
+	            		}
+	            		if(vehicleData.frontBrakeDiameter != null) {
+	            			standardFeatures = standardFeatures + vehicleData.frontBrakeDiameter+",";
+	            		}
+	            		if(vehicleData.frontBrakeType != null) {
+	            			standardFeatures = standardFeatures + vehicleData.frontBrakeType+",";
+	            		}
+	            		if(vehicleData.rearBrakeDiameter != null) {
+	            			standardFeatures = standardFeatures + vehicleData.rearBrakeDiameter+",";
+	            		}
+	            		if(vehicleData.rearBrakeType != null) {
+	            			standardFeatures = standardFeatures + vehicleData.rearBrakeType;
+	            		}
+	            		
+	            		row[12] = standardFeatures;
+	            		row[13] = "1234";
+	            		row[14] = "Autolinx Inc";
+	            		row[15] = "3300 Sonoma Blvd";
+	            		row[16] = "Vallejo";
+	            		row[17] = "California";
+	            		row[18] = "94590";
+	            		row[19] = "info@autolinxinc.com";
+	            		row[20] = vehicleData.getPrice().toString();
+	            		row[21] = vehicleData.interiorColor;
+	            		row[22] = "";
+	            		row[23] = "N";
+	            		row[24] = vehicleData.engine;
+	            		row[25] = "38.120301  -122.254508";
+	            		row[26] = "1000";
+	            		row[27] = "(707)552-5469";
+	            		row[28] = "www.autolinxinc.com/";
+	            		
+	            		writer.writeNext(row);
+	            	}
+	            	
+	            	 writer.close();
+	                fis = new FileInputStream(filename);
+	                client.storeFile(filename, fis);
+	                client.logout();
+	                if (fis != null) {
+	                    fis.close();
+	                }
+	    		}   
+	    	}
+    	}
+    	
     	return ok();
     }
     
@@ -1478,14 +1647,34 @@ public class Application extends Controller {
     	
     	SliderImageConfig sliderConfig = SliderImageConfig.findByUser(user);
     	ImageVM slider = new ImageVM();
-    	slider.height = sliderConfig.cropHeight;
-    	slider.width = sliderConfig.cropWidth;
+    	if(sliderConfig != null) {
+    		slider.height = sliderConfig.cropHeight;
+    		slider.width = sliderConfig.cropWidth;
+    	} else {
+    		SliderImageConfig slconfig = new SliderImageConfig();
+    		slconfig.cropHeight = 840;
+    		slconfig.cropWidth = 1400;
+    		slconfig.user = user;
+    		slconfig.save();
+    		slider.height = slconfig.cropHeight;
+    		slider.width = slconfig.cropWidth;
+    	}
     	configList.add(slider);
     	
     	FeaturedImageConfig featuredConfig = FeaturedImageConfig.findByUser(user);
     	ImageVM featured = new ImageVM();
-    	featured.height = featuredConfig.cropHeight;
-    	featured.width = featuredConfig.cropWidth;
+    	if(featuredConfig != null) {
+    		featured.height = featuredConfig.cropHeight;
+    		featured.width = featuredConfig.cropWidth;
+    	} else {
+    		FeaturedImageConfig ftdconfig = new FeaturedImageConfig();
+    		ftdconfig.cropHeight = 95;
+    		ftdconfig.cropWidth = 160;
+    		ftdconfig.user = user;
+    		ftdconfig.save();
+    		featured.height = ftdconfig.cropHeight;
+    		featured.width = ftdconfig.cropWidth;
+    	}
     	configList.add(featured);
     	map.put("configList", configList);
     	

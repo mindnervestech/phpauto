@@ -79,6 +79,11 @@ angular.module('newApp')
  	  $http.post('/saveVehicle',$scope.vinData.specification)
 		.success(function(data) {
 			console.log('success');
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Vehicle saved successfully",
+			});
 		});
  	  
  	  if($scope.flagVal == true) {
@@ -114,6 +119,9 @@ angular.module('newApp')
 		          $location.path('/managePhotos/'+$routeParams.num);
 		          $scope.$apply();
 		      });
+		   this.on("complete", function() {
+			   this.removeAllFiles();
+		   });
 	   }
    });
    $scope.uploadFiles = function() {
@@ -381,6 +389,12 @@ angular.module('newApp')
 				$scope.soldTab();
 			}
 			 
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Vehicle status marked sold",
+			});
+			
 		});
    }
    
@@ -533,6 +547,10 @@ angular.module('newApp')
 					   $scope.getImages();
 				          $scope.$apply();
 				      });
+				   
+				   this.on("complete", function() {
+					   this.removeAllFiles();
+				   });
 			   }
 		   });
 	}
@@ -924,7 +942,10 @@ angular.module('newApp')
 					        file.acceptDimensions();
 					      }
 					    });
-				   
+				   this.on("complete", function() {
+					   
+					   this.removeAllFiles();
+				   });
 			   }
 				  
 		   });
@@ -968,6 +989,10 @@ angular.module('newApp')
 					        file.acceptDimensions();
 					      }
 					    });
+				   
+				   this.on("complete", function() {
+					   this.removeAllFiles();
+				   });
 			   }
 		   });
 	   }  
