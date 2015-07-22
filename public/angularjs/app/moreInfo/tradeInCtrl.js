@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('RequestMoreInfoCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
+.controller('TradeInCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
 	
   $scope.gridOptions = {
  		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -28,7 +28,7 @@ angular.module('newApp')
      		                                 ];
   
   
-  $http.get('/getAllRequestInfo')
+  $http.get('/getAllTradeIn')
 		.success(function(data) {
 		$scope.gridOptions.data = data;
 	});

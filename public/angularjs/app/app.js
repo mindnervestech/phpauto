@@ -45,6 +45,14 @@ var MakeApp = angular
             templateUrl: 'moreInfo/requestMoreInfo.html',
             controller: 'RequestMoreInfoCtrl'
         })
+         .when('/scheduleTest', {
+            templateUrl: 'moreInfo/scheduleTest.html',
+            controller: 'ScheduleTestCtrl'
+        })
+         .when('/tradeIn', {
+            templateUrl: 'moreInfo/tradeIn.html',
+            controller: 'TradeInCtrl'
+        })
         .when('/addPhoto/:num', {
             templateUrl: 'addPhotos/uploadPhoto.html',
             controller: 'PhotoUploadCtrl'

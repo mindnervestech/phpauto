@@ -32,10 +32,12 @@ import models.AuthUser;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.RequestMoreInfo;
+import models.ScheduleTest;
 import models.Site;
 import models.SiteContent;
 import models.SliderImage;
 import models.SliderImageConfig;
+import models.TradeIn;
 import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleImage;
@@ -2418,6 +2420,60 @@ public class Application extends Controller {
     		vm.phone = info.phone;
     		vm.email = info.email;
     		vm.requestDate = df.format(info.requestDate);
+    		
+    		infoVMList.add(vm);
+    	}
+    	
+    	return ok(Json.toJson(infoVMList));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getAllScheduleTest() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	List<ScheduleTest> listData = ScheduleTest.findAllByDate();
+    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    	for(ScheduleTest info: listData) {
+    		RequestInfoVM vm = new RequestInfoVM();
+    		vm.id = info.id;
+    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		vm.vin = info.vin;
+    		if(vehicle != null) {
+    			vm.model = vehicle.model;
+    			vm.make = vehicle.make;
+    		}
+    		vm.name = info.name;
+    		vm.phone = info.phone;
+    		vm.email = info.email;
+    		vm.bestDay = info.bestDay;
+    		vm.bestTime = info.bestTime;
+    		vm.requestDate = df.format(info.scheduleDate);
+    		
+    		infoVMList.add(vm);
+    	}
+    	
+    	return ok(Json.toJson(infoVMList));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getAllTradeIn() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	List<TradeIn> listData = TradeIn.findAllByDate();
+    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    	for(TradeIn info: listData) {
+    		RequestInfoVM vm = new RequestInfoVM();
+    		vm.id = info.id;
+    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		vm.vin = info.vin;
+    		if(vehicle != null) {
+    			vm.model = vehicle.model;
+    			vm.make = vehicle.make;
+    		}
+    		vm.name = info.firstName+" "+info.lastName;
+    		vm.phone = info.phone;
+    		vm.email = info.email;
+    		vm.requestDate = df.format(info.tradeDate);
     		
     		infoVMList.add(vm);
     	}
