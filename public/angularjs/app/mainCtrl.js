@@ -19,6 +19,13 @@
             	}
             });
 
+            $http.get('/getInfoCount').success(function(data,status, headers, config){
+            	$scope.requestMoreLength = data.req;
+                $scope.scheduleTestLength = data.schedule;
+                $scope.tradeInLength = data.trade;
+            })
+            
+            
             $scope.$on('$viewContentLoaded', function () {
                 pluginsService.init();
                 applicationService.customScroll();

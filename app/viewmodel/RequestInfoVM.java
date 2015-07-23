@@ -8,6 +8,7 @@ public class RequestInfoVM {
 	public String vin;
 	public String model;
 	public String make;
+	public String stock;
 	public String name;
 	public String email;
 	public String phone;

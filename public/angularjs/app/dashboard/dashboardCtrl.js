@@ -380,20 +380,31 @@ angular.module('newApp')
    
    $scope.updateVehicleStatus = function(row){
 	   console.log(row);
-	   $http.get('/updateVehicleStatus/'+row.entity.id)
+	   $scope.statusVal = "";
+	   if(row.entity.status == 'Newly Arrived') {
+		   $scope.statusVal = "Sold";
+	   }
+	   if(row.entity.status == 'Sold') {
+		   $scope.statusVal = "Newly Arrived";
+	   }
+	   $http.get('/updateVehicleStatus/'+row.entity.id+'/'+$scope.statusVal)
 		.success(function(data) {
 			if(row.entity.status == 'Newly Arrived') {
 				 $scope.viewVehiclesInit();
+				 $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Vehicle status marked sold",
+					});
 			} 
 			if(row.entity.status == 'Sold') {
 				$scope.soldTab();
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Vehicle status marked Newly Arrived",
+				});
 			}
-			 
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Vehicle status marked sold",
-			});
 			
 		});
    }
@@ -586,6 +597,11 @@ angular.module('newApp')
 		.success(function(data) {
 			console.log('success');
 			$scope.isUpdated = true;
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Vehicle updated successfuly",
+			});
 		});
 	}
 	
@@ -697,6 +713,15 @@ $scope.setAsDefault = function(image,index) {
 		});
 	}
 	$scope.vData = {};
+	
+	$scope.getVirtualTourData = function() {
+		$http.get('/getVirtualTour/'+$scope.vinData.specification.vin)
+		.success(function(data) {
+			$scope.vData.desktopUrl = data.desktopUrl;
+			$scope.vData.mobileUrl = data.mobileUrl;
+		});
+	}
+	
 	$scope.saveVData = function() {
 		console.log($scope.vData);
 		$scope.vData.vin = $scope.vinData.specification.vin;

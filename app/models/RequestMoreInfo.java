@@ -84,4 +84,8 @@ public class RequestMoreInfo extends Model {
 		return find.orderBy("requestDate desc").findList();
 	}
 	
+	public static int findAll() {
+		return find.all().size();
+	}
+	
 }

@@ -63,6 +63,7 @@ import securesocial.core.java.SecureSocial;
 import viewmodel.AudioVM;
 import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
+import viewmodel.InfoCountVM;
 import viewmodel.PinVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SiteContentVM;
@@ -947,8 +948,7 @@ public class Application extends Controller {
     @SecureSocial.SecuredAction
     public static Result setDefaultImage(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
-    	boolean val = true;
-    	image.setDefaultImage(val);
+    	image.setDefaultImage(true);
     	image.update();
     	return ok();
     }
@@ -956,13 +956,11 @@ public class Application extends Controller {
     @SecureSocial.SecuredAction
     public static Result removeDefault(Long old,Long newId) {
     	VehicleImage image = VehicleImage.findById(old);
-    	boolean val = false;
-    	image.setDefaultImage(val);
+    	image.setDefaultImage(false);
     	image.update();
     	
     	VehicleImage newImage = VehicleImage.findById(newId);
-    	val = true;
-    	newImage.setDefaultImage(val);
+    	newImage.setDefaultImage(true);
     	newImage.update();
     	return ok();
     }
@@ -1147,11 +1145,11 @@ public class Application extends Controller {
     }
     
     @SecureSocial.SecuredAction
-    public static Result updateVehicleStatus(Long id ){
+    public static Result updateVehicleStatus(Long id,String status){
     	Vehicle vm = Vehicle.findById(id);
     	
     	if(vm != null){
-    		vm.setStatus("Sold");
+    		vm.setStatus(status);
     		vm.update();
     	}
     	
@@ -1407,16 +1405,35 @@ public class Application extends Controller {
     }
     
     @SecureSocial.SecuredAction
+    public static Result getVirtualTour(String vin) {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	VirtualTour virtualTour = VirtualTour.findByUserAndVin(user, vin);
+    	VirtualTourVM vm = new VirtualTourVM();
+    	if(virtualTour != null) {
+    		vm.desktopUrl = virtualTour.desktopUrl;
+    		vm.mobileUrl = virtualTour.mobileUrl;
+    	}
+    	return ok(Json.toJson(vm));
+    }
+    
+    @SecureSocial.SecuredAction
     public static Result saveVData() {
     	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
     	Form<VirtualTourVM> form = DynamicForm.form(VirtualTourVM.class).bindFromRequest();
     	VirtualTourVM vm = form.get();
-    	VirtualTour vt = new VirtualTour();
-    	vt.desktopUrl = vm.desktopUrl;
-    	vt.mobileUrl = vm.mobileUrl;
-    	vt.vin = vm.vin;
-    	vt.user = user;
-    	vt.save();
+    	VirtualTour virtualTour = VirtualTour.findByUserAndVin(user, vm.vin);
+    	if(virtualTour == null) {
+	    	VirtualTour vt = new VirtualTour();
+	    	vt.desktopUrl = vm.desktopUrl;
+	    	vt.mobileUrl = vm.mobileUrl;
+	    	vt.vin = vm.vin;
+	    	vt.user = user;
+	    	vt.save();
+    	} else {
+    		virtualTour.setDesktopUrl(vm.desktopUrl);
+    		virtualTour.setMobileUrl(vm.mobileUrl);
+    		virtualTour.update();
+    	}
     	return ok();
     }
     
@@ -1474,15 +1491,6 @@ public class Application extends Controller {
 				vImage.user = userObj;
 				vImage.save();
 				
-				SliderImageConfig config = SliderImageConfig.findByUser(userObj);
-				
-				if(config == null) {
-					SliderImageConfig configObj = new SliderImageConfig();
-					configObj.cropHeight = 840;
-					configObj.cropWidth = 1400;
-					configObj.user = userObj;
-					configObj.save();
-				}
 			}
     	  } catch (FileNotFoundException e) {
   			e.printStackTrace();
@@ -1529,15 +1537,6 @@ public class Application extends Controller {
 				vImage.user = userObj;
 				vImage.save();
 				
-				FeaturedImageConfig config = FeaturedImageConfig.findByUser(userObj);
-				
-				if(config == null) {
-					FeaturedImageConfig configObj = new FeaturedImageConfig();
-					configObj.cropHeight = 840;
-					configObj.cropWidth = 1400;
-					configObj.user = userObj;
-					configObj.save();
-				}
 			}
     	  } catch (FileNotFoundException e) {
   			e.printStackTrace();
@@ -2415,6 +2414,7 @@ public class Application extends Controller {
     		if(vehicle != null) {
     			vm.model = vehicle.model;
     			vm.make = vehicle.make;
+    			vm.stock = vehicle.stock;
     		}
     		vm.name = info.name;
     		vm.phone = info.phone;
@@ -2441,6 +2441,7 @@ public class Application extends Controller {
     		if(vehicle != null) {
     			vm.model = vehicle.model;
     			vm.make = vehicle.make;
+    			vm.stock = vehicle.stock;
     		}
     		vm.name = info.name;
     		vm.phone = info.phone;
@@ -2469,6 +2470,7 @@ public class Application extends Controller {
     		if(vehicle != null) {
     			vm.model = vehicle.model;
     			vm.make = vehicle.make;
+    			vm.stock = vehicle.stock;
     		}
     		vm.name = info.firstName+" "+info.lastName;
     		vm.phone = info.phone;
@@ -2479,6 +2481,16 @@ public class Application extends Controller {
     	}
     	
     	return ok(Json.toJson(infoVMList));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getInfoCount() {
+    	InfoCountVM vm = new InfoCountVM();
+    	vm.schedule = ScheduleTest.findAll();
+    	vm.trade = TradeIn.findAll();
+    	vm.req = RequestMoreInfo.findAll();
+    	
+    	return ok(Json.toJson(vm));
     }
     
 }

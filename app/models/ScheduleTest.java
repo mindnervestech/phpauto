@@ -97,4 +97,9 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest> findAllByDate() {
 		return find.orderBy("scheduleDate desc").findList();
 	}
+	
+	public static int findAll() {
+		return find.all().size();
+	}
+	
 }

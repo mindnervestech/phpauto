@@ -98,4 +98,8 @@ public class TradeIn extends Model {
 		return find.orderBy("tradeDate desc").findList();
 	}
 	
+	public static int findAll() {
+		return find.all().size();
+	}
+	
 }
