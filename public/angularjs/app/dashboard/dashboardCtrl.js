@@ -805,7 +805,7 @@ angular.module('newApp')
 }]);	
 
 angular.module('newApp')
-.controller('HomePageCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('HomePageCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload', function ($scope,$http,$location,$filter,$routeParams,$upload) {
 	
 	$scope.sliderList = [];
 	$scope.featuredList = [];
@@ -1078,6 +1078,69 @@ angular.module('newApp')
 	   		.success(function(data) {
 	   			console.log('success');
 	   		});
+	   }
+	  
+	   $scope.getLogoData = function() {
+		   $http.get('/getLogoData')
+			.success(function(data) {
+				$scope.logoName = data.logoName;
+				$scope.feviconName = data.feviconName;
+				$scope.tabText = data.tabText;
+			});
+	   }
+	   
+	   var logofile;
+		$scope.onLogoFileSelect = function($files) {
+			logofile = $files;
+		}
+	   
+		 var feviconfile;
+			$scope.onFeviconFileSelect = function($files) {
+				feviconfile = $files;
+			}
+		
+	   $scope.saveLogoImage = function() {
+		   $upload.upload({
+	            url : '/uploadLogoFile',
+	            method: 'post',
+	            file:logofile,
+	        }).success(function(data, status, headers, config) {
+	            console.log('success');
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Logo image saved successfully",
+				});
+	            $scope.getLogoData();
+	        });
+	   }
+	   
+	   $scope.saveFeviconImage = function() {
+		   $upload.upload({
+	            url : '/uploadFeviconFile',
+	            method: 'post',
+	            file:feviconfile,
+	        }).success(function(data, status, headers, config) {
+	            console.log('success');
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Fevicon image saved successfully",
+				});
+	            $scope.getLogoData();
+	        });
+	   }
+	   $scope.tabText;
+	   $scope.saveTabText = function(tabText) {
+		   $http.get('/saveSiteTabText/'+tabText)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Tab text saved successfully",
+				});
+				$scope.getLogoData();
+			});
 	   }
 	   
 	   

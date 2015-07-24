@@ -35,6 +35,7 @@ import models.RequestMoreInfo;
 import models.ScheduleTest;
 import models.Site;
 import models.SiteContent;
+import models.SiteLogo;
 import models.SliderImage;
 import models.SliderImageConfig;
 import models.TradeIn;
@@ -67,6 +68,7 @@ import viewmodel.InfoCountVM;
 import viewmodel.PinVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SiteContentVM;
+import viewmodel.SiteLogoVM;
 import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
 import viewmodel.VirtualTourVM;
@@ -936,9 +938,10 @@ public class Application extends Controller {
 	
     @SecureSocial.SecuredAction
     public static Result deleteImage(Long id) {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
     	VehicleImage image = VehicleImage.findById(id);
-    	File file = new File(rootDir+image.path);
-    	File thumbFile = new File(rootDir+image.thumbPath);
+    	File file = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+image.imgName);
+    	File thumbFile = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+"thumbnail_"+image.imgName);
     	file.delete();
     	thumbFile.delete();
     	image.delete();
@@ -1578,10 +1581,11 @@ public class Application extends Controller {
     
     @SecureSocial.SecuredAction
     public static Result deleteSliderImage(Long id) {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
     	SliderImage image = SliderImage.findById(id);
-    	File file = new File(rootDir+image.path);
+    	File file = new File(rootDir+File.separator+user.id+File.separator+"SliderImages"+File.separator+image.imgName);
     	file.delete();
-    	File thumbfile = new File(rootDir+image.thumbPath);
+    	File thumbfile = new File(rootDir+File.separator+user.id+File.separator+"SliderImages"+File.separator+"thumbnail_"+image.imgName);
     	thumbfile.delete();
     	image.delete();
     	return ok();
@@ -1589,10 +1593,11 @@ public class Application extends Controller {
     
     @SecureSocial.SecuredAction
     public static Result deleteFeaturedImage(Long id) {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
     	FeaturedImage image = FeaturedImage.findById(id);
-    	File file = new File(rootDir+image.path);
+    	File file = new File(rootDir+File.separator+user.id+File.separator+"FeaturedImages"+File.separator+image.imgName);
     	file.delete();
-    	File thumbfile = new File(rootDir+image.thumbPath);
+    	File thumbfile = new File(rootDir+File.separator+user.id+File.separator+"FeaturedImages"+File.separator+"thumbnail_"+image.imgName);
     	thumbfile.delete();
     	image.delete();
     	return ok();
@@ -2492,5 +2497,157 @@ public class Application extends Controller {
     	
     	return ok(Json.toJson(vm));
     }
+    
+    @SecureSocial.SecuredAction
+    public static Result requestInfoMarkRead() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllByUser(user);
+    	for(RequestMoreInfo info: listData) {
+    		info.setIsRead(1);
+    		info.update();
+    	}
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result scheduleTestMarkRead() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	List<ScheduleTest> listData = ScheduleTest.findAllByUser(user);
+    	for(ScheduleTest info: listData) {
+    		info.setIsRead(1);
+    		info.update();
+    	}
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result tradeInMarkRead() {
+    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	List<TradeIn> listData = TradeIn.findAllByUser(user);
+    	for(TradeIn info: listData) {
+    		info.setIsRead(1);
+    		info.update();
+    	}
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result uploadLogoFile() {
+    	MultipartFormData body = request().body().asMultipartFormData();
+    	DynamicForm dynamicForm = Form.form().bindFromRequest();
+    	
+    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	
+    	FilePart picture = body.getFile("file0");
+    	  if (picture != null) {
+    	    String fileName = picture.getFilename();
+    	    String contentType = picture.getContentType(); 
+    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"logo");
+    	    if(!fdir.exists()) {
+    	    	fdir.mkdir();
+    	    }
+    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"logo"+File.separator+fileName;
+    	    File file = picture.getFile();
+    	    try {
+    	    		FileUtils.moveFile(file, new File(filePath));
+    	    		
+    	    		SiteLogo logoObj = SiteLogo.findByUser(userObj);
+    	    		
+    	    		if(logoObj == null) {
+	    	    		SiteLogo logo = new SiteLogo();
+	    	    		logo.logoImagePath = "/"+userObj.id+"/"+"logo"+"/"+fileName;
+	    	    		logo.logoImageName = fileName;
+	    	    		logo.user = userObj;
+	    	    		logo.save();
+    	    		} else {
+    	    			File logoFile = new File(rootDir+File.separator+logoObj.user.id+File.separator+"logo"+File.separator+logoObj.logoImageName);
+    	    			logoFile.delete();
+    	    			logoObj.setLogoImageName(fileName);
+    	    			logoObj.setLogoImagePath("/"+userObj.id+"/"+"logo"+"/"+fileName);
+    	    			logoObj.update();
+    	    		}
+    	  } catch (FileNotFoundException e) {
+  			e.printStackTrace();
+	  		} catch (IOException e) {
+	  			e.printStackTrace();
+	  		} 
+    	  } 
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result uploadFeviconFile() {
+    	MultipartFormData body = request().body().asMultipartFormData();
+    	DynamicForm dynamicForm = Form.form().bindFromRequest();
+    	
+    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	
+    	FilePart picture = body.getFile("file0");
+    	  if (picture != null) {
+    	    String fileName = picture.getFilename();
+    	    String contentType = picture.getContentType(); 
+    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"fevicon");
+    	    if(!fdir.exists()) {
+    	    	fdir.mkdir();
+    	    }
+    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"fevicon"+File.separator+fileName;
+    	    File file = picture.getFile();
+    	    try {
+    	    		FileUtils.moveFile(file, new File(filePath));
+    	    		
+    	    		SiteLogo logoObj = SiteLogo.findByUser(userObj);
+    	    		
+    	    		if(logoObj == null) {
+	    	    		SiteLogo logo = new SiteLogo();
+	    	    		logo.faviconImagePath = "/"+userObj.id+"/"+"fevicon"+"/"+fileName;
+	    	    		logo.faviconImageName = fileName;
+	    	    		logo.user = userObj;
+	    	    		logo.save();
+    	    		} else {
+    	    			File feviconFile = new File(rootDir+File.separator+logoObj.user.id+File.separator+"fevicon"+File.separator+logoObj.faviconImageName);
+    	    			feviconFile.delete();
+    	    			logoObj.setFaviconImageName(fileName);
+    	    			logoObj.setFaviconImagePath("/"+userObj.id+"/"+"fevicon"+"/"+fileName);
+    	    			logoObj.update();
+    	    		}
+    	  } catch (FileNotFoundException e) {
+  			e.printStackTrace();
+	  		} catch (IOException e) {
+	  			e.printStackTrace();
+	  		} 
+    	  } 
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result saveSiteTabText(String text) {
+    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	SiteLogo logoObj = SiteLogo.findByUser(userObj);
+    	if(logoObj == null) {
+    		SiteLogo logo = new SiteLogo();
+    		logo.tabText = text;
+    		logo.user = userObj;
+    		logo.save();
+    	} else {
+    		logoObj.setTabText(text);
+    		logoObj.update();
+    	}
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getLogoData() {
+    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	SiteLogo logoObj = SiteLogo.findByUser(userObj);
+    	SiteLogoVM vm = new SiteLogoVM();
+    	if(logoObj != null) {
+    		vm.logoName = logoObj.logoImageName;
+    		vm.feviconName = logoObj.faviconImageName;
+    		vm.tabText = logoObj.tabText;
+    	}
+    	
+    	return ok(Json.toJson(vm));
+    }
+    
     
 }

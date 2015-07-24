@@ -30,9 +30,14 @@ angular.module('newApp')
      		                                 ];
   
   
-  $http.get('/getAllTradeIn')
-		.success(function(data) {
-		$scope.gridOptions.data = data;
-	});
+	  $http.get('/getAllTradeIn')
+			.success(function(data) {
+			$scope.gridOptions.data = data;
+		});
+  
+		  $http.get('/tradeInMarkRead')
+			.success(function(data) {
+				$scope.$emit('getCountEvent', '123');
+		});
   
 }]);

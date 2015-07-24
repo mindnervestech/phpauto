@@ -23,6 +23,7 @@ public class ScheduleTest extends Model {
 	public String bestTime;
 	public Date scheduleDate;
 	public String vin;
+	public int isRead;
 	@ManyToOne
 	public AuthUser user;
 	
@@ -87,7 +88,13 @@ public class ScheduleTest extends Model {
 	public void setUser(AuthUser user) {
 		this.user = user;
 	}
-	
+	public int getIsRead() {
+		return isRead;
+	}
+	public void setIsRead(int isRead) {
+		this.isRead = isRead;
+	}
+
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
 	
 	public static ScheduleTest findById(Long id) {
@@ -99,7 +106,11 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static int findAll() {
-		return find.all().size();
+		return find.where().eq("isRead", 0).findRowCount();
+	}
+	
+	public static List<ScheduleTest> findAllByUser(AuthUser user) {
+		return find.where().eq("user", user).findList();
 	}
 	
 }

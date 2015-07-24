@@ -35,4 +35,9 @@ angular.module('newApp')
 		$scope.gridOptions.data = data;
 	});
   
+	  $http.get('/requestInfoMarkRead')
+		.success(function(data) {
+			$scope.$emit('getCountEvent', '123');
+	});
+  
 }]);

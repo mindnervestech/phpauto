@@ -23,6 +23,7 @@ public class TradeIn extends Model {
 	public String preferredContact;
 	public Date tradeDate;
 	public String vin;
+	public int isRead;
 	@ManyToOne
 	public AuthUser user;
 	
@@ -87,7 +88,13 @@ public class TradeIn extends Model {
 	public void setUser(AuthUser user) {
 		this.user = user;
 	}
-	
+	public int getIsRead() {
+		return isRead;
+	}
+	public void setIsRead(int isRead) {
+		this.isRead = isRead;
+	}
+
 	public static Finder<Long,TradeIn> find = new Finder<>(Long.class,TradeIn.class);
 	
 	public static TradeIn findById(Long id) {
@@ -99,7 +106,11 @@ public class TradeIn extends Model {
 	}
 	
 	public static int findAll() {
-		return find.all().size();
+		return find.where().eq("isRead", 0).findRowCount();
+	}
+	
+	public static List<TradeIn> findAllByUser(AuthUser user) {
+		return find.where().eq("user", user).findList();
 	}
 	
 }
