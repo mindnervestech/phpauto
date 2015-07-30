@@ -2,3 +2,232 @@
  <h2><b>Trade In Enquiries</b></h2>
 <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
 	</div> 
+	
+	<button id="popupBtn" data-toggle="modal" data-target="#modal-large" style="display: none;"></button>
+	
+	<div class="modal fade" id="modal-large" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Trade In</strong></h4>
+                </div>
+                <div class="modal-body" style="height:400px;overflow-x:auto;">
+                	<h4><b>Contact Information</b></h4>
+                    <div class="form-group col-sm-12">
+						<label class="col-sm-2 control-label" style="text-align: right;">First Name :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.firstName}}</label>
+							</div>
+							<label class="col-sm-2 control-label" style="text-align: right;">Last Name :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.lastName}}</label>
+							</div>
+						</div>
+					<div class="form-group col-sm-12">
+						<label class="col-sm-2 control-label" style="text-align: right;">Work Phone :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.workPhone}}</label>
+							</div>
+							<label class="col-sm-2 control-label" style="text-align: right;">Phone :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.phone}}</label>
+							</div>
+						</div>	
+					<div class="form-group col-sm-12">
+						<label class="col-sm-2 control-label" style="text-align: right;">Email :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.email}}</label>
+							</div>
+							<label class="col-sm-2 control-label" style="text-align: right;">Preffered Contact :</label>
+							<div class="col-sm-3">
+								<label class="control-label">{{tradeInData.preferredContact}}</label>
+							</div>
+						</div>	
+					<div class="form-group col-sm-12">
+						<label class="col-sm-2 control-label" style="text-align: right;">Comments :</label>
+							<div class="col-sm-6">
+								<label class="control-label">{{tradeInData.comments}}</label>
+							</div>	
+					</div>	
+				<h4><b>Options :</b></h4>
+					<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+								<label class="control-label">{{tradeInData.optionValue}}</label>
+							</div>	
+					</div>		
+				<h4><b>Vehicle Information</b></h4>
+                    <div class="form-group col-sm-12">
+						<label class="col-sm-2 control-label" style="text-align: right;">Year :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.year}}</label>
+							</div>
+							<label class="col-sm-2 control-label" style="text-align: right;">Make :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.make}}</label>
+							</div>
+						</div>
+					<div class="form-group col-sm-12">
+						<label class="col-sm-2 control-label" style="text-align: right;">Model :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.model}}</label>
+							</div>
+							<label class="col-sm-2 control-label" style="text-align: right;">Exterior Color :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.exteriorColour}}</label>
+							</div>
+						</div>
+					<div class="form-group col-sm-12">
+						<label class="col-sm-2 control-label" style="text-align: right;">VIN :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.vin}}</label>
+							</div>
+							<label class="col-sm-2 control-label" style="text-align: right;">Kilometers :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.kilometres}}</label>
+							</div>
+						</div>				
+						<div class="form-group col-sm-12">
+						<label class="col-sm-2 control-label" style="text-align: right;">Engine :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.engine}}</label>
+							</div>
+							<label class="col-sm-2 control-label" style="text-align: right;">Doors :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.doors}}</label>
+							</div>
+						</div>
+					<div class="form-group col-sm-12">
+						<label class="col-sm-2 control-label" style="text-align: right;">Transmission :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.transmission}}</label>
+							</div>
+							<label class="col-sm-2 control-label" style="text-align: right;">Drivetrain :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.drivetrain}}</label>
+							</div>
+						</div>	
+						<h4><b>Vehicle Rating</b></h4>
+						<div class="form-group col-sm-12">
+						<label class="col-sm-6 control-label" style="text-align: right;">Body (dents, dings, rust, rot, damage) :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.bodyRating}}</label>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Tires ( tread  wear , mismatched ) :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.tireRating}}</label>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Engine (running condition, burns oil, knocking) :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.engineRating}}</label>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Transmission / Clutch (slipping, hard shift, grinds) :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.transmissionRating}}</label>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Glass (chips, scratches, cracks, pitted) :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.glassRating}}</label>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Interior (rips, tears, burns, faded/worn, stains) :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.interiorRating}}</label>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Exhaust (rusted, leaking, noisy) :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.exhaustRating}}</label>
+							</div>
+						</div>	
+						<h4><b>Vehicle History</b></h4>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Was it ever a lease or rental return? :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.leaseOrRental}}</label>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Is the odometer operational and accurate? :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.operationalAndAccurate}}</label>
+							</div>
+						</div>	
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Detailed service records available? :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.serviceRecord}}</label>
+							</div>
+						</div>	
+						<h4><b>Title History</b></h4>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Is there a lienholder? :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.lienHolder}}</label>
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Who holds this title? :</label>
+							<div class="col-sm-4">
+								<label class="control-label">{{tradeInData.holdsThisTitle}}</label>
+							</div>
+						</div>
+						<h4><b>Vehicle Assesment</b></h4>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Does all equipment and accessories work correctly? :</label>
+							<div class="col-sm-6">
+								<label class="control-label">{{tradeInData.equipment}}</label>
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Did you buy the vehicle new? :</label>
+							<div class="col-sm-6">
+								<label class="control-label">{{tradeInData.vehiclenew}}</label>
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Has the vehicle ever been in any accidents? Cost of repairs? :</label>
+							<div class="col-sm-6">
+								<label class="control-label">{{tradeInData.accidents}}</label>
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Is there existing damage on the vehicle? Where? :</label>
+							<div class="col-sm-6">
+								<label class="control-label">{{tradeInData.damage}}</label>
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Has the vehicle ever had paint work performed? :</label>
+							<div class="col-sm-6">
+								<label class="control-label">{{tradeInData.paint}}</label>
+							</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-6 control-label" style="text-align: right;">Is the title designated 'Salvage' or 'Reconstructed'? Any other? :</label>
+							<div class="col-sm-6">
+								<label class="control-label">{{tradeInData.salvage}}</label>
+							</div>
+						</div>
+						
+						
+						
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	

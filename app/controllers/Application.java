@@ -2649,5 +2649,47 @@ public class Application extends Controller {
     	return ok(Json.toJson(vm));
     }
     
+    @SecureSocial.SecuredAction
+    public static Result getTradeInDataById(Long id) {
+    	TradeIn tradeIn = TradeIn.findById(id);
+    	TradeInVM vm = new TradeInVM();
+    	vm.firstName = tradeIn.firstName;
+    	vm.lastName = tradeIn.lastName;
+    	vm.workPhone = tradeIn.workPhone;
+    	vm.phone = tradeIn.phone;
+    	vm.email = tradeIn.email;
+    	vm.preferredContact = tradeIn.preferredContact;
+    	vm.comments = tradeIn.comments;
+    	vm.year = tradeIn.year;
+    	vm.make = tradeIn.make;
+    	vm.model = tradeIn.model;
+    	vm.exteriorColour = tradeIn.exteriorColour;
+    	vm.kilometres = tradeIn.kilometres;
+    	vm.engine = tradeIn.engine;
+    	vm.doors = tradeIn.doors;
+    	vm.transmission = tradeIn.transmission;
+    	vm.drivetrain = tradeIn.drivetrain;
+    	vm.bodyRating = tradeIn.bodyRating;
+    	vm.tireRating = tradeIn.tireRating;
+    	vm.engineRating = tradeIn.engineRating;
+    	vm.transmissionRating = tradeIn.transmissionRating;
+    	vm.glassRating = tradeIn.glassRating;
+    	vm.interiorRating = tradeIn.interiorRating;
+    	vm.exhaustRating = tradeIn.exhaustRating;
+    	vm.leaseOrRental = tradeIn.leaseOrRental;
+    	vm.operationalAndAccurate = tradeIn.operationalAndAccurate;
+    	vm.serviceRecord = tradeIn.serviceRecord;
+    	vm.lienHolder = tradeIn.lienholder;
+    	vm.holdsThisTitle = tradeIn.holdsThisTitle;
+    	vm.equipment = tradeIn.equipment;
+    	vm.vehiclenew = tradeIn.vehiclenew;
+    	vm.accidents = tradeIn.accidents;
+    	vm.damage = tradeIn.damage;
+    	vm.paint = tradeIn.paint;
+    	vm.salvage = tradeIn.salvage;
+    	vm.optionValue = tradeIn.optionValue;
+    	vm.vin = tradeIn.vin;
+    	return ok(Json.toJson(vm));
+    }
     
 }

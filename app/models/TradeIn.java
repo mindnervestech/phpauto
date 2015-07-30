@@ -22,6 +22,35 @@ public class TradeIn extends Model {
 	public String email;
 	public String preferredContact;
 	public Date tradeDate;
+	public String comments;
+	public String year;
+	public String make;
+	public String model;
+	public String exteriorColour;
+	public String kilometres;
+	public String engine;
+	public String doors;
+	public String transmission;
+	public String drivetrain;
+	public String bodyRating;
+	public String tireRating;
+	public String engineRating;
+	public String transmissionRating;
+	public String glassRating;
+	public String interiorRating;
+	public String exhaustRating;
+	public String leaseOrRental;
+	public String operationalAndAccurate;
+	public String serviceRecord;
+	public String lienholder;
+	public String holdsThisTitle;
+	public String equipment;
+	public String vehiclenew;
+	public String accidents;
+	public String damage;
+	public String paint;
+	public String salvage;
+	public String optionValue;
 	public String vin;
 	public int isRead;
 	@ManyToOne
@@ -93,6 +122,180 @@ public class TradeIn extends Model {
 	}
 	public void setIsRead(int isRead) {
 		this.isRead = isRead;
+	}
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getMake() {
+		return make;
+	}
+	public void setMake(String make) {
+		this.make = make;
+	}
+	public String getModel() {
+		return model;
+	}
+	public void setModel(String model) {
+		this.model = model;
+	}
+	public String getExteriorColour() {
+		return exteriorColour;
+	}
+	public void setExteriorColour(String exteriorColour) {
+		this.exteriorColour = exteriorColour;
+	}
+	public String getKilometres() {
+		return kilometres;
+	}
+	public void setKilometres(String kilometres) {
+		this.kilometres = kilometres;
+	}
+	public String getEngine() {
+		return engine;
+	}
+	public void setEngine(String engine) {
+		this.engine = engine;
+	}
+	public String getDoors() {
+		return doors;
+	}
+	public void setDoors(String doors) {
+		this.doors = doors;
+	}
+	public String getTransmission() {
+		return transmission;
+	}
+	public void setTransmission(String transmission) {
+		this.transmission = transmission;
+	}
+	public String getDrivetrain() {
+		return drivetrain;
+	}
+	public void setDrivetrain(String drivetrain) {
+		this.drivetrain = drivetrain;
+	}
+	public String getBodyRating() {
+		return bodyRating;
+	}
+	public void setBodyRating(String bodyRating) {
+		this.bodyRating = bodyRating;
+	}
+	public String getTireRating() {
+		return tireRating;
+	}
+	public void setTireRating(String tireRating) {
+		this.tireRating = tireRating;
+	}
+	public String getEngineRating() {
+		return engineRating;
+	}
+	public void setEngineRating(String engineRating) {
+		this.engineRating = engineRating;
+	}
+	public String getTransmissionRating() {
+		return transmissionRating;
+	}
+	public void setTransmissionRating(String transmissionRating) {
+		this.transmissionRating = transmissionRating;
+	}
+	public String getGlassRating() {
+		return glassRating;
+	}
+	public void setGlassRating(String glassRating) {
+		this.glassRating = glassRating;
+	}
+	public String getInteriorRating() {
+		return interiorRating;
+	}
+	public void setInteriorRating(String interiorRating) {
+		this.interiorRating = interiorRating;
+	}
+	public String getExhaustRating() {
+		return exhaustRating;
+	}
+	public void setExhaustRating(String exhaustRating) {
+		this.exhaustRating = exhaustRating;
+	}
+	public String getLeaseOrRental() {
+		return leaseOrRental;
+	}
+	public void setLeaseOrRental(String leaseOrRental) {
+		this.leaseOrRental = leaseOrRental;
+	}
+	public String getOperationalAndAccurate() {
+		return operationalAndAccurate;
+	}
+	public void setOperationalAndAccurate(String operationalAndAccurate) {
+		this.operationalAndAccurate = operationalAndAccurate;
+	}
+	public String getServiceRecord() {
+		return serviceRecord;
+	}
+	public void setServiceRecord(String serviceRecord) {
+		this.serviceRecord = serviceRecord;
+	}
+	public String getLienHolder() {
+		return lienholder;
+	}
+	public void setLienHolder(String lienHolder) {
+		this.lienholder = lienHolder;
+	}
+	public String getHoldsThisTitle() {
+		return holdsThisTitle;
+	}
+	public void setHoldsThisTitle(String holdsThisTitle) {
+		this.holdsThisTitle = holdsThisTitle;
+	}
+	public String getEquipment() {
+		return equipment;
+	}
+	public void setEquipment(String equipment) {
+		this.equipment = equipment;
+	}
+	public String getVehiclenew() {
+		return vehiclenew;
+	}
+	public void setVehiclenew(String vehiclenew) {
+		this.vehiclenew = vehiclenew;
+	}
+	public String getAccidents() {
+		return accidents;
+	}
+	public void setAccidents(String accidents) {
+		this.accidents = accidents;
+	}
+	public String getDamage() {
+		return damage;
+	}
+	public void setDamage(String damage) {
+		this.damage = damage;
+	}
+	public String getPaint() {
+		return paint;
+	}
+	public void setPaint(String paint) {
+		this.paint = paint;
+	}
+	public String getSalvage() {
+		return salvage;
+	}
+	public void setSalvage(String salvage) {
+		this.salvage = salvage;
+	}
+	public String getOptionValue() {
+		return optionValue;
+	}
+	public void setOptionValue(String optionValue) {
+		this.optionValue = optionValue;
 	}
 
 	public static Finder<Long,TradeIn> find = new Finder<>(Long.class,TradeIn.class);

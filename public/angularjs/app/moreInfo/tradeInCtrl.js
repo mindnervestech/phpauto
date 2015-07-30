@@ -13,9 +13,9 @@ angular.module('newApp')
  		 $scope.gridOptions.columnDefs = [
  		                                 { name: 'vin', displayName: 'Vin', width:'17%',cellEditableCondition: false,enableFiltering: false,
  		                                 },
- 		                                 { name: 'model', displayName: 'Model',enableFiltering: false, width:'10%',cellEditableCondition: false,
+ 		                                 { name: 'model', displayName: 'Model',enableFiltering: false, width:'8%',cellEditableCondition: false,
  		                                 },
- 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'14%',cellEditableCondition: false,
+ 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'10%',cellEditableCondition: false,
  		                                 },
  		                                 { name: 'stock', displayName: 'Stock',enableFiltering: false, width:'8%',cellEditableCondition: false,
 		                                 },
@@ -27,9 +27,24 @@ angular.module('newApp')
  		                                 },
  		                                 { name: 'requestDate', displayName: 'Request Date',enableFiltering: false, width:'14%',cellEditableCondition: false,
  		                                 },
+ 		                                { name: 'edit', displayName: '', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    		                                 cellTemplate:' <a ng-click="grid.appScope.getTradeData(row)" style="margin-top:7px;" >View</a>', 
+		                                 
+		                                 },
      		                                 ];
   
   
+ 		$scope.getTradeData = function(row) {
+    		console.log(row.entity.id);
+    		 $http.get('/getTradeInDataById/'+row.entity.id)
+    	 		.success(function(data) {
+    	 			console.log(data);
+    	 			$scope.tradeInData = data;
+    	 		});
+    		$('#popupBtn').click();
+    	}	 
+    	
+ 		 
 	  $http.get('/getAllTradeIn')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
