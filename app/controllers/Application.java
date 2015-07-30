@@ -71,6 +71,7 @@ import viewmodel.SiteContentVM;
 import viewmodel.SiteLogoVM;
 import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
+import viewmodel.TradeInVM;
 import viewmodel.VirtualTourVM;
 import views.html.home;
 
