@@ -11,7 +11,7 @@
 				                    		data-sizex="1" data-sizey="1"
 				                    		id="{{image.id}}"   ng-repeat="image in sliderList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
-				                        			<img class="myImage" style="width:100%; height:100%;" src="/getSliderImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                        			<img class="myImage" style="width:100%; height:100%;" src="/glivr/getSliderImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
 				                            		
 				                            		<div>
 				                            			<a class="remImage" ng-click="deleteSliderImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
@@ -27,7 +27,7 @@
 			<div>                   
             <h1>Upload SliderImages</h1>
 			<p><b>Minimum image dimension should be {{configList[0].width}} X {{configList[0].height}}</b></p>
-					<form id="dropzoneFrm2" action="/uploadSliderPhotos" class="dropzone">
+					<form id="dropzoneFrm2" action="/glivr/uploadSliderPhotos" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" multiple />
                             </div>
@@ -46,7 +46,7 @@
 				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
 				                    		id="{{image.id}}"   ng-repeat="image in featuredList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
-				                        			<img class="myImage" style="width:100%; height:100%;" src="/getFeaturedImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                        			<img class="myImage" style="width:100%; height:100%;" src="/glivr/getFeaturedImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
 				                            		
 				                            		<div>
 				                            			<a class="remImage" ng-click="deleteFeaturedImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
@@ -60,7 +60,7 @@
 			</div>	
 			<h1>Upload Featured Images</h1>
 			<p><b>Minimum image dimension should be {{configList[1].width}} X {{configList[1].height}}</b></p>
-            <form id="dropzoneFrm3" action="/uploadFeaturedPhotos" class="dropzone">
+            <form id="dropzoneFrm3" action="/glivr/uploadFeaturedPhotos" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" multiple />
                             </div>
@@ -148,7 +148,7 @@
 									                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 									                </div>
 									                <div class="modal-body">
-									                    <img src="/getSliderImage/{{sliderImgId}}/full" alt="picture 1" class="img-responsive">
+									                    <img src="/glivr/getSliderImage/{{sliderImgId}}/full" alt="picture 1" class="img-responsive">
 									                </div>
 									                <div class="modal-footer">
 									                    <p>{{sliderImgName}}</p>
@@ -164,7 +164,7 @@
 									                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 									                </div>
 									                <div class="modal-body">
-									                    <img src="/getFeaturedImage/{{featuredImgId}}/full" alt="picture 1" class="img-responsive">
+									                    <img src="/glivr/getFeaturedImage/{{featuredImgId}}/full" alt="picture 1" class="img-responsive">
 									                </div>
 									                <div class="modal-footer">
 									                    <p>{{featuredImgName}}</p>

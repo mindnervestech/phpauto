@@ -30,12 +30,12 @@ angular.module('newApp')
      		                                 ];
   
   
-  $http.get('/getAllRequestInfo')
+  $http.get('/glivr/getAllRequestInfo')
 		.success(function(data) {
 		$scope.gridOptions.data = data;
 	});
   
-	  $http.get('/requestInfoMarkRead')
+	  $http.get('/glivr/requestInfoMarkRead')
 		.success(function(data) {
 			$scope.$emit('getCountEvent', '123');
 	});
