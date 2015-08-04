@@ -28,7 +28,7 @@ angular.module('newApp')
   
 	$scope.vinErr = false;
    $scope.vehicleInit = function() {
- 	  $http.get('/glivr/getAllSites')
+ 	  $http.get('/getAllSites')
  		.success(function(data) {
  			$scope.siteList = data;
  		});
@@ -47,7 +47,7 @@ angular.module('newApp')
    
    $scope.getVinData = function() {
 	   if(!angular.isUndefined($scope.vinNumber)) {
-	 	  $http.get('/glivr/getVehicleInfo/'+$scope.vinNumber)
+	 	  $http.get('/getVehicleInfo/'+$scope.vinNumber)
 			.success(function(data) {
 				if(data.success == true) {
 					$scope.vinData = data;
@@ -76,7 +76,7 @@ angular.module('newApp')
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
- 	  $http.post('/glivr/saveVehicle',$scope.vinData.specification)
+ 	  $http.post('/saveVehicle',$scope.vinData.specification)
 		.success(function(data) {
 			console.log('success');
 			$.pnotify({
@@ -178,7 +178,7 @@ angular.module('newApp')
 				    		   delete $scope.imageList[i].height;
 				    		   delete $scope.imageList[i].link;
 				    	   } 
-				    	   $http.post('/glivr/savePosition',$scope.imageList)
+				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
 					   			//console.log('success');
 					   		});
@@ -189,7 +189,7 @@ angular.module('newApp')
 	$scope.imageList = [];
 	$scope.init = function() {
 		 $timeout(function(){
-			$http.get('/glivr/getImagesByVin/'+$routeParams.num)
+			$http.get('/getImagesByVin/'+$routeParams.num)
 			.success(function(data) {
 				console.log(data);
 				$scope.imageList = data;
@@ -210,7 +210,7 @@ angular.module('newApp')
 		
 		for(var i=0;i<$scope.imageList.length;i++) {
 			if($scope.imageList[i].defaultImage == true) {
-				$http.get('/glivr/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
+				$http.get('/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
 				.success(function(data) {
 				});
 				$('#imgId'+i).removeAttr("style","");
@@ -223,7 +223,7 @@ angular.module('newApp')
 		}
 		
 		if(i == $scope.imageList.length) {
-			$http.get('/glivr/setDefaultImage/'+image.id)
+			$http.get('/setDefaultImage/'+image.id)
 			.success(function(data) {
 				console.log('success');
 			});
@@ -237,7 +237,7 @@ angular.module('newApp')
 	}
 	
 	$scope.deleteImage = function(img) {
-		$http.get('/glivr/deleteImage/'+img.id)
+		$http.get('/deleteImage/'+img.id)
 		.success(function(data) {
 			console.log('success');
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
@@ -299,7 +299,7 @@ angular.module('newApp')
     			 $scope.$apply();
     				 var str = $scope.rowData.price.split(" ");
     				 $scope.rowData.price = str[1];
-    			 $http.post('/glivr/updateVehicle',$scope.rowData)
+    			 $http.post('/updateVehicle',$scope.rowData)
     			 .success(function(data) {
     					console.log('success');
     					$scope.rowData.price = "$ "+$scope.rowData.price;
@@ -315,7 +315,7 @@ angular.module('newApp')
 
     			 
     		    			 $scope.newlyArrivedTab = function() {
-    		    				 $http.get('/glivr/getAllVehicles')
+    		    				 $http.get('/getAllVehicles')
     		    			 		.success(function(data) {
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -328,7 +328,7 @@ angular.module('newApp')
     		    			 }	    			 
     		    			 
     		    			 $scope.soldTab = function() {
-    		    				 $http.get('/glivr/getAllSoldVehicles')
+    		    				 $http.get('/getAllSoldVehicles')
     		    			 		.success(function(data) {
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -348,7 +348,7 @@ angular.module('newApp')
   
    $scope.viewVehiclesInit = function() {
 	   
- 	  $http.get('/glivr/getAllVehicles')
+ 	  $http.get('/getAllVehicles')
  		.success(function(data) {
  			for(var i=0;i<data.length;i++) {
  				data[i].price = "$ "+data[i].price;
@@ -366,7 +366,7 @@ angular.module('newApp')
    }
    
    $scope.deleteVehicleRow = function() {
-	   $http.get('/glivr/deleteVehicleById/'+$scope.rowDataVal.entity.id)
+	   $http.get('/deleteVehicleById/'+$scope.rowDataVal.entity.id)
 		.success(function(data) {
 			if($scope.rowDataVal.entity.status == 'Newly Arrived') {
 				 $scope.viewVehiclesInit();
@@ -387,7 +387,7 @@ angular.module('newApp')
 	   if(row.entity.status == 'Sold') {
 		   $scope.statusVal = "Newly Arrived";
 	   }
-	   $http.get('/glivr/updateVehicleStatus/'+row.entity.id+'/'+$scope.statusVal)
+	   $http.get('/updateVehicleStatus/'+row.entity.id+'/'+$scope.statusVal)
 		.success(function(data) {
 			if(row.entity.status == 'Newly Arrived') {
 				 $scope.viewVehiclesInit();
@@ -426,7 +426,7 @@ angular.module('newApp')
      console.log(tableData);
        $scope.editingData[tableData.id] = false;
        $scope.viewField = false;
-       $http.post('/glivr/updateVehicle',tableData)
+       $http.post('/updateVehicle',tableData)
 		.success(function(data) {
 			console.log('success');
 		});
@@ -438,21 +438,21 @@ angular.module('newApp')
    }
    
    $scope.exportDataAsCSV = function() {
-	   $http.get('/glivr/exportDataAsCSV')
+	   $http.get('/exportDataAsCSV')
 		.success(function(data) {
 			 console.log('success');
 		});
    }
    
    $scope.exportCarfaxCSV = function() {
-	   $http.get('/glivr/exportCarfaxCSV')
+	   $http.get('/exportCarfaxCSV')
 		.success(function(data) {
 			 console.log('success');
 		});
    }
    
    $scope.exportCarGurusCSV = function() {
-	   $http.get('/glivr/exportCarGurusCSV')
+	   $http.get('/exportCarGurusCSV')
 		.success(function(data) {
 			 console.log('success');
 		});
@@ -507,7 +507,7 @@ angular.module('newApp')
 				    		   delete $scope.imageList[i].height;
 				    		   delete $scope.imageList[i].link;
 				    	   }
-				    	   $http.post('/glivr/savePosition',$scope.imageList)
+				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
 					   			//console.log('success');
 					   		});
@@ -520,12 +520,12 @@ angular.module('newApp')
 	$scope.vinData;
 	$scope.init = function() {
 		$scope.isUpdated = false;
-		$http.get('/glivr/getAllSites')
+		$http.get('/getAllSites')
  		.success(function(data) {
  			$scope.siteList = data;
  		});
 		
-		$http.get('/glivr/getVehicleById/'+$routeParams.id)
+		$http.get('/getVehicleById/'+$routeParams.id)
 		.success(function(data) {
 			 console.log(data);
 			 $scope.vinData = data;
@@ -575,7 +575,7 @@ angular.module('newApp')
 	
 	$scope.getImages = function() {
 		$scope.isUpdated = false;
-		$http.get('/glivr/getImagesByVin/'+$scope.vinData.specification.vin)
+		$http.get('/getImagesByVin/'+$scope.vinData.specification.vin)
 		.success(function(data) {
 			console.log(data);
 			$scope.imageList = data;
@@ -593,7 +593,7 @@ angular.module('newApp')
 	   };
 	
 	$scope.updateVehicle = function() {
-		$http.post('/glivr/updateVehicleById',$scope.vinData.specification)
+		$http.post('/updateVehicleById',$scope.vinData.specification)
 		.success(function(data) {
 			console.log('success');
 			$scope.isUpdated = true;
@@ -618,7 +618,7 @@ $scope.setAsDefault = function(image,index) {
 		
 		for(var i=0;i<$scope.imageList.length;i++) {
 			if($scope.imageList[i].defaultImage == true) {
-				$http.get('/glivr/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
+				$http.get('/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
 				.success(function(data) {
 				});
 				$('#imgId'+i).removeAttr("style","");
@@ -631,7 +631,7 @@ $scope.setAsDefault = function(image,index) {
 		}
 		
 		if(i == $scope.imageList.length) {
-			$http.get('/glivr/setDefaultImage/'+image.id)
+			$http.get('/setDefaultImage/'+image.id)
 			.success(function(data) {
 				console.log('success');
 			});
@@ -645,7 +645,7 @@ $scope.setAsDefault = function(image,index) {
 	}
 	
 	$scope.deleteImage = function(img) {
-		$http.get('/glivr/deleteImage/'+img.id)
+		$http.get('/deleteImage/'+img.id)
 		.success(function(data) {
 			console.log('success');
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
@@ -659,7 +659,7 @@ $scope.setAsDefault = function(image,index) {
 	}
 	
 	$scope.updateVehicleStatus = function(){
-		   $http.get('/glivr/updateVehicleStatus/'+$routeParams.id)
+		   $http.get('/updateVehicleStatus/'+$routeParams.id)
 			.success(function(data) {
 				
 			});
@@ -671,7 +671,7 @@ $scope.setAsDefault = function(image,index) {
 	   }
 	
 	$scope.deleteVehicleRow = function() {
-		$http.get('/glivr/deleteVehicleById/'+$routeParams.id)
+		$http.get('/deleteVehicleById/'+$routeParams.id)
 		.success(function(data) {
 			$location.path('/addVehicle');
 		});
@@ -684,7 +684,7 @@ $scope.setAsDefault = function(image,index) {
 	
 	$scope.uploadAudio = function() {
 		$upload.upload({
-            url : '/glivr/uploadSoundFile',
+            url : '/uploadSoundFile',
             method: 'post',
             file:file,
             data:{"vinNum":$scope.vinData.specification.vin}
@@ -700,14 +700,14 @@ $scope.setAsDefault = function(image,index) {
 	}
 	
 	$scope.deleteAudioFile = function() {
-		$http.get('/glivr/deleteAudioFile/'+$scope.audioFileId)
+		$http.get('/deleteAudioFile/'+$scope.audioFileId)
 		.success(function(data) {
 			$scope.getAllAudio();
 		});
 	}
 	
 	$scope.getAllAudio = function() {
-		$http.get('/glivr/getAllAudio/'+$scope.vinData.specification.vin)
+		$http.get('/getAllAudio/'+$scope.vinData.specification.vin)
 		.success(function(data) {
 			$scope.audioList = data;
 		});
@@ -715,7 +715,7 @@ $scope.setAsDefault = function(image,index) {
 	$scope.vData = {};
 	
 	$scope.getVirtualTourData = function() {
-		$http.get('/glivr/getVirtualTour/'+$scope.vinData.specification.vin)
+		$http.get('/getVirtualTour/'+$scope.vinData.specification.vin)
 		.success(function(data) {
 			$scope.vData.desktopUrl = data.desktopUrl;
 			$scope.vData.mobileUrl = data.mobileUrl;
@@ -725,7 +725,7 @@ $scope.setAsDefault = function(image,index) {
 	$scope.saveVData = function() {
 		console.log($scope.vData);
 		$scope.vData.vin = $scope.vinData.specification.vin;
-		$http.post('/glivr/saveVData',$scope.vData)
+		$http.post('/saveVData',$scope.vData)
 		.success(function(data) {
 			console.log('success');
 		});
@@ -741,10 +741,10 @@ angular.module('newApp')
 .controller('ImageCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 	$scope.coords = {};
-	$scope.imgId = "/glivr/getImage/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "/getImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
-		 $http.get('/glivr/getImageById/'+$routeParams.id)
+		 $http.get('/getImageById/'+$routeParams.id)
 			.success(function(data) {
 				imageW = data.col;
 				imageH = data.row;
@@ -794,7 +794,7 @@ angular.module('newApp')
 			$scope.coords.imageId = $routeParams.id;
 			console.log($scope.coords);
 			
-			$http.post('/glivr/editImage',$scope.coords)
+			$http.post('/editImage',$scope.coords)
 			.success(function(data) {
 				console.log('success');
 				$location.path('/viewVehicles');
@@ -855,7 +855,7 @@ angular.module('newApp')
 				    		   delete $scope.sliderList[i].vin;
 				    		   delete $scope.sliderList[i].defaultImage;
 				    	   }
-				    	   $http.post('/glivr/saveSliderPosition',$scope.sliderList)
+				    	   $http.post('/saveSliderPosition',$scope.sliderList)
 					   		.success(function(data) {
 					   			//console.log('success');
 					   		});
@@ -910,7 +910,7 @@ angular.module('newApp')
 				    		   delete $scope.featuredList[i].vin;
 				    		   delete $scope.featuredList[i].defaultImage;
 				    	   }
-				    	   $http.post('/glivr/saveFeaturedPosition',$scope.featuredList)
+				    	   $http.post('/saveFeaturedPosition',$scope.featuredList)
 					   		.success(function(data) {
 					   			//console.log('success');
 					   		});
@@ -923,7 +923,7 @@ angular.module('newApp')
 	$scope.siteHeading = "";
 	$scope.init = function() {
 		
-		 $http.get('/glivr/getSliderAndFeaturedImages')
+		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
 				console.log(data);
 				$scope.sliderList = data.sliderList;
@@ -1033,14 +1033,14 @@ angular.module('newApp')
 	   }
 	   
 	   $scope.deleteSliderImage = function(image) {
-		   $http.get('/glivr/deleteSliderImage/'+image.id)
+		   $http.get('/deleteSliderImage/'+image.id)
 			.success(function(data) {
 				$scope.sliderList.splice($scope.sliderList.indexOf(image),1);
 			});
 	   }
 	   
 	   $scope.deleteFeaturedImage = function(image) {
-		   $http.get('/glivr/deleteFeaturedImage/'+image.id)
+		   $http.get('/deleteFeaturedImage/'+image.id)
 			.success(function(data) {
 				$scope.featuredList.splice($scope.featuredList.indexOf(image),1);
 			});
@@ -1066,7 +1066,7 @@ angular.module('newApp')
 	 
 	   $scope.saveSiteHeading = function(siteHeading) {
 		   console.log(siteHeading);
-		   $http.get('/glivr/saveSiteHeading/'+siteHeading)
+		   $http.get('/saveSiteHeading/'+siteHeading)
 			.success(function(data) {
 				
 			});
@@ -1074,14 +1074,14 @@ angular.module('newApp')
 	   
 	   $scope.saveSiteDescription = function() {
 		   console.log($scope.siteDescription);
-		   $http.post('/glivr/saveSiteDescription',$scope.siteDescription)
+		   $http.post('/saveSiteDescription',$scope.siteDescription)
 	   		.success(function(data) {
 	   			console.log('success');
 	   		});
 	   }
 	  
 	   $scope.getLogoData = function() {
-		   $http.get('/glivr/getLogoData')
+		   $http.get('/getLogoData')
 			.success(function(data) {
 				$scope.logoName = data.logoName;
 				$scope.feviconName = data.feviconName;
@@ -1101,7 +1101,7 @@ angular.module('newApp')
 		
 	   $scope.saveLogoImage = function() {
 		   $upload.upload({
-	            url : '/glivr/uploadLogoFile',
+	            url : '/uploadLogoFile',
 	            method: 'post',
 	            file:logofile,
 	        }).success(function(data, status, headers, config) {
@@ -1117,7 +1117,7 @@ angular.module('newApp')
 	   
 	   $scope.saveFeviconImage = function() {
 		   $upload.upload({
-	            url : '/glivr/uploadFeviconFile',
+	            url : '/uploadFeviconFile',
 	            method: 'post',
 	            file:feviconfile,
 	        }).success(function(data, status, headers, config) {
@@ -1132,7 +1132,7 @@ angular.module('newApp')
 	   }
 	   $scope.tabText;
 	   $scope.saveTabText = function(tabText) {
-		   $http.get('/glivr/saveSiteTabText/'+tabText)
+		   $http.get('/saveSiteTabText/'+tabText)
 			.success(function(data) {
 				$.pnotify({
 				    title: "Success",
@@ -1150,10 +1150,10 @@ angular.module('newApp')
 .controller('SliderCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 	$scope.coords = {};
-	$scope.imgId = "/glivr/getSliderImage/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "/getSliderImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
-		 $http.get('/glivr/getSliderImageDataById/'+$routeParams.id)
+		 $http.get('/getSliderImageDataById/'+$routeParams.id)
 			.success(function(data) {
 				console.log(data);
 				imageW = data.width;
@@ -1218,7 +1218,7 @@ angular.module('newApp')
 			$scope.coords.link = image.link;
 			console.log($scope.coords);
 			
-			$http.post('/glivr/editSliderImage',$scope.coords)
+			$http.post('/editSliderImage',$scope.coords)
 			.success(function(data) {
 				console.log('success');
 				$location.path('/homePage');
@@ -1233,10 +1233,10 @@ angular.module('newApp')
 .controller('FeaturedCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 	$scope.coords = {};
-	$scope.imgId = "/glivr/getFeaturedImage/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "/getFeaturedImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
-		 $http.get('/glivr/getFeaturedImageDataById/'+$routeParams.id)
+		 $http.get('/getFeaturedImageDataById/'+$routeParams.id)
 			.success(function(data) {
 				imageW = data.width;
 				imageH = data.height;
@@ -1300,7 +1300,7 @@ angular.module('newApp')
 			$scope.coords.link = image.link;
 			console.log($scope.coords);
 			
-			$http.post('/glivr/editFeaturedImage',$scope.coords)
+			$http.post('/editFeaturedImage',$scope.coords)
 			.success(function(data) {
 				console.log('success');
 				$location.path('/homePage');
@@ -1315,7 +1315,7 @@ angular.module('newApp')
 .controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 	$scope.init = function() {
-		$http.get('/glivr/getImageConfig')
+		$http.get('/getImageConfig')
 		.success(function(data) {
 			$scope.slider = data.slider;
 			$scope.featured = data.featured;
@@ -1323,14 +1323,14 @@ angular.module('newApp')
 	}
 	
 	$scope.saveSlider = function() {
-		$http.get('/glivr/saveSliderConfig/'+$scope.slider.width+'/'+$scope.slider.height)
+		$http.get('/saveSliderConfig/'+$scope.slider.width+'/'+$scope.slider.height)
 		.success(function(data) {
 			console.log('success');
 		});
 	}
 	
 	$scope.saveFeatured = function() {
-		$http.get('/glivr/saveFeaturedConfig/'+$scope.featured.width+'/'+$scope.featured.height)
+		$http.get('/saveFeaturedConfig/'+$scope.featured.width+'/'+$scope.featured.height)
 		.success(function(data) {
 			console.log('success');
 		});

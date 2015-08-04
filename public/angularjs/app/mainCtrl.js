@@ -9,7 +9,7 @@
                 Dropzone.autoDiscover = false;
             });
             
-            $http.get('/glivr/getUserInfo').success(function(data,status, headers, config){
+            $http.get('/getUserInfo').success(function(data,status, headers, config){
             	console.log(data);
             	$scope.name = data.firstName + " " + data.lastName;
             	$scope.userimage = data.avatarUrl;
@@ -19,14 +19,14 @@
             	}
             });
 
-            $http.get('/glivr/getInfoCount').success(function(data,status, headers, config){
+            $http.get('/getInfoCount').success(function(data,status, headers, config){
             	$scope.requestMoreLength = data.req;
                 $scope.scheduleTestLength = data.schedule;
                 $scope.tradeInLength = data.trade;
             })
             
             $scope.$on('getCountEvent', function (event, args) {
-            	$http.get('/glivr/getInfoCount').success(function(data,status, headers, config){
+            	$http.get('/getInfoCount').success(function(data,status, headers, config){
                 	$scope.requestMoreLength = data.req;
                     $scope.scheduleTestLength = data.schedule;
                     $scope.tradeInLength = data.trade;

@@ -34,12 +34,12 @@ angular.module('newApp')
      		                                 ];
   
   
-  $http.get('/glivr/getAllScheduleTest')
+  $http.get('/getAllScheduleTest')
 		.success(function(data) {
 		$scope.gridOptions.data = data;
 	});
   
-	  $http.get('/glivr/scheduleTestMarkRead')
+	  $http.get('/scheduleTestMarkRead')
 		.success(function(data) {
 			$scope.$emit('getCountEvent', '123');
 	});

@@ -36,7 +36,7 @@ angular.module('newApp')
   
  		$scope.getTradeData = function(row) {
     		console.log(row.entity.id);
-    		 $http.get('/glivr/getTradeInDataById/'+row.entity.id)
+    		 $http.get('/getTradeInDataById/'+row.entity.id)
     	 		.success(function(data) {
     	 			console.log(data);
     	 			$scope.tradeInData = data;
@@ -45,12 +45,12 @@ angular.module('newApp')
     	}	 
     	
  		 
-	  $http.get('/glivr/getAllTradeIn')
+	  $http.get('/getAllTradeIn')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 		});
   
-		  $http.get('/glivr/tradeInMarkRead')
+		  $http.get('/tradeInMarkRead')
 			.success(function(data) {
 				$scope.$emit('getCountEvent', '123');
 		});
