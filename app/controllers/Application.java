@@ -29,6 +29,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import models.AuthUser;
+import models.Blog;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.RequestMoreInfo;
@@ -62,6 +63,7 @@ import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
 import viewmodel.AudioVM;
+import viewmodel.BlogVM;
 import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
@@ -2691,6 +2693,78 @@ public class Application extends Controller {
     	vm.optionValue = tradeIn.optionValue;
     	vm.vin = tradeIn.vin;
     	return ok(Json.toJson(vm));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result saveBlog() {
+    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	Form<BlogVM> form = DynamicForm.form(BlogVM.class).bindFromRequest();
+    	BlogVM vm = form.get();
+    	Blog blogObj = Blog.findByUserAndTitle(userObj, vm.title);
+    	if(blogObj == null) {
+	    	Blog blog = new Blog();
+	    	blog.title = vm.title;
+	    	blog.description = vm.description;
+	    	blog.postedBy = vm.postedBy;
+	    	blog.postedDate = new Date();
+	    	blog.user = userObj;
+	    	blog.save();
+    	}
+    	
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getAllBlogs() {
+    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	List<Blog> blogList = Blog.findByUser(userObj);
+    	List<BlogVM> vmList = new ArrayList<>();
+    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    	int num = 0;
+    	for(Blog blog: blogList) {
+    		num++;
+    		BlogVM vm = new BlogVM();
+    		vm.id = blog.id;
+    		vm.title = blog.title;
+    		vm.postedBy = blog.postedBy;
+    		vm.postedDate = df.format(blog.postedDate);
+    		vm.number = num;
+    		vmList.add(vm);
+    	}
+    	
+    	return ok(Json.toJson(vmList));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result deleteBlog(Long id) {
+    	Blog blog = Blog.findById(id);
+    	blog.delete();
+    	return ok();
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result getBlogById(Long id) {
+    	BlogVM vm = new BlogVM();
+    	Blog blog = Blog.findById(id);
+    	vm.id = blog.id;
+		vm.title = blog.title;
+		vm.postedBy = blog.postedBy;
+		vm.description = blog.description;
+    	return ok(Json.toJson(vm));
+    }
+    
+    @SecureSocial.SecuredAction
+    public static Result updateBlog() {
+    	Form<BlogVM> form = DynamicForm.form(BlogVM.class).bindFromRequest();
+    	BlogVM vm = form.get();
+    	Blog blogObj = Blog.findById(vm.id);
+    	if(blogObj != null) {
+    		blogObj.setTitle(vm.title);
+    		blogObj.setDescription(vm.description);
+    		blogObj.setPostedBy(vm.postedBy);
+    		blogObj.update();
+    	}
+    	return ok();
     }
     
 }

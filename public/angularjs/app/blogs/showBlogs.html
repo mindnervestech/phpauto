@@ -1,0 +1,28 @@
+<h1>Blogs</h1>
+<div ng-init="init()">
+	
+		<a href="#/createBlog" class="btn btn-primary" style="margin-left:84%;">Create New Blog</a>
+	
+</div>
+
+<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div>  
+	
+<div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-basic"></div>
+<div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Delete Blog</strong></h4>
+                </div>
+                <div class="modal-body">
+                   Are you sure to delete blog?<br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteBlogRow()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div> 	

@@ -21,7 +21,8 @@ var MakeApp = angular
     'ui.grid',
     'ui.grid.edit',
     'ui.grid.pagination',
-    'angularFileUpload'
+    'angularFileUpload',
+    'textAngular'
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -52,6 +53,18 @@ var MakeApp = angular
          .when('/tradeIn', {
             templateUrl: 'moreInfo/tradeIn.html',
             controller: 'TradeInCtrl'
+        })
+        .when('/blogs', {
+            templateUrl: 'blogs/showBlogs.html',
+            controller: 'BlogsCtrl'
+        })
+        .when('/createBlog', {
+            templateUrl: 'blogs/createBlog.html',
+            controller: 'CreateBlogCtrl'
+        })
+        .when('/editBlog/:id', {
+            templateUrl: 'blogs/editBlog.html',
+            controller: 'EditBlogCtrl'
         })
         .when('/addPhoto/:num', {
             templateUrl: 'addPhotos/uploadPhoto.html',

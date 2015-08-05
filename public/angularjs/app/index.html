@@ -39,6 +39,7 @@
         <link href="/assets/angular-ui-grid/ui-grid-unstable.css" rel="stylesheet" />
         <link href="/assets/ng-jcrop/jquery.Jcrop.css" rel="stylesheet" />
         <link href="/assets/pnotify/jquery.pnotify.default.css" rel="stylesheet" />
+        <link href="/assets/textAngular/textAngular.css" rel="stylesheet" />
         <!-- BEGIN ANGULARJS STYLE -->
         <link href="/dealerjs/css/angular-theme.css" rel="stylesheet">
         <!-- END ANGULARJS STYLE -->
@@ -112,6 +113,7 @@
 						<li ng-class="{ active  : isActive('/requestMoreInfo')}"><a href="#requestMoreInfo"><i class="glyphicon glyphicon-info-sign"></i><span>Request More Info</span></a></li>
 						<li ng-class="{ active  : isActive('/scheduleTest')}"><a href="#scheduleTest"><i class="icon-rounded-pin"></i><span>Schedule Test Drive</span></a></li>
 						<li ng-class="{ active  : isActive('/tradeIn')}"><a href="#tradeIn"><i class="icon-rounded-air-plane"></i><span>Trade In Enquiries</span></a></li>
+						<li ng-class="{ active  : isActive('/blogs')}"><a href="#blogs"><i class="icon-rounded-air-plane"></i><span>Blogs</span></a></li>
 						<li ng-class="{ active  : isActive('/configuration')}"><a href="#configuration"><i class="fa fa-cogs"></i><span>Settings</span></a></li>
                          <!-- <li class="nav-parent" >
                             <a href="#"><i class="icon-bulb"></i><span>Mailbox</span> <span class="fa arrow"></span></a>
@@ -1034,8 +1036,11 @@
         <script src="/assets/angular-gridster/jquery.resize.js"></script>
         <script src="/assets/angular-gridster/angular-gridster.min.js"></script>
         <script src="/assets/angular-ui-grid/ui-grid-unstable.js"></script>
-         <script src="/assets/ng-jcrop/jquery.Jcrop.js"></script>
-         <script src="/assets/pnotify/jquery.pnotify.min.js"></script>
+        <script src="/assets/ng-jcrop/jquery.Jcrop.js"></script>
+        <script src="/assets/pnotify/jquery.pnotify.min.js"></script>
+        <script src="/assets/textAngular/textAngular-rangy.min.js"></script> 
+        <script src="/assets/textAngular/textAngular-sanitize.min.js"></script>
+        <script src="/assets/textAngular/textAngular.min.js"></script>
         <!-- BEGIN CUSTOM ANGULARJS SCRIPTS -->
         <script src="/dealerjs/js/pages/dashboard.js"></script>
         <script src="/dealerjs/js/pages/charts.js"></script>
@@ -1095,6 +1100,7 @@
         <script src="moreInfo/RequestMoreInfoCtrl.js"></script>
         <script src="moreInfo/scheduleTestCtrl.js"></script>
         <script src="moreInfo/tradeInCtrl.js"></script>
+        <script src="blogs/blogsCtrl.js"></script>
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
     </body>
 </html>
