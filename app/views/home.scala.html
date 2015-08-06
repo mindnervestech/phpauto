@@ -1,40 +1,72 @@
 <html>
 <body>
-	<div>
-		<img src="assets/images/glider_logo.png" style="width:16%;height:auto;">
+	<div id="container">
+		<video autoplay loop src="assets/video/GLIDER_AUTOS-BG-video.mp4" style="width:100%;height:auto;"></video>
+		<img src="assets/images/welcome.gif" style="width:25%;margin-top:18%;margin-left:4%;" id="img2">
 	</div>
-	<div style="margin-left:34%;margin-top:1%;">
-		<img src="assets/images/Welcom-to-GLIDER-AUTOS.png" style="width:50%;height:auto;">
+	<div style="margin-left:35%;margin-top:4%;" class="imageGroup">
+		<img src="assets/images/background_gradient_gray_12_jpg_max.jpg" style="width:28%;height:25%;margin-left:69%;margin-top:12%;" id="img3">
+		<!-- <div id="img5" style="margin-left:70%;margin-top:14%;">
+			<label>Email</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="email" name="email" style="">
+		</div>
+		<div id="img6" style="margin-left:70%;margin-top:17%;">
+			<label>Password</label>
+			<input type="password" name="email" style="">
+		</div> -->
+		<img src="assets/images/googleSignIn.png" style="width:18%;margin-left:74%;margin-top:20%;cursor:pointer;height:auto;" id="img4" class="remImage" onclick="login()">
 	</div>
-	<div style="margin-left:35%;margin-top:4%;" id="container">
-		<img src="assets/images/Login-Page_menu_bg.jpg" style="width:47%;height:auto;">
-		<img src="assets/images/googleSignIn.png" style="width:35%;margin-left:6%;margin-top:12%;cursor:pointer;height:auto;" id="img2" onclick="login()">
-	</div>
+	
 </body>
 </html>
 
 <style>
-body {
-    background-image:  url('assets/images/Login-Page_opt.jpg');
-    background-size:   cover;                      
-    background-repeat: no-repeat; 
-    background-position: center;      
-    height:auto;
-    overflow-y: hidden ! important;
-    overflow-x: hidden ! important;
-    width:100%;
-}
-
-#container {
-    position:relative;
-}
-
+ 
 #img2 {
     position: absolute;
     left: 0px;
     top: 0px;
+} 
+#img3 {
+    position: absolute;
+    opacity:0.3;
+    left: 0px;
+    top: 0px;
+} 
+#img4 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+} 
+#img5 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+} 
+
+#img6 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+} 
+
+.remImage {
+	opacity:0.3;
 }
 
+.imageGroup:hover .remImage{
+	opacity:1;
+}
+
+body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                overflow-y: hidden ! important;
+    			overflow-x: hidden ! important;
+
+            }
 </style>
 <script type="text/javascript">
 function login() {
