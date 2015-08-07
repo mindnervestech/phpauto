@@ -1,26 +1,44 @@
+@(message: String)
 <html>
+<head>
+	<link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
 	<div id="container">
-		<video autoplay loop src="assets/video/GLIDER_AUTOS-BG-video.mp4" style="width:100%;height:auto;"></video>
+		<video autoplay loop src="assets/video/GLIDER_AUTOS-BG-video.mp4" style="width:100%;height:auto;" id="img1"></video>
 		<img src="assets/images/welcome.gif" style="width:25%;margin-top:18%;margin-left:4%;" id="img2">
 	</div>
 	<div style="margin-left:35%;margin-top:4%;" class="imageGroup">
-		<img src="assets/images/background_gradient_gray_12_jpg_max.jpg" style="width:28%;height:25%;margin-left:69%;margin-top:12%;" id="img3">
-		<!-- <div id="img5" style="margin-left:70%;margin-top:14%;">
-			<label>Email</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="email" name="email" style="">
+		<img src="assets/images/background_gradient_gray_12_jpg_max.jpg" style="width:28%;height:27%;margin-left:69%;margin-top:12%;" id="img3">
+	    <form action="authenticate" method="POST">
+	    <div id="img5" class="form-group col-sm-6" style="margin-left:68%;margin-top:14%;">
+			<label class="col-sm-1 control-label">Email</label>
+			<div class="col-sm-5" style="margin-left: 4%;">
+				<input type="email" name="email" class="form-control" required>
+			</div>
+		</div>	
+		<div id="img6" class="form-group col-sm-6" style="margin-left:68%;margin-top:18%;">
+			<label class="col-sm-1 control-label">Password</label>
+			<div class="col-sm-5" style="margin-left: 4%;">
+				<input type="password" name="password" class="form-control" required>
+			</div>
 		</div>
-		<div id="img6" style="margin-left:70%;margin-top:17%;">
-			<label>Password</label>
-			<input type="password" name="email" style="">
-		</div> -->
-		<img src="assets/images/googleSignIn.png" style="width:18%;margin-left:74%;margin-top:20%;cursor:pointer;height:auto;" id="img4" class="remImage" onclick="login()">
+		<!-- <img src="assets/images/googleSignIn.png" onclick="login()"> -->
+		<p style="color:red;margin-left:77%;margin-top:21%;" id="img4"><b>@message</b></p>
+		<button type="submit" style="margin-left:77%;margin-top:23%;cursor:pointer;height:auto;background-color: cornflowerblue;" id="img4" class="remImage btn">Login</button>
+		</form>
 	</div>
 	
 </body>
 </html>
 
 <style>
+ 
+#img1 {
+	position: absolute;
+    left: 0px;
+    top: 0px;
+} 
  
 #img2 {
     position: absolute;

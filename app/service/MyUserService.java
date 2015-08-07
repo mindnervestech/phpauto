@@ -79,8 +79,9 @@ public class MyUserService extends BaseUserService {
              Logger.debug(String.format("id = %s", userId.userId()));
          }
          AuthUser localUser = AuthUser.find.byId(userId.hashCode());
-         if(localUser == null) return null;
          
+         if(localUser == null) return null;
+         Logger.debug(String.format("id sss= %s", localUser.email));
          return localUser;
     }
 

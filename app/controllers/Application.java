@@ -47,6 +47,7 @@ import models.VirtualTour;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.net.ftp.FTPClient;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -76,9 +77,6 @@ import viewmodel.SpecificationVM;
 import viewmodel.TradeInVM;
 import viewmodel.VirtualTourVM;
 import views.html.home;
-
-import org.apache.commons.net.ftp.FTPClient;
-
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Ebean;
@@ -107,31 +105,51 @@ public class Application extends Controller {
         return ok(index.render("Your new application is ready."));
     }*/
 	
-	public static Result home() {
-		return ok(home.render());
+	public static Result login() {
+		String email = Form.form().bindFromRequest().get("email");
+		String password= Form.form().bindFromRequest().get("password");
+		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).findUnique();
+		if(user != null) {
+			session("USER_KEY", user.id+"");
+			return  redirect("/dealer/index.html");
+		} else {
+			return ok(home.render("Invalid Credentials"));
+		}
 	}
 	
-	@SecureSocial.SecuredAction
+	public static Result logout() {
+		session().clear();
+		return ok(home.render(""));
+	}
+	
+	public static Result home() {
+		return ok(home.render(""));
+	}
+	
+	
     public static Result index() {
-        Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
-        //return ok(index.render(user));
+       
         return redirect("/dealer/index.html");
     }
 	
-	@SecureSocial.SecuredAction(ajaxCall = true)
     public static Result getUserInfo() {
-		AuthUser user = (AuthUser)ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = getLocalUser();
 		return ok(Json.toJson(user));
+	}
+    
+    public static AuthUser getLocalUser() {
+    	String id = session("USER_KEY");
+    	AuthUser user = AuthUser.find.byId(Integer.parseInt(id));
+		return user;
 	}
 
     @SecureSocial.UserAwareAction
     public static Result userAware() {
-        Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+        Identity user = getLocalUser();
         final String userName = user != null ? user.fullName() : "guest";
         return ok("Hello " + userName);
     }
 
-    @SecureSocial.SecuredAction(ajaxCall = true)
     public static Result ajaxCall() {
         // return some json
     	return null;
@@ -150,15 +168,15 @@ public class Application extends Controller {
     	return ok(Json.toJson(vmList));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getVehicleInfo(String vin) throws IOException,Exception {
     	
-    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	Identity user = getLocalUser();
     	AuthUser userObj = (AuthUser)user;
+    	
     	Vehicle vehicle = Vehicle.findByVidAndUser(vin,userObj); 
-    	PinVM pinObj = new PinVM();
-		if(vehicle == null) {
-    		
+    	if(vehicle == null) {
+    		PinVM pinObj = new PinVM();
     		if(!simulate ) {
     		/*URL url;
 				url = new URL("https://vindecoder.p.mashape.com/decode_vin?vin="+vin);
@@ -562,9 +580,9 @@ public class Application extends Controller {
     	}
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveVehicle() throws IOException {
-    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	Identity user = getLocalUser();
     	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
     	SpecificationVM vm = form.get();
     	AuthUser userObj = (AuthUser)user;
@@ -819,18 +837,263 @@ public class Application extends Controller {
 	                    fis.close();
 	                }
 	    		}   
+	    		
+	    		
+	    		if(siteObj.getName().equals("Carfax")) {
+	    			FTPClient client = new FTPClient();
+	    	        FileInputStream fis = null;
+	    	        client.connect("ftp.vast.com");
+	                client.login("gliderllc.com", "73f1vvRw4a");
+	                String filename = vm.vin+".csv";
+	                CSVWriter writer = new CSVWriter(new FileWriter(filename));
+	    	    	List<Vehicle> vehicleList = Vehicle.getAllVehicles(userObj);
+	    	    	String []rowHeaders = new String[48];
+	    	    	rowHeaders[0] = "Record Id";
+	    	    	rowHeaders[1] = "Vin";
+	    	    	rowHeaders[2] = "Stock Number";
+	    	    	rowHeaders[3] = "Title";
+	    	    	rowHeaders[4] = "Url";
+	    	    	rowHeaders[5] = "Category";
+	    	    	rowHeaders[6] = "Images";
+	    	    	rowHeaders[7] = "Address";
+	    	    	rowHeaders[8] = "City";
+	    	    	rowHeaders[9] = "State";
+	    	    	rowHeaders[10] = "Zip";
+	    	    	rowHeaders[11] = "Country";
+	    	    	rowHeaders[12] = "Seller Type";
+	    	    	rowHeaders[13] = "Dealer Name";
+	    	    	rowHeaders[14] = "Dealer Id";
+	    	    	rowHeaders[15] = "Dealer Email";
+	    	    	rowHeaders[16] = "Dealer Phone";
+	    	    	rowHeaders[17] = "Delaer Website";
+	    	    	rowHeaders[18] = "Dealer Fee";
+	    	    	rowHeaders[19] = "Make";
+	    	    	rowHeaders[20] = "Model";
+	    	    	rowHeaders[21] = "Trim";
+	    	    	rowHeaders[22] = "Body";
+	    	    	rowHeaders[23] = "Mileage";
+	    	    	rowHeaders[24] = "Year";
+	    	    	rowHeaders[25] = "Currency";
+	    	    	rowHeaders[26] = "Price";
+	    	    	rowHeaders[27] = "MSRP";
+	    	    	rowHeaders[28] = "Internet Price";
+	    	    	rowHeaders[29] = "Selling Price";
+	    	    	rowHeaders[30] = "Retail Price";
+	    	    	rowHeaders[31] = "Invoice Price";
+	    	    	rowHeaders[32] = "Exterior Color";
+	    	    	rowHeaders[33] = "Interior Color";
+	    	    	rowHeaders[34] = "Interior Material";
+	    	    	rowHeaders[35] = "Doors";
+	    	    	rowHeaders[36] = "Cylinders";
+	    	    	rowHeaders[37] = "Engine Size";
+	    	    	rowHeaders[38] = "Drive Type";
+	    	    	rowHeaders[39] = "Transmission";
+	    	    	rowHeaders[40] = "Cpo";
+	    	    	rowHeaders[41] = "Description";
+	    	    	rowHeaders[42] = "Standard Features";
+	    	    	rowHeaders[43] = "Optional Features";
+	    	    	rowHeaders[44] = "Seller Comments";
+	    	    	rowHeaders[45] = "Vehicle Condition";
+	    	    	rowHeaders[46] = "Listing Time";
+	    	    	rowHeaders[47] = "Expire Time";
+	    	    	writer.writeNext(rowHeaders);
+	    			
+	    	    	for(Vehicle vehicleCarfax: vehicleList) {
+	    	    		String []row = new String[48];
+	    	    		row[0] = "12345678";
+	    	    		row[1] = vehicleCarfax.vin;
+	    	    		row[2] = vehicleCarfax.stock;
+	    	    		row[3] = vehicleCarfax.year+" "+vehicleCarfax.make+" "+vehicleCarfax.model;
+	    	    		row[4] = "http://www.domain.com/cars/12345679.html";
+	    	    		row[5] = vehicleCarfax.category;
+	    	    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicleCarfax.vin, userObj);
+	    	    		String str = "";
+	    	    		for(VehicleImage img : vImageList) {
+	    	    			str = str +rootDir+img.path+"|";
+	    	    		}
+	    	    		row[6] = str;
+	    	    		row[7] = "1234 Main Street";
+	    	    		row[8] = "San Francisco";
+	    	    		row[9] = "CA";
+	    	    		row[10] = "94105";
+	    	    		row[11] = "United States";
+	    	    		row[12] = "Dealer";
+	    	    		row[13] = "Dealer";
+	    	    		row[14] = "4567";
+	    	    		row[15] = "someone@dealerwebsite.com";
+	    	    		row[16] = "800-123-4567";
+	    	    		row[17] = "dealerwebsite.com";
+	    	    		row[18] = "";
+	    	    		row[19] = vehicleCarfax.make;
+	    	    		row[20] = vehicleCarfax.model;
+	    	    		row[21] = vehicleCarfax.trim;
+	    	    		row[22] = vehicleCarfax.bodyStyle;
+	    	    		row[23] = vehicleCarfax.mileage;
+	    	    		row[24] = vehicleCarfax.year;
+	    	    		row[25] = "USD";
+	    	    		row[26] = vehicleCarfax.price.toString();
+	    	    		row[27] = vehicleCarfax.getPrice().toString();
+	    	    		row[28] = "";
+	    	    		row[29] = "";
+	    	    		row[30] = "";
+	    	    		row[31] = "";
+	    	    		row[32] = vehicleCarfax.exteriorColor;
+	    	    		row[33] = vehicleCarfax.interiorColor;
+	    	    		row[34] = "fabric";
+	    	    		row[35] = vehicleCarfax.doors;
+	    	    		row[36] = vehicleCarfax.cylinders;
+	    	    		row[37] = vehicleCarfax.engine;
+	    	    		row[38] = vehicleCarfax.drivetrain;
+	    	    		row[39] = vehicleCarfax.transmission;
+	    	    		row[40] = "YES";
+	    	    		row[41] = vehicleCarfax.description; //description
+	    	    		
+	    	    		String standardFeatures = "";
+	    	    		if(vehicleCarfax.drivetrain != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.drivetrain+",";
+	    	    		}
+	    	    		if(vehicleCarfax.fuelType != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.fuelType+",";
+	    	    		}
+	    	    		if(vehicleCarfax.fuelTank != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.fuelTank+",";
+	    	    		}
+	    	    		if(vehicleCarfax.headlights != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.headlights+",";
+	    	    		}
+	    	    		if(vehicleCarfax.mirrors != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.mirrors+",";
+	    	    		}
+	    	    		if(vehicleCarfax.roof != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.roof+",";
+	    	    		}
+	    	    		if(vehicleCarfax.acceleration != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.acceleration+",";
+	    	    		}
+	    	    		if(vehicleCarfax.standardSeating != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.standardSeating+",";
+	    	    		}
+	    	    		if(vehicleCarfax.engine != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.engine+",";
+	    	    		}
+	    	    		if(vehicleCarfax.camType != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.camType+",";
+	    	    		}
+	    	    		if(vehicleCarfax.valves != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.valves+",";
+	    	    		}
+	    	    		if(vehicleCarfax.cylinders != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.cylinders+",";
+	    	    		}
+	    	    		if(vehicleCarfax.fuelQuality != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.fuelQuality+",";
+	    	    		}
+	    	    		if(vehicleCarfax.horsePower != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.horsePower+",";
+	    	    		}
+	    	    		if(vehicleCarfax.transmission != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.transmission+",";
+	    	    		}
+	    	    		if(vehicleCarfax.gears != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.gears+",";
+	    	    		}
+	    	    		if(vehicleCarfax.brakes != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.brakes+",";
+	    	    		}
+	    	    		if(vehicleCarfax.frontBrakeDiameter != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.frontBrakeDiameter+",";
+	    	    		}
+	    	    		if(vehicleCarfax.frontBrakeType != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.frontBrakeType+",";
+	    	    		}
+	    	    		if(vehicleCarfax.rearBrakeDiameter != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.rearBrakeDiameter+",";
+	    	    		}
+	    	    		if(vehicleCarfax.rearBrakeType != null) {
+	    	    			standardFeatures = standardFeatures + vehicleCarfax.rearBrakeType;
+	    	    		}
+	    	    		row[42] = standardFeatures;
+	    	    		
+	    	    		
+	    	    		String standardOptions = "";
+	    	    		
+	    	    		if(vehicleCarfax.activeHeadRestrains != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.activeHeadRestrains+",";
+	    	    		}
+	    	    		if(vehicleCarfax.bodySideReinforcements != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.bodySideReinforcements+",";
+	    	    		}
+	    	    		if(vehicleCarfax.crumpleZones != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.crumpleZones+",";
+	    	    		}
+	    	    		if(vehicleCarfax.impactAbsorbingBumpers != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.impactAbsorbingBumpers+",";
+	    	    		}
+	    	    		if(vehicleCarfax.impactSensor != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.impactSensor+",";
+	    	    		}
+	    	    		if(vehicleCarfax.parkingSensors != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.parkingSensors+",";
+	    	    		}
+	    	    		if(vehicleCarfax.seatbelts != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.seatbelts+",";
+	    	    		}
+	    	    		if(vehicleCarfax.interiorColor != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.interiorColor+",";
+	    	    		}
+	    	    		if(vehicleCarfax.powerOutlet != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.powerOutlet+",";
+	    	    		}
+	    	    		if(vehicleCarfax.powerSteering != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.powerSteering+",";
+	    	    		}
+	    	    		if(vehicleCarfax.rearViewCamera != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.rearViewCamera+",";
+	    	    		}
+	    	    		if(vehicleCarfax.rearViewMonitor != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.rearViewMonitor+",";
+	    	    		}
+	    	    		if(vehicleCarfax.remoteTrunkRelease != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.remoteTrunkRelease+",";
+	    	    		}
+	    	    		if(vehicleCarfax.steeringWheel != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.steeringWheel+",";
+	    	    		}
+	    	    		if(vehicleCarfax.steeringWheelControls != null) {
+	    	    			standardOptions = standardOptions + vehicleCarfax.steeringWheelControls;
+	    	    		}
+	    	    		
+	    	    		row[43] = standardOptions;
+	    	    		row[44] = "";
+	    	    		row[45] = "Used";
+	    	    		row[46] = "2012-09-16-11:00:00";
+	    	    		row[47] = "2012-10-16-11:00:00";
+	    	    		
+	    	    		writer.writeNext(row);
+	    	    	}
+	    	    	
+	    	    	 writer.close();
+	    	    	 fis = new FileInputStream(filename);
+		                client.storeFile(filename, fis);
+		                client.logout();
+		                if (fis != null) {
+		                    fis.close();
+		                }
+	    		}
+	    		
+	    		
 	    	}
     	}
     	
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result uploadPhotos() {
     	MultipartFormData body = request().body().asMultipartFormData();
     	String vin = request().getHeader("vinNum");
     	
-    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	Identity user = getLocalUser();
     	AuthUser userObj = (AuthUser)user;
     	
     	FilePart picture = body.getFile("file");
@@ -870,9 +1133,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getImagesByVin(String vin) {
-    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	Identity user = getLocalUser();
     	AuthUser userObj = (AuthUser)user;
     	List<VehicleImage> imageList = VehicleImage.getByVin(vin,userObj);
     	reorderImagesForFirstTime(imageList);
@@ -890,7 +1153,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(vmList));
     }
     
-    @SecureSocial.SecuredAction
+    
     private static void reorderImagesForFirstTime(List<VehicleImage> imageList) {
     	if(imageList.size() > 0) {
     		if(imageList.get(0).row == null) {
@@ -907,7 +1170,7 @@ public class Application extends Controller {
 		
     }
     
-	@SecureSocial.SecuredAction
+	
     public static Result getImageById(Long id, String type) {
     	File file = null;
     	VehicleImage image = VehicleImage.findById(id);
@@ -921,7 +1184,7 @@ public class Application extends Controller {
     	return ok(file);
     }
     
-	@SecureSocial.SecuredAction
+	
     public static Result getImageDataById(Long id) throws IOException {
     	VehicleImage image = VehicleImage.findById(id);
     	File file = new File(rootDir+image.path);
@@ -939,9 +1202,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(vm));
     }
 	
-    @SecureSocial.SecuredAction
+    
     public static Result deleteImage(Long id) {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	VehicleImage image = VehicleImage.findById(id);
     	File file = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+image.imgName);
     	File thumbFile = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+"thumbnail_"+image.imgName);
@@ -951,27 +1214,27 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result setDefaultImage(Long id) {
     	VehicleImage image = VehicleImage.findById(id);
-    	image.setDefaultImage(true);
+    	image.defaultImage = (true);
     	image.update();
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result removeDefault(Long old,Long newId) {
     	VehicleImage image = VehicleImage.findById(old);
-    	image.setDefaultImage(false);
+    	image.defaultImage = (false);
     	image.update();
     	
     	VehicleImage newImage = VehicleImage.findById(newId);
-    	newImage.setDefaultImage(true);
+    	newImage.defaultImage = (true);
     	newImage.update();
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result savePosition() {
     	JsonNode nodes = ctx().request().body().asJson();
     	ObjectMapper mapper = new ObjectMapper();
@@ -996,7 +1259,7 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveSliderPosition() {
     	JsonNode nodes = ctx().request().body().asJson();
     	ObjectMapper mapper = new ObjectMapper();
@@ -1021,7 +1284,7 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveFeaturedPosition() {
     	JsonNode nodes = ctx().request().body().asJson();
     	ObjectMapper mapper = new ObjectMapper();
@@ -1046,9 +1309,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
 	public static Result getAllVehicles() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	
     	List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus(user, "Newly Arrived");
         
@@ -1092,9 +1355,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(NewVMs));
     }
     
-    @SecureSocial.SecuredAction
+    
 	public static Result getAllSoldVehicles() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	List <Vehicle> soldVehicleObjList = Vehicle.getVehiclesByStatus(user, "Sold");
         
     	ArrayList<SpecificationVM> soldVMs = new ArrayList<>(); 
@@ -1133,10 +1396,10 @@ public class Application extends Controller {
      	return ok(Json.toJson(soldVMs));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result deleteVehicleById(Long id ){
     	Vehicle vm = Vehicle.findById(id);
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	if(vm != null){
     		List<VehicleImage> v = VehicleImage.getByVin(vm.vin,user);
     		if(v.size() != 0){
@@ -1150,7 +1413,7 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result updateVehicleStatus(Long id,String status){
     	Vehicle vm = Vehicle.findById(id);
     	
@@ -1162,7 +1425,7 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getVehicleById(Long id) {
     	Vehicle vehicle = Vehicle.findById(id);
     	PinVM pinVM = new PinVM();
@@ -1253,7 +1516,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(pinVM));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result updateVehicle(){
     	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
     	SpecificationVM vm = form.get();
@@ -1268,8 +1531,9 @@ public class Application extends Controller {
     	return ok();
     } 
     
-    @SecureSocial.SecuredAction
-    public static Result updateVehicleById(){
+    
+    public static Result updateVehicleById() throws SocketException, IOException{
+    	AuthUser userObj = (AuthUser) getLocalUser();
     	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
     	SpecificationVM vm = form.get();
     	Vehicle vehicle = Vehicle.findById(vm.id);
@@ -1354,17 +1618,427 @@ public class Application extends Controller {
 		    	vehicle.setSite(siteList);
 	    	}
 	    	vehicle.update();
+	    	
+	    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin,userObj);
+	    	List<Site> siteList2 = vehicleObj2.getSite();
+	    	
+	    	if(!siteList2.isEmpty()) {
+		    	for(Site siteObj: siteList2) {
+		    		if(siteObj.getName().equals("CarsGuru")) {
+		    			FTPClient client = new FTPClient();
+		    	        FileInputStream fis = null;
+		    	        client.connect("ftp.cargurus.com");
+		                client.login("glider", "GLF8yP");
+		                String filename = vm.vin+".csv";
+		                CSVWriter writer = new CSVWriter(new FileWriter(filename));
+		            	List<Vehicle> vehicleList = Vehicle.getAllVehicles(userObj);
+		            	
+		            	String []rowHeaders = new String[29];
+		            	rowHeaders[0] = "VIN";
+		            	rowHeaders[1] = "Make";
+		            	rowHeaders[2] = "Model";
+		            	rowHeaders[3] = "Year";
+		            	rowHeaders[4] = "Trim";
+		            	rowHeaders[5] = "Price";
+		            	rowHeaders[6] = "Mileage";
+		            	rowHeaders[7] = "Picture Urls";
+		            	rowHeaders[8] = "Exterior Color";
+		            	rowHeaders[9] = "Dealer Comments";
+		            	rowHeaders[10] = "Stock Number";
+		            	rowHeaders[11] = "Transmission Type";
+		            	rowHeaders[12] = "Installed Options";
+		            	rowHeaders[13] = "Dealer Id";
+		            	rowHeaders[14] = "Dealer Name";
+		            	rowHeaders[15] = "Dealer Street Address";
+		            	rowHeaders[16] = "Dealer City";
+		            	rowHeaders[17] = "Delaer State";
+		            	rowHeaders[18] = "Dealer Zip";
+		            	rowHeaders[19] = "Dealer CRM Email";
+		            	rowHeaders[20] = "MSRP";
+		            	rowHeaders[21] = "Interior Color";
+		            	rowHeaders[22] = "Certified";
+		            	rowHeaders[23] = "Is New";
+		            	rowHeaders[24] = "Engine";
+		            	rowHeaders[25] = "Dealer Latitude and Longitude";
+		            	rowHeaders[26] = "Dealer Radius";
+		            	rowHeaders[27] = "Dealer Phone Number";
+		            	rowHeaders[28] = "Dealer Website Url";
+		            	
+		            	writer.writeNext(rowHeaders);
+		            	
+		            	for(Vehicle vehicleData: vehicleList) {
+		            		String []row = new String[29];
+		            		row[0] = vehicleData.vin;
+		            		row[1] = vehicleData.make;
+		            		row[2] = vehicleData.model;
+		            		row[3] = vehicleData.year;
+		            		row[4] = vehicleData.trim;
+		            		row[5] = vehicleData.price.toString();
+		            		row[6] = vehicleData.mileage;
+		            		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicleData.vin, userObj);
+		            		String str = "";
+		            		for(VehicleImage img : vImageList) {
+		            			str = str +rootDir+img.path+",";
+		            		}
+		            		row[7] = str;
+		            		row[8] = vehicleData.exteriorColor;
+		            		row[9] = "";
+		            		row[10] = vehicleData.stock;
+		            		row[11] = vehicleData.transmission;
+		            		
+		            		String standardFeatures = "";
+		            		if(vehicleData.drivetrain != null) {
+		            			standardFeatures = standardFeatures + vehicleData.drivetrain+",";
+		            		}
+		            		if(vehicleData.fuelType != null) {
+		            			standardFeatures = standardFeatures + vehicleData.fuelType+",";
+		            		}
+		            		if(vehicleData.fuelTank != null) {
+		            			standardFeatures = standardFeatures + vehicleData.fuelTank+",";
+		            		}
+		            		if(vehicleData.headlights != null) {
+		            			standardFeatures = standardFeatures + vehicleData.headlights+",";
+		            		}
+		            		if(vehicleData.mirrors != null) {
+		            			standardFeatures = standardFeatures + vehicleData.mirrors+",";
+		            		}
+		            		if(vehicleData.roof != null) {
+		            			standardFeatures = standardFeatures + vehicleData.roof+",";
+		            		}
+		            		if(vehicleData.acceleration != null) {
+		            			standardFeatures = standardFeatures + vehicleData.acceleration+",";
+		            		}
+		            		if(vehicleData.standardSeating != null) {
+		            			standardFeatures = standardFeatures + vehicleData.standardSeating+",";
+		            		}
+		            		if(vehicleData.engine != null) {
+		            			standardFeatures = standardFeatures + vehicleData.engine+",";
+		            		}
+		            		if(vehicleData.camType != null) {
+		            			standardFeatures = standardFeatures + vehicleData.camType+",";
+		            		}
+		            		if(vehicleData.valves != null) {
+		            			standardFeatures = standardFeatures + vehicleData.valves+",";
+		            		}
+		            		if(vehicleData.cylinders != null) {
+		            			standardFeatures = standardFeatures + vehicleData.cylinders+",";
+		            		}
+		            		if(vehicleData.fuelQuality != null) {
+		            			standardFeatures = standardFeatures + vehicleData.fuelQuality+",";
+		            		}
+		            		if(vehicleData.horsePower != null) {
+		            			standardFeatures = standardFeatures + vehicleData.horsePower+",";
+		            		}
+		            		if(vehicleData.transmission != null) {
+		            			standardFeatures = standardFeatures + vehicleData.transmission+",";
+		            		}
+		            		if(vehicleData.gears != null) {
+		            			standardFeatures = standardFeatures + vehicleData.gears+",";
+		            		}
+		            		if(vehicleData.brakes != null) {
+		            			standardFeatures = standardFeatures + vehicleData.brakes+",";
+		            		}
+		            		if(vehicleData.frontBrakeDiameter != null) {
+		            			standardFeatures = standardFeatures + vehicleData.frontBrakeDiameter+",";
+		            		}
+		            		if(vehicleData.frontBrakeType != null) {
+		            			standardFeatures = standardFeatures + vehicleData.frontBrakeType+",";
+		            		}
+		            		if(vehicleData.rearBrakeDiameter != null) {
+		            			standardFeatures = standardFeatures + vehicleData.rearBrakeDiameter+",";
+		            		}
+		            		if(vehicleData.rearBrakeType != null) {
+		            			standardFeatures = standardFeatures + vehicleData.rearBrakeType;
+		            		}
+		            		
+		            		row[12] = standardFeatures;
+		            		row[13] = "1234";
+		            		row[14] = "Autolinx Inc";
+		            		row[15] = "3300 Sonoma Blvd";
+		            		row[16] = "Vallejo";
+		            		row[17] = "California";
+		            		row[18] = "94590";
+		            		row[19] = "info@autolinxinc.com";
+		            		row[20] = vehicleData.getPrice().toString();
+		            		row[21] = vehicleData.interiorColor;
+		            		row[22] = "";
+		            		row[23] = "N";
+		            		row[24] = vehicleData.engine;
+		            		row[25] = "38.120301  -122.254508";
+		            		row[26] = "1000";
+		            		row[27] = "(707)552-5469";
+		            		row[28] = "www.autolinxinc.com/";
+		            		
+		            		writer.writeNext(row);
+		            	}
+		            	
+		            	 writer.close();
+		                fis = new FileInputStream(filename);
+		                client.storeFile(filename, fis);
+		                client.logout();
+		                if (fis != null) {
+		                    fis.close();
+		                }
+		    		}   
+		    		
+		    		
+		    		if(siteObj.getName().equals("Carfax")) {
+		    			FTPClient client = new FTPClient();
+		    	        FileInputStream fis = null;
+		    	        client.connect("ftp.vast.com");
+		                client.login("gliderllc.com", "73f1vvRw4a");
+		                String filename = vm.vin+".csv";
+		                CSVWriter writer = new CSVWriter(new FileWriter(filename));
+		    	    	List<Vehicle> vehicleList = Vehicle.getAllVehicles(userObj);
+		    	    	String []rowHeaders = new String[48];
+		    	    	rowHeaders[0] = "Record Id";
+		    	    	rowHeaders[1] = "Vin";
+		    	    	rowHeaders[2] = "Stock Number";
+		    	    	rowHeaders[3] = "Title";
+		    	    	rowHeaders[4] = "Url";
+		    	    	rowHeaders[5] = "Category";
+		    	    	rowHeaders[6] = "Images";
+		    	    	rowHeaders[7] = "Address";
+		    	    	rowHeaders[8] = "City";
+		    	    	rowHeaders[9] = "State";
+		    	    	rowHeaders[10] = "Zip";
+		    	    	rowHeaders[11] = "Country";
+		    	    	rowHeaders[12] = "Seller Type";
+		    	    	rowHeaders[13] = "Dealer Name";
+		    	    	rowHeaders[14] = "Dealer Id";
+		    	    	rowHeaders[15] = "Dealer Email";
+		    	    	rowHeaders[16] = "Dealer Phone";
+		    	    	rowHeaders[17] = "Delaer Website";
+		    	    	rowHeaders[18] = "Dealer Fee";
+		    	    	rowHeaders[19] = "Make";
+		    	    	rowHeaders[20] = "Model";
+		    	    	rowHeaders[21] = "Trim";
+		    	    	rowHeaders[22] = "Body";
+		    	    	rowHeaders[23] = "Mileage";
+		    	    	rowHeaders[24] = "Year";
+		    	    	rowHeaders[25] = "Currency";
+		    	    	rowHeaders[26] = "Price";
+		    	    	rowHeaders[27] = "MSRP";
+		    	    	rowHeaders[28] = "Internet Price";
+		    	    	rowHeaders[29] = "Selling Price";
+		    	    	rowHeaders[30] = "Retail Price";
+		    	    	rowHeaders[31] = "Invoice Price";
+		    	    	rowHeaders[32] = "Exterior Color";
+		    	    	rowHeaders[33] = "Interior Color";
+		    	    	rowHeaders[34] = "Interior Material";
+		    	    	rowHeaders[35] = "Doors";
+		    	    	rowHeaders[36] = "Cylinders";
+		    	    	rowHeaders[37] = "Engine Size";
+		    	    	rowHeaders[38] = "Drive Type";
+		    	    	rowHeaders[39] = "Transmission";
+		    	    	rowHeaders[40] = "Cpo";
+		    	    	rowHeaders[41] = "Description";
+		    	    	rowHeaders[42] = "Standard Features";
+		    	    	rowHeaders[43] = "Optional Features";
+		    	    	rowHeaders[44] = "Seller Comments";
+		    	    	rowHeaders[45] = "Vehicle Condition";
+		    	    	rowHeaders[46] = "Listing Time";
+		    	    	rowHeaders[47] = "Expire Time";
+		    	    	writer.writeNext(rowHeaders);
+		    			
+		    	    	for(Vehicle vehicleCarfax: vehicleList) {
+		    	    		String []row = new String[48];
+		    	    		row[0] = "12345678";
+		    	    		row[1] = vehicleCarfax.vin;
+		    	    		row[2] = vehicleCarfax.stock;
+		    	    		row[3] = vehicleCarfax.year+" "+vehicleCarfax.make+" "+vehicleCarfax.model;
+		    	    		row[4] = "http://www.domain.com/cars/12345679.html";
+		    	    		row[5] = vehicleCarfax.category;
+		    	    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicleCarfax.vin, userObj);
+		    	    		String str = "";
+		    	    		for(VehicleImage img : vImageList) {
+		    	    			str = str +rootDir+img.path+"|";
+		    	    		}
+		    	    		row[6] = str;
+		    	    		row[7] = "1234 Main Street";
+		    	    		row[8] = "San Francisco";
+		    	    		row[9] = "CA";
+		    	    		row[10] = "94105";
+		    	    		row[11] = "United States";
+		    	    		row[12] = "Dealer";
+		    	    		row[13] = "Dealer";
+		    	    		row[14] = "4567";
+		    	    		row[15] = "someone@dealerwebsite.com";
+		    	    		row[16] = "800-123-4567";
+		    	    		row[17] = "dealerwebsite.com";
+		    	    		row[18] = "";
+		    	    		row[19] = vehicleCarfax.make;
+		    	    		row[20] = vehicleCarfax.model;
+		    	    		row[21] = vehicleCarfax.trim;
+		    	    		row[22] = vehicleCarfax.bodyStyle;
+		    	    		row[23] = vehicleCarfax.mileage;
+		    	    		row[24] = vehicleCarfax.year;
+		    	    		row[25] = "USD";
+		    	    		row[26] = vehicleCarfax.price.toString();
+		    	    		row[27] = vehicleCarfax.getPrice().toString();
+		    	    		row[28] = "";
+		    	    		row[29] = "";
+		    	    		row[30] = "";
+		    	    		row[31] = "";
+		    	    		row[32] = vehicleCarfax.exteriorColor;
+		    	    		row[33] = vehicleCarfax.interiorColor;
+		    	    		row[34] = "fabric";
+		    	    		row[35] = vehicleCarfax.doors;
+		    	    		row[36] = vehicleCarfax.cylinders;
+		    	    		row[37] = vehicleCarfax.engine;
+		    	    		row[38] = vehicleCarfax.drivetrain;
+		    	    		row[39] = vehicleCarfax.transmission;
+		    	    		row[40] = "YES";
+		    	    		row[41] = vehicleCarfax.description; //description
+		    	    		
+		    	    		String standardFeatures = "";
+		    	    		if(vehicleCarfax.drivetrain != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.drivetrain+",";
+		    	    		}
+		    	    		if(vehicleCarfax.fuelType != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.fuelType+",";
+		    	    		}
+		    	    		if(vehicleCarfax.fuelTank != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.fuelTank+",";
+		    	    		}
+		    	    		if(vehicleCarfax.headlights != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.headlights+",";
+		    	    		}
+		    	    		if(vehicleCarfax.mirrors != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.mirrors+",";
+		    	    		}
+		    	    		if(vehicleCarfax.roof != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.roof+",";
+		    	    		}
+		    	    		if(vehicleCarfax.acceleration != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.acceleration+",";
+		    	    		}
+		    	    		if(vehicleCarfax.standardSeating != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.standardSeating+",";
+		    	    		}
+		    	    		if(vehicleCarfax.engine != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.engine+",";
+		    	    		}
+		    	    		if(vehicleCarfax.camType != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.camType+",";
+		    	    		}
+		    	    		if(vehicleCarfax.valves != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.valves+",";
+		    	    		}
+		    	    		if(vehicleCarfax.cylinders != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.cylinders+",";
+		    	    		}
+		    	    		if(vehicleCarfax.fuelQuality != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.fuelQuality+",";
+		    	    		}
+		    	    		if(vehicleCarfax.horsePower != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.horsePower+",";
+		    	    		}
+		    	    		if(vehicleCarfax.transmission != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.transmission+",";
+		    	    		}
+		    	    		if(vehicleCarfax.gears != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.gears+",";
+		    	    		}
+		    	    		if(vehicleCarfax.brakes != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.brakes+",";
+		    	    		}
+		    	    		if(vehicleCarfax.frontBrakeDiameter != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.frontBrakeDiameter+",";
+		    	    		}
+		    	    		if(vehicleCarfax.frontBrakeType != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.frontBrakeType+",";
+		    	    		}
+		    	    		if(vehicleCarfax.rearBrakeDiameter != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.rearBrakeDiameter+",";
+		    	    		}
+		    	    		if(vehicleCarfax.rearBrakeType != null) {
+		    	    			standardFeatures = standardFeatures + vehicleCarfax.rearBrakeType;
+		    	    		}
+		    	    		row[42] = standardFeatures;
+		    	    		
+		    	    		
+		    	    		String standardOptions = "";
+		    	    		
+		    	    		if(vehicleCarfax.activeHeadRestrains != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.activeHeadRestrains+",";
+		    	    		}
+		    	    		if(vehicleCarfax.bodySideReinforcements != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.bodySideReinforcements+",";
+		    	    		}
+		    	    		if(vehicleCarfax.crumpleZones != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.crumpleZones+",";
+		    	    		}
+		    	    		if(vehicleCarfax.impactAbsorbingBumpers != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.impactAbsorbingBumpers+",";
+		    	    		}
+		    	    		if(vehicleCarfax.impactSensor != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.impactSensor+",";
+		    	    		}
+		    	    		if(vehicleCarfax.parkingSensors != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.parkingSensors+",";
+		    	    		}
+		    	    		if(vehicleCarfax.seatbelts != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.seatbelts+",";
+		    	    		}
+		    	    		if(vehicleCarfax.interiorColor != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.interiorColor+",";
+		    	    		}
+		    	    		if(vehicleCarfax.powerOutlet != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.powerOutlet+",";
+		    	    		}
+		    	    		if(vehicleCarfax.powerSteering != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.powerSteering+",";
+		    	    		}
+		    	    		if(vehicleCarfax.rearViewCamera != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.rearViewCamera+",";
+		    	    		}
+		    	    		if(vehicleCarfax.rearViewMonitor != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.rearViewMonitor+",";
+		    	    		}
+		    	    		if(vehicleCarfax.remoteTrunkRelease != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.remoteTrunkRelease+",";
+		    	    		}
+		    	    		if(vehicleCarfax.steeringWheel != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.steeringWheel+",";
+		    	    		}
+		    	    		if(vehicleCarfax.steeringWheelControls != null) {
+		    	    			standardOptions = standardOptions + vehicleCarfax.steeringWheelControls;
+		    	    		}
+		    	    		
+		    	    		row[43] = standardOptions;
+		    	    		row[44] = "";
+		    	    		row[45] = "Used";
+		    	    		row[46] = "2012-09-16-11:00:00";
+		    	    		row[47] = "2012-10-16-11:00:00";
+		    	    		
+		    	    		writer.writeNext(row);
+		    	    	}
+		    	    	
+		    	    	 writer.close();
+		    	    	 fis = new FileInputStream(filename);
+			                client.storeFile(filename, fis);
+			                client.logout();
+			                if (fis != null) {
+			                    fis.close();
+			                }
+		    		}
+		    		
+		    		
+		    	}
+	    	}
+	    	
     	}	
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result uplaodSoundFile() {
     	MultipartFormData body = request().body().asMultipartFormData();
     	DynamicForm dynamicForm = Form.form().bindFromRequest();
 		String vin = dynamicForm.get("vinNum");
     	
-    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	Identity user = getLocalUser();
     	AuthUser userObj = (AuthUser)user;
     	
     	FilePart picture = body.getFile("file0");
@@ -1394,9 +2068,9 @@ public class Application extends Controller {
     	return ok();
     }
 	
-    @SecureSocial.SecuredAction
+    
     public static Result getAllAudio(String vin) {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	List<VehicleAudio> audioList = VehicleAudio.getByUserAndVin(user, vin);
     	List<AudioVM> vmList = new ArrayList<>();
     	
@@ -1410,9 +2084,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(vmList));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getVirtualTour(String vin) {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	VirtualTour virtualTour = VirtualTour.findByUserAndVin(user, vin);
     	VirtualTourVM vm = new VirtualTourVM();
     	if(virtualTour != null) {
@@ -1422,9 +2096,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(vm));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveVData() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	Form<VirtualTourVM> form = DynamicForm.form(VirtualTourVM.class).bindFromRequest();
     	VirtualTourVM vm = form.get();
     	VirtualTour virtualTour = VirtualTour.findByUserAndVin(user, vm.vin);
@@ -1443,9 +2117,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result editImage() throws IOException {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
     	EditImageVM vm = form.get();
     	
@@ -1462,11 +2136,11 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result uploadSliderPhotos() {
     	MultipartFormData body = request().body().asMultipartFormData();
     	
-    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+    	Identity user = getLocalUser();
     	AuthUser userObj = (AuthUser)user;
     	
     	FilePart picture = body.getFile("file");
@@ -1508,12 +2182,11 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result uploadFeaturedPhotos() {
     	MultipartFormData body = request().body().asMultipartFormData();
     	
-    	Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
-    	AuthUser userObj = (AuthUser)user;
+    	AuthUser userObj = (AuthUser)getLocalUser();
     	
     	FilePart picture = body.getFile("file");
     	  if (picture != null) {
@@ -1554,7 +2227,7 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getSliderImageById(Long id,String type) {
     	File file = null;
     	SliderImage image = SliderImage.findById(id);
@@ -1568,7 +2241,7 @@ public class Application extends Controller {
     	return ok(file);
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getFeaturedImageById(Long id,String type) {
     	File file = null;
     	FeaturedImage image = FeaturedImage.findById(id);
@@ -1582,9 +2255,9 @@ public class Application extends Controller {
     	return ok(file);
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result deleteSliderImage(Long id) {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	SliderImage image = SliderImage.findById(id);
     	File file = new File(rootDir+File.separator+user.id+File.separator+"SliderImages"+File.separator+image.imgName);
     	file.delete();
@@ -1594,9 +2267,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result deleteFeaturedImage(Long id) {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	FeaturedImage image = FeaturedImage.findById(id);
     	File file = new File(rootDir+File.separator+user.id+File.separator+"FeaturedImages"+File.separator+image.imgName);
     	file.delete();
@@ -1606,7 +2279,7 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result deleteAudioFile(Long id) {
     	VehicleAudio audio = VehicleAudio.findById(id);
     	File file = new File(rootDir+audio.path);
@@ -1615,9 +2288,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getSliderAndFeaturedImages() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	
     	Map<String,List> map = new HashMap<>();
     	List<SliderImage> sliderList = SliderImage.findByUser(user);
@@ -1705,7 +2378,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(map));
     }
     
-    @SecureSocial.SecuredAction
+    
     private static void reorderSliderImagesForFirstTime(List<SliderImage> imageList) {
     	if(imageList.size() > 0) {
     			for(int i = 0, col = 0 ; i < imageList.size() ; i++) {
@@ -1722,7 +2395,7 @@ public class Application extends Controller {
 		
     }
     
-    @SecureSocial.SecuredAction
+    
     private static void reorderFeaturedImagesForFirstTime(List<FeaturedImage> imageList) {
     	if(imageList.size() > 0) {
     			for(int i = 0, col = 0 ; i < imageList.size() ; i++) {
@@ -1738,9 +2411,9 @@ public class Application extends Controller {
 		
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveSiteHeading(String heading) {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	SiteContent content = SiteContent.findByUser(user);
     	if(content != null) {
     		content.setHeading(heading);
@@ -1754,9 +2427,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveSiteDescription() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	Form<SiteContentVM> form = DynamicForm.form(SiteContentVM.class).bindFromRequest();
     	SiteContentVM vm = form.get();
     	SiteContent content = SiteContent.findByUser(user);
@@ -1775,9 +2448,9 @@ public class Application extends Controller {
     }
     
     
-    @SecureSocial.SecuredAction
+    
     public static Result getSliderImageDataById(Long id) throws IOException {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	SliderImage image = SliderImage.findById(id);
     	File file = new File(rootDir+image.path);
     	
@@ -1797,9 +2470,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(vm));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getFeaturedImageDataById(Long id) throws IOException {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	FeaturedImage image = FeaturedImage.findById(id);
     	File file = new File(rootDir+image.path);
     	
@@ -1819,9 +2492,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(vm));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result editSliderImage() throws IOException {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
     	EditImageVM vm = form.get();
     	
@@ -1843,9 +2516,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result editFeaturedImage() throws IOException {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
     	EditImageVM vm = form.get();
     	
@@ -1868,9 +2541,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getImageConfig() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	Map<String,Object> map = new HashMap<>();
     	SliderImageConfig config = SliderImageConfig.findByUser(user);
     	if(config != null) {
@@ -1889,9 +2562,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(map));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveSliderConfig(Integer width,Integer height) {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	SliderImageConfig config = SliderImageConfig.findByUser(user);
     	
     	if(config != null) {
@@ -1908,9 +2581,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveFeaturedConfig(Integer width,Integer height) {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	FeaturedImageConfig config = FeaturedImageConfig.findByUser(user);
     	
     	if(config != null) {
@@ -1929,9 +2602,9 @@ public class Application extends Controller {
     }
     
     
-    @SecureSocial.SecuredAction
+    
     public static Result exportDataAsCSV() throws IOException {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	CSVWriter writer = new CSVWriter(new FileWriter("D:\\vehicleInfo.csv"));
     	List<Vehicle> vehicleList = Vehicle.getAllVehicles(user);
     	
@@ -2025,9 +2698,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result exportCarfaxCSV() throws IOException {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	CSVWriter writer = new CSVWriter(new FileWriter("D:\\vehicleCarfaxInfo.csv"));
     	List<Vehicle> vehicleList = Vehicle.getAllVehicles(user);
     	String []rowHeaders = new String[48];
@@ -2259,9 +2932,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result exportCarGurusCSV() throws IOException {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	CSVWriter writer = new CSVWriter(new FileWriter("D:\\vehicleCarGurusInfo.csv"));
     	List<Vehicle> vehicleList = Vehicle.getAllVehicles(user);
     	
@@ -2408,9 +3081,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getAllRequestInfo() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	List<RequestMoreInfo> listData = RequestMoreInfo.findAllByDate();
     	List<RequestInfoVM> infoVMList = new ArrayList<>();
     	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -2435,9 +3108,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(infoVMList));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getAllScheduleTest() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	List<ScheduleTest> listData = ScheduleTest.findAllByDate();
     	List<RequestInfoVM> infoVMList = new ArrayList<>();
     	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -2464,9 +3137,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(infoVMList));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getAllTradeIn() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	List<TradeIn> listData = TradeIn.findAllByDate();
     	List<RequestInfoVM> infoVMList = new ArrayList<>();
     	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -2491,7 +3164,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(infoVMList));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getInfoCount() {
     	InfoCountVM vm = new InfoCountVM();
     	vm.schedule = ScheduleTest.findAll();
@@ -2501,9 +3174,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(vm));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result requestInfoMarkRead() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	List<RequestMoreInfo> listData = RequestMoreInfo.findAllByUser(user);
     	for(RequestMoreInfo info: listData) {
     		info.setIsRead(1);
@@ -2512,9 +3185,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result scheduleTestMarkRead() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	List<ScheduleTest> listData = ScheduleTest.findAllByUser(user);
     	for(ScheduleTest info: listData) {
     		info.setIsRead(1);
@@ -2523,9 +3196,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result tradeInMarkRead() {
-    	AuthUser user = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser user = (AuthUser) getLocalUser();
     	List<TradeIn> listData = TradeIn.findAllByUser(user);
     	for(TradeIn info: listData) {
     		info.setIsRead(1);
@@ -2534,12 +3207,12 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result uploadLogoFile() {
     	MultipartFormData body = request().body().asMultipartFormData();
     	DynamicForm dynamicForm = Form.form().bindFromRequest();
     	
-    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser) getLocalUser();
     	
     	FilePart picture = body.getFile("file0");
     	  if (picture != null) {
@@ -2578,12 +3251,12 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result uploadFeviconFile() {
     	MultipartFormData body = request().body().asMultipartFormData();
     	DynamicForm dynamicForm = Form.form().bindFromRequest();
     	
-    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser) getLocalUser();
     	
     	FilePart picture = body.getFile("file0");
     	  if (picture != null) {
@@ -2622,9 +3295,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveSiteTabText(String text) {
-    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser) getLocalUser();
     	SiteLogo logoObj = SiteLogo.findByUser(userObj);
     	if(logoObj == null) {
     		SiteLogo logo = new SiteLogo();
@@ -2638,9 +3311,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getLogoData() {
-    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser) getLocalUser();
     	SiteLogo logoObj = SiteLogo.findByUser(userObj);
     	SiteLogoVM vm = new SiteLogoVM();
     	if(logoObj != null) {
@@ -2652,7 +3325,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(vm));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getTradeInDataById(Long id) {
     	TradeIn tradeIn = TradeIn.findById(id);
     	TradeInVM vm = new TradeInVM();
@@ -2695,9 +3368,9 @@ public class Application extends Controller {
     	return ok(Json.toJson(vm));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result saveBlog() {
-    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser) getLocalUser();
     	Form<BlogVM> form = DynamicForm.form(BlogVM.class).bindFromRequest();
     	BlogVM vm = form.get();
     	Blog blogObj = Blog.findByUserAndTitle(userObj, vm.title);
@@ -2714,9 +3387,9 @@ public class Application extends Controller {
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getAllBlogs() {
-    	AuthUser userObj = (AuthUser) ctx().args.get(SecureSocial.USER_KEY);
+    	AuthUser userObj = (AuthUser) getLocalUser();
     	List<Blog> blogList = Blog.findByUser(userObj);
     	List<BlogVM> vmList = new ArrayList<>();
     	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -2735,14 +3408,14 @@ public class Application extends Controller {
     	return ok(Json.toJson(vmList));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result deleteBlog(Long id) {
     	Blog blog = Blog.findById(id);
     	blog.delete();
     	return ok();
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result getBlogById(Long id) {
     	BlogVM vm = new BlogVM();
     	Blog blog = Blog.findById(id);
@@ -2753,7 +3426,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(vm));
     }
     
-    @SecureSocial.SecuredAction
+    
     public static Result updateBlog() {
     	Form<BlogVM> form = DynamicForm.form(BlogVM.class).bindFromRequest();
     	BlogVM vm = form.get();

@@ -44,12 +44,7 @@ public class VehicleImage extends Model {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	public boolean isDefaultImage() {
-		return defaultImage;
-	}
-	public void setDefaultImage(boolean defaultImage) {
-		this.defaultImage = defaultImage;
-	}
+	
 	public String getImgName() {
 		return imgName;
 	}

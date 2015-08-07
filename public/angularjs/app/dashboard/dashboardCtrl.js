@@ -170,8 +170,9 @@ angular.module('newApp')
 				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
 				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
 				       stop: function(event, $element, widget) {
-				    	   console.log(event);
-				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
+				    	   if($(event.target).html() == 'Set Default' || $(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
+				    		   return;
+				    	   };
 				    	   for(var i=0;i<$scope.imageList.length;i++) {
 				    		   delete $scope.imageList[i].description;
 				    		   delete $scope.imageList[i].width;
@@ -286,7 +287,7 @@ angular.module('newApp')
     		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'8%',cellEditableCondition: false,
     		                                 },
     		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>', 
+        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:14px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>', 
     		                                 
     		                                 },
         		                                
@@ -496,11 +497,13 @@ angular.module('newApp')
 			    draggable: {
 				       enabled: true, // whether dragging items is supported
 				       handle: '.my-class', // optional selector for resize handle
-				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
-				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
+				       start: function(event, $element, widget) { }, // optional callback fired when drag is started,
+				       drag: function(event, $element, widget) { }, // optional callback fired when item is moved,
 				       stop: function(event, $element, widget) {
-				    	   console.log(event);
-				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
+				    	   
+				    	   if($(event.target).html() == 'Set Default' || $(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
+				    		   return;
+				    	   };
 				    	   for(var i=0;i<$scope.imageList.length;i++) {
 				    		   delete $scope.imageList[i].description;
 				    		   delete $scope.imageList[i].width;
@@ -509,7 +512,7 @@ angular.module('newApp')
 				    	   }
 				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
-					   			//console.log('success');
+					   			
 					   		});
 				    	   
 				       } // optional callback fired when item is finished dragging
@@ -845,8 +848,9 @@ angular.module('newApp')
 				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
 				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
 				       stop: function(event, $element, widget) {
-				    	   console.log(event);
-				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
+				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
+				    		   return;
+				    	   };
 				    	   for(var i=0;i<$scope.sliderList.length;i++) {
 				    		   delete $scope.sliderList[i].description;
 				    		   delete $scope.sliderList[i].width;
@@ -900,8 +904,11 @@ angular.module('newApp')
 				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
 				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
 				       stop: function(event, $element, widget) {
-				    	   console.log(event);
-				    	   //console.log($element[0].getAttribute("data-row")+" "+$element[0].getAttribute("data-col")+" "+$element[0].getAttribute("id"));
+				    	   
+				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
+				    		   return;
+				    	   };
+				    	   
 				    	   for(var i=0;i<$scope.featuredList.length;i++) {
 				    		   delete $scope.featuredList[i].description;
 				    		   delete $scope.featuredList[i].width;

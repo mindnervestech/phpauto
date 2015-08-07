@@ -112,4 +112,9 @@ public class SliderImage extends Model {
 	public static List<SliderImage> findByUser(AuthUser user) {
 		return find.where().eq("user", user).findList();
 	}
+	
+	public static SliderImage findByRowCol(Integer row,Integer col) {
+		return find.where().eq("row", row).eq("col", col).findUnique();
+	}
+	
 }

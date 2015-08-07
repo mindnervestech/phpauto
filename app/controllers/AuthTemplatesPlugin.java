@@ -32,12 +32,12 @@ public class AuthTemplatesPlugin extends DefaultTemplatesPlugin  {
 		return null;
 	}*/
 
-	@Override
+	/*@Override
 	public <A> Html getLoginPage(Request<A> arg0,
 			Form<Tuple2<String, String>> arg1, Option<String> arg2) {
 		// TODO Auto-generated method stub
 		return views.html.home.render(); // TODO
-	}
+	}*/
 
 	/*@Override
 	public <A> Option<String> getLoginPage$default$3() {
