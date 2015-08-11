@@ -88,7 +88,7 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static List<RequestMoreInfo> findAllByDate() {
-		return find.orderBy("requestDate desc").findList();
+		return find.orderBy("requestDate desc").orderBy("isRead").findList();
 	}
 	
 	public static int findAll() {

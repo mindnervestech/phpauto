@@ -181,7 +181,11 @@ angular.module('newApp')
 				    	   } 
 				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
-					   			//console.log('success');
+					   			$.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Position saved successfully",
+								});
 					   		});
 				    	   
 				       } // optional callback fired when item is finished dragging
@@ -512,7 +516,11 @@ angular.module('newApp')
 				    	   }
 				    	   $http.post('/savePosition',$scope.imageList)
 					   		.success(function(data) {
-					   			
+					   			$.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Position saved successfully",
+								});
 					   		});
 				    	   
 				       } // optional callback fired when item is finished dragging
@@ -694,6 +702,11 @@ $scope.setAsDefault = function(image,index) {
         }).success(function(data, status, headers, config) {
             console.log('success');
             $scope.getAllAudio();
+            $.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Saved successfully",
+			});
         });
 	}
 	
@@ -730,7 +743,11 @@ $scope.setAsDefault = function(image,index) {
 		$scope.vData.vin = $scope.vinData.specification.vin;
 		$http.post('/saveVData',$scope.vData)
 		.success(function(data) {
-			console.log('success');
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Saved successfully",
+			});
 		});
 	}
 	
@@ -861,7 +878,11 @@ angular.module('newApp')
 				    	   }
 				    	   $http.post('/saveSliderPosition',$scope.sliderList)
 					   		.success(function(data) {
-					   			//console.log('success');
+					   			$.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Position saved successfully",
+								});
 					   		});
 				    	   
 				       } // optional callback fired when item is finished dragging
@@ -919,7 +940,11 @@ angular.module('newApp')
 				    	   }
 				    	   $http.post('/saveFeaturedPosition',$scope.featuredList)
 					   		.success(function(data) {
-					   			//console.log('success');
+					   			$.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Position saved successfully",
+								});
 					   		});
 				    	   
 				       } // optional callback fired when item is finished dragging

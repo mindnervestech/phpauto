@@ -102,7 +102,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllByDate() {
-		return find.orderBy("scheduleDate desc").findList();
+		return find.orderBy("scheduleDate desc").orderBy("isRead").findList();
 	}
 	
 	public static int findAll() {

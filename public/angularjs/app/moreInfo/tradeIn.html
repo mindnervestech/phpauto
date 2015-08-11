@@ -1,7 +1,19 @@
 
- <h2><b>Trade In Enquiries</b></h2>
-<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
-	</div> 
+	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class=""><a  role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="requestMore()">Request More Info</button></a></li>
+      <li role="presentation" class=""><a  role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="testDrive()">Schedule Test Drive</button></a></li>
+      <li role="presentation" class="active"><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="home" aria-expanded="false"><button type="button" class="btn btn-blue">Trade In Inquiries</button></a></li>
+    </ul>
+	    <div id="myTabContent" class="tab-content">
+	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+	        <h2><b>Trade In Inquiries</b></h2>
+		<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+			</div>
+	      </div>
+	      
+	    </div>
+  </div>
 	
 	<button id="popupBtn" data-toggle="modal" data-target="#modal-large" style="display: none;"></button>
 	
@@ -171,7 +183,7 @@
 						</div>	
 						<h4><b>Title History</b></h4>
 						<div class="form-group col-sm-12">
-							<label class="col-sm-6 control-label" style="text-align: right;">Is there a lienholder? :</label>
+							<label class="col-sm-6 control-label" style="text-align: right;">Is there a lineholder? :</label>
 							<div class="col-sm-4">
 								<label class="control-label">{{tradeInData.lienHolder}}</label>
 							</div>
@@ -230,4 +242,16 @@
         </div>
     </div>
 	
-	
+<style>
+.red { color: black;  background-color: red !important; }
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+</style>

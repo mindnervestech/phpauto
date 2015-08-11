@@ -305,7 +305,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllByDate() {
-		return find.orderBy("tradeDate desc").findList();
+		return find.orderBy("tradeDate desc").orderBy("isRead").findList();
 	}
 	
 	public static int findAll() {

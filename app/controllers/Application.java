@@ -3101,6 +3101,13 @@ public class Application extends Controller {
     		vm.phone = info.phone;
     		vm.email = info.email;
     		vm.requestDate = df.format(info.requestDate);
+    		if(info.isRead == 0) {
+    			vm.isRead = false;
+    		}
+    		
+    		if(info.isRead == 1) {
+    			vm.isRead = true;
+    		}
     		
     		infoVMList.add(vm);
     	}
@@ -3130,7 +3137,13 @@ public class Application extends Controller {
     		vm.bestDay = info.bestDay;
     		vm.bestTime = info.bestTime;
     		vm.requestDate = df.format(info.scheduleDate);
+    		if(info.isRead == 0) {
+    			vm.isRead = false;
+    		}
     		
+    		if(info.isRead == 1) {
+    			vm.isRead = true;
+    		}
     		infoVMList.add(vm);
     	}
     	
@@ -3157,7 +3170,13 @@ public class Application extends Controller {
     		vm.phone = info.phone;
     		vm.email = info.email;
     		vm.requestDate = df.format(info.tradeDate);
+    		if(info.isRead == 0) {
+    			vm.isRead = false;
+    		}
     		
+    		if(info.isRead == 1) {
+    			vm.isRead = true;
+    		}
     		infoVMList.add(vm);
     	}
     	
@@ -3175,36 +3194,134 @@ public class Application extends Controller {
     }
     
     
-    public static Result requestInfoMarkRead() {
-    	AuthUser user = (AuthUser) getLocalUser();
-    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllByUser(user);
-    	for(RequestMoreInfo info: listData) {
-    		info.setIsRead(1);
-    		info.update();
-    	}
-    	return ok();
+    public static Result requestInfoMarkRead(String flag,Long id) {
+    	RequestMoreInfo infoObj = RequestMoreInfo.findById(id);
+    		if(flag.equals("true")) {
+    			infoObj.setIsRead(1);
+    		}
+    		if(flag.equals("false")) {
+    			infoObj.setIsRead(0);
+    		}
+    		infoObj.update();
+    		
+    		AuthUser user = (AuthUser) getLocalUser();
+        	List<RequestMoreInfo> listData = RequestMoreInfo.findAllByDate();
+        	List<RequestInfoVM> infoVMList = new ArrayList<>();
+        	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        	for(RequestMoreInfo info: listData) {
+        		RequestInfoVM vm = new RequestInfoVM();
+        		vm.id = info.id;
+        		Vehicle vehicle = Vehicle.findByVin(info.vin);
+        		vm.vin = info.vin;
+        		if(vehicle != null) {
+        			vm.model = vehicle.model;
+        			vm.make = vehicle.make;
+        			vm.stock = vehicle.stock;
+        		}
+        		vm.name = info.name;
+        		vm.phone = info.phone;
+        		vm.email = info.email;
+        		vm.requestDate = df.format(info.requestDate);
+        		if(info.isRead == 0) {
+        			vm.isRead = false;
+        		}
+        		
+        		if(info.isRead == 1) {
+        			vm.isRead = true;
+        		}
+        		
+        		infoVMList.add(vm);
+        	}
+        	
+        	return ok(Json.toJson(infoVMList));
     }
     
     
-    public static Result scheduleTestMarkRead() {
-    	AuthUser user = (AuthUser) getLocalUser();
-    	List<ScheduleTest> listData = ScheduleTest.findAllByUser(user);
+    public static Result scheduleTestMarkRead(String flag,Long id) {
+    	
+    	ScheduleTest scheduleObj = ScheduleTest.findById(id);
+    	if(flag.equals("true")) {
+    		scheduleObj.setIsRead(1);
+		}
+		if(flag.equals("false")) {
+			scheduleObj.setIsRead(0);
+		}
+		
+		scheduleObj.update();
+    	
+		List<ScheduleTest> listData = ScheduleTest.findAllByDate();
+    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     	for(ScheduleTest info: listData) {
-    		info.setIsRead(1);
-    		info.update();
+    		RequestInfoVM vm = new RequestInfoVM();
+    		vm.id = info.id;
+    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		vm.vin = info.vin;
+    		if(vehicle != null) {
+    			vm.model = vehicle.model;
+    			vm.make = vehicle.make;
+    			vm.stock = vehicle.stock;
+    		}
+    		vm.name = info.name;
+    		vm.phone = info.phone;
+    		vm.email = info.email;
+    		vm.bestDay = info.bestDay;
+    		vm.bestTime = info.bestTime;
+    		vm.requestDate = df.format(info.scheduleDate);
+    		if(info.isRead == 0) {
+    			vm.isRead = false;
+    		}
+    		
+    		if(info.isRead == 1) {
+    			vm.isRead = true;
+    		}
+    		infoVMList.add(vm);
     	}
-    	return ok();
+    	
+    	return ok(Json.toJson(infoVMList));
     }
     
     
-    public static Result tradeInMarkRead() {
-    	AuthUser user = (AuthUser) getLocalUser();
-    	List<TradeIn> listData = TradeIn.findAllByUser(user);
+    public static Result tradeInMarkRead(String flag,Long id) {
+    	
+    	TradeIn tradeObj = TradeIn.findById(id);
+    	if(flag.equals("true")) {
+    		tradeObj.setIsRead(1);
+		}
+		if(flag.equals("false")) {
+			tradeObj.setIsRead(0);
+		}
+		tradeObj.update();
+		
+		List<TradeIn> listData = TradeIn.findAllByDate();
+    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     	for(TradeIn info: listData) {
-    		info.setIsRead(1);
-    		info.update();
+    		RequestInfoVM vm = new RequestInfoVM();
+    		vm.id = info.id;
+    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		vm.vin = info.vin;
+    		if(vehicle != null) {
+    			vm.model = vehicle.model;
+    			vm.make = vehicle.make;
+    			vm.stock = vehicle.stock;
+    		}
+    		vm.name = info.firstName+" "+info.lastName;
+    		vm.phone = info.phone;
+    		vm.email = info.email;
+    		vm.requestDate = df.format(info.tradeDate);
+    		if(info.isRead == 0) {
+    			vm.isRead = false;
+    		}
+    		
+    		if(info.isRead == 1) {
+    			vm.isRead = true;
+    		}
+    		infoVMList.add(vm);
     	}
-    	return ok();
+    	
+    	return ok(Json.toJson(infoVMList));
+    	
     }
     
     
