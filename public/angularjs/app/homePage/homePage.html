@@ -175,6 +175,8 @@
 									    
 									    <button id="btnMsg" data-toggle="modal" data-target="#modal-basic" style="display: none;"></button>
 									    <button id="btnFeaturedMsg" data-toggle="modal" data-target="#modal-basic2" style="display: none;"></button>
+									    <button id="sliderBtnMsg" data-toggle="modal" data-target="#sliderMsg" style="display: none;"></button>
+									    <button id="featuredBtnMsg" data-toggle="modal" data-target="#featuredMsg" style="display: none;"></button>
 									    
 									    <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog">
@@ -202,6 +204,40 @@
 								                </div>
 								                <div class="modal-body">
 								                    Only 3 featured images can be uploaded<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    <div class="modal fade" id="sliderMsg" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Small image selected</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Invalid image dimension.Minimum image dimension should be {{configList[0].width}} X {{configList[0].height}}<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    <div class="modal fade" id="featuredMsg" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Small image selected</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Invalid image dimension.Minimum image dimension should be {{configList[1].width}} X {{configList[1].height}}<br>
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>

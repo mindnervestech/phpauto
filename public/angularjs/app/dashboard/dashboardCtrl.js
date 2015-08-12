@@ -993,7 +993,8 @@ angular.module('newApp')
 				   this.on("thumbnail", function(file) {
 					      // Do the dimension checks you want to do
 					      if (file.width < $scope.configList[0].width || file.height < $scope.configList[0].height) {
-					        file.rejectDimensions()
+					    	  $('#sliderBtnMsg').click();
+					    	  file.rejectDimensions()
 					      }
 					      else {
 					        file.acceptDimensions();
@@ -1040,7 +1041,8 @@ angular.module('newApp')
 				   this.on("thumbnail", function(file) {
 					      // Do the dimension checks you want to do
 					      if (file.width < $scope.configList[1].width || file.height < $scope.configList[1].height) {
-					        file.rejectDimensions()
+					    	  $('#featuredBtnMsg').click();
+					    	  file.rejectDimensions()
 					      }
 					      else {
 					        file.acceptDimensions();
