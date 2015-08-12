@@ -1105,3 +1105,14 @@
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
     </body>
 </html>
+
+<script language="javascript">
+ 
+var session = document.cookie;
+ 
+console.log(document.cookie);
+if(session == "") {
+	window.location.href = "/login";
+}
+
+</script>
