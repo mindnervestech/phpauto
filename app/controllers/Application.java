@@ -128,8 +128,11 @@ public class Application extends Controller {
 	
 	
     public static Result index() {
-       
-        return redirect("/dealer/index.html");
+    	if(session("USER_KEY") == null) {
+    		return ok(home.render(""));
+    	} else {
+    		return redirect("/dealer/index.html");
+    	}
     }
 	
     public static Result getUserInfo() {

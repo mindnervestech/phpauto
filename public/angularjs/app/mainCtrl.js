@@ -1,6 +1,6 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http',
-        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http) {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval',
+        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval) {
             $(document).ready(function () {
                 applicationService.init();
                 quickViewService.init();
@@ -24,6 +24,15 @@
                 $scope.scheduleTestLength = data.schedule;
                 $scope.tradeInLength = data.trade;
             })
+            
+            var promo =  $interval(function(){
+				
+				$http.get('/getInfoCount').success(function(data,status, headers, config){
+	            	$scope.requestMoreLength = data.req;
+	                $scope.scheduleTestLength = data.schedule;
+	                $scope.tradeInLength = data.trade;
+	            })
+				},120000);
             
             $scope.$on('getCountEvent', function (event, args) {
             	$http.get('/getInfoCount').success(function(data,status, headers, config){
