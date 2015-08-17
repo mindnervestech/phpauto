@@ -612,6 +612,7 @@ public class Application extends Controller {
 		    	vehicle.label = vm.label;
 		    	vehicle.stock = vm.stock;
 		    	vehicle.cityMileage = vm.city_mileage;
+		        vehicle.mileage=vm.mileage;
 		    	vehicle.highwayMileage = vm.highway_mileage;
 		    	vehicle.cost = vm.cost;
 		    	vehicle.price = vm.price;

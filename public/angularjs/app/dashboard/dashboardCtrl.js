@@ -79,6 +79,7 @@ angular.module('newApp')
  	  $http.post('/saveVehicle',$scope.vinData.specification)
 		.success(function(data) {
 			console.log('success');
+			$location.path('/');
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
@@ -1255,6 +1256,7 @@ angular.module('newApp')
 			$http.post('/editSliderImage',$scope.coords)
 			.success(function(data) {
 				console.log('success');
+				
 				$location.path('/homePage');
 				$scope.$apply();
 			});
