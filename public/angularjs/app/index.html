@@ -107,7 +107,7 @@
                     </div> -->
                     <ul class="nav nav-sidebar">
                         <li ng-class="{ active  : isActive('/')}"><a href="#/"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-                        <li ng-class="{ active  : isActive('/homePage')}"><a href="#homePage"><i class="icon-home"></i><span>Home Page Editing</span></a></li>
+                        <li ng-class="{ active  : isActive('/homePage')}"><a href="#homePage"><i class="icon-home"></i><span>Home Page Editing</span></a></li>   <!-- /homePage -->
                         <li ng-class="{ active  : isActive('/addVehicle')}"><a href="#addVehicle"><i class="fa fa-car"></i><span>Add Vehicle</span></a></li>
 						<li ng-class="{ active  : isActive('/viewVehicles')}"><a href="#viewVehicles"><i class="fa fa-bus"></i><span>Inventory</span></a></li>
 						<!-- <li ng-class="{ active  : isActive('/requestMoreInfo')}"><a href="#requestMoreInfo"><i class="glyphicon glyphicon-info-sign"></i><span>Request More Info</span></a></li>
@@ -926,9 +926,10 @@
         <!-- BEGIN PRELOADER -->
         <div class="loader-overlay">
             <div class="spinner">
-                <div class="bounce1"></div>
+                <!-- <div class="bounce1"></div>
                 <div class="bounce2"></div>
-                <div class="bounce3"></div>
+                <div class="bounce3"></div> -->
+                <video autoplay loop src="assets/video/GLIDER_AUTOS-BG-video.mp4"></video>
             </div>
         </div>
         <div id="loading" style='position:fixed;

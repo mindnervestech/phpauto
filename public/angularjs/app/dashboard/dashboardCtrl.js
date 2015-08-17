@@ -818,6 +818,11 @@ angular.module('newApp')
 			$http.post('/editImage',$scope.coords)
 			.success(function(data) {
 				console.log('success');
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Saved successfully",
+				});
 				$location.path('/viewVehicles');
 			});
 		}    
@@ -1256,7 +1261,11 @@ angular.module('newApp')
 			$http.post('/editSliderImage',$scope.coords)
 			.success(function(data) {
 				console.log('success');
-				
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "All changed has been saved",
+				});
 				$location.path('/homePage');
 				$scope.$apply();
 			});
