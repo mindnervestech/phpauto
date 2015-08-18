@@ -1,0 +1,120 @@
+
+<h1><b>My Profile</b></h1>
+<h2><b>Dealership's Info</b></h2>
+<!-- h4><b>Enter your 17 digit vin in the form below and click decode.</b></h4>
+ -->
+
+<!-- <div class="form-group" ng-init="vehicleInit()">
+	<div class="col-sm-3">
+		<input class="form-control form-white" type="text" ng-model="vinNumber" placeholder="Enter Vin">
+	</div>
+	<button class="btn btn-primary" ng-click="getVinData()">Decode!</button>
+	<p style="color:red;" ng-show="vinErr"><b>Vin is not valid</b></p>
+</div> -->
+<hr>
+<form ng-submit="saveMyprofile()">
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Name *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" style="border-color:red;" ng-model="myprofile.myname"  required>
+	</div>
+</div>
+<!-- <div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">VIN</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="vinData.specification.vin" placeholder="VIN Number" readonly="readonly">
+	</div>
+	<div class="col-sm-6" style="margin-left:17%;">
+		<p>A valid vin is 17 digits and cannot contain the letters I,O or Q</p>
+	</div>
+</div> -->
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Address *</label>
+	<div class="col-sm-5">
+		<!-- <input class="form-control form-white" " ng-model="vinData.specification.address" type="text" > -->
+	<textarea rows="4" cols="50" style="border-color:red;ng-model="myprofile.address"class="form-control form-white"></textarea>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Phone *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white"style="border-color:red; " ng-model="myprofile.phone" type="text" >
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Email *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" style="border-color:red;" ng-model="myprofile.email" type="email" required>
+		<!-- <p>745i,Accord,Sierra</p> -->
+	</div>
+</div>
+
+<h2><b>Social Media links</b></h2>
+<hr class="ng-scope">
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Facebook</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" " ng-model="myprofile.facebook" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Pinterest</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" " ng-model="myprofile.pinterest" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Instagram</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" " ng-model="myprofile.instagram" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Twitter</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" " ng-model="myprofile.twitter" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Google Plus</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" " ng-model="myprofile.googleplus" >
+	</div>
+</div>
+
+
+<!-- <div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Post to:</label>
+	<div class="col-sm-5">
+	<div ng-repeat="site in siteList">
+		<label class="">
+          <div class="icheckbox_flat-blue"  style="position: relative;">
+          <input type="checkbox"  ng-model="site.flag" ng-change="setSiteId(site.id,site.flag)">
+          <input type="checkbox" data-checkbox="icheckbox_flat-blue" ng-model="flag" ng-change="setSiteId(site.id,flag)" style="position: absolute; opacity: 0;">
+          <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+          </div> {{site.name}}
+        </label>
+	</div>
+		
+	</div>
+</div>
+ -->
+<button type="submit" class="btn btn-primary" style="margin-left:31%;" ng-click="setFlagVal()">Save Profile</button>
+
+<!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+

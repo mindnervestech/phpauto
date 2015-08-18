@@ -23,6 +23,7 @@ GET     /dealer/*file               controllers.Assets.at(path="/public/angularj
 GET		/getVehicleInfo/:vin		controllers.Application.getVehicleInfo(vin:String)
 GET		/getAllSites				controllers.Application.getAllSites()
 POST	/saveVehicle				controllers.Application.saveVehicle()
+POST	/myprofile				controllers.Application.myprofile()
 POST	/uploadPhotos				controllers.Application.uploadPhotos()
 GET		/getImagesByVin/:vin		controllers.Application.getImagesByVin(vin:String)
 GET		/getImage/:id/:type			controllers.Application.getImageById(id:Long,type:String)

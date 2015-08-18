@@ -1382,3 +1382,21 @@ angular.module('newApp')
 	}
 	
 }]);	
+
+angular.module('newApp')
+.controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+		
+	$scope.saveMyprofile = function() {
+					
+	$http.post('/myprofile',$scope.myprofile)
+		.success(function(data) {
+			console.log('success');
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "profile saved successfully",
+			});
+		});
+   }
+}]);	
+
