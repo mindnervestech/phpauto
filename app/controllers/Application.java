@@ -2265,11 +2265,37 @@ public class Application extends Controller {
 				
 				SliderImage imageObj = SliderImage.getByImagePath("/"+userObj.id+"/"+"SliderImages"+"/"+fileName);
 				if(imageObj == null) {
+					List<SliderImage> sliderList = SliderImage.find.all();
 					SliderImage vImage = new SliderImage();
 					vImage.imgName = fileName;
 					vImage.path = "/"+userObj.id+"/"+"SliderImages"+"/"+fileName;
 					vImage.thumbPath = "/"+userObj.id+"/"+"SliderImages"+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
+					if(sliderList.size() == 0) {
+						vImage.sliderNumber = 1;
+					}
+					if(sliderList.size() == 1) {
+						if(sliderList.get(0).sliderNumber == 1) {
+							vImage.sliderNumber = 2;
+						}
+						if(sliderList.get(0).sliderNumber == 2) {
+							vImage.sliderNumber = 3;
+						}
+						if(sliderList.get(0).sliderNumber == 3) {
+							vImage.sliderNumber = 1;
+						}
+					}
+					if(sliderList.size() == 2) {
+						if((sliderList.get(0).sliderNumber == 1 && sliderList.get(1).sliderNumber == 2)||(sliderList.get(0).sliderNumber == 2 && sliderList.get(1).sliderNumber == 1)) {
+							vImage.sliderNumber = 3;
+						}
+						if((sliderList.get(0).sliderNumber == 1 && sliderList.get(1).sliderNumber == 3)||(sliderList.get(0).sliderNumber == 3 && sliderList.get(1).sliderNumber == 1)) {
+							vImage.sliderNumber = 2;
+						}
+						if((sliderList.get(0).sliderNumber == 2 && sliderList.get(1).sliderNumber == 3)||(sliderList.get(0).sliderNumber == 3 && sliderList.get(1).sliderNumber == 2)) {
+							vImage.sliderNumber = 1;
+						}
+					}
 					vImage.save();
 					
 				}

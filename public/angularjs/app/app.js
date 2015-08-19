@@ -42,6 +42,15 @@ var MakeApp = angular
             templateUrl: 'myprofile/myprofile.html',
             controller: 'myprofileCtrl'
         })
+	.when('/sliderImages', {
+            templateUrl: 'homePage/sliderImages.html',
+            controller: 'HomePageCtrl'
+        })
+        
+        .when('/featuredImages', {
+            templateUrl: 'homePage/featuredImages.html',
+            controller: 'HomePageCtrl'
+        })
          .when('/configuration', {
             templateUrl: 'config/configuration.html',
             controller: 'ConfigPageCtrl'

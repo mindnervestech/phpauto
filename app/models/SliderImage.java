@@ -21,6 +21,7 @@ public class SliderImage extends Model {
 	public String link;
 	public Integer row;
 	public Integer col;
+	public Integer sliderNumber;
 	
 	@ManyToOne
 	public AuthUser user;
@@ -95,6 +96,14 @@ public class SliderImage extends Model {
 
 	public void setCol(Integer col) {
 		this.col = col;
+	}
+	
+	public Integer getSliderNumber() {
+		return sliderNumber;
+	}
+
+	public void setSliderNumber(Integer sliderNumber) {
+		this.sliderNumber = sliderNumber;
 	}
 
 
