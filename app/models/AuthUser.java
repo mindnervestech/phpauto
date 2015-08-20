@@ -20,6 +20,7 @@ public class AuthUser extends Model implements Identity {
 			 Integer.class, AuthUser.class
 			  ); 
 	public String email;
+	public String communicationemail;
 	public String firstName;
 	public String lastName;
 	public String password;
@@ -28,6 +29,10 @@ public class AuthUser extends Model implements Identity {
 	@Id
 	public Integer id;
 	public String provider;
+
+	
+
+
 
 	@Override
 	public AuthenticationMethod authMethod() {
@@ -82,5 +87,6 @@ public class AuthUser extends Model implements Identity {
 	public static AuthUser findById(Integer id) {
 		return find.byId(id);
 	}
+
 	
 }

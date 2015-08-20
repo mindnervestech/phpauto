@@ -6,6 +6,7 @@ public class profileVM {
 	public String address;
 	public String phone;
 	public String email;
+	public String web;
 	public String facebook;
 	public String twitter;
 	public String pinterest;

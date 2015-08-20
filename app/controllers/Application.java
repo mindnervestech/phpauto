@@ -37,7 +37,7 @@ import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleImage;
 import models.VirtualTour;
-import models.myprofile;
+import models.MyProfile;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
@@ -3832,18 +3832,41 @@ public class Application extends Controller {
     	Form<profileVM> form = DynamicForm.form(profileVM.class).bindFromRequest();
     	profileVM vm = form.get();
     	
-    	myprofile myp = new myprofile();
-        myp.myname=vm.myname;
-        myp.address=vm.address;
-        myp.phone=vm.phone;
-        myp.email=vm.email;
-        myp.facebook=vm.facebook;
-    	myp.twitter=vm.twitter;
-        myp.pinterest=vm.pinterest;
-    	myp.instagram=vm.instagram;
-    	myp.googleplus=vm.googleplus;
-    	myp.save();
+    	AuthUser userObj = (AuthUser) getLocalUser();
+    	MyProfile mpObj = MyProfile.findByUser(userObj);
     	
+    	if(mpObj != null) {
+    		System.out.println("userObj 8888888 == "+userObj.communicationemail);
+    		mpObj.setMyname(vm.myname);
+    		mpObj.setAddress(vm.address);
+    		mpObj.setPhone(vm.phone);
+    		mpObj.setEmail(vm.email);
+    		mpObj.setWeb(vm.web);
+    		mpObj.setFacebook(vm.facebook);
+    		mpObj.setTwitter(vm.twitter);
+    		mpObj.setPinterest(vm.pinterest);
+    		mpObj.setInstagram(vm.instagram);
+    		mpObj.setGoogleplus(vm.googleplus);
+    		mpObj.update();
+    	}else{
+    		mpObj = new MyProfile();
+    		mpObj.setMyname(vm.myname);
+    		mpObj.setAddress(vm.address);
+    		mpObj.setPhone(vm.phone);
+    		mpObj.setEmail(vm.email);
+    		mpObj.setWeb(vm.web);
+    		mpObj.setFacebook(vm.facebook);
+    		mpObj.setTwitter(vm.twitter);
+    		mpObj.setPinterest(vm.pinterest);
+    		mpObj.setInstagram(vm.instagram);
+    		mpObj.setGoogleplus(vm.googleplus);
+    		mpObj.user = (AuthUser) getLocalUser();
+    		mpObj.save();
+    	}
+    	
+    	userObj.communicationemail = vm.email;
+    	userObj.update();
+    	/*System.out.println("userObj after 1 == "+userObj.communicationemail);*/
 		return ok();
     }
   

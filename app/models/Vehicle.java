@@ -177,7 +177,7 @@ public class Vehicle extends Model {
 	public void setMileage(String mileage) {
 		this.mileage = mileage;
 	}
-	
+
 	public Integer getCost() {
 		return cost;
 	}

@@ -2,18 +2,22 @@ package models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
 @Entity
-public class myprofile extends Model {
+public class MyProfile extends Model {
 
+	
 	 
 	public String myname;
 	public String address;
 	public String phone;
 	public String email;
+	public String web;
 	public String facebook;
 	public String twitter;
 	public String pinterest;
@@ -23,6 +27,18 @@ public class myprofile extends Model {
 
 	@Id
 	public Integer id;
+	
+	 @OneToOne
+	 public AuthUser user;
+	
+	public String getWeb() {
+		return web;
+	}
+
+
+	public void setWeb(String web) {
+		this.web = web;
+	}
 
 	public String getFacebook() {
 		return facebook;
@@ -70,11 +86,8 @@ public class myprofile extends Model {
 	}
 
 
-	
-	
 
-
-	public static Finder<Long,myprofile> find = new Finder<>(Long.class,myprofile.class);
+	public static Finder<Long,MyProfile> find = new Finder<>(Long.class,MyProfile.class);
 	
 	public String getMyname() {
 		return myname;
@@ -126,7 +139,18 @@ public class myprofile extends Model {
 	}
 
 
+	public AuthUser getUser() {
+		return user;
+	}
 
+
+	public void setUser(AuthUser user) {
+		this.user = user;
+	}
+		
+	public static MyProfile findByUser(AuthUser user) {
+		return find.where().eq("user", user).findUnique();
+	}
 
 	
 	
