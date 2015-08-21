@@ -10,8 +10,6 @@ import play.db.ebean.Model.Finder;
 
 @Entity
 public class MyProfile extends Model {
-
-	
 	 
 	public String myname;
 	public String address;
