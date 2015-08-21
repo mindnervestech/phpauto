@@ -90,6 +90,12 @@ public class Application extends Controller {
 	final static String rootDir = Play.application().configuration()
 			.getString("image.storage.path");
 	
+	final static String imageUrlPath = Play.application().configuration()
+			.getString("image.url.path");
+	
+	final static String vehicleUrlPath = Play.application().configuration()
+			.getString("vehicle.url.path");
+	
 	final static String mashapeKey = Play.application().configuration()
 			.getString("mashapeKey");
 	
@@ -687,9 +693,10 @@ public class Application extends Controller {
 	    	
 	    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin,userObj);
 	    	List<Site> siteList = vehicleObj2.getSite();
-	    	
+	    	MyProfile profile = MyProfile.findByUser(userObj);
 	    	if(!siteList.isEmpty()) {
 		    	for(Site siteObj: siteList) {
+		    		
 		    		if(siteObj.getName().equals("CarsGuru")) {
 		    			FTPClient client = new FTPClient();
 		    	        FileInputStream fis = null;
@@ -744,7 +751,7 @@ public class Application extends Controller {
 		            		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicleData.vin, userObj);
 		            		String str = "";
 		            		for(VehicleImage img : vImageList) {
-		            			str = str +rootDir+img.path+",";
+		            			str = str +imageUrlPath+img.path+",";
 		            		}
 		            		row[7] = str;
 		            		row[8] = vehicleData.exteriorColor;
@@ -819,8 +826,13 @@ public class Application extends Controller {
 		            		
 		            		row[12] = standardFeatures;
 		            		row[13] = "1234";
-		            		row[14] = "Autolinx Inc";
-		            		row[15] = "3300 Sonoma Blvd";
+		            		if(profile != null) {
+		            			row[14] = profile.myname;
+		            			row[15] = profile.address;
+		            		} else {
+		            			row[14] = "";
+		            			row[15] = "";
+		            		}
 		            		row[16] = "Vallejo";
 		            		row[17] = "California";
 		            		row[18] = "94590";
@@ -913,21 +925,29 @@ public class Application extends Controller {
 		    	    		row[1] = vehicleCarfax.vin;
 		    	    		row[2] = vehicleCarfax.stock;
 		    	    		row[3] = vehicleCarfax.year+" "+vehicleCarfax.make+" "+vehicleCarfax.model;
-		    	    		row[4] = "http://www.domain.com/cars/12345679.html";
+		    	    		row[4] = vehicleUrlPath+vehicleCarfax.vin;
 		    	    		row[5] = vehicleCarfax.category;
 		    	    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicleCarfax.vin, userObj);
 		    	    		String str = "";
 		    	    		for(VehicleImage img : vImageList) {
-		    	    			str = str +rootDir+img.path+"|";
+		    	    			str = str +imageUrlPath+img.path+"|";
 		    	    		}
 		    	    		row[6] = str;
-		    	    		row[7] = "1234 Main Street";
+		    	    		if(profile != null) {
+		    	    			row[7] = profile.address;
+		    	    		} else {
+		    	    			row[7] = "";
+		    	    		}
 		    	    		row[8] = "San Francisco";
 		    	    		row[9] = "CA";
 		    	    		row[10] = "94105";
 		    	    		row[11] = "United States";
 		    	    		row[12] = "Dealer";
-		    	    		row[13] = "Dealer";
+		    	    		if(profile != null) {
+		    	    			row[13] = profile.myname;
+		    	    		} else {
+		    	    			row[13] = "";
+		    	    		}
 		    	    		row[14] = "4567";
 		    	    		row[15] = "someone@dealerwebsite.com";
 		    	    		row[16] = "800-123-4567";
@@ -1698,7 +1718,7 @@ public class Application extends Controller {
 		    	
 		    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin,userObj);
 		    	List<Site> siteList2 = vehicleObj2.getSite();
-		    	
+		    	MyProfile profile = MyProfile.findByUser(userObj);
 		    	if(!siteList2.isEmpty()) {
 			    	for(Site siteObj: siteList2) {
 			    		if(siteObj.getName().equals("CarsGuru")) {
@@ -1755,7 +1775,7 @@ public class Application extends Controller {
 			            		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicleData.vin, userObj);
 			            		String str = "";
 			            		for(VehicleImage img : vImageList) {
-			            			str = str +rootDir+img.path+",";
+			            			str = str +imageUrlPath+img.path+",";
 			            		}
 			            		row[7] = str;
 			            		row[8] = vehicleData.exteriorColor;
@@ -1830,8 +1850,13 @@ public class Application extends Controller {
 			            		
 			            		row[12] = standardFeatures;
 			            		row[13] = "1234";
-			            		row[14] = "Autolinx Inc";
-			            		row[15] = "3300 Sonoma Blvd";
+			            		if(profile != null) {
+			            			row[14] = profile.myname;
+			            			row[15] = profile.address;
+			            		} else {
+			            			row[14] = "";
+			            			row[15] = "";
+			            		}
 			            		row[16] = "Vallejo";
 			            		row[17] = "California";
 			            		row[18] = "94590";
@@ -1924,21 +1949,29 @@ public class Application extends Controller {
 			    	    		row[1] = vehicleCarfax.vin;
 			    	    		row[2] = vehicleCarfax.stock;
 			    	    		row[3] = vehicleCarfax.year+" "+vehicleCarfax.make+" "+vehicleCarfax.model;
-			    	    		row[4] = "http://www.domain.com/cars/12345679.html";
+			    	    		row[4] = vehicleUrlPath+vehicleCarfax.vin;
 			    	    		row[5] = vehicleCarfax.category;
 			    	    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicleCarfax.vin, userObj);
 			    	    		String str = "";
 			    	    		for(VehicleImage img : vImageList) {
-			    	    			str = str +rootDir+img.path+"|";
+			    	    			str = str +imageUrlPath+img.path+"|";
 			    	    		}
 			    	    		row[6] = str;
-			    	    		row[7] = "1234 Main Street";
+			    	    		if(profile != null) {
+			    	    			row[7] = profile.address;
+			    	    		} else {
+			    	    			row[7] = "";
+			    	    		}
 			    	    		row[8] = "San Francisco";
 			    	    		row[9] = "CA";
 			    	    		row[10] = "94105";
 			    	    		row[11] = "United States";
 			    	    		row[12] = "Dealer";
-			    	    		row[13] = "Dealer";
+			    	    		if(profile != null) {
+			    	    			row[13] = profile.myname;
+			    	    		} else {
+			    	    			row[13] = "";
+			    	    		}
 			    	    		row[14] = "4567";
 			    	    		row[15] = "someone@dealerwebsite.com";
 			    	    		row[16] = "800-123-4567";
