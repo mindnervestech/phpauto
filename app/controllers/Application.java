@@ -3870,5 +3870,12 @@ public class Application extends Controller {
 		return ok();
     }
   
+    public static Result showPdf(Long id) {
+    	TradeIn tradeIn = TradeIn.findById(id);
+    	File file = new File(rootDir+tradeIn.pdfPath);
+    	response().setContentType("application/pdf");
+    	response().setHeader("Content-Disposition", "inline; filename=tradeIn.pdf");
+		return ok(file);
+    }
 }
 

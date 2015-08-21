@@ -53,6 +53,7 @@ public class TradeIn extends Model {
 	public String optionValue;
 	public String vin;
 	public int isRead;
+	public String pdfPath;
 	@ManyToOne
 	public AuthUser user;
 	
