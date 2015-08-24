@@ -3872,6 +3872,10 @@ public class Application extends Controller {
     		System.out.println("userObj 8888888 == "+userObj.communicationemail);
     		mpObj.setMyname(vm.myname);
     		mpObj.setAddress(vm.address);
+    		mpObj.setCity(vm.city);
+    		mpObj.setState(vm.state);
+    		mpObj.setZip(vm.zip);
+    		mpObj.setCountry(vm.country);
     		mpObj.setPhone(vm.phone);
     		mpObj.setEmail(vm.email);
     		mpObj.setWeb(vm.web);
@@ -3885,6 +3889,10 @@ public class Application extends Controller {
     		mpObj = new MyProfile();
     		mpObj.setMyname(vm.myname);
     		mpObj.setAddress(vm.address);
+    		mpObj.setCity(vm.city);
+    		mpObj.setState(vm.state);
+    		mpObj.setZip(vm.zip);
+    		mpObj.setCountry(vm.country);
     		mpObj.setPhone(vm.phone);
     		mpObj.setEmail(vm.email);
     		mpObj.setWeb(vm.web);
