@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('RequestMoreInfoCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
+.controller('RequestMoreInfoCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
 	
   $scope.gridOptions = {
  		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -82,6 +82,12 @@ angular.module('newApp')
 			$scope.gridOptions.data = data;
 		});
 	  
+	  var promo =  $interval(function(){
+			  $http.get('/getAllRequestInfo')
+				.success(function(data) {
+				$scope.gridOptions.data = data;
+			});
+	  },60000);
 	  
   $scope.setAsRead = function(flag,id) {
 	  

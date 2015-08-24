@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ScheduleTestCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
+.controller('ScheduleTestCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
 	
   $scope.gridOptions = {
  		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -97,6 +97,14 @@ angular.module('newApp')
 		$scope.gridOptions.data = data;
 		$('#sliderBtn').click();
 	});
+  
+  		var promo =  $interval(function(){
+  			 $http.get('/getAllScheduleTest')
+  			.success(function(data) {
+	  			$scope.gridOptions.data = data;
+	  			$('#sliderBtn').click();
+  			});
+  		},60000);
   
   $scope.setAsRead = function(flag,id) {
 	  

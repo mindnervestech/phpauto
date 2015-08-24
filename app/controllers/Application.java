@@ -1726,7 +1726,7 @@ public class Application extends Controller {
 			    	        FileInputStream fis = null;
 			    	        client.connect("ftp.cargurus.com");
 			                client.login("glider", "GLF8yP");
-			                String filename = vm.vin+".csv";
+			                String filename = vm.vin+"-CarsGuru"+".csv";
 			                CSVWriter writer = new CSVWriter(new FileWriter(filename));
 			            	List<Vehicle> vehicleList = Vehicle.getAllVehicles(userObj);
 			            	
@@ -1889,7 +1889,7 @@ public class Application extends Controller {
 			    	        FileInputStream fis = null;
 			    	        client.connect("ftp.vast.com");
 			                client.login("gliderllc.com", "73f1vvRw4a");
-			                String filename = vm.vin+".csv";
+			                String filename = vm.vin+"-Carfax"+".csv";
 			                CSVWriter writer = new CSVWriter(new FileWriter(filename));
 			    	    	List<Vehicle> vehicleList = Vehicle.getAllVehicles(userObj);
 			    	    	String []rowHeaders = new String[48];
@@ -3330,7 +3330,7 @@ public class Application extends Controller {
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3368,7 +3368,7 @@ public class Application extends Controller {
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3407,7 +3407,7 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3467,7 +3467,7 @@ public class Application extends Controller {
 	        	for(RequestMoreInfo info: listData) {
 	        		RequestInfoVM vm = new RequestInfoVM();
 	        		vm.id = info.id;
-	        		Vehicle vehicle = Vehicle.findByVin(info.vin);
+	        		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
 	        		vm.vin = info.vin;
 	        		if(vehicle != null) {
 	        			vm.model = vehicle.model;
@@ -3507,14 +3507,14 @@ public class Application extends Controller {
 			}
 			
 			scheduleObj.update();
-	    	
+			AuthUser user = (AuthUser) getLocalUser();
 			List<ScheduleTest> listData = ScheduleTest.findAllByDate();
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3554,14 +3554,14 @@ public class Application extends Controller {
 				tradeObj.setIsRead(0);
 			}
 			tradeObj.update();
-			
+			AuthUser user = (AuthUser) getLocalUser();
 			List<TradeIn> listData = TradeIn.findAllByDate();
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
