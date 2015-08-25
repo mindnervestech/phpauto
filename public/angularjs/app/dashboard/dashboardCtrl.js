@@ -1385,10 +1385,30 @@ angular.module('newApp')
 
 angular.module('newApp')
 .controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-		
+	$scope.myprofile = {};
+	$http.get('/getMyProfile')
+	.success(function(data) {
+		$scope.myprofile = data;
+	});
+	
 	$scope.saveMyprofile = function() {
-					
-	$http.post('/myprofile',$scope.myprofile)
+		var geocoder = new google.maps.Geocoder(); 
+		var address = $scope.myprofile.address+","+$scope.myprofile.city+","+$scope.myprofile.zip+","+$scope.myprofile.state+","+$scope.myprofile.country;
+		geocoder.geocode( { 'address': address}, function(results, status) { 
+			if (status == google.maps.GeocoderStatus.OK) 
+			{ 
+				var latitude = results[0].geometry.location.lat(); 
+				var longitude = results[0].geometry.location.lng();
+				$scope.myprofile.latlong = latitude+" "+longitude;
+				$scope.getLatLong();
+			} 
+		});
+		
+		
+   }
+	
+	$scope.getLatLong = function() {
+		$http.post('/myprofile',$scope.myprofile)
 		.success(function(data) {
 			console.log('success');
 			$.pnotify({
@@ -1397,6 +1417,7 @@ angular.module('newApp')
 			    text: "profile saved successfully",
 			});
 		});
-   }
+	}
+	
 }]);	
 

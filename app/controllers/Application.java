@@ -3874,6 +3874,8 @@ public class Application extends Controller {
     	if(mpObj != null) {
     		System.out.println("userObj 8888888 == "+userObj.communicationemail);
     		mpObj.setMyname(vm.myname);
+    		mpObj.setDealer_id(vm.dealer_id);
+    		mpObj.setLatlong(vm.latlong);
     		mpObj.setAddress(vm.address);
     		mpObj.setCity(vm.city);
     		mpObj.setState(vm.state);
@@ -3891,6 +3893,8 @@ public class Application extends Controller {
     	}else{
     		mpObj = new MyProfile();
     		mpObj.setMyname(vm.myname);
+    		mpObj.setDealer_id(vm.dealer_id);
+    		mpObj.setLatlong(vm.latlong);
     		mpObj.setAddress(vm.address);
     		mpObj.setCity(vm.city);
     		mpObj.setState(vm.state);
@@ -3921,5 +3925,28 @@ public class Application extends Controller {
     	response().setHeader("Content-Disposition", "inline; filename=tradeIn.pdf");
 		return ok(file);
     }
+    
+    public static Result getMyProfile() {
+    	AuthUser userObj = (AuthUser) getLocalUser();
+    	MyProfile mpObj = MyProfile.findByUser(userObj);
+    	profileVM vm = new profileVM();
+    	vm.address = mpObj.address;
+    	vm.myname = mpObj.myname;
+    	vm.city = mpObj.city;
+    	vm.country = mpObj.country;
+    	vm.dealer_id = mpObj.dealer_id;
+    	vm.email = mpObj.email;
+    	vm.facebook = mpObj.facebook;
+    	vm.googleplus = mpObj.googleplus;
+    	vm.instagram= mpObj.instagram;
+    	vm.phone = mpObj.phone;
+    	vm.pinterest = mpObj.pinterest;
+    	vm.state = mpObj.state;
+    	vm.twitter = mpObj.twitter;
+    	vm.web = mpObj.web;
+    	vm.zip = mpObj.zip;
+    	return ok(Json.toJson(vm));
+    }
+    
 }
 

@@ -11,8 +11,11 @@ import play.db.ebean.Model.Finder;
 @Entity
 public class MyProfile extends Model {
 
+	
 	 
 	public String myname;
+	public String dealer_id;
+	public String latlong;
 	public String address;
 	public String city;
 	public String state;
@@ -198,6 +201,26 @@ public class MyProfile extends Model {
 
 	public static MyProfile findByUser(AuthUser user) {
 		return find.where().eq("user", user).findUnique();
+	}
+
+
+	public String getDealer_id() {
+		return dealer_id;
+	}
+
+
+	public void setDealer_id(String dealer_id) {
+		this.dealer_id = dealer_id;
+	}
+
+
+	public String getLatlong() {
+		return latlong;
+	}
+
+
+	public void setLatlong(String latlong) {
+		this.latlong = latlong;
 	}
 
 	

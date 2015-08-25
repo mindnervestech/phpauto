@@ -3,6 +3,8 @@ package viewmodel;
 public class profileVM {
 
 	public String myname;
+	public String dealer_id;
+	public String latlong;
 	public String address;
 	public String city;
 	public String state;
