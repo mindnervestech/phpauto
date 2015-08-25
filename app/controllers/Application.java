@@ -2833,7 +2833,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
-	    	CSVWriter writer = new CSVWriter(new FileWriter("D:\\vehicleInfo.csv"));
+	    	CSVWriter writer = new CSVWriter(new FileWriter("vehicleInfo.csv"));
 	    	List<Vehicle> vehicleList = Vehicle.getAllVehicles(user);
 	    	
 	    	for(Vehicle vehicle: vehicleList) {
@@ -2907,7 +2907,7 @@ public class Application extends Controller {
 	    		List<VehicleImage> vImageList = VehicleImage.getByVin(vehicle.vin, user);
 	    		String str = "";
 	    		for(VehicleImage img : vImageList) {
-	    			str = str +rootDir+img.path+",";
+	    			str = str +imageUrlPath+img.path+",";
 	    		}
 	    		row[19] = str;
 	    		VirtualTour vt = VirtualTour.findByUserAndVin(user,vehicle.vin);
@@ -2923,7 +2923,10 @@ public class Application extends Controller {
 	    	
 	    	 writer.close();
 	    	 
-	    	return ok();
+	    	 File file = new File("vehicleInfo.csv");
+	    	response().setContentType("application/csv");
+	     	response().setHeader("Content-Disposition", "inline; filename=autoTrader.csv");
+	 		return ok(file);
     	}	
     }
     
