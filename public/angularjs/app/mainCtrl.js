@@ -32,7 +32,7 @@
 	                $scope.scheduleTestLength = data.schedule;
 	                $scope.tradeInLength = data.trade;
 	            })
-				},120000);
+				},15000);
             
             $scope.$on('getCountEvent', function (event, args) {
             	$http.get('/getInfoCount').success(function(data,status, headers, config){
