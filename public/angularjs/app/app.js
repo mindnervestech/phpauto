@@ -310,7 +310,12 @@ var MakeApp = angular
 .factory('MyHttpInterceptor', function ($q) {
     return {
         request: function (config) {
-                    $('#loading').show();
+        	if(config.url == '/getInfoCount') {
+        		$('#loading').hide();
+        	} else {
+        		$('#loading').show();
+        	}
+                    
                     return config || $q.when(config);           
         },
    

@@ -105,7 +105,7 @@
                             </ul>
                         </div>
                     </div> -->
-                    <ul class="nav nav-sidebar">
+                    <ul class="nav nav-sidebar" style="background-image: url('/assets/images/bg.jpg');">
                         <li ng-class="{ active  : isActive('/')}"><a href="#/"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
                         <li ng-class="{ active  : isActive('/homePage')}"><a href="#homePage"><i class="icon-home"></i><span>Home Page Editing</span></a></li>
                         <li ng-class="{ active  : isActive('/addVehicle')}"><a href="#addVehicle"><i class="fa fa-car"></i><span>Add Vehicle</span></a></li>
@@ -265,7 +265,7 @@
             <!-- END SIDEBAR -->
             <div class="main-content">
                 <!-- BEGIN TOPBAR -->
-                <div class="topbar">
+                <div class="topbar" style="background-color: #181a1d;">
                     <div class="header-left">
                         <div class="topnav">
                             <a class="menutoggle" href="#" data-toggle="sidebar-collapsed"><span class="menu__handle"><span>Menu</span></span></a>
@@ -282,7 +282,7 @@
                             <!-- BEGIN USER DROPDOWN -->
                             <li class="dropdown" id="language-header">
                                 <a href="#requestMoreInfo">
-                                <i class="icon-info"></i>
+                                <i class="icon-info" style="color:white;"></i>
                                 <span class="badge badge-primary badge-header" ng-show="requestMoreLength != 0">{{requestMoreLength}}</span>
                                 </a>
                                 
@@ -291,7 +291,7 @@
                             <!-- BEGIN NOTIFICATION DROPDOWN -->
                             <li class="dropdown" id="notifications-header">
                                 <a href="#scheduleTest">
-                                <i class="icon-rounded-pin"></i>
+                                <i class="icon-rounded-pin" style="color:white;"></i>
                                 <span class="badge badge-primary badge-header" ng-show="scheduleTestLength != 0">{{scheduleTestLength}}</span>
                                 </a>
                                 
@@ -300,7 +300,7 @@
                             <!-- BEGIN MESSAGES DROPDOWN -->
                             <li class="dropdown" id="messages-header">
                                 <a href="#tradeIn">
-                                <i class="icon-rounded-air-plane"></i>
+                                <i class="icon-rounded-air-plane" style="color:white;"></i>
                                 <span class="badge badge-primary badge-header" ng-show="tradeInLength != 0">
                                 {{tradeInLength}}
                                 </span>
