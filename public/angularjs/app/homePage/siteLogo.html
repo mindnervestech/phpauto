@@ -1,0 +1,64 @@
+<div ng-init="getLogoData()">
+  <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSlider()">Slider Images</button></a></li>
+      <li role="presentation" class=""><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToFeatured()">Featured Images</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="getLogoData()">Logo & Favicon</button></a></li>
+    </ul>
+	    <div id="myTabContent" class="tab-content">
+	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+	        	
+	        	<div class="form-group col-sm-12" style="margin-top:3%;">
+				<label class="col-sm-2 control-label">Logo Image:</label>
+				<div class="col-sm-6">
+					<form ng-submit="saveLogoImage()">
+					<label class="col-sm-6 control-label">{{logoName}}</label>
+					<input class="form-control" type="file" style="margin-top:10%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required>
+					<input type="submit" class="btn btn-primary" value="Upload" style="margin-top:5%;margin-left:3%;">
+					</form>
+				</div>
+			</div>
+			<div class="form-group col-sm-12" style="margin-top:3%;">
+				<label class="col-sm-2 control-label">Fevicon Image:</label>
+				<div class="col-sm-6">
+					<form ng-submit="saveFeviconImage()">
+					<label class="col-sm-6 control-label">{{feviconName}}</label>
+					<input class="form-control" type="file" style="margin-top:10%;" accept="image/*" name="feviconFile" ng-file-select="onFeviconFileSelect($files)" required>
+					<input type="submit" class="btn btn-primary" value="Upload" style="margin-top:5%;margin-left:3%;">
+					</form>
+				</div>
+			</div>
+			
+			<div class="form-group col-sm-12" style="margin-top:3%;">
+				<form ng-submit="saveTabText(tabText)">
+				<label class="col-sm-2 control-label" style="text-align: right;">Browser's tab text </label>
+				<div class="col-sm-6">
+					<input type="text" ng-model="tabText" class="form-control form-white" required>
+					<input type="submit" class="btn btn-primary" value="Save" style="margin-top:5%;margin-left:3%;">
+				</div>
+				</form>
+			</div>
+	        	
+	      </div>
+	      
+	    </div>
+  </div>
+</div>  
+
+
+<style>
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+</style>

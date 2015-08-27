@@ -1,22 +1,102 @@
-  
+<div ng-init="init()">
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Slider Images</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="testDrive()">Featured Images</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="tradeIn()">site's slogan</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="tradeIn()">site Description</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="tradeIn()">Logo & Favicon</button></a></li>
+      <li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSlider()">Slider Images</button></a></li>
+      <li role="presentation" class="active"><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="uploadFeaturedImages()">Featured Images</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLogo()">Logo & Favicon</button></a></li>
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
-	        <h2><b>Featured Images</b></h2>
-			Featured ImagesFeatured ImagesFeatured ImagesFeatured Images
+	        	
+	        	<div class="row" style="margin-bottom: 3%;">
+            <div gridster="gridsterOpts2">
+            <ul style="list-style:none;">
+				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
+				                    		id="{{image.id}}"   ng-repeat="image in featuredList" style="float:left;">
+				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
+				                        			<img class="myImage" style="width:100%; height:100%;" src="/getFeaturedImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                            		
+				                            		<div>
+				                            			<a class="remImage" ng-click="deleteFeaturedImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            		</div>
+				                            		<a class="remImage2" ng-click="showFullFeaturedImage(image)" data-toggle="modal" data-target="#modal-image2" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+				                        			<a class="remImage3" ng-click="editFeaturedImage(image)" style="cursor:pointer;color:#319DB5;"><b>Edit</b></a>
+				                        		</div>
+				                        	</li>
+				                        </ul>
+				</div>                        
+			</div>	
+			<h1>Upload Featured Images</h1>
+			<p><b>Minimum image dimension should be {{configList[1].width}} X {{configList[1].height}}</b></p>
+            <form id="dropzoneFrm3" action="/uploadFeaturedPhotos" class="dropzone">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple />
+                            </div>
+                        </form>
+ 					<button class="btn btn-primary" ng-click="uploadFeaturedFiles()" style="margin-left:44%;margin-top:3%;">Upload</button>   
+	        	
 	      </div>
 	      
 	    </div>
   </div>
+</div>  
   
+  									<div class="modal fade modal-image" id="modal-image2" tabindex="-1" role="dialog" aria-hidden="true">
+									        <div class="modal-dialog">
+									            <div class="modal-content">
+									                <div class="modal-header">
+									                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+									                </div>
+									                <div class="modal-body">
+									                    <img src="/getFeaturedImage/{{featuredImgId}}/full" alt="picture 1" class="img-responsive">
+									                </div>
+									                <div class="modal-footer">
+									                    <p>{{featuredImgName}}</p>
+									                </div>
+									            </div>
+									        </div>
+									    </div> 
+									    
+									    <button id="btnFeaturedMsg" data-toggle="modal" data-target="#modal-basic2" style="display: none;"></button>
+									    <button id="featuredBtnMsg" data-toggle="modal" data-target="#featuredMsg" style="display: none;"></button>
+									    
+  										<div class="modal fade" id="modal-basic2" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title"><strong>Max limit</strong> exceeded</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Only 3 featured images can be uploaded<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    <div class="modal fade" id="featuredMsg" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Small image selected</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Invalid image dimension.Minimum image dimension should be {{configList[1].width}} X {{configList[1].height}}<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
   
+  <p style="display: none;">{{uploadFeaturedImages()}}</p>
   
 <style>
 .red { color: black;  background-color: #ffd3d3 !important; }
@@ -31,4 +111,44 @@
 .nav.nav-tabs > li.active > a {
 	background-color: #F1F1F1;
 }
+
+.remImage{
+opacity:0;
+top:0;
+right:-15px;
+position:absolute;
+}
+
+
+.remImage2{
+opacity:0;
+top:80px;
+left:123px;
+position:absolute;
+}
+
+.remImage3{
+opacity:0;
+top:80px;
+left:10px;
+position:absolute;
+}
+
+.imageGroup{
+position:relative;
+float:left;
+}
+.imageGroup:hover .remImage{
+opacity:1;
+}
+.imageGroup:hover .remImage2{
+opacity:1;
+}
+.imageGroup:hover .remImage3{
+opacity:1;
+}
+.imageGroup:hover .myImage{
+opacity:0.2;
+}
+
 </style>	

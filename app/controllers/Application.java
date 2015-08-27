@@ -825,27 +825,37 @@ public class Application extends Controller {
 		            		}
 		            		
 		            		row[12] = standardFeatures;
-		            		row[13] = "1234";
+		            		
 		            		if(profile != null) {
+		            			row[13] = profile.dealer_id;
 		            			row[14] = profile.myname;
 		            			row[15] = profile.address;
+		            			row[16] = profile.city;
+			            		row[17] = profile.state;
+			            		row[18] = profile.zip;
+			            		row[19] = profile.email;
+			            		row[25] = profile.latlong;
+			            		row[27] = profile.phone;
+			            		row[28] = profile.web;
 		            		} else {
+		            			row[13] = "";
 		            			row[14] = "";
 		            			row[15] = "";
+		            			row[16] = "";
+			            		row[17] = "";
+			            		row[18] = "";
+			            		row[19] = "";
+			            		row[25] = "";
+			            		row[27] = "";
+			            		row[28] = "";
 		            		}
-		            		row[16] = "Vallejo";
-		            		row[17] = "California";
-		            		row[18] = "94590";
-		            		row[19] = "info@autolinxinc.com";
+		            		
 		            		row[20] = vehicleData.getPrice().toString();
 		            		row[21] = vehicleData.interiorColor;
 		            		row[22] = "";
 		            		row[23] = "N";
 		            		row[24] = vehicleData.engine;
-		            		row[25] = "38.120301  -122.254508";
 		            		row[26] = "1000";
-		            		row[27] = "(707)552-5469";
-		            		row[28] = "www.autolinxinc.com/";
 		            		
 		            		writer.writeNext(row);
 		            	}
@@ -945,13 +955,18 @@ public class Application extends Controller {
 		    	    		row[12] = "Dealer";
 		    	    		if(profile != null) {
 		    	    			row[13] = profile.myname;
+		    	    			row[14] = profile.dealer_id;
+			    	    		row[15] = profile.email;
+			    	    		row[16] = profile.phone;
+			    	    		row[17] = profile.web;
 		    	    		} else {
 		    	    			row[13] = "";
+		    	    			row[14] = "";
+			    	    		row[15] = "";
+			    	    		row[16] = "";
+			    	    		row[17] = "";
 		    	    		}
-		    	    		row[14] = "4567";
-		    	    		row[15] = "someone@dealerwebsite.com";
-		    	    		row[16] = "800-123-4567";
-		    	    		row[17] = "dealerwebsite.com";
+		    	    		
 		    	    		row[18] = "";
 		    	    		row[19] = vehicleCarfax.make;
 		    	    		row[20] = vehicleCarfax.model;
@@ -1849,27 +1864,39 @@ public class Application extends Controller {
 			            		}
 			            		
 			            		row[12] = standardFeatures;
-			            		row[13] = "1234";
+			            		
 			            		if(profile != null) {
+			            			row[13] = profile.dealer_id;
 			            			row[14] = profile.myname;
 			            			row[15] = profile.address;
+			            			row[16] = profile.city;
+				            		row[17] = profile.state;
+				            		row[18] = profile.zip;
+				            		row[19] = profile.email;
+				            		row[25] = profile.latlong;
+				            		row[27] = profile.phone;
+				            		row[28] = profile.web;
 			            		} else {
+			            			row[13] = "";
 			            			row[14] = "";
 			            			row[15] = "";
+			            			row[16] = "";
+				            		row[17] = "";
+				            		row[18] = "";
+				            		row[19] = "";
+				            		row[25] = "";
+				            		row[27] = "";
+				            		row[28] = "";
 			            		}
-			            		row[16] = "Vallejo";
-			            		row[17] = "California";
-			            		row[18] = "94590";
-			            		row[19] = "info@autolinxinc.com";
+			            		
 			            		row[20] = vehicleData.getPrice().toString();
 			            		row[21] = vehicleData.interiorColor;
 			            		row[22] = "";
 			            		row[23] = "N";
 			            		row[24] = vehicleData.engine;
-			            		row[25] = "38.120301  -122.254508";
+			            		
 			            		row[26] = "1000";
-			            		row[27] = "(707)552-5469";
-			            		row[28] = "www.autolinxinc.com/";
+			            		
 			            		
 			            		writer.writeNext(row);
 			            	}
@@ -1969,13 +1996,18 @@ public class Application extends Controller {
 			    	    		row[12] = "Dealer";
 			    	    		if(profile != null) {
 			    	    			row[13] = profile.myname;
+			    	    			row[14] = profile.dealer_id;
+				    	    		row[15] = profile.email;
+				    	    		row[16] = profile.phone;
+				    	    		row[17] = profile.web;
 			    	    		} else {
 			    	    			row[13] = "";
+			    	    			row[14] = "";
+				    	    		row[15] = "";
+				    	    		row[16] = "";
+				    	    		row[17] = "";
 			    	    		}
-			    	    		row[14] = "4567";
-			    	    		row[15] = "someone@dealerwebsite.com";
-			    	    		row[16] = "800-123-4567";
-			    	    		row[17] = "dealerwebsite.com";
+			    	    		
 			    	    		row[18] = "";
 			    	    		row[19] = vehicleCarfax.make;
 			    	    		row[20] = vehicleCarfax.model;

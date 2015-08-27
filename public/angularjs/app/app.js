@@ -42,13 +42,24 @@ var MakeApp = angular
             templateUrl: 'myprofile/myprofile.html',
             controller: 'myprofileCtrl'
         })
-	.when('/sliderImages', {
+        .when('/sliderImages', {
             templateUrl: 'homePage/sliderImages.html',
             controller: 'HomePageCtrl'
         })
-        
         .when('/featuredImages', {
             templateUrl: 'homePage/featuredImages.html',
+            controller: 'HomePageCtrl'
+        })
+        .when('/siteSlogan', {
+            templateUrl: 'homePage/siteSlogan.html',
+            controller: 'HomePageCtrl'
+        })
+        .when('/siteDescription', {
+            templateUrl: 'homePage/siteDescription.html',
+            controller: 'HomePageCtrl'
+        })
+        .when('/siteLogo', {
+            templateUrl: 'homePage/siteLogo.html',
             controller: 'HomePageCtrl'
         })
          .when('/configuration', {

@@ -1183,6 +1183,21 @@ angular.module('newApp')
 			});
 	   }
 	   
+	   $scope.goToSlider = function() {
+		   $location.path('/sliderImages');
+	   }
+	   $scope.goToFeatured = function() {
+		   $location.path('/featuredImages');
+	   }
+	   $scope.goToSlogan = function() {
+		   $location.path('/siteSlogan');
+	   }
+	   $scope.goToDesc = function() {
+		   $location.path('/siteDescription');
+	   }
+	   $scope.goToLogo = function() {
+		   $location.path('/siteLogo');
+	   }
 	   
 }]);
 
