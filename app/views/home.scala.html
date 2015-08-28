@@ -1,94 +1,59 @@
 @(message: String)
 <html>
 <head>
-	<link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<meta name="google-site-verification" content="9Z8MSVa9CjEuNBRNdXR_BU1sIVo7fRHRxbaHJxL0GZ4" />
+<title>Demo</title>
+<link href="/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/global/css/homePage.css" rel="stylesheet">
+<script src="/assets/global/plugins/jquery/jquery-1.11.1.min.js"></script>
+<script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+<meta name="google-site-verification" content="9Z8MSVa9CjEuNBRNdXR_BU1sIVo7fRHRxbaHJxL0GZ4" />
 </head>
 <body>
-	<div id="container">
-		<video autoplay loop src="assets/video/GLIDER_AUTOS-BG-video.mp4" style="width:100%;height:auto;" id="img1"></video>
-		<img src="assets/images/welcome.gif" style="width:25%;margin-top:18%;margin-left:4%;" id="img2">
+
+	<div class="container" id="container">
+		<video autoplay loop src="assets/video/GLIDER_AUTOS-BG-video.mp4"></video>
+		<img src="assets/images/welcome.gif" class="welcome">
+        <div class="imageGroup">
+        	<form action="authenticate" method="POST">
+        		<div id="img5" class="col-sm-12">
+	        		<label class="col-sm-1 control-label" style="margin-top:7%;">Email</label>
+					<div class="col-sm-9" style="margin-left: 14%;margin-top:5%;">
+						<input type="email" name="email" class="form-control" required>
+					</div>
+				</div>
+				<div id="img6" class="col-sm-12" style="margin-top:14%;">
+					<label class="col-sm-1 control-label" style="margin-top:7%;">Password</label>
+					<div class="col-sm-9" style="margin-left: 14%;margin-top:5%;">
+						<input type="password" name="password" class="form-control" required>
+					</div>
+				</div>
+				<p style="color:red;margin-left:32%;margin-top:41%;" id="img4"><b>@message</b></p>
+				<p id="img4" style="margin-left:56%;margin-top:33%;"><a style="color:black;cursor:pointer;" data-toggle="modal" data-target="#myModal"><b>Forgot Password?</b></a></p>
+				<button type="submit" style="margin-left:32%;margin-top:31%;cursor:pointer;height:auto;background-color: cornflowerblue;" id="img4" class="remImage btn">Login</button>
+        	
+        	</form>
+        </div>
 	</div>
-	<div style="margin-left:35%;margin-top:4%;" class="imageGroup">
-		<img src="assets/images/background_gradient_gray_12_jpg_max.jpg" style="width:28%;height:200px;margin-left:69%;margin-top:12%;" id="img3">
-	    <form action="authenticate" method="POST">
-	    <div id="img5" class="form-group col-sm-6" style="margin-left:68%;margin-top:14%;">
-			<label class="col-sm-1 control-label">Email</label>
-			<div class="col-sm-5" style="margin-left: 4%;">
-				<input type="email" name="email" class="form-control" required>
-			</div>
-		</div>	
-		<div id="img6" class="form-group col-sm-6" style="margin-left:68%;margin-top:18%;">
-			<label class="col-sm-1 control-label">Password</label>
-			<div class="col-sm-5" style="margin-left: 4%;">
-				<input type="password" name="password" class="form-control" required>
-			</div>
-		</div>
-		<!-- <img src="assets/images/googleSignIn.png" onclick="login()"> -->
-		<p style="color:red;margin-left:77%;margin-top:21%;" id="img4"><b>@message</b></p>
-		<button type="submit" style="margin-left:81%;margin-top:23%;cursor:pointer;height:auto;background-color: cornflowerblue;" id="img4" class="remImage btn">Login</button>
-		</form>
-	</div>
-	
+
 </body>
 </html>
 
-<style>
- 
-#img1 {
-	position: absolute;
-    left: 0px;
-    top: 0px;
-} 
- 
-#img2 {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-} 
-#img3 {
-    position: absolute;
-    opacity:0.3;
-    left: 0px;
-    top: 0px;
-} 
-#img4 {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-} 
-#img5 {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-} 
 
-#img6 {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-} 
-
-.remImage {
-	opacity:0.3;
-}
-
-.imageGroup:hover .remImage{
-	opacity:1;
-}
-
-body {
-                width: 100%;
-                height: 100%;
-                margin: 0;
-                padding: 0;
-                overflow-y: hidden ! important;
-    			overflow-x: hidden ! important;
-
-            }
-</style>
-<script type="text/javascript">
-function login() {
-	window.location.href = "/authenticate/google";
-}
-</script>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Forgot Password</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

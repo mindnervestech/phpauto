@@ -1,0 +1,104 @@
+
+body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden ! important;
+    overflow-x: hidden ! important;
+}
+
+.container{
+    position: relative;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(3,3,9,1);
+    overflow: hidden;
+    padding-right: 0px !important;
+    padding-left: 0px !important; 
+}
+
+.container video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.welcome,
+.imageGroup{    
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.welcome {
+    width: 25%;
+    margin-top: 18%;
+    margin-left: 4%;
+}
+
+.imageGroup{
+    width: 28%;
+    height: 25%;
+    margin-top: 12%;
+    margin-left: 69%;
+    background: rgba(255,255,255,.4);
+}
+
+
+
+
+
+@media screen and (max-width: 959px){
+
+.container video{
+    object-fit: fill;
+}
+
+.welcome,
+.imageGroup{
+    right: 0;
+    width: 70%;
+    max-width: 250px;
+    margin: 30px auto;
+}
+
+.imageGroup{
+    height: 20%;
+    margin: 120px auto;    
+}
+
+}
+
+@media screen and (max-width: 639px){
+
+.container video{
+    width: 160vw;
+    margin-left: -30vw;
+}
+
+}
+#img5 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+} 
+
+#img6 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+} 
+#img4 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+} 
+.remImage {
+	opacity:0.3;
+}
+
+.imageGroup:hover .remImage{
+	opacity:1;
+}
