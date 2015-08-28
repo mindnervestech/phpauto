@@ -17,8 +17,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Properties;
+import javax.mail.internet.MimeMessage;
 import javax.imageio.ImageIO;
+import javax.mail.BodyPart;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
 import models.AuthUser;
@@ -3978,6 +3989,50 @@ public class Application extends Controller {
     	vm.web = mpObj.web;
     	vm.zip = mpObj.zip;
     	return ok(Json.toJson(vm));
+    }
+    
+    
+    public static Result forgotPass(){
+    	String email = Form.form().bindFromRequest().get("email");
+    	AuthUser user = AuthUser.find.where().eq("email", email).findUnique();
+    	if(user != null) {
+			
+    	
+	        
+	 		Properties props = new Properties();
+	 		props.put("mail.smtp.auth", "true");
+	 		props.put("mail.smtp.starttls.enable", "true");
+	 		props.put("mail.smtp.host", "smtp.gmail.com");
+	 		props.put("mail.smtp.port", "587");
+	  
+	 		Session session = Session.getInstance(props,
+	 		  new javax.mail.Authenticator() {
+	 			protected PasswordAuthentication getPasswordAuthentication() {
+	 				return new PasswordAuthentication("glider.autos@gmail.com", "gliderautos23");
+	 			}
+	 		  });
+	  
+	 		try{
+	 		   
+	  			Message feedback = new MimeMessage(session);
+	  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+	  			feedback.setRecipients(Message.RecipientType.TO,
+	  			InternetAddress.parse(user.email));
+	  			feedback.setSubject("Your forgot password ");	  			
+	  			 BodyPart messageBodyPart = new MimeBodyPart();	  	       
+	  	         messageBodyPart.setText("Your forget password is "+user.password);	 	    
+	  	         Multipart multipart = new MimeMultipart();	  	    
+	  	         multipart.addBodyPart(messageBodyPart);	            
+	  	         feedback.setContent(multipart);
+	  		     Transport.send(feedback);
+	       		} catch (MessagingException e) {
+	  			  throw new RuntimeException(e);
+	  		}
+			return ok("success");
+		} else {
+			return ok("error");
+		}
+    	
     }
     
 }
