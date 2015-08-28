@@ -61,7 +61,7 @@
         <!-- END PAGE SPINNER -->
         <section>
             <!-- BEGIN SIDEBAR -->
-            <div class="sidebar">
+            <div class="sidebar" style="background-image: url('/assets/images/bg.jpg');background-size: cover;background-repeat: no-repeat;">
                 <div class="logopanel">
                     <h1>
                         <p>GLIDER</p>
@@ -105,7 +105,7 @@
                             </ul>
                         </div>
                     </div> -->
-                    <ul class="nav nav-sidebar" style="background-image: url('/assets/images/bg.jpg');">
+                    <ul class="nav nav-sidebar">
                         <li ng-class="{ active  : isActive('/')}"><a href="#/"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
                         <li ng-class="{ active  : isActive('/sliderImages')}"><a href="#sliderImages"><i class="icon-home"></i><span>Home Page Editing</span></a></li>
                         <li ng-class="{ active  : isActive('/addVehicle')}"><a href="#addVehicle"><i class="fa fa-car"></i><span>Add Vehicle</span></a></li>
@@ -1106,6 +1106,12 @@
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
     </body>
 </html>
+
+<style>
+.theme-sdtl.color-default .sidebar .sidebar-inner {
+    background: transparent !important;
+}
+</style>
 
 <script language="javascript">
  
