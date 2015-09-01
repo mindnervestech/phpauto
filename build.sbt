@@ -8,6 +8,8 @@ libraryDependencies ++= Seq(
 "org.codehaus.jackson" % "jackson-mapper-asl" % "1.9.5",
 "net.sf.opencsv" % "opencsv" % "2.3",
 "commons-net" % "commons-net" % "3.2",
+"org.apache.velocity" % "velocity" % "1.7",
+"org.apache.velocity" % "velocity-tools" % "2.0",
 javaJdbc,
   javaEbean,
   cache,
