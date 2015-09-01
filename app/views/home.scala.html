@@ -14,7 +14,8 @@
 		<video autoplay loop src="assets/video/GLIDER_AUTOS-BG-video.mp4"></video>
 		<img src="assets/images/welcome.gif" class="welcome">
         <div class="imageGroup">
-        	<form action="authenticate" method="POST">
+        
+        	<form action="authenticate" method="POST" id="img4" style="width:100%;height:auto;">
         		<div id="img5" class="col-sm-12">
 	        		<label class="col-sm-1 control-label" style="margin-top:7%;">Email</label>
 					<div class="col-sm-9" style="margin-left: 14%;margin-top:5%;">
@@ -66,6 +67,13 @@
 </div>
 
 <script language="javascript">
+
+var session = document.cookie;
+
+if(session != "") {
+	window.location.href = "/dealer/index.html";
+}
+
  function forgotPassword(){
 	  $.ajax({
 		    url: "/forgotPassword",

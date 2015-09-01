@@ -8,11 +8,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +39,7 @@ import models.AuthUser;
 import models.Blog;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
+import models.Permission;
 import models.RequestMoreInfo;
 import models.ScheduleTest;
 import models.Site;
@@ -95,6 +99,11 @@ import com.mnt.dataone.ResponseData;
 import com.mnt.dataone.Specification;
 import com.mnt.dataone.Specification_;
 import com.mnt.dataone.Value;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 public class Application extends Controller {
   
@@ -109,7 +118,13 @@ public class Application extends Controller {
 	
 	final static String mashapeKey = Play.application().configuration()
 			.getString("mashapeKey");
+			
+	final static String emailUsername = Play.application().configuration()
+			.getString("mail.username");
 	
+	final static String emailPassword = Play.application().configuration()
+			.getString("mail.password");
+			
 	static String simulatevin = "{    'success': true,    'specification': {        'vin': 'WDDNG7KB7DA494890',        'year': '2013',        'make': 'Mercedes-Benz',        'model': 'S-Class',        'trim_level': 'S65 AMG',        'engine': '6.0L V12 SOHC 36V TURBO',        'style': 'SEDAN 4-DR',        'made_in': 'GERMANY',        'steering_type': 'R&P',        'anti_brake_system': '4-Wheel ABS',        'tank_size': '23.80 gallon',        'overall_height': '58.00 in.',        'overall_length': '206.50 in.',        'overall_width': '73.70 in.',        'standard_seating': '5',        'optional_seating': null,        'highway_mileage': '19 miles/gallon',        'city_mileage': '12 miles/gallon'    },    'vin': 'WDDNG7KB7DA494890'}";
 
 	private static boolean simulate = false;
@@ -147,6 +162,16 @@ public class Application extends Controller {
     	}
     }
 	
+    public static Result getUserPermissions() {
+    	AuthUser user = getLocalUser();
+		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+		List<Permission> userPermissions = user.getPermission();
+		for(Permission per: userPermissions) {
+			permission.put(per.name, true);
+		}
+		return ok(Json.toJson(permission));
+    }
+    
     public static Result getUserInfo() {
     	AuthUser user = getLocalUser();
 		return ok(Json.toJson(user));
@@ -3408,7 +3433,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
-	    	List<ScheduleTest> listData = ScheduleTest.findAllByDate();
+	    	List<ScheduleTest> listData = ScheduleTest.findAllByDate(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	for(ScheduleTest info: listData) {
@@ -3426,6 +3451,12 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
+	    		if(info.getConfirmDate() != null) {
+	    			vm.confirmDate = df.format(info.getConfirmDate());
+	    		}
+	    		if(info.getConfirmTime() != null) {
+	    			vm.confirmTime = info.getConfirmTime();
+	    		}
 	    		vm.requestDate = df.format(info.scheduleDate);
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
@@ -3545,16 +3576,19 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	ScheduleTest scheduleObj = ScheduleTest.findById(id);
+	    	AuthUser user = (AuthUser) getLocalUser();
 	    	if(flag.equals("true")) {
 	    		scheduleObj.setIsRead(1);
+	    		scheduleObj.setAssignedTo(user);
 			}
 			if(flag.equals("false")) {
 				scheduleObj.setIsRead(0);
+				scheduleObj.setAssignedTo(null);
 			}
 			
 			scheduleObj.update();
-			AuthUser user = (AuthUser) getLocalUser();
-			List<ScheduleTest> listData = ScheduleTest.findAllByDate();
+			
+			List<ScheduleTest> listData = ScheduleTest.findAllByDate(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	for(ScheduleTest info: listData) {
@@ -4008,7 +4042,7 @@ public class Application extends Controller {
 	 		Session session = Session.getInstance(props,
 	 		  new javax.mail.Authenticator() {
 	 			protected PasswordAuthentication getPasswordAuthentication() {
-	 				return new PasswordAuthentication("glider.autos@gmail.com", "gliderautos23");
+	 				return new PasswordAuthentication(emailUsername, emailPassword);
 	 			}
 	 		  });
 	  
@@ -4034,6 +4068,97 @@ public class Application extends Controller {
 		}
     	
     }
+    
+    public static Result saveConfirmData() throws ParseException{
+    	AuthUser user = (AuthUser) getLocalUser();
+    	Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
+    	RequestInfoVM vm = form.get();
+    	ScheduleTest  scheduleTest = ScheduleTest.findById(vm.id);
+    	if(scheduleTest != null) {
+    		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    		Date date = df.parse(vm.confirmDate);
+    		scheduleTest.setConfirmDate(date);
+    		scheduleTest.setConfirmTime(vm.confirmTime);
+    		scheduleTest.setEmail(vm.email);
+    		scheduleTest.update();
+    		SiteLogo logo = SiteLogo.findByUser(user);
+    		Properties props = new Properties();
+    		props.put("mail.smtp.auth", "true");
+    		props.put("mail.smtp.host", "smtp.gmail.com");
+    		props.put("mail.smtp.port", "587");
+    		props.put("mail.smtp.starttls.enable", "true");
+    		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+    			protected PasswordAuthentication getPasswordAuthentication() {
+    				return new PasswordAuthentication(emailUsername, emailPassword);
+    			}
+    		});
+    		
+    		try
+    		{
+    			Message message = new MimeMessage(session);
+    			message.setFrom(new InternetAddress(emailUsername));
+    			message.setRecipients(Message.RecipientType.TO,
+    					InternetAddress.parse(scheduleTest.email));
+    			message.setSubject("TEST DRIVE CONFIRMATION");
+    			Multipart multipart = new MimeMultipart();
+    			BodyPart messageBodyPart = new MimeBodyPart();
+    			messageBodyPart = new MimeBodyPart();
+    			
+    			VelocityEngine ve = new VelocityEngine();
+    			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+    			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+    			ve.init();
+    		
+    			
+    	        Template t = ve.getTemplate("/public/emailTemplate/confirmationTemplate.vm"); 
+    	        VelocityContext context = new VelocityContext();
+    	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+    	        Calendar cal = Calendar.getInstance();
+    	        cal.setTime(scheduleTest.getConfirmDate());
+    	        int dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+    	        int month = cal.get(Calendar.MONTH);
+    	        String monthName = months[month];
+    	        context.put("hostnameUrl", imageUrlPath);
+    	        context.put("siteLogo", logo.logoImagePath);
+    	        context.put("dayOfmonth", dayOfmonth);
+    	        context.put("monthName", monthName);
+    	        context.put("confirmTime", scheduleTest.getConfirmTime());
+    	        
+    	        Vehicle vehicle = Vehicle.findByVidAndUser(scheduleTest.vin, user);
+    	        context.put("year", vehicle.year);
+    	        context.put("make", vehicle.make);
+    	        context.put("model", vehicle.model);
+    	        context.put("price", "$"+vehicle.price);
+    	        context.put("stock", vehicle.stock);
+    	        context.put("vin", vehicle.vin);
+    	        context.put("make", vehicle.make);
+    	        context.put("mileage", vehicle.mileage);
+    	        MyProfile profile = MyProfile.findByUser(user);
+    	        context.put("name", profile.myname);
+    	        context.put("email", profile.email);
+    	        context.put("phone", profile.phone);
+    	        
+    	        StringWriter writer = new StringWriter();
+    	        t.merge( context, writer );
+    	        String content = writer.toString(); 
+    			
+    			messageBodyPart.setContent(content, "text/html");
+    			multipart.addBodyPart(messageBodyPart);
+    			message.setContent(multipart);
+    			Transport.send(message);
+    			
+    		}
+    		catch (Exception e)
+    		{
+    			e.printStackTrace();
+    		} 
+    		
+    	}
+    	return ok();
+    }
+    
     
 }
 

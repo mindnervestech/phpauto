@@ -1,7 +1,10 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -30,8 +33,8 @@ public class AuthUser extends Model implements Identity {
 	public Integer id;
 	public String provider;
 
-	
-
+	@ManyToMany
+	private List<Permission> permission;
 
 
 	@Override
@@ -82,6 +85,14 @@ public class AuthUser extends Model implements Identity {
 	@Override
 	public Option<PasswordInfo> passwordInfo() {
 		return null;
+	}
+
+	public List<Permission> getPermission() {
+		return permission;
+	}
+
+	public void setPermission(List<Permission> permission) {
+		this.permission = permission;
 	}
 
 	public static AuthUser findById(Integer id) {

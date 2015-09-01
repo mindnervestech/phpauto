@@ -11,7 +11,7 @@ angular.module('newApp')
  		 $scope.gridOptions.enableHorizontalScrollbar = 0;
  		 $scope.gridOptions.enableVerticalScrollbar = 2;
  		 $scope.gridOptions.columnDefs = [
- 		                                 { name: 'vin', displayName: 'Vin', width:'14%',cellEditableCondition: false,enableFiltering: false,
+ 		                                 { name: 'vin', displayName: 'Vin', width:'9%',cellEditableCondition: false,enableFiltering: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
    		                                       if (row.entity.isRead === false) {
    		                                         return 'red';
@@ -81,8 +81,8 @@ angular.module('newApp')
    		                                     }
   		                                	} ,
  		                                 },
- 		                                { name: 'isRead', displayName: 'Seen',enableFiltering: false, width:'8%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
- 		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" style="margin-left:18%;"></div>', 
+ 		                                { name: 'isRead', displayName: 'Seen',enableFiltering: false, width:'13%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+ 		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" style="float:left;margin-left:3%;"></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)" ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;">Confirm</button>', 
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
@@ -92,6 +92,10 @@ angular.module('newApp')
      		                                 ];
   
   
+ 		$('.datepicker').datepicker({
+ 		});
+ 		$("#cnfDate").datepicker().datepicker("setDate", new Date());
+ 		$('#timepicker1').timepicker();
   $http.get('/getAllScheduleTest')
 		.success(function(data) {
 		$scope.gridOptions.data = data;
@@ -116,6 +120,30 @@ angular.module('newApp')
 	  
   }
  
+  $scope.scheduleTestData = {};
+  
+  $scope.confirmDateTime = function(entity) {
+	  $scope.scheduleTestData.id = entity.id;
+	  $scope.scheduleTestData.email = entity.email;
+	  $scope.scheduleTestData.confirmDate = entity.confirmDate;
+	  $scope.scheduleTestData.confirmTime = entity.confirmTime;
+  }
+  
+  $scope.saveConfirmData = function() {
+	  $scope.scheduleTestData.confirmDate = $("#cnfDate").val();
+	  $scope.scheduleTestData.confirmTime = $("#timepicker1").val();
+	  $http.post('/saveConfirmData',$scope.scheduleTestData)
+ 		.success(function(data) {
+ 			console.log('success');
+ 			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Saved successfully",
+			});
+ 			$('#modalClose').click();
+ 		});
+  }
+  
   $scope.requestMore = function() {
 		$location.path('/requestMoreInfo');
 	}  

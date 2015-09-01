@@ -14,6 +14,47 @@
 	      
 	    </div>
   </div>
+  
+  <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" id="modalClose" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Confirm date and time</h4>
+								                </div>
+								                <div class="modal-body">
+								                <form ng-submit="saveConfirmData()">
+								                   <div class="form-group col-sm-12">
+													<label class="col-sm-2 control-label" style="text-align: right;">Email</label>
+														<div class="col-sm-5">
+															<input class="form-control form-white" style="" ng-model="scheduleTestData.email" type="text" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+													<label class="col-sm-2 control-label" style="text-align: right;">Date</label>
+														<div class="col-sm-5">
+															<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="mm/dd/yyyy" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+													<label class="col-sm-2 control-label" style="text-align: right;">Time</label>
+														<div class="col-sm-5">
+															<div class="input-group bootstrap-timepicker timepicker">
+													            <input id="timepicker1" type="text" ng-model="scheduleTestData.confirmTime" class="form-control input-small">
+													            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+													        </div>
+														</div>
+													</div>
+													
+														<input type="submit" class="btn btn-default" style="margin-left:29%;margin-top:3%;">
+													</form>
+								                </div>
+								                
+								            </div>
+								        </div>
+								    </div>
+  
+  
 <style>
 .red { color: black;  background-color: #ffd3d3 !important; }
 .nav-tabs > li > a::before {

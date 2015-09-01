@@ -318,6 +318,25 @@ var MakeApp = angular
         }
     }
  })
+ .directive('ngSec',function(){
+    return {
+    	link: function(scope, element, attrs, ngModelCtrl) {
+    		var sec = scope.permission;
+    		var obj = sec[attrs.ngSec];
+    		if(typeof  obj === 'undefined') {
+    			$(element).remove();
+    		}
+    		if(obj === 'false') {
+    			$(element).remove();
+    		}
+    		if(obj === 'R') {
+    			$(element).block(); //todo http://malsup.com/jquery/block
+    			//$(element).children().off('click');
+    			
+    		}
+    	}
+    }
+})
 .factory('MyHttpInterceptor', function ($q) {
     return {
         request: function (config) {
@@ -352,7 +371,32 @@ var MakeApp = angular
      $httpProvider.interceptors.push('MyHttpInterceptor');  
 });
 
+MakeApp.run(function($rootScope, $location, $http,$q) {
+	
+	var deferred = $q.defer();
+	var hasPermissionGot = false;
 
+	$.ajax({
+        url: "/getUserPermissions",
+        type: "GET",
+        async: false,
+        success: function(data) {
+        	$rootScope.$apply(function(){
+        		$rootScope.permission = data;
+        	});
+        }
+    });
+	
+	sleep(1000);
+});
+function sleep(milliseconds) {
+	  var start = new Date().getTime();
+	  for (var i = 0; i < 1e7; i++) {
+	    if ((new Date().getTime() - start) > milliseconds){
+	      break;
+	    }
+	  }
+}
 // Route State Load Spinner(used on page or content load)
 MakeApp.directive('ngSpinnerLoader', ['$rootScope',
     function($rootScope) {
@@ -377,4 +421,4 @@ MakeApp.directive('ngSpinnerLoader', ['$rootScope',
         };
     }
 
-])
+]);

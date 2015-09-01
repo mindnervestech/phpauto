@@ -15,5 +15,7 @@ public class RequestInfoVM {
 	public String requestDate;
 	public String bestDay;
 	public String bestTime;
+	public String confirmDate;
+	public String confirmTime;
 	public boolean isRead;
 }

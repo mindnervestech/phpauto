@@ -8,6 +8,7 @@ public class BlogVM {
 	public int number;
 	public String title;
 	public String description;
+	public String desc;
 	public String postedBy;
 	public String postedDate;
 	

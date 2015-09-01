@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.Expr;
+
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
@@ -24,6 +26,10 @@ public class ScheduleTest extends Model {
 	public Date scheduleDate;
 	public String vin;
 	public int isRead;
+	public Date confirmDate;
+	public String confirmTime;
+	@ManyToOne
+	public AuthUser assignedTo;
 	@ManyToOne
 	public AuthUser user;
 	
@@ -94,6 +100,24 @@ public class ScheduleTest extends Model {
 	public void setIsRead(int isRead) {
 		this.isRead = isRead;
 	}
+	public Date getConfirmDate() {
+		return confirmDate;
+	}
+	public void setConfirmDate(Date confirmDate) {
+		this.confirmDate = confirmDate;
+	}
+	public String getConfirmTime() {
+		return confirmTime;
+	}
+	public void setConfirmTime(String confirmTime) {
+		this.confirmTime = confirmTime;
+	}
+	public AuthUser getAssignedTo() {
+		return assignedTo;
+	}
+	public void setAssignedTo(AuthUser assignedTo) {
+		this.assignedTo = assignedTo;
+	}
 
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
 	
@@ -101,8 +125,8 @@ public class ScheduleTest extends Model {
 		return find.byId(id);
 	}
 	
-	public static List<ScheduleTest> findAllByDate() {
-		return find.orderBy("scheduleDate desc").orderBy("isRead").findList();
+	public static List<ScheduleTest> findAllByDate(AuthUser user) {
+		return find.where().or(Expr.eq("assignedTo", user), Expr.eq("isRead", 0)).orderBy("scheduleDate desc").orderBy("isRead").findList();
 	}
 	
 	public static int findAll() {
