@@ -920,7 +920,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                     <!-- start button -->
                                     <table width="auto" border="0" align="left" cellpadding="0" cellspacing="0">
                                       <tbody><tr>
-                                        <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(208, 93, 104); background-clip: padding-box;"><span style="font-size: inherit; line-height: 24px;">MORE DETAILS</span></td>
+                                        <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(208, 93, 104); background-clip: padding-box;"><a href="http://glider-autos.com/glivr/vehicleDetails/$bodyStyleVin" style="font-size: inherit; line-height: 24px;color: white;">MORE DETAILS</a></td>
                                       </tr>
                                     </tbody></table>
                                     <!-- end button -->
@@ -982,7 +982,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                     <!-- start button -->
                                     <table width="auto" border="0" align="left" cellpadding="0" cellspacing="0">
                                       <tbody><tr>
-                                        <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(208, 93, 104); background-clip: padding-box;"><span style="font-size: inherit; line-height: 24px;">MORE DETAILS</span></td>
+                                        <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(208, 93, 104); background-clip: padding-box;"><a href="http://glider-autos.com/glivr/vehicleDetails/$engineVin" style="font-size: inherit; line-height: 24px;color: white;">MORE DETAILS</a></td>
                                       </tr>
                                     </tbody></table>
                                     <!-- end button -->
@@ -1044,7 +1044,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                     <!-- start button -->
                                     <table width="auto" border="0" align="left" cellpadding="0" cellspacing="0">
                                       <tbody><tr>
-                                        <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(208, 93, 104); background-clip: padding-box;"><span style="font-size: inherit; line-height: 24px;">MORE DETAILS</span></td>
+                                        <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(208, 93, 104); background-clip: padding-box;"><a href="http://glider-autos.com/glivr/vehicleDetails/$makeVin" style="font-size: inherit; line-height: 24px;color: white;">MORE DETAILS</a></td>
                                       </tr>
                                     </tbody></table>
                                     <!-- end button -->
