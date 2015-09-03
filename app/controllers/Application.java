@@ -40,6 +40,7 @@ import models.Blog;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.Permission;
+import models.PriceAlert;
 import models.RequestMoreInfo;
 import models.ScheduleTest;
 import models.Site;
@@ -1657,6 +1658,106 @@ public class Application extends Controller {
     	}	
     }
     
+	public static void sendPriceAlertMail(String email,Vehicle vehicle,MyProfile profile,Vehicle sameBodyStyle,Vehicle sameEngine,Vehicle sameMake,SiteLogo logo,Integer newPrice,VehicleImage sameBodyStyleDefault,VehicleImage sameEngineDefault,VehicleImage sameMakeDefault) {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+		
+		try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(email));
+			message.setSubject("VEHICLE PRICE CHANGE ALERT");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+		
+			
+	        Template t = ve.getTemplate("/public/emailTemplate/priceAlertTemplate.vm"); 
+	        VelocityContext context = new VelocityContext();
+	        
+	        context.put("hostnameUrl", imageUrlPath);
+	        context.put("siteLogo", logo.logoImagePath);
+	        
+	        context.put("year", vehicle.year);
+	        context.put("make", vehicle.make);
+	        context.put("model", vehicle.model);
+	        context.put("oldPrice", "$"+vehicle.price);
+	        context.put("newPrice", "$"+newPrice.toString());
+	        context.put("bodyStyle", vehicle.bodyStyle);
+	        context.put("mileage", vehicle.mileage);
+	        context.put("doors", vehicle.doors);
+	        context.put("seats", vehicle.standardSeating);
+	        context.put("driveTrain", vehicle.drivetrain);
+	        context.put("engine", vehicle.engine);
+	        context.put("transmission", vehicle.transmission);
+	        context.put("brakes", vehicle.brakes);
+	        context.put("horsePower", vehicle.horsePower);
+	        context.put("email", profile.email);
+	        context.put("phone", profile.phone);
+	        if(sameBodyStyle != null) {
+	        	context.put("bodyStylePrice", "$"+sameBodyStyle.price.toString());
+	        } else {
+	        	context.put("bodyStylePrice", "");
+	        }
+	        if(sameEngine != null) {
+	        	context.put("enginePrice", "$"+sameEngine.price.toString());
+	        } else {
+	        	context.put("enginePrice","");
+	        }
+	        if(sameMake != null) {
+	        	context.put("makePrice", "$"+sameMake.price.toString());
+	        } else {
+	        	context.put("makePrice", "");
+	        }
+	        
+	        if(sameBodyStyleDefault != null) {
+	        	context.put("sameBodyStyleDefault", sameBodyStyleDefault.thumbPath);
+	        } else {
+	        	context.put("sameBodyStyleDefault", "");
+	        }
+	        if(sameEngineDefault != null) {
+	        	context.put("sameEngineDefault", sameEngineDefault.thumbPath);
+	        } else {
+	        	context.put("sameEngineDefault", "");
+	        }
+	        if(sameMakeDefault != null) {
+	        	context.put("sameMakeDefault", sameMakeDefault.thumbPath);
+	        } else {
+	        	context.put("sameMakeDefault", "");
+	        }
+	        
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString(); 
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		} 
+	}
     
     public static Result updateVehicle(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -1664,9 +1765,24 @@ public class Application extends Controller {
     	} else {
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
-	    	System.out.println(vm.id);
+	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Vehicle vehicle = Vehicle.findById(vm.id);
 	    	if(vehicle != null) {
+	    		if(vm.price != vehicle.price) {
+	    			MyProfile profile = MyProfile.findByUser(user);
+	    			Vehicle sameBodyStyle = Vehicle.findSameBodyStyle(user, vehicle.bodyStyle);
+	    			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin, user);
+	    			Vehicle sameEngine = Vehicle.findSameEngine(user, vehicle.engine);
+	    			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin, user);
+	    			Vehicle sameMake = Vehicle.findSameMake(user, vehicle.make);
+	    			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin, user);
+	    			
+	    			SiteLogo logo = SiteLogo.findByUser(user);
+	    			List<PriceAlert> priceAlertList = PriceAlert.getEmailsByVin(vehicle.vin, user);
+	    			for(PriceAlert alert: priceAlertList) {
+	    				sendPriceAlertMail(alert.email,vehicle,profile,sameBodyStyle,sameEngine,sameMake,logo,vm.price,sameBodyStyleDefault,sameEngineDefault,sameMakeDefault);
+	    			}
+	    		}
 		    	vehicle.setStock(vm.stock);
 		    	vehicle.setPrice(vm.price);
 		    	
@@ -1686,6 +1802,23 @@ public class Application extends Controller {
 	    	SpecificationVM vm = form.get();
 	    	Vehicle vehicle = Vehicle.findById(vm.id);
 	    	if(vehicle != null) {
+	    		
+	    		if(vm.price != vehicle.price) {
+	    			MyProfile profile = MyProfile.findByUser(userObj);
+	    			Vehicle sameBodyStyle = Vehicle.findSameBodyStyle(userObj, vehicle.bodyStyle);
+	    			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin, userObj);
+	    			Vehicle sameEngine = Vehicle.findSameEngine(userObj, vehicle.engine);
+	    			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin, userObj);
+	    			Vehicle sameMake = Vehicle.findSameMake(userObj, vehicle.make);
+	    			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin, userObj);
+	    			
+	    			SiteLogo logo = SiteLogo.findByUser(userObj);
+	    			List<PriceAlert> priceAlertList = PriceAlert.getEmailsByVin(vehicle.vin, userObj);
+	    			for(PriceAlert alert: priceAlertList) {
+	    				sendPriceAlertMail(alert.email,vehicle,profile,sameBodyStyle,sameEngine,sameMake,logo,vm.price,sameBodyStyleDefault,sameEngineDefault,sameMakeDefault);
+	    			}
+	    		}
+	    		
 	    		vehicle.setCategory(vm.category);
 		    	vehicle.setYear(vm.year);
 		    	vehicle.setMake(vm.make);

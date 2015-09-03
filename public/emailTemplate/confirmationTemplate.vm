@@ -549,7 +549,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                             <td valign="middle"><table align="left" border="0" cellspacing="0" cellpadding="0" class="container2" dir="ltr">
                                 <tbody><tr>
                                   <td align="center" valign="top">
-                                    <a href="#" style="font-size: inherit; text-decoration: none;"><img src="$hostnameUrl/-1361609913/logo/glider_logo.png" width="100" style="max-width: 100px; display: block;" alt="" border="0" hspace="0" vspace="0"></a>
+                                    <a href="#" style="font-size: inherit; text-decoration: none;"><img src="$hostnameUrl$siteLogo" width="100" style="max-width: 100px; display: block;" alt="" border="0" hspace="0" vspace="0"></a>
                                   </td>
                                 </tr>
                                 <!-- start space -->

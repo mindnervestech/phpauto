@@ -95,6 +95,9 @@ public class VehicleImage extends Model {
 		return find.where().eq("vin", vin).eq("row", row).eq("col", col).eq("user", user).findUnique();
 	}
 	
+	public static VehicleImage getDefaultImage(String vin,AuthUser user) {
+		return find.where().eq("vin", vin).eq("user", user).eq("defaultImage", true).findUnique();
+	}
 	
 		public static   int getVehicleImageCountByVIN(String vin,AuthUser user){
 		return find.where().eq("vin", vin).eq("user", user).findList().size();

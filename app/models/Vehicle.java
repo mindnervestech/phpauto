@@ -714,6 +714,18 @@ public class Vehicle extends Model {
 		
 	}
 	
+	public static Vehicle findSameBodyStyle(AuthUser user,String style) {
+		return find.where().eq("user", user).eq("bodyStyle", style).findList().get(0);
+	}
+	
+	public static Vehicle findSameEngine(AuthUser user,String engine) {
+		return find.where().eq("user", user).eq("engine", engine).findList().get(0);
+	}
+	
+	public static Vehicle findSameMake(AuthUser user,String make) {
+		return find.where().eq("user", user).eq("make", make).findList().get(0);
+	}
+	
 	public static List<Vehicle> getVehiclesByStatus(AuthUser user,String status) {
 		return find.where().eq("user", user).eq("status", status).findList();
 		
