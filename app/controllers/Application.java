@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
+
 import javax.mail.internet.MimeMessage;
 import javax.imageio.ImageIO;
 import javax.mail.BodyPart;
@@ -39,6 +41,7 @@ import models.AuthUser;
 import models.Blog;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
+import models.FollowBrand;
 import models.Permission;
 import models.PriceAlert;
 import models.RequestMoreInfo;
@@ -85,12 +88,15 @@ import viewmodel.SiteLogoVM;
 import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
 import viewmodel.TradeInVM;
+import viewmodel.UserVM;
+import viewmodel.VehicleVM;
 import viewmodel.VirtualTourVM;
 import viewmodel.profileVM;
 import views.html.home;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlRow;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mnt.dataone.Equipment;
 import com.mnt.dataone.InstalledEquipment;
@@ -125,6 +131,8 @@ public class Application extends Controller {
 	
 	final static String emailPassword = Play.application().configuration()
 			.getString("mail.password");
+			
+			public static int userId = -1361609913;
 			
 	static String simulatevin = "{    'success': true,    'specification': {        'vin': 'WDDNG7KB7DA494890',        'year': '2013',        'make': 'Mercedes-Benz',        'model': 'S-Class',        'trim_level': 'S65 AMG',        'engine': '6.0L V12 SOHC 36V TURBO',        'style': 'SEDAN 4-DR',        'made_in': 'GERMANY',        'steering_type': 'R&P',        'anti_brake_system': '4-Wheel ABS',        'tank_size': '23.80 gallon',        'overall_height': '58.00 in.',        'overall_length': '206.50 in.',        'overall_width': '73.70 in.',        'standard_seating': '5',        'optional_seating': null,        'highway_mileage': '19 miles/gallon',        'city_mileage': '12 miles/gallon'    },    'vin': 'WDDNG7KB7DA494890'}";
 
@@ -727,7 +735,7 @@ public class Application extends Controller {
 		    	}
 		    	vehicle.save();
 	    	}
-	    	
+	    	sendEmailToBrandFollowers();
 	    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin,userObj);
 	    	List<Site> siteList = vehicleObj2.getSite();
 	    	MyProfile profile = MyProfile.findByUser(userObj);
@@ -1658,111 +1666,217 @@ public class Application extends Controller {
     	}	
     }
     
-	public static void sendPriceAlertMail(String email,Vehicle vehicle,MyProfile profile,Vehicle sameBodyStyle,Vehicle sameEngine,Vehicle sameMake,SiteLogo logo,Integer newPrice,VehicleImage sameBodyStyleDefault,VehicleImage sameEngineDefault,VehicleImage sameMakeDefault) {
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-		props.put("mail.smtp.starttls.enable", "true");
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+    public static void sendEmailToBrandFollowers() {
+    	
+    	AuthUser user = (AuthUser) getLocalUser();
+    	List<SqlRow> brandFollowers = FollowBrand.getAllBrandFollowers(user);
+    	
+    	for(SqlRow row: brandFollowers) {
+    		
+    			SiteLogo logo = SiteLogo.findByUser(user);
+		    	String email = (String) row.get("email");
+		    	List<FollowBrand> brandList = FollowBrand.getBrands(user, email);
+		    	for(FollowBrand brandObj: brandList) {
+		    		
+		    		List<Vehicle> vehicleList = Vehicle.getVehiclesByMake(user, brandObj.brand);
+		    		List<VehicleVM> vehicleVMList = new ArrayList<>();
+		    		
+		    		for(Vehicle vehicle: vehicleList) {
+		    			VehicleImage defaultImage = VehicleImage.getDefaultImage(vehicle.vin, user);
+		    			VehicleVM vm = new VehicleVM();
+		    			vm.vin = vehicle.vin;
+		    			vm.make = vehicle.make;
+		    			vm.model = vehicle.model;
+		    			vm.price = "$"+vehicle.price;
+		    			if(defaultImage != null) {
+		    				vm.imageUrl = defaultImage.thumbPath;
+		    			}
+		    			vehicleVMList.add(vm);
+		    		}
+		    		
+			    	Properties props = new Properties();
+					props.put("mail.smtp.auth", "true");
+					props.put("mail.smtp.host", "smtp.gmail.com");
+					props.put("mail.smtp.port", "587");
+					props.put("mail.smtp.starttls.enable", "true");
+					Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+						protected PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(emailUsername, emailPassword);
+						}
+					});
+					
+					try
+					{
+						Message message = new MimeMessage(session);
+						message.setFrom(new InternetAddress(emailUsername));
+						message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse(email));
+						message.setSubject("CAR BRAND INVENTORY UPDATE");
+						Multipart multipart = new MimeMultipart();
+						BodyPart messageBodyPart = new MimeBodyPart();
+						messageBodyPart = new MimeBodyPart();
+						
+						VelocityEngine ve = new VelocityEngine();
+						ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+						ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+						ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+						ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+						ve.init();
+					
+						
+				        Template t = ve.getTemplate("/public/emailTemplate/brandFollowersTemplate.vm"); 
+				        VelocityContext context = new VelocityContext();
+				        
+				        context.put("hostnameUrl", imageUrlPath);
+				        context.put("siteLogo", logo.logoImagePath);
+				        
+				        context.put("name", brandObj.name);
+				        context.put("brand", brandObj.brand);
+				        context.put("vehicleList", vehicleList);
+				       
+				        
+				        StringWriter writer = new StringWriter();
+				        t.merge( context, writer );
+				        String content = writer.toString(); 
+						
+						messageBodyPart.setContent(content, "text/html");
+						multipart.addBodyPart(messageBodyPart);
+						message.setContent(multipart);
+						Transport.send(message);
+						
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					} 
+		    	}
+    	}
+    }
+    
+	public static void sendPriceAlertMail() {
+		
+		AuthUser user = AuthUser.findById(userId);
+		MyProfile profile = MyProfile.findByUser(user);
+		SiteLogo logo = SiteLogo.findByUser(user);
+		
+		List<PriceAlert> priceAlertList = PriceAlert.getEmailsByStatus(user);
+		for(PriceAlert alert: priceAlertList) {
+			
+			Vehicle vehicle = Vehicle.findByVidAndUser(alert.vin, user);
+			Vehicle sameBodyStyle = Vehicle.findSameBodyStyle(user, vehicle.bodyStyle);
+			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin, user);
+			Vehicle sameEngine = Vehicle.findSameEngine(user, vehicle.engine);
+			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin, user);
+			Vehicle sameMake = Vehicle.findSameMake(user, vehicle.make);
+			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin, user);
+			
+			
+			Properties props = new Properties();
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.starttls.enable", "true");
+			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(emailUsername, emailPassword);
+				}
+			});
+			
+			try
+			{
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(emailUsername));
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse(alert.email));
+				message.setSubject("VEHICLE PRICE CHANGE ALERT");
+				Multipart multipart = new MimeMultipart();
+				BodyPart messageBodyPart = new MimeBodyPart();
+				messageBodyPart = new MimeBodyPart();
+				
+				VelocityEngine ve = new VelocityEngine();
+				ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+				ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+				ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+				ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+				ve.init();
+			
+				
+		        Template t = ve.getTemplate("/public/emailTemplate/priceAlertTemplate.vm"); 
+		        VelocityContext context = new VelocityContext();
+		        
+		        context.put("hostnameUrl", imageUrlPath);
+		        context.put("siteLogo", logo.logoImagePath);
+		        
+		        context.put("year", vehicle.year);
+		        context.put("make", vehicle.make);
+		        context.put("model", vehicle.model);
+		        context.put("oldPrice", "$"+alert.oldPrice);
+		        context.put("newPrice", "$"+vehicle.price);
+		        context.put("bodyStyle", vehicle.bodyStyle);
+		        context.put("mileage", vehicle.mileage);
+		        context.put("doors", vehicle.doors);
+		        context.put("seats", vehicle.standardSeating);
+		        context.put("driveTrain", vehicle.drivetrain);
+		        context.put("engine", vehicle.engine);
+		        context.put("transmission", vehicle.transmission);
+		        context.put("brakes", vehicle.brakes);
+		        context.put("horsePower", vehicle.horsePower);
+		        context.put("email", profile.email);
+		        context.put("phone", profile.phone);
+		        if(sameBodyStyle != null) {
+		        	context.put("bodyStylePrice", "$"+sameBodyStyle.price.toString());
+		        	context.put("bodyStyleVin", sameBodyStyle.vin);
+		        } else {
+		        	context.put("bodyStylePrice", "");
+		        	context.put("bodyStyleVin", "");
+		        }
+		        if(sameEngine != null) {
+		        	context.put("enginePrice", "$"+sameEngine.price.toString());
+		        	context.put("engineVin", sameEngine.vin);
+		        } else {
+		        	context.put("enginePrice","");
+		        	context.put("engineVin", "");
+		        }
+		        if(sameMake != null) {
+		        	context.put("makePrice", "$"+sameMake.price.toString());
+		        	context.put("makeVin", sameMake.vin);
+		        } else {
+		        	context.put("makePrice", "");
+		        	context.put("makeVin", "");
+		        }
+		        
+		        if(sameBodyStyleDefault != null) {
+		        	context.put("sameBodyStyleDefault", sameBodyStyleDefault.thumbPath);
+		        } else {
+		        	context.put("sameBodyStyleDefault", "");
+		        }
+		        if(sameEngineDefault != null) {
+		        	context.put("sameEngineDefault", sameEngineDefault.thumbPath);
+		        } else {
+		        	context.put("sameEngineDefault", "");
+		        }
+		        if(sameMakeDefault != null) {
+		        	context.put("sameMakeDefault", sameMakeDefault.thumbPath);
+		        } else {
+		        	context.put("sameMakeDefault", "");
+		        }
+		        
+		        StringWriter writer = new StringWriter();
+		        t.merge( context, writer );
+		        String content = writer.toString(); 
+				
+				messageBodyPart.setContent(content, "text/html");
+				multipart.addBodyPart(messageBodyPart);
+				message.setContent(multipart);
+				Transport.send(message);
+				alert.setSendEmail("N");
+				alert.update();
 			}
-		});
-		
-		try
-		{
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(email));
-			message.setSubject("VEHICLE PRICE CHANGE ALERT");
-			Multipart multipart = new MimeMultipart();
-			BodyPart messageBodyPart = new MimeBodyPart();
-			messageBodyPart = new MimeBodyPart();
-			
-			VelocityEngine ve = new VelocityEngine();
-			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
-			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
-			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
-			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-			ve.init();
-		
-			
-	        Template t = ve.getTemplate("/public/emailTemplate/priceAlertTemplate.vm"); 
-	        VelocityContext context = new VelocityContext();
-	        
-	        context.put("hostnameUrl", imageUrlPath);
-	        context.put("siteLogo", logo.logoImagePath);
-	        
-	        context.put("year", vehicle.year);
-	        context.put("make", vehicle.make);
-	        context.put("model", vehicle.model);
-	        context.put("oldPrice", "$"+vehicle.price);
-	        context.put("newPrice", "$"+newPrice.toString());
-	        context.put("bodyStyle", vehicle.bodyStyle);
-	        context.put("mileage", vehicle.mileage);
-	        context.put("doors", vehicle.doors);
-	        context.put("seats", vehicle.standardSeating);
-	        context.put("driveTrain", vehicle.drivetrain);
-	        context.put("engine", vehicle.engine);
-	        context.put("transmission", vehicle.transmission);
-	        context.put("brakes", vehicle.brakes);
-	        context.put("horsePower", vehicle.horsePower);
-	        context.put("email", profile.email);
-	        context.put("phone", profile.phone);
-	        if(sameBodyStyle != null) {
-	        	context.put("bodyStylePrice", "$"+sameBodyStyle.price.toString());
-	        	context.put("bodyStyleVin", sameBodyStyle.vin);
-	        } else {
-	        	context.put("bodyStylePrice", "");
-	        	context.put("bodyStyleVin", "");
-	        }
-	        if(sameEngine != null) {
-	        	context.put("enginePrice", "$"+sameEngine.price.toString());
-	        	context.put("engineVin", sameEngine.vin);
-	        } else {
-	        	context.put("enginePrice","");
-	        	context.put("engineVin", "");
-	        }
-	        if(sameMake != null) {
-	        	context.put("makePrice", "$"+sameMake.price.toString());
-	        	context.put("makeVin", sameMake.vin);
-	        } else {
-	        	context.put("makePrice", "");
-	        	context.put("makeVin", "");
-	        }
-	        
-	        if(sameBodyStyleDefault != null) {
-	        	context.put("sameBodyStyleDefault", sameBodyStyleDefault.thumbPath);
-	        } else {
-	        	context.put("sameBodyStyleDefault", "");
-	        }
-	        if(sameEngineDefault != null) {
-	        	context.put("sameEngineDefault", sameEngineDefault.thumbPath);
-	        } else {
-	        	context.put("sameEngineDefault", "");
-	        }
-	        if(sameMakeDefault != null) {
-	        	context.put("sameMakeDefault", sameMakeDefault.thumbPath);
-	        } else {
-	        	context.put("sameMakeDefault", "");
-	        }
-	        
-	        StringWriter writer = new StringWriter();
-	        t.merge( context, writer );
-	        String content = writer.toString(); 
-			
-			messageBodyPart.setContent(content, "text/html");
-			multipart.addBodyPart(messageBodyPart);
-			message.setContent(multipart);
-			Transport.send(message);
-			
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		} 
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			} 
+		}	
 	}
     
     public static Result updateVehicle(){
@@ -1775,19 +1889,14 @@ public class Application extends Controller {
 	    	Vehicle vehicle = Vehicle.findById(vm.id);
 	    	if(vehicle != null) {
 	    		if(vm.price != vehicle.price) {
-	    			MyProfile profile = MyProfile.findByUser(user);
-	    			Vehicle sameBodyStyle = Vehicle.findSameBodyStyle(user, vehicle.bodyStyle);
-	    			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin, user);
-	    			Vehicle sameEngine = Vehicle.findSameEngine(user, vehicle.engine);
-	    			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin, user);
-	    			Vehicle sameMake = Vehicle.findSameMake(user, vehicle.make);
-	    			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin, user);
 	    			
-	    			SiteLogo logo = SiteLogo.findByUser(user);
-	    			List<PriceAlert> priceAlertList = PriceAlert.getEmailsByVin(vehicle.vin, user);
-	    			for(PriceAlert alert: priceAlertList) {
-	    				sendPriceAlertMail(alert.email,vehicle,profile,sameBodyStyle,sameEngine,sameMake,logo,vm.price,sameBodyStyleDefault,sameEngineDefault,sameMakeDefault);
-	    			}
+	    				List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin, user);
+	    				for(PriceAlert priceAlert: alertList) {
+	    					priceAlert.setSendEmail("Y");
+	    					priceAlert.setOldPrice(vehicle.price);
+	    					priceAlert.update();
+	    				}
+	    				sendPriceAlertMail();
 	    		}
 		    	vehicle.setStock(vm.stock);
 		    	vehicle.setPrice(vm.price);
@@ -1810,19 +1919,13 @@ public class Application extends Controller {
 	    	if(vehicle != null) {
 	    		
 	    		if(vm.price != vehicle.price) {
-	    			MyProfile profile = MyProfile.findByUser(userObj);
-	    			Vehicle sameBodyStyle = Vehicle.findSameBodyStyle(userObj, vehicle.bodyStyle);
-	    			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin, userObj);
-	    			Vehicle sameEngine = Vehicle.findSameEngine(userObj, vehicle.engine);
-	    			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin, userObj);
-	    			Vehicle sameMake = Vehicle.findSameMake(userObj, vehicle.make);
-	    			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin, userObj);
-	    			
-	    			SiteLogo logo = SiteLogo.findByUser(userObj);
-	    			List<PriceAlert> priceAlertList = PriceAlert.getEmailsByVin(vehicle.vin, userObj);
-	    			for(PriceAlert alert: priceAlertList) {
-	    				sendPriceAlertMail(alert.email,vehicle,profile,sameBodyStyle,sameEngine,sameMake,logo,vm.price,sameBodyStyleDefault,sameEngineDefault,sameMakeDefault);
-	    			}
+	    			List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin, userObj);
+    				for(PriceAlert priceAlert: alertList) {
+    					priceAlert.setSendEmail("Y");
+    					priceAlert.setOldPrice(vehicle.price);
+    					priceAlert.update();
+    				}
+    				sendPriceAlertMail();
 	    		}
 	    		
 	    		vehicle.setCategory(vm.category);
@@ -4296,6 +4399,146 @@ public class Application extends Controller {
     		
     	}
     	return ok();
+    }
+    
+    public static Result saveUser() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+	    	UserVM vm = form.get();
+	    	
+	    	AuthUser userObj = new AuthUser();
+	    	userObj.firstName = vm.firstName;
+	    	userObj.lastName = vm.lastName;
+	    	userObj.email = vm.email;
+	    	userObj.phone = vm.phone;
+	    	userObj.role = vm.userType;
+	    	
+	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	    	Random rnd = new Random();
+
+	    	   StringBuilder sb = new StringBuilder( 6 );
+	    	   for( int i = 0; i < 6; i++ ) 
+	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+	    	
+	    	   userObj.password = sb.toString();
+	    	   List<Permission> permissionList = Permission.getAllPermission();
+	    	   if(vm.userType.equals("General Manager")) {
+	    		   userObj.permission = permissionList;
+	    	   }
+	    	   
+	    	   if(vm.userType.equals("Sales Person")) {
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+	    			   if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
+	    				   permissionData.add(obj);
+	    			   }
+	    		   }
+	    		   userObj.permission = permissionData;
+	    	   }
+	    	   userObj.save();
+	    	   
+	    		Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		  
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 		   
+		  			Message feedback = new MimeMessage(session);
+		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			feedback.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(userObj.email));
+		  			feedback.setSubject("Your username and password ");	  			
+		  			 BodyPart messageBodyPart = new MimeBodyPart();	  	  
+		  	         messageBodyPart.setText("Your username is "+userObj.email+" "+"Your password is "+userObj.password);	 	    
+		  	         Multipart multipart = new MimeMultipart();	  	    
+		  	         multipart.addBodyPart(messageBodyPart);	            
+		  	         feedback.setContent(multipart);
+		  		     Transport.send(feedback);
+		       		} catch (MessagingException e) {
+		  			  throw new RuntimeException(e);
+		  		}
+	    	   
+	    	return ok();
+    	}
+    }
+    
+    public static Result getAllUsers() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		
+    		List<AuthUser> userList = AuthUser.getUserByType();
+    		List<UserVM> vmList = new ArrayList<>();
+    		for(AuthUser user : userList) {
+    			UserVM vm = new UserVM();
+    			vm.fullName = user.firstName + " "+ user.lastName;
+    			vm.firstName = user.firstName;
+    			vm.lastName = user.lastName;
+    			vm.email = user.email;
+    			vm.phone = user.phone;
+    			vm.userType = user.role;
+    			vm.id = user.id;
+    			vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
+    public static Result updateUser() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+	    	UserVM vm = form.get();
+	    	
+	    	AuthUser userObj = AuthUser.findById(vm.id);
+	    	userObj.setFirstName(vm.firstName);
+	    	userObj.setLastName(vm.lastName);
+	    	userObj.setEmail(vm.email);
+	    	userObj.setPhone(vm.phone);
+	    	userObj.setRole(vm.userType);
+	    	userObj.deleteManyToManyAssociations("permission");
+	    	List<Permission> permissionList = Permission.getAllPermission();
+	    	   if(vm.userType.equals("General Manager")) {
+	    		   userObj.permission.addAll(permissionList);
+	    	   }
+	    	   
+	    	   if(vm.userType.equals("Sales Person")) {
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+	    			   if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
+	    				   permissionData.add(obj);
+	    			   }
+	    		   }
+	    		   userObj.permission.addAll(permissionData);
+	    	   }
+	    	
+	    	userObj.update();
+	    	return ok();
+    	}    	
+    }
+    
+    public static Result deleteUserById(Integer id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = AuthUser.findById(id);
+    		user.delete();
+    		return ok();
+    	}
     }
     
     

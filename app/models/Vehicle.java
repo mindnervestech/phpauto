@@ -731,4 +731,9 @@ public class Vehicle extends Model {
 		
 	}
 	
+	public static List<Vehicle> getVehiclesByMake(AuthUser user,String make) {
+		return find.where().eq("user", user).eq("make", make).findList();
+		
+	}
+	
 }

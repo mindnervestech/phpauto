@@ -2,9 +2,12 @@ package models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.avaje.ebean.Expr;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -27,14 +30,16 @@ public class AuthUser extends Model implements Identity {
 	public String firstName;
 	public String lastName;
 	public String password;
+	public String role;
+	public String phone;
 	public String avatarUrl;
 	
 	@Id
 	public Integer id;
 	public String provider;
 
-	@ManyToMany
-	private List<Permission> permission;
+	@ManyToMany(cascade = CascadeType.ALL)
+	public List<Permission> permission;
 
 
 	@Override
@@ -95,9 +100,52 @@ public class AuthUser extends Model implements Identity {
 		this.permission = permission;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public static AuthUser findById(Integer id) {
 		return find.byId(id);
 	}
 
+	public static List<AuthUser> getUserByType() {
+		return find.where().or(Expr.eq("role", "General Manager"), Expr.eq("role", "Sales Person")).findList();
+	}
 	
 }

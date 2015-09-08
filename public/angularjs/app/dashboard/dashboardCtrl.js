@@ -1434,5 +1434,10 @@ angular.module('newApp')
 		});
 	}
 	
+	$scope.goToUsers = function() {
+		$location.path('/createUser');
+	}
+	
+	
 }]);	
 

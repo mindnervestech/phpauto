@@ -18,6 +18,8 @@ public class PriceAlert extends Model {
 	public Long id;
 	public String email;
 	public String vin;
+	public String sendEmail;
+	public Integer oldPrice;
 	@ManyToOne
 	public AuthUser user;
 	
@@ -45,15 +47,33 @@ public class PriceAlert extends Model {
 	public void setUser(AuthUser user) {
 		this.user = user;
 	}
-	
+	public String getSendEmail() {
+		return sendEmail;
+	}
+	public void setSendEmail(String sendEmail) {
+		this.sendEmail = sendEmail;
+	}
+	public Integer getOldPrice() {
+		return oldPrice;
+	}
+	public void setOldPrice(Integer oldPrice) {
+		this.oldPrice = oldPrice;
+	}
+
+
 	public static Finder<Long,PriceAlert> find = new Finder<>(Long.class,PriceAlert.class);
 	
 	public static PriceAlert findById(Long id) {
 		return find.byId(id);
 	}
 	
-	public static List<PriceAlert> getEmailsByVin(String vin, AuthUser user) {
-		return find.where().eq("vin", vin).eq("user", user).findList();
+	public static List<PriceAlert> getEmailsByStatus(AuthUser user) {
+		return find.where().eq("user", user).eq("sendEmail", "Y").findList();
 	}
+	
+	public static List<PriceAlert> getEmailsByVin(String vin, AuthUser user) {
+		return find.where().eq("user", user).eq("vin", vin).findList();
+	}
+	
 	
 }

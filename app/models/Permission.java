@@ -1,9 +1,12 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 public class Permission extends Model {
@@ -23,6 +26,12 @@ public class Permission extends Model {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public static Finder<Long,Permission> find = new Finder<>(Long.class,Permission.class);
+	
+	public static List<Permission> getAllPermission() {
+		return find.all();
 	}
 	
 }

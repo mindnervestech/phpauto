@@ -318,13 +318,13 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a ng-sec = "My Profile" href="#myprofile"><i class="icon-user"></i><span>My Profile</span></a>
+                                        <a ng-sec = "My Profile" href="#myprofile"><i class="icon-user"></i><span>Dealer's Profile</span></a>
                                     </li>
-                                    <li>
+                                   <!--  <li>
                                         <a data-target="#"><i class="icon-calendar"></i><span>My Calendar</span></a>
-                                    </li>
+                                    </li> -->
                                     <li>
-                                        <a ng-sec = "Account Settings" href="#configuration"><i class="icon-settings"></i><span>Account Settings</span></a>
+                                        <a ng-sec = "Account Settings" href="#configuration"><i class="icon-settings"></i><span>Settings</span></a>
                                     </li>
                                     <li>
                                         <a href="/logout"><i class="icon-logout"></i><span>Logout</span></a>
@@ -936,7 +936,7 @@
         <div id="loading" style='position:fixed;
     							top:50%;
     							left:50%;
-    							z-index:1000;'>
+    							z-index:2000;'>
     		<img alt="loading" src="/assets/global/images/gallery/spinner.gif">
     	</div>
         <!-- BEGIN ANGULARJS SCRIPTS -->
@@ -966,7 +966,7 @@
         <script src="/assets/global/plugins/bootstrap-dropdown/bootstrap-hover-dropdown.min.js"></script>
         <script src="/assets/global/plugins/charts-sparkline/sparkline.min.js"></script>
         <script src="/assets/global/plugins/retina/retina.min.js"></script>
-        <script src="/assets/global/plugins/select2/select2.min.js"></script>
+        <!-- <script src="/assets/global/plugins/select2/select2.min.js"></script> -->
         <script src="/assets/global/plugins/icheck/icheck.min.js"></script>
         <script src="/assets/global/plugins/backstretch/backstretch.min.js"></script>
         <script src="/assets/global/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
@@ -1105,6 +1105,7 @@
         <script src="moreInfo/scheduleTestCtrl.js"></script>
         <script src="moreInfo/tradeInCtrl.js"></script>
         <script src="blogs/blogsCtrl.js"></script>
+        <script src="myprofile/UserCtrl.js"></script>
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
     </body>
 </html>
