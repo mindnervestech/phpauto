@@ -1896,12 +1896,13 @@ public class Application extends Controller {
 	    					priceAlert.setOldPrice(vehicle.price);
 	    					priceAlert.update();
 	    				}
-	    				sendPriceAlertMail();
+	    				
 	    		}
 		    	vehicle.setStock(vm.stock);
 		    	vehicle.setPrice(vm.price);
 		    	
 		    	vehicle.update();
+		    	sendPriceAlertMail();
 	    	}
 	    	return ok();
     	}	
@@ -1925,7 +1926,7 @@ public class Application extends Controller {
     					priceAlert.setOldPrice(vehicle.price);
     					priceAlert.update();
     				}
-    				sendPriceAlertMail();
+    				
 	    		}
 	    		
 	    		vehicle.setCategory(vm.category);
@@ -2008,6 +2009,8 @@ public class Application extends Controller {
 			    	vehicle.setSite(siteList);
 		    	}
 		    	vehicle.update();
+		    	
+		    	sendPriceAlertMail();
 		    	
 		    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin,userObj);
 		    	List<Site> siteList2 = vehicleObj2.getSite();
