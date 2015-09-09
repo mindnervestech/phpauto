@@ -3681,6 +3681,7 @@ public class Application extends Controller {
 	    	List<ScheduleTest> listData = ScheduleTest.findAllByDate(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
@@ -3699,8 +3700,16 @@ public class Application extends Controller {
 	    		if(info.getConfirmDate() != null) {
 	    			vm.confirmDate = df.format(info.getConfirmDate());
 	    		}
+	    		
 	    		if(info.getConfirmTime() != null) {
-	    			vm.confirmTime = info.getConfirmTime();
+	    			time.setTime(info.getConfirmTime());
+	    			String ampm = "";
+	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+	    				ampm = "PM";
+	    			} else {
+	    				ampm = "AM";
+	    			}
+	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
 	    		}
 	    		vm.requestDate = df.format(info.scheduleDate);
 	    		if(info.isRead == 0) {
@@ -4321,9 +4330,10 @@ public class Application extends Controller {
     	ScheduleTest  scheduleTest = ScheduleTest.findById(vm.id);
     	if(scheduleTest != null) {
     		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     		Date date = df.parse(vm.confirmDate);
     		scheduleTest.setConfirmDate(date);
-    		scheduleTest.setConfirmTime(vm.confirmTime);
+    		scheduleTest.setConfirmTime(parseTime.parse(vm.confirmTime));
     		scheduleTest.setEmail(vm.email);
     		scheduleTest.update();
     		SiteLogo logo = SiteLogo.findByUser(user);
@@ -4369,7 +4379,7 @@ public class Application extends Controller {
     	        context.put("siteLogo", logo.logoImagePath);
     	        context.put("dayOfmonth", dayOfmonth);
     	        context.put("monthName", monthName);
-    	        context.put("confirmTime", scheduleTest.getConfirmTime());
+    	        context.put("confirmTime", parseTime.format(scheduleTest.confirmTime));
     	        
     	        Vehicle vehicle = Vehicle.findByVidAndUser(scheduleTest.vin, user);
     	        context.put("year", vehicle.year);

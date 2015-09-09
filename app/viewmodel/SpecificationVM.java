@@ -78,5 +78,6 @@ public class SpecificationVM {
 	public String status;
 	public  int vehicleCnt;
 	public List<Long> siteIds;
-	
+	public String testDrive;
+	public String salesRep;
 }

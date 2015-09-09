@@ -27,7 +27,7 @@ public class ScheduleTest extends Model {
 	public String vin;
 	public int isRead;
 	public Date confirmDate;
-	public String confirmTime;
+	public Date confirmTime;
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
@@ -106,17 +106,17 @@ public class ScheduleTest extends Model {
 	public void setConfirmDate(Date confirmDate) {
 		this.confirmDate = confirmDate;
 	}
-	public String getConfirmTime() {
-		return confirmTime;
-	}
-	public void setConfirmTime(String confirmTime) {
-		this.confirmTime = confirmTime;
-	}
 	public AuthUser getAssignedTo() {
 		return assignedTo;
 	}
 	public void setAssignedTo(AuthUser assignedTo) {
 		this.assignedTo = assignedTo;
+	}
+	public Date getConfirmTime() {
+		return confirmTime;
+	}
+	public void setConfirmTime(Date confirmTime) {
+		this.confirmTime = confirmTime;
 	}
 
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
