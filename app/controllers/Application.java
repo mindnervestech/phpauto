@@ -1447,7 +1447,7 @@ public class Application extends Controller {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	
 	    	List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus(user, "Newly Arrived");
-	        
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>(); 
 	     	for(Vehicle vm : vehicleObjList){
 	     		SpecificationVM vehicle = new SpecificationVM();
@@ -1477,6 +1477,25 @@ public class Application extends Controller {
 		    	vehicle.transmission = vm.transmission;
 		    	vehicle.location = vm.location;
 		    	vehicle.status  =  vm.status;
+		    	List<SqlRow> rows = Vehicle.getDriveTimeAndName(user,vehicle.vin);
+		    	for(SqlRow row : rows) {
+		    		Date date = (Date) row.get("confirm_date");
+		    		Date timeObj = (Date) row.get("confirm_time");
+		    		vehicle.testDrive = df.format(date) +" ";
+		    		Calendar time = Calendar.getInstance();
+		    		time.setTime(timeObj);
+	    			String ampm = "";
+	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+	    				ampm = "PM";
+	    			} else {
+	    				ampm = "AM";
+	    			}
+	    			vehicle.testDrive = vehicle.testDrive + time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+		    		Integer userId = (Integer) row.get("assigned_to_id");
+		    		AuthUser userData = AuthUser.findById(userId);
+		    		vehicle.salesRep = userData.firstName +" "+userData.lastName;
+		    		break;
+		    	}
 		    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin,user);
 		    	NewVMs.add(vehicle);
 	    	}

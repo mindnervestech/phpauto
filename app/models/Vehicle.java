@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import play.db.ebean.Model;
 import securesocial.core.Identity;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
 import com.avaje.ebean.annotation.ConcurrencyMode;
 import com.avaje.ebean.annotation.EntityConcurrencyMode;
 
@@ -734,6 +737,12 @@ public class Vehicle extends Model {
 	public static List<Vehicle> getVehiclesByMake(AuthUser user,String make) {
 		return find.where().eq("user", user).eq("make", make).findList();
 		
+	}
+	
+	public static List<SqlRow> getDriveTimeAndName(AuthUser user,String vin) {
+		SqlQuery q = Ebean.createSqlQuery("select schedule_test.confirm_date,schedule_test.confirm_time,schedule_test.assigned_to_id from schedule_test where schedule_test.vin = '"+vin+"' and schedule_test.confirm_date >= CURDATE() and schedule_test.confirm_time >= CURTIME() and schedule_test.user_id = '"+user.id+"' order by schedule_test.confirm_date,schedule_test.confirm_time asc");
+		List<SqlRow> rows = q.findList();
+		return rows;
 	}
 	
 }
