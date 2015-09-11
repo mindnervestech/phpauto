@@ -3691,6 +3691,43 @@ public class Application extends Controller {
     	}	
     }
     
+    public static Result getAllRequestInfoSeen() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeen(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	for(RequestMoreInfo info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.requestDate = df.format(info.requestDate);
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
+    }
+    
     
     public static Result getAllScheduleTest() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -3705,6 +3742,59 @@ public class Application extends Controller {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
 	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.bestDay = info.bestDay;
+	    		vm.bestTime = info.bestTime;
+	    		if(info.getConfirmDate() != null) {
+	    			vm.confirmDate = df.format(info.getConfirmDate());
+	    		}
+	    		
+	    		if(info.getConfirmTime() != null) {
+	    			time.setTime(info.getConfirmTime());
+	    			String ampm = "";
+	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+	    				ampm = "PM";
+	    			} else {
+	    				ampm = "AM";
+	    			}
+	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+	    		}
+	    		vm.requestDate = df.format(info.scheduleDate);
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
+    }
+    
+    public static Result getAllScheduleTestAssigned() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	Calendar time = Calendar.getInstance();
+	    	for(ScheduleTest info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVidAndUserAndStatus(info.vin,user);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3783,6 +3873,42 @@ public class Application extends Controller {
     }
     
     
+    public static Result getAllTradeInSeen() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<TradeIn> listData = TradeIn.findAllSeen(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	for(TradeIn info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    		}
+	    		vm.name = info.firstName+" "+info.lastName;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.requestDate = df.format(info.tradeDate);
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
+    }
+    
     public static Result getInfoCount() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
@@ -3801,16 +3927,18 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
 	    	RequestMoreInfo infoObj = RequestMoreInfo.findById(id);
 	    		if(flag.equals("true")) {
 	    			infoObj.setIsRead(1);
+	    			infoObj.setAssignedTo(user);
 	    		}
 	    		if(flag.equals("false")) {
 	    			infoObj.setIsRead(0);
+	    			infoObj.setAssignedTo(null);
 	    		}
 	    		infoObj.update();
 	    		
-	    		AuthUser user = (AuthUser) getLocalUser();
 	        	List<RequestMoreInfo> listData = RequestMoreInfo.findAllByDate();
 	        	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	        	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -3899,15 +4027,18 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
 	    	TradeIn tradeObj = TradeIn.findById(id);
 	    	if(flag.equals("true")) {
 	    		tradeObj.setIsRead(1);
+	    		tradeObj.setAssignedTo(user);
 			}
 			if(flag.equals("false")) {
 				tradeObj.setIsRead(0);
+				tradeObj.setAssignedTo(null);
 			}
 			tradeObj.update();
-			AuthUser user = (AuthUser) getLocalUser();
+			
 			List<TradeIn> listData = TradeIn.findAllByDate();
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -4573,6 +4704,77 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result setVehicleAndScheduleStatus(String vin) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Vehicle vehicle = Vehicle.findByVidAndUser(vin, user);
+    		vehicle.setStatus("Sold");
+    		vehicle.update();
+    		List<ScheduleTest> scheduleList = ScheduleTest.findByVinAndAssignedUser(user, vin);
+    		for(ScheduleTest obj: scheduleList) {
+    			obj.setLeadStatus("SUCCESSFUL");
+    			obj.update();
+    		}
+    		return ok();
+    	}
+    }
+    
+    public static Result setScheduleStatusClose(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		ScheduleTest schedule = ScheduleTest.findById(id);
+    		schedule.setLeadStatus("FAILED");
+    		schedule.update();
+    		return ok();
+    	}
+    }
+    
+    public static Result setRequestStatusComplete(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		RequestMoreInfo info = RequestMoreInfo.findById(id);
+    		info.setStatus("COMPLETE");
+    		info.update();
+    		return ok();
+    	}
+    }
+    
+    public static Result setRequestStatusCancel(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		RequestMoreInfo info = RequestMoreInfo.findById(id);
+    		info.setStatus("CANCEL");
+    		info.update();
+    		return ok();
+    	}
+    }
+    
+    public static Result setTradeInStatusComplete(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		TradeIn info = TradeIn.findById(id);
+    		info.setStatus("COMPLETE");
+    		info.update();
+    		return ok();
+    	}
+    }
+    
+    public static Result setTradeInStatusCancel(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		TradeIn info = TradeIn.findById(id);
+    		info.setStatus("CANCEL");
+    		info.update();
+    		return ok();
+    	}
+    }
     
 }
 

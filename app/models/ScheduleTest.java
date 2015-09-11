@@ -28,6 +28,7 @@ public class ScheduleTest extends Model {
 	public int isRead;
 	public Date confirmDate;
 	public Date confirmTime;
+	public String leadStatus;
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
@@ -118,6 +119,12 @@ public class ScheduleTest extends Model {
 	public void setConfirmTime(Date confirmTime) {
 		this.confirmTime = confirmTime;
 	}
+	public String getLeadStatus() {
+		return leadStatus;
+	}
+	public void setLeadStatus(String leadStatus) {
+		this.leadStatus = leadStatus;
+	}
 
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
 	
@@ -126,7 +133,11 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllByDate(AuthUser user) {
-		return find.where().or(Expr.eq("assignedTo", user), Expr.eq("isRead", 0)).orderBy("scheduleDate desc").orderBy("isRead").findList();
+		return find.where().eq("assignedTo", null).eq("isRead", 0).orderBy("scheduleDate desc").findList();
+	}
+	
+	public static List<ScheduleTest> findAllAssigned(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("leadStatus", null).orderBy("scheduleDate desc").findList();
 	}
 	
 	public static int findAll() {
@@ -135,6 +146,10 @@ public class ScheduleTest extends Model {
 	
 	public static List<ScheduleTest> findAllByUser(AuthUser user) {
 		return find.where().eq("user", user).findList();
+	}
+	
+	public static List<ScheduleTest> findByVinAndAssignedUser(AuthUser user,String vin) {
+		return find.where().eq("assignedTo", user).eq("vin", vin).findList();
 	}
 	
 }

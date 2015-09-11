@@ -104,6 +104,13 @@ angular.module('newApp')
 			$scope.gridOptions.data = data;
 		});
   
+	  $scope.getAllTradeInData = function() {
+		  $http.get('/getAllTradeIn')
+			.success(function(data) {
+			$scope.gridOptions.data = data;
+		});
+	  }
+	  
 	  var promo =  $interval(function(){
 			  $http.get('/getAllTradeIn')
 				.success(function(data) {
@@ -119,7 +126,7 @@ angular.module('newApp')
 				$scope.$emit('getCountEvent', '123');
 		});
 		  
-		  
+		  $scope.getAllTradeInData();
 	  }
 		 
 	  $scope.testDrive = function() {

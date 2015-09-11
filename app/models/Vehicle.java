@@ -704,6 +704,10 @@ public class Vehicle extends Model {
 		return find.where().eq("vin", vid).eq("user", user).findUnique();
 	}
 	
+	public static Vehicle findByVidAndUserAndStatus(String vid,AuthUser user) {
+		return find.where().eq("vin", vid).eq("user", user).eq("status", "Newly Arrived").findUnique();
+	}
+	
 	public static Vehicle findByVin(String vin) {
 		return find.where().eq("vin", vin).findUnique();
 	}

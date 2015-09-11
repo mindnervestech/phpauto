@@ -82,7 +82,7 @@ angular.module('newApp')
   		                                	} ,
  		                                 },
  		                                { name: 'isRead', displayName: 'Seen',enableFiltering: false, width:'13%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
- 		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" style="float:left;margin-left:3%;"></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)" ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;">Confirm</button>', 
+ 		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" style="float:left;margin-left:15%;"></div>', 
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
@@ -96,11 +96,20 @@ angular.module('newApp')
  		});
  		$("#cnfDate").datepicker().datepicker("setDate", new Date());
  		$('#timepicker1').timepicker();
-  $http.get('/getAllScheduleTest')
-		.success(function(data) {
-		$scope.gridOptions.data = data;
-		$('#sliderBtn').click();
-	});
+ 		
+	  $http.get('/getAllScheduleTest')
+			.success(function(data) {
+			$scope.gridOptions.data = data;
+			$('#sliderBtn').click();
+		});
+	  
+	  $scope.getAllScheduleTestData = function() {
+		  $http.get('/getAllScheduleTest')
+			.success(function(data) {
+			$scope.gridOptions.data = data;
+			$('#sliderBtn').click();
+		});
+	  }
   
   		var promo =  $interval(function(){
   			 $http.get('/getAllScheduleTest')
@@ -117,7 +126,7 @@ angular.module('newApp')
 			$scope.gridOptions.data = data;
 			$scope.$emit('getCountEvent', '123');
 	});
-	  
+	  $scope.getAllScheduleTestData();
   }
  
   $scope.scheduleTestData = {};
