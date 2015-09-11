@@ -3665,7 +3665,8 @@ public class Application extends Controller {
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,userObj);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3702,7 +3703,8 @@ public class Application extends Controller {
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,userObj);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3741,7 +3743,8 @@ public class Application extends Controller {
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,userObj);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3794,7 +3797,8 @@ public class Application extends Controller {
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVidAndUserAndStatus(info.vin,user);
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUserAndStatus(info.vin,userObj);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3847,7 +3851,8 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,userObj);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -3884,7 +3889,8 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,user);
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,userObj);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
@@ -4773,6 +4779,19 @@ public class Application extends Controller {
     		info.setStatus("CANCEL");
     		info.update();
     		return ok();
+    	}
+    }
+   
+    public static Result getUserType() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		String userType = user.getRole();
+    		if(userType == null) {
+    			userType = "";
+    		}
+    		return ok(userType);
     	}
     }
     

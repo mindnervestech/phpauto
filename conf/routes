@@ -103,3 +103,4 @@ GET		/setRequestStatusComplete/:id	controllers.Application.setRequestStatusCompl
 GET		/setRequestStatusCancel/:id		controllers.Application.setRequestStatusCancel(id:Long)
 GET		/setTradeInStatusComplete/:id	controllers.Application.setTradeInStatusComplete(id:Long)
 GET		/setTradeInStatusCancel/:id		controllers.Application.setTradeInStatusCancel(id:Long)
+GET		/getUserType				controllers.Application.getUserType()	

@@ -247,7 +247,8 @@ angular.module('newApp')
      			 		 		$('.datepicker').datepicker({
      			 		 		});
      			 		 		$("#cnfDate").datepicker().datepicker("setDate", new Date());
-     			 		 		$('#timepicker1').timepicker(); 		 		 
+     			 		 		$('#timepicker1').timepicker(); 	
+     			 		 		
     		  $http.get('/getAllRequestInfoSeen')
     				.success(function(data) {
     				$scope.gridOptions.data = data;
@@ -264,6 +265,11 @@ angular.module('newApp')
     				.success(function(data) {
     			 		$scope.gridOptions3.data = data;
     			 });
+    			  
+	    		$http.get('/getUserType')
+	  			  .success(function(data) {
+	  			 	$scope.userType = data;
+	  			});
     			  
     	$scope.reqMore = true;	
     	$scope.testdrv = false;
