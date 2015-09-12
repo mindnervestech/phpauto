@@ -104,3 +104,4 @@ GET		/setRequestStatusCancel/:id		controllers.Application.setRequestStatusCancel
 GET		/setTradeInStatusComplete/:id	controllers.Application.setTradeInStatusComplete(id:Long)
 GET		/setTradeInStatusCancel/:id		controllers.Application.setTradeInStatusCancel(id:Long)
 GET		/getUserType				controllers.Application.getUserType()	
+GET		/getScheduleDates			controllers.Application.getScheduleDates()

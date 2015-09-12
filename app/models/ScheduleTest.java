@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -150,6 +153,12 @@ public class ScheduleTest extends Model {
 	
 	public static List<ScheduleTest> findByVinAndAssignedUser(AuthUser user,String vin) {
 		return find.where().eq("assignedTo", user).eq("vin", vin).findList();
+	}
+	
+	public static List<SqlRow> getScheduleDates(AuthUser user) {
+		SqlQuery q = Ebean.createSqlQuery("select schedule_test.confirm_date from schedule_test where schedule_test.confirm_date >= CURDATE() and schedule_test.assigned_to_id = '"+user.id+"'");
+		List<SqlRow> rows = q.findList();
+		return rows;
 	}
 	
 }

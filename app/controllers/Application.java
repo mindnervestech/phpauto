@@ -4795,5 +4795,21 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result getScheduleDates() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		List<SqlRow> rows = ScheduleTest.getScheduleDates(user);
+    		List<RequestInfoVM> vmList = new ArrayList<>();
+    		for(SqlRow row : rows) {
+    			RequestInfoVM vm = new RequestInfoVM();
+    			vm.confirmDate = row.getString("confirm_date");
+    			vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
 }
 

@@ -20,7 +20,6 @@ angular.module('newApp')
       });
 
       $scope.activeTab = true;
-
       
       $scope.gridOptions = {
     	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -254,6 +253,28 @@ angular.module('newApp')
     				$scope.gridOptions.data = data;
     			});
     		  
+    		  $http.get('/getScheduleDates')
+				.success(function(data) {
+				$scope.scheduleDates = data;
+				console.log(data);
+				 var datesArray = [];
+				 for(var i=0;i<$scope.scheduleDates.length;i++) {
+					 var dateStr = $scope.scheduleDates[i].confirmDate;
+					 var date = new Date();
+					 var arr = [];
+					    arr = dateStr.split('-');
+			        	date.setYear(arr[0]);
+			        	var month = arr[1];
+			        	date.setMonth(month-1);
+			        	date.setDate(arr[2]);
+			        	datesArray.push(date);
+				 }
+	    		  $(".multidatepicker").multiDatesPicker({
+	    			  addDates:datesArray
+	    		  });
+			});
+    		  
+    		 
     		  
     			  $http.get('/getAllScheduleTestAssigned')
     					.success(function(data) {
@@ -438,6 +459,9 @@ angular.module('newApp')
     	 		});
     	  }
     	
+    	  
+    	  
+    	  
   }]);
 
 angular.module('newApp')

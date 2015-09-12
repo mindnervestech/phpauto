@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xlg-3 col-lg-5">
+    <div class="col-xlg-3 col-lg-5" ng-show="userType != 'Sales Person'">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel no-bd bd-3 panel-stat">
@@ -151,7 +151,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>   
     <div class="col-xlg-2 hidden-lg">
         <div class="row">
             <div class="col-md-12">
@@ -198,6 +198,15 @@
             </div>
         </div>
     </div>
+    <div class="col-xlg-3 col-lg-5" ng-show="userType == 'Sales Person'">
+        <div class="row">
+            <div class="col-md-12">
+			    <div class="widget widget_calendar bg-dark">
+			            <div class="multidatepicker"></div>
+        		</div>
+        </div>
+      </div>
+     </div>
 </div>
 
 <div class="row" ng-if="userType == 'Sales Person'">
@@ -565,9 +574,9 @@
         </div>
     </div>
     <div class="col-md-4 col-sm-6 portlets">
-        <div class="widget widget_calendar bg-dark">
+       <!--  <div class="widget widget_calendar bg-dark">
             <div class="multidatepicker"></div>
-        </div>
+        </div> -->
         <div class="panel m-t-0">
             <div class="panel-header panel-controls">
                 <h3><i class="icon-basket"></i> <strong>Sales</strong> Volume Stats</h3>
@@ -754,4 +763,13 @@
 .nav.nav-tabs > li.active > a {
 	background-color: #F1F1F1;
 }
+
+.widget_calendar .multidatepicker .ui-widget-content table td.ui-datepicker-today a {
+	background-color: #39B0CA !important;
+	color: white;
+}
+.widget_calendar .multidatepicker .ui-widget-content table td.ui-state-highlight a {
+	background-color: #39B0CA !important;
+	color: white;
+} 
 </style>	

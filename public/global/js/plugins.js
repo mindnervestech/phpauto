@@ -495,7 +495,7 @@ function bDatepicker(){
 function multiDatesPicker(){
     $('.multidatepicker').each(function () {
         $(this).multiDatesPicker({
-            dateFormat: 'yy-mm-dd',
+            dateFormat: 'yyyy-mm-dd',
             minDate: new Date(),
             maxDate: '+1y',
             firstDay: 1,
