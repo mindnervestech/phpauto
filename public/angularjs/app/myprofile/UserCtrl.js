@@ -1,6 +1,6 @@
 angular.module('newApp')
-.controller('createUserCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-	
+.controller('createUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+	$scope.img = "/assets/images/profile-pic.jpg";
 	$scope.user = {};
 	$scope.userData = {};
 	$scope.gridOptions = {
@@ -48,6 +48,7 @@ angular.module('newApp')
 			$http.post('/saveUser',$scope.user)
 			 .success(function(data) {
 					$('#btnClose').click();
+					 $scope.user.img=" ";
 					$.pnotify({
 					    title: "Success",
 					    type:'success',
@@ -58,9 +59,15 @@ angular.module('newApp')
 			
 	};
 	
+	$scope.createNewUser=function(){
+		$scope.img="/assets/images/profile-pic.jpg ";
+		
+	}
+	
 	$scope.updateUser = function() {
 		
 		$http.post('/updateUser',$scope.userData)
+		
 		 .success(function(data) {
 				$('#btnEditClose').click();
 				$.pnotify({
@@ -76,6 +83,7 @@ angular.module('newApp')
 	$scope.editUser = function(row) {
 		$('#editUserModal').click();
 		$scope.userData = row.entity;
+		$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.userData.imageUrl;
 	}
 	
 	$scope.deleteUser = function(row) {
@@ -95,5 +103,73 @@ angular.module('newApp')
 			$scope.init();
 		});
 	};
+	
+	 var logofile;
+		$scope.onLogoFileSelect = function ($files) {
+			logofile = $files;
+			for (var i = 0; i < $files.length; i++) {
+				var $file = $files[i];
+				if (window.FileReader && $file.type.indexOf('image') > -1) {
+					var fileReader = new FileReader();
+					fileReader.readAsDataURL($files[i]);
+					var loadFile = function (fileReader, index) {
+						fileReader.onload = function (e) {
+							$timeout(function () {
+								$scope.img = e.target.result;
+								console.log(e.target.result);
+							});
+							
+						}
+					}(fileReader, i);
+				}
+			}
+		}	
+	   
+	
+	$scope.saveImage = function() {
+		   $upload.upload({
+	            url : '/uploadImageFile',
+	            method: 'post',
+	            file:logofile,
+	            data:$scope.user
+	        }).success(function(data, status, headers, config) {
+	            console.log('success');
+	            $scope.user.firstName=" ";
+	            $scope.user.lastName=" ";
+	            $scope.user.email=" ";
+	            $scope.user.phone=" ";
+	            $scope.user.userType=" ";
+	            $scope.user.img=" ";
+	            $("#file").val('');
+	            $('#btnClose').click();
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Photo saved successfully",
+				});
+	            $scope.init();
+	        });
+	   }
+	
+	$scope.updateImage = function() {
+		
+		   $upload.upload({
+	            url : '/updateImageFile',
+	            method: 'post',
+	            file:logofile,
+	            data:$scope.userData
+	        }).success(function(data, status, headers, config) {
+	            console.log('success');
+	            $('#btnEditClose').click();
+	           
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Photo saved successfully",
+				});
+	            $scope.init();
+	        });
+	   }
+	
 	
 }]);	

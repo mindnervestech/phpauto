@@ -33,6 +33,8 @@ public class AuthUser extends Model implements Identity {
 	public String role;
 	public String phone;
 	public String avatarUrl;
+	public String imageName;
+	public String imageUrl;
 	
 	@Id
 	public Integer id;
@@ -40,6 +42,7 @@ public class AuthUser extends Model implements Identity {
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Permission> permission;
+	
 
 
 	@Override
@@ -140,12 +143,30 @@ public class AuthUser extends Model implements Identity {
 		this.phone = phone;
 	}
 
-	public static AuthUser findById(Integer id) {
-		return find.byId(id);
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public static List<AuthUser> getUserByType() {
 		return find.where().or(Expr.eq("role", "General Manager"), Expr.eq("role", "Sales Person")).findList();
 	}
+
+	public static AuthUser findById(Integer id) {
+		return find.byId(id);
+	}
 	
+
 }

@@ -183,6 +183,9 @@ public class Application extends Controller {
     
     public static Result getUserInfo() {
     	AuthUser user = getLocalUser();
+    	if(user.imageUrl== null){
+    		user.imageUrl ="/profile-pic.jpg";
+    	}
 		return ok(Json.toJson(user));
 	}
     
@@ -4574,16 +4577,17 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-	    	AuthUser user = (AuthUser) getLocalUser();
-	    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+    		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+    		
+	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
 	    	
-	    	AuthUser userObj = new AuthUser();
 	    	userObj.firstName = vm.firstName;
 	    	userObj.lastName = vm.lastName;
 	    	userObj.email = vm.email;
 	    	userObj.phone = vm.phone;
 	    	userObj.role = vm.userType;
+	    	
 	    	
 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    	Random rnd = new Random();
@@ -4608,6 +4612,32 @@ public class Application extends Controller {
 	    		   userObj.permission = permissionData;
 	    	   }
 	    	   userObj.save();
+	    	   
+	    	   MultipartFormData body = request().body().asMultipartFormData();
+	    		FilePart picture = body.getFile("file0");
+		    	  if (picture != null) {
+		    	    String fileName = picture.getFilename();
+		    	    String contentType = picture.getContentType(); 
+		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"userPhoto");
+		    	    if(!fdir.exists()) {
+		    	    	fdir.mkdir();
+		    	    }
+		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+		    	    File file = picture.getFile();
+		    	    try {
+		    	    		FileUtils.moveFile(file, new File(filePath));
+		    	    		AuthUser user = AuthUser.findById(userObj.id);
+		    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
+		    	    		user.setImageName(fileName);
+		    	    		user.update();	
+		    	    		
+		    	  } catch (FileNotFoundException e) {
+		  			e.printStackTrace();
+			  		} catch (IOException e) {
+			  			e.printStackTrace();
+			  		} 
+		    	  } 
+		    	  
 	    	   
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
@@ -4658,6 +4688,8 @@ public class Application extends Controller {
     			vm.email = user.email;
     			vm.phone = user.phone;
     			vm.userType = user.role;
+    			vm.imageName = user.imageName;
+    			vm.imageUrl = user.imageUrl;
     			vm.id = user.id;
     			vmList.add(vm);
     		}
@@ -4669,7 +4701,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-	    	AuthUser user = (AuthUser) getLocalUser();
+	    	
 	    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 	    	UserVM vm = form.get();
 	    	
@@ -4679,6 +4711,7 @@ public class Application extends Controller {
 	    	userObj.setEmail(vm.email);
 	    	userObj.setPhone(vm.phone);
 	    	userObj.setRole(vm.userType);
+	    	
 	    	userObj.deleteManyToManyAssociations("permission");
 	    	List<Permission> permissionList = Permission.getAllPermission();
 	    	   if(vm.userType.equals("General Manager")) {
@@ -4694,6 +4727,35 @@ public class Application extends Controller {
 	    		   }
 	    		   userObj.permission.addAll(permissionData);
 	    	   }
+	    	  
+	    	  
+	    	   MultipartFormData body = request().body().asMultipartFormData();
+	    	   File file1 = new File(rootDir+userObj.imageUrl);
+	    	   file1.delete();
+	    		FilePart picture = body.getFile("file0");
+		    	  if (picture != null) {
+		    	    String fileName = picture.getFilename();
+		    	    String contentType = picture.getContentType(); 
+		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"userPhoto");
+		    	    if(!fdir.exists()) {
+		    	    	fdir.mkdir();
+		    	    }
+		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+		    	    File file = picture.getFile();
+		    	    try {
+		    	    		FileUtils.moveFile(file, new File(filePath));
+		    	    		AuthUser user = AuthUser.findById(userObj.id);
+		    	    	
+		    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
+		    	    		user.setImageName(fileName);
+		    	    		user.update();	
+		    	    		
+		    	  } catch (FileNotFoundException e) {
+		  			e.printStackTrace();
+			  		} catch (IOException e) {
+			  			e.printStackTrace();
+			  		} 
+		    	  } 
 	    	
 	    	userObj.update();
 	    	return ok();

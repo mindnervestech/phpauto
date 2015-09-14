@@ -9,4 +9,6 @@ public class UserVM {
 	public String email;
 	public String phone;
 	public String userType;
+	public String imageName;
+	public String imageUrl;
 }
