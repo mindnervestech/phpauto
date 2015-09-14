@@ -90,9 +90,9 @@ GET		/getMyProfile				controllers.Application.getMyProfile()
 POST     /forgotPassword            controllers.Application.forgotPass()  
 GET		/getUserPermissions			controllers.Application.getUserPermissions() 
 POST	/saveConfirmData			controllers.Application.saveConfirmData()
-POST 	/saveUser					controllers.Application.saveUser()
+
 GET		/getAllUsers				controllers.Application.getAllUsers()
-POST	/updateUser					controllers.Application.updateUser()   
+  
 GET		/deleteUserById/:id			controllers.Application.deleteUserById(id:Integer)
 GET		/getAllScheduleTestAssigned	controllers.Application.getAllScheduleTestAssigned()
 GET		/setVehicleAndScheduleStatus/:vin	controllers.Application.setVehicleAndScheduleStatus(vin:String)

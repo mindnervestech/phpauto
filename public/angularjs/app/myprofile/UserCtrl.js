@@ -43,42 +43,14 @@ angular.module('newApp')
 	}
 	
 	
-	$scope.saveUser = function() {
-			
-			$http.post('/saveUser',$scope.user)
-			 .success(function(data) {
-					$('#btnClose').click();
-					 $scope.user.img=" ";
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User created succesfully!",
-					});
-					$scope.init();
-				});
-			
-	};
+	
 	
 	$scope.createNewUser=function(){
 		$scope.img="/assets/images/profile-pic.jpg ";
 		
 	}
 	
-	$scope.updateUser = function() {
-		
-		$http.post('/updateUser',$scope.userData)
-		
-		 .success(function(data) {
-				$('#btnEditClose').click();
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "User updated succesfully!",
-				});
-				$scope.init();
-			});
-		
-};
+	
 	
 	$scope.editUser = function(row) {
 		$('#editUserModal').click();
