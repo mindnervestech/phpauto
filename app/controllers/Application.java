@@ -4484,6 +4484,7 @@ public class Application extends Controller {
     
     public static Result saveConfirmData() throws ParseException{
     	AuthUser user = (AuthUser) getLocalUser();
+    	AuthUser userObj = AuthUser.findById(userId);
     	Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
     	RequestInfoVM vm = form.get();
     	ScheduleTest  scheduleTest = ScheduleTest.findById(vm.id);
@@ -4495,7 +4496,7 @@ public class Application extends Controller {
     		scheduleTest.setConfirmTime(parseTime.parse(vm.confirmTime));
     		scheduleTest.setEmail(vm.email);
     		scheduleTest.update();
-    		SiteLogo logo = SiteLogo.findByUser(user);
+    		SiteLogo logo = SiteLogo.findByUser(userObj);
     		Properties props = new Properties();
     		props.put("mail.smtp.auth", "true");
     		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -4540,7 +4541,7 @@ public class Application extends Controller {
     	        context.put("monthName", monthName);
     	        context.put("confirmTime", parseTime.format(scheduleTest.confirmTime));
     	        
-    	        Vehicle vehicle = Vehicle.findByVidAndUser(scheduleTest.vin, user);
+    	        Vehicle vehicle = Vehicle.findByVidAndUser(scheduleTest.vin, userObj);
     	        context.put("year", vehicle.year);
     	        context.put("make", vehicle.make);
     	        context.put("model", vehicle.model);
@@ -4549,7 +4550,7 @@ public class Application extends Controller {
     	        context.put("vin", vehicle.vin);
     	        context.put("make", vehicle.make);
     	        context.put("mileage", vehicle.mileage);
-    	        MyProfile profile = MyProfile.findByUser(user);
+    	        MyProfile profile = MyProfile.findByUser(userObj);
     	        context.put("name", profile.myname);
     	        context.put("email", profile.email);
     	        context.put("phone", profile.phone);
@@ -4777,7 +4778,8 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		AuthUser user = getLocalUser();
-    		Vehicle vehicle = Vehicle.findByVidAndUser(vin, user);
+    		AuthUser userObj = AuthUser.findById(userId);
+    		Vehicle vehicle = Vehicle.findByVidAndUser(vin, userObj);
     		vehicle.setStatus("Sold");
     		vehicle.update();
     		List<ScheduleTest> scheduleList = ScheduleTest.findByVinAndAssignedUser(user, vin);
@@ -4868,6 +4870,49 @@ public class Application extends Controller {
     			RequestInfoVM vm = new RequestInfoVM();
     			vm.confirmDate = row.getString("confirm_date");
     			vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
+    public static Result getScheduleBySelectedDate(String date) throws ParseException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		SimpleDateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
+    		Date dateObj = df.parse(date);
+    		List<ScheduleTest> scheduleList = ScheduleTest.findByDateAndAssignedUser(user, dateObj);
+    		List<RequestInfoVM> vmList = new ArrayList<>();
+    		Calendar time = Calendar.getInstance();
+    		for(ScheduleTest test : scheduleList) {
+    			RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = test.id;
+	    		vm.vin = test.vin;
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUserAndStatus(test.vin,userObj);
+	    		if(vehicle != null) {
+	    			vm.make = vehicle.make;
+	    			vm.model = vehicle.model;
+	    		}
+	    		vm.name = test.name;
+	    		vm.email = test.email;
+	    		vm.phone = test.phone;
+	    		if(test.getConfirmDate() != null) {
+	    			vm.confirmDate = df2.format(test.getConfirmDate());
+	    		}
+	    		if(test.getConfirmTime() != null) {
+	    			time.setTime(test.getConfirmTime());
+	    			String ampm = "";
+	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+	    				ampm = "PM";
+	    			} else {
+	    				ampm = "AM";
+	    			}
+	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+	    		}
+	    		vmList.add(vm);
     		}
     		return ok(Json.toJson(vmList));
     	}

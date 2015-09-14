@@ -105,5 +105,6 @@ GET		/setTradeInStatusComplete/:id	controllers.Application.setTradeInStatusCompl
 GET		/setTradeInStatusCancel/:id		controllers.Application.setTradeInStatusCancel(id:Long)
 GET		/getUserType				controllers.Application.getUserType()	
 GET		/getScheduleDates			controllers.Application.getScheduleDates()
+GET		/getScheduleBySelectedDate/:date	controllers.Application.getScheduleBySelectedDate(date:String)
 POST      /uploadImageFile          controllers.Application.saveUser()
 POST         /updateImageFile        controllers.Application.updateUser()   

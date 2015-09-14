@@ -253,28 +253,52 @@ angular.module('newApp')
     				$scope.gridOptions.data = data;
     			});
     		  
-    		  $http.get('/getScheduleDates')
-				.success(function(data) {
-				$scope.scheduleDates = data;
-				console.log(data);
-				 var datesArray = [];
-				 for(var i=0;i<$scope.scheduleDates.length;i++) {
-					 var dateStr = $scope.scheduleDates[i].confirmDate;
-					 var date = new Date();
-					 var arr = [];
-					    arr = dateStr.split('-');
-			        	date.setYear(arr[0]);
-			        	var month = arr[1];
-			        	date.setMonth(month-1);
-			        	date.setDate(arr[2]);
-			        	datesArray.push(date);
-				 }
-	    		  $(".multidatepicker").multiDatesPicker({
-	    			  addDates:datesArray
-	    		  });
-			});
+    		  $scope.init = function() {
+    			  
+    			  $scope.showToDoList = false;
+				  $scope.showCalendar = true;
+				  
+		    		  $http.get('/getScheduleDates')
+						.success(function(data) {
+						$scope.scheduleDates = data;
+						 var datesArray = [];
+						 for(var i=0;i<$scope.scheduleDates.length;i++) {
+							 var dateStr = $scope.scheduleDates[i].confirmDate;
+							 var date = new Date();
+							 var arr = [];
+							    arr = dateStr.split('-');
+					        	date.setYear(arr[0]);
+					        	var month = arr[1];
+					        	date.setMonth(month-1);
+					        	date.setDate(arr[2]);
+					        	datesArray.push(date);
+						 }
+			    		  $(".multidatepicker").multiDatesPicker({
+			    			  addDates:datesArray,
+			        			  onSelect : function(dateText, inst){
+			        				  $scope.showToDoList = true;
+			        				  $scope.showCalendar = false;
+			        				  $scope.selectedDate = dateText;
+			        				  $scope.getScheduleBySelectedDate(dateText);
+			        			  }
+			    		  });
+					});
     		  
-    		 
+    		  
+    		  };  
+    		  
+    		  $scope.showCalendarData = function() {
+    			  $scope.showToDoList = false;
+				  $scope.showCalendar = true;
+				  $scope.init();
+    		  }
+    		  
+    		  $scope.getScheduleBySelectedDate = function(date) {
+    			  $http.get('/getScheduleBySelectedDate/'+date)
+					.success(function(data) {
+					$scope.scheduleList = data;
+				});  
+    		  }
     		  
     			  $http.get('/getAllScheduleTestAssigned')
     					.success(function(data) {
@@ -346,6 +370,11 @@ angular.module('newApp')
     				    type:'success',
     				    text: "Vehicle status changed successfully",
     				});
+					for(var i=0;i<$scope.scheduleList.length;i++) {
+	 					if($scope.scheduleStatusVal.id == $scope.scheduleList[i].id) {
+	 						$scope.scheduleList.splice(i,1);
+	 					}
+	 				}
 			});
     	}
     	
@@ -363,6 +392,11 @@ angular.module('newApp')
     				    type:'success',
     				    text: "Status changed successfully",
     				});
+					for(var i=0;i<$scope.scheduleList.length;i++) {
+	 					if($scope.scheduleStatusCancel.id == $scope.scheduleList[i].id) {
+	 						$scope.scheduleList.splice(i,1);
+	 					}
+	 				}
 			});
     	}
     	

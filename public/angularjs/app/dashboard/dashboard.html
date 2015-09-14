@@ -22,7 +22,7 @@
     </div>
 </div> -->
 
-<div class="row">
+<div class="row" ng-init="init()">
     <div class="col-xlg-7 col-lg-7">
         <div class="row">
             <div class="col-md-12">
@@ -199,13 +199,36 @@
         </div>
     </div>
     <div class="col-xlg-3 col-lg-5" ng-show="userType == 'Sales Person'">
-        <div class="row">
+        <div class="row" ng-show="showCalendar">
             <div class="col-md-12">
 			    <div class="widget widget_calendar bg-dark">
 			            <div class="multidatepicker"></div>
         		</div>
         </div>
       </div>
+      <div class="col-md-12 col-sm-6 portlets" ng-show="showToDoList">
+        <div class="panel">
+            <div class="panel-header">
+                	<h3><strong style="float:left;">My tasks</strong> <P style="margin-left: 70%;">{{selectedDate}}</P></h3>
+                	<a ng-click="showCalendarData()" style="cursor: pointer;">Back to calendar</a>
+            </div>
+            <div class="panel-content" style="height:364px;overflow-y:auto;">
+                <ul class="todo-list ui-sortable">
+                    <li ng-repeat="schedule in scheduleList" title="{{schedule.vin}}">
+                        <div class="pull-right">
+                            <div class="label label-success" style="cursor: pointer;" ng-click="confirmDateTime(schedule)" data-toggle="modal" data-target="#modal-basic">Reschedule</div>
+                            <div class="label label-success" style="cursor: pointer;" ng-click="soldScheduleStatus(schedule)">Sold</div>
+                            <div class="label label-success" style="cursor: pointer;" ng-click="cancelScheduleStatus(schedule)">Cancel</div>
+                        </div>	
+							<span class="todo-task">{{schedule.make}} {{schedule.model}}</span><br>
+							<span class="todo-task">{{schedule.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span class="todo-task">{{schedule.email}}</span>
+                    </li>
+                </ul>
+                
+            </div>
+        </div>
+    </div>
      </div>
 </div>
 
