@@ -253,6 +253,8 @@ angular.module('newApp')
     				$scope.gridOptions.data = data;
     			});
     		  
+    		  $scope.todoData = {};
+    		  
     		  $scope.init = function() {
     			  
     			  $scope.showToDoList = false;
@@ -284,8 +286,19 @@ angular.module('newApp')
 			    		  });
 					});
     		  
-    		  
+		    		  $http.get('/getUsersToAssign')
+						.success(function(data) {
+						$scope.usersList = data;
+					});  
+		    		  $scope.getToDoList();
     		  };  
+    		  
+    		  $scope.getToDoList = function() {
+    			  $http.get('/getToDoList')
+					.success(function(data) {
+					$scope.toDoList = data;
+				});  
+    		  }
     		  
     		  $scope.showCalendarData = function() {
     			  $scope.showToDoList = false;
@@ -298,6 +311,12 @@ angular.module('newApp')
 					.success(function(data) {
 					$scope.scheduleList = data;
 				});  
+    			  
+    			  $http.get('/getToDoBySelectedDate/'+date)
+					.success(function(data) {
+					$scope.toDoDateList = data;
+				}); 
+    			  
     		  }
     		  
     			  $http.get('/getAllScheduleTestAssigned')
@@ -493,9 +512,71 @@ angular.module('newApp')
     	 		});
     	  }
     	
+    	  $scope.saveToDoData = function() {
+    		  $scope.todoData.dueDate = $("#cnftodoDate").val();
+    		  $http.post('/saveToDoData',$scope.todoData)
+    	 		.success(function(data) {
+    	 			console.log('success');
+    	 			$.pnotify({
+    				    title: "Success",
+    				    type:'success',
+    				    text: "Saved successfully",
+    				});
+    	 			$('#modaltodoClose').click();
+    	 			$scope.getToDoList();
+    	 			$scope.todoData = {};
+    	 		});
+    		  
+    	  }
     	  
+    	  $scope.toDoStatusComplete = function(id) {
+    		  $scope.toDoId = id;
+    		  $('#btnCompleteToDo').click();
+    	  }
     	  
+    	  $scope.toDoStatusClose = function(id) {
+    		  $scope.toDoId = id;
+    		  $('#btnCancelToDo').click();
+    	  }
     	  
+    	  $scope.saveCompleteTodoStatus = function() {
+    		  $http.get('/saveCompleteTodoStatus/'+$scope.toDoId)
+				.success(function(data) {
+					$scope.getToDoList();
+					$.pnotify({
+    				    title: "Success",
+    				    type:'success',
+    				    text: "Status changed successfully",
+    				});
+					
+					for(var i=0;i<$scope.toDoDateList.length;i++) {
+						if($scope.toDoId == $scope.toDoDateList[i].id) {
+							$scope.toDoDateList.splice(i,1);
+						}
+					}
+			 });
+    		  
+    		  
+    	  }
+    	  
+    	  $scope.saveCancelTodoStatus = function() {
+    		  $http.get('/saveCancelTodoStatus/'+$scope.toDoId)
+				.success(function(data) {
+					$scope.getToDoList();
+					$.pnotify({
+    				    title: "Success",
+    				    type:'success',
+    				    text: "Status changed successfully",
+    				});
+					
+					for(var i=0;i<$scope.toDoDateList.length;i++) {
+						if($scope.toDoId == $scope.toDoDateList[i].id) {
+							$scope.toDoDateList.splice(i,1);
+						}
+					}
+			 });
+    	  }
+
   }]);
 
 angular.module('newApp')

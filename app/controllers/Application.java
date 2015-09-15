@@ -51,6 +51,7 @@ import models.SiteContent;
 import models.SiteLogo;
 import models.SliderImage;
 import models.SliderImageConfig;
+import models.ToDo;
 import models.TradeIn;
 import models.Vehicle;
 import models.VehicleAudio;
@@ -74,6 +75,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import scala.Array;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
 import viewmodel.AudioVM;
@@ -87,6 +89,7 @@ import viewmodel.SiteContentVM;
 import viewmodel.SiteLogoVM;
 import viewmodel.SiteVM;
 import viewmodel.SpecificationVM;
+import viewmodel.ToDoVM;
 import viewmodel.TradeInVM;
 import viewmodel.UserVM;
 import viewmodel.VehicleVM;
@@ -4871,6 +4874,14 @@ public class Application extends Controller {
     			vm.confirmDate = row.getString("confirm_date");
     			vmList.add(vm);
     		}
+    		
+    		List<SqlRow> toDoRows = ToDo.getToDoDates();
+    		for(SqlRow todo : toDoRows) {
+    			RequestInfoVM vm = new RequestInfoVM();
+    			vm.confirmDate = todo.getString("due_date");
+    			vmList.add(vm);
+    		}
+    		
     		return ok(Json.toJson(vmList));
     	}
     }
@@ -4913,6 +4924,116 @@ public class Application extends Controller {
 	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
 	    		}
 	    		vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
+    public static Result getUsersToAssign() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		List<AuthUser> usersList = AuthUser.getUserByType();
+    		List<UserVM> vmList = new ArrayList<>();
+    		for(AuthUser obj: usersList) {
+    			UserVM vm = new UserVM();
+    			vm.fullName = obj.firstName+" "+obj.lastName;
+    			vm.id = obj.id;
+    			vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
+    public static Result saveToDoData() throws ParseException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Form<ToDoVM> form = DynamicForm.form(ToDoVM.class).bindFromRequest();
+    		AuthUser user = getLocalUser();
+    		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    		ToDoVM vm = form.get();
+    		ToDo toDo = new ToDo();
+    		toDo.task = vm.task;
+    		toDo.dueDate = df.parse(vm.dueDate);
+    		toDo.assignedTo = AuthUser.findById(vm.assignedToId);
+    		toDo.priority = vm.priority;
+    		toDo.status = "Assigned";
+    		toDo.assignedBy = user;
+    		toDo.save();
+    		
+    		return ok();
+    	}
+    }
+    
+    public static Result getToDoList() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    		List<ToDo> toDoList = ToDo.findAll();
+    		List<ToDoVM> vmList = new ArrayList<>();
+    		for(ToDo todo: toDoList) {
+    			ToDoVM vm = new ToDoVM();
+    			vm.id = todo.id;
+    			vm.task = todo.task;
+    			vm.dueDate = df.format(todo.dueDate);
+    			vm.assignedToId = todo.assignedTo.id;
+    			vm.priority = todo.priority;
+    			vm.status = todo.status;
+    			vm.assignedById = todo.assignedBy.id;
+    			vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
+    public static Result saveCompleteTodoStatus(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		ToDo todo = ToDo.findById(id);
+    		todo.setStatus("Completed");
+    		todo.update();
+    		return ok();
+    	}	
+    }
+    
+    public static Result saveCancelTodoStatus(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		ToDo todo = ToDo.findById(id);
+    		todo.setStatus("Deleted");
+    		todo.update();
+    		return ok();
+    	}	
+    }
+    
+    public static Result getToDoBySelectedDate(String date) throws ParseException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    		SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+    		Date dateObj = df2.parse(date);
+    		List<ToDo> toDoList = ToDo.findByDate(dateObj);
+    		List<ToDoVM> vmList = new ArrayList<>();
+    		for(ToDo todo: toDoList) {
+    			ToDoVM vm = new ToDoVM();
+    			vm.id = todo.id;
+    			vm.task = todo.task;
+    			vm.dueDate = df.format(todo.dueDate);
+    			vm.assignedToId = todo.assignedTo.id;
+    			vm.priority = todo.priority;
+    			vm.status = todo.status;
+    			vm.assignedById = todo.assignedBy.id;
+    			vmList.add(vm);
     		}
     		return ok(Json.toJson(vmList));
     	}

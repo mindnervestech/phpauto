@@ -225,6 +225,14 @@
 							<span class="todo-task">{{schedule.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<span class="todo-task">{{schedule.email}}</span>
                     </li>
+                    <li ng-repeat="todo in toDoDateList" ng-class="{'': todo.priority == 'Low','low': todo.priority == 'Medium','medium': todo.priority == 'High','high': todo.priority == 'Critical'}">
+                         <div class="pull-right">
+                            <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusComplete(todo.id)">Complete</div>
+                            <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusClose(todo.id)">Close</div>
+                        </div>
+                        <span class="todo-task">{{todo.task}}</span><br>
+                        <span class="todo-task">{{todo.dueDate}}</span>
+                    </li>
                 </ul>
                 
             </div>
@@ -485,91 +493,21 @@
             <div class="panel-header panel-controls">
                 <h3><i class="icon-list"></i> <strong>Todo</strong> List</h3>
             </div>
-            <div class="panel-content">
+            <div class="panel-content" style="height:399px;overflow-y:auto;">
                 <ul class="todo-list ui-sortable">
-                    <li class="high">
-                        <span class="span-check">
-                            <input id="task-1" type="checkbox" data-checkbox="icheckbox_square-blue" />
-                            <label for="task-1"></label>
-                        </span>
-                        <span class="todo-task">Send email to Bob Linch</span>
-                        <div class="todo-date clearfix">
-                            <div class="completed-date"></div>
-                            <div class="due-date">Due on <span class="due-date-span">15 December 2014</span></div>
+                    <li ng-repeat="todo in toDoList" ng-class="{'': todo.priority == 'Low','low': todo.priority == 'Medium','medium': todo.priority == 'High','high': todo.priority == 'Critical'}">
+                         <div class="pull-right">
+                            <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusComplete(todo.id)">Complete</div>
+                            <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusClose(todo.id)">Close</div>
                         </div>
-                        <span class="todo-options pull-right">
-                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
-                        </span>
-                        <div class="todo-tags pull-right">
-                            <div class="label label-success">Work</div>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="span-check">
-                            <input id="task-2" type="checkbox" data-checkbox="icheckbox_square-blue" />
-                            <label for="task-2"></label>
-                        </span>
-                        <span class="todo-task">Call datacenter for servers</span>
-                        <div class="todo-date clearfix">
-                            <div class="completed-date"></div>
-                            <div class="due-date">Due on <span class="due-date-span">7 January</span></div>
-                        </div>
-                        <span class="todo-options pull-right">
-                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
-                        </span>
-                    </li>
-                    <li class="low">
-                        <span class="span-check">
-                            <input id="task-3" type="checkbox" data-checkbox="icheckbox_square-blue" />
-                            <label for="task-3"></label>
-                        </span>
-                        <span class="todo-task">Remove all unused icons</span>
-                        <div class="todo-date clearfix">
-                            <div class="completed-date"></div>
-                            <div class="due-date">Due on <span class="due-date-span">5 January</span></div>
-                        </div>
-                        <span class="todo-options pull-right">
-                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
-                        </span>
-                    </li>
-                    <li class="medium">
-                        <span class="span-check">
-                            <input id="task-4" type="checkbox" data-checkbox="icheckbox_square-blue" />
-                            <label for="task-4"></label>
-                        </span>
-                        <span class="todo-task">Read my todo list</span>
-                        <div class="todo-date clearfix">
-                            <div class="completed-date"></div>
-                            <div class="due-date">Due on <span class="due-date-span">4 January</span></div>
-                        </div>
-                        <span class="todo-options pull-right">
-                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
-                        </span>
-                        <div class="todo-tags pull-right">
-                            <div class="label label-info">Tuesday</div>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="span-check">
-                            <input id="task-6" type="checkbox" data-checkbox="icheckbox_square-blue" />
-                            <label for="task-6"></label>
-                        </span>
-                        <span class="todo-task">Have a breakfeast before 12</span>
-                        <div class="todo-date clearfix">
-                            <div class="completed-date"></div>
-                            <div class="due-date">Due on <span class="due-date-span">1 January</span></div>
-                        </div>
-                        <span class="todo-options pull-right">
-                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
-                        </span>
+                        <span class="todo-task">{{todo.task}}</span><br>
+                        <span class="todo-task">{{todo.dueDate}}</span>
                     </li>
                 </ul>
                 <div class="clearfix m-t-10">
-                    <div class="pull-left">
-                        <button type="button" class="btn btn-sm btn-default check-all-tasks">Check All Done</button>
-                    </div>
+                    
                     <div class="pull-right">
-                        <button type="button" class="btn btn-sm btn-dark add-task">Add Task</button>
+                        <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#modal-todo">Add Task</button>
                     </div>
                 </div>
             </div>
@@ -660,12 +598,66 @@
 								            </div>
 								        </div>
 								    </div>
+								    
+								    <div class="modal fade" id="modal-todo" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" id="modaltodoClose" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Create To Do</h4>
+								                </div>
+								                <div class="modal-body">
+								                <form ng-submit="saveToDoData()">
+								                   <div class="form-group col-sm-12">
+													<label class="col-sm-3 control-label" style="text-align: right;">Task</label>
+														<div class="col-sm-5">
+															<input class="form-control form-white" style="" ng-model="todoData.task" type="text" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+													<label class="col-sm-3 control-label" style="text-align: right;">Due Date</label>
+														<div class="col-sm-5">
+															<input data-provide="datepicker" id="cnftodoDate" class="form-control input-sm" ng-model="todoData.dueDate" data-date-format="mm/dd/yyyy" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+													<label class="col-sm-3 control-label" style="text-align: right;">Assigned To</label>
+														<div class="col-sm-5">
+															<select class="form-control form-white" id="userType" ng-model="todoData.assignedToId" required>
+							                                    <option value="">Select</option>
+							                                    <option value="{{user.id}}" ng-repeat="user in usersList">{{user.fullName}}</option>
+							                                </select>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+													<label class="col-sm-3 control-label" style="text-align: right;">Priority</label>
+														<div class="col-sm-5">
+															<select class="form-control form-white" id="userType" ng-model="todoData.priority" required>
+							                                    <option value="">Select</option>
+							                                    <option value="Low">Low</option>
+							                                    <option value="Medium">Medium</option>
+							                                    <option value="High">High</option>
+							                                    <option value="Critical">Critical</option>
+							                                </select>
+														</div>
+													</div>
+														<input type="submit" class="btn btn-default" style="margin-left:29%;margin-top:3%;">
+													</form>
+								                </div>
+								                
+								            </div>
+								        </div>
+								    </div>
+								    
 							<button id="btnStatusSchedule" data-toggle="modal" data-target="#scheduleStatusModal" style="display: none;"></button>
 							<button id="btnCancelSchedule" data-toggle="modal" data-target="#scheduleCancelModal" style="display: none;"></button>
 							<button id="btnCompleteRequest" data-toggle="modal" data-target="#requestCompleteStatusModal" style="display: none;"></button>
 							<button id="btnCancelRequest" data-toggle="modal" data-target="#requestCancelStatusModal" style="display: none;"></button>
 							<button id="btnCompleteTradeIn" data-toggle="modal" data-target="#tradeInCompleteStatusModal" style="display: none;"></button>
 							<button id="btnCancelTradeIn" data-toggle="modal" data-target="#tradeInCancelStatusModal" style="display: none;"></button>
+							
+							<button id="btnCompleteToDo" data-toggle="modal" data-target="#todoCompleteStatusModal" style="display: none;"></button>
+							<button id="btnCancelToDo" data-toggle="modal" data-target="#todoCancelStatusModal" style="display: none;"></button>
 							
 							
 									<div class="modal fade" id="scheduleStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -769,6 +761,41 @@
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
 								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="saveCancelTradeInStatus()">Yes</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								     <div class="modal fade" id="todoCompleteStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Change Todo status</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Are you sure to change status?<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="saveCompleteTodoStatus()">Yes</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    <div class="modal fade" id="todoCancelStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Change Todo status</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Are you sure close status?<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="saveCancelTodoStatus()">Yes</button>
 								                </div>
 								            </div>
 								        </div>
