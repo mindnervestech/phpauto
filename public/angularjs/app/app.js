@@ -22,7 +22,8 @@ var MakeApp = angular
     'ui.grid.edit',
     'ui.grid.pagination',
     'angularFileUpload',
-    'textAngular'
+    'textAngular',
+    'nvd3'
   ])
   .config(function ($routeProvider) {
       $routeProvider

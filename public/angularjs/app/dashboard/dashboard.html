@@ -272,7 +272,35 @@
   				</div>  
 		</div>
 	</div>
-</div>		
+</div>	
+<div class="row">
+	<div class="col-xlg-4">
+		<div class="panel">
+		<div>
+		<p class="btn-default" style="float:left;width:25px;margin-top:15px;margin-left: 1%;cursor: pointer;" ng-click="getWeekChart()">1w</p>
+		<p class="btn-default" style="float:left;width:25px;margin-top:15px;margin-left: 1%;cursor: pointer;" >1m</p>
+		<p class="btn-default" style="float:left;width:25px;margin-top:15px;margin-left: 1%;cursor: pointer;" >3m</p>
+		<p class="btn-default" style="float:left;width:25px;margin-top:15px;margin-left: 1%;cursor: pointer;" >6m</p>
+		<p class="btn-default" style="float:left;width:25px;margin-top:15px;margin-left: 1%;margin-right: 1%;cursor: pointer;" >1y</p>
+		<div class="form-group" style="width:37%;float:left;margin-top:1%;">
+                                
+                                <div class="input-daterange b-datepicker input-group" id="datepicker">
+                                    <input type="text" class="input-sm form-control" name="start" placeholder="Beginning..." />
+                                    <span class="input-group-addon">to</span>
+                                    <input type="text" class="input-sm form-control" name="end" placeholder="Ending..." />
+                                </div>
+                            </div>
+		<label class="col-sm-1 control-label" style="text-align: right;margin-top: 15px;">User</label>
+							<select class="form-control form-white" id="graphUser" style="width:23%;margin-top: 1%;float:left;" ng-model="graphUserId" required>
+								<option value="">Select</option>
+								<option value="{{user.id}}" ng-repeat="user in usersList">{{user.fullName}}</option>
+							</select>
+				<button class="btn btn-primary" style="margin-top:1%;margin-left:3%;">Submit</button>			
+		</div>					
+			<nvd3 options="options" data="data"></nvd3>
+		</div>
+	</div>	
+</div>	
 <div class="row">
     <div class="col-xlg-4">
         <div class="panel">

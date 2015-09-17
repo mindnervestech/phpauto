@@ -87,7 +87,7 @@ public class ToDo extends Model {
 	}
 	
 	public static List<SqlRow> getToDoDates() {
-		SqlQuery q = Ebean.createSqlQuery("select to_do.due_date from to_do where to_do.due_date >= CURDATE() and to_do.`status` = 'Assigned'");
+		SqlQuery q = Ebean.createSqlQuery("select to_do.due_date from to_do where to_do.`status` = 'Assigned'");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}

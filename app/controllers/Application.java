@@ -1589,6 +1589,8 @@ public class Application extends Controller {
 	    	
 	    	if(vm != null){
 	    		vm.setStatus(status);
+	    		Date date = new Date();
+	    		vm.setSoldDate(date);
 	    		vm.update();
 	    	}
 	    	
@@ -4784,6 +4786,8 @@ public class Application extends Controller {
     		AuthUser userObj = AuthUser.findById(userId);
     		Vehicle vehicle = Vehicle.findByVidAndUser(vin, userObj);
     		vehicle.setStatus("Sold");
+    		Date date = new Date();
+    		vehicle.setSoldDate(date);
     		vehicle.update();
     		List<ScheduleTest> scheduleList = ScheduleTest.findByVinAndAssignedUser(user, vin);
     		for(ScheduleTest obj: scheduleList) {
@@ -5193,6 +5197,26 @@ public class Application extends Controller {
     	
     	
     }
-    
+    public static Result getWeekChartData() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Date date = new Date();
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		cal.add(Calendar.DATE, -7);
+    		List<Vehicle> vehicleList = Vehicle.getSoldDataOfWeek(user, "Sold",date,cal.getTime());
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		List<VehicleVM> soldDates = new ArrayList<>();
+    		for(Vehicle vehicle: vehicleList) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.date = df.format(vehicle.soldDate);
+    			vm.price = vehicle.price.toString();
+    			soldDates.add(vm);
+    		}
+    		return ok(Json.toJson(soldDates));
+    	}
+    }
 }
 

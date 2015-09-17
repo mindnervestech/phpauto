@@ -7,6 +7,7 @@ public class VehicleVM {
 	public String model;
 	public String price;
 	public String imageUrl;
+	public String date;
 	
 	public String getVin() {
 		return vin;
@@ -37,6 +38,12 @@ public class VehicleVM {
 	}
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
 	}
 	
 	

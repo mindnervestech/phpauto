@@ -94,6 +94,7 @@ public class Vehicle extends Model {
 	public String steeringWheel;
 	public String steeringWheelControls;
 	public Date postedDate;
+	public Date soldDate;
 	
 	@ManyToMany
 	public List<Site> site;
@@ -692,6 +693,14 @@ public class Vehicle extends Model {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public Date getSoldDate() {
+		return soldDate;
+	}
+
+	public void setSoldDate(Date soldDate) {
+		this.soldDate = soldDate;
+	}
 
 
 	public static Finder<Long,Vehicle> find = new Finder<>(Long.class,Vehicle.class);
@@ -741,6 +750,10 @@ public class Vehicle extends Model {
 	public static List<Vehicle> getVehiclesByMake(AuthUser user,String make) {
 		return find.where().eq("user", user).eq("make", make).findList();
 		
+	}
+	
+	public static List<Vehicle> getSoldDataOfWeek(AuthUser user,String status,Date start,Date end) {
+		return find.where().eq("user", user).eq("status", status).between("soldDate", start, end).findList();
 	}
 	
 	public static List<SqlRow> getDriveTimeAndName(AuthUser user,String vin) {
