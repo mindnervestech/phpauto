@@ -241,15 +241,21 @@
      </div>
 </div>
 
-<div class="row" ng-if="userType == 'Sales Person'">
+<div class="row" ng-if="userType == 'Sales Person' || userType == 'General Manager'">
     <div class="col-xlg-4">
         <div class="panel">
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			    <ul id="myTabs" class="nav nav-tabs" role="tablist">
-			      <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="requestMore()">Request More Info</button></a></li>
+			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="requestMore()">Request More Info</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="testDrive()">Schedule Test Drive</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="tradeIn()">Trade In Inquiries</button></a></li>
-			    	<h2><b style="margin-left:10%;">My Leads</b></h2>
+			    	<h3><b style="margin-left:2%;float: left;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
+			    	<h2><b style="margin-left:10%;" ng-show="userType == 'Sales Person'">My Leads</b></h2>
+			    	<select  class="form-control form-white" ng-show="userType == 'General Manager'" ng-model="salesPerson" ng-change="getAllSalesPersonRecord(salesPerson)" style="width:20%;margin-left: 30px;" >
+                                    <option ng-repeat="item in salesPersonList" ng-selected="$index==0" value="{{item.id}}"  >{{item.fullName}}</option>
+                                    
+                                    
+                                </select>
 			    </ul>
 				    <div id="myTabContent" class="tab-content">
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">

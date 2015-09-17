@@ -5039,5 +5039,160 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result getSalesUser() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		List<AuthUser> SalesUserList = AuthUser.getAllSalesUser();
+    		List<UserVM> vmList = new ArrayList<>();
+    		for(AuthUser obj: SalesUserList) {
+    			UserVM vm = new UserVM();
+    			vm.fullName = obj.firstName+" "+obj.lastName;
+    			vm.id = obj.id;
+    			vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
+    
+    public static Result getAllSalesPersonScheduleTestAssigned(Integer id){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = AuthUser.findById(id);
+	    	List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	Calendar time = Calendar.getInstance();
+	    	for(ScheduleTest info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUserAndStatus(info.vin,userObj);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.bestDay = info.bestDay;
+	    		vm.bestTime = info.bestTime;
+	    		if(info.getConfirmDate() != null) {
+	    			vm.confirmDate = df.format(info.getConfirmDate());
+	    		}
+	    		
+	    		if(info.getConfirmTime() != null) {
+	    			time.setTime(info.getConfirmTime());
+	    			String ampm = "";
+	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+	    				ampm = "PM";
+	    			} else {
+	    				ampm = "AM";
+	    			}
+	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+	    		}
+	    		vm.requestDate = df.format(info.scheduleDate);
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}
+    	
+    	
+    }
+    
+    
+    public static Result getAllSalesPersonRequestInfoSeen(Integer id){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = AuthUser.findById(id);
+	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeen(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	for(RequestMoreInfo info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,userObj);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.requestDate = df.format(info.requestDate);
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
+    
+    	
+    }
+    
+    
+    public static Result getAllSalesPersonTradeInSeen(Integer id){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = AuthUser.findById(id);
+	    	List<TradeIn> listData = TradeIn.findAllSeen(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	for(TradeIn info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		AuthUser userObj = AuthUser.findById(userId);
+	    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin,userObj);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    		}
+	    		vm.name = info.firstName+" "+info.lastName;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.requestDate = df.format(info.tradeDate);
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
+    	
+    	
+    }
+    
 }
 

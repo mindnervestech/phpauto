@@ -167,6 +167,11 @@ public class AuthUser extends Model implements Identity {
 	public static AuthUser findById(Integer id) {
 		return find.byId(id);
 	}
+
+	public static List<AuthUser> getAllSalesUser() {
+	
+		return find.where().eq("role", "Sales Person").findList();
+	}
 	
 
 }

@@ -10,7 +10,8 @@
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http', function ($scope, dashboardService, pluginsService,$http) {
       $scope.$on('$viewContentLoaded', function () {
-          dashboardService.init();
+        
+    	  dashboardService.init();
           pluginsService.init();
           dashboardService.setHeights()
           if ($('.widget-weather').length) {
@@ -74,7 +75,7 @@ angular.module('newApp')
     	 		                                	} ,
     	 		                                 },
     	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'20%',cellEditableCondition: false,
-			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">COMPLETE</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
+			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType == \'Sales Person\'" style="margin-top:2%;margin-left:3%;">COMPLETE</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
 			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			   		                                       if (row.entity.isRead === false) {
 			   		                                         return 'red';
@@ -82,8 +83,7 @@ angular.module('newApp')
 			  		                                	} ,
 			 		                                 },
     	     		                                 ];
-    	  
-
+    	 		
     			 $scope.gridOptions2 = {
      			 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
      			 		    paginationPageSize: 150,
@@ -152,7 +152,7 @@ angular.module('newApp')
      				 		                                	} ,
      			 		                                 },
      			 		                                { name: 'isRead', displayName: 'Seen',enableFiltering: false, width:'17%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-     			 		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" style="float:left;margin-left:3%;"></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)" ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;">Confirm/Reschedule</button>', 
+     			 		                                	 cellTemplate:'<div class="icheck-list"ng-show="grid.appScope.userType == \'Sales Person\'" ><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" style="float:left;margin-left:3%;"></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType == \'Sales Person\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;">Confirm/Reschedule</button>', 
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			  		                                       if (row.entity.isRead === false) {
      			  		                                         return 'red';
@@ -160,7 +160,7 @@ angular.module('newApp')
      			 		                                	} ,
      			 		                                 },
      			 		                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'17%',cellEditableCondition: false,
-      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
+      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelScheduleStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
       			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
        			   		                                       if (row.entity.isRead === false) {
        			   		                                         return 'red';
@@ -233,7 +233,7 @@ angular.module('newApp')
      			 				                                 
      			 				                                 },
      			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'20%',cellEditableCondition: false,
-     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">COMPLETE</button><button type="button" ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
+     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType == \'Sales Person\'"style="margin-top:2%;margin-left:3%;">COMPLETE</button><button type="button" ng-show="grid.appScope.userType == \'Sales Person\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
      	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	       			   		                                       if (row.entity.isRead === false) {
      	       			   		                                         return 'red';
@@ -330,10 +330,25 @@ angular.module('newApp')
     			 		$scope.gridOptions3.data = data;
     			 });
     			  
+    			
+    			  
 	    		$http.get('/getUserType')
 	  			  .success(function(data) {
 	  			 	$scope.userType = data;
+	  			 	if($scope.userType == "General Manager") {
+	  			 		$scope.getGMData();
+	  			 	}
 	  			});
+	    		
+	    		$scope.getGMData = function() {
+		    		$http.get('/getSalesUser')
+		    		.success(function(data){
+		    			$scope.salesPersonList =data;
+		    			$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
+		    		});
+	    		}
+	    		
+            
     			  
     	$scope.reqMore = true;	
     	$scope.testdrv = false;
@@ -375,6 +390,33 @@ angular.module('newApp')
 			 });
 		};
 	
+	
+		
+	
+		$scope.getAllSalesPersonRecord = function(id){
+		
+		       console.log(id);
+	    		$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
+				.success(function(data) {
+				$scope.gridOptions2.data = data;
+			    });
+ 
+    		$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
+			.success(function(data) {
+			$scope.gridOptions.data = data;
+		    });
+
+  
+			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
+				.success(function(data) {
+			 		$scope.gridOptions3.data = data;
+			 });
+			
+			
+	}
+		
+		
+		
     	$scope.soldScheduleStatus = function(entity) {
     		$scope.scheduleStatusVal = entity;
     		$('#btnStatusSchedule').click();
