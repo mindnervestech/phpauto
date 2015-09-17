@@ -752,8 +752,10 @@ public class Vehicle extends Model {
 		
 	}
 	
-	public static List<Vehicle> getSoldDataOfWeek(AuthUser user,String status,Date start,Date end) {
-		return find.where().eq("user", user).eq("status", status).between("soldDate", start, end).findList();
+	public static List<SqlRow> getSoldDataOfWeek(AuthUser user,String status,String start,String end) {
+		SqlQuery q = Ebean.createSqlQuery("select sum(vehicle.price),vehicle.sold_date from vehicle where vehicle.user_id = '"+user.id+"' and vehicle.`status` = 'Sold' and vehicle.sold_date between '"+end+"' and '"+start+"' group by vehicle.sold_date");
+		List<SqlRow> rows = q.findList();
+		return rows;
 	}
 	
 	public static List<SqlRow> getDriveTimeAndName(AuthUser user,String vin) {

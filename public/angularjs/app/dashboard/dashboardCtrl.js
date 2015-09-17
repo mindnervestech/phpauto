@@ -676,6 +676,7 @@ angular.module('newApp')
     		   $http.get('/getWeekChartData')
     	 		.success(function(data) {
     	 			console.log(data);
+    	 			$scope.data[0].values = data;
     	 		});
     	   }     
     	        

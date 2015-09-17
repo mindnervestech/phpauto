@@ -5197,7 +5197,7 @@ public class Application extends Controller {
     	
     	
     }
-    public static Result getWeekChartData() {
+    public static Result getWeekChartData() throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -5206,16 +5206,18 @@ public class Application extends Controller {
     		Calendar cal = Calendar.getInstance();
     		cal.setTime(date);
     		cal.add(Calendar.DATE, -7);
-    		List<Vehicle> vehicleList = Vehicle.getSoldDataOfWeek(user, "Sold",date,cal.getTime());
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    		List<VehicleVM> soldDates = new ArrayList<>();
-    		for(Vehicle vehicle: vehicleList) {
-    			VehicleVM vm = new VehicleVM();
-    			vm.date = df.format(vehicle.soldDate);
-    			vm.price = vehicle.price.toString();
-    			soldDates.add(vm);
+    		List<SqlRow> vehicleList = Vehicle.getSoldDataOfWeek(user, "Sold",df.format(date),df.format(cal.getTime()));
+    		List<List> data = new ArrayList<>();
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			data.add(l);
     		}
-    		return ok(Json.toJson(soldDates));
+    		return ok(Json.toJson(data));
     	}
     }
 }
