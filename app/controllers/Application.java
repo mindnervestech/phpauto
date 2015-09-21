@@ -150,7 +150,7 @@ public class Application extends Controller {
 		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).findUnique();
 		if(user != null) {
 			session("USER_KEY", user.id+"");
-			return  redirect("/dealer/index.html");
+			return  redirect("/dealer/index.html#/");
 		} else {
 			return ok(home.render("Invalid Credentials"));
 		}
