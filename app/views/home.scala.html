@@ -70,8 +70,10 @@
 
 var session = document.cookie;
 
-if(session.indexOf("PLAY_SESSION") == -1) {
-	window.location.href = "/dealer/index.html";
+if(document.cookies != 'undefined' ) {
+	if( session.indexOf("PLAY_SESSION") != -1) {
+		window.location.href = "/dealer/index.html";
+	}
 }
 
  function forgotPassword(){
