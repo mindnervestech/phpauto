@@ -70,7 +70,7 @@
 
 var session = document.cookie;
 
-if(session != "") {
+if(session.indexOf("PLAY_SESSION") == -1) {
 	window.location.href = "/dealer/index.html";
 }
 
