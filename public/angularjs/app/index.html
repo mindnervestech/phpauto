@@ -1123,11 +1123,17 @@
 
 <script language="javascript">
  
+
 var session = document.cookie;
- 
-if(session.indexOf("PLAY_SESSION") == -1) {
+
+if(document.cookies != undefined ) {
+	if( session.indexOf("PLAY_SESSION") == -1) {
+		window.location.href = "/login";
+	}
+} else {
 	window.location.href = "/login";
 }
+
 
 function goBack() {
     window.history.back();
