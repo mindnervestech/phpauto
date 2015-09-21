@@ -173,5 +173,9 @@ public class AuthUser extends Model implements Identity {
 		return find.where().eq("role", "Sales Person").findList();
 	}
 	
-
+	public static List<AuthUser> getAllUsers() {
+		
+		return find.all();
+	}
+	
 }

@@ -79,6 +79,7 @@ import scala.Array;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
 import viewmodel.AudioVM;
+import viewmodel.BarChartVM;
 import viewmodel.BlogVM;
 import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
@@ -5197,7 +5198,7 @@ public class Application extends Controller {
     	
     	
     }
-    public static Result getWeekChartData() throws ParseException {
+    public static Result getWeekChartData(Integer id) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -5207,16 +5208,290 @@ public class Application extends Controller {
     		cal.setTime(date);
     		cal.add(Calendar.DATE, -7);
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    		List<SqlRow> vehicleList = Vehicle.getSoldDataOfWeek(user, "Sold",df.format(date),df.format(cal.getTime()));
-    		List<List> data = new ArrayList<>();
+    		List<AuthUser> usersList = new ArrayList<>();
+    		if(id == 0) {
+    			usersList = AuthUser.getAllUsers();
+    		} else {
+    			AuthUser userData = AuthUser.findById(id);
+    			usersList.add(userData);
+    		}
+    		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList, df.format(date), df.format(cal.getTime()));
+    		List<BarChartVM> data = new ArrayList<>();
+    		BarChartVM quantity = new BarChartVM();
+    		BarChartVM price = new BarChartVM();
+    		List<List> quantityListData = new ArrayList<>();
+    		List<List> priceListData = new ArrayList<>();
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("count(*)"));
+    			quantityListData.add(l);
+    		}
+    		quantity.key = "Quantity";
+    		quantity.bar = true;
+    		quantity.values = quantityListData;
+    		data.add(quantity);
     		for(SqlRow vehicle: vehicleList) {
     			List l = new ArrayList();
     			Date dt = (Date)vehicle.get("sold_date");
     			cal.setTime(dt);
     			l.add(cal.getTimeInMillis());
     			l.add(vehicle.getString("sum(vehicle.price)"));
-    			data.add(l);
+    			priceListData.add(l);
     		}
+    		price.key = "Price";
+    		price.values = priceListData;
+    		data.add(price);
+    		return ok(Json.toJson(data));
+    	}
+    }
+    
+    public static Result getMonthChartData(Integer id) throws ParseException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Date date = new Date();
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		cal.add(Calendar.DATE, -30);
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		List<AuthUser> usersList = new ArrayList<>();
+    		if(id == 0) {
+    			usersList = AuthUser.getAllUsers();
+    		} else {
+    			AuthUser userData = AuthUser.findById(id);
+    			usersList.add(userData);
+    		}
+    		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,df.format(date),df.format(cal.getTime()));
+    		List<BarChartVM> data = new ArrayList<>();
+    		BarChartVM quantity = new BarChartVM();
+    		BarChartVM price = new BarChartVM();
+    		List<List> quantityListData = new ArrayList<>();
+    		List<List> priceListData = new ArrayList<>();
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("count(*)"));
+    			quantityListData.add(l);
+    		}
+    		quantity.key = "Quantity";
+    		quantity.bar = true;
+    		quantity.values = quantityListData;
+    		data.add(quantity);
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			priceListData.add(l);
+    		}
+    		price.key = "Price";
+    		price.values = priceListData;
+    		data.add(price);
+    		return ok(Json.toJson(data));
+    	}
+    }
+    
+    public static Result getThreeMonthChartData(Integer id) throws ParseException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Date date = new Date();
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		cal.add(Calendar.DATE, -90);
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		List<AuthUser> usersList = new ArrayList<>();
+    		if(id == 0) {
+    			usersList = AuthUser.getAllUsers();
+    		} else {
+    			AuthUser userData = AuthUser.findById(id);
+    			usersList.add(userData);
+    		}
+    		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,df.format(date),df.format(cal.getTime()));
+    		List<BarChartVM> data = new ArrayList<>();
+    		BarChartVM quantity = new BarChartVM();
+    		BarChartVM price = new BarChartVM();
+    		List<List> quantityListData = new ArrayList<>();
+    		List<List> priceListData = new ArrayList<>();
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("count(*)"));
+    			quantityListData.add(l);
+    		}
+    		quantity.key = "Quantity";
+    		quantity.bar = true;
+    		quantity.values = quantityListData;
+    		data.add(quantity);
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			priceListData.add(l);
+    		}
+    		price.key = "Price";
+    		price.values = priceListData;
+    		data.add(price);
+    		return ok(Json.toJson(data));
+    	}
+    }
+    
+    public static Result getSixMonthChartData(Integer id) throws ParseException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Date date = new Date();
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		cal.add(Calendar.DATE, -180);
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		List<AuthUser> usersList = new ArrayList<>();
+    		if(id == 0) {
+    			usersList = AuthUser.getAllUsers();
+    		} else {
+    			AuthUser userData = AuthUser.findById(id);
+    			usersList.add(userData);
+    		}
+    		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,df.format(date),df.format(cal.getTime()));
+    		List<BarChartVM> data = new ArrayList<>();
+    		BarChartVM quantity = new BarChartVM();
+    		BarChartVM price = new BarChartVM();
+    		List<List> quantityListData = new ArrayList<>();
+    		List<List> priceListData = new ArrayList<>();
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("count(*)"));
+    			quantityListData.add(l);
+    		}
+    		quantity.key = "Quantity";
+    		quantity.bar = true;
+    		quantity.values = quantityListData;
+    		data.add(quantity);
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			priceListData.add(l);
+    		}
+    		price.key = "Price";
+    		price.values = priceListData;
+    		data.add(price);
+    		return ok(Json.toJson(data));
+    	}
+    }
+    
+    public static Result getYearChartData(Integer id) throws ParseException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Date date = new Date();
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		cal.add(Calendar.DATE, -365);
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		List<AuthUser> usersList = new ArrayList<>();
+    		if(id == 0) {
+    			usersList = AuthUser.getAllUsers();
+    		} else {
+    			AuthUser userData = AuthUser.findById(id);
+    			usersList.add(userData);
+    		}
+    		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,df.format(date),df.format(cal.getTime()));
+    		List<BarChartVM> data = new ArrayList<>();
+    		BarChartVM quantity = new BarChartVM();
+    		BarChartVM price = new BarChartVM();
+    		List<List> quantityListData = new ArrayList<>();
+    		List<List> priceListData = new ArrayList<>();
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("count(*)"));
+    			quantityListData.add(l);
+    		}
+    		quantity.key = "Quantity";
+    		quantity.bar = true;
+    		quantity.values = quantityListData;
+    		data.add(quantity);
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			priceListData.add(l);
+    		}
+    		price.key = "Price";
+    		price.values = priceListData;
+    		data.add(price);
+    		return ok(Json.toJson(data));
+    	}
+    }
+    
+    public static Result getRangeChartData(Integer id,String start,String end) throws ParseException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Calendar cal = Calendar.getInstance();
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		System.out.println(start+"     "+end);
+    		List<AuthUser> usersList = new ArrayList<>();
+    		if(id == 0) {
+    			usersList = AuthUser.getAllUsers();
+    		} else {
+    			AuthUser userData = AuthUser.findById(id);
+    			usersList.add(userData);
+    		}
+    		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,end,start);
+    		List<BarChartVM> data = new ArrayList<>();
+    		BarChartVM quantity = new BarChartVM();
+    		BarChartVM price = new BarChartVM();
+    		List<List> quantityListData = new ArrayList<>();
+    		List<List> priceListData = new ArrayList<>();
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("count(*)"));
+    			quantityListData.add(l);
+    		}
+    		quantity.key = "Quantity";
+    		quantity.bar = true;
+    		quantity.values = quantityListData;
+    		data.add(quantity);
+    		for(SqlRow vehicle: vehicleList) {
+    			List l = new ArrayList();
+    			Date dt = (Date)vehicle.get("sold_date");
+    			cal.setTime(dt);
+    			l.add(cal.getTimeInMillis());
+    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			priceListData.add(l);
+    		}
+    		price.key = "Price";
+    		price.values = priceListData;
+    		data.add(price);
     		return ok(Json.toJson(data));
     	}
     }
