@@ -384,15 +384,15 @@ MakeApp.run(function($rootScope, $location, $http,$q) {
 	$.ajax({
         url: "/getUserPermissions",
         type: "GET",
-        async: false,
+        //async: false,
         success: function(data) {
         	$rootScope.$apply(function(){
         		$rootScope.permission = data;
         	});
         }
     });
-	
-	sleep(1000);
+    sleep(1250);
+    
 });
 function sleep(milliseconds) {
 	  var start = new Date().getTime();
