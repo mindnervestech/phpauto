@@ -649,7 +649,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
             <table width="600" height="20" align="center" border="0" cellspacing="0" cellpadding="0" style="background-color: #ffffff; min-width:600px;" class="full-width">
               <tbody><tr>
                 <td valign="top" height="20">
-                <img src="images/space.png" width="20" alt="space" style="max-height: 20px; max-width: 20px; display: block;"> </td>
+                <img src="$hostnameUrl/email_images/space.png" width="20" alt="space" style="max-height: 20px; max-width: 20px; display: block;"> </td>
               </tr>
             </tbody></table>
           </td>
