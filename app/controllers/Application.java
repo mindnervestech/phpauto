@@ -1700,8 +1700,8 @@ public class Application extends Controller {
     	List<SqlRow> brandFollowers = FollowBrand.getAllBrandFollowers(user);
     	
     	for(SqlRow row: brandFollowers) {
-    		
-    			SiteLogo logo = SiteLogo.findByUser(user);
+    			AuthUser logoUser = AuthUser.findById(userId);
+	    	    SiteLogo logo = SiteLogo.findByUser(logoUser);
 		    	String email = (String) row.get("email");
 		    	List<FollowBrand> brandList = FollowBrand.getBrands(user, email);
 		    	for(FollowBrand brandObj: brandList) {
@@ -1785,7 +1785,8 @@ public class Application extends Controller {
 		
 		AuthUser user = AuthUser.findById(userId);
 		MyProfile profile = MyProfile.findByUser(user);
-		SiteLogo logo = SiteLogo.findByUser(user);
+		AuthUser logoUser = AuthUser.findById(userId);
+ 	    SiteLogo logo = SiteLogo.findByUser(logoUser);
 		
 		List<PriceAlert> priceAlertList = PriceAlert.getEmailsByStatus(user);
 		for(PriceAlert alert: priceAlertList) {
@@ -4502,7 +4503,8 @@ public class Application extends Controller {
     		scheduleTest.setConfirmTime(parseTime.parse(vm.confirmTime));
     		scheduleTest.setEmail(vm.email);
     		scheduleTest.update();
-    		SiteLogo logo = SiteLogo.findByUser(userObj);
+    		AuthUser logoUser = AuthUser.findById(userId);
+	    	SiteLogo logo = SiteLogo.findByUser(logoUser);
     		Properties props = new Properties();
     		props.put("mail.smtp.auth", "true");
     		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -4646,7 +4648,8 @@ public class Application extends Controller {
 			  		} 
 		    	  } 
 	    	   } 
-	    	   
+	    	   AuthUser logoUser = AuthUser.findById(userId);
+	    	   SiteLogo logo = SiteLogo.findByUser(logoUser);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
@@ -4662,17 +4665,36 @@ public class Application extends Controller {
 		  
 		 		try{
 		 		   
-		  			Message feedback = new MimeMessage(session);
-		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
-		  			feedback.setRecipients(Message.RecipientType.TO,
+		  			Message message = new MimeMessage(session);
+		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			message.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(userObj.email));
-		  			feedback.setSubject("Your username and password ");	  			
-		  			 BodyPart messageBodyPart = new MimeBodyPart();	  	  
-		  	         messageBodyPart.setText("Your username is "+userObj.email+" "+"Your password is "+userObj.password);	 	    
-		  	         Multipart multipart = new MimeMultipart();	  	    
-		  	         multipart.addBodyPart(messageBodyPart);	            
-		  	         feedback.setContent(multipart);
-		  		     Transport.send(feedback);
+		  			message.setSubject("Your username and password ");	  			
+		  			Multipart multipart = new MimeMultipart();
+	    			BodyPart messageBodyPart = new MimeBodyPart();
+	    			messageBodyPart = new MimeBodyPart();
+	    			
+	    			VelocityEngine ve = new VelocityEngine();
+	    			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+	    			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+	    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+	    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+	    			ve.init();
+	    			
+	    			Template t = ve.getTemplate("/public/emailTemplate/newUserTemplate.vm"); 
+	    	        VelocityContext context = new VelocityContext();
+	    	        context.put("hostnameUrl", imageUrlPath);
+	    	        context.put("siteLogo", logo.logoImagePath);
+	    	        context.put("username", userObj.email);
+	    	        context.put("password", userObj.password);
+	    	        StringWriter writer = new StringWriter();
+	    	        t.merge( context, writer );
+	    	        String content = writer.toString(); 
+	    			
+	    			messageBodyPart.setContent(content, "text/html");
+	    			multipart.addBodyPart(messageBodyPart);
+	    			message.setContent(multipart);
+	    			Transport.send(message);
 		       		} catch (MessagingException e) {
 		  			  throw new RuntimeException(e);
 		  		}
