@@ -4621,6 +4621,7 @@ public class Application extends Controller {
 	    	   userObj.save();
 	    	   
 	    	   MultipartFormData body = request().body().asMultipartFormData();
+	    	   if(body != null) {
 	    		FilePart picture = body.getFile("file0");
 		    	  if (picture != null) {
 		    	    String fileName = picture.getFilename();
@@ -4644,7 +4645,7 @@ public class Application extends Controller {
 			  			e.printStackTrace();
 			  		} 
 		    	  } 
-		    	  
+	    	   } 
 	    	   
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");

@@ -99,6 +99,24 @@ angular.module('newApp')
 	   
 	
 	$scope.saveImage = function() {
+		if(angular.isUndefined(logofile)) {
+			$http.post('/uploadImageFile',$scope.user)
+			.success(function(data) {
+				$scope.user.firstName=" ";
+	            $scope.user.lastName=" ";
+	            $scope.user.email=" ";
+	            $scope.user.phone=" ";
+	            $scope.user.userType=" ";
+	            $scope.user.img=" ";
+	            $('#btnClose').click();
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});
+	            $scope.init();
+			});
+		} else {
 		   $upload.upload({
 	            url : '/uploadImageFile',
 	            method: 'post',
@@ -117,10 +135,11 @@ angular.module('newApp')
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "Photo saved successfully",
+				    text: "User saved successfully",
 				});
 	            $scope.init();
 	        });
+		}
 	   }
 	
 	$scope.updateImage = function() {
