@@ -761,7 +761,7 @@ public class Vehicle extends Model {
 				userCondition = userCondition+"vehicle.user_id = '"+userIds.get(i).id+"'";
 			}
 		}
-		SqlQuery q = Ebean.createSqlQuery("select sum(vehicle.price),vehicle.sold_date,count(*) from vehicle where (vehicle.sold_date between '"+end+"' and '"+start+"') and "+userCondition+" and vehicle.`status` = 'Sold' group by vehicle.sold_date");
+		SqlQuery q = Ebean.createSqlQuery("select sum(vehicle.price),vehicle.sold_date,count(*) from vehicle where (vehicle.sold_date between '"+end+"' and '"+start+"') and ("+userCondition+") and vehicle.`status` = 'Sold' group by vehicle.sold_date");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}

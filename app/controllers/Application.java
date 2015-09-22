@@ -97,6 +97,7 @@ import viewmodel.VehicleVM;
 import viewmodel.VirtualTourVM;
 import viewmodel.profileVM;
 import views.html.home;
+import views.html.index;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Ebean;
@@ -151,7 +152,13 @@ public class Application extends Controller {
 		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).findUnique();
 		if(user != null) {
 			session("USER_KEY", user.id+"");
-			return  redirect("/dealer/index.html#/");
+			//return  redirect("/dealer/index.html#/");
+    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+    		List<Permission> userPermissions = user.getPermission();
+    		for(Permission per: userPermissions) {
+    			permission.put(per.name, true);
+    		}
+    		return ok(index.render(Json.stringify(Json.toJson(permission))));
 		} else {
 			return ok(home.render("Invalid Credentials"));
 		}
@@ -169,9 +176,16 @@ public class Application extends Controller {
 	
     public static Result index() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return redirect("/login");
     	} else {
-    		return redirect("/dealer/index.html");
+    		//return redirect("/dealer/index.html");
+    		AuthUser user = getLocalUser();
+    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+    		List<Permission> userPermissions = user.getPermission();
+    		for(Permission per: userPermissions) {
+    			permission.put(per.name, true);
+    		}
+    		return ok(index.render(Json.stringify(Json.toJson(permission))));
     	}
     }
 	
@@ -5478,7 +5492,6 @@ public class Application extends Controller {
     		AuthUser user = getLocalUser();
     		Calendar cal = Calendar.getInstance();
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    		System.out.println(start+"     "+end);
     		List<AuthUser> usersList = new ArrayList<>();
     		if(id == 0) {
     			usersList = AuthUser.getAllUsers();
