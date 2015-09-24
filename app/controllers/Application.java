@@ -5254,31 +5254,19 @@ public class Application extends Controller {
     		}
     		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList, df.format(date), df.format(cal.getTime()));
     		List<BarChartVM> data = new ArrayList<>();
-    		BarChartVM quantity = new BarChartVM();
     		BarChartVM price = new BarChartVM();
-    		List<List> quantityListData = new ArrayList<>();
     		List<List> priceListData = new ArrayList<>();
+    		
     		for(SqlRow vehicle: vehicleList) {
     			List l = new ArrayList();
     			Date dt = (Date)vehicle.get("sold_date");
     			cal.setTime(dt);
     			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("count(*)"));
-    			quantityListData.add(l);
-    		}
-    		quantity.key = "Quantity";
-    		quantity.bar = true;
-    		quantity.values = quantityListData;
-    		data.add(quantity);
-    		for(SqlRow vehicle: vehicleList) {
-    			List l = new ArrayList();
-    			Date dt = (Date)vehicle.get("sold_date");
-    			cal.setTime(dt);
-    			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			l.add(Float.parseFloat(vehicle.getString("sum(vehicle.price)")));
     			priceListData.add(l);
     		}
-    		price.key = "Price";
+    		price.key = "Quantity";
+    		price.bar = true;
     		price.values = priceListData;
     		data.add(price);
     		return ok(Json.toJson(data));
@@ -5304,31 +5292,19 @@ public class Application extends Controller {
     		}
     		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,df.format(date),df.format(cal.getTime()));
     		List<BarChartVM> data = new ArrayList<>();
-    		BarChartVM quantity = new BarChartVM();
     		BarChartVM price = new BarChartVM();
-    		List<List> quantityListData = new ArrayList<>();
     		List<List> priceListData = new ArrayList<>();
+    		
     		for(SqlRow vehicle: vehicleList) {
     			List l = new ArrayList();
     			Date dt = (Date)vehicle.get("sold_date");
     			cal.setTime(dt);
     			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("count(*)"));
-    			quantityListData.add(l);
-    		}
-    		quantity.key = "Quantity";
-    		quantity.bar = true;
-    		quantity.values = quantityListData;
-    		data.add(quantity);
-    		for(SqlRow vehicle: vehicleList) {
-    			List l = new ArrayList();
-    			Date dt = (Date)vehicle.get("sold_date");
-    			cal.setTime(dt);
-    			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			l.add(Float.parseFloat(vehicle.getString("sum(vehicle.price)")));
     			priceListData.add(l);
     		}
-    		price.key = "Price";
+    		price.key = "Quantity";
+    		price.bar = true;
     		price.values = priceListData;
     		data.add(price);
     		return ok(Json.toJson(data));
@@ -5354,31 +5330,19 @@ public class Application extends Controller {
     		}
     		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,df.format(date),df.format(cal.getTime()));
     		List<BarChartVM> data = new ArrayList<>();
-    		BarChartVM quantity = new BarChartVM();
     		BarChartVM price = new BarChartVM();
-    		List<List> quantityListData = new ArrayList<>();
     		List<List> priceListData = new ArrayList<>();
+    		
     		for(SqlRow vehicle: vehicleList) {
     			List l = new ArrayList();
     			Date dt = (Date)vehicle.get("sold_date");
     			cal.setTime(dt);
     			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("count(*)"));
-    			quantityListData.add(l);
-    		}
-    		quantity.key = "Quantity";
-    		quantity.bar = true;
-    		quantity.values = quantityListData;
-    		data.add(quantity);
-    		for(SqlRow vehicle: vehicleList) {
-    			List l = new ArrayList();
-    			Date dt = (Date)vehicle.get("sold_date");
-    			cal.setTime(dt);
-    			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			l.add(Float.parseFloat(vehicle.getString("sum(vehicle.price)")));
     			priceListData.add(l);
     		}
-    		price.key = "Price";
+    		price.key = "Quantity";
+    		price.bar = true;
     		price.values = priceListData;
     		data.add(price);
     		return ok(Json.toJson(data));
@@ -5404,31 +5368,19 @@ public class Application extends Controller {
     		}
     		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,df.format(date),df.format(cal.getTime()));
     		List<BarChartVM> data = new ArrayList<>();
-    		BarChartVM quantity = new BarChartVM();
     		BarChartVM price = new BarChartVM();
-    		List<List> quantityListData = new ArrayList<>();
     		List<List> priceListData = new ArrayList<>();
+    		
     		for(SqlRow vehicle: vehicleList) {
     			List l = new ArrayList();
     			Date dt = (Date)vehicle.get("sold_date");
     			cal.setTime(dt);
     			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("count(*)"));
-    			quantityListData.add(l);
-    		}
-    		quantity.key = "Quantity";
-    		quantity.bar = true;
-    		quantity.values = quantityListData;
-    		data.add(quantity);
-    		for(SqlRow vehicle: vehicleList) {
-    			List l = new ArrayList();
-    			Date dt = (Date)vehicle.get("sold_date");
-    			cal.setTime(dt);
-    			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			l.add(Float.parseFloat(vehicle.getString("sum(vehicle.price)")));
     			priceListData.add(l);
     		}
-    		price.key = "Price";
+    		price.key = "Quantity";
+    		price.bar = true;
     		price.values = priceListData;
     		data.add(price);
     		return ok(Json.toJson(data));
@@ -5454,31 +5406,19 @@ public class Application extends Controller {
     		}
     		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,df.format(date),df.format(cal.getTime()));
     		List<BarChartVM> data = new ArrayList<>();
-    		BarChartVM quantity = new BarChartVM();
     		BarChartVM price = new BarChartVM();
-    		List<List> quantityListData = new ArrayList<>();
     		List<List> priceListData = new ArrayList<>();
+    		
     		for(SqlRow vehicle: vehicleList) {
     			List l = new ArrayList();
     			Date dt = (Date)vehicle.get("sold_date");
     			cal.setTime(dt);
     			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("count(*)"));
-    			quantityListData.add(l);
-    		}
-    		quantity.key = "Quantity";
-    		quantity.bar = true;
-    		quantity.values = quantityListData;
-    		data.add(quantity);
-    		for(SqlRow vehicle: vehicleList) {
-    			List l = new ArrayList();
-    			Date dt = (Date)vehicle.get("sold_date");
-    			cal.setTime(dt);
-    			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			l.add(Float.parseFloat(vehicle.getString("sum(vehicle.price)")));
     			priceListData.add(l);
     		}
-    		price.key = "Price";
+    		price.key = "Quantity";
+    		price.bar = true;
     		price.values = priceListData;
     		data.add(price);
     		return ok(Json.toJson(data));
@@ -5501,35 +5441,225 @@ public class Application extends Controller {
     		}
     		List<SqlRow> vehicleList = Vehicle.getSoldDataOfRange(user, usersList,end,start);
     		List<BarChartVM> data = new ArrayList<>();
-    		BarChartVM quantity = new BarChartVM();
     		BarChartVM price = new BarChartVM();
-    		List<List> quantityListData = new ArrayList<>();
     		List<List> priceListData = new ArrayList<>();
+    		
     		for(SqlRow vehicle: vehicleList) {
     			List l = new ArrayList();
     			Date dt = (Date)vehicle.get("sold_date");
     			cal.setTime(dt);
     			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("count(*)"));
-    			quantityListData.add(l);
-    		}
-    		quantity.key = "Quantity";
-    		quantity.bar = true;
-    		quantity.values = quantityListData;
-    		data.add(quantity);
-    		for(SqlRow vehicle: vehicleList) {
-    			List l = new ArrayList();
-    			Date dt = (Date)vehicle.get("sold_date");
-    			cal.setTime(dt);
-    			l.add(cal.getTimeInMillis());
-    			l.add(vehicle.getString("sum(vehicle.price)"));
+    			l.add(Float.parseFloat(vehicle.getString("sum(vehicle.price)")));
     			priceListData.add(l);
     		}
-    		price.key = "Price";
+    		price.key = "Quantity";
+    		price.bar = true;
     		price.values = priceListData;
     		data.add(price);
     		return ok(Json.toJson(data));
     	}
     }
+    
+    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,Integer id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Date date = new Date();
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+    		String start = "";
+			String end = "";
+    		if(week.equals("true")) {
+    			cal.add(Calendar.DATE, -7);
+    			start = df.format(cal.getTime());
+    			end = df.format(date);
+			}
+			
+			if(month.equals("true")) {
+				cal.add(Calendar.DATE, -30);
+				start = df.format(cal.getTime());
+    			end = df.format(date);
+			}
+			
+			if(year.equals("true")) {
+				cal.add(Calendar.DATE, -365);
+				start = df.format(cal.getTime());
+    			end = df.format(date);
+			}
+			
+			List<UserVM> userList = new ArrayList<>();
+    		if(top.equals("true")) {
+    			if(id == 0) {
+    				List<AuthUser> salesUsersList = AuthUser.getAllSalesUser();
+    				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
+    				int index=0;
+    				for(AuthUser sales: salesUsersList) {
+    					SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
+        				UserVM vm = new UserVM();
+        				vm.fullName = sales.firstName+" "+sales.lastName;
+        				if(sales.imageUrl != null) {
+        					vm.imageUrl = sales.imageUrl;
+        				} else {
+        					vm.imageUrl = "/profile-pic.jpg";
+        				}
+        				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
+        					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
+        				} else {
+        					vm.successRate = 0;
+        				}
+        				if(rowData.getString("leads") != null) {
+        					vm.currentLeads = rowData.getString("leads");
+        				} else {
+        					vm.currentLeads = "";
+        				}
+        				if(rowData.getString("amount") != null) {
+        					vm.salesAmount = rowData.getString("amount");
+        				} else {
+        					vm.salesAmount = "0";
+        				}
+        				tempuserList[index] = vm;
+        				index++;
+    				}
+    				
+    				for(int i=0;i<tempuserList.length-1;i++) {
+    					for(int j=i+1;j<tempuserList.length;j++) {
+    						if(tempuserList[i].successRate <= tempuserList[j].successRate) {
+    							UserVM temp = tempuserList[i];
+    							tempuserList[i] = tempuserList[j];
+    							tempuserList[j] = temp;
+    						}
+    					}
+    				}
+    				
+    				if(tempuserList.length >=1){
+    					userList.add(tempuserList[0]);
+    				}	
+    				if(tempuserList.length >=2){
+    					userList.add(tempuserList[1]);
+    				}
+    				if(tempuserList.length >=3){
+    					userList.add(tempuserList[2]);
+    				}	
+    			  }	
+    			
+    			if(id != 0) {
+    				AuthUser salesUser = AuthUser.findById(id);
+    				SqlRow rowData = ScheduleTest.getTopPerformers(start, end, id);
+    				UserVM vm = new UserVM();
+    				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
+    				if(salesUser.imageUrl != null) {
+    					vm.imageUrl = salesUser.imageUrl;
+    				} else {
+    					vm.imageUrl = "/profile-pic.jpg";
+    				}
+    				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
+    					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
+    				} else {
+    					vm.successRate = 0;
+    				}
+    				if(rowData.getString("leads") != null) {
+    					vm.currentLeads = rowData.getString("leads");
+    				} else {
+    					vm.currentLeads = "";
+    				}
+    				if(rowData.getString("amount") != null) {
+    					vm.salesAmount = rowData.getString("amount");
+    				} else {
+    					vm.salesAmount = "0";
+    				}
+    				userList.add(vm);
+    			}
+    		}
+    		
+    		if(worst.equals("true")) {
+    			if(id == 0) {
+    				List<AuthUser> salesUsersList = AuthUser.getAllSalesUser();
+    				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
+    				int index = 0;
+    				for(AuthUser sales: salesUsersList) {
+    					SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
+        				UserVM vm = new UserVM();
+        				vm.fullName = sales.firstName+" "+sales.lastName;
+        				if(sales.imageUrl != null) {
+        					vm.imageUrl = sales.imageUrl;
+        				} else {
+        					vm.imageUrl = "/profile-pic.jpg";
+        				}
+        				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
+        					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
+        				} else {
+        					vm.successRate = 0;
+        				}
+        				if(rowData.getString("leads") != null) {
+        					vm.currentLeads = rowData.getString("leads");
+        				} else {
+        					vm.currentLeads = "";
+        				}
+        				if(rowData.getString("amount") != null) {
+        					vm.salesAmount = rowData.getString("amount");
+        				} else {
+        					vm.salesAmount = "0";
+        				}
+        				tempuserList[index] = vm;
+        				index++;
+    				}
+    				
+    				for(int i=0;i<tempuserList.length-1;i++) {
+    					for(int j=i+1;j<tempuserList.length;j++) {
+    						if(tempuserList[i].successRate >= tempuserList[j].successRate) {
+    							UserVM temp = tempuserList[i];
+    							tempuserList[i] = tempuserList[j];
+    							tempuserList[j] = temp;
+    						}
+    					}
+    				}
+    				
+    				if(tempuserList.length >=1){
+    					userList.add(tempuserList[0]);
+    				}	
+    				if(tempuserList.length >=2){
+    					userList.add(tempuserList[1]);
+    				}
+    				if(tempuserList.length >=3){
+    					userList.add(tempuserList[2]);
+    				}	
+    				
+    			}
+    			
+    			if(id != 0) {
+    				AuthUser salesUser = AuthUser.findById(id);
+    				SqlRow rowData = ScheduleTest.getTopPerformers(start, end, id);
+    				UserVM vm = new UserVM();
+    				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
+    				if(salesUser.imageUrl != null) {
+    					vm.imageUrl = salesUser.imageUrl;
+    				} else {
+    					vm.imageUrl = "/profile-pic.jpg";
+    				}
+    				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
+    					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
+    				} else {
+    					vm.successRate = 0;
+    				}
+    				if(rowData.getString("leads") != null) {
+    					vm.currentLeads = rowData.getString("leads");
+    				} else {
+    					vm.currentLeads = "";
+    				}
+    				if(rowData.getString("amount") != null) {
+    					vm.salesAmount = rowData.getString("amount");
+    				} else {
+    					vm.salesAmount = "0";
+    				}
+    				userList.add(vm);
+    			}
+    		}
+    		
+    		
+    		return ok(Json.toJson(userList));
+    	}
+    }
+    
 }
 

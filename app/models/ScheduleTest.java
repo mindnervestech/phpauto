@@ -165,4 +165,10 @@ public class ScheduleTest extends Model {
 		return rows;
 	}
 	
+	public static SqlRow getTopPerformers(String start,String end,Integer id) {
+		SqlQuery q = Ebean.createSqlQuery("select count(*) as total,(select count(*) from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and schedule_test.lead_status = 'SUCCESSFUL') as success,(select sum(vehicle.price) from vehicle where vehicle.vin in (select schedule_test.vin from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and schedule_test.lead_status = 'SUCCESSFUL') ) as amount,(select count(*) from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and schedule_test.lead_status is null) as leads from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and (schedule_test.lead_status = 'SUCCESSFUL' or schedule_test.lead_status = 'FAILED')");
+		SqlRow row = q.findUnique();
+		return row;
+	}
+	
 }

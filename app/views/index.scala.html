@@ -645,7 +645,6 @@
 var session = document.cookie;
 
 var permissions = @Html(permissions);
-console.log(permissions);
 if(document.cookie != undefined ) {
 	if( session.indexOf("PLAY_SESSION") == -1) {
 		window.location.href = "/login";

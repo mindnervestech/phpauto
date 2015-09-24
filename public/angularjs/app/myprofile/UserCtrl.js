@@ -143,7 +143,7 @@ angular.module('newApp')
 	   }
 	
 	$scope.updateImage = function() {
-		
+		delete $scope.userData.successRate;
 		   $upload.upload({
 	            url : '/updateImageFile',
 	            method: 'post',

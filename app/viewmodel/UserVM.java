@@ -11,4 +11,8 @@ public class UserVM {
 	public String userType;
 	public String imageName;
 	public String imageUrl;
+	public Integer successRate;
+	public String currentLeads;
+	public String salesAmount;
+	
 }

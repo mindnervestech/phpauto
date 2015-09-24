@@ -125,3 +125,4 @@ GET		/getThreeMonthChartData/:id		controllers.Application.getThreeMonthChartData
 GET		/getSixMonthChartData/:id		controllers.Application.getSixMonthChartData(id:Integer)
 GET		/getYearChartData/:id			controllers.Application.getYearChartData(id:Integer)
 GET		/getRangeChartData/:id/:start/:end		controllers.Application.getRangeChartData(id:Integer,start:String,end:String)
+GET		/getPerformanceOfUser/:top/:worst/:week/:month/:year/:id	controllers.Application.getPerformanceOfUser(top:String,worst:String,week:String,month:String,year:String,id:Integer)
