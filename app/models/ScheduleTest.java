@@ -32,6 +32,7 @@ public class ScheduleTest extends Model {
 	public Date confirmDate;
 	public Date confirmTime;
 	public String leadStatus;
+	public String note;
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
@@ -128,6 +129,12 @@ public class ScheduleTest extends Model {
 	public void setLeadStatus(String leadStatus) {
 		this.leadStatus = leadStatus;
 	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
 
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
 	
@@ -135,9 +142,14 @@ public class ScheduleTest extends Model {
 		return find.byId(id);
 	}
 	
-	public static List<ScheduleTest> findAllByDate(AuthUser user) {
+	public static List<ScheduleTest> findAllByDate() {
 		return find.where().eq("assignedTo", null).eq("isRead", 0).orderBy("scheduleDate desc").findList();
 	}
+	
+	public static List<ScheduleTest> findAllData() {
+		return find.all();
+	}
+	
 	
 	public static List<ScheduleTest> findAllAssigned(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("leadStatus", null).orderBy("scheduleDate desc").findList();

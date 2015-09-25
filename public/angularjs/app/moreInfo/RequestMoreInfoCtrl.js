@@ -11,7 +11,7 @@ angular.module('newApp')
  		 $scope.gridOptions.enableHorizontalScrollbar = 0;
  		 $scope.gridOptions.enableVerticalScrollbar = 2;
  		 $scope.gridOptions.columnDefs = [
- 		                                 { name: 'vin', displayName: 'Vin', width:'17%',cellEditableCondition: false,enableFiltering: false,
+ 		                                 { name: 'vin', displayName: 'Vin', width:'12%',cellEditableCondition: false,enableFiltering: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
  		                                       if (row.entity.isRead === false) {
  		                                         return 'red';
@@ -25,7 +25,7 @@ angular.module('newApp')
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'10%',cellEditableCondition: false,
+ 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'8%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
@@ -39,35 +39,49 @@ angular.module('newApp')
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'12%',cellEditableCondition: false,
+ 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'9%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'10%',cellEditableCondition: false,
+ 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'8%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'14%',cellEditableCondition: false,
+ 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'10%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'requestDate', displayName: 'Request Date',enableFiltering: false, width:'14%',cellEditableCondition: false,
+ 		                                 { name: 'requestDate', displayName: 'Request Date',enableFiltering: false, width:'12%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'isRead', displayName: 'Seen',enableFiltering: false, width:'10%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+ 		                                { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'12%',cellEditableCondition: false,
+  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+   		                                       if (row.entity.isRead === false) {
+   		                                         return 'red';
+   		                                     }
+  		                                	} ,
+  		                                 },
+  		                               { name: 'status', displayName: 'Status',enableFiltering: false, width:'9%',cellEditableCondition: false,
+  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+   		                                       if (row.entity.isRead === false) {
+   		                                         return 'red';
+   		                                     }
+  		                                	} ,
+  		                                 },
+ 		                                 { name: 'isRead', displayName: 'Seen',enableFiltering: false, width:'5%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
  		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" style="margin-left:18%;"></div>', 
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {

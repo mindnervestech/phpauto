@@ -55,6 +55,7 @@ public class TradeIn extends Model {
 	public int isRead;
 	public String pdfPath;
 	public String status;
+	public String note;
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
@@ -313,6 +314,12 @@ public class TradeIn extends Model {
 	public void setAssignedTo(AuthUser assignedTo) {
 		this.assignedTo = assignedTo;
 	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
+	}
 
 	public static Finder<Long,TradeIn> find = new Finder<>(Long.class,TradeIn.class);
 	
@@ -322,6 +329,10 @@ public class TradeIn extends Model {
 	
 	public static List<TradeIn> findAllByDate() {
 		return find.where().eq("isRead", 0).orderBy("tradeDate desc").orderBy("isRead").findList();
+	}
+	
+	public static List<TradeIn> findAllData() {
+		return find.all();
 	}
 	
 	public static List<TradeIn> findAllSeen(AuthUser user) {

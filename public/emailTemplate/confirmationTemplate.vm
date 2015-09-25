@@ -650,7 +650,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
             <table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width" syle="background-color:#ffffff min-width:600px;" style="background-color: rgb(236, 235, 235);">
               <tbody><tr>
                 <td valign="top" class="image-100-percent">
-                  <img src="$hostnameUrl/email_images/20150816235721_lambo.jpg" width="600" alt="" style="max-width: 600px; display: block !important;">
+                  <img src="$hostnameUrl$defaultImage" width="600" alt="" style="max-width: 600px; display: block !important;">
                 </td>
               </tr>
             </tbody></table>

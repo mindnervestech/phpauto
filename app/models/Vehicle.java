@@ -709,12 +709,12 @@ public class Vehicle extends Model {
 		return find.byId(id);
 	}
 	
-	public static Vehicle findByVidAndUser(String vid,AuthUser user) {
-		return find.where().eq("vin", vid).eq("user", user).findUnique();
+	public static Vehicle findByVidAndUser(String vid) {
+		return find.where().eq("vin", vid).findUnique();
 	}
 	
-	public static Vehicle findByVidAndUserAndStatus(String vid,AuthUser user) {
-		return find.where().eq("vin", vid).eq("user", user).eq("status", "Newly Arrived").findUnique();
+	public static Vehicle findByVinAndStatus(String vid) {
+		return find.where().eq("vin", vid).eq("status", "Newly Arrived").findUnique();
 	}
 	
 	public static Vehicle findByVin(String vin) {
@@ -742,8 +742,8 @@ public class Vehicle extends Model {
 		return find.where().eq("user", user).eq("make", make).findList().get(0);
 	}
 	
-	public static List<Vehicle> getVehiclesByStatus(AuthUser user,String status) {
-		return find.where().eq("user", user).eq("status", status).findList();
+	public static List<Vehicle> getVehiclesByStatus(String status) {
+		return find.where().eq("status", status).findList();
 		
 	}
 	

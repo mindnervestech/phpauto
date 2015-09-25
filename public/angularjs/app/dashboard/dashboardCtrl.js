@@ -32,7 +32,7 @@ angular.module('newApp')
     	 		 $scope.gridOptions.enableHorizontalScrollbar = 0;
     	 		 $scope.gridOptions.enableVerticalScrollbar = 2;
     	 		 $scope.gridOptions.columnDefs = [
-    	 		                                 { name: 'vin', displayName: 'Vin', width:'17%',cellEditableCondition: false,enableFiltering: false,
+    	 		                                 { name: 'vin', displayName: 'Vin', width:'14%',cellEditableCondition: false,enableFiltering: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	 		                                       if (row.entity.isRead === false) {
     	 		                                         return 'red';
@@ -53,29 +53,29 @@ angular.module('newApp')
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'15%',cellEditableCondition: false,
+    	 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'12%',cellEditableCondition: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'14%',cellEditableCondition: false,
+    	 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'12%',cellEditableCondition: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'17%',cellEditableCondition: false,
+    	 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'14%',cellEditableCondition: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'20%',cellEditableCondition: false,
-			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType == \'Sales Person\'" style="margin-top:2%;margin-left:3%;">COMPLETE</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
+    	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'30%',cellEditableCondition: false,
+			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType == \'Sales Person\'" style="margin-top:2%;margin-left:3%;">COMPLETE</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">Note</button>',
 			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			   		                                       if (row.entity.isRead === false) {
 			   		                                         return 'red';
@@ -94,7 +94,7 @@ angular.module('newApp')
      			 		 $scope.gridOptions2.enableHorizontalScrollbar = 0;
      			 		 $scope.gridOptions2.enableVerticalScrollbar = 2;
      			 		 $scope.gridOptions2.columnDefs = [
-     			 		                                 { name: 'vin', displayName: 'Vin', width:'9%',cellEditableCondition: false,enableFiltering: false,
+     			 		                                 { name: 'vin', displayName: 'Vin', width:'7%',cellEditableCondition: false,enableFiltering: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.isRead === false) {
      			   		                                         return 'red';
@@ -108,7 +108,7 @@ angular.module('newApp')
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'9%',cellEditableCondition: false,
+     			 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'8%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.isRead === false) {
      			   		                                         return 'red';
@@ -116,21 +116,21 @@ angular.module('newApp')
      			  		                                	} ,
      			 		                                 },
      			 		                                 
-     			 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     			 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'7%',cellEditableCondition: false,
      					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      				  		                                       if (row.entity.isRead === false) {
      				  		                                         return 'red';
      				  		                                     }
      				 		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     			 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'7%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.isRead === false) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     			 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'7%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.isRead === false) {
      			   		                                         return 'red';
@@ -159,8 +159,8 @@ angular.module('newApp')
      			  		                                     }
      			 		                                	} ,
      			 		                                 },
-     			 		                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'17%',cellEditableCondition: false,
-      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelScheduleStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
+     			 		                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'23%',cellEditableCondition: false,
+      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelScheduleStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'scheduleTest\')" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">Note</button>',
       			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
        			   		                                       if (row.entity.isRead === false) {
        			   		                                         return 'red';
@@ -180,7 +180,7 @@ angular.module('newApp')
      			 		 		 $scope.gridOptions3.enableHorizontalScrollbar = 0;
      			 		 		 $scope.gridOptions3.enableVerticalScrollbar = 2;
      			 		 		 $scope.gridOptions3.columnDefs = [
-     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'17%',cellEditableCondition: false,enableFiltering: false,
+     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'15%',cellEditableCondition: false,enableFiltering: false,
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
@@ -201,14 +201,14 @@ angular.module('newApp')
      			 		   		                                     }
      			 		  		                                	} ,
      			 		 		                                 },
-     			 		 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'14%',cellEditableCondition: false,
+     			 		 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'12%',cellEditableCondition: false,
      			 				                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 			  		                                       if (row.entity.isRead === false) {
      			 			  		                                         return 'red';
      			 			  		                                     }
      			 			 		                                	} ,
      			 		 		                                 },
-     			 		 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'11%',cellEditableCondition: false,
+     			 		 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'9%',cellEditableCondition: false,
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
@@ -232,8 +232,8 @@ angular.module('newApp')
      			 		   		                                	} ,
      			 				                                 
      			 				                                 },
-     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'20%',cellEditableCondition: false,
-     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType == \'Sales Person\'"style="margin-top:2%;margin-left:3%;">COMPLETE</button><button type="button" ng-show="grid.appScope.userType == \'Sales Person\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
+     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'26%',cellEditableCondition: false,
+     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType == \'Sales Person\'"style="margin-top:2%;margin-left:3%;">COMPLETE</button><button type="button" ng-show="grid.appScope.userType == \'Sales Person\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">Note</button>',
      	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	       			   		                                       if (row.entity.isRead === false) {
      	       			   		                                         return 'red';
@@ -849,6 +849,34 @@ angular.module('newApp')
 		 		});
 		   }
 		   
+		   $scope.addNoteToRequestUser = function(entity,type) {
+			   $scope.userNoteId = entity.id;
+			   $scope.typeOfNote = type;
+			   $scope.userNote = entity.note;
+			   $('#btnUserNote').click();
+		   }
+		   
+		   $scope.saveUserNote = function() {
+			   console.log($scope.userNote);
+			   $http.get('/saveNoteOfUser/'+$scope.userNoteId+'/'+$scope.typeOfNote+'/'+$scope.userNote)
+		 		.success(function(data) {
+		 			$.pnotify({
+    				    title: "Success",
+    				    type:'success',
+    				    text: "Note saved successfully",
+    				});
+					$('#noteClose').click();
+					if($scope.typeOfNote == 'scheduleTest') {
+						$scope.getScheduleTestData();
+					}
+					if($scope.typeOfNote == 'requestMore') {
+						$scope.getRequestMoreData();
+					}
+					if($scope.typeOfNote == 'tradeIn') {
+						$scope.getTradeInData();
+					}
+		 		});
+		   }
 		   
   }]);
 
