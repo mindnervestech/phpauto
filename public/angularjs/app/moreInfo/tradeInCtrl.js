@@ -76,7 +76,7 @@ angular.module('newApp')
    		                                	} ,
 		                                 
 		                                 },
-		                                 { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'12%',cellEditableCondition: false,
+		                                 { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'11%',cellEditableCondition: false,
 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	    		                                       if (row.entity.isRead === false) {
 	    		                                         return 'red';
@@ -90,8 +90,8 @@ angular.module('newApp')
 	    		                                     }
 	   		                                	} ,
 	   		                                 },
-		                                 { name: 'isRead', displayName: 'Seen',enableFiltering: false, width:'5%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
- 		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" style="margin-left:18%;"></div>', 
+		                                 { name: 'isRead', displayName: 'Claim',enableFiltering: false, width:'6%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+ 		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" title="Claim this lead" style="margin-left:18%;"></div>', 
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';

@@ -21,4 +21,5 @@ public class RequestInfoVM {
 	public String note;
 	public String status;
 	public String salesRep;
+	public String prefferedContact;
 }

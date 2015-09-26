@@ -4994,6 +4994,11 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		RequestMoreInfo info = RequestMoreInfo.findById(id);
+    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		vehicle.setStatus("Sold");
+    		Date date = new Date();
+    		vehicle.setSoldDate(date);
+    		vehicle.update();
     		info.setStatus("COMPLETE");
     		info.update();
     		return ok();
@@ -5016,6 +5021,11 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		TradeIn info = TradeIn.findById(id);
+    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		vehicle.setStatus("Sold");
+    		Date date = new Date();
+    		vehicle.setSoldDate(date);
+    		vehicle.update();
     		info.setStatus("COMPLETE");
     		info.update();
     		return ok();
@@ -5829,6 +5839,28 @@ public class Application extends Controller {
     			tradeIn.setNote(note);
     			tradeIn.update();
     		}
+    		return ok();
+    	}
+    }
+    
+    public static Result saveTestDrive() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
+    		RequestInfoVM vm = form.get();
+    		ScheduleTest scheduleTest = new ScheduleTest();
+    		scheduleTest.name = vm.name;
+    		scheduleTest.email = vm.email;
+    		scheduleTest.phone = vm.phone;
+    		scheduleTest.bestDay = vm.bestDay;
+    		scheduleTest.bestTime = vm.bestTime;
+    		scheduleTest.preferredContact = vm.prefferedContact;
+    		scheduleTest.vin = vm.vin;
+    		scheduleTest.scheduleDate = new Date();
+    		scheduleTest.user = user;
+    		scheduleTest.save();
     		return ok();
     	}
     }
