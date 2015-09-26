@@ -3687,10 +3687,14 @@ public class Application extends Controller {
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<RequestMoreInfo> listData = new ArrayList<>();
-	    	if(user.role.equals("General Manager")) {
+	    	if(user.role == null) {
     			listData = RequestMoreInfo.findAllData();
     		} else {
-    			listData = RequestMoreInfo.findAllByDate();
+    			if(user.role.equals("General Manager")) {
+    				listData = RequestMoreInfo.findAllData();
+    			} else {
+    				listData = RequestMoreInfo.findAllByDate();
+    			}
     		}
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -3784,10 +3788,14 @@ public class Application extends Controller {
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<ScheduleTest> listData = new ArrayList<>();
-    		if(user.role.equals("General Manager")) {
+    		if(user.role == null) {
     			listData = ScheduleTest.findAllData();
     		} else {
-    			listData = ScheduleTest.findAllByDate();
+    			if(user.role.equals("General Manager")) {
+    				listData = ScheduleTest.findAllData();
+    			} else {
+    				listData = ScheduleTest.findAllByDate();
+    			}
     		}
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -3913,10 +3921,14 @@ public class Application extends Controller {
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<TradeIn> listData = new ArrayList<>();
-    		if(user.role.equals("General Manager")) {
+	    	if(user.role == null) {
     			listData = TradeIn.findAllData();
     		} else {
-    			listData = TradeIn.findAllByDate();
+    			if(user.role.equals("General Manager")) {
+    				listData = TradeIn.findAllData();
+    			} else {
+    				listData = TradeIn.findAllByDate();
+    			}
     		}
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -4030,10 +4042,14 @@ public class Application extends Controller {
 	    		}
 	    		infoObj.update();
 	    		List<RequestMoreInfo> listData = new ArrayList<>();
-	    		if(user.role.equals("General Manager")) {
+	    		if(user.role == null) {
 	    			listData = RequestMoreInfo.findAllData();
 	    		} else {
-	    			listData = RequestMoreInfo.findAllByDate();
+	    			if(user.role.equals("General Manager")) {
+	    				listData = RequestMoreInfo.findAllData();
+	    			} else {
+	    				listData = RequestMoreInfo.findAllByDate();
+	    			}
 	    		}
 	        	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	        	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -4099,10 +4115,14 @@ public class Application extends Controller {
 			scheduleObj.update();
 			
 			List<ScheduleTest> listData = new ArrayList<>();
-    		if(user.role.equals("General Manager")) {
+			if(user.role == null) {
     			listData = ScheduleTest.findAllData();
     		} else {
-    			listData = ScheduleTest.findAllByDate();
+    			if(user.role.equals("General Manager")) {
+    				listData = ScheduleTest.findAllData();
+    			} else {
+    				listData = ScheduleTest.findAllByDate();
+    			}
     		}
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -4168,10 +4188,14 @@ public class Application extends Controller {
 			tradeObj.update();
 			
 			List<TradeIn> listData = new ArrayList<>();
-    		if(user.role.equals("General Manager")) {
+    		if(user.role == null) {
     			listData = TradeIn.findAllData();
     		} else {
-    			listData = TradeIn.findAllByDate();
+    			if(user.role.equals("General Manager")) {
+    				listData = TradeIn.findAllData();
+    			} else {
+    				listData = TradeIn.findAllByDate();
+    			}
     		}
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
