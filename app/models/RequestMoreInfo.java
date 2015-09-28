@@ -24,6 +24,7 @@ public class RequestMoreInfo extends Model {
 	public int isRead;
 	public String status;
 	public String note;
+	public String reason;
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
@@ -102,6 +103,12 @@ public class RequestMoreInfo extends Model {
 	public void setNote(String note) {
 		this.note = note;
 	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 
 	public static Finder<Long,RequestMoreInfo> find = new Finder<>(Long.class,RequestMoreInfo.class);
 	
@@ -119,6 +126,10 @@ public class RequestMoreInfo extends Model {
 	
 	public static List<RequestMoreInfo> findAllSeen(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).orderBy("requestDate desc").findList();
+	}
+	
+	public static List<RequestMoreInfo> findAllCancel() {
+		return find.where().eq("status", "CANCEL").findList();
 	}
 	
 	public static int findAll() {

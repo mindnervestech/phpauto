@@ -33,6 +33,7 @@ public class ScheduleTest extends Model {
 	public Date confirmTime;
 	public String leadStatus;
 	public String note;
+	public String reason;
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
@@ -135,6 +136,12 @@ public class ScheduleTest extends Model {
 	public void setNote(String note) {
 		this.note = note;
 	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
 	
@@ -169,6 +176,10 @@ public class ScheduleTest extends Model {
 	
 	public static List<ScheduleTest> findByDateAndAssignedUser(AuthUser user,Date date) {
 		return find.where().eq("assignedTo", user).eq("confirmDate", date).findList();
+	}
+	
+	public static List<ScheduleTest> getAllFailed() {
+		return find.where().eq("leadStatus", "FAILED").findList();
 	}
 	
 	public static List<SqlRow> getScheduleDates(AuthUser user) {

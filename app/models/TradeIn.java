@@ -56,6 +56,7 @@ public class TradeIn extends Model {
 	public String pdfPath;
 	public String status;
 	public String note;
+	public String reason;
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
@@ -320,6 +321,12 @@ public class TradeIn extends Model {
 	public void setNote(String note) {
 		this.note = note;
 	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 
 	public static Finder<Long,TradeIn> find = new Finder<>(Long.class,TradeIn.class);
 	
@@ -329,6 +336,10 @@ public class TradeIn extends Model {
 	
 	public static List<TradeIn> findAllByDate() {
 		return find.where().eq("isRead", 0).orderBy("tradeDate desc").orderBy("isRead").findList();
+	}
+	
+	public static List<TradeIn> findAllCanceled() {
+		return find.where().eq("status", "CANCEL").findList();
 	}
 	
 	public static List<TradeIn> findAllData() {

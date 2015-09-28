@@ -22,4 +22,5 @@ public class RequestInfoVM {
 	public String status;
 	public String salesRep;
 	public String prefferedContact;
+	public String leadType;
 }
