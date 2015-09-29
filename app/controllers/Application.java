@@ -1806,12 +1806,28 @@ public class Application extends Controller {
 		for(PriceAlert alert: priceAlertList) {
 			
 			Vehicle vehicle = Vehicle.findByVidAndUser(alert.vin);
-			Vehicle sameBodyStyle = Vehicle.findSameBodyStyle(vehicle.bodyStyle,vehicle.vin);
-			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin);
-			Vehicle sameEngine = Vehicle.findSameEngine(vehicle.engine,vehicle.vin);
-			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin);
-			Vehicle sameMake = Vehicle.findSameMake(vehicle.make,vehicle.vin);
-			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
+			List<Vehicle> sameBodyList = Vehicle.findSameBodyStyle(vehicle.bodyStyle,vehicle.vin);
+			Vehicle sameBodyStyle = new Vehicle();
+			VehicleImage sameBodyStyleDefault = new VehicleImage();
+			if(sameBodyList.size() != 0) {
+				sameBodyStyle = sameBodyList.get(0);
+				sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin);
+			}
+			
+			Vehicle sameEngine = new Vehicle();
+			VehicleImage sameEngineDefault = new VehicleImage();
+			List<Vehicle> sameEngineList = Vehicle.findSameEngine(vehicle.engine,vehicle.vin);
+			if(sameEngineList.size() != 0) {
+				sameEngine = sameEngineList.get(0);
+				sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin);
+			}
+			Vehicle sameMake = new Vehicle();
+			VehicleImage sameMakeDefault = new VehicleImage();
+			List<Vehicle> sameMakeList = Vehicle.findSameMake(vehicle.make,vehicle.vin);
+			if(sameMakeList.size() != 0) {
+				sameMake = sameMakeList.get(0);
+				sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
+			}
 			
 			
 			Properties props = new Properties();
