@@ -1883,21 +1883,33 @@ public class Application extends Controller {
 		        context.put("email", profile.email);
 		        context.put("phone", profile.phone);
 		        if(sameBodyStyle != null) {
-		        	context.put("bodyStylePrice", "$"+sameBodyStyle.price.toString());
+		        	if(sameBodyStyle.price != null) {
+		        		context.put("bodyStylePrice", "$"+sameBodyStyle.price.toString());
+		        	} else {
+		        		context.put("bodyStylePrice", "");
+		        	}
 		        	context.put("bodyStyleVin", sameBodyStyle.vin);
 		        } else {
 		        	context.put("bodyStylePrice", "");
 		        	context.put("bodyStyleVin", "");
 		        }
 		        if(sameEngine != null) {
-		        	context.put("enginePrice", "$"+sameEngine.price.toString());
+		        	if(sameEngine.price != null) {
+		        		context.put("enginePrice", "$"+sameEngine.price.toString());
+		        	} else {
+		        		context.put("enginePrice", "");
+		        	}
 		        	context.put("engineVin", sameEngine.vin);
 		        } else {
 		        	context.put("enginePrice","");
 		        	context.put("engineVin", "");
 		        }
 		        if(sameMake != null) {
-		        	context.put("makePrice", "$"+sameMake.price.toString());
+		        	if(sameMake.price != null) {
+		        		context.put("makePrice", "$"+sameMake.price.toString());
+		        	} else {
+		        		context.put("makePrice", "");
+		        	}
 		        	context.put("makeVin", sameMake.vin);
 		        } else {
 		        	context.put("makePrice", "");
