@@ -767,8 +767,8 @@ public class Vehicle extends Model {
 		return rows;
 	}
 	
-	public static List<SqlRow> getDriveTimeAndName(AuthUser user,String vin) {
-		SqlQuery q = Ebean.createSqlQuery("select schedule_test.confirm_date,schedule_test.confirm_time,schedule_test.assigned_to_id from schedule_test where schedule_test.vin = '"+vin+"' and schedule_test.confirm_date >= CURDATE() and schedule_test.confirm_time >= CURTIME() and schedule_test.user_id = '"+user.id+"' order by schedule_test.confirm_date,schedule_test.confirm_time asc");
+	public static List<SqlRow> getDriveTimeAndName(String vin) {
+		SqlQuery q = Ebean.createSqlQuery("select schedule_test.confirm_date,schedule_test.confirm_time,schedule_test.assigned_to_id from schedule_test where schedule_test.vin = '"+vin+"' and schedule_test.confirm_date >= CURDATE() order by schedule_test.confirm_date asc");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}

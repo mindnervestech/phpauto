@@ -1498,7 +1498,7 @@ public class Application extends Controller {
 		    	vehicle.transmission = vm.transmission;
 		    	vehicle.location = vm.location;
 		    	vehicle.status  =  vm.status;
-		    	List<SqlRow> rows = Vehicle.getDriveTimeAndName(user,vehicle.vin);
+		    	List<SqlRow> rows = Vehicle.getDriveTimeAndName(vehicle.vin);
 		    	for(SqlRow row : rows) {
 		    		Date date = (Date) row.get("confirm_date");
 		    		Date timeObj = (Date) row.get("confirm_time");
