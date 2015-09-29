@@ -1806,11 +1806,11 @@ public class Application extends Controller {
 		for(PriceAlert alert: priceAlertList) {
 			
 			Vehicle vehicle = Vehicle.findByVidAndUser(alert.vin);
-			Vehicle sameBodyStyle = Vehicle.findSameBodyStyle(user, vehicle.bodyStyle);
+			Vehicle sameBodyStyle = Vehicle.findSameBodyStyle(vehicle.bodyStyle,vehicle.vin);
 			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin);
-			Vehicle sameEngine = Vehicle.findSameEngine(user, vehicle.engine);
+			Vehicle sameEngine = Vehicle.findSameEngine(vehicle.engine,vehicle.vin);
 			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin);
-			Vehicle sameMake = Vehicle.findSameMake(user, vehicle.make);
+			Vehicle sameMake = Vehicle.findSameMake(vehicle.make,vehicle.vin);
 			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
 			
 			

@@ -12,6 +12,7 @@ import play.db.ebean.Model;
 import securesocial.core.Identity;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 import com.avaje.ebean.annotation.ConcurrencyMode;
@@ -730,16 +731,16 @@ public class Vehicle extends Model {
 		
 	}
 	
-	public static Vehicle findSameBodyStyle(AuthUser user,String style) {
-		return find.where().eq("user", user).eq("bodyStyle", style).findList().get(0);
+	public static Vehicle findSameBodyStyle(String style,String vin) {
+		return find.where().eq("bodyStyle", style).not(Expr.and(Expr.eq("bodyStyle", null), Expr.eq("vin", vin))).findList().get(0);
 	}
 	
-	public static Vehicle findSameEngine(AuthUser user,String engine) {
-		return find.where().eq("user", user).eq("engine", engine).findList().get(0);
+	public static Vehicle findSameEngine(String engine,String vin) {
+		return find.where().eq("engine", engine).not(Expr.and(Expr.eq("engine", null), Expr.eq("vin", vin))).findList().get(0);
 	}
 	
-	public static Vehicle findSameMake(AuthUser user,String make) {
-		return find.where().eq("user", user).eq("make", make).findList().get(0);
+	public static Vehicle findSameMake(String make,String vin) {
+		return find.where().eq("make", make).not(Expr.and(Expr.eq("make", null), Expr.eq("vin", vin))).findList().get(0);
 	}
 	
 	public static List<Vehicle> getVehiclesByStatus(String status) {
