@@ -734,50 +734,50 @@ td,span,a{font-family: Arial, sans-serif !important;}
 								  <table style="width:100%;">
 									<tr>
 										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">YEAR:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$year</span>
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">YEAR:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!year</span>
 										</td>
 										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">MAKE:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$make</span><br>
-										</td>
-									</tr>
-									<tr>
-										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">MODEL:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$model</span>
-										</td>
-										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">BODY STYLE:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$bodyStyle</span><br>
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">MAKE:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!make</span><br>
 										</td>
 									</tr>
 									<tr>
 										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">MILEAGE:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$mileage</span>
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">MODEL:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!model</span>
 										</td>
 										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">DOORS:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$doors</span><br>
-										</td>
-									</tr>
-									<tr>
-										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">SEATS:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$seats</span>
-										</td>
-										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">DRIVETRAIN:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$drivetrain</span><br>
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">BODY STYLE:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!bodyStyle</span><br>
 										</td>
 									</tr>
 									<tr>
 										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">ENGINE:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$engine</span>
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">MILEAGE:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!mileage</span>
 										</td>
 										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">TRANSMISSION:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$transmission</span><br>
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">DOORS:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!doors</span><br>
+										</td>
+									</tr>
+									<tr>
+										<td style="text-align: -webkit-left;">
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">SEATS:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!seats</span>
+										</td>
+										<td style="text-align: -webkit-left;">
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">DRIVETRAIN:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!drivetrain</span><br>
+										</td>
+									</tr>
+									<tr>
+										<td style="text-align: -webkit-left;">
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">ENGINE:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!engine</span>
+										</td>
+										<td style="text-align: -webkit-left;">
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">TRANSMISSION:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!transmission</span><br>
 										</td>
 									</tr>
 									<tr>		
 										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">BRAKES:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$brakes</span>
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;">BRAKES:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!brakes</span>
 										</td>
 										<td style="text-align: -webkit-left;">
-											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">HORSE POWER:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$horsePower</span>
+											<span style="font-size: 20px; color: rgb(128, 128, 128); font-weight: 300; line-height: 24px;margin-left: 10px;">HORSE POWER:</span><span style="font-size: 20px; color: rgb(194, 0, 0); font-weight: 300; line-height: 24px;">$!horsePower</span>
 										</td>
 								  </tr>
 								  </table>
