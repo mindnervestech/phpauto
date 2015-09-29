@@ -732,15 +732,15 @@ public class Vehicle extends Model {
 	}
 	
 	public static Vehicle findSameBodyStyle(String style,String vin) {
-		return find.where().eq("bodyStyle", style).not(Expr.and(Expr.eq("bodyStyle", null), Expr.eq("vin", vin))).findList().get(0);
+		return find.where().eq("bodyStyle", style).ne("bodyStyle", null).ne("vin", vin).findList().get(0);
 	}
 	
 	public static Vehicle findSameEngine(String engine,String vin) {
-		return find.where().eq("engine", engine).not(Expr.and(Expr.eq("engine", null), Expr.eq("vin", vin))).findList().get(0);
+		return find.where().eq("engine", engine).ne("engine", null).ne("vin", vin).findList().get(0);
 	}
 	
 	public static Vehicle findSameMake(String make,String vin) {
-		return find.where().eq("make", make).not(Expr.and(Expr.eq("make", null), Expr.eq("vin", vin))).findList().get(0);
+		return find.where().eq("make", make).ne("make", null).ne("vin", vin).findList().get(0);
 	}
 	
 	public static List<Vehicle> getVehiclesByStatus(String status) {
