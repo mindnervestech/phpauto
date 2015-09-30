@@ -938,7 +938,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                           <tr>
                             <td width="100%" valign="top" align="left" class="image-170px">
                               
-                                <img src="$hostnameUrl$sameMakeDefault" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameMakeDefault" width="170" alt="" style="max-width: 170px; display: block !important;max-height:102px;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -951,7 +951,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                             <td>
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left">
                                 <tbody><tr>
-                                  <td style="font-size: 18px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; font-weight: 300; line-height: 24px;"><span style="color: rgb(194, 0, 0); font-size: 18px; font-weight: 300; line-height: 24px;">SAME BODY STYLE</span><br style="line-height: 24px;"></span></td>
+                                  <td style="font-size: 18px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; font-weight: 300; line-height: 24px;"><span style="color: rgb(194, 0, 0); font-size: 18px; font-weight: 300; line-height: 24px;">$!bodyStyleMake</span><br style="line-height: 24px;"></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>
@@ -1000,7 +1000,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                           <tr>
                             <td width="100%" valign="top" align="left" class="image-170px">
                               
-                                <img src="$hostnameUrl$sameEngineDefault" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameEngineDefault" width="170" alt="" style="max-width: 170px; display: block !important;max-height:102px;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -1013,7 +1013,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                             <td>
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left">
                                 <tbody><tr>
-                                  <td style="font-size: 18px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; font-weight: 300; line-height: 24px;"><span style="color: rgb(194, 0, 0); font-size: inherit; line-height: 24px;">SAME ENGINE</span><br style="line-height: 24px;"></span></td>
+                                  <td style="font-size: 18px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; font-weight: 300; line-height: 24px;"><span style="color: rgb(194, 0, 0); font-size: inherit; line-height: 24px;">$!engineMake</span><br style="line-height: 24px;"></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>
@@ -1062,7 +1062,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                           <tr>
                             <td width="100%" valign="top" align="left" class="image-170px">
                               
-                                <img src="$hostnameUrl$sameMakeDefault" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameMakeDefault" width="170" alt="" style="max-width: 170px; display: block !important;max-height:102px;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -1075,7 +1075,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                             <td>
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left">
                                 <tbody><tr>
-                                  <td style="font-size: 18px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; font-weight: 300; line-height: 24px;"><span style="color: rgb(194, 0, 0); font-size: inherit; line-height: 24px;">SAME MAKE</span><br style="line-height: 24px;"></span></td>
+                                  <td style="font-size: 18px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word;"><span style="font-size: 18px; font-weight: 300; line-height: 24px;"><span style="color: rgb(194, 0, 0); font-size: inherit; line-height: 24px;">$!sameMake</span><br style="line-height: 24px;"></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>

@@ -1806,28 +1806,16 @@ public class Application extends Controller {
 		for(PriceAlert alert: priceAlertList) {
 			
 			Vehicle vehicle = Vehicle.findByVidAndUser(alert.vin);
-			List<Vehicle> sameBodyList = Vehicle.findSameBodyStyle(vehicle.bodyStyle,vehicle.vin);
-			Vehicle sameBodyStyle = new Vehicle();
-			VehicleImage sameBodyStyleDefault = new VehicleImage();
-			if(sameBodyList.size() != 0) {
-				sameBodyStyle = sameBodyList.get(0);
-				sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin);
-			}
+			List<Vehicle> sameBodyList = Vehicle.getRandom(vehicle.vin);
 			
-			Vehicle sameEngine = new Vehicle();
-			VehicleImage sameEngineDefault = new VehicleImage();
-			List<Vehicle> sameEngineList = Vehicle.findSameEngine(vehicle.engine,vehicle.vin);
-			if(sameEngineList.size() != 0) {
-				sameEngine = sameEngineList.get(0);
-				sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin);
-			}
-			Vehicle sameMake = new Vehicle();
-			VehicleImage sameMakeDefault = new VehicleImage();
-			List<Vehicle> sameMakeList = Vehicle.findSameMake(vehicle.make,vehicle.vin);
-			if(sameMakeList.size() != 0) {
-				sameMake = sameMakeList.get(0);
-				sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
-			}
+			Vehicle sameBodyStyle = sameBodyList.get(0);
+			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin);
+			
+			Vehicle sameEngine = sameBodyList.get(1);
+			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin);
+			
+			Vehicle sameMake =  sameBodyList.get(2);
+			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
 			
 			
 			Properties props = new Properties();
@@ -1889,6 +1877,7 @@ public class Application extends Controller {
 		        		context.put("bodyStylePrice", "");
 		        	}
 		        	context.put("bodyStyleVin", sameBodyStyle.vin);
+		        	context.put("bodyStyleMake", sameBodyStyle.make);
 		        } else {
 		        	context.put("bodyStylePrice", "");
 		        	context.put("bodyStyleVin", "");
@@ -1900,6 +1889,7 @@ public class Application extends Controller {
 		        		context.put("enginePrice", "");
 		        	}
 		        	context.put("engineVin", sameEngine.vin);
+		        	context.put("engineMake", sameEngine.make);
 		        } else {
 		        	context.put("enginePrice","");
 		        	context.put("engineVin", "");
@@ -1911,6 +1901,7 @@ public class Application extends Controller {
 		        		context.put("makePrice", "");
 		        	}
 		        	context.put("makeVin", sameMake.vin);
+		        	context.put("sameMake", sameMake.make);
 		        } else {
 		        	context.put("makePrice", "");
 		        	context.put("makeVin", "");
@@ -1919,21 +1910,23 @@ public class Application extends Controller {
 		        if(sameBodyStyleDefault != null) {
 		        	context.put("sameBodyStyleDefault", sameBodyStyleDefault.thumbPath);
 		        } else {
-		        	context.put("sameBodyStyleDefault", "");
+		        	context.put("sameBodyStyleDefault", "/no-image.jpg");
 		        }
 		        if(sameEngineDefault != null) {
 		        	context.put("sameEngineDefault", sameEngineDefault.thumbPath);
 		        } else {
-		        	context.put("sameEngineDefault", "");
+		        	context.put("sameEngineDefault", "/no-image.jpg");
 		        }
 		        if(sameMakeDefault != null) {
 		        	context.put("sameMakeDefault", sameMakeDefault.thumbPath);
 		        } else {
-		        	context.put("sameMakeDefault", "");
+		        	context.put("sameMakeDefault", "/no-image.jpg");
 		        }
 		        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
 		        if(image != null) {
 		        	context.put("defaultImage", image.path);
+		        } else {
+		        	context.put("defaultImage", "/no-image.jpg");
 		        }
 		        StringWriter writer = new StringWriter();
 		        t.merge( context, writer );
@@ -5719,8 +5712,18 @@ public class Application extends Controller {
         				} else {
         					vm.successRate = 0;
         				}
+        				Integer leads = 0;
+        				String count = "";
         				if(rowData.getString("leads") != null) {
-        					vm.currentLeads = rowData.getString("leads");
+        					count = rowData.getString("leads");
+        					leads = Integer.parseInt(count);
+        					if(rowData.getString("requestleads") != null) {
+        						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
+        					}
+        					if(rowData.getString("tradeInleads") != null) {
+        						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
+        					}
+        					vm.currentLeads = leads.toString();
         				} else {
         					vm.currentLeads = "";
         				}
@@ -5769,8 +5772,18 @@ public class Application extends Controller {
     				} else {
     					vm.successRate = 0;
     				}
+    				Integer leads = 0;
+    				String count = "";
     				if(rowData.getString("leads") != null) {
-    					vm.currentLeads = rowData.getString("leads");
+    					count = rowData.getString("leads");
+    					leads = Integer.parseInt(count);
+    					if(rowData.getString("requestleads") != null) {
+    						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
+    					}
+    					if(rowData.getString("tradeInleads") != null) {
+    						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
+    					}
+    					vm.currentLeads = leads.toString();
     				} else {
     					vm.currentLeads = "";
     				}
@@ -5802,8 +5815,18 @@ public class Application extends Controller {
         				} else {
         					vm.successRate = 0;
         				}
+        				Integer leads = 0;
+        				String count = "";
         				if(rowData.getString("leads") != null) {
-        					vm.currentLeads = rowData.getString("leads");
+        					count = rowData.getString("leads");
+        					leads = Integer.parseInt(count);
+        					if(rowData.getString("requestleads") != null) {
+        						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
+        					}
+        					if(rowData.getString("tradeInleads") != null) {
+        						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
+        					}
+        					vm.currentLeads = leads.toString();
         				} else {
         					vm.currentLeads = "";
         				}
@@ -5853,8 +5876,18 @@ public class Application extends Controller {
     				} else {
     					vm.successRate = 0;
     				}
+    				Integer leads = 0;
+    				String count = "";
     				if(rowData.getString("leads") != null) {
-    					vm.currentLeads = rowData.getString("leads");
+    					count = rowData.getString("leads");
+    					leads = Integer.parseInt(count);
+    					if(rowData.getString("requestleads") != null) {
+    						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
+    					}
+    					if(rowData.getString("tradeInleads") != null) {
+    						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
+    					}
+    					vm.currentLeads = leads.toString();
     				} else {
     					vm.currentLeads = "";
     				}

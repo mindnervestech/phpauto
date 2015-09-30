@@ -748,6 +748,10 @@ public class Vehicle extends Model {
 		
 	}
 	
+	public static List<Vehicle> getRandom(String vin) {
+		return find.where().ne("vin", vin).findList();
+	}
+	
 	public static List<Vehicle> getVehiclesByMake(AuthUser user,String make) {
 		return find.where().eq("user", user).eq("make", make).findList();
 		

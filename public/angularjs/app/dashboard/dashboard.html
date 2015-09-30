@@ -1029,7 +1029,10 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Best Time</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="testDriveData.bestTime" required>
+															<div class="prepend-icon">
+								                              <input type="text" name="timepicker" ng-model="testDriveData.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime">
+								                              <i class="icon-clock"></i>
+								                            </div>
 														</div>
 													</div>
 								                </div>

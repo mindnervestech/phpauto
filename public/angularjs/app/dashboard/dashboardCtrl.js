@@ -976,12 +976,13 @@ angular.module('newApp')
 			   $scope.testDriveData.phone = entity.phone;
 			   $scope.testDriveData.vin = entity.vin;
 			   $scope.testDriveData.bestDay = "";
-			   $scope.testDriveData.besttime = "";
+			   $scope.testDriveData.bestTime = "";
 			   $scope.testDriveData.prefferedContact = "";
 		   }
 		   
 		   $scope.saveTestDrive = function() {
 			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
+			   $scope.testDriveData.bestTime = $('#bestTime').val();
 			   $scope.testDriveData.prefferedContact = $("input:radio[name=preffered]:checked").val();
 			   console.log($scope.testDriveData);
 			   $http.post('/saveTestDrive',$scope.testDriveData)
