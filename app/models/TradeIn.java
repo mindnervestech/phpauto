@@ -55,7 +55,6 @@ public class TradeIn extends Model {
 	public int isRead;
 	public String pdfPath;
 	public String status;
-	public String note;
 	public String reason;
 	@ManyToOne
 	public AuthUser assignedTo;
@@ -315,12 +314,7 @@ public class TradeIn extends Model {
 	public void setAssignedTo(AuthUser assignedTo) {
 		this.assignedTo = assignedTo;
 	}
-	public String getNote() {
-		return note;
-	}
-	public void setNote(String note) {
-		this.note = note;
-	}
+	
 	public String getReason() {
 		return reason;
 	}

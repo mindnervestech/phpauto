@@ -53,6 +53,7 @@ import models.SliderImage;
 import models.SliderImageConfig;
 import models.ToDo;
 import models.TradeIn;
+import models.UserNotes;
 import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleImage;
@@ -84,6 +85,7 @@ import viewmodel.BlogVM;
 import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
+import viewmodel.NoteVM;
 import viewmodel.PinVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SiteContentVM;
@@ -1877,7 +1879,9 @@ public class Application extends Controller {
 		        		context.put("bodyStylePrice", "");
 		        	}
 		        	context.put("bodyStyleVin", sameBodyStyle.vin);
+		        	context.put("bodyStyleYear", sameBodyStyle.year);
 		        	context.put("bodyStyleMake", sameBodyStyle.make);
+		        	context.put("bodyStyleModel", sameBodyStyle.model);
 		        } else {
 		        	context.put("bodyStylePrice", "");
 		        	context.put("bodyStyleVin", "");
@@ -1890,6 +1894,8 @@ public class Application extends Controller {
 		        	}
 		        	context.put("engineVin", sameEngine.vin);
 		        	context.put("engineMake", sameEngine.make);
+		        	context.put("engineYear", sameEngine.year);
+		        	context.put("engineModel", sameEngine.model);
 		        } else {
 		        	context.put("enginePrice","");
 		        	context.put("engineVin", "");
@@ -1902,6 +1908,8 @@ public class Application extends Controller {
 		        	}
 		        	context.put("makeVin", sameMake.vin);
 		        	context.put("sameMake", sameMake.make);
+		        	context.put("sameModel", sameMake.model);
+		        	context.put("sameYear", sameMake.year);
 		        } else {
 		        	context.put("makePrice", "");
 		        	context.put("makeVin", "");
@@ -1957,7 +1965,7 @@ public class Application extends Controller {
 	    	if(vehicle != null) {
 	    		if(vm.price != vehicle.price) {
 	    			
-	    				List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin, user);
+	    				List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin);
 	    				for(PriceAlert priceAlert: alertList) {
 	    					priceAlert.setSendEmail("Y");
 	    					priceAlert.setOldPrice(vehicle.price);
@@ -1987,7 +1995,7 @@ public class Application extends Controller {
 	    	if(vehicle != null) {
 	    		
 	    		if(vm.price != vehicle.price) {
-	    			List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin, userObj);
+	    			List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin);
     				for(PriceAlert priceAlert: alertList) {
     					priceAlert.setSendEmail("Y");
     					priceAlert.setOldPrice(vehicle.price);
@@ -3771,6 +3779,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeen(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
@@ -3785,7 +3794,17 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.note = info.note;
+	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = time.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
 	    		vm.requestDate = df.format(info.requestDate);
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
@@ -3888,6 +3907,7 @@ public class Application extends Controller {
 	    	List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
@@ -3905,7 +3925,17 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
-	    		vm.note = info.note;
+	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
 	    		if(info.getConfirmDate() != null) {
 	    			vm.confirmDate = df.format(info.getConfirmDate());
 	    		}
@@ -4003,6 +4033,7 @@ public class Application extends Controller {
 	    	List<TradeIn> listData = TradeIn.findAllSeen(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
@@ -4017,7 +4048,17 @@ public class Application extends Controller {
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.note = info.note;
+	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = time.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
 	    		vm.requestDate = df.format(info.tradeDate);
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
@@ -4134,6 +4175,20 @@ public class Application extends Controller {
 			}
 			
 			scheduleObj.update();
+			
+			ToDo todo = new ToDo();
+			Vehicle vobj = Vehicle.findByVin(scheduleObj.vin);
+			todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
+			todo.assignedTo = user;
+			todo.assignedBy = user;
+			todo.priority = "High";
+			todo.status = "Assigned";
+			Calendar cal = Calendar.getInstance();
+			Date date = new Date();
+			cal.setTime(date);
+			cal.add(Calendar.DATE, 1);
+			todo.dueDate = cal.getTime();
+			todo.save();
 			
 			List<ScheduleTest> listData = new ArrayList<>();
 			if(user.role == null) {
@@ -5308,6 +5363,7 @@ public class Application extends Controller {
 	    	List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
@@ -5325,7 +5381,17 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
-	    		vm.note = info.note;
+	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
 	    		if(info.getConfirmDate() != null) {
 	    			vm.confirmDate = df.format(info.getConfirmDate());
 	    		}
@@ -5366,6 +5432,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeen(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
@@ -5380,7 +5447,17 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.note = info.note;
+	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
 	    		vm.requestDate = df.format(info.requestDate);
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
@@ -5408,6 +5485,7 @@ public class Application extends Controller {
 	    	List<TradeIn> listData = TradeIn.findAllSeen(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
@@ -5422,7 +5500,17 @@ public class Application extends Controller {
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.note = info.note;
+	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
 	    		vm.requestDate = df.format(info.tradeDate);
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
@@ -5911,18 +5999,36 @@ public class Application extends Controller {
     	} else {
     		if(type.equals("requestMore")) {
     			RequestMoreInfo requestMore = RequestMoreInfo.findById(id);
-    			requestMore.setNote(note);
-    			requestMore.update();
+    			UserNotes notes = new UserNotes();
+    			notes.note = note;
+    			notes.requestMoreInfo = requestMore;
+    			notes.user = requestMore.assignedTo;
+    			Date date = new Date();
+    			notes.createdDate = date;
+    			notes.createdTime = date;
+    			notes.save();
     		}
     		if(type.equals("scheduleTest")) {
     			ScheduleTest scheduleTest = ScheduleTest.findById(id);
-    			scheduleTest.setNote(note);
-    			scheduleTest.update();
+    			UserNotes notes = new UserNotes();
+    			notes.note = note;
+    			notes.scheduleTest = scheduleTest;
+    			notes.user = scheduleTest.assignedTo;
+    			Date date = new Date();
+    			notes.createdDate = date;
+    			notes.createdTime = date;
+    			notes.save();
     		}
     		if(type.equals("tradeIn")) {
     			TradeIn tradeIn = TradeIn.findById(id);
-    			tradeIn.setNote(note);
-    			tradeIn.update();
+    			UserNotes notes = new UserNotes();
+    			notes.note = note;
+    			notes.tradeIn = tradeIn;
+    			notes.user = tradeIn.assignedTo;
+    			Date date = new Date();
+    			notes.createdDate = date;
+    			notes.createdTime = date;
+    			notes.save();
     		}
     		return ok();
     	}
@@ -6053,6 +6159,31 @@ public class Application extends Controller {
 				tradeIn.setStatus(null);
 				tradeIn.update();
 			}
+    		return ok();
+    	}
+    }
+    
+    public static Result getNewToDoCount() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser userObj = getLocalUser();
+    		int count = ToDo.findAllNewCountByUser(userObj);
+    		
+    		return ok(Json.toJson(count));
+    	}
+    }
+    
+    public static Result setTodoSeen() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser userObj = getLocalUser();
+    		List<ToDo> todoList = ToDo.findAllNewByUser(userObj);
+    		for(ToDo todo : todoList) {
+    			todo.setSeen("Seen");
+    			todo.update();
+    		}
     		return ok();
     	}
     }

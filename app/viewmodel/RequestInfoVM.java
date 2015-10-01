@@ -1,6 +1,7 @@
 package viewmodel;
 
 import java.util.Date;
+import java.util.List;
 
 public class RequestInfoVM {
 
@@ -18,7 +19,7 @@ public class RequestInfoVM {
 	public String confirmDate;
 	public String confirmTime;
 	public boolean isRead;
-	public String note;
+	public List<NoteVM> note;
 	public String status;
 	public String salesRep;
 	public String prefferedContact;

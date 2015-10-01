@@ -68,11 +68,11 @@ public class PriceAlert extends Model {
 	}
 	
 	public static List<PriceAlert> getEmailsByStatus(AuthUser user) {
-		return find.where().eq("user", user).eq("sendEmail", "Y").findList();
+		return find.where().eq("user", user).eq("sendEmail","Y").findList();
 	}
 	
-	public static List<PriceAlert> getEmailsByVin(String vin, AuthUser user) {
-		return find.where().eq("user", user).eq("vin", vin).findList();
+	public static List<PriceAlert> getEmailsByVin(String vin) {
+		return find.where().eq("vin", vin).findList();
 	}
 	
 	

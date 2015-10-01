@@ -8,7 +8,7 @@
  * Controller of the newappApp
  */
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http', function ($scope, dashboardService, pluginsService,$http) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile', function ($scope, dashboardService, pluginsService,$http,$compile) {
       $scope.$on('$viewContentLoaded', function () {
         
     	  dashboardService.init();
@@ -75,7 +75,7 @@ angular.module('newApp')
     	 		                                	} ,
     	 		                                 },
     	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'32%',cellEditableCondition: false,
-			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType == \'Sales Person\'" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button>',
+			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button>',
 			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			   		                                       if (row.entity.isRead === false) {
 			   		                                         return 'red';
@@ -96,21 +96,21 @@ angular.module('newApp')
      			 		 $scope.gridOptions2.columnDefs = [
      			 		                                 { name: 'vin', displayName: 'Vin', width:'7%',cellEditableCondition: false,enableFiltering: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			   		                                       if (row.entity.isRead === false) {
+     			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
      			 		                                 { name: 'model', displayName: 'Model',enableFiltering: false, width:'6%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			   		                                       if (row.entity.isRead === false) {
+     			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
      			 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'8%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			   		                                       if (row.entity.isRead === false) {
+     			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
@@ -118,51 +118,51 @@ angular.module('newApp')
      			 		                                 
      			 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'7%',cellEditableCondition: false,
      					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     				  		                                       if (row.entity.isRead === false) {
+     				  		                                       if (row.entity.confirmDate === null) {
      				  		                                         return 'red';
      				  		                                     }
      				 		                                	} ,
      			 		                                 },
      			 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'7%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			   		                                       if (row.entity.isRead === false) {
+     			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
      			 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'7%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			   		                                       if (row.entity.isRead === false) {
+     			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
      			 		                                 { name: 'confirmDate', displayName: 'Confirm Day',enableFiltering: false, width:'10%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			   		                                       if (row.entity.isRead === false) {
+     			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      					                                 },
      					                                 { name: 'confirmTime', displayName: 'Confirm Time',enableFiltering: false, width:'10%',cellEditableCondition: false,
      					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     				  		                                       if (row.entity.isRead === false) {
+     				  		                                       if (row.entity.confirmDate === null) {
      				  		                                         return 'red';
      				  		                                     }
      				 		                                	} ,
      			 		                                 },
-     			 		                                { name: 'isRead', displayName: 'Seen',enableFiltering: false, width:'17%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-     			 		                                	 cellTemplate:'<div class="icheck-list"ng-show="grid.appScope.userType == \'Sales Person\'" ><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" style="float:left;margin-left:3%;"></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType == \'Sales Person\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;">Confirm/Reschedule</button>', 
+     			 		                                { name: 'isRead', displayName: 'Confirm',enableFiltering: false, width:'17%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     			 		                                	 cellTemplate:'<div class="icheck-list"ng-show="grid.appScope.userType != \'\'" ></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType != \'\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;">Confirm/Reschedule</button>', 
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     			  		                                       if (row.entity.isRead === false) {
+     			  		                                       if (row.entity.confirmDate === null) {
      			  		                                         return 'red';
      			  		                                     }
      			 		                                	} ,
      			 		                                 },
      			 		                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'23%',cellEditableCondition: false,
-      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelScheduleStatus(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'scheduleTest\')" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button>',
+      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" ng-show="grid.appScope.userType != \'\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelScheduleStatus(row.entity)" ng-show="grid.appScope.userType != \'\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'scheduleTest\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button>',
       			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-       			   		                                       if (row.entity.isRead === false) {
+       			   		                                       if (row.entity.confirmDate === null) {
        			   		                                         return 'red';
        			   		                                     }
        			  		                                	} ,
@@ -233,7 +233,7 @@ angular.module('newApp')
      			 				                                 
      			 				                                 },
      			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'32%',cellEditableCondition: false,
-     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType == \'Sales Person\'"style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-show="grid.appScope.userType == \'Sales Person\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity)" ng-show="grid.appScope.userType == \'Sales Person\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button>',
+     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button>',
      	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	       			   		                                       if (row.entity.isRead === false) {
      	       			   		                                         return 'red';
@@ -396,6 +396,9 @@ angular.module('newApp')
 	  			 	if($scope.userType == "General Manager") {
 	  			 		$scope.getGMData();
 	  			 	}
+	  			 	if($scope.userType == "Sales Person") {
+	  			 		$scope.getToDoNotification();
+	  			 	}
 	  			});
 	    		
 	    		$http.get('/getSalesUserOnly')
@@ -411,8 +414,49 @@ angular.module('newApp')
 		    		});
 	    		}
 	    		
-            
-    			  
+	    		$scope.getToDoNotification = function() {
+	    			$http.get('/getNewToDoCount')
+		    		.success(function(data){
+		    			console.log(data);
+		    			$scope.toDoCount = data;
+		    			if($scope.toDoCount != '0') {
+			    			var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">{{toDoCount}} New Todos Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">Go to todos&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
+			    			var position = 'topRight';
+			    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+			    	        var n = noty({
+			    	            text: notifContent,
+			    	            type: 'success',
+			    	            layout: position,
+			    	            theme: 'made',
+			    	            animation: {
+			    	                open: 'animated bounceIn',
+			    	                close: 'animated bounceOut'
+			    	            },
+			    	            
+			    	            callback: {
+			    	                onShow: function () {
+			    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+			    	                },
+			    	                onCloseClick: function () {
+			    		    			$('html, body').animate({scrollTop:2700}, 'slow');
+			    		    			$scope.setTodoSeen();
+			    	                }
+			    	            }
+			    	        });
+			    	        
+			    	        var element = $('#cnt');
+							$compile(element)($scope);
+		    			}
+		    		});
+	    		}
+	    		
+	    		$scope.setTodoSeen = function() {
+	    			$http.get('/setTodoSeen')
+		    		.success(function(data){
+		    			
+		    		});
+	    		}
+	    		
     	$scope.reqMore = true;	
     	$scope.testdrv = false;
     	$scope.trdin = false;
@@ -943,7 +987,8 @@ angular.module('newApp')
 		   $scope.addNoteToRequestUser = function(entity,type) {
 			   $scope.userNoteId = entity.id;
 			   $scope.typeOfNote = type;
-			   $scope.userNote = entity.note;
+			   $scope.userNoteList = entity.note;
+			   $scope.userNote = "";
 			   $('#btnUserNote').click();
 		   }
 		   
@@ -977,6 +1022,7 @@ angular.module('newApp')
 			   $scope.testDriveData.vin = entity.vin;
 			   $scope.testDriveData.bestDay = "";
 			   $scope.testDriveData.bestTime = "";
+			   $('#bestTime').val("");
 			   $scope.testDriveData.prefferedContact = "";
 		   }
 		   

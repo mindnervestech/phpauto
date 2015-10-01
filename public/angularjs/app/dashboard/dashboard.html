@@ -596,8 +596,8 @@
             <div class="panel-header panel-controls">
                 <h3><i class="icon-list"></i> <strong>Todo</strong> List</h3>
             </div>
-            <div class="panel-content" style="height:399px;overflow-y:auto;">
-                <ul class="todo-list ui-sortable">
+            <div class="panel-content">
+                <ul class="todo-list ui-sortable" style="height:399px;overflow-y:auto;">
                     <li ng-repeat="todo in toDoList" ng-class="{'': todo.priority == 'Low','low': todo.priority == 'Medium','medium': todo.priority == 'High','high': todo.priority == 'Critical'}">
                          <div class="pull-right">
                             <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusComplete(todo.id)">Complete</div>
@@ -975,7 +975,20 @@
 															<input type="text" class="form-control form-white" ng-model="userNote" required>
 														</div>
 													</div>
-								                    
+								                    <div class="form-group col-sm-12">
+								                    <table class="table">
+								                    	<tr>
+								                    		<td>Note</td>
+								                    		<td>Date</td>
+								                    		<td>Time</td>
+								                    	</tr>
+								                    	<tr ng-repeat="noteStatus in userNoteList">
+								                    		<td>{{noteStatus.note}}</td>
+								                    		<td>{{noteStatus.date}}</td>
+								                    		<td>{{noteStatus.time}}</td>
+								                    	</tr>
+								                    </table>
+								                    </div>
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>

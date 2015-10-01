@@ -32,7 +32,6 @@ public class ScheduleTest extends Model {
 	public Date confirmDate;
 	public Date confirmTime;
 	public String leadStatus;
-	public String note;
 	public String reason;
 	@ManyToOne
 	public AuthUser assignedTo;
@@ -129,12 +128,6 @@ public class ScheduleTest extends Model {
 	}
 	public void setLeadStatus(String leadStatus) {
 		this.leadStatus = leadStatus;
-	}
-	public String getNote() {
-		return note;
-	}
-	public void setNote(String note) {
-		this.note = note;
 	}
 	public String getReason() {
 		return reason;
