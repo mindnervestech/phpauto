@@ -86,12 +86,24 @@ public class UserNotes extends Model {
 		return find.where().eq("requestMoreInfo", info).eq("user",user).findList();
 	}
 	
+	public static List<UserNotes> findRequestMore(RequestMoreInfo info) {
+		return find.where().eq("requestMoreInfo", info).findList();
+	}
+	
 	public static List<UserNotes> findScheduleTestByUser(ScheduleTest schedule,AuthUser user) {
 		return find.where().eq("scheduleTest", schedule).eq("user",user).findList();
 	}
 	
+	public static List<UserNotes> findScheduleTest(ScheduleTest schedule) {
+		return find.where().eq("scheduleTest", schedule).findList();
+	}
+	
 	public static List<UserNotes> findTradeInByUser(TradeIn tradeIn,AuthUser user) {
 		return find.where().eq("tradeIn", tradeIn).eq("user",user).findList();
+	}
+	
+	public static List<UserNotes> findTradeIn(TradeIn tradeIn) {
+		return find.where().eq("tradeIn", tradeIn).findList();
 	}
 	
 }

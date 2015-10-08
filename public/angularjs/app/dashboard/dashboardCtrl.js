@@ -75,7 +75,7 @@ angular.module('newApp')
     	 		                                	} ,
     	 		                                 },
     	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'32%',cellEditableCondition: false,
-			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button>',
+			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,1)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button>',
 			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			   		                                       if (row.entity.isRead === false) {
 			   		                                         return 'red';
@@ -233,7 +233,7 @@ angular.module('newApp')
      			 				                                 
      			 				                                 },
      			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'32%',cellEditableCondition: false,
-     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button>',
+     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">NOTES</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button>',
      	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	       			   		                                       if (row.entity.isRead === false) {
      	       			   		                                         return 'red';
@@ -542,6 +542,7 @@ angular.module('newApp')
 		$scope.getAllSalesPersonRecord = function(id){
 		
 		       console.log(id);
+		       $scope.salesPerson = id;
 	    		$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
 				.success(function(data) {
 				$scope.gridOptions2.data = data;
@@ -569,7 +570,7 @@ angular.module('newApp')
     	}
     	
     	$scope.saveScheduleStatus = function() {
-	    		$http.get('/setVehicleAndScheduleStatus/'+$scope.scheduleStatusVal.vin)
+	    		$http.get('/setVehicleAndScheduleStatus/'+$scope.scheduleStatusVal.vin+'/'+$scope.scheduleStatusVal.option)
 				.success(function(data) {
 					$scope.getScheduleTestData();
 					$.pnotify({
@@ -592,7 +593,7 @@ angular.module('newApp')
     	}
     	
     	$scope.saveScheduleClose = function() {
-	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.reasonToCancel)
+	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.option+'/'+$scope.reasonToCancel)
 				.success(function(data) {
 					$scope.getScheduleTestData();
 					$('#scheduleCancelBtn').click();
@@ -688,6 +689,7 @@ angular.module('newApp')
     		  $scope.scheduleTestData.email = entity.email;
     		  $scope.scheduleTestData.confirmDate = entity.confirmDate;
     		  $scope.scheduleTestData.confirmTime = entity.confirmTime;
+    		  $scope.scheduleTestData.option = entity.option;
     	  }
     	  
     	  $scope.saveConfirmData = function() {
@@ -986,7 +988,15 @@ angular.module('newApp')
 		   
 		   $scope.addNoteToRequestUser = function(entity,type) {
 			   $scope.userNoteId = entity.id;
-			   $scope.typeOfNote = type;
+			   if(entity.option==0) {
+				   $scope.typeOfNote = 'scheduleTest';
+			   } else if(entity.option == 1) {
+				   $scope.typeOfNote = 'requestMore';
+			   } else if(entity.option == 2) {
+				   $scope.typeOfNote = 'tradeIn';
+			   } else {
+				   $scope.typeOfNote = type;
+			   }
 			   $scope.userNoteList = entity.note;
 			   $scope.userNote = "";
 			   $('#btnUserNote').click();
@@ -1014,14 +1024,16 @@ angular.module('newApp')
 		 		});
 		   }
 		   $scope.testDriveData = {};
-		   $scope.scheduleTestDriveForUser = function(entity) {
+		   $scope.scheduleTestDriveForUser = function(entity,option) {
 			   $('#btnTestDrive').click();
+			   $scope.testDriveData.id = entity.id;
 			   $scope.testDriveData.name = entity.name;
 			   $scope.testDriveData.email = entity.email;
 			   $scope.testDriveData.phone = entity.phone;
 			   $scope.testDriveData.vin = entity.vin;
 			   $scope.testDriveData.bestDay = "";
 			   $scope.testDriveData.bestTime = "";
+			   $scope.testDriveData.option = option;
 			   $('#bestTime').val("");
 			   $scope.testDriveData.prefferedContact = "";
 		   }
@@ -1033,6 +1045,7 @@ angular.module('newApp')
 			   console.log($scope.testDriveData);
 			   $http.post('/saveTestDrive',$scope.testDriveData)
 				.success(function(data) {
+					$scope.getAllSalesPersonRecord($scope.salesPerson);
 					$('#driveClose').click();
 					$.pnotify({
 					    title: "Success",

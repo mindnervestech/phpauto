@@ -60,8 +60,56 @@ public class TradeIn extends Model {
 	public AuthUser assignedTo;
 	@ManyToOne
 	public AuthUser user;
+	public String bestDay;
+	public String bestTime;
+	public Date scheduleDate;
+	public Boolean isScheduled;
+	public Date confirmDate;
+	public Date confirmTime;
+	public String leadStatus;
 	
-	
+	public String getLeadStatus() {
+		return leadStatus;
+	}
+	public void setLeadStatus(String leadStatus) {
+		this.leadStatus = leadStatus;
+	}
+	public String getBestDay() {
+		return bestDay;
+	}
+	public void setBestDay(String bestDay) {
+		this.bestDay = bestDay;
+	}
+	public String getBestTime() {
+		return bestTime;
+	}
+	public void setBestTime(String bestTime) {
+		this.bestTime = bestTime;
+	}
+	public Date getScheduleDate() {
+		return scheduleDate;
+	}
+	public void setScheduleDate(Date scheduleDate) {
+		this.scheduleDate = scheduleDate;
+	}
+	public Boolean getIsScheduled() {
+		return isScheduled;
+	}
+	public void setIsScheduled(Boolean isScheduled) {
+		this.isScheduled = isScheduled;
+	}
+	public Date getConfirmDate() {
+		return confirmDate;
+	}
+	public void setConfirmDate(Date confirmDate) {
+		this.confirmDate = confirmDate;
+	}
+	public Date getConfirmTime() {
+		return confirmTime;
+	}
+	public void setConfirmTime(Date confirmTime) {
+		this.confirmTime = confirmTime;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -341,7 +389,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllSeen(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).orderBy("tradeDate desc").findList();
+		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("isScheduled", true).eq("status", null).orderBy("tradeDate desc").findList();
 	}
 	
 	public static int findAll() {
@@ -350,6 +398,14 @@ public class TradeIn extends Model {
 	
 	public static List<TradeIn> findAllByUser(AuthUser user) {
 		return find.where().eq("user", user).findList();
+	}
+	
+	public static List<TradeIn> findAllScheduledUser(AuthUser user) {
+		return find.where().eq("isScheduled", true).eq("user",user).findList();
+	}
+	
+	public static List<TradeIn>  findByVinAndAssignedUser(String vin,AuthUser user) {
+		return find.where().eq("vin", vin).eq("user", user).findList();
 	}
 	
 }
