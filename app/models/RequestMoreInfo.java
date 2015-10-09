@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.Expr;
+import com.avaje.ebean.Expression;
+
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
@@ -129,7 +132,7 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static List<RequestMoreInfo> findAllCancel() {
-		return find.where().eq("status", "CANCEL").findList();
+		return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
 	}
 	
 	public static int findAll() {
@@ -141,7 +144,7 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static List<RequestMoreInfo> findAllScheduledUser(AuthUser user) {
-		return find.where().eq("isScheduled", true).eq("user", user).findList();
+		return find.where().eq("isScheduled", true).eq("user", user).eq("leadStatus", null).findList();
 	}
 	
 	public static List<RequestMoreInfo> findByVinAndAssignedUser(String vin,AuthUser user) {

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.Expr;
+
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
@@ -381,7 +383,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllCanceled() {
-		return find.where().eq("status", "CANCEL").findList();
+		return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
 	}
 	
 	public static List<TradeIn> findAllData() {
@@ -401,7 +403,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllScheduledUser(AuthUser user) {
-		return find.where().eq("isScheduled", true).eq("user",user).findList();
+		return find.where().eq("isScheduled", true).eq("leadStatus", null).eq("user",user).findList();
 	}
 	
 	public static List<TradeIn>  findByVinAndAssignedUser(String vin,AuthUser user) {

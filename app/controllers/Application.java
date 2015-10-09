@@ -12,6 +12,7 @@ import java.io.StringWriter;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -4711,7 +4712,7 @@ public class Application extends Controller {
     	
     }
     
-    public static Result saveConfirmData() throws ParseException{
+    public static Result saveConfirmData() {
     	AuthUser user = (AuthUser) getLocalUser();
     	Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
     	RequestInfoVM vm = form.get();
@@ -4724,9 +4725,17 @@ public class Application extends Controller {
 			ScheduleTest  scheduleTest = ScheduleTest.findById(vm.id);
 			if(scheduleTest != null) {
 				flag = true;
-				confirmDate = df.parse(vm.confirmDate);
+				try {
+					confirmDate = df.parse(vm.confirmDate);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				scheduleTest.setConfirmDate(confirmDate);
-				scheduleTest.setConfirmTime(parseTime.parse(vm.confirmTime));
+				try {
+					scheduleTest.setConfirmTime(parseTime.parse(vm.confirmTime));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				scheduleTest.setEmail(vm.email);
 				vin = scheduleTest.vin;
 				scheduleTest.update(); 
@@ -4735,9 +4744,17 @@ public class Application extends Controller {
 			RequestMoreInfo info = RequestMoreInfo.findById(vm.id);
 			if(info!=null) {
 				flag = true;
-				confirmDate = df.parse(vm.confirmDate);
+				try {
+					confirmDate = df.parse(vm.confirmDate);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				info.setConfirmDate(confirmDate);
-				info.setConfirmTime(parseTime.parse(vm.confirmTime));
+				try {
+					info.setConfirmTime(parseTime.parse(vm.confirmTime));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				info.setEmail(vm.email);
 				vin = info.vin;
 				info.update();
@@ -4746,92 +4763,133 @@ public class Application extends Controller {
 			TradeIn info = TradeIn.findById(vm.id);
 			if(info!=null) {
 				flag = true;
-				confirmDate = df.parse(vm.confirmDate);
+				try {
+					confirmDate = df.parse(vm.confirmDate);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				info.setConfirmDate(confirmDate);
-				info.setConfirmTime(parseTime.parse(vm.confirmTime));
+				try {
+					info.setConfirmTime(parseTime.parse(vm.confirmTime));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 				info.setEmail(vm.email);
 				vin = info.vin;
 				info.update();
 			}
 		}
     	if(flag) {
-    		AuthUser logoUser = AuthUser.findById(userId);
-	    	SiteLogo logo = SiteLogo.findByUser(logoUser);
-    		Properties props = new Properties();
-    		props.put("mail.smtp.auth", "true");
-    		props.put("mail.smtp.host", "smtp.gmail.com");
-    		props.put("mail.smtp.port", "587");
-    		props.put("mail.smtp.starttls.enable", "true");
-    		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-    			protected PasswordAuthentication getPasswordAuthentication() {
-    				return new PasswordAuthentication(emailUsername, emailPassword);
-    			}
-    		});
-    		
-    		try
-    		{
-    			Message message = new MimeMessage(session);
-    			message.setFrom(new InternetAddress(emailUsername));
-    			message.setRecipients(Message.RecipientType.TO,
-    					InternetAddress.parse(vm.email));
-    			message.setSubject("TEST DRIVE CONFIRMATION");
-    			Multipart multipart = new MimeMultipart();
-    			BodyPart messageBodyPart = new MimeBodyPart();
-    			messageBodyPart = new MimeBodyPart();
-    			
-    			VelocityEngine ve = new VelocityEngine();
-    			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
-    			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
-    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
-    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-    			ve.init();
-    		
-    			
-    	        Template t = ve.getTemplate("/public/emailTemplate/confirmationTemplate.vm"); 
-    	        VelocityContext context = new VelocityContext();
-    	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
-    	        Calendar cal = Calendar.getInstance();
-    	        cal.setTime(confirmDate);
-    	        int dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
-    	        int month = cal.get(Calendar.MONTH);
-    	        String monthName = months[month];
-    	        context.put("hostnameUrl", imageUrlPath);
-    	        context.put("siteLogo", logo.logoImagePath);
-    	        context.put("dayOfmonth", dayOfmonth);
-    	        context.put("monthName", monthName);
-    	        context.put("confirmTime", vm.confirmTime);
-    	        
-    	        Vehicle vehicle = Vehicle.findByVin(vm.vin);
-    	        context.put("year", vehicle.year);
-    	        context.put("make", vehicle.make);
-    	        context.put("model", vehicle.model);
-    	        context.put("price", "$"+vehicle.price);
-    	        context.put("stock", vehicle.stock);
-    	        context.put("vin", vehicle.vin);
-    	        context.put("make", vehicle.make);
-    	        context.put("mileage", vehicle.mileage);
-    	        context.put("name", user.firstName+" "+user.lastName);
-    	        context.put("email", user.email);
-    	        context.put("phone", user.phone);
-    	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
-    	        context.put("defaultImage", image.path);
-    	        
-    	        StringWriter writer = new StringWriter();
-    	        t.merge( context, writer );
-    	        String content = writer.toString(); 
-    			
-    			messageBodyPart.setContent(content, "text/html");
-    			multipart.addBodyPart(messageBodyPart);
-    			message.setContent(multipart);
-    			Transport.send(message);
-    			
-    		}
-    		catch (Exception e)
-    		{
-    			e.printStackTrace();
-    		}
+    		Map map = new HashMap();
+    		map.put("email",vm.email);
+    		map.put("email",vm.email);
+    		map.put("confirmDate", confirmDate);
+    		map.put("confirmTime", vm.confirmTime);
+    		map.put("vin", vin);
+    		map.put("uname", user.firstName+" "+user.lastName);
+    		map.put("uphone", user.phone);
+    		map.put("uemail", user.email);
+    		makeToDo(vm.vin);
+    		sendMail(map);
     	}
     	return ok();
+    }
+    
+    private static void makeToDo(String vin) {
+    	AuthUser user = (AuthUser) getLocalUser();
+    	ToDo todo = new ToDo();
+		Vehicle vobj = Vehicle.findByVin(vin);
+		todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
+		todo.assignedTo = user;
+		todo.assignedBy = user;
+		todo.priority = "High";
+		todo.status = "Assigned";
+		Calendar cal = Calendar.getInstance();
+		Date date = new Date();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, 1);
+		todo.dueDate = cal.getTime();
+		todo.save();
+    }
+    
+    private static void sendMail(Map map) {
+    	AuthUser logoUser = AuthUser.findById(userId);
+    	SiteLogo logo = SiteLogo.findByUser(logoUser);
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+    	try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(map.get("email").toString()));
+			message.setSubject("TEST DRIVE CONFIRMATION");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+		
+			
+	        Template t = ve.getTemplate("/public/emailTemplate/confirmationTemplate.vm"); 
+	        VelocityContext context = new VelocityContext();
+	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime((Date)map.get("confirmDate"));
+	        int dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+	        int month = cal.get(Calendar.MONTH);
+	        String monthName = months[month];
+	        context.put("hostnameUrl", imageUrlPath);
+	        context.put("siteLogo", logo.logoImagePath);
+	        context.put("dayOfmonth", dayOfmonth);
+	        context.put("monthName", monthName);
+	        context.put("confirmTime", map.get("confirmTime"));
+	        
+	        Vehicle vehicle = Vehicle.findByVin(map.get("vin").toString());
+	        context.put("year", vehicle.year);
+	        context.put("make", vehicle.make);
+	        context.put("model", vehicle.model);
+	        context.put("price", "$"+vehicle.price);
+	        context.put("stock", vehicle.stock);
+	        context.put("vin", vehicle.vin);
+	        context.put("make", vehicle.make);
+	        context.put("mileage", vehicle.mileage);
+	        context.put("name", map.get("uname"));
+	        context.put("email", map.get("uemail"));
+	        context.put("phone",  map.get("uphone"));
+	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        if(image!=null) {
+	        	context.put("defaultImage", image.path);
+	        } else {
+	        	context.put("defaultImage", "");
+	        }
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString(); 
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
     }
     
     public static Result saveUser() {
@@ -6179,14 +6237,22 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		AuthUser user = getLocalUser();
+    		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     		Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
     		RequestInfoVM vm = form.get();
+    		Date confirmDate = null;
     		if(vm.option==1) {
     			RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(vm.id);
     			requestMoreInfo.setName(vm.name);
     			requestMoreInfo.setEmail(vm.email);
     			requestMoreInfo.setPhone(vm.phone);
     			requestMoreInfo.setBestDay(vm.bestDay);
+    			try {
+    				confirmDate = df.parse(vm.bestDay);
+    				requestMoreInfo.setConfirmDate(confirmDate);
+    				requestMoreInfo.setConfirmTime(parseTime.parse(vm.bestTime));
+    			} catch(Exception e) {}
     			requestMoreInfo.setBestTime(vm.bestTime);
     			requestMoreInfo.setPreferredContact(vm.prefferedContact);
     			requestMoreInfo.setVin(vm.vin);
@@ -6201,6 +6267,11 @@ public class Application extends Controller {
     			tradeIn.setPhone(vm.phone);
     			tradeIn.setBestDay(vm.bestDay);
     			tradeIn.setBestTime(vm.bestTime);
+    			try {
+    				confirmDate = df.parse(vm.bestDay);
+    				tradeIn.setConfirmDate(confirmDate);
+    				tradeIn.setConfirmTime(parseTime.parse(vm.bestTime));
+    			} catch(Exception e) {}
     			tradeIn.setPreferredContact(vm.prefferedContact);
     			tradeIn.setVin(vm.vin);
     			tradeIn.setScheduleDate(new Date());
@@ -6208,6 +6279,17 @@ public class Application extends Controller {
     			tradeIn.setIsScheduled(true);
     			tradeIn.update();
     		}
+        	Map map = new HashMap();
+        	map.put("email",vm.email);
+        	map.put("email",vm.email);
+        	map.put("confirmDate", confirmDate);
+        	map.put("confirmTime", vm.bestTime);
+        	map.put("vin", vm.vin);
+        	map.put("uname", user.firstName+" "+user.lastName);
+        	map.put("uphone", user.phone);
+        	map.put("uemail", user.email);
+        	makeToDo(vm.vin);
+        	sendMail(map);
     		return ok();
     	}
     }
@@ -6290,27 +6372,29 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result changeAssignedUser(Long id,Integer user,String leadType) {
+    public static Result changeAssignedUser(Long id,Integer user,String leadType,Integer option) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
     		AuthUser userObj = AuthUser.findById(user);
-    		if(leadType.equals("Schedule Test")) {
+    		if(leadType.equals("Schedule Test") && option!=0) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setAssignedTo(userObj);
     			schedule.setLeadStatus(null);
     			schedule.update();
     		}
-			if(leadType.equals("Request More Info")) {
+			if(leadType.equals("Request More Info") || (leadType.equals("Schedule Test") && option==1)) {
 			    RequestMoreInfo info = RequestMoreInfo.findById(id);
 			    info.setAssignedTo(userObj);
 			    info.setStatus(null);
+			    info.setLeadStatus(null);
 			    info.update();
 			}
-			if(leadType.equals("Trade In")) {
+			if(leadType.equals("Trade In") || (leadType.equals("Schedule Test") && option!=2)) {
 				TradeIn tradeIn = TradeIn.findById(id);
 				tradeIn.setAssignedTo(userObj);
 				tradeIn.setStatus(null);
+				tradeIn.setLeadStatus(null);
 				tradeIn.update();
 			}
     		return ok();
@@ -6323,8 +6407,19 @@ public class Application extends Controller {
     	} else {
     		AuthUser userObj = getLocalUser();
     		int count = ToDo.findAllNewCountByUser(userObj);
-    		
-    		return ok(Json.toJson(count));
+    		Map map = new HashMap();
+    		map.put("count", count);
+    		if(count==1) {
+    			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    			ToDo todo = ToDo.findAllNewByUser(userObj).get(0);
+    			ToDoVM doVM = new ToDoVM();
+    			doVM.assignedById = todo.getAssignedBy().id;
+    			doVM.priority = todo.getPriority();
+    			doVM.task = todo.getTask();
+    			doVM.dueDate = df.format(todo.dueDate);
+    			map.put("data", doVM);
+    		}
+    		return ok(Json.toJson(map));
     	}
     }
     
@@ -6338,6 +6433,38 @@ public class Application extends Controller {
     			todo.setSeen("Seen");
     			todo.update();
     		}
+    		return ok();
+    	}
+    }
+    
+    public static Result deleteCanceledLead(Long id,String type,Integer option) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		if(type.equals("Request More Info") || (type.equals("Schedule Test") && option==1)) {
+    			RequestMoreInfo info = RequestMoreInfo.findById(id);
+    			List<UserNotes> noteList = UserNotes.findRequestMore(info);
+    			for(UserNotes note: noteList) {
+    				note.delete();
+    			}
+    			info.delete();
+    		}
+			if(type.equals("Schedule Test") && option!=0) {
+			    ScheduleTest schedule = ScheduleTest.findById(id);
+			    List<UserNotes> noteList = UserNotes.findScheduleTest(schedule);
+			    for(UserNotes note: noteList) {
+    				note.delete();
+    			}
+			    schedule.delete();
+			}
+			if(type.equals("Trade In") || (type.equals("Schedule Test") && option==2)) {
+				TradeIn tradeIn = TradeIn.findById(id);
+				List<UserNotes> noteList = UserNotes.findTradeIn(tradeIn);
+				for(UserNotes note: noteList) {
+    				note.delete();
+    			}
+				tradeIn.delete();
+			}
     		return ok();
     	}
     }

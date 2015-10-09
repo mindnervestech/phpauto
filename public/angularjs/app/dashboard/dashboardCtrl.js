@@ -252,7 +252,7 @@ angular.module('newApp')
      	     			 		 		 $scope.gridOptions4.enableHorizontalScrollbar = 0;
      	     			 		 		 $scope.gridOptions4.enableVerticalScrollbar = 2;
      	     			 		 		 $scope.gridOptions4.columnDefs = [
-     	     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'12%',cellEditableCondition: false,enableFiltering: false,
+     	     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,enableFiltering: false,
      	     			 		 		                                	
      	     			 		 		                                 },
      	     			 		 		                                 { name: 'model', displayName: 'Model',enableFiltering: false, width:'8%',cellEditableCondition: false,
@@ -261,28 +261,28 @@ angular.module('newApp')
      	     			 		 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'9%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'11%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'9%',cellEditableCondition: false,
      	     			 				                                	 
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'9%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'8%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'10%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'8%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
      	     			 		 		                                 
-     	     			 		 		                                { name: 'salesRep', displayName: 'Sales Rep', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 		 		                                { name: 'salesRep', displayName: 'Sales Rep', width:'8%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 		    		                                 
      	     			 				                                 
      	     			 				                                 },
      	     			 				                              { name: 'leadType', displayName: 'Lead', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 				                                 
      	     			 				                                 },
-     	     			 				                              { name: 'status', displayName: 'Reason', width:'14%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 				                              { name: 'status', displayName: 'Reason', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 		    		                                 
      	     			 				                                 },
-     	     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'8%',cellEditableCondition: false,
-     	     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button>',
+     	     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'21%',cellEditableCondition: false,
+     	     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.deleteForeverLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">DELETE FOREVER</button>',
      	     	      			 		                                	 
      	     	       			 		                                 },
      	     			 		     		                                 ];
@@ -364,6 +364,30 @@ angular.module('newApp')
 				  $scope.init();
     		  }
     		  
+    		  $scope.deleteForeverLead = function(entity) {
+    			  $scope.leadId = entity.id;
+    			  $scope.leadType = entity.leadType;
+    			  if(entity.option)
+    				  $scope.option = entity.option;
+    			  else
+    				  $scope.option = 0;
+    			  $('#btnDeleteForever').click();
+    		  }
+    		  
+    		  $scope.deleteMyLead = function() {
+    			  console.log($scope.leadId);
+    			  console.log($scope.leadType);
+    			  $http.get('/deleteCanceledLead/'+$scope.leadId+'/'+$scope.leadType+'/'+$scope.option)
+					.success(function(data) {
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Lead deleted successfully",
+						});
+						$scope.getAllCanceledLeads();
+				});
+    		  }
+    		  
     		  $scope.getScheduleBySelectedDate = function(date) {
     			  $http.get('/getScheduleBySelectedDate/'+date)
 					.success(function(data) {
@@ -417,11 +441,17 @@ angular.module('newApp')
 	    		$scope.getToDoNotification = function() {
 	    			$http.get('/getNewToDoCount')
 		    		.success(function(data){
-		    			console.log(data);
-		    			$scope.toDoCount = data;
+		    			$scope.toDoCount = data.count;
 		    			if($scope.toDoCount != '0') {
-			    			var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">{{toDoCount}} New Todos Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">Go to todos&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
-			    			var position = 'topRight';
+		    				var notifContent;
+		    				$scope.notification = data.data;
+		    				console.log($scope.notification);
+		    				if($scope.toDoCount==1) {
+		    					notifContent = "<div class='alert alert-dark media fade in bd-0 "+($scope.notification.priority=='Low'?"":$scope.notification.priority == 'Medium'?"pri-low": $scope.notification.priority =='High' ?"pri-medium":"pri-high")+"' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><h4 class='alert-title f-14' id='cnt'>{{toDoCount}} New Todos Assigned</h4><p>"+$scope.notification.task+"</p><p>"+$scope.notification.priority+"</p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Go to todos&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";
+		    				} else {
+		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">{{toDoCount}} New Todos Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">Go to todos&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
+		    				}
+		    				var position = 'topRight';
 			    	        if ($('body').hasClass('rtl')) position = 'topLeft';
 			    	        var n = noty({
 			    	            text: notifContent,
@@ -497,12 +527,17 @@ angular.module('newApp')
         $scope.assignCanceledLead = function(entity) {
         	$scope.cancelId = entity.id;
         	$scope.leadType = entity.leadType;
+        	if(entity.option)
+        		$scope.option = entity.option;
+        	else
+        		$scope.option = 0;
+        	
         	$scope.changedUser = "";
         	$('#btnAssignUser').click();
         }
         
         $scope.changeAssignedUser = function() {
-        	$http.get('/changeAssignedUser/'+$scope.cancelId+'/'+$scope.changedUser+'/'+$scope.leadType)
+        	$http.get('/changeAssignedUser/'+$scope.cancelId+'/'+$scope.changedUser+'/'+$scope.leadType+'/'+$scope.option)
 			.success(function(data) {
 				$('#closeChangeUser').click();
 				$.pnotify({
@@ -540,7 +575,6 @@ angular.module('newApp')
 		
 	
 		$scope.getAllSalesPersonRecord = function(id){
-		
 		       console.log(id);
 		       $scope.salesPerson = id;
 	    		$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
@@ -1021,6 +1055,7 @@ angular.module('newApp')
 					if($scope.typeOfNote == 'tradeIn') {
 						$scope.getTradeInData();
 					}
+					$scope.getAllSalesPersonRecord($('#salesPersonUserId').val());
 		 		});
 		   }
 		   $scope.testDriveData = {};
@@ -1052,6 +1087,8 @@ angular.module('newApp')
 					    type:'success',
 					    text: "saved successfully",
 					});
+					$("#test-drive-tab").click();
+					$scope.testDrive();
 				});
 		   }
 		   

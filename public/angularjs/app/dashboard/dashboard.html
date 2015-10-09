@@ -314,12 +314,12 @@
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			    <ul id="myTabs" class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="requestMore()">Request More Info</button></a></li>
-			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="testDrive()">Schedule Test Drive</button></a></li>
+			      <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="testDrive()">Schedule Test Drive</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="tradeIn()">Trade In Inquiries</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
 			    	<h2><b style="margin-left:10%;" ng-show="userType == 'Sales Person'">My Leads</b></h2>
-			    	<select  class="form-control form-white" ng-show="userType == 'General Manager'" ng-model="salesPerson" ng-change="getAllSalesPersonRecord(salesPerson)" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
+			    	<select  class="form-control form-white" ng-show="userType == 'General Manager'" id="salesPersonUserId" ng-model="salesPerson" ng-change="getAllSalesPersonRecord(salesPerson)" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
                                     <option ng-repeat="item in salesPersonList" ng-selected="$index==0" value="{{item.id}}"  >{{item.fullName}}</option>
                                     
                                     
@@ -768,6 +768,7 @@
 							<button id="btnCancelToDo" data-toggle="modal" data-target="#todoCancelStatusModal" style="display: none;"></button>
 							<button id="btnUserNote" data-toggle="modal" data-target="#userNoteModal" style="display: none;"></button>
 							<button id="btnTestDrive" data-toggle="modal" data-target="#scheduleTestDriveModal" style="display: none;"></button>
+							<button id="btnDeleteForever" data-toggle="modal" data-target="#deleteForeverModal" style="display: none;"></button>
 							
 							
 							<div class="modal fade" id="assignUserModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -811,6 +812,24 @@
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
 								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="saveScheduleStatus()">Yes</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+
+									<div class="modal fade" id="deleteForeverModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Delete Lead</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Are you sure to delete?<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteMyLead()">Yes</button>
 								                </div>
 								            </div>
 								        </div>
@@ -1080,4 +1099,13 @@
 	background-color: #39B0CA !important;
 	color: white;
 } 
+.pri-high {
+	border-left: 2px solid #C75757 !important;
+}
+.pri-medium {
+	border-left: 2px solid #FF9122 !important;
+}
+.pri-low {
+	border-left: 2px solid #F3D261 !important;
+}
 </style>	
