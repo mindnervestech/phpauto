@@ -422,6 +422,7 @@ angular.module('newApp')
 	  			 	}
 	  			 	if($scope.userType == "Sales Person") {
 	  			 		$scope.getToDoNotification();
+	  			 		$scope.getAssignedLeads();
 	  			 	}
 	  			});
 	    		
@@ -437,6 +438,48 @@ angular.module('newApp')
 		    			$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
 		    		});
 	    		}
+	    		
+	    		$scope.getAssignedLeads = function() {
+	    			$http.get('/getAssignedLeads')
+		    		.success(function(data){
+		    			$scope.leadCount = data.count;
+		    			if($scope.leadCount != '0') {
+		    				var notifContent;
+		    				$scope.leadNotification = data.data;
+		    				console.log($scope.leadNotification);
+		    				if($scope.leadCount==1) {
+		    					notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><h4 class='alert-title f-14' id='cnt'>{{leadCount}} New Lead Assigned</h4><p class='row'><span class='col-md-4 col-sm-4 col-lg-4'>"+$scope.leadNotification.make+"</span><span class='col-md-4 col-sm-4 col-lg-4'>"+$scope.leadNotification.model+"</span><span class='col-md-4 col-sm-4 col-lg-4'>"+$scope.leadNotification.name+"</span></p><p class='row' style='margin-left:0;'><span>"+$scope.leadNotification.leadType+"</span></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Mark as read&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";
+		    				} else {
+		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">{{leadCount}} New Leads Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">Mark as read&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
+		    				}
+		    				var position = 'topRight';
+			    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+			    	        var n = noty({
+			    	            text: notifContent,
+			    	            type: 'success',
+			    	            layout: position,
+			    	            theme: 'made',
+			    	            animation: {
+			    	                open: 'animated bounceIn',
+			    	                close: 'animated bounceOut'
+			    	            },
+			    	            
+			    	            callback: {
+			    	                onShow: function () {
+			    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+			    	                },
+			    	                onCloseClick: function () {
+			    	                	$('html, body').animate({scrollTop:480}, 'slow');
+			    		    			$scope.setLeadSeen();
+			    	                }
+			    	            }
+			    	        });
+			    	        
+			    	        var element = $('#cnt');
+							$compile(element)($scope);
+		    			}
+		    		});
+	    		};
 	    		
 	    		$scope.getToDoNotification = function() {
 	    			$http.get('/getNewToDoCount')
@@ -479,6 +522,12 @@ angular.module('newApp')
 		    			}
 		    		});
 	    		}
+	    		
+	    		$scope.setLeadSeen = function() {
+	    			$http.get('/setLeadSeen')
+		    		.success(function(data){
+		    		});
+	    		};
 	    		
 	    		$scope.setTodoSeen = function() {
 	    			$http.get('/setTodoSeen')

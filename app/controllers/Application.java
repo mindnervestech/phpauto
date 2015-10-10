@@ -6381,6 +6381,7 @@ public class Application extends Controller {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setAssignedTo(userObj);
     			schedule.setLeadStatus(null);
+    			schedule.setIsReassigned(true);
     			schedule.update();
     		}
 			if(leadType.equals("Request More Info") || (leadType.equals("Schedule Test") && option==1)) {
@@ -6388,6 +6389,7 @@ public class Application extends Controller {
 			    info.setAssignedTo(userObj);
 			    info.setStatus(null);
 			    info.setLeadStatus(null);
+			    info.setIsReassigned(true);
 			    info.update();
 			}
 			if(leadType.equals("Trade In") || (leadType.equals("Schedule Test") && option!=2)) {
@@ -6395,6 +6397,7 @@ public class Application extends Controller {
 				tradeIn.setAssignedTo(userObj);
 				tradeIn.setStatus(null);
 				tradeIn.setLeadStatus(null);
+				tradeIn.setIsReassigned(true);
 				tradeIn.update();
 			}
     		return ok();
@@ -6469,5 +6472,67 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result getAssignedLeads() {
+    	AuthUser user = (AuthUser)getLocalUser();
+    	List<ScheduleTest> tests = ScheduleTest.findAllReassigned(user);
+    	List<RequestMoreInfo> infos = RequestMoreInfo.findAllReassigned(user);
+    	List<TradeIn> tradeIns = TradeIn.findAllReassigned(user);
+    	Map map = new HashMap();
+    	map.put("count", tests.size()+infos.size()+tradeIns.size());
+    	if(tests.size()+infos.size()+tradeIns.size()==1) {
+    		if(tests.size()==1) {
+    			RequestInfoVM infoVM = new RequestInfoVM();
+    			Vehicle vehicle = Vehicle.findByVin(tests.get(0).vin);
+    			infoVM.make = vehicle.getMake();
+    			infoVM.leadType = "Schedule Test";
+    			infoVM.model = vehicle.getModel();
+    			infoVM.name = vehicle.getYear();
+    			map.put("data", infoVM);
+    		} else if(infos.size()==1) {
+    			RequestInfoVM infoVM = new RequestInfoVM();
+    			Vehicle vehicle = Vehicle.findByVin(infos.get(0).vin);
+    			infoVM.make = vehicle.getMake();
+    			if(infos.get(0).isScheduled) 
+    				infoVM.leadType = "Schedule Test";
+    			else
+    				infoVM.leadType = "Request More Info";
+    			infoVM.model = vehicle.getModel();
+    			infoVM.name = vehicle.getYear();
+    			map.put("data", infoVM);
+    		} else {
+    			RequestInfoVM infoVM = new RequestInfoVM();
+    			Vehicle vehicle = Vehicle.findByVin(tradeIns.get(0).vin);
+    			infoVM.make = vehicle.getMake();
+    			if(tradeIns.get(0).isScheduled) 
+    				infoVM.leadType = "Schedule Test";
+    			else
+    				infoVM.leadType = "Trade In";
+    			infoVM.model = vehicle.getModel();
+    			infoVM.name = vehicle.getYear();
+    			map.put("data", infoVM);
+    		}
+    	}
+    	return ok(Json.toJson(map));
+    }
+    
+    public static Result setLeadSeen() {
+    	AuthUser user = (AuthUser)getLocalUser();
+    	List<ScheduleTest> tests = ScheduleTest.findAllReassigned(user);
+    	List<RequestMoreInfo> infos = RequestMoreInfo.findAllReassigned(user);
+    	List<TradeIn> tradeIns = TradeIn.findAllReassigned(user);
+    	for(ScheduleTest test : tests) {
+    		test.setIsReassigned(false);
+    		test.update();
+    	}
+    	for(RequestMoreInfo info : infos) {
+    		info.setIsReassigned(false);
+    		info.update();
+    	}
+    	for(TradeIn tradeIn : tradeIns) {
+    		tradeIn.setIsReassigned(false);
+    		tradeIn.update();
+    	}
+    	return ok();
+    }
 }
 

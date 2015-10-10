@@ -134,3 +134,5 @@ GET		/changeAssignedUser/:id/:userId/:lead/:option		controllers.Application.chan
 GET		/getNewToDoCount				controllers.Application.getNewToDoCount()
 GET		/setTodoSeen					controllers.Application.setTodoSeen()
 GET		/deleteCanceledLead/:id/:type/:option	controllers.Application.deleteCanceledLead(id:Long,type:String,option:Integer)
+GET		/getAssignedLeads				controllers.Application.getAssignedLeads()
+GET		/setLeadSeen					controllers.Application.setLeadSeen()

@@ -34,11 +34,18 @@ public class RequestMoreInfo extends Model {
 	public Date confirmDate;
 	public Date confirmTime;
 	public String leadStatus;
+	public Boolean isReassigned;
+	public Boolean getIsReassigned() {
+		return isReassigned;
+	}
+	public void setIsReassigned(Boolean isReassigned) {
+		this.isReassigned = isReassigned;
+	}
+
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
 	public AuthUser user;
-	
 	
 	public Long getId() {
 		return id;
@@ -149,6 +156,10 @@ public class RequestMoreInfo extends Model {
 	
 	public static List<RequestMoreInfo> findByVinAndAssignedUser(String vin,AuthUser user) {
 		return find.where().eq("vin", vin).eq("user", user).findList();
+	}
+	
+	public static List<RequestMoreInfo> findAllReassigned(AuthUser user) {
+		return find.where().eq("isReassigned", true).eq("assignedTo",user).findList();
 	}
 	
 	public String getBestDay() {

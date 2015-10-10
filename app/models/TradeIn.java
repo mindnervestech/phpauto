@@ -69,7 +69,14 @@ public class TradeIn extends Model {
 	public Date confirmDate;
 	public Date confirmTime;
 	public String leadStatus;
+	public Boolean isReassigned;
 	
+	public Boolean getIsReassigned() {
+		return isReassigned;
+	}
+	public void setIsReassigned(Boolean isReassigned) {
+		this.isReassigned = isReassigned;
+	}
 	public String getLeadStatus() {
 		return leadStatus;
 	}
@@ -408,6 +415,10 @@ public class TradeIn extends Model {
 	
 	public static List<TradeIn>  findByVinAndAssignedUser(String vin,AuthUser user) {
 		return find.where().eq("vin", vin).eq("user", user).findList();
+	}
+	
+	public static List<TradeIn>  findAllReassigned(AuthUser user) {
+		return find.where().eq("isReassigned", true).eq("assignedTo",user).findList();
 	}
 	
 }

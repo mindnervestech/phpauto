@@ -37,8 +37,13 @@ public class ScheduleTest extends Model {
 	public AuthUser assignedTo;
 	@ManyToOne
 	public AuthUser user;
-	
-	
+	public Boolean isReassigned;
+	public Boolean getIsReassigned() {
+		return isReassigned;
+	}
+	public void setIsReassigned(Boolean isReassigned) {
+		this.isReassigned = isReassigned;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -137,6 +142,10 @@ public class ScheduleTest extends Model {
 	}
 
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
+	
+	public static List<ScheduleTest> findAllReassigned(AuthUser user) {
+		return find.where().eq("isReassigned", true).eq("assignedTo",user).findList();
+	}
 	
 	public static ScheduleTest findById(Long id) {
 		return find.byId(id);
