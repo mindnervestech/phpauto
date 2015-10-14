@@ -111,65 +111,6 @@
 	</div>
 	</div>
 	</div>
-    <div class="col-xlg-3 col-lg-5" ng-show="userType != 'Sales Person' && userType != 'General Manager'">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel no-bd bd-3 panel-stat">
-                    <div class="panel-header">
-                        <h3><i class="icon-graph"></i> <strong>Visitors</strong> Statistic</h3>
-                        <div class="control-btn">
-                            <a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
-                        </div>
-                    </div>
-                    <div class="panel-body p-15 p-b-0">
-                        <div class="row m-b-10">
-                            <div class="col-xs-3 big-icon">
-                                <i class="icon-users"></i>
-                            </div>
-                            <div class="col-xs-9">
-                                <div class="live-tile" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="60">
-                                    <div>
-                                        <small class="stat-title">Visits today</small>
-                                        <h1 class="f-40 m-0 w-300">25 610</h1>
-                                    </div>
-                                    <div>
-                                        <small class="stat-title">Visits yesterday</small>
-                                        <h1 class="f-40 m-0 w-300">22 420</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <small class="stat-title">New Visitors</small>
-                                <div class="live-tile" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="23">
-                                    <div>
-                                        <h3 class="f-20 m-0 w-300">37.5%</h3>
-                                    </div>
-                                    <div>
-                                        <h3 class="f-20 m-0 w-300">34.2%</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <small class="stat-title">Bounce Rate</small>
-                                <div class="live-tile f-right" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="23">
-                                    <div>
-                                        <h3 class="f-20 t-right m-0 w-500">5.6%</h3>
-                                    </div>
-                                    <div>
-                                        <h3 class="f-20 t-right m-0 w-500">7.4%</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-stat-chart">
-                        <canvas id="visitors-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row" style="display:none">
             <div class="col-md-12">
                 <div class="panel no-bd bd-3 panel-stat">
@@ -218,7 +159,6 @@
                 </div>
             </div>
         </div>
-    </div>   
     <div class="col-xlg-2 hidden-lg">
         <div class="row">
             <div class="col-md-12">
@@ -266,6 +206,9 @@
         </div>
     </div>
     <div class="col-xlg-3 col-lg-5" ng-show="userType == 'Sales Person' || userType == 'General Manager'">
+        <div class="row">
+        	<button class="btn btn-default" style="background: #ffffff;height: 146px;color: #319DB5;"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>CREATE LEAD</button>
+        </div>
         <div class="row" ng-show="showCalendar">
             <div class="col-md-12">
 			    <div class="widget widget_calendar bg-dark">
@@ -306,6 +249,102 @@
         </div>
     </div>
      </div>
+</div>
+<div class="row">
+	<div class="col-xlg-9 col-lg-7">
+		<div class="row">
+            <div class="col-md-12">
+            	<div class="panel widget-map">
+			    	<h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP  AND  LEAST  PAGES VISITED</b></h4>
+			    	<br>
+					<div class="row">
+						<div class="col-xlg-4 panel" style="width:610px;height: 368px;overflow: hidden; position: relative;margin-top:1%;">
+							<div>
+			     				<div class="col-sm-12">
+			        				<h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()">TOP VISITED</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6>
+			        	    		<h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
+			        			</div>
+			    			</div>
+	       					<div>
+								<div class="col-sm-12">
+			    					<img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" ng-repeat="item in currentData" src="/getImage/{{item.id}}/thumbnail">
+			   					</div>      
+							</div>
+							<div class="col-sm-12 " style="line-height:1.028571;width:113%;">
+								<label class="col-sm-3 control-label" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;" ng-repeat="item in currentData"><b>{{item.name}}</b></label>
+							</div>
+							<div class="col-sm-12">
+								<label class="col-sm-3 control-label" style="text-align: left;margin-left: 17px;" ng-repeat="item in currentData"><h5>VISITED COUNT</h5></label>
+							</div>
+							<div class="col-sm-12"style="line-height:0.428571;width:113%;">
+								<label class="col-sm-3 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;" ng-repeat="item in currentData"><b>{{item.count}}</b></label>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+	<div class="col-xlg-3 col-lg-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel no-bd bd-3 panel-stat">
+                    <div class="panel-header">
+                        <h3><i class="icon-graph"></i> <strong>Visitors</strong> Statistic</h3>
+                        <div class="control-btn">
+                            <a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
+                        </div>
+                    </div>
+                    <div class="panel-body p-15 p-b-0">
+                        <div class="row m-b-10">
+                            <div class="col-xs-3 big-icon">
+                                <i class="icon-users"></i>
+                            </div>
+                            <div class="col-xs-9" id="visitor">
+                                <div class="live-tile" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="60">
+                                    <div ng-repeat="item in visitors" my-post-repeat-directive>
+                                        <small class="stat-title">{{item.title}}</small>
+                                        <h1 class="f-40 m-0 w-300">{{item.value}}</h1>
+                                    </div>
+                                    <!-- <div>
+                                        <small class="stat-title">Visits yesterday</small>
+                                        <h1 class="f-40 m-0 w-300">22 420</h1>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <small class="stat-title">New Visitors</small>
+                                <div class="live-tile" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="23">
+                                    <div ng-repeat="item in newUsers" my-post-repeat-directive>
+                                        <h3 class="f-20 m-0 w-300">{{item}}%</h3>
+                                    </div>
+                                    <!-- <div>
+                                        <h3 class="f-20 m-0 w-300">34.2%</h3>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <small class="stat-title">Bounce Rate</small>
+                                <div class="live-tile f-right" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="23">
+                                    <div ng-repeat="item in bounceRate" my-post-repeat-directive>
+                                        <h3 class="f-20 t-right m-0 w-500">{{item}}%</h3>
+                                    </div>
+                                    <!-- <div>
+                                        <h3 class="f-20 t-right m-0 w-500">7.4%</h3>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-stat-chart">
+                        <canvas id="visitors-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
 </div>
 
 <div class="row" ng-if="userType == 'Sales Person' || userType == 'General Manager'">
@@ -1107,5 +1146,17 @@
 }
 .pri-low {
 	border-left: 2px solid #F3D261 !important;
+}
+.text-high {
+	color: #C75757 !important;
+}
+.text-medium {
+	color: #FF9122 !important;
+}
+.text-low {
+	color: #F3D261 !important;
+}
+.underline {
+	text-decoration: underline;
 }
 </style>	

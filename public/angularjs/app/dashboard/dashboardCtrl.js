@@ -7,6 +7,14 @@
  * # MainCtrl
  * Controller of the newappApp
  */
+
+angular.module('newApp').directive('myPostRepeatDirective', function() {
+  return function(scope, element, attrs) {
+    if (scope.$last) {
+      scope.$eval('doComplete()');
+    }
+  };
+});
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile', function ($scope, dashboardService, pluginsService,$http,$compile) {
       $scope.$on('$viewContentLoaded', function () {
@@ -419,12 +427,72 @@ angular.module('newApp')
 	  			 	$scope.userType = data;
 	  			 	if($scope.userType == "General Manager") {
 	  			 		$scope.getGMData();
+	  			 		//$scope.getAnalystData();
 	  			 	}
 	  			 	if($scope.userType == "Sales Person") {
 	  			 		$scope.getToDoNotification();
 	  			 		$scope.getAssignedLeads();
 	  			 	}
 	  			});
+	    		$scope.visitors = [];
+	    		$scope.newUsers = [];
+	    		$scope.bounceRate = [];
+	    		$http.get('/getVisitorStats').success(function(response) {
+	    			console.log(response);
+	    			$scope.visitors[0] = {'title':'Visit Today','value':response[0].dates[0].items[0].value};
+		    		$scope.visitors[1] = {'title':'Visit Yesterday','value':response[0].dates[1].items[0].value};
+		    		console.log(response[1].dates[0].items[0].value/$scope.visitors[0].value);
+		    		console.log($scope.visitors[0].value);
+		    		console.log(response[1].dates[0].items[0].value);
+		    		$scope.newUsers[0] = $scope.visitors[0].value==0?0:(response[1].dates[0].items[0].value/$scope.visitors[0].value)*100;
+		    		$scope.newUsers[1] = $scope.visitors[1].value==0?0:(response[1].dates[1].items[0].value/$scope.visitors[1].value)*100;
+		    		$scope.bounceRate[0] = response[2].dates[0].items[0].value;
+		    		$scope.bounceRate[1] = response[2].dates[1].items[0].value;
+	    		});
+	    		$scope.currentSelectedType = 0;
+	    		$scope.currentSelectedDuration = 0;
+	    		$scope.weekData = {};
+	    		$scope.currentData = [];
+	    		$scope.showWeekVisited = function() {
+	    			$scope.currentSelectedDuration = 0;
+	    			$scope.getVisitedData('week');
+	    		};
+	    		
+	    		$scope.showMonthVisited = function() {
+	    			$scope.currentSelectedDuration = 1;
+	    			$scope.getVisitedData('month');
+	    		};
+	    		
+	    		$scope.getVisitedData = function(type) {
+	    			$http.get('/getVisitedData/'+type).success(function(response) {
+	    				$scope.weekData = response;
+	    				if($scope.currentSelectedType==0) 
+	    					$scope.currentData = response.topVisited;
+	    				else
+	    					$scope.currentData = response.worstVisited;
+	    			});
+	    		};
+	    		
+	    		$scope.showTopVisited = function() {
+	    			$scope.currentSelectedType = 0;
+	    			$scope.currentData = $scope.weekData.topVisited;
+	    		};
+	    		
+	    		$scope.showWorstVisited = function() {
+	    			$scope.currentSelectedType = 1;
+	    			$scope.currentData = $scope.weekData.worstVisited;
+	    		};
+	    		
+	    		$scope.showWeekVisited();
+	    		$scope.doComplete = function() {
+	    			$(".live-tile").liveTile();
+	    		};
+	    		
+	    		$scope.getAnalystData = function() {
+	    			$http.get('/getAnalystData').success(function(response) {
+		    			console.log(response);
+	    			});
+	    		};
 	    		
 	    		$http.get('/getSalesUserOnly')
 	    		.success(function(data){
@@ -448,9 +516,9 @@ angular.module('newApp')
 		    				$scope.leadNotification = data.data;
 		    				console.log($scope.leadNotification);
 		    				if($scope.leadCount==1) {
-		    					notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><h4 class='alert-title f-14' id='cnt'>{{leadCount}} New Lead Assigned</h4><p class='row'><span class='col-md-4 col-sm-4 col-lg-4'>"+$scope.leadNotification.make+"</span><span class='col-md-4 col-sm-4 col-lg-4'>"+$scope.leadNotification.model+"</span><span class='col-md-4 col-sm-4 col-lg-4'>"+$scope.leadNotification.name+"</span></p><p class='row' style='margin-left:0;'><span>"+$scope.leadNotification.leadType+"</span></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Mark as read&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";
+		    					notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><h4 class='alert-title f-14' id='cnt'>{{leadCount}} New Lead Assigned</h4><p class='row' style='margin-left:0;'><span style='color: #319DB5;font-weight: bold;'>INFO: </span><span>"+$scope.leadNotification.make+" "+$scope.leadNotification.model+" "+$scope.leadNotification.name+"</span></p><p class='row' style='margin-left:0;'><span style='color: #319DB5;font-weight: bold;'>TYPE: </span><span>"+$scope.leadNotification.leadType+"</span></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>See the Leads&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";
 		    				} else {
-		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">{{leadCount}} New Leads Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">Mark as read&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
+		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">{{leadCount}} New Leads Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">See the Leads&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
 		    				}
 		    				var position = 'topRight';
 			    	        if ($('body').hasClass('rtl')) position = 'topLeft';
@@ -490,7 +558,22 @@ angular.module('newApp')
 		    				$scope.notification = data.data;
 		    				console.log($scope.notification);
 		    				if($scope.toDoCount==1) {
-		    					notifContent = "<div class='alert alert-dark media fade in bd-0 "+($scope.notification.priority=='Low'?"":$scope.notification.priority == 'Medium'?"pri-low": $scope.notification.priority =='High' ?"pri-medium":"pri-high")+"' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><h4 class='alert-title f-14' id='cnt'>{{toDoCount}} New Todos Assigned</h4><p>"+$scope.notification.task+"</p><p>"+$scope.notification.priority+"</p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Go to todos&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";
+		    					notifContent = "<div class='alert alert-dark media fade in bd-0 "+($scope.notification.priority=='Low'?"":$scope.notification.priority == 'Medium'?"pri-low": $scope.notification.priority =='High' ?"pri-medium":"pri-high")+"' id='message-alert'>"+
+		    					"<div class='media-left'></div>"+
+		    					"<div class='media-body width-100p'>"+
+		    					"<h4 class='alert-title f-14' id='cnt'>{{toDoCount}} New Todos Assigned</h4>"+
+		    					"<p class='row' style='margin-left:0;'>"+
+		    					"<span style='color:#319DB5;font-weight:bold;'>DESCRIPTION: </span>"+
+		    					"<span style='color:#319DB5;'>"+$scope.notification.task+"</span></p>"+
+		    					"<p class='row' style='margin-left:0;'>" +
+		    					"<span style='color:#319DB5;font-weight:bold;'>DUE DATE: </span>" +
+		    					"<span style='color:#319DB5;'>"+$scope.notification.dueDate+"</span></p>" +
+		    					"<p class='row' style='margin-left:0;'>" +
+		    					"<span class='col-md-6' style='padding:0;'>" +
+		    					"<span style='color:#319DB5;font-weight:bold;'>PRIORITY: </span>" +
+		    					"<span class='"+(($scope.notification.priority=='Low'?'':$scope.notification.priority == 'Medium'?'text-low': $scope.notification.priority =='High' ?'text-medium':'text-high'))+"'>"+$scope.notification.priority+"</span></span>" +
+		    					"<span class='col-md-4 col-md-offset-1' style='padding:0;'>" +
+		    					"<a class='f-12' style='float:right;'>Go to todos&nbsp;<i class='glyphicon glyphicon-download'></i></a></span></p></div></div>";
 		    				} else {
 		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">{{toDoCount}} New Todos Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">Go to todos&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
 		    				}

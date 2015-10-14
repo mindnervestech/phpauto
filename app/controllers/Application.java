@@ -1,6 +1,7 @@
 package controllers;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -8,7 +9,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -17,6 +20,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -101,6 +106,7 @@ import viewmodel.VirtualTourVM;
 import viewmodel.profileVM;
 import views.html.home;
 import views.html.index;
+import akka.util.Collections;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Ebean;
@@ -6534,5 +6540,116 @@ public class Application extends Controller {
     	}
     	return ok();
     }
+    
+    public static Result getAnalystData() {
+    	String params = "&type=visitors-online,bounce-rate,pages";
+    	return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    private static String callClickAPI(String params) {
+    	StringBuffer response = new StringBuffer();
+    	try {
+    		String url = "https://api.clicky.com/api/stats/4?output=json&site_id=100875513&sitekey=d6e7550038b4a34c"+params;
+		
+    		URL obj = new URL(url);
+    		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    		con.setRequestMethod("GET");
+    		con.setRequestProperty("User-Agent", USER_AGENT);
+    		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(con.getInputStream()));
+    		String inputLine;
+    		while ((inputLine = in.readLine()) != null) {
+    			response.append(inputLine);
+    		}
+    		in.close();
+    	} catch(Exception e) {}
+    	return response.toString();
+    }
+    
+    
+    public static Result getVisitorStats() {
+    	String params = "&type=visitors,visitors-new,bounce-rate&date=last-2-days&daily=1";
+    	return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getVisitedData(String type) {
+    	String params = null;
+    	if(type.equals("week"))
+    		params = "&type=pages&date=last-7-days";
+    	else
+    		params = "&type=pages&date=last-30-days";
+    	String resultStr = callClickAPI(params);
+    	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
+    	List<String> vins = new ArrayList<String>(jsonNode.size());
+    	Map<String,Integer> pagesCount = new HashMap<String,Integer>(jsonNode.size());
+    	for(JsonNode item:jsonNode) {
+    		System.out.println(item.asText());
+    		String url = item.get("url").asText();
+    		if(url.contains("vehicleDetails")) {
+    			String[] arr = url.split("/");
+    			vins.add(arr[arr.length-1]);
+    			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
+    		}
+    	}
+    	List<Vehicle> topVisited =null;
+    	if(vins.size()>=3) {
+    		topVisited = Vehicle.findByVins(vins.subList(0, 3));
+    	} else {
+    		topVisited = Vehicle.findByVins(vins.subList(0, vins.size()));
+    	}
+    	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<VehicleAnalyticalVM>(3);
+    	for(Vehicle vehicle:topVisited) {
+    		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
+    		analyticalVM.count = pagesCount.get(vehicle.getVin());
+    		analyticalVM.id = vehicle.getId();
+    		analyticalVM.vin = vehicle.getVin();
+    		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
+    		topVisitedVms.add(analyticalVM);
+    	}
+    	List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<VehicleAnalyticalVM>(3);
+    	List<Vehicle> notVisitedVehicle = Vehicle.findByNotInVins(vins);
+    	for(Vehicle vehicle:notVisitedVehicle) {
+    		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
+    		analyticalVM.count = 0;
+    		analyticalVM.id = vehicle.getId();
+    		analyticalVM.vin = vehicle.getVin();
+    		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
+    		
+    		worstVisitedVms.add(analyticalVM);
+    		if(worstVisitedVms.size()==3) {
+    			break;
+    		}
+    	}
+    	for(int i = worstVisitedVms.size();i<3;i++) {
+    		Vehicle vehicle = Vehicle.findByVin(vins.get(i-worstVisitedVms.size()));
+    		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
+    		analyticalVM.count =  pagesCount.get(vehicle.getVin());
+    		analyticalVM.id = vehicle.getId();
+    		analyticalVM.vin = vehicle.getVin();
+    		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
+    		worstVisitedVms.add(analyticalVM);
+    	}
+    	java.util.Collections.sort(worstVisitedVms,new VehicleVMComparator());
+    	java.util.Collections.sort(topVisitedVms,new VehicleVMComparator());
+    	Map result = new HashMap(2);
+    	result.put("worstVisited", worstVisitedVms);
+    	result.put("topVisited", topVisitedVms);
+    	return ok(Json.toJson(result));
+    }
+    public static class VehicleVMComparator implements Comparator<VehicleAnalyticalVM> {
+
+		@Override
+		public int compare(VehicleAnalyticalVM o1, VehicleAnalyticalVM o2) {
+			return Integer.compare(o2.count, o1.count);
+		}
+    	
+    }
+    public static class VehicleAnalyticalVM {
+    	public String name;
+    	public int count;
+    	public Long id;
+    	public String vin;
+    }
+    
 }
 
