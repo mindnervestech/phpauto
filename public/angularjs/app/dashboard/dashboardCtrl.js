@@ -441,9 +441,6 @@ angular.module('newApp')
 	    			console.log(response);
 	    			$scope.visitors[0] = {'title':'Visit Today','value':response[0].dates[0].items[0].value};
 		    		$scope.visitors[1] = {'title':'Visit Yesterday','value':response[0].dates[1].items[0].value};
-		    		console.log(response[1].dates[0].items[0].value/$scope.visitors[0].value);
-		    		console.log($scope.visitors[0].value);
-		    		console.log(response[1].dates[0].items[0].value);
 		    		$scope.newUsers[0] = $scope.visitors[0].value==0?0:(response[1].dates[0].items[0].value/$scope.visitors[0].value)*100;
 		    		$scope.newUsers[1] = $scope.visitors[1].value==0?0:(response[1].dates[1].items[0].value/$scope.visitors[1].value)*100;
 		    		$scope.bounceRate[0] = response[2].dates[0].items[0].value;
@@ -470,6 +467,147 @@ angular.module('newApp')
 	    					$scope.currentData = response.topVisited;
 	    				else
 	    					$scope.currentData = response.worstVisited;
+	    			});
+	    		};
+	    		
+	    		$scope.openCreateNewLeadPopup = function() {
+	    			$scope.getMakes();
+	    			$("#createLeadPopup").modal();
+	    		};
+	    		
+	    		$scope.lead = {
+	    			make:'',
+	    			model:'',
+	    			makeSelect:'',
+	    			modelSelect:'',
+	    			custName:'',
+	    			custEmail:'',
+	    			custNumber:'',
+	    			leadType:'',
+	    			contactedFrom:'',
+	    			prefferedContact:'email',
+	    			bestDay:'',
+	    			bestTime:'',
+	    			comments:'',
+	    			options:[],
+	    			year:'',
+	    			exteriorColour:'',
+	    			kilometres:'',
+	    			engine:'',
+	    			doors:'',
+	    			transmission:'',
+	    			drivetrain:'',
+	    			bodyRating:'',
+	    			tireRating:'',
+	    			engineRating:'',
+	    			transmissionRating:'',
+	    			glassRating:'',
+	    			interiorRating:'',
+	    			exhaustRating:'',
+	    			rentalReturn:'',
+	    			odometerAccurate:'',
+	    			serviceRecords:'',
+	    			lienholder:'',
+	    			titleholder:'',
+	    			equipment:'',
+	    			vehiclenew:'',
+	    			accidents:'',
+	    			damage:'',
+	    			paint:'',
+	    			salvage:''
+	    		};
+	    		$scope.isInValid = false;
+	    		$scope.isStockError = false;
+	    		
+	    		$scope.tradeInApp = function() {
+	    			console.log($scope.lead);
+	    		};
+	    		
+	    		$scope.createLead = function() {
+	    			if($scope.lead.custName==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' || (($scope.lead.make=='' && $scope.lead.model=='') || 
+	    					($scope.lead.makeSelec=='' && $scope.lead.modelSelect=='')) || $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
+	    				$scope.isInValid = true;
+	    			} else {
+	    				$scope.isInValid = false;
+	    				if($scope.lead.leadType=='1') {
+	    					$scope.makeLead();
+		    			} else if($scope.lead.leadType=='2') {
+		    				$scope.lead.bestDay = $("#leadBestDay").val();
+			    			$scope.lead.bestTime = $("#leadBestTime").val();
+			    			$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
+			    			if(!$scope.lead.bestDay || $scope.lead.bestDay == '' ||!$scope.lead.bestTime || $scope.lead.bestTime=='' || !$scope.lead.prefferedContact ||$scope.lead.prefferedContact=='') {
+			    				$scope.isInValid = true;
+			    			} else {
+			    				$scope.makeLead();
+			    			}
+		    			} else {
+		    				$("#createLeadPopup").modal('hide');
+		    				$("#tradeInApp").modal();
+		    			}
+	    			}
+	    			
+	    			
+	    			console.log($scope.lead);
+	    			/*$http.post('/createLead',$scope.lead).success(function(response) {
+	    				$("#createLeadPopup").modal('hide');
+	    				if($scope.lead.leadType=='2') 
+	    					$scope.getScheduleTestData();
+	    				else if($scope.lead.leadType=='1')
+	    					$scope.getRequestMoreData();
+	    				else
+	    					$scope.getTradeInData();
+	    			});*/
+	    		};
+	    		
+	    		$scope.makeLead = function() {
+	    			$http.post('/createLead',$scope.lead).success(function(response) {
+	    				$("#createLeadPopup").modal('hide');
+	    				if($scope.lead.leadType=='2')  {
+	    					$scope.getScheduleTestData();
+	    					$("#createLeadPopup").modal('hide');
+	    				}
+	    				else if($scope.lead.leadType=='1') {
+	    					$scope.getRequestMoreData();
+	    					$("#createLeadPopup").modal('hide');
+	    				}
+	    				else {
+	    					$scope.getTradeInData();
+	    					$("#tradeInApp").modal('hide');
+	    				}
+	    			});
+	    		};
+	    		
+	    		$scope.getModelsByMake = function(makeSelect) {
+	    			$scope.lead.makeSelect = makeSelect;
+	    			$scope.lead.modelSelect = '';
+	    			$http.get('/getModels/'+makeSelect).success(function(response) {
+	    				$scope.models = response;
+	    			});
+	    		};
+	    		
+	    		$scope.getStockDetails = function() {
+	    			$scope.lead.make = '';
+	    			$scope.lead.model = '';
+	    			$scope.isStockError = false;
+	    			$http.get('/getStockDetails/'+$scope.lead.stockNumber).success(function(response) {
+	    				if(response.isData) {
+	    					$scope.isStockError = false;
+	    					$scope.lead.make = response.make;
+	    					$scope.lead.model = response.model;
+	    				} else {
+	    					$scope.isStockError = true;
+	    				}
+	    			});
+	    		};
+	    		
+	    		$scope.makes = [];
+	    		$scope.models = [];
+	    		$scope.getMakes = function() {
+	    			$http.get('/getMakes').success(function(response) {
+	    				console.log(response);
+	    				$scope.makes = response.makes;
+	    	    		
+	    	    		
 	    			});
 	    		};
 	    		

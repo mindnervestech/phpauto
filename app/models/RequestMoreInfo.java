@@ -30,11 +30,25 @@ public class RequestMoreInfo extends Model {
 	public String bestDay;
 	public String bestTime;
 	public Date scheduleDate;
-	public Boolean isScheduled;
+	public Boolean isScheduled = false;
 	public Date confirmDate;
 	public Date confirmTime;
 	public String leadStatus;
-	public Boolean isReassigned;
+	public Boolean isReassigned = false;
+	public String contactedFrom;
+	public String hearedFrom;
+	public String getContactedFrom() {
+		return contactedFrom;
+	}
+	public void setContactedFrom(String contactedFrom) {
+		this.contactedFrom = contactedFrom;
+	}
+	public String getHearedFrom() {
+		return hearedFrom;
+	}
+	public void setHearedFrom(String hearedFrom) {
+		this.hearedFrom = hearedFrom;
+	}
 	public Boolean getIsReassigned() {
 		return isReassigned;
 	}

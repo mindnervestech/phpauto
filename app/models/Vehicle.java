@@ -765,6 +765,18 @@ public class Vehicle extends Model {
 		
 	}
 	
+	public static List<Vehicle> getVehiclesByMake(String make) {
+		return find.where().eq("make", make).findList();
+		
+	}
+	public static List<Vehicle> findByStock(String stock) {
+		return find.where().eq("stock", stock).findList();
+	}
+	
+	public static List<Vehicle> findByMakeAndModel(String make,String model) {
+		return find.where().eq("make", make).eq("model", model).findList();
+	}
+	
 	public static List<SqlRow> getSoldDataOfRange(AuthUser user,List<AuthUser> userIds,String start,String end) {
 		String userCondition = "";
 		for(int i=0;i<userIds.size();i++) {

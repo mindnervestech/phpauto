@@ -37,7 +37,21 @@ public class ScheduleTest extends Model {
 	public AuthUser assignedTo;
 	@ManyToOne
 	public AuthUser user;
-	public Boolean isReassigned;
+	public Boolean isReassigned = true;
+	public String contactedFrom;
+	public String hearedFrom;
+	public String getContactedFrom() {
+		return contactedFrom;
+	}
+	public void setContactedFrom(String contactedFrom) {
+		this.contactedFrom = contactedFrom;
+	}
+	public String getHearedFrom() {
+		return hearedFrom;
+	}
+	public void setHearedFrom(String hearedFrom) {
+		this.hearedFrom = hearedFrom;
+	}
 	public Boolean getIsReassigned() {
 		return isReassigned;
 	}
