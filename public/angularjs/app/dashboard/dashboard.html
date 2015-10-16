@@ -205,18 +205,18 @@
             </div>
         </div>
     </div>
-    <div class="col-xlg-3 col-lg-5" ng-show="userType == 'Sales Person' || userType == 'General Manager'">
+    <div class="col-xlg-3 col-lg-5">
         <div class="row">
         	<button class="btn btn-default" style="background: #ffffff;height: 146px;color: #319DB5;" ng-click="openCreateNewLeadPopup();"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>CREATE LEAD</button>
         </div>
-        <div class="row" ng-show="showCalendar">
+        <div class="row" ng-show="(userType == 'Sales Person' || userType == 'General Manager') && showCalendar">
             <div class="col-md-12">
 			    <div class="widget widget_calendar bg-dark">
 			            <div class="multidatepicker"></div>
         		</div>
         </div>
       </div>
-      <div class="col-md-12 col-sm-6 portlets" ng-show="showToDoList">
+      <div class="col-md-12 col-sm-6 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager') && showToDoList">
         <div class="panel">
             <div class="panel-header">
             <a ng-click="showCalendarData()" style="cursor: pointer;float:left;margin-top:13px;margin-left:4px;">Back to calendar</a>

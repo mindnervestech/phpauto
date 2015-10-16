@@ -16,6 +16,19 @@ import play.db.ebean.Model.Finder;
 @Entity
 public class TradeIn extends Model {
 	
+	public String getLienholder() {
+		return lienholder;
+	}
+	public void setLienholder(String lienholder) {
+		this.lienholder = lienholder;
+	}
+	public String getPdfPath() {
+		return pdfPath;
+	}
+	public void setPdfPath(String pdfPath) {
+		this.pdfPath = pdfPath;
+	}
+
 	@Version
 	public java.util.Date version; 
 
@@ -322,12 +335,12 @@ public class TradeIn extends Model {
 	public void setServiceRecord(String serviceRecord) {
 		this.serviceRecord = serviceRecord;
 	}
-	public String getLienHolder() {
+	/*public String getLienHolder() {
 		return lienholder;
 	}
 	public void setLienHolder(String lienHolder) {
 		this.lienholder = lienHolder;
-	}
+	}*/
 	public String getHoldsThisTitle() {
 		return holdsThisTitle;
 	}
