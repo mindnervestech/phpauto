@@ -474,54 +474,56 @@ angular.module('newApp')
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
 	    		};
-	    		
-	    		$scope.lead = {
-	    			make:'',
-	    			model:'',
-	    			makeSelect:'',
-	    			modelSelect:'',
-	    			custName:'',
-	    			custEmail:'',
-	    			custNumber:'',
-	    			leadType:'',
-	    			contactedFrom:'',
-	    			prefferedContact:'email',
-	    			bestDay:'',
-	    			bestTime:'',
-	    			comments:'',
-	    			options:[],
-	    			year:'',
-	    			exteriorColour:'',
-	    			kilometres:'',
-	    			engine:'',
-	    			doors:'',
-	    			transmission:'',
-	    			drivetrain:'',
-	    			bodyRating:'',
-	    			tireRating:'',
-	    			engineRating:'',
-	    			transmissionRating:'',
-	    			glassRating:'',
-	    			interiorRating:'',
-	    			exhaustRating:'',
-	    			rentalReturn:'',
-	    			odometerAccurate:'',
-	    			serviceRecords:'',
-	    			lienholder:'',
-	    			titleholder:'',
-	    			equipment:'',
-	    			vehiclenew:'',
-	    			accidents:'',
-	    			damage:'',
-	    			paint:'',
-	    			salvage:''
+	    		$scope.initialiase = funtion() {
+	    			$scope.lead = {
+	    					make:'',
+	    					model:'',
+	    					makeSelect:'',
+	    					modelSelect:'',
+	    					custName:'',
+	    					custEmail:'',
+	    					custNumber:'',
+	    					leadType:'',
+	    					contactedFrom:'',
+	    					prefferedContact:'email',
+	    					bestDay:'',
+	    					bestTime:'',
+	    					comments:'',
+	    					options:[],
+	    					year:'',
+	    					exteriorColour:'',
+	    					kilometres:'',
+	    					engine:'',
+	    					doors:'',
+	    					transmission:'',
+	    					drivetrain:'',
+	    					bodyRating:'',
+	    					tireRating:'',
+	    					engineRating:'',
+	    					transmissionRating:'',
+	    					glassRating:'',
+	    					interiorRating:'',
+	    					exhaustRating:'',
+	    					rentalReturn:'',
+	    					odometerAccurate:'',
+	    					serviceRecords:'',
+	    					lienholder:'',
+	    					titleholder:'',
+	    					equipment:'',
+	    					vehiclenew:'',
+	    					accidents:'',
+	    					damage:'',
+	    					paint:'',
+	    					salvage:''
+	    			};
 	    		};
+	    		$scope.initialiase();
 	    		$scope.isInValid = false;
 	    		$scope.isStockError = false;
 	    		
 	    		$scope.createLead = function() {
 	    			if($scope.lead.custName==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' || !(($scope.lead.make!='' && $scope.lead.model!='') || 
-	    					($scope.lead.makeSelec!='' && $scope.lead.modelSelect!='')) || $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
+	    					($scope.lead.makeSelect!='' && $scope.lead.modelSelect!='')) || $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
 	    				$scope.isInValid = true;
 	    			} else {
 	    				$scope.isInValid = false;
@@ -559,7 +561,6 @@ angular.module('newApp')
 	    		
 	    		$scope.makeLead = function() {
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
-	    				$("#createLeadPopup").modal('hide');
 	    				if($scope.lead.leadType=='2')  {
 	    					$scope.getScheduleTestData();
 	    					$("#createLeadPopup").modal('hide');
@@ -572,7 +573,7 @@ angular.module('newApp')
 	    					$scope.getTradeInData();
 	    					$("#tradeInApp").modal('hide');
 	    				}
-	    				$scope.lead = {};
+	    				$scope.initialiase();
 	    			});
 	    		};
 	    		
