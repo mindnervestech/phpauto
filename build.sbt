@@ -13,7 +13,8 @@ libraryDependencies ++= Seq(
 javaJdbc,
   javaEbean,
   cache,
-  "ws.securesocial" %% "securesocial" % "2.1.4"
+  "ws.securesocial" %% "securesocial" % "2.1.4",
+  "com.itextpdf" % "itextpdf" % "5.3.2"
 )    
 
 play.Project.playJavaSettings
