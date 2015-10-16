@@ -7511,7 +7511,7 @@ public class Application extends Controller {
 
 				String urlfind = "http://www.glider-autos.com/dealer/index.html#/tradeIn";
 
-				Template t = ve.getTemplate("trade_in_app.vm");
+				Template t = ve.getTemplate("/public/emailTemplate/trade_in_app.vm");
 				VelocityContext context = new VelocityContext();
 
 				// ---------Trad in info---------------
