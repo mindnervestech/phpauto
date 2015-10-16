@@ -4063,9 +4063,9 @@ public class Application extends Controller {
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
 	    		}
-	    		vm.name = info.firstName+" "+info.lastName;
-	    		vm.phone = info.phone;
-	    		vm.email = info.email;
+	    		vm.name = (info.firstName!=null?info.firstName:"")+" "+(info.lastName!=null?info.lastName:"");
+	    		vm.phone = info.phone!=null ? info.phone:"";
+	    		vm.email = info.email!=null ? info.email:"";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -6617,7 +6617,14 @@ public class Application extends Controller {
     	for(Vehicle vehicle:topVisited) {
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
     		analyticalVM.count = pagesCount.get(vehicle.getVin());
-    		analyticalVM.id = vehicle.getId();
+    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+    		if(vehicleImage!=null) {
+    			analyticalVM.id = vehicleImage.getId();
+    			analyticalVM.isImage = true;
+    		}
+    		else {
+    			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
+    		}
     		analyticalVM.vin = vehicle.getVin();
     		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		topVisitedVms.add(analyticalVM);
@@ -6627,7 +6634,14 @@ public class Application extends Controller {
     	for(Vehicle vehicle:notVisitedVehicle) {
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
     		analyticalVM.count = 0;
-    		analyticalVM.id = vehicle.getId();
+    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+    		if(vehicleImage!=null) {
+    			analyticalVM.id = vehicleImage.getId();
+    			analyticalVM.isImage = true;
+    		}
+    		else {
+    			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
+    		}
     		analyticalVM.vin = vehicle.getVin();
     		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		
@@ -6640,7 +6654,14 @@ public class Application extends Controller {
     		Vehicle vehicle = Vehicle.findByVin(vins.get(i-worstVisitedVms.size()));
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
     		analyticalVM.count =  pagesCount.get(vehicle.getVin());
-    		analyticalVM.id = vehicle.getId();
+    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+    		if(vehicleImage!=null) {
+    			analyticalVM.id = vehicleImage.getId();
+    			analyticalVM.isImage = true;
+    		}
+    		else {
+    			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
+    		}
     		analyticalVM.vin = vehicle.getVin();
     		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		worstVisitedVms.add(analyticalVM);
@@ -6665,6 +6686,8 @@ public class Application extends Controller {
     	public int count;
     	public Long id;
     	public String vin;
+    	public boolean isImage = false;
+    	public String defaultImagePath;
     }
     
     public static Result getMakes() {
@@ -6702,7 +6725,11 @@ public class Application extends Controller {
     public static Result createLead() {
     	AuthUser user = (AuthUser)getLocalUser();
     	LeadVM leadVM = DynamicForm.form(LeadVM.class).bindFromRequest().get();
-    	List<Vehicle> vehicles = Vehicle.findByMakeAndModel(leadVM.make!=null?leadVM.make:leadVM.makeSelect, leadVM.model!=null?leadVM.model:leadVM.modelSelect);
+    	String makestr = leadVM.make!=null&&!leadVM.make.isEmpty()?leadVM.make:leadVM.makeSelect;
+    	String model = leadVM.model!=null&&!leadVM.model.isEmpty()?leadVM.model:leadVM.modelSelect;
+    	System.out.println("make:"+makestr);
+    	System.out.println("model:"+model);
+    	List<Vehicle> vehicles = Vehicle.findByMakeAndModel(makestr, model);
     	if(leadVM.leadType.equals("1")) {
     		RequestMoreInfo info = new RequestMoreInfo();
     		info.setAssignedTo(user);
@@ -6719,7 +6746,7 @@ public class Application extends Controller {
     		info.save();
     	} else if(leadVM.leadType.equals("2")){
     		Date confirmDate = null;
-    		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     		ScheduleTest test = new ScheduleTest();
     		test.setAssignedTo(user);
@@ -6784,8 +6811,8 @@ public class Application extends Controller {
     		tradeIn.setKilometres(leadVM.kilometres);
     		tradeIn.setLeaseOrRental(leadVM.rentalReturn);
     		tradeIn.setLienholder(leadVM.lienholder);
-    		tradeIn.setMake(leadVM.make!=null?leadVM.make:leadVM.makeSelect);
-    		tradeIn.setModel(leadVM.model!=null?leadVM.model:leadVM.modelSelect);
+    		tradeIn.setMake(makestr);
+    		tradeIn.setModel(model);
     		tradeIn.setOperationalAndAccurate(leadVM.odometerAccurate);
     		tradeIn.setOptionValue(buffer.toString());
     		tradeIn.setPaint(leadVM.paint);
@@ -6819,12 +6846,12 @@ public class Application extends Controller {
 				filepath = pdfRootDir + File.separator + userId
 						+ File.separator + "trade_in_pdf" + File.separator
 						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
-				findpath = "/" + userId + "/" + "trade_in_pdf" + "/"
-						+ tradeIn.getId() + "/" + "Trade_In.pdf";
+				findpath = File.separator + userId + File.separator + "trade_in_pdf" + File.separator
+						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
 				// UPDATE table_name
 				// SET column1=value1,column2=value2,...
 				// WHERE some_column=some_value;
-				tradeIn.setPdfPath(filepath);
+				tradeIn.setPdfPath(findpath);
 				tradeIn.update();
 				PdfWriter pdfWriter = PdfWriter.getInstance(document,
 						new FileOutputStream(filepath));

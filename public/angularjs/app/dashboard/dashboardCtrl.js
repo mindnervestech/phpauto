@@ -519,13 +519,9 @@ angular.module('newApp')
 	    		$scope.isInValid = false;
 	    		$scope.isStockError = false;
 	    		
-	    		$scope.tradeInApp = function() {
-	    			console.log($scope.lead);
-	    		};
-	    		
 	    		$scope.createLead = function() {
-	    			if($scope.lead.custName==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' || (($scope.lead.make=='' && $scope.lead.model=='') || 
-	    					($scope.lead.makeSelec=='' && $scope.lead.modelSelect=='')) || $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
+	    			if($scope.lead.custName==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' || !(($scope.lead.make!='' && $scope.lead.model!='') || 
+	    					($scope.lead.makeSelec!='' && $scope.lead.modelSelect!='')) || $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
 	    				$scope.isInValid = true;
 	    			} else {
 	    				$scope.isInValid = false;
@@ -574,7 +570,12 @@ angular.module('newApp')
 	    					$scope.getTradeInData();
 	    					$("#tradeInApp").modal('hide');
 	    				}
+	    				$scope.lead = {};
 	    			});
+	    		};
+	    		
+	    		$scope.changeMakeSelect = function(modelSelect) {
+	    			$scope.lead.modelSelect = modelSelect;
 	    		};
 	    		
 	    		$scope.getModelsByMake = function(makeSelect) {
@@ -699,7 +700,7 @@ angular.module('newApp')
 		    					notifContent = "<div class='alert alert-dark media fade in bd-0 "+($scope.notification.priority=='Low'?"":$scope.notification.priority == 'Medium'?"pri-low": $scope.notification.priority =='High' ?"pri-medium":"pri-high")+"' id='message-alert'>"+
 		    					"<div class='media-left'></div>"+
 		    					"<div class='media-body width-100p'>"+
-		    					"<h4 class='alert-title f-14' id='cnt'>{{toDoCount}} New Todos Assigned</h4>"+
+		    					"<h4 class='alert-title f-14' id='cnt'>1 New Todos Assigned</h4>"+
 		    					"<p class='row' style='margin-left:0;'>"+
 		    					"<span style='color:#319DB5;font-weight:bold;'>DESCRIPTION: </span>"+
 		    					"<span style='color:#319DB5;'>"+$scope.notification.task+"</span></p>"+
@@ -713,7 +714,7 @@ angular.module('newApp')
 		    					"<span class='col-md-4 col-md-offset-1' style='padding:0;'>" +
 		    					"<a class='f-12' style='float:right;'>Go to todos&nbsp;<i class='glyphicon glyphicon-download'></i></a></span></p></div></div>";
 		    				} else {
-		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">{{toDoCount}} New Todos Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">Go to todos&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
+		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">'+$scope.toDoCount+' New Todos Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">Go to todos&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
 		    				}
 		    				var position = 'topRight';
 			    	        if ($('body').hasClass('rtl')) position = 'topLeft';

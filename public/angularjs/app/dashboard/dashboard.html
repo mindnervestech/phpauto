@@ -267,17 +267,19 @@
 			    			</div>
 	       					<div>
 								<div class="col-sm-12">
-			    					<img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" ng-repeat="item in currentData" src="/getImage/{{item.id}}/thumbnail">
+									<div class="col-sm-4" ng-repeat="item in currentData">
+			    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
+			    					</div>
 			   					</div>      
 							</div>
-							<div class="col-sm-12 " style="line-height:1.028571;width:113%;">
-								<label class="col-sm-3 control-label" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;" ng-repeat="item in currentData"><b>{{item.name}}</b></label>
+							<div class="col-sm-12 " style="line-height:1.028571;">
+								<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;" ng-repeat="item in currentData"><b>{{item.name}}</b></label>
 							</div>
 							<div class="col-sm-12">
-								<label class="col-sm-3 control-label" style="text-align: left;margin-left: 17px;" ng-repeat="item in currentData"><h5>VISITED COUNT</h5></label>
+								<label class="col-sm-4 control-label" style="text-align: center;" ng-repeat="item in currentData"><h5>VISITED COUNT</h5></label>
 							</div>
-							<div class="col-sm-12"style="line-height:0.428571;width:113%;">
-								<label class="col-sm-3 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;" ng-repeat="item in currentData"><b>{{item.count}}</b></label>
+							<div class="col-sm-12"style="line-height:0.428571;">
+								<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;" ng-repeat="item in currentData"><b>{{item.count}}</b></label>
 							</div>
 						</div>
 					</div>
@@ -409,7 +411,7 @@
 		</div>
 	</div>	
 </div>	
-<div class="row">
+<div class="row" style="display: none;">
     <div class="col-xlg-4">
         <div class="panel">
             <div class="panel-header panel-controls">
@@ -655,7 +657,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 col-sm-6 portlets">
+    <div class="col-md-4 col-sm-6 portlets" style="display: none;">
         <div class="panel widget-weather"></div>
         <div class="panel widget-member clearfix">
             <div class="col-xs-3">
@@ -677,7 +679,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 col-sm-6 portlets">
+    <div class="col-md-4 col-sm-6 portlets" style="display: none;">
        <!--  <div class="widget widget_calendar bg-dark">
             <div class="multidatepicker"></div>
         </div> -->
@@ -1170,7 +1172,7 @@
 								                    				</select>
 								                    			</div>
 								                    			<div style="margin-top: 5px;">
-								                    				<select placeholder="MODEL" ng-model="lead.modelSelect">
+								                    				<select placeholder="MODEL" ng-model="lead.modelSelect" ng-change="changeMakeSelect(lead.modelSelect)">
 								                    					<option value="">Select</option>
 								                    					<option ng-repeat="item in models" value="{{item}}">{{item}}</option>
 								                    				</select>
@@ -1191,7 +1193,7 @@
 								                    			</div>
 								                    		</div>
 								                    		<div class="col-md-5" ng-show="lead.leadType==2">
-									                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST DAY</strong></h3>
+									                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST DAY</strong> <span style="color: red;">*</span></h3>
 								                    			<div>
 																	<div>
 																		<input data-provide="datepicker" id="leadBestDay" ng-model="lead.bestDay" name="bestDay" class="form-control input-sm" data-date-format="dd-mm-yyyy">
@@ -1221,7 +1223,7 @@
 								                    			</div>
 								                    		</div>
 								                    		<div class="col-md-5" ng-show="lead.leadType==2">
-								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST TIME</strong></h3>
+								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST TIME</strong> <span style="color: red;">*</span></h3>
 								                    			<div>
 																	<div>
 																		<div class="prepend-icon">
