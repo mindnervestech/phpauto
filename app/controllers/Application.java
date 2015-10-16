@@ -6842,8 +6842,8 @@ public class Application extends Controller {
 
 			try {
 				Document document = new Document();
-				createDir(pdfRootDir, userId, tradeIn.getId());
-				filepath = pdfRootDir + File.separator + userId
+				createDir(rootDir, userId, tradeIn.getId());
+				filepath = rootDir + File.separator + userId
 						+ File.separator + "trade_in_pdf" + File.separator
 						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
 				findpath = File.separator + userId + File.separator + "trade_in_pdf" + File.separator

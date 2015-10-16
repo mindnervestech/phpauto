@@ -530,7 +530,9 @@ angular.module('newApp')
 		    			} else if($scope.lead.leadType=='2') {
 		    				$scope.lead.bestDay = $("#leadBestDay").val();
 			    			$scope.lead.bestTime = $("#leadBestTime").val();
-			    			$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
+			    			if($("input[name=leadPreffered]:checked").val())
+			    				$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
+			    			
 			    			if(!$scope.lead.bestDay || $scope.lead.bestDay == '' ||!$scope.lead.bestTime || $scope.lead.bestTime=='' || !$scope.lead.prefferedContact ||$scope.lead.prefferedContact=='') {
 			    				$scope.isInValid = true;
 			    			} else {
