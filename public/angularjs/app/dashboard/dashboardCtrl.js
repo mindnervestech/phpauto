@@ -474,7 +474,7 @@ angular.module('newApp')
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
 	    		};
-	    		$scope.initialiase = funtion() {
+	    		$scope.initialiase = function() {
 	    			$scope.lead = {
 	    					make:'',
 	    					model:'',
