@@ -375,7 +375,6 @@ angular.module('newApp')
     		  $scope.deleteForeverLead = function(entity) {
     			  $scope.leadId = entity.id;
     			  $scope.leadType = entity.leadType;
-    			  
     			  $('#btnDeleteForever').click();
     		  }
     		  
