@@ -8,13 +8,13 @@
  * Controller of the newappApp
  */
 
-angular.module('newApp').directive('myPostRepeatDirective', function() {
+/*angular.module('newApp').directive('myPostRepeatDirective', function() {
   return function(scope, element, attrs) {
     if (scope.$last) {
       scope.$eval('doComplete()');
     }
   };
-});
+});*/
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile', function ($scope, dashboardService, pluginsService,$http,$compile) {
       $scope.$on('$viewContentLoaded', function () {
