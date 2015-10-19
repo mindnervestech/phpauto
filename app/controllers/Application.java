@@ -6394,19 +6394,19 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result changeAssignedUser(Long id,Integer user,String leadType,Integer option) {
+    public static Result changeAssignedUser(Long id,Integer user,String leadType) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
     		AuthUser userObj = AuthUser.findById(user);
-    		if(leadType.equals("Schedule Test") && option!=0) {
+    		if(leadType.equals("Schedule Test")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setAssignedTo(userObj);
     			schedule.setLeadStatus(null);
     			schedule.setIsReassigned(true);
     			schedule.update();
     		}
-			if(leadType.equals("Request More Info") || (leadType.equals("Schedule Test") && option==1)) {
+			if(leadType.equals("Request More Info")) {
 			    RequestMoreInfo info = RequestMoreInfo.findById(id);
 			    info.setAssignedTo(userObj);
 			    info.setStatus(null);
@@ -6414,7 +6414,7 @@ public class Application extends Controller {
 			    info.setIsReassigned(true);
 			    info.update();
 			}
-			if(leadType.equals("Trade In") || (leadType.equals("Schedule Test") && option!=2)) {
+			if(leadType.equals("Trade In")) {
 				TradeIn tradeIn = TradeIn.findById(id);
 				tradeIn.setAssignedTo(userObj);
 				tradeIn.setStatus(null);

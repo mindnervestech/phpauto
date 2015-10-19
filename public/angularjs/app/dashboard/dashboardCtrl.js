@@ -801,17 +801,12 @@ angular.module('newApp')
         $scope.assignCanceledLead = function(entity) {
         	$scope.cancelId = entity.id;
         	$scope.leadType = entity.leadType;
-        	if(entity.option)
-        		$scope.option = entity.option;
-        	else
-        		$scope.option = 0;
-        	
         	$scope.changedUser = "";
         	$('#btnAssignUser').click();
         }
         
         $scope.changeAssignedUser = function() {
-        	$http.get('/changeAssignedUser/'+$scope.cancelId+'/'+$scope.changedUser+'/'+$scope.leadType+'/'+$scope.option)
+        	$http.get('/changeAssignedUser/'+$scope.cancelId+'/'+$scope.changedUser+'/'+$scope.leadType)
 			.success(function(data) {
 				$('#closeChangeUser').click();
 				$.pnotify({

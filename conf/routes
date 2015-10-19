@@ -130,7 +130,7 @@ GET		/saveNoteOfUser/:id/:type/:note		controllers.Application.saveNoteOfUser(id:
 POST	/saveTestDrive					controllers.Application.saveTestDrive()
 GET		/getAllCanceledLeads			controllers.Application.getAllCanceledLeads()
 GET		/getSalesUserOnly				controllers.Application.getSalesUserOnly()
-GET		/changeAssignedUser/:id/:userId/:lead/:option		controllers.Application.changeAssignedUser(id:Long,userId:Integer,lead:String,option:Integer)
+GET		/changeAssignedUser/:id/:userId/:lead		controllers.Application.changeAssignedUser(id:Long,userId:Integer,lead:String)
 GET		/getNewToDoCount				controllers.Application.getNewToDoCount()
 GET		/setTodoSeen					controllers.Application.setTodoSeen()
 GET		/deleteCanceledLead/:id/:type/:option	controllers.Application.deleteCanceledLead(id:Long,type:String,option:Integer)
