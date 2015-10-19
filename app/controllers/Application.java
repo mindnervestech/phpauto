@@ -6771,7 +6771,7 @@ public class Application extends Controller {
     		test.setVin(vehicles.get(0).getVin());
     		test.save();
     		Map map = new HashMap();
-    		map.put("email",leadVM.custEmail);
+    		map.put("email",user.getEmail());
     		map.put("confirmDate", confirmDate);
     		map.put("confirmTime",leadVM.bestTime);
     		map.put("vin", vehicles.get(0).getVin());
@@ -7484,13 +7484,8 @@ public class Application extends Controller {
 
 				InternetAddress[] usersArray = new InternetAddress[users.size() + 1];
 				int index = 0;
-				usersArray[index] = new InternetAddress(
-						defaultUser.communicationemail);
-				index++;
-				for (AuthUser authuser : users) {
-					usersArray[index] = new InternetAddress(authuser.getEmail());
-					index++;
-				}
+				usersArray[index] = new InternetAddress(user.getEmail());
+				
 				Message message = new MimeMessage(session);
 				message.setFrom(new InternetAddress(emailUsername));
 				message.setRecipients(Message.RecipientType.TO, usersArray);
