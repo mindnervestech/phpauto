@@ -6462,11 +6462,11 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result deleteCanceledLead(Long id,String type,Integer option) {
+    public static Result deleteCanceledLead(Long id,String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		if(type.equals("Request More Info") || (type.equals("Schedule Test") && option==1)) {
+    		if(type.equals("Request More Info")) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
     			List<UserNotes> noteList = UserNotes.findRequestMore(info);
     			for(UserNotes note: noteList) {
@@ -6474,7 +6474,7 @@ public class Application extends Controller {
     			}
     			info.delete();
     		}
-			if(type.equals("Schedule Test") && option!=0) {
+			if(type.equals("Schedule Test")) {
 			    ScheduleTest schedule = ScheduleTest.findById(id);
 			    List<UserNotes> noteList = UserNotes.findScheduleTest(schedule);
 			    for(UserNotes note: noteList) {
@@ -6482,7 +6482,7 @@ public class Application extends Controller {
     			}
 			    schedule.delete();
 			}
-			if(type.equals("Trade In") || (type.equals("Schedule Test") && option==2)) {
+			if(type.equals("Trade In")) {
 				TradeIn tradeIn = TradeIn.findById(id);
 				List<UserNotes> noteList = UserNotes.findTradeIn(tradeIn);
 				for(UserNotes note: noteList) {

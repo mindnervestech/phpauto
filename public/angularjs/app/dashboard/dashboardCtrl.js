@@ -375,17 +375,14 @@ angular.module('newApp')
     		  $scope.deleteForeverLead = function(entity) {
     			  $scope.leadId = entity.id;
     			  $scope.leadType = entity.leadType;
-    			  if(entity.option)
-    				  $scope.option = entity.option;
-    			  else
-    				  $scope.option = 0;
+    			  
     			  $('#btnDeleteForever').click();
     		  }
     		  
     		  $scope.deleteMyLead = function() {
     			  console.log($scope.leadId);
     			  console.log($scope.leadType);
-    			  $http.get('/deleteCanceledLead/'+$scope.leadId+'/'+$scope.leadType+'/'+$scope.option)
+    			  $http.get('/deleteCanceledLead/'+$scope.leadId+'/'+$scope.leadType)
 					.success(function(data) {
 						$.pnotify({
 						    title: "Success",
