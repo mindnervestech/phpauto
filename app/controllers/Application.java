@@ -6582,6 +6582,30 @@ public class Application extends Controller {
     	return response.toString();
     }
     
+    public static Result getMonthlyVisitorsStats() {
+    	Calendar c = Calendar.getInstance();
+    	String[] monthsArr = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    	c.add(Calendar.MONTH, -11);
+    	List<Integer> allVisitor = new ArrayList<Integer>(12);
+    	List<Integer> onlineVisitor = new ArrayList<Integer>(12);
+    	List<String> months = new ArrayList<String>(12);
+    	for(int i=0;i<12;i++) {
+    		String year = c.get(Calendar.YEAR)+"";
+        	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
+    		JsonNode node = Json.parse(callClickAPI("&date="+year+"-"+month+"&type=visitors,visitors-new"));
+    		JsonNode allVisitorNode = node.get(0);
+    		JsonNode onlineVisitorNode = node.get(1);
+    		allVisitor.add(allVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		onlineVisitor.add(onlineVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		months.add(monthsArr[c.get(Calendar.MONTH)]);
+    		c.add(Calendar.MONTH, 1);
+    	}
+    	Map map = new HashMap(2);
+    	map.put("allVisitor", allVisitor);
+    	map.put("onlineVisitor", onlineVisitor);
+    	map.put("months", months);
+    	return ok(Json.toJson(map));
+    }
     
     public static Result getVisitorStats() {
     	String params = "&type=visitors,visitors-new,bounce-rate&date=last-2-days&daily=1";

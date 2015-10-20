@@ -4420,7 +4420,7 @@ angular.module('newApp').factory('dashboardService', function () {
         });
         // panel-stat-chart, visitors-chart
 
-        var visitorsData = {
+       /* var visitorsData = {
             labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
             datasets: [
                 {
@@ -4460,7 +4460,7 @@ angular.module('newApp').factory('dashboardService', function () {
             showScale: false,
         };
         var ctx = document.getElementById("visitors-chart").getContext("2d");
-        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);
+        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);*/
         setTimeout(function () {
             window.dispatchEvent(new Event('resize'));
         }, 1000);

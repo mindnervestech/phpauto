@@ -307,6 +307,50 @@ angular.module('newApp')
     				$scope.gridOptions.data = data;
     			});
     		  
+    		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
+    			  var visitorsData = {
+    			            labels: response.months,
+    			            datasets: [
+    			                {
+    			                    label: "New Visitors",
+    			                    fillColor: "rgba(49, 157, 181,0.5)",
+    			                    strokeColor: "rgba(49, 157, 181,0.7)",
+    			                    pointColor: "rgba(49, 157, 181,1)",
+    			                    pointStrokeColor: "#fff",
+    			                    pointHighlightFill: "#fff",
+    			                    pointHighlightStroke: "rgba(49, 157, 181,1)",
+    			                    data: response.onlineVisitor
+    			                },
+    			                {
+    			                    label: "All visitors",
+    			                    fillColor: "rgba(200,200,200,0.5)",
+    			                    strokeColor: "rgba(200,200,200,1)",
+    			                    pointColor: "rgba(200,200,200,1)",
+    			                    pointStrokeColor: "#fff",
+    			                    pointHighlightFill: "#fff",
+    			                    pointHighlightStroke: "rgba(200,200,200,1)",
+    			                    data: response.allVisitor
+    			                }
+    			            ]
+    			        };
+    			        var chartOptions = {
+    			            scaleGridLineColor: "rgba(0,0,0,.05)",
+    			            scaleGridLineWidth: 1,
+    			            bezierCurve: true,
+    			            pointDot: true,
+    			            pointHitDetectionRadius: 20,
+    			            tooltipCornerRadius: 0,
+    			            scaleShowLabels: false,
+    			            tooltipTemplate: "dffdff",
+    			            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>",
+    			            responsive: true,
+    			            scaleShowLabels: false,
+    			            showScale: false,
+    			        };
+    			        var ctx = document.getElementById("visitors-chart").getContext("2d");
+    			        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions); 
+    		  });
+    		  
     		  $scope.todoData = {};
     		  
     		  $scope.topPerformers = false;
@@ -443,8 +487,8 @@ angular.module('newApp')
 	    			console.log(response);
 	    			$scope.visitors[0] = {'title':'Visit Today','value':response[0].dates[0].items[0].value};
 		    		$scope.visitors[1] = {'title':'Visit Yesterday','value':response[0].dates[1].items[0].value};
-		    		$scope.newUsers[0] = $scope.visitors[0].value==0?0:(response[1].dates[0].items[0].value/$scope.visitors[0].value)*100;
-		    		$scope.newUsers[1] = $scope.visitors[1].value==0?0:(response[1].dates[1].items[0].value/$scope.visitors[1].value)*100;
+		    		$scope.newUsers[0] = Math.round($scope.visitors[0].value==0?0:(response[1].dates[0].items[0].value/$scope.visitors[0].value)*100);
+		    		$scope.newUsers[1] = Math.round($scope.visitors[1].value==0?0:(response[1].dates[1].items[0].value/$scope.visitors[1].value)*100);
 		    		$scope.bounceRate[0] = response[2].dates[0].items[0].value;
 		    		$scope.bounceRate[1] = response[2].dates[1].items[0].value;
 	    		});
