@@ -16,7 +16,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile', function ($scope, dashboardService, pluginsService,$http,$compile) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval', function ($scope, dashboardService, pluginsService,$http,$compile,$interval) {
       $scope.$on('$viewContentLoaded', function () {
         
     	  dashboardService.init();
@@ -430,6 +430,12 @@ angular.module('newApp')
 	  			 		$scope.getAssignedLeads();
 	  			 	}
 	  			});
+	    		
+	    		var promo =  $interval(function() {
+	    			$scope.getToDoNotification();
+  			 		$scope.getAssignedLeads();
+	    		},120000);
+	    		
 	    		$scope.visitors = [];
 	    		$scope.newUsers = [];
 	    		$scope.bounceRate = [];
@@ -702,7 +708,7 @@ angular.module('newApp')
 		    					"<h4 class='alert-title f-14' id='cnt'>1 New Todos Assigned</h4>"+
 		    					"<p class='row' style='margin-left:0;'>"+
 		    					"<span style='color:#319DB5;font-weight:bold;'>DESCRIPTION: </span>"+
-		    					"<span style='color:#319DB5;'>"+$scope.notification.task+"</span></p>"+
+		    					"<span style='color:white;'>"+$scope.notification.task+"</span></p>"+
 		    					"<p class='row' style='margin-left:0;'>" +
 		    					"<span style='color:#319DB5;font-weight:bold;'>DUE DATE: </span>" +
 		    					"<span style='color:#319DB5;'>"+$scope.notification.dueDate+"</span></p>" +

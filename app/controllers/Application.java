@@ -6733,13 +6733,15 @@ public class Application extends Controller {
     	if(leadVM.leadType.equals("1")) {
     		RequestMoreInfo info = new RequestMoreInfo();
     		info.setAssignedTo(user);
+    		info.setIsReassigned(true);
+    		info.setLeadStatus(null);
     		info.setEmail(leadVM.custEmail);
     		info.setName(leadVM.custName);
     		info.setPhone(leadVM.custNumber);
     		info.setVin(vehicles.get(0).getVin());
     		info.setUser(user);
     		info.setIsScheduled(false);
-    		info.setIsRead(1);
+    		info.setIsRead(0);
     		info.setHearedFrom(leadVM.hearedFrom);
     		info.setContactedFrom(leadVM.contactedFrom);
     		info.setRequestDate(new Date());
@@ -6750,6 +6752,8 @@ public class Application extends Controller {
     		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     		ScheduleTest test = new ScheduleTest();
     		test.setAssignedTo(user);
+    		test.setIsReassigned(true);
+    		test.setLeadStatus(null);
     		test.setBestDay(leadVM.bestDay);
     		test.setBestTime(leadVM.bestTime);
     		try {
@@ -6762,7 +6766,7 @@ public class Application extends Controller {
     		test.setEmail(leadVM.custEmail);
     		test.setName(leadVM.custName);
     		test.setPhone(leadVM.custNumber);
-    		test.setIsRead(1);
+    		test.setIsRead(0);
     		test.setUser(user);
     		test.setHearedFrom(leadVM.hearedFrom);
     		test.setContactedFrom(leadVM.contactedFrom);
@@ -6791,6 +6795,8 @@ public class Application extends Controller {
     		TradeIn tradeIn = new TradeIn();
     		tradeIn.setAccidents(leadVM.accidents);
     		tradeIn.setAssignedTo(user);
+    		tradeIn.setIsReassigned(true);
+    		tradeIn.setLeadStatus(null);
     		tradeIn.setBodyRating(leadVM.bodyRating);
     		tradeIn.setComments(leadVM.comments);
     		tradeIn.setContactedFrom(leadVM.contactedFrom);
@@ -6807,7 +6813,7 @@ public class Application extends Controller {
     		tradeIn.setGlassRating(leadVM.glassRating);
     		tradeIn.setHearedFrom(leadVM.hearedFrom);
     		tradeIn.setInteriorRating(leadVM.interiorRating);
-    		tradeIn.setIsRead(1);
+    		tradeIn.setIsRead(0);
     		tradeIn.setKilometres(leadVM.kilometres);
     		tradeIn.setLeaseOrRental(leadVM.rentalReturn);
     		tradeIn.setLienholder(leadVM.lienholder);
