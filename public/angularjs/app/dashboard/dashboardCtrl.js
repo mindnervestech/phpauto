@@ -682,7 +682,6 @@ angular.module('newApp')
 			    	                },
 			    	                onCloseClick: function () {
 			    	                	$('html, body').animate({scrollTop:480}, 'slow');
-			    		    			$scope.setLeadSeen();
 			    	                }
 			    	            }
 			    	        });
@@ -690,7 +689,10 @@ angular.module('newApp')
 			    	        var element = $('#cnt');
 							$compile(element)($scope);
 		    			}
+		    			
+		    			$scope.setLeadSeen();
 		    		});
+	    			
 	    		};
 	    		
 	    		$scope.getToDoNotification = function() {
@@ -739,7 +741,6 @@ angular.module('newApp')
 			    	                },
 			    	                onCloseClick: function () {
 			    		    			$('html, body').animate({scrollTop:2700}, 'slow');
-			    		    			$scope.setTodoSeen();
 			    	                }
 			    	            }
 			    	        });
@@ -747,6 +748,8 @@ angular.module('newApp')
 			    	        var element = $('#cnt');
 							$compile(element)($scope);
 		    			}
+		    			
+		    			$scope.setTodoSeen();
 		    		});
 	    		}
 	    		
@@ -761,6 +764,18 @@ angular.module('newApp')
 		    		.success(function(data){
 		    			
 		    		});
+	    		}
+	    		
+	    		$scope.showSalesStats = true;
+	    		$scope.showPagesVisited = false;
+	    		$scope.salesStats = function() {
+	    			$scope.showSalesStats = true;
+	    			$scope.showPagesVisited = false;
+	    		}
+	    		
+	    		$scope.pagesVisited = function() {
+	    			$scope.showSalesStats = false;
+	    			$scope.showPagesVisited = true;
 	    		}
 	    		
     	$scope.reqMore = true;	
