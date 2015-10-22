@@ -2241,7 +2241,9 @@ angular.module('newApp')
 
 angular.module('newApp')
 .controller('HomePageCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload', function ($scope,$http,$location,$filter,$routeParams,$upload) {
-	
+	if(!$scope.$$phase) {
+		$scope.$apply();
+	}
 	$scope.sliderList = [];
 	$scope.featuredList = [];
 	$scope.gridsterOpts1 = {

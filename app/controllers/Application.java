@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +22,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,6 +48,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import models.AuthUser;
 import models.Blog;
+import models.Contacts;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.FollowBrand;
@@ -85,12 +86,12 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import scala.Array;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
 import viewmodel.AudioVM;
 import viewmodel.BarChartVM;
 import viewmodel.BlogVM;
+import viewmodel.ContactsVM;
 import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
@@ -111,6 +112,7 @@ import viewmodel.profileVM;
 import views.html.home;
 import views.html.index;
 import akka.util.Collections;
+import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Ebean;
@@ -7767,5 +7769,321 @@ public class Application extends Controller {
                 file.mkdirs();
         }
 	}
+	
+	public static Result uploadContactsFile() throws Exception {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	MultipartFormData body = request().body().asMultipartFormData();
+	    	
+	    	AuthUser userObj = (AuthUser) getLocalUser();
+	    	
+	    	FilePart fileData = body.getFile("file0");
+	    	  if (fileData != null) {
+	    	    String fileName = fileData.getFilename();
+	    	    File file = fileData.getFile();
+	    	    com.opencsv.CSVReader reader = new com.opencsv.CSVReader(new FileReader(file), ',', '"','\0', 1);
+	    	    
+	    	    List<String[]> allRows = reader.readAll();
+	    	       
+	    	     for(String[] row : allRows){
+	    	    	
+		    	    	 Contacts contactObj = null;
+		    	    	 if(row.length >= 9) {
+			    	    	 if( row[8] != null && !row[8].isEmpty()) {
+			    	    		 if(!row[8].trim().equals("")) {
+			    	    			 contactObj = Contacts.findByEmail(row[8]);
+			    	    		 }
+			    	    	 }
+		    	    	 }
+		    	    	 if(contactObj == null) {
+			    	    	 Contacts contact = new Contacts();
+			    	    	 if(row.length >= 2) {
+			    	    		 contact.type = row[1];
+			    	    	 }
+			    	    	 if(row.length >= 3) {
+			    	    		 contact.salutation = row[2];
+			    	    	 }
+			    	    	 if(row.length >= 4) {
+			    	    		 contact.firstName = row[3];
+			    	    	 }
+			    	    	 if(row.length >= 5) {
+			    	    		 contact.middleName = row[4];
+			    	    	 }
+			    	    	 if(row.length >= 6) {
+			    	    		 contact.lastName = row[5];
+			    	    	 }
+			    	    	 if(row.length >= 7) {
+			    	    		 contact.suffix = row[6];
+			    	    	 }
+			    	    	 if(row.length >= 8) {
+			    	    		 contact.companyName = row[7];
+			    	    	 }
+			    	    	 if(row.length >= 9) {
+			    	    		 contact.email = row[8];
+			    	    	 }
+			    	    	 if(row.length >= 10) {
+			    	    		 contact.phone = row[9];
+			    	    	 }
+			    	    	 if(row.length >= 11) {
+			    	    		 contact.street = row[10];
+			    	    	 }
+			    	    	 if(row.length >= 12) {
+			    	    		 contact.city = row[11];
+			    	    	 }
+			    	    	 if(row.length >= 13) {
+			    	    		 contact.state = row[12];
+			    	    	 }
+			    	    	 if(row.length >= 14) {
+			    	    		 contact.zip = row[13];
+			    	    	 }
+			    	    	 if(row.length >= 15) {
+			    	    		 contact.country = row[14];
+			    	    	 }
+			    	    	 if(row.length >= 16) {
+			    	    		 contact.allEmail = row[15];
+			    	    	 }
+			    	    	 if(row.length >= 17) {
+			    	    		 contact.allPhone = row[16];
+			    	    	 }
+			    	    	 if(row.length >= 18) {
+			    	    		 contact.website = row[17];
+			    	    	 }
+			    	    	 if(row.length >= 19) {
+			    	    		 contact.allAddresses = row[18];
+			    	    	 }
+			    	    	 if(row.length >= 20) {
+			    	    		 contact.title = row[19];
+			    	    	 }
+			    	    	 if(row.length >= 21) {
+			    	    		 contact.birthday = row[20];
+			    	    	 }
+			    	    	 if(row.length >= 22) {
+			    	    		 contact.backgroundInfo = row[21];
+			    	    	 }
+			    	    	 if(row.length >= 23) {
+			    	    		 contact.industry = row[22];
+			    	    	 }
+			    	    	 if(row.length >= 24) {
+			    	    		 contact.numberOfEmployees = row[23];
+			    	    	 }
+			    	    	 if(row.length >= 25) {
+			    	    		 contact.creationDate = row[24];
+			    	    	 }
+			    	    	 if(row.length >= 26) {
+			    	    		 contact.lastEditedDate = row[25];
+			    	    	 }
+			    	    	 if(row.length >= 27) {
+			    	    		 contact.assignedTo = row[26];
+			    	    	 }
+			    	    	 if(row.length >= 28) {
+			    	    		 contact.campaignSource = row[27];
+			    	    	 }
+			    	    	 if(row.length >= 29) {
+			    	    		 contact.priority = row[28];
+			    	    	 }
+			    	    	 if(row.length >= 30) {
+			    	    		 contact.groups = row[29];
+			    	    	 }
+			    	    	 if(row.length >= 31) {
+			    	    		 contact.relationships = row[30];
+			    	    	 }
+			    	    	 if(row.length >= 32) {
+			    	    		 contact.notes = row[31];
+			    	    	 }
+			    	    	 contact.save();
+		    	    	 } else {
+		    	    		 if(row.length >= 2) {
+		    	    			 contactObj.setType(row[1]);
+		    	    		 }
+		    	    		 if(row.length >= 3) {
+		    	    			 contactObj.setSalutation(row[2]);
+		    	    		 }
+		    	    		 if(row.length >= 4) {
+		    	    			 contactObj.setFirstName(row[3]);
+		    	    		 }
+		    	    		 if(row.length >= 5) {
+		    	    			 contactObj.setMiddleName(row[4]);
+		    	    		 }
+		    	    		 if(row.length >= 6) {
+		    	    			 contactObj.setLastName(row[5]);
+		    	    		 }
+		    	    		 if(row.length >= 7) {
+		    	    			 contactObj.setSuffix(row[6]);
+		    	    		 }
+		    	    		 if(row.length >= 8) {
+		    	    			 contactObj.setCompanyName(row[7]);
+		    	    		 }
+		    	    		 if(row.length >= 9) {
+		    	    			 contactObj.setEmail(row[8]);
+		    	    		 }
+		    	    		 if(row.length >= 10) {
+		    	    			 contactObj.setPhone(row[9]);
+		    	    		 }
+		    	    		 if(row.length >= 11) {
+		    	    			 contactObj.setStreet(row[10]);
+		    	    		 }
+		    	    		 if(row.length >= 12) {
+		    	    			 contactObj.setCity(row[11]);
+		    	    		 }
+		    	    		 if(row.length >= 13) {
+		    	    			 contactObj.setState(row[12]);
+		    	    		 }
+		    	    		 if(row.length >= 14) {
+		    	    			 contactObj.setZip(row[13]);
+		    	    		 }
+		    	    		 if(row.length >= 15) {
+		    	    			 contactObj.setCountry(row[14]);
+		    	    		 }
+		    	    		 if(row.length >= 16) {
+		    	    			 contactObj.setAllEmail(row[15]);
+		    	    		 }
+		    	    		 if(row.length >= 17) {
+		    	    			 contactObj.setAllPhone(row[16]);
+		    	    		 }
+		    	    		 if(row.length >= 18) {
+		    	    			 contactObj.setWebsite(row[17]);
+		    	    		 }
+		    	    		 if(row.length >= 19) {
+		    	    			 contactObj.setAllAddresses(row[18]);
+		    	    		 }
+		    	    		 if(row.length >= 20) {
+		    	    			 contactObj.setTitle(row[19]);
+		    	    		 }
+		    	    		 if(row.length >= 21) {
+		    	    			 contactObj.setBirthday(row[20]);
+		    	    		 }
+		    	    		 if(row.length >= 22) {
+		    	    			 contactObj.setBackgroundInfo(row[21]);
+		    	    		 }
+		    	    		 if(row.length >= 23) {
+		    	    			 contactObj.setIndustry(row[22]);
+		    	    		 }
+		    	    		 if(row.length >= 24) {
+		    	    			 contactObj.setNumberOfEmployees(row[23]);
+		    	    		 }
+		    	    		 if(row.length >= 25) {
+		    	    			 contactObj.setCreationDate(row[24]);
+		    	    		 }
+		    	    		 if(row.length >= 26) {
+		    	    			 contactObj.setLastEditedDate(row[25]);
+		    	    		 }
+		    	    		 if(row.length >= 27) {
+		    	    			 contactObj.setAssignedTo(row[26]);
+		    	    		 }
+		    	    		 if(row.length >= 28) {
+		    	    			 contactObj.setCampaignSource(row[27]);
+		    	    		 }
+		    	    		 if(row.length >= 29) {
+		    	    			 contactObj.setPriority(row[28]);
+		    	    		 }
+		    	    		 if(row.length >= 30) {
+		    	    			 contactObj.setGroups(row[29]);
+		    	    		 }
+		    	    		 if(row.length >= 31) {
+		    	    			 contactObj.setRelationships(row[30]);
+		    	    		 }
+		    	    		 if(row.length >= 32) {
+		    	    			 contactObj.setNotes(row[31]);
+		    	    		 }
+			    	    	 contactObj.update();
+		    	    	 }
+	    	    	 
+	    	     }
+	    	  } 
+	    	return ok();
+    	}	
+    }
+	
+	public static Result getAllContactsData() {
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		List<ContactsVM> contactsVMList = new ArrayList<>();
+    		List<Contacts> contactsList = Contacts.getAllContacts();
+    		for(Contacts contact : contactsList) {
+    			ContactsVM vm = new ContactsVM();
+    			vm.contactId = contact.contactId;
+    			vm.type = contact.type;
+    			vm.salutation = contact.salutation;
+    			vm.firstName = contact.firstName;
+    			vm.middleName = contact.middleName;
+    			vm.lastName = contact.lastName;
+    			vm.suffix = contact.suffix;
+    			vm.companyName = contact.companyName;
+    			vm.email = contact.email;
+    			vm.phone = contact.phone;
+    			vm.street = contact.street;
+    			vm.city = contact.city;
+    			vm.state = contact.state;
+    			vm.zip = contact.zip;
+    			vm.country = contact.country;
+    			vm.allEmail = contact.allEmail;
+    			vm.allPhone = contact.allPhone;
+    			vm.website = contact.website;
+    			vm.allAddresses = contact.allAddresses;
+    			vm.title = contact.title;
+    			vm.birthday = contact.birthday;
+    			vm.backgroundInfo = contact.backgroundInfo;
+    			vm.industry = contact.industry;
+    			vm.numberOfEmployees = contact.numberOfEmployees;
+    			vm.creationDate = contact.creationDate;
+    			vm.lastEditedDate = contact.lastEditedDate;
+    			vm.assignedTo = contact.assignedTo;
+    			vm.campaignSource = contact.campaignSource;
+    			vm.priority = contact.priority;
+    			vm.groups = contact.groups;
+    			vm.relationships = contact.relationships;
+    			vm.notes = contact.notes;
+    			contactsVMList.add(vm);
+    		}
+    		return ok(Json.toJson(contactsVMList));
+    	}
+	}
+	
+	public static Result updateContactsData() {
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
+    		ContactsVM vm = form.get();
+    		Contacts contacts = Contacts.findById(vm.contactId);
+    			contacts.setType(vm.type);
+    			contacts.setSalutation(vm.salutation);
+    			contacts.setFirstName(vm.firstName);
+    			contacts.setMiddleName(vm.middleName);
+    			contacts.setLastName(vm.lastName);
+    			contacts.setSuffix(vm.suffix);
+    			contacts.setCompanyName(vm.companyName);
+    			contacts.setEmail(vm.email);
+    			contacts.setPhone(vm.phone);
+    			contacts.setStreet(vm.street);
+    			contacts.setCity(vm.city);
+    			contacts.setState(vm.state);
+    			contacts.setZip(vm.zip);
+    			contacts.setCountry(vm.country);
+    			contacts.setAllEmail(vm.allEmail);
+    			contacts.setAllPhone(vm.allPhone);
+    			contacts.setWebsite(vm.website);
+    			contacts.setAllAddresses(vm.allAddresses);
+    			contacts.setTitle(vm.title);
+    			contacts.setBirthday(vm.birthday);
+    			contacts.setBackgroundInfo(vm.backgroundInfo);
+    			contacts.setIndustry(vm.industry);
+    			contacts.setNumberOfEmployees(vm.numberOfEmployees);
+    			contacts.setCreationDate(vm.creationDate);
+    			contacts.setLastEditedDate(vm.lastEditedDate);
+    			contacts.setAssignedTo(vm.assignedTo);
+    			contacts.setCampaignSource(vm.campaignSource);
+    			contacts.setPriority(vm.priority);
+    			contacts.setGroups(vm.groups);
+    			contacts.setRelationships(vm.relationships);
+    			contacts.setNotes(vm.notes);
+    			contacts.update();
+    		return ok();
+    	}
+	}
+	
+	
 }
 
