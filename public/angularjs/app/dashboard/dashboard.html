@@ -57,8 +57,8 @@
 							<div class="row" ng-show="showSalesStats">
 						            <div class="col-md-12">
 						             <div class="panel widget-map">
-									    <h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP  AND  LEAST  SALES  REPRESENTATIVE</b></h4>
-									    <select  class="form-control form-white" ng-model="salesPersonUser" ng-change="getPerformanceOfUser()" style="width:33%;margin-left: 4%;margin-top:1%;" >
+									    <h4 style="line-height:0.428571;margin-top:3%;float:left;width:66%;"><b style="margin-left:3%;">TOP  AND  LEAST  SALES  REPRESENTATIVE</b></h4>
+									    <select  class="form-control form-white" ng-model="salesPersonUser" ng-change="getPerformanceOfUser()" style="width:29%;margin-left: 4%;margin-top:1%;" >
 									    	<option ng-selected="true" value="">Select user</option>
 						                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
 						                </select>
@@ -357,7 +357,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-stat-chart">
+                    <div class="panel-stat-chart" style="height: 272px;">
                         <canvas id="visitors-chart"></canvas>
                     </div>
                 </div>
