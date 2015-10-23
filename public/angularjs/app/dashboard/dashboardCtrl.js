@@ -929,14 +929,33 @@ angular.module('newApp')
 		
 		
     	$scope.soldScheduleStatus = function(entity) {
+    		console.log(entity);
     		$scope.scheduleStatusVal = entity;
+    		$scope.soldContact.infoId = entity.id;
+    		$scope.soldContact.name = entity.name;
+    		$scope.soldContact.email = entity.email;
+    		$scope.soldContact.phone = entity.phone;
+    		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
+    			$scope.soldContact.howContactedUs = entity.howContactedUs;
+    		} else {
+    			$scope.soldContact.howContactedUs = "Online";
+    		}
+    		if(entity.howFoundUs != null && angular.isUndefined(entity.howFoundUs)) {
+    			$scope.soldContact.howFoundUs = entity.howFoundUs;
+    		} else {
+    			$scope.soldContact.howFoundUs = "Online";
+    		}
+    		$scope.soldContact.make = entity.make;
+    		$scope.soldContact.year = entity.year;
+    		$scope.soldContact.mileage = entity.mileage;
+    		$scope.soldContact.price = entity.price;
     		$('#btnStatusSchedule').click();
     	}
     	
     	$scope.saveScheduleStatus = function() {
-	    		$http.get('/setVehicleAndScheduleStatus/'+$scope.scheduleStatusVal.vin+'/'+$scope.scheduleStatusVal.option)
+	    		$http.post('/setVehicleAndScheduleStatus',$scope.soldContact)
 				.success(function(data) {
-					$scope.getScheduleTestData();
+					$scope.getAllSalesPersonRecord($scope.salesPerson);
 					$.pnotify({
     				    title: "Success",
     				    type:'success',
@@ -974,20 +993,40 @@ angular.module('newApp')
 			});
     	}
     	
+    	$scope.soldContact = {};
+    	
     	$scope.completeRequestStatus = function(entity) {
     		$scope.requestStatusComplete = entity;
+    		$scope.soldContact.infoId = entity.id;
+    		$scope.soldContact.name = entity.name;
+    		$scope.soldContact.email = entity.email;
+    		$scope.soldContact.phone = entity.phone;
+    		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
+    			$scope.soldContact.howContactedUs = entity.howContactedUs;
+    		} else {
+    			$scope.soldContact.howContactedUs = "Online";
+    		}
+    		if(entity.howFoundUs != null && angular.isUndefined(entity.howFoundUs)) {
+    			$scope.soldContact.howFoundUs = entity.howFoundUs;
+    		} else {
+    			$scope.soldContact.howFoundUs = "Online";
+    		}
+    		$scope.soldContact.make = entity.make;
+    		$scope.soldContact.year = entity.year;
+    		$scope.soldContact.mileage = entity.mileage;
+    		$scope.soldContact.price = entity.price;
     		$('#btnCompleteRequest').click();
     	};
     	
     	$scope.saveRequestStatus = function() {
-    		$http.get('/setRequestStatusComplete/'+$scope.requestStatusComplete.id)
+    		$http.post('/setRequestStatusComplete',$scope.soldContact)
 			.success(function(data) {
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
 				    text: "Status changed successfully",
 				});
-				$scope.getRequestMoreData();
+				$scope.getAllSalesPersonRecord($scope.salesPerson);
 			});
     	};		
     	
@@ -1012,18 +1051,36 @@ angular.module('newApp')
     	
     	$scope.completeTradeInStatus = function(entity) {
     		$scope.tradeInStatusComplete = entity;
+    		$scope.soldContact.infoId = entity.id;
+    		$scope.soldContact.name = entity.name;
+    		$scope.soldContact.email = entity.email;
+    		$scope.soldContact.phone = entity.phone;
+    		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
+    			$scope.soldContact.howContactedUs = entity.howContactedUs;
+    		} else {
+    			$scope.soldContact.howContactedUs = "Online";
+    		}
+    		if(entity.howFoundUs != null && angular.isUndefined(entity.howFoundUs)) {
+    			$scope.soldContact.howFoundUs = entity.howFoundUs;
+    		} else {
+    			$scope.soldContact.howFoundUs = "Online";
+    		}
+    		$scope.soldContact.make = entity.make;
+    		$scope.soldContact.year = entity.year;
+    		$scope.soldContact.mileage = entity.mileage;
+    		$scope.soldContact.price = entity.price;
     		$('#btnCompleteTradeIn').click();
     	}
     	
     	$scope.saveCompleteTradeInStatus = function() {
-    		$http.get('/setTradeInStatusComplete/'+$scope.tradeInStatusComplete.id)
+    		$http.post('/setTradeInStatusComplete',$scope.soldContact)
 			.success(function(data) {
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
 				    text: "Status changed successfully",
 				});
-				$scope.getTradeInData();
+				$scope.getAllSalesPersonRecord($scope.salesPerson);
 			});
     	}
     	

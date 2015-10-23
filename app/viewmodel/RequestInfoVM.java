@@ -9,6 +9,9 @@ public class RequestInfoVM {
 	public String vin;
 	public String model;
 	public String make;
+	public String year;
+	public String mileage;
+	public Integer price;
 	public String stock;
 	public String name;
 	public String email;
@@ -24,5 +27,7 @@ public class RequestInfoVM {
 	public String salesRep;
 	public String prefferedContact;
 	public String leadType;
+	public String howContactedUs;
+	public String howFoundUs;
 	public int option;
 }

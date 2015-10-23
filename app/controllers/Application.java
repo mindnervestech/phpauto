@@ -61,6 +61,7 @@ import models.SiteContent;
 import models.SiteLogo;
 import models.SliderImage;
 import models.SliderImageConfig;
+import models.SoldContact;
 import models.ToDo;
 import models.TradeIn;
 import models.UserNotes;
@@ -102,6 +103,7 @@ import viewmodel.RequestInfoVM;
 import viewmodel.SiteContentVM;
 import viewmodel.SiteLogoVM;
 import viewmodel.SiteVM;
+import viewmodel.SoldContactVM;
 import viewmodel.SpecificationVM;
 import viewmodel.ToDoVM;
 import viewmodel.TradeInVM;
@@ -3762,10 +3764,15 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.requestDate = df.format(info.requestDate);
 	    		
 	    		if(info.assignedTo == null) {
@@ -3814,10 +3821,15 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -3873,13 +3885,17 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
-	    		
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -3941,12 +3957,17 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -4014,10 +4035,15 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
 	    		}
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -4064,10 +4090,15 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
 	    		}
 	    		vm.name = (info.firstName!=null?info.firstName:"")+" "+(info.lastName!=null?info.lastName:"");
 	    		vm.phone = info.phone!=null ? info.phone:"";
 	    		vm.email = info.email!=null ? info.email:"";
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -5134,35 +5165,52 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result setVehicleAndScheduleStatus(String vin,Integer option) {
+    public static Result setVehicleAndScheduleStatus() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
+    		SoldContactVM vm = form.get();
+    		SoldContact contact = new SoldContact();
+    		contact.name = vm.name;
+    		contact.email = vm.email;
+    		contact.phone = vm.phone;
+    		contact.gender = vm.gender;
+    		contact.age = vm.age;
+    		contact.buyingFor = vm.buyingFor;
+    		contact.howContactedUs = vm.howContactedUs;
+    		contact.howFoundUs = vm.howFoundUs;
+    		contact.make = vm.make;
+    		contact.year = vm.year;
+    		contact.mileage = vm.mileage;
+    		contact.price = vm.price;
+    		contact.save();
+    		Contacts contactsObj = new Contacts();
+    		String arr[] = vm.name.split(" ");
+    		if(arr.length >= 1) {
+    			contactsObj.firstName = arr[0];
+    		} else {
+    			contactsObj.firstName = vm.name;
+    		}
+    		if(arr.length >= 2) {
+    			contactsObj.middleName = arr[1];
+    		}
+    		if(arr.length >= 3) {
+    			contactsObj.lastName = arr[2];
+    		} 
+    		contactsObj.email = vm.email;
+    		contactsObj.phone = vm.phone;
+    		contactsObj.save();
     		AuthUser user = getLocalUser();
-    		Vehicle vehicle = Vehicle.findByVidAndUser(vin);
+    		ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
+    		schedule.setLeadStatus("SUCCESSFUL");
+    		schedule.update();
+    		Vehicle vehicle = Vehicle.findByVidAndUser(schedule.vin);
     		vehicle.setStatus("Sold");
     		Date date = new Date();
     		vehicle.setSoldDate(date);
     		vehicle.update();
-    		if(option==0) {
-    			List<ScheduleTest> scheduleList = ScheduleTest.findByVinAndAssignedUser(user, vin);
-    			for(ScheduleTest obj: scheduleList) {
-    				obj.setLeadStatus("SUCCESSFUL");
-    				obj.update();
-    			}
-    		} else if(option == 1) {
-    			List<RequestMoreInfo> infos = RequestMoreInfo.findByVinAndAssignedUser(vin, user);
-    			for(RequestMoreInfo obj: infos) {
-    				obj.setLeadStatus("SUCCESSFUL");
-    				obj.update();
-    			}
-    		} else if(option == 2) {
-    			List<TradeIn> infos = TradeIn.findByVinAndAssignedUser(vin, user);
-    			for(TradeIn obj: infos) {
-    				obj.setLeadStatus("SUCCESSFUL");
-    				obj.update();
-    			}
-    		}
+    		
     		return ok();
     	}
     }
@@ -5191,11 +5239,43 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result setRequestStatusComplete(Long id) {
+    public static Result setRequestStatusComplete() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		RequestMoreInfo info = RequestMoreInfo.findById(id);
+    		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
+    		SoldContactVM vm = form.get();
+    		SoldContact contact = new SoldContact();
+    		contact.name = vm.name;
+    		contact.email = vm.email;
+    		contact.phone = vm.phone;
+    		contact.gender = vm.gender;
+    		contact.age = vm.age;
+    		contact.buyingFor = vm.buyingFor;
+    		contact.howContactedUs = vm.howContactedUs;
+    		contact.howFoundUs = vm.howFoundUs;
+    		contact.make = vm.make;
+    		contact.year = vm.year;
+    		contact.mileage = vm.mileage;
+    		contact.price = vm.price;
+    		contact.save();
+    		Contacts contactsObj = new Contacts();
+    		String arr[] = vm.name.split(" ");
+    		if(arr.length >= 1) {
+    			contactsObj.firstName = arr[0];
+    		} else {
+    			contactsObj.firstName = vm.name;
+    		}
+    		if(arr.length >= 2) {
+    			contactsObj.middleName = arr[1];
+    		}
+    		if(arr.length >= 3) {
+    			contactsObj.lastName = arr[2];
+    		} 
+    		contactsObj.email = vm.email;
+    		contactsObj.phone = vm.phone;
+    		contactsObj.save();
+    		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
     		Vehicle vehicle = Vehicle.findByVin(info.vin);
     		vehicle.setStatus("Sold");
     		Date date = new Date();
@@ -5219,11 +5299,43 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result setTradeInStatusComplete(Long id) {
+    public static Result setTradeInStatusComplete() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		TradeIn info = TradeIn.findById(id);
+    		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
+    		SoldContactVM vm = form.get();
+    		SoldContact contact = new SoldContact();
+    		contact.name = vm.name;
+    		contact.email = vm.email;
+    		contact.phone = vm.phone;
+    		contact.gender = vm.gender;
+    		contact.age = vm.age;
+    		contact.buyingFor = vm.buyingFor;
+    		contact.howContactedUs = vm.howContactedUs;
+    		contact.howFoundUs = vm.howFoundUs;
+    		contact.make = vm.make;
+    		contact.year = vm.year;
+    		contact.mileage = vm.mileage;
+    		contact.price = vm.price;
+    		contact.save();
+    		Contacts contactsObj = new Contacts();
+    		String arr[] = vm.name.split(" ");
+    		if(arr.length >= 1) {
+    			contactsObj.firstName = arr[0];
+    		} else {
+    			contactsObj.firstName = vm.name;
+    		}
+    		if(arr.length >= 2) {
+    			contactsObj.middleName = arr[1];
+    		}
+    		if(arr.length >= 3) {
+    			contactsObj.lastName = arr[2];
+    		} 
+    		contactsObj.email = vm.email;
+    		contactsObj.phone = vm.phone;
+    		contactsObj.save();
+    		TradeIn info = TradeIn.findById(vm.infoId);
     		Vehicle vehicle = Vehicle.findByVin(info.vin);
     		vehicle.setStatus("Sold");
     		Date date = new Date();
