@@ -8003,6 +8003,7 @@ public class Application extends Controller {
 			    	    	 if(row.length >= 32) {
 			    	    		 contact.notes = row[31];
 			    	    	 }
+			    	    	 contact.newsLetter = 0;
 			    	    	 contact.save();
 		    	    	 } else {
 		    	    		 if(row.length >= 2) {
@@ -8147,6 +8148,11 @@ public class Application extends Controller {
     			vm.groups = contact.groups;
     			vm.relationships = contact.relationships;
     			vm.notes = contact.notes;
+    			if(contact.newsLetter == 0) {
+    				vm.newsletter = false;
+    			} else {
+    				vm.newsletter = true;
+    			}
     			contactsVMList.add(vm);
     		}
     		return ok(Json.toJson(contactsVMList));
@@ -8196,6 +8202,20 @@ public class Application extends Controller {
     	}
 	}
 	
-	
+	public static Result addNewsLetter(String flag,Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	Contacts infoObj = Contacts.findById(id);
+	    		if(flag.equals("true")) {
+	    			infoObj.setNewsLetter(1);
+	    		}
+	    		if(flag.equals("false")) {
+	    			infoObj.setNewsLetter(0);
+	    		}
+	    		infoObj.update();
+	    		return ok();
+    	}  		
+	}
 }
 

@@ -18,22 +18,25 @@ angular.module('newApp')
    		                                 },
    		                                 { name: 'type', displayName: 'Type',enableFiltering: false, width:'10%',
    		                                 },
-   		                                 { name: 'firstName', displayName: 'First Name', width:'13%',cellEditableCondition: false,
+   		                                 { name: 'firstName', displayName: 'First Name', width:'11%',cellEditableCondition: false,
    		                                 },
-   		                                 { name: 'lastName', displayName: 'Last Name', width:'13%',cellEditableCondition: false,
+   		                                 { name: 'lastName', displayName: 'Last Name', width:'11%',cellEditableCondition: false,
    		                                 },
-   		                                 { name: 'companyName', displayName: 'Company Name', width:'14%',cellEditableCondition: false,
+   		                                 { name: 'companyName', displayName: 'Company Name', width:'12%',cellEditableCondition: false,
    		                                 },
-   		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'11%',cellEditableCondition: false,
+   		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'10%',cellEditableCondition: false,
    		                                 },
-   		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'11%',
+   		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'10%',
    		                                 },
-   		                                 { name: 'assignedTo', displayName: 'Assigned To',enableFiltering: false, width:'13%',cellEditableCondition: false,
+   		                                 { name: 'assignedTo', displayName: 'Assigned To',enableFiltering: false, width:'12%',cellEditableCondition: false,
    		                                 },
-	   		                              { name: 'edit', displayName: '', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+	   		                              { name: 'edit', displayName: 'Edit', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 	    		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editContactsDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>', 
 			                                 
 			                                 },
+			                                 { name: 'newsletter', displayName: 'Newsletter',enableFiltering: false, width:'9%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+	 		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.newsletter" ng-change="grid.appScope.setAsRead(row.entity.newsletter,row.entity.contactId)" data-checkbox="icheckbox_flat-blue" style="margin-left:42%;"></div>', 
+	 		                                 },
        		                                
        		                                 ];  
     
@@ -64,12 +67,17 @@ angular.module('newApp')
 		$scope.onCsvFileSelect = function($files) {
 			logofile = $files;
 		}
-	   
+	   $scope.progress;
+	   $scope.showProgress = false;
 	   $scope.saveContactsFile = function() {
+		   var status = { progress: 0 };
 		   $upload.upload({
 	            url : '/uploadContactsFile',
 	            method: 'post',
 	            file:logofile,
+		   }).progress(function(evt) {
+			   $scope.showProgress = true;
+			   $scope.progress = parseInt(100.0 * evt.loaded / evt.total)+"%";
 	        }).success(function(data, status, headers, config) {
 	            console.log('success');
 	            $.pnotify({
@@ -97,6 +105,15 @@ angular.module('newApp')
 					    text: "contact updated successfully",
 					});
 				});
+	   }
+	   
+	   $scope.setAsRead = function(newsletter,id) {
+		   console.log(newsletter);
+		   console.log(id);
+		   $http.get('/addNewsLetter/'+newsletter+'/'+id)
+			.success(function(data) {
+				
+		});
 	   }
 	   
 }]);

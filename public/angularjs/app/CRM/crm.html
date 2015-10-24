@@ -5,6 +5,7 @@
 <h4><b>Contacts</b></h4>
 <form style="margin-left:50%;" ng-submit="saveContactsFile()">
 	<input type="file" name="contactsFile" ng-file-select="onCsvFileSelect($files)" style="float:left;" required><button type="submit" class="btn btn-primary">Import Contacts</button>
+	<label ng-show="showProgress">Progress : {{progress}}</label>
 </form>
 <div>
 <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>

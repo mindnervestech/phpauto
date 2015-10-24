@@ -34,6 +34,7 @@ public class ContactsVM {
 	public String groups;
 	public String relationships;
 	public String notes;
+	public boolean newsletter;
 	
 	public Long getContactId() {
 		return contactId;

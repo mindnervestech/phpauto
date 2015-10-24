@@ -46,6 +46,7 @@ public class Contacts extends Model {
 	public String groups;
 	public String relationships;
 	public String notes;
+	public Integer newsLetter;
 	@Version
 	public java.util.Date version; 
 	
@@ -240,6 +241,12 @@ public class Contacts extends Model {
 	}
 	public void setLastEditedDate(String lastEditedDate) {
 		this.lastEditedDate = lastEditedDate;
+	}
+	public Integer getNewsLetter() {
+		return newsLetter;
+	}
+	public void setNewsLetter(Integer newsLetter) {
+		this.newsLetter = newsLetter;
 	}
 
 	public static Finder<Long,Contacts> find = new Finder<>(Long.class,Contacts.class);
