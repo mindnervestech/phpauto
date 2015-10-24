@@ -70,7 +70,6 @@ angular.module('newApp')
 	   $scope.progress;
 	   $scope.showProgress = false;
 	   $scope.saveContactsFile = function() {
-		   var status = { progress: 0 };
 		   $upload.upload({
 	            url : '/uploadContactsFile',
 	            method: 'post',
