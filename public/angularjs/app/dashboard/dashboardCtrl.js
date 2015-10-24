@@ -929,8 +929,8 @@ angular.module('newApp')
 		
 		
     	$scope.soldScheduleStatus = function(entity) {
-    		console.log(entity);
     		$scope.scheduleStatusVal = entity;
+    		$scope.soldContact = {};
     		$scope.soldContact.infoId = entity.id;
     		$scope.soldContact.name = entity.name;
     		$scope.soldContact.email = entity.email;
@@ -943,7 +943,7 @@ angular.module('newApp')
     		if(entity.howFoundUs != null && angular.isUndefined(entity.howFoundUs)) {
     			$scope.soldContact.howFoundUs = entity.howFoundUs;
     		} else {
-    			$scope.soldContact.howFoundUs = "Online";
+    			$scope.soldContact.howFoundUs = "";
     		}
     		$scope.soldContact.make = entity.make;
     		$scope.soldContact.year = entity.year;
@@ -955,6 +955,7 @@ angular.module('newApp')
     	$scope.saveScheduleStatus = function() {
 	    		$http.post('/setVehicleAndScheduleStatus',$scope.soldContact)
 				.success(function(data) {
+					$('#scheduleStatusModal').modal('hide');
 					$scope.getAllSalesPersonRecord($scope.salesPerson);
 					$.pnotify({
     				    title: "Success",
@@ -997,6 +998,7 @@ angular.module('newApp')
     	
     	$scope.completeRequestStatus = function(entity) {
     		$scope.requestStatusComplete = entity;
+    		$scope.soldContact = {};
     		$scope.soldContact.infoId = entity.id;
     		$scope.soldContact.name = entity.name;
     		$scope.soldContact.email = entity.email;
@@ -1009,7 +1011,7 @@ angular.module('newApp')
     		if(entity.howFoundUs != null && angular.isUndefined(entity.howFoundUs)) {
     			$scope.soldContact.howFoundUs = entity.howFoundUs;
     		} else {
-    			$scope.soldContact.howFoundUs = "Online";
+    			$scope.soldContact.howFoundUs = "";
     		}
     		$scope.soldContact.make = entity.make;
     		$scope.soldContact.year = entity.year;
@@ -1021,6 +1023,7 @@ angular.module('newApp')
     	$scope.saveRequestStatus = function() {
     		$http.post('/setRequestStatusComplete',$scope.soldContact)
 			.success(function(data) {
+				$('#requestCompleteStatusModal').modal('hide');
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -1051,6 +1054,7 @@ angular.module('newApp')
     	
     	$scope.completeTradeInStatus = function(entity) {
     		$scope.tradeInStatusComplete = entity;
+    		$scope.soldContact = {};
     		$scope.soldContact.infoId = entity.id;
     		$scope.soldContact.name = entity.name;
     		$scope.soldContact.email = entity.email;
@@ -1063,7 +1067,7 @@ angular.module('newApp')
     		if(entity.howFoundUs != null && angular.isUndefined(entity.howFoundUs)) {
     			$scope.soldContact.howFoundUs = entity.howFoundUs;
     		} else {
-    			$scope.soldContact.howFoundUs = "Online";
+    			$scope.soldContact.howFoundUs = "";
     		}
     		$scope.soldContact.make = entity.make;
     		$scope.soldContact.year = entity.year;
@@ -1075,6 +1079,7 @@ angular.module('newApp')
     	$scope.saveCompleteTradeInStatus = function() {
     		$http.post('/setTradeInStatusComplete',$scope.soldContact)
 			.success(function(data) {
+				$('#tradeInCompleteStatusModal').modal('hide');
 				$.pnotify({
 				    title: "Success",
 				    type:'success',

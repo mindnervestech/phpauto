@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -45,6 +46,8 @@ public class Contacts extends Model {
 	public String groups;
 	public String relationships;
 	public String notes;
+	@Version
+	public java.util.Date version; 
 	
 	public Long getContactId() {
 		return contactId;

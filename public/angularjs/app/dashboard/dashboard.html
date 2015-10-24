@@ -862,8 +862,9 @@
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">Change vehicle status</h4>
+								                    <h4 class="modal-title">Add to Client Base</h4>
 								                </div>
+								                <form ng-submit="saveScheduleStatus()">
 								                <div class="modal-body" style="height:410px;overflow-x:auto;">
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
@@ -874,7 +875,7 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Email</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.email" required>
+															<input type="email" class="form-control form-white" ng-model="soldContact.email" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
@@ -886,7 +887,8 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Gender</label>
 														<div class="col-sm-7">
-															<select class="form-control form-white" ng-model="soldContact.gender">
+															<select class="form-control form-white" ng-model="soldContact.gender" required>
+																<option value="">Select</option>
 																<option value="Male">Male</option>
 																<option value="Female">Female</option>
 															</select>
@@ -895,7 +897,8 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Age</label>
 														<div class="col-sm-7">
-															<select class="form-control form-white" ng-model="soldContact.age">
+															<select class="form-control form-white" ng-model="soldContact.age" required>
+																<option value="">Select</option>
 																<option value="16-20">16-20</option>
 																<option value="21-24">21-24</option>
 																<option value="25-39">25-39</option>
@@ -918,13 +921,38 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">How contacted us</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.howContactedUs" required>
+															<select class="form-control form-white" ng-model="soldContact.howContactedUs" required>
+																<option value="">Select</option>
+																<option value="Phone">Phone</option>
+																<option value="Walk In">Walk In</option>
+																<option value="Email">Email</option>
+																<option value="Facebool">Facebook</option>
+																<option value="Online">Online</option>
+															</select>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">How found us</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.howFoundUs" required>
+															<select class="form-control form-white" ng-model="soldContact.howFoundUs" required>
+																<option value="">Select</option>
+																<option value="Google Search">Google Search</option>
+																<option value="Yahoo Search">Yahoo Search</option>
+																<option value="Bing Search">Bing Search</option>
+																<option value="Google Maps">Google Maps</option>
+																<option value="Google Maps Search">Google Maps Search</option>
+																<option value="Facebook">Facebook</option>
+																<option value="Google Plus">Google Plus</option>
+																<option value="Twitter">Twitter</option>
+																<option value="Word of the mouth">Word of the mouth</option>
+																<option value="Returning Client">Returning Client</option>
+																<option value="Yelp">Yelp</option>
+																<option value="Cars.com">Cars.com</option>
+																<option value="AutoGuru">AutoGuru</option>
+																<option value="AutoTrader">AutoTrader</option>
+																<option value="Kelly Blue Book">Kelly Blue Book</option>
+																<option value="Craigslist">Craigslist</option>
+															</select>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
@@ -945,18 +973,12 @@
 															<input type="text" class="form-control form-white" ng-model="soldContact.mileage" required>
 														</div>
 													</div>
-													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Price</label>
-														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.price" required>
-														</div>
-													</div>
-													
 								                </div>
 								                <div class="modal-footer">
-								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="saveScheduleStatus()">Yes</button>
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Sold</button>
 								                </div>
+								                </form>
 								            </div>
 								        </div>
 								    </div>
@@ -1009,8 +1031,9 @@
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">Change vehicle status</h4>
+								                    <h4 class="modal-title">Add to Client Base</h4>
 								                </div>
+								                <form ng-submit="saveRequestStatus()">
 								                <div class="modal-body" style="height:410px;overflow-x:auto;">
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
@@ -1021,7 +1044,7 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Email</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.email" required>
+															<input type="email" class="form-control form-white" ng-model="soldContact.email" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
@@ -1033,7 +1056,8 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Gender</label>
 														<div class="col-sm-7">
-															<select class="form-control form-white" ng-model="soldContact.gender">
+															<select class="form-control form-white" ng-model="soldContact.gender" required>
+																<option value="">Select</option>
 																<option value="Male">Male</option>
 																<option value="Female">Female</option>
 															</select>
@@ -1042,7 +1066,8 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Age</label>
 														<div class="col-sm-7">
-															<select class="form-control form-white" ng-model="soldContact.age">
+															<select class="form-control form-white" ng-model="soldContact.age" required>
+																<option value="">Select</option>
 																<option value="16-20">16-20</option>
 																<option value="21-24">21-24</option>
 																<option value="25-39">25-39</option>
@@ -1065,13 +1090,38 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">How contacted us</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.howContactedUs" required>
+															<select class="form-control form-white" ng-model="soldContact.howContactedUs" required>
+																<option value="">Select</option>
+																<option value="Phone">Phone</option>
+																<option value="Walk In">Walk In</option>
+																<option value="Email">Email</option>
+																<option value="Facebool">Facebook</option>
+																<option value="Online">Online</option>
+															</select>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">How found us</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.howFoundUs" required>
+															<select class="form-control form-white" ng-model="soldContact.howFoundUs" required>
+																<option value="">Select</option>
+																<option value="Google Search">Google Search</option>
+																<option value="Yahoo Search">Yahoo Search</option>
+																<option value="Bing Search">Bing Search</option>
+																<option value="Google Maps">Google Maps</option>
+																<option value="Google Maps Search">Google Maps Search</option>
+																<option value="Facebook">Facebook</option>
+																<option value="Google Plus">Google Plus</option>
+																<option value="Twitter">Twitter</option>
+																<option value="Word of the mouth">Word of the mouth</option>
+																<option value="Returning Client">Returning Client</option>
+																<option value="Yelp">Yelp</option>
+																<option value="Cars.com">Cars.com</option>
+																<option value="AutoGuru">AutoGuru</option>
+																<option value="AutoTrader">AutoTrader</option>
+																<option value="Kelly Blue Book">Kelly Blue Book</option>
+																<option value="Craigslist">Craigslist</option>
+															</select>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
@@ -1092,18 +1142,13 @@
 															<input type="text" class="form-control form-white" ng-model="soldContact.mileage" required>
 														</div>
 													</div>
-													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Price</label>
-														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.price" required>
-														</div>
-													</div>
 													
 								                </div>
 								                <div class="modal-footer">
-								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="saveRequestStatus()">Yes</button>
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Sold</button>
 								                </div>
+								                </form>
 								            </div>
 								        </div>
 								    </div>
@@ -1137,8 +1182,9 @@
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">Change vehicle status</h4>
+								                    <h4 class="modal-title">Add to Client Base</h4>
 								                </div>
+								                <form ng-submit="saveCompleteTradeInStatus()">
 								                <div class="modal-body" style="height:410px;overflow-x:auto;">
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
@@ -1149,7 +1195,7 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Email</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.email" required>
+															<input type="email" class="form-control form-white" ng-model="soldContact.email" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
@@ -1161,7 +1207,8 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Gender</label>
 														<div class="col-sm-7">
-															<select class="form-control form-white" ng-model="soldContact.gender">
+															<select class="form-control form-white" ng-model="soldContact.gender" required>
+																<option value="">Select</option>
 																<option value="Male">Male</option>
 																<option value="Female">Female</option>
 															</select>
@@ -1170,7 +1217,8 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Age</label>
 														<div class="col-sm-7">
-															<select class="form-control form-white" ng-model="soldContact.age">
+															<select class="form-control form-white" ng-model="soldContact.age" required>
+																<option value="">Select</option>
 																<option value="16-20">16-20</option>
 																<option value="21-24">21-24</option>
 																<option value="25-39">25-39</option>
@@ -1193,13 +1241,38 @@
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">How contacted us</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.howContactedUs" required>
+															<select class="form-control form-white" ng-model="soldContact.howContactedUs" required>
+																<option value="">Select</option>
+																<option value="Phone">Phone</option>
+																<option value="Walk In">Walk In</option>
+																<option value="Email">Email</option>
+																<option value="Facebool">Facebook</option>
+																<option value="Online">Online</option>
+															</select>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">How found us</label>
 														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.howFoundUs" required>
+															<select class="form-control form-white" ng-model="soldContact.howFoundUs" required>
+																<option value="">Select</option>
+																<option value="Google Search">Google Search</option>
+																<option value="Yahoo Search">Yahoo Search</option>
+																<option value="Bing Search">Bing Search</option>
+																<option value="Google Maps">Google Maps</option>
+																<option value="Google Maps Search">Google Maps Search</option>
+																<option value="Facebook">Facebook</option>
+																<option value="Google Plus">Google Plus</option>
+																<option value="Twitter">Twitter</option>
+																<option value="Word of the mouth">Word of the mouth</option>
+																<option value="Returning Client">Returning Client</option>
+																<option value="Yelp">Yelp</option>
+																<option value="Cars.com">Cars.com</option>
+																<option value="AutoGuru">AutoGuru</option>
+																<option value="AutoTrader">AutoTrader</option>
+																<option value="Kelly Blue Book">Kelly Blue Book</option>
+																<option value="Craigslist">Craigslist</option>
+															</select>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
@@ -1220,18 +1293,13 @@
 															<input type="text" class="form-control form-white" ng-model="soldContact.mileage" required>
 														</div>
 													</div>
-													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Price</label>
-														<div class="col-sm-7">
-															<input type="text" class="form-control form-white" ng-model="soldContact.price" required>
-														</div>
-													</div>
 													
 								                </div>
 								                <div class="modal-footer">
-								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="saveCompleteTradeInStatus()">Yes</button>
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Sold</button>
 								                </div>
+								                </form>
 								            </div>
 								        </div>
 								    </div>
@@ -1494,6 +1562,12 @@
 								                    					<option value="Twitter">Twitter</option>
 								                    					<option value="Word of the mouth">Word of the mouth</option>
 								                    					<option value="Returning Client">Returning Client</option>
+								                    					<option value="Yelp">Yelp</option>
+																		<option value="Cars.com">Cars.com</option>
+																		<option value="AutoGuru">AutoGuru</option>
+																		<option value="AutoTrader">AutoTrader</option>
+																		<option value="Kelly Blue Book">Kelly Blue Book</option>
+																		<option value="Craigslist">Craigslist</option>
 								                    				</select>
 								                    			</div>
 								                    		</div>
