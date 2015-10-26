@@ -4555,17 +4555,41 @@ public class Application extends Controller {
 	    	Form<BlogVM> form = DynamicForm.form(BlogVM.class).bindFromRequest();
 	    	BlogVM vm = form.get();
 	    	Blog blogObj = Blog.findByUserAndTitle(userObj, vm.title);
+	    	Blog blog = new Blog();
 	    	if(blogObj == null) {
-		    	Blog blog = new Blog();
 		    	blog.title = vm.title;
 		    	blog.description = vm.description;
+		    	blog.videoUrl = vm.videoUrl;
 		    	blog.postedBy = vm.postedBy;
 		    	blog.postedDate = new Date();
 		    	blog.user = userObj;
 		    	blog.save();
+		    	
+		    	MultipartFormData body = request().body().asMultipartFormData();
+		    	
+		    	FilePart picture = body.getFile("file0");
+		    	  if (picture != null) {
+		    	    String fileName = picture.getFilename();
+		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"blogImages"+blog.getId());
+		    	    if(!fdir.exists()) {
+		    	    	fdir.mkdir();
+		    	    }
+		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blog.getId()+File.separator+fileName;
+		    	    File file = picture.getFile();
+		    	    try {
+		    	    		FileUtils.moveFile(file, new File(filePath));
+		    	    		blog.setImageUrl(File.separator+userObj.id+File.separator+"blogImages"+File.separator+blog.getId()+File.separator+fileName);
+		    	    		blog.setImageName(fileName);
+		    	    		blog.update();
+		    	  } catch (FileNotFoundException e) {
+		  			e.printStackTrace();
+			  		} catch (IOException e) {
+			  			e.printStackTrace();
+			  		} 
+		    	  }
 	    	}
 	    	
-	    	return ok();
+	    	return ok(blog.imageUrl);
     	}	
     }
     
@@ -4616,6 +4640,8 @@ public class Application extends Controller {
 			vm.title = blog.title;
 			vm.postedBy = blog.postedBy;
 			vm.description = blog.description;
+			vm.imageUrl = blog.imageUrl;
+			vm.videoUrl = blog.videoUrl;
 	    	return ok(Json.toJson(vm));
     	}
     }
@@ -4625,16 +4651,44 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser userObj = (AuthUser) getLocalUser();
 	    	Form<BlogVM> form = DynamicForm.form(BlogVM.class).bindFromRequest();
 	    	BlogVM vm = form.get();
 	    	Blog blogObj = Blog.findById(vm.id);
 	    	if(blogObj != null) {
 	    		blogObj.setTitle(vm.title);
 	    		blogObj.setDescription(vm.description);
+	    		blogObj.setVideoUrl(vm.videoUrl);
 	    		blogObj.setPostedBy(vm.postedBy);
 	    		blogObj.update();
+	    		
+	    		MultipartFormData body = request().body().asMultipartFormData();
+		    	if(body != null) {
+			    	FilePart picture = body.getFile("file0");
+			    	  if (picture != null) {
+			    		File oldfdir = new File(rootDir+blogObj.getImageUrl());  
+			    		oldfdir.delete();
+			    	    String fileName = picture.getFilename();
+			    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blogObj.getId());
+			    	    if(!fdir.exists()) {
+			    	    	fdir.mkdir();
+			    	    }
+			    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blogObj.getId()+File.separator+fileName;
+			    	    File file = picture.getFile();
+			    	    try {
+			    	    		FileUtils.moveFile(file, new File(filePath));
+			    	    		blogObj.setImageUrl(File.separator+userObj.id+File.separator+"blogImages"+File.separator+blogObj.getId()+File.separator+fileName);
+			    	    		blogObj.setImageName(fileName);
+			    	    		blogObj.update();
+			    	  } catch (FileNotFoundException e) {
+			  			e.printStackTrace();
+				  		} catch (IOException e) {
+				  			e.printStackTrace();
+				  		} 
+			    	  }
+		    	}
 	    	}
-	    	return ok();
+	    	return ok(blogObj.imageUrl);
     	}	
     }
     

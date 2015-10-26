@@ -17,6 +17,9 @@ public class Blog extends Model {
 	public Long id;
 	public String title;
 	public String description;
+	public String imageUrl;
+	public String imageName;
+	public String videoUrl;
 	public String postedBy;
 	public Date postedDate;
 	
@@ -69,6 +72,30 @@ public class Blog extends Model {
 
 	public void setPostedDate(Date postedDate) {
 		this.postedDate = postedDate;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
 	}
 
 	public static Finder<Long,Blog> find = new Finder<>(Long.class,Blog.class);

@@ -59,24 +59,38 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('CreateBlogCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
+.controller('CreateBlogCtrl', ['$scope','$http','$location','$filter','$upload', function ($scope,$http,$location,$filter,$upload) {
 
 	$scope.blogData = {};
 	$scope.descMsg = "";
+	$scope.blogData.description = "";
+	$scope.blogImageUrl = "";
+	var logofile = null;
+	$scope.onLogoFileSelect = function($files) {
+		logofile = $files;
+	}
+	
+	
 	$scope.saveBlog = function() {
 		if(angular.isUndefined($scope.blogData.description)) {
 			$scope.descMsg = "*Please add description";
 		} else {
 			$scope.descMsg = "";
-			$http.post('/saveBlog',$scope.blogData)
-			.success(function(data) {
-				
-				$.pnotify({
+			
+			$upload.upload({
+	            url : '/saveBlog',
+	            method: 'post',
+	            file:logofile,
+	            data:$scope.blogData
+	        }).success(function(data, status, headers, config) {
+	        	$.pnotify({
 				    title: "Success",
 				    type:'success',
 				    text: "Blog saved successfuly!",
 				});
-			});
+	        	$scope.blogImageUrl = data;
+	        });
+			
 		}
 	}
 	
@@ -84,29 +98,51 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('EditBlogCtrl', ['$scope','$http','$location','$routeParams', function ($scope,$http,$location,$routeParams) {
+.controller('EditBlogCtrl', ['$scope','$http','$location','$routeParams','$upload', function ($scope,$http,$location,$routeParams,$upload) {
 
 	$scope.blogData = {};
 	$scope.descMsg = "";
 	$http.get('/getBlogById/'+$routeParams.id)
 	.success(function(data) {
+		console.log(data);
 		$scope.blogData = data;
 	}); 
+	
+	var logofile = null;
+	$scope.onLogoFileSelect = function($files) {
+		logofile = $files;
+	}
 	
 	$scope.updateBlog = function() {
 		if(angular.isUndefined($scope.blogData.description)) {
 			$scope.descMsg = "*Please add description";
 		} else {
 			$scope.descMsg = "";
-			$http.post('/updateBlog',$scope.blogData)
-			.success(function(data) {
-				
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Blog updated successfuly!",
+			if(logofile == null) {
+				$http.post('/updateBlog',$scope.blogData)
+				.success(function(data) {
+					
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Blog updated successfuly!",
+					});
 				});
-			});
+			} else {
+				$upload.upload({
+		            url : '/updateBlog',
+		            method: 'post',
+		            file:logofile,
+		            data:$scope.blogData
+		        }).success(function(data, status, headers, config) {
+		        	$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Blog updated successfuly!",
+					});
+		        	$scope.blogData.imageUrl = data;
+		        });
+			}
 		}
 	}
 	
