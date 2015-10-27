@@ -114,5 +114,29 @@ angular.module('newApp')
 				
 		});
 	   }
+	   $scope.contactMsg = "";
+	   $scope.createContact = function() {
+		   $scope.contactsDetails = {};
+		   $scope.contactMsg = "";
+		   $('#createcontactsModal').modal();
+	   }
+	   
+	   $scope.saveContact = function() {
+		   $http.post('/saveContactsData',$scope.contactsDetails)
+			 .success(function(data) {
+				 if(data == "") {
+					 $('#createcontactsModal').modal('hide');
+					 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "contact saved successfully",
+						});
+					 $scope.getContactsData();
+				 } else {
+					 $scope.contactMsg = data;
+				 }
+				 
+				});
+	   }
 	   
 }]);

@@ -8271,5 +8271,56 @@ public class Application extends Controller {
 	    		return ok();
     	}  		
 	}
+	
+	public static Result saveContactsData() {
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
+    		ContactsVM vm = form.get();
+    		Contacts obj = Contacts.findByEmail(vm.email);
+    		String msg = "";
+    		if(obj == null) {
+    		Contacts contacts = new Contacts();
+    			contacts.setType(vm.type);
+    			contacts.setSalutation(vm.salutation);
+    			contacts.setFirstName(vm.firstName);
+    			contacts.setMiddleName(vm.middleName);
+    			contacts.setLastName(vm.lastName);
+    			contacts.setSuffix(vm.suffix);
+    			contacts.setCompanyName(vm.companyName);
+    			contacts.setEmail(vm.email);
+    			contacts.setPhone(vm.phone);
+    			contacts.setStreet(vm.street);
+    			contacts.setCity(vm.city);
+    			contacts.setState(vm.state);
+    			contacts.setZip(vm.zip);
+    			contacts.setCountry(vm.country);
+    			contacts.setAllEmail(vm.allEmail);
+    			contacts.setAllPhone(vm.allPhone);
+    			contacts.setWebsite(vm.website);
+    			contacts.setAllAddresses(vm.allAddresses);
+    			contacts.setTitle(vm.title);
+    			contacts.setBirthday(vm.birthday);
+    			contacts.setBackgroundInfo(vm.backgroundInfo);
+    			contacts.setIndustry(vm.industry);
+    			contacts.setNumberOfEmployees(vm.numberOfEmployees);
+    			contacts.setCreationDate(vm.creationDate);
+    			contacts.setLastEditedDate(vm.lastEditedDate);
+    			contacts.setAssignedTo(vm.assignedTo);
+    			contacts.setCampaignSource(vm.campaignSource);
+    			contacts.setPriority(vm.priority);
+    			contacts.setGroups(vm.groups);
+    			contacts.setRelationships(vm.relationships);
+    			contacts.setNotes(vm.notes);
+    			contacts.setNewsLetter(0);
+    			contacts.save();
+    		} else {
+    			msg = "Email already exists";
+    		}
+    		return ok(msg);
+    	}
+	}
+	
 }
 
