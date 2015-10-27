@@ -3,10 +3,10 @@
 </head>
 <body ng-init="init()">
 <h4><b>Contacts</b></h4>
-<form style="margin-left:30%;" ng-submit="saveContactsFile()">
-	<a class="btn btn-primary" style="float:left;margin-right:8%;" ng-click="createContact()">Create Contact</a>
+<form class="row" style="margin-left:20%;" ng-submit="saveContactsFile()">
 	<input type="file" name="contactsFile" accept=".csv" ng-file-select="onCsvFileSelect($files)" style="float:left;" required><button type="submit" class="btn btn-primary">Import Contacts</button>
-	<label ng-show="showProgress">Progress : {{progress}}</label>
+	<label ng-show="showProgress" style="float:left;">Progress : {{progress}}</label>
+	<a class="btn btn-primary" style="margin-left:6%;" ng-click="createContact()">Create Contact</a>
 </form>
 <div>
 <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
