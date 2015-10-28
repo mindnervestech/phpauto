@@ -8358,6 +8358,9 @@ public class Application extends Controller {
 		cal.setTime(date);
 		cal.add(Calendar.DATE, -30);
 		List<Blog> blogList = Blog.getBlogsByDate(cal.getTime(),date);
+		AuthUser user = AuthUser.findById(userId);
+		MyProfile profile = MyProfile.findByUser(user);
+		String mapUrl = "http://maps.google.com/?q="+profile.address+","+profile.city+","+profile.zip+","+profile.state+","+profile.country;
 		if(blogList.size() > 0) {
 			AuthUser logoUser = AuthUser.findById(userId);
 	    	SiteLogo logo = SiteLogo.findByUser(logoUser);
@@ -8401,6 +8404,9 @@ public class Application extends Controller {
 	    	        context.put("title", blogList.get(0).getTitle());
 	    	        context.put("blogImage", blogList.get(0).getImageUrl());
 	    	        context.put("description", blogList.get(0).getDescription());
+	    	        context.put("mapUrl", mapUrl);
+	    	        context.put("phone", profile.phone);
+	    	        context.put("email", profile.email);
 	    	        
 	    	        StringWriter writer = new StringWriter();
 	    	        t.merge( context, writer );
