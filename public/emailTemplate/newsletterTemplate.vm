@@ -510,7 +510,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
             <table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width" syle="background-color:#ffffff min-width:600px;" style="width: 600px;">
               <tbody><tr>
                 <td valign="top" class="image-100-percent" width="600" style="width: 600px;">
-                  <img src="$blogImage" width="600" alt="header-image" style="max-width: 600px; display: block;">
+                  <img src="$hostnameUrl$blogImage" width="600" alt="header-image" style="max-width: 600px; display: block;">
                 </td>
               </tr>
             </tbody></table>
