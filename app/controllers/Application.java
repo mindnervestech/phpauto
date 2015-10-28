@@ -8347,7 +8347,6 @@ public class Application extends Controller {
     			NewsletterDate obj = NewsletterDate.findById(id);
     			obj.setDateOfMonth(date);
     			obj.update();
-    			sendNewsletterEmail();
     		}
     		return ok();
     	}
