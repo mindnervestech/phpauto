@@ -608,7 +608,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                           <tr>
                             <td width="90" valign="top" align="center" style="width: 90px;">
                               
-                                <img src="$hostnameUrl/email_images/images/20151007053344_map.png" width="90" alt="" style="max-width: 90px; display: block;" border="0" hspace="0" vspace="0">
+                                <a href="$mapUrl"><img src="$hostnameUrl/email_images/images/20151007053344_map.png" width="90" alt="" style="max-width: 90px; display: block;" border="0" hspace="0" vspace="0"></a>
                               
                             </td>
                           </tr>
@@ -675,7 +675,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                 </tr>
                                 <!--end space height -->
                                 <tr>
-                                  <td style="font-size: 13px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: center; word-break: break-word;"><span style="font-size: 22px; color: rgb(0, 0, 0); font-weight: 300; line-height: 24px;">1(123)456-7890</span></td>
+                                  <td style="font-size: 13px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: center; word-break: break-word;"><span style="font-size: 22px; color: rgb(0, 0, 0); font-weight: 300; line-height: 24px;">$phone</span></td>
                                 </tr>
                               </tbody></table>
                             </td>
@@ -721,7 +721,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                 </tr>
                                 <!--end space height -->
                                 <tr>
-                                  <td style="font-size: 13px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: center; word-break: break-word;"><span style="color: rgb(0, 0, 0); font-size: 18px; font-weight: 300; line-height: 24px;">info@business.com</span><br style="line-height: 24px;"></td>
+                                  <td style="font-size: 13px; line-height: 22px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: center; word-break: break-word;"><span style="color: rgb(0, 0, 0); font-size: 18px; font-weight: 300; line-height: 24px;">$email</span><br style="line-height: 24px;"></td>
                                 </tr>
                               </tbody></table>
                             </td>
