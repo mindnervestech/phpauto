@@ -441,11 +441,11 @@ td,span,a{font-family: Arial, sans-serif !important;}
       </tbody>
         <!-- START HEIGHT SPACE 20PX LAYOUT-1 -->
         <tbody><tr>
-          <td valign="top" align="center" class="fix-box" style="background: none no-repeat top center/cover; background-image: url(images/20151019125916_bg1.jpg); background-attachment: initial; background-color: rgb(236, 235, 235); background-size: cover; background-origin: initial; background-clip: initial; background-position: 50% 0%, 50% 50%; background-repeat: no-repeat;" background="http://mailbuild.rookiewebstudio.com/customers/fyG9M92m/user_upload/20151019125916_bg1.jpg">
+          <td valign="top" align="center" class="fix-box" style="background: none no-repeat top center/cover; background-image: url($hostnameUrl/email_images/images/20151019125916_bg1.jpg); background-attachment: initial; background-color: rgb(236, 235, 235); background-size: cover; background-origin: initial; background-clip: initial; background-position: 50% 0%, 50% 50%; background-repeat: no-repeat;" background="http://mailbuild.rookiewebstudio.com/customers/fyG9M92m/user_upload/20151019125916_bg1.jpg">
             <table width="600" height="20" align="center" border="0" cellspacing="0" cellpadding="0" style="min-width: 600px; width: 600px; background-color: rgb(255, 255, 255);" class="full-width">
               <tbody><tr>
                 <td valign="top" height="20" style="width: 20px;" width="20">
-                <img src="images/space.png" width="20" alt="space" style="max-height: 20px; max-width: 20px; display: block;"> </td>
+                <img src="$hostnameUrl/email_images/space.png" width="20" alt="space" style="max-height: 20px; max-width: 20px; display: block;"> </td>
               </tr>
             </tbody></table>
           </td>
@@ -496,7 +496,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
             <table width="600" height="20" align="center" border="0" cellspacing="0" cellpadding="0" style="min-width: 600px; width: 600px; background-color: rgb(255, 255, 255);" class="full-width">
               <tbody><tr>
                 <td valign="top" height="20" style="width: 20px;" width="20">
-                <img src="images/space.png" width="20" alt="space" style="max-height: 20px; max-width: 20px; display: block;"> </td>
+                <img src="$hostnameUrl/email_images/space.png" width="20" alt="space" style="max-height: 20px; max-width: 20px; display: block;"> </td>
               </tr>
             </tbody></table>
           </td>
@@ -608,7 +608,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                           <tr>
                             <td width="90" valign="top" align="center" style="width: 90px;">
                               
-                                <img src="images/20151007053344_map.png" width="90" alt="" style="max-width: 90px; display: block;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl/email_images/images/20151007053344_map.png" width="90" alt="" style="max-width: 90px; display: block;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -654,7 +654,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                           <tr>
                             <td width="90" valign="top" align="center" style="width: 90px;">
                               
-                                <img src="images/20150817003358_phone.jpg" width="90" alt="" style="max-width: 90px; display: block;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl/email_images/20150817003358_phone.jpg" width="90" alt="" style="max-width: 90px; display: block;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -700,7 +700,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                           <tr>
                             <td width="90" valign="top" align="center" style="width: 90px;">
                               
-                                <img src="images/20150817003358_email.jpg" width="90" alt="" style="max-width: 90px; display: block;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl/email_images/20150817003358_email.jpg" width="90" alt="" style="max-width: 90px; display: block;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -770,27 +770,27 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                   
                                   <td style="padding-left: 5px; width: 30px;" height="30" align="center" valign="middle" class="clear-padding" width="30">
                                     <a href="#" style="font-size: inherit; text-decoration: none;">
-                                      <img src="images/20151023043131_facebook-icon.png" width="30" alt="icon-googleplus" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
+                                      <img src="$hostnameUrl/email_images/images/20151023043131_facebook-icon.png" width="30" alt="icon-googleplus" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
                                     </a>
                                   </td>
                                   <td style="padding-left: 5px; width: 30px;" height="30" align="center" valign="middle" class="clear-padding" width="30">
                                     <a href="#" style="font-size: inherit; text-decoration: none;">
-                                      <img src="images/20151023043131_larrybird-2.png" width="30" alt="icon-rss" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
+                                      <img src="$hostnameUrl/email_images/images/20151023043131_larrybird-2.png" width="30" alt="icon-rss" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
                                     </a>
                                   </td>
                                   <td style="padding-left: 5px; width: 30px;" height="30" align="center" valign="middle" class="clear-padding" width="30">
                                     <a href="#" style="font-size: inherit; text-decoration: none;">
-                                      <img src="images/20151023043132_Pinterest_Favicon.png" width="30" alt="icon-vimeo" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
+                                      <img src="$hostnameUrl/email_images/images/20151023043132_Pinterest_Favicon.png" width="30" alt="icon-vimeo" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
                                     </a>
                                   </td>
                                   <td style="padding-left: 5px; width: 30px;" height="30" align="center" valign="middle" class="clear-padding" width="30">
                                     <a href="#" style="font-size: inherit; text-decoration: none;">
-                                      <img src="images/20151023043131_GooglePlus.png" width="30" alt="icon-pinterest" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
+                                      <img src="$hostnameUrl/email_images/images/20151023043131_GooglePlus.png" width="30" alt="icon-pinterest" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
                                     </a>
                                   </td>
                                   <td style="padding-left: 5px; width: 30px;" height="30" align="center" valign="middle" class="clear-padding" width="30">
                                     <a href="#" style="font-size: inherit; text-decoration: none;">
-                                      <img src="images/20151023043131_houzz-1.png" width="30" alt="icon-Linkedin" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
+                                      <img src="$hostnameUrl/email_images/images/20151023043131_houzz-1.png" width="30" alt="icon-Linkedin" style="max-width: 30px; display: block !important;" border="0" hspace="0" vspace="0">
                                     </a>
                                   </td>
                                   
