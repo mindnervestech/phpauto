@@ -263,4 +263,8 @@ public class Contacts extends Model {
 		return find.byId(id);
 	}
 	
+	public static List<Contacts> getAllNewsletter() {
+		return find.where().eq("newsLetter", 1).findList();
+	}
+	
 }

@@ -52,6 +52,7 @@ import models.Contacts;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.FollowBrand;
+import models.NewsletterDate;
 import models.Permission;
 import models.PriceAlert;
 import models.RequestMoreInfo;
@@ -3191,6 +3192,14 @@ public class Application extends Controller {
 		    	vm2.height = config2.cropHeight;
 		    	map.put("featured", vm2);
 	    	}
+	    	List<NewsletterDate> objList = NewsletterDate.findAll();
+	    	if(objList.size() > 0) {
+	    		map.put("NewsletterDate", objList.get(0).dateOfMonth);
+	    		map.put("NewsletterId", objList.get(0).id);
+	    	} else {
+	    		map.put("NewsletterId", 0);
+	    	}
+	    	
 	    	return ok(Json.toJson(map));
     	}
     }
@@ -8313,13 +8322,100 @@ public class Application extends Controller {
     			contacts.setGroups(vm.groups);
     			contacts.setRelationships(vm.relationships);
     			contacts.setNotes(vm.notes);
-    			contacts.setNewsLetter(0);
+    			if(vm.newsletter == true) {
+    				contacts.setNewsLetter(1);
+    			} else {
+    				contacts.setNewsLetter(0);
+    			}
     			contacts.save();
     		} else {
     			msg = "Email already exists";
     		}
     		return ok(msg);
     	}
+	}
+	
+	public static Result saveNewsletterDate(String date,Long id) {
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		if(id == 0) {
+	    		NewsletterDate obj = new NewsletterDate();
+	    		obj.dateOfMonth = date;
+	    		obj.save();
+    		} else {
+    			NewsletterDate obj = NewsletterDate.findById(id);
+    			obj.setDateOfMonth(date);
+    			obj.update();
+    		}
+    		return ok();
+    	}
+	}	
+	
+	public static Result sendNewsletterEmail() {
+		Date date = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, -30);
+		List<Blog> blogList = Blog.getBlogsByDate(cal.getTime(),date);
+		if(blogList.size() > 0) {
+			AuthUser logoUser = AuthUser.findById(userId);
+	    	SiteLogo logo = SiteLogo.findByUser(logoUser);
+			List<Contacts> contactsList = Contacts.getAllNewsletter();
+			for(Contacts contact : contactsList) {
+				Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		  
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 		   
+		  			Message message = new MimeMessage(session);
+		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			message.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(contact.getEmail()));
+		  			message.setSubject("Newsletter ");	  			
+		  			Multipart multipart = new MimeMultipart();
+	    			BodyPart messageBodyPart = new MimeBodyPart();
+	    			messageBodyPart = new MimeBodyPart();
+	    			
+	    			VelocityEngine ve = new VelocityEngine();
+	    			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+	    			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+	    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+	    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+	    			ve.init();
+	    			
+	    			Template t = ve.getTemplate("/public/emailTemplate/newsletterTemplate.vm"); 
+	    	        VelocityContext context = new VelocityContext();
+	    	        context.put("hostnameUrl", imageUrlPath);
+	    	        context.put("siteLogo", logo.logoImagePath);
+	    	        context.put("title", blogList.get(0).getTitle());
+	    	        context.put("blogImage", blogList.get(0).getImageUrl());
+	    	        context.put("description", blogList.get(0).getDescription());
+	    	        
+	    	        StringWriter writer = new StringWriter();
+	    	        t.merge( context, writer );
+	    	        String content = writer.toString(); 
+	    			
+	    			messageBodyPart.setContent(content, "text/html");
+	    			multipart.addBodyPart(messageBodyPart);
+	    			message.setContent(multipart);
+	    			Transport.send(message);
+		       		} catch (MessagingException e) {
+		  			  throw new RuntimeException(e);
+		  		}
+			}
+		}
+		return ok();
 	}
 	
 }

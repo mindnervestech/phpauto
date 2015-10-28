@@ -1,5 +1,10 @@
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import models.NewsletterDate;
 
 import play.Application;
 import play.GlobalSettings;
@@ -25,9 +30,18 @@ public class Global extends GlobalSettings {
 		ActorSystem getLiveGame = Akka.system();
 		getLiveGame.scheduler().schedule(
 				Duration.create(0, TimeUnit.MILLISECONDS),
-				Duration.create(5, TimeUnit.SECONDS), new Runnable() {
+				Duration.create(1, TimeUnit.DAYS), new Runnable() {
 					public void run() {
-						
+						Date date = new Date();
+						Calendar cal = Calendar.getInstance();
+						cal.setTime(date);
+						Integer dateOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+						List<NewsletterDate> objList = NewsletterDate.findAll();
+						if(objList.size() != 0) {
+							if(objList.get(0).dateOfMonth.equals(dateOfMonth.toString())) {
+								controllers.Application.sendNewsletterEmail();
+							}
+						}
 					}
 				}, getLiveGame.dispatcher());
 

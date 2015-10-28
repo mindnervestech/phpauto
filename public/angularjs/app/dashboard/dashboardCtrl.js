@@ -2879,6 +2879,8 @@ angular.module('newApp')
 		.success(function(data) {
 			$scope.slider = data.slider;
 			$scope.featured = data.featured;
+			$scope.newsletterDay = data.NewsletterDate;
+			$scope.newsletterId = data.NewsletterId;
 		});
 	}
 	
@@ -2886,6 +2888,11 @@ angular.module('newApp')
 		$http.get('/saveSliderConfig/'+$scope.slider.width+'/'+$scope.slider.height)
 		.success(function(data) {
 			console.log('success');
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Slider config saved successfully",
+			});
 		});
 	}
 	
@@ -2893,6 +2900,24 @@ angular.module('newApp')
 		$http.get('/saveFeaturedConfig/'+$scope.featured.width+'/'+$scope.featured.height)
 		.success(function(data) {
 			console.log('success');
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Featured config saved successfully",
+			});
+		});
+	}
+	
+	$scope.saveDayOfMonth = function() {
+		console.log($scope.newsletterDay);
+		$http.get('/saveNewsletterDate/'+$scope.newsletterDay+'/'+$scope.newsletterId)
+		.success(function(data) {
+			console.log('success');
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Newsletter date saved successfully",
+			});
 		});
 	}
 	

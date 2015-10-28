@@ -112,4 +112,8 @@ public class Blog extends Model {
 		return find.where().eq("user", user).eq("title", title).findUnique();
 	}
 	
+	public static List<Blog> getBlogsByDate(Date start,Date end) {
+		return find.where().between("postedDate", start, end).orderBy("postedDate desc").findList();
+	}
+	
 }
