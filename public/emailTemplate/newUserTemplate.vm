@@ -376,7 +376,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
         <!--START TOP NAVIGATION ​LAYOUT-->
         <tbody><tr>
           <td valign="top">
-            <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" style="background: none no-repeat top center/cover; background-image: url(images/20151028175100_Screen_Shot_2015-10-28_at_3.50.27_AM.png); background-color: rgb(236, 235, 235); background-size: cover; background-position: 50% 0%, 50% 50%; background-repeat: no-repeat;" background="http://mailbuild.rookiewebstudio.com/customers/fyG9M92m/user_upload/20151028175100_Screen_Shot_2015-10-28_at_3.50.27_AM.png">
+            <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" style="background: none no-repeat top center/cover; background-image: url($hostnameUrl/email_images/20151028175100_Screen_Shot_2015-10-28_at_3.50.27_AM.png); background-color: rgb(236, 235, 235); background-size: cover; background-position: 50% 0%, 50% 50%; background-repeat: no-repeat;" background="http://mailbuild.rookiewebstudio.com/customers/fyG9M92m/user_upload/20151028175100_Screen_Shot_2015-10-28_at_3.50.27_AM.png">
               <!-- START CONTAINER NAVIGATION -->
               <tbody><tr>
                 <td align="center" valign="top">
@@ -567,7 +567,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                         <td valign="top">
                                           <table border="0" align="left" cellpadding="0" cellspacing="0" dup="0" width="auto">
                                             <tbody><tr>
-                                              <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; border: 1px solid rgb(236, 236, 237); font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(208, 93, 104); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(255, 255, 255); background-clip: padding-box;"><span style="color: rgb(0, 155, 222); font-weight: 300; font-size: 20px; line-height: 24px;"><a href="http://glider-autos.com/logout">SIGN IN</a></span></td>
+                                              <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; border: 1px solid rgb(236, 236, 237); font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(208, 93, 104); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(255, 255, 255); background-clip: padding-box;"><span style="color: rgb(0, 155, 222); font-weight: 300; font-size: 20px; line-height: 24px;"><a href="http://glider-autos.com/logout" style="text-decoration:none;">SIGN IN</a></span></td>
                                               <!-- start space width -->
                                               <td valign="top">
                                                 <table width="20" border="0" align="center" cellpadding="0" cellspacing="0" style="width: 20px;">
