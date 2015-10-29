@@ -16,7 +16,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval', function ($scope, dashboardService, pluginsService,$http,$compile,$interval) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter) {
       $scope.$on('$viewContentLoaded', function () {
         
     	  dashboardService.init();
@@ -40,28 +40,28 @@ angular.module('newApp')
     	 		 $scope.gridOptions.enableHorizontalScrollbar = 0;
     	 		 $scope.gridOptions.enableVerticalScrollbar = 2;
     	 		 $scope.gridOptions.columnDefs = [
-    	 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,enableFiltering: false,
+    	 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	 		                                       if (row.entity.isRead === false) {
     	 		                                         return 'red';
     	 		                                       }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'model', displayName: 'Model',enableFiltering: false, width:'7%',cellEditableCondition: false,
+    	 		                                 { name: 'model', displayName: 'Model', width:'7%',cellEditableCondition: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'8%',cellEditableCondition: false,
+    	 		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'10%',cellEditableCondition: false,
+    	 		                                 { name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
@@ -102,21 +102,21 @@ angular.module('newApp')
      			 		 $scope.gridOptions2.enableHorizontalScrollbar = 0;
      			 		 $scope.gridOptions2.enableVerticalScrollbar = 2;
      			 		 $scope.gridOptions2.columnDefs = [
-     			 		                                 { name: 'vin', displayName: 'Vin', width:'5%',cellEditableCondition: false,enableFiltering: false,
+     			 		                                 { name: 'vin', displayName: 'Vin', width:'5%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'model', displayName: 'Model',enableFiltering: false, width:'6%',cellEditableCondition: false,
+     			 		                                 { name: 'model', displayName: 'Model', width:'6%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'6%',cellEditableCondition: false,
+     			 		                                 { name: 'make', displayName: 'Make', width:'6%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
@@ -124,7 +124,7 @@ angular.module('newApp')
      			  		                                	} ,
      			 		                                 },
      			 		                                 
-     			 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'6%',cellEditableCondition: false,
+     			 		                                 { name: 'name', displayName: 'Name', width:'6%',cellEditableCondition: false,
      					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      				  		                                       if (row.entity.confirmDate === null) {
      				  		                                         return 'red';
@@ -188,28 +188,28 @@ angular.module('newApp')
      			 		 		 $scope.gridOptions3.enableHorizontalScrollbar = 0;
      			 		 		 $scope.gridOptions3.enableVerticalScrollbar = 2;
      			 		 		 $scope.gridOptions3.columnDefs = [
-     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'8%',cellEditableCondition: false,enableFiltering: false,
+     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'8%',cellEditableCondition: false,
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
      			 		   		                                     }
      			 		  		                                	} ,
      			 		 		                                 },
-     			 		 		                                 { name: 'model', displayName: 'Model',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     			 		 		                                 { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
      			 		   		                                     }
      			 		  		                                	} ,
      			 		 		                                 },
-     			 		 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'9%',cellEditableCondition: false,
+     			 		 		                                 { name: 'make', displayName: 'Make', width:'9%',cellEditableCondition: false,
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
      			 		   		                                     }
      			 		  		                                	} ,
      			 		 		                                 },
-     			 		 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'9%',cellEditableCondition: false,
+     			 		 		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
      			 				                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 			  		                                       if (row.entity.isRead === false) {
      			 			  		                                         return 'red';
@@ -305,7 +305,18 @@ angular.module('newApp')
     		  $http.get('/getAllRequestInfoSeen')
     				.success(function(data) {
     				$scope.gridOptions.data = data;
+    				$scope.AllRequestInfoSeenList = data;
     			});
+    		  
+    		  $scope.gridOptions.onRegisterApi = function(gridApi){
+    				 $scope.gridApi = gridApi;
+    				 
+    		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+    			          var grid = this.grid;
+    			          $scope.gridOptions.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term},undefined);
+    			        });
+    		   		
+    	  		};
     		  
     		  $scope.contactsDetails = {};
     		  $scope.contactMsg = "";
@@ -479,15 +490,34 @@ angular.module('newApp')
     			  $http.get('/getAllScheduleTestAssigned')
     					.success(function(data) {
     					$scope.gridOptions2.data = data;
-    					
+    					$scope.AllScheduleTestAssignedList = data;
     				});
     	
+    			  $scope.gridOptions2.onRegisterApi = function(gridApi){
+     				 $scope.gridApi = gridApi;
+     				 
+     		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+     			          var grid = this.grid;
+     			          $scope.gridOptions2.data = $filter('filter')($scope.AllScheduleTestAssignedList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term},undefined);
+     			        });
+     		   		
+     	  		};
+    			  
     			  $http.get('/getAllTradeInSeen')
     				.success(function(data) {
     			 		$scope.gridOptions3.data = data;
+    			 		$scope.AllTradeInSeenList = data;
     			 });
     			  
-    			
+    			  $scope.gridOptions3.onRegisterApi = function(gridApi){
+      				 $scope.gridApi = gridApi;
+      				 
+      		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+      			          var grid = this.grid;
+      			          $scope.gridOptions3.data = $filter('filter')($scope.AllTradeInSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term},undefined);
+      			        });
+      		   		
+      	  		};
     			  
 	    		$http.get('/getUserType')
 	  			  .success(function(data) {
@@ -911,6 +941,7 @@ angular.module('newApp')
 	    		$http.get('/getAllScheduleTestAssigned')
 				.success(function(data) {
 				$scope.gridOptions2.data = data;
+				$scope.AllScheduleTestAssignedList = data;
 			});
     	};
     	
@@ -918,6 +949,7 @@ angular.module('newApp')
     		$http.get('/getAllRequestInfoSeen')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
+			$scope.AllRequestInfoSeenList = data;
 		});
 	};
     	
@@ -925,6 +957,7 @@ angular.module('newApp')
 			 $http.get('/getAllTradeInSeen')
 				.success(function(data) {
 			 		$scope.gridOptions3.data = data;
+			 		$scope.AllTradeInSeenList = data;
 			 });
 		};
 	
@@ -937,17 +970,20 @@ angular.module('newApp')
 	    		$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
 				.success(function(data) {
 				$scope.gridOptions2.data = data;
+				$scope.AllScheduleTestAssignedList = data;
 			    });
  
     		$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
 			.success(function(data) {
 			$scope.gridOptions.data = data;
+			$scope.AllRequestInfoSeenList = data;
 		    });
 
   
 			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
 				.success(function(data) {
 			 		$scope.gridOptions3.data = data;
+			 		$scope.AllTradeInSeenList = data;
 			 });
 			
 			
@@ -1767,7 +1803,7 @@ angular.module('newApp')
     		 $scope.gridOptions.columnDefs = [
     		                                 { name: 'make', displayName: 'Title', width:'12%',cellEditableCondition: false,
     		                                 },
-    		                                 { name: 'stock', displayName: 'Stock',enableFiltering: false, width:'7%',
+    		                                 { name: 'stock', displayName: 'Stock', width:'7%',
     		                                 },
     		                                 { name: 'intColor', displayName: 'Int Color',enableFiltering: false, width:'9%',cellEditableCondition: false,
     		                                 },
@@ -1808,7 +1844,7 @@ angular.module('newApp')
     			 
     			 $scope.gridApi.core.on.filterChanged( $scope, function() {
     		          var grid = this.grid;
-    		          $scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term},undefined);
+    		          $scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'stock':grid.columns[1].filters[0].term},undefined);
     		        });
     			 
     			 };

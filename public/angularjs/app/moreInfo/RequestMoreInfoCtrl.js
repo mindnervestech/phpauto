@@ -11,35 +11,35 @@ angular.module('newApp')
  		 $scope.gridOptions.enableHorizontalScrollbar = 0;
  		 $scope.gridOptions.enableVerticalScrollbar = 2;
  		 $scope.gridOptions.columnDefs = [
- 		                                 { name: 'vin', displayName: 'Vin', width:'12%',cellEditableCondition: false,enableFiltering: false,
+ 		                                 { name: 'vin', displayName: 'Vin', width:'12%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
  		                                       if (row.entity.isRead === false) {
  		                                         return 'red';
  		                                       }
  		                                	} ,
  		                                 },
- 		                                 { name: 'model', displayName: 'Model',enableFiltering: false, width:'8%',cellEditableCondition: false,
+ 		                                 { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'7%',cellEditableCondition: false,
+ 		                                 { name: 'make', displayName: 'Make', width:'7%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'stock', displayName: 'Stock',enableFiltering: false, width:'7%',cellEditableCondition: false,
+ 		                                 { name: 'stock', displayName: 'Stock', width:'7%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
- 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'9%',cellEditableCondition: false,
+ 		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
@@ -91,15 +91,27 @@ angular.module('newApp')
  		                                 },
      		                                 ];
   
+ 		$scope.gridOptions.onRegisterApi = function(gridApi){
+			 $scope.gridApi = gridApi;
+			 
+	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+		          var grid = this.grid;
+		          $scope.gridOptions.data = $filter('filter')($scope.requsetMoreList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'stock':grid.columns[3].filters[0].term,'name':grid.columns[4].filters[0].term},undefined);
+		        });
+	   		
+  		};
+ 		 
 	  $http.get('/getAllRequestInfo')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
+			$scope.requsetMoreList = data;
 		});
 	  
 	  $scope.getAllRequestInfo = function() {
 		  $http.get('/getAllRequestInfo')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
+			$scope.requsetMoreList = data;
 		});
 	  
 	  }
@@ -108,6 +120,7 @@ angular.module('newApp')
 			  $http.get('/getAllRequestInfo')
 				.success(function(data) {
 				$scope.gridOptions.data = data;
+				$scope.requsetMoreList = data;
 			});
 	  },60000);
 	  
