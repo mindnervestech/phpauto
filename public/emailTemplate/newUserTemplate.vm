@@ -567,7 +567,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                                         <td valign="top">
                                           <table border="0" align="left" cellpadding="0" cellspacing="0" dup="0" width="auto">
                                             <tbody><tr>
-                                              <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; border: 1px solid rgb(236, 236, 237); font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(208, 93, 104); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(255, 255, 255); background-clip: padding-box;"><span style="color: rgb(0, 155, 222); font-weight: 300; font-size: 20px; line-height: 24px;">SIGN IN</span></td>
+                                              <td width="auto" align="center" valign="middle" height="32" style="border-radius: 5px; border: 1px solid rgb(236, 236, 237); font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(208, 93, 104); font-weight: 300; padding-left: 18px; padding-right: 18px; word-break: break-word; background-color: rgb(255, 255, 255); background-clip: padding-box;"><span style="color: rgb(0, 155, 222); font-weight: 300; font-size: 20px; line-height: 24px;"><a href="http://glider-autos.com/logout">SIGN IN</a></span></td>
                                               <!-- start space width -->
                                               <td valign="top">
                                                 <table width="20" border="0" align="center" cellpadding="0" cellspacing="0" style="width: 20px;">
