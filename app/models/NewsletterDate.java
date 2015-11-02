@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ public class NewsletterDate extends Model {
 	@Id
 	public Long id;
 	public String dateOfMonth;
+	public Date newsletterTime;
 	
 	public Long getId() {
 		return id;
@@ -27,7 +29,13 @@ public class NewsletterDate extends Model {
 	public void setDateOfMonth(String dateOfMonth) {
 		this.dateOfMonth = dateOfMonth;
 	}
-	
+	public Date getNewsletterTime() {
+		return newsletterTime;
+	}
+	public void setNewsletterTime(Date newsletterTime) {
+		this.newsletterTime = newsletterTime;
+	}
+
 	public static Finder<Long,NewsletterDate> find = new Finder<>(Long.class,NewsletterDate.class);
 	
 	public static List<NewsletterDate> findAll() {

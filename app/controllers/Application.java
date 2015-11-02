@@ -3193,8 +3193,10 @@ public class Application extends Controller {
 		    	map.put("featured", vm2);
 	    	}
 	    	List<NewsletterDate> objList = NewsletterDate.findAll();
+	    	SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 	    	if(objList.size() > 0) {
 	    		map.put("NewsletterDate", objList.get(0).dateOfMonth);
+	    		map.put("newsletterTime", df.format(objList.get(0).newsletterTime));
 	    		map.put("NewsletterId", objList.get(0).id);
 	    	} else {
 	    		map.put("NewsletterId", 0);
@@ -4596,6 +4598,8 @@ public class Application extends Controller {
 			  			e.printStackTrace();
 			  		} 
 		    	  }
+	    	} else {
+	    		return ok(blogObj.imageUrl);
 	    	}
 	    	
 	    	return ok(blog.imageUrl);
@@ -8335,17 +8339,21 @@ public class Application extends Controller {
     	}
 	}
 	
-	public static Result saveNewsletterDate(String date,Long id) {
+	public static Result saveNewsletterDate(String date,String time,Long id) throws ParseException {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
     		if(id == 0) {
 	    		NewsletterDate obj = new NewsletterDate();
 	    		obj.dateOfMonth = date;
+	    		Date dt = new Date();
+				obj.newsletterTime = df.parse(time);
 	    		obj.save();
     		} else {
     			NewsletterDate obj = NewsletterDate.findById(id);
     			obj.setDateOfMonth(date);
+    			obj.setNewsletterTime(df.parse(time));
     			obj.update();
     		}
     		return ok();

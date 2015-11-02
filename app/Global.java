@@ -11,7 +11,9 @@ import play.GlobalSettings;
 import play.Logger;
 import play.api.mvc.EssentialFilter;
 import play.libs.Akka;
+import play.libs.Time.CronExpression;
 import scala.concurrent.duration.Duration;
+import scala.concurrent.duration.FiniteDuration;
 import akka.actor.ActorSystem;
 import play.filters.gzip.GzipFilter;
 
@@ -26,9 +28,8 @@ public class Global extends GlobalSettings {
 	
 	@Override
 	public void onStart(Application app) {
-
-		ActorSystem getLiveGame = Akka.system();
-		getLiveGame.scheduler().schedule(
+		ActorSystem newsLetter = Akka.system();
+		newsLetter.scheduler().schedule(
 				Duration.create(0, TimeUnit.MILLISECONDS),
 				Duration.create(1, TimeUnit.DAYS), new Runnable() {
 					public void run() {
@@ -39,13 +40,35 @@ public class Global extends GlobalSettings {
 						List<NewsletterDate> objList = NewsletterDate.findAll();
 						if(objList.size() != 0) {
 							if(objList.get(0).dateOfMonth.equals(dateOfMonth.toString())) {
-								controllers.Application.sendNewsletterEmail();
+								int minutes = 0;
+								int hours = 0;
+								if(objList.get(0).newsletterTime != null) {
+									cal.setTime(objList.get(0).newsletterTime);
+									minutes = cal.get(Calendar.MINUTE);
+									hours = cal.get(Calendar.HOUR);
+								}
+								try {
+									CronExpression e = new CronExpression("0 "+minutes+" "+hours+" ? * *");
+							        Date nextValidTimeAfter = e.getNextValidTimeAfter(new Date());
+							        FiniteDuration d = Duration.create(
+							            nextValidTimeAfter.getTime() - System.currentTimeMillis(), 
+							            TimeUnit.MILLISECONDS);
+							        
+							        Akka.system().scheduler().scheduleOnce(d, new Runnable() {
+								        @Override
+								        public void run() {
+								        	controllers.Application.sendNewsletterEmail();
+								        }
+								        }, Akka.system().dispatcher());
+							        
+								} catch(Exception e) {
+									e.printStackTrace();
+								}
 							}
 						}
 					}
-				}, getLiveGame.dispatcher());
+				}, newsLetter.dispatcher());
 
-		
 		
 	}
 

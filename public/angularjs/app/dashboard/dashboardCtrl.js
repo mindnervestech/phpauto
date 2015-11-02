@@ -2917,6 +2917,7 @@ angular.module('newApp')
 			$scope.featured = data.featured;
 			$scope.newsletterDay = data.NewsletterDate;
 			$scope.newsletterId = data.NewsletterId;
+			$scope.newsletterTime = data.newsletterTime;
 		});
 	}
 	
@@ -2946,7 +2947,8 @@ angular.module('newApp')
 	
 	$scope.saveDayOfMonth = function() {
 		console.log($scope.newsletterDay);
-		$http.get('/saveNewsletterDate/'+$scope.newsletterDay+'/'+$scope.newsletterId)
+		$scope.newsletterTime = $('#newsTime').val();
+		$http.get('/saveNewsletterDate/'+$scope.newsletterDay+'/'+$scope.newsletterTime+'/'+$scope.newsletterId)
 		.success(function(data) {
 			console.log('success');
 			$.pnotify({
