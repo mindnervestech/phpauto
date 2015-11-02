@@ -3196,7 +3196,9 @@ public class Application extends Controller {
 	    	SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 	    	if(objList.size() > 0) {
 	    		map.put("NewsletterDate", objList.get(0).dateOfMonth);
-	    		map.put("newsletterTime", df.format(objList.get(0).newsletterTime));
+	    		if(objList.get(0).newsletterTime != null) {
+	    			map.put("newsletterTime", df.format(objList.get(0).newsletterTime));
+	    		}
 	    		map.put("NewsletterId", objList.get(0).id);
 	    	} else {
 	    		map.put("NewsletterId", 0);
