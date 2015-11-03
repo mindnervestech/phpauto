@@ -8525,5 +8525,21 @@ public class Application extends Controller {
 		return ok();
 	}
 	
+	public static Result deleteContactsById(Long id ){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		   	return ok(home.render(""));
+		   	} else {
+			   	String msg;
+			   	Contacts contact = Contacts.findById(id);
+			   	if(contact !=null){
+				   	contact.delete();
+				   	msg = "success";
+				   	return ok(msg);
+			   	}
+			   	msg = "error";
+			   	return ok(msg);
+		   	}
+		}
+	
 }
 
