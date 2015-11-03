@@ -2,7 +2,10 @@
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+
+import org.joda.time.DateTime;
 
 import models.NewsletterDate;
 
@@ -42,18 +45,25 @@ public class Global extends GlobalSettings {
 							if(objList.get(0).dateOfMonth.equals(dateOfMonth.toString())) {
 								int minutes = 0;
 								int hours = 0;
-								if(objList.get(0).newsletterTime != null) {
-									cal.setTime(objList.get(0).newsletterTime);
+								if(objList.get(0).gmtTime != null) {
+									cal.setTime(objList.get(0).gmtTime);
 									minutes = cal.get(Calendar.MINUTE);
-									hours = cal.get(Calendar.HOUR);
+									hours = cal.get(Calendar.HOUR_OF_DAY);
 								}
 								try {
 									CronExpression e = new CronExpression("0 "+minutes+" "+hours+" ? * *");
-							        Date nextValidTimeAfter = e.getNextValidTimeAfter(new Date());
-							        FiniteDuration d = Duration.create(
-							            nextValidTimeAfter.getTime() - System.currentTimeMillis(), 
-							            TimeUnit.MILLISECONDS);
 							        
+							        Calendar calObj = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+							        
+							        Calendar calObjLocal = Calendar.getInstance();
+							        calObjLocal.set(Calendar.MINUTE, calObj.get(Calendar.MINUTE));
+							        calObjLocal.set(Calendar.HOUR_OF_DAY, calObj.get(Calendar.HOUR_OF_DAY));
+							        
+							        Date nextValidTimeAfter = e.getNextValidTimeAfter(calObjLocal.getTime());
+							        FiniteDuration d = Duration.create(
+							            nextValidTimeAfter.getTime() - calObjLocal.getTimeInMillis(), 
+							            TimeUnit.MILLISECONDS);
+							        System.out.println("saved time  " + (double)(nextValidTimeAfter.getTime() - calObjLocal.getTimeInMillis())/(1000*60*60));
 							        Akka.system().scheduler().scheduleOnce(d, new Runnable() {
 								        @Override
 								        public void run() {

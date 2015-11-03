@@ -3200,8 +3200,10 @@ public class Application extends Controller {
 	    			map.put("newsletterTime", df.format(objList.get(0).newsletterTime));
 	    		}
 	    		map.put("NewsletterId", objList.get(0).id);
+	    		map.put("NewsletterTimeZone", objList.get(0).timeZone);
 	    	} else {
 	    		map.put("NewsletterId", 0);
+	    		map.put("NewsletterTimeZone", "");
 	    	}
 	    	
 	    	return ok(Json.toJson(map));
@@ -8341,7 +8343,7 @@ public class Application extends Controller {
     	}
 	}
 	
-	public static Result saveNewsletterDate(String date,String time,Long id) throws ParseException {
+	public static Result saveNewsletterDate(String date,String time,Long id,String newsTimeZone) throws ParseException {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -8351,13 +8353,102 @@ public class Application extends Controller {
 	    		obj.dateOfMonth = date;
 	    		Date dt = new Date();
 				obj.newsletterTime = df.parse(time);
+				Date d1 = df.parse(time);
+				Calendar cal = Calendar.getInstance();
+  		   	  	switch(newsTimeZone){
+  		   	  
+	  		   	  case "EST" : 
+	  		   	  
+	  		   	  cal = Calendar.getInstance();
+	  		   	  cal.setTime(d1);
+	  		   	  cal.add(Calendar.HOUR_OF_DAY, 5);
+	  		   	  d1 = cal.getTime();
+	  		   	  obj.gmtTime = d1;
+	  		   	  obj.timeZone = newsTimeZone;
+	  		   	  
+	  		   	  break;
+	  		   	  case "CST" : 
+	  		   	  
+	  		   	  cal = Calendar.getInstance();
+	  		   	  cal.setTime(d1);
+	  		   	  cal.add(Calendar.HOUR_OF_DAY, 6);
+	  		   	  d1 = cal.getTime();
+	  		   	  obj.gmtTime = d1;
+	  		   	  obj.timeZone = newsTimeZone;
+	  		   	  break;
+	  		   	  
+	  		   	  case "PST" : 
+	  		   	  
+	  		   	  cal = Calendar.getInstance();
+	  		   	  cal.setTime(d1);
+	  		   	  cal.add(Calendar.HOUR_OF_DAY, 8);
+	  		   	  d1 = cal.getTime();
+	  		   	  obj.gmtTime = d1;
+	  		   	  obj.timeZone = newsTimeZone;
+	  		   	  break;
+	  		   	  
+	  		   	  case "MST" : 
+	  		   	  
+	  		   	  cal = Calendar.getInstance();
+	  		   	  cal.setTime(d1);
+	  		   	  cal.add(Calendar.HOUR_OF_DAY, 7);
+	  		   	  d1 = cal.getTime();
+	  		   	  obj.gmtTime = d1;
+	  		   	  obj.timeZone = newsTimeZone;
+	  		   	  break;
+  		   	  }
 	    		obj.save();
     		} else {
     			NewsletterDate obj = NewsletterDate.findById(id);
     			obj.setDateOfMonth(date);
     			obj.setNewsletterTime(df.parse(time));
+    			Date d1 = df.parse(time);
+				Calendar cal = Calendar.getInstance();
+  		   	  	switch(newsTimeZone){
+  		   	  
+	  		   	  case "EST" : 
+	  		   	  
+	  		   	  cal = Calendar.getInstance();
+	  		   	  cal.setTime(d1);
+	  		   	  cal.add(Calendar.HOUR_OF_DAY, 5);
+	  		   	  d1 = cal.getTime();
+	  		   	  obj.setGmtTime(d1);
+	  		   	  obj.setTimeZone(newsTimeZone);
+	  		   	  
+	  		   	  break;
+	  		   	  case "CST" : 
+	  		   	  
+	  		   	  cal = Calendar.getInstance();
+	  		   	  cal.setTime(d1);
+	  		   	  cal.add(Calendar.HOUR_OF_DAY, 6);
+	  		   	  d1 = cal.getTime();
+	  		   	  obj.setGmtTime(d1);
+	  		   	  obj.setTimeZone(newsTimeZone);
+	  		   	  break;
+	  		   	  
+	  		   	  case "PST" : 
+	  		   	  
+	  		   	  cal = Calendar.getInstance();
+	  		   	  cal.setTime(d1);
+	  		   	  cal.add(Calendar.HOUR_OF_DAY, 8);
+	  		   	  d1 = cal.getTime();
+	  		   	  obj.setGmtTime(d1);
+	  		   	  obj.setTimeZone(newsTimeZone);
+	  		   	  break;
+	  		   	  
+	  		   	  case "MST" : 
+	  		   	  
+	  		   	  cal = Calendar.getInstance();
+	  		   	  cal.setTime(d1);
+	  		   	  cal.add(Calendar.HOUR_OF_DAY, 7);
+	  		   	  d1 = cal.getTime();
+	  		   	  obj.setGmtTime(d1);
+	  		   	  obj.setTimeZone(newsTimeZone);
+	  		   	  break;
+  		   	  }
     			obj.update();
     		}
+    		
     		return ok();
     	}
 	}	

@@ -16,6 +16,8 @@ public class NewsletterDate extends Model {
 	public Long id;
 	public String dateOfMonth;
 	public Date newsletterTime;
+	public String timeZone;
+	public Date gmtTime;
 	
 	public Long getId() {
 		return id;
@@ -34,6 +36,18 @@ public class NewsletterDate extends Model {
 	}
 	public void setNewsletterTime(Date newsletterTime) {
 		this.newsletterTime = newsletterTime;
+	}
+	public String getTimeZone() {
+		return timeZone;
+	}
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
+	}
+	public Date getGmtTime() {
+		return gmtTime;
+	}
+	public void setGmtTime(Date gmtTime) {
+		this.gmtTime = gmtTime;
 	}
 
 	public static Finder<Long,NewsletterDate> find = new Finder<>(Long.class,NewsletterDate.class);
