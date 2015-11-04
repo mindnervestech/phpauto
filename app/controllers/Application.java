@@ -99,6 +99,7 @@ import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
 import viewmodel.LeadVM;
 import viewmodel.NoteVM;
+import viewmodel.PageVM;
 import viewmodel.PinVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SiteContentVM;
@@ -6773,22 +6774,90 @@ public class Application extends Controller {
     	c.add(Calendar.MONTH, -11);
     	List<Integer> allVisitor = new ArrayList<Integer>(12);
     	List<Integer> onlineVisitor = new ArrayList<Integer>(12);
+    	List<Integer> actionsList = new ArrayList<Integer>(12);
+    	List<Integer> averageActionsList = new ArrayList<Integer>(12);
     	List<String> months = new ArrayList<String>(12);
     	for(int i=0;i<12;i++) {
     		String year = c.get(Calendar.YEAR)+"";
         	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
-    		JsonNode node = Json.parse(callClickAPI("&date="+year+"-"+month+"&type=visitors,visitors-new"));
+    		JsonNode node = Json.parse(callClickAPI("&date="+year+"-"+month+"&type=visitors,visitors-new,actions,actions-average"));
     		JsonNode allVisitorNode = node.get(0);
     		JsonNode onlineVisitorNode = node.get(1);
+    		JsonNode actionsNode = node.get(2);
+    		JsonNode averageActionsNode = node.get(3);
     		allVisitor.add(allVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
     		onlineVisitor.add(onlineVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		actionsList.add(actionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		averageActionsList.add(averageActionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
     		months.add(monthsArr[c.get(Calendar.MONTH)]);
     		c.add(Calendar.MONTH, 1);
     	}
+    	Date date = new Date();
+        c.setTime(date);
+        String year = c.get(Calendar.YEAR)+"";
+    	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
+    	Integer dateOfMonth = c.get(Calendar.DAY_OF_MONTH);
+    	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&date="+year+"-"+month+"-"+dateOfMonth+"&type=visitors-online"));
+    	
+    	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue"));
+    	JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date=last-7-days"));
+    	JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-recent&date=last-30-days"));
+    	JsonNode searchesNodeList = Json.parse(callClickAPI("&type=searches-engines&date=last-30-days"));
+    	List<PageVM> pagesList = new ArrayList<>();
+    	List<PageVM> referersList = new ArrayList<>();
+    	List<PageVM> searchesList = new ArrayList<>();
+    	
+    	for(JsonNode obj : pagesNodeList.get(0).get("dates").get(0).get("items")) {
+    		String arr[] = obj.get("url").textValue().split("/");
+    		PageVM vm = new PageVM();
+    		vm.count = obj.get("value").textValue();
+    		if(arr[arr.length-2].equals("mobile")) {
+    			vm.pageUrl = "Mobile "+arr[arr.length-1];	
+	    	} else {
+	    		if(arr[arr.length-1].equals("") || arr[arr.length-1].equals("glivr")) {
+	    			vm.pageUrl = "Dashboard";
+	    		} else {
+	    			vm.pageUrl = arr[arr.length-1];
+	    		}
+	    	}
+    		
+    		pagesList.add(vm);
+    	}
+    	
+    	for(JsonNode obj : referersNodeList.get(0).get("dates").get(0).get("items")) {
+    		String arr[] = obj.get("item").textValue().split("/");
+    		PageVM vm = new PageVM();
+    		if(arr.length >= 3) {
+    			vm.pageUrl = arr[2];
+    		}
+    		referersList.add(vm);
+    	}
+    	
+    	for(JsonNode obj : searchesNodeList.get(0).get("dates").get(0).get("items")) {
+    		PageVM vm = new PageVM();
+    		vm.pageUrl = obj.get("title").textValue();
+    		vm.count = obj.get("value").textValue();
+    		searchesList.add(vm);
+    	}
+    	
     	Map map = new HashMap(2);
     	map.put("allVisitor", allVisitor);
     	map.put("onlineVisitor", onlineVisitor);
     	map.put("months", months);
+    	map.put("onlineVisitors", onlineVisitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("totalVisitors", visitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("actions", visitorsNode.get(1).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("averageActions", visitorsNode.get(2).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("totalTime", visitorsNode.get(3).get("dates").get(0).get("items").get(0).get("value"));
+    	map.put("averageTime", visitorsNode.get(4).get("dates").get(0).get("items").get(0).get("value"));
+    	map.put("bounceRate", visitorsNode.get(5).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("goals", visitorsNode.get(6).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("revenue", visitorsNode.get(7).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("pagesList", pagesList);
+    	map.put("referersList", referersList);
+    	map.put("searchesList", searchesList);
+    	map.put("actionsList", actionsList);
+    	map.put("averageActionsList", averageActionsList);
     	return ok(Json.toJson(map));
     }
     

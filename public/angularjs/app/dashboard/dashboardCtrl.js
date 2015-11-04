@@ -386,7 +386,48 @@ angular.module('newApp')
     			            showScale: false,
     			        };
     			        var ctx = document.getElementById("visitors-chart").getContext("2d");
-    			        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions); 
+    			        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);
+    			        
+    			        var actionsData = {
+        			            labels: response.months,
+        			            datasets: [
+        			                {
+        			                    label: "Actions",
+        			                    fillColor: "rgba(49, 157, 181,0.5)",
+        			                    strokeColor: "rgba(49, 157, 181,0.7)",
+        			                    pointColor: "rgba(49, 157, 181,1)",
+        			                    pointStrokeColor: "#fff",
+        			                    pointHighlightFill: "#fff",
+        			                    pointHighlightStroke: "rgba(49, 157, 181,1)",
+        			                    data: response.actionsList
+        			                },
+        			                {
+        			                    label: "Average actions",
+        			                    fillColor: "rgba(200,200,200,0.5)",
+        			                    strokeColor: "rgba(200,200,200,1)",
+        			                    pointColor: "rgba(200,200,200,1)",
+        			                    pointStrokeColor: "#fff",
+        			                    pointHighlightFill: "#fff",
+        			                    pointHighlightStroke: "rgba(200,200,200,1)",
+        			                    data: response.averageActionsList
+        			                }
+        			            ]
+        			        };
+    			        var ctx2 = document.getElementById("actions-chart").getContext("2d");
+    			        var myNewChart2 = new Chart(ctx2).Line(actionsData, chartOptions);
+    			        
+    			        $scope.onlineVisitorsCount = response.onlineVisitors;
+    			        $scope.totalVisitorsCount = response.totalVisitors;
+    			        $scope.actionsCount = response.actions;
+    			        $scope.averageActionsCount = response.averageActions;
+    			        $scope.totalTimeCount = response.totalTime;
+    			        $scope.averageTimeCount = response.averageTime;
+    			        $scope.bounceRateCount = response.bounceRate;
+    			        $scope.goalsCount = response.goals;
+    			        $scope.revenueCount = response.revenue;
+    			        $scope.pagesList = response.pagesList;
+    			        $scope.referersList = response.referersList;
+    			        $scope.searchesList = response.searchesList;
     		  });
     		  
     		  $scope.todoData = {};

@@ -24,7 +24,7 @@ angular.module('newApp')
    		                                 },
    		                                 { name: 'companyName', displayName: 'Company Name', width:'12%',cellEditableCondition: false,
    		                                 },
-   		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'10%',cellEditableCondition: false,
+   		                                 { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false,
    		                                 },
    		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'10%',
    		                                 },
@@ -45,7 +45,7 @@ angular.module('newApp')
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		        	  $scope.gridOptions.data = $filter('filter')($scope.contactsList,{'contactId':grid.columns[0].filters[0].term,'firstName':grid.columns[2].filters[0].term,'lastName':grid.columns[3].filters[0].term,'companyName':grid.columns[4].filters[0].term},undefined);
+		        	  $scope.gridOptions.data = $filter('filter')($scope.contactsList,{'contactId':grid.columns[0].filters[0].term,'firstName':grid.columns[2].filters[0].term,'lastName':grid.columns[3].filters[0].term,'companyName':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
 		        });
 	   		
    		};

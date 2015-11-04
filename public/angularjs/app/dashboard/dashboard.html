@@ -364,7 +364,158 @@
             </div>
         </div>
         </div>
+        
+        <div class="col-xlg-3 col-lg-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel no-bd bd-3 panel-stat">
+                    <div class="panel-header">
+                        <h3><i class="icon-graph"></i> <strong>Actions</strong> </h3>
+                        <div class="control-btn">
+                            <a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-stat-chart" style="height: 272px;">
+                        <canvas id="actions-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+		                <div class="panel no-bd bd-3 panel-stat">
+		                	<div class="panel-header">
+		                		ONLINE
+		                	</div>
+		                	<h1>{{onlineVisitorsCount}}</h1>
+		                </div>
+	            </div>
+            
+        </div>
+        </div>
+        
+        
 </div>
+
+<div class="row">
+	
+	<div class="col-xlg-7 col-lg-7" style="width:50%;">
+	            
+	            <div class="col-md-6">
+		                <div class="panel no-bd bd-3 panel-stat" >
+		                	<div class="panel-header">
+		                		THE BASICS
+		                	</div>
+		                	<div style="height:180px;overflow-y:auto;">
+			                	<div class="form-group col-sm-12">
+									<label class="col-sm-6 control-label">Visitors</label>
+										<div class="col-sm-6">
+											{{totalVisitorsCount}}
+										</div>
+								</div>
+								<div class="form-group col-sm-12">
+									<label class="col-sm-6 control-label">Actions</label>
+										<div class="col-sm-6">
+											{{actionsCount}}
+										</div>
+								</div>
+								<div class="form-group col-sm-12">
+									<label class="col-sm-6 control-label">Average actions</label>
+										<div class="col-sm-6">
+											{{averageActionsCount}}
+										</div>
+								</div>
+								<div class="form-group col-sm-12">
+									<label class="col-sm-6 control-label">Total time</label>
+										<div class="col-sm-6">
+											{{totalTimeCount}}
+										</div>
+								</div>
+								<div class="form-group col-sm-12">
+									<label class="col-sm-6 control-label">Average time</label>
+										<div class="col-sm-6">
+											{{averageTimeCount}}
+										</div>
+								</div>
+								<div class="form-group col-sm-12">
+									<label class="col-sm-6 control-label">Bounce rate</label>
+										<div class="col-sm-6">
+											{{bounceRateCount}} %
+										</div>
+								</div>
+								<div class="form-group col-sm-12">
+									<label class="col-sm-6 control-label">Goals</label>
+										<div class="col-sm-6">
+											{{goalsCount}}
+										</div>
+								</div>
+								<div class="form-group col-sm-12">
+									<label class="col-sm-6 control-label">Revenue</label>
+										<div class="col-sm-6">
+											{{revenueCount}}
+										</div>
+								</div>
+		                </div>
+		                </div>
+	            </div>
+	            <div class="col-md-6">
+		                <div class="panel no-bd bd-3 panel-stat">
+		                	<div class="panel-header">
+		                		SEARCHES
+		                	</div>
+		                	<div style="height:180px;overflow-y:auto;">
+		                	<div ng-repeat="page in searchesList">
+		                	<div class="form-group col-sm-12">
+									<label class="col-sm-8 control-label">{{page.pageUrl}}</label>
+										<div class="col-sm-2">
+											{{page.count}}
+										</div>
+								</div>
+						   </div>
+						   </div>
+		                </div>
+	            </div>
+	           </div> 
+	           <div class="col-xlg-7 col-lg-7" style="width:50%;">
+	            <div class="col-md-6">
+		                <div class="panel no-bd bd-3 panel-stat">
+		                	<div class="panel-header">
+		                		REFERRERS
+		                	</div>
+		                	<div style="height:180px;overflow-y:auto;">
+			                	<div ng-repeat="page in referersList">
+			                	<div class="form-group col-sm-12">
+										<label class="col-sm-10 control-label">{{page.pageUrl}}</label>
+											<div class="col-sm-2">
+												{{page.count}}
+											</div>
+									</div>
+							   </div>
+							   </div>
+		                </div>
+	            </div>
+	            <div class="col-md-6">
+		                <div class="panel no-bd bd-3 panel-stat">
+		                	<div class="panel-header">
+		                		CONTENT
+		                	</div>
+		                	<div style="height:180px;overflow-y:auto;">
+			                	<div ng-repeat="page in pagesList">
+			                	<div class="form-group col-sm-12">
+										<label class="col-sm-8 control-label">{{page.pageUrl}}</label>
+											<div class="col-sm-2">
+												{{page.count}}
+											</div>
+									</div>
+							   </div>
+						   </div>
+		                </div>
+	            </div>
+	            
+		</div>
+	
+</div>
+
 
 <div class="row" ng-if="userType == 'Sales Person' || userType == 'General Manager'">
     <div class="col-xlg-4">
