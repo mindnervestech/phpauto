@@ -151,3 +151,4 @@ GET		/addNewsLetter/:flag/:id		controllers.Application.addNewsLetter(flag:String
 POST	/saveContactsData				controllers.Application.saveContactsData()
 GET		/saveNewsletterDate/:date/:time/:id/:timeZone		controllers.Application.saveNewsletterDate(date:String,time:String,id:Long,timeZone:String)
 GET    /deleteContactsById/:id  controllers.Application.deleteContactsById(id:Long)
+GET		/checkEmailOfUser/:email		controllers.Application.checkEmailOfUser(email:String)

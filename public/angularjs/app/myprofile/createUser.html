@@ -42,9 +42,10 @@
 						<div class="form-group col-sm-12">
 							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
 								<div class="col-sm-6">
-									<input class="form-control form-white" type="email" ng-model="user.email"  required>
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="user.email" ng-blur="checkEmail('create')"  required>
 								</div>
 						</div>
+						<p style="color:red;"><b>{{emailMsg}}</b></p>
 						<div class="form-group col-sm-12">
 							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
 								<div class="col-sm-6">
@@ -104,9 +105,10 @@
 						<div class="form-group col-sm-12">
 							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
 								<div class="col-sm-6">
-									<input class="form-control form-white" type="email" ng-model="userData.email"  required>
+									<input id="userEditEmail" class="form-control form-white" type="email" ng-model="userData.email" ng-blur="checkEmail('edit')" required>
 								</div>
 						</div>
+						<p style="color:red;"><b>{{emailMsg}}</b></p>
 						<div class="form-group col-sm-12">
 							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
 								<div class="col-sm-6">
@@ -133,7 +135,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-embossed">Create User</button>
+                    <button type="submit" class="btn btn-primary btn-embossed">Update User</button>
                 </div>
                 </form>
             </div>

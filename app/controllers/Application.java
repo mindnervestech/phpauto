@@ -5196,6 +5196,7 @@ public class Application extends Controller {
 	    	  
 	    	  
 	    	   MultipartFormData body = request().body().asMultipartFormData();
+	    	   if(body != null) {
 	    	   File file1 = new File(rootDir+userObj.imageUrl);
 	    	   file1.delete();
 	    		FilePart picture = body.getFile("file0");
@@ -5221,7 +5222,7 @@ public class Application extends Controller {
 			  			e.printStackTrace();
 			  		} 
 		    	  } 
-	    	
+	    	   }
 	    	userObj.update();
 	    	return ok();
     	}    	
@@ -6800,8 +6801,8 @@ public class Application extends Controller {
     	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&date="+year+"-"+month+"-"+dateOfMonth+"&type=visitors-online"));
     	
     	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue"));
-    	JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date=last-7-days"));
-    	JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-recent&date=last-30-days"));
+    	JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date=last-30-days"));
+    	JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-unique&date=last-30-days"));
     	JsonNode searchesNodeList = Json.parse(callClickAPI("&type=searches-engines&date=last-30-days"));
     	List<PageVM> pagesList = new ArrayList<>();
     	List<PageVM> referersList = new ArrayList<>();
@@ -6812,10 +6813,10 @@ public class Application extends Controller {
     		PageVM vm = new PageVM();
     		vm.count = obj.get("value").textValue();
     		if(arr[arr.length-2].equals("mobile")) {
-    			vm.pageUrl = "Mobile "+arr[arr.length-1];	
+    			vm.pageUrl = "mobile "+arr[arr.length-1];	
 	    	} else {
 	    		if(arr[arr.length-1].equals("") || arr[arr.length-1].equals("glivr")) {
-	    			vm.pageUrl = "Dashboard";
+	    			vm.pageUrl = "dashboard";
 	    		} else {
 	    			vm.pageUrl = arr[arr.length-1];
 	    		}
@@ -8610,5 +8611,19 @@ public class Application extends Controller {
 		   	}
 		}
 	
+	public static Result checkEmailOfUser(String email ){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		   	return ok(home.render(""));
+		   	} else {
+			   	String msg;
+			   	AuthUser userObj = AuthUser.findByEmail(email);
+			   	if(userObj !=null){
+				   	msg = "Email already exists";
+				   	return ok(msg);
+			   	}
+			   	msg = "";
+			   	return ok(msg);
+		   	}
+		}
 }
 

@@ -178,4 +178,8 @@ public class AuthUser extends Model implements Identity {
 		return find.all();
 	}
 	
+	public static AuthUser findByEmail(String email) {
+		return find.where().eq("email", email).findUnique();
+	}
+	
 }
