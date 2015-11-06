@@ -6802,7 +6802,7 @@ public class Application extends Controller {
     	
     	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue"));
     	JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date=last-30-days"));
-    	JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-unique&date=last-30-days"));
+    	JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-domains&date=last-30-days"));
     	JsonNode searchesNodeList = Json.parse(callClickAPI("&type=searches-engines&date=last-30-days"));
     	List<PageVM> pagesList = new ArrayList<>();
     	List<PageVM> referersList = new ArrayList<>();
@@ -6826,11 +6826,9 @@ public class Application extends Controller {
     	}
     	
     	for(JsonNode obj : referersNodeList.get(0).get("dates").get(0).get("items")) {
-    		String arr[] = obj.get("item").textValue().split("/");
     		PageVM vm = new PageVM();
-    		if(arr.length >= 3) {
-    			vm.pageUrl = arr[2];
-    		}
+    		vm.pageUrl = obj.get("title").textValue();
+    		vm.count = obj.get("value").textValue();
     		referersList.add(vm);
     	}
     	
