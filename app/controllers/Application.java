@@ -88,6 +88,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
 import viewmodel.AudioVM;
@@ -8466,6 +8467,7 @@ public class Application extends Controller {
 	  		   	  break;
   		   	  }
 	    		obj.save();
+	    		NewsLetter.newsletterSchedulling();
     		} else {
     			NewsletterDate obj = NewsletterDate.findById(id);
     			obj.setDateOfMonth(date);
@@ -8515,6 +8517,7 @@ public class Application extends Controller {
 	  		   	  break;
   		   	  }
     			obj.update();
+    			NewsLetter.newsletterSchedulling();
     		}
     		
     		return ok();
