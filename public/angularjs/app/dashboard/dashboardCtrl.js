@@ -371,7 +371,7 @@ angular.module('newApp')
     					$.pnotify({
     					    title: "Success",
     					    type:'success',
-    					    text: "group delete successfully",
+    					    text: "group deleted successfully",
     					});
     					$http.get('/getgroupInfo').success(function(data){
     						console.log(data);
