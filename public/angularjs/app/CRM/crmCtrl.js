@@ -55,6 +55,15 @@ angular.module('newApp')
 				$scope.contactsList = data;
 			 });
    		 
+   		$http.get('/getUsers').success(function(data){
+			console.log(data);
+			$scope.allUser = data;
+		 });
+
+   		$http.get('/getgroupInfo').success(function(data){
+			console.log(data);
+			$scope.allGroup = data;
+		 });
    		 
    		 $scope.getContactsData = function() {
    			 $http.get('/getAllContactsData').success(function(data){
@@ -91,6 +100,42 @@ angular.module('newApp')
    		$scope.contactsDetails = {};
 	   $scope.editContactsDetail = function(row) {
 		   $scope.contactsDetails = row.entity;
+		   if($scope.contactsDetails.email1 != null){
+			   $scope.showEmail1 = 1;
+		   }else{
+			   $scope.showEmail1 = 0;
+		   }
+		  		   
+		   if($scope.contactsDetails.phone1 != null){
+			   $scope.showanotherPhone = 1;
+		   }else{
+			   $scope.showanotherPhone = 0;
+		   }
+		   if($scope.contactsDetails.website != null){
+			   $scope.showWebsite = 1;
+		   }else{
+			   $scope.showWebsite = 0;
+		   }
+		   if($scope.contactsDetails.allAddresses != null){
+			   $scope.showAddess = 1;
+		   }else{
+			   $scope.showAddess = 0;
+		   }
+		   if($scope.contactsDetails.campaignSource != null){
+			   $scope.showCampaign = 1;
+		   }else{
+			   $scope.showCampaign = 0;
+		   }
+		   if($scope.contactsDetails.priority != null){
+			   $scope.showPriority = 1;
+		   }else{
+			   $scope.showPriority = 0;
+		   }
+		   if($scope.contactsDetails.groups != null){
+			   $scope.showGroup = 1;
+		   }else{
+			   $scope.showGroup = 0;
+		   }
 		   $('#contactsModal').modal();
 	   }
    		 
@@ -137,6 +182,43 @@ angular.module('newApp')
 				 }
 				 
 				});
+	   }
+	   
+	   $scope.saveGroup = function(createGroup){
+		   console.log(createGroup);
+		   
+		   $http.get('/saveGroup/'+createGroup)
+			.success(function(data) {
+				console.log("sccess");
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "group saved successfully",
+				});
+				$http.get('/getgroupInfo').success(function(data){
+					console.log(data);
+					
+					$scope.allGroup = data;
+				 });
+			});
+		   
+	   }
+	   
+	   $scope.deleteGroup = function(groupId){
+		   console.log(groupId);
+		   $http.get('/deleteGroup/'+groupId)
+			.success(function(data) {
+				console.log("sccess");
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "group delete successfully",
+				});
+				$http.get('/getgroupInfo').success(function(data){
+					console.log(data);
+					$scope.allGroup = data;
+				 });
+			});
 	   }
 	   
 	   $scope.deleteContactsDetail = function(row){

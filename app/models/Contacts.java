@@ -46,6 +46,12 @@ public class Contacts extends Model {
 	public String groups;
 	public String relationships;
 	public String notes;
+	public String workEmail;
+	public String workEmail1;
+	public String workPhone;
+	public String workPhone1;
+	public String email1;
+	public String phone1;
 	public Integer newsLetter;
 	@Version
 	public java.util.Date version; 
@@ -248,6 +254,50 @@ public class Contacts extends Model {
 	public void setNewsLetter(Integer newsLetter) {
 		this.newsLetter = newsLetter;
 	}
+
+	
+	
+	public String getWorkEmail() {
+		return workEmail;
+	}
+	public void setWorkEmail(String workEmail) {
+		this.workEmail = workEmail;
+	}
+	public String getWorkEmail1() {
+		return workEmail1;
+	}
+	public void setWorkEmail1(String workEmail1) {
+		this.workEmail1 = workEmail1;
+	}
+	public String getWorkPhone() {
+		return workPhone;
+	}
+	public void setWorkPhone(String workPhone) {
+		this.workPhone = workPhone;
+	}
+	public String getWorkPhone1() {
+		return workPhone1;
+	}
+	public void setWorkPhone1(String workPhone1) {
+		this.workPhone1 = workPhone1;
+	}
+
+
+
+	public String getEmail1() {
+		return email1;
+	}
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+	public String getPhone1() {
+		return phone1;
+	}
+	public void setPhone1(String phone1) {
+		this.phone1 = phone1;
+	}
+
+
 
 	public static Finder<Long,Contacts> find = new Finder<>(Long.class,Contacts.class);
 	

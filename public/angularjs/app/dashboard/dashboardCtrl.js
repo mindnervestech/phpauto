@@ -329,6 +329,54 @@ angular.module('newApp')
     			  $('#createcontactsModal').modal();
     		  }
     		  
+    		  $http.get('/getUsers').success(function(data){
+    				console.log(data);
+    				$scope.allUser = data;
+    			 });
+
+    	   		$http.get('/getgroupInfo').success(function(data){
+    				console.log(data);
+    				$scope.allGroup = data;
+    			 });
+    	   		
+    	   	 $scope.saveGroup = function(createGroup){
+    			   console.log(createGroup);
+    			   
+    			   $http.get('/saveGroup/'+createGroup)
+    				.success(function(data) {
+    					console.log("sccess");
+    					$.pnotify({
+    					    title: "Success",
+    					    type:'success',
+    					    text: "group saved successfully",
+    					});
+    					$http.get('/getgroupInfo').success(function(data){
+    						console.log(data);
+    						
+    						$scope.allGroup = data;
+    					 });
+    				});
+    			   
+    		   }
+    		   
+    		   $scope.deleteGroup = function(groupId){
+    			   console.log(groupId);
+    			   $http.get('/deleteGroup/'+groupId)
+    				.success(function(data) {
+    					console.log("sccess");
+    					$.pnotify({
+    					    title: "Success",
+    					    type:'success',
+    					    text: "group delete successfully",
+    					});
+    					$http.get('/getgroupInfo').success(function(data){
+    						console.log(data);
+    						$scope.allGroup = data;
+    					 });
+    				});
+    		   }
+    		   
+    		  
     		  $scope.saveContact = function() {
     			   $http.post('/saveContactsData',$scope.contactsDetails)
     				 .success(function(data) {

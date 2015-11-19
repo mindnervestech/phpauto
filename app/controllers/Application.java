@@ -52,6 +52,7 @@ import models.Contacts;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.FollowBrand;
+import models.GroupTable;
 import models.NewsletterDate;
 import models.Permission;
 import models.PriceAlert;
@@ -5164,6 +5165,57 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result getUsers(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		   	return ok(home.render(""));
+		   	} else {
+		   	
+		   	List<AuthUser> userList = AuthUser.getUserByType();
+		   	List<UserVM> vmList = new ArrayList<>();
+		   	for(AuthUser user : userList) {
+		   	UserVM vm = new UserVM();
+		   		vm.fullName = user.firstName + " "+ user.lastName;
+		   		vm.firstName = user.firstName;
+		   		vm.lastName = user.lastName;
+		   		vm.email = user.email;
+		   		vm.phone = user.phone;
+		   		vm.userType = user.role;
+		   		vm.imageName = user.imageName;
+		   		vm.imageUrl = user.imageUrl;
+		   		vm.id = user.id;
+		   		vmList.add(vm);
+		   	}
+		   	return ok(Json.toJson(vmList));
+		   	}
+   }
+   
+   public static Result getgroupInfo(){
+	   
+	   List<GroupTable> gList = GroupTable.findAllGroup();
+		return ok(Json.toJson(gList));
+   }
+   
+   public static Result saveGroup(String createGroup){
+	   if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	   		return ok(home.render(""));
+	   	} else {
+	   	  GroupTable gTable = new GroupTable();
+	   	  gTable.setName(createGroup);
+	   	  gTable.save();
+	   	}
+	   return ok("");
+   }
+   
+   public static Result deleteGroup(Long groupId){
+	   if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	   		return ok(home.render(""));
+	   	} else {
+	   	  GroupTable gTable = GroupTable.findById(groupId);
+	   	  gTable.delete();
+	   	}
+	   return ok("");
+   }
+    
     public static Result updateUser() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
@@ -8350,37 +8402,43 @@ public class Application extends Controller {
     		for(Contacts contact : contactsList) {
     			ContactsVM vm = new ContactsVM();
     			vm.contactId = contact.contactId;
-    			vm.type = contact.type;
-    			vm.salutation = contact.salutation;
-    			vm.firstName = contact.firstName;
-    			vm.middleName = contact.middleName;
-    			vm.lastName = contact.lastName;
-    			vm.suffix = contact.suffix;
-    			vm.companyName = contact.companyName;
-    			vm.email = contact.email;
-    			vm.phone = contact.phone;
-    			vm.street = contact.street;
-    			vm.city = contact.city;
-    			vm.state = contact.state;
-    			vm.zip = contact.zip;
-    			vm.country = contact.country;
-    			vm.allEmail = contact.allEmail;
-    			vm.allPhone = contact.allPhone;
-    			vm.website = contact.website;
-    			vm.allAddresses = contact.allAddresses;
-    			vm.title = contact.title;
-    			vm.birthday = contact.birthday;
-    			vm.backgroundInfo = contact.backgroundInfo;
-    			vm.industry = contact.industry;
-    			vm.numberOfEmployees = contact.numberOfEmployees;
-    			vm.creationDate = contact.creationDate;
-    			vm.lastEditedDate = contact.lastEditedDate;
-    			vm.assignedTo = contact.assignedTo;
-    			vm.campaignSource = contact.campaignSource;
-    			vm.priority = contact.priority;
-    			vm.groups = contact.groups;
-    			vm.relationships = contact.relationships;
-    			vm.notes = contact.notes;
+       			vm.type = contact.type;
+       			vm.salutation = contact.salutation;
+       			vm.firstName = contact.firstName;
+       			vm.middleName = contact.middleName;
+       			vm.lastName = contact.lastName;
+       			vm.suffix = contact.suffix;
+       			vm.companyName = contact.companyName;
+       			vm.email = contact.email;
+       			vm.phone = contact.phone;
+       			vm.street = contact.street;
+       			vm.city = contact.city;
+       			vm.state = contact.state;
+       			vm.zip = contact.zip;
+       			vm.country = contact.country;
+       			vm.allEmail = contact.allEmail;
+       			vm.allPhone = contact.allPhone;
+       			vm.website = contact.website;
+       			vm.allAddresses = contact.allAddresses;
+       			vm.title = contact.title;
+       			/*vm.birthday = contact.birthday;
+       			vm.backgroundInfo = contact.backgroundInfo;
+       			vm.industry = contact.industry;
+       			vm.numberOfEmployees = contact.numberOfEmployees;
+       			vm.creationDate = contact.creationDate;
+       			vm.lastEditedDate = contact.lastEditedDate;*/
+       			vm.assignedTo = contact.assignedTo;
+       			vm.campaignSource = contact.campaignSource;
+       			vm.priority = contact.priority;
+       			vm.groups = contact.groups;
+       			vm.relationships = contact.relationships;
+       			vm.notes = contact.notes;
+       			vm.workEmail = contact.workEmail;
+       			vm.workEmail1 = contact.workEmail1;
+       			vm.workPhone = contact.workPhone;
+       			vm.workPhone1 = contact.workPhone1;
+       			vm.email1 = contact.email1;
+       			vm.phone1 = contact.phone1;
     			if(contact.newsLetter == 0) {
     				vm.newsletter = false;
     			} else {
@@ -8461,37 +8519,45 @@ public class Application extends Controller {
     		String msg = "";
     		if(obj == null) {
     		Contacts contacts = new Contacts();
-    			contacts.setType(vm.type);
-    			contacts.setSalutation(vm.salutation);
-    			contacts.setFirstName(vm.firstName);
-    			contacts.setMiddleName(vm.middleName);
-    			contacts.setLastName(vm.lastName);
-    			contacts.setSuffix(vm.suffix);
-    			contacts.setCompanyName(vm.companyName);
-    			contacts.setEmail(vm.email);
-    			contacts.setPhone(vm.phone);
-    			contacts.setStreet(vm.street);
-    			contacts.setCity(vm.city);
-    			contacts.setState(vm.state);
-    			contacts.setZip(vm.zip);
-    			contacts.setCountry(vm.country);
-    			contacts.setAllEmail(vm.allEmail);
-    			contacts.setAllPhone(vm.allPhone);
-    			contacts.setWebsite(vm.website);
-    			contacts.setAllAddresses(vm.allAddresses);
-    			contacts.setTitle(vm.title);
-    			contacts.setBirthday(vm.birthday);
-    			contacts.setBackgroundInfo(vm.backgroundInfo);
-    			contacts.setIndustry(vm.industry);
-    			contacts.setNumberOfEmployees(vm.numberOfEmployees);
-    			contacts.setCreationDate(vm.creationDate);
-    			contacts.setLastEditedDate(vm.lastEditedDate);
-    			contacts.setAssignedTo(vm.assignedTo);
-    			contacts.setCampaignSource(vm.campaignSource);
-    			contacts.setPriority(vm.priority);
-    			contacts.setGroups(vm.groups);
-    			contacts.setRelationships(vm.relationships);
-    			contacts.setNotes(vm.notes);
+    		 contacts.setFirstName(vm.firstName);
+ 		    contacts.setCompanyName(vm.companyName);
+ 		    contacts.setEmail(vm.email);
+ 		    contacts.setPhone(vm.phone);
+ 		    contacts.setWebsite(vm.website);
+ 		    contacts.setAllAddresses(vm.allAddresses);
+ 		   	contacts.setTitle(vm.title);
+ 		    contacts.setAssignedTo(vm.assignedTo);
+ 		    contacts.setCampaignSource(vm.campaignSource);
+ 		    contacts.setPriority(vm.priority);
+ 		    contacts.setGroups(vm.groups);
+ 		    contacts.setWorkEmail(vm.workEmail);
+ 		    contacts.setWorkEmail1(vm.workEmail1);
+ 		    contacts.setWorkPhone(vm.workPhone);
+ 		    contacts.setWorkPhone1(vm.workPhone1);
+ 		    contacts.setEmail1(vm.email1);
+ 		    contacts.setPhone1(vm.phone1);
+ 		    
+ 		   /*
+ 		     contacts.setAllEmail(vm.allEmail);
+ 		    contacts.setAllPhone(vm.allPhone);
+ 		    contacts.setType(vm.type);
+ 		    contacts.setSalutation(vm.salutation);
+ 		    contacts.setMiddleName(vm.middleName);
+ 		    contacts.setLastName(vm.lastName);
+ 		    contacts.setSuffix(vm.suffix);  
+ 		    contacts.setStreet(vm.street);
+ 		   	contacts.setCity(vm.city);
+ 		    contacts.setState(vm.state);
+ 		   	contacts.setZip(vm.zip);
+ 		    contacts.setCountry(vm.country);
+ 		    contacts.setBirthday(vm.birthday);
+ 		    contacts.setBackgroundInfo(vm.backgroundInfo);
+ 		    contacts.setIndustry(vm.industry);
+ 		    contacts.setNumberOfEmployees(vm.numberOfEmployees);
+ 		    contacts.setCreationDate(vm.creationDate);
+ 		    contacts.setLastEditedDate(vm.lastEditedDate);
+ 		    contacts.setRelationships(vm.relationships);
+ 		    contacts.setNotes(vm.notes);*/
     			if(vm.newsletter == true) {
     				contacts.setNewsLetter(1);
     			} else {
