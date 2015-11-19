@@ -7000,6 +7000,99 @@ public class Application extends Controller {
     	}
     	return ok(Json.toJson(map));
     }
+    
+    /*private static void sendRequestMoreInfoMail(String vin) {
+    	AuthUser user = (AuthUser)getLocalUser();
+    	AuthUser logoUser = AuthUser.findById(userId);
+    	SiteLogo logoObj = SiteLogo.findByUser(logoUser);
+    	VehicleImage vImage = VehicleImage.getDefaultImage(vin);
+    	String path = "";
+    	if(vImage.getPath().equals("")) {
+    		path = "/no-image.jpg";
+    	} else {
+    		path = vImage.getPath();
+    	}
+    	SiteLogoVM logo = new SiteLogoVM();
+    	logo.logoPath = logoObj.logoImagePath;
+    	logo.feviconPath = logoObj.faviconImagePath;
+    	logo.tabText = logoObj.tabText;
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+    	try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(user.getEmail()));
+			message.setSubject("TEST DRIVE CONFIRMATION");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+		
+			
+	        Template t = ve.getTemplate("/public/emailTemplate/confirmationTemplate.vm"); 
+	        VelocityContext context = new VelocityContext();
+	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime((Date)map.get("confirmDate"));
+	        int dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+	        int month = cal.get(Calendar.MONTH);
+	        String monthName = months[month];
+	        context.put("hostnameUrl", imageUrlPath);
+	        context.put("siteLogo", logo.logoImagePath);
+	        context.put("dayOfmonth", dayOfmonth);
+	        context.put("monthName", monthName);
+	        context.put("confirmTime", map.get("confirmTime"));
+	        
+	        Vehicle vehicle = Vehicle.findByVin(map.get("vin").toString());
+	        context.put("year", vehicle.year);
+	        context.put("make", vehicle.make);
+	        context.put("model", vehicle.model);
+	        context.put("price", "$"+vehicle.price);
+	        context.put("stock", vehicle.stock);
+	        context.put("vin", vehicle.vin);
+	        context.put("make", vehicle.make);
+	        context.put("mileage", vehicle.mileage);
+	        context.put("name", map.get("uname"));
+	        context.put("email", map.get("uemail"));
+	        context.put("phone",  map.get("uphone"));
+	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        if(image!=null) {
+	        	context.put("defaultImage", image.path);
+	        } else {
+	        	context.put("defaultImage", "");
+	        }
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString(); 
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+    }*/
+    
     public static Result createLead() {
     	AuthUser user = (AuthUser)getLocalUser();
     	LeadVM leadVM = DynamicForm.form(LeadVM.class).bindFromRequest().get();
@@ -8525,6 +8618,7 @@ public class Application extends Controller {
 	}	
 	
 	public static Result sendNewsletterEmail() {
+		System.out.println("template");
 		Date date = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -8588,6 +8682,7 @@ public class Application extends Controller {
 	    			multipart.addBodyPart(messageBodyPart);
 	    			message.setContent(multipart);
 	    			Transport.send(message);
+	    			System.out.println("email send");
 		       		} catch (MessagingException e) {
 		  			  throw new RuntimeException(e);
 		  		}

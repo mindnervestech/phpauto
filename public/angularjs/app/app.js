@@ -83,6 +83,30 @@ var MakeApp = angular
             templateUrl: '/dealer/moreInfo/scheduleTest.html',
             controller: 'ScheduleTestCtrl'
         })
+        .when('/visitorsAnalytics', {
+            templateUrl: '/dealer/analytics/visitors.html',
+            controller: 'VisitorsCtrl'
+        })
+        .when('/actionsAnalytics', {
+            templateUrl: '/dealer/analytics/actions.html',
+            controller: 'ActionsCtrl'
+        })
+        .when('/basicsAnalytics', {
+            templateUrl: '/dealer/analytics/basics.html',
+            controller: 'BasicsCtrl'
+        })
+        .when('/searchesAnalytics', {
+            templateUrl: '/dealer/analytics/searches.html',
+            controller: 'SearchesCtrl'
+        })
+        .when('/refferersAnalytics', {
+            templateUrl: '/dealer/analytics/refferers.html',
+            controller: 'RefferersCtrl'
+        })
+        .when('/contentAnalytics', {
+            templateUrl: '/dealer/analytics/content.html',
+            controller: 'ContentCtrl'
+        })
          .when('/tradeIn', {
             templateUrl: '/dealer/moreInfo/tradeIn.html',
             controller: 'TradeInCtrl'

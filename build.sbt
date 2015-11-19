@@ -10,6 +10,7 @@ libraryDependencies ++= Seq(
 "com.opencsv" % "opencsv" % "3.5",
 "commons-net" % "commons-net" % "3.2",
 "org.apache.velocity" % "velocity" % "1.7",
+"joda-time" % "joda-time" % "2.8.1",
 "org.apache.velocity" % "velocity-tools" % "2.0",
 javaJdbc,
   javaEbean,
