@@ -16,7 +16,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location) {
       $scope.$on('$viewContentLoaded', function () {
         
     	  dashboardService.init();
@@ -481,6 +481,14 @@ angular.module('newApp')
     			        $scope.referersList = response.referersList;
     			        $scope.searchesList = response.searchesList;
     		  });
+    		  
+    		  
+    		  $scope.getAllVisitorList = function(){
+    			  $location.path('/visitorsAnalytics/');
+    		  }
+    		  $scope.getAllActionList = function(){
+    			  $location.path('/actionsAnalytics/');
+    		  }
     		  
     		  $scope.todoData = {};
     		  

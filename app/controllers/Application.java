@@ -6802,6 +6802,16 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
+    public static Result getVisitorList(){
+    	String params = "&type=visitors-list&date=last-30-days";
+    	return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getActionList(){
+    	String params = "&type=actions-list&date=last-30-days";
+    	return ok(Json.parse(callClickAPI(params)));
+    }
+    
     private static String callClickAPI(String params) {
     	StringBuffer response = new StringBuffer();
     	try {

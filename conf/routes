@@ -156,3 +156,5 @@ GET    /deleteContactsById/:id  controllers.Application.deleteContactsById(id:Lo
 GET   /saveGroup/:createGroup		controllers.Application.saveGroup(createGroup:String)
 GET   /deleteGroup/:groupId		 controllers.Application.deleteGroup(groupId:Long)
 GET		/checkEmailOfUser/:email		controllers.Application.checkEmailOfUser(email:String)
+GET   /getVisitorList			controllers.Application.getVisitorList()
+GET   /getActionList 			controllers.Application.getActionList()

@@ -407,16 +407,18 @@
 		                	</div>
 		                	<div style="height:180px;overflow-y:auto;">
 			                	<div class="form-group col-sm-12">
-									<label class="col-sm-10 control-label" style="font-size:10px;">Visitors</label>
-										<div class="col-sm-2" style="font-size:10px;">
+									<a ng-click="getAllVisitorList()">
+									   <label class="col-sm-10 control-label" style="font-size:10px;">Visitors</label>
+										 <div class="col-sm-2" style="font-size:10px;">
 											{{totalVisitorsCount}}
-										</div>
+									    	</div>
+									</a>
 								</div>
 								<div class="form-group col-sm-12">
-									<label class="col-sm-10 control-label" style="font-size:10px;">Actions</label>
+									<a ng-click="getAllActionList()"><label class="col-sm-10 control-label" style="font-size:10px;">Actions</label>
 										<div class="col-sm-2" style="font-size:10px;">
 											{{actionsCount}}
-										</div>
+										</div></a>
 								</div>
 								<div class="form-group col-sm-12">
 									<label class="col-sm-10 control-label" style="font-size:10px;">Average actions</label>
@@ -2092,7 +2094,7 @@
 									                    <h4 class="modal-title">Create contact</h4>
 									                </div>
 									                 <form ng-submit="saveContact()">
-									                <div class="modal-body" style="height:407px;overflow-x:auto;">
+									                <div class="modal-body" style="height:500px;overflow-x:auto;">
 									                    	<div class="form-group col-sm-12">
 									                    	<div class="col-sm-6">
 																<label class="col-sm-12 control-label">Name</label>
@@ -2325,4 +2327,8 @@
 .underline {
 	text-decoration: underline;
 }
+.modal-dialog{
+		margin-top: 1%;
+	}
+
 </style>	
