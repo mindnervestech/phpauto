@@ -322,6 +322,10 @@ angular.module('newApp')
     		  $scope.contactMsg = "";
     		  $scope.createContact = function(entity) {
     			  $scope.contactsDetails = {};
+    			  $scope.contactsDetails.workEmail = "Work";
+    			   $scope.contactsDetails.workEmail1 = "Work";
+    			   $scope.contactsDetails.workPhone = "Work";
+    			   $scope.contactsDetails.workPhone1 = "Work";
     			  $scope.contactMsg = "";
     			  $scope.contactsDetails.firstName = entity.name;
     			  $scope.contactsDetails.email = entity.email;

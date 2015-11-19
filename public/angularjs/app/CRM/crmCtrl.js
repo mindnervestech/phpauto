@@ -162,6 +162,10 @@ angular.module('newApp')
 	   $scope.contactMsg = "";
 	   $scope.createContact = function() {
 		   $scope.contactsDetails = {};
+		   $scope.contactsDetails.workEmail = "Work";
+		   $scope.contactsDetails.workEmail1 = "Work";
+		   $scope.contactsDetails.workPhone = "Work";
+		   $scope.contactsDetails.workPhone1 = "Work";
 		   $scope.contactMsg = "";
 		   $('#createcontactsModal').modal();
 	   }
