@@ -480,6 +480,9 @@ angular.module('newApp')
     			        $scope.pagesList = response.pagesList;
     			        $scope.referersList = response.referersList;
     			        $scope.searchesList = response.searchesList;
+    			        
+    			        console.log("-=-=-=-=-=-=-=-=-");
+    			        console.log($scope.pagesList);
     		  });
     		  
     		  
@@ -488,6 +491,12 @@ angular.module('newApp')
     		  }
     		  $scope.getAllActionList = function(){
     			  $location.path('/actionsAnalytics/');
+    		  }
+    		  $scope.serchesPage = function(){
+    			  $location.path('/searchesAnalytics/');
+    		  }
+    		  $scope.refferPage = function(){
+    			  $location.path('/refferersAnalytics/');
     		  }
     		  
     		  $scope.todoData = {};

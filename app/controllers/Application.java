@@ -6802,15 +6802,58 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
-    public static Result getVisitorList(){
-    	String params = "&type=visitors-list&date=last-30-days";
+    public static Result getVisitorList(Integer value){
+    	int year = Calendar.getInstance().get(Calendar.YEAR);
+    	String params = null;
+    	
+    	if(value == 30){
+    		params = "&type=visitors-list&date=last-30-days";
+    	}else if(value == 7){
+    		params = "&type=visitors-list&date=last-7-days";
+    	}else if(value == 1){
+    		params = "&type=visitors-list&date="+year;
+    	}
     	return ok(Json.parse(callClickAPI(params)));
     }
     
-    public static Result getActionList(){
-    	String params = "&type=actions-list&date=last-30-days";
+    public static Result getActionList(Integer value){
+    	int year = Calendar.getInstance().get(Calendar.YEAR);
+    	String params = null;
+    	
+    	if(value == 30){
+    		params = "&type=actions-list&date=last-30-days";
+    	}else if(value == 7){
+    		params = "&type=actions-list&date=last-7-days";
+    	}else if(value == 1){
+    		params = "&type=actions-list&date="+year;
+    	}
+    	
     	return ok(Json.parse(callClickAPI(params)));
     }
+    
+    public static Result getSearchList(Integer value){
+    	
+    	int year = Calendar.getInstance().get(Calendar.YEAR);
+    	String params = null;
+    	
+    	if(value == 30){
+    		params = "&type=searches&date=last-30-days";
+    	}else if(value == 7){
+    		params = "&type=searches&date=last-7-days";
+    	}else if(value == 1){
+    		params = "&type=searches&date="+year;
+    	}
+    	
+    	return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getContentList(Integer value){
+    	
+    	String params = "&type=pages&date=last-30-days";
+    	return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    
     
     private static String callClickAPI(String params) {
     	StringBuffer response = new StringBuffer();

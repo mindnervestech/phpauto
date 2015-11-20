@@ -9,8 +9,13 @@
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+	      <div class="col-sm-12">
+	         <a class="col-sm-3" ng-click="lastDays(7)">last 7 days</a><a class="col-sm-3" ng-click="lastDays(30)">last 30 days</a><a class="col-sm-3" ng-click="lastDays(1)">year</a>
+	      </div>
 	      <h2>Refferers</h2>
-	      
+	       <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+				</div> 
+	      </div>
 	      
 	 </div>
 	</div>
