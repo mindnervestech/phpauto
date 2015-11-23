@@ -21,29 +21,7 @@
 
     </div>
 </div> -->
-
 <div class="row" ng-init="init()">
-    <!-- <div class="col-xlg-7 col-lg-7">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel bg-dark widget-map">
-                    <div class="panel-header">
-                        <h3><i class="icon-globe-alt"></i> <strong>Interactif</strong> Map</h3>
-                    </div>
-                    <div class="panel-content widget-full">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div id="map"></div>
-                            </div>
-                            <div class="col-md-3 c-white">
-                                <div id="listdiv"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     
      <div class="col-xlg-7 col-lg-7">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
@@ -56,7 +34,7 @@
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 							<div class="row" ng-show="showSalesStats">
 						            <div class="col-md-12">
-						             <div class="panel widget-map">
+						             <div class="panel widget-map" style="height: 413px;">
 									    <h4 style="line-height:0.428571;margin-top:3%;float:left;width:66%;"><b style="margin-left:3%;">TOP  AND  LEAST  SALES  REPRESENTATIVE</b></h4>
 									    <select  class="form-control form-white" ng-model="salesPersonUser" ng-change="getPerformanceOfUser()" style="width:29%;margin-left: 4%;margin-top:1%;" >
 									    	<option ng-selected="true" value="">Select user</option>
@@ -312,7 +290,7 @@
 	<!-- <div class="col-xlg-9 col-lg-7">
 		
 	</div> -->
-	<div class="col-xlg-3 col-lg-5">
+	<div class="col-xlg-2 col-lg-4">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel no-bd bd-3 panel-stat">
@@ -373,7 +351,7 @@
         </div>
         </div>
         
-        <div class="col-xlg-3 col-lg-5">
+        <div class="col-xlg-1 col-lg-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel no-bd bd-3 panel-stat">
@@ -393,6 +371,29 @@
         </div>
         </div>
         
+        <div class="col-xlg-3 col-lg-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel bg-dark widget-map">
+                    <div class="panel-header">
+                        <h3><i class="icon-globe-alt"></i> <strong>Interactif</strong> Map</h3>
+                    </div>
+                    <div class="panel-content widget-full">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="map"></div>
+                            </div>
+                            <div class="col-md-3 c-white">
+                                <div id="listdiv"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+        
+        
         
 </div>
 
@@ -400,8 +401,8 @@
 	
 	<div class="col-xlg-7 col-lg-7" style="width:50%;">
 	            
-	            <div class="col-md-6">
-		                <div class="panel no-bd bd-3 panel-stat" >
+	            <div class="col-md-6" style="padding-left: 0px;">
+		                <div class="panel no-bd bd-3 panel-stat"">
 		                	<div class="panel-header">
 		                		<b>THE BASICS</b>
 		                	</div>
@@ -495,7 +496,7 @@
 							   </div>
 		                </div>
 	            </div>
-	            <div class="col-md-6">
+	            <div class="col-md-6" style="padding-right: 0px;">
 		                <div class="panel no-bd bd-3 panel-stat">
 		                	<div class="panel-header">
 		                		<b>CONTENT</b>
@@ -2330,5 +2331,5 @@
 .modal-dialog{
 		margin-top: 1%;
 	}
-
+	
 </style>	

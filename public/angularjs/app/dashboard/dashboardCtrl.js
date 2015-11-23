@@ -17,18 +17,66 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
 });
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location) {
+	  
+	
+	  $scope.stringArray = [];
+	  $scope.visitiorListMap = [];
+	  var lengthValue = 0;
+	  var valueCount = 0;
       $scope.$on('$viewContentLoaded', function () {
         
-    	  dashboardService.init();
-          pluginsService.init();
-          dashboardService.setHeights()
-          if ($('.widget-weather').length) {
-              widgetWeather();
-          }
-          handleTodoList();
+    	  $http.get('/getVisitorList/'+30)
+  		.success(function(data) {
+  			console.log(data[0].dates[0].items);
+  			$scope.gridOptions.data = data[0].dates[0].items;
+  			$scope.visitiorList = data[0].dates[0].items;
+  			angular.forEach($scope.visitiorList, function(value, key) {
+  				$scope.stringArray[value.geolocation] = {
+  	    	            "flag" : 0,
+  	    				"name" : value.geolocation
+  	    	        };
+  			});
+  			
+  			
+  			var ab = 0;
+  			angular.forEach($scope.visitiorList, function(value, key) {
+  				
+  					if($scope.stringArray[value.geolocation].name == value.geolocation && $scope.stringArray[value.geolocation].flag == 0){
+  						$scope.visitiorListMap[ab] = value;
+  						$scope.stringArray[value.geolocation].flag = 1;
+  						$scope.stringArray[value.geolocation].value = 1;
+  						ab = ab +1;
+  					}else{
+  						$scope.stringArray[value.geolocation].value = $scope.stringArray[value.geolocation].value + 1;
+  					}
+  			});
+  			
+  			
+  			
+  			angular.forEach($scope.visitiorListMap, function(value, key) {
+  				if($scope.stringArray[value.geolocation].name == value.geolocation){
+  					value.valueCount = $scope.stringArray[value.geolocation].value;
+  				}
+  			});
+  			
+  			console.log("////////////////////");
+  			console.log($scope.stringArray);
+  			console.log($scope.visitiorListMap);
+  			
+  			dashboardService.init($scope.visitiorListMap);
+            pluginsService.init();
+            dashboardService.setHeights()
+            if ($('.widget-weather').length) {
+                widgetWeather();
+            }
+            handleTodoList();
+  		});
+    	  
+    	  
       });
 
       $scope.activeTab = true;
+
       
       $scope.gridOptions = {
     	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
