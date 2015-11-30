@@ -117,6 +117,10 @@ angular.module('newApp')
 		$location.path('/contentAnalytics');
 	}
 	
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
+	}
+	
 }]);
 
 
@@ -229,6 +233,9 @@ angular.module('newApp')
 	$scope.goToContent = function() {
 		$location.path('/contentAnalytics');
 	}
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
+	}
 	
 }]);
 
@@ -253,6 +260,10 @@ angular.module('newApp')
 	
 	$scope.goToContent = function() {
 		$location.path('/contentAnalytics');
+	}
+	
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
 	}
 	
 }]);
@@ -347,6 +358,9 @@ angular.module('newApp')
 	
 	$scope.goToContent = function() {
 		$location.path('/contentAnalytics');
+	}
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
 	}
 	
 }]);
@@ -463,6 +477,10 @@ angular.module('newApp')
 		$location.path('/contentAnalytics');
 	}
 	
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
+	}
+	
 }]);
 
 
@@ -497,6 +515,107 @@ angular.module('newApp')
 	$scope.goToRefferers = function() {
 		$location.path('/refferersAnalytics');
 	}
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
+	}
 	
 	
+}]);
+
+angular.module('newApp')
+.controller('SessionsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+console.log("....................");
+console.log($routeParams.vin);
+
+$http.get('/getSessionDaysVisitorsStats').success(function(response){
+	 console.log("-----------------------response-----------------------");	
+	console.log(response);	
+	var randomScalingFactor = [50,100];
+	var lineChartData = {
+	    labels: response.months,
+	    datasets: [
+	      {
+	          label: "My Second dataset",
+	          fillColor: "rgba(49, 157, 181,0.2)",
+	          strokeColor: "#319DB5",
+	          pointColor: "#319DB5",
+	          pointStrokeColor: "#fff",
+	          pointHighlightFill: "#fff",
+	          pointHighlightStroke: "#319DB5",
+	          data: response.allVisitor
+	      }
+	    ]
+	}
+	var ctx = document.getElementById("line-chart").getContext("2d");
+	window.myLine = new Chart(ctx).Line(lineChartData, {
+	    responsive: true,
+	    tooltipCornerRadius: 0
+	});
+
+});
+
+$http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
+	console.log("data");
+	console.log(data);
+
+	var pieData = [
+	               { value: data.requestmoreinfo, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "Submited" },
+	               { value: data.requestmoreinfoshow, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Clicked" }
+	           ];
+	var ctx = document.getElementById("pie-chart requestmoreinfo").getContext("2d");
+	window.myPie = new Chart(ctx).Pie(pieData, {
+	    tooltipCornerRadius: 0
+	});
+	
+		var pieData = [
+		               { value: data.scheduletest, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "Submited" },
+		               { value: data.scheduletestshow, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Clicked" }
+		           ];
+		var ctx = document.getElementById("pie-chart scheduletest").getContext("2d");
+		window.myPie = new Chart(ctx).Pie(pieData, {
+		    tooltipCornerRadius: 0
+		});
+	
+	var pieData = [
+	               { value: data.tradeinapp, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "Submited" },
+	               { value: data.tradeinappshow, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Clicked" }
+	           ];
+	var ctx = document.getElementById("pie-chart trade").getContext("2d");
+	window.myPie = new Chart(ctx).Pie(pieData, {
+	    tooltipCornerRadius: 0
+	});
+	
+	var pieData = [
+	               { value: data.emailtofriend, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "Submited" },
+	               { value: data.emailtofriendshow, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Clicked" }
+	           ];
+	var ctx = document.getElementById("pie-chart emailtofriend").getContext("2d");
+	window.myPie = new Chart(ctx).Pie(pieData, {
+	    tooltipCornerRadius: 0
+	});
+});
+
+	$scope.goToVisitors = function() {
+		$location.path('/visitorsAnalytics');
+	}
+	
+	$scope.goToActions = function() {
+		$location.path('/actionsAnalytics');
+	}
+	
+	$scope.goToBasics = function() {
+		$location.path('/basicsAnalytics');
+	}
+	
+	$scope.goToSearches = function() {
+		$location.path('/searchesAnalytics');
+	}
+	
+	$scope.goToRefferers = function() {
+		$location.path('/refferersAnalytics');
+	}
+	
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
+	}
 }]);

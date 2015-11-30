@@ -1,0 +1,122 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+	<!-- <ul id="myTabs" class="nav nav-tabs" role="tablist">
+		<li role="presentation" class=""><a role="tab" data-toggle="tab"
+			aria-controls="profile" aria-expanded="false"><button
+					type="button" class="btn btn-blue" ng-click="goToVisitors()">Visitors</button></a></li>
+		<li role="presentation" class=""><a role="tab" id="profile-tab"
+			data-toggle="tab" aria-controls="profile" aria-expanded="false"><button
+					type="button" class="btn btn-blue" ng-click="goToActions()">Actions</button></a></li>
+		<li role="presentation" class=""><a role="tab" id="profile-tab"
+			data-toggle="tab" aria-controls="profile" aria-expanded="false"><button
+					type="button" class="btn btn-blue" ng-click="goToBasics()">Basics</button></a></li>
+		<li role="presentation" class=""><a role="tab" id="profile-tab"
+			data-toggle="tab" aria-controls="profile" aria-expanded="false"><button
+					type="button" class="btn btn-blue" ng-click="goToSearches()">Searches</button></a></li>
+		<li role="presentation" class=""><a role="tab" id="profile-tab"
+			data-toggle="tab" aria-controls="profile" aria-expanded="false"><button
+					type="button" class="btn btn-blue" ng-click="goToRefferers()">Refferers</button></a></li>
+		<li role="presentation" class=""><a role="tab" id="profile-tab"
+			data-toggle="tab" aria-controls="profile" aria-expanded="false"><button
+					type="button" class="btn btn-blue" ng-click="goToContent()">Content</button></a></li>
+		<li role="presentation" class="active"><a id="home-tab"
+			role="tab" id="profile-tab" data-toggle="tab" aria-controls="home"
+			aria-expanded="true"><button type="button" class="btn btn-blue"
+					ng-click="goToSessionsData()">Sessions Data</button></a></li>
+	</ul> -->
+	
+	<div id="myTabContent" class="tab-content">
+		<div role="tabpanel" class="tab-pane fade active in" id="home"
+			aria-labelledby="home-tab">
+			<div class="col-xlg-12 col-lg-12">
+				<div class="row">
+					<canvas id="line-chart" class="full"></canvas>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="col-lg-12">
+						<label></label>
+				</div>
+				<div class="col-lg-12">
+					<label></label>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Request more info</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart requestmoreinfo"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Schedule test drive</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart scheduletest"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Trade-In Appraisal</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart trade"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Email to friend</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart emailtofriend"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+.red {
+	color: black;
+	background-color: #ffd3d3 !important;
+}
+
+.nav-tabs>li>a::before {
+	height: 0px;
+}
+
+.tab-content {
+	background-color: #F1F1F1;
+	border-top: 0px;
+}
+
+.nav.nav-tabs>li.active>a {
+	background-color: #F1F1F1;
+}
+
+
+</style>

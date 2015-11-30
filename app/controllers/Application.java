@@ -80,6 +80,9 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -89,6 +92,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import scala.util.matching.Regex;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
@@ -6852,8 +6856,113 @@ public class Application extends Controller {
     	String params = "&type=pages&date=last-30-days";
     	return ok(Json.parse(callClickAPI(params)));
     }
-    
-    
+    //https://api.clicky.com/api/stats/4?output=json&site_id=100875513&sitekey=d6e7550038b4a34c&type=actions-list&action_type=download&date=last-30-days     info@glider-autos.com
+    public static Result getStatusList(String value){
+    	System.out.println("--------------- getStatusList ---------- "+value+" ---------");
+    	String params = "&type=actions-list&date=last-30-days";
+    	
+    	int countSubrequestmoreinfo = 0;
+		int countShowrequestmoreinfoshow = 0;
+		
+		int countSubscheduletest = 0;
+		int countShowscheduletestshow = 0;
+		
+		int countSubtrade = 0;
+		int countShowtrade = 0;
+		
+    	int countSubemailtofriend = 0;
+		int countShowemailtofriend = 0;
+		
+		Map<String, Integer> map = new HashMap<String, Integer>();
+    	try {
+    		JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    		for(int i=0;i<jsonArray1.length();i++){
+    			String data = jsonArray1.getJSONObject(i).get("action_url").toString();
+    			System.out.println(data);
+    			String dataArr[] = data.split("#");
+    			if(dataArr!=null && dataArr.length>0){
+    				int count = data.split("#").length - 1;
+        			if(count == 1){
+        				if(dataArr[1].equals("requestmoreinfo")){
+        					countSubrequestmoreinfo++;
+        				}
+        				if(dataArr[1].equals("requestmoreinfoshow")){
+        					countShowrequestmoreinfoshow++;
+        				}
+        				
+        				if(dataArr[1].equals("scheduletest")){
+        					countSubscheduletest++;
+        				}
+        				if(dataArr[1].equals("scheduletestshow")){
+        					countShowscheduletestshow++;
+        				}
+        				
+        				if(dataArr[1].equals("emailtofriend")){
+        					countSubemailtofriend++;
+        				}
+        				if(dataArr[1].equals("emailtofriendshow")){
+        					countShowemailtofriend++;
+        				}
+        				
+        				if(dataArr[1].equals("tradeinapp")){
+        					countSubtrade++;
+        				}
+        				if(dataArr[1].equals("tradeinappshow")){
+        					countShowtrade++;
+        				}
+        				
+        			} else if(count == 2){
+        				if(dataArr[2].equals("requestmoreinfo")&&dataArr[1].equals(value)){
+        					countSubrequestmoreinfo++;
+        				}
+        				if(dataArr[2].equals("requestmoreinfoshow")&&dataArr[1].equals(value)){
+        					countShowrequestmoreinfoshow++;
+        				}
+        				
+        				if(dataArr[2].equals("scheduletest")&&dataArr[1].equals(value)){
+        					countSubscheduletest++;
+        				}
+        				if(dataArr[2].equals("scheduletestshow")&&dataArr[1].equals(value)){
+        					countShowscheduletestshow++;
+        				}
+        				
+        				if(dataArr[2].equals("emailtofriend")&&dataArr[1].equals(value)){
+        					countSubemailtofriend++;
+        				}
+        				if(dataArr[2].equals("emailtofriendshow")&&dataArr[1].equals(value)){
+        					countShowemailtofriend++;
+        				}
+        				
+        				if(dataArr[2].equals("tradeinapp")&&dataArr[1].equals(value)){
+        					countSubtrade++;
+        				}
+        				if(dataArr[2].equals("tradeinappshow")&&dataArr[1].equals(value)){
+        					countShowtrade++;
+        				}
+        			}
+    			}
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	map.put("requestmoreinfo", countSubrequestmoreinfo);
+    	map.put("requestmoreinfoshow", countShowrequestmoreinfoshow);
+    	map.put("requestmoreinfoTotal", (countSubrequestmoreinfo+countShowrequestmoreinfoshow));
+    	
+    	map.put("scheduletest", countSubscheduletest);
+    	map.put("scheduletestshow", countShowscheduletestshow);
+    	map.put("scheduletestTotal", (countSubscheduletest+countShowscheduletestshow));
+    	
+    	map.put("tradeinapp", countSubtrade);
+    	map.put("tradeinappshow", countShowtrade);
+    	map.put("tradeinappTotal", (countSubtrade+countShowtrade));
+    	
+    	map.put("emailtofriend", countSubemailtofriend);
+    	map.put("emailtofriendshow", countShowemailtofriend);
+    	map.put("emailtofriendTotal", (countSubemailtofriend+countShowemailtofriend));
+    	System.out.println(map);
+    	return ok(Json.toJson(map));
+    }
     
     private static String callClickAPI(String params) {
     	StringBuffer response = new StringBuffer();
@@ -6964,7 +7073,80 @@ public class Application extends Controller {
     	map.put("actionsList", actionsList);
     	map.put("averageActionsList", averageActionsList);
     	return ok(Json.toJson(map));
+      }
+    
+    
+    public static Result getSessionDaysVisitorsStats() {
+    	Calendar c = Calendar.getInstance();
+    	String[] monthsArr = new String[30]; 
+    	c.add(Calendar.DAY_OF_YEAR, -29);
+    	List<Integer> allVisitor = new ArrayList<Integer>(30);
+    	List<Integer> onlineVisitor = new ArrayList<Integer>(30);
+    	List<Integer> actionsList = new ArrayList<Integer>(30);
+    	List<Integer> averageActionsList = new ArrayList<Integer>(30);
+    	List<String> months = new ArrayList<String>(30);
+    	for(int i=0;i<30;i++) {
+    		String year = c.get(Calendar.YEAR)+"-";
+    		String days = c.get(Calendar.DATE)+"";
+    		Integer addmonth = c.get(Calendar.MONTH);
+    		Integer addOneMo = addmonth + 1;
+    		String month = String.valueOf(addOneMo)+"-";
+    		String dates = year + month + days;
+        	
+    		JsonNode node = Json.parse(callClickAPI("&date="+dates+"&type=visitors,visitors-new,actions,actions-average"));
+    		JsonNode allVisitorNode = node.get(0);
+    		JsonNode onlineVisitorNode = node.get(1);
+    		JsonNode actionsNode = node.get(2);
+    		JsonNode averageActionsNode = node.get(3);
+    		allVisitor.add(allVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		onlineVisitor.add(onlineVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		actionsList.add(actionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		averageActionsList.add(averageActionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		months.add(month+days);
+    		c.add(Calendar.DAY_OF_YEAR, 1);
+    	}
+    	//Date date = new Date();
+      //  c.setTime(date);
+      //  String year = c.get(Calendar.YEAR)+"";
+    //	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
+    //	Integer dateOfMonth = c.get(Calendar.DAY_OF_MONTH);
+    //	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&date="+year+"-"+month+"-"+dateOfMonth+"&type=visitors-online"));
+    	
+    	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue&date=last-30-days"));
+    	//JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date=last-30-days"));
+    	//JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-domains&date=last-30-days"));
+    	//JsonNode searchesNodeList = Json.parse(callClickAPI("&type=searches-engines&date=last-30-days"));
+    	//JsonNode newVisitorsList = Json.parse(callClickAPI("&type=visitors-new&date=last-30-days"));
+    	//JsonNode pageViewList = Json.parse(callClickAPI("&type=actions-pageviews&date=last-30-days"));
+    	//JsonNode visitorsuniqueList = Json.parse(callClickAPI("&type=visitors-unique&date=last-30-days"));
+    	List<PageVM> pagesList = new ArrayList<>();
+    	List<PageVM> referersList = new ArrayList<>();
+    	List<PageVM> searchesList = new ArrayList<>();
+    	
+    	
+    	Map map = new HashMap();
+    	map.put("allVisitor", allVisitor);
+    	map.put("onlineVisitor", onlineVisitor);
+    	map.put("months", months);
+    	//map.put("onlineVisitors", onlineVisitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("totalVisitors", visitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("actions", visitorsNode.get(1).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("averageActions", visitorsNode.get(2).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("totalTime", visitorsNode.get(3).get("dates").get(0).get("items").get(0).get("value"));
+    	map.put("averageTime", visitorsNode.get(4).get("dates").get(0).get("items").get(0).get("value"));
+    	map.put("bounceRate", visitorsNode.get(5).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("revenue", visitorsNode.get(7).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	map.put("pagesList", pagesList);
+    	map.put("referersList", referersList);
+    	map.put("searchesList", searchesList);
+    	map.put("actionsList", actionsList);
+    	map.put("averageActionsList", averageActionsList);
+    	//map.put("newVisitorsList", newVisitorsList.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	//map.put("pageViewList", pageViewList.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	//map.put("visitorsuniqueList", visitorsuniqueList.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
+    	return ok(Json.toJson(map));
     }
+    
     
     public static Result getVisitorStats() {
     	String params = "&type=visitors,visitors-new,bounce-rate&date=last-2-days&daily=1";
