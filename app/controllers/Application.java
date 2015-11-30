@@ -32,7 +32,6 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
-import javax.mail.internet.MimeMessage;
 import javax.imageio.ImageIO;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -43,6 +42,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
@@ -53,6 +53,7 @@ import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.FollowBrand;
 import models.GroupTable;
+import models.MyProfile;
 import models.NewsletterDate;
 import models.Permission;
 import models.PriceAlert;
@@ -71,18 +72,21 @@ import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleImage;
 import models.VirtualTour;
-import models.MyProfile;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -92,7 +96,6 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import scala.util.matching.Regex;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
@@ -121,8 +124,6 @@ import viewmodel.VirtualTourVM;
 import viewmodel.profileVM;
 import views.html.home;
 import views.html.index;
-import akka.util.Collections;
-import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Ebean;
@@ -146,11 +147,6 @@ import com.mnt.dataone.ResponseData;
 import com.mnt.dataone.Specification;
 import com.mnt.dataone.Specification_;
 import com.mnt.dataone.Value;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 public class Application extends Controller {
   
@@ -6856,6 +6852,54 @@ public class Application extends Controller {
     	String params = "&type=pages&date=last-30-days";
     	return ok(Json.parse(callClickAPI(params)));
     }
+    
+    public static Result getDemographics(String value){
+    	Map map = new HashMap(2);
+		Map<String, Integer> mapRM = new HashMap<String, Integer>();
+		Map<String, Integer> mapWebBro = new HashMap<String, Integer>();
+		
+    	String params = "&type=visitors-list&date=last-30-days";
+    	try {
+    		
+    		int lagCount = 1;
+			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+			for(int i=0;i<jsonArray.length();i++){
+    			String data = jsonArray.getJSONObject(i).get("landing_page").toString();
+    			String arr[] = data.split("/");
+    			if(arr.length > 5){
+    			  if(arr[5] != null){
+    				  if(arr[5].equals(value)){
+    					  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("language").toString()); 
+    						if (langValue == null) {
+    							mapRM.put(jsonArray.getJSONObject(i).get("language").toString(), lagCount);
+    						}else{
+    							mapRM.put(jsonArray.getJSONObject(i).get("language").toString(), mapRM.get(jsonArray.getJSONObject(i).get("language").toString()) + 1);
+    						}
+    						
+    						 Integer mapWebBroValue = mapWebBro.get(jsonArray.getJSONObject(i).get("web_browser").toString()); 
+     						if (mapWebBroValue == null) {
+     							mapWebBro.put(jsonArray.getJSONObject(i).get("web_browser").toString(), lagCount);
+     						}else{
+     							mapWebBro.put(jsonArray.getJSONObject(i).get("web_browser").toString(), mapWebBro.get(jsonArray.getJSONObject(i).get("web_browser").toString()) + 1);
+     						}
+    						
+    						
+    				  }
+    			  }
+    			}
+    			
+			}	
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    	map.put("language", mapRM);
+    	map.put("webBrowser", mapWebBro);
+    	
+    	return ok(Json.toJson(map));
+    }
+    
     //https://api.clicky.com/api/stats/4?output=json&site_id=100875513&sitekey=d6e7550038b4a34c&type=actions-list&action_type=download&date=last-30-days     info@glider-autos.com
     public static Result getStatusList(String value){
     	System.out.println("--------------- getStatusList ---------- "+value+" ---------");
@@ -7076,16 +7120,63 @@ public class Application extends Controller {
       }
     
     
-    public static Result getSessionDaysVisitorsStats() {
+    public static Result getSessionDaysVisitorsStats(String value) {
+    	
+    	/*Map map = new HashMap(2);
+		Map<String, Integer> mapRM = new HashMap<String, Integer>();
+		Map<String, Integer> mapWebBro = new HashMap<String, Integer>();
+		
+    	String params = "&type=visitors-list&date=last-30-days";
+    	try {
+    		
+    		int lagCount = 1;
+			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+			for(int i=0;i<jsonArray.length();i++){
+    			String data = jsonArray.getJSONObject(i).get("landing_page").toString();
+    			String arr[] = data.split("/");
+    			if(arr.length > 5){
+    			  if(arr[5] != null){
+    				  if(arr[5].equals(value)){
+    					  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("language").toString()); 
+    						if (langValue == null) {
+    							mapRM.put(jsonArray.getJSONObject(i).get("language").toString(), lagCount);
+    						}else{
+    							mapRM.put(jsonArray.getJSONObject(i).get("language").toString(), mapRM.get(jsonArray.getJSONObject(i).get("language").toString()) + 1);
+    						}
+    						
+    						 Integer mapWebBroValue = mapWebBro.get(jsonArray.getJSONObject(i).get("web_browser").toString()); 
+     						if (mapWebBroValue == null) {
+     							mapWebBro.put(jsonArray.getJSONObject(i).get("web_browser").toString(), lagCount);
+     						}else{
+     							mapWebBro.put(jsonArray.getJSONObject(i).get("web_browser").toString(), mapWebBro.get(jsonArray.getJSONObject(i).get("web_browser").toString()) + 1);
+     						}
+    						
+    						
+    				  }
+    			  }
+    			}
+    			
+			}	
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    	map.put("language", mapRM);
+    	map.put("webBrowser", mapWebBro);*/
+    	
+    	
+    	int visitorCount = 0;
     	Calendar c = Calendar.getInstance();
     	String[] monthsArr = new String[30]; 
     	c.add(Calendar.DAY_OF_YEAR, -29);
     	List<Integer> allVisitor = new ArrayList<Integer>(30);
-    	List<Integer> onlineVisitor = new ArrayList<Integer>(30);
-    	List<Integer> actionsList = new ArrayList<Integer>(30);
-    	List<Integer> averageActionsList = new ArrayList<Integer>(30);
+    	//List<Integer> onlineVisitor = new ArrayList<Integer>(30);
+    	//List<Integer> actionsList = new ArrayList<Integer>(30);
+    	//List<Integer> averageActionsList = new ArrayList<Integer>(30);
     	List<String> months = new ArrayList<String>(30);
     	for(int i=0;i<30;i++) {
+    		visitorCount = 0;
     		String year = c.get(Calendar.YEAR)+"-";
     		String days = c.get(Calendar.DATE)+"";
     		Integer addmonth = c.get(Calendar.MONTH);
@@ -7093,57 +7184,66 @@ public class Application extends Controller {
     		String month = String.valueOf(addOneMo)+"-";
     		String dates = year + month + days;
         	
-    		JsonNode node = Json.parse(callClickAPI("&date="+dates+"&type=visitors,visitors-new,actions,actions-average"));
+    		String params = "&date="+dates+"&type=visitors-list";
+    		try {
+				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+				for(int j=0;j<jsonArray.length();j++){
+	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+	    			String arr[] = data.split("/");
+	    			if(arr.length > 5){
+	    			  if(arr[5] != null){
+	    				  if(arr[5].equals(value)){
+	    					  visitorCount = visitorCount + 1;
+	    				  }
+	    			  }
+	    			}
+				}	
+				
+				
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    		allVisitor.add(visitorCount);
+    		/*JsonNode node = Json.parse(callClickAPI("&date="+dates+"&type=visitors,visitors-new,actions,actions-average"));
     		JsonNode allVisitorNode = node.get(0);
     		JsonNode onlineVisitorNode = node.get(1);
     		JsonNode actionsNode = node.get(2);
     		JsonNode averageActionsNode = node.get(3);
+    		
     		allVisitor.add(allVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
     		onlineVisitor.add(onlineVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
     		actionsList.add(actionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
-    		averageActionsList.add(averageActionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		averageActionsList.add(averageActionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());*/
     		months.add(month+days);
     		c.add(Calendar.DAY_OF_YEAR, 1);
     	}
-    	//Date date = new Date();
-      //  c.setTime(date);
-      //  String year = c.get(Calendar.YEAR)+"";
-    //	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
-    //	Integer dateOfMonth = c.get(Calendar.DAY_OF_MONTH);
-    //	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&date="+year+"-"+month+"-"+dateOfMonth+"&type=visitors-online"));
+    
     	
-    	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue&date=last-30-days"));
-    	//JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date=last-30-days"));
-    	//JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-domains&date=last-30-days"));
-    	//JsonNode searchesNodeList = Json.parse(callClickAPI("&type=searches-engines&date=last-30-days"));
-    	//JsonNode newVisitorsList = Json.parse(callClickAPI("&type=visitors-new&date=last-30-days"));
-    	//JsonNode pageViewList = Json.parse(callClickAPI("&type=actions-pageviews&date=last-30-days"));
-    	//JsonNode visitorsuniqueList = Json.parse(callClickAPI("&type=visitors-unique&date=last-30-days"));
-    	List<PageVM> pagesList = new ArrayList<>();
-    	List<PageVM> referersList = new ArrayList<>();
-    	List<PageVM> searchesList = new ArrayList<>();
+    //	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue&date=last-30-days"));
+    	//List<PageVM> pagesList = new ArrayList<>();
+    //	List<PageVM> referersList = new ArrayList<>();
+    //	List<PageVM> searchesList = new ArrayList<>();
     	
     	
     	Map map = new HashMap();
     	map.put("allVisitor", allVisitor);
-    	map.put("onlineVisitor", onlineVisitor);
+    	//map.put("onlineVisitor", onlineVisitor);
     	map.put("months", months);
-    	//map.put("onlineVisitors", onlineVisitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
-    	map.put("totalVisitors", visitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
-    	map.put("actions", visitorsNode.get(1).get("dates").get(0).get("items").get(0).get("value").asInt());
-    	map.put("averageActions", visitorsNode.get(2).get("dates").get(0).get("items").get(0).get("value").asInt());
-    	map.put("totalTime", visitorsNode.get(3).get("dates").get(0).get("items").get(0).get("value"));
-    	map.put("averageTime", visitorsNode.get(4).get("dates").get(0).get("items").get(0).get("value"));
-    	map.put("bounceRate", visitorsNode.get(5).get("dates").get(0).get("items").get(0).get("value").asInt());
-    	map.put("revenue", visitorsNode.get(7).get("dates").get(0).get("items").get(0).get("value").asInt());
-    	map.put("pagesList", pagesList);
-    	map.put("referersList", referersList);
-    	map.put("searchesList", searchesList);
-    	map.put("actionsList", actionsList);
-    	map.put("averageActionsList", averageActionsList);
-    	//map.put("newVisitorsList", newVisitorsList.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
-    	//map.put("pageViewList", pageViewList.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
-    	//map.put("visitorsuniqueList", visitorsuniqueList.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
+    //	map.put("totalVisitors", visitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
+    //	map.put("actions", visitorsNode.get(1).get("dates").get(0).get("items").get(0).get("value").asInt());
+    //	map.put("averageActions", visitorsNode.get(2).get("dates").get(0).get("items").get(0).get("value").asInt());
+    //	map.put("totalTime", visitorsNode.get(3).get("dates").get(0).get("items").get(0).get("value"));
+    //	map.put("averageTime", visitorsNode.get(4).get("dates").get(0).get("items").get(0).get("value"));
+    //	map.put("bounceRate", visitorsNode.get(5).get("dates").get(0).get("items").get(0).get("value").asInt());
+   // 	map.put("revenue", visitorsNode.get(7).get("dates").get(0).get("items").get(0).get("value").asInt());
+    //	map.put("pagesList", pagesList);
+    //	map.put("referersList", referersList);
+    //	map.put("searchesList", searchesList);
+    	//map.put("actionsList", actionsList);
+    	//map.put("averageActionsList", averageActionsList);
     	return ok(Json.toJson(map));
     }
     

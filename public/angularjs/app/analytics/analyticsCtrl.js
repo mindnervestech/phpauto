@@ -527,7 +527,7 @@ angular.module('newApp')
 console.log("....................");
 console.log($routeParams.vin);
 
-$http.get('/getSessionDaysVisitorsStats').success(function(response){
+$http.get('/getSessionDaysVisitorsStats/'+$routeParams.vin).success(function(response){
 	 console.log("-----------------------response-----------------------");	
 	console.log(response);	
 	var randomScalingFactor = [50,100];
@@ -594,6 +594,27 @@ $http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
 	    tooltipCornerRadius: 0
 	});
 });
+
+
+$scope.langshow = 0;
+$scope.webBroshow = 0;
+$http.get('/getDemographics/'+$routeParams.vin).success(function(data) {
+	$scope.langshow = 1;
+	console.log(data);
+	$scope.langmap = data.language;
+	$scope.webBrosmap = data.webBrowser;
+});
+
+
+$scope.showBrowerCount = function(){
+	$scope.langshow = 0;
+	$scope.webBroshow = 1;
+}
+
+$scope.showlanguageCount = function(){
+	$scope.langshow = 1;
+	$scope.webBroshow = 0;
+}
 
 	$scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
