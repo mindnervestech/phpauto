@@ -32,6 +32,65 @@
 					<canvas id="line-chart" class="full"></canvas>
 				</div>
 			</div>
+			<div class="col-xlg-12 col-lg-12">
+			<label></label>
+			</div>
+			<div class="col-xlg-12 col-lg-12">
+				<div class="row">
+					<div class="col-xlg-2 col-lg-2">
+					
+					  <div style="background-color: white;">
+					    <h3>
+									<strong>Users</strong>
+								</h3>
+					    <div style="font-size: 35px;">{{users}}</div>	
+						<canvas id="line-chart1" class="full"></canvas>
+					  </div>	
+					</div>
+					<div class="col-xlg-2 col-lg-2">	
+						<div style="background-color: white;">
+						<h3>
+									<strong>Pageview</strong>
+								</h3>
+					    <div style="font-size: 35px;">{{pageview}}</div>	
+						<canvas id="line-chart2" class="full"></canvas>
+					  </div>
+					</div>
+					<div class="col-xlg-2 col-lg-2">	
+						<div style="background-color: white;">
+						<h3>
+									<strong>Avg. Session Duration</strong>
+								</h3>
+					    <div style="font-size: 35px;">{{avgSessDur}}</div>	
+						<canvas id="line-chart3" class="full"></canvas>
+					  </div>
+					</div>
+					<div class="col-xlg-2 col-lg-2">
+							<div style="background-color: white;">
+						<h3>
+									<strong>engine sound</strong>
+								</h3>
+					    <div style="font-size: 35px;">{{enginesound}}</div>	
+						<canvas id="line-chart4" class="full"></canvas>
+					  </div>
+					</div>
+					<div class="col-xlg-2 col-lg-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									<i class="icon-graph"></i> <strong>Visitor</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;">
+								<canvas id="pie-chart visitorInfo"
+									style="margin-top: 10px; margin-left: -27px;"></canvas>
+							</div>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
 			<div class="col-lg-12">
 				<div class="col-lg-12">
 						<label></label>
@@ -94,6 +153,20 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-sm-2">
+						<div class="panel no-bd bd-3 panel-stat">
+							<div class="panel-header">
+								<h3>
+									 <strong>Followers</strong>
+								</h3>
+							</div>
+							<div class="panel-stat-chart" style="height: 178px;text-align: center;">
+							<h1 style="font-size: 107px;">{{followers}}</h1>
+								<!-- <canvas id="pie-chart trade"
+									style="margin-top: 10px; margin-left: -27px;"></canvas> -->
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="col-md-12">
@@ -107,22 +180,46 @@
                 </div>
                 <div class="panel-content widget-news">
                   <div class="withScroll" data-height="400">
-                    <a ng-click="showlanguageCount()" class="message-item media">
-                      <div class="media">
+                  <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showlanguageCount()">
+                      <div ng-click="selectedTab=1;"  ng-class="selectedTab==1 ? 'media active':'media'">
                         <div class="media-body">
                           
                           <div>
-                            <h4 class="c-dark">Language</h4>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">Language</h4>
                           </div>
                         </div>
                       </div>
                     </a>
-                    <a ng-click="showBrowerCount()" class="message-item media">
-                      <div class="media">
+                     <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showBrowerCount()">
+                      <div ng-click="selectedTab=2;"  ng-class="selectedTab==2 ? 'media active':'media'">
                         <div class="media-body">
                          
                           <div>
-                            <h4 class="c-dark">Browser</h4>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">Browser</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showLocationCount()">
+                      <div ng-click="selectedTab=3;"  ng-class="selectedTab==3 ? 'media active':'media'">
+                        <div class="media-body">
+                         
+                          <div>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">City, Country</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showOperatingCount()">
+                      <div ng-click="selectedTab=4;"  ng-class="selectedTab==4 ? 'media active':'media'">
+                        <div class="media-body">
+                         
+                          <div>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">Operating System</h4>
                           </div>
                         </div>
                       </div>
@@ -152,21 +249,68 @@
                           <td><span class="p-l-10 c-green">{{value}}</span></td>
                           
                         </tr>
-                        <!-- <tr>
-                          <td>online.com</td>
-                          <td><span class="c-primary">$19.99</span></td>
-                          <td>
-                            <div class="badge badge-success">approved</div>
-                          </td>
-                        </tr> -->
-                        
-                       
+                                             
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="col-md-8" ng-if="locationshow == 1">
+              <div class="panel">
+                <div class="panel-header panel-controls">
+                  <h3><i class="icon-star"></i> <strong>Country, City</strong></h3>
+                </div>
+                <div class="panel-content widget-table">
+                  <div class="withScroll" data-height="400">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>City, Country</th>
+                          <th>Sessions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key, value) in location">
+                          <td>{{key}}</td>
+                          <td><span class="p-l-10 c-green">{{value}}</span></td>
+                          
+                        </tr>
+                                             
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8" ng-if="operatingshow == 1">
+              <div class="panel">
+                <div class="panel-header panel-controls">
+                  <h3><i class="icon-star"></i> <strong>Operating System</strong></h3>
+                </div>
+                <div class="panel-content widget-table">
+                  <div class="withScroll" data-height="400">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Operating System</th>
+                          <th>Sessions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key, value) in operatingSystem">
+                          <td>{{key}}</td>
+                          <td><span class="p-l-10 c-green">{{value}}</span></td>
+                          
+                        </tr>
+                                             
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <div class="col-md-8" ng-if="webBroshow == 1">
               <div class="panel">
                 <div class="panel-header panel-controls">
@@ -225,6 +369,10 @@
 
 .nav.nav-tabs>li.active>a {
 	background-color: #F1F1F1;
+}
+
+.active{
+	background-color: #eaeaea !important;
 }
 
 

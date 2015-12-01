@@ -530,7 +530,8 @@ console.log($routeParams.vin);
 $http.get('/getSessionDaysVisitorsStats/'+$routeParams.vin).success(function(response){
 	 console.log("-----------------------response-----------------------");	
 	console.log(response);	
-	var randomScalingFactor = [50,100];
+		
+	var randomScalingFactor = [10,20,30,40,50,60,70,80];
 	var lineChartData = {
 	    labels: response.months,
 	    datasets: [
@@ -547,17 +548,108 @@ $http.get('/getSessionDaysVisitorsStats/'+$routeParams.vin).success(function(res
 	    ]
 	}
 	var ctx = document.getElementById("line-chart").getContext("2d");
-	window.myLine = new Chart(ctx).Line(lineChartData, {
+	window.myLine = new Chart(ctx).Line(lineChartData,{
 	    responsive: true,
-	    tooltipCornerRadius: 0
+	    scaleOverride: true,
+	    scaleSteps: 4,
+	    scaleStepWidth:2,
+	    tooltipCornerRadius: 0,
+	    tooltipTemplate: "<%= value %>",
+	    multiTooltipTemplate: "<%= value %>",
 	});
 
 });
 
+
+var lineChartData1 = {
+	    labels: [1,2,3,4,5,6,7],
+	    datasets: [
+	      {
+	          label: "My Second dataset",
+	          fillColor: "rgba(49, 157, 181,0.2)",
+	          strokeColor: "#319DB5",
+	          pointColor: "#319DB5",
+	          pointStrokeColor: "#fff",
+	          pointHighlightFill: "#fff",
+	          pointHighlightStroke: "#319DB5",
+	          data: [0,0,0,1,0,2,0]
+	      }
+	    ]
+	}
+	var ctx1 = document.getElementById("line-chart1").getContext("2d");
+	window.myLine = new Chart(ctx1).Line(lineChartData1, {
+	    responsive: true,
+	    scaleOverride: true,
+	    tooltipCornerRadius: 0,
+	    scaleSteps: 4,
+	    scaleStepWidth:2,
+	    showScale: false,
+	    pointDot: false,
+	    tooltipTemplate: "",
+	    multiTooltipTemplate: "",
+	});
+	
+	var ctx2 = document.getElementById("line-chart2").getContext("2d");
+	window.myLine = new Chart(ctx2).Line(lineChartData1, {
+	    responsive: true,
+	    scaleOverride: true,
+	    tooltipCornerRadius: 0,
+	    scaleSteps: 4,
+	    scaleStepWidth:2,
+	    showScale: false,
+	    pointDot: false,
+	    tooltipTemplate: "",
+	    multiTooltipTemplate: "",
+	});
+	
+	var ctx2 = document.getElementById("line-chart3").getContext("2d");
+	window.myLine = new Chart(ctx2).Line(lineChartData1, {
+	    responsive: true,
+	    scaleOverride: true,
+	    tooltipCornerRadius: 0,
+	    scaleSteps: 4,
+	    scaleStepWidth:2,
+	    showScale: false,
+	    pointDot: false,
+	    tooltipTemplate: "",
+	    multiTooltipTemplate: "",
+	});
+	
+	var ctx2 = document.getElementById("line-chart4").getContext("2d");
+	window.myLine = new Chart(ctx2).Line(lineChartData1, {
+	    responsive: true,
+	    scaleOverride: true,
+	    tooltipCornerRadius: 0,
+	    scaleSteps: 4,
+	    scaleStepWidth:2,
+	    showScale: false,
+	    pointDot: false,
+	    tooltipTemplate: "",
+	    multiTooltipTemplate: "",
+	});
+	
+
+
 $http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
 	console.log("data");
 	console.log(data);
-
+	
+	$scope.followers = data.followers;
+	$scope.pageview = data.pageview;
+	$scope.avgSessDur = data.avgSessDur;
+	$scope.users = data.users;
+	$scope.enginesound = data.enginesound;
+	
+	
+	var pieData = [
+	               { value: data.newUser, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "New Visitor" },
+	               { value: data.users, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Returning Visitor" }
+	           ];
+	var ctx = document.getElementById("pie-chart visitorInfo").getContext("2d");
+	window.myPie = new Chart(ctx).Pie(pieData, {
+	    tooltipCornerRadius: 0
+	});
+	
 	var pieData = [
 	               { value: data.requestmoreinfo, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "Submited" },
 	               { value: data.requestmoreinfoshow, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Clicked" }
@@ -599,21 +691,42 @@ $http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
 $scope.langshow = 0;
 $scope.webBroshow = 0;
 $http.get('/getDemographics/'+$routeParams.vin).success(function(data) {
+	$scope.selectedTab = 1;
 	$scope.langshow = 1;
 	console.log(data);
 	$scope.langmap = data.language;
 	$scope.webBrosmap = data.webBrowser;
+	$scope.operatingSystem = data.operatingSystem;
+	$scope.location = data.location;
 });
 
 
 $scope.showBrowerCount = function(){
 	$scope.langshow = 0;
 	$scope.webBroshow = 1;
+	$scope.operatingshow = 0;
+	$scope.locationshow = 0;
 }
 
 $scope.showlanguageCount = function(){
 	$scope.langshow = 1;
 	$scope.webBroshow = 0;
+	$scope.operatingshow = 0;
+	$scope.locationshow = 0;
+}
+
+$scope.showLocationCount = function(){
+	$scope.locationshow = 1;
+	$scope.langshow = 0;
+	$scope.webBroshow = 0;
+	$scope.operatingshow = 0;
+}
+
+$scope.showOperatingCount = function(){
+	$scope.operatingshow = 1;
+	$scope.langshow = 0;
+	$scope.webBroshow = 0;
+	$scope.locationshow = 0;
 }
 
 	$scope.goToVisitors = function() {

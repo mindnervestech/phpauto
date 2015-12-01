@@ -6857,6 +6857,9 @@ public class Application extends Controller {
     	Map map = new HashMap(2);
 		Map<String, Integer> mapRM = new HashMap<String, Integer>();
 		Map<String, Integer> mapWebBro = new HashMap<String, Integer>();
+		Map<String, Integer> maplocation = new HashMap<String, Integer>();
+		Map<String, Integer> mapoperatingSystem = new HashMap<String, Integer>();
+		
 		
     	String params = "&type=visitors-list&date=last-30-days";
     	try {
@@ -6882,8 +6885,22 @@ public class Application extends Controller {
      						}else{
      							mapWebBro.put(jsonArray.getJSONObject(i).get("web_browser").toString(), mapWebBro.get(jsonArray.getJSONObject(i).get("web_browser").toString()) + 1);
      						}
+     						
+     						Integer maplocationValue = maplocation.get(jsonArray.getJSONObject(i).get("geolocation").toString()); 
+     						if (maplocationValue == null) {
+     							maplocation.put(jsonArray.getJSONObject(i).get("geolocation").toString(), lagCount);
+     						}else{
+     							maplocation.put(jsonArray.getJSONObject(i).get("geolocation").toString(), maplocation.get(jsonArray.getJSONObject(i).get("geolocation").toString()) + 1);
+     						}
+     						
+     						Integer mapoperatingSystemValue = mapoperatingSystem.get(jsonArray.getJSONObject(i).get("operating_system").toString()); 
+     						if (mapoperatingSystemValue == null) {
+     							mapoperatingSystem.put(jsonArray.getJSONObject(i).get("operating_system").toString(), lagCount);
+     						}else{
+     							mapoperatingSystem.put(jsonArray.getJSONObject(i).get("operating_system").toString(), mapoperatingSystem.get(jsonArray.getJSONObject(i).get("operating_system").toString()) + 1);
+     						}
     						
-    						
+     						
     				  }
     			  }
     			}
@@ -6895,13 +6912,17 @@ public class Application extends Controller {
 		}
 
     	map.put("language", mapRM);
+    	map.put("location", maplocation);
     	map.put("webBrowser", mapWebBro);
+    	map.put("operatingSystem", mapoperatingSystem);
     	
     	return ok(Json.toJson(map));
     }
     
     //https://api.clicky.com/api/stats/4?output=json&site_id=100875513&sitekey=d6e7550038b4a34c&type=actions-list&action_type=download&date=last-30-days     info@glider-autos.com
     public static Result getStatusList(String value){
+    	
+    	
     	System.out.println("--------------- getStatusList ---------- "+value+" ---------");
     	String params = "&type=actions-list&date=last-30-days";
     	
@@ -6913,6 +6934,7 @@ public class Application extends Controller {
 		
 		int countSubtrade = 0;
 		int countShowtrade = 0;
+		int countenginesound = 0;
 		
     	int countSubemailtofriend = 0;
 		int countShowemailtofriend = 0;
@@ -6983,12 +7005,79 @@ public class Application extends Controller {
         				if(dataArr[2].equals("tradeinappshow")&&dataArr[1].equals(value)){
         					countShowtrade++;
         				}
+        				if(dataArr[2].equals("enginesound")&&dataArr[1].equals(value)){
+        					countenginesound++;
+        				}
         			}
     			}
     		}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+    	
+    	List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(value);
+    	int followerCount = pAlert.size();
+    	Map<String, Integer> mapRM = new HashMap<String, Integer>();
+    	Map<String, Integer> mapIPAdd = new HashMap<String, Integer>();
+    	
+    	String params1 = "&type=visitors-list&date=last-30-days";
+    		int totalTime = 0;
+    		int lagCount = 0;
+    		int newuserCount = 0;
+    		int avgDur = 0;
+			JSONArray jsonArray;
+			try {
+				jsonArray = new JSONArray(callClickAPI(params1)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+				for(int i=0;i<jsonArray.length();i++){
+	    			String data = jsonArray.getJSONObject(i).get("landing_page").toString();
+	    			String arr[] = data.split("/");
+	    			if(arr.length > 5){
+	    			  if(arr[5] != null){
+	    				  if(arr[5].equals(value)){
+	    					  lagCount++;
+	    					  
+	    				totalTime = totalTime + Integer.parseInt(jsonArray.getJSONObject(i).get("time_total").toString());
+	    				  
+	    				  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString()); 
+  						 if (langValue == null) {
+  						 	mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
+  						 }else{
+  							mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(),  1);
+  						 }
+  						 
+  						Integer ipAddessValue = mapIPAdd.get(jsonArray.getJSONObject(i).get("ip_address").toString()); 
+ 						 if (ipAddessValue == null) {
+ 							mapIPAdd.put(jsonArray.getJSONObject(i).get("ip_address").toString(),Integer.parseInt(jsonArray.getJSONObject(i).get("total_visits").toString()));
+ 						 }else{
+ 							mapIPAdd.put(jsonArray.getJSONObject(i).get("ip_address").toString(), Integer.parseInt(jsonArray.getJSONObject(i).get("total_visits").toString()));
+ 						 }
+  						 
+	    				}
+	    			  }
+	    			}
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			for (Map.Entry<String, Integer> entry : mapIPAdd.entrySet())
+			{
+				if(entry.getValue() == 1){
+					newuserCount++;
+				}
+			}	
+    			
+			
+    	
+			avgDur = totalTime/lagCount;	
+			
+		map.put("newUser", newuserCount);
+    	map.put("users", mapRM.size());
+    	map.put("avgSessDur", avgDur);
+		map.put("pageview", lagCount);
+    	map.put("followers", followerCount);
+    	map.put("enginesound", countenginesound);
     	map.put("requestmoreinfo", countSubrequestmoreinfo);
     	map.put("requestmoreinfoshow", countShowrequestmoreinfoshow);
     	map.put("requestmoreinfoTotal", (countSubrequestmoreinfo+countShowrequestmoreinfoshow));
