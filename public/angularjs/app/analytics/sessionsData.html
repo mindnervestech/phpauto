@@ -27,11 +27,27 @@
 	<div id="myTabContent" class="tab-content">
 		<div role="tabpanel" class="tab-pane fade active in" id="home"
 			aria-labelledby="home-tab">
-			<div class="col-xlg-12 col-lg-12">
+			<div style="text-align: right;">
+				<!-- <input type="button" value="Hourly"> -->
+				<input type="button" ng-click="dayFunction()" value="Day">
+				<input type="button" ng-click="weekFunction()" value="Week">
+				<input type="button" ng-click="monthFunction()" value="Month">
+			</div>
+			<div class="col-xlg-12 col-lg-12" ng-if="lineChartmonth == 1">
 				<div class="row">
 					<canvas id="line-chart" class="full"></canvas>
 				</div>
 			</div>
+			<div class="col-xlg-12 col-lg-12" ng-if="lineChartweek == 1">
+				<div class="row">
+					<canvas id="line-chartweek" class="full"></canvas>
+				</div>
+			</div>
+			 <div class="col-xlg-12 col-lg-12" ng-if="lineChartday == 1">
+				<div class="row">
+					<canvas id="line-chartday" class="full"></canvas>
+				</div>
+			</div> 
 			<div class="col-xlg-12 col-lg-12">
 			<label></label>
 			</div>
@@ -74,7 +90,7 @@
 						<canvas id="line-chart4" class="full"></canvas>
 					  </div>
 					</div>
-					<div class="col-xlg-2 col-lg-2">
+					<div class="col-xlg-2 col-lg-2" style="margin-top: 26px;">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
 								<h3>

@@ -526,40 +526,75 @@ angular.module('newApp')
 .controller('SessionsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 console.log("....................");
 console.log($routeParams.vin);
+$scope.lineChartweek = 0;
+$scope.lineChartmonth = 0;
+$scope.lineChartday = 0;
 
-$http.get('/getSessionDaysVisitorsStats/'+$routeParams.vin).success(function(response){
-	 console.log("-----------------------response-----------------------");	
-	console.log(response);	
+$scope.lineChartMap = function(lasttime){
+	console.log(lasttime);
+	$http.get('/getSessionDaysVisitorsStats/'+$routeParams.vin+'/'+lasttime).success(function(response){
+		 console.log("-----------------------response-----------------------");	
+		console.log(response);	
+			
+		var randomScalingFactor = [10,20,30,40,50,60,70,80];
+		var lineChartData = {
+		    labels: response.months,
+		    datasets: [
+		      {
+		          label: "My Second dataset",
+		          fillColor: "rgba(49, 157, 181,0.2)",
+		          strokeColor: "#319DB5",
+		          pointColor: "#319DB5",
+		          pointStrokeColor: "#fff",
+		          pointHighlightFill: "#fff",
+		          pointHighlightStroke: "#319DB5",
+		          data: response.allVisitor
+		      }
+		    ]
+		}
+		if($scope.lineChartmonth == 1){
+			var ctx = document.getElementById("line-chart").getContext("2d");
+		}
+		if($scope.lineChartweek == 1){
+			var ctx = document.getElementById("line-chartweek").getContext("2d");
+		}
+		if($scope.lineChartday == 1){
+			var ctx = document.getElementById("line-chartday").getContext("2d");
+		}
 		
-	var randomScalingFactor = [10,20,30,40,50,60,70,80];
-	var lineChartData = {
-	    labels: response.months,
-	    datasets: [
-	      {
-	          label: "My Second dataset",
-	          fillColor: "rgba(49, 157, 181,0.2)",
-	          strokeColor: "#319DB5",
-	          pointColor: "#319DB5",
-	          pointStrokeColor: "#fff",
-	          pointHighlightFill: "#fff",
-	          pointHighlightStroke: "#319DB5",
-	          data: response.allVisitor
-	      }
-	    ]
-	}
-	var ctx = document.getElementById("line-chart").getContext("2d");
-	window.myLine = new Chart(ctx).Line(lineChartData,{
-	    responsive: true,
-	    scaleOverride: true,
-	    scaleSteps: 4,
-	    scaleStepWidth:2,
-	    tooltipCornerRadius: 0,
-	    tooltipTemplate: "<%= value %>",
-	    multiTooltipTemplate: "<%= value %>",
+		window.myLine = new Chart(ctx).Line(lineChartData,{
+		    responsive: true,
+		    scaleOverride: true,
+		    scaleSteps: 4,
+		    scaleStepWidth:2,
+		    tooltipCornerRadius: 0,
+		    tooltipTemplate: "<%= value %>",
+		    multiTooltipTemplate: "<%= value %>",
+		});
+
 	});
+}
 
-});
+$scope.weekFunction = function(){
+	$scope.lineChartMap("week");
+	$scope.lineChartweek = 1;
+	$scope.lineChartmonth = 0;
+	$scope.lineChartday = 0;
+}
 
+$scope.monthFunction = function(){
+	$scope.lineChartMap("month");
+	$scope.lineChartweek = 0;
+	$scope.lineChartmonth = 1;
+	$scope.lineChartday = 0;
+}
+
+$scope.dayFunction = function(){
+	$scope.lineChartMap("day");
+	$scope.lineChartday = 1;
+	$scope.lineChartweek = 0;
+	$scope.lineChartmonth = 0;
+}
 
 var lineChartData1 = {
 	    labels: [1,2,3,4,5,6,7],
@@ -631,9 +666,10 @@ var lineChartData1 = {
 
 
 $http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
+	$scope.lineChartMap("month");
+	$scope.lineChartmonth = 1;
 	console.log("data");
 	console.log(data);
-	
 	$scope.followers = data.followers;
 	$scope.pageview = data.pageview;
 	$scope.avgSessDur = data.avgSessDur;

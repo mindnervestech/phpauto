@@ -7221,130 +7221,179 @@ public class Application extends Controller {
       }
     
     
-    public static Result getSessionDaysVisitorsStats(String value) {
+    public static Result getSessionDaysVisitorsStats(String value,String lasttime) {
     	
-    	/*Map map = new HashMap(2);
-		Map<String, Integer> mapRM = new HashMap<String, Integer>();
-		Map<String, Integer> mapWebBro = new HashMap<String, Integer>();
-		
-    	String params = "&type=visitors-list&date=last-30-days";
-    	try {
-    		
-    		int lagCount = 1;
-			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-			for(int i=0;i<jsonArray.length();i++){
-    			String data = jsonArray.getJSONObject(i).get("landing_page").toString();
-    			String arr[] = data.split("/");
-    			if(arr.length > 5){
-    			  if(arr[5] != null){
-    				  if(arr[5].equals(value)){
-    					  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("language").toString()); 
-    						if (langValue == null) {
-    							mapRM.put(jsonArray.getJSONObject(i).get("language").toString(), lagCount);
-    						}else{
-    							mapRM.put(jsonArray.getJSONObject(i).get("language").toString(), mapRM.get(jsonArray.getJSONObject(i).get("language").toString()) + 1);
-    						}
-    						
-    						 Integer mapWebBroValue = mapWebBro.get(jsonArray.getJSONObject(i).get("web_browser").toString()); 
-     						if (mapWebBroValue == null) {
-     							mapWebBro.put(jsonArray.getJSONObject(i).get("web_browser").toString(), lagCount);
-     						}else{
-     							mapWebBro.put(jsonArray.getJSONObject(i).get("web_browser").toString(), mapWebBro.get(jsonArray.getJSONObject(i).get("web_browser").toString()) + 1);
-     						}
-    						
-    						
-    				  }
-    			  }
-    			}
-    			
-			}	
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-    	map.put("language", mapRM);
-    	map.put("webBrowser", mapWebBro);*/
-    	
-    	
+    	List<Integer> allVisitor = new ArrayList<Integer>(30);
+    	List<String> months = new ArrayList<String>(30);
     	int visitorCount = 0;
     	Calendar c = Calendar.getInstance();
-    	String[] monthsArr = new String[30]; 
-    	c.add(Calendar.DAY_OF_YEAR, -29);
-    	List<Integer> allVisitor = new ArrayList<Integer>(30);
-    	//List<Integer> onlineVisitor = new ArrayList<Integer>(30);
-    	//List<Integer> actionsList = new ArrayList<Integer>(30);
-    	//List<Integer> averageActionsList = new ArrayList<Integer>(30);
-    	List<String> months = new ArrayList<String>(30);
-    	for(int i=0;i<30;i++) {
-    		visitorCount = 0;
-    		String year = c.get(Calendar.YEAR)+"-";
-    		String days = c.get(Calendar.DATE)+"";
-    		Integer addmonth = c.get(Calendar.MONTH);
-    		Integer addOneMo = addmonth + 1;
-    		String month = String.valueOf(addOneMo)+"-";
-    		String dates = year + month + days;
+    	
+    	if(lasttime.equals("month")){
+    		
+        	String[] monthsArr = new String[30]; 
+        	c.add(Calendar.DAY_OF_YEAR, -29);
         	
-    		String params = "&date="+dates+"&type=visitors-list";
-    		try {
-				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-				for(int j=0;j<jsonArray.length();j++){
-	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
-	    			String arr[] = data.split("/");
-	    			if(arr.length > 5){
-	    			  if(arr[5] != null){
-	    				  if(arr[5].equals(value)){
-	    					  visitorCount = visitorCount + 1;
-	    				  }
-	    			  }
-	    			}
-				}	
-				
-				
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        	for(int i=0;i<30;i++) {
+        		visitorCount = 0;
+        		String year = c.get(Calendar.YEAR)+"-";
+        		String days = c.get(Calendar.DATE)+"";
+        		Integer addmonth = c.get(Calendar.MONTH);
+        		Integer addOneMo = addmonth + 1;
+        		String month = String.valueOf(addOneMo)+"-";
+        		String dates = year + month + days;
+            	
+        		String params = "&date="+dates+"&type=visitors-list";
+        		try {
+    				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				  if(arr[5].equals(value)){
+    	    					  visitorCount = visitorCount + 1;
+    	    				  }
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        		
+        		allVisitor.add(visitorCount);
+        		
+        		months.add(month+days);
+        		c.add(Calendar.DAY_OF_YEAR, 1);
+        	}
+        	
+    	}else if(lasttime.equals("week")){
     		
-    		allVisitor.add(visitorCount);
-    		/*JsonNode node = Json.parse(callClickAPI("&date="+dates+"&type=visitors,visitors-new,actions,actions-average"));
-    		JsonNode allVisitorNode = node.get(0);
-    		JsonNode onlineVisitorNode = node.get(1);
-    		JsonNode actionsNode = node.get(2);
-    		JsonNode averageActionsNode = node.get(3);
     		
-    		allVisitor.add(allVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
-    		onlineVisitor.add(onlineVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
-    		actionsList.add(actionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
-    		averageActionsList.add(averageActionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());*/
-    		months.add(month+days);
-    		c.add(Calendar.DAY_OF_YEAR, 1);
+        	String[] monthsArr = new String[7]; 
+        	c.add(Calendar.DAY_OF_YEAR, -6);
+        	
+        	for(int i=0;i<7;i++) {
+        		visitorCount = 0;
+        		String year = c.get(Calendar.YEAR)+"-";
+        		String days = c.get(Calendar.DATE)+"";
+        		Integer addmonth = c.get(Calendar.MONTH);
+        		Integer addOneMo = addmonth + 1;
+        		String month = String.valueOf(addOneMo)+"-";
+        		String dates = year + month + days;
+            	
+        		String params = "&date="+dates+"&type=visitors-list";
+        		try {
+    				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				  if(arr[5].equals(value)){
+    	    					  visitorCount = visitorCount + 1;
+    	    				  }
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        		
+        		allVisitor.add(visitorCount);
+        		
+        		months.add(month+days);
+        		c.add(Calendar.DAY_OF_YEAR, 1);
+        	}
+        	
+    	}else if(lasttime.equals("day")){
+    		
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		Date date = new Date();
+    		List<String> monthsArr = new ArrayList<>();
+    		
+    		int chagehr = 0;
+    		//String dates = dateFormat.format(date);
+    		String dates = "2015-12-01";
+        	for(int i=0;i<24;i++) {
+        		
+        		if(i == 0){
+        			chagehr = 12;
+        		}else{
+        			chagehr++;
+        		}
+        		
+        		
+        		visitorCount = 0;
+        		String params = "&date="+dates+"&type=visitors-list";
+        		try {
+        			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				  if(arr[5].equals(value)){
+    	    					  SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
+    	    					  String timevisit = jsonArray.getJSONObject(j).get("time_pretty").toString();
+    	    					  String[] timeset = timevisit.split(",");
+    	    					  System.out.println("==========time================");
+									System.out.println(timeset[1]);
+									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+									if(timeDiv[1].equals(String.valueOf(chagehr))){
+										if(timeDiv[4].equals("am") && i < 12){
+											visitorCount = visitorCount + 1;
+										}else if(timeDiv[4].equals("pm") && i >= 12){
+											visitorCount = visitorCount + 1;
+										}
+									}
+    	    				  }
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        		
+        		allVisitor.add(visitorCount);
+        		String valueTime = null;
+        		if(i == 0){
+        			valueTime = "12am";
+        		}
+        		if(i >= 12){
+        			if(i == 12){
+        				valueTime = "12pm";
+        			}else{
+        				int chang = i - 12;
+        				valueTime = chang+"pm";
+        			}
+        			
+        		}else{
+        			if(i != 0){
+        				valueTime = i+"am";
+        			}
+        		}
+        		months.add(valueTime);
+        		
+        		if(i == 0){
+        			chagehr = 0;
+        		}else{
+        			if(chagehr == 12){
+        				chagehr = 0;
+        			}
+        		}
+        	}
+        	
     	}
     
-    	
-    //	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue&date=last-30-days"));
-    	//List<PageVM> pagesList = new ArrayList<>();
-    //	List<PageVM> referersList = new ArrayList<>();
-    //	List<PageVM> searchesList = new ArrayList<>();
-    	
-    	
     	Map map = new HashMap();
     	map.put("allVisitor", allVisitor);
-    	//map.put("onlineVisitor", onlineVisitor);
     	map.put("months", months);
-    //	map.put("totalVisitors", visitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt());
-    //	map.put("actions", visitorsNode.get(1).get("dates").get(0).get("items").get(0).get("value").asInt());
-    //	map.put("averageActions", visitorsNode.get(2).get("dates").get(0).get("items").get(0).get("value").asInt());
-    //	map.put("totalTime", visitorsNode.get(3).get("dates").get(0).get("items").get(0).get("value"));
-    //	map.put("averageTime", visitorsNode.get(4).get("dates").get(0).get("items").get(0).get("value"));
-    //	map.put("bounceRate", visitorsNode.get(5).get("dates").get(0).get("items").get(0).get("value").asInt());
-   // 	map.put("revenue", visitorsNode.get(7).get("dates").get(0).get("items").get(0).get("value").asInt());
-    //	map.put("pagesList", pagesList);
-    //	map.put("referersList", referersList);
-    //	map.put("searchesList", searchesList);
-    	//map.put("actionsList", actionsList);
-    	//map.put("averageActionsList", averageActionsList);
     	return ok(Json.toJson(map));
     }
     
