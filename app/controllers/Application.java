@@ -6859,6 +6859,9 @@ public class Application extends Controller {
 		Map<String, Integer> mapWebBro = new HashMap<String, Integer>();
 		Map<String, Integer> maplocation = new HashMap<String, Integer>();
 		Map<String, Integer> mapoperatingSystem = new HashMap<String, Integer>();
+		Map<String, Integer> mapSreenResoluation = new HashMap<String, Integer>();
+		
+		
 		
 		
     	String params = "&type=visitors-list&date=last-30-days";
@@ -6899,6 +6902,13 @@ public class Application extends Controller {
      						}else{
      							mapoperatingSystem.put(jsonArray.getJSONObject(i).get("operating_system").toString(), mapoperatingSystem.get(jsonArray.getJSONObject(i).get("operating_system").toString()) + 1);
      						}
+     						
+     						Integer mapSreenResoluationValue = mapSreenResoluation.get(jsonArray.getJSONObject(i).get("screen_resolution").toString()); 
+     						if (mapSreenResoluationValue == null) {
+     							mapSreenResoluation.put(jsonArray.getJSONObject(i).get("screen_resolution").toString(), lagCount);
+     						}else{
+     							mapSreenResoluation.put(jsonArray.getJSONObject(i).get("screen_resolution").toString(), mapSreenResoluation.get(jsonArray.getJSONObject(i).get("screen_resolution").toString()) + 1);
+     						}
     						
      						
     				  }
@@ -6915,6 +6925,8 @@ public class Application extends Controller {
     	map.put("location", maplocation);
     	map.put("webBrowser", mapWebBro);
     	map.put("operatingSystem", mapoperatingSystem);
+    	map.put("screenResoluation", mapSreenResoluation);
+    	
     	
     	return ok(Json.toJson(map));
     }

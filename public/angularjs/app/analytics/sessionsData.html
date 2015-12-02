@@ -191,17 +191,6 @@
                         </div>
                       </div>
                     </a>
-                     <hr style="margin-top: 0px;margin-bottom: 0px;">
-                    <a ng-click="showBrowerCount()">
-                      <div ng-click="selectedTab=2;"  ng-class="selectedTab==2 ? 'media active':'media'">
-                        <div class="media-body">
-                         
-                          <div>
-                            <h4 style="color: deepskyblue;margin-left: 11px;">Browser</h4>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
                     <hr style="margin-top: 0px;margin-bottom: 0px;">
                     <a ng-click="showLocationCount()">
                       <div ng-click="selectedTab=3;"  ng-class="selectedTab==3 ? 'media active':'media'">
@@ -214,12 +203,38 @@
                       </div>
                     </a>
                     <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <div class="panel-header">
+                  			<h3><i class="icon-list"></i> <strong>System</strong></h3>
+	                </div>
+	                 <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showBrowerCount()">
+                      <div ng-click="selectedTab=2;"  ng-class="selectedTab==2 ? 'media active':'media'">
+                        <div class="media-body">
+                         
+                          <div>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">Browser</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                    <hr style="margin-top: 0px;margin-bottom: 0px;">
                     <a ng-click="showOperatingCount()">
                       <div ng-click="selectedTab=4;"  ng-class="selectedTab==4 ? 'media active':'media'">
                         <div class="media-body">
                          
                           <div>
                             <h4 style="color: deepskyblue;margin-left: 11px;">Operating System</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                     <hr style="margin-top: 0px;margin-bottom: 0px;">
+                    <a ng-click="showscreenResoluationCount()">
+                      <div ng-click="selectedTab=5;"  ng-class="selectedTab==5 ? 'media active':'media'">
+                        <div class="media-body">
+                         
+                          <div>
+                            <h4 style="color: deepskyblue;margin-left: 11px;">Screen Resoluation</h4>
                           </div>
                         </div>
                       </div>
@@ -331,14 +346,34 @@
                           <td><span class="p-l-10 c-green">{{value}}</span></td>
                          
                         </tr>
-                        <!-- <tr>
-                          <td>online.com</td>
-                          <td><span class="c-primary">$19.99</span></td>
-                          <td>
-                            <div class="badge badge-success">approved</div>
-                          </td>
-                        </tr> -->
-                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+             <div class="col-md-8" ng-if="screenResoluation == 1">
+              <div class="panel">
+                <div class="panel-header panel-controls">
+                  <h3><i class="icon-star"></i> <strong>Screen Resoluation</strong></h3>
+                </div>
+                <div class="panel-content widget-table">
+                  <div class="withScroll" data-height="400">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Screen Resoluation</th>
+                          <th>Sessions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(key, value) in screenResoluations">
+                          <td>{{key}}</td>
+                          <td><span class="p-l-10 c-green">{{value}}</span></td>
+                         
+                        </tr>
+                                              
                        
                       </tbody>
                     </table>

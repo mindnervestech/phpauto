@@ -698,6 +698,8 @@ $http.get('/getDemographics/'+$routeParams.vin).success(function(data) {
 	$scope.webBrosmap = data.webBrowser;
 	$scope.operatingSystem = data.operatingSystem;
 	$scope.location = data.location;
+	$scope.screenResoluations = data.screenResoluation;
+	console.log($scope.screenResoluation);
 });
 
 
@@ -706,6 +708,7 @@ $scope.showBrowerCount = function(){
 	$scope.webBroshow = 1;
 	$scope.operatingshow = 0;
 	$scope.locationshow = 0;
+	$scope.screenResoluation = 0;
 }
 
 $scope.showlanguageCount = function(){
@@ -713,6 +716,7 @@ $scope.showlanguageCount = function(){
 	$scope.webBroshow = 0;
 	$scope.operatingshow = 0;
 	$scope.locationshow = 0;
+	$scope.screenResoluation = 0;
 }
 
 $scope.showLocationCount = function(){
@@ -720,6 +724,7 @@ $scope.showLocationCount = function(){
 	$scope.langshow = 0;
 	$scope.webBroshow = 0;
 	$scope.operatingshow = 0;
+	$scope.screenResoluation = 0;
 }
 
 $scope.showOperatingCount = function(){
@@ -727,6 +732,15 @@ $scope.showOperatingCount = function(){
 	$scope.langshow = 0;
 	$scope.webBroshow = 0;
 	$scope.locationshow = 0;
+	$scope.screenResoluation = 0;
+}
+
+$scope.showscreenResoluationCount = function(){
+	$scope.operatingshow = 0;
+	$scope.langshow = 0;
+	$scope.webBroshow = 0;
+	$scope.locationshow = 0;
+	$scope.screenResoluation = 1;
 }
 
 	$scope.goToVisitors = function() {
