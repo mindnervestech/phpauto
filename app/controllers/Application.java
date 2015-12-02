@@ -7081,9 +7081,9 @@ public class Application extends Controller {
 			}	
     			
 			
-    	
+    	if(lagCount != 0){
 			avgDur = totalTime/lagCount;	
-			
+    	}
 		map.put("newUser", newuserCount);
     	map.put("users", mapRM.size());
     	map.put("avgSessDur", avgDur);
