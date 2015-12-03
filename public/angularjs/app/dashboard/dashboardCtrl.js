@@ -1980,7 +1980,7 @@ angular.module('newApp')
     		                                 { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'9%',cellEditableCondition: false,
     		                                 },
     		                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)"  title="sessions"></i>', 
+        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)"  title="sessions"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-map-marker" ng-click="grid.appScope.showAllVehicalSessionData(row)"  title="sessions"></i>', 
     		                                 
     		                                 },
         		                                
@@ -2061,6 +2061,10 @@ angular.module('newApp')
    
    $scope.showSessionData = function(row){
 	   $location.path('/sessionsAnalytics/'+row.entity.vin);
+   }
+   
+   $scope.showAllVehicalSessionData = function(row){
+	   $location.path('/allVehicleSessions');
    }
    
    $scope.deleteVehicleRow = function() {

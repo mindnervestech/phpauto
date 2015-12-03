@@ -103,9 +103,18 @@ var MakeApp = angular
             templateUrl: '/dealer/analytics/refferers.html',
             controller: 'RefferersCtrl'
         })
+        .when('/heatMapInfoAnalytics', {
+            templateUrl: '/dealer/analytics/heatMapInfo.html',
+            controller: 'heatMapInfoCtrl'
+        })
         .when('/sessionsAnalytics/:vin', {
             templateUrl: '/dealer/analytics/sessionsData.html',
             controller: 'SessionsCtrl'
+        })
+        
+        .when('/allVehicleSessions', {
+            templateUrl: '/dealer/analytics/allVehicleSessionsData.html',
+            controller: 'allVehicleSessionsDataCtrl'
         })
         .when('/contentAnalytics', {
             templateUrl: '/dealer/analytics/content.html',

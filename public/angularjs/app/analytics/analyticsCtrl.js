@@ -121,6 +121,10 @@ angular.module('newApp')
 		$location.path('/sessionsAnalytics');
 	}
 	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
+	}
+	
 }]);
 
 
@@ -237,6 +241,10 @@ angular.module('newApp')
 		$location.path('/sessionsAnalytics');
 	}
 	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
+	}
+	
 }]);
 
 angular.module('newApp')
@@ -264,6 +272,10 @@ angular.module('newApp')
 	
 	$scope.goToSessionsData = function() {
 		$location.path('/sessionsAnalytics');
+	}
+	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
 	}
 	
 }]);
@@ -361,6 +373,10 @@ angular.module('newApp')
 	}
 	$scope.goToSessionsData = function() {
 		$location.path('/sessionsAnalytics');
+	}
+	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
 	}
 	
 }]);
@@ -481,6 +497,10 @@ angular.module('newApp')
 		$location.path('/sessionsAnalytics');
 	}
 	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
+	}
+	
 }]);
 
 
@@ -519,8 +539,13 @@ angular.module('newApp')
 		$location.path('/sessionsAnalytics');
 	}
 	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
+	}
+	
 	
 }]);
+
 
 angular.module('newApp')
 .controller('SessionsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
@@ -802,4 +827,360 @@ $scope.showscreenResoluationCount = function(){
 	$scope.goToSessionsData = function() {
 		$location.path('/sessionsAnalytics');
 	}
+	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
+	}
+	
+	
+	
+}]);
+
+
+
+angular.module('newApp')
+.controller('heatMapInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+	$scope.showHeatMap = 0;
+	$scope.gridOptions = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
+	
+	 $scope.gridOptions.enableHorizontalScrollbar = 0;
+		 $scope.gridOptions.enableVerticalScrollbar = 2;
+		 $scope.gridOptions.columnDefs = [
+		                                 { name: 'title', displayName: 'Title', width:'25%',cellEditableCondition: false,
+		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		                                       if (row.entity.isRead === false) {
+		                                         return 'red';
+		                                     }
+		                                	} ,
+		                                 },
+		                                 { name: 'showUrl', displayName: 'ShowUrl', width:'35%',cellEditableCondition: false,
+		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		                                       if (row.entity.isRead === false) {
+		                                         return 'red';
+		                                     }
+		                                	} ,
+		                                 },
+		                                 { name: 'value_percent', displayName: 'Value Percent', width:'25%',cellEditableCondition: false,
+		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		                                       if (row.entity.isRead === false) {
+		                                         return 'red';
+		                                     }
+		                                	} ,
+		                                 },
+		                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-map-marker" ng-click="grid.appScope.showheatmap(row)"  title="sessions"></i>', 
+		                                 
+		                                 },
+			                               
+		                                
+		                                 ];
+	
+		 $scope.gridOptions.onRegisterApi = function(gridApi){
+			 $scope.gridApi = gridApi;
+			 
+	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+		          var grid = this.grid;
+		          $scope.gridOptions.data = $filter('filter')($scope.heatMapList,{'title':grid.columns[0].filters[0].term,'showUrl':grid.columns[1].filters[0].term,'value_percent':grid.columns[2].filters[0].term},undefined);
+		        });
+	   		
+ 		};
+ 		
+ 		
+		 $http.get('/getHeatMapList/'+30)
+			.success(function(data) {
+				//console.log(data[0].dates[0].items);
+				
+				$scope.gridOptions.data = data[0].dates[0].items;
+				$scope.heatMapList = data[0].dates[0].items;
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					$scope.array = value.url.split('#');
+					$scope.gridOptions.data[key].showUrl = $scope.array[0];
+					$scope.heatMapList[key].showUrl = $scope.array[0];
+				});
+				
+				console.log($scope.gridOptions.data);
+				console.log($scope.heatMapList);
+			$('#sliderBtn').click();
+		});
+		 
+		 
+		 $scope.showheatmap = function(row){
+			 $scope.showHeatMap = 1;
+			 console.log(row.entity.url);
+			 var data = row.entity.url;
+			 $('#heatMapModal').modal();
+			 $(".container-iframe-sit").attr("src",data);
+			 
+		 }
+	
+	
+}]);
+
+
+angular.module('newApp')
+.controller('allVehicleSessionsDataCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+	
+	console.log("....................");
+	//console.log($routeParams.vin);
+	$scope.lineChartweek = 0;
+	$scope.lineChartmonth = 0;
+	$scope.lineChartday = 0;
+
+	$scope.lineChartMap = function(lasttime){
+		console.log(lasttime);
+		$http.get('/getAllVehicleSession/'+lasttime).success(function(response){
+			 console.log("-----------------------response-----------------------");	
+			console.log(response);	
+				
+			var randomScalingFactor = [10,20,30,40,50,60,70,80];
+			var lineChartData = {
+			    labels: response.months,
+			    datasets: [
+			      {
+			          label: "My Second dataset",
+			          fillColor: "rgba(49, 157, 181,0.2)",
+			          strokeColor: "#319DB5",
+			          pointColor: "#319DB5",
+			          pointStrokeColor: "#fff",
+			          pointHighlightFill: "#fff",
+			          pointHighlightStroke: "#319DB5",
+			          data: response.allVisitor
+			      }
+			    ]
+			}
+			if($scope.lineChartmonth == 1){
+				var ctx = document.getElementById("line-chart").getContext("2d");
+			}
+			if($scope.lineChartweek == 1){
+				var ctx = document.getElementById("line-chartweek").getContext("2d");
+			}
+			if($scope.lineChartday == 1){
+				var ctx = document.getElementById("line-chartday").getContext("2d");
+			}
+			
+			window.myLine = new Chart(ctx).Line(lineChartData,{
+			    responsive: true,
+			    scaleOverride: true,
+			    scaleSteps: 4,
+			    scaleStepWidth:2,
+			    tooltipCornerRadius: 0,
+			    tooltipTemplate: "<%= value %>",
+			    multiTooltipTemplate: "<%= value %>",
+			});
+
+		});
+	}
+
+	$scope.weekFunction = function(){
+		$scope.lineChartMap("week");
+		$scope.lineChartweek = 1;
+		$scope.lineChartmonth = 0;
+		$scope.lineChartday = 0;
+	}
+
+	$scope.monthFunction = function(){
+		$scope.lineChartMap("month");
+		$scope.lineChartweek = 0;
+		$scope.lineChartmonth = 1;
+		$scope.lineChartday = 0;
+	}
+
+	$scope.dayFunction = function(){
+		$scope.lineChartMap("day");
+		$scope.lineChartday = 1;
+		$scope.lineChartweek = 0;
+		$scope.lineChartmonth = 0;
+	}
+
+	var lineChartData1 = {
+		    labels: [1,2,3,4,5,6,7],
+		    datasets: [
+		      {
+		          label: "My Second dataset",
+		          fillColor: "rgba(49, 157, 181,0.2)",
+		          strokeColor: "#319DB5",
+		          pointColor: "#319DB5",
+		          pointStrokeColor: "#fff",
+		          pointHighlightFill: "#fff",
+		          pointHighlightStroke: "#319DB5",
+		          data: [0,0,0,1,0,2,0]
+		      }
+		    ]
+		}
+		var ctx1 = document.getElementById("line-chart1").getContext("2d");
+		window.myLine = new Chart(ctx1).Line(lineChartData1, {
+		    responsive: true,
+		    scaleOverride: true,
+		    tooltipCornerRadius: 0,
+		    scaleSteps: 4,
+		    scaleStepWidth:2,
+		    showScale: false,
+		    pointDot: false,
+		    tooltipTemplate: "",
+		    multiTooltipTemplate: "",
+		});
+		
+		var ctx2 = document.getElementById("line-chart2").getContext("2d");
+		window.myLine = new Chart(ctx2).Line(lineChartData1, {
+		    responsive: true,
+		    scaleOverride: true,
+		    tooltipCornerRadius: 0,
+		    scaleSteps: 4,
+		    scaleStepWidth:2,
+		    showScale: false,
+		    pointDot: false,
+		    tooltipTemplate: "",
+		    multiTooltipTemplate: "",
+		});
+		
+		var ctx2 = document.getElementById("line-chart3").getContext("2d");
+		window.myLine = new Chart(ctx2).Line(lineChartData1, {
+		    responsive: true,
+		    scaleOverride: true,
+		    tooltipCornerRadius: 0,
+		    scaleSteps: 4,
+		    scaleStepWidth:2,
+		    showScale: false,
+		    pointDot: false,
+		    tooltipTemplate: "",
+		    multiTooltipTemplate: "",
+		});
+		
+		var ctx2 = document.getElementById("line-chart4").getContext("2d");
+		window.myLine = new Chart(ctx2).Line(lineChartData1, {
+		    responsive: true,
+		    scaleOverride: true,
+		    tooltipCornerRadius: 0,
+		    scaleSteps: 4,
+		    scaleStepWidth:2,
+		    showScale: false,
+		    pointDot: false,
+		    tooltipTemplate: "",
+		    multiTooltipTemplate: "",
+		});
+		
+
+
+	$http.get('/getAllvehicleStatusList').success(function(data) {
+		$scope.lineChartMap("month");
+		$scope.lineChartmonth = 1;
+		console.log("data");
+		console.log(data);
+		$scope.followers = data.followers;
+		$scope.pageview = data.pageview;
+		$scope.avgSessDur = data.avgSessDur;
+		$scope.users = data.users;
+		$scope.enginesound = data.enginesound;
+		
+		
+		var pieData = [
+		               { value: data.newUser, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "New Visitor" },
+		               { value: data.users, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Returning Visitor" }
+		           ];
+		var ctx = document.getElementById("pie-chart visitorInfo").getContext("2d");
+		window.myPie = new Chart(ctx).Pie(pieData, {
+		    tooltipCornerRadius: 0
+		});
+		
+		var pieData = [
+		               { value: data.requestmoreinfo, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "Submited" },
+		               { value: data.requestmoreinfoshow, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Clicked" }
+		           ];
+		var ctx = document.getElementById("pie-chart requestmoreinfo").getContext("2d");
+		window.myPie = new Chart(ctx).Pie(pieData, {
+		    tooltipCornerRadius: 0
+		});
+		
+			var pieData = [
+			               { value: data.scheduletest, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "Submited" },
+			               { value: data.scheduletestshow, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Clicked" }
+			           ];
+			var ctx = document.getElementById("pie-chart scheduletest").getContext("2d");
+			window.myPie = new Chart(ctx).Pie(pieData, {
+			    tooltipCornerRadius: 0
+			});
+		
+		var pieData = [
+		               { value: data.tradeinapp, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "Submited" },
+		               { value: data.tradeinappshow, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Clicked" }
+		           ];
+		var ctx = document.getElementById("pie-chart trade").getContext("2d");
+		window.myPie = new Chart(ctx).Pie(pieData, {
+		    tooltipCornerRadius: 0
+		});
+		
+		var pieData = [
+		               { value: data.emailtofriend, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "Submited" },
+		               { value: data.emailtofriendshow, color: "rgba(201, 98, 95,0.9)", highlight: "rgba(201, 98, 95,1)", label: "Clicked" }
+		           ];
+		var ctx = document.getElementById("pie-chart emailtofriend").getContext("2d");
+		window.myPie = new Chart(ctx).Pie(pieData, {
+		    tooltipCornerRadius: 0
+		});
+	});
+
+
+	$scope.langshow = 0;
+	$scope.webBroshow = 0;
+	$http.get('/getAllVehicleDemographics').success(function(data) {
+		$scope.selectedTab = 1;
+		$scope.langshow = 1;
+		console.log(data);
+		$scope.langmap = data.language;
+		$scope.webBrosmap = data.webBrowser;
+		$scope.operatingSystem = data.operatingSystem;
+		$scope.location = data.location;
+		$scope.screenResoluations = data.screenResoluation;
+		console.log($scope.screenResoluation);
+	});
+
+
+	$scope.showBrowerCount = function(){
+		$scope.langshow = 0;
+		$scope.webBroshow = 1;
+		$scope.operatingshow = 0;
+		$scope.locationshow = 0;
+		$scope.screenResoluation = 0;
+	}
+
+	$scope.showlanguageCount = function(){
+		$scope.langshow = 1;
+		$scope.webBroshow = 0;
+		$scope.operatingshow = 0;
+		$scope.locationshow = 0;
+		$scope.screenResoluation = 0;
+	}
+
+	$scope.showLocationCount = function(){
+		$scope.locationshow = 1;
+		$scope.langshow = 0;
+		$scope.webBroshow = 0;
+		$scope.operatingshow = 0;
+		$scope.screenResoluation = 0;
+	}
+
+	$scope.showOperatingCount = function(){
+		$scope.operatingshow = 1;
+		$scope.langshow = 0;
+		$scope.webBroshow = 0;
+		$scope.locationshow = 0;
+		$scope.screenResoluation = 0;
+	}
+
+	$scope.showscreenResoluationCount = function(){
+		$scope.operatingshow = 0;
+		$scope.langshow = 0;
+		$scope.webBroshow = 0;
+		$scope.locationshow = 0;
+		$scope.screenResoluation = 1;
+	}
+
+	
 }]);

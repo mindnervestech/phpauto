@@ -6816,6 +6816,21 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
+    
+    public static Result getHeatMapList(Integer value){
+    	int year = Calendar.getInstance().get(Calendar.YEAR);
+    	String params = null;
+    	
+    	if(value == 30){
+    		params = "&type=pages&heatmap_url=1&date=last-30-days";
+    	}else if(value == 7){
+    		params = "&type=pages&heatmap_url=1&date=last-7-days";
+    	}else if(value == 1){
+    		params = "&type=pages&heatmap_url=1&date="+year;
+    	}
+    	return ok(Json.parse(callClickAPI(params)));
+    }
+    
     public static Result getActionList(Integer value){
     	int year = Calendar.getInstance().get(Calendar.YEAR);
     	String params = null;
@@ -6853,7 +6868,8 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
-    public static Result getDemographics(String value){
+    
+    public static Result getAllVehicleDemographics(){
     	Map map = new HashMap(2);
 		Map<String, Integer> mapRM = new HashMap<String, Integer>();
 		Map<String, Integer> mapWebBro = new HashMap<String, Integer>();
@@ -6861,8 +6877,81 @@ public class Application extends Controller {
 		Map<String, Integer> mapoperatingSystem = new HashMap<String, Integer>();
 		Map<String, Integer> mapSreenResoluation = new HashMap<String, Integer>();
 		
-		
-		
+    	String params = "&type=visitors-list&date=last-30-days";
+    	try {
+    		
+    		int lagCount = 1;
+			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+			for(int i=0;i<jsonArray.length();i++){
+    			String data = jsonArray.getJSONObject(i).get("landing_page").toString();
+    			String arr[] = data.split("/");
+    			if(arr.length > 5){
+    			  if(arr[5] != null){
+    				//  if(arr[5].equals(value)){
+    					  
+    					  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("language").toString()); 
+    						if (langValue == null) {
+    							mapRM.put(jsonArray.getJSONObject(i).get("language").toString(), lagCount);
+    						}else{
+    							mapRM.put(jsonArray.getJSONObject(i).get("language").toString(), mapRM.get(jsonArray.getJSONObject(i).get("language").toString()) + 1);
+    						}
+    						
+    						 Integer mapWebBroValue = mapWebBro.get(jsonArray.getJSONObject(i).get("web_browser").toString()); 
+     						if (mapWebBroValue == null) {
+     							mapWebBro.put(jsonArray.getJSONObject(i).get("web_browser").toString(), lagCount);
+     						}else{
+     							mapWebBro.put(jsonArray.getJSONObject(i).get("web_browser").toString(), mapWebBro.get(jsonArray.getJSONObject(i).get("web_browser").toString()) + 1);
+     						}
+     						
+     						Integer maplocationValue = maplocation.get(jsonArray.getJSONObject(i).get("geolocation").toString()); 
+     						if (maplocationValue == null) {
+     							maplocation.put(jsonArray.getJSONObject(i).get("geolocation").toString(), lagCount);
+     						}else{
+     							maplocation.put(jsonArray.getJSONObject(i).get("geolocation").toString(), maplocation.get(jsonArray.getJSONObject(i).get("geolocation").toString()) + 1);
+     						}
+     						
+     						Integer mapoperatingSystemValue = mapoperatingSystem.get(jsonArray.getJSONObject(i).get("operating_system").toString()); 
+     						if (mapoperatingSystemValue == null) {
+     							mapoperatingSystem.put(jsonArray.getJSONObject(i).get("operating_system").toString(), lagCount);
+     						}else{
+     							mapoperatingSystem.put(jsonArray.getJSONObject(i).get("operating_system").toString(), mapoperatingSystem.get(jsonArray.getJSONObject(i).get("operating_system").toString()) + 1);
+     						}
+     						
+     						Integer mapSreenResoluationValue = mapSreenResoluation.get(jsonArray.getJSONObject(i).get("screen_resolution").toString()); 
+     						if (mapSreenResoluationValue == null) {
+     							mapSreenResoluation.put(jsonArray.getJSONObject(i).get("screen_resolution").toString(), lagCount);
+     						}else{
+     							mapSreenResoluation.put(jsonArray.getJSONObject(i).get("screen_resolution").toString(), mapSreenResoluation.get(jsonArray.getJSONObject(i).get("screen_resolution").toString()) + 1);
+     						}
+    						
+     						
+    				 // }
+    			  }
+    			}
+    			
+			}	
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    	map.put("language", mapRM);
+    	map.put("location", maplocation);
+    	map.put("webBrowser", mapWebBro);
+    	map.put("operatingSystem", mapoperatingSystem);
+    	map.put("screenResoluation", mapSreenResoluation);
+    	
+    	
+    	return ok(Json.toJson(map));
+    }
+    
+    public static Result getDemographics(String value){
+    	Map map = new HashMap(2);
+		Map<String, Integer> mapRM = new HashMap<String, Integer>();
+		Map<String, Integer> mapWebBro = new HashMap<String, Integer>();
+		Map<String, Integer> maplocation = new HashMap<String, Integer>();
+		Map<String, Integer> mapoperatingSystem = new HashMap<String, Integer>();
+		Map<String, Integer> mapSreenResoluation = new HashMap<String, Integer>();
 		
     	String params = "&type=visitors-list&date=last-30-days";
     	try {
@@ -6875,6 +6964,7 @@ public class Application extends Controller {
     			if(arr.length > 5){
     			  if(arr[5] != null){
     				  if(arr[5].equals(value)){
+    					  
     					  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("language").toString()); 
     						if (langValue == null) {
     							mapRM.put(jsonArray.getJSONObject(i).get("language").toString(), lagCount);
@@ -6931,7 +7021,156 @@ public class Application extends Controller {
     	return ok(Json.toJson(map));
     }
     
-    //https://api.clicky.com/api/stats/4?output=json&site_id=100875513&sitekey=d6e7550038b4a34c&type=actions-list&action_type=download&date=last-30-days     info@glider-autos.com
+    public static Result getAllvehicleStatusList(){
+
+    	String params = "&type=actions-list&date=last-30-days";
+    	//String params = "&type=actions-list&date=2015-11-29";
+    	
+    	int countSubrequestmoreinfo = 0;
+		int countShowrequestmoreinfoshow = 0;
+		
+		int countSubscheduletest = 0;
+		int countShowscheduletestshow = 0;
+		
+		int countSubtrade = 0;
+		int countShowtrade = 0;
+		int countenginesound = 0;
+		
+    	int countSubemailtofriend = 0;
+		int countShowemailtofriend = 0;
+		
+		Map<String, Integer> map = new HashMap<String, Integer>();
+    	try {
+    		JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    		for(int i=0;i<jsonArray1.length();i++){
+    			String data = jsonArray1.getJSONObject(i).get("action_url").toString();
+    			System.out.println(data);
+    			String dataArr[] = data.split("#");
+    			if(dataArr!=null && dataArr.length>0){
+    				int count = data.split("#").length - 1;
+        		 if(count == 2){
+        				if(dataArr[2].equals("requestmoreinfo")){
+        					countSubrequestmoreinfo++;
+        				}
+        				if(dataArr[2].equals("requestmoreinfoshow")){
+        					countShowrequestmoreinfoshow++;
+        				}
+        				
+        				if(dataArr[2].equals("scheduletest")){
+        					countSubscheduletest++;
+        				}
+        				if(dataArr[2].equals("scheduletestshow")){
+        					countShowscheduletestshow++;
+        				}
+        				
+        				if(dataArr[2].equals("emailtofriend")){
+        					countSubemailtofriend++;
+        				}
+        				if(dataArr[2].equals("emailtofriendshow")){
+        					countShowemailtofriend++;
+        				}
+        				
+        				if(dataArr[2].equals("tradeinapp")){
+        					countSubtrade++;
+        				}
+        				if(dataArr[2].equals("tradeinappshow")){
+        					countShowtrade++;
+        				}
+        				if(dataArr[2].equals("enginesound")){
+        					countenginesound++;
+        				}
+        			}
+    			}
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	AuthUser user = AuthUser.findById(userId);
+    	List<PriceAlert> pAlert = PriceAlert.getByStatus(user);
+    	int followerCount = pAlert.size();
+    	
+    	Map<String, Integer> mapRM = new HashMap<String, Integer>();
+    	Map<String, Integer> mapIPAdd = new HashMap<String, Integer>();
+    	
+    	String params1 = "&type=visitors-list&date=last-30-days";
+    		int totalTime = 0;
+    		int lagCount = 0;
+    		int newuserCount = 0;
+    		int avgDur = 0;
+			JSONArray jsonArray;
+			try {
+				jsonArray = new JSONArray(callClickAPI(params1)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+				for(int i=0;i<jsonArray.length();i++){
+	    			String data = jsonArray.getJSONObject(i).get("landing_page").toString();
+	    			String arr[] = data.split("/");
+	    			if(arr.length > 5){
+	    			  if(arr[5] != null){
+	    				//  if(arr[5].equals(value)){
+	    					  lagCount++;
+	    					  
+	    				totalTime = totalTime + Integer.parseInt(jsonArray.getJSONObject(i).get("time_total").toString());
+	    				  
+	    				  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString()); 
+  						 if (langValue == null) {
+  						 	mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
+  						 }else{
+  							mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(),  1);
+  						 }
+  						 
+  						Integer ipAddessValue = mapIPAdd.get(jsonArray.getJSONObject(i).get("ip_address").toString()); 
+ 						 if (ipAddessValue == null) {
+ 							mapIPAdd.put(jsonArray.getJSONObject(i).get("ip_address").toString(),Integer.parseInt(jsonArray.getJSONObject(i).get("total_visits").toString()));
+ 						 }else{
+ 							mapIPAdd.put(jsonArray.getJSONObject(i).get("ip_address").toString(), Integer.parseInt(jsonArray.getJSONObject(i).get("total_visits").toString()));
+ 						 }
+  						 
+	    				//}
+	    			  }
+	    			}
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			for (Map.Entry<String, Integer> entry : mapIPAdd.entrySet())
+			{
+				if(entry.getValue() == 1){
+					newuserCount++;
+				}
+			}	
+    			
+			
+    	if(lagCount != 0){
+			avgDur = totalTime/lagCount;	
+    	}
+		map.put("newUser", newuserCount);
+    	map.put("users", mapRM.size());
+    	map.put("avgSessDur", avgDur);
+		map.put("pageview", lagCount);
+    	map.put("followers", followerCount);
+    	map.put("enginesound", countenginesound);
+    	map.put("requestmoreinfo", countSubrequestmoreinfo);
+    	map.put("requestmoreinfoshow", countShowrequestmoreinfoshow);
+    	map.put("requestmoreinfoTotal", (countSubrequestmoreinfo+countShowrequestmoreinfoshow));
+    	
+    	map.put("scheduletest", countSubscheduletest);
+    	map.put("scheduletestshow", countShowscheduletestshow);
+    	map.put("scheduletestTotal", (countSubscheduletest+countShowscheduletestshow));
+    	
+    	map.put("tradeinapp", countSubtrade);
+    	map.put("tradeinappshow", countShowtrade);
+    	map.put("tradeinappTotal", (countSubtrade+countShowtrade));
+    	
+    	map.put("emailtofriend", countSubemailtofriend);
+    	map.put("emailtofriendshow", countShowemailtofriend);
+    	map.put("emailtofriendTotal", (countSubemailtofriend+countShowemailtofriend));
+    	System.out.println(map);
+    	return ok(Json.toJson(map));
+    }
+    
+    
     public static Result getStatusList(String value){
     	
     	
@@ -7351,6 +7590,181 @@ public class Application extends Controller {
 										}
 									}
     	    				  }
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        		
+        		allVisitor.add(visitorCount);
+        		String valueTime = null;
+        		if(i == 0){
+        			valueTime = "12am";
+        		}
+        		if(i >= 12){
+        			if(i == 12){
+        				valueTime = "12pm";
+        			}else{
+        				int chang = i - 12;
+        				valueTime = chang+"pm";
+        			}
+        			
+        		}else{
+        			if(i != 0){
+        				valueTime = i+"am";
+        			}
+        		}
+        		months.add(valueTime);
+        		
+        		if(i == 0){
+        			chagehr = 0;
+        		}else{
+        			if(chagehr == 12){
+        				chagehr = 0;
+        			}
+        		}
+        	}
+        	
+    	}
+    
+    	Map map = new HashMap();
+    	map.put("allVisitor", allVisitor);
+    	map.put("months", months);
+    	return ok(Json.toJson(map));
+    }
+    
+    public static Result getAllVehicleSession(String lasttime) {
+    	List<Integer> allVisitor = new ArrayList<Integer>(30);
+    	List<String> months = new ArrayList<String>(30);
+    	int visitorCount = 0;
+    	Calendar c = Calendar.getInstance();
+    	
+    	if(lasttime.equals("month")){
+    		
+        	String[] monthsArr = new String[30]; 
+        	c.add(Calendar.DAY_OF_YEAR, -29);
+        	
+        	for(int i=0;i<30;i++) {
+        		visitorCount = 0;
+        		String year = c.get(Calendar.YEAR)+"-";
+        		String days = c.get(Calendar.DATE)+"";
+        		Integer addmonth = c.get(Calendar.MONTH);
+        		Integer addOneMo = addmonth + 1;
+        		String month = String.valueOf(addOneMo)+"-";
+        		String dates = year + month + days;
+            	
+        		String params = "&date="+dates+"&type=visitors-list";
+        		try {
+    				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				 // if(arr[5].equals(value)){
+    	    					  visitorCount = visitorCount + 1;
+    	    				 // }
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        		
+        		allVisitor.add(visitorCount);
+        		
+        		months.add(month+days);
+        		c.add(Calendar.DAY_OF_YEAR, 1);
+        	}
+        	
+    	}else if(lasttime.equals("week")){
+    		
+    		
+        	String[] monthsArr = new String[7]; 
+        	c.add(Calendar.DAY_OF_YEAR, -6);
+        	
+        	for(int i=0;i<7;i++) {
+        		visitorCount = 0;
+        		String year = c.get(Calendar.YEAR)+"-";
+        		String days = c.get(Calendar.DATE)+"";
+        		Integer addmonth = c.get(Calendar.MONTH);
+        		Integer addOneMo = addmonth + 1;
+        		String month = String.valueOf(addOneMo)+"-";
+        		String dates = year + month + days;
+            	
+        		String params = "&date="+dates+"&type=visitors-list";
+        		try {
+    				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				  //if(arr[5].equals(value)){
+    	    					  visitorCount = visitorCount + 1;
+    	    				  //}
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        		
+        		allVisitor.add(visitorCount);
+        		
+        		months.add(month+days);
+        		c.add(Calendar.DAY_OF_YEAR, 1);
+        	}
+        	
+    	}else if(lasttime.equals("day")){
+    		
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		Date date = new Date();
+    		List<String> monthsArr = new ArrayList<>();
+    		
+    		int chagehr = 0;
+    		//String dates = dateFormat.format(date);
+    		String dates = "2015-12-01";
+        	for(int i=0;i<24;i++) {
+        		
+        		if(i == 0){
+        			chagehr = 12;
+        		}else{
+        			chagehr++;
+        		}
+        		
+        		
+        		visitorCount = 0;
+        		String params = "&date="+dates+"&type=visitors-list";
+        		try {
+        			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				//  if(arr[5].equals(value)){
+    	    					  SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
+    	    					  String timevisit = jsonArray.getJSONObject(j).get("time_pretty").toString();
+    	    					  String[] timeset = timevisit.split(",");
+    	    					  System.out.println("==========time================");
+									System.out.println(timeset[1]);
+									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+									if(timeDiv[1].equals(String.valueOf(chagehr))){
+										if(timeDiv[4].equals("am") && i < 12){
+											visitorCount = visitorCount + 1;
+										}else if(timeDiv[4].equals("pm") && i >= 12){
+											visitorCount = visitorCount + 1;
+										}
+									}
+    	    				 // }
     	    			  }
     	    			}
     				}	
