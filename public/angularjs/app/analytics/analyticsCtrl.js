@@ -853,14 +853,14 @@ angular.module('newApp')
 	 $scope.gridOptions.enableHorizontalScrollbar = 0;
 		 $scope.gridOptions.enableVerticalScrollbar = 2;
 		 $scope.gridOptions.columnDefs = [
-		                                 { name: 'title', displayName: 'Title', width:'25%',cellEditableCondition: false,
+		                                 { name: 'title', displayName: 'Title', width:'30%',cellEditableCondition: false,
 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                                       if (row.entity.isRead === false) {
 		                                         return 'red';
 		                                     }
 		                                	} ,
 		                                 },
-		                                 { name: 'showUrl', displayName: 'ShowUrl', width:'35%',cellEditableCondition: false,
+		                                 { name: 'showUrl', displayName: 'ShowUrl', width:'40%',cellEditableCondition: false,
 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                                       if (row.entity.isRead === false) {
 		                                         return 'red';
@@ -875,7 +875,7 @@ angular.module('newApp')
 		                                	} ,
 		                                 },
 		                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-map-marker" ng-click="grid.appScope.showheatmap(row)"  title="sessions"></i>', 
+    		                                 cellTemplate:'<a ng-click="grid.appScope.showheatmap(row)"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>', 
 		                                 
 		                                 },
 			                               
