@@ -833,6 +833,88 @@ $scope.showscreenResoluationCount = function(){
 	$scope.screenResoluation = 1;
 }
 
+	$scope.openUserPopup = function(analyType){
+		$scope.analylineChartmonth = 0;
+		$scope.analylineChartweek = 0;
+		$scope.analylineChartday = 1;
+		$('#userModal').modal();
+		$scope.analylineChartMap("day");
+		
+	}
+	
+	$scope.analylineChartMap = function(lastTime){
+		
+		$http.get('/getSessionDaysUserStats/'+$routeParams.vin+'/'+lastTime).success(function(response){
+			 console.log("-----------------------response-----------------------");	
+			console.log(response);	
+			
+			var randomScalingFactor = [10,20,30,40,50,60,70,80];
+			var analyLineChartData = {
+			    labels: response.months,
+			    datasets: [
+			      {
+			          label: "My Second dataset",
+			          fillColor: "rgba(49, 157, 181,0.2)",
+			          strokeColor: "#319DB5",
+			          pointColor: "#319DB5",
+			          pointStrokeColor: "#fff",
+			          pointHighlightFill: "#fff",
+			          pointHighlightStroke: "#319DB5",
+			          data: response.allVisitor
+			      }
+			    ]
+			}
+			if($scope.analylineChartmonth == 1){
+				var ctxx = document.getElementById("analyline-chart").getContext("2d");
+				ctxx.canvas.width = 1430;
+				ctxx.canvas.height = 380;
+			}
+			if($scope.analylineChartweek == 1){
+				var ctxx = document.getElementById("analyline-chartweek").getContext("2d");
+				ctxx.canvas.width = 1430;
+				ctxx.canvas.height = 380;
+			}
+			if($scope.analylineChartday == 1){
+				var ctxx = document.getElementById("analyline-chartday").getContext("2d");
+				ctxx.canvas.width = 1430;
+				ctxx.canvas.height = 380;
+			}
+			
+			window.myLine = new Chart(ctxx).Line(analyLineChartData,{
+			    responsive: true,
+			    scaleOverride: true,
+			    scaleSteps: 4,
+			    scaleStepWidth:2,
+			    tooltipCornerRadius: 0,
+			    tooltipTemplate: "<%= value %>",
+			    multiTooltipTemplate: "<%= value %>",
+			});
+
+		});
+		
+	}
+
+	$scope.analydayFunction = function(){
+		$scope.analylineChartMap("day");
+		$scope.analylineChartday = 1;
+		$scope.analylineChartweek = 0;
+		$scope.analylineChartmonth = 0;
+	}
+	
+	$scope.analyweekFunction = function(){
+		$scope.analylineChartMap("week");
+		$scope.analylineChartday = 0;
+		$scope.analylineChartweek = 1;
+		$scope.analylineChartmonth = 0;
+	}
+	
+	$scope.analymonthFunction = function(){
+		$scope.analylineChartMap("month");
+		$scope.analylineChartday = 0;
+		$scope.analylineChartweek = 0;
+		$scope.analylineChartmonth = 1;
+	}
+
 	$scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
 	}

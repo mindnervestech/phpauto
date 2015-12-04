@@ -145,6 +145,7 @@ GET		/getStockDetails/:stockNumber	controllers.Application.getStockDetails(stock
 POST	/createLead						controllers.Application.createLead()
 GET		/getMonthlyVisitorsStats		controllers.Application.getMonthlyVisitorsStats()
 GET     /getSessionDaysVisitorsStats/:value/:lasttime		controllers.Application.getSessionDaysVisitorsStats(value:String,lasttime:String)
+GET     /getSessionDaysUserStats/:value/:lasttime		controllers.Application.getSessionDaysUserStats(value:String,lasttime:String)
 GET    /getAllVehicleSession/:lasttime			controllers.Application.getAllVehicleSession(lasttime:String)
 POST	/uploadContactsFile				controllers.Application.uploadContactsFile()
 GET		/getAllContactsData				controllers.Application.getAllContactsData()

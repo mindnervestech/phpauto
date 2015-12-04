@@ -7484,6 +7484,194 @@ public class Application extends Controller {
     	return ok(Json.toJson(map));
       }
     
+    public static Result getSessionDaysUserStats(String value,String lasttime) {
+    	
+    	List<Integer> allVisitor = new ArrayList<Integer>(30);
+    	List<String> months = new ArrayList<String>(30);
+    	Map<String, Integer> mapRM = new HashMap<String, Integer>();
+    	int visitorCount = 0;
+    	Calendar c = Calendar.getInstance();
+    	
+    	if(lasttime.equals("month")){
+    		
+        	String[] monthsArr = new String[30]; 
+        	c.add(Calendar.DAY_OF_YEAR, -29);
+        	
+        	for(int i=0;i<30;i++) {
+        		mapRM.clear();
+        		visitorCount = 0;
+        		String year = c.get(Calendar.YEAR)+"-";
+        		String days = c.get(Calendar.DATE)+"";
+        		Integer addmonth = c.get(Calendar.MONTH);
+        		Integer addOneMo = addmonth + 1;
+        		String month = String.valueOf(addOneMo)+"-";
+        		String dates = year + month + days;
+        		System.out.println("................................;;;;;;");
+        		System.out.println(dates);
+        		String params = "&date="+dates+"&type=visitors-list&limit=all";
+        		try {
+    				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				  if(arr[5].equals(value)){
+    	    					  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString()); 
+    	   						 if (langValue == null) {
+    	   							visitorCount = visitorCount + 1;
+    	   						 	mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
+    	   						 }
+    	    				  }
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        		
+        		allVisitor.add(visitorCount);
+        		
+        		months.add(month+days);
+        		c.add(Calendar.DAY_OF_YEAR, 1);
+        	}
+        	
+    	}else if(lasttime.equals("week")){
+    		
+    		
+        	String[] monthsArr = new String[7]; 
+        	c.add(Calendar.DAY_OF_YEAR, -6);
+        	
+        	for(int i=0;i<7;i++) {
+        		mapRM.clear();
+        		visitorCount = 0;
+        		String year = c.get(Calendar.YEAR)+"-";
+        		String days = c.get(Calendar.DATE)+"";
+        		Integer addmonth = c.get(Calendar.MONTH);
+        		Integer addOneMo = addmonth + 1;
+        		String month = String.valueOf(addOneMo)+"-";
+        		String dates = year + month + days;
+            	
+        		String params = "&date="+dates+"&type=visitors-list&limit=all";
+        		try {
+    				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				  if(arr[5].equals(value)){
+    	    					  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString());
+    	    					  if (langValue == null) {
+      	   							visitorCount = visitorCount + 1;
+      	   						 	mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
+      	   						 }
+    	    				  }
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        		
+        		allVisitor.add(visitorCount);
+        		
+        		months.add(month+days);
+        		c.add(Calendar.DAY_OF_YEAR, 1);
+        	}
+        	
+    	}else if(lasttime.equals("day")){
+    		
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		Date date = new Date();
+    		List<String> monthsArr = new ArrayList<>();
+    		
+    		int chagehr = 0;
+    		//String dates = dateFormat.format(date);
+    		String dates = "2015-12-01";
+        	for(int i=0;i<24;i++) {
+        		mapRM.clear();
+        		if(i == 0){
+        			chagehr = 12;
+        		}else{
+        			chagehr++;
+        		}
+        		
+        		
+        		visitorCount = 0;
+        		String params = "&date="+dates+"&type=visitors-list&limit=all";
+        		try {
+        			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				  if(arr[5].equals(value)){
+    	    					  SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
+    	    					  String timevisit = jsonArray.getJSONObject(j).get("time_pretty").toString();
+    	    					  String[] timeset = timevisit.split(",");
+    	    					  System.out.println("==========time================");
+									System.out.println(timeset[1]);
+									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+									if(timeDiv[1].equals(String.valueOf(chagehr))){
+										 Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString());
+										if (langValue == null) {
+		    	   							visitorCount = visitorCount + 1;
+		    	   						 	mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
+		    	   						 }
+										
+									}
+    	    				  }
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+        		
+        		allVisitor.add(visitorCount);
+        		String valueTime = null;
+        		if(i == 0){
+        			valueTime = "12am";
+        		}
+        		if(i >= 12){
+        			if(i == 12){
+        				valueTime = "12pm";
+        			}else{
+        				int chang = i - 12;
+        				valueTime = chang+"pm";
+        			}
+        			
+        		}else{
+        			if(i != 0){
+        				valueTime = i+"am";
+        			}
+        		}
+        		months.add(valueTime);
+        		
+        		if(i == 0){
+        			chagehr = 0;
+        		}else{
+        			if(chagehr == 12){
+        				chagehr = 0;
+        			}
+        		}
+        	}
+        	
+    	}
+    
+    	Map map = new HashMap();
+    	map.put("allVisitor", allVisitor);
+    	map.put("months", months);
+    	return ok(Json.toJson(map));
+    }
     
     public static Result getSessionDaysVisitorsStats(String value,String lasttime) {
     	
@@ -7580,8 +7768,8 @@ public class Application extends Controller {
     		List<String> monthsArr = new ArrayList<>();
     		
     		int chagehr = 0;
-    		//String dates = dateFormat.format(date);
-    		String dates = "2015-12-01";
+    		String dates = dateFormat.format(date);
+    		//String dates = "2015-12-01";
         	for(int i=0;i<24;i++) {
         		
         		if(i == 0){
@@ -7604,8 +7792,6 @@ public class Application extends Controller {
     	    					  SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
     	    					  String timevisit = jsonArray.getJSONObject(j).get("time_pretty").toString();
     	    					  String[] timeset = timevisit.split(",");
-    	    					  System.out.println("==========time================");
-									System.out.println(timeset[1]);
 									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
 									if(timeDiv[1].equals(String.valueOf(chagehr))){
 										if(timeDiv[4].equals("am") && i < 12){
@@ -7755,8 +7941,8 @@ public class Application extends Controller {
     		List<String> monthsArr = new ArrayList<>();
     		
     		int chagehr = 0;
-    		//String dates = dateFormat.format(date);
-    		String dates = "2015-12-01";
+    		String dates = dateFormat.format(date);
+    		//String dates = "2015-12-01";
         	for(int i=0;i<24;i++) {
         		
         		if(i == 0){

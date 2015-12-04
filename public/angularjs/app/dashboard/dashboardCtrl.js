@@ -2006,7 +2006,6 @@ angular.module('newApp')
     		        });
     			 
     			 };
-
     			 
     		    			 $scope.newlyArrivedTab = function() {
     		    				 $http.get('/getAllVehicles')
