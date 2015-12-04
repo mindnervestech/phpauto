@@ -7449,7 +7449,6 @@ public class Application extends Controller {
     	map.put("totalTime", visitorsNode.get(3).get("dates").get(0).get("items").get(0).get("value"));
     	map.put("averageTime", visitorsNode.get(4).get("dates").get(0).get("items").get(0).get("value"));
     	map.put("bounceRate", visitorsNode.get(5).get("dates").get(0).get("items").get(0).get("value").asInt());
-    	map.put("goals", visitorsNode.get(6).get("dates").get(0).get("items").get(0).get("value").asInt());
     	map.put("revenue", visitorsNode.get(7).get("dates").get(0).get("items").get(0).get("value").asInt());
     	map.put("pagesList", pagesList);
     	map.put("referersList", referersList);
