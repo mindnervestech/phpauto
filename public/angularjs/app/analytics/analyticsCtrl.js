@@ -125,6 +125,10 @@ angular.module('newApp')
 		$location.path('/heatMapInfoAnalytics');
 	}
 	
+	$scope.goToVehicleInfo = function(){
+		$location.path('/allVehicleSessions');
+	}
+	
 }]);
 
 
@@ -245,6 +249,10 @@ angular.module('newApp')
 		$location.path('/heatMapInfoAnalytics');
 	}
 	
+	$scope.goToVehicleInfo = function(){
+		$location.path('/allVehicleSessions');
+	}
+	
 }]);
 
 angular.module('newApp')
@@ -276,6 +284,10 @@ angular.module('newApp')
 	
 	$scope.goToheatMapInfo = function() {
 		$location.path('/heatMapInfoAnalytics');
+	}
+	
+	$scope.goToVehicleInfo = function(){
+		$location.path('/allVehicleSessions');
 	}
 	
 }]);
@@ -377,6 +389,10 @@ angular.module('newApp')
 	
 	$scope.goToheatMapInfo = function() {
 		$location.path('/heatMapInfoAnalytics');
+	}
+	
+	$scope.goToVehicleInfo = function(){
+		$location.path('/allVehicleSessions');
 	}
 	
 }]);
@@ -501,6 +517,10 @@ angular.module('newApp')
 		$location.path('/heatMapInfoAnalytics');
 	}
 	
+	$scope.goToVehicleInfo = function(){
+		$location.path('/allVehicleSessions');
+	}
+	
 }]);
 
 
@@ -543,6 +563,9 @@ angular.module('newApp')
 		$location.path('/heatMapInfoAnalytics');
 	}
 	
+	$scope.goToVehicleInfo = function(){
+		$location.path('/allVehicleSessions');
+	}
 	
 }]);
 
@@ -832,6 +855,9 @@ $scope.showscreenResoluationCount = function(){
 		$location.path('/heatMapInfoAnalytics');
 	}
 	
+	$scope.goToVehicleInfo = function(){
+		$location.path('/allVehicleSessions');
+	}
 	
 	
 }]);
@@ -878,8 +904,6 @@ angular.module('newApp')
     		                                 cellTemplate:'<a ng-click="grid.appScope.showheatmap(row)"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>', 
 		                                 
 		                                 },
-			                               
-		                                
 		                                 ];
 	
 		 $scope.gridOptions.onRegisterApi = function(gridApi){
@@ -919,7 +943,39 @@ angular.module('newApp')
 			 $(".container-iframe-sit").attr("src",data);
 			 
 		 }
+		 
+		 
+			$scope.goToVisitors = function() {
+				$location.path('/visitorsAnalytics');
+			}
+			
+			$scope.goToBasics = function() {
+				$location.path('/basicsAnalytics');
+			}
+			
+			$scope.goToSearches = function() {
+				$location.path('/searchesAnalytics');
+			}
+			
+			$scope.goToRefferers = function() {
+				$location.path('/refferersAnalytics');
+			}
+			
+			$scope.goToContent = function() {
+				$location.path('/contentAnalytics');
+			}
+			
+			$scope.goToSessionsData = function() {
+				$location.path('/sessionsAnalytics');
+			}
+			
+			$scope.goToActions = function() {
+				$location.path('/actionsAnalytics');
+			}
 	
+			$scope.goToVehicleInfo = function(){
+				$location.path('/allVehicleSessions');
+			}
 	
 }]);
 
@@ -1182,5 +1238,38 @@ angular.module('newApp')
 		$scope.screenResoluation = 1;
 	}
 
+	
+	$scope.goToVisitors = function() {
+		$location.path('/visitorsAnalytics');
+	}
+	
+	$scope.goToBasics = function() {
+		$location.path('/basicsAnalytics');
+	}
+	
+	$scope.goToSearches = function() {
+		$location.path('/searchesAnalytics');
+	}
+	
+	$scope.goToRefferers = function() {
+		$location.path('/refferersAnalytics');
+	}
+	
+	$scope.goToContent = function() {
+		$location.path('/contentAnalytics');
+	}
+	
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
+	}
+	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
+	}
+	
+	$scope.goToActions = function() {
+		$location.path('/actionsAnalytics');
+	}
+	
 	
 }]);
