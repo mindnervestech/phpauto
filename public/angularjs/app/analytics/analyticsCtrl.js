@@ -602,12 +602,18 @@ $scope.lineChartMap = function(lasttime){
 		}
 		if($scope.lineChartmonth == 1){
 			var ctx = document.getElementById("line-chart").getContext("2d");
+			ctx.canvas.width = 1430;
+			ctx.canvas.height = 380;
 		}
 		if($scope.lineChartweek == 1){
 			var ctx = document.getElementById("line-chartweek").getContext("2d");
+			ctx.canvas.width = 1430;
+			ctx.canvas.height = 380;
 		}
 		if($scope.lineChartday == 1){
 			var ctx = document.getElementById("line-chartday").getContext("2d");
+			ctx.canvas.width = 1430;
+			ctx.canvas.height = 380;
 		}
 		
 		window.myLine = new Chart(ctx).Line(lineChartData,{
@@ -714,8 +720,8 @@ var lineChartData1 = {
 
 
 $http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
-	$scope.lineChartMap("month");
-	$scope.lineChartmonth = 1;
+	$scope.lineChartMap("day");
+	$scope.lineChartday = 1;
 	console.log("data");
 	console.log(data);
 	$scope.followers = data.followers;
@@ -1013,12 +1019,19 @@ angular.module('newApp')
 			}
 			if($scope.lineChartmonth == 1){
 				var ctx = document.getElementById("line-chart").getContext("2d");
+				ctx.canvas.width = 1430;
+				ctx.canvas.height = 380;
 			}
 			if($scope.lineChartweek == 1){
 				var ctx = document.getElementById("line-chartweek").getContext("2d");
+				ctx.canvas.width = 1430;
+				ctx.canvas.height = 380;
 			}
 			if($scope.lineChartday == 1){
 				var ctx = document.getElementById("line-chartday").getContext("2d");
+				ctx.canvas.width = 1430;
+				ctx.canvas.height = 380;
+				
 			}
 			
 			window.myLine = new Chart(ctx).Line(lineChartData,{
@@ -1125,8 +1138,8 @@ angular.module('newApp')
 
 
 	$http.get('/getAllvehicleStatusList').success(function(data) {
-		$scope.lineChartMap("month");
-		$scope.lineChartmonth = 1;
+		$scope.lineChartMap("day");
+		$scope.lineChartday = 1;
 		console.log("data");
 		console.log(data);
 		$scope.followers = data.followers;
