@@ -72,7 +72,7 @@ public class SpecificationVM {
 	public String remoteTrunkRelease;
 	public String steeringWheel;
 	public String steeringWheelControls;
-	
+	public Integer pageViewCount;
 	public String fuel;
 	public  String bodyStyle;
 	public String status;

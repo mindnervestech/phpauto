@@ -1507,9 +1507,11 @@ public class Application extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		int visitorCount = 0;
 	    	List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>(); 
+	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
+	    	String params = "&date=last-28-days&type=visitors-list&limit=all";
 	     	for(Vehicle vm : vehicleObjList){
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
@@ -1538,6 +1540,30 @@ public class Application extends Controller {
 		    	vehicle.transmission = vm.transmission;
 		    	vehicle.location = vm.location;
 		    	vehicle.status  =  vm.status;
+		    	
+		    	visitorCount = 0;
+		    	
+        		try {
+    				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+    				for(int j=0;j<jsonArray.length();j++){
+    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+    	    			String arr[] = data.split("/");
+    	    			if(arr.length > 5){
+    	    			  if(arr[5] != null){
+    	    				  if(arr[5].equals(vm.vin)){
+    	    					  visitorCount = visitorCount + 1;
+    	    				  }
+    	    			  }
+    	    			}
+    				}	
+    				
+    			} catch (JSONException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+		    	
+        		vehicle.pageViewCount = visitorCount;
+		    	
 		    	List<SqlRow> rows = Vehicle.getDriveTimeAndName(vehicle.vin);
 		    	for(SqlRow row : rows) {
 		    		Date date = (Date) row.get("confirm_date");
@@ -6798,7 +6824,7 @@ public class Application extends Controller {
     }
     
     public static Result getAnalystData() {
-    	String params = "&type=visitors-online,bounce-rate,pages";
+    	String params = "&type=visitors-online,bounce-rate,pages&limit=all";
     	return ok(Json.parse(callClickAPI(params)));
     }
     
@@ -6807,11 +6833,11 @@ public class Application extends Controller {
     	String params = null;
     	
     	if(value == 30){
-    		params = "&type=visitors-list&date=last-30-days";
+    		params = "&type=visitors-list&date=last-30-days&limit=all";
     	}else if(value == 7){
-    		params = "&type=visitors-list&date=last-7-days";
+    		params = "&type=visitors-list&date=last-7-days&limit=all";
     	}else if(value == 1){
-    		params = "&type=visitors-list&date="+year;
+    		params = "&type=visitors-list&date="+year+"&limit=all";
     	}
     	return ok(Json.parse(callClickAPI(params)));
     }
@@ -6822,11 +6848,11 @@ public class Application extends Controller {
     	String params = null;
     	
     	if(value == 30){
-    		params = "&type=pages&heatmap_url=1&date=last-30-days";
+    		params = "&type=pages&heatmap_url=1&date=last-30-days&limit=all";
     	}else if(value == 7){
-    		params = "&type=pages&heatmap_url=1&date=last-7-days";
+    		params = "&type=pages&heatmap_url=1&date=last-7-days&limit=all";
     	}else if(value == 1){
-    		params = "&type=pages&heatmap_url=1&date="+year;
+    		params = "&type=pages&heatmap_url=1&date="+year+"&limit=all";
     	}
     	return ok(Json.parse(callClickAPI(params)));
     }
@@ -6836,11 +6862,11 @@ public class Application extends Controller {
     	String params = null;
     	
     	if(value == 30){
-    		params = "&type=actions-list&date=last-30-days";
+    		params = "&type=actions-list&date=last-30-days&limit=all";
     	}else if(value == 7){
-    		params = "&type=actions-list&date=last-7-days";
+    		params = "&type=actions-list&date=last-7-days&limit=all";
     	}else if(value == 1){
-    		params = "&type=actions-list&date="+year;
+    		params = "&type=actions-list&date="+year+"&limit=all";
     	}
     	
     	return ok(Json.parse(callClickAPI(params)));
@@ -6852,11 +6878,11 @@ public class Application extends Controller {
     	String params = null;
     	
     	if(value == 30){
-    		params = "&type=searches&date=last-30-days";
+    		params = "&type=searches&date=last-30-days&limit=all";
     	}else if(value == 7){
-    		params = "&type=searches&date=last-7-days";
+    		params = "&type=searches&date=last-7-days&limit=all";
     	}else if(value == 1){
-    		params = "&type=searches&date="+year;
+    		params = "&type=searches&date="+year+"&limit=all";
     	}
     	
     	return ok(Json.parse(callClickAPI(params)));
@@ -6864,7 +6890,7 @@ public class Application extends Controller {
     
     public static Result getContentList(Integer value){
     	
-    	String params = "&type=pages&date=last-30-days";
+    	String params = "&type=pages&date=last-30-days&limit=all";
     	return ok(Json.parse(callClickAPI(params)));
     }
     
@@ -6877,7 +6903,7 @@ public class Application extends Controller {
 		Map<String, Integer> mapoperatingSystem = new HashMap<String, Integer>();
 		Map<String, Integer> mapSreenResoluation = new HashMap<String, Integer>();
 		
-    	String params = "&type=visitors-list&date=last-30-days";
+    	String params = "&type=visitors-list&date=last-30-days&limit=all";
     	try {
     		
     		int lagCount = 1;
@@ -6953,7 +6979,7 @@ public class Application extends Controller {
 		Map<String, Integer> mapoperatingSystem = new HashMap<String, Integer>();
 		Map<String, Integer> mapSreenResoluation = new HashMap<String, Integer>();
 		
-    	String params = "&type=visitors-list&date=last-30-days";
+    	String params = "&type=visitors-list&date=last-30-days&limit=all";
     	try {
     		
     		int lagCount = 1;
@@ -7023,7 +7049,7 @@ public class Application extends Controller {
     
     public static Result getAllvehicleStatusList(){
 
-    	String params = "&type=actions-list&date=last-30-days";
+    	String params = "&type=actions-list&date=last-30-days&limit=all";
     	//String params = "&type=actions-list&date=2015-11-29";
     	
     	int countSubrequestmoreinfo = 0;
@@ -7093,7 +7119,7 @@ public class Application extends Controller {
     	Map<String, Integer> mapRM = new HashMap<String, Integer>();
     	Map<String, Integer> mapIPAdd = new HashMap<String, Integer>();
     	
-    	String params1 = "&type=visitors-list&date=last-30-days";
+    	String params1 = "&type=visitors-list&date=last-30-days&limit=all";
     		int totalTime = 0;
     		int lagCount = 0;
     		int newuserCount = 0;
@@ -7175,7 +7201,7 @@ public class Application extends Controller {
     	
     	
     	System.out.println("--------------- getStatusList ---------- "+value+" ---------");
-    	String params = "&type=actions-list&date=last-30-days";
+    	String params = "&type=actions-list&date=last-30-days&limit=all";
     	
     	int countSubrequestmoreinfo = 0;
 		int countShowrequestmoreinfoshow = 0;
@@ -7271,7 +7297,7 @@ public class Application extends Controller {
     	Map<String, Integer> mapRM = new HashMap<String, Integer>();
     	Map<String, Integer> mapIPAdd = new HashMap<String, Integer>();
     	
-    	String params1 = "&type=visitors-list&date=last-30-days";
+    	String params1 = "&type=visitors-list&date=last-30-days&limit=all";
     		int totalTime = 0;
     		int lagCount = 0;
     		int newuserCount = 0;
@@ -7380,7 +7406,7 @@ public class Application extends Controller {
     	for(int i=0;i<12;i++) {
     		String year = c.get(Calendar.YEAR)+"";
         	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
-    		JsonNode node = Json.parse(callClickAPI("&date="+year+"-"+month+"&type=visitors,visitors-new,actions,actions-average"));
+    		JsonNode node = Json.parse(callClickAPI("&date="+year+"-"+month+"&type=visitors,visitors-new,actions,actions-average&limit=all"));
     		JsonNode allVisitorNode = node.get(0);
     		JsonNode onlineVisitorNode = node.get(1);
     		JsonNode actionsNode = node.get(2);
@@ -7397,12 +7423,12 @@ public class Application extends Controller {
         String year = c.get(Calendar.YEAR)+"";
     	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
     	Integer dateOfMonth = c.get(Calendar.DAY_OF_MONTH);
-    	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&date="+year+"-"+month+"-"+dateOfMonth+"&type=visitors-online"));
+    	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&date="+year+"-"+month+"-"+dateOfMonth+"&type=visitors-online&limit=all"));
     	
-    	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue"));
-    	JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date=last-30-days"));
-    	JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-domains&date=last-30-days"));
-    	JsonNode searchesNodeList = Json.parse(callClickAPI("&type=searches-engines&date=last-30-days"));
+    	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue&limit=all"));
+    	JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date=last-30-days&limit=all"));
+    	JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-domains&date=last-30-days&limit=all"));
+    	JsonNode searchesNodeList = Json.parse(callClickAPI("&type=searches-engines&date=last-30-days&limit=all"));
     	List<PageVM> pagesList = new ArrayList<>();
     	List<PageVM> referersList = new ArrayList<>();
     	List<PageVM> searchesList = new ArrayList<>();
@@ -7480,7 +7506,7 @@ public class Application extends Controller {
         		String month = String.valueOf(addOneMo)+"-";
         		String dates = year + month + days;
             	
-        		String params = "&date="+dates+"&type=visitors-list";
+        		String params = "&date="+dates+"&type=visitors-list&limit=all";
         		try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
@@ -7521,7 +7547,7 @@ public class Application extends Controller {
         		String month = String.valueOf(addOneMo)+"-";
         		String dates = year + month + days;
             	
-        		String params = "&date="+dates+"&type=visitors-list";
+        		String params = "&date="+dates+"&type=visitors-list&limit=all";
         		try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
@@ -7566,7 +7592,7 @@ public class Application extends Controller {
         		
         		
         		visitorCount = 0;
-        		String params = "&date="+dates+"&type=visitors-list";
+        		String params = "&date="+dates+"&type=visitors-list&limit=all";
         		try {
         			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
@@ -7655,7 +7681,7 @@ public class Application extends Controller {
         		String month = String.valueOf(addOneMo)+"-";
         		String dates = year + month + days;
             	
-        		String params = "&date="+dates+"&type=visitors-list";
+        		String params = "&date="+dates+"&type=visitors-list&limit=all";
         		try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
@@ -7696,7 +7722,7 @@ public class Application extends Controller {
         		String month = String.valueOf(addOneMo)+"-";
         		String dates = year + month + days;
             	
-        		String params = "&date="+dates+"&type=visitors-list";
+        		String params = "&date="+dates+"&type=visitors-list&limit=all";
         		try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
@@ -7741,7 +7767,7 @@ public class Application extends Controller {
         		
         		
         		visitorCount = 0;
-        		String params = "&date="+dates+"&type=visitors-list";
+        		String params = "&date="+dates+"&type=visitors-list&limit=all";
         		try {
         			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
@@ -7819,9 +7845,9 @@ public class Application extends Controller {
     public static Result getVisitedData(String type) {
     	String params = null;
     	if(type.equals("week"))
-    		params = "&type=pages&date=last-7-days";
+    		params = "&type=pages&date=last-7-days&limit=all";
     	else
-    		params = "&type=pages&date=last-30-days";
+    		params = "&type=pages&date=last-30-days&limit=all";
     	String resultStr = callClickAPI(params);
     	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
     	List<String> vins = new ArrayList<String>(jsonNode.size());
