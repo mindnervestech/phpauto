@@ -533,7 +533,19 @@ angular.module('newApp')
     			        console.log($scope.pagesList);
     		  });
     		  
+    		  setInterval(function(){
+    			  $scope.onlineVisitorFind();
+    			}, 120000)
     		  
+    		$scope.onlineVisitorFind = function(){
+    			  
+    			  $http.get('/getVisitorOnline').success(function(response) {
+    				  console.log("hi  hihih yogesh");
+    				  console.log(response);
+    				  $scope.onlineVisitorsCount = response;
+    			  });
+    		  }	
+    			
     		  $scope.getAllVisitorList = function(){
     			  $location.path('/visitorsAnalytics/');
     		  }

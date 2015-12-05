@@ -7050,7 +7050,6 @@ public class Application extends Controller {
     public static Result getAllvehicleStatusList(){
 
     	String params = "&type=actions-list&date=last-30-days&limit=all";
-    	//String params = "&type=actions-list&date=2015-11-29";
     	
     	int countSubrequestmoreinfo = 0;
 		int countShowrequestmoreinfoshow = 0;
@@ -7092,6 +7091,7 @@ public class Application extends Controller {
         				if(dataArr[2].equals("emailtofriend")){
         					countSubemailtofriend++;
         				}
+        				
         				if(dataArr[2].equals("emailtofriendshow")){
         					countShowemailtofriend++;
         				}
@@ -7394,6 +7394,11 @@ public class Application extends Controller {
     	return response.toString();
     }
     
+    public static Result getVisitorOnline(){
+    	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&type=visitors-online&limit=all"));
+    	return ok(Json.toJson(onlineVisitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt()));
+    }
+    
     public static Result getMonthlyVisitorsStats() {
     	Calendar c = Calendar.getInstance();
     	String[] monthsArr = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -7484,12 +7489,14 @@ public class Application extends Controller {
     	return ok(Json.toJson(map));
       }
     
-    public static Result getSessionDaysUserStats(String value,String lasttime) {
+    public static Result getSessionDaysUserStats(String value,String lasttime,String analyType) {
     	
     	List<Integer> allVisitor = new ArrayList<Integer>(30);
     	List<String> months = new ArrayList<String>(30);
     	Map<String, Integer> mapRM = new HashMap<String, Integer>();
     	int visitorCount = 0;
+    	int totalTime = 0;
+    	int avgDur = 0;
     	Calendar c = Calendar.getInstance();
     	
     	if(lasttime.equals("month")){
@@ -7500,6 +7507,8 @@ public class Application extends Controller {
         	for(int i=0;i<30;i++) {
         		mapRM.clear();
         		visitorCount = 0;
+        		totalTime = 0;
+        		avgDur = 0;
         		String year = c.get(Calendar.YEAR)+"-";
         		String days = c.get(Calendar.DATE)+"";
         		Integer addmonth = c.get(Calendar.MONTH);
@@ -7508,31 +7517,71 @@ public class Application extends Controller {
         		String dates = year + month + days;
         		System.out.println("................................;;;;;;");
         		System.out.println(dates);
-        		String params = "&date="+dates+"&type=visitors-list&limit=all";
-        		try {
-    				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-    				for(int j=0;j<jsonArray.length();j++){
-    	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
-    	    			String arr[] = data.split("/");
-    	    			if(arr.length > 5){
-    	    			  if(arr[5] != null){
-    	    				  if(arr[5].equals(value)){
-    	    					  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString()); 
-    	   						 if (langValue == null) {
-    	   							visitorCount = visitorCount + 1;
-    	   						 	mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
-    	   						 }
-    	    				  }
-    	    			  }
-    	    			}
-    				}	
-    				
-    			} catch (JSONException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
+        		if(analyType.equals("enginesound")){
+        			
+        			String params = "&date="+dates+"&type=actions-list&limit=all";
+        			
+        			Map<String, Integer> map = new HashMap<String, Integer>();
+        			try {
+        				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+        				for(int j=0;j<jsonArray1.length();j++){
+        					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
+        					System.out.println(data);
+        					String dataArr[] = data.split("#");
+        					if(dataArr!=null && dataArr.length>0){
+        						int count = data.split("#").length - 1;
+        		    		 if(count == 2){
+        		    				if(dataArr[2].equals("enginesound")){
+        		    					visitorCount++;
+        		    				}
+        		    			}
+        					}
+        				}
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
+        			
+        		}else{
+        			String params = "&date="+dates+"&type=visitors-list&limit=all";
+        			try {
+        				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+        				for(int j=0;j<jsonArray.length();j++){
+        					String data = jsonArray.getJSONObject(j).get("landing_page").toString();
+        					String arr[] = data.split("/");
+        					if(arr.length > 5){
+        						if(arr[5] != null){
+        							if(arr[5].equals(value)){
+        								if(analyType.equals("user")){
+        									Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString()); 
+        									if (langValue == null) {
+        										visitorCount = visitorCount + 1;
+        										mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
+        									}
+        								}else if(analyType.equals("pageview")){
+        									visitorCount = visitorCount + 1;
+        								}else if(analyType.equals("sessionDuration")){
+        									visitorCount = visitorCount + 1;
+        									totalTime = totalTime + Integer.parseInt(jsonArray.getJSONObject(i).get("time_total").toString());
+        								}
+        							}
+        						}
+        					}
+        				}	
+        			} catch (JSONException e) {
+        				// TODO Auto-generated catch block
+        				e.printStackTrace();
+        			}
+        		}
         		
-        		allVisitor.add(visitorCount);
+        		if(analyType.equals("sessionDuration")){
+        			if(visitorCount != 0 || totalTime != 0){
+            			avgDur = totalTime/visitorCount;	
+            		}
+        			
+        			allVisitor.add(avgDur);
+        		}else{
+        			allVisitor.add(visitorCount);
+        		}
         		
         		months.add(month+days);
         		c.add(Calendar.DAY_OF_YEAR, 1);
@@ -7540,13 +7589,14 @@ public class Application extends Controller {
         	
     	}else if(lasttime.equals("week")){
     		
-    		
         	String[] monthsArr = new String[7]; 
         	c.add(Calendar.DAY_OF_YEAR, -6);
         	
         	for(int i=0;i<7;i++) {
         		mapRM.clear();
         		visitorCount = 0;
+        		totalTime = 0;
+        		avgDur = 0;
         		String year = c.get(Calendar.YEAR)+"-";
         		String days = c.get(Calendar.DATE)+"";
         		Integer addmonth = c.get(Calendar.MONTH);
@@ -7554,8 +7604,34 @@ public class Application extends Controller {
         		String month = String.valueOf(addOneMo)+"-";
         		String dates = year + month + days;
             	
-        		String params = "&date="+dates+"&type=visitors-list&limit=all";
-        		try {
+        		
+        		if(analyType.equals("enginesound")){
+        			
+        			String params = "&date="+dates+"&type=actions-list&limit=all";
+        			
+        			Map<String, Integer> map = new HashMap<String, Integer>();
+        			try {
+        				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+        				for(int j=0;j<jsonArray1.length();j++){
+        					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
+        					System.out.println(data);
+        					String dataArr[] = data.split("#");
+        					if(dataArr!=null && dataArr.length>0){
+        						int count = data.split("#").length - 1;
+        		    		 if(count == 2){
+        		    				if(dataArr[2].equals("enginesound")){
+        		    					visitorCount++;
+        		    				}
+        		    			}
+        					}
+        				}
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
+        			
+        		}else{
+        		  String params = "&date="+dates+"&type=visitors-list&limit=all";
+        		  try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
     	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
@@ -7563,11 +7639,19 @@ public class Application extends Controller {
     	    			if(arr.length > 5){
     	    			  if(arr[5] != null){
     	    				  if(arr[5].equals(value)){
-    	    					  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString());
-    	    					  if (langValue == null) {
-      	   							visitorCount = visitorCount + 1;
-      	   						 	mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
-      	   						 }
+    	    					  
+    	    					  if(analyType.equals("user")){
+    	    						  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString()); 
+    	    						  if (langValue == null) {
+    	    							  visitorCount = visitorCount + 1;
+    	    							  mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
+    	    						  	}
+    	    					  	}else if(analyType.equals("pageview")){
+    	    					  		visitorCount = visitorCount + 1;
+    	    					  	}else if(analyType.equals("sessionDuration")){
+    	    					  		visitorCount = visitorCount + 1;
+    	    					  		totalTime = totalTime + Integer.parseInt(jsonArray.getJSONObject(i).get("time_total").toString());
+    	    					  	}
     	    				  }
     	    			  }
     	    			}
@@ -7577,8 +7661,18 @@ public class Application extends Controller {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
+        	}
         		
-        		allVisitor.add(visitorCount);
+        		if(analyType.equals("sessionDuration")){
+        			if(visitorCount != 0){
+            			avgDur = totalTime/visitorCount;	
+            		}
+        			
+        			allVisitor.add(avgDur);
+        		}else{
+        			allVisitor.add(visitorCount);
+        		}
+        		
         		
         		months.add(month+days);
         		c.add(Calendar.DAY_OF_YEAR, 1);
@@ -7591,8 +7685,10 @@ public class Application extends Controller {
     		List<String> monthsArr = new ArrayList<>();
     		
     		int chagehr = 0;
-    		//String dates = dateFormat.format(date);
-    		String dates = "2015-12-01";
+    		totalTime = 0;
+    		avgDur = 0;
+    		
+    		String dates = dateFormat.format(date);
         	for(int i=0;i<24;i++) {
         		mapRM.clear();
         		if(i == 0){
@@ -7601,8 +7697,41 @@ public class Application extends Controller {
         			chagehr++;
         		}
         		
-        		
         		visitorCount = 0;
+        		
+        		
+        		if(analyType.equals("enginesound")){
+        			
+        			String params = "&date="+dates+"&type=actions-list&limit=all";
+        			//String params = "&date=2015-12-04&type=actions-list&limit=all";
+        			Map<String, Integer> map = new HashMap<String, Integer>();
+        			try {
+        				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+        				for(int j=0;j<jsonArray1.length();j++){
+        					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
+        					System.out.println(data);
+        					String dataArr[] = data.split("#");
+        					if(dataArr!=null && dataArr.length>0){
+        						int count = data.split("#").length - 1;
+        		    		    if(count == 2){
+        		    		    	if(dataArr[2].equals("enginesound")){
+        		    		    		SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
+          	    					    String timevisit = jsonArray1.getJSONObject(j).get("time_pretty").toString();
+          	    					    String[] timeset = timevisit.split(",");
+      									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+      									if(timeDiv[1].equals(String.valueOf(chagehr))){
+      										visitorCount++;
+      									}
+  	        		    			}
+        		    			}
+        					}
+        				}
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
+        			
+        		}else{
+        		
         		String params = "&date="+dates+"&type=visitors-list&limit=all";
         		try {
         			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
@@ -7615,15 +7744,20 @@ public class Application extends Controller {
     	    					  SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
     	    					  String timevisit = jsonArray.getJSONObject(j).get("time_pretty").toString();
     	    					  String[] timeset = timevisit.split(",");
-    	    					  System.out.println("==========time================");
-									System.out.println(timeset[1]);
 									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
 									if(timeDiv[1].equals(String.valueOf(chagehr))){
-										 Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString());
-										if (langValue == null) {
-		    	   							visitorCount = visitorCount + 1;
-		    	   						 	mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
-		    	   						 }
+										if(analyType.equals("user")){
+		    	    						  Integer langValue = mapRM.get(jsonArray.getJSONObject(i).get("uid").toString()); 
+		    	    						  if (langValue == null) {
+		    	    							  visitorCount = visitorCount + 1;
+		    	    							  mapRM.put(jsonArray.getJSONObject(i).get("uid").toString(), 1);
+		    	    						  	}
+		    	    					  	}else if(analyType.equals("pageview")){
+		    	    					  		visitorCount = visitorCount + 1;
+		    	    					  	}else if(analyType.equals("sessionDuration")){
+		    	    					  		visitorCount = visitorCount + 1;
+		    	    					  		totalTime = totalTime + Integer.parseInt(jsonArray.getJSONObject(i).get("time_total").toString());
+		    	    					  	}
 										
 									}
     	    				  }
@@ -7635,8 +7769,18 @@ public class Application extends Controller {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
+        	}
         		
-        		allVisitor.add(visitorCount);
+        		if(analyType.equals("sessionDuration")){
+        			if(visitorCount != 0){
+            			avgDur = totalTime/visitorCount;	
+            		}
+        			
+        			allVisitor.add(avgDur);
+        		}else{
+        			allVisitor.add(visitorCount);
+        		}
+        		
         		String valueTime = null;
         		if(i == 0){
         			valueTime = "12am";
@@ -7672,6 +7816,74 @@ public class Application extends Controller {
     	map.put("months", months);
     	return ok(Json.toJson(map));
     }
+    
+    
+    
+    
+    
+    //-------------------------------------
+    
+    		
+    /*String params = "&type=actions-list&date=last-30-days&limit=all";
+	
+	int countenginesound = 0;
+	
+	Map<String, Integer> map = new HashMap<String, Integer>();
+	try {
+		JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+		for(int i=0;i<jsonArray1.length();i++){
+			String data = jsonArray1.getJSONObject(i).get("action_url").toString();
+			System.out.println(data);
+			String dataArr[] = data.split("#");
+			if(dataArr!=null && dataArr.length>0){
+				int count = data.split("#").length - 1;
+    		 if(count == 2){
+    				if(dataArr[2].equals("requestmoreinfo")){
+    					countSubrequestmoreinfo++;
+    				}
+    				if(dataArr[2].equals("requestmoreinfoshow")){
+    					countShowrequestmoreinfoshow++;
+    				}
+    				
+    				if(dataArr[2].equals("scheduletest")){
+    					countSubscheduletest++;
+    				}
+    				if(dataArr[2].equals("scheduletestshow")){
+    					countShowscheduletestshow++;
+    				}
+    				
+    				if(dataArr[2].equals("emailtofriend")){
+    					countSubemailtofriend++;
+    				}
+    				
+    				if(dataArr[2].equals("emailtofriendshow")){
+    					countShowemailtofriend++;
+    				}
+    				
+    				if(dataArr[2].equals("tradeinapp")){
+    					countSubtrade++;
+    				}
+    				if(dataArr[2].equals("tradeinappshow")){
+    					countShowtrade++;
+    				}
+    				if(dataArr[2].equals("enginesound")){
+    					countenginesound++;
+    				}
+    			}
+			}
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}*/
+	
+    
+    
+    
+    //-----------------------------------
+    
+    
+    
+    
     
     public static Result getSessionDaysVisitorsStats(String value,String lasttime) {
     	

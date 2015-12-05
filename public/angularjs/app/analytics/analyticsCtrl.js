@@ -833,18 +833,21 @@ $scope.showscreenResoluationCount = function(){
 	$scope.screenResoluation = 1;
 }
 
+$scope.analyType = "";
+
 	$scope.openUserPopup = function(analyType){
 		$scope.analylineChartmonth = 0;
 		$scope.analylineChartweek = 0;
 		$scope.analylineChartday = 1;
 		$('#userModal').modal();
-		$scope.analylineChartMap("day");
+		$scope.analyType = analyType;
+		$scope.analylineChartMap("day",$scope.analyType);
 		
 	}
 	
-	$scope.analylineChartMap = function(lastTime){
+	$scope.analylineChartMap = function(lastTime,analyType){
 		
-		$http.get('/getSessionDaysUserStats/'+$routeParams.vin+'/'+lastTime).success(function(response){
+		$http.get('/getSessionDaysUserStats/'+$routeParams.vin+'/'+lastTime+'/'+analyType).success(function(response){
 			 console.log("-----------------------response-----------------------");	
 			console.log(response);	
 			
@@ -895,27 +898,30 @@ $scope.showscreenResoluationCount = function(){
 	}
 
 	$scope.analydayFunction = function(){
-		$scope.analylineChartMap("day");
+		console.log($scope.analyType)
+		$scope.analylineChartMap("day",$scope.analyType);
 		$scope.analylineChartday = 1;
 		$scope.analylineChartweek = 0;
 		$scope.analylineChartmonth = 0;
 	}
 	
 	$scope.analyweekFunction = function(){
-		$scope.analylineChartMap("week");
+		console.log($scope.analyType)
+		$scope.analylineChartMap("week",$scope.analyType);
 		$scope.analylineChartday = 0;
 		$scope.analylineChartweek = 1;
 		$scope.analylineChartmonth = 0;
 	}
 	
 	$scope.analymonthFunction = function(){
-		$scope.analylineChartMap("month");
+		console.log($scope.analyType)
+		$scope.analylineChartMap("month",$scope.analyType);
 		$scope.analylineChartday = 0;
 		$scope.analylineChartweek = 0;
 		$scope.analylineChartmonth = 1;
 	}
 
-	$scope.goToVisitors = function() {
+	$scope.goToVisitors = function(analyType) {
 		$location.path('/visitorsAnalytics');
 	}
 	
