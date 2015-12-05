@@ -7514,6 +7514,12 @@ public class Application extends Controller {
         		Integer addmonth = c.get(Calendar.MONTH);
         		Integer addOneMo = addmonth + 1;
         		String month = String.valueOf(addOneMo)+"-";
+        		if(days.length() < 2){
+        			days = 0+days;
+        		}
+        		if(month.length() < 2){
+        			month = 0+month;
+        		}
         		String dates = year + month + days;
         		System.out.println("................................;;;;;;");
         		System.out.println(dates);
@@ -7602,6 +7608,12 @@ public class Application extends Controller {
         		Integer addmonth = c.get(Calendar.MONTH);
         		Integer addOneMo = addmonth + 1;
         		String month = String.valueOf(addOneMo)+"-";
+        		if(days.length() < 2){
+        			days = 0+days;
+        		}
+        		if(month.length() < 2){
+        			month = 0+month;
+        		}
         		String dates = year + month + days;
             	
         		
@@ -7818,64 +7830,6 @@ public class Application extends Controller {
     }
     
     
-    
-    
-    
-    //-------------------------------------
-    
-    		
-    /*String params = "&type=actions-list&date=last-30-days&limit=all";
-	
-	int countenginesound = 0;
-	
-	Map<String, Integer> map = new HashMap<String, Integer>();
-	try {
-		JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-		for(int i=0;i<jsonArray1.length();i++){
-			String data = jsonArray1.getJSONObject(i).get("action_url").toString();
-			System.out.println(data);
-			String dataArr[] = data.split("#");
-			if(dataArr!=null && dataArr.length>0){
-				int count = data.split("#").length - 1;
-    		 if(count == 2){
-    				if(dataArr[2].equals("requestmoreinfo")){
-    					countSubrequestmoreinfo++;
-    				}
-    				if(dataArr[2].equals("requestmoreinfoshow")){
-    					countShowrequestmoreinfoshow++;
-    				}
-    				
-    				if(dataArr[2].equals("scheduletest")){
-    					countSubscheduletest++;
-    				}
-    				if(dataArr[2].equals("scheduletestshow")){
-    					countShowscheduletestshow++;
-    				}
-    				
-    				if(dataArr[2].equals("emailtofriend")){
-    					countSubemailtofriend++;
-    				}
-    				
-    				if(dataArr[2].equals("emailtofriendshow")){
-    					countShowemailtofriend++;
-    				}
-    				
-    				if(dataArr[2].equals("tradeinapp")){
-    					countSubtrade++;
-    				}
-    				if(dataArr[2].equals("tradeinappshow")){
-    					countShowtrade++;
-    				}
-    				if(dataArr[2].equals("enginesound")){
-    					countenginesound++;
-    				}
-    			}
-			}
-		}
-	} catch (Exception e) {
-		e.printStackTrace();
-	}*/
-	
     
     
     
