@@ -834,12 +834,12 @@ $scope.showscreenResoluationCount = function(){
 $scope.analyType = "";
 
 	$scope.openUserPopup = function(analyType){
-		$scope.analylineChartmonth = 0;
+		$scope.analylineChartmonth = 1;
 		$scope.analylineChartweek = 0;
-		$scope.analylineChartday = 1;
+		$scope.analylineChartday = 0;
 		$('#userModal').modal();
 		$scope.analyType = analyType;
-		$scope.analylineChartMap("day",$scope.analyType);
+		$scope.analylineChartMap("month",$scope.analyType);
 		
 	}
 	
