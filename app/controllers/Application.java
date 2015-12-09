@@ -7060,6 +7060,7 @@ public class Application extends Controller {
 		int countSubtrade = 0;
 		int countShowtrade = 0;
 		int countenginesound = 0;
+		int countvirtualtour = 0;
 		
     	int countSubemailtofriend = 0;
 		int countShowemailtofriend = 0;
@@ -7104,6 +7105,9 @@ public class Application extends Controller {
         				}
         				if(dataArr[2].equals("enginesound")){
         					countenginesound++;
+        				}
+        				if(dataArr[2].equals("virtualTour")){
+        					countvirtualtour++;
         				}
         			}
     			}
@@ -7177,6 +7181,7 @@ public class Application extends Controller {
 		map.put("pageview", lagCount);
     	map.put("followers", followerCount);
     	map.put("enginesound", countenginesound);
+    	map.put("virtualtour", countvirtualtour);
     	map.put("requestmoreinfo", countSubrequestmoreinfo);
     	map.put("requestmoreinfoshow", countShowrequestmoreinfoshow);
     	map.put("requestmoreinfoTotal", (countSubrequestmoreinfo+countShowrequestmoreinfoshow));
@@ -7212,6 +7217,7 @@ public class Application extends Controller {
 		int countSubtrade = 0;
 		int countShowtrade = 0;
 		int countenginesound = 0;
+		int countvirtualtour = 0;
 		
     	int countSubemailtofriend = 0;
 		int countShowemailtofriend = 0;
@@ -7285,6 +7291,9 @@ public class Application extends Controller {
         				if(dataArr[2].equals("enginesound")&&dataArr[1].equals(value)){
         					countenginesound++;
         				}
+        				if(dataArr[2].equals("virtualTour")&&dataArr[1].equals(value)){
+        					countvirtualtour++;
+        				}
         			}
     			}
     		}
@@ -7355,6 +7364,7 @@ public class Application extends Controller {
 		map.put("pageview", lagCount);
     	map.put("followers", followerCount);
     	map.put("enginesound", countenginesound);
+    	map.put("virtualtour",countvirtualtour);
     	map.put("requestmoreinfo", countSubrequestmoreinfo);
     	map.put("requestmoreinfoshow", countShowrequestmoreinfoshow);
     	map.put("requestmoreinfoTotal", (countSubrequestmoreinfo+countShowrequestmoreinfoshow));

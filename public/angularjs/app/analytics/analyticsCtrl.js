@@ -715,6 +715,19 @@ var lineChartData1 = {
 	    multiTooltipTemplate: "",
 	});
 	
+	var ctx2 = document.getElementById("line-chart5").getContext("2d");
+	window.myLine = new Chart(ctx2).Line(lineChartData1, {
+	    responsive: true,
+	    scaleOverride: true,
+	    tooltipCornerRadius: 0,
+	    scaleSteps: 4,
+	    scaleStepWidth:2,
+	    showScale: false,
+	    pointDot: false,
+	    tooltipTemplate: "",
+	    multiTooltipTemplate: "",
+	});
+	
 
 
 $http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
@@ -727,6 +740,7 @@ $http.get('/getStatusList/'+$routeParams.vin).success(function(data) {
 	$scope.avgSessDur = data.avgSessDur;
 	$scope.users = data.users;
 	$scope.enginesound = data.enginesound;
+	$scope.virtualtour = data.virtualtour;
 	
 	
 	var pieData = [
@@ -1301,6 +1315,19 @@ angular.module('newApp')
 		    multiTooltipTemplate: "",
 		});
 		
+		var ctx2 = document.getElementById("line-chart5").getContext("2d");
+		window.myLine = new Chart(ctx2).Line(lineChartData1, {
+		    responsive: true,
+		    scaleOverride: true,
+		    tooltipCornerRadius: 0,
+		    scaleSteps: 4,
+		    scaleStepWidth:2,
+		    showScale: false,
+		    pointDot: false,
+		    tooltipTemplate: "",
+		    multiTooltipTemplate: "",
+		});
+		
 
 
 	$http.get('/getAllvehicleStatusList').success(function(data) {
@@ -1313,7 +1340,7 @@ angular.module('newApp')
 		$scope.avgSessDur = data.avgSessDur;
 		$scope.users = data.users;
 		$scope.enginesound = data.enginesound;
-		
+		$scope.virtualtour = data.virtualtour;
 		
 		var pieData = [
 		               { value: data.newUser, color: "rgba(27, 184, 152,0.9)", highlight: "rgba(27, 184, 152,1)", label: "New Visitor" },
