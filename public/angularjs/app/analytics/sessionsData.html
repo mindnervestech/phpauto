@@ -117,7 +117,7 @@
 			</div>
 			<div class="col-lg-12">
 				<div class="row">
-					<div class="col-sm-2">
+					<a ng-click="openEmailpopup('requestMore')"><div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
 								<h3>
@@ -129,8 +129,8 @@
 									style="margin-top: 10px; margin-left: -27px;"></canvas>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-2">
+					</div></a>
+					<a ng-click="openEmailpopup('scheduleTest')"><div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
 								<h3>
@@ -142,8 +142,8 @@
 									style="margin-top: 10px; margin-left: -27px;"></canvas>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-2">
+					</div></a>
+					<a ng-click="openEmailpopup('tradeInApp')"><div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
 								<h3>
@@ -156,7 +156,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-2">
+					<a ng-click="openEmailpopup('emailToFrd')"><div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
 								<h3>
@@ -168,7 +168,7 @@
 									style="margin-top: 10px; margin-left: -27px;"></canvas>
 							</div>
 						</div>
-					</div>
+					</div></a>
 					<div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
@@ -406,9 +406,9 @@
 									            <div class="modal-content">
 									                <div class="modal-header">
 									                    <button type="button" class="close" id="driveClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-									                    <h4 class="modal-title">Heat Map</h4>
+									                    <h4 class="modal-title"></h4>
 									                </div>
-									                <div class="modal-body" style="height:900px;overflow-x:auto;">
+									                <div class="modal-body" style="height:510px;overflow-x:auto;">
 									                    	<div style="text-align: right;">
 				<!-- <input type="button" value="Hourly"> -->
 				<input type="button" ng-click="analydayFunction()" value="Day">
@@ -438,6 +438,51 @@
 								            </div>
 								        </div>
 								    </div>
+								    
+								    
+								    
+				
+				
+				
+				<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog" style="width: 1292px;">
+									            <div class="modal-content">
+									                <div class="modal-header">
+									                    <button type="button" class="close" id="driveClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+									                    <h4 class="modal-title"></h4>
+									                </div>
+									                <div class="modal-body" style="height:510px;overflow-x:auto;">
+									                    	<div style="text-align: right;">
+				<input type="button" ng-click="maildayFunction()" value="Day">
+				<input type="button" ng-click="mailweekFunction()" value="Week">
+				<input type="button" ng-click="mailmonthFunction()" value="Month">
+			</div>
+			<div class="col-xlg-12 col-lg-12" ng-if="maillineChartmonth == 1">
+				<div class="row">
+					<canvas id="mailline-chart" class="full"></canvas>
+				</div>
+			</div>
+			<div class="col-xlg-12 col-lg-12" ng-if="maillineChartweek == 1">
+				<div class="row">
+					<canvas id="mailline-chartweek" class="full"></canvas>
+				</div>
+			</div>
+			 <div class="col-xlg-12 col-lg-12" ng-if="maillineChartday == 1">
+				<div class="row">
+					<canvas id="mailline-chartday" class="full"></canvas>
+				</div>
+			</div> 
+								<div class="modal-footer">
+            											     <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+          					     </div>
+								                </div>
+								                
+								            </div>
+								        </div>
+								    </div>				    
+								    
+								    
+								    
 </div>
 
 <style>

@@ -529,13 +529,11 @@ angular.module('newApp')
     			        $scope.referersList = response.referersList;
     			        $scope.searchesList = response.searchesList;
     			        
-    			        console.log("-=-=-=-=-=-=-=-=-");
-    			        console.log($scope.pagesList);
     		  });
     		  
     		  setInterval(function(){
     			  $scope.onlineVisitorFind();
-    			}, 120000)
+    			}, 20000)
     		  
     		$scope.onlineVisitorFind = function(){
     			  

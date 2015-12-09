@@ -40,7 +40,7 @@
 			</div>
 			<div class="col-xlg-12 col-lg-12">
 				<div class="row">
-					<div class="col-xlg-2 col-lg-2">
+					<a ng-click="openUserPopup('user')"><div class="col-xlg-2 col-lg-2">
 					
 					  <div style="background-color: white;">
 					    <h3>
@@ -49,8 +49,8 @@
 					    <div style="font-size: 35px;">{{users}}</div>	
 						<canvas id="line-chart1" class="full"></canvas>
 					  </div>	
-					</div>
-					<div class="col-xlg-2 col-lg-2">	
+					</div></a>
+					<a ng-click="openUserPopup('pageview')"><div class="col-xlg-2 col-lg-2">	
 						<div style="background-color: white;">
 						<h3>
 									<strong>Pageview</strong>
@@ -58,8 +58,8 @@
 					    <div style="font-size: 35px;">{{pageview}}</div>	
 						<canvas id="line-chart2" class="full"></canvas>
 					  </div>
-					</div>
-					<div class="col-xlg-2 col-lg-2">	
+					</div></a>
+					<a ng-click="openUserPopup('sessionDuration')"><div class="col-xlg-2 col-lg-2">	
 						<div style="background-color: white;">
 						<h3>
 									<strong>Avg. Session Duration</strong>
@@ -67,16 +67,16 @@
 					    <div style="font-size: 35px;">{{avgSessDur}}</div>	
 						<canvas id="line-chart3" class="full"></canvas>
 					  </div>
-					</div>
-					<div class="col-xlg-2 col-lg-2">
+					</div></a>
+					<a ng-click="openUserPopup('enginesound')"><div class="col-xlg-2 col-lg-2">
 							<div style="background-color: white;">
-						<h3>
+							<h3>
 									<strong>engine sound</strong>
-								</h3>
+							</h3>
 					    <div style="font-size: 35px;">{{enginesound}}</div>	
 						<canvas id="line-chart4" class="full"></canvas>
 					  </div>
-					</div>
+					</div></a>
 					<div class="col-xlg-2 col-lg-2" style="margin-top: 26px;">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
@@ -104,7 +104,7 @@
 			</div>
 			<div class="col-lg-12">
 				<div class="row">
-					<div class="col-sm-2">
+					<a ng-click="openEmailpopup('requestMore')"><div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
 								<h3>
@@ -116,8 +116,8 @@
 									style="margin-top: 10px; margin-left: -27px;"></canvas>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-2">
+					</div></a>
+					<a ng-click="openEmailpopup('scheduleTest')"><div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
 								<h3>
@@ -129,8 +129,8 @@
 									style="margin-top: 10px; margin-left: -27px;"></canvas>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-2">
+					</div></a>
+					<a ng-click="openEmailpopup('tradeInApp')"><div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
 								<h3>
@@ -142,8 +142,8 @@
 									style="margin-top: 10px; margin-left: -27px;"></canvas>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-2">
+					</div></a>
+					<a ng-click="openEmailpopup('emailToFrd')"><div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
 								<h3>
@@ -155,7 +155,7 @@
 									style="margin-top: 10px; margin-left: -27px;"></canvas>
 							</div>
 						</div>
-					</div>
+					</div></a>
 					<div class="col-sm-2">
 						<div class="panel no-bd bd-3 panel-stat">
 							<div class="panel-header">
@@ -388,6 +388,93 @@
 			</div>
 		</div>
 	</div>
+
+
+	<div class="modal fade" id="userModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width: 1292px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" id="driveClose"
+						data-dismiss="modal" aria-hidden="true">
+						<i class="icons-office-52"></i>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body" style="height: 510px; overflow-x: auto;">
+					<div style="text-align: right;">
+						<!-- <input type="button" value="Hourly"> -->
+						<input type="button" ng-click="analydayFunction()" value="Day">
+						<input type="button" ng-click="analyweekFunction()" value="Week">
+						<input type="button" ng-click="analymonthFunction()" value="Month">
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="analylineChartmonth == 1">
+						<div class="row">
+							<canvas id="analyline-chart" class="full"></canvas>
+						</div>
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="analylineChartweek == 1">
+						<div class="row">
+							<canvas id="analyline-chartweek" class="full"></canvas>
+						</div>
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="analylineChartday == 1">
+						<div class="row">
+							<canvas id="analyline-chartday" class="full"></canvas>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed"
+							data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="emailModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width: 1292px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" id="driveClose"
+						data-dismiss="modal" aria-hidden="true">
+						<i class="icons-office-52"></i>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body" style="height: 510px; overflow-x: auto;">
+					<div style="text-align: right;">
+						<input type="button" ng-click="maildayFunction()" value="Day">
+						<input type="button" ng-click="mailweekFunction()" value="Week">
+						<input type="button" ng-click="mailmonthFunction()" value="Month">
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="maillineChartmonth == 1">
+						<div class="row">
+							<canvas id="mailline-chart" class="full"></canvas>
+						</div>
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="maillineChartweek == 1">
+						<div class="row">
+							<canvas id="mailline-chartweek" class="full"></canvas>
+						</div>
+					</div>
+					<div class="col-xlg-12 col-lg-12" ng-if="maillineChartday == 1">
+						<div class="row">
+							<canvas id="mailline-chartday" class="full"></canvas>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-embossed"
+							data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 </div>
 <style>
 .red {

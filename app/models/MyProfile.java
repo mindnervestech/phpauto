@@ -2,16 +2,12 @@ package models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class MyProfile extends Model {
-
-	
 	 
 	public String myname;
 	public String dealer_id;
