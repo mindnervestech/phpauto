@@ -1571,7 +1571,6 @@ $scope.openEmailpopup = function(mailType){
 $scope.maillineChartMap = function(lastTime,analyType){
 	console.log("hii printtttt");
 	$http.get('/getAllMailDaysUserStats/'+lastTime+'/'+analyType).success(function(response){
-		console.log("hii printtttt333333333");
 		var randomScalingFactor = [10,20,30,40,50,60,70,80];
 		var mailLineChartData = {
 		    labels: response.months,

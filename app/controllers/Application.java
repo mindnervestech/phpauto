@@ -7689,7 +7689,11 @@ public class Application extends Controller {
           	    					    String[] timeset = timevisit.split(",");
       									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
       									if(timeDiv[1].equals(String.valueOf(chagehr))){
-      										visitorCount++;
+      										if(timeDiv[4].equals("am") && i < 12){
+    											visitorCount++;
+    										}else if(timeDiv[4].equals("pm") && i >= 12){
+    											visitorCount++;
+    										}
       									}
   	        		    			 }
         		    		       }else if(mailType.equals("scheduleTest")){
@@ -7699,7 +7703,11 @@ public class Application extends Controller {
              	    					    String[] timeset = timevisit.split(",");
          									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
          									if(timeDiv[1].equals(String.valueOf(chagehr))){
-         										visitorCount++;
+         										if(timeDiv[4].equals("am") && i < 12){
+        											visitorCount++;
+        										}else if(timeDiv[4].equals("pm") && i >= 12){
+        											visitorCount++;
+        										}
          									}
      	        		    			 }
         		    		       }else if(mailType.equals("tradeInApp")){
@@ -7709,7 +7717,11 @@ public class Application extends Controller {
                 	    					    String[] timeset = timevisit.split(",");
             									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
             									if(timeDiv[1].equals(String.valueOf(chagehr))){
-            										visitorCount++;
+            										if(timeDiv[4].equals("am") && i < 12){
+            											visitorCount++;
+            										}else if(timeDiv[4].equals("pm") && i >= 12){
+            											visitorCount++;
+            										}
             									}
         	        		    			 }
         		    		       }else if(mailType.equals("emailToFrd")){
@@ -7719,7 +7731,11 @@ public class Application extends Controller {
                	    					    String[] timeset = timevisit.split(",");
            									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
            									if(timeDiv[1].equals(String.valueOf(chagehr))){
-           										visitorCount++;
+           										if(timeDiv[4].equals("am") && i < 12){
+        											visitorCount++;
+        										}else if(timeDiv[4].equals("pm") && i >= 12){
+        											visitorCount++;
+        										}
            									}
        	        		    			 }
         		    		       }
@@ -7809,7 +7825,7 @@ public class Application extends Controller {
         			month = 0+month;
         		}
         		String dates = year + month + days;
-        		if(analyType.equals("enginesound")){
+        		if(analyType.equals("enginesound") || analyType.equals("virtualtour")){
         			String params = "&date="+dates+"&type=actions-list&limit=all";
         			
         			Map<String, Integer> map = new HashMap<String, Integer>();
@@ -7822,9 +7838,16 @@ public class Application extends Controller {
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
         		    		 if(count == 2){
+        		    			 if(analyType.equals("enginesound")){
         		    				if(dataArr[2].equals("enginesound")){
         		    					visitorCount++;
         		    				}
+        		    			 }else if(analyType.equals("virtualtour")){
+        		    				 if(dataArr[2].equals("virtualTour")){
+         		    					visitorCount++;
+         		    				}
+        		    			 }
+        		    				
         		    			}
         					}
         				}
@@ -7900,7 +7923,7 @@ public class Application extends Controller {
         		String dates = year + month + days;
             	
         		
-        		if(analyType.equals("enginesound")){
+        		if(analyType.equals("enginesound") || analyType.equals("virtualtour")){
         			
         			String params = "&date="+dates+"&type=actions-list&limit=all";
         			
@@ -7914,9 +7937,15 @@ public class Application extends Controller {
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
         		    		 if(count == 2){
-        		    				if(dataArr[2].equals("enginesound")){
-        		    					visitorCount++;
-        		    				}
+        		    			 if(analyType.equals("enginesound")){
+         		    				if(dataArr[2].equals("enginesound")){
+         		    					visitorCount++;
+         		    				}
+         		    			 }else if(analyType.equals("virtualtour")){
+         		    				 if(dataArr[2].equals("virtualTour")){
+          		    					visitorCount++;
+          		    				}
+         		    			 }
         		    			}
         					}
         				}
@@ -7993,10 +8022,10 @@ public class Application extends Controller {
         		visitorCount = 0;
         		
         		
-        		if(analyType.equals("enginesound")){
+        		if(analyType.equals("enginesound") || analyType.equals("virtualtour")){
         			
         			String params = "&date="+dates+"&type=actions-list&limit=all";
-        			//String params = "&date=2015-12-04&type=actions-list&limit=all";
+        			//String params = "&date=2015-12-09&type=actions-list&limit=all";
         			Map<String, Integer> map = new HashMap<String, Integer>();
         			try {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
@@ -8007,15 +8036,35 @@ public class Application extends Controller {
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
         		    		    if(count == 2){
-        		    		    	if(dataArr[2].equals("enginesound")){
-        		    		    		SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
-          	    					    String timevisit = jsonArray1.getJSONObject(j).get("time_pretty").toString();
-          	    					    String[] timeset = timevisit.split(",");
-      									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-      									if(timeDiv[1].equals(String.valueOf(chagehr))){
-      										visitorCount++;
-      									}
-  	        		    			}
+        		    		    	if(analyType.equals("enginesound")){	
+        		    		    		if(dataArr[2].equals("enginesound")){
+        		    		    			SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
+        		    		    			String timevisit = jsonArray1.getJSONObject(j).get("time_pretty").toString();
+        		    		    			String[] timeset = timevisit.split(",");
+        		    		    			String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+        		    		    			if(timeDiv[1].equals(String.valueOf(chagehr))){
+        		    		    				if(timeDiv[4].equals("am") && i < 12){
+        											visitorCount++;
+        										}else if(timeDiv[4].equals("pm") && i >= 12){
+        											visitorCount++;
+        										}
+        		    		    			}
+        		    		    		}
+        		    		    	}else if(analyType.equals("virtualtour")){
+        		    		    		if(dataArr[2].equals("virtualTour")){
+        		    		    			SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
+        		    		    			String timevisit = jsonArray1.getJSONObject(j).get("time_pretty").toString();
+        		    		    			String[] timeset = timevisit.split(",");
+        		    		    			String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+        		    		    			if(timeDiv[1].equals(String.valueOf(chagehr))){
+        		    		    				if(timeDiv[4].equals("am") && i < 12){
+        											visitorCount++;
+        										}else if(timeDiv[4].equals("pm") && i >= 12){
+        											visitorCount++;
+        										}
+        		    		    			}
+        		    		    		}
+        		    		    	}
         		    			}
         					}
         				}
@@ -8041,15 +8090,28 @@ public class Application extends Controller {
 									if(timeDiv[1].equals(String.valueOf(chagehr))){
 										if(analyType.equals("user")){
 		    	    						  Integer langValue = mapRM.get(jsonArray.getJSONObject(j).get("uid").toString()); 
+		    	    						  
 		    	    						  if (langValue == null) {
 		    	    							  visitorCount = visitorCount + 1;
 		    	    							  mapRM.put(jsonArray.getJSONObject(j).get("uid").toString(), 1);
 		    	    						  	}
 		    	    					  	}else if(analyType.equals("pageview")){
-		    	    					  		visitorCount = visitorCount + 1;
+		    	    					  		if(timeDiv[4].equals("am") && i < 12){
+													visitorCount = visitorCount + 1;
+												}else if(timeDiv[4].equals("pm") && i >= 12){
+													visitorCount = visitorCount + 1;
+												}
 		    	    					  	}else if(analyType.equals("sessionDuration")){
-		    	    					  		visitorCount = visitorCount + 1;
-		    	    					  		totalTime = totalTime + Integer.parseInt(jsonArray.getJSONObject(j).get("time_total").toString());
+		    	    					  		
+		    	    					  		
+		    	    					  		if(timeDiv[4].equals("am") && i < 12){
+													visitorCount = visitorCount + 1;
+													totalTime = totalTime + Integer.parseInt(jsonArray.getJSONObject(j).get("time_total").toString());
+												}else if(timeDiv[4].equals("pm") && i >= 12){
+													visitorCount = visitorCount + 1;
+													totalTime = totalTime + Integer.parseInt(jsonArray.getJSONObject(j).get("time_total").toString());
+												}
+		    	    					  		
 		    	    					  	}
 										
 									}
@@ -8294,7 +8356,11 @@ public class Application extends Controller {
           	    					    String[] timeset = timevisit.split(",");
       									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
       									if(timeDiv[1].equals(String.valueOf(chagehr))){
-      										visitorCount++;
+      										if(timeDiv[4].equals("am") && i < 12){
+												visitorCount = visitorCount + 1;
+											}else if(timeDiv[4].equals("pm") && i >= 12){
+												visitorCount = visitorCount + 1;
+											}
       									}
   	        		    			 }
         		    		       }else if(analyType.equals("scheduleTest")){
@@ -8304,7 +8370,11 @@ public class Application extends Controller {
              	    					    String[] timeset = timevisit.split(",");
          									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
          									if(timeDiv[1].equals(String.valueOf(chagehr))){
-         										visitorCount++;
+         										if(timeDiv[4].equals("am") && i < 12){
+													visitorCount = visitorCount + 1;
+												}else if(timeDiv[4].equals("pm") && i >= 12){
+													visitorCount = visitorCount + 1;
+												}
          									}
      	        		    			 }
         		    		       }else if(analyType.equals("tradeInApp")){
@@ -8314,7 +8384,11 @@ public class Application extends Controller {
                 	    					    String[] timeset = timevisit.split(",");
             									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
             									if(timeDiv[1].equals(String.valueOf(chagehr))){
-            										visitorCount++;
+            										if(timeDiv[4].equals("am") && i < 12){
+    													visitorCount = visitorCount + 1;
+    												}else if(timeDiv[4].equals("pm") && i >= 12){
+    													visitorCount = visitorCount + 1;
+    												}
             									}
         	        		    			 }
         		    		       }else if(analyType.equals("emailToFrd")){
@@ -8324,7 +8398,11 @@ public class Application extends Controller {
                	    					    String[] timeset = timevisit.split(",");
            									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
            									if(timeDiv[1].equals(String.valueOf(chagehr))){
-           										visitorCount++;
+           										if(timeDiv[4].equals("am") && i < 12){
+													visitorCount = visitorCount + 1;
+												}else if(timeDiv[4].equals("pm") && i >= 12){
+													visitorCount = visitorCount + 1;
+												}
            									}
        	        		    			 }
         		    		       }
@@ -8411,7 +8489,7 @@ public class Application extends Controller {
         		String dates = year + month + days;
         		System.out.println("................................;;;;;;");
         		System.out.println(dates);
-        		if(analyType.equals("enginesound")){
+        		if(analyType.equals("enginesound") || analyType.equals("virtualtour")){
         			
         			String params = "&date="+dates+"&type=actions-list&limit=all";
         			
@@ -8425,9 +8503,16 @@ public class Application extends Controller {
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
         		    		 if(count == 2){
-        		    				if(dataArr[2].equals("enginesound")){
-        		    					visitorCount++;
-        		    				}
+        		    			    if(analyType.equals("enginesound")){
+        		    			    	if(dataArr[2].equals("enginesound") && dataArr[1].equals(value)){
+        		    			    		visitorCount++;
+        		    			    	}
+        		    			    }else if(analyType.equals("virtualtour")){
+        		    			    
+        		    			    	if(dataArr[2].equals("virtualTour") && dataArr[1].equals(value)){
+        		    			    		visitorCount++;
+        		    			    	}
+        		    			    }
         		    			}
         					}
         				}
@@ -8505,7 +8590,7 @@ public class Application extends Controller {
         		String dates = year + month + days;
             	
         		
-        		if(analyType.equals("enginesound")){
+        		if(analyType.equals("enginesound") || analyType.equals("virtualtour")){
         			
         			String params = "&date="+dates+"&type=actions-list&limit=all";
         			
@@ -8519,9 +8604,16 @@ public class Application extends Controller {
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
         		    		 if(count == 2){
-        		    				if(dataArr[2].equals("enginesound")){
-        		    					visitorCount++;
-        		    				}
+        		    			 if(analyType.equals("enginesound")){
+     		    			    	if(dataArr[2].equals("enginesound") && dataArr[1].equals(value)){
+     		    			    		visitorCount++;
+     		    			    	}
+     		    			    }else if(analyType.equals("virtualtour")){
+     		    			    
+     		    			    	if(dataArr[2].equals("virtualTour") && dataArr[1].equals(value)){
+     		    			    		visitorCount++;
+     		    			    	}
+     		    			    }
         		    			}
         					}
         				}
@@ -8573,7 +8665,6 @@ public class Application extends Controller {
         			allVisitor.add(visitorCount);
         		}
         		
-        		
         		months.add(month+days);
         		c.add(Calendar.DAY_OF_YEAR, 1);
         	}
@@ -8600,10 +8691,10 @@ public class Application extends Controller {
         		visitorCount = 0;
         		
         		
-        		if(analyType.equals("enginesound")){
+        		if(analyType.equals("enginesound") || analyType.equals("virtualtour")){
         			
         			String params = "&date="+dates+"&type=actions-list&limit=all";
-        			//String params = "&date=2015-12-04&type=actions-list&limit=all";
+        			//String params = "&date=2015-12-09&type=actions-list&limit=all";
         			Map<String, Integer> map = new HashMap<String, Integer>();
         			try {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
@@ -8614,15 +8705,42 @@ public class Application extends Controller {
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
         		    		    if(count == 2){
-        		    		    	if(dataArr[2].equals("enginesound")){
-        		    		    		SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
-          	    					    String timevisit = jsonArray1.getJSONObject(j).get("time_pretty").toString();
-          	    					    String[] timeset = timevisit.split(",");
-      									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
-      									if(timeDiv[1].equals(String.valueOf(chagehr))){
-      										visitorCount++;
-      									}
-  	        		    			}
+        		    		    	
+        		    		    	 if(analyType.equals("enginesound")){
+	        		    		    	if(dataArr[2].equals("enginesound") && dataArr[1].equals(value)){
+	        		    		    		SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
+	          	    					    String timevisit = jsonArray1.getJSONObject(j).get("time_pretty").toString();
+	          	    					    String[] timeset = timevisit.split(",");
+	      									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+	      									if(i >= 12 && timeDiv[4].equals("pm")){
+	      										if(timeDiv[1].equals(String.valueOf(chagehr))){
+		      										visitorCount++;
+		      									}
+	            		    		    	}else if(timeDiv[4].equals("am")){
+	            		    		    		if(timeDiv[1].equals(String.valueOf(chagehr))){
+		      										visitorCount++;
+		      									}
+	            		    		    	}
+	      									
+	      									
+	  	        		    			}
+        		    		    	 }else if(analyType.equals("virtualtour")){
+	        		    		    	if(dataArr[2].equals("virtualTour") && dataArr[1].equals(value)){
+	        		    		    		SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
+	          	    					    String timevisit = jsonArray1.getJSONObject(j).get("time_pretty").toString();
+	          	    					    String[] timeset = timevisit.split(",");
+	      									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+	      									if(i >= 12 && timeDiv[4].equals("pm")){
+	      										if(timeDiv[1].equals(String.valueOf(chagehr))){
+		      										visitorCount++;
+		      									}
+	            		    		    	}else if(i < 12 && timeDiv[4].equals("am")){
+	            		    		    		if(timeDiv[1].equals(String.valueOf(chagehr))){
+		      										visitorCount++;
+		      									}
+	            		    		    	}
+	        		    		    	}
+        		    		    	 }
         		    			}
         					}
         				}
@@ -8645,6 +8763,8 @@ public class Application extends Controller {
     	    					  String timevisit = jsonArray.getJSONObject(j).get("time_pretty").toString();
     	    					  String[] timeset = timevisit.split(",");
 									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
+									
+									if(i >= 12 && timeDiv[4].equals("pm")){
 									if(timeDiv[1].equals(String.valueOf(chagehr))){
 										if(analyType.equals("user")){
 		    	    						  Integer langValue = mapRM.get(jsonArray.getJSONObject(j).get("uid").toString()); 
@@ -8660,7 +8780,24 @@ public class Application extends Controller {
 		    	    					  	}
 										
 									}
-    	    				  }
+									}else if(i < 12 &&timeDiv[4].equals("am")){
+										if(timeDiv[1].equals(String.valueOf(chagehr))){
+											if(analyType.equals("user")){
+			    	    						  Integer langValue = mapRM.get(jsonArray.getJSONObject(j).get("uid").toString()); 
+			    	    						  if (langValue == null) {
+			    	    							  visitorCount = visitorCount + 1;
+			    	    							  mapRM.put(jsonArray.getJSONObject(j).get("uid").toString(), 1);
+			    	    						  	}
+			    	    					  	}else if(analyType.equals("pageview")){
+			    	    					  		visitorCount = visitorCount + 1;
+			    	    					  	}else if(analyType.equals("sessionDuration")){
+			    	    					  		visitorCount = visitorCount + 1;
+			    	    					  		totalTime = totalTime + Integer.parseInt(jsonArray.getJSONObject(j).get("time_total").toString());
+			    	    					  	}
+											
+										}
+									  }
+									}
     	    			  }
     	    			}
     				}	
@@ -8844,6 +8981,8 @@ public class Application extends Controller {
 										}else if(timeDiv[4].equals("pm") && i >= 12){
 											visitorCount = visitorCount + 1;
 										}
+										
+										
 									}
     	    				  }
     	    			  }
