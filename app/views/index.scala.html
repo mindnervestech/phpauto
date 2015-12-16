@@ -1,4 +1,4 @@
-@(permissions: String)
+@(permissions: String, events1: String, tasksList: String)
 <!doctype html>
 <html class="no-js">
     <head>
@@ -651,6 +651,8 @@
 var session = document.cookie;
 
 var permissions = @Html(permissions);
+	var events = @Html(events1);	
+	var taskslist = @Html(tasksList);
 if(document.cookie != undefined ) {
 	if( session.indexOf("PLAY_SESSION") == -1) {
 		window.location.href = "/login";

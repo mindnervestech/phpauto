@@ -17,8 +17,22 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
 });
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location) {
-	  
+	console.log(events);
+	console.log(taskslist);
 	
+	$scope.tasksValue = [];
+	angular.forEach(taskslist, function(value, key) {
+		angular.forEach(value.items, function(value, key) {
+			$scope.tasksValue.push(value);
+		});
+	});
+	
+	angular.forEach($scope.tasksValue, function(value, key) {
+		value.updated.value = $filter('date')(value.updated.value,"dd/MM/yyyy")
+	});
+	console.log($scope.tasksValue);
+	console.log(",,,,,,,,,,,,,,11,,,,,");
+	$scope.eventValue = events;
 	  $scope.stringArray = [];
 	  $scope.visitiorListMap = [];
 	  var lengthValue = 0;
@@ -59,7 +73,6 @@ angular.module('newApp')
   				}
   			});
   			
-  			console.log("////////////////////");
   			console.log($scope.stringArray);
   			console.log($scope.visitiorListMap);
   			

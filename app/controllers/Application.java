@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpServletRequest;
 
 import models.AuthUser;
 import models.Blog;
@@ -85,8 +87,10 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.eclipse.jetty.util.security.Credential;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.springframework.scheduling.TaskScheduler;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -129,6 +133,36 @@ import au.com.bytecode.opencsv.CSVWriter;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlRow;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.api.client.auth.oauth.OAuthHmacSigner;
+import com.google.api.client.auth.oauth.OAuthParameters;
+import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
+import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets.Details;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.ArrayMap;
+import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.Events;
+import com.google.api.services.oauth2.Oauth2;
+import com.google.api.services.oauth2.Oauth2Scopes;
+import com.google.api.services.tasks.Tasks.Tasklists;
+import com.google.api.services.tasks.Tasks.TasksOperations;
+import com.google.api.services.tasks.TasksRequest;
+import com.google.api.services.tasks.TasksRequestInitializer;
+import com.google.api.services.tasks.TasksScopes;
+import com.google.api.services.tasks.model.Task;
+import com.google.api.services.tasks.model.TaskList;
+import com.google.api.services.tasks.model.TaskLists;
+import com.google.api.services.tasks.model.Tasks;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
@@ -191,7 +225,7 @@ public class Application extends Controller {
     		for(Permission per: userPermissions) {
     			permission.put(per.name, true);
     		}
-    		return ok(index.render(Json.stringify(Json.toJson(permission))));
+    		return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
 		} else {
 			return ok(home.render("Invalid Credentials"));
 		}
@@ -218,7 +252,8 @@ public class Application extends Controller {
     		for(Permission per: userPermissions) {
     			permission.put(per.name, true);
     		}
-    		return ok(index.render(Json.stringify(Json.toJson(permission))));
+    		String event = "demo";
+    		return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
     	}
     }
 	
@@ -11081,5 +11116,185 @@ public class Application extends Controller {
 			   	return ok(msg);
 		   	}
 		}
+	
+	//private final static Log logger = LogFactory.getLog(GoogleConnectController.class);
+	private static final String APPLICATION_NAME = "Web client 1";
+	private static HttpTransport httpTransport;
+	private static HttpTransport httpTransporttask;
+	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+	private static com.google.api.services.calendar.Calendar client;
+	private static com.google.api.services.tasks.Tasks service;
+	private static int flagValue = 0;
+	
+	static GoogleClientSecrets clientSecrets;
+	static GoogleClientSecrets clientSecretstask;
+	static GoogleAuthorizationCodeFlow flow;
+	static GoogleAuthorizationCodeFlow flowtask;
+	static com.google.api.client.auth.oauth2.Credential credential;
+	static com.google.api.client.auth.oauth2.Credential credentialtask;
+
+	private static String clientId="657059082204-1uh3d2dt5cik1269s55bc80tlpd52gsb.apps.googleusercontent.com";
+	private static String clientSecret="Xx2gAJ4ucJ-rmcYdO3wwB5_D";
+	private static String redirectURI="http://localhost:9000/oauth2Callback";
+	private Set<Event> events=new HashSet<Event>();
+	static List<Tasks> tasksList = new ArrayList<>();
+	static List<Event> events1 = new ArrayList<>();
+	
+	private static Oauth2 oauth2;
+	
+	
+	public void setEvents(Set<Event> events) {
+		this.events = events;
+	}
+	
+	 //@Transactional(readOnly = true)
+	public static Result googleConnectionStatus() throws Exception { 
+		try {
+			authorize();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		flagValue = 0;
+		return redirect(authorize());
+		
+	}
+	public static Result googleConnectionStatusTasks() throws Exception { 
+		try {
+			authorizeTasks();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		flagValue = 1;
+		return redirect(authorizeTasks());
+		
+	}
+	
+	public static Result oauth2Callback() {
+		String code = request().getQueryString("code");
+		if(flagValue == 0){
+			events1.clear();
+			try {
+				TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectURI).execute();
+				credential = flow.createAndStoreCredential(response, "userID");
+				client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential).
+						setApplicationName(APPLICATION_NAME).build();
+
+				oauth2 = new Oauth2.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(
+						APPLICATION_NAME).build();
+				com.google.api.services.calendar.Calendar.Events events=client.events();
+				com.google.api.services.calendar.model.Events eventList=events.list("primary").execute();
+				System.out.println("eventList :: "+eventList.getItems().size());
+				events1 = eventList.getItems();
+						
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			AuthUser user = getLocalUser();
+			HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+			List<Permission> userPermissions = user.getPermission();
+			for(Permission per: userPermissions) {
+				permission.put(per.name, true);
+			}
+			return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+			
+		}else if(flagValue == 1){
+
+			tasksList.clear();
+			Tasks tasks = null;
+			List<String> idtastlist = new ArrayList<>();
+			
+			try {
+				TokenResponse response = flowtask.newTokenRequest(code).setRedirectUri(redirectURI).execute();
+				credentialtask = flowtask.createAndStoreCredential(response, "userID");
+				service = new com.google.api.services.tasks.Tasks.Builder(httpTransport, JSON_FACTORY, credentialtask)
+		           .setApplicationName(APPLICATION_NAME).build();
+				TaskLists taskLists = service.tasklists().list().execute();
+				String code1 = null;
+				for (TaskList taskList : taskLists.getItems()) {
+				  System.out.println(taskList.getTitle());
+				  System.out.println(taskList.getUpdated());
+				  idtastlist.add(taskList.getId());
+				}
+				for(String taskId:idtastlist){
+					tasks = service.tasks().list(taskId).execute();
+					tasksList.add(tasks);
+					/*for (Task task : tasks.getItems()) {
+						tasksList.add(task);
+					}*/
+				}
+				
+			    
+						
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			AuthUser user = getLocalUser();
+			HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+			List<Permission> userPermissions = user.getPermission();
+			for(Permission per: userPermissions) {
+				permission.put(per.name, true);
+			}
+			return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+		}
+		return ok();
+		
+	}
+	
+	
+
+	static List<String> SCOPES = new ArrayList<String>();
+	static List<String> SCOPESTASK = new ArrayList<String>();
+
+	private static String  authorize() throws Exception {
+		AuthorizationCodeRequestUrl authorizationUrl;
+		System.out.println(flow);
+		if(flow==null){
+			Details web=new Details();
+			web.setClientId(clientId);
+			web.setClientSecret(clientSecret);
+			clientSecrets = new GoogleClientSecrets().setWeb(web);
+			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+			SCOPES.add(CalendarScopes.CALENDAR);
+			SCOPES.add(Oauth2Scopes.USERINFO_EMAIL);
+			SCOPES.add(Oauth2Scopes.USERINFO_PROFILE);
+			flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
+					SCOPES).build();
+		}
+		authorizationUrl = flow.newAuthorizationUrl().setRedirectUri(redirectURI);
+		
+		return authorizationUrl.build();
+	}
+
+	private static String  authorizeTasks() throws Exception {
+		AuthorizationCodeRequestUrl authorizationUrl;
+		System.out.println(flowtask);
+		if(flowtask==null){
+			Details web=new Details();
+			web.setClientId(clientId);
+			web.setClientSecret(clientSecret);
+			clientSecretstask = new GoogleClientSecrets().setWeb(web);
+			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+			SCOPESTASK.add(TasksScopes.TASKS);
+			SCOPESTASK.add(TasksScopes.TASKS_READONLY);
+			SCOPESTASK.add(Oauth2Scopes.USERINFO_EMAIL);
+			SCOPESTASK.add(Oauth2Scopes.USERINFO_PROFILE);
+			flowtask = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecretstask,
+					SCOPESTASK).build();
+		}
+		authorizationUrl = flowtask.newAuthorizationUrl().setRedirectUri(redirectURI);
+		
+		return authorizationUrl.build();
+	}
+
+	
+	
+	public Set<Event> getEvents() throws IOException{
+		return this.events;
+	}
+	
+	
 }
 
