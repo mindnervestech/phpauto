@@ -216,7 +216,7 @@ public class Application extends Controller {
 
 		private static String clientId="657059082204-1uh3d2dt5cik1269s55bc80tlpd52gsb.apps.googleusercontent.com";
 		private static String clientSecret="Xx2gAJ4ucJ-rmcYdO3wwB5_D";
-		private static String redirectURI="http://localhost:9000/oauth2Callback";
+		private static String redirectURI="http://www.glider-autos.com/oauth2Callback";
 		private Set<Event> events=new HashSet<Event>();
 		static List<Tasks> tasksList = new ArrayList<>();
 		static List<Event> events1 = new ArrayList<>();
