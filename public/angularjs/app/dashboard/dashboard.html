@@ -244,12 +244,12 @@
 		                </div>
 	            </div>
         	<button class="btn btn-default" style="background: #ffffff;height: 146px;color: #319DB5;" ng-click="openCreateNewLeadPopup();"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>CREATE LEAD</button>
-              <form action="/googleConnectionStatus" method="post">
+             <!--  <form action="/googleConnectionStatus" method="post">
                       <button type="submit" class="btn btn-sm btn-dark add-task pull-right">Add Meeking</button>
                      </form> 
                       <form action="/googleConnectionStatusTasks" method="post">
                       <button type="submit" class="btn btn-sm btn-dark add-task pull-right">Add Task</button>
-                     </form> 
+                     </form>  -->
                      
         </div>
         <div class="row" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == '') && showCalendar">
@@ -822,7 +822,8 @@
                             <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusComplete(todo.id)">Complete</div>
                             <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusClose(todo.id)">Close</div>
                         </div>
-                        <span class="todo-task">{{todo.task}}</span><br>
+                        
+                        <span class="todo-task"><i ng-if="todo.saveas == 1" class="fa fa-google-plus-square" style="font-size: 20px;"></i>{{todo.task}}</span><br>
                         <span class="todo-task">{{todo.dueDate}}</span>
                     </li>
                 </ul>
@@ -835,7 +836,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 col-sm-6 portlets">
+  <!--   <div class="col-md-4 col-sm-6 portlets">
 		                <div class="panel no-bd bd-3 panel-stat"">
 		                	<div class="panel-header">
 		                		<b>Events</b>
@@ -854,8 +855,8 @@
 							
 		                </div>
 		                </div>
-    </div>
-    <div class="col-md-4 col-sm-6 portlets">
+    </div> -->
+   <!--  <div class="col-md-4 col-sm-6 portlets">
 		                <div class="panel no-bd bd-3 panel-stat"">
 		                	<div class="panel-header">
 		                		<b>Events</b>
@@ -879,7 +880,7 @@
 		                </div>
 		                </div>
     </div>
-    <div class="col-md-4 col-sm-6 portlets">
+    <div class="col-md-4 co -->l-sm-6 portlets">
 		  <div class="panel widget-weather"></div>
     </div>
     <div class="col-md-4 col-sm-6 portlets" style="display: none;">

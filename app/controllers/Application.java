@@ -143,6 +143,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.Oauth2Scopes;
 import com.google.api.services.tasks.TasksScopes;
+import com.google.api.services.tasks.model.Task;
 import com.google.api.services.tasks.model.TaskList;
 import com.google.api.services.tasks.model.TaskLists;
 import com.google.api.services.tasks.model.Tasks;
@@ -196,6 +197,38 @@ public class Application extends Controller {
         return ok(index.render("Your new application is ready."));
     }*/
 	
+	
+	//private final static Log logger = LogFactory.getLog(GoogleConnectController.class);
+		private static final String APPLICATION_NAME = "Web client 1";
+		private static HttpTransport httpTransport;
+		private static HttpTransport httpTransporttask;
+		private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+		private static com.google.api.services.calendar.Calendar client;
+		private static com.google.api.services.tasks.Tasks service;
+		private static int flagValue = 0;
+		
+		static GoogleClientSecrets clientSecrets;
+		static GoogleClientSecrets clientSecretstask;
+		static GoogleAuthorizationCodeFlow flow;
+		static GoogleAuthorizationCodeFlow flowtask;
+		static com.google.api.client.auth.oauth2.Credential credential;
+		static com.google.api.client.auth.oauth2.Credential credentialtask;
+
+		private static String clientId="657059082204-1uh3d2dt5cik1269s55bc80tlpd52gsb.apps.googleusercontent.com";
+		private static String clientSecret="Xx2gAJ4ucJ-rmcYdO3wwB5_D";
+		private static String redirectURI="http://localhost:9000/oauth2Callback";
+		private Set<Event> events=new HashSet<Event>();
+		static List<Tasks> tasksList = new ArrayList<>();
+		static List<Event> events1 = new ArrayList<>();
+		
+		private static Oauth2 oauth2;
+		
+		
+		public void setEvents(Set<Event> events) {
+			this.events = events;
+		}
+		
+	
 	public static Result login() {
 		String email = Form.form().bindFromRequest().get("email");
 		String password= Form.form().bindFromRequest().get("password");
@@ -208,7 +241,10 @@ public class Application extends Controller {
     		for(Permission per: userPermissions) {
     			permission.put(per.name, true);
     		}
-    		return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+    		
+    		return redirect("/googleConnectionStatus");
+			
+    		//return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
 		} else {
 			return ok(home.render("Invalid Credentials"));
 		}
@@ -4301,6 +4337,7 @@ public class Application extends Controller {
 			cal.setTime(date);
 			cal.add(Calendar.DATE, 1);
 			todo.dueDate = cal.getTime();
+			todo.saveas = 0;
 			todo.save();
 			
 			List<ScheduleTest> listData = new ArrayList<>();
@@ -4982,6 +5019,7 @@ public class Application extends Controller {
 		cal.setTime(date);
 		cal.add(Calendar.DATE, 1);
 		todo.dueDate = cal.getTime();
+		todo.saveas = 0;
 		todo.save();
     }
     
@@ -5639,6 +5677,7 @@ public class Application extends Controller {
     		toDo.priority = vm.priority;
     		toDo.status = "Assigned";
     		toDo.assignedBy = user;
+    		toDo.saveas = 0;
     		toDo.save();
     		
     		return ok();
@@ -5661,6 +5700,8 @@ public class Application extends Controller {
     			vm.priority = todo.priority;
     			vm.status = todo.status;
     			vm.assignedById = todo.assignedBy.id;
+    			vm.saveas = todo.saveas;
+    			
     			vmList.add(vm);
     		}
     		return ok(Json.toJson(vmList));
@@ -11100,51 +11141,21 @@ public class Application extends Controller {
 		   	}
 		}
 	
-	//private final static Log logger = LogFactory.getLog(GoogleConnectController.class);
-	private static final String APPLICATION_NAME = "Web client 1";
-	private static HttpTransport httpTransport;
-	private static HttpTransport httpTransporttask;
-	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-	private static com.google.api.services.calendar.Calendar client;
-	private static com.google.api.services.tasks.Tasks service;
-	private static int flagValue = 0;
 	
-	static GoogleClientSecrets clientSecrets;
-	static GoogleClientSecrets clientSecretstask;
-	static GoogleAuthorizationCodeFlow flow;
-	static GoogleAuthorizationCodeFlow flowtask;
-	static com.google.api.client.auth.oauth2.Credential credential;
-	static com.google.api.client.auth.oauth2.Credential credentialtask;
-
-	private static String clientId="657059082204-1uh3d2dt5cik1269s55bc80tlpd52gsb.apps.googleusercontent.com";
-	private static String clientSecret="Xx2gAJ4ucJ-rmcYdO3wwB5_D";
-	private static String redirectURI="http://www.glider-autos.com/oauth2Callback";
-	private Set<Event> events=new HashSet<Event>();
-	static List<Tasks> tasksList = new ArrayList<>();
-	static List<Event> events1 = new ArrayList<>();
-	
-	private static Oauth2 oauth2;
-	
-	
-	public void setEvents(Set<Event> events) {
-		this.events = events;
-	}
-	
-	 //@Transactional(readOnly = true)
 	public static Result googleConnectionStatus() throws Exception { 
 		try {
 			authorize();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		flagValue = 0;
+		
 		return redirect(authorize());
 		
 	}
-	public static Result googleConnectionStatusTasks() throws Exception { 
+	/*public static Result googleConnectionStatusTasks() throws Exception { 
 		try {
 			authorizeTasks();
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -11152,11 +11163,12 @@ public class Application extends Controller {
 		flagValue = 1;
 		return redirect(authorizeTasks());
 		
-	}
+	}*/
 	
 	public static Result oauth2Callback() {
+		System.out.println("call------------------calllllllllllllloooooo");
 		String code = request().getQueryString("code");
-		if(flagValue == 0){
+		//if(flagValue == 0){
 			events1.clear();
 			try {
 				TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectURI).execute();
@@ -11170,46 +11182,96 @@ public class Application extends Controller {
 				com.google.api.services.calendar.model.Events eventList=events.list("primary").execute();
 				System.out.println("eventList :: "+eventList.getItems().size());
 				events1 = eventList.getItems();
-						
+				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+				Calendar calendar = Calendar.getInstance();
+				Calendar calendar1 = Calendar.getInstance();
+				for(Event ev:events1){
+					ScheduleTest  scheduleTest = new ScheduleTest();
+					calendar.setTimeInMillis(ev.getEnd().getDateTime().getValue());
+					calendar1.setTimeInMillis(ev.getStart().getDateTime().getValue());
+					String startDate = df.format(calendar1.getTime());
+					String starttime = parseTime.format(calendar1.getTime());
+					scheduleTest.setConfirmDate(df.parse(startDate));
+					scheduleTest.setConfirmTime(parseTime.parse(starttime));
+					scheduleTest.setEmail(ev.getSummary());
+					scheduleTest.setVin("no");
+					scheduleTest.save();
+					
+				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			AuthUser user = getLocalUser();
-			HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
-			List<Permission> userPermissions = user.getPermission();
-			for(Permission per: userPermissions) {
-				permission.put(per.name, true);
-			}
-			return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
-			
-		}else if(flagValue == 1){
-
+		
+			Calendar c1 = Calendar.getInstance();
+			Calendar c = Calendar.getInstance();
+	        c.add(Calendar.DAY_OF_YEAR, +7);
+	        
 			tasksList.clear();
 			Tasks tasks = null;
 			List<String> idtastlist = new ArrayList<>();
 			
 			try {
-				TokenResponse response = flowtask.newTokenRequest(code).setRedirectUri(redirectURI).execute();
-				credentialtask = flowtask.createAndStoreCredential(response, "userID");
-				service = new com.google.api.services.tasks.Tasks.Builder(httpTransport, JSON_FACTORY, credentialtask)
+				//TokenResponse response = flowtask.newTokenRequest(code).setRedirectUri(redirectURI).execute();
+				//credentialtask = flowtask.createAndStoreCredential(response, "userID");
+				service = new com.google.api.services.tasks.Tasks.Builder(httpTransport, JSON_FACTORY, credential)
 		           .setApplicationName(APPLICATION_NAME).build();
 				TaskLists taskLists = service.tasklists().list().execute();
-				String code1 = null;
+				//String code1 = null;
 				for (TaskList taskList : taskLists.getItems()) {
 				  System.out.println(taskList.getTitle());
 				  System.out.println(taskList.getUpdated());
 				  idtastlist.add(taskList.getId());
 				}
+				AuthUser user = getLocalUser();
 				for(String taskId:idtastlist){
 					tasks = service.tasks().list(taskId).execute();
 					tasksList.add(tasks);
-					/*for (Task task : tasks.getItems()) {
-						tasksList.add(task);
-					}*/
+					for (Task task : tasks.getItems()) {
+						//tasksList.add(task);
+						DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						Calendar calendar = Calendar.getInstance();
+						try{
+							calendar.setTimeInMillis(task.getDue().getValue());
+						}catch(Exception e){
+							calendar.setTimeInMillis(task.getUpdated().getValue());
+						}
+						
+						String dateValue = df.format(calendar.getTime());
+						String googleDate = sdf.format(calendar.getTime());
+						String sevenDayDate = sdf.format(c.getTime());
+						String currDate = sdf.format(c1.getTime());
+						if(sdf.parse(sevenDayDate).after(sdf.parse(googleDate)) && sdf.parse(googleDate).after(sdf.parse(currDate))){
+							List<ToDo> toDo1 = ToDo.findByDateAndTask(df.parse(dateValue), task.getTitle()); 
+							if(toDo1.size() == 0){
+								ToDo toDo = new ToDo();
+					    		toDo.task = task.getTitle();
+					    		toDo.status = "Assigned";
+					    		toDo.dueDate = df.parse(dateValue);
+					    		toDo.priority = "High";
+					    		toDo.assignedBy = user;
+					    		toDo.assignedTo = user;
+					    		toDo.saveas = 1;
+					    		toDo.save();
+							}
+						}else if(sdf.parse(currDate).equals(sdf.parse(googleDate))){
+							List<ToDo> toDo1 = ToDo.findByDateAndTask(df.parse(dateValue), task.getTitle()); 
+							if(toDo1.size() == 0){
+								ToDo toDo = new ToDo();
+					    		toDo.task = task.getTitle();
+					    		toDo.status = "Assigned";
+					    		toDo.dueDate = df.parse(dateValue);
+					    		toDo.priority = "High";
+					    		toDo.assignedBy = user;
+					    		toDo.assignedTo = user;
+					    		toDo.saveas = 1;
+					    		toDo.save();
+							}
+						}
+					}
 				}
-				
-			    
 						
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -11221,17 +11283,18 @@ public class Application extends Controller {
 				permission.put(per.name, true);
 			}
 			return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
-		}
-		return ok();
+		//}
+		//return ok();
 		
 	}
 	
 	
 
 	static List<String> SCOPES = new ArrayList<String>();
-	static List<String> SCOPESTASK = new ArrayList<String>();
+	//static List<String> SCOPESTASK = new ArrayList<String>();
 
 	private static String  authorize() throws Exception {
+		System.out.println("call------------------calllllllllllllloooooo111111111");
 		AuthorizationCodeRequestUrl authorizationUrl;
 		System.out.println(flow);
 		if(flow==null){
@@ -11241,8 +11304,11 @@ public class Application extends Controller {
 			clientSecrets = new GoogleClientSecrets().setWeb(web);
 			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 			SCOPES.add(CalendarScopes.CALENDAR);
+			SCOPES.add(TasksScopes.TASKS);
+			SCOPES.add(TasksScopes.TASKS_READONLY);
 			SCOPES.add(Oauth2Scopes.USERINFO_EMAIL);
 			SCOPES.add(Oauth2Scopes.USERINFO_PROFILE);
+			
 			flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
 					SCOPES).build();
 		}
@@ -11251,7 +11317,7 @@ public class Application extends Controller {
 		return authorizationUrl.build();
 	}
 
-	private static String  authorizeTasks() throws Exception {
+	/*private static String  authorizeTasks() throws Exception {
 		AuthorizationCodeRequestUrl authorizationUrl;
 		System.out.println(flowtask);
 		if(flowtask==null){
@@ -11270,7 +11336,7 @@ public class Application extends Controller {
 		authorizationUrl = flowtask.newAuthorizationUrl().setRedirectUri(redirectURI);
 		
 		return authorizationUrl.build();
-	}
+	}*/
 
 	
 	

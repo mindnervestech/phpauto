@@ -26,6 +26,7 @@ public class ToDo extends Model {
 	public String priority;
 	public String status;
 	public String seen;
+	public Integer saveas;
 
 	@ManyToOne
 	public AuthUser assignedBy;
@@ -79,7 +80,16 @@ public class ToDo extends Model {
 	public void setSeen(String seen) {
 		this.seen = seen;
 	}
-	
+
+	public Integer getSaveas() {
+		return saveas;
+	}
+	public void setSaveas(Integer saveas) {
+		this.saveas = saveas;
+	}
+
+
+
 	public static Finder<Long,ToDo> find = new Finder<>(Long.class,ToDo.class);
 	
 	public static ToDo findById(Long id) {
@@ -92,6 +102,10 @@ public class ToDo extends Model {
 	
 	public static List<ToDo> findByDate(Date date) {
 		return find.where().eq("status", "Assigned").eq("dueDate", date).findList();
+	}
+	
+	public static List<ToDo> findByDateAndTask(Date date,String taskTitle) {
+		return find.where().eq("task", taskTitle).eq("dueDate", date).findList();
 	}
 	
 	public static int findAllNewCountByUser(AuthUser user) {

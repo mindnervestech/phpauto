@@ -173,5 +173,5 @@ GET   /getAllvehicleStatusList		controllers.Application.getAllvehicleStatusList(
 GET   /getDemographics/:value		controllers.Application.getDemographics(value:String)
 GET   /getAllVehicleDemographics		controllers.Application.getAllVehicleDemographics()
 GET   /oauth2Callback			controllers.Application.oauth2Callback()
-POST   /googleConnectionStatus			controllers.Application.googleConnectionStatus()
-POST   /googleConnectionStatusTasks			controllers.Application.googleConnectionStatusTasks()
+GET   /googleConnectionStatus			controllers.Application.googleConnectionStatus()
+#GET   /googleConnectionStatusTasks			controllers.Application.googleConnectionStatusTasks()

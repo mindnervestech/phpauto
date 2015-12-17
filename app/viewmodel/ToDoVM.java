@@ -10,6 +10,7 @@ public class ToDoVM {
 	public String priority;
 	public String status;
 	public Integer assignedById;
+	public Integer saveas;
 	public static void main(String[] arg) {
     	String s = "http://glider-autos.com:8080/glivr/vehicleDetails/WBAFR7C51CC813198";
     	String[] arr = s.split("/");
