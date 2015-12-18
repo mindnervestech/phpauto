@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.avaje.ebean.Expr;
 
@@ -39,6 +40,9 @@ public class AuthUser extends Model implements Identity {
 	@Id
 	public Integer id;
 	public String provider;
+	
+	@ManyToOne
+	public Location location;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Permission> permission;
@@ -160,6 +164,15 @@ public class AuthUser extends Model implements Identity {
 		this.imageUrl = imageUrl;
 	}
 
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public static List<AuthUser> getUserByType() {
 		return find.where().or(Expr.eq("role", "General Manager"), Expr.eq("role", "Sales Person")).findList();
 	}
@@ -180,6 +193,10 @@ public class AuthUser extends Model implements Identity {
 	
 	public static AuthUser findByEmail(String email) {
 		return find.where().eq("email", email).findUnique();
+	}
+	
+	public static AuthUser findByLocatio(Location locations) {
+		return find.where().eq("location", locations).findUnique();
 	}
 	
 }

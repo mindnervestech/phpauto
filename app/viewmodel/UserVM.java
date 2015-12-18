@@ -14,5 +14,7 @@ public class UserVM {
 	public Integer successRate;
 	public String currentLeads;
 	public String salesAmount;
+	public String password;
+	public Long locationId;
 	
 }

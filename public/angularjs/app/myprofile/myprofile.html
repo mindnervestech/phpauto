@@ -2,7 +2,8 @@
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
+      <li ng-if="userRole != 'General Manager'" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
+      <li ng-if="userRole == 'General Manager'" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">Location</button></a></li>
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
@@ -132,6 +133,10 @@
 </div>
 
 
+<a style="font-size: 26px;" data-toggle="modal" data-target="#modal-basic" ng-click="createGeneralManager()"><u>General Manager Details</u></a>
+<hr class="ng-scope">
+
+
 <!-- <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Post to:</label>
 	<div class="col-sm-5">
@@ -153,10 +158,62 @@
 <!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
 
 </form>
-	        
 	      </div>
-	      
 	    </div>
+	    
+	     <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" id = "btnClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Create General Manager</strong></h4>
+                </div>
+                <form name="userFrm" ng-submit="saveImage()">
+                <div class="modal-body">
+                   
+                   		<div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.firstName"  required>
+								</div>
+						</div>
+						
+						<div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
+								<div class="col-sm-6">
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="user.email" ng-blur="checkEmail('create')"  required>
+								</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Password *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.password"  required>
+								</div>
+						</div>
+						<p style="color:red;"><b>{{emailMsg}}</b></p>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.phone"  required>
+								</div>
+						</div>
+						
+						<label class="col-sm-3 control-label" style="text-align: right;">Photo </label>
+                   <!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
+                   <p><!-- <label>&{field.name}</label> --><!-- <span id="preview"> --></span>
+ 	               <input class="form-control" type="file" id="file" style="margin-left: 29%;width: 42%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{img}}></span>
+                  </p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-embossed">Create General Manager</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
   </div>
   
   

@@ -19,6 +19,14 @@ angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location) {
 	console.log(events);
 	console.log(taskslist);
+	$scope.userKey = userKey;
+	
+	$http.get('/getUserRole').success(function(data) {
+		console.log(data);
+		
+		$scope.userRole = data.role;
+	});
+	
 	
 	$scope.tasksValue = [];
 	angular.forEach(taskslist, function(value, key) {
@@ -3151,9 +3159,16 @@ angular.module('newApp')
 }]);	
 
 angular.module('newApp')
-.controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 	$scope.myprofile = {};
+	$scope.userKey = userKey;
+	
+	$http.get('/getUserRole').success(function(data) {
+		$scope.userRole = data.role;
+	});
+	console.log($scope.userKey);
 	$http.get('/getMyProfile')
+	
 	.success(function(data) {
 		$scope.myprofile = data;
 	});
@@ -3186,9 +3201,84 @@ angular.module('newApp')
 		});
 	}
 	
-	$scope.goToUsers = function() {
-		$location.path('/createUser');
+	$scope.goToLoaction = function() {
+		$location.path('/createLocation');
 	}
+	
+	$scope.createGeneralManager =function(){
+		$scope.img="/assets/images/profile-pic.jpg ";
+		
+	}
+	
+
+	 var logofile;
+		$scope.onLogoFileSelect = function ($files) {
+			logofile = $files;
+			for (var i = 0; i < $files.length; i++) {
+				var $file = $files[i];
+				if (window.FileReader && $file.type.indexOf('image') > -1) {
+					var fileReader = new FileReader();
+					fileReader.readAsDataURL($files[i]);
+					var loadFile = function (fileReader, index) {
+						fileReader.onload = function (e) {
+							$timeout(function () {
+								$scope.img = e.target.result;
+								console.log(e.target.result);
+							});
+							
+						}
+					}(fileReader, i);
+				}
+			}
+		}	
+	
+	
+	$scope.saveImage = function() {
+		
+		$scope.user.id = $scope.userKey;
+		$scope.user.userType = "General Manager";
+		if(angular.isUndefined(logofile)) {
+			//if($scope.emailMsg == "") {
+				$http.post('/updateImageFile',$scope.user)
+				.success(function(data) {
+					$scope.user.firstName=" ";
+		            $scope.user.lastName=" ";
+		            $scope.user.email=" ";
+		            $scope.user.phone=" ";
+		            $scope.user.userType=" ";
+		            $scope.user.img=" ";
+		            $('#btnClose').click();
+		            $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "User saved successfully",
+					});
+		            $scope.init();
+				});
+			//}
+		} else {
+			//if($scope.emailMsg == "") {
+		console.log("./././././.222");
+			   $upload.upload({
+		            url : '/updateImageFile',
+		            method: 'post',
+		            file:logofile,
+		            data:$scope.user
+		        }).success(function(data, status, headers, config) {
+		            console.log('success');
+		            $("#file").val('');
+		            $('#btnClose').click();
+		            $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "User saved successfully",
+					});
+		            $scope.init();
+		        });
+			//}
+		}
+	   }
+	
 	
 	
 }]);	

@@ -53,6 +53,7 @@ import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.FollowBrand;
 import models.GroupTable;
+import models.Location;
 import models.MyProfile;
 import models.NewsletterDate;
 import models.Permission;
@@ -107,6 +108,7 @@ import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
 import viewmodel.LeadVM;
+import viewmodel.LocationVM;
 import viewmodel.NoteVM;
 import viewmodel.PageVM;
 import viewmodel.PinVM;
@@ -188,7 +190,7 @@ public class Application extends Controller {
 	final static String emailPassword = Play.application().configuration()
 			.getString("mail.password");
 			
-			public static int userId = -1361609913;
+			//public static int userId = -1361609913;
 			
 	static String simulatevin = "{    'success': true,    'specification': {        'vin': 'WDDNG7KB7DA494890',        'year': '2013',        'make': 'Mercedes-Benz',        'model': 'S-Class',        'trim_level': 'S65 AMG',        'engine': '6.0L V12 SOHC 36V TURBO',        'style': 'SEDAN 4-DR',        'made_in': 'GERMANY',        'steering_type': 'R&P',        'anti_brake_system': '4-Wheel ABS',        'tank_size': '23.80 gallon',        'overall_height': '58.00 in.',        'overall_length': '206.50 in.',        'overall_width': '73.70 in.',        'standard_seating': '5',        'optional_seating': null,        'highway_mileage': '19 miles/gallon',        'city_mileage': '12 miles/gallon'    },    'vin': 'WDDNG7KB7DA494890'}";
 
@@ -235,6 +237,10 @@ public class Application extends Controller {
 		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).findUnique();
 		if(user != null) {
 			session("USER_KEY", user.id+"");
+			session("USER_ROLE", user.role+"");
+			System.out.println("///////////////");
+			System.out.println(session("USER_KEY"));
+			System.out.println(session("USER_ROLE"));
 			//return  redirect("/dealer/index.html#/");
     		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
     		List<Permission> userPermissions = user.getPermission();
@@ -244,7 +250,7 @@ public class Application extends Controller {
     		
     		return redirect("/googleConnectionStatus");
 			
-    		//return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+    		//return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
 		} else {
 			return ok(home.render("Invalid Credentials"));
 		}
@@ -271,8 +277,7 @@ public class Application extends Controller {
     		for(Permission per: userPermissions) {
     			permission.put(per.name, true);
     		}
-    		String event = "demo";
-    		return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+    		return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
     	}
     }
 	
@@ -756,6 +761,12 @@ public class Application extends Controller {
     	}	
     }
     
+    
+    public static Result getUserRole(){
+    	Identity user = getLocalUser();
+    	AuthUser userObj = (AuthUser)user;
+    	return ok(Json.toJson(userObj));
+    }
     
     public static Result saveVehicle() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -1299,6 +1310,237 @@ public class Application extends Controller {
     }
     
     
+    public static Result uploadLocationImageFile(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		
+    		Form<LocationVM> form = DynamicForm.form(LocationVM.class).bindFromRequest();
+    		
+	    	AuthUser userObj = new AuthUser();
+	    	LocationVM vm = form.get();
+	    	System.out.println(vm.locationaddress);
+	    	Location loc = new Location();
+	    	loc.setEmail(vm.locationemail);
+	    	loc.setAddress(vm.locationaddress);
+	    	loc.setName(vm.locationName);
+	    	loc.setPhone(vm.locationphone);
+	    	loc.save();
+	    	
+	    	 MultipartFormData body = request().body().asMultipartFormData();
+	    	   if(body != null) {
+	    		FilePart picture = body.getFile("file0");
+		    	  if (picture != null) {
+		    	    String fileName = picture.getFilename();
+		    	    File fdir = new File(rootDir+File.separator+"LocationImg"+File.separator+loc.id);
+		    	    if(!fdir.exists()) {
+		    	    	fdir.mkdir();
+		    	    }
+		    	    String filePath = rootDir+File.separator+"LocationImg"+File.separator+loc.id+File.separator+File.separator+fileName;
+		    	    File file = picture.getFile();
+		    	    try {
+		    	    		FileUtils.moveFile(file, new File(filePath));
+		    	    		Location location = Location.findById(loc.id);
+		    	    		location.setImageUrl("LocationImg"+"/"+location.id+"/"+fileName);
+		    	    		location.setImageName(fileName);
+		    	    		location.update();	
+		    	    		
+		    	  } catch (FileNotFoundException e) {
+		  			e.printStackTrace();
+			  		} catch (IOException e) {
+			  			e.printStackTrace();
+			  		} 
+		    	  } 
+	    	   } 
+	    	
+    		return ok(Json.toJson(loc.id));
+    	}
+    }
+    
+    
+    public static Result UpdateuploadManagerImageFile(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+	    	
+	    	UserVM vm = form.get();
+	    	AuthUser userObj = AuthUser.findByLocatio(Location.findById(vm.locationId));
+	    	
+	    	userObj.setFirstName(vm.firstName);
+	    	userObj.setLastName(vm.lastName);
+	    	userObj.setEmail(vm.email);
+	    	userObj.setPhone(vm.phone);
+	    	//userObj.set = Location.findById(vm.locationId);
+
+	    	
+	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	    	Random rnd = new Random();
+
+	    	   StringBuilder sb = new StringBuilder( 6 );
+	    	   for( int i = 0; i < 6; i++ ) 
+	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+	    	
+	    	  // userObj.password = sb.toString();
+	    	
+	    	   userObj.update();
+	    	   
+	    	   MultipartFormData body = request().body().asMultipartFormData();
+	    	   if(body != null) {
+	    		FilePart picture = body.getFile("file0");
+		    	  if (picture != null) {
+		    	    String fileName = picture.getFilename();
+		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"userPhoto");
+		    	    if(!fdir.exists()) {
+		    	    	fdir.mkdir();
+		    	    }
+		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+		    	    File file = picture.getFile();
+		    	    try {
+		    	    		FileUtils.moveFile(file, new File(filePath));
+		    	    		AuthUser user = AuthUser.findById(userObj.id);
+		    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
+		    	    		user.setImageName(fileName);
+		    	    		user.update();	
+		    	    		
+		    	  } catch (FileNotFoundException e) {
+		  			e.printStackTrace();
+			  		} catch (IOException e) {
+			  			e.printStackTrace();
+			  		} 
+		    	  } 
+	    	   } 
+	    	   
+	    	return ok();
+    	}
+    }
+    
+    public static Result uploadManagerImageFile(){
+    	
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+    		
+	    	AuthUser userObj = new AuthUser();
+	    	UserVM vm = form.get();
+	    	
+	    	userObj.firstName = vm.firstName;
+	    	userObj.lastName = vm.lastName;
+	    	userObj.email = vm.email;
+	    	userObj.phone = vm.phone;
+	    	userObj.role = vm.userType;
+	    	userObj.location = Location.findById(vm.locationId);
+
+	    	
+	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	    	Random rnd = new Random();
+
+	    	   StringBuilder sb = new StringBuilder( 6 );
+	    	   for( int i = 0; i < 6; i++ ) 
+	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+	    	
+	    	   userObj.password = sb.toString();
+	    	   List<Permission> permissionList = Permission.getAllPermission();
+	    	   if(vm.userType.equals("General Manager")) {
+	    		   userObj.permission = permissionList;
+	    	   }
+	    	   
+	    	   if(vm.userType.equals("Manager")) {
+	    		   userObj.permission = permissionList;
+	    	   }
+	    	   
+	    	   if(vm.userType.equals("Sales Person")) {
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+	    			   if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
+	    				   permissionData.add(obj);
+	    			   }
+	    		   }
+	    		   userObj.permission = permissionData;
+	    	   }
+	    	   userObj.save();
+	    	   
+	    	   MultipartFormData body = request().body().asMultipartFormData();
+	    	   if(body != null) {
+	    		FilePart picture = body.getFile("file0");
+		    	  if (picture != null) {
+		    	    String fileName = picture.getFilename();
+		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"userPhoto");
+		    	    if(!fdir.exists()) {
+		    	    	fdir.mkdir();
+		    	    }
+		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+		    	    File file = picture.getFile();
+		    	    try {
+		    	    		FileUtils.moveFile(file, new File(filePath));
+		    	    		AuthUser user = AuthUser.findById(userObj.id);
+		    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
+		    	    		user.setImageName(fileName);
+		    	    		user.update();	
+		    	    		
+		    	  } catch (FileNotFoundException e) {
+		  			e.printStackTrace();
+			  		} catch (IOException e) {
+			  			e.printStackTrace();
+			  		} 
+		    	  } 
+	    	   } 
+	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
+	    	   SiteLogo logo = SiteLogo.findByUser(logoUser);
+	    		Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		  
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 		   
+		  			Message message = new MimeMessage(session);
+		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			message.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(userObj.email));
+		  			message.setSubject("Your username and password ");	  			
+		  			Multipart multipart = new MimeMultipart();
+	    			BodyPart messageBodyPart = new MimeBodyPart();
+	    			messageBodyPart = new MimeBodyPart();
+	    			
+	    			VelocityEngine ve = new VelocityEngine();
+	    			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+	    			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+	    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+	    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+	    			ve.init();
+	    			
+	    			Template t = ve.getTemplate("/public/emailTemplate/newUserTemplate.vm"); 
+	    	        VelocityContext context = new VelocityContext();
+	    	        context.put("hostnameUrl", imageUrlPath);
+	    	        //context.put("siteLogo", logo.logoImagePath);
+	    	        context.put("username", userObj.email);
+	    	        context.put("password", userObj.password);
+	    	        StringWriter writer = new StringWriter();
+	    	        t.merge( context, writer );
+	    	        String content = writer.toString(); 
+	    			
+	    			messageBodyPart.setContent(content, "text/html");
+	    			multipart.addBodyPart(messageBodyPart);
+	    			message.setContent(multipart);
+	    			Transport.send(message);
+		       		} catch (MessagingException e) {
+		  			  throw new RuntimeException(e);
+		  		}
+	    	   
+	    	return ok();
+    	}
+    }
+    
     public static Result uploadPhotos() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
@@ -1833,7 +2075,7 @@ public class Application extends Controller {
     	List<SqlRow> brandFollowers = FollowBrand.getAllBrandFollowers(user);
     	
     	for(SqlRow row: brandFollowers) {
-    			AuthUser logoUser = AuthUser.findById(userId);
+    			AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 	    	    SiteLogo logo = SiteLogo.findByUser(logoUser);
 		    	String email = (String) row.get("email");
 		    	List<FollowBrand> brandList = FollowBrand.getBrands(user, email);
@@ -1916,9 +2158,9 @@ public class Application extends Controller {
     
 	public static void sendPriceAlertMail() {
 		
-		AuthUser user = AuthUser.findById(userId);
+		AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 		MyProfile profile = MyProfile.findByUser(user);
-		AuthUser logoUser = AuthUser.findById(userId);
+		AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
  	    SiteLogo logo = SiteLogo.findByUser(logoUser);
 		
 		List<PriceAlert> priceAlertList = PriceAlert.getEmailsByStatus(user);
@@ -5024,7 +5266,7 @@ public class Application extends Controller {
     }
     
     private static void sendMail(Map map) {
-    	AuthUser logoUser = AuthUser.findById(userId);
+    	AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByUser(logoUser);
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -5168,7 +5410,7 @@ public class Application extends Controller {
 			  		} 
 		    	  } 
 	    	   } 
-	    	   AuthUser logoUser = AuthUser.findById(userId);
+	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
 	    	   SiteLogo logo = SiteLogo.findByUser(logoUser);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
@@ -5204,7 +5446,7 @@ public class Application extends Controller {
 	    			Template t = ve.getTemplate("/public/emailTemplate/newUserTemplate.vm"); 
 	    	        VelocityContext context = new VelocityContext();
 	    	        context.put("hostnameUrl", imageUrlPath);
-	    	        context.put("siteLogo", logo.logoImagePath);
+	    	        //context.put("siteLogo", logo.logoImagePath);
 	    	        context.put("username", userObj.email);
 	    	        context.put("password", userObj.password);
 	    	        StringWriter writer = new StringWriter();
@@ -5220,6 +5462,39 @@ public class Application extends Controller {
 		  		}
 	    	   
 	    	return ok();
+    	}
+    }
+    
+    
+    public static Result getAllLocation() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		
+    		List<AuthUser> userList = AuthUser.getUserByType();
+    		List<LocationVM> vmList = new ArrayList<>();
+    		List<Location> locationList = Location.findAllData();
+    		for(Location location : locationList) {
+    			LocationVM vm = new LocationVM();
+    			vm.id = location.id;
+    			vm.locationaddress = location.address;
+    			vm.locationemail = location.email;
+    			vm.locationName = location.name;
+    			vm.locationphone = location.phone;
+    			vm.imageName = location.imageName;
+    			vm.imageUrl = location.imageUrl;
+    			AuthUser users = AuthUser.findByLocatio(location);
+    			vm.email = users.email;
+    			vm.firstName = users.firstName;
+    			vm.lastName = users.lastName;
+    			vm.phone = users.phone;
+    			vm.managerFullName = users.firstName+""+users.lastName;
+    			vm.mImageName = users.imageName;
+    			vm.mImageUrl = users.imageUrl;
+    			
+    			vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
     	}
     }
     
@@ -5298,6 +5573,61 @@ public class Application extends Controller {
 	   return ok("");
    }
     
+   public static Result updateUploadLocationImageFile() {
+	   
+	   if(session("USER_KEY") == null || session("USER_KEY") == "") {
+   		return ok(home.render(""));
+   	} else {
+	    	
+	        		
+	        		Form<LocationVM> form = DynamicForm.form(LocationVM.class).bindFromRequest();
+	        		
+	    	    	AuthUser userObj = new AuthUser();
+	    	    	LocationVM vm = form.get();
+	    	    	System.out.println(vm.locationaddress);
+	    	    	Location loc = Location.findById((long)vm.id);
+	    	    	if(loc != null){
+	    	    		loc.setEmail(vm.locationemail);
+		    	    	loc.setAddress(vm.locationaddress);
+		    	    	loc.setName(vm.locationName);
+		    	    	loc.setPhone(vm.locationphone);
+		    	    	loc.update();
+
+		    	    	
+		    	    	 MultipartFormData body = request().body().asMultipartFormData();
+		  	    	   if(body != null) {
+		  	    	   File file1 = new File(rootDir+loc.imageUrl);
+		  	    	   file1.delete();
+		  	    		FilePart picture = body.getFile("file0");
+		  		    	  if (picture != null) {
+		  		    	    String fileName = picture.getFilename();
+		  		    	    File fdir = new File(rootDir+File.separator+"LocationImg"+File.separator+loc.id);
+		  		    	    if(!fdir.exists()) {
+		  		    	    	fdir.mkdir();
+		  		    	    }
+		  		    	    String filePath = rootDir+File.separator+"LocationImg"+File.separator+loc.id+File.separator+fileName;
+		  		    	    File file = picture.getFile();
+		  		    	    try {
+		  		    	    	FileUtils.moveFile(file, new File(filePath));
+			    	    		Location location = Location.findById(loc.id);
+			    	    		location.setImageUrl("LocationImg"+"/"+location.id+"/"+fileName);
+			    	    		location.setImageName(fileName);
+			    	    		location.update();	
+		  		    	    		
+		  		    	  } catch (FileNotFoundException e) {
+		  		  			e.printStackTrace();
+		  			  		} catch (IOException e) {
+		  			  			e.printStackTrace();
+		  			  		} 
+		  		    	  } 
+		  	    	   }
+   					}
+	        		return ok(Json.toJson(loc.id));
+   	} 	
+	   
+	 
+   }
+   
     public static Result updateUser() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
@@ -5312,6 +5642,10 @@ public class Application extends Controller {
 	    	userObj.setEmail(vm.email);
 	    	userObj.setPhone(vm.phone);
 	    	userObj.setRole(vm.userType);
+	    	userObj.setPassword(vm.password);
+	    	if(vm.userType.equals("General Manager")){
+	    		session("USER_ROLE", vm.userType+"");
+	    	}
 	    	
 	    	userObj.deleteManyToManyAssociations("permission");
 	    	List<Permission> permissionList = Permission.getAllPermission();
@@ -5347,9 +5681,9 @@ public class Application extends Controller {
 		    	    		FileUtils.moveFile(file, new File(filePath));
 		    	    		AuthUser user = AuthUser.findById(userObj.id);
 		    	    	
-		    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
-		    	    		user.setImageName(fileName);
-		    	    		user.update();	
+		    	    		userObj.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
+		    	    		userObj.setImageName(fileName);
+		    	    		//user.update();	
 		    	    		
 		    	  } catch (FileNotFoundException e) {
 		  			e.printStackTrace();
@@ -5358,7 +5692,7 @@ public class Application extends Controller {
 			  		} 
 		    	  } 
 	    	   }
-	    	userObj.update();
+	    	   userObj.update();
 	    	return ok();
     	}    	
     }
@@ -7175,7 +7509,7 @@ public class Application extends Controller {
 			e.printStackTrace();
 		}
     	
-    	AuthUser user = AuthUser.findById(userId);
+    	AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	List<PriceAlert> pAlert = PriceAlert.getByStatus(user);
     	int followerCount = pAlert.size();
     	
@@ -9611,7 +9945,7 @@ public class Application extends Controller {
     		tradeIn.setYear(leadVM.year);
     		tradeIn.save();
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicles.get(0).getVin());
-    		AuthUser defaultUser = AuthUser.findById(userId);
+    		AuthUser defaultUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     		SiteLogo siteLogo = SiteLogo.findByUser(defaultUser);
     		SiteContent siteContent = SiteContent.findByUser(defaultUser);
     		String heading1 = "",heading2 = "";
@@ -9624,11 +9958,11 @@ public class Application extends Controller {
 
 			try {
 				Document document = new Document();
-				createDir(pdfRootDir, userId, tradeIn.getId());
-				filepath = pdfRootDir + File.separator + userId
+				createDir(pdfRootDir, Integer.getInteger(session("USER_KEY")), tradeIn.getId());
+				filepath = pdfRootDir + File.separator + Integer.getInteger(session("USER_KEY"))
 						+ File.separator + "trade_in_pdf" + File.separator
 						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
-				findpath = File.separator + userId + File.separator + "trade_in_pdf" + File.separator
+				findpath = File.separator + Integer.getInteger(session("USER_KEY")) + File.separator + "trade_in_pdf" + File.separator
 						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
 				// UPDATE table_name
 				// SET column1=value1,column2=value2,...
@@ -11043,11 +11377,11 @@ public class Application extends Controller {
 		cal.setTime(date);
 		cal.add(Calendar.DATE, -30);
 		List<Blog> blogList = Blog.getBlogsByDate(cal.getTime(),date);
-		AuthUser user = AuthUser.findById(userId);
+		AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 		MyProfile profile = MyProfile.findByUser(user);
 		String mapUrl = "http://maps.google.com/?q="+profile.address+","+profile.city+","+profile.zip+","+profile.state+","+profile.country;
 		if(blogList.size() > 0) {
-			AuthUser logoUser = AuthUser.findById(userId);
+			AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 	    	SiteLogo logo = SiteLogo.findByUser(logoUser);
 			List<Contacts> contactsList = Contacts.getAllNewsletter();
 			for(Contacts contact : contactsList) {
@@ -11282,7 +11616,7 @@ public class Application extends Controller {
 			for(Permission per: userPermissions) {
 				permission.put(per.name, true);
 			}
-			return ok(index.render(Json.stringify(Json.toJson(permission)),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+			return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
 		//}
 		//return ok();
 		

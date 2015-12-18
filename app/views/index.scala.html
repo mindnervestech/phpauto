@@ -1,4 +1,4 @@
-@(permissions: String, events1: String, tasksList: String)
+@(permissions: String, userRole:String, userKey:String, events1: String, tasksList: String)
 <!doctype html>
 <html class="no-js">
     <head>
@@ -633,6 +633,7 @@
         <script src="/dealer/moreInfo/tradeInCtrl.js"></script>
         <script src="/dealer/blogs/blogsCtrl.js"></script>
         <script src="dealer/myprofile/UserCtrl.js"></script>
+        <script src="dealer/myprofile/LocationCtrl.js"></script>
         <script src="dealer/CRM/crmCtrl.js"></script>
         <script src="dealer/analytics/analyticsCtrl.js"></script>
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
@@ -653,6 +654,10 @@ var session = document.cookie;
 var permissions = @Html(permissions);
 	var events = @Html(events1);	
 	var taskslist = @Html(tasksList);
+	var userRole = '@Html(userRole)';
+	var userKey = '@Html(userKey)';
+	console.log(userRole);
+	
 if(document.cookie != undefined ) {
 	if( session.indexOf("PLAY_SESSION") == -1) {
 		window.location.href = "/login";
