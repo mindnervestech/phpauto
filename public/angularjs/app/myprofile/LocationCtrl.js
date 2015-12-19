@@ -245,12 +245,13 @@ angular.module('newApp')
 			
 				$http.post('/updateUploadLocationImageFile',$scope.locationObj)
 				.success(function(data) {
-					
+					$scope.managerObj.locationId = data;
+					$scope.updateManager();
 		            $('#btnClose').click();
 		            $.pnotify({
 					    title: "Success",
 					    type:'success',
-					    text: "User saved successfully",
+					    text: "Location saved successfully",
 					});
 		            $scope.init();
 				});
@@ -258,7 +259,7 @@ angular.module('newApp')
 			   $upload.upload({
 		            url : '/updateUploadLocationImageFile',
 		            method: 'post',
-		            file:logofile,
+		            file:logofile1,
 		            data:$scope.locationObj
 		        }).success(function(data, status, headers, config) {
 		            console.log('success');
@@ -272,7 +273,7 @@ angular.module('newApp')
 		            $.pnotify({
 					    title: "Success",
 					    type:'success',
-					    text: "User saved successfully",
+					    text: "Location saved successfully",
 					});
 		            $scope.init();
 		        });
@@ -289,7 +290,7 @@ angular.module('newApp')
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "User saved successfully",
+				    text: "Manager saved successfully",
 				});
 	            $scope.init();
 			});
@@ -312,7 +313,7 @@ angular.module('newApp')
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "User saved successfully",
+				    text: "Manager saved successfully",
 				});
 	            $scope.init();
 	        });

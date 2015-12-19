@@ -3238,7 +3238,6 @@ angular.module('newApp')
 		$scope.user.id = $scope.userKey;
 		$scope.user.userType = "General Manager";
 		if(angular.isUndefined(logofile)) {
-			//if($scope.emailMsg == "") {
 				$http.post('/updateImageFile',$scope.user)
 				.success(function(data) {
 					$scope.user.firstName=" ";
@@ -3253,12 +3252,10 @@ angular.module('newApp')
 					    type:'success',
 					    text: "User saved successfully",
 					});
-		            $scope.init();
+		            //$scope.init();
 				});
-			//}
 		} else {
 			//if($scope.emailMsg == "") {
-		console.log("./././././.222");
 			   $upload.upload({
 		            url : '/updateImageFile',
 		            method: 'post',
