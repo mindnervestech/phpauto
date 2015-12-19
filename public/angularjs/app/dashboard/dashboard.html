@@ -21,6 +21,20 @@
 
     </div>
 </div> -->
+<style type="text/css">
+.wheth-report div{
+background-color: black !important;
+}
+
+.wheth-report .panel-header{
+padding-left: 32px !important;
+}
+
+.list-high{
+padding: 0px 10px 0px 10px !important;
+}
+
+</style>
 <div ng-if="userRole == 'General Manager' ||userRole == 'Manager'">
 <div class="row" ng-init="init()" >
     
@@ -254,11 +268,57 @@
                      
         </div>
         <div class="row" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == '') && showCalendar">
-            <div class="col-md-12">
-			    <div class="widget widget_calendar bg-dark">
-			            <div class="multidatepicker"></div>
+                    <button class="btn btn-sm btn-blue" style="position: absolute; z-index: 1000; margin-left: -425px;" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="wi wi-day-cloudy-gusts"></i></button>
+            <div class="col-md-12" id="load_cal_or_wheth">
+    			    <div class="widget widget_calendar bg-dark cal-report"><div class="multidatepicker">
+			           </div>
         		</div>
+        		<div class="panel widget-weather wheth-report"></div>
         </div>
+        <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;">
+        		<strong>Future Appointments</strong>
+                      <div style="background: none repeat scroll 0% 0% rgb(248, 248, 248);border-left: 2px solid rgb(243, 210, 97);padding: 0px 5px; margin-top: 2px;" ng-repeat="sd in scheduleListData">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button>
+                      </div>
+                  </div>
+                  <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                  <h4 class="modal-title"><strong>Service Test</strong></h4>
+                </div>
+                <div class="modal-body">
+              <div class="col-md-12">
+              <div class="panel panel-default no-bd">
+                <div class="panel-body bg-white">
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <form role="form" class="form-validation">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="control-label">Firstname</label>
+                              <div class="append-icon">
+                                <input type="text" name="firstname" class="form-control" minlength="3" placeholder="Minimum 3 characters..." required>
+                                <i class="icon-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
       <div class="col-md-12 col-sm-6 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == '') && showToDoList">
         <div class="panel">
@@ -881,9 +941,7 @@
 		                </div>
 		                </div>
     </div>-->
-    <div class="col-md-4 col-sm-6 portlets">
-		  <div class="panel widget-weather"></div>
-    </div>
+    
     <div class="col-md-4 col-sm-6 portlets" style="display: none;">
         <div class="panel widget-weather"></div>
         <div class="panel widget-member clearfix">

@@ -11711,6 +11711,11 @@ public class Application extends Controller {
 		return this.events;
 	}
 	
-	
+	public static Result getScheduleTestData(){
+		AuthUser user = getLocalUser();
+		List<ScheduleTest> list = ScheduleTest.findAllByUser(user);
+		System.out.println(list.size());
+		return ok(Json.toJson(list));
+	}
 }
 

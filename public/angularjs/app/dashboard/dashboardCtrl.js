@@ -503,7 +503,6 @@ angular.module('newApp')
     			            tooltipTemplate: "dffdff",
     			            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>",
     			            responsive: true,
-    			            scaleShowLabels: false,
     			            showScale: false,
     			        };
     			        var ctx = document.getElementById("visitors-chart").getContext("2d");
@@ -1735,6 +1734,36 @@ angular.module('newApp')
 					$scope.testDrive();
 				});
 		   }
+		   
+		   $scope.cal_whe_flag = true;
+		   $(".wheth-report").hide();
+		   $(".wheth-report-status").hide();
+		   $scope.changeType = function(){
+			   if($scope.cal_whe_flag){
+				   $scope.cal_whe_flag = false;
+				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i class='fa fa-calendar'></i>";
+				   $(".cal-report").hide();
+				   $(".wheth-report").show();
+				   $(".wheth-report-status").show();
+			   } else{
+				   $scope.cal_whe_flag = true;
+				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i class='wi wi-day-cloudy-gusts'></i>";
+				   $(".wheth-report").hide();
+				   $(".wheth-report-status").hide();
+				   $(".cal-report").show();
+			   }
+		   };
+		   
+		   $http.get("/getscheduletest").success(function(data){
+			   $scope.scheduleListData = data;
+		   }).error(function(data){
+			   alert(JSON.stringify(data));
+		   });
+		   
+		   $scope.editServiceType = function(serviceData){
+			   $scope.servicetestdata = serviceData;
+			  // $('#colored-header').modal();
+		   };
 		   
   }]);
 

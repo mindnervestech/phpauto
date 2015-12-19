@@ -182,3 +182,5 @@ GET   /getAllVehicleDemographics		controllers.Application.getAllVehicleDemograph
 GET   /oauth2Callback			controllers.Application.oauth2Callback()
 GET   /googleConnectionStatus			controllers.Application.googleConnectionStatus()
 #GET   /googleConnectionStatusTasks			controllers.Application.googleConnectionStatusTasks()
+
+GET		/getscheduletest					controllers.Application.getScheduleTestData()
