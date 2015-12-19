@@ -115,6 +115,7 @@ POST    /uploadLocationImageFile	controllers.Application.uploadLocationImageFile
 POST	/updateUploadLocationImageFile		controllers.Application.updateUploadLocationImageFile()
 POST    /updateImageFile            controllers.Application.updateUser()   
 GET		/getUsersToAssign			controllers.Application.getUsersToAssign()
+GET     /getMangerAndLocation			controllers.Application.getMangerAndLocation()
 GET     /getUserRole				controllers.Application.getUserRole()
 POST	/saveToDoData				controllers.Application.saveToDoData()   
 GET		/getToDoList				controllers.Application.getToDoList()

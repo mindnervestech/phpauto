@@ -1,11 +1,12 @@
   
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
+    	<li ng-if="userRole != 'General Manager'" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Manager Profile</button></a></li>
+      <li ng-if="userRole == 'General Manager'" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
       <li ng-if="userRole != 'General Manager'" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
       <li ng-if="userRole == 'General Manager'" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">Location</button></a></li>
     </ul>
-	    <div id="myTabContent" class="tab-content">
+	    <div ng-if="userRole == 'General Manager'" id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 	        
 	        <h1><b>My Profile</b></h1>
@@ -161,6 +162,7 @@
 	      </div>
 	    </div>
 	    
+	    
 	     <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -214,6 +216,104 @@
             </div>
         </div>
     </div>
+    
+    
+    <!-- ---------------------------------------Manager Profile------------------------ -->
+    
+    
+    
+    <div ng-if="userRole == 'Manager'" id="myTabContent" class="tab-content">
+	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab" ng-init="initManager()">
+	        
+	        <h1><b>Manager Profile</b></h1>
+<h2><b>Location Info</b></h2>
+
+<hr>
+<form ng-submit="updateManagerProfile()">
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Location Name *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" style="border-color:red;" ng-model="managerProfile.locationName"  required>
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Address *</label>
+	<div class="col-sm-5">
+		<!-- <input class="form-control form-white" " ng-model="vinData.specification.address" type="text" > -->
+	<textarea rows="4" cols="50" style="border-color:red;" ng-model="managerProfile.locationaddress" class="form-control form-white"></textarea>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Email *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="email" " ng-model="managerProfile.locationemail" required>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Phone</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text"  ng-model="managerProfile.locationphone" >
+	</div>
+</div>
+<div class="form-group col-sm-12">
+	<label class="col-sm-2 control-label" style="text-align: right;">Location Photo </label>
+                   <p class="col-sm-5">
+ 	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onLogoFileLocationSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{imgLocation}}></span>
+                  </p>
+</div>
+
+
+
+<h2><b>Manager Details</b></h2>
+<hr class="ng-scope">
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">First Name *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="managerProfile.firstName" required>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Last Name *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="managerProfile.lastName" required>
+	</div>
+</div>
+
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Phone *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="text" ng-model="managerProfile.phone" required>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+<label class="col-sm-2 control-label" style="text-align: right;">Email *</label>
+	<div class="col-sm-5">
+		<input class="form-control form-white" type="email" ng-model="managerProfile.email" required>
+	</div>
+</div>
+<div class="form-group col-sm-12">
+	<label class="col-sm-2 control-label" style="text-align: right;">Manager Photo </label>
+                  <p class="col-sm-5">
+ 	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{img}}></span>
+                  </p>
+</div>
+
+<hr class="ng-scope">
+
+<button type="submit" class="btn btn-primary" style="margin-left:31%;" >Save Profile</button>
+
+<!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
+
+</form>
+	      </div>
+	    </div>
+    
+    
+    
   </div>
   
   

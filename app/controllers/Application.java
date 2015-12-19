@@ -1365,7 +1365,8 @@ public class Application extends Controller {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 	    	
 	    	UserVM vm = form.get();
-	    	AuthUser userObj = AuthUser.findByLocatio(Location.findById(vm.locationId));
+	    	String roles = "Manager";
+	    	AuthUser userObj = AuthUser.getlocationAndManagerByType(Location.findById(vm.locationId),roles);
 	    	
 	    	userObj.setFirstName(vm.firstName);
 	    	userObj.setLastName(vm.lastName);
@@ -5350,7 +5351,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
-    		
+    		AuthUser users = (AuthUser) getLocalUser();
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
 	    	
@@ -5359,6 +5360,7 @@ public class Application extends Controller {
 	    	userObj.email = vm.email;
 	    	userObj.phone = vm.phone;
 	    	userObj.role = vm.userType;
+	    	userObj.location = users.location;
 	    	
 	    	
 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -5483,7 +5485,8 @@ public class Application extends Controller {
     			vm.locationphone = location.phone;
     			vm.imageName = location.imageName;
     			vm.imageUrl = location.imageUrl;
-    			AuthUser users = AuthUser.findByLocatio(location);
+    			String roles = "Manager";
+    			AuthUser users = AuthUser.getlocationAndManagerByType(location, roles);
     			vm.email = users.email;
     			vm.firstName = users.firstName;
     			vm.lastName = users.lastName;
@@ -5498,12 +5501,42 @@ public class Application extends Controller {
     	}
     }
     
+    
+    public static Result getMangerAndLocation() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser users = (AuthUser) getLocalUser();
+    	//AuthUser users =AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    	LocationVM vm = new LocationVM();
+    	vm.email = users.email;
+		vm.firstName = users.firstName;
+		vm.lastName = users.lastName;
+		vm.phone = users.phone;
+		vm.managerFullName = users.firstName+""+users.lastName;
+		vm.mImageName = users.imageName;
+		vm.mImageUrl = users.imageUrl;
+		Location location = Location.findById(users.location.id);
+		vm.id = location.id;
+		vm.locationaddress = location.address;
+		vm.locationemail = location.email;
+		vm.locationName = location.name;
+		vm.locationphone = location.phone;
+		vm.imageName = location.imageName;
+		vm.imageUrl = location.imageUrl;
+    	
+    		return ok(Json.toJson(vm));
+    	}
+    }
+    
     public static Result getAllUsers() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
     		
-    		List<AuthUser> userList = AuthUser.getUserByType();
+    		AuthUser users = getLocalUser();
+    		/*List<AuthUser> userList = AuthUser.getUserByType();*/
+    		List<AuthUser> userList = AuthUser.findByLocatio(users.location);
     		List<UserVM> vmList = new ArrayList<>();
     		for(AuthUser user : userList) {
     			UserVM vm = new UserVM();

@@ -3205,6 +3205,10 @@ angular.module('newApp')
 		$location.path('/createLocation');
 	}
 	
+	$scope.goToUsers = function() {
+		$location.path('/createUser');
+	}
+	
 	$scope.createGeneralManager =function(){
 		$scope.img="/assets/images/profile-pic.jpg ";
 		
@@ -3277,6 +3281,161 @@ angular.module('newApp')
 	   }
 	
 	
+	
+/*--------------------------------Manager profile---------------------------*/
+	
+	$scope.managerProfile = null;
+	$scope.initManager = function() {
+		console.log("hihihihi");
+		$http.get('/getMangerAndLocation')
+		.success(function(data) {
+			console.log("hihihihi111");
+			console.log(data);
+			$scope.managerProfile = data;
+			
+			$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.managerProfile.imageUrl;
+			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.managerProfile.mImageUrl;
+		});
+	}
+	
+	
+	var logofile;
+	$scope.onLogoFileSelect = function ($files) {
+		logofile = $files;
+		for (var i = 0; i < $files.length; i++) {
+			var $file = $files[i];
+			if (window.FileReader && $file.type.indexOf('image') > -1) {
+				var fileReader = new FileReader();
+				fileReader.readAsDataURL($files[i]);
+				var loadFile = function (fileReader, index) {
+					fileReader.onload = function (e) {
+						$timeout(function () {
+							$scope.img = e.target.result;
+							console.log(e.target.result);
+						});
+						
+					}
+				}(fileReader, i);
+			}
+		}
+	}	
+	var logofile1;
+	$scope.onLogoFileLocationSelect = function ($files) {
+		logofile1 = $files;
+		for (var i = 0; i < $files.length; i++) {
+			var $file = $files[i];
+			if (window.FileReader && $file.type.indexOf('image') > -1) {
+				var fileReader = new FileReader();
+				fileReader.readAsDataURL($files[i]);
+				var loadFile = function (fileReader, index) {
+					fileReader.onload = function (e) {
+						$timeout(function () {
+							$scope.imgLocation = e.target.result;
+							console.log(e.target.result);
+						});
+						
+					}
+				}(fileReader, i);
+			}
+		}
+	}	
+   
+$scope.managerObj = {};
+$scope.locationObj = {};
+	
+	
+	$scope.updateManagerProfile = function() {
+		$scope.managerProfile.userType = "Manager"
+		
+		$scope.managerObj.userType = $scope.managerProfile.userType;
+		$scope.managerObj.firstName = $scope.managerProfile.firstName;
+		$scope.managerObj.lastName = $scope.managerProfile.lastName;
+		$scope.managerObj.email = $scope.managerProfile.email;
+		$scope.managerObj.phone = $scope.managerProfile.phone;
+		
+		//locationObj 
+		$scope.locationObj.id = $scope.managerProfile.id;
+		$scope.locationObj.locationName = $scope.managerProfile.locationName;
+		$scope.locationObj.locationaddress = $scope.managerProfile.locationaddress;
+		$scope.locationObj.locationemail = $scope.managerProfile.locationemail;
+		$scope.locationObj.locationphone = $scope.managerProfile.locationphone;
+		console.log($scope.user);
+		console.log($scope.managerObj);
+		console.log($scope.locationObj);
+			
+		if(angular.isUndefined(logofile1)) {
+			
+				$http.post('/updateUploadLocationImageFile',$scope.locationObj)
+				.success(function(data) {
+					$scope.managerObj.locationId = data;
+					$scope.updateManager();
+		            $('#btnClose').click();
+		            $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Location saved successfully",
+					});
+		            
+				});
+		} else {
+			   $upload.upload({
+		            url : '/updateUploadLocationImageFile',
+		            method: 'post',
+		            file:logofile1,
+		            data:$scope.locationObj
+		        }).success(function(data, status, headers, config) {
+		            console.log('success');
+		            console.log(data);
+		           
+		    		$scope.managerObj.locationId = data;
+		    		$scope.updateManager();
+		            
+		            $("#file").val('');
+		            $('#btnClose').click();
+		            $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Location saved successfully",
+					});
+		            
+		        });
+		}
+	   }
+	
+	$scope.updateManager = function(){
+		if(angular.isUndefined(logofile)) {
+			
+			$http.post('/UpdateuploadManagerImageFile',$scope.managerObj)
+			.success(function(data) {
+				
+	            $('#btnClose').click();
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Manager saved successfully",
+				});
+	            
+			});
+	} else {
+		   $upload.upload({
+	            url : '/UpdateuploadManagerImageFile',
+	            method: 'post',
+	            file:logofile,
+	            data:$scope.managerObj
+	        }).success(function(data, status, headers, config) {
+	            console.log('success');
+	           
+	            $("#file").val('');
+	            $('#btnClose').click();
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Manager saved successfully",
+				});
+	            
+	        });
+	}
+	}
 	
 }]);	
 

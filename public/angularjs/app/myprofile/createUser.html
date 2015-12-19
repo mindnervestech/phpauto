@@ -1,7 +1,7 @@
   
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-    <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">Dealer's Profile</button></a></li>
+    <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">MAnager Profile</button></a></li>
       <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Users</button></a></li>
     </ul>
 	    <div id="myTabContent" class="tab-content">
@@ -57,7 +57,7 @@
 								<div class="col-sm-6">
 									<select class="form-control form-white" id="userType" ng-model="user.userType" required>
                                     <option value="">Select</option>
-                                    <option value="General Manager">General Manager</option>
+                                    <option value="Manager">Manager</option>
                                     <option value="Sales Person">Sales Person</option>
                                 </select>
 								</div>
@@ -120,7 +120,7 @@
 								<div class="col-sm-6">
 									<select class="form-control form-white" id="userTypeEdit" ng-model="userData.userType">
                                     <option value="">Select</option>
-                                    <option value="General Manager">General Manager</option>
+                                    <option value="Manager">Manager</option>
                                     <option value="Sales Person">Sales Person</option>
                                 </select>
 								</div>

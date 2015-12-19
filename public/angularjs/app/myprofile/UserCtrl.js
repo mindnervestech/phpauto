@@ -147,7 +147,9 @@ angular.module('newApp')
 	   }
 	
 	$scope.updateImage = function() {
+		console.log($scope.userData);
 		delete $scope.userData.successRate;
+		$scope.userData.locationId = 0;
 		if(angular.isUndefined(logofile)) {
 			if($scope.emailMsg == "") {
 					$http.post('/updateImageFile',$scope.userData)

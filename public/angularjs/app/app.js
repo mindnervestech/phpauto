@@ -52,6 +52,7 @@ var MakeApp = angular
             controller: 'createLocationCtrl'
         })
         
+         
         .when('/sliderImages', {
             templateUrl: '/dealer/homePage/sliderImages.html',
             controller: 'HomePageCtrl'
