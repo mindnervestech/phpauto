@@ -11533,6 +11533,7 @@ public class Application extends Controller {
 	}*/
 	
 	public static Result oauth2Callback() {
+		System.out.println("call------------------calllllllllllllloooooo");
 		String code = request().getQueryString("code");
 		//if(flagValue == 0){
 			events1.clear();
@@ -11562,7 +11563,10 @@ public class Application extends Controller {
 					scheduleTest.setConfirmTime(parseTime.parse(starttime));
 					scheduleTest.setEmail(ev.getSummary());
 					scheduleTest.setVin("no");
+					scheduleTest.setGoogle_id(ev.getId());
+					scheduleTest.setIs_google_data(true);
 					scheduleTest.save();
+					
 				}
 				
 			} catch (Exception e) {
@@ -11619,6 +11623,7 @@ public class Application extends Controller {
 					    		toDo.assignedBy = user;
 					    		toDo.assignedTo = user;
 					    		toDo.saveas = 1;
+					    		toDo.google_id = task.getId();
 					    		toDo.save();
 							}
 						}else if(sdf.parse(currDate).equals(sdf.parse(googleDate))){
@@ -11632,6 +11637,7 @@ public class Application extends Controller {
 					    		toDo.assignedBy = user;
 					    		toDo.assignedTo = user;
 					    		toDo.saveas = 1;
+					    		toDo.google_id = task.getId();
 					    		toDo.save();
 							}
 						}

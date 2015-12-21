@@ -27,6 +27,7 @@ public class ToDo extends Model {
 	public String status;
 	public String seen;
 	public Integer saveas;
+	public String google_id;
 
 	@ManyToOne
 	public AuthUser assignedBy;
@@ -121,5 +122,10 @@ public class ToDo extends Model {
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}
-	
+	public String getGoogle_id() {
+		return google_id;
+	}
+	public void setGoogle_id(String google_id) {
+		this.google_id = google_id;
+	}
 }

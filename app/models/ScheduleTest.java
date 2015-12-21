@@ -40,6 +40,10 @@ public class ScheduleTest extends Model {
 	public Boolean isReassigned = true;
 	public String contactedFrom;
 	public String hearedFrom;
+	public String location;
+	public String google_id;
+	public Boolean is_google_data;
+	
 	public String getContactedFrom() {
 		return contactedFrom;
 	}
@@ -209,5 +213,22 @@ public class ScheduleTest extends Model {
 		SqlRow row = q.findUnique();
 		return row;
 	}
-	
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getGoogle_id() {
+		return google_id;
+	}
+	public void setGoogle_id(String google_id) {
+		this.google_id = google_id;
+	}
+	public Boolean getIs_google_data() {
+		return is_google_data;
+	}
+	public void setIs_google_data(Boolean is_google_data) {
+		this.is_google_data = is_google_data;
+	}
 }
