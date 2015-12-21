@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -199,6 +201,9 @@ public class MyProfile extends Model {
 		return find.where().eq("user", user).findUnique();
 	}
 
+	public static List<MyProfile> findAllData() {
+		return find.all();
+	}
 
 	public String getDealer_id() {
 		return dealer_id;

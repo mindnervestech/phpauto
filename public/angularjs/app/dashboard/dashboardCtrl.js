@@ -3200,6 +3200,12 @@ angular.module('newApp')
 	$http.get('/getUserRole').success(function(data) {
 		$scope.userRole = data.role;
 	});
+	
+	$http.get('/getDealerProfile').success(function(data) {
+		console.log("/////////////////");
+		console.log(data);
+	});
+	
 	console.log($scope.userKey);
 	$http.get('/getMyProfile')
 	

@@ -11718,5 +11718,14 @@ public class Application extends Controller {
         return ok(Json.toJson(list));
     }
 	
+	public static Result getDealerProfile(){
+		Map<String,Object> map = new HashMap<>();
+		AuthUser user = getLocalUser();
+		MyProfile mProfile = MyProfile.findAllData().get(0);
+		map.put("user", user);
+		map.put("dealer", mProfile);
+		return ok(Json.toJson(map));
+	}
+	
 }
 
