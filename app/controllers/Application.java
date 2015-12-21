@@ -11533,7 +11533,6 @@ public class Application extends Controller {
 	}*/
 	
 	public static Result oauth2Callback() {
-		System.out.println("call------------------calllllllllllllloooooo");
 		String code = request().getQueryString("code");
 		//if(flagValue == 0){
 			events1.clear();

@@ -147,7 +147,8 @@ angular.module('newApp')
 			
 				$http.post('/uploadLocationImageFile',$scope.locationObj)
 				.success(function(data) {
-					
+					$scope.managerObj.locationId = data;
+		    		$scope.saveManager();
 		            $('#btnClose').click();
 		            $.pnotify({
 					    title: "Success",
