@@ -1336,7 +1336,7 @@ public class Application extends Controller {
 		    	    if(!fdir.exists()) {
 		    	    	fdir.mkdir();
 		    	    }
-		    	    String filePath = rootDir+File.separator+"LocationImg"+File.separator+loc.id+File.separator+File.separator+fileName;
+		    	    String filePath = rootDir+File.separator+"LocationImg"+File.separator+loc.id+File.separator+fileName;
 		    	    File file = picture.getFile();
 		    	    try {
 		    	    		FileUtils.moveFile(file, new File(filePath));

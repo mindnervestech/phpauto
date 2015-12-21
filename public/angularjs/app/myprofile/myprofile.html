@@ -4,7 +4,7 @@
     	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Manager Profile</button></a></li>
       <li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
       <li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
-      <li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">Location</button></a></li>
+      <li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">My Locations</button></a></li>
     </ul>
 	    <div ng-if="userRole == 'General Manager' || userRole == null" id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
@@ -134,33 +134,64 @@
 </div>
 
 
-<a style="font-size: 26px;" data-toggle="modal" data-target="#modal-basic" ng-click="createGeneralManager()"><u>General Manager Details</u></a>
-<hr class="ng-scope">
+<!-- <a style="font-size: 26px;" data-toggle="modal" data-target="#modal-basic" ng-click="createGeneralManager()"><u>General Manager Details</u></a>
+<hr class="ng-scope"> -->
 
-
-<!-- <div class="form-group col-sm-12">
-<label class="col-sm-2 control-label" style="text-align: right;">Post to:</label>
-	<div class="col-sm-5">
-	<div ng-repeat="site in siteList">
-		<label class="">
-          <div class="icheckbox_flat-blue"  style="position: relative;">
-          <input type="checkbox"  ng-model="site.flag" ng-change="setSiteId(site.id,site.flag)">
-          <input type="checkbox" data-checkbox="icheckbox_flat-blue" ng-model="flag" ng-change="setSiteId(site.id,flag)" style="position: absolute; opacity: 0;">
-          <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-          </div> {{site.name}}
-        </label>
-	</div>
-		
-	</div>
-</div>
- -->
+ 
 <button type="submit" class="btn btn-primary" style="margin-left:31%;" ng-click="setFlagVal()">Save Profile</button>
 
 <!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
 
 </form>
-	      </div>
+   <div>
+	      <form name="userFrm" ng-submit="saveImage()">
+                   <h2><b>General Manager Details</b></h2>
+<hr class="ng-scope">
+                   
+                   		<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label" style="text-align: right;">Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.firstName"  required>
+								</div>
+						</div>
+						
+						<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label" style="text-align: right;">Email *</label>
+								<div class="col-sm-6">
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="user.email" ng-blur="checkEmail('create')"  required>
+								</div>
+						</div>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label" style="text-align: right;">Password *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.password"  required>
+								</div>
+						</div>
+						<p style="color:red;"><b>{{emailMsg}}</b></p>
+						<div class="form-group col-sm-12">
+							<label class="col-sm-2 control-label" style="text-align: right;">Phone *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.phone"  required>
+								</div>
+						</div>
+						
+						<label class="col-sm-2 control-label" style="text-align: right;">Photo </label>
+                   <!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
+                   <p><!-- <label>&{field.name}</label> --><!-- <span id="preview"> --></span>
+ 	               <input class="form-control" type="file" id="file" style="margin-left: 29%;width: 42%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{imgGM}}></span>
+                  </p>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" style="margin-left:31%;" >Create General Manager</button>
+                </div>
+                </form>
+	    
 	    </div>
+	      </div>
+	    
+	    </div>
+	   
 	    
 	    
 	     <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
@@ -225,7 +256,6 @@
     <div ng-if="userRole == 'Manager'" id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab" ng-init="initManager()">
 	        
-	        <h1><b>Manager Profile</b></h1>
 <h2><b>Location Info</b></h2>
 
 <hr>

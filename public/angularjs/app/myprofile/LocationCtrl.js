@@ -161,7 +161,7 @@ angular.module('newApp')
 			   $upload.upload({
 		            url : '/uploadLocationImageFile',
 		            method: 'post',
-		            file:logofile,
+		            file:logofile1,
 		            data:$scope.locationObj
 		        }).success(function(data, status, headers, config) {
 		            console.log('success');

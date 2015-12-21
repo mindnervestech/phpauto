@@ -1760,8 +1760,6 @@ angular.module('newApp')
 		   
 		   $http.get("/getscheduletest").success(function(data){
 			   $scope.scheduleListData = data;
-		   }).error(function(data){
-			   alert(JSON.stringify(data));
 		   });
 		   
 		   $scope.editServiceType = function(serviceData){
@@ -3195,7 +3193,7 @@ angular.module('newApp')
 .controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 	$scope.myprofile = {};
 	$scope.userKey = userKey;
-	
+	$scope.imgGM="/assets/images/profile-pic.jpg ";
 	$http.get('/getUserRole').success(function(data) {
 		$scope.userRole = data.role;
 	});
@@ -3248,9 +3246,9 @@ angular.module('newApp')
 	$scope.goToUsers = function() {
 		$location.path('/createUser');
 	}
-	
+
 	$scope.createGeneralManager =function(){
-		$scope.img="/assets/images/profile-pic.jpg ";
+		$scope.imgGM="/assets/images/profile-pic.jpg ";
 		
 	}
 	
@@ -3284,12 +3282,7 @@ angular.module('newApp')
 		if(angular.isUndefined(logofile)) {
 				$http.post('/updateImageFile',$scope.user)
 				.success(function(data) {
-					$scope.user.firstName=" ";
-		            $scope.user.lastName=" ";
-		            $scope.user.email=" ";
-		            $scope.user.phone=" ";
-		            $scope.user.userType=" ";
-		            $scope.user.img=" ";
+					
 		            $('#btnClose').click();
 		            $.pnotify({
 					    title: "Success",
@@ -3351,7 +3344,7 @@ angular.module('newApp')
 				var loadFile = function (fileReader, index) {
 					fileReader.onload = function (e) {
 						$timeout(function () {
-							$scope.img = e.target.result;
+							$scope.imgGM = e.target.result;
 							console.log(e.target.result);
 						});
 						
