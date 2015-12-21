@@ -25,7 +25,6 @@ angular.module('newApp')
 		console.log(data);
 		
 		$scope.userRole = data.role;
-		console.log(".////////////////");
 		console.log($scope.userRole);
 		if($scope.userRole == null){
 			  $location.path('/myprofile');
@@ -3200,13 +3199,14 @@ angular.module('newApp')
 	$http.get('/getUserRole').success(function(data) {
 		$scope.userRole = data.role;
 	});
-	
+
 	$http.get('/getDealerProfile').success(function(data) {
-		console.log("/////////////////");
 		console.log(data);
+		$scope.myprofile = data.dealer;
+		$scope.user = data.user;
+		$scope.imgGM = "http://glider-autos.com/glivrImg/images"+$scope.user.imageUrl;
 	});
 	
-	console.log($scope.userKey);
 	$http.get('/getMyProfile')
 	
 	.success(function(data) {
@@ -3332,6 +3332,7 @@ angular.module('newApp')
 			console.log("hihihihi111");
 			console.log(data);
 			$scope.managerProfile = data;
+			
 			
 			$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.managerProfile.imageUrl;
 			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.managerProfile.mImageUrl;
