@@ -1,12 +1,12 @@
   
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-    	<li ng-if="userRole != 'General Manager'" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Manager Profile</button></a></li>
-      <li ng-if="userRole == 'General Manager'" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
-      <li ng-if="userRole != 'General Manager'" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
-      <li ng-if="userRole == 'General Manager'" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">Location</button></a></li>
+    	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Manager Profile</button></a></li>
+      <li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
+      <li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
+      <li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">Location</button></a></li>
     </ul>
-	    <div ng-if="userRole == 'General Manager'" id="myTabContent" class="tab-content">
+	    <div ng-if="userRole == 'General Manager' || userRole == null" id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 	        
 	        <h1><b>My Profile</b></h1>

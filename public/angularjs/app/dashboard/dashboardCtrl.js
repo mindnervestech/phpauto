@@ -25,6 +25,11 @@ angular.module('newApp')
 		console.log(data);
 		
 		$scope.userRole = data.role;
+		console.log(".////////////////");
+		console.log($scope.userRole);
+		if($scope.userRole == null){
+			  $location.path('/myprofile');
+		}
 	});
 	
 	
@@ -3303,7 +3308,7 @@ angular.module('newApp')
 					    type:'success',
 					    text: "User saved successfully",
 					});
-		            $scope.init();
+		          //  $scope.init();
 		        });
 			//}
 		}
