@@ -3212,22 +3212,29 @@ angular.module('newApp')
 	});
 	
 	$scope.saveMyprofile = function() {
-		var geocoder = new google.maps.Geocoder(); 
+	//	var geocoder = new google.maps.Geocoder(); 
 		var address = $scope.myprofile.address+","+$scope.myprofile.city+","+$scope.myprofile.zip+","+$scope.myprofile.state+","+$scope.myprofile.country;
-		geocoder.geocode( { 'address': address}, function(results, status) { 
-			if (status == google.maps.GeocoderStatus.OK) 
-			{ 
-				var latitude = results[0].geometry.location.lat(); 
-				var longitude = results[0].geometry.location.lng();
-				$scope.myprofile.latlong = latitude+" "+longitude;
+	//	geocoder.geocode( { 'address': address}, function(results, status) { 
+		//	if (status == google.maps.GeocoderStatus.OK) 
+		//	{ 
+			//	var latitude = results[0].geometry.location.lat(); 
+			//	var longitude = results[0].geometry.location.lng();
+		//		$scope.myprofile.latlong = latitude+" "+longitude;
 				$scope.getLatLong();
-			} 
-		});
+		//	} 
+		//});
 		
 		
    }
 	
 	$scope.getLatLong = function() {
+		
+		$scope.managerProfile.locationName = $scope.myprofile.myname;
+		$scope.managerProfile.locationaddress = $scope.myprofile.address;
+		$scope.managerProfile.locationemail = $scope.myprofile.email;
+		$scope.managerProfile.locationphone = $scope.myprofile.phone;
+		
+		
 		$http.post('/myprofile',$scope.myprofile)
 		.success(function(data) {
 			console.log('success');
@@ -3317,15 +3324,24 @@ angular.module('newApp')
 	
 /*--------------------------------Manager profile---------------------------*/
 	
+	$scope.myprofile1 = {};
 	$scope.managerProfile = null;
 	$scope.initManager = function() {
-		console.log("hihihihi");
 		$http.get('/getMangerAndLocation')
 		.success(function(data) {
 			console.log("hihihihi111");
 			console.log(data);
-			$scope.managerProfile = data;
 			
+			//$scope.myprofile.address = data.locationaddress;
+			//$scope.myprofile.email = data.locationemail;
+			//$scope.myprofile.phone = data.locationphone;
+			
+			$scope.managerProfile = data;
+			$scope.myprofile1.myname = $scope.managerProfile.locationName;
+			$scope.myprofile1.email = $scope.managerProfile.locationemail;
+			$scope.myprofile1.address = $scope.managerProfile.locationaddress;
+			$scope.myprofile1.phone = $scope.managerProfile.locationphone;
+			$scope.myprofile = $scope.myprofile1;
 			
 			$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.managerProfile.imageUrl;
 			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.managerProfile.mImageUrl;

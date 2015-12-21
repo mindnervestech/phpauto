@@ -42,9 +42,6 @@ angular.module('newApp')
 	});
 	}
 	
-	
-	
-	
 	$scope.createNewUser=function(){
 		$scope.img="/assets/images/profile-pic.jpg ";
 		
