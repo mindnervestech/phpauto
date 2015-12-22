@@ -5505,8 +5505,7 @@ public class Application extends Controller {
     			vm.managerFullName = users.firstName+""+users.lastName;
     			vm.mImageName = users.imageName;
     			vm.mImageUrl = users.imageUrl;
-    			
-    			vmList.add(vm);
+    				vmList.add(vm);
     		}
     		return ok(Json.toJson(vmList));
     	}
@@ -5568,7 +5567,9 @@ public class Application extends Controller {
     			vm.imageName = user.imageName;
     			vm.imageUrl = user.imageUrl;
     			vm.id = user.id;
-    			vmList.add(vm);
+    			if(!vm.userType.equals("Manager")){
+    				vmList.add(vm);
+    			}
     		}
     		return ok(Json.toJson(vmList));
     	}
