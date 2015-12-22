@@ -3237,18 +3237,9 @@ angular.module('newApp')
 	$scope.managerP = {};
 	$scope.getLatLong = function() {
 		
-		$scope.managerP.locationName = $scope.myprofile.myname;
-		$scope.managerP.locationaddress = $scope.myprofile.address;
-		$scope.managerP.locationemail = $scope.myprofile.email;
-		$scope.managerP.locationphone = $scope.myprofile.phone;
 		
-		//$scope.managerProfile.locationName = $scope.myprofile.myname;
-	//	$scope.managerProfile.locationaddress = $scope.myprofile.address;
-		//$scope.managerProfile.locationemail = $scope.myprofile.email;
-		//$scope.managerProfile.locationphone = $scope.myprofile.phone;
-		$scope.managerProfile = $scope.managerP;
-		
-		$http.post('/myprofile',$scope.myprofile)
+		console.log($scope.managerProfile);
+		/*$http.post('/myprofile',$scope.myprofile)
 		.success(function(data) {
 			console.log('success');
 			$.pnotify({
@@ -3256,7 +3247,43 @@ angular.module('newApp')
 			    type:'success',
 			    text: "profile saved successfully",
 			});
-		});
+		});*/
+		
+		
+		
+		if(angular.isUndefined(logofile1)) {
+			
+			$http.post('/myprofile',$scope.myprofile)
+			.success(function(data) {
+
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Location saved successfully",
+				});
+	            
+			});
+	} else {
+		   $upload.upload({
+	            url : '/myprofile',
+	            method: 'post',
+	            file:logofile1,
+	            data:$scope.myprofile
+	        }).success(function(data, status, headers, config) {
+	            console.log('success');
+	            console.log(data);
+	            
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Location saved successfully",
+				});
+	            
+	        });
+	}
+		
+		
+		
 	}
 	
 	$scope.goToLoaction = function() {
@@ -3337,7 +3364,6 @@ angular.module('newApp')
 	
 /*--------------------------------Manager profile---------------------------*/
 	
-	$scope.myprofile1 = {};
 	$scope.managerProfile = null;
 	$scope.initManager = function() {
 		$http.get('/getMangerAndLocation')
@@ -3345,16 +3371,9 @@ angular.module('newApp')
 			console.log("hihihihi111");
 			console.log(data);
 			
-			//$scope.myprofile.address = data.locationaddress;
-			//$scope.myprofile.email = data.locationemail;
-			//$scope.myprofile.phone = data.locationphone;
-			
+					
 			$scope.managerProfile = data;
-			$scope.myprofile1.myname = $scope.managerProfile.locationName;
-			$scope.myprofile1.email = $scope.managerProfile.locationemail;
-			$scope.myprofile1.address = $scope.managerProfile.locationaddress;
-			$scope.myprofile1.phone = $scope.managerProfile.locationphone;
-			$scope.myprofile = $scope.myprofile1;
+		
 			
 			$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.managerProfile.imageUrl;
 			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.managerProfile.mImageUrl;
@@ -3409,7 +3428,8 @@ $scope.locationObj = {};
 	
 	$scope.updateManagerProfile = function() {
 		$scope.managerProfile.userType = "Manager"
-		
+		console.log($scope.managerProfile);
+		$scope.managerObj.id = $scope.managerProfile.managerId;
 		$scope.managerObj.userType = $scope.managerProfile.userType;
 		$scope.managerObj.firstName = $scope.managerProfile.firstName;
 		$scope.managerObj.lastName = $scope.managerProfile.lastName;
@@ -3417,61 +3437,20 @@ $scope.locationObj = {};
 		$scope.managerObj.phone = $scope.managerProfile.phone;
 		
 		//locationObj 
-		$scope.locationObj.id = $scope.managerProfile.id;
+		/*$scope.locationObj.id = $scope.managerProfile.id;
 		$scope.locationObj.locationName = $scope.managerProfile.locationName;
 		$scope.locationObj.locationaddress = $scope.managerProfile.locationaddress;
 		$scope.locationObj.locationemail = $scope.managerProfile.locationemail;
-		$scope.locationObj.locationphone = $scope.managerProfile.locationphone;
+		$scope.locationObj.locationphone = $scope.managerProfile.locationphone;*/
 		console.log($scope.user);
 		console.log($scope.managerObj);
-		console.log($scope.locationObj);
+	//	console.log($scope.locationObj);
 			
-		if(angular.isUndefined(logofile1)) {
-			
-				$http.post('/updateUploadLocationImageFile',$scope.locationObj)
-				.success(function(data) {
-					$scope.managerObj.locationId = data;
-					$scope.updateManager();
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Location saved successfully",
-					});
-		            
-				});
-		} else {
-			   $upload.upload({
-		            url : '/updateUploadLocationImageFile',
-		            method: 'post',
-		            file:logofile1,
-		            data:$scope.locationObj
-		        }).success(function(data, status, headers, config) {
-		            console.log('success');
-		            console.log(data);
-		           
-		    		$scope.managerObj.locationId = data;
-		    		$scope.updateManager();
-		            
-		            $("#file").val('');
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Location saved successfully",
-					});
-		            
-		        });
-		}
-	   }
-	
-	$scope.updateManager = function(){
-		if(angular.isUndefined(logofile)) {
+	if(angular.isUndefined(logofile)) {
 			
 			$http.post('/UpdateuploadManagerImageFile',$scope.managerObj)
 			.success(function(data) {
 				
-	            $('#btnClose').click();
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -3488,8 +3467,6 @@ $scope.locationObj = {};
 	        }).success(function(data, status, headers, config) {
 	            console.log('success');
 	           
-	            $("#file").val('');
-	            $('#btnClose').click();
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -3498,6 +3475,10 @@ $scope.locationObj = {};
 	            
 	        });
 	}
+	   }
+	
+	$scope.updateManager = function(){
+	
 	}
 	
 }]);	

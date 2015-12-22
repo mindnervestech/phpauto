@@ -1367,7 +1367,7 @@ public class Application extends Controller {
 	    	
 	    	UserVM vm = form.get();
 	    	String roles = "Manager";
-	    	AuthUser userObj = AuthUser.getlocationAndManagerByType(Location.findById(vm.locationId),roles);
+	    	AuthUser userObj = AuthUser.findById(vm.id);
 	    	
 	    	userObj.setFirstName(vm.firstName);
 	    	userObj.setLastName(vm.lastName);
@@ -5038,6 +5038,9 @@ public class Application extends Controller {
     	}	
     }
     
+    
+    
+    
     public static Result myprofile() {
     	
     	Form<profileVM> form = DynamicForm.form(profileVM.class).bindFromRequest();
@@ -5086,6 +5089,44 @@ public class Application extends Controller {
     		mpObj.user = (AuthUser) getLocalUser();
     		mpObj.save();
     	}
+    	Location loc = Location.findById(userObj.location.id);
+    	
+    	if(loc != null){
+    		loc.setEmail(vm.email);
+        	loc.setAddress(vm.address);
+        	loc.setName(vm.myname);
+        	loc.setPhone(vm.phone);
+        	loc.update();
+
+        	
+        	 MultipartFormData body = request().body().asMultipartFormData();
+      	   if(body != null) {
+      	   File file1 = new File(rootDir+loc.imageUrl);
+      	   file1.delete();
+      		FilePart picture = body.getFile("file0");
+    	    	  if (picture != null) {
+    	    	    String fileName = picture.getFilename();
+    	    	    File fdir = new File(rootDir+File.separator+"LocationImg"+File.separator+loc.id);
+    	    	    if(!fdir.exists()) {
+    	    	    	fdir.mkdir();
+    	    	    }
+    	    	    String filePath = rootDir+File.separator+"LocationImg"+File.separator+loc.id+File.separator+fileName;
+    	    	    File file = picture.getFile();
+    	    	    try {
+    	    	    	FileUtils.moveFile(file, new File(filePath));
+    	    		Location location = Location.findById(loc.id);
+    	    		location.setImageUrl("LocationImg"+"/"+location.id+"/"+fileName);
+    	    		location.setImageName(fileName);
+    	    		location.update();	
+    	    	    		
+    	    	  } catch (FileNotFoundException e) {
+    	  			e.printStackTrace();
+    		  		} catch (IOException e) {
+    		  			e.printStackTrace();
+    		  		} 
+    	    	  } 
+      	   }
+    		}
     	
     	userObj.communicationemail = vm.email;
     	userObj.update();
@@ -5520,6 +5561,7 @@ public class Application extends Controller {
     	//AuthUser users =AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	LocationVM vm = new LocationVM();
     	vm.email = users.email;
+    	vm.managerId = users.id;
 		vm.firstName = users.firstName;
 		vm.lastName = users.lastName;
 		vm.phone = users.phone;

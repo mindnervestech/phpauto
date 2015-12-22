@@ -13,27 +13,29 @@ angular.module('newApp')
 	 		 $scope.gridOptions.enableHorizontalScrollbar = 0;
 	 		 $scope.gridOptions.enableVerticalScrollbar = 2;
 	 		 $scope.gridOptions.columnDefs = [
-	 		                                 { name: 'locationName', displayName: 'Location', width:'15%',cellEditableCondition: false,enableFiltering: false,
+	 		                                 { name: 'locationName', displayName: 'Location', width:'18%',cellEditableCondition: false,enableFiltering: false,
 	 		                                	
 	 		                                 },
-	 		                                 { name: 'locationemail', displayName: 'Location Email',enableFiltering: false, width:'15%',cellEditableCondition: false,
+	 		                                 { name: 'locationemail', displayName: 'Location Email',enableFiltering: false, width:'18%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
-	 		                                 { name: 'locationphone', displayName: 'Location Phone',enableFiltering: false, width:'15%',cellEditableCondition: false,
+	 		                                 { name: 'locationphone', displayName: 'Location Phone',enableFiltering: false, width:'18%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
-	 		                                 { name: 'managerFullName', displayName: 'Manager Name',enableFiltering: false, width:'15%',cellEditableCondition: false,
+	 		                                 { name: 'managerFullName', displayName: 'Manager Name',enableFiltering: false, width:'18%',cellEditableCondition: false,
 	 		                                	
 	 		                                 },
-	 		                                { name: 'email', displayName: 'Manager Email',enableFiltering: false, width:'15%',cellEditableCondition: false,
+	 		                                { name: 'email', displayName: 'Manager Email',enableFiltering: false, width:'18%',cellEditableCondition: false,
 	 		                                 	
 	 		                               },
 	 		                                 { name: 'edit', displayName: '', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editUser(row)" style="margin-top:7px;margin-left:14px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteUser(row)"></i>', 
+        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editUser(row)" style="margin-top:7px;margin-left:14px;" title="Edit"></i>', 
     		                                 
     		                                 },
 	     		                                 ];
 	
+	 		 
+	 		/*&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteUser(row)"></i>*/
 	$scope.gotoProfile = function() {
 		$location.path('/myprofile');
 	}
