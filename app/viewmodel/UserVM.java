@@ -23,7 +23,8 @@ public class UserVM {
 	public String trialPeriod;
 	public String userGender;
 	public String salary;
-	
+	public String trainingCost;
+	public String trainingHours;
 	
 	public Long locationId;
 	
