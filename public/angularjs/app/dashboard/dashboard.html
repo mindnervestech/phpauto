@@ -35,7 +35,11 @@ padding: 0px 10px 0px 10px !important;
 }
 
 #btn-whe-cal-toggle{
+left: 0px;
+top: 0px;
 position: absolute;
+z-index: 1000;
+margin-left: 5px;
 }
 </style>
 <div ng-if="userRole == 'General Manager' ||userRole == 'Manager'">
@@ -270,7 +274,7 @@ position: absolute;
                      </form>  -->
                      
         </div>
-        <div class="row" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
+        <div class="row" style="position: relative;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
                     <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="wi wi-day-cloudy-gusts"></i></button>
             <div class="col-md-12 cal-report" id="load_cal_or_wheth">
     			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
