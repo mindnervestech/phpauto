@@ -228,6 +228,14 @@ public class AuthUser extends Model implements Identity {
 	public void setTrainingPro(String trainingPro) {
 		this.trainingPro = trainingPro;
 	}
+	
+	public String getCommunicationemail() {
+		return communicationemail;
+	}
+
+	public void setCommunicationemail(String communicationemail) {
+		this.communicationemail = communicationemail;
+	}
 
 	public String getTrialPeriod() {
 		return trialPeriod;

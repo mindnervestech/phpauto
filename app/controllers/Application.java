@@ -1373,6 +1373,7 @@ public class Application extends Controller {
 	    	userObj.setLastName(vm.lastName);
 	    	userObj.setEmail(vm.email);
 	    	userObj.setPhone(vm.phone);
+	    	userObj.setCommunicationemail(vm.email);
 	    	//userObj.set = Location.findById(vm.locationId);
 
 	    	
@@ -1433,7 +1434,7 @@ public class Application extends Controller {
 	    	userObj.phone = vm.phone;
 	    	userObj.role = vm.userType;
 	    	userObj.location = Location.findById(vm.locationId);
-
+	    	userObj.communicationemail = vm.email;
 	    	
 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    	Random rnd = new Random();
@@ -5762,6 +5763,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		//Location location = Location.findById(id);
     		AuthUser user = AuthUser.findById(id);
     		user.delete();
     		return ok();

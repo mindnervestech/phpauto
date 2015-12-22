@@ -112,47 +112,47 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Facebook</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" type="text" " ng-model="myprofile.facebook" >
+		<input class="form-control form-white" type="text"  ng-model="myprofile.facebook" >
 	</div>
 </div>
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Pinterest</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" type="text" " ng-model="myprofile.pinterest" >
+		<input class="form-control form-white" type="text"  ng-model="myprofile.pinterest" >
 	</div>
 </div>
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Instagram</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" type="text" " ng-model="myprofile.instagram" >
+		<input class="form-control form-white" type="text"  ng-model="myprofile.instagram" >
 	</div>
 </div>
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Twitter</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" type="text" " ng-model="myprofile.twitter" >
+		<input class="form-control form-white" type="text"  ng-model="myprofile.twitter" >
 	</div>
 </div>
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Google Plus</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" type="text" " ng-model="myprofile.googleplus" >
+		<input class="form-control form-white" type="text"  ng-model="myprofile.googleplus" >
 	</div>
+	
 </div>
-
-
+<div class="form-group col-sm-12">
+<button type="submit" class="btn btn-primary" style="margin-left:31%;" ng-click="setFlagVal()">Save Profile</button>
+</div>
 <!-- <a style="font-size: 26px;" data-toggle="modal" data-target="#modal-basic" ng-click="createGeneralManager()"><u>General Manager Details</u></a>
 <hr class="ng-scope"> -->
 
  
-<button type="submit" class="btn btn-primary" style="margin-left:31%;" ng-click="setFlagVal()">Save Profile</button>
-
 <!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
 
 </form>
    <div ng-if="userRole == 'General Manager' || userRole == null">
 	      <form name="userFrm" ng-submit="saveImage()">
-                   <h2><b>General Manager Details</b></h2>
+                   <h2 style="float: left;"><b>General Manager Details</b></h2>
 <hr class="ng-scope">
                    
                    		<div class="form-group col-sm-12">
@@ -185,7 +185,7 @@
 						<label class="col-sm-2 control-label" style="text-align: right;">Photo </label>
                    <!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
                    <p><!-- <label>&{field.name}</label> --><!-- <span id="preview"> --></span>
- 	               <input class="form-control" type="file" id="file" style="margin-left: 29%;width: 42%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
+ 	               <input class="form-control" type="file" id="file" style="margin-left: 19%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
                    <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{imgGM}}></span>
                   </p>
 

@@ -3234,13 +3234,19 @@ angular.module('newApp')
 		
    }
 	
+	$scope.managerP = {};
 	$scope.getLatLong = function() {
 		
-		$scope.managerProfile.locationName = $scope.myprofile.myname;
-		$scope.managerProfile.locationaddress = $scope.myprofile.address;
-		$scope.managerProfile.locationemail = $scope.myprofile.email;
-		$scope.managerProfile.locationphone = $scope.myprofile.phone;
+		$scope.managerP.locationName = $scope.myprofile.myname;
+		$scope.managerP.locationaddress = $scope.myprofile.address;
+		$scope.managerP.locationemail = $scope.myprofile.email;
+		$scope.managerP.locationphone = $scope.myprofile.phone;
 		
+		//$scope.managerProfile.locationName = $scope.myprofile.myname;
+	//	$scope.managerProfile.locationaddress = $scope.myprofile.address;
+		//$scope.managerProfile.locationemail = $scope.myprofile.email;
+		//$scope.managerProfile.locationphone = $scope.myprofile.phone;
+		$scope.managerProfile = $scope.managerP;
 		
 		$http.post('/myprofile',$scope.myprofile)
 		.success(function(data) {
