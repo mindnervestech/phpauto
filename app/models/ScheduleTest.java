@@ -190,6 +190,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("user", user).findList();
 	}
 	
+	public static List<ScheduleTest> findAllByUserServiceTest(AuthUser user) {
+		return find.where().eq("user", user).findList();
+	}
+	
 	public static List<ScheduleTest> findByVinAndAssignedUser(AuthUser user,String vin) {
 		return find.where().eq("assignedTo", user).eq("vin", vin).findList();
 	}

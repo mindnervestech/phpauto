@@ -30,4 +30,5 @@ public class RequestInfoVM {
 	public String howContactedUs;
 	public String howFoundUs;
 	public int option;
+	public String isgoogle;
 }

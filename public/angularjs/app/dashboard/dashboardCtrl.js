@@ -590,7 +590,9 @@ angular.module('newApp')
     		  $scope.yearPerformance = false;
     		  
     		  $scope.init = function() {
-    			  
+    			$scope.cal_whe_flag = true;
+   			   	$(".wheth-report").hide();  
+   			   
     			  $scope.showToDoList = false;
 				  $scope.showCalendar = true;
 				  
@@ -1739,21 +1741,16 @@ angular.module('newApp')
 				});
 		   }
 		   
-		   $scope.cal_whe_flag = true;
-		   $(".wheth-report").hide();
-		   $(".wheth-report-status").hide();
 		   $scope.changeType = function(){
 			   if($scope.cal_whe_flag){
 				   $scope.cal_whe_flag = false;
 				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i class='fa fa-calendar'></i>";
 				   $(".cal-report").hide();
 				   $(".wheth-report").show();
-				   $(".wheth-report-status").show();
 			   } else{
 				   $scope.cal_whe_flag = true;
 				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i class='wi wi-day-cloudy-gusts'></i>";
 				   $(".wheth-report").hide();
-				   $(".wheth-report-status").hide();
 				   $(".cal-report").show();
 			   }
 		   };
@@ -1763,8 +1760,18 @@ angular.module('newApp')
 		   });
 		   
 		   $scope.editServiceType = function(serviceData){
-			   $scope.servicetestdata = serviceData;
+			   $scope.data = serviceData;
+			   $scope.data.confirmDate = $filter('date')($scope.data.confirmDate,"MM-dd-yyyy");
+			   $scope.data.confirmTime = $filter('date')($scope.data.confirmTime,"HH:mm a");
 			  // $('#colored-header').modal();
+		   };
+		   
+		   $scope.updateScheduleDateTime = function(){
+			 console.log($scope.data);
+			 
+			 $http.post("/updateScheduleTest", {id:$scope.data.id,confDate:$scope.data.confirmDate,confTime:$scope.data.confirmTime,googleID:$scope.data.google_id}).success(function(data){
+				 $('#colored-header').modal('toggle');
+			 });
 		   };
 		   
   }]);

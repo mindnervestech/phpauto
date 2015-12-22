@@ -113,6 +113,7 @@ import viewmodel.NoteVM;
 import viewmodel.PageVM;
 import viewmodel.PinVM;
 import viewmodel.RequestInfoVM;
+import viewmodel.ScheduleTestVM;
 import viewmodel.SiteContentVM;
 import viewmodel.SiteLogoVM;
 import viewmodel.SiteVM;
@@ -5986,6 +5987,7 @@ public class Application extends Controller {
     			RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = test.id;
 	    		vm.vin = test.vin;
+	    		vm.isgoogle = test.google_id;
 	    		Vehicle vehicle = Vehicle.findByVinAndStatus(test.vin);
 	    		if(vehicle != null) {
 	    			vm.make = vehicle.make;
@@ -11716,8 +11718,7 @@ public class Application extends Controller {
 	
 	public static Result getScheduleTestData(){
         AuthUser user = getLocalUser();
-        List<ScheduleTest> list = ScheduleTest.findAllByUser(user);
-        System.out.println(list.size());
+        List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user);
         return ok(Json.toJson(list));
     }
 	
@@ -11729,6 +11730,15 @@ public class Application extends Controller {
 		map.put("dealer", mProfile);
 		return ok(Json.toJson(map));
 	}
-	
+
+	public static Result updateCalender(){
+		DynamicForm form = DynamicForm.form().bindFromRequest();
+		String id = form.get("id");
+		String confDate = form.get("confDate");
+		String confTime = form.get("confTime");
+		String googleID = form.get("googleID");
+		/**/
+		return ok();
+	}
 }
 
