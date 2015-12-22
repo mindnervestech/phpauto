@@ -36,6 +36,14 @@ public class AuthUser extends Model implements Identity {
 	public String avatarUrl;
 	public String imageName;
 	public String imageUrl;
+	public String age;
+	public String commission;
+	public String contractDur;
+	public String experience;
+	public String trainingPro;
+	public String trialPeriod;
+	public String userGender;
+	public String salary;
 	
 	@Id
 	public Integer id;
@@ -156,6 +164,14 @@ public class AuthUser extends Model implements Identity {
 	}
 
 	
+	public String getSalary() {
+		return salary;
+	}
+
+	public void setSalary(String salary) {
+		this.salary = salary;
+	}
+
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -171,6 +187,62 @@ public class AuthUser extends Model implements Identity {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	public String getCommission() {
+		return commission;
+	}
+
+	public void setCommission(String commission) {
+		this.commission = commission;
+	}
+
+	public String getContractDur() {
+		return contractDur;
+	}
+
+	public void setContractDur(String contractDur) {
+		this.contractDur = contractDur;
+	}
+
+	public String getExperience() {
+		return experience;
+	}
+
+	public void setExperience(String experience) {
+		this.experience = experience;
+	}
+
+	public String getTrainingPro() {
+		return trainingPro;
+	}
+
+	public void setTrainingPro(String trainingPro) {
+		this.trainingPro = trainingPro;
+	}
+
+	public String getTrialPeriod() {
+		return trialPeriod;
+	}
+
+	public void setTrialPeriod(String trialPeriod) {
+		this.trialPeriod = trialPeriod;
+	}
+
+	public String getUserGender() {
+		return userGender;
+	}
+
+	public void setUserGender(String userGender) {
+		this.userGender = userGender;
 	}
 
 	public static List<AuthUser> getUserByType() {

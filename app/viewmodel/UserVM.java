@@ -15,6 +15,16 @@ public class UserVM {
 	public String currentLeads;
 	public String salesAmount;
 	public String password;
+	public String age;
+	public String commission;
+	public String contractDur;
+	public String experience;
+	public String trainingPro;
+	public String trialPeriod;
+	public String userGender;
+	public String salary;
+	
+	
 	public Long locationId;
 	
 }

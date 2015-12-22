@@ -5359,9 +5359,18 @@ public class Application extends Controller {
 	    	userObj.firstName = vm.firstName;
 	    	userObj.lastName = vm.lastName;
 	    	userObj.email = vm.email;
+	    	userObj.communicationemail = vm.email;
 	    	userObj.phone = vm.phone;
 	    	userObj.role = vm.userType;
 	    	userObj.location = users.location;
+	    	userObj.age = vm.age;
+	    	userObj.commission =vm.commission;
+	    	userObj.contractDur = vm.contractDur;
+	    	userObj.experience = vm.experience;
+	    	userObj.trainingPro = vm.trainingPro;
+	    	userObj.trialPeriod = vm.trialPeriod;
+	    	userObj.userGender = vm.userGender;
+	    	userObj.salary = vm.salary;
 	    	
 	    	
 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -5547,6 +5556,14 @@ public class Application extends Controller {
     			vm.email = user.email;
     			vm.phone = user.phone;
     			vm.userType = user.role;
+    			vm.commission =user.commission;
+    			vm.contractDur = user.contractDur;
+    			vm.age = user.age;
+    			vm.userGender = user.userGender;
+    			vm.experience = user.experience;
+    			vm.trainingPro = user.trainingPro;
+    			vm.salary = user.salary;
+    			vm.trialPeriod = user.trialPeriod;
     			vm.imageName = user.imageName;
     			vm.imageUrl = user.imageUrl;
     			vm.id = user.id;
@@ -5676,14 +5693,24 @@ public class Application extends Controller {
 	    	userObj.setEmail(vm.email);
 	    	userObj.setPhone(vm.phone);
 	    	userObj.setRole(vm.userType);
-	    	userObj.setPassword(vm.password);
-	    	if(vm.userType.equals("General Manager")){
+	    	//userObj.setPassword(vm.password);
+	    	userObj.setAge(vm.age);
+	    	userObj.setCommission(vm.commission);
+	    	userObj.setContractDur(vm.contractDur);
+	    	userObj.setExperience(vm.experience);
+	    	userObj.setTrainingPro(vm.trainingPro);
+	    	userObj.setTrialPeriod(vm.trialPeriod);
+	    	userObj.setUserGender(vm.userGender);
+	    	userObj.setSalary(vm.salary);
+	    	//userObj
+	    	
+	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
 	    	}
 	    	
 	    	userObj.deleteManyToManyAssociations("permission");
 	    	List<Permission> permissionList = Permission.getAllPermission();
-	    	   if(vm.userType.equals("General Manager")) {
+	    	   if(vm.userType.equals("General Manager") || vm.userType.equals("Manager")) {
 	    		   userObj.permission.addAll(permissionList);
 	    	   }
 	    	   

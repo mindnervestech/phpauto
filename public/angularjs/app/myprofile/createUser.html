@@ -1,7 +1,7 @@
   
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-    <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">MAnager Profile</button></a></li>
+    <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">Manager Profile</button></a></li>
       <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Users</button></a></li>
     </ul>
 	    <div id="myTabContent" class="tab-content">
@@ -18,7 +18,7 @@
   </div>
   
   <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="width: 1364px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" id = "btnClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
@@ -28,46 +28,163 @@
                 <div class="modal-body">
                    
                    		<div class="form-group col-sm-12">
+                   			<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">First Name *</label>
 								<div class="col-sm-6">
 									<input class="form-control form-white" type="text" ng-model="user.firstName"  required>
 								</div>
-						</div>
-						<div class="form-group col-sm-12">
+							</div>	
+							<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Last Name *</label>
 								<div class="col-sm-6">
 									<input class="form-control form-white" type="text" ng-model="user.lastName"  required>
 								</div>
+							</div>	
 						</div>
+						
 						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
 								<div class="col-sm-6">
 									<input id="userEmail" class="form-control form-white" type="email" ng-model="user.email" ng-blur="checkEmail('create')"  required>
 								</div>
-						</div>
-						<p style="color:red;"><b>{{emailMsg}}</b></p>
-						<div class="form-group col-sm-12">
+							</div>
+							<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
 								<div class="col-sm-6">
 									<input class="form-control form-white" type="text" ng-model="user.phone"  required>
 								</div>
+							</div>	
 						</div>
+						
 						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Role *</label>
 								<div class="col-sm-6">
 									<select class="form-control form-white" id="userType" ng-model="user.userType" required>
                                     <option value="">Select</option>
-                                    <option value="Manager">Manager</option>
                                     <option value="Sales Person">Sales Person</option>
                                 </select>
 								</div>
+								</div>
+								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Age *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userAge" ng-model="user.age">
+                                    <option value="">Select</option>
+                                    <option value="16-18">16-18</option>
+                                    <option value="18-20">18-20</option>
+                                    <option value="20-25">20-25</option>
+                                    <option value="25-30">25-30</option>
+                                    <option value="30-40">30-40</option>
+                                    <option value="40-50">40-50</option>
+                                    <option value="50-60">50-60</option>
+                                </select>
+								</div>
+								</div>
 						</div>
-						<label class="col-sm-3 control-label" style="text-align: right;">Photo </label>
+						
+						
+						<div class="form-group col-sm-12">
+						 <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Gender *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userGender" ng-model="user.userGender">
+                                    <option value="">Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Year Of Experience *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.experience"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Salary *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.salary"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Commission %*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.commission"  required>
+								</div>
+							</div>	
+						</div>
+						<!-- <div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Commission %*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.commission"  required>
+								</div>
+						</div> -->
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrainingPro" ng-model="user.trainingPro">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Contract Duration *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usercontractDur" ng-model="user.contractDur">
+                                    <option value="">Select</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="24">24</option>
+                                    <option value="36">36</option>
+                                    <option value="48">48</option>
+                                    <option value="employee">employee</option>
+                                </select>
+								</div>
+							</div>	
+						</div>
+					
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.trialPeriod"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								
+							</div>	
+						</div>
+					
+					
+						<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Photo </label>
                    <!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
                    <p><!-- <label>&{field.name}</label> --><!-- <span id="preview"> --></span>
  	               <input class="form-control" type="file" id="file" style="margin-left: 29%;width: 42%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
                    <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{img}}></span>
                   </p>
+							</div>
+						</div>	
+						
 
                 </div>
                 <div class="modal-footer">
@@ -81,57 +198,174 @@
   
   <button id="editUserModal" data-toggle="modal" data-target="#modal-edit" style="display: none;"></button>
    <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog"  style="width: 1364px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" id = "btnEditClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
                     <h4 class="modal-title"><strong>Edit User</strong></h4>
                 </div>
                 <form name="userEditFrm" ng-submit="updateImage()">
-                <div class="modal-body">
+               <div class="modal-body">
                    
                    		<div class="form-group col-sm-12">
+                   			<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">First Name *</label>
 								<div class="col-sm-6">
 									<input class="form-control form-white" type="text" ng-model="userData.firstName"  required>
 								</div>
-						</div>
-						<div class="form-group col-sm-12">
+							</div>	
+							<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Last Name *</label>
 								<div class="col-sm-6">
 									<input class="form-control form-white" type="text" ng-model="userData.lastName"  required>
 								</div>
+							</div>	
 						</div>
+						
 						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
 								<div class="col-sm-6">
-									<input id="userEditEmail" class="form-control form-white" type="email" ng-model="userData.email" ng-blur="checkEmail('edit')" required>
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="userData.email" ng-blur="checkEmail('create')"  required>
 								</div>
-						</div>
-						<p style="color:red;"><b>{{emailMsg}}</b></p>
-						<div class="form-group col-sm-12">
+							</div>
+							<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
 								<div class="col-sm-6">
 									<input class="form-control form-white" type="text" ng-model="userData.phone"  required>
 								</div>
+							</div>	
 						</div>
+						
 						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Role *</label>
 								<div class="col-sm-6">
-									<select class="form-control form-white" id="userTypeEdit" ng-model="userData.userType">
+									<select class="form-control form-white" id="userType" ng-model="userData.userType" required>
                                     <option value="">Select</option>
-                                    <option value="Manager">Manager</option>
                                     <option value="Sales Person">Sales Person</option>
                                 </select>
 								</div>
+								</div>
+								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Age *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userAge" ng-model="userData.age">
+                                    <option value="">Select</option>
+                                    <option value="16-18">16-18</option>
+                                    <option value="18-20">18-20</option>
+                                    <option value="20-25">20-25</option>
+                                    <option value="25-30">25-30</option>
+                                    <option value="30-40">30-40</option>
+                                    <option value="40-50">40-50</option>
+                                    <option value="50-60">50-60</option>
+                                </select>
+								</div>
+								</div>
 						</div>
-						<label class="col-sm-3 control-label" style="text-align: right;">Photo </label>
+						
+						
+						<div class="form-group col-sm-12">
+						 <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Gender *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userGender" ng-model="userData.userGender">
+                                    <option value="">Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Year Of Experience *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.experience"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Salary *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.salary"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Commission %*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.commission"  required>
+								</div>
+							</div>	
+						</div>
+						<!-- <div class="form-group col-sm-12">
+							<label class="col-sm-3 control-label" style="text-align: right;">Commission %*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.commission"  required>
+								</div>
+						</div> -->
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrainingPro" ng-model="userData.trainingPro">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Contract Duration *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usercontractDur" ng-model="userData.contractDur">
+                                    <option value="">Select</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="24">24</option>
+                                    <option value="36">36</option>
+                                    <option value="48">48</option>
+                                    <option value="employee">employee</option>
+                                </select>
+								</div>
+							</div>	
+						</div>
+					
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trialPeriod"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								
+							</div>	
+						</div>
+					
+					
+						<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Photo </label>
                    <!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
                    <p><!-- <label>&{field.name}</label> --><!-- <span id="preview"> --></span>
  	               <input class="form-control" type="file" id="file" style="margin-left: 29%;width: 42%;" accept="image/*" ng-file-select="onLogoFileSelect($files)">
                    <span id="preview" style="margin-top: 20px;width: 108px;margin-left: 23px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{img}}></span>
                   </p>
-                   
+							</div>
+						</div>	
+						
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
