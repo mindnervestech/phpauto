@@ -98,6 +98,13 @@
 		<!-- <p>745i,Accord,Sierra</p> -->
 	</div>
 </div>
+<div class="form-group col-sm-12" ng-if="userRole == 'Manager'">
+	<label class="col-sm-2 control-label" style="text-align: right;">Location Photo </label>
+                   <p class="col-sm-5">
+ 	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onLogoFileLocationSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{imgLocation}}></span>
+                  </p>
+</div>
 
 <h2><b>Social Media links</b></h2>
 <hr class="ng-scope">
@@ -286,13 +293,7 @@
 		<input class="form-control form-white" type="text"  ng-model="managerProfile.locationphone" >
 	</div>
 </div> -->
-<div class="form-group col-sm-12">
-	<label class="col-sm-2 control-label" style="text-align: right;">Location Photo </label>
-                   <p class="col-sm-5">
- 	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onLogoFileLocationSelect($files)">
-                   <span id="preview" style="margin-top: 20px;width: 108px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{imgLocation}}></span>
-                  </p>
-</div>
+
 
 
 
