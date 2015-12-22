@@ -9,6 +9,7 @@ public class LocationVM {
 	public String locationphone;
 	public String imageName;
 	public String imageUrl;
+	public int managerId;
 	public String firstName;
 	public String lastName;
 	public String email;
