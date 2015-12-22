@@ -5413,7 +5413,8 @@ public class Application extends Controller {
 	    	userObj.trialPeriod = vm.trialPeriod;
 	    	userObj.userGender = vm.userGender;
 	    	userObj.salary = vm.salary;
-	    	
+	    	userObj.trainingCost = vm.trainingCost;
+	    	userObj.trainingHours = vm.trainingHours;
 	    	
 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    	Random rnd = new Random();
@@ -5746,6 +5747,8 @@ public class Application extends Controller {
 	    	userObj.setTrialPeriod(vm.trialPeriod);
 	    	userObj.setUserGender(vm.userGender);
 	    	userObj.setSalary(vm.salary);
+	    	userObj.setTrainingCost(vm.trainingCost);
+	    	userObj.setTrainingHours(vm.trainingHours);
 	    	//userObj
 	    	
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){

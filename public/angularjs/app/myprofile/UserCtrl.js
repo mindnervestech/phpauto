@@ -46,7 +46,16 @@ angular.module('newApp')
 		$scope.img="/assets/images/profile-pic.jpg ";
 		
 	}
-	
+	$scope.showText = 0;
+	$scope.getProvided = function(validText){
+		console.log(validText);
+		if(validText == "Yes"){
+			$scope.showText = 1;
+		}else{
+			$scope.showText = 0;
+		}
+		
+	}
 	
 	
 	$scope.editUser = function(row) {

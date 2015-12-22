@@ -44,6 +44,8 @@ public class AuthUser extends Model implements Identity {
 	public String trialPeriod;
 	public String userGender;
 	public String salary;
+	public String trainingCost;
+	public String trainingHours;
 	
 	@Id
 	public Integer id;
@@ -247,6 +249,22 @@ public class AuthUser extends Model implements Identity {
 
 	public String getUserGender() {
 		return userGender;
+	}
+
+	public String getTrainingCost() {
+		return trainingCost;
+	}
+
+	public void setTrainingCost(String trainingCost) {
+		this.trainingCost = trainingCost;
+	}
+
+	public String getTrainingHours() {
+		return trainingHours;
+	}
+
+	public void setTrainingHours(String trainingHours) {
+		this.trainingHours = trainingHours;
 	}
 
 	public void setUserGender(String userGender) {

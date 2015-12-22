@@ -128,11 +128,37 @@
 						  <div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
 								<div class="col-sm-6">
-									<select class="form-control form-white" id="usertrainingPro" ng-model="user.trainingPro">
+									<select class="form-control form-white" id="usertrainingPro" ng-change="getProvided(user.trainingPro)" ng-model="user.trainingPro">
                                     <option value="">Select</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								
+							</div>	
+						</div>
+						<div class="form-group col-sm-12" ng-if="showText == 1">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.trainingCost">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Training Hours*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.trainingHours">
+								</div>
+							</div>	
+						</div>
+					
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.trialPeriod"  required>
 								</div>
 							</div>
 							<div class="col-sm-6">
@@ -158,18 +184,6 @@
                                     <option value="employee">employee</option>
                                 </select>
 								</div>
-							</div>	
-						</div>
-					
-						<div class="form-group col-sm-12">
-						  <div class="col-sm-6">
-								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
-								<div class="col-sm-6">
-									<input class="form-control form-white" type="text" ng-model="user.trialPeriod"  required>
-								</div>
-							</div>
-							<div class="col-sm-6">
-								
 							</div>	
 						</div>
 					
