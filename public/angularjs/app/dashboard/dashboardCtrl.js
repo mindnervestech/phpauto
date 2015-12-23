@@ -1765,7 +1765,7 @@ angular.module('newApp')
 			    unit: 'f',
 			    success: function (weather) {
 			    	$scope.whDataArr = weather.forecast;
-			    	alert(JSON.stringify(weather));
+			    	//alert(JSON.stringify(weather));
 			    }});
 		   
 		   $scope.editServiceType = function(serviceData){
