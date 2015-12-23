@@ -1791,6 +1791,9 @@ angular.module('newApp')
 						  if(angular.equals(value.text,"Rain")){
 							img = "wi wi-rain";  
 						  }
+						  if(angular.equals(value.text,"Light Rain")){
+							  img = "wi wi-rain";  
+						  }
 						  if(angular.equals(value.text,"Fog")){
 								img = "wi wi-fog";  
 						  }
@@ -1814,6 +1817,9 @@ angular.module('newApp')
 						  if(angular.equals(value.text,"Rain")){
 							  img = "wi wi-rain";  
 						  }
+						  if(angular.equals(value.text,"Light Rain")){
+							  img = "wi wi-rain";  
+						  }
 						  if(angular.equals(value.text,"Fog")){
 								img = "wi wi-fog";  
 						  }
@@ -1835,6 +1841,9 @@ angular.module('newApp')
 							  img = "fa fa-cloud"; 
 						  }
 						  if(angular.equals(value.text,"Rain")){
+							  img = "wi wi-rain";  
+						  }
+						  if(angular.equals(value.text,"Light Rain")){
 							  img = "wi wi-rain";  
 						  }
 						  if(angular.equals(value.text,"Fog")){
