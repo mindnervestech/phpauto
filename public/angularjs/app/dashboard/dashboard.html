@@ -275,7 +275,7 @@ margin-left: 5px;
                      
         </div>
         <div class="row" style="position: relative;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
-                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="wi wi-day-cloudy-gusts"></i></button>
+                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-certificate"></i></button>
             <div class="col-md-12 cal-report" id="load_cal_or_wheth">
     			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
 			           </div>
@@ -287,11 +287,11 @@ margin-left: 5px;
        
         <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;">
         		<strong>Future Appointments</strong>
-                      <div style="background: none repeat scroll 0% 0% rgb(248, 248, 248);border-left: 2px solid rgb(243, 210, 97);padding: 0px 5px; margin-top: 2px;" ng-repeat="sd in scheduleListData">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM/dd/yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button>
+                      <div style="background: none repeat scroll 0% 0% rgb(248, 248, 248);border-left: 2px solid rgb(243, 210, 97);padding: 0px 5px; margin-top: 2px;" ng-repeat="sd in scheduleListData">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button>
                       </div>
                   </div>
             <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="margin-top: 145px;">
               <div class="modal-content">
                 <div class="modal-header bg-dark">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
@@ -303,13 +303,15 @@ margin-left: 5px;
                 <div class="panel-body bg-white">
                   <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                      <form role="form" class="form-validation" ng-submit="updateScheduleDateTime()">
+                      <form role="form" class="form-validation" action="/updateScheduleTest" method="post">
                         <div class="row">
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label class="control-label">Date</label>
                               <div class="append-icon">
-                                <input data-provide="datepicker" id="cnfDate" class="form-control" ng-model="data.confirmDate" data-date-format="mm-dd-yyyy" required>
+                              	<input type="hidden" id="dataID" ng-model="data1.id" value="{{data1.id}}" name="id" />
+                              	<input type="hidden" id="dataGoogleID" ng-model="data1.google_id" value="{{data1.google_id}}" name="googleID" />
+                                <input data-provide="datepicker" id="cnfReSchDate" name="confDate" class="form-control" ng-model="data1.confirmDate" data-date-format="mm-dd-yyyy" required>
                               </div>
                             </div>
                           </div>
@@ -317,8 +319,14 @@ margin-left: 5px;
                             <div class="form-group">
                               <label class="control-label">Time</label>
                               <div class="append-icon">
-                                <input type="text" name="timepicker" ng-model="data.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="timePick" required>
+                                <input type="text" name="confTime" ng-model="data1.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="timeSchPick" required>
                               </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group control-label" id="nature-data">
                             </div>
                           </div>
                         </div>
@@ -1027,6 +1035,8 @@ margin-left: 5px;
 														<div class="col-sm-5">
 															<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="mm/dd/yyyy" required>
 														</div>
+														<div class="col-sm-5" id="gridCnfDateNature">
+														</div>
 													</div>
 													<div class="form-group col-sm-12">
 													<label class="col-sm-2 control-label" style="text-align: right;">Time</label>
@@ -1111,7 +1121,7 @@ margin-left: 5px;
 							<button id="btnCompleteToDo" data-toggle="modal" data-target="#todoCompleteStatusModal" style="display: none;"></button>
 							<button id="btnCancelToDo" data-toggle="modal" data-target="#todoCancelStatusModal" style="display: none;"></button>
 							<button id="btnUserNote" data-toggle="modal" data-target="#userNoteModal" style="display: none;"></button>
-							<button id="btnTestDrive" data-toggle="modal" data-target="#scheduleTestDriveModal" style="display: none;"></button>
+							<button id="btnTestDrive" data-toggle="modal" data-target="#scheduleTestDriveModal" ng-click="resettestDriveNature()" style="display: none;"></button>
 							<button id="btnDeleteForever" data-toggle="modal" data-target="#deleteForeverModal" style="display: none;"></button>
 							
 							
@@ -1726,6 +1736,11 @@ margin-left: 5px;
 														<label class="col-sm-4 control-label" style="text-align: right;">Best Day</label>
 														<div class="col-sm-7">
 														<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" ng-model="testDriveData.bestDay" data-date-format="dd-mm-yyyy" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">&nbsp;</label>
+														<div class="col-sm-7" id="testDriveNature">
 														</div>
 													</div>
 													<div class="form-group col-sm-12">

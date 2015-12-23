@@ -7,7 +7,6 @@
  * # MainCtrl
  * Controller of the newappApp
  */
-
 angular.module('newApp').directive('myPostRepeatDirective', function() {
   return function(scope, element, attrs) {
     if (scope.$last) {
@@ -16,7 +15,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout) {
 	console.log(events);
 	console.log(taskslist);
 	$scope.userKey = userKey;
@@ -233,7 +232,7 @@ angular.module('newApp')
      				 		                                	} ,
      			 		                                 },
      			 		                                { name: 'isRead', displayName: 'Confirm',enableFiltering: false, width:'15%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-     			 		                                	 cellTemplate:'<div class="icheck-list"ng-show="grid.appScope.userType != \'\'" ></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType != \'\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;">Confirm/Reschedule</button>', 
+     			 		                                	 cellTemplate:'<div class="icheck-list"ng-show="grid.appScope.userType != \'\'" ></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType != \'\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;" ng-click="confres()">Confirm/Reschedule</button>', 
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			  		                                       if (row.entity.confirmDate === null) {
      			  		                                         return 'red';
@@ -1749,7 +1748,7 @@ angular.module('newApp')
 				   $(".wheth-report").show();
 			   } else{
 				   $scope.cal_whe_flag = true;
-				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i class='wi wi-day-cloudy-gusts'></i>";
+				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i class='glyphicon glyphicon-certificate'></i>";
 				   $(".wheth-report").hide();
 				   $(".cal-report").show();
 			   }
@@ -1759,21 +1758,104 @@ angular.module('newApp')
 			   $scope.scheduleListData = data;
 		   });
 		   
+		   $scope.whDataArr = [];
+		   $.simpleWeather({
+			    location: 'New York',
+			    woeid: '',
+			    unit: 'f',
+			    success: function (weather) {
+			    	$scope.whDataArr = weather.forecast;
+			    	//alert(JSON.stringify(weather));
+			    }});
+		   
 		   $scope.editServiceType = function(serviceData){
-			   $scope.data = serviceData;
-			   $scope.data.confirmDate = $filter('date')($scope.data.confirmDate,"MM-dd-yyyy");
-			   $scope.data.confirmTime = $filter('date')($scope.data.confirmTime,"HH:mm a");
-			  // $('#colored-header').modal();
+			   document.getElementById("nature-data").innerHTML = "";
+			   $scope.data1 = serviceData;
+			   $scope.data1.confirmDate = $filter('date')($scope.data1.confirmDate,"MM-dd-yyyy");
+			   $scope.data1.confirmTime = $filter('date')($scope.data1.confirmTime,"HH:mm a");
+			   $('#dataID').val($scope.data1.id);
+			   $('#dataGoogleID').val($scope.data1.google_id);
+			   $('#colored-header').modal();
+		   };
+
+		   $timeout(function(){
+			   $('#cnfReSchDate').on('changeDate', function(e) {
+				   document.getElementById("nature-data").innerHTML = "";
+				   var day = moment(e.date).format('DD MMM YYYY');
+				   var img= "";
+				   angular.forEach($scope.whDataArr,function(value,key){
+					  if(angular.equals(day, value.date)){
+						  if(angular.equals(value.text,"Cloudy")){
+							  img = "fa fa-cloud"; 
+						  }
+						  if(angular.equals(value.text,"Rain")){
+							img = "wi wi-rain";  
+						  }
+						  if(angular.equals(value.text,"Fog")){
+								img = "wi wi-fog";  
+						  }
+						  if(angular.equals(value.text,"Fair")){
+								img = "glyphicon glyphicon-certificate";  
+						  }
+						  document.getElementById("nature-data").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
+					  }
+				   });
+			   });
+			   
+			   $('#testDriveDate').on('changeDate', function(e) {
+				   document.getElementById("testDriveNature").innerHTML = "";
+				   var day = moment(e.date).format('DD MMM YYYY');
+				   var img= "";
+				   angular.forEach($scope.whDataArr,function(value,key){
+					  if(angular.equals(day, value.date)){
+						  if(angular.equals(value.text,"Cloudy")){
+							  img = "fa fa-cloud"; 
+						  }
+						  if(angular.equals(value.text,"Rain")){
+							  img = "wi wi-rain";  
+						  }
+						  if(angular.equals(value.text,"Fog")){
+								img = "wi wi-fog";  
+						  }
+						  if(angular.equals(value.text,"Fair")){
+								img = "glyphicon glyphicon-certificate";  
+						  }
+						  document.getElementById("testDriveNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
+					  }
+				   });
+			   });
+			   
+			   $('#cnfDate').on('changeDate', function(e) {
+				   document.getElementById("gridCnfDateNature").innerHTML = "";
+				   var day = moment(e.date).format('DD MMM YYYY');
+				   var img= "";
+				   angular.forEach($scope.whDataArr,function(value,key){
+					  if(angular.equals(day, value.date)){
+						  if(angular.equals(value.text,"Cloudy")){
+							  img = "fa fa-cloud"; 
+						  }
+						  if(angular.equals(value.text,"Rain")){
+							  img = "wi wi-rain";  
+						  }
+						  if(angular.equals(value.text,"Fog")){
+								img = "wi wi-fog";  
+						  }
+						  if(angular.equals(value.text,"Fair")){
+								img = "glyphicon glyphicon-certificate";  
+						  }
+						  document.getElementById("gridCnfDateNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
+					  }
+				   });
+			   });
+		   }, 4000);
+		   
+		   $scope.resettestDriveNature = function(){
+			   document.getElementById("testDriveNature").innerHTML = "";
 		   };
 		   
-		   $scope.updateScheduleDateTime = function(){
-			 console.log($scope.data);
-			 
-			 $http.post("/updateScheduleTest", {id:$scope.data.id,confDate:$scope.data.confirmDate,confTime:$scope.data.confirmTime,googleID:$scope.data.google_id}).success(function(data){
-				 $('#colored-header').modal('toggle');
-			 });
+		   $scope.confres = function(){
+			   document.getElementById("gridCnfDateNature").innerHTML = "";
 		   };
-		   
   }]);
 
 angular.module('newApp')

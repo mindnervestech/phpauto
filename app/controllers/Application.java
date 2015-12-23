@@ -86,6 +86,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -114,6 +115,7 @@ import viewmodel.PageVM;
 import viewmodel.PinVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.ScheduleTestVM;
+import viewmodel.SessionUseVM;
 import viewmodel.SiteContentVM;
 import viewmodel.SiteLogoVM;
 import viewmodel.SiteVM;
@@ -220,6 +222,7 @@ public class Application extends Controller {
 		private static String clientId="657059082204-1uh3d2dt5cik1269s55bc80tlpd52gsb.apps.googleusercontent.com";
 		private static String clientSecret="Xx2gAJ4ucJ-rmcYdO3wwB5_D";
 		private static String redirectURI="http://www.glider-autos.com/oauth2Callback";
+		private static String redirectURIUpdate="http://www.glider-autos.com/updatecalenderdata";
 		private Set<Event> events=new HashSet<Event>();
 		static List<Tasks> tasksList = new ArrayList<>();
 		static List<Event> events1 = new ArrayList<>();
@@ -11881,8 +11884,76 @@ public class Application extends Controller {
 		String confDate = form.get("confDate");
 		String confTime = form.get("confTime");
 		String googleID = form.get("googleID");
+		
+		SessionUseVM vm = new SessionUseVM();
+		vm.id = id;
+		vm.cnfDate = confDate;
+		vm.cnfTime = confTime;
+		vm.eventID = googleID;
+		session("sessionVmData", Json.stringify(Json.toJson(vm)));
+		
+		ScheduleTest test = ScheduleTest.findById(Long.parseLong(id));
+		test.setConfirmDate(new Date(confDate));
+		test.setConfirmTime(new Date(confTime));
+		test.update();
+		/*try {
+			if(test.getGoogle_id()!=null){
+				return redirect(authorizeUpdate());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
+		
 		/**/
+		return redirect("/login");
+		}
+	
+	private static String  authorizeUpdate() throws Exception {
+		System.out.println("call------------------calllllllllllllloooooo111111111");
+		AuthorizationCodeRequestUrl authorizationUrl;
+		System.out.println(flow);
+		if(flow==null){
+			Details web=new Details();
+			web.setClientId(clientId);
+			web.setClientSecret(clientSecret);
+			clientSecrets = new GoogleClientSecrets().setWeb(web);
+			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+			SCOPES.add(CalendarScopes.CALENDAR);
+			
+			flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
+					SCOPES).build();
+		}
+		authorizationUrl = flow.newAuthorizationUrl().setRedirectUri(redirectURIUpdate);
+		
+		return authorizationUrl.build();
+	}
+	
+	public static Result updatecalenderdata(){
+		String  sessionValue =  session("sessionVmData");
+		System.out.println("sessionValue :: "+sessionValue);
+		
+		String code = request().getQueryString("code");
+		events1.clear();
+		try {
+			TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectURIUpdate).execute();
+			credential = flow.createAndStoreCredential(response, "userID");
+			client = new com.google.api.services.calendar.Calendar.Builder(httpTransport, JSON_FACTORY, credential).
+					setApplicationName(APPLICATION_NAME).build();
+
+			oauth2 = new Oauth2.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(
+					APPLICATION_NAME).build();
+			/*com.google.api.services.calendar.Calendar.Events events=client.events();
+			Event ev = events.get("primary", vm.eventID).execute();
+			Date date = new Date(vm.cnfDate);
+			Date time = new Date(vm.cnfTime);
+			Date cpl = new Date(date.getYear(), date.getMonth(), date.getDay(), 
+                    time.getHours(), time.getMinutes(), time.getSeconds());
+			DateTime dateTime = new DateTime(cpl);
+			ev.setStart(dateTime);
+			Event updatedEvent = events.update("primary", ev.getId(), ev).execute();*/
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return ok();
 	}
 }
-

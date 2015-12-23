@@ -1,23 +1,23 @@
 @import "http://fonts.googleapis.com/css?family=Lato:300,400,700,900";
 @import "http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700";
-@import "../plugins/bootstrap/css/bootstrap.min.css";
-@import "../plugins/bootstrap/css/bootstrap-rtl.min.css";
-@import "../plugins/mcustom-scrollbar/mcustom_scrollbar.min.css";
-@import "../plugins/animation-css/animate.min.css";
-@import "icons/font-awesome/font-awesome.css";
-@import "icons/line-icons/line-icons.css";
-@import "icons/line-icons/simple-line-icons.css";
-@import "../plugins/select2/select2.css";
-@import "../plugins/slick/slick.css";
-@import "../plugins/icheck/skins/all.css";
-@import "../plugins/bootstrap/css/jasny-bootstrap.css";
-@import "icons/rounded/style.css";
-@import "icons/octicons/octicons.css";
-@import "icons/weather/css/weather-icons.min.css";
-@import "../plugins/bootstrap-loading/lada.min.css";
-@import "../plugins/bootstrap-tags-input/bootstrap-tagsinput.css";
-@import "../plugins/bootstrap-editable/css/bootstrap-editable.css";
-@import "../plugins/prettify/prettify.css";
+@import "/assets/global/plugins/bootstrap/css/bootstrap.min.css";
+@import "/assets/global/plugins/bootstrap/css/bootstrap-rtl.min.css";
+@import "/assets/global/plugins/mcustom-scrollbar/mcustom_scrollbar.min.css";
+@import "/assets/global/plugins/animation-css/animate.min.css";
+@import "/assets/global/css/icons/font-awesome/font-awesome.css";
+@import "/assets/global/css/icons/line-icons/line-icons.css";
+@import "/assets/global/css/icons/line-icons/simple-line-icons.css";
+@import "/assets/global/plugins/select2/select2.css";
+@import "/assets/global/plugins/slick/slick.css";
+@import "/assets/global/plugins/icheck/skins/all.css";
+@import "/assets/global/plugins/bootstrap/css/jasny-bootstrap.css";
+@import "/assets/global/css/icons/rounded/style.css";
+@import "/assets/global/css/icons/octicons/octicons.css";
+@import "/assets/global/css/icons/weather/css/weather-icons.min.css";
+@import "/assets/global/plugins/bootstrap-loading/lada.min.css";
+@import "/assets/global/plugins/bootstrap-tags-input/bootstrap-tagsinput.css";
+@import "/assets/global/plugins/bootstrap-editable/css/bootstrap-editable.css";
+@import "/assets/global/plugins/prettify/prettify.css";
 /**** SIDEBAR  ****/
 /**** TOPBAR ****/
 /**** QUICKVIEW SIDEBAR ****/
@@ -55,8 +55,8 @@
 /* FONTS */
 @font-face {
   font-family: 'weather';
-  src: url('icons/weather/artill_clean_icons-webfont.eot');
-  src: url('icons/weather/artill_clean_icons-webfont.eot?#iefix') format('embedded-opentype'), url('icons/weather/artill_clean_icons-webfont.woff') format('woff'), url('icons/weather/artill_clean_icons-webfont.ttf') format('truetype'), url('icons/weather/weatherfont/artill_clean_icons-webfont.svg#artill_clean_weather_iconsRg') format('svg');
+  src: url('/assets/global/css/icons/weather/artill_clean_icons-webfont.eot');
+  src: url('/assets/global/css/icons/weather/artill_clean_icons-webfont.eot?#iefix') format('embedded-opentype'), url('/assets/global/css/icons/weather/artill_clean_icons-webfont.woff') format('woff'), url('/assets/global/css/icons/weather/artill_clean_icons-webfont.ttf') format('truetype'), url('/assets/global/css/icons/weather/weatherfont/artill_clean_icons-webfont.svg#artill_clean_weather_iconsRg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -1568,7 +1568,7 @@ body:not(.sidebar-collapsed) .topbar .header-left .topnav .menutoggle:hover .men
   margin: 0;
 }
 .sidebar .logopanel h1 a {
-  background: url(../images/logo/logo-white.png) no-repeat;
+  background: url(/assets/global/images/logo/logo-white.png) no-repeat;
   display: block;
   height: 31px;
 }
@@ -2749,7 +2749,7 @@ body:not(.sidebar-collapsed) .sidebar .sidebar-inner .nav-sidebar > li.nav-paren
   line-height: 30px;
 }
 .sidebar-hover .logopanel2 h1 a {
-  background: url(../images/logo/logo-dark.png) no-repeat;
+  background: url(/assets/global/images/logo/logo-dark.png) no-repeat;
   display: block;
   height: 30px;
 }
@@ -3179,7 +3179,7 @@ body:not(.sidebar-collapsed) .sidebar .sidebar-inner .nav-sidebar > li.nav-paren
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
   }
   .sidebar-top .sidebar .logopanel h1 a {
-    background: url(../images/logo/logo-dark.png) no-repeat;
+    background: url(/assets/global/images/logo/logo-dark.png) no-repeat;
   }
   .sidebar-top .sidebar:before {
     display: none;
@@ -5291,7 +5291,7 @@ body:not(.fixed-topbar) .main-content .page-content {
   text-align: center !important;
 }
 .widget-weather .weather .weather-forecast .icon-weather {
-  background: url(images/icons/weather-icons.png) 0 0 no-repeat;
+  background: url(/assets/global/images/icons/weather-icons.png) 0 0 no-repeat;
   height: 24px;
   margin: 0;
   width: 24px;
@@ -5317,7 +5317,7 @@ body:not(.fixed-topbar) .main-content .page-content {
   color: #ffffff;
 }
 .widget-weather .weather .weather-highlighted .icon-weather {
-  background: url(images/icons/weather-main.png) no-repeat;
+  background: url(/assets/global/images/icons/weather-main.png) no-repeat;
   float: left;
   height: 57px;
   margin-top: 10px;
@@ -5506,7 +5506,7 @@ body:not(.fixed-topbar) .main-content .page-content {
 }
 .widget_calendar .multidatepicker .ui-widget-content .ui-widget-header .ui-datepicker-prev {
   background-color: transparent!important;
-  background-image: url(../images/widgets/pagination.png) !important;
+  background-image: url(/assets/global/images/widgets/pagination.png) !important;
   background-position: 5px 5px!important;
   background-repeat: no-repeat !important;
   border-radius: 50%;
@@ -5520,7 +5520,7 @@ body:not(.fixed-topbar) .main-content .page-content {
 }
 .widget_calendar .multidatepicker .ui-widget-content .ui-widget-header .ui-datepicker-next {
   background-color: transparent!important;
-  background-image: url(../images/widgets/pagination.png) !important;
+  background-image: url(/assets/global/images/widgets/pagination.png) !important;
   background-position: -45px 5px !important;
   background-repeat: no-repeat !important;
   border-radius: 50%;
@@ -5678,7 +5678,7 @@ body:not(.fixed-topbar) .main-content .page-content {
   margin-bottom: 0;
 }
 .widget-slider-img .slide:before {
-  background-image: url('../images/gradient-big.png');
+  background-image: url('/assets/global/images/gradient-big.png');
   background-repeat: repeat-x;
   bottom: 0;
   content: " ";
@@ -5697,7 +5697,7 @@ body:not(.fixed-topbar) .main-content .page-content {
   top: 0;
 }
 .widget-slider-img .text-top .slide:before {
-  background-image: url('../images/gradient-big.png');
+  background-image: url('/assets/global/images/gradient-big.png');
   bottom: auto;
   filter: FlipV;
   height: 30px;
@@ -5899,7 +5899,7 @@ body:not(.fixed-topbar) .main-content .page-content {
 /* WIDGET CLOCK */
 .jquery-clock {
   -webkit-background-size: cover;
-  background-image: url(../images/clock/clock.png);
+  background-image: url(/assets/global/images/clock/clock.png);
   background-size: cover;
   height: 600px;
   list-style: none;
@@ -5910,7 +5910,7 @@ body:not(.fixed-topbar) .main-content .page-content {
 }
 .jquery-clock .jquery-clock-sec {
   -webkit-background-size: contain;
-  background-image: url(../images/clock/sechand.png);
+  background-image: url(/assets/global/images/clock/sechand.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -5923,7 +5923,7 @@ body:not(.fixed-topbar) .main-content .page-content {
 }
 .jquery-clock .jquery-clock-min {
   -webkit-background-size: contain;
-  background-image: url(../images/clock/minhand.png);
+  background-image: url(/assets/global/images/clock/minhand.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -5936,7 +5936,7 @@ body:not(.fixed-topbar) .main-content .page-content {
 }
 .jquery-clock .jquery-clock-hour {
   -webkit-background-size: contain;
-  background-image: url(../images/clock/hourhand.png);
+  background-image: url(/assets/global/images/clock/hourhand.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -5974,18 +5974,18 @@ body:not(.fixed-topbar) .main-content .page-content {
   width: 200px;
 }
 .jquery-clock.white {
-  background-image: url(../images/clock/clock-white.png);
+  background-image: url(/assets/global/images/clock/clock-white.png);
 }
 .jquery-clock.white .jquery-clock-sec {
-  background-image: url(../images/clock/sechand-white.png);
+  background-image: url(/assets/global/images/clock/sechand-white.png);
   z-index: 3;
 }
 .jquery-clock.white .jquery-clock-min {
-  background-image: url(../images/clock/minhand-white.png);
+  background-image: url(/assets/global/images/clock/minhand-white.png);
   z-index: 2;
 }
 .jquery-clock.white .jquery-clock-hour {
-  background-image: url(../images/clock/hourhand-white.png);
+  background-image: url(/assets/global/images/clock/hourhand-white.png);
   z-index: 1;
 }
 .jquery-clock.white .jquery-clock-pin {
@@ -7017,7 +7017,7 @@ body:not(.fixed-topbar) .main-content .page-content {
     font-family: 'Lato', arial, sans-serif;
     font-weight: 900;
     font-size: 25px;
-    background: url(../images/logo/logo-white.png) no-repeat;
+    background: url(/assets/global/images/logo/logo-white.png) no-repeat;
     height: 31px;
     margin-bottom: 15px;
     display: block;
@@ -7687,7 +7687,7 @@ body:not(.rtl) .layout-options .img-sidebar-right {
   text-align: center;
 }
 .page-profil .profil-content .item .user:before {
-  background-image: url('../images/gradient-big.png');
+  background-image: url('/assets/global/images/gradient-big.png');
   background-repeat: repeat-x;
   bottom: 0;
   content: " ";
@@ -10674,7 +10674,7 @@ thead .fc-widget-header {
 .morphsearch-submit {
   -webkit-transform: translate3d(-30px, -50%, 0) scale3d(0, 0, 1);
   background-size: 100%;
-  background: transparent url(../images/magnifier.svg) no-repeat center center;
+  background: transparent url(/assets/global/images/magnifier.svg) no-repeat center center;
   border: none;
   height: 80px;
   opacity: 0;
@@ -12559,7 +12559,7 @@ blockquote i {
     width: 100%;
   }
   .rtl .sidebar-top .sidebar .logopanel h1 a {
-    background: url(../images/logo/logo-dark.png) no-repeat;
+    background: url(/assets/global/images/logo/logo-dark.png) no-repeat;
   }
   .rtl .sidebar-top .sidebar:before {
     display: none;
