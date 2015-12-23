@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -96,5 +98,9 @@ public class SiteLogo extends Model {
 	
 	public static SiteLogo findByUser(AuthUser user) {
 		return find.where().eq("user", user).findUnique();
+	}
+	
+	public static SiteLogo findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findUnique();
 	}
 }

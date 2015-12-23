@@ -3213,7 +3213,6 @@ angular.module('newApp')
 	});
 	
 	$http.get('/getMyProfile')
-	
 	.success(function(data) {
 		$scope.myprofile = data;
 	});

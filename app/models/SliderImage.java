@@ -133,6 +133,10 @@ public class SliderImage extends Model {
 		return find.where().eq("user", user).findList();
 	}
 	
+	public static List<SliderImage> findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findList();
+	}
+	
 	public static SliderImage findByRowCol(Integer row,Integer col) {
 		return find.where().eq("row", row).eq("col", col).findUnique();
 	}

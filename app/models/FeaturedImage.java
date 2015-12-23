@@ -122,4 +122,8 @@ public class FeaturedImage extends Model {
 		return find.where().eq("user", user).findList();
 	}
 	
+	public static List<FeaturedImage> findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findList();
+	}
+	
 }

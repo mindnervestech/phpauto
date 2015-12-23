@@ -83,4 +83,8 @@ public class SiteContent extends Model {
 	public static SiteContent findByUser(AuthUser user) {
 		return find.where().eq("user", user).findUnique();
 	}
+	
+	public static SiteContent findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findUnique();
+	}
 }

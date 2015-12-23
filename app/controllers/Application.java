@@ -1562,12 +1562,12 @@ public class Application extends Controller {
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
-	    	    File fdir = new File(rootDir+File.separator+vin+"-"+userObj.id);
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id);
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdir();
 	    	    }
-	    	    String filePath = rootDir+File.separator+vin+"-"+userObj.id+File.separator+fileName;
-	    	    String thumbnailPath = rootDir+File.separator+vin+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
 	    	    File file = picture.getFile();
 	    	    try {
@@ -1576,13 +1576,13 @@ public class Application extends Controller {
 	    	    File _f = new File(filePath);
 				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 				
-				VehicleImage imageObj = VehicleImage.getByImagePath("/"+vin+"-"+userObj.id+"/"+fileName);
+				VehicleImage imageObj = VehicleImage.getByImagePath("/"+session("USER_LOCATION")+"/"+vin+"-"+userObj.id+"/"+fileName);
 				if(imageObj == null) {
 					VehicleImage vImage = new VehicleImage();
 					vImage.vin = vin;
 					vImage.imgName = fileName;
-					vImage.path = "/"+vin+"-"+userObj.id+"/"+fileName;
-					vImage.thumbPath = "/"+vin+"-"+userObj.id+"/"+"thumbnail_"+fileName;
+					vImage.path = "/"+session("USER_LOCATION")+"/"+vin+"-"+userObj.id+"/"+fileName;
+					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+vin+"-"+userObj.id+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					vImage.save();
@@ -1813,7 +1813,10 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		int visitorCount = 0;
-	    	List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");
+	    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
+    		
+    		List <Vehicle> vehicleObjList = Vehicle.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
 	    	String params = "&date=last-28-days&type=visitors-list&limit=all";
@@ -2913,17 +2916,17 @@ public class Application extends Controller {
 	    	FilePart picture = body.getFile("file0");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
-	    	    File fdir = new File(rootDir+File.separator+vin+"-"+userObj.id+File.separator+"audio");
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+"audio");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdir();
 	    	    }
-	    	    String filePath = rootDir+File.separator+vin+"-"+userObj.id+File.separator+"audio"+File.separator+fileName;
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+"audio"+File.separator+fileName;
 	    	    File file = picture.getFile();
 	    	    try {
 	    	    		FileUtils.moveFile(file, new File(filePath));
 	    	    		VehicleAudio audio = new VehicleAudio();
 	    	    		audio.vin = vin;
-	    	    		audio.path = File.separator+vin+"-"+userObj.id+File.separator+"audio"+File.separator+fileName;
+	    	    		audio.path = File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+"audio"+File.separator+fileName;
 	    	    		audio.fileName = fileName;
 	    	    		audio.user = userObj;
 	    	    		audio.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -3035,13 +3038,13 @@ public class Application extends Controller {
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
-	    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"SliderImages");
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"SliderImages");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
 	    	    }
 	    	    
-	    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"SliderImages"+File.separator+fileName;
-	    	    String thumbnailPath = rootDir+File.separator+userObj.id+File.separator+"SliderImages"+File.separator+"thumbnail_"+fileName;
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"SliderImages"+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"SliderImages"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
 	    	    File file = picture.getFile();
 	    	    try {
@@ -3050,13 +3053,13 @@ public class Application extends Controller {
 	    	    File _f = new File(filePath);
 				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 				
-				SliderImage imageObj = SliderImage.getByImagePath("/"+userObj.id+"/"+"SliderImages"+"/"+fileName);
+				SliderImage imageObj = SliderImage.getByImagePath("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"SliderImages"+"/"+fileName);
 				if(imageObj == null) {
 					List<SliderImage> sliderList = SliderImage.find.all();
 					SliderImage vImage = new SliderImage();
 					vImage.imgName = fileName;
-					vImage.path = "/"+userObj.id+"/"+"SliderImages"+"/"+fileName;
-					vImage.thumbPath = "/"+userObj.id+"/"+"SliderImages"+"/"+"thumbnail_"+fileName;
+					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"SliderImages"+"/"+fileName;
+					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"SliderImages"+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					if(sliderList.size() == 0) {
@@ -3110,13 +3113,13 @@ public class Application extends Controller {
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
-	    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"FeaturedImages");
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"FeaturedImages");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
 	    	    }
 	    	    
-	    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"FeaturedImages"+File.separator+fileName;
-	    	    String thumbnailPath = rootDir+File.separator+userObj.id+File.separator+"FeaturedImages"+File.separator+"thumbnail_"+fileName;
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+File.separator+userObj.id+File.separator+"FeaturedImages"+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+File.separator+userObj.id+File.separator+"FeaturedImages"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
 	    	    File file = picture.getFile();
 	    	    try {
@@ -3129,8 +3132,8 @@ public class Application extends Controller {
 				if(imageObj == null) {
 					FeaturedImage vImage = new FeaturedImage();
 					vImage.imgName = fileName;
-					vImage.path = "/"+userObj.id+"/"+"FeaturedImages"+"/"+fileName;
-					vImage.thumbPath = "/"+userObj.id+"/"+"FeaturedImages"+"/"+"thumbnail_"+fileName;
+					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"FeaturedImages"+"/"+fileName;
+					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"FeaturedImages"+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					vImage.save();
@@ -3236,7 +3239,8 @@ public class Application extends Controller {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	
 	    	Map<String,List> map = new HashMap<>();
-	    	List<SliderImage> sliderList = SliderImage.findByUser(user);
+	    	//slconfig.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    	List<SliderImage> sliderList = SliderImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	List<ImageVM> sliderVMList = new ArrayList<>();
 	    	List<ImageVM> configList = new ArrayList<>();
 	    	
@@ -3253,7 +3257,8 @@ public class Application extends Controller {
 	    	}
 	    	
 	    	map.put("sliderList", sliderVMList);
-	    	List<FeaturedImage> featuredList = FeaturedImage.findByUser(user);
+	    	/*List<FeaturedImage> featuredList = FeaturedImage.findByUser(user);*/
+	    	List<FeaturedImage> featuredList = FeaturedImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	List<ImageVM> featuredVMList = new ArrayList<>();
 	    	
 	    	reorderFeaturedImagesForFirstTime(featuredList);
@@ -3270,7 +3275,7 @@ public class Application extends Controller {
 	    	
 	    	map.put("featuredList", featuredVMList);
 	    	
-	    	SliderImageConfig sliderConfig = SliderImageConfig.findByUser(user);
+	    	SliderImageConfig sliderConfig = SliderImageConfig.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	ImageVM slider = new ImageVM();
 	    	if(sliderConfig != null) {
 	    		slider.height = sliderConfig.cropHeight;
@@ -3287,7 +3292,7 @@ public class Application extends Controller {
 	    	}
 	    	configList.add(slider);
 	    	
-	    	FeaturedImageConfig featuredConfig = FeaturedImageConfig.findByUser(user);
+	    	FeaturedImageConfig featuredConfig = FeaturedImageConfig.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	ImageVM featured = new ImageVM();
 	    	if(featuredConfig != null) {
 	    		featured.height = featuredConfig.cropHeight;
@@ -3305,7 +3310,7 @@ public class Application extends Controller {
 	    	configList.add(featured);
 	    	map.put("configList", configList);
 	    	
-	    	SiteContent content = SiteContent.findByUser(user);
+	    	SiteContent content = SiteContent.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	List<SiteContentVM> siteContentList = new ArrayList<>();
 	    	SiteContentVM contentVM = new SiteContentVM();
 	    	if(content != null) {
@@ -3386,7 +3391,7 @@ public class Application extends Controller {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Form<SiteContentVM> form = DynamicForm.form(SiteContentVM.class).bindFromRequest();
 	    	SiteContentVM vm = form.get();
-	    	SiteContent content = SiteContent.findByUser(user);
+	    	SiteContent content = SiteContent.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	if(content != null) {
 	    		content.setDescHeading(vm.descHeading);
 	    		content.setDescription(vm.description);
@@ -4106,7 +4111,7 @@ public class Application extends Controller {
 	    	if(user.role == null) {
     			listData = RequestMoreInfo.findAllData();
     		} else {
-    			if(user.role.equals("General Manager")) {
+    			if(user.role.equals("General Manager") || user.role.equals("Manager")) {
     				listData = RequestMoreInfo.findAllData();
     			} else {
     				listData = RequestMoreInfo.findAllByDate();
@@ -4226,7 +4231,7 @@ public class Application extends Controller {
     		if(user.role == null) {
     			listData = ScheduleTest.findAllData();
     		} else {
-    			if(user.role.equals("General Manager")) {
+    			if(user.role.equals("General Manager") || user.role.equals("Manager")) {
     				listData = ScheduleTest.findAllData();
     			} else {
     				listData = ScheduleTest.findAllByDate();
@@ -4377,7 +4382,7 @@ public class Application extends Controller {
 	    	if(user.role == null) {
     			listData = TradeIn.findAllData();
     		} else {
-    			if(user.role.equals("General Manager")) {
+    			if(user.role.equals("General Manager") || user.role.equals("Manager")) {
     				listData = TradeIn.findAllData();
     			} else {
     				listData = TradeIn.findAllByDate();
@@ -4742,29 +4747,29 @@ public class Application extends Controller {
 	    	FilePart picture = body.getFile("file0");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
-	    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"logo");
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"logo");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdir();
 	    	    }
-	    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"logo"+File.separator+fileName;
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"logo"+File.separator+fileName;
 	    	    File file = picture.getFile();
 	    	    try {
 	    	    		FileUtils.moveFile(file, new File(filePath));
 	    	    		
-	    	    		SiteLogo logoObj = SiteLogo.findByUser(userObj);
+	    	    		SiteLogo logoObj = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	    		
 	    	    		if(logoObj == null) {
 		    	    		SiteLogo logo = new SiteLogo();
-		    	    		logo.logoImagePath = "/"+userObj.id+"/"+"logo"+"/"+fileName;
+		    	    		logo.logoImagePath = "/"+session("USER_LOCATION")+"/"+"logo"+"/"+fileName;
 		    	    		logo.logoImageName = fileName;
 		    	    		logo.user = userObj;
 							logo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	    		logo.save();
 	    	    		} else {
-	    	    			File logoFile = new File(rootDir+File.separator+logoObj.user.id+File.separator+"logo"+File.separator+logoObj.logoImageName);
+	    	    			File logoFile = new File(rootDir+File.separator+logoObj.locations.id+File.separator+"logo"+File.separator+logoObj.logoImageName);
 	    	    			logoFile.delete();
 	    	    			logoObj.setLogoImageName(fileName);
-	    	    			logoObj.setLogoImagePath("/"+userObj.id+"/"+"logo"+"/"+fileName);
+	    	    			logoObj.setLogoImagePath("/"+session("USER_LOCATION")+"/"+"logo"+"/"+fileName);
 	    	    			logoObj.update();
 	    	    		}
 	    	  } catch (FileNotFoundException e) {
@@ -4789,29 +4794,30 @@ public class Application extends Controller {
 	    	FilePart picture = body.getFile("file0");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
-	    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"fevicon");
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"fevicon");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdir();
 	    	    }
-	    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"fevicon"+File.separator+fileName;
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"fevicon"+File.separator+fileName;
 	    	    File file = picture.getFile();
 	    	    try {
 	    	    		FileUtils.moveFile(file, new File(filePath));
 	    	    		
-	    	    		SiteLogo logoObj = SiteLogo.findByUser(userObj);
+	    	    		//SiteLogo logoObj = SiteLogo.findByUser(userObj);
+	    	    		SiteLogo logoObj = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	    		
 	    	    		if(logoObj == null) {
 		    	    		SiteLogo logo = new SiteLogo();
-		    	    		logo.faviconImagePath = "/"+userObj.id+"/"+"fevicon"+"/"+fileName;
+		    	    		logo.faviconImagePath = "/"+session("USER_LOCATION")+"/"+"fevicon"+"/"+fileName;
 		    	    		logo.faviconImageName = fileName;
 		    	    		logo.user = userObj;
 							logo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	    		logo.save();
 	    	    		} else {
-	    	    			File feviconFile = new File(rootDir+File.separator+logoObj.user.id+File.separator+"fevicon"+File.separator+logoObj.faviconImageName);
+	    	    			File feviconFile = new File(rootDir+File.separator+logoObj.locations.id+File.separator+"fevicon"+File.separator+logoObj.faviconImageName);
 	    	    			feviconFile.delete();
 	    	    			logoObj.setFaviconImageName(fileName);
-	    	    			logoObj.setFaviconImagePath("/"+userObj.id+"/"+"fevicon"+"/"+fileName);
+	    	    			logoObj.setFaviconImagePath("/"+session("USER_LOCATION")+"/"+"fevicon"+"/"+fileName);
 	    	    			logoObj.update();
 	    	    		}
 	    	  } catch (FileNotFoundException e) {
@@ -4851,7 +4857,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	AuthUser userObj = (AuthUser) getLocalUser();
-	    	SiteLogo logoObj = SiteLogo.findByUser(userObj);
+	    	SiteLogo logoObj = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	SiteLogoVM vm = new SiteLogoVM();
 	    	if(logoObj != null) {
 	    		vm.logoName = logoObj.logoImageName;
@@ -4935,15 +4941,15 @@ public class Application extends Controller {
 		    	FilePart picture = body.getFile("file0");
 		    	  if (picture != null) {
 		    	    String fileName = picture.getFilename();
-		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"blogImages"+blog.getId());
+		    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blog.getId());
 		    	    if(!fdir.exists()) {
 		    	    	fdir.mkdir();
 		    	    }
-		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blog.getId()+File.separator+fileName;
+		    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blog.getId()+File.separator+fileName;
 		    	    File file = picture.getFile();
 		    	    try {
 		    	    		FileUtils.moveFile(file, new File(filePath));
-		    	    		blog.setImageUrl(File.separator+userObj.id+File.separator+"blogImages"+File.separator+blog.getId()+File.separator+fileName);
+		    	    		blog.setImageUrl(File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blog.getId()+File.separator+fileName);
 		    	    		blog.setImageName(fileName);
 		    	    		blog.update();
 		    	  } catch (FileNotFoundException e) {
@@ -4966,7 +4972,8 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	AuthUser userObj = (AuthUser) getLocalUser();
-	    	List<Blog> blogList = Blog.findByUser(userObj);
+	    	List<Blog> blogList = Blog.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	//List<Blog> blogList = Blog.findByUser(userObj);
 	    	List<BlogVM> vmList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	int num = 0;
@@ -5036,15 +5043,15 @@ public class Application extends Controller {
 			    		File oldfdir = new File(rootDir+blogObj.getImageUrl());  
 			    		oldfdir.delete();
 			    	    String fileName = picture.getFilename();
-			    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blogObj.getId());
+			    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blogObj.getId());
 			    	    if(!fdir.exists()) {
 			    	    	fdir.mkdir();
 			    	    }
-			    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blogObj.getId()+File.separator+fileName;
+			    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blogObj.getId()+File.separator+fileName;
 			    	    File file = picture.getFile();
 			    	    try {
 			    	    		FileUtils.moveFile(file, new File(filePath));
-			    	    		blogObj.setImageUrl(File.separator+userObj.id+File.separator+"blogImages"+File.separator+blogObj.getId()+File.separator+fileName);
+			    	    		blogObj.setImageUrl(File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"blogImages"+File.separator+blogObj.getId()+File.separator+fileName);
 			    	    		blogObj.setImageName(fileName);
 			    	    		blogObj.update();
 			    	  } catch (FileNotFoundException e) {
@@ -5473,16 +5480,16 @@ public class Application extends Controller {
 	    		FilePart picture = body.getFile("file0");
 		    	  if (picture != null) {
 		    	    String fileName = picture.getFilename();
-		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"userPhoto");
+		    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto");
 		    	    if(!fdir.exists()) {
 		    	    	fdir.mkdir();
 		    	    }
-		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+		    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
 		    	    File file = picture.getFile();
 		    	    try {
 		    	    		FileUtils.moveFile(file, new File(filePath));
 		    	    		AuthUser user = AuthUser.findById(userObj.id);
-		    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
+		    	    		user.setImageUrl("/"+session("USER_LOCATION")+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
 		    	    		user.setImageName(fileName);
 		    	    		user.update();	
 		    	    		
@@ -5810,17 +5817,17 @@ public class Application extends Controller {
 	    		FilePart picture = body.getFile("file0");
 		    	  if (picture != null) {
 		    	    String fileName = picture.getFilename();
-		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"userPhoto");
+		    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto");
 		    	    if(!fdir.exists()) {
 		    	    	fdir.mkdir();
 		    	    }
-		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+		    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
 		    	    File file = picture.getFile();
 		    	    try {
 		    	    		FileUtils.moveFile(file, new File(filePath));
 		    	    		AuthUser user = AuthUser.findById(userObj.id);
 		    	    	
-		    	    		userObj.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
+		    	    		userObj.setImageUrl("/"+session("USER_LOCATION")+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
 		    	    		userObj.setImageName(fileName);
 		    	    		//user.update();	
 		    	    		

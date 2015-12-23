@@ -71,4 +71,7 @@ public class SliderImageConfig extends Model {
 		return find.where().eq("user", user).findUnique();
 	}
 	
+	public static SliderImageConfig findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findUnique();
+	}
 }

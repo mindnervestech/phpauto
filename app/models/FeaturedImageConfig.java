@@ -71,4 +71,9 @@ public class FeaturedImageConfig extends Model {
 		return find.where().eq("user", user).findUnique();
 	}
 	
+	public static FeaturedImageConfig findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findUnique();
+	}
+	
+	
 }
