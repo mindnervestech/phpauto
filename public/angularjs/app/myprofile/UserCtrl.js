@@ -60,6 +60,9 @@ angular.module('newApp')
 	
 	$scope.createNewUser=function(){
 		$scope.permission = [];
+		angular.forEach($scope.permissionList, function(obj, index){
+			 obj.isSelected = false;
+		});
 		$scope.img="/assets/images/profile-pic.jpg ";
 		
 	}

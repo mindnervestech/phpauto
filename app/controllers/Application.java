@@ -243,10 +243,10 @@ public class Application extends Controller {
 			session("USER_KEY", user.id+"");
 			session("USER_ROLE", user.role+"");
 			
-			session("USER_LOCATION", user.location.id+"");
-			System.out.println(",.,.,<><><><><><");
-			System.out.println(user.location.id);
-			System.out.println(session("USER_LOCATION"));
+			if(user.location != null){
+				session("USER_LOCATION", user.location.id+"");
+			}
+			
 			
 			//return  redirect("/dealer/index.html#/");
     		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
@@ -5587,6 +5587,7 @@ public class Application extends Controller {
     			vm.imageUrl = location.imageUrl;
     			String roles = "Manager";
     			AuthUser users = AuthUser.getlocationAndManagerByType(location, roles);
+    			vm.managerId = users.id;
     			vm.email = users.email;
     			vm.firstName = users.firstName;
     			vm.lastName = users.lastName;

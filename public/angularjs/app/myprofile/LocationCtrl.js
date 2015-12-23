@@ -53,7 +53,7 @@ angular.module('newApp')
 	$scope.createNewLocation=function(){
 		$scope.img="/assets/images/profile-pic.jpg ";
 		$scope.imgLocation ="/assets/images/profile-pic.jpg ";
-		
+		$scope.user = [];
 	}
 	
 	
@@ -227,7 +227,7 @@ angular.module('newApp')
 	
 	$scope.updateImage = function() {
 		$scope.user.userType = "Manager"
-		
+		$scope.managerObj.id = $scope.user.managerId;
 		$scope.managerObj.userType = $scope.user.userType;
 		$scope.managerObj.firstName = $scope.user.firstName;
 		$scope.managerObj.lastName = $scope.user.lastName;
