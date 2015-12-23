@@ -19,6 +19,9 @@ public class FeaturedImageConfig extends Model {
 	
 	@ManyToOne
 	public AuthUser user;
+	
+	@ManyToOne
+	public Location locations;
 
 	public Long getId() {
 		return id;
@@ -52,6 +55,16 @@ public class FeaturedImageConfig extends Model {
 		this.user = user;
 	}
 	
+	public Location getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
+
+
 	public static Finder<Long,FeaturedImageConfig> find = new Finder<>(Long.class,FeaturedImageConfig.class);
 	
 	public static FeaturedImageConfig findByUser(AuthUser user) {

@@ -25,6 +25,9 @@ public class Blog extends Model {
 	
 	@ManyToOne
 	public AuthUser user;
+	
+	@ManyToOne
+	public Location locations;
 
 	public Long getId() {
 		return id;
@@ -97,6 +100,16 @@ public class Blog extends Model {
 	public void setVideoUrl(String videoUrl) {
 		this.videoUrl = videoUrl;
 	}
+	
+	public Location getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
+
 
 	public static Finder<Long,Blog> find = new Finder<>(Long.class,Blog.class);
 	

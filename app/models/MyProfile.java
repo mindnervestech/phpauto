@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import play.db.ebean.Model;
@@ -34,6 +35,9 @@ public class MyProfile extends Model {
 	
 	 @OneToOne
 	 public AuthUser user;
+	 
+	 @ManyToOne
+		public Location locations;
 	
 	public String getWeb() {
 		return web;
@@ -194,6 +198,15 @@ public class MyProfile extends Model {
 
 	public String getTwitter() {
 		return twitter;
+	}
+	
+	public Location getLocations() {
+		return locations;
+	}
+
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
 	}
 
 

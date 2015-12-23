@@ -20,6 +20,9 @@ public class VehicleAudio extends Model {
 	
 	@ManyToOne
 	public AuthUser user;
+	
+	@ManyToOne
+	public Location locations;
 
 	public Long getId() {
 		return id;
@@ -61,6 +64,16 @@ public class VehicleAudio extends Model {
 		this.user = user;
 	}
 	
+	public Location getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
+
+
 	public static Finder<Long,VehicleAudio> find = new Finder<>(Long.class,VehicleAudio.class);
 	
 	public static VehicleAudio findById(Long id) {

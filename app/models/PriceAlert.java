@@ -23,6 +23,9 @@ public class PriceAlert extends Model {
 	@ManyToOne
 	public AuthUser user;
 	
+	@ManyToOne
+	public Location locations;
+	
 	public Long getId() {
 		return id;
 	}
@@ -58,6 +61,14 @@ public class PriceAlert extends Model {
 	}
 	public void setOldPrice(Integer oldPrice) {
 		this.oldPrice = oldPrice;
+	}
+
+
+	public Location getLocations() {
+		return locations;
+	}
+	public void setLocations(Location locations) {
+		this.locations = locations;
 	}
 
 

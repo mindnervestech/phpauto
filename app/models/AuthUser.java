@@ -46,6 +46,7 @@ public class AuthUser extends Model implements Identity {
 	public String salary;
 	public String trainingCost;
 	public String trainingHours;
+	public String quota;
 	
 	@Id
 	public Integer id;
@@ -269,6 +270,14 @@ public class AuthUser extends Model implements Identity {
 
 	public void setUserGender(String userGender) {
 		this.userGender = userGender;
+	}
+
+	public String getQuota() {
+		return quota;
+	}
+
+	public void setQuota(String quota) {
+		this.quota = quota;
 	}
 
 	public static List<AuthUser> getUserByType() {

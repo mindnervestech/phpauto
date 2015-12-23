@@ -25,6 +25,9 @@ public class SliderImage extends Model {
 	
 	@ManyToOne
 	public AuthUser user;
+	
+	@ManyToOne
+	public Location locations;
 
 	public Long getId() {
 		return id;
@@ -104,6 +107,14 @@ public class SliderImage extends Model {
 
 	public void setSliderNumber(Integer sliderNumber) {
 		this.sliderNumber = sliderNumber;
+	}
+
+	public Location getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
 	}
 
 

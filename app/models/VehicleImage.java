@@ -23,6 +23,9 @@ public class VehicleImage extends Model {
 	public String thumbPath;
 	
 	@ManyToOne
+	public Location locations;
+	
+	@ManyToOne
 	public AuthUser user;
 	
 	
@@ -75,6 +78,15 @@ public class VehicleImage extends Model {
 	public void setUser(AuthUser user) {
 		this.user = user;
 	}
+
+
+	public Location getLocations() {
+		return locations;
+	}
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
 
 
 	public static Finder<Long,VehicleImage> find = new Finder<>(Long.class,VehicleImage.class);

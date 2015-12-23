@@ -20,6 +20,9 @@ public class SiteLogo extends Model {
 	
 	@ManyToOne
 	public AuthUser user;
+	
+	@ManyToOne
+	public Location locations;
 
 	public Long getId() {
 		return id;
@@ -67,6 +70,14 @@ public class SiteLogo extends Model {
 
 	public void setTabText(String tabText) {
 		this.tabText = tabText;
+	}
+	
+	public Location getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
 	}
 
 	public AuthUser getUser() {

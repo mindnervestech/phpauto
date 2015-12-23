@@ -27,6 +27,9 @@ public class UserNotes extends Model {
 	@ManyToOne
 	public AuthUser user;
 	
+	@ManyToOne
+	public Location locations;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -75,6 +78,15 @@ public class UserNotes extends Model {
 	public void setCreatedTime(Date createdTime) {
 		this.createdTime = createdTime;
 	}
+
+	public Location getLocations() {
+		return locations;
+	}
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
+
 
 	public static Finder<Long,UserNotes> find = new Finder<>(Long.class,UserNotes.class);
 	

@@ -37,6 +37,8 @@ public class ScheduleTest extends Model {
 	public AuthUser assignedTo;
 	@ManyToOne
 	public AuthUser user;
+	@ManyToOne
+	public Location locations;
 	public Boolean isReassigned = true;
 	public String contactedFrom;
 	public String hearedFrom;
@@ -158,6 +160,15 @@ public class ScheduleTest extends Model {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
+
+	public Location getLocations() {
+		return locations;
+	}
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
+
 
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
 	

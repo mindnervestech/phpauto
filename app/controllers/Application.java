@@ -239,9 +239,12 @@ public class Application extends Controller {
 		if(user != null) {
 			session("USER_KEY", user.id+"");
 			session("USER_ROLE", user.role+"");
-			System.out.println("///////////////");
-			System.out.println(session("USER_KEY"));
-			System.out.println(session("USER_ROLE"));
+			
+			session("USER_LOCATION", user.location.id+"");
+			System.out.println(",.,.,<><><><><><");
+			System.out.println(user.location.id);
+			System.out.println(session("USER_LOCATION"));
+			
 			//return  redirect("/dealer/index.html#/");
     		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
     		List<Permission> userPermissions = user.getPermission();
@@ -853,6 +856,8 @@ public class Application extends Controller {
 				
 		    	vehicle.mileage = vm.mileage;
 				vehicle.user = (AuthUser)user;
+				vehicle.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				
 		    	vehicle.madeIn = vm.made_in;
 		    	vehicle.optionalSeating = vm.optional_seating;
 		    	vehicle.status = "Newly Arrived";
@@ -1579,6 +1584,7 @@ public class Application extends Controller {
 					vImage.path = "/"+vin+"-"+userObj.id+"/"+fileName;
 					vImage.thumbPath = "/"+vin+"-"+userObj.id+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
+					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					vImage.save();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -2920,6 +2926,7 @@ public class Application extends Controller {
 	    	    		audio.path = File.separator+vin+"-"+userObj.id+File.separator+"audio"+File.separator+fileName;
 	    	    		audio.fileName = fileName;
 	    	    		audio.user = userObj;
+	    	    		audio.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	    		audio.save();
 	    	  } catch (FileNotFoundException e) {
 	  			e.printStackTrace();
@@ -2982,6 +2989,7 @@ public class Application extends Controller {
 		    	vt.mobileUrl = vm.mobileUrl;
 		    	vt.vin = vm.vin;
 		    	vt.user = user;
+		    	vt.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	vt.save();
 	    	} else {
 	    		virtualTour.setDesktopUrl(vm.desktopUrl);
@@ -3050,6 +3058,7 @@ public class Application extends Controller {
 					vImage.path = "/"+userObj.id+"/"+"SliderImages"+"/"+fileName;
 					vImage.thumbPath = "/"+userObj.id+"/"+"SliderImages"+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
+					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					if(sliderList.size() == 0) {
 						vImage.sliderNumber = 1;
 					}
@@ -3123,6 +3132,7 @@ public class Application extends Controller {
 					vImage.path = "/"+userObj.id+"/"+"FeaturedImages"+"/"+fileName;
 					vImage.thumbPath = "/"+userObj.id+"/"+"FeaturedImages"+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
+					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					vImage.save();
 					
 				}
@@ -3270,6 +3280,7 @@ public class Application extends Controller {
 	    		slconfig.cropHeight = 840;
 	    		slconfig.cropWidth = 1400;
 	    		slconfig.user = user;
+				slconfig.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		slconfig.save();
 	    		slider.height = slconfig.cropHeight;
 	    		slider.width = slconfig.cropWidth;
@@ -3286,6 +3297,7 @@ public class Application extends Controller {
 	    		ftdconfig.cropHeight = 95;
 	    		ftdconfig.cropWidth = 160;
 	    		ftdconfig.user = user;
+				ftdconfig.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		ftdconfig.save();
 	    		featured.height = ftdconfig.cropHeight;
 	    		featured.width = ftdconfig.cropWidth;
@@ -3359,6 +3371,7 @@ public class Application extends Controller {
 	    		SiteContent contentObj = new SiteContent();
 	    		contentObj.heading = heading;
 	    		contentObj.user = user;
+				contentObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		contentObj.save();
 	    	}
 	    	return ok();
@@ -3383,6 +3396,7 @@ public class Application extends Controller {
 	    		contentObj.descHeading = vm.descHeading;
 	    		contentObj.description = vm.description;
 	    		contentObj.user = user;
+				contentObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		contentObj.save();
 	    	}
 	    	return ok();
@@ -3555,6 +3569,7 @@ public class Application extends Controller {
 	           config.setCropHeight(height);
 	           config.setCropWidth(width);
 	           config.user = user;
+				config.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	           config.save();
 	        }
 	    	return ok();
@@ -3578,6 +3593,7 @@ public class Application extends Controller {
 	           config.setCropHeight(height);
 	           config.setCropWidth(width);
 	           config.user = user;
+	           config.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	           config.save();
 	        }
 	
@@ -4583,6 +4599,7 @@ public class Application extends Controller {
 			cal.add(Calendar.DATE, 1);
 			todo.dueDate = cal.getTime();
 			todo.saveas = 0;
+			todo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 			todo.save();
 			
 			List<ScheduleTest> listData = new ArrayList<>();
@@ -4741,6 +4758,7 @@ public class Application extends Controller {
 		    	    		logo.logoImagePath = "/"+userObj.id+"/"+"logo"+"/"+fileName;
 		    	    		logo.logoImageName = fileName;
 		    	    		logo.user = userObj;
+							logo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	    		logo.save();
 	    	    		} else {
 	    	    			File logoFile = new File(rootDir+File.separator+logoObj.user.id+File.separator+"logo"+File.separator+logoObj.logoImageName);
@@ -4787,6 +4805,7 @@ public class Application extends Controller {
 		    	    		logo.faviconImagePath = "/"+userObj.id+"/"+"fevicon"+"/"+fileName;
 		    	    		logo.faviconImageName = fileName;
 		    	    		logo.user = userObj;
+							logo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	    		logo.save();
 	    	    		} else {
 	    	    			File feviconFile = new File(rootDir+File.separator+logoObj.user.id+File.separator+"fevicon"+File.separator+logoObj.faviconImageName);
@@ -4816,6 +4835,7 @@ public class Application extends Controller {
 	    		SiteLogo logo = new SiteLogo();
 	    		logo.tabText = text;
 	    		logo.user = userObj;
+				logo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		logo.save();
 	    	} else {
 	    		logoObj.setTabText(text);
@@ -4907,6 +4927,7 @@ public class Application extends Controller {
 		    	blog.postedBy = vm.postedBy;
 		    	blog.postedDate = new Date();
 		    	blog.user = userObj;
+				blog.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	blog.save();
 		    	
 		    	MultipartFormData body = request().body().asMultipartFormData();
@@ -5048,7 +5069,8 @@ public class Application extends Controller {
     	
     	AuthUser userObj = (AuthUser) getLocalUser();
     	MyProfile mpObj = MyProfile.findByUser(userObj);
-    	
+    	System.out.println("////////////////");
+    	System.out.println(session("USER_LOCATION"));
     	if(mpObj != null) {
     		System.out.println("userObj 8888888 == "+userObj.communicationemail);
     		mpObj.setMyname(vm.myname);
@@ -5065,6 +5087,7 @@ public class Application extends Controller {
     		mpObj.setFacebook(vm.facebook);
     		mpObj.setTwitter(vm.twitter);
     		mpObj.setPinterest(vm.pinterest);
+    		mpObj.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
     		mpObj.setInstagram(vm.instagram);
     		mpObj.setGoogleplus(vm.googleplus);
     		mpObj.update();
@@ -5083,10 +5106,12 @@ public class Application extends Controller {
     		mpObj.setWeb(vm.web);
     		mpObj.setFacebook(vm.facebook);
     		mpObj.setTwitter(vm.twitter);
+    		mpObj.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
     		mpObj.setPinterest(vm.pinterest);
     		mpObj.setInstagram(vm.instagram);
     		mpObj.setGoogleplus(vm.googleplus);
     		mpObj.user = (AuthUser) getLocalUser();
+			mpObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		mpObj.save();
     	}
     	Location loc = Location.findById(userObj.location.id);
@@ -5306,6 +5331,7 @@ public class Application extends Controller {
 		cal.add(Calendar.DATE, 1);
 		todo.dueDate = cal.getTime();
 		todo.saveas = 0;
+		todo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		todo.save();
     }
     
@@ -5395,6 +5421,7 @@ public class Application extends Controller {
     	} else {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		AuthUser users = (AuthUser) getLocalUser();
+    		
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
 	    	
@@ -5415,6 +5442,7 @@ public class Application extends Controller {
 	    	userObj.salary = vm.salary;
 	    	userObj.trainingCost = vm.trainingCost;
 	    	userObj.trainingHours = vm.trainingHours;
+	    	userObj.quota = vm.quota;
 	    	
 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    	Random rnd = new Random();
@@ -5607,6 +5635,9 @@ public class Application extends Controller {
     			vm.trainingPro = user.trainingPro;
     			vm.salary = user.salary;
     			vm.trialPeriod = user.trialPeriod;
+    			vm.trainingCost = user.trainingCost;
+    			vm.trainingHours = user.trainingHours;
+    			vm.quota = user.quota;
     			vm.imageName = user.imageName;
     			vm.imageUrl = user.imageUrl;
     			vm.id = user.id;
@@ -5749,7 +5780,7 @@ public class Application extends Controller {
 	    	userObj.setSalary(vm.salary);
 	    	userObj.setTrainingCost(vm.trainingCost);
 	    	userObj.setTrainingHours(vm.trainingHours);
-	    	//userObj
+	    	userObj.setQuota(vm.quota);
 	    	
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
@@ -6122,6 +6153,7 @@ public class Application extends Controller {
     		toDo.status = "Assigned";
     		toDo.assignedBy = user;
     		toDo.saveas = 0;
+			toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		toDo.save();
     		
     		return ok();
@@ -6995,6 +7027,7 @@ public class Application extends Controller {
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
+				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			notes.save();
     		}
     		if(type.equals("scheduleTest")) {
@@ -7006,6 +7039,7 @@ public class Application extends Controller {
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
+				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			notes.save();
     		}
     		if(type.equals("tradeIn")) {
@@ -7017,6 +7051,7 @@ public class Application extends Controller {
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
+				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			notes.save();
     		}
     		return ok();
@@ -9960,6 +9995,7 @@ public class Application extends Controller {
     		info.setPhone(leadVM.custNumber);
     		info.setVin(vehicles.get(0).getVin());
     		info.setUser(user);
+			info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		info.setIsScheduled(false);
     		info.setIsRead(0);
     		info.setHearedFrom(leadVM.hearedFrom);
@@ -9988,6 +10024,7 @@ public class Application extends Controller {
     		test.setPhone(leadVM.custNumber);
     		test.setIsRead(0);
     		test.setUser(user);
+			test.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		test.setHearedFrom(leadVM.hearedFrom);
     		test.setContactedFrom(leadVM.contactedFrom);
     		test.setScheduleDate(new Date());
@@ -10050,6 +10087,7 @@ public class Application extends Controller {
     		tradeIn.setTradeDate(new Date());
     		tradeIn.setTransmission(leadVM.transmission);
     		tradeIn.setUser(user);
+			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		tradeIn.setVehiclenew(leadVM.vehiclenew);
     		tradeIn.setVin(vehicles.get(0).getVin());
     		tradeIn.setYear(leadVM.year);
@@ -11641,6 +11679,7 @@ public class Application extends Controller {
 					scheduleTest.setVin("no");
 					scheduleTest.setGoogle_id(ev.getId());
 					scheduleTest.setIs_google_data(true);
+					scheduleTest.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					scheduleTest.save();
 					
 				}
@@ -11700,6 +11739,7 @@ public class Application extends Controller {
 					    		toDo.assignedTo = user;
 					    		toDo.saveas = 1;
 					    		toDo.google_id = task.getId();
+								toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					    		toDo.save();
 							}
 						}else if(sdf.parse(currDate).equals(sdf.parse(googleDate))){
@@ -11714,6 +11754,7 @@ public class Application extends Controller {
 					    		toDo.assignedTo = user;
 					    		toDo.saveas = 1;
 					    		toDo.google_id = task.getId();
+								toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					    		toDo.save();
 							}
 						}

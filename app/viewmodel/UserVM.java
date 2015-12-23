@@ -1,5 +1,6 @@
 package viewmodel;
 
+
 public class UserVM {
 
 	public Integer id;
@@ -25,6 +26,7 @@ public class UserVM {
 	public String salary;
 	public String trainingCost;
 	public String trainingHours;
+	public String quota;
 	
 	public Long locationId;
 	

@@ -102,7 +102,10 @@ public class Vehicle extends Model {
 	
 	@ManyToOne
 	public AuthUser user;
-
+	
+	@ManyToOne
+	public Location locations;
+	
 	public Long getId() {
 		return id;
 	}
@@ -701,6 +704,15 @@ public class Vehicle extends Model {
 
 	public void setSoldDate(Date soldDate) {
 		this.soldDate = soldDate;
+	}
+
+
+	public Location getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
 	}
 
 

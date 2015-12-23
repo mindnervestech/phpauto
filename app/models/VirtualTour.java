@@ -18,6 +18,9 @@ public class VirtualTour extends Model {
 	
 	@ManyToOne
 	public AuthUser user;
+	
+	@ManyToOne
+	public Location locations;
 
 	public Long getId() {
 		return id;
@@ -59,6 +62,14 @@ public class VirtualTour extends Model {
 		this.user = user;
 	}
 	
+	public Location getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
 	public static Finder<Long,VirtualTour> find = new Finder<>(Long.class,VirtualTour.class);
 	
 	public static VirtualTour findById(Long id) {

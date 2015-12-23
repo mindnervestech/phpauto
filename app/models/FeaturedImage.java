@@ -32,6 +32,9 @@ public class FeaturedImage extends Model {
 
 	@ManyToOne
 	public AuthUser user;
+	
+	@ManyToOne
+	public Location locations;
 
 	public Long getId() {
 		return id;
@@ -95,6 +98,14 @@ public class FeaturedImage extends Model {
 
 	public void setCol(Integer col) {
 		this.col = col;
+	}
+	
+	public Location getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
 	}
 
 	public static Finder<Long,FeaturedImage> find = new Finder<>(Long.class,FeaturedImage.class);

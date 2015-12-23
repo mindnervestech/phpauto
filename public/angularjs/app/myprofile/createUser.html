@@ -139,7 +139,7 @@
 								
 							</div>	
 						</div>
-						<div class="form-group col-sm-12" ng-if="showText == 1">
+						<div class="form-group col-sm-12" ng-if="user.trainingPro == 'Yes'">
 						<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
 								<div class="col-sm-6">
@@ -185,6 +185,24 @@
                                 </select>
 								</div>
 							</div>	
+						</div>
+					<div class="form-group col-sm-12">
+						 
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Quota *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userQuota" ng-model="userData.quota">
+                                    <option value="">Select</option>
+                                    <option value="# cars to be sold"># cars to be sold</option>
+                                    <option value="Leads generated: per week/month/year">Leads generated: per week/month/year</option>
+                                    <option value="Test Drives: per week/month/year">Test Drives: per week/month/year</option>
+                                   
+                                </select>
+								</div>
+							</div>	
+							 <div class="col-sm-6">
+								
+							</div>
 						</div>
 					
 					
@@ -322,11 +340,37 @@
 						  <div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
 								<div class="col-sm-6">
-									<select class="form-control form-white" id="usertrainingPro" ng-model="userData.trainingPro">
+									<select class="form-control form-white" id="usertrainingPro" ng-change="getProvided(userData.trainingPro)" ng-model="userData.trainingPro">
                                     <option value="">Select</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								
+							</div>	
+						</div>
+						<div class="form-group col-sm-12" ng-if="userData.trainingPro == 'Yes'">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trainingCost">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Training Hours*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trainingHours">
+								</div>
+							</div>	
+						</div>
+					
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trialPeriod"  required>
 								</div>
 							</div>
 							<div class="col-sm-6">
@@ -354,19 +398,24 @@
 								</div>
 							</div>	
 						</div>
-					
-						<div class="form-group col-sm-12">
-						  <div class="col-sm-6">
-								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
-								<div class="col-sm-6">
-									<input class="form-control form-white" type="text" ng-model="userData.trialPeriod"  required>
-								</div>
-							</div>
+					<div class="form-group col-sm-12">
+						 
 							<div class="col-sm-6">
-								
+								<label class="col-sm-3 control-label" style="text-align: right;">Quota *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userQuota" ng-model="userData.quota">
+                                    <option value="">Select</option>
+                                    <option value="# cars to be sold"># cars to be sold</option>
+                                    <option value="Leads generated: per week/month/year">Leads generated: per week/month/year</option>
+                                    <option value="Test Drives: per week/month/year">Test Drives: per week/month/year</option>
+                                   
+                                </select>
+								</div>
 							</div>	
+							 <div class="col-sm-6">
+								
+							</div>
 						</div>
-					
 					
 						<div class="form-group col-sm-12">
 							<div class="col-sm-6">
