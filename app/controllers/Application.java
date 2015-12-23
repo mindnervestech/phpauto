@@ -5464,12 +5464,21 @@ public class Application extends Controller {
 	    		   userObj.permission = permissionList;
 	    	   }
 	    	   
+	    	   
+	    	   
 	    	   if(vm.userType.equals("Sales Person")) {
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-	    			   if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
+	    			   
+	    			   for(String role:vm.permissions){
+	    				   if(obj.name.equals(role)) {
+		    				   permissionData.add(obj);
+		    			   }
+	    	    	   }
+	    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
 	    				   permissionData.add(obj);
-	    			   }
+	    			   }*/
+	    			   
 	    		   }
 	    		   userObj.permission = permissionData;
 	    	   }
@@ -5626,7 +5635,9 @@ public class Application extends Controller {
     		/*List<AuthUser> userList = AuthUser.getUserByType();*/
     		List<AuthUser> userList = AuthUser.findByLocatio(users.location);
     		List<UserVM> vmList = new ArrayList<>();
+    	
     		for(AuthUser user : userList) {
+    			List<String> parmi = new ArrayList<>();
     			UserVM vm = new UserVM();
     			vm.fullName = user.firstName + " "+ user.lastName;
     			vm.firstName = user.firstName;
@@ -5648,6 +5659,11 @@ public class Application extends Controller {
     			vm.imageName = user.imageName;
     			vm.imageUrl = user.imageUrl;
     			vm.id = user.id;
+    			for(Permission permission:user.permission){
+    				parmi.add(permission.name);
+    			}
+    			vm.permissions = parmi;
+    			
     			if(!vm.userType.equals("Manager")){
     				vmList.add(vm);
     			}
@@ -5802,9 +5818,14 @@ public class Application extends Controller {
 	    	   if(vm.userType.equals("Sales Person")) {
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-	    			   if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
+	    			   for(String role:vm.permissions){
+	    				   if(obj.name.equals(role)) {
+		    				   permissionData.add(obj);
+		    			   }
+	    	    	   }
+	    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
 	    				   permissionData.add(obj);
-	    			   }
+	    			   }*/
 	    		   }
 	    		   userObj.permission.addAll(permissionData);
 	    	   }

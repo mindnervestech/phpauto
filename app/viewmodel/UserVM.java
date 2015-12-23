@@ -1,5 +1,7 @@
 package viewmodel;
 
+import java.util.List;
+
 
 public class UserVM {
 
@@ -27,6 +29,7 @@ public class UserVM {
 	public String trainingCost;
 	public String trainingHours;
 	public String quota;
+	public List<String> permissions;
 	
 	public Long locationId;
 	

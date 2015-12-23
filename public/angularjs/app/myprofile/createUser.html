@@ -18,7 +18,7 @@
   </div>
   
   <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" style="width: 1364px;">
+        <div class="modal-dialog" style="width: 1370px;margin-top: 11px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" id = "btnClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
@@ -82,6 +82,29 @@
                                 </select>
 								</div>
 								</div>
+						</div>
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">System Features *</label>
+								<div class="col-sm-6">
+									<label ng-repeat="rolePer in permissionList" class="col-sm-6" style="padding:0px;">
+				 						 <input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
+				 						   	ng-model="rolePer.isSelected">					
+   					 						{{rolePer.name}}</label>
+								</div>
+								</div>
+								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Quota *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userQuota" ng-model="userData.quota">
+                                    <option value="">Select</option>
+                                    <option value="# cars to be sold"># cars to be sold</option>
+                                    <option value="Leads generated: per week/month/year">Leads generated: per week/month/year</option>
+                                    <option value="Test Drives: per week/month/year">Test Drives: per week/month/year</option>
+                                   
+                                </select>
+								</div>
+							</div>	
 						</div>
 						
 						
@@ -186,24 +209,7 @@
 								</div>
 							</div>	
 						</div>
-					<div class="form-group col-sm-12">
-						 
-							<div class="col-sm-6">
-								<label class="col-sm-3 control-label" style="text-align: right;">Quota *</label>
-								<div class="col-sm-6">
-									<select class="form-control form-white" id="userQuota" ng-model="userData.quota">
-                                    <option value="">Select</option>
-                                    <option value="# cars to be sold"># cars to be sold</option>
-                                    <option value="Leads generated: per week/month/year">Leads generated: per week/month/year</option>
-                                    <option value="Test Drives: per week/month/year">Test Drives: per week/month/year</option>
-                                   
-                                </select>
-								</div>
-							</div>	
-							 <div class="col-sm-6">
-								
-							</div>
-						</div>
+					
 					
 					
 						<div class="form-group col-sm-12">
@@ -230,7 +236,7 @@
   
   <button id="editUserModal" data-toggle="modal" data-target="#modal-edit" style="display: none;"></button>
    <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog"  style="width: 1364px;">
+        <div class="modal-dialog"  style="width: 1370px;margin-top: 11px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" id = "btnEditClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
@@ -280,7 +286,7 @@
 								</div>
 								</div>
 								<div class="col-sm-6">
-								<label class="col-sm-3 control-label" style="text-align: right;">Age *</label>
+								<label class="col-sm-3 control-label" style="text-align: right;">Age </label>
 								<div class="col-sm-6">
 									<select class="form-control form-white" id="userAge" ng-model="userData.age">
                                     <option value="">Select</option>
@@ -295,11 +301,33 @@
 								</div>
 								</div>
 						</div>
-						
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">System Features *</label>
+								<div class="col-sm-6">
+									<label ng-repeat="rolePer in permissionList" class="col-sm-6" style="padding:0px;">
+				 						 <input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
+				 						   	ng-model="rolePer.isSelected">					
+   					 						{{rolePer.name}}</label>
+								</div>
+								</div>
+								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Quota </label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userQuota" ng-model="userData.quota">
+                                    <option value="">Select</option>
+                                    <option value="# cars to be sold"># cars to be sold</option>
+                                    <option value="Leads generated: per week/month/year">Leads generated: per week/month/year</option>
+                                    <option value="Test Drives: per week/month/year">Test Drives: per week/month/year</option>
+                                   
+                                </select>
+								</div>
+							</div>	
+						</div>
 						
 						<div class="form-group col-sm-12">
 						 <div class="col-sm-6">
-							<label class="col-sm-3 control-label" style="text-align: right;">Gender *</label>
+							<label class="col-sm-3 control-label" style="text-align: right;">Gender</label>
 								<div class="col-sm-6">
 									<select class="form-control form-white" id="userGender" ng-model="userData.userGender">
                                     <option value="">Select</option>
@@ -398,24 +426,7 @@
 								</div>
 							</div>	
 						</div>
-					<div class="form-group col-sm-12">
-						 
-							<div class="col-sm-6">
-								<label class="col-sm-3 control-label" style="text-align: right;">Quota *</label>
-								<div class="col-sm-6">
-									<select class="form-control form-white" id="userQuota" ng-model="userData.quota">
-                                    <option value="">Select</option>
-                                    <option value="# cars to be sold"># cars to be sold</option>
-                                    <option value="Leads generated: per week/month/year">Leads generated: per week/month/year</option>
-                                    <option value="Test Drives: per week/month/year">Test Drives: per week/month/year</option>
-                                   
-                                </select>
-								</div>
-							</div>	
-							 <div class="col-sm-6">
-								
-							</div>
-						</div>
+					
 					
 						<div class="form-group col-sm-12">
 							<div class="col-sm-6">

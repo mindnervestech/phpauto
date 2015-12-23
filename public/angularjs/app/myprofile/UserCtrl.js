@@ -2,6 +2,19 @@ angular.module('newApp')
 .controller('createUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 	$scope.img = "/assets/images/profile-pic.jpg";
 	$scope.user = {};
+	$scope.permission = [];
+	$scope.permissionList =[
+	{name:'Dashboard',isSelected:false},
+	{name:'Home Page Editing',isSelected:false},
+	{name:'Add Vehicle',isSelected:false},
+	{name:'Inventory',isSelected:false},
+	{name:'Customer Requests',isSelected:false},
+	{name:'Blogs',isSelected:false},
+	{name:'My Profile',isSelected:false},
+	{name:'Website Analytics',isSelected:false},
+	{name:'CRM',isSelected:false},
+	{name:'Financial Statistics',isSelected:false},
+	{name:'Account Settings',isSelected:false}];
 	$scope.userData = {};
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -35,14 +48,18 @@ angular.module('newApp')
 		$location.path('/myprofile');
 	}
 	
+	
 	$scope.init = function() {
 		$http.get('/getAllUsers')
 		.success(function(data) {
+			console.log(data);
 		$scope.gridOptions.data = data;
+		
 	});
 	}
 	
 	$scope.createNewUser=function(){
+		$scope.permission = [];
 		$scope.img="/assets/images/profile-pic.jpg ";
 		
 	}
@@ -58,9 +75,47 @@ angular.module('newApp')
 	}
 	
 	
+	console.log($scope.permissionList);
+	
+	$scope.rolesClicked = function(e, rolePer,value){
+		console.log(rolePer);
+		console.log(value);
+		if(value == false){
+			$scope.permission.push(rolePer.name);
+		}else{
+			$scope.deleteItem(rolePer);
+		}
+		console.log($scope.permission);
+	}
+	$scope.deleteItem = function(rolePer){
+		angular.forEach($scope.permission, function(obj, index){
+			 if ((rolePer.name == obj)) {
+				 $scope.permission.splice(index, 1);
+		    
+		       	return;
+		    };
+		  });
+	}
+	
 	$scope.editUser = function(row) {
+		angular.forEach($scope.permissionList, function(obj, index){
+			 obj.isSelected = false;
+		});
 		$('#editUserModal').click();
 		$scope.userData = row.entity;
+		
+		$scope.permission = [];
+		
+		angular.forEach($scope.permissionList, function(obj, index){
+			angular.forEach($scope.userData.permissions, function(obj1, index1){
+				if(obj.name == obj1){
+					 obj.isSelected = true;
+					 $scope.permission.push(obj.name);
+				 }
+			});
+		});
+		
+		
 		$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.userData.imageUrl;
 	}
 	
@@ -105,6 +160,9 @@ angular.module('newApp')
 	   
 	
 	$scope.saveImage = function() {
+		
+		$scope.user.permissions = $scope.permission;
+		console.log($scope.user);
 		if(angular.isUndefined(logofile)) {
 			if($scope.emailMsg == "") {
 				$http.post('/uploadImageFile',$scope.user)
@@ -153,8 +211,9 @@ angular.module('newApp')
 	   }
 	
 	$scope.updateImage = function() {
-		console.log($scope.userData);
+		$scope.userData.permissions = $scope.permission;
 		delete $scope.userData.successRate;
+		console.log($scope.userData);
 		$scope.userData.locationId = 0;
 		if(angular.isUndefined(logofile)) {
 			if($scope.emailMsg == "") {
