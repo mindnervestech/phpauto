@@ -1794,6 +1794,12 @@ angular.module('newApp')
 						  if(angular.equals(value.text,"Light Rain")){
 							  img = "<i class='wi wi-rain'></i>";  
 						  }
+						  if(angular.equals(value.text,"PM Rain")){
+							  img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"Thundershowers")){
+							  img = "<i class='wi wi-showers'></i>";  
+						  }
 						  if(angular.equals(value.text,"Fog")){
 								img = "<i class='wi wi-fog'></i>";  
 						  }
@@ -1816,6 +1822,12 @@ angular.module('newApp')
 						  }
 						  if(angular.equals(value.text,"Rain")){
 							img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"PM Rain")){
+							  img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"Thundershowers")){
+							  img = "<i class='wi wi-showers'></i>";  
 						  }
 						  if(angular.equals(value.text,"Light Rain")){
 							  img = "<i class='wi wi-rain'></i>";  
@@ -1845,6 +1857,12 @@ angular.module('newApp')
 						  }
 						  if(angular.equals(value.text,"Light Rain")){
 							  img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"PM Rain")){
+							  img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"Thundershowers")){
+							  img = "<i class='wi wi-showers'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fog")){
 								img = "<i class='wi wi-fog'></i>";  
