@@ -1765,7 +1765,7 @@ angular.module('newApp')
 			    unit: 'f',
 			    success: function (weather) {
 			    	$scope.whDataArr = weather.forecast;
-			    	//alert(JSON.stringify(weather));
+			    	alert(JSON.stringify(weather));
 			    }});
 		   
 		   $scope.editServiceType = function(serviceData){
@@ -1786,19 +1786,19 @@ angular.module('newApp')
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
 						  if(angular.equals(value.text,"Cloudy")){
-							  img = "fa fa-cloud"; 
+							  img = "<i class='fa fa-cloud'></i>"; 
 						  }
 						  if(angular.equals(value.text,"Rain")){
-							img = "wi wi-rain";  
+							img = "<i class='wi wi-rain'></i>";  
 						  }
 						  if(angular.equals(value.text,"Light Rain")){
-							  img = "wi wi-rain";  
+							  img = "<i class='wi wi-rain'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fog")){
-								img = "wi wi-fog";  
+								img = "<i class='wi wi-fog'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fair")){
-								img = "glyphicon glyphicon-certificate";  
+								img = "<i class='glyphicon glyphicon-certificate'></i>";  
 						  }
 						  document.getElementById("nature-data").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
@@ -1812,19 +1812,19 @@ angular.module('newApp')
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
 						  if(angular.equals(value.text,"Cloudy")){
-							  img = "fa fa-cloud"; 
+							  img = "<i class='fa fa-cloud'></i>"; 
 						  }
 						  if(angular.equals(value.text,"Rain")){
-							  img = "wi wi-rain";  
+							img = "<i class='wi wi-rain'></i>";  
 						  }
 						  if(angular.equals(value.text,"Light Rain")){
-							  img = "wi wi-rain";  
+							  img = "<i class='wi wi-rain'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fog")){
-								img = "wi wi-fog";  
+								img = "<i class='wi wi-fog'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fair")){
-								img = "glyphicon glyphicon-certificate";  
+								img = "<i class='glyphicon glyphicon-certificate'></i>";  
 						  }
 						  document.getElementById("testDriveNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
@@ -1838,19 +1838,19 @@ angular.module('newApp')
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
 						  if(angular.equals(value.text,"Cloudy")){
-							  img = "fa fa-cloud"; 
+							  img = "<i class='fa fa-cloud'></i>"; 
 						  }
 						  if(angular.equals(value.text,"Rain")){
-							  img = "wi wi-rain";  
+							img = "<i class='wi wi-rain'></i>";  
 						  }
 						  if(angular.equals(value.text,"Light Rain")){
-							  img = "wi wi-rain";  
+							  img = "<i class='wi wi-rain'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fog")){
-								img = "wi wi-fog";  
+								img = "<i class='wi wi-fog'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fair")){
-								img = "glyphicon glyphicon-certificate";  
+								img = "<i class='glyphicon glyphicon-certificate'></i>";  
 						  }
 						  document.getElementById("gridCnfDateNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
