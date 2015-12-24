@@ -206,12 +206,7 @@ angular.module('newApp')
 	            data:$scope.managerObj
 	        }).success(function(data, status, headers, config) {
 	            console.log('success');
-	            $scope.user.firstName=" ";
-	            $scope.user.lastName=" ";
-	            $scope.user.email=" ";
-	            $scope.user.phone=" ";
-	            $scope.user.userType=" ";
-	            $scope.user.img=" ";
+	           
 	            $("#file").val('');
 	            $('#btnClose').click();
 	            $.pnotify({

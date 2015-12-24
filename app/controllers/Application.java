@@ -4615,7 +4615,7 @@ public class Application extends Controller {
 			cal.add(Calendar.DATE, 1);
 			todo.dueDate = cal.getTime();
 			todo.saveas = 0;
-			todo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			//todo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 			todo.save();
 			
 			List<ScheduleTest> listData = new ArrayList<>();
@@ -5359,7 +5359,7 @@ public class Application extends Controller {
 		cal.add(Calendar.DATE, 1);
 		todo.dueDate = cal.getTime();
 		todo.saveas = 0;
-		todo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		//todo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		todo.save();
     }
     
@@ -6210,7 +6210,7 @@ public class Application extends Controller {
     		toDo.status = "Assigned";
     		toDo.assignedBy = user;
     		toDo.saveas = 0;
-			toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			//toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		toDo.save();
     		
     		return ok();
@@ -11796,7 +11796,7 @@ public class Application extends Controller {
 					    		toDo.assignedTo = user;
 					    		toDo.saveas = 1;
 					    		toDo.google_id = task.getId();
-								toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+								//toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					    		toDo.save();
 							}
 						}else if(sdf.parse(currDate).equals(sdf.parse(googleDate))){
@@ -11811,7 +11811,7 @@ public class Application extends Controller {
 					    		toDo.assignedTo = user;
 					    		toDo.saveas = 1;
 					    		toDo.google_id = task.getId();
-								toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+								//toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					    		toDo.save();
 							}
 						}
