@@ -217,6 +217,10 @@ public class MyProfile extends Model {
 	public static List<MyProfile> findAllData() {
 		return find.all();
 	}
+	
+	public static MyProfile findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findUnique();
+	}
 
 	public String getDealer_id() {
 		return dealer_id;

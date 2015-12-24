@@ -1328,13 +1328,21 @@ public class Application extends Controller {
     		
 	    	AuthUser userObj = new AuthUser();
 	    	LocationVM vm = form.get();
-	    	System.out.println(vm.locationaddress);
+
 	    	Location loc = new Location();
 	    	loc.setEmail(vm.locationemail);
 	    	loc.setAddress(vm.locationaddress);
 	    	loc.setName(vm.locationName);
 	    	loc.setPhone(vm.locationphone);
 	    	loc.save();
+	    	
+	    	MyProfile mProfile = new MyProfile();
+	    	mProfile.setAddress(vm.locationaddress);
+	    	mProfile.setMyname(vm.locationName);
+	    	mProfile.setEmail(vm.locationemail);
+	    	mProfile.setPhone(vm.locationphone);
+	    	mProfile.setLocations(Location.findById(loc.id));
+	    	mProfile.save();
 	    	
 	    	 MultipartFormData body = request().body().asMultipartFormData();
 	    	   if(body != null) {
@@ -3371,7 +3379,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
-	    	SiteContent content = SiteContent.findByUser(user);
+	    	SiteContent content = SiteContent.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	if(content != null) {
 	    		content.setHeading(heading);
 	    		content.update();
@@ -5097,7 +5105,9 @@ public class Application extends Controller {
     		mpObj.setFacebook(vm.facebook);
     		mpObj.setTwitter(vm.twitter);
     		mpObj.setPinterest(vm.pinterest);
-    		mpObj.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		if(session("USER_LOCATION") != null){
+    			mpObj.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		}
     		mpObj.setInstagram(vm.instagram);
     		mpObj.setGoogleplus(vm.googleplus);
     		mpObj.update();
@@ -5116,52 +5126,59 @@ public class Application extends Controller {
     		mpObj.setWeb(vm.web);
     		mpObj.setFacebook(vm.facebook);
     		mpObj.setTwitter(vm.twitter);
-    		mpObj.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		if(session("USER_LOCATION") != null){
+    			mpObj.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		}
     		mpObj.setPinterest(vm.pinterest);
     		mpObj.setInstagram(vm.instagram);
     		mpObj.setGoogleplus(vm.googleplus);
     		mpObj.user = (AuthUser) getLocalUser();
-			mpObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		
     		mpObj.save();
     	}
-    	Location loc = Location.findById(userObj.location.id);
     	
-    	if(loc != null){
-    		loc.setEmail(vm.email);
-        	loc.setAddress(vm.address);
-        	loc.setName(vm.myname);
-        	loc.setPhone(vm.phone);
-        	loc.update();
-
+    	
+    	if(session("USER_LOCATION") != null){
+    		Location loc = Location.findById(userObj.location.id);
         	
-        	 MultipartFormData body = request().body().asMultipartFormData();
-      	   if(body != null) {
-      	   File file1 = new File(rootDir+loc.imageUrl);
-      	   file1.delete();
-      		FilePart picture = body.getFile("file0");
-    	    	  if (picture != null) {
-    	    	    String fileName = picture.getFilename();
-    	    	    File fdir = new File(rootDir+File.separator+"LocationImg"+File.separator+loc.id);
-    	    	    if(!fdir.exists()) {
-    	    	    	fdir.mkdir();
-    	    	    }
-    	    	    String filePath = rootDir+File.separator+"LocationImg"+File.separator+loc.id+File.separator+fileName;
-    	    	    File file = picture.getFile();
-    	    	    try {
-    	    	    	FileUtils.moveFile(file, new File(filePath));
-    	    		Location location = Location.findById(loc.id);
-    	    		location.setImageUrl("LocationImg"+"/"+location.id+"/"+fileName);
-    	    		location.setImageName(fileName);
-    	    		location.update();	
-    	    	    		
-    	    	  } catch (FileNotFoundException e) {
-    	  			e.printStackTrace();
-    		  		} catch (IOException e) {
-    		  			e.printStackTrace();
-    		  		} 
-    	    	  } 
-      	   }
-    		}
+        	if(loc != null){
+        		loc.setEmail(vm.email);
+            	loc.setAddress(vm.address);
+            	loc.setName(vm.myname);
+            	loc.setPhone(vm.phone);
+            	loc.update();
+
+            	
+            	 MultipartFormData body = request().body().asMultipartFormData();
+          	   if(body != null) {
+          	   File file1 = new File(rootDir+loc.imageUrl);
+          	   file1.delete();
+          		FilePart picture = body.getFile("file0");
+        	    	  if (picture != null) {
+        	    	    String fileName = picture.getFilename();
+        	    	    File fdir = new File(rootDir+File.separator+"LocationImg"+File.separator+loc.id);
+        	    	    if(!fdir.exists()) {
+        	    	    	fdir.mkdir();
+        	    	    }
+        	    	    String filePath = rootDir+File.separator+"LocationImg"+File.separator+loc.id+File.separator+fileName;
+        	    	    File file = picture.getFile();
+        	    	    try {
+        	    	    	FileUtils.moveFile(file, new File(filePath));
+        	    		Location location = Location.findById(loc.id);
+        	    		location.setImageUrl("LocationImg"+"/"+location.id+"/"+fileName);
+        	    		location.setImageName(fileName);
+        	    		location.update();	
+        	    	    		
+        	    	  } catch (FileNotFoundException e) {
+        	  			e.printStackTrace();
+        		  		} catch (IOException e) {
+        		  			e.printStackTrace();
+        		  		} 
+        	    	  } 
+          	   }
+        		}
+    	}
+    
     	
     	userObj.communicationemail = vm.email;
     	userObj.update();
@@ -5746,6 +5763,13 @@ public class Application extends Controller {
 		    	    	loc.setName(vm.locationName);
 		    	    	loc.setPhone(vm.locationphone);
 		    	    	loc.update();
+		    	    	
+		    	    	MyProfile mProfile = MyProfile.findByLocation(Long.valueOf(vm.id));
+		    	    	mProfile.setAddress(vm.locationemail);
+		    	    	mProfile.setMyname(vm.locationName);
+		    	    	mProfile.setEmail(vm.locationemail);
+		    	    	mProfile.setPhone(vm.locationphone);
+		    	    	mProfile.update();
 
 		    	    	
 		    	    	 MultipartFormData body = request().body().asMultipartFormData();
