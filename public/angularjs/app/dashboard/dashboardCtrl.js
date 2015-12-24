@@ -590,7 +590,8 @@ angular.module('newApp')
     		  
     		  $scope.init = function() {
     			$scope.cal_whe_flag = true;
-   			   	$(".wheth-report").hide();  
+   			   	$(".wheth-report").hide();
+   			   	$scope.checkManagerLogin();
    			   
     			  $scope.showToDoList = false;
 				  $scope.showCalendar = true;
@@ -1925,6 +1926,7 @@ angular.module('newApp')
 			   $scope.schmeeting = {};
 			   $scope.manager = {};
 			   $scope.user = {};
+			   $scope.checkManagerLogin();
 			   $('#meeting-model').modal();
 		   };
 		   
@@ -1932,16 +1934,22 @@ angular.module('newApp')
 			   $scope.locationdata = data;
 		   });
 		   
-		   $scope.showuser = function(location){
-			   if(angular.equals($scope.userType,"General Manager")){
-				   $http.get("/getmanager/"+location).success(function(data){
-					   $scope.user = data;
-				   });  
-			   } else if(angular.equals($scope.userType,"Manager")){
-				   $http.get("/getuser/"+location).success(function(data){
-					   $scope.user = data;
-				   });  
+		   $scope.checkManagerLogin = function(){
+			   if(angular.equals($scope.userType,"Manager")){
+				   $http.get("/getloginuserinfo").success(function(data){
+					  //alert(JSON.stringify(data));
+					  $scope.schmeeting.location = data.location.id;
+					  $http.get("/getuser/"+$scope.schmeeting.location).success(function(data){
+						   $scope.user = data;
+					   });
+				   });
 			   }
+		   }
+		   
+		   $scope.showuser = function(location){
+			   $http.get("/getmanager/"+location).success(function(data){
+				   $scope.user = data;
+			   });
 		   };
 		   
 		   $scope.submitnewmeeting = function(){

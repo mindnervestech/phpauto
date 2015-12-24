@@ -12023,6 +12023,12 @@ public class Application extends Controller {
 		moTest.user = user;
 		moTest.isReassigned = false;
 		moTest.is_google_data = false;
+		try {
+			moTest.confirmDate = new SimpleDateFormat("MM-dd-YYYY").parse(vm.getBestDay());
+			moTest.confirmTime = new SimpleDateFormat("HH:mm a").parse(vm.getBestTime());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		moTest.save();
 		sendMeetingMailToAssignee(vm, user, assi, loc);
 		sendMeetingMailToOrgnizer(vm, user, assi, loc);
@@ -12139,5 +12145,9 @@ public class Application extends Controller {
 			e.printStackTrace();
 		}
 	}
+	
+	public static Result getLoginUser(){
+		AuthUser user = getLocalUser();
+		return ok(Json.toJson(user));
+	}
 }
-
