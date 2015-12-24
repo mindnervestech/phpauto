@@ -32,10 +32,6 @@ public class ToDo extends Model {
 	@ManyToOne
 	public AuthUser assignedBy;
 	
-	@ManyToOne
-	public Location locations;
-	
-	
 	public Long getId() {
 		return id;
 	}
@@ -90,13 +86,6 @@ public class ToDo extends Model {
 	}
 	public void setSaveas(Integer saveas) {
 		this.saveas = saveas;
-	}
-
-	public Location getLocations() {
-		return locations;
-	}
-	public void setLocations(Location locations) {
-		this.locations = locations;
 	}
 
 	public static Finder<Long,ToDo> find = new Finder<>(Long.class,ToDo.class);

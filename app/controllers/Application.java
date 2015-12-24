@@ -5449,9 +5449,12 @@ public class Application extends Controller {
     	} else {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		AuthUser users = (AuthUser) getLocalUser();
+    		MultipartFormData body = request().body().asMultipartFormData();
+    		
     		
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
+	    	//List<String> aa= new ArrayList<>();
 	    	
 	    	userObj.firstName = vm.firstName;
 	    	userObj.lastName = vm.lastName;
@@ -5471,15 +5474,25 @@ public class Application extends Controller {
 	    	userObj.trainingCost = vm.trainingCost;
 	    	userObj.trainingHours = vm.trainingHours;
 	    	userObj.quota = vm.quota;
+	    	String arr2[] = null;
+	    	 if(body != null) {
+	    		 String abcd= vm.permissions.get(0);
+	 	    	abcd = abcd.replace("]", "");
+	 	    	abcd = abcd.replace("[", "");
+	 	    	abcd = abcd.replace("\"", "");
+	 	    	arr2 = abcd.split(",");
+	    	 }
 	    	
 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    	Random rnd = new Random();
 
+	    	
+	    	
 	    	   StringBuilder sb = new StringBuilder( 6 );
 	    	   for( int i = 0; i < 6; i++ ) 
 	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
 	    	
-	    	   userObj.password = sb.toString();
+	    	   userObj.setPassword(sb.toString());
 	    	   List<Permission> permissionList = Permission.getAllPermission();
 	    	   if(vm.userType.equals("General Manager")) {
 	    		   userObj.permission = permissionList;
@@ -5488,24 +5501,36 @@ public class Application extends Controller {
 	    	   
 	    	   
 	    	   if(vm.userType.equals("Sales Person")) {
+	    		   
+	    		  // String aa = vm.permissions.get(0);
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
+	    			   if(body != null) {
+	    				   for(String role:arr2){
+    						   if(obj.name.equals(role)) {
+			    				   permissionData.add(obj);
+	    					   }
+    				   
+	    				   }
+	    			   }else{
+	    				   for(String role:vm.permissions){
+    						   if(obj.name.equals(role)) {
+			    				   permissionData.add(obj);
+	    					   }
+    				   
+	    				   }
+	    			   }
 	    			   
-	    			   for(String role:vm.permissions){
-	    				   if(obj.name.equals(role)) {
-		    				   permissionData.add(obj);
-		    			   }
-	    	    	   }
 	    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
 	    				   permissionData.add(obj);
 	    			   }*/
 	    			   
 	    		   }
-	    		   userObj.permission = permissionData;
+	    		   userObj.setPermission(permissionData);
 	    	   }
 	    	   userObj.save();
 	    	   
-	    	   MultipartFormData body = request().body().asMultipartFormData();
+	    	  
 	    	   if(body != null) {
 	    		FilePart picture = body.getFile("file0");
 		    	  if (picture != null) {
@@ -11736,7 +11761,7 @@ public class Application extends Controller {
 					scheduleTest.setVin("no");
 					scheduleTest.setGoogle_id(ev.getId());
 					scheduleTest.setIs_google_data(true);
-					scheduleTest.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					scheduleTest.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 					scheduleTest.save();
 					
 				}
@@ -11788,14 +11813,14 @@ public class Application extends Controller {
 							List<ToDo> toDo1 = ToDo.findByDateAndTask(df.parse(dateValue), task.getTitle()); 
 							if(toDo1.size() == 0){
 								ToDo toDo = new ToDo();
-					    		toDo.task = task.getTitle();
-					    		toDo.status = "Assigned";
-					    		toDo.dueDate = df.parse(dateValue);
-					    		toDo.priority = "High";
-					    		toDo.assignedBy = user;
-					    		toDo.assignedTo = user;
-					    		toDo.saveas = 1;
-					    		toDo.google_id = task.getId();
+					    		toDo.setTask(task.getTitle());
+					    		toDo.setStatus("Assigned");
+					    		toDo.setDueDate(df.parse(dateValue));
+					    		toDo.setPriority("High");
+					    		toDo.setAssignedBy(user);
+					    		toDo.setAssignedTo(user);
+					    		toDo.setSaveas(1);
+					    		toDo.setGoogle_id(task.getId());
 								//toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					    		toDo.save();
 							}
@@ -11803,14 +11828,14 @@ public class Application extends Controller {
 							List<ToDo> toDo1 = ToDo.findByDateAndTask(df.parse(dateValue), task.getTitle()); 
 							if(toDo1.size() == 0){
 								ToDo toDo = new ToDo();
-					    		toDo.task = task.getTitle();
-					    		toDo.status = "Assigned";
-					    		toDo.dueDate = df.parse(dateValue);
-					    		toDo.priority = "High";
-					    		toDo.assignedBy = user;
-					    		toDo.assignedTo = user;
-					    		toDo.saveas = 1;
-					    		toDo.google_id = task.getId();
+								toDo.setTask(task.getTitle());
+					    		toDo.setStatus("Assigned");
+					    		toDo.setDueDate(df.parse(dateValue));
+					    		toDo.setPriority("High");
+					    		toDo.setAssignedBy(user);
+					    		toDo.setAssignedTo(user);
+					    		toDo.setSaveas(1);
+					    		toDo.setGoogle_id(task.getId());
 								//toDo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					    		toDo.save();
 							}
