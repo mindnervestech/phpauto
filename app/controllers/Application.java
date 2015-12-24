@@ -11986,5 +11986,158 @@ public class Application extends Controller {
 		}
 		return ok();
 	}
+	
+	public static Result getAllLocations(){
+		List<Location> list = Location.findAllData();
+		return ok(Json.toJson(list));
+	}
+	
+	public static Result getManagers(Long value){
+		Location loc = Location.findById(value);
+		List<AuthUser> user = AuthUser.getlocationAndManager(loc);
+		return ok(Json.toJson(user));
+	}
+	
+	public static Result getLocationUsers(Long value){
+		Location loc = Location.findById(value);
+		List<AuthUser> user = AuthUser.getAllUserByLocation(loc);
+		return ok(Json.toJson(user));
+	}
+	
+	public static Result saveMeetingSchedule(){
+		Form<ScheduleTestVM> form = DynamicForm.form(ScheduleTestVM.class).bindFromRequest();
+		ScheduleTestVM vm = form.get();
+		AuthUser user = getLocalUser();
+		Location loc = Location.findById(Long.parseLong(vm.getLocation())); 
+		AuthUser assi = AuthUser.findById(Integer.parseInt(vm.getAssignedTo()));
+		ScheduleTest moTest = new ScheduleTest();
+		moTest.assignedTo = assi;
+		moTest.bestDay = vm.getBestDay();
+		moTest.bestTime = vm.getBestTime();
+		moTest.email = user.getEmail();
+		moTest.location = vm.getLocation();
+		moTest.name = vm.name;
+		moTest.phone = user.getPhone();
+		moTest.reason = vm.getReason();
+		moTest.scheduleDate = new Date();
+		moTest.user = user;
+		moTest.isReassigned = false;
+		moTest.is_google_data = false;
+		moTest.save();
+		sendMeetingMailToAssignee(vm, user, assi, loc);
+		sendMeetingMailToOrgnizer(vm, user, assi, loc);
+		System.out.println(vm);
+		return ok();
+	}
+	
+	public static void sendMeetingMailToAssignee(ScheduleTestVM vm, AuthUser user, AuthUser assi, Location loc){
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+		
+		try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+			InternetAddress.parse(assi.getEmail()));
+			message.setSubject("Meeting Scheduled");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+			
+			Template t = ve.getTemplate("/public/emailTemplate/meetingemailtoassign.vm"); 
+	        VelocityContext context = new VelocityContext();
+	        
+	        context.put("title", vm.name);
+	        context.put("location", loc.getName());
+	        context.put("meetingBy", user.getFirstName()+" "+user.getLastName());
+	        context.put("date", vm.getBestDay());
+	        context.put("time", vm.getBestTime());
+	        context.put("disc", vm.getReason());
+	       
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString();
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public static void sendMeetingMailToOrgnizer(ScheduleTestVM vm, AuthUser user, AuthUser assi, Location loc){
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+		
+		try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+			InternetAddress.parse(user.getEmail()));
+			message.setSubject("Meeting Scheduled");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+			
+			Template t = ve.getTemplate("/public/emailTemplate/meetingemailtoorganizer.vm"); 
+	        VelocityContext context = new VelocityContext();
+	        
+	        context.put("title", vm.name);
+	        context.put("location", loc.getName());
+	        context.put("meetingBy", assi.getFirstName()+" "+assi.getLastName());
+	        context.put("date", vm.getBestDay());
+	        context.put("time", vm.getBestTime());
+	        context.put("disc", vm.getReason());
+	       
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString();
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
 

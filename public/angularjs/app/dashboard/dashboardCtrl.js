@@ -1874,6 +1874,38 @@ angular.module('newApp')
 					  }
 				   });
 			   });
+			   
+			   $('#cnfmeetingdate').on('changeDate', function(e) {
+				   document.getElementById("meetingnature").innerHTML = "";
+				   var day = moment(e.date).format('DD MMM YYYY');
+				   var img= "";
+				   angular.forEach($scope.whDataArr,function(value,key){
+					  if(angular.equals(day, value.date)){
+						  if(angular.equals(value.text,"Cloudy")){
+							  img = "<i class='fa fa-cloud'></i>"; 
+						  }
+						  if(angular.equals(value.text,"Rain")){
+							img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"Light Rain")){
+							  img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"PM Rain")){
+							  img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"Thundershowers")){
+							  img = "<i class='wi wi-showers'></i>";  
+						  }
+						  if(angular.equals(value.text,"Fog")){
+								img = "<i class='wi wi-fog'></i>";  
+						  }
+						  if(angular.equals(value.text,"Fair")){
+								img = "<i class='glyphicon glyphicon-certificate'></i>";  
+						  }
+						  document.getElementById("meetingnature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
+					  }
+				   });
+			   });
 		   }, 4000);
 		   
 		   $scope.resettestDriveNature = function(){
@@ -1882,6 +1914,48 @@ angular.module('newApp')
 		   
 		   $scope.confres = function(){
 			   document.getElementById("gridCnfDateNature").innerHTML = "";
+		   };
+		   
+		   $scope.schmeeting = {};
+		   $scope.locationdata = {};
+		   $scope.manager = {};
+		   $scope.user = {};
+		   
+		   $scope.openNeweeting = function(){
+			   $scope.schmeeting = {};
+			   $scope.manager = {};
+			   $scope.user = {};
+			   $('#meeting-model').modal();
+		   };
+		   
+		   $http.get("/getlocations").success(function(data){
+			   $scope.locationdata = data;
+		   });
+		   
+		   $scope.showuser = function(location){
+			   if(angular.equals($scope.userType,"General Manager")){
+				   $http.get("/getmanager/"+location).success(function(data){
+					   $scope.user = data;
+				   });  
+			   } else if(angular.equals($scope.userType,"Manager")){
+				   $http.get("/getuser/"+location).success(function(data){
+					   $scope.user = data;
+				   });  
+			   }
+		   };
+		   
+		   $scope.submitnewmeeting = function(){
+			   $scope.schmeeting.bestDay = $('#cnfmeetingdate').val();
+			   $scope.schmeeting.bestTime = $('#cnfmeetingtime').val();
+			   $http.post("/savemeeting",$scope.schmeeting).success(function(data){
+				   $('#meeting-model').modal("toggle");
+				   $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Meeting Scheduled",
+					});
+			   }); 
+			 //alert(JSON.stringify($scope.schmeeting));  
 		   };
   }]);
 

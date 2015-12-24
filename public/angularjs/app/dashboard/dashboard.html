@@ -257,7 +257,7 @@ margin-left: 5px;
     </div> -->
     <div class="col-xlg-5 col-lg-5">
         <div class="row">
-        	<div class="col-md-7">
+        	<div class="col-md-4" style="width: 193px !important;">
 		                <div class="panel no-bd bd-3 panel-stat" style="height:94px;">
 		                	<div class="panel-header">
 		                		<b>CURRENTLY ONLINE</b>
@@ -266,6 +266,108 @@ margin-left: 5px;
 		                </div>
 	            </div>
         	<button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openCreateNewLeadPopup();"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>CREATE LEAD</button>
+        	<button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>MEETING</button>
+        	<div class="modal fade" id="meeting-model" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                  <h4 class="modal-title"><strong>Schedule Meeting</strong></h4>
+                </div>
+                <div class="modal-body">
+                <div class="row">
+                <div class="panel panel-default no-bd">
+                <div class="panel-body bg-white">
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <form role="form" class="form-validation" ng-submit="submitnewmeeting()">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="control-label">Title</label>
+                              <div class="append-icon">
+								<input class="form-control" ng-model="schmeeting.name" type="text" required>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" ng-if="userType == 'General Manager'">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="control-label">Location</label>
+                              <div class="append-icon">
+                              	<select  class="form-control" ng-model="schmeeting.location" ng-change="showuser(schmeeting.location)" required>
+								   <option ng-selected="true" value="">Select Location</option>
+						           <option ng-repeat="item in locationdata" value="{{item.id}}">{{item.name}}</option>
+						        </select>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="control-label" ng-if="userType == 'General Manager'">Manager</label>
+                              <label class="control-label" ng-if="userType == 'Manager'">Sales User</label>
+                              <div class="append-icon">
+                              	<select  class="form-control" ng-model="schmeeting.assignedTo" required>
+								   <option ng-selected="true" value="">Select User</option>
+						           <option ng-repeat="u in user" value="{{u.id}}">{{u.firstName}}</option>
+						        </select>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="control-label">Date</label>
+                              <div class="append-icon">
+                              	<input data-provide="datepicker" id="cnfmeetingdate" name="meetingDate" class="form-control" ng-model="schmeeting.bestDay" data-date-format="mm-dd-yyyy" required>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="control-label">Time</label>
+                              <div class="append-icon">
+                              	<input type="text" name="meetingTime" id="cnfmeetingtime" class="timepicker form-control" placeholder="Choose a time..."  ng-model="schmeeting.bestTime" data-format="am-pm" required>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <div id="meetingnature">
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                            <label class="control-label">Discription</label>
+                              <div class="append-icon">
+                               <textarea class="form-control" ng-model="schmeeting.reason" rows="3" required></textarea>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="modal-footer">
+                          <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                  		  <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+                         </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
              <!--  <form action="/googleConnectionStatus" method="post">
                       <button type="submit" class="btn btn-sm btn-dark add-task pull-right">Add Meeking</button>
                      </form> 

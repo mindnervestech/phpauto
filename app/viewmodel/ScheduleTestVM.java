@@ -21,7 +21,14 @@ public class ScheduleTestVM {
 	public String location;
 	public String google_id;
 	public Boolean is_google_data;
+	public String assignedTo;
 	
+	public String getAssignedTo() {
+		return assignedTo;
+	}
+	public void setAssignedTo(String assignedTo) {
+		this.assignedTo = assignedTo;
+	}
 	public Long getId() {
 		return id;
 	}

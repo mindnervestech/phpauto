@@ -1,0 +1,10 @@
+<html>
+<body>
+<label>Title:</label>&nbsp;&nbsp;&nbsp;<span>$title</span><br>
+<label>Meeting With:</label>&nbsp;&nbsp;&nbsp;<span>$meetingBy</span><br>
+<label>Location:</label>&nbsp;&nbsp;&nbsp;<span>$location</span><br>
+<label>Date:</label>&nbsp;&nbsp;&nbsp;<span>$date</span><br>
+<label>Time:</label>&nbsp;&nbsp;&nbsp;<span>$time</span><br>
+<label>Discription:</label>&nbsp;&nbsp;&nbsp;<span>$disc</span><br>
+</body>
+</html>
