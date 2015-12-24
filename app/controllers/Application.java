@@ -5196,7 +5196,8 @@ public class Application extends Controller {
     
     public static Result getMyProfile() {
     	AuthUser userObj = (AuthUser) getLocalUser();
-    	MyProfile mpObj = MyProfile.findByUser(userObj);
+    	//MyProfile mpObj = MyProfile.findByUser(userObj);
+    	MyProfile mpObj = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));
     	profileVM vm = new profileVM();
     	vm.address = mpObj.address;
     	vm.myname = mpObj.myname;
