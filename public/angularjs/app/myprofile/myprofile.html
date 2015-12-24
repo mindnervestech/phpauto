@@ -22,6 +22,7 @@
 	<p style="color:red;" ng-show="vinErr"><b>Vin is not valid</b></p>
 </div> -->
 <hr>
+
 <form ng-submit="saveMyprofile()">
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Name *</label>
@@ -343,7 +344,9 @@
 	      </div>
 	    </div>
     
-    
+    <form action="/authenticate">
+    	<button type="submit" id="GM" class="btn btn-primary" style="display: none;" ></button>
+    </form>
     
   </div>
   

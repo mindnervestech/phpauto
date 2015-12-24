@@ -3437,7 +3437,7 @@ angular.module('newApp')
 		if(angular.isUndefined(logofile)) {
 				$http.post('/updateImageFile',$scope.user)
 				.success(function(data) {
-					
+					$('#GM').click();
 		            $('#btnClose').click();
 		            $.pnotify({
 					    title: "Success",
@@ -3456,6 +3456,7 @@ angular.module('newApp')
 		        }).success(function(data, status, headers, config) {
 		            console.log('success');
 		            $("#file").val('');
+		            $('#GM').click();
 		            $('#btnClose').click();
 		            $.pnotify({
 					    title: "Success",
