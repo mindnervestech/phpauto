@@ -11893,10 +11893,14 @@ public class Application extends Controller {
 		vm.eventID = googleID;
 		session("sessionVmData", Json.stringify(Json.toJson(vm)));
 		
-		ScheduleTest test = ScheduleTest.findById(Long.parseLong(id));
-		test.setConfirmDate(new Date(confDate));
-		test.setConfirmTime(new Date(confTime));
-		test.update();
+		try {
+			ScheduleTest test = ScheduleTest.findById(Long.parseLong(id));
+			test.setConfirmDate(new SimpleDateFormat("MM-dd-YYYY").parse(confDate));
+			test.setConfirmTime(new SimpleDateFormat("HH:mm a").parse(confTime));
+			test.update();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		/*try {
 			if(test.getGoogle_id()!=null){
 				return redirect(authorizeUpdate());
