@@ -6337,11 +6337,12 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getSalesUserOnly() {
+    public static Result getSalesUserOnly(Long locationValue) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		List<AuthUser> SalesUserList = AuthUser.getAllSalesUser();
+    		//session("USER_LOCATION")
+    		List<AuthUser> SalesUserList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
     		List<UserVM> vmList = new ArrayList<>();
     		
     		for(AuthUser obj: SalesUserList) {
@@ -6855,7 +6856,7 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,Integer id) {
+    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,Integer id,Long locationValue) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -6886,7 +6887,7 @@ public class Application extends Controller {
 			List<UserVM> userList = new ArrayList<>();
     		if(top.equals("true")) {
     			if(id == 0) {
-    				List<AuthUser> salesUsersList = AuthUser.getAllSalesUser();
+    				List<AuthUser> salesUsersList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
     				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
     				int index=0;
     				for(AuthUser sales: salesUsersList) {

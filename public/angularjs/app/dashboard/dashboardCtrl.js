@@ -19,15 +19,23 @@ angular.module('newApp')
 	console.log(events);
 	console.log(taskslist);
 	$scope.userKey = userKey;
-	
+	$scope.locationValue = null;
 	$http.get('/getUserRole').success(function(data) {
 		console.log(data);
 		
 		$scope.userRole = data.role;
+		$scope.locationValue = data.location.id;
+		$scope.getSalesDataValue($scope.locationValue);
 		console.log($scope.userRole);
 		if($scope.userRole == null){
 			  $location.path('/myprofile');
 		}
+	});
+	
+	$http.get('/getAllLocation')
+		.success(function(data) {
+			console.log(data);
+		$scope.locationDataList = data;	
 	});
 	
 	
@@ -38,11 +46,16 @@ angular.module('newApp')
 		});
 	});
 	
+	$scope.showLocationWise = function(locationId){
+		console.log(locationId);
+		$scope.locationValue = locationId.id;
+		$scope.getPerformanceOfUser();
+		$scope.getSalesDataValue($scope.locationValue);
+	}
+	
 	angular.forEach($scope.tasksValue, function(value, key) {
 		value.updated.value = $filter('date')(value.updated.value,"dd/MM/yyyy")
 	});
-	console.log($scope.tasksValue);
-	console.log(",,,,,,,,,,,,,,11,,,,,");
 	$scope.eventValue = events;
 	  $scope.stringArray = [];
 	  $scope.visitiorListMap = [];
@@ -933,10 +946,15 @@ angular.module('newApp')
 	    			});
 	    		};
 	    		
-	    		$http.get('/getSalesUserOnly')
-	    		.success(function(data){
-	    			$scope.salesPersonPerf = data;
-	    		});
+	    		$scope.getSalesDataValue = function(locationValue) {
+	    			$scope.locationValue = locationValue;
+	    			$http.get('/getSalesUserOnly/'+locationValue)
+		    		.success(function(data){
+		    			console.log(data);
+		    			$scope.salesPersonPerf = data;
+		    		});
+	    		}
+	    		
 	    		
 	    		$scope.getGMData = function() {
 		    		$http.get('/getSalesUser')
@@ -1658,11 +1676,10 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.getPerformanceOfUser = function() {
-			   
 			   if(angular.isUndefined($scope.salesPersonUser) || $scope.salesPersonUser == "") {
 				   $scope.salesPersonUser = 0;
 			   }
-			   $http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+'/'+$scope.salesPersonUser)
+			   $http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue)
 		 		.success(function(data) {
 		 			console.log(data);
 		 			$scope.userPerformanceList = data;
@@ -1907,6 +1924,41 @@ angular.module('newApp')
 					  }
 				   });
 			   });
+			   
+			   
+			   $('#leadBestDay').on('changeDate', function(e) {
+				   
+				   document.getElementById("meetingnature1").innerHTML = "";
+				   var day = moment(e.date).format('DD MMM YYYY');
+				   var img= "";
+				   angular.forEach($scope.whDataArr,function(value,key){
+					  if(angular.equals(day, value.date)){
+						  if(angular.equals(value.text,"Cloudy")){
+							  img = "<i class='fa fa-cloud'></i>"; 
+						  }
+						  if(angular.equals(value.text,"Rain")){
+							img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"Light Rain")){
+							  img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"PM Rain")){
+							  img = "<i class='wi wi-rain'></i>";  
+						  }
+						  if(angular.equals(value.text,"Thundershowers")){
+							  img = "<i class='wi wi-showers'></i>";  
+						  }
+						  if(angular.equals(value.text,"Fog")){
+								img = "<i class='wi wi-fog'></i>";  
+						  }
+						  if(angular.equals(value.text,"Fair")){
+								img = "<i class='glyphicon glyphicon-certificate'></i>";  
+						  }
+						  document.getElementById("meetingnature1").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
+					  }
+				   });
+			   });
+			   
 		   }, 4000);
 		   
 		   $scope.resettestDriveNature = function(){
