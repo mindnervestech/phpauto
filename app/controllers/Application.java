@@ -6342,7 +6342,13 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		//session("USER_LOCATION")
-    		List<AuthUser> SalesUserList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
+    		List<AuthUser> SalesUserList;
+    		if(locationValue == 0){
+    			SalesUserList = AuthUser.getAllSalesUser();
+    		}else{
+    			SalesUserList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
+    		}
+    		
     		List<UserVM> vmList = new ArrayList<>();
     		
     		for(AuthUser obj: SalesUserList) {
@@ -6887,7 +6893,13 @@ public class Application extends Controller {
 			List<UserVM> userList = new ArrayList<>();
     		if(top.equals("true")) {
     			if(id == 0) {
-    				List<AuthUser> salesUsersList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
+    				List<AuthUser> salesUsersList;
+    				if(locationValue == 0){
+    					salesUsersList = AuthUser.getAllSalesUser();
+    				}else{
+    					salesUsersList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
+    				}
+    				
     				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
     				int index=0;
     				for(AuthUser sales: salesUsersList) {

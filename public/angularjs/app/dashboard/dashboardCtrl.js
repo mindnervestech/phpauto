@@ -602,6 +602,10 @@ angular.module('newApp')
     		  $scope.yearPerformance = false;
     		  
     		  $scope.init = function() {
+    			  
+    			  
+    			 $scope.getPerformanceOfUser();
+    			 $scope.getSalesDataValue(0);
     			$scope.cal_whe_flag = true;
    			   	$(".wheth-report").hide();
    			   	$scope.checkManagerLogin();
@@ -947,6 +951,11 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.getSalesDataValue = function(locationValue) {
+	    			
+	    			if(locationValue == null){
+	 				   $scope.locationValue = 0;
+	 			    }
+	    			
 	    			$scope.locationValue = locationValue;
 	    			$http.get('/getSalesUserOnly/'+locationValue)
 		    		.success(function(data){
@@ -1676,6 +1685,9 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.getPerformanceOfUser = function() {
+			   if($scope.locationValue == null){
+				   $scope.locationValue = 0;
+			   }
 			   if(angular.isUndefined($scope.salesPersonUser) || $scope.salesPersonUser == "") {
 				   $scope.salesPersonUser = 0;
 			   }
