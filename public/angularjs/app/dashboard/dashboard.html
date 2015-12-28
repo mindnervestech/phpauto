@@ -75,23 +75,53 @@ margin-left: 5px;
 									                  </div>      
 									              </div>
 										 <div class="col-sm-12 " style="line-height:1.028571;width:113%;">
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 1%;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 1"><b>{{locationDataList[0].locationName}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 2%;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 2"><b>{{locationDataList[1].locationName}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 2%;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 3"><b>{{locationDataList[2].locationName}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 2%;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 4"><b>{{locationDataList[3].locationName}}</b></label>
+											<label class="col-sm-3 control-label" style="text-align: left;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 1"><b>{{locationDataList[0].locationName}}</b></label>
+											<label class="col-sm-3 control-label" style="text-align: left;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 2"><b>{{locationDataList[1].locationName}}</b></label>
+											<label class="col-sm-3 control-label" style="text-align: left;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 3"><b>{{locationDataList[2].locationName}}</b></label>
+											<label class="col-sm-3 control-label" style="text-align: left;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 4"><b>{{locationDataList[3].locationName}}</b></label>
 										</div>
-										<!-- <div class="col-sm-12">
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 17px;" ng-if="locationDataList.length >= 1"><h5>EMAIL</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 59px;" ng-if="locationDataList.length >= 2"><h5>EMAIL</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 58px;" ng-if="locationDataList.length >= 3"><h5>EMAIL</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 58px;" ng-if="locationDataList.length >= 4"><h5>EMAIL</h5></label>
+										 <div class="col-sm-12">
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-user" style="color: darkturquoise;"></span>EMAIL</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-user" style="color: darkturquoise;"></span>EMAIL</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-user" style="color: darkturquoise;"></span>EMAIL</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-user" style="color: darkturquoise;"></span>EMAIL</h5></label>
 										</div>
 										<div class="col-sm-12">
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;" ng-if="locationDataList.length >= 1"><b>{{locationDataList[0].locationemail}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="locationDataList.length >= 2"><b>{{locationDataList[1].locationemail}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="locationDataList.length >= 3"><b>{{locationDataList[2].locationemail}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="locationDataList.length >= 4"><b>{{locationDataList[3].locationemail}}</b></label>
-										</div> -->
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"></span>amount</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"></span>amount</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"></span>amount</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"></span>amount</h5></label>
+										</div>
+										<div class="col-sm-12">
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="fa fa-car" style="color: darkturquoise;"></span>amount11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="fa fa-car" style="color: darkturquoise;"></span>amount11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="fa fa-car" style="color: darkturquoise;"></span>amount11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="fa fa-car" style="color: darkturquoise;"></span>amount11</h5></label>
+										</div>
+										<div class="col-sm-12">
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;"></span>amo11</h5></label>
+										</div>
+										<div class="col-sm-12">
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-adjust" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-adjust" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-adjust" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-adjust" style="color: darkturquoise;"></span>amo11</h5></label>
+										</div>
+										<div class="col-sm-12">
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-record" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-record" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-record" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-record" style="color: darkturquoise;"></span>amo11</h5></label>
+										</div>
+										<div class="col-sm-12">
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="fa fa-female" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="fa fa-female" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="fa fa-female" style="color: darkturquoise;"></span>amo11</h5></label>
+											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="fa fa-female" style="color: darkturquoise;"></span>amo11</h5></label>
+										</div>
 									
 									</div>
 									</div>
