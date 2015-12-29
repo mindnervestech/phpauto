@@ -57,8 +57,10 @@ import models.Location;
 import models.MyProfile;
 import models.NewsletterDate;
 import models.Permission;
+import models.PlanSchedule;
 import models.PriceAlert;
 import models.RequestMoreInfo;
+import models.SalesPlanSchedule;
 import models.ScheduleTest;
 import models.Site;
 import models.SiteContent;
@@ -113,6 +115,7 @@ import viewmodel.LocationVM;
 import viewmodel.NoteVM;
 import viewmodel.PageVM;
 import viewmodel.PinVM;
+import viewmodel.PlanScheduleVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.ScheduleTestVM;
 import viewmodel.SessionUseVM;
@@ -5644,6 +5647,7 @@ public class Application extends Controller {
     			vm.imageUrl = location.imageUrl;
     			String roles = "Manager";
     			AuthUser users = AuthUser.getlocationAndManagerByType(location, roles);
+    			if(users != null){
     			vm.managerId = users.id;
     			vm.email = users.email;
     			vm.firstName = users.firstName;
@@ -5652,6 +5656,7 @@ public class Application extends Controller {
     			vm.managerFullName = users.firstName+""+users.lastName;
     			vm.mImageName = users.imageName;
     			vm.mImageUrl = users.imageUrl;
+    			}
     				vmList.add(vm);
     		}
     		return ok(Json.toJson(vmList));
@@ -12054,6 +12059,224 @@ public class Application extends Controller {
 		Location loc = Location.findById(value);
 		List<AuthUser> user = AuthUser.getAllUserByLocation(loc);
 		return ok(Json.toJson(user));
+	}
+	public static Result savePlan(){
+		
+		Form<PlanScheduleVM> form = DynamicForm.form(PlanScheduleVM.class).bindFromRequest();
+		PlanScheduleVM vm = form.get();
+		if(vm.scheduleBy.equals("location")){
+			saveLocationWise(vm, vm.location);
+			
+			if(vm.locationList != null){
+			for(Long locationid : vm.locationList){
+				if(vm.location != null){
+					if(locationid != vm.location){
+						saveLocationWise(vm, locationid);
+					}
+				}else{
+					if(locationid != Long.valueOf(session("USER_LOCATION"))){
+						saveLocationWise(vm, locationid);
+					}
+				}
+				
+			}
+			}
+		}else if(vm.scheduleBy.equals("salePerson")){
+			saveSalepersonWise(vm, vm.salePerson);
+			
+			if(vm.salesList != null){
+				for(Integer salesId : vm.salesList){
+					if(!salesId.equals(vm.salePerson)){
+						saveSalepersonWise(vm, salesId);
+					}
+				}
+				}
+		}
+		
+		
+		
+		return ok();
+	}
+	
+	public static void saveSalepersonWise(PlanScheduleVM vm,int salesId){
+		//AuthUser user = getLocalUser();
+		Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		
+		AuthUser user = AuthUser.findById(salesId);
+		
+		SalesPlanSchedule plSchedule = new SalesPlanSchedule();
+		
+		plSchedule.setCarsSold(vm.carsSold);
+		plSchedule.setContractsSign(vm.contractsSign);
+		plSchedule.setDayContract(vm.dayContract);
+		try {
+			plSchedule.setStartDate(new SimpleDateFormat("MM-dd-YYYY").parse(vm.startDate));
+			plSchedule.setEndDate(new SimpleDateFormat("MM-dd-YYYY").parse(vm.endDate));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		plSchedule.setMeetingSalesAm(vm.meetingSalesAm);
+		plSchedule.setMonthContract(vm.monthContract);
+		plSchedule.setQuarterContract(vm.quarterContract);
+		plSchedule.setSixMonthContract(vm.sixMonthContract);
+		plSchedule.setTotalEarn(vm.totalEarn);
+		plSchedule.setTotalMeetingAm(vm.totalMeetingAm);
+		plSchedule.setWeekContract(vm.weekContract);
+		plSchedule.setWorkWithClient(vm.workWithClient);
+		plSchedule.setLocations(location);
+		plSchedule.setUser(user);
+		plSchedule.save();
+	}
+	
+	
+	public static void saveLocationWise(PlanScheduleVM vm,Long locationId){
+		AuthUser user = getLocalUser();
+		Location location = null;
+		if(locationId != null){
+			location = Location.findById(locationId);
+		}else{
+			if(session("USER_ROLE").equals("Manager")){
+				location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			}
+		}
+		
+		PlanSchedule plSchedule = new PlanSchedule();
+		plSchedule.setCarsSold(vm.carsSold);
+		plSchedule.setContractsSign(vm.contractsSign);
+		plSchedule.setDayContract(vm.dayContract);
+		try {
+			plSchedule.setStartDate(new SimpleDateFormat("MM-dd-YYYY").parse(vm.startDate));
+			plSchedule.setEndDate(new SimpleDateFormat("MM-dd-YYYY").parse(vm.endDate));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		plSchedule.setMeetingSalesAm(vm.meetingSalesAm);
+		plSchedule.setMonthContract(vm.monthContract);
+		plSchedule.setQuarterContract(vm.quarterContract);
+		plSchedule.setSixMonthContract(vm.sixMonthContract);
+		plSchedule.setTotalEarn(vm.totalEarn);
+		plSchedule.setTotalMeetingAm(vm.totalMeetingAm);
+		plSchedule.setWeekContract(vm.weekContract);
+		plSchedule.setWorkWithClient(vm.workWithClient);
+		plSchedule.setLocations(location);
+		plSchedule.setUser(user);
+		plSchedule.save();
+	}
+	
+	
+	public static Result getsalesPlan(int salesId){
+		AuthUser user = getLocalUser();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+	    Date dateobj = new Date();
+	    String stringDate = df.format(dateobj);
+	    Date DateString = null;
+		try {
+			DateString = df.parse(stringDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<Integer> intList = new ArrayList<>();
+		PlanScheduleVM pVm = new PlanScheduleVM();
+		//List<SalesPlanSchedule> plSchedule;
+		
+		List<SalesPlanSchedule> plSchedule = SalesPlanSchedule.findAllByUser(AuthUser.findById(salesId));
+		
+		if(plSchedule != null){
+			for(SalesPlanSchedule ps:plSchedule){
+				if(DateString.after(ps.getStartDate()) && DateString.before(ps.getEndDate())){
+					pVm.carsSold = ps.carsSold;
+					pVm.contractsSign = ps.contractsSign;
+					pVm.dayContract = ps.dayContract;
+					pVm.endDate = df.format(ps.endDate);
+					pVm.startDate = df.format(ps.startDate);
+					pVm.id = ps.id;
+					pVm.location = ps.locations.id;
+					pVm.meetingSalesAm = ps.meetingSalesAm;
+					pVm.monthContract = ps.monthContract;
+					pVm.quarterContract = ps.quarterContract;
+					pVm.sixMonthContract = ps.sixMonthContract;
+					pVm.totalEarn = ps.totalEarn;
+					pVm.totalMeetingAm = ps.totalMeetingAm;
+					pVm.weekContract = ps.weekContract;
+					pVm.workWithClient = ps.workWithClient;
+					if(session("USER_ROLE").equals("Manager")){
+						List<SalesPlanSchedule> pList = SalesPlanSchedule.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+						if(pList != null){
+							for(SalesPlanSchedule ps1:pList){
+								if(DateString.after(ps1.getStartDate()) && DateString.before(ps1.getEndDate())){
+									intList.add(ps1.user.id);
+								}
+							}
+						}
+						pVm.salesList = intList;
+					}
+					
+				}
+			}
+			
+		}
+		return ok(Json.toJson(pVm));
+	}
+	
+	public static Result getLocationPlan(Long locationId){
+		AuthUser user = getLocalUser();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+	    Date dateobj = new Date();
+	    String stringDate = df.format(dateobj);
+	    Date DateString = null;
+		try {
+			DateString = df.parse(stringDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<Long> longList = new ArrayList<>();
+		PlanScheduleVM pVm = new PlanScheduleVM();
+		List<PlanSchedule> plSchedule;
+		if(locationId != 0){
+			plSchedule = PlanSchedule.findAllByLocation(locationId);
+		}else{
+			plSchedule = PlanSchedule.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+		}
+		
+		if(plSchedule != null){
+			for(PlanSchedule ps:plSchedule){
+				if(DateString.after(ps.getStartDate()) && DateString.before(ps.getEndDate())){
+					pVm.carsSold = ps.carsSold;
+					pVm.contractsSign = ps.contractsSign;
+					pVm.dayContract = ps.dayContract;
+					pVm.endDate = df.format(ps.endDate);
+					pVm.startDate = df.format(ps.startDate);
+					pVm.id = ps.id;
+					pVm.location = ps.locations.id;
+					pVm.meetingSalesAm = ps.meetingSalesAm;
+					pVm.monthContract = ps.monthContract;
+					pVm.quarterContract = ps.quarterContract;
+					pVm.sixMonthContract = ps.sixMonthContract;
+					pVm.totalEarn = ps.totalEarn;
+					pVm.totalMeetingAm = ps.totalMeetingAm;
+					pVm.weekContract = ps.weekContract;
+					pVm.workWithClient = ps.workWithClient;
+					if(session("USER_ROLE").equals("General Manager")){
+						List<PlanSchedule> pList = PlanSchedule.findAllByUser(user);
+						if(pList != null){
+							for(PlanSchedule ps1:pList){
+								if(DateString.after(ps1.getStartDate()) && DateString.before(ps1.getEndDate())){
+									longList.add(ps1.locations.id);
+								}
+							}
+						}
+						pVm.locationList = longList;
+					}
+					
+				}
+			}
+			
+		}
+		return ok(Json.toJson(pVm));
 	}
 	
 	public static Result saveMeetingSchedule(){

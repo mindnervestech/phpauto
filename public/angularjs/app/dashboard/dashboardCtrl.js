@@ -605,7 +605,10 @@ angular.module('newApp')
     			  
     			  
     			 $scope.getPerformanceOfUser();
-    			 $scope.getSalesDataValue(0);
+    			 if($scope.locationValue == null){
+    				 $scope.getSalesDataValue(0);
+    			 }
+    			 
     			$scope.cal_whe_flag = true;
    			   	$(".wheth-report").hide();
    			   	$scope.checkManagerLogin();
@@ -951,7 +954,6 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.getSalesDataValue = function(locationValue) {
-	    			
 	    			if(locationValue == null){
 	 				   $scope.locationValue = 0;
 	 			    }
@@ -961,6 +963,9 @@ angular.module('newApp')
 		    		.success(function(data){
 		    			console.log(data);
 		    			$scope.salesPersonPerf = data;
+		    			angular.forEach($scope.salesPersonPerf, function(value, key) {
+		    				value.isSelected = false;
+		    			});
 		    		});
 	    		}
 	    		
@@ -1994,10 +1999,133 @@ angular.module('newApp')
 			   $('#meeting-model').modal();
 		   };
 		   
+		   $scope.getLocationData = function(locationId){
+			   console.log(locationId);
+			   $http.get("/getLocationPlan/"+locationId).success(function(data){
+				   console.log(data);
+				   $scope.schPlan = data;
+				   console.log($scope.locationdata);
+				   angular.forEach($scope.locationdata, function(obj, index){
+					   angular.forEach($scope.schPlan.locationList, function(obj1, index1){
+						   console.log(obj.id);
+						   if(obj.id == obj1){
+							   obj.isSelected = true;
+						   }else{
+							   obj.isSelected = false;
+						   }
+					   });
+					   
+				   });
+			   });
+			   
+		   }
+		   
+		   $scope.getSalePersonData = function(salesId){
+			   
+			   $scope.salesIdPlan = "salePerson";
+			   console.log(salesId);
+			   $http.get("/getsalesPlan/"+salesId).success(function(data){
+				   console.log(data);
+				   $scope.schPlan = data;
+				  
+				   angular.forEach($scope.salesPersonPerf, function(obj, index){
+					   angular.forEach($scope.schPlan.salesList, function(obj1, index1){
+						   console.log(obj1);
+						   if(obj.id == obj1){
+							   obj.isSelected = true;
+							  
+						   }
+					   });
+					   
+				   });
+				   console.log($scope.salesPersonPerf);
+			   });
+			   
+		   }
+		   
+		   $scope.openPlanning = function(){
+			   $scope.schPlan = {};
+			   $scope.nextbutton = 0;
+			   console.log(".............");
+			   $scope.checkManagerLogin();
+			   $('#plan-model').modal();
+		   };
+		   
+		   $scope.nextbutton = 0;
+		   $scope.goNext = function(){
+			   $scope.nextbutton = 1;
+		   }
+		   
 		   $http.get("/getlocations").success(function(data){
 			   $scope.locationdata = data;
+			   
+			   angular.forEach($scope.locationdata, function(obj, index){
+				   obj.isSelected = false;
+			   });
 		   });
+		   $scope.locationList = [];
+		   $scope.locationClicked = function(e, locationPer,value){
+				console.log(locationPer);
+				console.log(value);
+				if(value == false){
+					$scope.locationList.push(locationPer.id);
+				}else{
+					$scope.deleteItem(locationPer);
+				}
+				console.log($scope.locationList);
+			}
+			$scope.deleteItem = function(locationPer){
+				angular.forEach($scope.locationList, function(obj, index){
+					 if ((locationPer.id == obj)) {
+						 $scope.locationList.splice(index, 1);
+				       	return;
+				    };
+				  });
+			}
 		   
+			
+			   $scope.salesClicked = function(e, salesPer,value){
+					console.log(salesPer);
+					console.log(value);
+					if(value == false){
+						$scope.salesList.push(salesPer.id);
+					}else{
+						$scope.deleteSalesItem(salesPer);
+					}
+					console.log($scope.salesList);
+				}
+				$scope.deleteSalesItem = function(salesPer){
+					angular.forEach($scope.salesList, function(obj, index){
+						 if ((salesPer.id == obj)) {
+							 $scope.salesList.splice(index, 1);
+					       	return;
+					    };
+					  });
+				}
+			
+		$scope.schPlan = {};
+		$scope.submitnewPlan = function(){
+			$scope.schPlan.locationList = $scope.locationList;
+			$scope.schPlan.salesList = $scope.salesList;
+			   $scope.schPlan.startDate = $('#cnfstartdate').val();
+			   $scope.schPlan.endDate = $('#cnfenddate').val();
+			   if($scope.schPlan.scheduleBy != "salePerson"){
+				   $scope.schPlan.scheduleBy = "location"; 
+			   }
+			  
+			console.log($scope.schPlan);
+			
+			$http.post("/savePlan",$scope.schPlan).success(function(data){
+				   $('#plan-model').modal("toggle");
+				   $scope.nextbutton = 0;
+				   $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Plan Scheduled",
+					});
+			   }); 
+		}	
+			
 		   $scope.checkManagerLogin = function(){
 			   if(angular.equals($scope.userType,"Manager")){
 				   $http.get("/getloginuserinfo").success(function(data){
@@ -2008,6 +2136,39 @@ angular.module('newApp')
 					   });
 				   });
 			   }
+		   }
+		   $scope.allloction = false;
+		   $scope.allloctionSale = false;
+		   $scope.checkLocation = function(checkAll){
+			   console.log(checkAll);
+			   $scope.locationList = [];
+			   if(checkAll == false){
+				   angular.forEach($scope.locationdata, function(obj, index){
+					   obj.isSelected = true;
+					   $scope.locationList.push(obj.id);
+				   });
+			   }else{
+				   angular.forEach($scope.locationdata, function(obj, index){
+					   obj.isSelected = false;
+				   });
+			   }
+			   console.log($scope.locationList);
+		   }
+		   $scope.salesList = [];
+		   $scope.checkSale = function(checkAll){
+			   console.log(checkAll);
+			   $scope.salesList = [];
+			   if(checkAll == false){
+				   angular.forEach($scope.salesPersonPerf, function(obj, index){
+					   obj.isSelected = true;
+					   $scope.salesList.push(obj.id);
+				   });
+			   }else{
+				   angular.forEach($scope.salesPersonPerf, function(obj, index){
+					   obj.isSelected = false;
+				   });
+			   }
+			   console.log($scope.salesList);
 		   }
 		   
 		   $scope.showuser = function(location){
@@ -2027,7 +2188,6 @@ angular.module('newApp')
 					    text: "Meeting Scheduled",
 					});
 			   }); 
-			 //alert(JSON.stringify($scope.schmeeting));  
 		   };
   }]);
 

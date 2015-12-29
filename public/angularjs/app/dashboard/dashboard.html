@@ -494,6 +494,7 @@ margin-left: 5px;
 	            </div>
         	<button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openCreateNewLeadPopup();"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>CREATE LEAD</button>
         	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>MEETING</button>
+        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>PLAN</button>
         	<div class="modal fade" id="meeting-model" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -518,7 +519,7 @@ margin-left: 5px;
                             </div>
                           </div>
                         </div>
-                        <div class="row" ng-if="userType == 'General Manager'">
+                        <div class="row" ng-if="userType=='General Manager'">
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label class="control-label">Location</label>
@@ -534,8 +535,8 @@ margin-left: 5px;
                          <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
-                              <label class="control-label" ng-if="userType == 'General Manager'">Manager</label>
-                              <label class="control-label" ng-if="userType == 'Manager'">Sales User</label>
+                              <label class="control-label" ng-if="userType =='General Manager'">Manager</label>
+                              <label class="control-label" ng-if="userType =='Manager'">Sales User</label>
                               <div class="append-icon">
                               	<select  class="form-control" ng-model="schmeeting.assignedTo" required>
 								   <option ng-selected="true" value="">Select User</option>
@@ -595,6 +596,253 @@ margin-left: 5px;
               </div>
             </div>
           </div>
+          
+          
+          
+          <div class="modal fade" id="plan-model" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                  <h4 class="modal-title"><strong>Schedule Plan</strong></h4>
+                </div>
+                <div class="modal-body">
+                <div class="row">
+                <div class="panel panel-default no-bd">
+                <div class="panel-body bg-white">
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <form role="form" ng-submit="submitnewPlan()">
+                        <div class="row" ng-if="userType =='General Manager'">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="control-label">Location</label>
+                              <div class="append-icon">
+                              	<select  class="form-control" ng-model="schPlan.location" ng-change="getLocationData(schPlan.location)" required>
+								   <option ng-selected="true" value="">Select Location</option>
+						           <option ng-repeat="item in locationdata" value="{{item.id}}">{{item.name}}</option>
+						        </select>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row" ng-if="userType =='Manager'">
+                          <div class="col-sm-12" ng-if="nextbutton == 0">
+                            <div class="form-group">
+                              <label class="control-label">Plan Schedule by</label>
+                              <div class="append-icon">
+                              	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getLocationData(0)" value="location">Location
+                              	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" value="salePerson">Sale person
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson'">
+                            <div class="form-group">
+                              <label class="control-label">Sales Person</label>
+                              <div class="append-icon">
+                              	<select  class="form-control" ng-model="schPlan.salePerson" ng-change="getSalePersonData(schPlan.salePerson)" required>
+						            <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
+						        </select>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                        
+                        <div ng-if="nextbutton == 1">
+                         <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="control-label">Start Date</label>
+                              <div class="append-icon">
+                              	<input data-provide="datepicker" id="cnfstartdate" name="startDate" class="form-control" ng-model="schPlan.startDate" data-date-format="mm-dd-yyyy" required>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="control-label">End Date</label>
+                              <div class="append-icon">
+                              	<input data-provide="datepicker" id="cnfenddate" name="endDate" class="form-control" ng-model="schPlan.endDate" data-date-format="mm-dd-yyyy" required>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                       <!--   <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <div id="meetingnature">
+                              </div>
+                            </div>
+                          </div>
+                         </div> -->
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                            <label class="control-label">Total Earnings</label>
+                              <div class="append-icon">
+                               	<input type="text" name="totalEarn" class="form-control" placeholder="Total Earnings"  ng-model="schPlan.totalEarn" required>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                            <label class="control-label">Cars Sold</label>
+                              <div class="append-icon">
+                               	<input type="text" name="carsSold" class="form-control" placeholder="Cars Sold"  ng-model="schPlan.carsSold" required>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                            <label class="control-label">Contracts signed</label>
+                              <div class="append-icon">
+                               	<input type="text" name="contractsSign" class="form-control" placeholder="Contracts Signed"  ng-model="schPlan.contractsSign" required>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group col-sm-2" style="padding-left: 0px;">
+                            <label class="control-label">Signed contracts per</label>
+                              <div class="append-icon">
+                               <!-- 	<input type="text" name="totalMeetingAm" class="form-control" placeholder="Total amount of meeting per location"  ng-model="schPlan.totalMeetingAm" required> -->
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                            <label class="control-label">Day</label>
+                              <div class="append-icon">
+                               	<input type="text" name="dayContract" class="form-control" ng-model="schPlan.dayContract" style="padding-right: 0px;" required>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                            <label class="control-label">Week</label>
+                              <div class="append-icon">
+                               	<input type="text" name="weekContract" class="form-control" ng-model="schPlan.weekContract" style="padding-right: 0px;" required>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                            <label class="control-label">Month</label>
+                              <div class="append-icon">
+                               	<input type="text" name="monthContract" class="form-control" ng-model="schPlan.monthContract" style="padding-right: 0px;" required>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                            <label class="control-label">quarter</label>
+                              <div class="append-icon">
+                               	<input type="text" name="quarterContract" class="form-control" ng-model="schPlan.quarterContract" style="padding-right: 0px;" required>
+                              </div>
+                            </div>
+                            <div class="col-sm-2">
+                            <label class="control-label">6 Month</label>
+                              <div class="append-icon">
+                               	<input type="text" name="sixMonthContract" class="form-control" ng-model="schPlan.sixMonthContract" style="padding-right: 0px;" required>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                            <label class="control-label">Total amount of meeting per location</label>
+                              <div class="append-icon">
+                               	<input type="text" name="totalMeetingAm" class="form-control" placeholder="Total amount of meeting per location"  ng-model="schPlan.totalMeetingAm" required>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                            <label class="control-label">Amount of meeting per sales person</label>
+                              <div class="append-icon">
+                               	<input type="text" name="meetingSalesAm" class="form-control" placeholder="Amount of meeting per sales person"  ng-model="schPlan.meetingSalesAm" required>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                            <label class="control-label">Minimum actions should be done while working with the client</label>
+                              <div class="append-icon">
+                               	<select  class="form-control" ng-model="schPlan.workWithClient" required>
+						           <option value="calls">calls</option>
+						           <option value="emails">emails</option>
+						           <option value="conversation rate">conversation rate</option>
+						        </select>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row" ng-if="userType == 'General Manager'">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <div class="append-icon">
+                              	 <input type="checkbox" name="allLocation" ng-click="checkLocation(allloction)" ng-model="allloction">Assign to all Location<br>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                          <div class="row" ng-if="schPlan.scheduleBy == 'salePerson'">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <div class="append-icon">
+                              	 <input type="checkbox" name="allsales" ng-click="checkSale(allloctionSale)" ng-model="allloctionSale">Assign to all Salespeople<br>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         
+                           <div class="row" ng-if="userType == 'General Manager'">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <div class="append-icon">
+                              	  <label ng-repeat="locationPer in locationdata" ng-if="schPlan.location != locationPer.id" class="col-sm-3" style="padding:0px;">
+				 						 <input type="checkbox" name="selectlocation"  ng-click="locationClicked($event,locationPer,locationPer.isSelected)"
+				 						   	ng-model="locationPer.isSelected">					
+   					 						{{locationPer.name}}</label>
+                              </div>
+                            </div>
+                          </div>
+                          </div> 
+                           <div class="row" ng-if="salesIdPlan == 'salePerson'">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <div class="append-icon">
+                              	  <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-3" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                              </div>
+                            </div>
+                          </div>
+                         </div> 
+                         
+                         </div>
+                          <div class="modal-footer" ng-if="nextbutton == 0">
+                         	 <button type="button" class="btn btn-primary btn-embossed" ng-click="goNext()" data-dismiss="modal">Next</button>
+                         </div>
+                         <div class="modal-footer" ng-if="nextbutton == 1">
+                          <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                  		  <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+                         </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
              <!--  <form action="/googleConnectionStatus" method="post">
                       <button type="submit" class="btn btn-sm btn-dark add-task pull-right">Add Meeking</button>
                      </form> 
@@ -603,7 +851,7 @@ margin-left: 5px;
                      </form>  -->
                      
         </div>
-        <div class="row" style="position: relative;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
+        <div class="row" style="position: relative;float: left;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
                     <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-certificate"></i></button>
             <div class="col-md-12 cal-report" id="load_cal_or_wheth">
     			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
