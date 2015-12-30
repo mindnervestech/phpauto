@@ -611,8 +611,8 @@ margin-left: 5px;
                 <div class="panel panel-default no-bd">
                 <div class="panel-body bg-white">
                   <div class="row">
+                    <form role="form" ng-submit="submitnewPlan()">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                      <form role="form" ng-submit="submitnewPlan()">
                         <div class="row" ng-if="userType =='General Manager'">
                           <div class="col-sm-12">
                             <div class="form-group">
@@ -625,6 +625,15 @@ margin-left: 5px;
                               </div>
                             </div>
                           </div>
+                           <div class="col-sm-12" ng-if="showGrid == 1 && nextbutton == 0">
+                            <div class="form-group">
+                              <div ui-grid="gridOptionsValue" style="height:400px;" ui-grid-edit ui-grid-pagination>
+									</div> 
+                              </div>
+                            </div>
+                          </div>
+                          
+                          
                          </div>
                          <div class="row" ng-if="userType =='Manager'">
                           <div class="col-sm-12" ng-if="nextbutton == 0">
@@ -636,6 +645,13 @@ margin-left: 5px;
                               </div>
                             </div>
                           </div>
+                           <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'location' && nextbutton == 0">
+                            <div class="form-group">
+                              <div ui-grid="gridOptionsValue" style="height:400px;" ui-grid-edit ui-grid-pagination>
+									</div> 
+                              </div>
+                            </div>
+                            
                           
                           <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson'">
                             <div class="form-group">
@@ -647,6 +663,12 @@ margin-left: 5px;
                               </div>
                             </div>
                           </div>
+                          <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson' && nextbutton == 0">
+                            <div class="form-group">
+                              <div ui-grid="gridOptionsValue" style="height:400px;" ui-grid-edit ui-grid-pagination>
+									</div> 
+                              </div>
+                            </div>
                          </div>
                         
                         <div ng-if="nextbutton == 1">
@@ -655,7 +677,7 @@ margin-left: 5px;
                             <div class="form-group">
                               <label class="control-label">Start Date</label>
                               <div class="append-icon">
-                              	<input data-provide="datepicker" id="cnfstartdate" name="startDate" class="form-control" ng-model="schPlan.startDate" data-date-format="mm-dd-yyyy" required>
+                              	<input data-provide="datepicker" id="cnfstartdate" name="startDate" class="form-control" ng-model="schPlan.startDate" ng-blur="checkDateValid()" data-date-format="dd-mm-yyyy" required>
                               </div>
                             </div>
                           </div>
@@ -663,7 +685,7 @@ margin-left: 5px;
                             <div class="form-group">
                               <label class="control-label">End Date</label>
                               <div class="append-icon">
-                              	<input data-provide="datepicker" id="cnfenddate" name="endDate" class="form-control" ng-model="schPlan.endDate" data-date-format="mm-dd-yyyy" required>
+                              	<input data-provide="datepicker" id="cnfenddate" name="endDate" class="form-control" ng-model="schPlan.endDate" ng-blur="checkDateValid1()" data-date-format="dd-mm-yyyy" required>
                               </div>
                             </div>
                           </div>
@@ -825,7 +847,7 @@ margin-left: 5px;
                          </div> 
                          
                          </div>
-                          <div class="modal-footer" ng-if="nextbutton == 0">
+                          <div class="modal-footer" ng-if="nextbutton == 0 && showGrid == 1">
                          	 <button type="button" class="btn btn-primary btn-embossed" ng-click="goNext()" data-dismiss="modal">Next</button>
                          </div>
                          <div class="modal-footer" ng-if="nextbutton == 1">

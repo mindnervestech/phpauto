@@ -312,6 +312,7 @@ public class Application extends Controller {
     public static AuthUser getLocalUser() {
     	String id = session("USER_KEY");
     	AuthUser user = AuthUser.find.byId(Integer.parseInt(id));
+    	//AuthUser user = getLocalUser();
 		return user;
 	}
 
@@ -12060,34 +12061,195 @@ public class Application extends Controller {
 		List<AuthUser> user = AuthUser.getAllUserByLocation(loc);
 		return ok(Json.toJson(user));
 	}
-	public static Result savePlan(){
-		
+	public static Result updatePlan(){
 		Form<PlanScheduleVM> form = DynamicForm.form(PlanScheduleVM.class).bindFromRequest();
 		PlanScheduleVM vm = form.get();
+		int flag = 0;
+		int flag1 = 0;
 		if(vm.scheduleBy.equals("location")){
-			saveLocationWise(vm, vm.location);
+			flag = updateLocationWise(vm, vm.location);
 			
 			if(vm.locationList != null){
 			for(Long locationid : vm.locationList){
 				if(vm.location != null){
 					if(locationid != vm.location){
-						saveLocationWise(vm, locationid);
+						flag1 = updateLocationWise(vm, locationid);
 					}
 				}else{
 					if(locationid != Long.valueOf(session("USER_LOCATION"))){
-						saveLocationWise(vm, locationid);
+						flag1 = updateLocationWise(vm, locationid);
 					}
 				}
 				
 			}
 			}
 		}else if(vm.scheduleBy.equals("salePerson")){
-			saveSalepersonWise(vm, vm.salePerson);
+			flag = updateSalepersonWise(vm, vm.salePerson);
 			
 			if(vm.salesList != null){
 				for(Integer salesId : vm.salesList){
 					if(!salesId.equals(vm.salePerson)){
-						saveSalepersonWise(vm, salesId);
+						flag1 = updateSalepersonWise(vm, salesId);
+					}
+				}
+				}
+		}
+		return ok(Json.toJson(flag));
+	}
+	
+	public static int updateLocationWise(PlanScheduleVM vm,Long locationId){
+		AuthUser user = getLocalUser();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+		Location location = null;
+		String[] parts = vm.startDate.split("-");
+		String[] parts1 = vm.endDate.split("-");
+		String startDateString = parts[2]+"-"+parts[1]+"-"+parts[0];
+		String endDateString = parts1[2]+"-"+parts1[1]+"-"+parts1[0];
+		int flag = 0;
+		
+		List<PlanSchedule> planSchedule = null;
+		
+		if(locationId != null){
+			location = Location.findById(locationId);
+			planSchedule = PlanSchedule.findAllByLocation(locationId);
+		}else{
+			if(session("USER_ROLE").equals("Manager")){
+				location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				planSchedule = PlanSchedule.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+			}
+		}
+		
+		
+		
+		for(PlanSchedule checkDate:planSchedule){
+			if(checkDate.id != vm.id){
+				try {
+					if((df1.parse(startDateString).after(checkDate.getStartDate()) && df1.parse(startDateString).before(checkDate.getEndDate())) || (df1.parse(endDateString).after(checkDate.getStartDate())&& df1.parse(endDateString).before(checkDate.getEndDate()))){
+						flag = 1;
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		if(flag == 0){
+			PlanSchedule plSchedule = PlanSchedule.findById(vm.id);
+			plSchedule.setCarsSold(vm.carsSold);
+			plSchedule.setContractsSign(vm.contractsSign);
+			plSchedule.setDayContract(vm.dayContract);
+			try {
+				plSchedule.setStartDate(df1.parse(startDateString));
+				plSchedule.setEndDate(df1.parse(endDateString));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			plSchedule.setMeetingSalesAm(vm.meetingSalesAm);
+			plSchedule.setMonthContract(vm.monthContract);
+			plSchedule.setQuarterContract(vm.quarterContract);
+			plSchedule.setSixMonthContract(vm.sixMonthContract);
+			plSchedule.setTotalEarn(vm.totalEarn);
+			plSchedule.setTotalMeetingAm(vm.totalMeetingAm);
+			plSchedule.setWeekContract(vm.weekContract);
+			plSchedule.setWorkWithClient(vm.workWithClient);
+			plSchedule.setLocations(location);
+			plSchedule.setUser(user);
+			plSchedule.update();
+		
+		}
+		
+		return flag;
+	}
+	
+	public static int updateSalepersonWise(PlanScheduleVM vm,int salesId){
+		//AuthUser user = getLocalUser();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+		String[] parts = vm.startDate.split("-");
+		String[] parts1 = vm.endDate.split("-");
+		String startDateString = parts[2]+"-"+parts[1]+"-"+parts[0];
+		String endDateString = parts1[2]+"-"+parts1[1]+"-"+parts1[0];
+		
+		
+		Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		
+		AuthUser user = AuthUser.findById(salesId);
+		
+		List<SalesPlanSchedule> planSchedule = SalesPlanSchedule.findAllByUser(user);
+		
+		int flag = 0;
+		for(SalesPlanSchedule checkDate:planSchedule){
+			
+			try {
+				if((df1.parse(startDateString).after(checkDate.getStartDate()) && df1.parse(startDateString).before(checkDate.getEndDate())) || (df1.parse(endDateString).after(checkDate.getStartDate())&& df1.parse(endDateString).before(checkDate.getEndDate()))){
+					flag = 1;
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(flag == 0){
+				SalesPlanSchedule plSchedule = SalesPlanSchedule.findById(vm.id);
+				plSchedule.setCarsSold(vm.carsSold);
+				plSchedule.setContractsSign(vm.contractsSign);
+				plSchedule.setDayContract(vm.dayContract);
+				try {
+					plSchedule.setStartDate(df1.parse(startDateString));
+					plSchedule.setEndDate(df1.parse(endDateString));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				plSchedule.setMeetingSalesAm(vm.meetingSalesAm);
+				plSchedule.setMonthContract(vm.monthContract);
+				plSchedule.setQuarterContract(vm.quarterContract);
+				plSchedule.setSixMonthContract(vm.sixMonthContract);
+				plSchedule.setTotalEarn(vm.totalEarn);
+				plSchedule.setTotalMeetingAm(vm.totalMeetingAm);
+				plSchedule.setWeekContract(vm.weekContract);
+				plSchedule.setWorkWithClient(vm.workWithClient);
+				plSchedule.setLocations(location);
+				plSchedule.setUser(user);
+				plSchedule.update();
+		}
+		
+		return flag;
+	}
+	
+	public static Result savePlan(){
+		
+		Form<PlanScheduleVM> form = DynamicForm.form(PlanScheduleVM.class).bindFromRequest();
+		PlanScheduleVM vm = form.get();
+		int flag = 0;
+		int flag1 = 0;
+		if(vm.scheduleBy.equals("location")){
+			flag = saveLocationWise(vm, vm.location);
+			
+			if(vm.locationList != null){
+			for(Long locationid : vm.locationList){
+				if(vm.location != null){
+					if(locationid != vm.location){
+						flag1 = saveLocationWise(vm, locationid);
+					}
+				}else{
+					if(locationid != Long.valueOf(session("USER_LOCATION"))){
+						flag1 = saveLocationWise(vm, locationid);
+					}
+				}
+				
+			}
+			}
+		}else if(vm.scheduleBy.equals("salePerson")){
+			flag = saveSalepersonWise(vm, vm.salePerson);
+			
+			if(vm.salesList != null){
+				for(Integer salesId : vm.salesList){
+					if(!salesId.equals(vm.salePerson)){
+						flag1 = saveSalepersonWise(vm, salesId);
 					}
 				}
 				}
@@ -12095,80 +12257,127 @@ public class Application extends Controller {
 		
 		
 		
-		return ok();
+		return ok(Json.toJson(flag));
 	}
 	
-	public static void saveSalepersonWise(PlanScheduleVM vm,int salesId){
+	public static int saveSalepersonWise(PlanScheduleVM vm,int salesId){
 		//AuthUser user = getLocalUser();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+		String[] parts = vm.startDate.split("-");
+		String[] parts1 = vm.endDate.split("-");
+		String startDateString = parts[2]+"-"+parts[1]+"-"+parts[0];
+		String endDateString = parts1[2]+"-"+parts1[1]+"-"+parts1[0];
 		Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		
 		AuthUser user = AuthUser.findById(salesId);
 		
-		SalesPlanSchedule plSchedule = new SalesPlanSchedule();
+		List<SalesPlanSchedule> planSchedule = SalesPlanSchedule.findAllByUser(user);
 		
-		plSchedule.setCarsSold(vm.carsSold);
-		plSchedule.setContractsSign(vm.contractsSign);
-		plSchedule.setDayContract(vm.dayContract);
-		try {
-			plSchedule.setStartDate(new SimpleDateFormat("MM-dd-YYYY").parse(vm.startDate));
-			plSchedule.setEndDate(new SimpleDateFormat("MM-dd-YYYY").parse(vm.endDate));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int flag = 0;
+		for(SalesPlanSchedule checkDate:planSchedule){
+			
+			try {
+				if((df1.parse(startDateString).after(checkDate.getStartDate()) && df1.parse(startDateString).before(checkDate.getEndDate())) || (df1.parse(endDateString).after(checkDate.getStartDate())&& df1.parse(endDateString).before(checkDate.getEndDate()))){
+					flag = 1;
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		plSchedule.setMeetingSalesAm(vm.meetingSalesAm);
-		plSchedule.setMonthContract(vm.monthContract);
-		plSchedule.setQuarterContract(vm.quarterContract);
-		plSchedule.setSixMonthContract(vm.sixMonthContract);
-		plSchedule.setTotalEarn(vm.totalEarn);
-		plSchedule.setTotalMeetingAm(vm.totalMeetingAm);
-		plSchedule.setWeekContract(vm.weekContract);
-		plSchedule.setWorkWithClient(vm.workWithClient);
-		plSchedule.setLocations(location);
-		plSchedule.setUser(user);
-		plSchedule.save();
+		if(flag == 0){
+			SalesPlanSchedule plSchedule = new SalesPlanSchedule();
+			
+			plSchedule.setCarsSold(vm.carsSold);
+			plSchedule.setContractsSign(vm.contractsSign);
+			plSchedule.setDayContract(vm.dayContract);
+			try {
+				plSchedule.setStartDate(df1.parse(startDateString));
+				plSchedule.setEndDate(df1.parse(endDateString));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			plSchedule.setMeetingSalesAm(vm.meetingSalesAm);
+			plSchedule.setMonthContract(vm.monthContract);
+			plSchedule.setQuarterContract(vm.quarterContract);
+			plSchedule.setSixMonthContract(vm.sixMonthContract);
+			plSchedule.setTotalEarn(vm.totalEarn);
+			plSchedule.setTotalMeetingAm(vm.totalMeetingAm);
+			plSchedule.setWeekContract(vm.weekContract);
+			plSchedule.setWorkWithClient(vm.workWithClient);
+			plSchedule.setLocations(location);
+			plSchedule.setUser(user);
+			plSchedule.save();
+		}
+		
+		return flag;
 	}
 	
 	
-	public static void saveLocationWise(PlanScheduleVM vm,Long locationId){
+	public static int saveLocationWise(PlanScheduleVM vm,Long locationId){
 		AuthUser user = getLocalUser();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
 		Location location = null;
+		List<PlanSchedule> planSchedule = null;
+		String[] parts = vm.startDate.split("-");
+		String[] parts1 = vm.endDate.split("-");
+		String startDateString = parts[2]+"-"+parts[1]+"-"+parts[0];
+		String endDateString = parts1[2]+"-"+parts1[1]+"-"+parts1[0];
 		if(locationId != null){
 			location = Location.findById(locationId);
+			planSchedule = PlanSchedule.findAllByLocation(locationId);
 		}else{
 			if(session("USER_ROLE").equals("Manager")){
 				location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				planSchedule = PlanSchedule.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
 			}
 		}
-		
-		PlanSchedule plSchedule = new PlanSchedule();
-		plSchedule.setCarsSold(vm.carsSold);
-		plSchedule.setContractsSign(vm.contractsSign);
-		plSchedule.setDayContract(vm.dayContract);
-		try {
-			plSchedule.setStartDate(new SimpleDateFormat("MM-dd-YYYY").parse(vm.startDate));
-			plSchedule.setEndDate(new SimpleDateFormat("MM-dd-YYYY").parse(vm.endDate));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int flag = 0;
+		for(PlanSchedule checkDate:planSchedule){
+			
+			try {
+				if((df1.parse(startDateString).after(checkDate.getStartDate()) && df1.parse(startDateString).before(checkDate.getEndDate())) || (df1.parse(endDateString).after(checkDate.getStartDate())&& df1.parse(endDateString).before(checkDate.getEndDate()))){
+					flag = 1;
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		plSchedule.setMeetingSalesAm(vm.meetingSalesAm);
-		plSchedule.setMonthContract(vm.monthContract);
-		plSchedule.setQuarterContract(vm.quarterContract);
-		plSchedule.setSixMonthContract(vm.sixMonthContract);
-		plSchedule.setTotalEarn(vm.totalEarn);
-		plSchedule.setTotalMeetingAm(vm.totalMeetingAm);
-		plSchedule.setWeekContract(vm.weekContract);
-		plSchedule.setWorkWithClient(vm.workWithClient);
-		plSchedule.setLocations(location);
-		plSchedule.setUser(user);
-		plSchedule.save();
+		if(flag == 0){
+			PlanSchedule plSchedule = new PlanSchedule();
+			plSchedule.setCarsSold(vm.carsSold);
+			plSchedule.setContractsSign(vm.contractsSign);
+			plSchedule.setDayContract(vm.dayContract);
+			try {
+				plSchedule.setStartDate(df1.parse(startDateString));
+				plSchedule.setEndDate(df1.parse(endDateString));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			plSchedule.setMeetingSalesAm(vm.meetingSalesAm);
+			plSchedule.setMonthContract(vm.monthContract);
+			plSchedule.setQuarterContract(vm.quarterContract);
+			plSchedule.setSixMonthContract(vm.sixMonthContract);
+			plSchedule.setTotalEarn(vm.totalEarn);
+			plSchedule.setTotalMeetingAm(vm.totalMeetingAm);
+			plSchedule.setWeekContract(vm.weekContract);
+			plSchedule.setWorkWithClient(vm.workWithClient);
+			plSchedule.setLocations(location);
+			plSchedule.setUser(user);
+			plSchedule.save();
+		}
+		return flag;
 	}
 	
 	
 	public static Result getsalesPlan(int salesId){
 		AuthUser user = getLocalUser();
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 	    Date dateobj = new Date();
 	    String stringDate = df.format(dateobj);
 	    Date DateString = null;
@@ -12179,14 +12388,16 @@ public class Application extends Controller {
 			e.printStackTrace();
 		}
 		List<Integer> intList = new ArrayList<>();
-		PlanScheduleVM pVm = new PlanScheduleVM();
+		
+		List<PlanScheduleVM> pVms = new ArrayList<>();
 		//List<SalesPlanSchedule> plSchedule;
 		
 		List<SalesPlanSchedule> plSchedule = SalesPlanSchedule.findAllByUser(AuthUser.findById(salesId));
 		
 		if(plSchedule != null){
 			for(SalesPlanSchedule ps:plSchedule){
-				if(DateString.after(ps.getStartDate()) && DateString.before(ps.getEndDate())){
+					PlanScheduleVM pVm = new PlanScheduleVM();
+				//if(DateString.after(ps.getStartDate()) && DateString.before(ps.getEndDate())){
 					pVm.carsSold = ps.carsSold;
 					pVm.contractsSign = ps.contractsSign;
 					pVm.dayContract = ps.dayContract;
@@ -12213,18 +12424,18 @@ public class Application extends Controller {
 						}
 						pVm.salesList = intList;
 					}
-					
-				}
+					pVms.add(pVm);
+			//	}
 			}
 			
 		}
-		return ok(Json.toJson(pVm));
+		return ok(Json.toJson(pVms));
 	}
 	
 	public static Result getLocationPlan(Long locationId){
 		AuthUser user = getLocalUser();
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-	    Date dateobj = new Date();
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		/* Date dateobj = new Date();
 	    String stringDate = df.format(dateobj);
 	    Date DateString = null;
 		try {
@@ -12232,9 +12443,10 @@ public class Application extends Controller {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		List<Long> longList = new ArrayList<>();
-		PlanScheduleVM pVm = new PlanScheduleVM();
+		
+		List<PlanScheduleVM> pVms = new ArrayList<>();
 		List<PlanSchedule> plSchedule;
 		if(locationId != 0){
 			plSchedule = PlanSchedule.findAllByLocation(locationId);
@@ -12244,7 +12456,8 @@ public class Application extends Controller {
 		
 		if(plSchedule != null){
 			for(PlanSchedule ps:plSchedule){
-				if(DateString.after(ps.getStartDate()) && DateString.before(ps.getEndDate())){
+				//if(DateString.after(ps.getStartDate()) && DateString.before(ps.getEndDate())){
+				PlanScheduleVM pVm = new PlanScheduleVM();
 					pVm.carsSold = ps.carsSold;
 					pVm.contractsSign = ps.contractsSign;
 					pVm.dayContract = ps.dayContract;
@@ -12264,19 +12477,97 @@ public class Application extends Controller {
 						List<PlanSchedule> pList = PlanSchedule.findAllByUser(user);
 						if(pList != null){
 							for(PlanSchedule ps1:pList){
-								if(DateString.after(ps1.getStartDate()) && DateString.before(ps1.getEndDate())){
+								//if(DateString.after(ps1.getStartDate()) && DateString.before(ps1.getEndDate())){
 									longList.add(ps1.locations.id);
-								}
+							//	}
 							}
 						}
 						pVm.locationList = longList;
 					}
 					
-				}
+				//}
+				pVms.add(pVm);
 			}
 			
 		}
-		return ok(Json.toJson(pVm));
+		return ok(Json.toJson(pVms));
+	}
+	
+	public static Result isValidDatecheck(Long finderId, String checkDates, String scheduleBy){
+		int flag = 0;
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+		String[] parts = checkDates.split("-");
+		String dateString = parts[2]+"-"+parts[1]+"-"+parts[0];
+		
+		List<PlanSchedule> planSchedule = null;
+		List<SalesPlanSchedule> salesPlanSchedules = null;
+		if(scheduleBy.equals("location")){
+			if(finderId != 0){
+				 planSchedule = PlanSchedule.findAllByLocation(finderId);
+			}else{
+				 planSchedule = PlanSchedule.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+			}
+			for(PlanSchedule checkDate:planSchedule){
+				
+				try {
+					if(df1.parse(dateString).after(checkDate.getStartDate()) && df1.parse(dateString).before(checkDate.getEndDate())){
+						flag = 1;
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}else if(scheduleBy.equals("salePerson")){
+			
+			//if(locationId != 0){
+				salesPlanSchedules = SalesPlanSchedule.findAllByUser(AuthUser.findById(finderId.intValue()));
+			/*}else{
+				salesPlanSchedules = SalesPlanSchedule.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+			}*/
+			for(SalesPlanSchedule checkDate:salesPlanSchedules){
+				
+				try {
+					if(df1.parse(dateString).after(checkDate.getStartDate()) && df1.parse(dateString).before(checkDate.getEndDate())){
+						flag = 1;
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		
+		return ok(Json.toJson(flag));
+	}
+	
+	public static Result isValidCheckbok(Long locationId, String startDate, String endDate){
+		int flag = 0;
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+		String[] parts = startDate.split("-");
+		String[] parts1 = endDate.split("-");
+		String startDateString = parts[2]+"-"+parts[1]+"-"+parts[0];
+		String endDateString = parts1[2]+"-"+parts1[1]+"-"+parts1[0];
+		
+		List<PlanSchedule> planSchedule = PlanSchedule.findAllByLocation(locationId);
+		
+		for(PlanSchedule checkDate:planSchedule){
+			
+			try {
+				if((df1.parse(startDateString).after(checkDate.getStartDate()) && df1.parse(startDateString).before(checkDate.getEndDate())) || (df1.parse(endDateString).after(checkDate.getStartDate())&& df1.parse(endDateString).before(checkDate.getEndDate()))){
+					flag = 1;
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return ok(Json.toJson(flag));
 	}
 	
 	public static Result saveMeetingSchedule(){

@@ -1999,11 +1999,15 @@ angular.module('newApp')
 			   $('#meeting-model').modal();
 		   };
 		   
+		  
+		   $scope.showGrid = 0;
 		   $scope.getLocationData = function(locationId){
 			   console.log(locationId);
 			   $http.get("/getLocationPlan/"+locationId).success(function(data){
 				   console.log(data);
-				   $scope.schPlan = data;
+				   $scope.showGrid = 1;
+				   $scope.gridOptionsValue.data = data;
+				   console.log($scope.gridOptionsValue);
 				   console.log($scope.locationdata);
 				   angular.forEach($scope.locationdata, function(obj, index){
 					   angular.forEach($scope.schPlan.locationList, function(obj1, index1){
@@ -2026,23 +2030,72 @@ angular.module('newApp')
 			   console.log(salesId);
 			   $http.get("/getsalesPlan/"+salesId).success(function(data){
 				   console.log(data);
-				   $scope.schPlan = data;
-				  
-				   angular.forEach($scope.salesPersonPerf, function(obj, index){
-					   angular.forEach($scope.schPlan.salesList, function(obj1, index1){
-						   console.log(obj1);
-						   if(obj.id == obj1){
-							   obj.isSelected = true;
-							  
-						   }
-					   });
-					   
-				   });
-				   console.log($scope.salesPersonPerf);
+				   $scope.showGrid = 1;
+				   $scope.gridOptionsValue.data = data;
 			   });
 			   
 		   }
 		   
+		   $scope.gridOptionsValue = {
+	 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		 		    paginationPageSize: 150,
+	 		 		   // enableFiltering: true,
+	 		 		    useExternalFiltering: true,
+	 		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 		 };
+	 		 		 $scope.gridOptionsValue.enableHorizontalScrollbar = 0;
+	 		 		 $scope.gridOptionsValue.enableVerticalScrollbar = 2;
+	 		 		 $scope.gridOptionsValue.columnDefs = [
+	 		 		                                 { name: 'startDate', displayName: 'Start Date', width:'30%',cellEditableCondition: false,
+	 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	 		   		                                       if (row.entity.isRead === false) {
+	 		   		                                         return 'red';
+	 		   		                                     }
+	 		  		                                	} ,
+	 		 		                                 },
+	 		 		                                 { name: 'endDate', displayName: 'End Date', width:'30%',cellEditableCondition: false,
+	 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	 		   		                                       if (row.entity.isRead === false) {
+	 		   		                                         return 'red';
+	 		   		                                     }
+	 		  		                                	} ,
+	 		 		                                 },
+	 		 		                                 { name: 'totalEarn', displayName: 'totalEarn', width:'25%',cellEditableCondition: false,
+	 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	 		   		                                       if (row.entity.isRead === false) {
+	 		   		                                         return 'red';
+	 		   		                                     }
+	 		  		                                	} ,
+	 		 		                                 },
+	 		 		                               { name: 'edit', displayName: 'Edit', width:'14%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+	 		   		   	                                cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editPlanDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Remove Contact" ng-click="grid.appScope.deleteContactsDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>', 
+	 		   		                                
+	 		   		                                },
+	 		 		                               
+	 		     		                                 ];
+		   
+		   
+		   
+		   $scope.editPlanDetail = function(row) {
+			 $scope.schedule = $scope.schPlan.scheduleBy;
+			 $scope.saleperson = $scope.schPlan.salePerson;
+			  console.log(row.entity);
+			  $scope.schPlan = row.entity;
+			  $scope.schPlan.scheduleBy = $scope.schedule;
+			  $scope.schPlan.salePerson = $scope.saleperson;
+			  $scope.planIs = "update";
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   angular.forEach($scope.schPlan.salesList, function(obj1, index1){
+					   console.log(obj1);
+					   if(obj.id == obj1){
+						   obj.isSelected = true;
+						  
+					   }
+				   });
+				   
+			   });
+			   $scope.nextbutton = 1;
+		   } 
 		   $scope.openPlanning = function(){
 			   $scope.schPlan = {};
 			   $scope.nextbutton = 0;
@@ -2053,6 +2106,7 @@ angular.module('newApp')
 		   
 		   $scope.nextbutton = 0;
 		   $scope.goNext = function(){
+			   $scope.planIs = "save";
 			   $scope.nextbutton = 1;
 		   }
 		   
@@ -2065,13 +2119,35 @@ angular.module('newApp')
 		   });
 		   $scope.locationList = [];
 		   $scope.locationClicked = function(e, locationPer,value){
-				console.log(locationPer);
-				console.log(value);
-				if(value == false){
-					$scope.locationList.push(locationPer.id);
-				}else{
-					$scope.deleteItem(locationPer);
-				}
+			   console.log(locationPer);
+			   console.log(value);
+			   var startD = $('#cnfstartdate').val();
+			   var endD = $('#cnfenddate').val();
+			   $http.get("/isValidCheckbok/"+locationPer.id+'/'+startD+'/'+endD).success(function(data){
+				   console.log(data);
+				   if(data == 1){
+					   angular.forEach($scope.locationdata, function(obj, index){
+						  if(obj.id == locationPer.id){
+							  obj.isSelected = false;  
+						  }
+					   });
+					   $.pnotify({
+							  title: "Error",
+							    type:'success',
+						    text: "Plan already exists",
+						});
+				   }else{
+					   if(value == false){
+							$scope.locationList.push(locationPer.id);
+						}else{
+							$scope.deleteItem(locationPer);
+						}
+				   }
+				   
+			   });
+			   
+				
+				
 				console.log($scope.locationList);
 			}
 			$scope.deleteItem = function(locationPer){
@@ -2114,16 +2190,46 @@ angular.module('newApp')
 			   }
 			  
 			console.log($scope.schPlan);
+			console.log($scope.planIs);
+			if($scope.planIs == "save"){
+				$http.post("/savePlan",$scope.schPlan).success(function(data){
+					if(data == 1){
+						$.pnotify({
+							  title: "Error",
+							    type:'success',
+						    text: "Plan already exists",
+						});
+					}else{
+						$('#plan-model').modal("toggle");
+						   $scope.nextbutton = 0;
+						   $.pnotify({
+							    title: "Success",
+							    type:'success',
+							    text: "Plan Scheduled",
+							});
+					}
+					   
+				   }); 
+			}else if($scope.planIs == "update"){
+				$http.post("/updatePlan",$scope.schPlan).success(function(data){
+					if(data == 1){
+						$.pnotify({
+							  title: "Error",
+							    type:'success',
+						    text: "Plan already exists",
+						});
+					}else{
+						$('#plan-model').modal("toggle");
+						   $scope.nextbutton = 0;
+						   $.pnotify({
+							    title: "Success",
+							    type:'success',
+							    text: "Plan Scheduled",
+							});
+					}
+				   }); 
+			}
 			
-			$http.post("/savePlan",$scope.schPlan).success(function(data){
-				   $('#plan-model').modal("toggle");
-				   $scope.nextbutton = 0;
-				   $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Plan Scheduled",
-					});
-			   }); 
 		}	
 			
 		   $scope.checkManagerLogin = function(){
@@ -2137,15 +2243,114 @@ angular.module('newApp')
 				   });
 			   }
 		   }
+		   
+		   $scope.checkDateValid = function(){
+			   console.log("//...,.,.,");
+			   console.log($scope.schPlan.scheduleBy);
+			   console.log($scope.schPlan.location);
+			   var startD = $('#cnfstartdate').val();
+			  // $scope.schPlan.endDate = $('#cnfenddate').val();
+			   if($scope.schPlan.scheduleBy != "salePerson"){
+				   $scope.schPlan.scheduleBy = "location"; 
+			   }
+			   if($scope.schPlan.location == undefined){
+				   $scope.schPlan.location = 0;
+			   }
+			   
+			   if($scope.schPlan.scheduleBy == "location"){
+				 
+				   
+				   $http.get("/isValidDatecheck/"+$scope.schPlan.location+'/'+startD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+					console.log(data);
+					   if(data == 1){
+						   if($scope.planIs != "update"){
+							   $('#cnfstartdate').val("");
+						   } 
+						   $.pnotify({
+							    title: "Success",
+							    type:'success',
+							    text: "Plan already exists",
+							});
+					   }
+				   });
+				   
+				   
+			   }
+			   if($scope.schPlan.scheduleBy == "salePerson"){
+				   console.log($scope.schPlan.salePerson);
+				   
+				   $http.get("/isValidDatecheck/"+$scope.schPlan.salePerson+'/'+startD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+						console.log(data);
+						   if(data == 1){
+							   if($scope.planIs != "update"){
+								   $('#cnfstartdate').val("");
+							   } 
+							   $.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Plan already exists",
+								});
+						   }
+					   });
+			   }
+		   }
+		   
+		   $scope.checkDateValid1 = function(){
+			   var endD = $('#cnfenddate').val();
+			   if($scope.schPlan.scheduleBy != "salePerson"){
+				   $scope.schPlan.scheduleBy = "location"; 
+			   }
+			   if($scope.schPlan.scheduleBy == "location"){
+				   
+				   
+				   $http.get("/isValidDatecheck/"+$scope.schPlan.location+'/'+endD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+					console.log(data);
+					   if(data == 1){
+						   if($scope.planIs != "update"){
+							   $('#cnfstartdate').val("");
+						   } 
+						   $.pnotify({
+							    title: "Success",
+							    type:'success',
+							    text: "Plan already exists",
+							});
+					   }
+				   });
+			   }
+			   if($scope.schPlan.scheduleBy == "salePerson"){
+				   $http.get("/isValidDatecheck/"+$scope.schPlan.salePerson+'/'+endD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+						console.log(data);
+						   if(data == 1){
+							   if($scope.planIs != "update"){
+								   $('#cnfstartdate').val("");
+							   } 
+							   $.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Plan already exists",
+								});
+						   }
+					   });
+			   }
+		   }
+		   
 		   $scope.allloction = false;
 		   $scope.allloctionSale = false;
 		   $scope.checkLocation = function(checkAll){
 			   console.log(checkAll);
+			   
+			   var startD = $('#cnfstartdate').val();
+			   var endD = $('#cnfenddate').val();
 			   $scope.locationList = [];
 			   if(checkAll == false){
 				   angular.forEach($scope.locationdata, function(obj, index){
-					   obj.isSelected = true;
-					   $scope.locationList.push(obj.id);
+					   $http.get("/isValidCheckbok/"+obj.id+'/'+startD+'/'+endD).success(function(data){
+						   if(data == 0){
+							   obj.isSelected = true;
+							   $scope.locationList.push(obj.id);
+						   }
+					   });
+					   
 				   });
 			   }else{
 				   angular.forEach($scope.locationdata, function(obj, index){
