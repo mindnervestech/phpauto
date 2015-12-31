@@ -1589,7 +1589,7 @@ margin-left: 5px;
             </div>
         </div>
     </div>
-    <div class="col-md-4 col-sm-6 portlets" style="display: none;">
+    <div class="col-md-4 col-sm-6 portlets">
        <!--  <div class="widget widget_calendar bg-dark">
             <div class="multidatepicker"></div>
         </div> -->
@@ -1597,9 +1597,14 @@ margin-left: 5px;
             <div class="panel-header panel-controls">
                 <h3><i class="icon-basket"></i> <strong>Sales</strong> Volume Stats</h3>
             </div>
-            <div class="panel-content p-t-0 p-b-0">
-                <div id="bar-chart"></div>
+            <div class="panel-header panel-controls">
+                <h3><a style="cursor: pointer;"><i class="glyphicon glyphicon-signal"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChart()"><i class="fa fa-car"></i></a></h3>
             </div>
+            <div class="panel-content p-t-0 p-b-0">
+                <div id="bar-chartVehicle">
+                </div>
+            </div>
+             <div id="financial-chart" style="height:320px"></div>
         </div>
     </div>
 </div>

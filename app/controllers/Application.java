@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 import javax.mail.BodyPart;
@@ -130,6 +132,7 @@ import viewmodel.UserVM;
 import viewmodel.VehicleVM;
 import viewmodel.VirtualTourVM;
 import viewmodel.profileVM;
+import viewmodel.sendDateAndValue;
 import views.html.home;
 import views.html.index;
 import au.com.bytecode.opencsv.CSVWriter;
@@ -1725,6 +1728,7 @@ public class Application extends Controller {
 	    	return ok();
     	}
     }
+    
     
     
     public static Result removeDefault(Long old,Long newId) {
@@ -12715,5 +12719,82 @@ public class Application extends Controller {
 	public static Result getLoginUser(){
 		AuthUser user = getLocalUser();
 		return ok(Json.toJson(user));
+	}
+	
+	public static Result getFinancialVehicleDetails(){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		AuthUser user = getLocalUser();
+		List<Vehicle> vehicle = null;
+		Map<String, Long> mapMake = new HashMap<String, Long>();
+		List<sendDateAndValue> sAndValues = new ArrayList<>();
+		
+		if(user.role.equals("General Manager")){
+			vehicle = Vehicle.findBySold();
+		}else if(user.role.equals("Manager")){
+			
+		}
+		
+		Long countvehical = 1L;
+		
+		for(Vehicle vhVehicle:vehicle){
+			if(vhVehicle.getMake() != null){
+				
+				Long objectMake = mapMake.get(vhVehicle.getMake());
+				if (objectMake == null) {
+					mapMake.put(vhVehicle.getMake(), countvehical);
+				}else{
+					mapMake.put(vhVehicle.getMake(), countvehical + 1L);
+				}
+			}
+		}
+		return ok(Json.toJson(mapMake));
+	}
+	
+	public static Result getSoldVehicleDetails(){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		AuthUser user = getLocalUser();
+		Map<Long, Long> mapdate = new HashMap<Long, Long>();
+		Long pricevalue = 0L;
+		List<Vehicle> vehicle = null;
+		List<Long[]> lonnn = new ArrayList<>();
+		Map<Long, Long> treeMap = null;
+		
+		if(user.role.equals("General Manager")){
+			vehicle = Vehicle.findBySold();
+		}else if(user.role.equals("Manager")){
+			vehicle = Vehicle.findByLocationAndSold(user.location.id);
+		}
+			for(Vehicle vhVehicle:vehicle){
+				if(vhVehicle.price != null){
+					pricevalue = vhVehicle.price.longValue();
+				}else{
+					pricevalue = 0L;
+				}
+				
+				Long objectDate = mapdate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
+				if (objectDate == null) {
+					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), pricevalue);
+				}else{
+					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), objectDate + pricevalue);
+				}
+			}
+			
+			treeMap = new TreeMap<Long, Long>(mapdate);
+			printMap(treeMap);
+			
+			for (Entry<Long, Long> entry : treeMap.entrySet()) {
+				Long[] value = {entry.getKey(),entry.getValue()};
+				lonnn.add(value);
+			  }
+		
+		
+		return ok(Json.toJson(lonnn));
+	}
+	
+	public static void printMap(Map<Long, Long> map) {
+		for (Map.Entry<Long, Long> entry : map.entrySet()) {
+			System.out.println("Key : " + entry.getKey() 
+                                      + " Value : " + entry.getValue());
+		}
 	}
 }

@@ -100,6 +100,7 @@ angular.module('newApp')
   			console.log($scope.stringArray);
   			console.log($scope.visitiorListMap);
   			
+  			
   			dashboardService.init($scope.visitiorListMap);
             pluginsService.init();
             dashboardService.setHeights()
@@ -111,6 +112,227 @@ angular.module('newApp')
     	  
     	  
       });
+      
+      
+      
+      /*------------------------financial-charts----------------------------------*/
+      
+      
+   /*   
+  	$('#financial-chart').highcharts({
+        title: {
+            text: 'Monthly Average Temperature',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Source: WorldClimate.com',
+            x: -20
+        },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'Temperature (°C)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Tokyo',
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+        }, {
+            name: 'New York',
+            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+        }, {
+            name: 'Berlin',
+            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+        }, {
+            name: 'London',
+            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+        }]
+    });*/
+      
+      $scope.showVehicalFinancialChart = function(){
+    	  	$http.get('/getFinancialVehicleDetails').success(function(data) {
+    	  		console.log("succ");
+    	  		console.log(data);
+  			});
+      }
+      
+      function financialCharts() {
+
+          var seriesOptions = [],
+          seriesCounter = 0,
+          names = ['MSFT', 'AAPL', 'GOOG','AAKA'],
+          // create the chart when all data is loaded
+          createChart = function () {
+
+              $('#financial-chart').highcharts('StockChart', {
+                  chart: {
+                      height: 300,
+                      borderColor: '#C9625F',
+                      backgroundColor: 'transparent'
+                  },
+                  rangeSelector: {
+                      selected: 1,
+                      inputEnabled: $('#container').width() > 480
+                  },
+                  colors: ['#18A689', '#f7a35c', '#8085e9', '#f15c80', '#91e8e1'],
+                  credits: {
+                      enabled: false
+                  },
+                  exporting: {
+                      enabled: false
+                  },
+                  scrollbar: {
+                      enabled: false
+                  },
+                  navigator: {
+                      enabled: false
+                  },
+                  xAxis: {
+                      lineColor: '#e1e1e1',
+                      tickColor: '#EFEFEF',
+                  },
+                  yAxis: {
+                      gridLineColor: '#e1e1e1',
+                      labels: {
+                          formatter: function () {
+                              return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                          }
+                      },
+                      plotLines: [{
+                          value: 0,
+                          width: 2,
+                          color: 'silver'
+                      }]
+                  },
+                  plotOptions: {
+                      series: {
+                          compare: 'percent'
+                      }
+                  },
+                  tooltip: {
+                      pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                      valueDecimals: 2
+                  },
+
+                  series: seriesOptions
+              });
+          };
+
+          var a = 20;
+          var b= 30;
+          var c = 50;
+          $.each(names, function (i, name) {
+        	  console.log("()()()()()()()()()()");
+        	  console.log(name);
+              $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?', function (data) {
+            	  console.log("|||||||||||||||||||||");
+            	  console.log(data);
+                  seriesOptions[i] = {
+                      name: name,
+                      data: [[1447612200000,c],[1449858600000,a],[1450636200000,b]]
+                  };
+                  
+                  a=a+10;
+                  b=b+10;
+                  c=c-10;
+                  seriesCounter += 1;
+
+                  if (seriesCounter === names.length) {
+                      createChart();
+                  }
+              });
+          });
+      }
+      financialCharts();
+      
+      /*-------------------------------------------------------------*/
+      
+      /*----------------Bar-Charts-------------------*/
+      
+     // $scope.timeperiod = "week"; 
+      $http.get('/getSoldVehicleDetails')
+		.success(function(data) {
+			console.log(data);
+		$scope.locationDataList = data;	
+    
+		
+      var items = Array($scope.locationDataList);
+      var randomData = $scope.locationDataList;
+     
+      $('#bar-chartVehicle').highcharts('StockChart', {
+          chart: {
+              alignTicks: false,
+              height: 230,
+              borderColor: '#C9625F',
+              backgroundColor: 'transparent',
+              spacingTop: 0,
+              spacingBottom: 5,
+              spacingLeft: 0,
+              spacingRight: 0
+          },
+          rangeSelector: {
+              inputEnabled: false,
+              selected: 2
+          },
+          credits: {
+              enabled: false
+          },
+          exporting: {
+              enabled: false
+          },
+          scrollbar: {
+              enabled: false
+          },
+          navigator: {
+              enabled: false
+          },
+          colors: ['rgba(128, 133, 233,0.8)'],
+          xAxis: {
+              lineColor: '#e1e1e1',
+              tickColor: '#EFEFEF'
+          },
+          yAxis: {
+              gridLineColor: '#e1e1e1'
+          },
+          series: [
+              {
+                  type: 'column',
+                  name: 'Sales Volume',
+                  data: randomData,
+                  dataGrouping: {
+                      units: [
+                          [
+                              'week', // unit name
+                              [1] // allowed multiples
+                          ], [
+                              'month',
+                              [1, 2, 3, 4, 5, 6]
+                          ]
+                      ]
+                  }
+              }
+          ]
+      });
+  });
+      
+      /*----------------------*/
 
       $scope.activeTab = true;
 
@@ -482,6 +704,8 @@ angular.module('newApp')
     					});
     		   }
     		  
+    		 
+    	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
     			  var visitorsData = {
     			            labels: response.months,
