@@ -2040,10 +2040,17 @@ angular.module('newApp')
 		   $timeout(function(){
 			   $('#cnfReSchDate').on('changeDate', function(e) {
 				   document.getElementById("nature-data").innerHTML = "";
-				   var day = moment(e.date).format('DD MMM YYYY');
+				   var day = moment(e.date).format('D MMM YYYY');
+				   //alert(day);
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
+						  if(angular.equals(value.text,"Sunny")){
+							  img = "<i class='wi wi-day-sunny'></i>"; 
+						  }
+						  if(angular.equals(value.text,"Partly Cloudy")){
+							  img = "<i class='wi wi-night-partly-cloudy'></i>"; 
+						  }
 						  if(angular.equals(value.text,"Cloudy")){
 							  img = "<i class='fa fa-cloud'></i>"; 
 						  }
@@ -2076,6 +2083,12 @@ angular.module('newApp')
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
+						  if(angular.equals(value.text,"Sunny")){
+							  img = "<i class='wi wi-day-sunny'></i>"; 
+						  }
+						  if(angular.equals(value.text,"Partly Cloudy")){
+							  img = "<i class='wi wi-night-partly-cloudy'></i>"; 
+						  }
 						  if(angular.equals(value.text,"Cloudy")){
 							  img = "<i class='fa fa-cloud'></i>"; 
 						  }
@@ -2108,6 +2121,12 @@ angular.module('newApp')
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
+						  if(angular.equals(value.text,"Sunny")){
+							  img = "<i class='wi wi-day-sunny'></i>"; 
+						  }
+						  if(angular.equals(value.text,"Partly Cloudy")){
+							  img = "<i class='wi wi-night-partly-cloudy'></i>"; 
+						  }
 						  if(angular.equals(value.text,"Cloudy")){
 							  img = "<i class='fa fa-cloud'></i>"; 
 						  }
@@ -2140,6 +2159,12 @@ angular.module('newApp')
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
+						  if(angular.equals(value.text,"Sunny")){
+							  img = "<i class='wi wi-day-sunny'></i>"; 
+						  }
+						  if(angular.equals(value.text,"Partly Cloudy")){
+							  img = "<i class='wi wi-night-partly-cloudy'></i>"; 
+						  }
 						  if(angular.equals(value.text,"Cloudy")){
 							  img = "<i class='fa fa-cloud'></i>"; 
 						  }
