@@ -12767,9 +12767,9 @@ public class Application extends Controller {
 						if(objectAllDate == null){
 							mapAlldate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), 1L);
 						}
-						mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), 5L);// countCar);
+						mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), countCar);
 					}else{
-						mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), 5 + 2L);//objectDate + countCar);
+						mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
 					}
 				}
 				
