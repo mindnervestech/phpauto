@@ -2079,7 +2079,7 @@ angular.module('newApp')
 			   
 			   $('#testDriveDate').on('changeDate', function(e) {
 				   document.getElementById("testDriveNature").innerHTML = "";
-				   var day = moment(e.date).format('DD MMM YYYY');
+				   var day = moment(e.date).format('D MMM YYYY');
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
@@ -2117,7 +2117,7 @@ angular.module('newApp')
 			   
 			   $('#cnfDate').on('changeDate', function(e) {
 				   document.getElementById("gridCnfDateNature").innerHTML = "";
-				   var day = moment(e.date).format('DD MMM YYYY');
+				   var day = moment(e.date).format('D MMM YYYY');
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
@@ -2155,7 +2155,7 @@ angular.module('newApp')
 			   
 			   $('#cnfmeetingdate').on('changeDate', function(e) {
 				   document.getElementById("meetingnature").innerHTML = "";
-				   var day = moment(e.date).format('DD MMM YYYY');
+				   var day = moment(e.date).format('D MMM YYYY');
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
