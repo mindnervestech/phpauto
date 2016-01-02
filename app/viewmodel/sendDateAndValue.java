@@ -4,6 +4,6 @@ import java.util.List;
 
 public class sendDateAndValue {
 
-	public Long name;
-	public List<Long[]> data;
+	public String name;
+	public List<List<Long>> data;
 }

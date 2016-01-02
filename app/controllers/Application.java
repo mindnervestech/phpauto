@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -12726,8 +12727,9 @@ public class Application extends Controller {
 		AuthUser user = getLocalUser();
 		List<Vehicle> vehicle = null;
 		Map<String, Long> mapMake = new HashMap<String, Long>();
+		//Map<Long, Long> mapdate = new HashMap<Long, Long>();
 		List<sendDateAndValue> sAndValues = new ArrayList<>();
-		
+		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
 		}else if(user.role.equals("Manager")){
@@ -12747,7 +12749,92 @@ public class Application extends Controller {
 				}
 			}
 		}
-		return ok(Json.toJson(mapMake));
+		
+		for (Entry<String, Long> entry : mapMake.entrySet()) {
+			Map<Long, Long> mapdate = new HashMap<Long, Long>();
+			Map<Long, Long> treeMap = null;
+			List<List<Long>> lonnn = new ArrayList<>();
+			sendDateAndValue sValue = new sendDateAndValue();
+			List<Vehicle> veList = Vehicle.findByMakeAndSold(entry.getKey());
+			sValue.name = entry.getKey();
+			if(veList != null){
+					
+				for(Vehicle vhVehicle:veList){
+					Long countCar = 1L;
+					Long objectDate = mapdate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
+					if (objectDate == null) {
+						Long objectAllDate = mapAlldate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
+						if(objectAllDate == null){
+							mapAlldate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), 1L);
+						}
+						mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), 5L);// countCar);
+					}else{
+						mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), 5 + 2L);//objectDate + countCar);
+					}
+				}
+				
+				for (Entry<Long, Long> entryValue : mapdate.entrySet()) {
+					List<Long> value = new ArrayList<>();
+					value.add(entryValue.getKey());
+					value.add(entryValue.getValue()); //= {entryValue.getKey(),entryValue.getValue()};
+					lonnn.add(value);
+				  }
+				sValue.data = lonnn;
+			}
+			sAndValues.add(sValue);
+			
+		  }
+		
+		
+		
+		
+		for(sendDateAndValue sAndValue:sAndValues){
+			for(List<Long> longs:sAndValue.data){
+				int i = 0;
+				for(Long long1:longs){
+					if(i == 0){
+						for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
+							if(!entryValue.getValue().equals(0L)){
+								if(!long1.equals(entryValue.getKey())){
+									mapAlldate.put(entryValue.getKey(), 1L);
+								}else{
+									mapAlldate.put(entryValue.getKey(), 0L);
+								}
+							}
+							
+						  }
+						i++;
+					}
+					
+				}
+				
+			}
+			for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
+				if(entryValue.getValue().equals(1L)){
+					List<Long> value = new ArrayList<>();
+					value.add(entryValue.getKey());
+					value.add(0L);//entryValue.getKey(),0L};
+					sAndValue.data.add(value);
+					
+				}else{
+					mapAlldate.put(entryValue.getKey(), 1L);
+				}
+			  }
+			
+		}
+		
+		for(sendDateAndValue sValue:sAndValues){
+		
+			Collections.sort(sValue.data, new Comparator<List<Long>>(){
+				 @Override
+		            public int compare(List<Long> o1, List<Long> o2) {
+		                return o1.get(0).compareTo(o2.get(0));
+		            }
+				
+			});
+		}
+		
+		return ok(Json.toJson(sAndValues));
 	}
 	
 	public static Result getSoldVehicleDetails(){

@@ -785,6 +785,10 @@ public class Vehicle extends Model {
 		return find.where().eq("locations.id", location).eq("status", "Sold").findList();
 	}
 	
+	public static List<Vehicle> findByMakeAndSold(String make) {
+		return find.where().eq("make", make).eq("status", "Sold").findList();
+	}
+	
 	public static List<Vehicle> getVehiclesByMake(String make) {
 		return find.where().eq("make", make).findList();
 		
