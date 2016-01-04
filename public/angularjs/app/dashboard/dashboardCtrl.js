@@ -2337,7 +2337,13 @@ angular.module('newApp')
 		   };
 		   
 		  
+		   $scope.getSalesPersonData = function(){
+			   console.log(";l;l;l;l;l");
+			   $scope.showGrid = 0;
+		   }
+		   
 		   $scope.showGrid = 0;
+		   
 		   $scope.getLocationData = function(locationId){
 			   console.log(locationId);
 			   $http.get("/getLocationPlan/"+locationId).success(function(data){

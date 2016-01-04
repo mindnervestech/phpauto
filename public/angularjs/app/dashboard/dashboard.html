@@ -641,11 +641,11 @@ margin-left: 5px;
                               <label class="control-label">Plan Schedule by</label>
                               <div class="append-icon">
                               	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getLocationData(0)" value="location">Location
-                              	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" value="salePerson">Sale person
+                              	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getSalesPersonData()" value="salePerson">Sale person
                               </div>
                             </div>
                           </div>
-                           <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'location' && nextbutton == 0">
+                           <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'location' && nextbutton == 0 && showGrid == 1">
                             <div class="form-group">
                               <div ui-grid="gridOptionsValue" style="height:400px;" ui-grid-edit ui-grid-pagination>
 									</div> 
@@ -663,7 +663,7 @@ margin-left: 5px;
                               </div>
                             </div>
                           </div>
-                          <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson' && nextbutton == 0">
+                          <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson' && nextbutton == 0 && showGrid == 1">
                             <div class="form-group">
                               <div ui-grid="gridOptionsValue" style="height:400px;" ui-grid-edit ui-grid-pagination>
 									</div> 
