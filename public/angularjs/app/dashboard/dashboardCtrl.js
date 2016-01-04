@@ -279,8 +279,81 @@ angular.module('newApp')
       /*-------------------------------------------------------------*/
       
       /*----------------Bar-Charts-------------------*/
+      $scope.showVehicalBarAvgSale = function(){
+    	  
+    	  $scope.showBarvehical = 1;
+    	  $scope.showvehical = 0;
+    	  
+    	  console.log("1111111111111");
+    	  
+    	  $http.get('/getSoldVehicleDetailsAvgSale')
+  		.success(function(data) {
+  			console.log(data);
+  		$scope.locationDataList = data;	
       
-     // $scope.timeperiod = "week"; 
+  		
+        var items = Array($scope.locationDataList);
+        var randomData = $scope.locationDataList;
+       
+        $('#bar-chartVehicle').highcharts('StockChart', {
+            chart: {
+                alignTicks: false,
+                height: 230,
+                borderColor: '#C9625F',
+                backgroundColor: 'transparent',
+                spacingTop: 0,
+                spacingBottom: 5,
+                spacingLeft: 0,
+                spacingRight: 0
+            },
+            rangeSelector: {
+                inputEnabled: false,
+                selected: 2
+            },
+            credits: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            scrollbar: {
+                enabled: false
+            },
+            navigator: {
+                enabled: false
+            },
+            colors: ['rgba(128, 133, 233,0.8)'],
+            xAxis: {
+                lineColor: '#e1e1e1',
+                tickColor: '#EFEFEF'
+            },
+            yAxis: {
+                gridLineColor: '#e1e1e1'
+            },
+            series: [
+                {
+                    type: 'column',
+                    name: 'Sales Volume',
+                    data: randomData,
+                    dataGrouping: {
+                        units: [
+                            [
+                                'week', // unit name
+                                [1] // allowed multiples
+                            ], [
+                                'month',
+                                [1, 2, 3, 4, 5, 6]
+                            ]
+                        ]
+                    }
+                }
+            ]
+        });
+    });
+      }
+      
+      
+      
       $http.get('/getSoldVehicleDetails')
 		.success(function(data) {
 			console.log(data);

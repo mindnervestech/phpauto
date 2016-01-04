@@ -103,6 +103,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import scala.collection.generic.BitOperations.Int;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
@@ -12947,6 +12948,66 @@ public class Application extends Controller {
 		}
 		
 		return ok(Json.toJson(sAndValues));
+	}
+	
+	public static Result getSoldVehicleDetailsAvgSale(){
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		AuthUser user = getLocalUser();
+		Map<Long, String> mapdate = new HashMap<Long, String>();
+		Long pricevalue = 0L;
+		List<Vehicle> vehicle = null;
+		List<Vehicle> vehicaleNew = null;
+		List<Long[]> lonnn = new ArrayList<>();
+		Map<Long, Long> treeMap = null;
+		
+		if(user.role.equals("General Manager")){
+			vehicle = Vehicle.findBySold();
+			vehicaleNew = Vehicle.findByNewlyArrived();
+		}else if(user.role.equals("Manager")){
+			vehicle = Vehicle.findByLocationAndSold(user.location.id);
+			vehicaleNew = Vehicle.findByNewArrAndLocation(user.location.id);
+		}
+		
+		
+		int valueCount = 1;
+			for(Vehicle vhVehicle:vehicle){
+				if(vhVehicle.price != null){
+					pricevalue = vhVehicle.price.longValue();
+				}else{
+					pricevalue = 0L;
+				}
+				
+				String objectDate = mapdate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
+				if (objectDate == null) {
+					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+valueCount);
+				}else{
+					String arr[] = objectDate.split(",");
+					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+(Integer.parseInt(arr[1]) + valueCount));
+				}
+			}
+			
+		
+			
+			for (Entry<Long, String> entry : mapdate.entrySet()) {
+				String arr[] = entry.getValue().split(",");
+				//Long avgPic = Long.parseLong(arr[1]);
+				Integer totalDayCar = Integer.parseInt(arr[1]) + vehicaleNew.size();
+				Long avgPic = Long.parseLong(arr[0]) / totalDayCar.longValue();
+				Long[] value = {entry.getKey(),avgPic};
+				lonnn.add(value);
+			  }
+		
+			
+			Collections.sort(lonnn, new Comparator<Long[]>(){
+				 @Override
+		            public int compare(Long[] o1, Long[] o2) {
+		                return o1[0].compareTo(o2[0]);
+		            }
+				
+			});
+		
+		return ok(Json.toJson(lonnn));
 	}
 	
 	public static Result getSoldVehicleDetails(){

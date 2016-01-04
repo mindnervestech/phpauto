@@ -785,6 +785,10 @@ public class Vehicle extends Model {
 		return find.where().eq("locations.id", location).eq("status", "Sold").findList();
 	}
 	
+	public static List<Vehicle> findByNewArrAndLocation(Long location) {
+		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").findList();
+	}
+	
 	public static List<Vehicle> findByMakeAndSold(String make) {
 		return find.where().eq("make", make).eq("status", "Sold").findList();
 	}
@@ -803,6 +807,10 @@ public class Vehicle extends Model {
 	
 	public static List<Vehicle> findBySold() {
 		return find.where().eq("status", "Sold").findList();
+	}
+	
+	public static List<Vehicle> findByNewlyArrived() {
+		return find.where().eq("status", "Newly Arrived").findList();
 	}
 	
 	public static List<Vehicle> findByMakeAndModel(String make,String model) {
