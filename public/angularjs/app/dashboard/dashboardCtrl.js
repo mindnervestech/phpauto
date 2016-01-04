@@ -121,17 +121,95 @@ angular.module('newApp')
       $scope.showVehicalBarChart = function(){
     	  $scope.showvehical = 0;
     	  $scope.showBarvehical = 1;
+    	  
+    	   $http.get('/getSoldVehicleDetails')
+   		.success(function(data) {
+   		$scope.locationDataList = data;	
+       
+   		
+         var items = Array($scope.locationDataList);
+         var randomData = $scope.locationDataList;
+        
+         $('#bar-chartVehicle').highcharts('StockChart', {
+             chart: {
+                 alignTicks: false,
+                 height: 230,
+                 borderColor: '#C9625F',
+                 backgroundColor: 'transparent',
+                 spacingTop: 0,
+                 spacingBottom: 5,
+                 spacingLeft: 0,
+                 spacingRight: 0
+             },
+             rangeSelector: {
+                 inputEnabled: false,
+                 selected: 2
+             },
+             credits: {
+                 enabled: false
+             },
+             exporting: {
+                 enabled: false
+             },
+             scrollbar: {
+                 enabled: false
+             },
+             navigator: {
+                 enabled: false
+             },
+             colors: ['rgba(128, 133, 233,0.8)'],
+             xAxis: {
+                 lineColor: '#e1e1e1',
+                 tickColor: '#EFEFEF'
+             },
+             yAxis: {
+                 gridLineColor: '#e1e1e1'
+             },
+             series: [
+                 {
+                     type: 'column',
+                     name: 'Sales Volume',
+                     data: randomData,
+                     dataGrouping: {
+                         units: [
+                             [
+                                 'week', // unit name
+                                 [1] // allowed multiples
+                             ], [
+                                 'month',
+                                 [1, 2, 3, 4, 5, 6]
+                             ]
+                         ]
+                     }
+                 }
+             ]
+         });
+     });
       }
       
     
       $scope.arrayname = [];
+      
+      $scope.showVehicalFinancialChartByBodyStyle = function(){
+  	  	console.log("chhhhhhhhh");
+    	  $scope.showBarvehical = 0;
+    	  $scope.showvehical = 1;
+    	  	$http.get('/getFinancialVehicleDetailsByBodyStyle').success(function(data) {
+    	  		console.log("succee");
+    	  		console.log(data);
+    	  		 createChart(data);
+  			});
+    	  
+    	  
+      }
+      
       $scope.showVehicalFinancialChart = function(){
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
     	  	$http.get('/getFinancialVehicleDetails').success(function(data) {
     	  		console.log("succ");
     	  		console.log(data);
-    	  		 financialCharts(data);
+    	  		 createChart(data);
   			});
     	  
       }
@@ -196,11 +274,6 @@ angular.module('newApp')
               series: initdata
           });
       }; 
-      function financialCharts(datas) {
-    	  console.log(JSON.stringify(datas));
-    	  createChart(datas);
-                  
-      }
      
       
       /*-------------------------------------------------------------*/
@@ -275,6 +348,7 @@ angular.module('newApp')
       
       /*----------------------*/
 
+      
       $scope.activeTab = true;
 
       

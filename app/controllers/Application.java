@@ -12722,6 +12722,118 @@ public class Application extends Controller {
 		return ok(Json.toJson(user));
 	}
 	
+	public static Result getFinancialVehicleDetailsByBodyStyle(){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		AuthUser user = getLocalUser();
+		List<Vehicle> vehicle = null;
+		Map<String, Long> mapBodyStyle = new HashMap<String, Long>();
+		//Map<Long, Long> mapdate = new HashMap<Long, Long>();
+		List<sendDateAndValue> sAndValues = new ArrayList<>();
+		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
+		if(user.role.equals("General Manager")){
+			vehicle = Vehicle.findBySold();
+		}else if(user.role.equals("Manager")){
+			vehicle = Vehicle.findByLocationAndSold(user.location.id);
+		}
+		
+		Long countvehical = 1L;
+		
+		for(Vehicle vhVehicle:vehicle){
+			if(vhVehicle.getBodyStyle() != null){
+				
+				Long objectMake = mapBodyStyle.get(vhVehicle.getBodyStyle());
+				if (objectMake == null) {
+					mapBodyStyle.put(vhVehicle.getBodyStyle(), countvehical);
+				}else{
+					mapBodyStyle.put(vhVehicle.getBodyStyle(), countvehical + 1L);
+				}
+			}
+		}
+		
+		for (Entry<String, Long> entry : mapBodyStyle.entrySet()) {
+			Map<Long, Long> mapdate = new HashMap<Long, Long>();
+			Map<Long, Long> treeMap = null;
+			List<List<Long>> lonnn = new ArrayList<>();
+			sendDateAndValue sValue = new sendDateAndValue();
+			List<Vehicle> veList = Vehicle.findByBodyStyleAndSold(entry.getKey());
+			sValue.name = entry.getKey();
+			if(veList != null){
+					
+				for(Vehicle vhVehicle:veList){
+					Long countCar = 1L;
+					Long objectDate = mapdate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
+					if (objectDate == null) {
+						Long objectAllDate = mapAlldate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
+						if(objectAllDate == null){
+							mapAlldate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), 1L);
+						}
+						mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), countCar);
+					}else{
+						mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
+					}
+				}
+				
+				for (Entry<Long, Long> entryValue : mapdate.entrySet()) {
+					List<Long> value = new ArrayList<>();
+					value.add(entryValue.getKey());
+					value.add(entryValue.getValue()); //= {entryValue.getKey(),entryValue.getValue()};
+					lonnn.add(value);
+				  }
+				sValue.data = lonnn;
+			}
+			sAndValues.add(sValue);
+			
+		  }
+		
+		for(sendDateAndValue sAndValue:sAndValues){
+			for(List<Long> longs:sAndValue.data){
+				int i = 0;
+				for(Long long1:longs){
+					if(i == 0){
+						for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
+							if(!entryValue.getValue().equals(0L)){
+								if(!long1.equals(entryValue.getKey())){
+									mapAlldate.put(entryValue.getKey(), 1L);
+								}else{
+									mapAlldate.put(entryValue.getKey(), 0L);
+								}
+							}
+							
+						  }
+						i++;
+					}
+					
+				}
+				
+			}
+			for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
+				if(entryValue.getValue().equals(1L)){
+					List<Long> value = new ArrayList<>();
+					value.add(entryValue.getKey());
+					value.add(0L);//entryValue.getKey(),0L};
+					sAndValue.data.add(value);
+					
+				}else{
+					mapAlldate.put(entryValue.getKey(), 1L);
+				}
+			  }
+			
+		}
+		
+		for(sendDateAndValue sValue:sAndValues){
+		
+			Collections.sort(sValue.data, new Comparator<List<Long>>(){
+				 @Override
+		            public int compare(List<Long> o1, List<Long> o2) {
+		                return o1.get(0).compareTo(o2.get(0));
+		            }
+				
+			});
+		}
+		
+		return ok(Json.toJson(sAndValues));
+	}
+	
 	public static Result getFinancialVehicleDetails(){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		AuthUser user = getLocalUser();
@@ -12733,7 +12845,7 @@ public class Application extends Controller {
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
 		}else if(user.role.equals("Manager")){
-			
+			vehicle = Vehicle.findByLocationAndSold(user.location.id);
 		}
 		
 		Long countvehical = 1L;

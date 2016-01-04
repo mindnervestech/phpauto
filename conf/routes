@@ -199,3 +199,4 @@ GET    /isValidDatecheck/:locationId/:Datecheck/:scheduleBy	 controllers.Applica
 GET   /getsalesPlan/:salesId 			controllers.Application.getsalesPlan(salesId:Integer)
 GET   /getSoldVehicleDetails		controllers.Application.getSoldVehicleDetails()
 GET   /getFinancialVehicleDetails		controllers.Application.getFinancialVehicleDetails()
+GET  /getFinancialVehicleDetailsByBodyStyle	 	controllers.Application.getFinancialVehicleDetailsByBodyStyle()
