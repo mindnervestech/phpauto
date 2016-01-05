@@ -116,6 +116,7 @@ import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
 import viewmodel.LeadVM;
 import viewmodel.LocationVM;
+import viewmodel.LocationWiseDataVM;
 import viewmodel.NoteVM;
 import viewmodel.PageVM;
 import viewmodel.PinVM;
@@ -5634,6 +5635,283 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result getUserLocationInfo(){
+    	
+    	Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
+    	LocationWiseDataVM lDataVM = new LocationWiseDataVM();
+    	lDataVM.imageUrl = location.getImageUrl();
+    	List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
+    	lDataVM.countSalePerson = uAuthUser.size();
+    	
+    	List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
+    	lDataVM.totalsaleCar = vList.size();
+    	Integer pricecount = 0;
+    	for(Vehicle vehList:vList){
+    		pricecount = pricecount + vehList.price;
+    	}
+    	lDataVM.totalSalePrice = pricecount;
+    	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
+    	int saleCar = 0;
+    	int newCar = 0;
+    	for(Vehicle vehicle:allVehiList){
+    		if(vehicle.status.equals("Sold")){
+    			saleCar++;
+    		}else if(vehicle.status.equals("Newly Arrived")){
+    			newCar++;
+    		}
+    	}
+    	
+    	lDataVM.AngSale = ((saleCar/newCar)*100);
+    	
+    	
+    	/*--------------------------------------------*/
+    	
+    /*	{
+    		Date date = new Date();
+    		Calendar cal = Calendar.getInstance();
+    		cal.setTime(date);
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+    		String start = "";
+			String end = "";
+    		if(week.equals("true")) {
+    			cal.add(Calendar.DATE, -7);
+    			start = df.format(cal.getTime());
+    			end = df.format(date);
+			}
+			
+			if(month.equals("true")) {
+				cal.add(Calendar.DATE, -30);
+				start = df.format(cal.getTime());
+    			end = df.format(date);
+			}
+			
+			if(year.equals("true")) {
+				cal.add(Calendar.DATE, -365);
+				start = df.format(cal.getTime());
+    			end = df.format(date);
+			}
+			
+			List<UserVM> userList = new ArrayList<>();
+    		if(top.equals("true")) {
+    			if(id == 0) {
+    				List<AuthUser> salesUsersList;
+    				if(locationValue == 0){
+    					salesUsersList = AuthUser.getAllSalesUser();
+    				}else{
+    					salesUsersList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
+    				}
+    				
+    				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
+    				int index=0;
+    				for(AuthUser sales: salesUsersList) {
+    					SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
+        				UserVM vm = new UserVM();
+        				vm.fullName = sales.firstName+" "+sales.lastName;
+        				if(sales.imageUrl != null) {
+        					vm.imageUrl = sales.imageUrl;
+        				} else {
+        					vm.imageUrl = "/profile-pic.jpg";
+        				}
+        				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
+        					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
+        				} else {
+        					vm.successRate = 0;
+        				}
+        				Integer leads = 0;
+        				String count = "";
+        				if(rowData.getString("leads") != null) {
+        					count = rowData.getString("leads");
+        					leads = Integer.parseInt(count);
+        					if(rowData.getString("requestleads") != null) {
+        						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
+        					}
+        					if(rowData.getString("tradeInleads") != null) {
+        						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
+        					}
+        					vm.currentLeads = leads.toString();
+        				} else {
+        					vm.currentLeads = "";
+        				}
+        				if(rowData.getString("amount") != null) {
+        					vm.salesAmount = rowData.getString("amount");
+        				} else {
+        					vm.salesAmount = "0";
+        				}
+        				tempuserList[index] = vm;
+        				index++;
+    				}
+    				
+    				for(int i=0;i<tempuserList.length-1;i++) {
+    					for(int j=i+1;j<tempuserList.length;j++) {
+    						if(tempuserList[i].successRate <= tempuserList[j].successRate) {
+    							UserVM temp = tempuserList[i];
+    							tempuserList[i] = tempuserList[j];
+    							tempuserList[j] = temp;
+    						}
+    					}
+    				}
+    				
+    				if(tempuserList.length >=1){
+    					userList.add(tempuserList[0]);
+    				}	
+    				if(tempuserList.length >=2){
+    					userList.add(tempuserList[1]);
+    				}
+    				if(tempuserList.length >=3){
+    					userList.add(tempuserList[2]);
+    				}	
+    			  }	
+    			
+    			if(id != 0) {
+    				AuthUser salesUser = AuthUser.findById(id);
+    				SqlRow rowData = ScheduleTest.getTopPerformers(start, end, id);
+    				UserVM vm = new UserVM();
+    				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
+    				if(salesUser.imageUrl != null) {
+    					vm.imageUrl = salesUser.imageUrl;
+    				} else {
+    					vm.imageUrl = "/profile-pic.jpg";
+    				}
+    				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
+    					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
+    				} else {
+    					vm.successRate = 0;
+    				}
+    				Integer leads = 0;
+    				String count = "";
+    				if(rowData.getString("leads") != null) {
+    					count = rowData.getString("leads");
+    					leads = Integer.parseInt(count);
+    					if(rowData.getString("requestleads") != null) {
+    						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
+    					}
+    					if(rowData.getString("tradeInleads") != null) {
+    						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
+    					}
+    					vm.currentLeads = leads.toString();
+    				} else {
+    					vm.currentLeads = "";
+    				}
+    				if(rowData.getString("amount") != null) {
+    					vm.salesAmount = rowData.getString("amount");
+    				} else {
+    					vm.salesAmount = "0";
+    				}
+    				userList.add(vm);
+    			}
+    		}
+    		
+    		if(worst.equals("true")) {
+    			if(id == 0) {
+    				List<AuthUser> salesUsersList = AuthUser.getAllSalesUser();
+    				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
+    				int index = 0;
+    				for(AuthUser sales: salesUsersList) {
+    					SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
+        				UserVM vm = new UserVM();
+        				vm.fullName = sales.firstName+" "+sales.lastName;
+        				if(sales.imageUrl != null) {
+        					vm.imageUrl = sales.imageUrl;
+        				} else {
+        					vm.imageUrl = "/profile-pic.jpg";
+        				}
+        				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
+        					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
+        				} else {
+        					vm.successRate = 0;
+        				}
+        				Integer leads = 0;
+        				String count = "";
+        				if(rowData.getString("leads") != null) {
+        					count = rowData.getString("leads");
+        					leads = Integer.parseInt(count);
+        					if(rowData.getString("requestleads") != null) {
+        						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
+        					}
+        					if(rowData.getString("tradeInleads") != null) {
+        						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
+        					}
+        					vm.currentLeads = leads.toString();
+        				} else {
+        					vm.currentLeads = "";
+        				}
+        				if(rowData.getString("amount") != null) {
+        					vm.salesAmount = rowData.getString("amount");
+        				} else {
+        					vm.salesAmount = "0";
+        				}
+        				tempuserList[index] = vm;
+        				index++;
+    				}
+    				
+    				for(int i=0;i<tempuserList.length-1;i++) {
+    					for(int j=i+1;j<tempuserList.length;j++) {
+    						if(tempuserList[i].successRate >= tempuserList[j].successRate) {
+    							UserVM temp = tempuserList[i];
+    							tempuserList[i] = tempuserList[j];
+    							tempuserList[j] = temp;
+    						}
+    					}
+    				}
+    				
+    				if(tempuserList.length >=1){
+    					userList.add(tempuserList[0]);
+    				}	
+    				if(tempuserList.length >=2){
+    					userList.add(tempuserList[1]);
+    				}
+    				if(tempuserList.length >=3){
+    					userList.add(tempuserList[2]);
+    				}	
+    				
+    			}
+    			
+    			if(id != 0) {
+    				AuthUser salesUser = AuthUser.findById(id);
+    				SqlRow rowData = ScheduleTest.getTopPerformers(start, end, id);
+    				UserVM vm = new UserVM();
+    				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
+    				if(salesUser.imageUrl != null) {
+    					vm.imageUrl = salesUser.imageUrl;
+    				} else {
+    					vm.imageUrl = "/profile-pic.jpg";
+    				}
+    				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
+    					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
+    				} else {
+    					vm.successRate = 0;
+    				}
+    				Integer leads = 0;
+    				String count = "";
+    				if(rowData.getString("leads") != null) {
+    					count = rowData.getString("leads");
+    					leads = Integer.parseInt(count);
+    					if(rowData.getString("requestleads") != null) {
+    						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
+    					}
+    					if(rowData.getString("tradeInleads") != null) {
+    						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
+    					}
+    					vm.currentLeads = leads.toString();
+    				} else {
+    					vm.currentLeads = "";
+    				}
+    				if(rowData.getString("amount") != null) {
+    					vm.salesAmount = rowData.getString("amount");
+    				} else {
+    					vm.salesAmount = "0";
+    				}
+    				userList.add(vm);
+    			}
+    		}
+    		
+    		
+    		return ok(Json.toJson(userList));
+    	}*/
+    	
+    	/*------------------------------------------------*/
+    	return ok(Json.toJson(lDataVM));
+    }
     
     public static Result getAllLocation() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

@@ -135,12 +135,7 @@ margin-left: 5px;
 	
 	<div class="col-xlg-7 col-lg-7" ng-if="userRole == 'General Manager'">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
-			   <!--  <ul id="myTabs" class="nav nav-tabs" role="tablist">
-			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="salesStats()">Top and Least Sales Representatives</button></a></li>
-			      <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="pagesVisited()">Top and Least Pages Visited</button></a></li>
-			    	
-			    </ul> -->
-						
+					
 							
 							<div class="row">
 					            <div class="col-md-12">
@@ -271,6 +266,38 @@ margin-left: 5px;
         
 	</div>
 	
+	     <div class="col-xlg-7 col-lg-7" ng-if="userRole != 'General Manager'">
+			    
+							<div class="row" ng-show="showSalesStats">
+						            <div class="col-md-12">
+						             <div class="panel widget-map" style="height: 413px;">
+						             <div class="col-sm-12">
+						           
+									     <h4 style="line-height:0.428571;margin-top:3%;float:left;width:66%;"><b style="margin-left:3%;">MY STATISTICS</b></h4>
+									     </div>
+									 <div class="row">
+										<div class="col-xlg-4">
+									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images{{parLocationData.imageUrl}}">
+										</div>
+										<div class="col-xlg-4" style="margin-top: 25px;">
+									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
+									       	<span class="glyphicon glyphicon-adjust col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.AngSale}}</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">${{parLocationData.totalSalePrice}}</label>
+									       	<span class="glyphicon glyphicon-record col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
+									       	<span class="fa fa-car col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.totalsaleCar}}</label>
+									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
+									       	<span class="glyphicon glyphicon-shopping-cart col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
+										</div>
+									</div> 
+									 <div class="row">
+									 	<label class="col-sm-2 control-label">MY GOAL:</label>
+									 	<label class="col-sm-6 control-label">MY GOAL BEST THIS MONTH</label>
+									 	<a><label class="col-sm-2 control-label">My LEADS</label></a>
+									 </div>
+								</div>	
+							</div>
+							</div>
+	</div>
 	
      <div class="col-xlg-7 col-lg-7" ng-if="userRole != 'General Manager'">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">

@@ -19,6 +19,7 @@ angular.module('newApp')
 	console.log(events);
 	console.log(taskslist);
 	$scope.userKey = userKey;
+	$scope.userRole;
 	$scope.locationValue = null;
 	$http.get('/getUserRole').success(function(data) {
 		console.log(data);
@@ -27,6 +28,9 @@ angular.module('newApp')
 		$scope.locationValue = data.location.id;
 		$scope.getSalesDataValue($scope.locationValue);
 		console.log($scope.userRole);
+		if($scope.userRole != "General Manager"){
+			$scope.userLocationData();
+		}
 		if($scope.userRole == null){
 			  $location.path('/myprofile');
 		}
@@ -37,6 +41,17 @@ angular.module('newApp')
 			console.log(data);
 		$scope.locationDataList = data;	
 	});
+	
+	$scope.userLocationData = function(){
+		
+			$http.get('/getUserLocationInfo')
+			.success(function(data) {
+				console.log("||||");
+				$scope.parLocationData = data;
+				console.log(data);
+			});
+	}
+	
 	
 	
 	$scope.tasksValue = [];
