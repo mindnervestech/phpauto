@@ -270,7 +270,7 @@ margin-left: 5px;
 			    
 							<div class="row" ng-show="showSalesStats">
 						            <div class="col-md-12">
-						             <div class="panel widget-map" style="height: 413px;">
+						             <div class="panel widget-map" style="height: 365px;">
 						             <div class="col-sm-12">
 						           
 									     <h4 style="line-height:0.428571;margin-top:3%;float:left;width:66%;"><b style="margin-left:3%;">MY STATISTICS</b></h4>
@@ -281,18 +281,21 @@ margin-left: 5px;
 										</div>
 										<div class="col-xlg-4" style="margin-top: 25px;">
 									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
-									       	<span class="glyphicon glyphicon-adjust col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.AngSale}}</label>
+									       	<span class="glyphicon glyphicon-adjust col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale}}%</label>
 									       	<span class="glyphicon glyphicon-usd col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">${{parLocationData.totalSalePrice}}</label>
-									       	<span class="glyphicon glyphicon-record col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
+									       	<span class="glyphicon glyphicon-record col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}%</label>
 									       	<span class="fa fa-car col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.totalsaleCar}}</label>
-									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
+									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
 									       	<span class="glyphicon glyphicon-shopping-cart col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
+										</div>
+										<div class="col-xlg-4">
+											 <div id="container" style="height:220px"></div>
 										</div>
 									</div> 
 									 <div class="row">
-									 	<label class="col-sm-2 control-label">MY GOAL:</label>
-									 	<label class="col-sm-6 control-label">MY GOAL BEST THIS MONTH</label>
-									 	<a><label class="col-sm-2 control-label">My LEADS</label></a>
+									 	<label class="col-sm-2 control-label" style="margin-left: 20px;">MY GOAL:</label>
+									 	<label class="col-sm-6 control-label" style="font-size: 20px;">{{showLeads}}</label>
+									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label">My LEADS</label></a>
 									 </div>
 								</div>	
 							</div>
@@ -623,6 +626,56 @@ margin-left: 5px;
               </div>
             </div>
           </div>
+          
+          <div class="modal fade" id="Locationwise-model" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                  <h4 class="modal-title"><strong>Schedule Plan</strong></h4>
+                </div>
+                <div class="modal-body">
+                <div class="row">
+                <div class="panel panel-default no-bd">
+                <div class="panel-body bg-white">
+                  <div class="row">
+                    <form role="form" ng-submit="saveLeads()">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="row" ng-if="userType =='Manager'">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="control-label">Goal</label>
+                              	<input type="text" name="lead" class="form-control" placeholder="Enter Leads" ng-model="leadsTime.leads" required>
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="control-label">Time</label>
+                              	<select  class="form-control form-white" ng-model="leadsTime.goalSetTime"  style="width:29%;margin-left: 4%;margin-top:1%;" >
+						                     <option value="1 week">1 week</option>
+						                     <option value="1 month">1 month</option>
+						                </select>
+                            </div>
+                          </div>
+                           
+                          </div>
+                          
+                         </div>
+                       
+                         
+                         <div class="modal-footer">
+                          <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                  		  <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+                         </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+                </div>
+              </div>
+            </div>
           
           
           

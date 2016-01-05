@@ -42,17 +42,68 @@ angular.module('newApp')
 		$scope.locationDataList = data;	
 	});
 	
+	$scope.showLeads = null;
 	$scope.userLocationData = function(){
 		
 			$http.get('/getUserLocationInfo')
 			.success(function(data) {
-				console.log("||||");
 				$scope.parLocationData = data;
 				console.log(data);
+				$scope.showLeads = data.leads;
+				$scope.stackchart = data.sendData;
+				console.log(JSON.stringify(data.sendData));
+				console.log($scope.stackchart);
+				$scope.callChart($scope.stackchart);
 			});
+			console.log("hihih");
+			
+			 
 	}
 	
-	
+	$scope.openLeadspopUp = function(){
+		/*   $scope.schPlan = {};
+		   $scope.nextbutton = 0;*/
+		 //  $scope.checkManagerLogin();
+		   $('#Locationwise-model').modal();
+	   };
+	   $scope.leadsTime = {};
+	$scope.saveLeads = function(){
+		console.log($scope.leadsTime);
+		$http.post("/saveLeads",$scope.leadsTime).success(function(data){
+			console.log(data);
+		});
+		
+	}
+	   $scope.callChart = function(stackchart){
+			$('#container').highcharts({
+		        chart: {
+		            type: 'column'
+		        },
+		        title: {
+		            text: ''
+		        },
+		        
+		        xAxis: {
+		            categories: ""
+		        },
+		        yAxis: {
+		            min: 0,
+		            title: {
+		                text: ''
+		            }
+		        },
+		        tooltip: {
+		            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+		            shared: true
+		        },
+		        plotOptions: {
+		            column: {
+		                stacking: 'percent'
+		            }
+		        },
+		        series: stackchart
+		    });
+	   }
 	
 	$scope.tasksValue = [];
 	angular.forEach(taskslist, function(value, key) {
@@ -2461,6 +2512,7 @@ angular.module('newApp')
 			   $scope.checkManagerLogin();
 			   $('#plan-model').modal();
 		   };
+		   
 		   
 		   $scope.nextbutton = 0;
 		   $scope.goNext = function(){

@@ -56,6 +56,7 @@ import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.FollowBrand;
 import models.GroupTable;
+import models.LeadsDateWise;
 import models.Location;
 import models.MyProfile;
 import models.NewsletterDate;
@@ -111,9 +112,11 @@ import viewmodel.AudioVM;
 import viewmodel.BarChartVM;
 import viewmodel.BlogVM;
 import viewmodel.ContactsVM;
+import viewmodel.DateAndValueVM;
 import viewmodel.EditImageVM;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
+import viewmodel.LeadDateWiseVM;
 import viewmodel.LeadVM;
 import viewmodel.LocationVM;
 import viewmodel.LocationWiseDataVM;
@@ -5636,6 +5639,8 @@ public class Application extends Controller {
     }
     
     public static Result getUserLocationInfo(){
+    	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    	Date dateobj = new Date();
     	
     	Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
     	LocationWiseDataVM lDataVM = new LocationWiseDataVM();
@@ -5662,254 +5667,84 @@ public class Application extends Controller {
     	}
     	
     	lDataVM.AngSale = ((saleCar/newCar)*100);
-    	
-    	
-    	/*--------------------------------------------*/
-    	
-    /*	{
-    		Date date = new Date();
-    		Calendar cal = Calendar.getInstance();
-    		cal.setTime(date);
-    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
-    		String start = "";
-			String end = "";
-    		if(week.equals("true")) {
-    			cal.add(Calendar.DATE, -7);
-    			start = df.format(cal.getTime());
-    			end = df.format(date);
-			}
-			
-			if(month.equals("true")) {
-				cal.add(Calendar.DATE, -30);
-				start = df.format(cal.getTime());
-    			end = df.format(date);
-			}
-			
-			if(year.equals("true")) {
-				cal.add(Calendar.DATE, -365);
-				start = df.format(cal.getTime());
-    			end = df.format(date);
-			}
-			
-			List<UserVM> userList = new ArrayList<>();
-    		if(top.equals("true")) {
-    			if(id == 0) {
-    				List<AuthUser> salesUsersList;
-    				if(locationValue == 0){
-    					salesUsersList = AuthUser.getAllSalesUser();
-    				}else{
-    					salesUsersList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
-    				}
-    				
-    				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
-    				int index=0;
-    				for(AuthUser sales: salesUsersList) {
-    					SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
-        				UserVM vm = new UserVM();
-        				vm.fullName = sales.firstName+" "+sales.lastName;
-        				if(sales.imageUrl != null) {
-        					vm.imageUrl = sales.imageUrl;
-        				} else {
-        					vm.imageUrl = "/profile-pic.jpg";
-        				}
-        				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
-        					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
-        				} else {
-        					vm.successRate = 0;
-        				}
-        				Integer leads = 0;
-        				String count = "";
-        				if(rowData.getString("leads") != null) {
-        					count = rowData.getString("leads");
-        					leads = Integer.parseInt(count);
-        					if(rowData.getString("requestleads") != null) {
-        						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
-        					}
-        					if(rowData.getString("tradeInleads") != null) {
-        						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
-        					}
-        					vm.currentLeads = leads.toString();
-        				} else {
-        					vm.currentLeads = "";
-        				}
-        				if(rowData.getString("amount") != null) {
-        					vm.salesAmount = rowData.getString("amount");
-        				} else {
-        					vm.salesAmount = "0";
-        				}
-        				tempuserList[index] = vm;
-        				index++;
-    				}
-    				
-    				for(int i=0;i<tempuserList.length-1;i++) {
-    					for(int j=i+1;j<tempuserList.length;j++) {
-    						if(tempuserList[i].successRate <= tempuserList[j].successRate) {
-    							UserVM temp = tempuserList[i];
-    							tempuserList[i] = tempuserList[j];
-    							tempuserList[j] = temp;
-    						}
-    					}
-    				}
-    				
-    				if(tempuserList.length >=1){
-    					userList.add(tempuserList[0]);
-    				}	
-    				if(tempuserList.length >=2){
-    					userList.add(tempuserList[1]);
-    				}
-    				if(tempuserList.length >=3){
-    					userList.add(tempuserList[2]);
-    				}	
-    			  }	
-    			
-    			if(id != 0) {
-    				AuthUser salesUser = AuthUser.findById(id);
-    				SqlRow rowData = ScheduleTest.getTopPerformers(start, end, id);
-    				UserVM vm = new UserVM();
-    				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
-    				if(salesUser.imageUrl != null) {
-    					vm.imageUrl = salesUser.imageUrl;
-    				} else {
-    					vm.imageUrl = "/profile-pic.jpg";
-    				}
-    				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
-    					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
-    				} else {
-    					vm.successRate = 0;
-    				}
-    				Integer leads = 0;
-    				String count = "";
-    				if(rowData.getString("leads") != null) {
-    					count = rowData.getString("leads");
-    					leads = Integer.parseInt(count);
-    					if(rowData.getString("requestleads") != null) {
-    						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
-    					}
-    					if(rowData.getString("tradeInleads") != null) {
-    						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
-    					}
-    					vm.currentLeads = leads.toString();
-    				} else {
-    					vm.currentLeads = "";
-    				}
-    				if(rowData.getString("amount") != null) {
-    					vm.salesAmount = rowData.getString("amount");
-    				} else {
-    					vm.salesAmount = "0";
-    				}
-    				userList.add(vm);
-    			}
-    		}
+    	Calendar cal = Calendar.getInstance();  
+        
+    	List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION")))); 
+    	for(LeadsDateWise lWise:lDateWises){
     		
-    		if(worst.equals("true")) {
-    			if(id == 0) {
-    				List<AuthUser> salesUsersList = AuthUser.getAllSalesUser();
-    				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
-    				int index = 0;
-    				for(AuthUser sales: salesUsersList) {
-    					SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
-        				UserVM vm = new UserVM();
-        				vm.fullName = sales.firstName+" "+sales.lastName;
-        				if(sales.imageUrl != null) {
-        					vm.imageUrl = sales.imageUrl;
-        				} else {
-        					vm.imageUrl = "/profile-pic.jpg";
-        				}
-        				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
-        					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
-        				} else {
-        					vm.successRate = 0;
-        				}
-        				Integer leads = 0;
-        				String count = "";
-        				if(rowData.getString("leads") != null) {
-        					count = rowData.getString("leads");
-        					leads = Integer.parseInt(count);
-        					if(rowData.getString("requestleads") != null) {
-        						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
-        					}
-        					if(rowData.getString("tradeInleads") != null) {
-        						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
-        					}
-        					vm.currentLeads = leads.toString();
-        				} else {
-        					vm.currentLeads = "";
-        				}
-        				if(rowData.getString("amount") != null) {
-        					vm.salesAmount = rowData.getString("amount");
-        				} else {
-        					vm.salesAmount = "0";
-        				}
-        				tempuserList[index] = vm;
-        				index++;
-    				}
-    				
-    				for(int i=0;i<tempuserList.length-1;i++) {
-    					for(int j=i+1;j<tempuserList.length;j++) {
-    						if(tempuserList[i].successRate >= tempuserList[j].successRate) {
-    							UserVM temp = tempuserList[i];
-    							tempuserList[i] = tempuserList[j];
-    							tempuserList[j] = temp;
-    						}
-    					}
-    				}
-    				
-    				if(tempuserList.length >=1){
-    					userList.add(tempuserList[0]);
-    				}	
-    				if(tempuserList.length >=2){
-    					userList.add(tempuserList[1]);
-    				}
-    				if(tempuserList.length >=3){
-    					userList.add(tempuserList[2]);
-    				}	
+    		if(lWise.goalSetTime.equals("1 week")){
+    			cal.setTime(lWise.leadsDate);  
+    			cal.add(Calendar.DATE, 7);
+    			Date m =  cal.getTime(); 
+    			if(m.after(dateobj)) {
+    				lDataVM.leads = lWise.leads;
+    				lDataVM.goalTime =lWise.goalSetTime;
     				
     			}
     			
-    			if(id != 0) {
-    				AuthUser salesUser = AuthUser.findById(id);
-    				SqlRow rowData = ScheduleTest.getTopPerformers(start, end, id);
-    				UserVM vm = new UserVM();
-    				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
-    				if(salesUser.imageUrl != null) {
-    					vm.imageUrl = salesUser.imageUrl;
-    				} else {
-    					vm.imageUrl = "/profile-pic.jpg";
-    				}
-    				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
-    					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
-    				} else {
-    					vm.successRate = 0;
-    				}
-    				Integer leads = 0;
-    				String count = "";
-    				if(rowData.getString("leads") != null) {
-    					count = rowData.getString("leads");
-    					leads = Integer.parseInt(count);
-    					if(rowData.getString("requestleads") != null) {
-    						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
-    					}
-    					if(rowData.getString("tradeInleads") != null) {
-    						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
-    					}
-    					vm.currentLeads = leads.toString();
-    				} else {
-    					vm.currentLeads = "";
-    				}
-    				if(rowData.getString("amount") != null) {
-    					vm.salesAmount = rowData.getString("amount");
-    				} else {
-    					vm.salesAmount = "0";
-    				}
-    				userList.add(vm);
+    		}else if(lWise.goalSetTime.equals("1 month")){
+    			cal.setTime(lWise.leadsDate);  
+    			cal.add(Calendar.DATE, 30);
+    			Date m =  cal.getTime(); 
+    			if(m.after(dateobj)) {
+    				lDataVM.leads = lWise.leads;
+    				lDataVM.goalTime =lWise.goalSetTime;
     			}
     		}
     		
-    		
-    		return ok(Json.toJson(userList));
-    	}*/
+    	}
     	
-    	/*------------------------------------------------*/
+    	List<DateAndValueVM> sAndValues = new ArrayList<>();
+    	List<Long> sAndLong = new ArrayList<>();
+    	int countPlanCarSold = 0;
+    	List<PlanSchedule> pSchedule = PlanSchedule.findAllByLocation(Long.parseLong(session("USER_LOCATION")));
+    	for(PlanSchedule planSch:pSchedule){
+    		
+    		if(dateobj.after(planSch.startDate) && dateobj.before(planSch.endDate)) {
+    			List<Integer> longV = new ArrayList<>();
+    			DateAndValueVM sValue = new DateAndValueVM();
+    			sValue.name = "Plan";
+    			longV.add(Integer.parseInt(planSch.carsSold));
+    			sValue.data = longV;
+    			sAndValues.add(sValue);
+    			
+    			List<Vehicle> vehicles = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
+    			for(Vehicle veh1:vehicles){
+    				if(veh1.soldDate.after(planSch.startDate) && veh1.soldDate.before(planSch.endDate)) {
+    					countPlanCarSold++;
+    				}
+    			}
+        	}
+    	}
+    	
+    	if(countPlanCarSold > 0){
+    		List<Integer> longV = new ArrayList<>();
+    		DateAndValueVM sValue = new DateAndValueVM();
+			sValue.name = "Record";
+			longV.add(countPlanCarSold);
+			sValue.data = longV;
+			sAndValues.add(sValue);
+    	}
+    	
+    	List<Vehicle> vList2 = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
+    	
+    	if(vList2.size() != 0){
+    		List<Integer> longV = new ArrayList<>();
+    		DateAndValueVM sValue = new DateAndValueVM();
+			sValue.name = "You";
+			longV.add(vList2.size());
+			sValue.data = longV;
+			sAndValues.add(sValue);
+    	}
+    	
+    	
+    	
+    	
+    	
+    	lDataVM.sendData = sAndValues;
+    	
+    
+    
     	return ok(Json.toJson(lDataVM));
     }
     
@@ -13335,4 +13170,71 @@ public class Application extends Controller {
                                       + " Value : " + entry.getValue());
 		}
 	}
+	
+	public static Result saveLeads(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		
+    		Date date = new Date();
+    		Calendar cal = Calendar.getInstance();  
+    		AuthUser users = (AuthUser) getLocalUser();
+	    	Form<LeadDateWiseVM> form = DynamicForm.form(LeadDateWiseVM.class).bindFromRequest();
+	    	LeadDateWiseVM vm = form.get();
+	    	int flag = 0;
+	    	
+	    	List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION")))); 
+	    	for(LeadsDateWise lWise:lDateWises){
+	    		
+	    		if(lWise.goalSetTime.equals("1 week")){
+	    			cal.setTime(lWise.leadsDate);  
+	    			cal.add(Calendar.DATE, 7);
+	    			Date m =  cal.getTime(); 
+	    			if(m.after(date)) {
+	    				lWise.setLeads(vm.leads);
+	    				lWise.setLeadsDate(date);
+	    				lWise.setGoalSetTime(vm.goalSetTime);
+	    				lWise.setUser(users);
+	    				lWise.setLocations(Location.findById(users.location.id));
+	    				lWise.update();
+	    				flag = 1;
+	    			}
+	    			
+	    		}else if(lWise.goalSetTime.equals("1 month")){
+	    			cal.setTime(lWise.leadsDate);  
+	    			cal.add(Calendar.DATE, 30);
+	    			Date m =  cal.getTime(); 
+	    			if(m.after(date)) {
+	    				lWise.setLeads(vm.leads);
+	    				lWise.setLeadsDate(date);
+	    				lWise.setGoalSetTime(vm.goalSetTime);
+	    				lWise.setUser(users);
+	    				lWise.setLocations(Location.findById(users.location.id));
+	    				lWise.update();
+	    				flag = 1;
+	    			}
+	    		}
+	    		
+	    	}
+	    	
+	    	
+	    	
+	    	if(flag == 0){
+	    		System.out.println(vm.leads);
+		    	LeadsDateWise lDateWise = new LeadsDateWise();
+		    	lDateWise.setLeads(vm.leads);
+				lDateWise.setLeadsDate(date);
+				lDateWise.setGoalSetTime(vm.goalSetTime);
+		    	lDateWise.setUser(users);
+		    	lDateWise.setLocations(Location.findById(users.location.id));
+		    	lDateWise.save();
+	    	}
+	    	
+	    	
+    	}	
+		
+		return ok();
+	}
+	
 }
