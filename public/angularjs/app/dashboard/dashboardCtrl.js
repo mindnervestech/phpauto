@@ -29,7 +29,7 @@ angular.module('newApp')
 		$scope.getSalesDataValue($scope.locationValue);
 		console.log($scope.userRole);
 		if($scope.userRole != "General Manager"){
-			$scope.userLocationData();
+			$scope.userLocationData('Week');
 		}
 		if($scope.userRole == null){
 			  $location.path('/myprofile');
@@ -43,9 +43,9 @@ angular.module('newApp')
 	});
 	
 	$scope.showLeads = null;
-	$scope.userLocationData = function(){
+	$scope.userLocationData = function(timeSet){
 		
-			$http.get('/getUserLocationInfo')
+			$http.get('/getUserLocationInfo/'+timeSet)
 			.success(function(data) {
 				$scope.parLocationData = data;
 				console.log(data);
@@ -105,6 +105,8 @@ angular.module('newApp')
 		    });
 	   }
 	
+
+	   
 	$scope.tasksValue = [];
 	angular.forEach(taskslist, function(value, key) {
 		angular.forEach(value.items, function(value, key) {

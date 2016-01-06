@@ -5638,35 +5638,108 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getUserLocationInfo(){
+    public static Result getUserLocationInfo(String timeSet){
     	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     	Date dateobj = new Date();
+    	Calendar cal1 = Calendar.getInstance();
     	
+    	Map<String, Integer> mapCar = new HashMap<String, Integer>();
+    	
+    	Date timeBack = null;
+    	
+    	if(timeSet.equals("Week")){
+    		cal1.setTime(dateobj);  
+			cal1.add(Calendar.DATE, -7);
+			timeBack =  cal1.getTime(); 
+    	}else if(timeSet.equals("Month")){
+    		cal1.setTime(dateobj);  
+			cal1.add(Calendar.MONTH, -1);
+			timeBack =  cal1.getTime(); 
+    	}else if(timeSet.equals("Quater")){
+    		cal1.setTime(dateobj);  
+			cal1.add(Calendar.MONTH, -3);
+			timeBack =  cal1.getTime(); 
+    	}else if(timeSet.equals("6 Month")){
+    		cal1.setTime(dateobj);  
+			cal1.add(Calendar.MONTH, -6);
+			timeBack =  cal1.getTime(); 
+    	}else if(timeSet.equals("Year")){
+    		cal1.setTime(dateobj);  
+			cal1.add(Calendar.MONTH, -12);
+			timeBack =  cal1.getTime(); 
+    	}
+    	
+    	int requestLeadCount = 0;
+    	int scheduleLeadCount = 0;
+    	int tradeInLeadCount = 0;
+    	List<RequestMoreInfo> rInfo = RequestMoreInfo.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    	for(RequestMoreInfo rMoreInfo:rInfo){
+    		//if(rMoreInfo.requestDate != null){
+    		 // if(rMoreInfo.requestDate.after(timeBack)) {
+    			requestLeadCount++;
+    		 // }
+    		//}
+    	}
+    	
+    	List<ScheduleTest> sList = ScheduleTest.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    	for(ScheduleTest sTest:sList){
+    		//if(sTest.scheduleDate != null){
+    		//if(sTest.scheduleDate.after(timeBack)) {
+    			scheduleLeadCount++;
+    		//}
+    		//}
+    	}
+    	List<TradeIn> tradeIns = TradeIn.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    	for(TradeIn tIn:tradeIns){
+    		//if(tIn.tradeDate != null){
+    			//if(tIn.tradeDate.after(timeBack)) {
+    				tradeInLeadCount++;
+    			//}
+    		//}
+    	}
+    	
+    	
+    	
+    	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
     	Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
     	LocationWiseDataVM lDataVM = new LocationWiseDataVM();
     	lDataVM.imageUrl = location.getImageUrl();
-    	List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
-    	lDataVM.countSalePerson = uAuthUser.size();
+    	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
+    	lDataVM.countSalePerson = countLeads;
     	
     	List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
-    	lDataVM.totalsaleCar = vList.size();
+    	double sucessCount= (double)vList.size()/(double)countLeads*100;
+    	lDataVM.successRate = (int) sucessCount;
     	Integer pricecount = 0;
+    	int saleCarCount = 0;
     	for(Vehicle vehList:vList){
-    		pricecount = pricecount + vehList.price;
+    			if(vehList.soldDate.after(timeBack)) {
+        			saleCarCount++;
+        			pricecount = pricecount + vehList.price;
+        		}
+    		
     	}
     	lDataVM.totalSalePrice = pricecount;
+    	lDataVM.totalsaleCar = saleCarCount;
+    	
+    	double valAvlPrice= ((double)pricecount/(double)saleCarCount);
+    	lDataVM.angSalePrice = (int) valAvlPrice;
+    	
     	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
     	int saleCar = 0;
     	int newCar = 0;
     	for(Vehicle vehicle:allVehiList){
     		if(vehicle.status.equals("Sold")){
-    			saleCar++;
+    			if(vehicle.soldDate.after(timeBack)) {
+    				saleCar++;
+    			}
     		}else if(vehicle.status.equals("Newly Arrived")){
     			newCar++;
     		}
     	}
     	
-    	lDataVM.AngSale = ((saleCar/newCar)*100);
+    	double val= ((double)saleCar/(double)newCar);
+    	lDataVM.AngSale = (int) (val*100);
     	Calendar cal = Calendar.getInstance();  
         
     	List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION")))); 

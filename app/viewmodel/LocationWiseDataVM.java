@@ -16,6 +16,7 @@ public class LocationWiseDataVM {
     public Integer totalsaleCar;
     public Integer successRate;
     public Integer AngSale;
+    public Integer angSalePrice;
     public String leads;
     public String goalTime;
     public List<DateAndValueVM> sendData;

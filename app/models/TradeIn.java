@@ -437,6 +437,10 @@ public class TradeIn extends Model {
 		return find.all();
 	}
 	
+	public static List<TradeIn> findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findList();
+	}
+	
 	public static List<TradeIn> findAllSeen(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).orderBy("tradeDate desc").findList();
 	}

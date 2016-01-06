@@ -154,6 +154,10 @@ public class RequestMoreInfo extends Model {
 		return find.where().eq("isRead", 0).orderBy("requestDate desc").findList();
 	}
 	
+	public static List<RequestMoreInfo> findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllData() {
 		return find.all();
 	}

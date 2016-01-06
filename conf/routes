@@ -93,7 +93,7 @@ POST	/saveConfirmData			controllers.Application.saveConfirmData()
 
 GET		/getAllUsers				controllers.Application.getAllUsers()
 GET		/getAllLocation				controllers.Application.getAllLocation()
-GET     /getUserLocationInfo    	controllers.Application.getUserLocationInfo()
+GET     /getUserLocationInfo/:timeSet   	controllers.Application.getUserLocationInfo(timeSet:String)
   
 GET		/deleteUserById/:id			controllers.Application.deleteUserById(id:Integer)
 GET		/getAllScheduleTestAssigned	controllers.Application.getAllScheduleTestAssigned()
