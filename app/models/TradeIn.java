@@ -442,7 +442,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllSeen(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).orderBy("tradeDate desc").findList();
+		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isScheduled", false).orderBy("tradeDate desc").findList();
 	}
 	
 	public static int findAll() {
@@ -454,7 +454,8 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllScheduledUser(AuthUser user) {
-		return find.where().eq("isScheduled", true).eq("leadStatus", null).eq("user",user).findList();
+		//return find.where().eq("isScheduled", true).eq("leadStatus", null).eq("user",user).findList();
+		return find.where().eq("isScheduled", true).eq("leadStatus", null).eq("assignedTo",user).findList();
 	}
 	
 	public static List<TradeIn>  findByVinAndAssignedUser(String vin,AuthUser user) {

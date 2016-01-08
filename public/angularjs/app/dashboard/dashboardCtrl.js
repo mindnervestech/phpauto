@@ -1116,7 +1116,7 @@ angular.module('newApp')
 	    		$http.get('/getUserType')
 	  			  .success(function(data) {
 	  			 	$scope.userType = data;
-	  			 	if($scope.userType == "General Manager") {
+	  			 	if($scope.userType == "Manager") {
 	  			 		$scope.getGMData();
 	  			 		//$scope.getAnalystData();
 	  			 	}
@@ -1353,6 +1353,7 @@ angular.module('newApp')
 	    		$scope.getGMData = function() {
 		    		$http.get('/getSalesUser')
 		    		.success(function(data){
+		    			console.log(data);
 		    			$scope.salesPersonList =data;
 		    			$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
 		    		});
@@ -1572,8 +1573,15 @@ angular.module('newApp')
 	
 		$scope.getAllSalesPersonRecord = function(id){
 		       console.log(id);
+		       
 		       $scope.salesPerson = id;
-	    		$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
+		       	if($scope.salesPerson == undefined){
+		       		console.log("kokokokokokoko");
+		       		$scope.salesPerson = 0;
+		       		id = 0;
+		       	}
+		       
+		       	$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
 				.success(function(data) {
 				$scope.gridOptions2.data = data;
 				$scope.AllScheduleTestAssignedList = data;
@@ -1581,7 +1589,7 @@ angular.module('newApp')
  
     		$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
 			.success(function(data) {
-			$scope.gridOptions.data = data;
+			$scope.gridOptions5.data = data;
 			$scope.AllRequestInfoSeenList = data;
 		    });
 
@@ -1591,6 +1599,7 @@ angular.module('newApp')
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
 			 });
+	    		
 			
 			
 	}
@@ -1785,6 +1794,7 @@ angular.module('newApp')
     		  $scope.scheduleTestData.confirmDate = entity.confirmDate;
     		  $scope.scheduleTestData.confirmTime = entity.confirmTime;
     		  $scope.scheduleTestData.option = entity.option;
+    		  $scope.scheduleTestData.vin = entity.vin;
     	  }
     	  
     	  $scope.saveConfirmData = function() {

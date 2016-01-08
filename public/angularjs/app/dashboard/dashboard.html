@@ -1312,7 +1312,7 @@ margin-left: 5px;
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
 			    	<h2><b style="margin-left:10%;" ng-show="userType == 'Sales Person'">My Leads</b></h2>
-			    	<select  class="form-control form-white" ng-show="userType == 'General Manager'" id="salesPersonUserId" ng-model="salesPerson" ng-change="getAllSalesPersonRecord(salesPerson)" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
+			    	<select  class="form-control form-white" ng-show="userType == 'General Manager' || userType == 'Manager'" id="salesPersonUserId" ng-model="salesPerson" ng-change="getAllSalesPersonRecord(salesPerson)" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
                                     <option ng-repeat="item in salesPersonList" ng-selected="$index==0" value="{{item.id}}"  >{{item.fullName}}</option>
                                     
                                     
@@ -1731,8 +1731,8 @@ margin-left: 5px;
 														<div class="col-sm-5">
 															<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="mm/dd/yyyy" required>
 														</div>
-														<div class="col-sm-5" id="gridCnfDateNature">
-														</div>
+														<!-- <div class="col-sm-5" id="gridCnfDateNature">
+														</div> -->
 													</div>
 													<div class="form-group col-sm-12">
 													<label class="col-sm-2 control-label" style="text-align: right;">Time</label>
@@ -3190,8 +3190,8 @@ margin-left: 5px;
 		margin-top: 1%;
 	}
 	
-	.ui-datepicker table{
+	/* .ui-datepicker table{
 		font-size: 5.9em !important;
-	}
+	} */
 	
 </style>	

@@ -2117,7 +2117,8 @@ public class Application extends Controller {
     	List<SqlRow> brandFollowers = FollowBrand.getAllBrandFollowers(user);
     	
     	for(SqlRow row: brandFollowers) {
-    			AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    		AuthUser logoUser = getLocalUser();	
+    		//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 	    	    SiteLogo logo = SiteLogo.findByUser(logoUser);
 		    	String email = (String) row.get("email");
 		    	List<FollowBrand> brandList = FollowBrand.getBrands(user, email);
@@ -2200,9 +2201,11 @@ public class Application extends Controller {
     
 	public static void sendPriceAlertMail() {
 		
-		AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+		AuthUser user = getLocalUser();
+		//AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 		MyProfile profile = MyProfile.findByUser(user);
-		AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+		AuthUser logoUser = getLocalUser();
+		//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
  	    SiteLogo logo = SiteLogo.findByUser(logoUser);
 		
 		List<PriceAlert> priceAlertList = PriceAlert.getEmailsByStatus(user);
@@ -4390,7 +4393,9 @@ public class Application extends Controller {
 	    			}
 	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
 	    		}
-	    		vm.requestDate = df.format(info.scheduleDate);
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
 	    		}
@@ -4667,7 +4672,9 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
-	    		vm.requestDate = df.format(info.scheduleDate);
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
 	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
@@ -5386,7 +5393,9 @@ public class Application extends Controller {
     }
     
     private static void sendMail(Map map) {
-    	AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    	
+    	AuthUser logoUser = getLocalUser();
+    //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByUser(logoUser);
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -6530,10 +6539,11 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		AuthUser user = getLocalUser();
-    		List<AuthUser> SalesUserList = AuthUser.getAllSalesUser();
+    		
+    		List<AuthUser> SalesUserList = AuthUser.getAllUserByLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
     		List<UserVM> vmList = new ArrayList<>();
     		if(user.role != null) {
-    			if(user.role.equals("General Manager")) {
+    			if(user.role.equals("General Manager") && user.role.equals("Manager")) {
 	    			UserVM gmObj = new UserVM();
 		    		gmObj.fullName = user.firstName+" "+user.lastName;
 		    		gmObj.id = user.id;
@@ -6578,7 +6588,14 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-	    	AuthUser user = AuthUser.findById(id);
+    		AuthUser user;
+    		if(id == 0){
+    			user = getLocalUser();
+    		}else{
+    			user = AuthUser.findById(id);
+    		}
+    			
+	    	
 	    	List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
@@ -6626,7 +6643,9 @@ public class Application extends Controller {
 	    			}
 	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
 	    		}
-	    		vm.requestDate = df.format(info.scheduleDate);
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
 	    		}
@@ -6678,7 +6697,9 @@ public class Application extends Controller {
 	    			}
 	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
 	    		}
-	    		vm.requestDate = df.format(info.scheduleDate);
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
 	    		}
@@ -6730,7 +6751,9 @@ public class Application extends Controller {
 	    			}
 	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
 	    		}
-	    		vm.requestDate = df.format(info.scheduleDate);
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
 	    		}
@@ -6753,7 +6776,13 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-	    	AuthUser user = AuthUser.findById(id);
+    		AuthUser user;
+    		if(id == 0){
+    			user = getLocalUser();
+    		}else{
+    			user = AuthUser.findById(id);
+    		}
+    			
 	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeen(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -6805,7 +6834,12 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-	    	AuthUser user = AuthUser.findById(id);
+    		AuthUser user;
+    		if(id == 0){
+    			user = getLocalUser();
+    		}else{
+    			user = AuthUser.findById(id);
+    		}
 	    	List<TradeIn> listData = TradeIn.findAllSeen(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -7453,7 +7487,9 @@ public class Application extends Controller {
 	    		if(info.assignedTo != null) {
 	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
 	    		}
-	    		vm.requestDate = df.format(info.scheduleDate);
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
 	    		vm.leadType = "Schedule Test";
 	    		infoVMList.add(vm);
 	    	}
@@ -10402,7 +10438,9 @@ public class Application extends Controller {
     		tradeIn.setYear(leadVM.year);
     		tradeIn.save();
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicles.get(0).getVin());
-    		AuthUser defaultUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    		
+    		AuthUser defaultUser = getLocalUser();
+    		//AuthUser defaultUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     		SiteLogo siteLogo = SiteLogo.findByUser(defaultUser);
     		SiteContent siteContent = SiteContent.findByUser(defaultUser);
     		String heading1 = "",heading2 = "";
@@ -11834,11 +11872,13 @@ public class Application extends Controller {
 		cal.setTime(date);
 		cal.add(Calendar.DATE, -30);
 		List<Blog> blogList = Blog.getBlogsByDate(cal.getTime(),date);
-		AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+		AuthUser user = getLocalUser();
+		//AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 		MyProfile profile = MyProfile.findByUser(user);
 		String mapUrl = "http://maps.google.com/?q="+profile.address+","+profile.city+","+profile.zip+","+profile.state+","+profile.country;
 		if(blogList.size() > 0) {
-			AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+			AuthUser logoUser = getLocalUser();
+			//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 	    	SiteLogo logo = SiteLogo.findByUser(logoUser);
 			List<Contacts> contactsList = Contacts.getAllNewsletter();
 			for(Contacts contact : contactsList) {
