@@ -179,7 +179,8 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static List<RequestMoreInfo> findAllScheduledUser(AuthUser user) {
-		return find.where().eq("isScheduled", true).eq("user", user).eq("leadStatus", null).findList();
+		//return find.where().eq("isScheduled", true).eq("user", user).eq("leadStatus", null).findList();
+		return find.where().eq("isScheduled", true).eq("assignedTo", user).eq("leadStatus", null).findList();
 	}
 	
 	public static List<RequestMoreInfo> findByVinAndAssignedUser(String vin,AuthUser user) {

@@ -129,6 +129,7 @@ angular.module('newApp')
 	  $scope.visitiorListMap = [];
 	  var lengthValue = 0;
 	  var valueCount = 0;
+	  $scope.gridOptions = {};
       $scope.$on('$viewContentLoaded', function () {
         
     	  $http.get('/getVisitorList/'+30)
