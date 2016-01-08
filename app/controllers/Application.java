@@ -29,10 +29,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
@@ -92,7 +92,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -104,7 +103,6 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import scala.collection.generic.BitOperations.Int;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
@@ -4319,7 +4317,10 @@ public class Application extends Controller {
 	    			}
 	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
 	    		}
-	    		vm.requestDate = df.format(info.scheduleDate);
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
+	    		
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
 	    		}

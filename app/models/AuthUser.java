@@ -8,10 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import com.avaje.ebean.Expr;
-
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 import scala.Option;
 import securesocial.core.AuthenticationMethod;
 import securesocial.core.Identity;
@@ -19,6 +16,8 @@ import securesocial.core.IdentityId;
 import securesocial.core.OAuth1Info;
 import securesocial.core.OAuth2Info;
 import securesocial.core.PasswordInfo;
+
+import com.avaje.ebean.Expr;
 
 @Entity
 public class AuthUser extends Model implements Identity {
@@ -89,7 +88,7 @@ public class AuthUser extends Model implements Identity {
 	public IdentityId identityId() {
 		return null;
 	}
-
+	
 	@Override
 	public String lastName() {
 		return lastName;
@@ -126,6 +125,7 @@ public class AuthUser extends Model implements Identity {
 		this.email = email;
 	}
 
+	
 	public String getFirstName() {
 		return firstName;
 	}
