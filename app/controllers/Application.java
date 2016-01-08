@@ -7962,7 +7962,8 @@ public class Application extends Controller {
 			e.printStackTrace();
 		}
     	
-    	AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    	//AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    	AuthUser user = getLocalUser();
     	List<PriceAlert> pAlert = PriceAlert.getByStatus(user);
     	int followerCount = pAlert.size();
     	
