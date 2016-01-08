@@ -2864,17 +2864,18 @@ angular.module('newApp')
  	  $http.post('/saveVehicle',$scope.vinData.specification)
 		.success(function(data) {
 			console.log('success');
-			$location.path('/');
+		//	$location.path('/');
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
 			    text: "Vehicle saved successfully",
 			});
+			if($scope.flagVal == true) {
+		 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
+		 	  }
 		});
  	  
- 	  if($scope.flagVal == true) {
- 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
- 	  }
+ 	  
  	  
    }
    

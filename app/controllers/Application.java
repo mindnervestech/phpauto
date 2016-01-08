@@ -5210,7 +5210,7 @@ public class Application extends Controller {
   
     public static Result showPdf(Long id) {
     	TradeIn tradeIn = TradeIn.findById(id);
-    	File file = new File(rootDir+tradeIn.pdfPath);
+    	File file = new File(pdfRootDir+tradeIn.pdfPath);
     	response().setContentType("application/pdf");
     	response().setHeader("Content-Disposition", "inline; filename=tradeIn.pdf");
 		return ok(file);
