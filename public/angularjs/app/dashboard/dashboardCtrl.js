@@ -493,16 +493,16 @@ angular.module('newApp')
       $scope.activeTab = true;
 
       
-      $scope.gridOptions = {
+      $scope.gridOptions5 = {
     	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     	 		    paginationPageSize: 150,
     	 		    enableFiltering: true,
     	 		    useExternalFiltering: true,
     	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
     	 		 };
-    	 		 $scope.gridOptions.enableHorizontalScrollbar = 0;
-    	 		 $scope.gridOptions.enableVerticalScrollbar = 2;
-    	 		 $scope.gridOptions.columnDefs = [
+    	 		 $scope.gridOptions5.enableHorizontalScrollbar = 0;
+    	 		 $scope.gridOptions5.enableVerticalScrollbar = 2;
+    	 		 $scope.gridOptions5.columnDefs = [
     	 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	 		                                       if (row.entity.isRead === false) {
@@ -767,16 +767,16 @@ angular.module('newApp')
      			 		 		
     		  $http.get('/getAllRequestInfoSeen')
     				.success(function(data) {
-    				$scope.gridOptions.data = data;
+    				$scope.gridOptions5.data = data;
     				$scope.AllRequestInfoSeenList = data;
     			});
     		  
-    		  $scope.gridOptions.onRegisterApi = function(gridApi){
+    		  $scope.gridOptions5.onRegisterApi = function(gridApi){
     				 $scope.gridApi = gridApi;
     				 
     		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
     			          var grid = this.grid;
-    			          $scope.gridOptions.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term},undefined);
+    			          $scope.gridOptions5.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term},undefined);
     			        });
     		   		
     	  		};
@@ -949,7 +949,7 @@ angular.module('newApp')
     		  
     		  setInterval(function(){
     			  $scope.onlineVisitorFind();
-    			}, 20000)
+    			}, 10000)
     		  
     		$scope.onlineVisitorFind = function(){
     			  
