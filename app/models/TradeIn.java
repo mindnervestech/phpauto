@@ -29,8 +29,8 @@ public class TradeIn extends Model {
 		this.pdfPath = pdfPath;
 	}
 
-	@Version
-	public java.util.Date version; 
+	//@Version
+	//public java.util.Date version; 
 
 	@Id
 	public Long id;

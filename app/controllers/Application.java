@@ -1845,7 +1845,7 @@ public class Application extends Controller {
     		int visitorCount = 0;
 	    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
     		
-    		List <Vehicle> vehicleObjList = Vehicle.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		List <Vehicle> vehicleObjList = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
     		
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
@@ -4702,16 +4702,16 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
-	    	TradeIn tradeObj = TradeIn.findById(id);
+	    	TradeIn tradeObjV = TradeIn.findById(id);
 	    	if(flag.equals("true")) {
-	    		tradeObj.setIsRead(1);
-	    		tradeObj.setAssignedTo(user);
+	    		tradeObjV.setIsRead(1);
+	    		tradeObjV.setAssignedTo(user);
 			}
 			if(flag.equals("false")) {
-				tradeObj.setIsRead(0);
-				tradeObj.setAssignedTo(null);
+				tradeObjV.setIsRead(0);
+				tradeObjV.setAssignedTo(null);
 			}
-			tradeObj.update();
+			tradeObjV.update();
 			
 			List<TradeIn> listData = new ArrayList<>();
     		if(user.role == null) {
@@ -5210,7 +5210,7 @@ public class Application extends Controller {
   
     public static Result showPdf(Long id) {
     	TradeIn tradeIn = TradeIn.findById(id);
-    	File file = new File(pdfRootDir+tradeIn.pdfPath);
+    	File file = new File(rootDir+tradeIn.pdfPath);
     	response().setContentType("application/pdf");
     	response().setHeader("Content-Disposition", "inline; filename=tradeIn.pdf");
 		return ok(file);
