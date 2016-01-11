@@ -2117,16 +2117,16 @@ public class Application extends Controller {
     	
     	AuthUser user = (AuthUser) getLocalUser();
     	List<FollowBrand> brandFollowers = FollowBrand.getAllBrandFollowersName(brand);
-    	
+    	System.out.println(brandFollowers.size());
     	for(FollowBrand row: brandFollowers) {
     		AuthUser logoUser = getLocalUser();	
     		//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 	    	    SiteLogo logo = SiteLogo.findByUser(logoUser);
 		    	String email = row.email;
-		    	List<FollowBrand> brandList = FollowBrand.getBrands(user, email);
+		    	List<FollowBrand> brandList = FollowBrand.getBrandsByEmail(email);
 		    	for(FollowBrand brandObj: brandList) {
 		    		
-		    		List<Vehicle> vehicleList = Vehicle.getVehiclesByMake(user, brandObj.brand);
+		    		List<Vehicle> vehicleList = Vehicle.getVehiclesByMake(brandObj.brand);
 		    		List<VehicleVM> vehicleVMList = new ArrayList<>();
 		    		
 		    		for(Vehicle vehicle: vehicleList) {

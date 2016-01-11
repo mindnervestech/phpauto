@@ -94,6 +94,9 @@ public class FollowBrand extends Model {
 	public static List<FollowBrand> getBrands(AuthUser user, String email) {
 		return find.where().eq("email", email).eq("user", user).findList();
 	}
+	public static List<FollowBrand> getBrandsByEmail(String email) {
+		return find.where().eq("email", email).findList();
+	}
 	public static List<FollowBrand> getAllBrandFollowersName(String brand) {
 		return find.where().eq("brand", brand).findList();
 	}
