@@ -5378,19 +5378,22 @@ public class Application extends Controller {
     	AuthUser user = (AuthUser) getLocalUser();
     	ToDo todo = new ToDo();
 		Vehicle vobj = Vehicle.findByVin(vin);
-		todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
-		todo.assignedTo = user;
-		todo.assignedBy = user;
-		todo.priority = "High";
-		todo.status = "Assigned";
-		Calendar cal = Calendar.getInstance();
-		Date date = new Date();
-		cal.setTime(date);
-		cal.add(Calendar.DATE, 1);
-		todo.dueDate = cal.getTime();
-		todo.saveas = 0;
-		//todo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-		todo.save();
+		if(vobj != null){
+			todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
+			todo.assignedTo = user;
+			todo.assignedBy = user;
+			todo.priority = "High";
+			todo.status = "Assigned";
+			Calendar cal = Calendar.getInstance();
+			Date date = new Date();
+			cal.setTime(date);
+			cal.add(Calendar.DATE, 1);
+			todo.dueDate = cal.getTime();
+			todo.saveas = 0;
+			//todo.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			todo.save();
+		}
+		
     }
     
     private static void sendMail(Map map) {
