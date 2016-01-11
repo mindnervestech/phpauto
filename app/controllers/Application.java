@@ -2180,7 +2180,7 @@ public class Application extends Controller {
 				        
 				        context.put("name", brandObj.name);
 				        context.put("brand", brandObj.brand);
-				        context.put("vehicleList", vehicleList);
+				        context.put("vehicleList", vehicleVMList);
 				       
 				        
 				        StringWriter writer = new StringWriter();
