@@ -790,14 +790,16 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		System.out.println("Save vehicle");
 	    	Identity user = getLocalUser();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
 	    	AuthUser userObj = (AuthUser)user;
 	    	Vehicle vehicleObj = Vehicle.findByVidAndUser(vm.vin);
+	    	System.out.println(vm.vin);
 	    	Vehicle vehicle = new Vehicle();
 	    	if(vehicleObj == null) {
-		    	
+		    	System.out.println("in.........");
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
 		    	vehicle.year = vm.year;
@@ -886,7 +888,7 @@ public class Application extends Controller {
 		    	}
 		    	vehicle.save();
 	    	}
-	    	sendEmailToBrandFollowers();
+	    	sendEmailToBrandFollowers(vehicle.make);
 	    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin);
 	    	List<Site> siteList = vehicleObj2.getSite();
 	    	MyProfile profile = MyProfile.findByUser(userObj);
@@ -2111,16 +2113,16 @@ public class Application extends Controller {
     	}	
     }
     
-    public static void sendEmailToBrandFollowers() {
+    public static void sendEmailToBrandFollowers(String brand) {
     	
     	AuthUser user = (AuthUser) getLocalUser();
-    	List<SqlRow> brandFollowers = FollowBrand.getAllBrandFollowers(user);
+    	List<FollowBrand> brandFollowers = FollowBrand.getAllBrandFollowersName(brand);
     	
-    	for(SqlRow row: brandFollowers) {
+    	for(FollowBrand row: brandFollowers) {
     		AuthUser logoUser = getLocalUser();	
     		//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 	    	    SiteLogo logo = SiteLogo.findByUser(logoUser);
-		    	String email = (String) row.get("email");
+		    	String email = row.email;
 		    	List<FollowBrand> brandList = FollowBrand.getBrands(user, email);
 		    	for(FollowBrand brandObj: brandList) {
 		    		
@@ -2199,7 +2201,7 @@ public class Application extends Controller {
     	}
     }
     
-	public static void sendPriceAlertMail() {
+	public static void sendPriceAlertMail(String vin) {
 		
 		AuthUser user = getLocalUser();
 		//AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
@@ -2209,7 +2211,8 @@ public class Application extends Controller {
  	    SiteLogo logo = SiteLogo.findByUser(logoUser);
 		
 		List<PriceAlert> priceAlertList = PriceAlert.getEmailsByStatus(user);
-		for(PriceAlert alert: priceAlertList) {
+		List<PriceAlert> priceAlerts = PriceAlert.getEmailsByStatusVin(vin);
+		for(PriceAlert alert: priceAlerts) {
 			
 			Vehicle vehicle = Vehicle.findByVidAndUser(alert.vin);
 			List<Vehicle> sameBodyList = Vehicle.getRandom(vehicle.vin);
@@ -2380,7 +2383,7 @@ public class Application extends Controller {
 		    	vehicle.setPrice(vm.price);
 		    	
 		    	vehicle.update();
-		    	sendPriceAlertMail();
+		    	sendPriceAlertMail(vehicle.vin);
 	    	}
 	    	return ok();
     	}	
@@ -2394,6 +2397,7 @@ public class Application extends Controller {
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
+	    	System.out.println(vm.id);
 	    	Vehicle vehicle = Vehicle.findById(vm.id);
 	    	if(vehicle != null) {
 	    		
@@ -2488,7 +2492,7 @@ public class Application extends Controller {
 		    	}
 		    	vehicle.update();
 		    	
-		    	sendPriceAlertMail();
+		    	sendPriceAlertMail(vehicle.vin);
 		    	
 		    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin);
 		    	List<Site> siteList2 = vehicleObj2.getSite();
