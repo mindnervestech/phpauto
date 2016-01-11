@@ -790,16 +790,14 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		System.out.println("Save vehicle");
 	    	Identity user = getLocalUser();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
 	    	AuthUser userObj = (AuthUser)user;
 	    	Vehicle vehicleObj = Vehicle.findByVidAndUser(vm.vin);
-	    	System.out.println(vm.vin);
 	    	Vehicle vehicle = new Vehicle();
 	    	if(vehicleObj == null) {
-		    	System.out.println("in.........");
+		    	
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
 		    	vehicle.year = vm.year;
@@ -2371,7 +2369,7 @@ public class Application extends Controller {
 	    	if(vehicle != null) {
 	    		if(vm.price != vehicle.price) {
 	    			
-	    				List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin);
+	    				List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin, Long.valueOf(session("USER_LOCATION")));
 	    				for(PriceAlert priceAlert: alertList) {
 	    					priceAlert.setSendEmail("Y");
 	    					priceAlert.setOldPrice(vehicle.price);
@@ -2397,12 +2395,11 @@ public class Application extends Controller {
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
-	    	System.out.println(vm.id);
 	    	Vehicle vehicle = Vehicle.findById(vm.id);
 	    	if(vehicle != null) {
 	    		
 	    		if(vm.price != vehicle.price) {
-	    			List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin);
+	    			List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin,Long.valueOf(session("USER_LOCATION")));
     				for(PriceAlert priceAlert: alertList) {
     					priceAlert.setSendEmail("Y");
     					priceAlert.setOldPrice(vehicle.price);
@@ -8004,7 +8001,7 @@ public class Application extends Controller {
     	
     	//AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	AuthUser user = getLocalUser();
-    	List<PriceAlert> pAlert = PriceAlert.getByStatus(user);
+    	List<PriceAlert> pAlert = PriceAlert.getByLocation(Long.valueOf(session("USER_LOCATION")));
     	int followerCount = pAlert.size();
     	
     	Map<String, Integer> mapRM = new HashMap<String, Integer>();
@@ -8188,7 +8185,8 @@ public class Application extends Controller {
 			e.printStackTrace();
 		}
     	
-    	List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(value);
+    	
+    	List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(value, Long.valueOf(session("USER_LOCATION")));
     	int followerCount = pAlert.size();
     	Map<String, Integer> mapRM = new HashMap<String, Integer>();
     	Map<String, Integer> mapIPAdd = new HashMap<String, Integer>();
@@ -13336,7 +13334,6 @@ public class Application extends Controller {
 	    		}
 	    		
 	    	}
-	    	
 	    	
 	    	
 	    	if(flag == 0){
