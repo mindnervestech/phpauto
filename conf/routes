@@ -132,7 +132,7 @@ GET		/getThreeMonthChartData/:id		controllers.Application.getThreeMonthChartData
 GET		/getSixMonthChartData/:id		controllers.Application.getSixMonthChartData(id:Integer)
 GET		/getYearChartData/:id			controllers.Application.getYearChartData(id:Integer)
 GET		/getRangeChartData/:id/:start/:end		controllers.Application.getRangeChartData(id:Integer,start:String,end:String)
-GET		/getPerformanceOfUser/:top/:worst/:week/:month/:year/:id/:locationValue	controllers.Application.getPerformanceOfUser(top:String,worst:String,week:String,month:String,year:String,id:Integer,locationValue:Long)
+GET		/getPerformanceOfUser/:top/:worst/:week/:month/:year/:id/:locationValue/:countNextValue 	controllers.Application.getPerformanceOfUser(top:String,worst:String,week:String,month:String,year:String,id:Integer,locationValue:Long,countNextValue:Integer)
 GET		/saveNoteOfUser/:id/:type/:note		controllers.Application.saveNoteOfUser(id:Long,type:String,note:String)
 POST	/saveTestDrive					controllers.Application.saveTestDrive()
 POST    /saveLeads							controllers.Application.saveLeads()

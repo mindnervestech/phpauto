@@ -117,7 +117,7 @@ angular.module('newApp')
 	$scope.showLocationWise = function(locationId){
 		console.log(locationId);
 		$scope.locationValue = locationId.id;
-		$scope.getPerformanceOfUser();
+		$scope.getPerformanceOfUser(0);
 		$scope.getSalesDataValue($scope.locationValue);
 	}
 	
@@ -985,7 +985,7 @@ angular.module('newApp')
     		  $scope.init = function() {
     			  
     			  
-    			 $scope.getPerformanceOfUser();
+    			 $scope.getPerformanceOfUser(0);
     			 if($scope.locationValue == null){
     				 $scope.getSalesDataValue(0);
     			 }
@@ -1033,7 +1033,7 @@ angular.module('newApp')
 		    		  $('#weekPerf').css("text-decoration","underline");
 		    		  $scope.topPerformers = true;
 		    		  $scope.weekPerformance = true;
-		    		  $scope.getPerformanceOfUser();
+		    		  $scope.getPerformanceOfUser(0);
     		  };  
     		  
     		  $scope.getToDoList = function() {
@@ -2039,7 +2039,7 @@ angular.module('newApp')
     		   $('#worstPerf').css("text-decoration","none");
     		   $scope.topPerformers = true;
      		   $scope.worstPerformers = false;
-     		   $scope.getPerformanceOfUser();
+     		   $scope.getPerformanceOfUser(0);
     	   }
     	   
     	   $scope.showWorstPerformers = function() {
@@ -2047,7 +2047,7 @@ angular.module('newApp')
     		   $('#topPerf').css("text-decoration","none");
     		   $scope.topPerformers = false;
      		   $scope.worstPerformers = true;
-     		   $scope.getPerformanceOfUser();
+     		   $scope.getPerformanceOfUser(0);
     	   }
     	   
     	   $scope.showWeekPerformers = function() {
@@ -2057,7 +2057,7 @@ angular.module('newApp')
     		   $scope.weekPerformance = true;
      		   $scope.monthPerformance = false;
      		   $scope.yearPerformance = false;
-     		   $scope.getPerformanceOfUser();
+     		   $scope.getPerformanceOfUser(0);
     	   }
     	   
     	   $scope.showMonthPerformers = function() {
@@ -2067,7 +2067,7 @@ angular.module('newApp')
     		   $scope.weekPerformance = false;
      		   $scope.monthPerformance = true;
      		   $scope.yearPerformance = false;
-     		   $scope.getPerformanceOfUser();
+     		   $scope.getPerformanceOfUser(0);
     	   }
     	   
 		   $scope.showYearPerformers = function() {
@@ -2077,21 +2077,44 @@ angular.module('newApp')
     		   $scope.weekPerformance = false;
      		   $scope.monthPerformance = false;
      		   $scope.yearPerformance = true;
-     		   $scope.getPerformanceOfUser();
+     		   $scope.getPerformanceOfUser(0);
 		   }
-		   
-		   $scope.getPerformanceOfUser = function() {
+		   $scope.userPerformanceList = {};
+		   $scope.countNextValue = 0;
+		   $scope.getPerformanceOfUser = function(countNextValue) {
 			   if($scope.locationValue == null){
 				   $scope.locationValue = 0;
 			   }
 			   if(angular.isUndefined($scope.salesPersonUser) || $scope.salesPersonUser == "") {
 				   $scope.salesPersonUser = 0;
 			   }
-			   $http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue)
+			   $http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue+'/'+countNextValue)
 		 		.success(function(data) {
 		 			console.log(data);
 		 			$scope.userPerformanceList = data;
+		 			
+		 			if($scope.userPerformanceList.lenght < 3){
+		 				console.log("hihihi1111");
+		 				console.log($scope.userPerformanceList.length);
+		 			}else{
+		 				console.log("hihihi33333");
+		 			}
+		 			/*angular.forEach(data, function(value, key) {
+		 				if($scope.countNextValue < 4){
+		 					$scope.countNextValue++;
+		 					$scope.userPerformanceList[key] = value;
+		 				}
+		 			});*/
+		 			console.log($scope.userPerformanceList);
+		 			//$scope.userPerformanceList = data;
 		 		});
+		   }
+		   
+		   $scope.showNextData = function(){
+			   console.log("hihih");
+			   $scope.countNextValue = $scope.countNextValue + 4;
+			   $scope.getPerformanceOfUser($scope.countNextValue);
+			   console.log($scope.countNextValue);
 		   }
 		   
 		   $scope.addNoteToRequestUser = function(entity,type) {

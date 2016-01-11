@@ -889,7 +889,7 @@ public class Application extends Controller {
 	    	sendEmailToBrandFollowers(vehicle.make);
 	    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin);
 	    	List<Site> siteList = vehicleObj2.getSite();
-	    	MyProfile profile = MyProfile.findByUser(userObj);
+	    	MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(userObj);
 	    	if(!siteList.isEmpty()) {
 		    	for(Site siteObj: siteList) {
 		    		
@@ -1524,7 +1524,7 @@ public class Application extends Controller {
 		    	  } 
 	    	   } 
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
-	    	   SiteLogo logo = SiteLogo.findByUser(logoUser);
+	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(logoUser);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
@@ -2119,7 +2119,7 @@ public class Application extends Controller {
     	for(FollowBrand row: brandFollowers) {
     		AuthUser logoUser = getLocalUser();	
     		//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
-	    	    SiteLogo logo = SiteLogo.findByUser(logoUser);
+	    	    SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
 		    	String email = row.email;
 		    	List<FollowBrand> brandList = FollowBrand.getBrandsByEmail(email);
 		    	for(FollowBrand brandObj: brandList) {
@@ -2203,10 +2203,10 @@ public class Application extends Controller {
 		
 		AuthUser user = getLocalUser();
 		//AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
-		MyProfile profile = MyProfile.findByUser(user);
+		MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(user);
 		AuthUser logoUser = getLocalUser();
 		//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
- 	    SiteLogo logo = SiteLogo.findByUser(logoUser);
+ 	    SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(logoUser);
 		
 		List<PriceAlert> priceAlertList = PriceAlert.getEmailsByStatus(user);
 		List<PriceAlert> priceAlerts = PriceAlert.getEmailsByStatusVin(vin);
@@ -2493,7 +2493,7 @@ public class Application extends Controller {
 		    	
 		    	Vehicle vehicleObj2 = Vehicle.findByVidAndUser(vm.vin);
 		    	List<Site> siteList2 = vehicleObj2.getSite();
-		    	MyProfile profile = MyProfile.findByUser(userObj);
+		    	MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(userObj);
 		    	if(!siteList2.isEmpty()) {
 			    	for(Site siteObj: siteList2) {
 			    		if(siteObj.getName().equals("CarsGuru")) {
@@ -5598,7 +5598,7 @@ public class Application extends Controller {
 		    	  } 
 	    	   } 
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
-	    	   SiteLogo logo = SiteLogo.findByUser(logoUser);
+	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
@@ -7113,7 +7113,7 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,Integer id,Long locationValue) {
+    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,Integer id,Long locationValue,Integer countNextValue) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -7200,8 +7200,14 @@ public class Application extends Controller {
     						}
     					}
     				}
-    				
-    				if(tempuserList.length >=1){
+    				int iValue = 0;
+    				for(int i=countNextValue;i<tempuserList.length-1;i++) {
+    					iValue++;
+    					if(iValue <= 4){
+    						userList.add(tempuserList[i]);
+    					}
+    				}
+    				/*if(tempuserList.length >=1){
     					userList.add(tempuserList[0]);
     				}	
     				if(tempuserList.length >=2){
@@ -7209,7 +7215,7 @@ public class Application extends Controller {
     				}
     				if(tempuserList.length >=3){
     					userList.add(tempuserList[2]);
-    				}	
+    				}	*/
     			  }	
     			
     			if(id != 0) {
@@ -7304,7 +7310,11 @@ public class Application extends Controller {
     					}
     				}
     				
-    				if(tempuserList.length >=1){
+    				for(int i=0;i<tempuserList.length-1;i++) {
+    					userList.add(tempuserList[i]);
+    				}
+    				
+    				/*if(tempuserList.length >=1){
     					userList.add(tempuserList[0]);
     				}	
     				if(tempuserList.length >=2){
@@ -7312,7 +7322,7 @@ public class Application extends Controller {
     				}
     				if(tempuserList.length >=3){
     					userList.add(tempuserList[2]);
-    				}	
+    				}	*/
     				
     			}
     			
@@ -11879,12 +11889,14 @@ public class Application extends Controller {
 		List<Blog> blogList = Blog.getBlogsByDate(cal.getTime(),date);
 		AuthUser user = getLocalUser();
 		//AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
-		MyProfile profile = MyProfile.findByUser(user);
+		
+		//MyProfile profile = MyProfile.findByUser(user);
+		MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));
 		String mapUrl = "http://maps.google.com/?q="+profile.address+","+profile.city+","+profile.zip+","+profile.state+","+profile.country;
 		if(blogList.size() > 0) {
 			AuthUser logoUser = getLocalUser();
 			//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
-	    	SiteLogo logo = SiteLogo.findByUser(logoUser);
+	    	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(logoUser);
 			List<Contacts> contactsList = Contacts.getAllNewsletter();
 			for(Contacts contact : contactsList) {
 				Properties props = new Properties();
