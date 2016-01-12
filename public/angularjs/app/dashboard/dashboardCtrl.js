@@ -768,6 +768,7 @@ angular.module('newApp')
      			 		 		
     		  $http.get('/getAllRequestInfoSeen')
     				.success(function(data) {
+    					console.log(data);
     				$scope.gridOptions5.data = data;
     				$scope.AllRequestInfoSeenList = data;
     			});
@@ -955,8 +956,8 @@ angular.module('newApp')
     		$scope.onlineVisitorFind = function(){
     			  
     			  $http.get('/getVisitorOnline').success(function(response) {
-    				  console.log("hi  hihih yogesh");
-    				  console.log(response);
+    				  //console.log("hi  hihih yogesh");
+    				  //console.log(response);
     				  $scope.onlineVisitorsCount = response;
     			  });
     		  }	
@@ -2119,21 +2120,24 @@ angular.module('newApp')
 		   
 		   $scope.addNoteToRequestUser = function(entity,type) {
 			   $scope.userNoteId = entity.id;
-			   if(entity.option==0) {
+			   console.log(entity);
+			  /* if(entity.option == 0) {
 				   $scope.typeOfNote = 'scheduleTest';
 			   } else if(entity.option == 1) {
 				   $scope.typeOfNote = 'requestMore';
 			   } else if(entity.option == 2) {
 				   $scope.typeOfNote = 'tradeIn';
-			   } else {
+			   } else {*/
 				   $scope.typeOfNote = type;
-			   }
+			   //}
 			   $scope.userNoteList = entity.note;
 			   $scope.userNote = "";
 			   $('#btnUserNote').click();
 		   }
 		   
 		   $scope.saveUserNote = function() {
+			   console.log($scope.userNoteId);
+			   console.log($scope.typeOfNote);
 			   console.log($scope.userNote);
 			   $http.get('/saveNoteOfUser/'+$scope.userNoteId+'/'+$scope.typeOfNote+'/'+$scope.userNote)
 		 		.success(function(data) {
