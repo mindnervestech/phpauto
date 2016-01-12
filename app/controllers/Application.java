@@ -13368,4 +13368,149 @@ public class Application extends Controller {
 		return ok();
 	}
 	
+	public static Result exportContactsData(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		FileWriter fileWriter = null;
+    		String COMMA_DELIMITER = ",";
+    		String NEW_LINE_SEPARATOR = "\n";
+    		
+    		File fdir = new File(rootDir+File.separator+"CsvFile");
+       	    if(!fdir.exists()) {
+       	    	fdir.mkdir();
+       	    }
+       	    String filePath = rootDir+File.separator+"CsvFile/contacts.csv";
+    		
+    		System.out.println(filePath);
+    		
+    		try {
+       			Boolean sts = FileUtils.deleteQuietly(new File(filePath));
+       			System.out.println("delete "+sts);
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+    		
+    		String FILE_HEADER = "ContactId,Type,Salutation,FirstName,MiddleName,LastName,Suffix,CompanyName,Email,WorkEmail,Email1,WorkEmail1,Phone,WorkPhone,Phone1,WorkPhone1,Street,City,State,Zip,Countrt,AllEmail,AllPhone,Website,AllAddress,Title,Birthday,BackgroundInfo,Industry,NumberOfEmployees,CreationDate,LastEditedDate,AssignnedTo,CampaignSource,Priority,Groups,Relationship,Notes,Version,Newsletter";
+    		try {
+
+    			fileWriter = new FileWriter(filePath);
+        		fileWriter.append(FILE_HEADER.toString());
+        		fileWriter.append(NEW_LINE_SEPARATOR);
+        		
+        		List<Contacts> list = Contacts.getAllContacts();
+        		
+        		for (Contacts contacts : list) {
+        			System.out.println("in loop");
+        			
+        			fileWriter.append(String.valueOf(contacts.contactId));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.type));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.salutation));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.firstName));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.middleName));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.lastName));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.suffix));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.companyName));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.email));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.workEmail));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.email1));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.workEmail1));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.phone));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.workPhone));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.phone1));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.workPhone1));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.street));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.city));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.state));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.zip));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.country));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.allEmail));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.allPhone));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.website));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.allAddresses));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.title));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.birthday));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.backgroundInfo));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.industry));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.numberOfEmployees));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.creationDate));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.lastEditedDate));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.assignedTo));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.campaignSource));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.priority));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.groups));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.relationships));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.notes));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.version));
+            		fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.newsLetter));
+        			fileWriter.append(NEW_LINE_SEPARATOR);
+				}
+        		System.out.println("CSV file was created successfully !!!");
+        		
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				            try {
+				                fileWriter.flush();
+				                fileWriter.close();
+				            } catch (IOException e) {
+				                System.out.println("Error while flushing/closing fileWriter !!!");
+				                e.printStackTrace();
+				            }
+				             
+				        }
+    		
+    		return ok();
+    	}
+	}
+	
+	public static Result downloadStatusFile(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		String filePath = rootDir+File.separator+"CsvFile/contacts.csv";
+    		File file = new File(filePath);
+    		return ok(file);
+    	}
+	}
+	
 }

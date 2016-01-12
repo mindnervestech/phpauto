@@ -50,6 +50,32 @@ angular.module('newApp')
 	   		
    		};
    		 
+   		$scope.exportCsv = function(){
+   			$http.get('/exportContactsData').success(function(data){
+   				console.log(data);
+   				
+   				$.fileDownload('/downloadStatusFile',
+						{	   	
+							   /*httpMethod : "POST",
+							   data : {
+							   }*/
+						}).done(function(e, response)
+								{
+									$.pnotify({
+												title: "Success",
+												type:'success',
+												text: "File download successfully",
+									});
+								}).fail(function(e, response)
+								{
+									// failure
+									console.log('fail');
+									console.log(response);
+									console.log(e);
+								});
+   			});
+   		}
+   		
    		$http.get('/getAllContactsData').success(function(data){
 				$scope.gridOptions.data = data;
 				$scope.contactsList = data;
