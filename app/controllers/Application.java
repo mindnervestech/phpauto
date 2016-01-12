@@ -7379,7 +7379,10 @@ public class Application extends Controller {
     			UserNotes notes = new UserNotes();
     			notes.note = note;
     			notes.requestMoreInfo = requestMore;
-    			notes.user = requestMore.assignedTo;
+    			if(requestMore.assignedTo !=null){
+    				notes.user = requestMore.assignedTo;
+    			}
+    			
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
@@ -7391,7 +7394,9 @@ public class Application extends Controller {
     			UserNotes notes = new UserNotes();
     			notes.note = note;
     			notes.scheduleTest = scheduleTest;
-    			notes.user = scheduleTest.assignedTo;
+    			if(scheduleTest.assignedTo !=null){
+    				notes.user = scheduleTest.assignedTo;
+    			}
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
@@ -7403,7 +7408,9 @@ public class Application extends Controller {
     			UserNotes notes = new UserNotes();
     			notes.note = note;
     			notes.tradeIn = tradeIn;
-    			notes.user = tradeIn.assignedTo;
+    			if(tradeIn.assignedTo !=null){
+    				notes.user = tradeIn.assignedTo;
+    			}
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
