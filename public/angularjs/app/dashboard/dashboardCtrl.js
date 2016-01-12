@@ -1807,15 +1807,25 @@ angular.module('newApp')
     		  $scope.scheduleTestData.confirmTime = $("#timePick").val();
     		  $http.post('/saveConfirmData',$scope.scheduleTestData)
     	 		.success(function(data) {
-    	 			console.log('success');
-    	 			$.pnotify({
-    				    title: "Success",
-    				    type:'success',
-    				    text: "Saved successfully",
-    				});
-    	 			$('#modalClose').click();
-    	 			$scope.getScheduleTestData();
-    	 			$scope.init();
+    	 			
+    	 			if(data == "success"){
+    	 				console.log('success');
+        	 			$.pnotify({
+        				    title: "Success",
+        				    type:'success',
+        				    text: "Saved successfully",
+        				});
+        	 			$('#modalClose').click();
+        	 			$scope.getScheduleTestData();
+        	 			$scope.init();
+    	 			}else{
+    	 				$.pnotify({
+        				    title: "Error",
+        				    type:'success',
+        				    text: "Test Drive Time Allready Exist",
+        				});
+    	 			}
+    	 			
     	 		});
     	  }
     	

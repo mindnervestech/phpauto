@@ -266,4 +266,7 @@ public class ScheduleTest extends Model {
 	public void setIs_google_data(Boolean is_google_data) {
 		this.is_google_data = is_google_data;
 	}
+	public static List<ScheduleTest> findByVin(String vin) {
+		return find.where().eq("vin", vin).findList();
+	}
 }

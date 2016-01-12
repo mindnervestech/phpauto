@@ -5340,7 +5340,112 @@ public class Application extends Controller {
     	Date confirmDate = null;
     	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
-		if(vm.option==0) {
+		Date time = null;
+		String msg = "success";
+		
+		try {
+			 confirmDate = df.parse(vm.confirmDate);
+			 time = parseTime.parse(vm.confirmTime);
+			 
+				if(vm.option==0) {
+					ScheduleTest  scheduleTest = ScheduleTest.findById(vm.id);
+					if(scheduleTest != null) {
+						
+						scheduleTest.setConfirmDate(confirmDate);
+						scheduleTest.setConfirmTime(time);
+						scheduleTest.setEmail(vm.email);
+						vin = scheduleTest.vin;
+						
+						List<ScheduleTest> list = ScheduleTest.findByVin(vm.vin);
+	    				//Date date = parseTime.parse(vm.bestTime);
+	    				for (ScheduleTest info2 : list) {
+	    					if(info2.confirmDate != null && info2.confirmTime != null){
+	    						if(info2.confirmDate.equals(confirmDate)){
+	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    								msg = "error";
+	    							}
+	    						}
+	    					}
+						}
+						if(msg.equals("success")){
+							flag = true;
+							scheduleTest.update();
+						}
+					}	
+				}else if(vm.option == 1) {
+					RequestMoreInfo info = RequestMoreInfo.findById(vm.id);
+					if(info!=null) {
+						
+						info.setConfirmDate(confirmDate);
+						info.setConfirmTime(time);
+						info.setEmail(vm.email);
+						vin = info.vin;
+						
+						List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
+	    				//Date date = parseTime.parse(vm.bestTime);
+	    				for (RequestMoreInfo info2 : list) {
+	    					if(info2.confirmDate != null && info2.confirmTime != null){
+	    						if(info2.confirmDate.equals(confirmDate)){
+	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    								msg = "error";
+	    							}
+	    						}
+	    					}
+						}
+						if(msg.equals("success")){
+							flag = true;
+							info.update();
+						}
+						
+					}
+				}else if(vm.option == 2) {
+					TradeIn info = TradeIn.findById(vm.id);
+					if(info!=null) {
+						
+						info.setConfirmDate(confirmDate);
+						info.setConfirmTime(time);
+						info.setEmail(vm.email);
+						vin = info.vin;
+						
+						List<TradeIn> list = TradeIn.findByVin(vm.vin);
+	    				//Date date = parseTime.parse(vm.bestTime);
+	    				for (TradeIn info2 : list) {
+	    					if(info2.confirmDate != null && info2.confirmTime != null){
+	    						if(info2.confirmDate.equals(confirmDate)){
+	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    								msg = "error";
+	    							}
+	    						}
+	    					}
+						}
+						if(msg.equals("success")){
+							flag = true;
+							info.update();
+						}
+						
+					}
+				}
+				
+				if(flag) {
+		    		Map map = new HashMap();
+		    		map.put("email",vm.email);
+		    		map.put("email",vm.email);
+		    		map.put("confirmDate", confirmDate);
+		    		map.put("confirmTime", vm.confirmTime);
+		    		map.put("vin", vin);
+		    		map.put("uname", user.firstName+" "+user.lastName);
+		    		map.put("uphone", user.phone);
+		    		map.put("uemail", user.email);
+		    		makeToDo(vm.vin);
+		    		sendMail(map);
+		    	}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		/*if(vm.option==0) {
 			ScheduleTest  scheduleTest = ScheduleTest.findById(vm.id);
 			if(scheduleTest != null) {
 				flag = true;
@@ -5410,8 +5515,8 @@ public class Application extends Controller {
     		map.put("uemail", user.email);
     		makeToDo(vm.vin);
     		sendMail(map);
-    	}
-    	return ok();
+    	}*/
+    	return ok(msg);
     }
     
     private static void makeToDo(String vin) {
