@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
 import play.db.ebean.Model;
@@ -53,6 +56,18 @@ public class Contacts extends Model {
 	public String email1;
 	public String phone1;
 	public Integer newsLetter;
+	
+	 public Integer user;
+	
+	public Integer getUser() {
+		return user;
+	}
+	public void setUser(Integer user) {
+		this.user = user;
+	}
+
+
+
 	@Version
 	public java.util.Date version; 
 	
@@ -303,6 +318,9 @@ public class Contacts extends Model {
 	
 	public static List<Contacts> getAllContacts() {
 		return find.all();
+	}
+	public static List<Contacts> getAllContactsByUser(int id) {
+		return find.where().eq("user", id).findList();
 	}
 	
 	public static Contacts findByEmail(String email) {

@@ -7398,7 +7398,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		if(type.equals("requestMore")) {
+    		if(type.equalsIgnoreCase("requestMore")) {
     			RequestMoreInfo requestMore = RequestMoreInfo.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
@@ -7413,12 +7413,13 @@ public class Application extends Controller {
 				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			notes.save();
     		}
-    		if(type.equals("scheduleTest")) {
+    		if(type.equalsIgnoreCase("scheduleTest")) {
     			ScheduleTest scheduleTest = ScheduleTest.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
     			notes.scheduleTest = scheduleTest;
-    			if(scheduleTest.assignedTo !=null){
+    			AuthUser usr = AuthUser.findById(scheduleTest.assignedTo.id);
+    			if(scheduleTest.assignedTo != null){
     				notes.user = scheduleTest.assignedTo;
     			}
     			Date date = new Date();
@@ -7427,7 +7428,7 @@ public class Application extends Controller {
 				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			notes.save();
     		}
-    		if(type.equals("tradeIn")) {
+    		if(type.equalsIgnoreCase("tradeIn")) {
     			TradeIn tradeIn = TradeIn.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
@@ -11626,8 +11627,15 @@ public class Application extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser userObj = (AuthUser) getLocalUser();
     		List<ContactsVM> contactsVMList = new ArrayList<>();
-    		List<Contacts> contactsList = Contacts.getAllContacts();
+    		List<Contacts> contactsList;
+    		if(userObj.role.equalsIgnoreCase("Manager")){
+    			contactsList = Contacts.getAllContacts();
+    		}else{
+    			contactsList = Contacts.getAllContactsByUser(userObj.id);
+    		}
+    		
     		for(Contacts contact : contactsList) {
     			ContactsVM vm = new ContactsVM();
     			vm.contactId = contact.contactId;
@@ -11742,6 +11750,9 @@ public class Application extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		
+    		AuthUser userObj = (AuthUser) getLocalUser();
+    		
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
     		ContactsVM vm = form.get();
     		Contacts obj = Contacts.findByEmail(vm.email);
@@ -11765,6 +11776,8 @@ public class Application extends Controller {
  		    contacts.setWorkPhone1(vm.workPhone1);
  		    contacts.setEmail1(vm.email1);
  		    contacts.setPhone1(vm.phone1);
+ 		    //contacts.userId = userObj;
+ 		    contacts.setUser(userObj.id);
  		    
  		   /*
  		     contacts.setAllEmail(vm.allEmail);
@@ -13423,7 +13436,7 @@ public class Application extends Controller {
     				e.printStackTrace();
     			}
     		
-    		String FILE_HEADER = "ContactId,Type,Salutation,FirstName,MiddleName,LastName,Suffix,CompanyName,Email,WorkEmail,Email1,WorkEmail1,Phone,WorkPhone,Phone1,WorkPhone1,Street,City,State,Zip,Countrt,AllEmail,AllPhone,Website,AllAddress,Title,Birthday,BackgroundInfo,Industry,NumberOfEmployees,CreationDate,LastEditedDate,AssignnedTo,CampaignSource,Priority,Groups,Relationship,Notes,Version,Newsletter";
+    		String FILE_HEADER = "ContactId,Type,Salutation,FirstName,MiddleName,LastName,Suffix,CompanyName,Email,WorkEmail,Email1,WorkEmail1,Phone,WorkPhone,Phone1,WorkPhone1,Street,City,State,Zip,Countrt,AllEmail,AllPhone,Website,AllAddress,Title,Birthday,BackgroundInfo,Industry,NumberOfEmployees,CreationDate,LastEditedDate,AssignnedTo,CampaignSource,Priority,Groups,Relationship,Notes,Version,Newsletter,AddedBy";
     		try {
 
     			fileWriter = new FileWriter(filePath);
@@ -13514,6 +13527,8 @@ public class Application extends Controller {
         			fileWriter.append(String.valueOf(contacts.version));
             		fileWriter.append(COMMA_DELIMITER);
         			fileWriter.append(String.valueOf(contacts.newsLetter));
+        			fileWriter.append(COMMA_DELIMITER);
+        			fileWriter.append(String.valueOf(contacts.user));
         			fileWriter.append(NEW_LINE_SEPARATOR);
 				}
         		System.out.println("CSV file was created successfully !!!");
