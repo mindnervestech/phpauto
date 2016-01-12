@@ -82,6 +82,7 @@ import models.VirtualTour;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -7450,12 +7451,16 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		
+    		String msg = "success";
     		AuthUser user = getLocalUser();
     		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+    		request().body().asJson();
     		Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
     		RequestInfoVM vm = form.get();
     		Date confirmDate = null;
+    		Vehicle obj = Vehicle.findByVin(vm.vin);
     		if(vm.option==1) {
     			RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(vm.id);
     			requestMoreInfo.setName(vm.name);
@@ -7466,6 +7471,19 @@ public class Application extends Controller {
     				confirmDate = df.parse(vm.bestDay);
     				requestMoreInfo.setConfirmDate(confirmDate);
     				requestMoreInfo.setConfirmTime(parseTime.parse(vm.bestTime));
+    				List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
+    				Date date = parseTime.parse(vm.bestTime);
+    				for (RequestMoreInfo info2 : list) {
+    					if(info2.confirmDate != null && info2.confirmTime !=null){
+    						if(info2.confirmDate.equals(confirmDate)){
+    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+    							if(date.after(info2.confirmTime) && date.before(newDate)){
+    								msg = "error";
+    							}
+    						}
+    					}
+					}
+    				
     			} catch(Exception e) {}
     			requestMoreInfo.setBestTime(vm.bestTime);
     			requestMoreInfo.setPreferredContact(vm.prefferedContact);
@@ -7473,7 +7491,9 @@ public class Application extends Controller {
     			requestMoreInfo.setScheduleDate(new Date());
     			requestMoreInfo.setUser(user);
     			requestMoreInfo.setIsScheduled(true);
-    			requestMoreInfo.update();
+    			if(msg.equals("success")){
+    				requestMoreInfo.update();
+    			}
     		} else {
     			TradeIn tradeIn = TradeIn.findById(vm.id);
     			tradeIn.setFirstName(vm.name);
@@ -7485,26 +7505,46 @@ public class Application extends Controller {
     				confirmDate = df.parse(vm.bestDay);
     				tradeIn.setConfirmDate(confirmDate);
     				tradeIn.setConfirmTime(parseTime.parse(vm.bestTime));
+    				
+    				List<TradeIn> list = TradeIn.findByVin(vm.vin);
+    				Date date = parseTime.parse(vm.bestTime);
+    				for (TradeIn info2 : list) {
+    					if(info2.confirmDate != null && info2.confirmTime !=null){
+    						if(info2.confirmDate.equals(confirmDate)){
+    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+    							if(date.after(info2.confirmTime) && date.before(newDate)){
+    								msg = "error";
+    							}
+    						}
+    					}
+					}
+    				
     			} catch(Exception e) {}
     			tradeIn.setPreferredContact(vm.prefferedContact);
     			tradeIn.setVin(vm.vin);
     			tradeIn.setScheduleDate(new Date());
     			tradeIn.setUser(user);
     			tradeIn.setIsScheduled(true);
-    			tradeIn.update();
+    			if(msg.equals("success")){
+    				tradeIn.update();
+    			}
     		}
-        	Map map = new HashMap();
-        	map.put("email",vm.email);
-        	map.put("email",vm.email);
-        	map.put("confirmDate", confirmDate);
-        	map.put("confirmTime", vm.bestTime);
-        	map.put("vin", vm.vin);
-        	map.put("uname", user.firstName+" "+user.lastName);
-        	map.put("uphone", user.phone);
-        	map.put("uemail", user.email);
-        	makeToDo(vm.vin);
-        	sendMail(map);
-    		return ok();
+    		
+    		if(msg.equals("success")){
+    			Map map = new HashMap();
+            	map.put("email",vm.email);
+            	map.put("email",vm.email);
+            	map.put("confirmDate", confirmDate);
+            	map.put("confirmTime", vm.bestTime);
+            	map.put("vin", vm.vin);
+            	map.put("uname", user.firstName+" "+user.lastName);
+            	map.put("uphone", user.phone);
+            	map.put("uemail", user.email);
+            	makeToDo(vm.vin);
+            	sendMail(map);
+    		}
+        	
+    		return ok(msg);
     	}
     }
     

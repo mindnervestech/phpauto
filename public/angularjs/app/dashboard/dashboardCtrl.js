@@ -2163,15 +2163,24 @@ angular.module('newApp')
 			   console.log($scope.testDriveData);
 			   $http.post('/saveTestDrive',$scope.testDriveData)
 				.success(function(data) {
-					$scope.getAllSalesPersonRecord($scope.salesPerson);
-					$('#driveClose').click();
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "saved successfully",
-					});
-					$("#test-drive-tab").click();
-					$scope.testDrive();
+					if(data == "success"){
+						$scope.getAllSalesPersonRecord($scope.salesPerson);
+						$('#driveClose').click();
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "saved successfully",
+						});
+						$("#test-drive-tab").click();
+						$scope.testDrive();
+					}else{
+						$.pnotify({
+						    title: "Error",
+						    type:'success',
+						    text: "Test Drive Time Allready Exist",
+						});
+					}
+					
 				});
 		   }
 		   
