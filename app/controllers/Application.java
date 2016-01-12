@@ -5656,6 +5656,7 @@ public class Application extends Controller {
     	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     	Date dateobj = new Date();
     	Calendar cal1 = Calendar.getInstance();
+    	AuthUser users = (AuthUser) getLocalUser();
     	
     	Map<String, Integer> mapCar = new HashMap<String, Integer>();
     	
@@ -5686,7 +5687,21 @@ public class Application extends Controller {
     	int requestLeadCount = 0;
     	int scheduleLeadCount = 0;
     	int tradeInLeadCount = 0;
-    	List<RequestMoreInfo> rInfo = RequestMoreInfo.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    	
+    	List<RequestMoreInfo> rInfo = null;
+    	List<ScheduleTest> sList = null;
+    	List<TradeIn> tradeIns = null;
+    	
+    	if(users.role.equals("Manager")){
+    		rInfo = RequestMoreInfo.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    		sList = ScheduleTest.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    		tradeIns = TradeIn.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    	}else if(users.role.equals("Sales Person")){
+    		rInfo = RequestMoreInfo.findAllByAssignedUser(users);
+    		sList = ScheduleTest.findAllByAssignedUser(users);
+    		tradeIns = TradeIn.findAllByAssignedUser(users);
+    	}
+    	
     	for(RequestMoreInfo rMoreInfo:rInfo){
     		//if(rMoreInfo.requestDate != null){
     		 // if(rMoreInfo.requestDate.after(timeBack)) {
@@ -5695,7 +5710,7 @@ public class Application extends Controller {
     		//}
     	}
     	
-    	List<ScheduleTest> sList = ScheduleTest.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    	
     	for(ScheduleTest sTest:sList){
     		//if(sTest.scheduleDate != null){
     		//if(sTest.scheduleDate.after(timeBack)) {
@@ -5703,7 +5718,7 @@ public class Application extends Controller {
     		//}
     		//}
     	}
-    	List<TradeIn> tradeIns = TradeIn.findByLocation(Long.parseLong(session("USER_LOCATION")));
+
     	for(TradeIn tIn:tradeIns){
     		//if(tIn.tradeDate != null){
     			//if(tIn.tradeDate.after(timeBack)) {
@@ -6324,6 +6339,7 @@ public class Application extends Controller {
     		} 
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
+    		contactsObj.newsLetter = 0;
     		contactsObj.save();
     		TradeIn info = TradeIn.findById(vm.infoId);
     		Vehicle vehicle = Vehicle.findByVin(info.vin);
@@ -6333,6 +6349,16 @@ public class Application extends Controller {
     		vehicle.update();
     		info.setStatus("COMPLETE");
     		info.update();
+    		
+    		List<TradeIn> tIn = TradeIn.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		for(TradeIn tradeIn:tIn){
+    			if(!tradeIn.status.equals("COMPLETE")){
+    				tradeIn.status = "lost";
+    				tradeIn.update();
+    			}
+    		}
+    		
+    		
     		return ok();
     	}
     }
@@ -7113,7 +7139,7 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,Integer id,Long locationValue,Integer countNextValue) {
+    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,Integer id,Long locationValue) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -7201,11 +7227,9 @@ public class Application extends Controller {
     					}
     				}
     				int iValue = 0;
-    				for(int i=countNextValue;i<tempuserList.length-1;i++) {
-    					iValue++;
-    					if(iValue <= 4){
+    				for(int i=0;i<tempuserList.length-1;i++) {
+    					
     						userList.add(tempuserList[i]);
-    					}
     				}
     				/*if(tempuserList.length >=1){
     					userList.add(tempuserList[0]);
@@ -10137,12 +10161,13 @@ public class Application extends Controller {
     		}
     	}
     	List<Vehicle> topVisited =null;
-    	if(vins.size()>=3) {
+    	topVisited = Vehicle.findByVins(vins);
+    	/*if(vins.size()>=3) {
     		topVisited = Vehicle.findByVins(vins.subList(0, 3));
     	} else {
     		topVisited = Vehicle.findByVins(vins.subList(0, vins.size()));
-    	}
-    	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<VehicleAnalyticalVM>(3);
+    	}*/
+    	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
     	for(Vehicle vehicle:topVisited) {
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
     		analyticalVM.count = pagesCount.get(vehicle.getVin());
@@ -10158,7 +10183,7 @@ public class Application extends Controller {
     		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		topVisitedVms.add(analyticalVM);
     	}
-    	List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<VehicleAnalyticalVM>(3);
+    	List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<>();
     	List<Vehicle> notVisitedVehicle = Vehicle.findByNotInVins(vins);
     	for(Vehicle vehicle:notVisitedVehicle) {
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
@@ -10175,9 +10200,9 @@ public class Application extends Controller {
     		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		
     		worstVisitedVms.add(analyticalVM);
-    		if(worstVisitedVms.size()==3) {
+    		/*if(worstVisitedVms.size()==3) {
     			break;
-    		}
+    		}*/
     	}
     	for(int i = worstVisitedVms.size();i<3;i++) {
     		Vehicle vehicle = Vehicle.findByVin(vins.get(i-worstVisitedVms.size()));

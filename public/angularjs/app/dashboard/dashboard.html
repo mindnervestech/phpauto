@@ -139,32 +139,35 @@ margin-left: 5px;
 							
 							<div class="row">
 					            <div class="col-md-12">
-					            	<div class="panel widget-map">
+					            	<div class="panel">
 								    	<h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP LISTINGS</b></h4>
 								    	<br>
 										<div class="row">
-											<div class="col-xlg-4 panel" style="width:852px;height: 368px;overflow: hidden; position: relative;margin-top:1%;">
+											<div class="col-xlg-4 panel" style="width:846px;height: 268px;margin-left: 5px;overflow: hidden; position: relative;margin-top:1%;">
 												<div>
 								     				<div class="col-sm-12">
 								        				<h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()">TOP VISITED</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6>
 								        	    		<h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
 								        			</div>
 								    			</div>
-						       					<div>
-													<div class="col-sm-12">
-														<div class="col-sm-4" ng-repeat="item in currentData">
+						       					 <div style="width: 100%;display: flex;overflow-x: scroll;height: 235px;">
+									                <div style="float: left;" ng-repeat="item in currentData">
+													<div>
+														<div style="float: left;">
 								    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
 								    					</div>
 								   					</div>      
+												
+												<div style="line-height:1.028571;">
+													<label style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;"><b>{{item.name}}</b></label>
 												</div>
-												<div class="col-sm-12 " style="line-height:1.028571;">
-													<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;" ng-repeat="item in currentData"><b>{{item.name}}</b></label>
+												<div style="float: left">
+													<label class="col-sm-4 control-label" style="text-align: center;"><h5>VISITED COUNT</h5></label>
 												</div>
-												<div class="col-sm-12">
-													<label class="col-sm-4 control-label" style="text-align: center;" ng-repeat="item in currentData"><h5>VISITED COUNT</h5></label>
+												<div style="line-height:0.428571;">
+													<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;"><b>{{item.count}}</b></label>
 												</div>
-												<div class="col-sm-12"style="line-height:0.428571;">
-													<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;" ng-repeat="item in currentData"><b>{{item.count}}</b></label>
+												</div>
 												</div>
 											</div>
 										</div>
@@ -200,60 +203,43 @@ margin-left: 5px;
 									         <div>
 									           <div class="col-sm-12">
 									               <h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()">WORST PERFORMERS</a></h6>
-									                <h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showNextData()">NEXT</a></h6>
+									                <h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a></h6>
 									            </div>
 									         </div>
-									                
+								         
+									         
+									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;">
+									                <div style="float: left;" ng-repeat="item in userPerformanceList">
+									               									                
 									              <div>
-									              <div class="col-sm-12">
-									                     <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" ng-if="userPerformanceList.length >= 1" src="http://glider-autos.com/glivrImg/images{{userPerformanceList[0].imageUrl}}">
-									                     <img class="col-sm-4"style="width: 120px;margin-left: 80px;margin-top: 25px;" ng-if="userPerformanceList.length >= 2" src="http://glider-autos.com/glivrImg/images{{userPerformanceList[1].imageUrl}}">
-									                      <img class="col-sm-4"style="width: 120px;margin-left: 80px;margin-top: 25px;" ng-if="userPerformanceList.length >= 3" src="http://glider-autos.com/glivrImg/images{{userPerformanceList[2].imageUrl}}">
-									                      <img class="col-sm-4"style="width: 120px;margin-left: 80px;margin-top: 25px;" ng-if="userPerformanceList.length >= 4" src="http://glider-autos.com/glivrImg/images{{userPerformanceList[3].imageUrl}}">
+									              <div>
+									                     <img style="width: 120px;"  src="http://glider-autos.com/glivrImg/images{{item.imageUrl}}">
+									                 
 									                  </div>      
 									              </div>
-										 <div class="col-sm-12 " style="line-height:1.028571;width:113%;">
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 2%;font-size: 19px;margin-top: 10px;" ng-if="userPerformanceList.length >= 1"><b>{{userPerformanceList[0].fullName}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 2%;font-size: 19px;margin-top: 10px;" ng-if="userPerformanceList.length >= 2"><b>{{userPerformanceList[1].fullName}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 2%;font-size: 19px;margin-top: 10px;" ng-if="userPerformanceList.length >= 3"><b>{{userPerformanceList[2].fullName}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 2%;font-size: 19px;margin-top: 10px;" ng-if="userPerformanceList.length >= 4"><b>{{userPerformanceList[3].fullName}}</b></label>
+										 <div style="line-height:1.028571;margin-left: 30px;">
+											<label class="control-label" style="text-align: center;font-size: 19px;"><b>{{item.fullName}}</b></label>
+										
 										</div>
-										<div class="col-sm-12">
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 17px;" ng-if="userPerformanceList.length >= 1"><h5>SUCCESS RATE</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 59px;" ng-if="userPerformanceList.length >= 2"><h5>SUCCESS RATE</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 58px;" ng-if="userPerformanceList.length >= 3"><h5>SUCCESS RATE</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 58px;" ng-if="userPerformanceList.length >= 4"><h5>SUCCESS RATE</h5></label>											
+										<div style="width: 190px;">
+											<label style="text-align: left;width: 74px;"><h5>SUCCESS RATE</h5></label>
+											<label style="font-size: 20px;width: 74px;"><b>{{item.successRate}}%</b></label>
+																					
 										</div>
-										<div class="col-sm-12"style="line-height:0.428571;width:113%;">
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;" ng-if="userPerformanceList.length >= 1"><b>{{userPerformanceList[0].successRate}}%</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="userPerformanceList.length >= 2"><b>{{userPerformanceList[1].successRate}}%</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="userPerformanceList.length >= 3"><b>{{userPerformanceList[2].successRate}}%</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="userPerformanceList.length >= 4"><b>{{userPerformanceList[3].successRate}}%</b></label>
+									
+										<div style="width: 190px;">
+											<label style="text-align: left;width: 74px;"><h5>CURRENT LEADS</h5></label>
+											<label style="font-size: 20px;width: 74px;"><b>{{item.currentLeads}}</b></label>
+											
 										</div>
-										<div class="col-sm-12">
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 17px;" ng-if="userPerformanceList.length >= 1"><h5>CURRENT LEADS</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 59px;" ng-if="userPerformanceList.length >= 2"><h5>CURRENT LEADS</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 58px;" ng-if="userPerformanceList.length >= 3"><h5>CURRENT LEADS</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 58px;" ng-if="userPerformanceList.length >= 4"><h5>CURRENT LEADS</h5></label>
+										 
+										<div style="width: 190px;">
+											<label style="text-align: left;width: 74px;"><h5>SALES AMOUNT</h5></label>
+											<label style="font-size: 20px;width: 74px;"><b>${{item.salesAmount}}</b></label>
+											
 										</div>
-										<div class="col-sm-12"style="line-height:0.428571;width:113%;">
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;" ng-if="userPerformanceList.length >= 1"><b>{{userPerformanceList[0].currentLeads}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="userPerformanceList.length >= 2"><b>{{userPerformanceList[1].currentLeads}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="userPerformanceList.length >= 3"><b>{{userPerformanceList[2].currentLeads}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="userPerformanceList.length >= 4"><b>{{userPerformanceList[3].currentLeads}}</b></label>
-										</div> 
-										<div class="col-sm-12">
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 17px;" ng-if="userPerformanceList.length >= 1"><h5>SALES AMOUNT</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 59px;" ng-if="userPerformanceList.length >= 2"><h5>SALES AMOUNT</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 58px;" ng-if="userPerformanceList.length >= 3"><h5>SALES AMOUNT</h5></label>
-											<label class="col-sm-2 control-label" style="text-align: left;margin-left: 58px;" ng-if="userPerformanceList.length >= 4"><h5>SALES AMOUNT</h5></label>
 										</div>
-										<div class="col-sm-12"style="line-height:0.428571;width:113%;">
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;" ng-if="userPerformanceList.length >= 1"><b>${{userPerformanceList[0].salesAmount}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="userPerformanceList.length >= 2"><b>${{userPerformanceList[1].salesAmount}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="userPerformanceList.length >= 3"><b>${{userPerformanceList[2].salesAmount}}</b></label>
-											<label class="col-sm-2 control-label" style="text-align: center;margin-left: 6%;font-size: 20px;" ng-if="userPerformanceList.length >= 4"><b>${{userPerformanceList[3].salesAmount}}</b></label>
-										</div>
+									               </div>
 									</div>
 									</div>
 								</div>	

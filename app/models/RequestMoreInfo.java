@@ -178,6 +178,10 @@ public class RequestMoreInfo extends Model {
 		return find.where().eq("user", user).findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllByAssignedUser(AuthUser user) {
+		return find.where().eq("assignedTo", user).findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllScheduledUser(AuthUser user) {
 		//return find.where().eq("isScheduled", true).eq("user", user).eq("leadStatus", null).findList();
 		return find.where().eq("isScheduled", true).eq("assignedTo", user).eq("leadStatus", null).findList();
