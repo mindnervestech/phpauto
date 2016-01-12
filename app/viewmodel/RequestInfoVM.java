@@ -29,6 +29,7 @@ public class RequestInfoVM {
 	public String leadType;
 	public String howContactedUs;
 	public String howFoundUs;
+	public String typeOfLead;
 	public int option;
 	public String isgoogle;
 }

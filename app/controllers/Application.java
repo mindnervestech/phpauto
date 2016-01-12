@@ -2011,6 +2011,42 @@ public class Application extends Controller {
 	    		Date date = new Date();
 	    		vm.setSoldDate(date);
 	    		vm.update();
+	    		
+	    		if(status.equals("Sold")){
+	    			List<TradeIn> tIn = TradeIn.findByVinAndLocation(vm.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+	        		for(TradeIn tradeIn:tIn){
+	        			if(tradeIn.status == null){
+	        				tradeIn.setStatus("LOST");
+	        				tradeIn.update();
+	        			}else if(!tradeIn.status.equals("COMPLETE")){
+	        				tradeIn.setStatus("LOST");
+	        				tradeIn.update();
+	        			}
+	        		}
+	        		
+	        		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vm.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+	        		for(RequestMoreInfo rMoreInfo:rInfos){
+	        			if(rMoreInfo.status == null){
+	        				rMoreInfo.setStatus("LOST");
+	        				rMoreInfo.update();
+	        			}else if(!rMoreInfo.status.equals("COMPLETE")){
+	        				rMoreInfo.setStatus("LOST");
+	        				rMoreInfo.update();
+	        			}
+	        		}
+	        		
+	        		
+	        		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(vm.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+	        		for(ScheduleTest scheduleTest:sTests){
+	        			if(scheduleTest.leadStatus == null){
+	        				scheduleTest.setLeadStatus("LOST");
+	        				scheduleTest.update();
+	        			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
+	        				scheduleTest.setLeadStatus("LOST");
+	        				scheduleTest.update();
+	        			}
+	        		}
+	    		}
 	    	}
 	    	
 	    	return ok();
@@ -4229,6 +4265,7 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -4370,6 +4407,7 @@ public class Application extends Controller {
 	    		vm.bestTime = info.bestTime;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -4503,6 +4541,7 @@ public class Application extends Controller {
 	    		vm.email = info.email!=null ? info.email:"";
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -6206,16 +6245,74 @@ public class Application extends Controller {
     		} 
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
+    		contactsObj.newsLetter = 0;
     		contactsObj.save();
     		AuthUser user = getLocalUser();
-    		ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
-    		schedule.setLeadStatus("SUCCESSFUL");
-    		schedule.update();
-    		Vehicle vehicle = Vehicle.findByVidAndUser(schedule.vin);
-    		vehicle.setStatus("Sold");
-    		Date date = new Date();
-    		vehicle.setSoldDate(date);
-    		vehicle.update();
+    		
+    		String vinNo = null;
+    		if(vm.typeOfLead.equals("Request More Info")){
+    			RequestMoreInfo rInfo = RequestMoreInfo.findById(vm.infoId);
+    			rInfo.setLeadStatus("COMPLETE");
+    			rInfo.update();
+    			vinNo = rInfo.vin;
+    		}else if(vm.typeOfLead.equals("Schedule Test Drive")){
+    			ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
+        		//schedule.setLeadStatus("SUCCESSFUL");
+        		schedule.setLeadStatus("COMPLETE");
+        		schedule.update();
+        		
+        		vinNo = schedule.vin;
+    		}else if(vm.typeOfLead.equals("Trade-In Appraisal")){
+    			TradeIn tIn = TradeIn.findById(vm.infoId);
+    			tIn.setLeadStatus("COMPLETE");
+    			tIn.update();
+    			vinNo = tIn.vin;
+    		}
+    		
+    		Vehicle vehicle = Vehicle.findByVidAndUser(vinNo);
+    		
+    		if(vehicle != null){
+	    		vehicle.setStatus("Sold");
+	    		Date date = new Date();
+	    		vehicle.setSoldDate(date);
+	    		vehicle.update();
+    		}
+    		
+    		
+    		List<TradeIn> tIn = TradeIn.findByVinAndLocation(vinNo, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		for(TradeIn tradeIn:tIn){
+    			if(tradeIn.status == null){
+    				tradeIn.setStatus("LOST");
+    				tradeIn.update();
+    			}else if(!tradeIn.status.equals("COMPLETE")){
+    				tradeIn.setStatus("LOST");
+    				tradeIn.update();
+    			}
+    		}
+    		
+    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vinNo, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		for(RequestMoreInfo rMoreInfo:rInfos){
+    			if(rMoreInfo.status == null){
+    				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.update();
+    			}else if(!rMoreInfo.status.equals("COMPLETE")){
+    				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.update();
+    			}
+    		}
+    		
+    		
+    		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(vinNo, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		for(ScheduleTest scheduleTest:sTests){
+    			if(scheduleTest.leadStatus == null){
+    				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.update();
+    			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
+    				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.update();
+    			}
+    		}
+    		
     		
     		return ok();
     	}
@@ -6280,15 +6377,54 @@ public class Application extends Controller {
     		} 
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
+    		contactsObj.newsLetter = 0;
     		contactsObj.save();
     		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
     		Vehicle vehicle = Vehicle.findByVin(info.vin);
-    		vehicle.setStatus("Sold");
-    		Date date = new Date();
-    		vehicle.setSoldDate(date);
-    		vehicle.update();
+    		if(vehicle != null){
+	    		vehicle.setStatus("Sold");
+	    		Date date = new Date();
+	    		vehicle.setSoldDate(date);
+	    		vehicle.update();
+    		}
     		info.setStatus("COMPLETE");
     		info.update();
+    		
+    		
+    		List<TradeIn> tIn = TradeIn.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		for(TradeIn tradeIn:tIn){
+    			if(tradeIn.status == null){
+    				tradeIn.setStatus("LOST");
+    				tradeIn.update();
+    			}else if(!tradeIn.status.equals("COMPLETE")){
+    				tradeIn.setStatus("LOST");
+    				tradeIn.update();
+    			}
+    		}
+    		
+    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		for(RequestMoreInfo rMoreInfo:rInfos){
+    			if(rMoreInfo.status == null){
+    				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.update();
+    			}else if(!rMoreInfo.status.equals("COMPLETE")){
+    				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.update();
+    			}
+    		}
+    		
+    		
+    		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		for(ScheduleTest scheduleTest:sTests){
+    			if(scheduleTest.leadStatus == null){
+    				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.update();
+    			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
+    				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.update();
+    			}
+    		}
+    		
     		return ok();
     	}
     }
@@ -6344,21 +6480,48 @@ public class Application extends Controller {
     		contactsObj.save();
     		TradeIn info = TradeIn.findById(vm.infoId);
     		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		if(vehicle != null){
     		vehicle.setStatus("Sold");
     		Date date = new Date();
     		vehicle.setSoldDate(date);
     		vehicle.update();
+    		}
     		info.setStatus("COMPLETE");
     		info.update();
     		
     		List<TradeIn> tIn = TradeIn.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
     		for(TradeIn tradeIn:tIn){
-    			if(!tradeIn.status.equals("COMPLETE")){
-    				tradeIn.status = "lost";
+    			if(tradeIn.status == null){
+    				tradeIn.setStatus("LOST");
+    				tradeIn.update();
+    			}else if(!tradeIn.status.equals("COMPLETE")){
+    				tradeIn.setStatus("LOST");
     				tradeIn.update();
     			}
     		}
     		
+    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		for(RequestMoreInfo rMoreInfo:rInfos){
+    			if(rMoreInfo.status == null){
+    				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.update();
+    			}else if(!rMoreInfo.status.equals("COMPLETE")){
+    				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.update();
+    			}
+    		}
+    		
+    		
+    		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		for(ScheduleTest scheduleTest:sTests){
+    			if(scheduleTest.leadStatus == null){
+    				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.update();
+    			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
+    				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.update();
+    			}
+    		}
     		
     		return ok();
     	}
@@ -6643,12 +6806,15 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
+	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -6697,12 +6863,15 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.year = vehicle.year;
 	    		}
 	    		vm.name = info.firstName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
+	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -6751,12 +6920,15 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.year = vehicle.year;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
+	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -6827,10 +6999,13 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.year = vehicle.year;
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
@@ -6884,10 +7059,13 @@ public class Application extends Controller {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
+	    			vm.year =vehicle.year;
+	    			vm.mileage =vehicle.mileage;
 	    		}
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {

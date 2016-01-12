@@ -694,7 +694,7 @@ angular.module('newApp')
      			 		   		                                     }
      			 		  		                                	} ,
      			 		 		                                 },
-     			 		 		                                 
+     			 		 		                                  			 		 		                                 
      			 		 		                                { name: 'edit', displayName: '', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      			 		    		                                 cellTemplate:' <a ng-click="grid.appScope.getTradeData(row)" href="/showPdf/{{row.entity.id}}" target="_blank" style="margin-top:7px;margin-left:6px;" >View</a>',
      			 		    		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -704,6 +704,7 @@ angular.module('newApp')
      			 		   		                                	} ,
      			 				                                 
      			 				                                 },
+     			 				                                 
      			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'43%',cellEditableCondition: false,
      	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">ADD TO CLIENTELE</button>',
      	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1614,6 +1615,7 @@ angular.module('newApp')
     		$scope.soldContact.name = entity.name;
     		$scope.soldContact.email = entity.email;
     		$scope.soldContact.phone = entity.phone;
+    		$scope.soldContact.typeOfLead = entity.typeOfLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
     			$scope.soldContact.howContactedUs = entity.howContactedUs;
     		} else {
@@ -1632,6 +1634,7 @@ angular.module('newApp')
     	}
     	
     	$scope.saveScheduleStatus = function() {
+    		
 	    		$http.post('/setVehicleAndScheduleStatus',$scope.soldContact)
 				.success(function(data) {
 					$('#scheduleStatusModal').modal('hide');
@@ -1738,6 +1741,7 @@ angular.module('newApp')
     		$scope.soldContact.name = entity.name;
     		$scope.soldContact.email = entity.email;
     		$scope.soldContact.phone = entity.phone;
+    		$scope.soldContact.typeOfLead = entity.typeOfLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
     			$scope.soldContact.howContactedUs = entity.howContactedUs;
     		} else {

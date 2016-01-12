@@ -16,5 +16,6 @@ public class SoldContactVM {
 	public String year;
 	public String mileage;
 	public String price;
+	public String typeOfLead;
 	
 }

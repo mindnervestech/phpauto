@@ -42,6 +42,7 @@ public class ScheduleTest extends Model {
 	public Boolean isReassigned = true;
 	public String contactedFrom;
 	public String hearedFrom;
+	public String status;
 	public String location;
 	public String google_id;
 	public Boolean is_google_data;
@@ -168,6 +169,13 @@ public class ScheduleTest extends Model {
 		this.locations = locations;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 
 
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
@@ -225,6 +233,10 @@ public class ScheduleTest extends Model {
 	
 	public static List<ScheduleTest> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
+	}
+	
+	public static List<ScheduleTest>  findByVinAndLocation(String vin,Location location) {
+		return find.where().eq("vin", vin).eq("locations", location).findList();
 	}
 	
 	public static List<ScheduleTest> findAllByAssignedUser(AuthUser user) {
