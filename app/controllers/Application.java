@@ -6993,7 +6993,10 @@ public class Application extends Controller {
     	} else {
     		AuthUser user = getLocalUser();
     		
-    		List<AuthUser> SalesUserList = AuthUser.getAllUserByLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		//List<AuthUser> SalesUserList = AuthUser.getAllUserByLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		List<AuthUser> SalesUserList = AuthUser.findByLocatio(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		
+    		
     		List<UserVM> vmList = new ArrayList<>();
     		if(user.role != null) {
     			if(user.role.equals("General Manager") && user.role.equals("Manager")) {
