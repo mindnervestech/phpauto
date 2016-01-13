@@ -17,6 +17,9 @@ angular.module('newApp')
 	{name:'Account Settings',isSelected:false}];
 	$scope.userData = {};
 	$scope.trial;
+	$scope.num;
+	$scope.duration="month";
+	$scope.contactVal;
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -82,6 +85,21 @@ angular.module('newApp')
 	});
 	}
 	
+	$scope.contract = function(type){
+		$scope.contactVal= type;
+		if(type=="Employee"){
+			$("#number").attr("disabled", true);
+			$("#duration").attr("disabled", true);
+			$("#number1").attr("disabled", true);
+			$("#duration1").attr("disabled", true);
+		}else{
+			$("#number").attr("disabled", false);
+			$("#duration").attr("disabled", false);
+			$("#number1").attr("disabled", false);
+			$("#duration1").attr("disabled", false);
+		}
+	}
+	
 	$scope.createNewUser=function(){
 		$scope.permission = [];
 		angular.forEach($scope.permissionList, function(obj, index){
@@ -136,6 +154,20 @@ angular.module('newApp')
 			 obj.isSelected = false;
 		});
 		$('#editUserModal').click();
+		if(row.entity.contractDur=="Employee"){
+			$scope.contactVal= row.entity.contractDur;
+				$("#number").attr("disabled", true);
+				$("#duration").attr("disabled", true);
+				$('#employee1').click();
+		}else{
+			var durations = row.entity.contractDur;
+			var val = durations.split(' ');
+			$scope.num1 = parseInt(val[0]);
+			$scope.duration1=val[1];
+			$('#txt1').click();
+		}
+		console.log($scope.num1);
+		console.log($scope.duration1);
 		$scope.userData = row.entity;
 		$scope.userData.trialPeriod = parseInt($scope.userData.trialPeriod);
 		console.log($scope.userData);
@@ -197,6 +229,14 @@ angular.module('newApp')
 	$scope.saveImage = function() {
 		
 		$scope.user.permissions = $scope.permission;
+		if($scope.contactVal=="Employee"){
+			$scope.user.contractDur = $scope.contactVal;
+		}else{
+			if($scope.num==null){
+				$scope.num=0;
+			}
+			$scope.user.contractDur = $scope.num+" "+$scope.duration;
+		}
 		console.log($scope.user);
 		if(angular.isUndefined(logofile)) {
 			if($scope.emailMsg == "") {
@@ -248,6 +288,17 @@ angular.module('newApp')
 	$scope.updateImage = function() {
 		$scope.userData.permissions = $scope.permission;
 		delete $scope.userData.successRate;
+		
+		if($scope.contactVal=="Employee"){
+			$scope.userData.contractDur = $scope.contactVal;
+		}else{
+			if($scope.num1==null){
+				$scope.num1=0;
+			}
+			$scope.userData.contractDur = $scope.num1+" "+$scope.duration1;
+		}
+		
+		
 		console.log($scope.userData);
 		$scope.userData.locationId = 0;
 		if(angular.isUndefined(logofile)) {
