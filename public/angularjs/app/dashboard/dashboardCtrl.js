@@ -609,35 +609,35 @@ angular.module('newApp')
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'confirmDate', displayName: 'Confirm Day',enableFiltering: false, width:'9%',cellEditableCondition: false,
+     			 		                                 { name: 'confirmDate', displayName: 'Confirm Day',enableFiltering: false, width:'8%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      					                                 },
-     					                                 { name: 'confirmTime', displayName: 'Confirm Time',enableFiltering: false, width:'9%',cellEditableCondition: false,
+     					                                 { name: 'confirmTime', displayName: 'Confirm Time',enableFiltering: false, width:'8%',cellEditableCondition: false,
      					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      				  		                                       if (row.entity.confirmDate === null) {
      				  		                                         return 'red';
      				  		                                     }
      				 		                                	} ,
      			 		                                 },
-     			 		                               { name: 'bestDay', displayName: 'Requested Time',enableFiltering: false, width:'9%',cellEditableCondition: false,
+     			 		                               { name: 'bestDay', displayName: 'Requested Time',enableFiltering: false, width:'8%',cellEditableCondition: false,
       			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       			   		                                       if (row.entity.confirmDate === null) {
       			   		                                         return 'red';
       			   		                                     }
       			  		                                	} ,
       					                                 },
-      					                                 { name: 'bestTime', displayName: 'Requested Time',enableFiltering: false, width:'9%',cellEditableCondition: false,
+      					                                 { name: 'bestTime', displayName: 'Requested Time',enableFiltering: false, width:'8%',cellEditableCondition: false,
       					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       				  		                                       if (row.entity.confirmDate === null) {
       				  		                                         return 'red';
       				  		                                     }
       				 		                                	} ,
       			 		                                 },
-     			 		                                { name: 'isRead', displayName: 'Confirm',enableFiltering: false, width:'15%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     			 		                                { name: 'isRead', displayName: 'Confirm',enableFiltering: false, width:'10%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      			 		                                	 cellTemplate:'<div class="icheck-list"ng-show="grid.appScope.userType != \'\'" ></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType != \'\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;" ng-click="confres()">Confirm/Reschedule</button>', 
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			  		                                       if (row.entity.confirmDate === null) {
@@ -645,7 +645,7 @@ angular.module('newApp')
      			  		                                     }
      			 		                                	} ,
      			 		                                 },
-     			 		                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'35%',cellEditableCondition: false,
+     			 		                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'30%',cellEditableCondition: false,
       			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" ng-show="grid.appScope.userType != \'\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelScheduleStatus(row.entity)" ng-show="grid.appScope.userType != \'\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'scheduleTest\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">ADD TO CLIENTELE</button>',
       			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
        			   		                                       if (row.entity.confirmDate === null) {
