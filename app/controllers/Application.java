@@ -5964,30 +5964,41 @@ public class Application extends Controller {
     		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
     		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(users);
     		
-    		saleCarCount = rInfo1.size() + sList1.size() + tradeIns1.size();
-    		double sucessCount= (double)saleCarCount/(double)countLeads*100;
-    		lDataVM.successRate = (int) sucessCount;
+    	//	saleCarCount = rInfo1.size() + sList1.size() + tradeIns1.size();
     		
     		for(RequestMoreInfo rMoreInfo: rInfo1){
     			Vehicle vehicle = Vehicle.findByVin(rMoreInfo.vin);
     			if(vehicle != null){
-    				pricecount = pricecount + vehicle.price;
+    				if(vehicle.soldDate.after(timeBack)) {
+            			saleCarCount++;
+            			pricecount = pricecount + vehicle.price;
+    				}
     			}
     		}
     		
     		for(ScheduleTest sTest: sList1){
     			Vehicle vehicle = Vehicle.findByVin(sTest.vin);
     			if(vehicle != null){
-    				pricecount = pricecount + vehicle.price;
+    				if(vehicle.soldDate.after(timeBack)) {
+            			saleCarCount++;
+            			pricecount = pricecount + vehicle.price;
+    				}
     			}
     		}
     		
     		for(TradeIn tradeIn: tradeIns1){
     			Vehicle vehicle = Vehicle.findByVin(tradeIn.vin);
     			if(vehicle != null){
-    				pricecount = pricecount + vehicle.price;
+    				if(vehicle.soldDate.after(timeBack)) {
+            			saleCarCount++;
+            			pricecount = pricecount + vehicle.price;
+    				}
     			}
     		}
+    		
+    		double sucessCount= (double)saleCarCount/(double)countLeads*100;
+    		lDataVM.successRate = (int) sucessCount;
+    		
     		/*List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
         	
         	lDataVM.successRate = (int) sucessCount;
@@ -6091,14 +6102,8 @@ public class Application extends Controller {
 			sAndValues.add(sValue);
     	}
     	
-    	
-    	
-    	
-    	
     	lDataVM.sendData = sAndValues;
-    	
-    
-    
+
     	return ok(Json.toJson(lDataVM));
     }
     
