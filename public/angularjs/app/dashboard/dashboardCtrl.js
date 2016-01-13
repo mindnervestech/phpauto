@@ -3223,17 +3223,29 @@ angular.module('newApp')
 		});
    }
    
-   
+   $scope.soldContact = {};
    $scope.updateVehicleStatus = function(row){
 	   console.log(row);
 	   $scope.statusVal = "";
+	   
+	   $('#btnStatusSchedule').click();
+	   
 	   if(row.entity.status == 'Newly Arrived') {
-		   $scope.statusVal = "Sold";
+		   $scope.soldContact.statusVal = "Sold";
 	   }
 	   if(row.entity.status == 'Sold') {
-		   $scope.statusVal = "Newly Arrived";
+		   $scope.soldContact.statusVal = "Newly Arrived";
 	   }
-	   $http.get('/updateVehicleStatus/'+row.entity.id+'/'+$scope.statusVal)
+	   
+	   $scope.soldContact.make = row.entity.make;
+	   $scope.soldContact.mileage = row.entity.mileage;
+	   $scope.soldContact.model = row.entity.model;
+	   $scope.soldContact.year = row.entity.year;
+	   $scope.soldContact.vin = row.entity.vin;
+	   $scope.soldContact.id = row.entity.id;
+	   
+	   
+	/*   $http.get('/updateVehicleStatus/'+row.entity.id+'/'+$scope.statusVal)
 		.success(function(data) {
 			if(row.entity.status == 'Newly Arrived') {
 				 $scope.viewVehiclesInit();
@@ -3252,8 +3264,33 @@ angular.module('newApp')
 				});
 			}
 			
-		});
+		});*/
    }
+   
+	$scope.saveVehicalStatus = function() {
+		console.log($scope.soldContact);
+		
+		$http.post('/setVehicleStatus',$scope.soldContact)
+		.success(function(data) {
+			$('#vehicalStatusModal').modal('hide');
+			if($scope.soldContact.statusVal == 'Newly Arrived') {
+				 $scope.viewVehiclesInit();
+				 $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Vehicle status marked Newly Arrived",
+					});
+			} 
+			if($scope.soldContact.statusVal == 'Sold') {
+				$scope.soldTab();
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Vehicle status marked sold",
+				});
+			}
+	});
+}
    
    $scope.editingData = [];
    

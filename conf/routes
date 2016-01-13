@@ -136,6 +136,7 @@ GET		/getPerformanceOfUser/:top/:worst/:week/:month/:year/:id/:locationValue	con
 GET		/saveNoteOfUser/:id/:type/:note		controllers.Application.saveNoteOfUser(id:Long,type:String,note:String)
 POST	/saveTestDrive					controllers.Application.saveTestDrive()
 POST    /saveLeads							controllers.Application.saveLeads()
+POST    /setVehicleStatus    						controllers.Application.setVehicleStatus()
 GET		/getAllCanceledLeads			controllers.Application.getAllCanceledLeads()
 GET		/getSalesUserOnly/:locationValue				controllers.Application.getSalesUserOnly(locationValue:Long)
 GET		/changeAssignedUser/:id/:userId/:lead		controllers.Application.changeAssignedUser(id:Long,userId:Integer,lead:String)

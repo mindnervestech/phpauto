@@ -6378,6 +6378,97 @@ public class Application extends Controller {
     	}
     }
     
+    
+    public static Result setVehicleStatus() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
+    		SoldContactVM vm = form.get();
+    		SoldContact contact = new SoldContact();
+    		contact.name = vm.name;
+    		contact.email = vm.email;
+    		contact.phone = vm.phone;
+    		contact.gender = vm.gender;
+    		contact.age = vm.age;
+    		contact.buyingFor = vm.buyingFor;
+    		contact.howContactedUs = vm.howContactedUs;
+    		contact.howFoundUs = vm.howFoundUs;
+    		contact.make = vm.make;
+    		contact.year = vm.year;
+    		contact.mileage = vm.mileage;
+    		contact.price = vm.price;
+    		contact.save();
+    		Contacts contactsObj = new Contacts();
+    		String arr[] = vm.name.split(" ");
+    		if(arr.length >= 1) {
+    			contactsObj.firstName = arr[0];
+    		} else {
+    			contactsObj.firstName = vm.name;
+    		}
+    		if(arr.length >= 2) {
+    			contactsObj.middleName = arr[1];
+    		}
+    		if(arr.length >= 3) {
+    			contactsObj.lastName = arr[2];
+    		} 
+    		contactsObj.email = vm.email;
+    		contactsObj.phone = vm.phone;
+    		contactsObj.newsLetter = 0;
+    		contactsObj.save();
+    		AuthUser user = getLocalUser();
+    		
+    		
+    		Vehicle vehicle = Vehicle.findByVidAndUser(vm.vin);
+    		
+    		if(vehicle != null){
+	    		vehicle.setStatus("Sold");
+	    		Date date = new Date();
+	    		vehicle.setSoldDate(date);
+	    		vehicle.update();
+    		}
+    		
+    		if(vm.statusVal.equals("Sold")){
+    			List<TradeIn> tIn = TradeIn.findByVinAndLocation(vm.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+        		for(TradeIn tradeIn:tIn){
+        			if(tradeIn.status == null){
+        				tradeIn.setStatus("LOST");
+        				tradeIn.update();
+        			}else if(!tradeIn.status.equals("COMPLETE")){
+        				tradeIn.setStatus("LOST");
+        				tradeIn.update();
+        			}
+        		}
+        		
+        		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vm.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+        		for(RequestMoreInfo rMoreInfo:rInfos){
+        			if(rMoreInfo.status == null){
+        				rMoreInfo.setStatus("LOST");
+        				rMoreInfo.update();
+        			}else if(!rMoreInfo.status.equals("COMPLETE")){
+        				rMoreInfo.setStatus("LOST");
+        				rMoreInfo.update();
+        			}
+        		}
+        		
+        		
+        		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(vm.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+        		for(ScheduleTest scheduleTest:sTests){
+        			if(scheduleTest.leadStatus == null){
+        				scheduleTest.setLeadStatus("LOST");
+        				scheduleTest.update();
+        			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
+        				scheduleTest.setLeadStatus("LOST");
+        				scheduleTest.update();
+        			}
+        		}
+    		}
+    		
+    		return ok();
+    	}
+    }
+    
+    
     public static Result setVehicleAndScheduleStatus() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
