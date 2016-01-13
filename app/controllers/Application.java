@@ -7665,7 +7665,7 @@ public class Application extends Controller {
     					}
     				}
     				int iValue = 0;
-    				for(int i=0;i<tempuserList.length-1;i++) {
+    				for(int i=0;i<tempuserList.length;i++) {
     					
     						userList.add(tempuserList[i]);
     				}
@@ -7772,7 +7772,7 @@ public class Application extends Controller {
     					}
     				}
     				
-    				for(int i=0;i<tempuserList.length-1;i++) {
+    				for(int i=0;i<tempuserList.length;i++) {
     					userList.add(tempuserList[i]);
     				}
     				
