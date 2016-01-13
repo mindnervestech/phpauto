@@ -16,6 +16,9 @@ angular.module('newApp')
 	{name:'Financial Statistics',isSelected:false},
 	{name:'Account Settings',isSelected:false}];
 	$scope.userData = {};
+	$scope.dash = null;
+	$scope.profile = null;
+	$scope.inventory = null;
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -48,6 +51,21 @@ angular.module('newApp')
 		$location.path('/myprofile');
 	}
 	
+	$scope.selectOption = function(){
+		var type = $('#userType').val();
+		console.log(type);
+		if(type == "Sales Person"){
+			console.log("in if");
+			$scope.dash = "Dashboard";
+			$scope.profile = "Inventory";
+			$scope.inventory = "My Profile";
+		}else{
+			console.log("in else");
+			$scope.dash = null;
+			$scope.profile = null;
+			$scope.inventory = null;
+		}
+	}
 	
 	$scope.init = function() {
 		$http.get('/getAllUsers')
