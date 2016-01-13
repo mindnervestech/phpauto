@@ -623,6 +623,20 @@ angular.module('newApp')
      				  		                                     }
      				 		                                	} ,
      			 		                                 },
+     			 		                               { name: 'bestDay', displayName: 'Requested Time',enableFiltering: false, width:'9%',cellEditableCondition: false,
+      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+      			   		                                       if (row.entity.confirmDate === null) {
+      			   		                                         return 'red';
+      			   		                                     }
+      			  		                                	} ,
+      					                                 },
+      					                                 { name: 'bestTime', displayName: 'Requested Time',enableFiltering: false, width:'9%',cellEditableCondition: false,
+      					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+      				  		                                       if (row.entity.confirmDate === null) {
+      				  		                                         return 'red';
+      				  		                                     }
+      				 		                                	} ,
+      			 		                                 },
      			 		                                { name: 'isRead', displayName: 'Confirm',enableFiltering: false, width:'15%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      			 		                                	 cellTemplate:'<div class="icheck-list"ng-show="grid.appScope.userType != \'\'" ></div><button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType != \'\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;" ng-click="confres()">Confirm/Reschedule</button>', 
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {

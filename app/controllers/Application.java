@@ -7128,8 +7128,8 @@ public class Application extends Controller {
 	    		vm.name = info.firstName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
-	    		vm.bestTime = info.bestTime;
+	    		//vm.bestDay = info.bestDay;
+	    		//vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -7185,8 +7185,8 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
-	    		vm.bestTime = info.bestTime;
+	    		//vm.bestDay = info.bestDay;
+	    		//vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
