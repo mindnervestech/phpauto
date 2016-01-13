@@ -24,6 +24,7 @@ public class UserVM {
 	public String experience;
 	public String trainingPro;
 	public String trialPeriod;
+	public String trial;
 	public String userGender;
 	public String salary;
 	public String trainingCost;

@@ -108,7 +108,38 @@
 							<div class="col-sm-6">
 								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
 								<div class="col-sm-6">
-									<input class="form-control form-white" type="text" ng-model="user.trialPeriod"  required>
+									<select class="form-control form-white" id="usertrial" ng-change="getTrial(user.trial)" ng-model="user.trial">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="user.trial == 'Yes'">
+						  <div class="col-sm-6">
+							
+						  </div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Days *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="number" ng-model="user.trialPeriod"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="user.trainingPro == 'Yes'">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.trainingCost">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Training Hours*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.trainingHours">
 								</div>
 							</div>	
 						</div>
@@ -236,28 +267,14 @@
 								
 							</div>	
 						</div> -->
-						<div class="form-group col-sm-12" ng-if="user.trainingPro == 'Yes'">
-						<div class="col-sm-6">
-							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
-								<div class="col-sm-6">
-									<input class="form-control form-white" type="text" ng-model="user.trainingCost">
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<label class="col-sm-3 control-label" style="text-align: right;">Training Hours*</label>
-								<div class="col-sm-6">
-									<input class="form-control form-white" type="text" ng-model="user.trainingHours">
-								</div>
-							</div>	
-						</div>
 					
-						<div class="form-group col-sm-12">
-						  <!--<div class="col-sm-6">
+						<!--<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
 								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
 								<div class="col-sm-6">
 									<input class="form-control form-white" type="text" ng-model="user.trialPeriod"  required>
 								</div>
-							</div>-->
+							</div>
 							<div class="col-sm-6">
 								<label class="col-sm-3 control-label" style="text-align: right;">Contract Duration *</label>
 								<div class="col-sm-6">
@@ -282,7 +299,7 @@
                                 </select>
 								</div>
 							</div>	
-						</div>
+						</div>-->
 					
 					
 					
@@ -319,7 +336,214 @@
                 <form name="userEditFrm" ng-submit="updateImage()">
                <div class="modal-body">
                    
-                   		<div class="form-group col-sm-12">
+                   <div class="form-group col-sm-12">
+                   			<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">First Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.firstName"  required>
+								</div>
+							</div>	
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Last Name *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.lastName"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Email *</label>
+								<div class="col-sm-6">
+									<input id="userEmail" class="form-control form-white" type="email" ng-model="userData.email" ng-blur="checkEmail('create')"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.phone"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Gender</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userGender" ng-model="userData.userGender">
+                                    <option value="">Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+								</div>
+							</div>
+								<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Age </label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userAge" ng-model="userData.age">
+                                    <option value="">Select</option>
+                                    <option value="16-18">16-18</option>
+                                    <option value="18-20">18-20</option>
+                                    <option value="20-25">20-25</option>
+                                    <option value="25-30">25-30</option>
+                                    <option value="30-40">30-40</option>
+                                    <option value="40-50">40-50</option>
+                                    <option value="50-60">50-60</option>
+                                </select>
+								</div>
+								</div>
+						</div>
+						
+						<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrainingPro" ng-change="getProvided(userData.trainingPro)" ng-model="userData.trainingPro">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>
+						<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usertrial" ng-change="getTrial(userData.trial)" ng-model="userData.trial">
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12" ng-if="userData.trial == 'Yes'">
+						  <div class="col-sm-6">
+							
+						  </div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Days *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="number" ng-model="userData.trialPeriod"  required>
+								</div>
+							</div>	
+						</div>
+						<div class="form-group col-sm-12" ng-if="userData.trainingPro == 'Yes'">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Training Cost *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trainingCost">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Training Hours*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.trainingHours">
+								</div>
+							</div>	
+						</div>
+						<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Contract Duration *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usercontractDur" ng-model="userData.contractDur">
+                                    <option value="">Select</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="24">24</option>
+                                    <option value="36">36</option>
+                                    <option value="48">48</option>
+                                    <option value="employee">employee</option>
+                                </select>
+								</div>
+							</div>	
+							
+						  	<div class="col-sm-6">
+						  	
+							</div>
+						</div>
+						
+						<div class="form-group col-sm-12">
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Salary *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.salary"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Commission %*</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="userData.commission"  required>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="form-group col-sm-12">
+							<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">Role *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="userType" ng-model="userData.userType" required>
+                                    <option value="">Select</option>
+                                    <option value="Sales Person">Sales Person</option>
+                                </select>
+								</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-3 control-label" style="text-align: right;">System Features *</label>
+								<div class="col-sm-6">
+									<label ng-repeat="rolePer in permissionList" class="col-sm-6" style="padding:0px;">
+				 						 <input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
+				 						   	ng-model="rolePer.isSelected">					
+   					 						{{rolePer.name}}</label>
+								</div>
+								</div>
+									
+						</div>
+						
+						<!--<div class="form-group col-sm-12">
+						  <div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Trial Period *</label>
+								<div class="col-sm-6">
+									<input class="form-control form-white" type="text" ng-model="user.trialPeriod"  required>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<label class="col-sm-3 control-label" style="text-align: right;">Contract Duration *</label>
+								<div class="col-sm-6">
+									<select class="form-control form-white" id="usercontractDur" ng-model="userData.contractDur">
+                                    <option value="">Select</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="24">24</option>
+                                    <option value="36">36</option>
+                                    <option value="48">48</option>
+                                    <option value="employee">employee</option>
+                                </select>
+								</div>
+							</div>	
+						</div>-->
+                   
+                   	<!--	<div class="form-group col-sm-12">
                    			<div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">First Name *</label>
 								<div class="col-sm-6">
@@ -437,7 +661,7 @@
 								<div class="col-sm-6">
 									<input class="form-control form-white" type="text" ng-model="user.commission"  required>
 								</div>
-						</div> -->
+						</div> 
 						<div class="form-group col-sm-12">
 						  <div class="col-sm-6">
 							<label class="col-sm-3 control-label" style="text-align: right;">Training Provided *</label>
@@ -499,7 +723,7 @@
                                 </select>
 								</div>
 							</div>	
-						</div>
+						</div>	-->
 					
 					
 						<div class="form-group col-sm-12">

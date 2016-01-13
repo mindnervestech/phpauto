@@ -5712,6 +5712,7 @@ public class Application extends Controller {
 	    	userObj.experience = vm.experience;
 	    	userObj.trainingPro = vm.trainingPro;
 	    	userObj.trialPeriod = vm.trialPeriod;
+	    	userObj.trial = vm.trial;
 	    	userObj.userGender = vm.userGender;
 	    	userObj.salary = vm.salary;
 	    	userObj.trainingCost = vm.trainingCost;
@@ -6154,6 +6155,7 @@ public class Application extends Controller {
     			vm.quota = user.quota;
     			vm.imageName = user.imageName;
     			vm.imageUrl = user.imageUrl;
+    			vm.trial = user.trial;
     			vm.id = user.id;
     			for(Permission permission:user.permission){
     				parmi.add(permission.name);
@@ -6302,6 +6304,7 @@ public class Application extends Controller {
 	    	userObj.setExperience(vm.experience);
 	    	userObj.setTrainingPro(vm.trainingPro);
 	    	userObj.setTrialPeriod(vm.trialPeriod);
+	    	userObj.setTrial(vm.trial);
 	    	userObj.setUserGender(vm.userGender);
 	    	userObj.setSalary(vm.salary);
 	    	userObj.setTrainingCost(vm.trainingCost);

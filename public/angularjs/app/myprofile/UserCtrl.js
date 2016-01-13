@@ -19,6 +19,7 @@ angular.module('newApp')
 	$scope.dash = null;
 	$scope.profile = null;
 	$scope.inventory = null;
+	$scope.trial;
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -94,7 +95,15 @@ angular.module('newApp')
 		}
 		
 	}
-	
+	$scope.getTrial = function(validText){
+		console.log(validText);
+		if(validText == "Yes"){
+			$scope.showText = 1;
+		}else{
+			$scope.showText = 0;
+		}
+		
+	}
 	
 	console.log($scope.permissionList);
 	
@@ -124,7 +133,8 @@ angular.module('newApp')
 		});
 		$('#editUserModal').click();
 		$scope.userData = row.entity;
-		
+		$scope.userData.trialPeriod = parseInt($scope.userData.trialPeriod);
+		console.log($scope.userData);
 		$scope.permission = [];
 		
 		angular.forEach($scope.permissionList, function(obj, index){
