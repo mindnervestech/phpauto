@@ -5361,7 +5361,7 @@ public class Application extends Controller {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    							if((time.after(info2.confirmTime) && time.before(newDate)) || time.equals(info2.confirmTime)){
 	    								msg = "error";
 	    							}
 	    						}
@@ -5372,7 +5372,7 @@ public class Application extends Controller {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    							if((time.after(info2.confirmTime) && time.before(newDate)) || time.equals(info2.confirmTime)){
 	    								msg = "error";
 	    							}
 	    						}
@@ -5383,7 +5383,7 @@ public class Application extends Controller {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    							if((time.after(info2.confirmTime) && time.before(newDate)) || time.equals(info2.confirmTime)){
 	    								msg = "error";
 	    							}
 	    						}
@@ -5408,7 +5408,7 @@ public class Application extends Controller {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    							if((time.after(info2.confirmTime) && time.before(newDate)) || time.equals(info2.confirmTime)){
 	    								msg = "error";
 	    							}
 	    						}
@@ -5419,7 +5419,7 @@ public class Application extends Controller {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    							if((time.after(info2.confirmTime) && time.before(newDate)) || time.equals(info2.confirmTime)){
 	    								msg = "error";
 	    							}
 	    						}
@@ -5430,7 +5430,7 @@ public class Application extends Controller {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    							if((time.after(info2.confirmTime) && time.before(newDate)) || time.equals(info2.confirmTime)){
 	    								msg = "error";
 	    							}
 	    						}
@@ -5456,7 +5456,7 @@ public class Application extends Controller {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    							if((time.after(info2.confirmTime) && time.before(newDate)) || time.equals(info2.confirmTime)){
 	    								msg = "error";
 	    							}
 	    						}
@@ -5467,7 +5467,7 @@ public class Application extends Controller {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    							if((time.after(info2.confirmTime) && time.before(newDate)) || time.equals(info2.confirmTime)){
 	    								msg = "error";
 	    							}
 	    						}
@@ -5478,7 +5478,7 @@ public class Application extends Controller {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    							if((time.after(info2.confirmTime) && time.before(newDate)) || time.equals(info2.confirmTime)){
 	    								msg = "error";
 	    							}
 	    						}
@@ -7966,7 +7966,7 @@ public class Application extends Controller {
     					if(info2.confirmDate != null && info2.confirmTime !=null){
     						if(info2.confirmDate.equals(confirmDate)){
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
     							}
     						}
@@ -7977,7 +7977,7 @@ public class Application extends Controller {
     					if(info2.confirmDate != null && info2.confirmTime !=null){
     						if(info2.confirmDate.equals(confirmDate)){
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
     							}
     						}
@@ -7989,7 +7989,7 @@ public class Application extends Controller {
     					if(info2.confirmDate != null && info2.confirmTime !=null){
     						if(info2.confirmDate.equals(confirmDate)){
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
     							}
     						}
@@ -8027,7 +8027,7 @@ public class Application extends Controller {
     					if(info2.confirmDate != null && info2.confirmTime !=null){
     						if(info2.confirmDate.equals(confirmDate)){
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
     							}
     						}
@@ -8038,7 +8038,7 @@ public class Application extends Controller {
     					if(info2.confirmDate != null && info2.confirmTime !=null){
     						if(info2.confirmDate.equals(confirmDate)){
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
     							}
     						}
@@ -8050,7 +8050,7 @@ public class Application extends Controller {
     					if(info2.confirmDate != null && info2.confirmTime !=null){
     						if(info2.confirmDate.equals(confirmDate)){
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
     							}
     						}
