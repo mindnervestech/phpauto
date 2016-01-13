@@ -131,55 +131,6 @@ margin-left: 5px;
 				    </div>
   				</div> 
 	</div>
-    
-	
-	<div class="col-xlg-7 col-lg-7" ng-if="userRole == 'General Manager'">
-     	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
-					
-							
-							<div class="row">
-					            <div class="col-md-12">
-					            	<div class="panel">
-								    	<h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP LISTINGS</b></h4>
-								    	<br>
-										<div class="row">
-											<div class="col-xlg-4 panel" style="width:846px;height: 268px;margin-left: 5px;overflow: hidden; position: relative;margin-top:1%;">
-												<div>
-								     				<div class="col-sm-12">
-								        				<h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()">TOP VISITED</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6>
-								        	    		<h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
-								        			</div>
-								    			</div>
-						       					 <div style="width: 100%;display: flex;overflow-x: scroll;height: 235px;">
-									                <div style="float: left;" ng-repeat="item in currentData">
-													<div>
-														<div style="float: left;">
-								    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
-								    					</div>
-								   					</div>      
-												
-												<div style="line-height:1.028571;">
-													<label style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;"><b>{{item.name}}</b></label>
-												</div>
-												<div style="float: left">
-													<label class="col-sm-4 control-label" style="text-align: center;"><h5>VISITED COUNT</h5></label>
-												</div>
-												<div style="line-height:0.428571;">
-													<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;"><b>{{item.count}}</b></label>
-												</div>
-												</div>
-												</div>
-											</div>
-										</div>
-									</div>	
-								</div>
-							</div>
-																	
-				      
-  				</div> 
-        
-	</div>
-	
 	  
 	
 	     <div class="col-xlg-7 col-lg-7" ng-if="userRole != 'General Manager'">
@@ -226,6 +177,53 @@ margin-left: 5px;
 							</div>
 	</div>
 	
+	
+	<div class="col-xlg-7 col-lg-7" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person'">
+     	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+					
+							
+							<div class="row">
+					            <div class="col-md-12">
+					            	<div class="panel">
+								    	<h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP LISTINGS</b></h4>
+								    	<br>
+										<div class="row">
+											<div class="col-xlg-4 panel" style="width:846px;height: 268px;margin-left: 5px;overflow: hidden; position: relative;margin-top:1%;">
+												<div>
+								     				<div class="col-sm-12">
+								        				<h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()">TOP VISITED</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6>
+								        	    		<h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
+								        			</div>
+								    			</div>
+						       					 <div style="width: 100%;display: flex;overflow-x: scroll;height: 235px;">
+									                <div style="float: left;" ng-repeat="item in currentData">
+													<div>
+														<div style="float: left;">
+								    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
+								    					</div>
+								   					</div>      
+												
+												<div style="line-height:1.028571;">
+													<label style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;"><b>{{item.name}}</b></label>
+												</div>
+												<div style="float: left">
+													<label class="col-sm-4 control-label" style="text-align: center;"><h5>VISITED COUNT</h5></label>
+												</div>
+												<div style="line-height:0.428571;">
+													<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;"><b>{{item.count}}</b></label>
+												</div>
+												</div>
+												</div>
+											</div>
+										</div>
+									</div>	
+								</div>
+							</div>
+																	
+				      
+  				</div> 
+        
+	</div>
 	
 	 <div class="col-xlg-7 col-lg-7" ng-if="userRole == 'General Manager' || userRole == 'Manager'">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">

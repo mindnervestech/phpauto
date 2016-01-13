@@ -10721,6 +10721,8 @@ public class Application extends Controller {
     }
     
     public static Result getVisitedData(String type) {
+    	
+    	AuthUser user = (AuthUser)getLocalUser();
     	String params = null;
     	if(type.equals("week"))
     		params = "&type=pages&date=last-7-days&limit=all";
@@ -10730,13 +10732,63 @@ public class Application extends Controller {
     	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
     	List<String> vins = new ArrayList<String>(jsonNode.size());
     	Map<String,Integer> pagesCount = new HashMap<String,Integer>(jsonNode.size());
+    	Map<String,Integer> vinUnik = new HashMap<String,Integer>();
     	for(JsonNode item:jsonNode) {
     		System.out.println(item.asText());
     		String url = item.get("url").asText();
     		if(url.contains("vehicleDetails")) {
     			String[] arr = url.split("/");
-    			vins.add(arr[arr.length-1]);
-    			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
+    			
+    			if(user.role.equals("General Manager")){
+    				vins.add(arr[arr.length-1]);
+        			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
+    			}else if(user.role.equals("Sales Person")){
+    				List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeen(user);
+    				List<ScheduleTest> sTests = ScheduleTest.findAllAssigned(user);
+    				List<TradeIn> tIns = TradeIn.findAllSeen(user);
+    				for(RequestMoreInfo rInfo :rMoreInfo){
+    					vinUnik.put(rInfo.vin, 1);
+    				}
+    				for(ScheduleTest sTest: sTests){
+    					vinUnik.put(sTest.vin, 1);
+    				}
+    				for(TradeIn tradeIn: tIns){
+    					vinUnik.put(tradeIn.vin, 1);
+    				}
+    				
+    				
+    				for (Map.Entry<String, Integer> entry : vinUnik.entrySet()) {
+    				    String key = entry.getKey();
+    				   if(arr[arr.length-1].equals(entry.getKey())){
+    					   vins.add(arr[arr.length-1]);
+    	        			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
+    				   }
+    				}
+    				
+    			}else if(user.role.equals("Manager")){
+    				List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
+    				List<ScheduleTest> sTests = ScheduleTest.findAllAssignedLocation(Long.valueOf(session("USER_LOCATION")));
+    				List<TradeIn> tIns = TradeIn.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
+    				
+    				for(RequestMoreInfo rInfo :rMoreInfo){
+    					vinUnik.put(rInfo.vin, 1);
+    				}
+    				for(ScheduleTest sTest: sTests){
+    					vinUnik.put(sTest.vin, 1);
+    				}
+    				for(TradeIn tradeIn: tIns){
+    					vinUnik.put(tradeIn.vin, 1);
+    				}
+    				
+    				for (Map.Entry<String, Integer> entry : vinUnik.entrySet()) {
+    				    String key = entry.getKey();
+    				   if(arr[arr.length-1].equals(entry.getKey())){
+    					   vins.add(arr[arr.length-1]);
+    	        			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
+    				   }
+    				}
+    			}
+    			
     		}
     	}
     	List<Vehicle> topVisited =null;
