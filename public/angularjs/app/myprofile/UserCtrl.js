@@ -16,9 +16,6 @@ angular.module('newApp')
 	{name:'Financial Statistics',isSelected:false},
 	{name:'Account Settings',isSelected:false}];
 	$scope.userData = {};
-	$scope.dash = null;
-	$scope.profile = null;
-	$scope.inventory = null;
 	$scope.trial;
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -57,20 +54,22 @@ angular.module('newApp')
 		console.log(type);
 		if(type == "Sales Person"){
 			console.log("in if");
-			$scope.dash = "Dashboard";
-			$scope.profile = "Inventory";
-			$scope.inventory = "My Profile";
-			$scope.permission.push("My Profile");
-			$scope.permission.push("Inventory");
-			$scope.permission.push("Dashboard");
+			angular.forEach($scope.permissionList, function(obj, index){
+				 if ((obj.name == "My Profile") || (obj.name == "Inventory") || (obj.name == "Dashboard")) {
+					 $scope.permission.push(obj.name);
+					 obj.isSelected = true;
+			    };
+			  });
 		}else{
 			console.log("in else");
-			$scope.dash = null;
-			$scope.profile = null;
-			$scope.inventory = null;
-			/*$scope.deleteItem("My Profile");
-			$scope.deleteItem("Inventory");
-			$scope.deleteItem("Dashboard");*/
+			$scope.permission = [];
+			angular.forEach($scope.permissionList, function(obj, index){
+				
+				if ((obj.name == "My Profile") || (obj.name == "Inventory") || (obj.name == "Dashboard")) {
+					$scope.permission.splice(index, 1);
+					obj.isSelected = false;
+				}
+			  });
 		}
 	}
 	
@@ -127,7 +126,6 @@ angular.module('newApp')
 		angular.forEach($scope.permission, function(obj, index){
 			 if ((rolePer.name == obj)) {
 				 $scope.permission.splice(index, 1);
-		    
 		       	return;
 		    };
 		  });
