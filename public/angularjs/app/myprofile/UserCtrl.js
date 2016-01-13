@@ -60,11 +60,17 @@ angular.module('newApp')
 			$scope.dash = "Dashboard";
 			$scope.profile = "Inventory";
 			$scope.inventory = "My Profile";
+			$scope.permission.push("My Profile");
+			$scope.permission.push("Inventory");
+			$scope.permission.push("Dashboard");
 		}else{
 			console.log("in else");
 			$scope.dash = null;
 			$scope.profile = null;
 			$scope.inventory = null;
+			/*$scope.deleteItem("My Profile");
+			$scope.deleteItem("Inventory");
+			$scope.deleteItem("Dashboard");*/
 		}
 	}
 	
