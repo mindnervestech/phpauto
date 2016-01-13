@@ -5902,13 +5902,13 @@ public class Application extends Controller {
     	List<TradeIn> tradeIns = null;
     	
     	if(users.role.equals("Manager")){
-    		rInfo = RequestMoreInfo.findByLocation(Long.parseLong(session("USER_LOCATION")));
-    		sList = ScheduleTest.findByLocation(Long.parseLong(session("USER_LOCATION")));
-    		tradeIns = TradeIn.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    		rInfo = RequestMoreInfo.findAllSeenLocation(Long.parseLong(session("USER_LOCATION")));
+    		sList = ScheduleTest.findAllAssignedLocation(Long.parseLong(session("USER_LOCATION")));
+    		tradeIns = TradeIn.findAllSeenLocation(Long.parseLong(session("USER_LOCATION")));
     	}else if(users.role.equals("Sales Person")){
-    		rInfo = RequestMoreInfo.findAllByAssignedUser(users);
-    		sList = ScheduleTest.findAllByAssignedUser(users);
-    		tradeIns = TradeIn.findAllByAssignedUser(users);
+    		rInfo = RequestMoreInfo.findAllSeen(users);
+    		sList = ScheduleTest.findAllAssigned(users);
+    		tradeIns = TradeIn.findAllSeen(users);
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfo){
@@ -5945,18 +5945,61 @@ public class Application extends Controller {
     	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
     	lDataVM.countSalePerson = countLeads;
     	
-    	List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
-    	double sucessCount= (double)vList.size()/(double)countLeads*100;
-    	lDataVM.successRate = (int) sucessCount;
     	Integer pricecount = 0;
     	int saleCarCount = 0;
-    	for(Vehicle vehList:vList){
-    			if(vehList.soldDate.after(timeBack)) {
-        			saleCarCount++;
-        			pricecount = pricecount + vehList.price;
-        		}
+    	if(users.role.equals("Manager")){
+    		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
+        	double sucessCount= (double)vList.size()/(double)countLeads*100;
+        	lDataVM.successRate = (int) sucessCount;
+        	
+        	for(Vehicle vehList:vList){
+        			if(vehList.soldDate.after(timeBack)) {
+            			saleCarCount++;
+            			pricecount = pricecount + vehList.price;
+            		}
+        	}
+    	}else if(users.role.equals("Sales Person")){
     		
+    		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
+    		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
+    		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(users);
+    		
+    		saleCarCount = rInfo1.size() + sList1.size() + tradeIns1.size();
+    		double sucessCount= (double)saleCarCount/(double)countLeads*100;
+    		lDataVM.successRate = (int) sucessCount;
+    		
+    		for(RequestMoreInfo rMoreInfo: rInfo1){
+    			Vehicle vehicle = Vehicle.findByVin(rMoreInfo.vin);
+    			if(vehicle != null){
+    				pricecount = pricecount + vehicle.price;
+    			}
+    		}
+    		
+    		for(ScheduleTest sTest: sList1){
+    			Vehicle vehicle = Vehicle.findByVin(sTest.vin);
+    			if(vehicle != null){
+    				pricecount = pricecount + vehicle.price;
+    			}
+    		}
+    		
+    		for(TradeIn tradeIn: tradeIns1){
+    			Vehicle vehicle = Vehicle.findByVin(tradeIn.vin);
+    			if(vehicle != null){
+    				pricecount = pricecount + vehicle.price;
+    			}
+    		}
+    		/*List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
+        	
+        	lDataVM.successRate = (int) sucessCount;
+        	
+        	for(Vehicle vehList:vList){
+        			if(vehList.soldDate.after(timeBack)) {
+            			saleCarCount++;
+            			pricecount = pricecount + vehList.price;
+            		}
+        	}*/
     	}
+    	
     	lDataVM.totalSalePrice = pricecount;
     	lDataVM.totalsaleCar = saleCarCount;
     	

@@ -449,6 +449,14 @@ public class TradeIn extends Model {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isScheduled", false).orderBy("tradeDate desc").findList();
 	}
 	
+	public static List<TradeIn> findAllSeenComplete(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("status", "COMPLETE").orderBy("scheduleDate desc").findList();
+	}
+	
+	public static List<TradeIn> findAllSeenLocation(Long locationId) {
+		return find.where().eq("locations.id", locationId).eq("isRead", 1).eq("status", null).eq("isScheduled", false).orderBy("tradeDate desc").findList();
+	}
+	
 	public static int findAll() {
 		return find.where().eq("isRead", 0).findRowCount();
 	}
