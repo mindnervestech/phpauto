@@ -5357,8 +5357,29 @@ public class Application extends Controller {
 						vin = scheduleTest.vin;
 						
 						List<ScheduleTest> list = ScheduleTest.findByVin(vm.vin);
-	    				//Date date = parseTime.parse(vm.bestTime);
 	    				for (ScheduleTest info2 : list) {
+	    					if(info2.confirmDate != null && info2.confirmTime != null){
+	    						if(info2.confirmDate.equals(confirmDate)){
+	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    								msg = "error";
+	    							}
+	    						}
+	    					}
+						}
+	    				List<RequestMoreInfo> list1 = RequestMoreInfo.findByVin(vm.vin);
+	    				for (RequestMoreInfo info2 : list1) {
+	    					if(info2.confirmDate != null && info2.confirmTime != null){
+	    						if(info2.confirmDate.equals(confirmDate)){
+	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    								msg = "error";
+	    							}
+	    						}
+	    					}
+						}
+	    				List<TradeIn> list2 = TradeIn.findByVin(vm.vin);
+	    				for (TradeIn info2 : list2) {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
@@ -5382,9 +5403,30 @@ public class Application extends Controller {
 						info.setEmail(vm.email);
 						vin = info.vin;
 						
-						List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
-	    				//Date date = parseTime.parse(vm.bestTime);
-	    				for (RequestMoreInfo info2 : list) {
+						List<ScheduleTest> list = ScheduleTest.findByVin(vm.vin);
+	    				for (ScheduleTest info2 : list) {
+	    					if(info2.confirmDate != null && info2.confirmTime != null){
+	    						if(info2.confirmDate.equals(confirmDate)){
+	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    								msg = "error";
+	    							}
+	    						}
+	    					}
+						}
+	    				List<RequestMoreInfo> list1 = RequestMoreInfo.findByVin(vm.vin);
+	    				for (RequestMoreInfo info2 : list1) {
+	    					if(info2.confirmDate != null && info2.confirmTime != null){
+	    						if(info2.confirmDate.equals(confirmDate)){
+	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    								msg = "error";
+	    							}
+	    						}
+	    					}
+						}
+	    				List<TradeIn> list2 = TradeIn.findByVin(vm.vin);
+	    				for (TradeIn info2 : list2) {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
@@ -5409,9 +5451,30 @@ public class Application extends Controller {
 						info.setEmail(vm.email);
 						vin = info.vin;
 						
-						List<TradeIn> list = TradeIn.findByVin(vm.vin);
-	    				//Date date = parseTime.parse(vm.bestTime);
-	    				for (TradeIn info2 : list) {
+						List<ScheduleTest> list = ScheduleTest.findByVin(vm.vin);
+	    				for (ScheduleTest info2 : list) {
+	    					if(info2.confirmDate != null && info2.confirmTime != null){
+	    						if(info2.confirmDate.equals(confirmDate)){
+	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    								msg = "error";
+	    							}
+	    						}
+	    					}
+						}
+	    				List<RequestMoreInfo> list1 = RequestMoreInfo.findByVin(vm.vin);
+	    				for (RequestMoreInfo info2 : list1) {
+	    					if(info2.confirmDate != null && info2.confirmTime != null){
+	    						if(info2.confirmDate.equals(confirmDate)){
+	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+	    							if(time.after(info2.confirmTime) && time.before(newDate) && time.equals(info2.confirmTime)){
+	    								msg = "error";
+	    							}
+	    						}
+	    					}
+						}
+	    				List<TradeIn> list2 = TradeIn.findByVin(vm.vin);
+	    				for (TradeIn info2 : list2) {
 	    					if(info2.confirmDate != null && info2.confirmTime != null){
 	    						if(info2.confirmDate.equals(confirmDate)){
 	    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
@@ -7755,12 +7818,38 @@ public class Application extends Controller {
     				requestMoreInfo.setConfirmDate(confirmDate);
     				requestMoreInfo.setConfirmTime(parseTime.parse(vm.bestTime));
     				List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
+    				List<TradeIn> list1 = TradeIn.findByVin(vm.vin);
+    				List<ScheduleTest> list2 = ScheduleTest.findByVin(vm.vin);
     				Date date = parseTime.parse(vm.bestTime);
+    				
     				for (RequestMoreInfo info2 : list) {
     					if(info2.confirmDate != null && info2.confirmTime !=null){
     						if(info2.confirmDate.equals(confirmDate)){
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if(date.after(info2.confirmTime) && date.before(newDate)){
+    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    								msg = "error";
+    							}
+    						}
+    					}
+					}
+    				
+    				for (TradeIn info2 : list1) {
+    					if(info2.confirmDate != null && info2.confirmTime !=null){
+    						if(info2.confirmDate.equals(confirmDate)){
+    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    								msg = "error";
+    							}
+    						}
+    					}
+					}
+    				
+    				
+    				for (ScheduleTest info2 : list2) {
+    					if(info2.confirmDate != null && info2.confirmTime !=null){
+    						if(info2.confirmDate.equals(confirmDate)){
+    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
     								msg = "error";
     							}
     						}
@@ -7789,13 +7878,39 @@ public class Application extends Controller {
     				tradeIn.setConfirmDate(confirmDate);
     				tradeIn.setConfirmTime(parseTime.parse(vm.bestTime));
     				
-    				List<TradeIn> list = TradeIn.findByVin(vm.vin);
+    				List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
+    				List<TradeIn> list1 = TradeIn.findByVin(vm.vin);
+    				List<ScheduleTest> list2 = ScheduleTest.findByVin(vm.vin);
     				Date date = parseTime.parse(vm.bestTime);
-    				for (TradeIn info2 : list) {
+    				
+    				for (RequestMoreInfo info2 : list) {
     					if(info2.confirmDate != null && info2.confirmTime !=null){
     						if(info2.confirmDate.equals(confirmDate)){
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if(date.after(info2.confirmTime) && date.before(newDate)){
+    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    								msg = "error";
+    							}
+    						}
+    					}
+					}
+    				
+    				for (TradeIn info2 : list1) {
+    					if(info2.confirmDate != null && info2.confirmTime !=null){
+    						if(info2.confirmDate.equals(confirmDate)){
+    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
+    								msg = "error";
+    							}
+    						}
+    					}
+					}
+    				
+    				
+    				for (ScheduleTest info2 : list2) {
+    					if(info2.confirmDate != null && info2.confirmTime !=null){
+    						if(info2.confirmDate.equals(confirmDate)){
+    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+    							if(date.after(info2.confirmTime) && date.before(newDate) && date.equals(info2.confirmTime)){
     								msg = "error";
     							}
     						}
