@@ -2873,13 +2873,13 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.maysOpen = function(){
-			   $scope.septemberOpen = 1;
+			   $scope.septemberOpen = 0;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
 			   $scope.decemberOpen = 0;
 			   $scope.juneOpen = 0;
-			   $scope.mayOpen = 0;
+			   $scope.mayOpen = 1;
 			   $scope.novemberOpen = 0;
 			   $scope.octoberOpen = 0;
 			   $scope.aprilOpen = 0;
