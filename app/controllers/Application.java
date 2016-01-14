@@ -6362,7 +6362,7 @@ public class Application extends Controller {
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
 	    	}
-	    	
+	    	System.out.println(vm.permissions);
 	    	userObj.deleteManyToManyAssociations("permission");
 	    	List<Permission> permissionList = Permission.getAllPermission();
 	    	   if(vm.userType.equals("General Manager") || vm.userType.equals("Manager")) {
