@@ -191,7 +191,7 @@ margin-left: 5px;
 											<div class="col-xlg-4 panel" style="width:846px;height: 268px;margin-left: 5px;overflow: hidden; position: relative;margin-top:1%;">
 												<div>
 								     				<div class="col-sm-12">
-								        				<h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()">TOP VISITED</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6>
+								        				<h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()" ng-if="userRole == 'Sales Person'">Me Leads</a><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()" userRole != 'Sales Person'>TOP VISITED</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a></h6>
 								        	    		<h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
 								        			</div>
 								    			</div>
@@ -517,9 +517,9 @@ margin-left: 5px;
 		                	<h1 style="text-align: center;">{{onlineVisitorsCount}}</h1>
 		                </div>
 	            </div>
-        	<button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openCreateNewLeadPopup();"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>CREATE LEAD</button>
-        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>MEETING</button>
-        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 10px;"></span></p></span>PLAN</button>
+        	<button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openCreateNewLeadPopup();"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>CREATE LEAD</button>
+        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>MEETING</button>
+        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button>
         	<div class="modal fade" id="meeting-model" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -675,7 +675,7 @@ margin-left: 5px;
           
           
           <div class="modal fade" id="plan-model" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width: 940px;">
               <div class="modal-content">
                 <div class="modal-header bg-dark">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
@@ -686,7 +686,6 @@ margin-left: 5px;
                 <div class="panel panel-default no-bd">
                 <div class="panel-body bg-white">
                   <div class="row">
-                    <form role="form" ng-submit="submitnewPlan()">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="row" ng-if="userType =='General Manager'">
                           <div class="col-sm-12">
@@ -720,25 +719,25 @@ margin-left: 5px;
                               </div>
                             </div>
                           </div>
-                           <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'location' && nextbutton == 0 && showGrid == 1">
+                            <!-- <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'location' && nextbutton == 0 && showGrid == 1">
                             <div class="form-group">
                               <div ui-grid="gridOptionsValue" style="height:400px;" ui-grid-edit ui-grid-pagination>
 									</div> 
                               </div>
-                            </div>
+                            </div>  -->
                             
                           
                           <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson'">
-                            <div class="form-group">
+                           <!--  <div class="form-group">
                               <label class="control-label">Sales Person</label>
                               <div class="append-icon">
                               	<select  class="form-control" ng-model="schPlan.salePerson" ng-change="getSalePersonData(schPlan.salePerson)" required>
 						            <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
 						        </select>
                               </div>
-                            </div>
+                            </div> -->
                           </div>
-                          <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson' && nextbutton == 0 && showGrid == 1">
+                          <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'salePerson' && nextbutton == 0">
                             <div class="form-group">
                               <div ui-grid="gridOptionsValue" style="height:400px;" ui-grid-edit ui-grid-pagination>
 									</div> 
@@ -746,190 +745,1904 @@ margin-left: 5px;
                             </div>
                          </div>
                         
-                        <div ng-if="nextbutton == 1">
+                        <div ng-if="schPlan.scheduleBy == 'location'">
                          <div class="row">
                           <div class="col-sm-6">
-                            <div class="form-group">
-                              <label class="control-label">Start Date</label>
-                              <div class="append-icon">
-                              	<input data-provide="datepicker" id="cnfstartdate" name="startDate" class="form-control" ng-model="schPlan.startDate" ng-blur="checkDateValid()" data-date-format="dd-mm-yyyy" required>
-                              </div>
-                            </div>
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>JANUARY</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="january" class="form-control col-sm-6" ng-click="janrOpen()" placeholder="$$$" ng-model="MonthTotal.januaryTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="janOpen == 1">
+                         	<hr>
+                         	<form role="form" ng-submit="saveLocationPlan('january')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
                           </div>
+                          
+                          
                           <div class="col-sm-6">
-                            <div class="form-group">
-                              <label class="control-label">End Date</label>
-                              <div class="append-icon">
-                              	<input data-provide="datepicker" id="cnfenddate" name="endDate" class="form-control" ng-model="schPlan.endDate" ng-blur="checkDateValid1()" data-date-format="dd-mm-yyyy" required>
-                              </div>
-                            </div>
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>JULY</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="july" class="form-control col-sm-6" ng-click="julysOpen()" placeholder="$$$" ng-model="MonthTotal.julyTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="julyOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('july')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
                           </div>
-                         </div>
-                       <!--   <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <div id="meetingnature">
-                              </div>
-                            </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>FEBRUARY</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="february" class="form-control col-sm-6" ng-click="februarysOpen()" placeholder="$$$" ng-model="MonthTotal.februaryTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="februaryOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('february')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
                           </div>
-                         </div> -->
-                         <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                            <label class="control-label">Total Earnings</label>
-                              <div class="append-icon">
-                               	<input type="text" name="totalEarn" class="form-control" placeholder="Total Earnings"  ng-model="schPlan.totalEarn" required>
-                              </div>
-                            </div>
+                          
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>AUGUST</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="august" class="form-control col-sm-6" ng-click="augustsOpen()" placeholder="$$$" ng-model="MonthTotal.augustTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="augustOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('august')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
                           </div>
-                         </div>
-                         <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                            <label class="control-label">Cars Sold</label>
-                              <div class="append-icon">
-                               	<input type="text" name="carsSold" class="form-control" placeholder="Cars Sold"  ng-model="schPlan.carsSold" required>
-                              </div>
-                            </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>MARCH</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="march" class="form-control col-sm-6" ng-click="marchsOpen()" placeholder="$$$" ng-model="MonthTotal.marchTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="marchOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('march')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
                           </div>
-                         </div>
-                         <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                            <label class="control-label">Contracts signed</label>
-                              <div class="append-icon">
-                               	<input type="text" name="contractsSign" class="form-control" placeholder="Contracts Signed"  ng-model="schPlan.contractsSign" required>
-                              </div>
-                            </div>
-                          </div>
-                         </div>
-                         <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group col-sm-2" style="padding-left: 0px;">
-                            <label class="control-label">Signed contracts per</label>
-                              <div class="append-icon">
-                               <!-- 	<input type="text" name="totalMeetingAm" class="form-control" placeholder="Total amount of meeting per location"  ng-model="schPlan.totalMeetingAm" required> -->
-                              </div>
-                            </div>
-                            <div class="col-sm-2">
-                            <label class="control-label">Day</label>
-                              <div class="append-icon">
-                               	<input type="text" name="dayContract" class="form-control" ng-model="schPlan.dayContract" style="padding-right: 0px;" required>
-                              </div>
-                            </div>
-                            <div class="col-sm-2">
-                            <label class="control-label">Week</label>
-                              <div class="append-icon">
-                               	<input type="text" name="weekContract" class="form-control" ng-model="schPlan.weekContract" style="padding-right: 0px;" required>
-                              </div>
-                            </div>
-                            <div class="col-sm-2">
-                            <label class="control-label">Month</label>
-                              <div class="append-icon">
-                               	<input type="text" name="monthContract" class="form-control" ng-model="schPlan.monthContract" style="padding-right: 0px;" required>
-                              </div>
-                            </div>
-                            <div class="col-sm-2">
-                            <label class="control-label">quarter</label>
-                              <div class="append-icon">
-                               	<input type="text" name="quarterContract" class="form-control" ng-model="schPlan.quarterContract" style="padding-right: 0px;" required>
-                              </div>
-                            </div>
-                            <div class="col-sm-2">
-                            <label class="control-label">6 Month</label>
-                              <div class="append-icon">
-                               	<input type="text" name="sixMonthContract" class="form-control" ng-model="schPlan.sixMonthContract" style="padding-right: 0px;" required>
-                              </div>
-                            </div>
-                          </div>
-                         </div>
-                         <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                            <label class="control-label">Total amount of meeting per location</label>
-                              <div class="append-icon">
-                               	<input type="text" name="totalMeetingAm" class="form-control" placeholder="Total amount of meeting per location"  ng-model="schPlan.totalMeetingAm" required>
-                              </div>
-                            </div>
-                          </div>
-                         </div>
-                         <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                            <label class="control-label">Amount of meeting per sales person</label>
-                              <div class="append-icon">
-                               	<input type="text" name="meetingSalesAm" class="form-control" placeholder="Amount of meeting per sales person"  ng-model="schPlan.meetingSalesAm" required>
-                              </div>
-                            </div>
-                          </div>
-                         </div>
-                         <div class="row">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                            <label class="control-label">Minimum actions should be done while working with the client</label>
-                              <div class="append-icon">
-                               	<select  class="form-control" ng-model="schPlan.workWithClient" required>
-						           <option value="calls">calls</option>
-						           <option value="emails">emails</option>
-						           <option value="conversation rate">conversation rate</option>
-						        </select>
-                              </div>
-                            </div>
-                          </div>
-                         </div>
-                         <div class="row" ng-if="userType == 'General Manager'">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <div class="append-icon">
-                              	 <input type="checkbox" name="allLocation" ng-click="checkLocation(allloction)" ng-model="allloction">Assign to all Location<br>
-                              </div>
-                            </div>
-                          </div>
-                         </div>
-                          <div class="row" ng-if="schPlan.scheduleBy == 'salePerson'">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <div class="append-icon">
-                              	 <input type="checkbox" name="allsales" ng-click="checkSale(allloctionSale)" ng-model="allloctionSale">Assign to all Salespeople<br>
-                              </div>
-                            </div>
-                          </div>
-                         </div>
-                         
-                           <div class="row" ng-if="userType == 'General Manager'">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <div class="append-icon">
-                              	  <label ng-repeat="locationPer in locationdata" ng-if="schPlan.location != locationPer.id" class="col-sm-3" style="padding:0px;">
-				 						 <input type="checkbox" name="selectlocation"  ng-click="locationClicked($event,locationPer,locationPer.isSelected)"
-				 						   	ng-model="locationPer.isSelected">					
-   					 						{{locationPer.name}}</label>
-                              </div>
-                            </div>
-                          </div>
-                          </div> 
-                           <div class="row" ng-if="salesIdPlan == 'salePerson'">
-                          <div class="col-sm-12">
-                            <div class="form-group">
-                              <div class="append-icon">
-                              	  <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-3" style="padding:0px;">
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>SEPTEMBER</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="september" class="form-control col-sm-6" ng-click="septembersOpen()" placeholder="$$$" ng-model="MonthTotal.septemberTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="septemberOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveSalePersonPlan('september')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
 				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
 				 						   	ng-model="salePer.isSelected">					
    					 						{{salePer.fullName}}</label>
-                              </div>
-                            </div>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
                           </div>
-                         </div> 
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>APRIL</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="april" class="form-control col-sm-6" ng-click="aprilsOpen()" placeholder="$$$" ng-model="MonthTotal.aprilTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="aprilOpen == 1">
+                         	<hr>
+                           	<form role="form" ng-submit="saveLocationPlan('april')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>OCTOBER</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="october" class="form-control col-sm-6" ng-click="octobersOpen()" placeholder="$$$" ng-model="MonthTotal.octoberTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="octoberOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('october')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>MAY</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="may" class="form-control col-sm-6" ng-click="maysOpen()" placeholder="$$$" ng-model="MonthTotal.mayTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="mayOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('may')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>NOVEMBER</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="november" class="form-control col-sm-6" ng-click="novembersOpen()" placeholder="$$$" ng-model="MonthTotal.novemberTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="novemberOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('november')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                           <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>JUNE</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="june" class="form-control col-sm-6" ng-click="junesOpen()" placeholder="$$$" ng-model="MonthTotal.juneTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="juneOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('june')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                           <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>DECEMBER</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="december" class="form-control col-sm-6" ng-click="decembersOpen()" placeholder="$$$" ng-model="MonthTotal.decemberTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="decemberOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('december')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="leadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="leadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          	</div>
+                          	<div class="col-sm-6">
+                          	<label>.</label>
+                          	</div>
+                          	<div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="total" class="form-control" placeholder="$$$" ng-model="locationTotal">
+                         			</div>
+                          	</div>
+                          	<div class="col-sm-6">
+                          	<label>.</label>
+                          	</div>
+                          <div class="col-sm-6">
+                          		<button type="button" class="btn btn-embossed" style="margin-top: 8px;">Close</button>
+                          		<button type="button" class="btn btn-primary btn-embossed" style="margin-top: 8px;" ng-click="saveLocationTotal(locationTotal)">Save</button>
+                          </div>
+                          
+                          
+                         </div>
                          
                          </div>
-                          <div class="modal-footer" ng-if="nextbutton == 0 && showGrid == 1">
-                         	 <button type="button" class="btn btn-primary btn-embossed" ng-click="goNext()" data-dismiss="modal">Next</button>
+                         
+                         <div ng-if="schPlan.scheduleBy == 'salePerson' && nextbutton == 1">
+                         <div class="row">
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>JANUARY</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="january" class="form-control col-sm-6" ng-click="janrOpen()" placeholder="$$$" ng-model="saleMonthTotal.januaryTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="janOpen == 1">
+                         	<hr>
+                         	<form role="form" ng-submit="saveSalePersonPlan('january')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>JULY</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="july" class="form-control col-sm-6" ng-click="julysOpen()" placeholder="$$$" ng-model="saleMonthTotal.julyTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="julyOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveSalePersonPlan('july')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>FEBRUARY</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="february" class="form-control col-sm-6" ng-click="februarysOpen()" placeholder="$$$" ng-model="saleMonthTotal.februaryTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="februaryOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveSalePersonPlan('february')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>AUGUST</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="august" class="form-control col-sm-6" ng-click="augustsOpen()" placeholder="$$$" ng-model="saleMonthTotal.augustTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="augustOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveSalePersonPlan('august')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>MARCH</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="march" class="form-control col-sm-6" ng-click="marchsOpen()" placeholder="$$$" ng-model="saleMonthTotal.marchTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="marchOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveSalePersonPlan('march')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>SEPTEMBER</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="september" class="form-control col-sm-6" ng-click="septembersOpen()" placeholder="$$$" ng-model="saleMonthTotal.septemberTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="septemberOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('september')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="saleleadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="saleleadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="saleleadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>APRIL</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="april" class="form-control col-sm-6" ng-click="aprilsOpen()" placeholder="$$$" ng-model="saleMonthTotal.aprilTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="aprilOpen == 1">
+                         	<hr>
+                           	<form role="form" ng-submit="saveLocationPlan('april')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="saleleadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="saleleadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="saleleadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>OCTOBER</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="october" class="form-control col-sm-6" ng-click="octobersOpen()" placeholder="$$$" ng-model="saleMonthTotal.octoberTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="octoberOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveLocationPlan('october')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total Earning<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalEarning" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalEarning" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Minimum Earnings</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="minEarning" class="form-control" placeholder="$$$" ng-model="saleleadsTime.minEarning">
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehiclesSell" class="form-control" placeholder="Amount" ng-model="saleleadsTime.vehiclesSell">
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Average check</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="saleleadsTime.avgCheck">
+                         			</div>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>MAY</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="may" class="form-control col-sm-6" ng-click="maysOpen()" placeholder="$$$" ng-model="saleMonthTotal.mayTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="mayOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveSalePersonPlan('may')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>NOVEMBER</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="november" class="form-control col-sm-6" ng-click="novembersOpen()" placeholder="$$$" ng-model="saleMonthTotal.novemberTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="novemberOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveSalePersonPlan('november')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                           <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>JUNE</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="june" class="form-control col-sm-6" ng-click="junesOpen()" placeholder="$$$" ng-model="saleMonthTotal.juneTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="juneOpen == 1">
+                         	<hr>
+                         	  	<form role="form" ng-submit="saveSalePersonPlan('june')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          </div>
+                          
+                           <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>DECEMBER</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="december" class="form-control col-sm-6" ng-click="decembersOpen()" placeholder="$$$" ng-model="saleMonthTotal.decemberTotalEarning">
+                         		</div>
+                         	<div class="col-sm-12" ng-if="decemberOpen == 1">
+                         	<hr>
+                         	  <form role="form" ng-submit="saveSalePersonPlan('december')">
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total$$$brought<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>vehicales to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="vehicalesToSell" class="form-control" placeholder="$$$" ng-model="saleleadsTime.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="leadsToGenerate" class="form-control" placeholder="Amount" ng-model="saleleadsTime.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="testDrives" class="form-control" placeholder="$$$" ng-model="saleleadsTime.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         		<hr>
+                         		</div>
+                         		<div ng-if="showOtherIngo == 1">
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="calls" class="form-control" ng-model="saleleadsTime.call">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email" name="email" class="form-control" ng-model="saleleadsTime.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="successRate" class="form-control" ng-model="saleleadsTime.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="outofSale" class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="newCustomers" class="form-control" ng-model="saleleadsTime.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" name="returningCustomers" class="form-control" ng-model="saleleadsTime.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         		<div class="col-sm-12">
+                         		<hr>
+                         			<label>Assign to all Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12">
+                         			<a ng-click="showOtherIngo = 1">Add fields</a>
+                         		</div>
+                         		<div style="text-align: center;">
+                         			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
+                         		</div>
+                         	</form>
+                         	</div>
+                          	</div>
+                          	<div class="col-sm-6">
+                          	<label>.</label>
+                          	</div>
+                          	<div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Total</label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" name="total" class="form-control" placeholder="$$$" ng-model="salePerpleTotal">
+                         			</div>
+                          	</div>
+                          
                          </div>
+                         
+                         </div>
+                         
+                         
+                         
+                         
+                          <!-- <div class="modal-footer" ng-if="nextbutton == 0 && showGrid == 1">
+                         	 <button type="button" class="btn btn-primary btn-embossed" ng-click="goNext()" data-dismiss="modal">Next</button>
+                         </div> -->
                          <div class="modal-footer" ng-if="nextbutton == 1">
                           <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
-                  		  <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+                  		  <button type="button" class="btn btn-primary btn-embossed" ng-click="saveLocationTotal(salePerpleTotal)">Save</button>
                          </div>
-                      </form>
                     </div>
                   </div>
                 </div>

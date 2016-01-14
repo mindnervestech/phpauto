@@ -1359,6 +1359,7 @@ angular.module('newApp')
 		    		.success(function(data){
 		    			console.log(data);
 		    			$scope.salesPersonPerf = data;
+		    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 		    			angular.forEach($scope.salesPersonPerf, function(value, key) {
 		    				value.isSelected = false;
 		    			});
@@ -2469,7 +2470,7 @@ angular.module('newApp')
 		   
 		   $scope.showGrid = 0;
 		   
-		   $scope.getLocationData = function(locationId){
+		/*   $scope.getLocationData = function(locationId){
 			   console.log(locationId);
 			   $http.get("/getLocationPlan/"+locationId).success(function(data){
 				   console.log(data);
@@ -2481,7 +2482,7 @@ angular.module('newApp')
 					   angular.forEach($scope.schPlan.locationList, function(obj1, index1){
 						   console.log(obj.id);
 						   if(obj.id == obj1){
-							   obj.isSelected = true;
+							   obj.isSelecxzted = true;
 						   }else{
 							   obj.isSelected = false;
 						   }
@@ -2490,6 +2491,81 @@ angular.module('newApp')
 				   });
 			   });
 			   
+		   }*/
+		   $scope.locationTotal = 0;
+		   $scope.saveLocationPlan = function(month){
+			   $scope.locationTotal = 0;
+			   console.log($scope.leadsTime);
+			   $scope.leadsTime.month = month;
+			   $http.post("/saveLocationPlan",$scope.leadsTime).success(function(data){
+				   console.log(data);
+				   $scope.janOpen = 0;
+				   $scope.julyOpen = 0;
+				   $scope.februaryOpen = 0;
+				   $scope.decemberOpen = 0;
+				   $scope.juneOpen = 0;
+				   $scope.mayOpen = 0;
+				   $scope.novemberOpen = 0;
+				   $scope.octoberOpen = 0;
+				   $scope.aprilOpen = 0;
+				   $scope.septemberOpen = 0;
+				   $scope.marchOpen = 0;
+				   $scope.augustOpen = 0;
+				   $scope.leadsTime.totalEarning = "";
+				   $scope.leadsTime.minEarning = "";
+				   $scope.leadsTime.vehiclesSell = "";
+				   $scope.leadsTime.avgCheck = "";
+				   console.log("sccesss");
+				   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+					   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
+				   });
+				   $scope.getLocationPlan();
+			   });
+		   }
+		   
+		   $scope.saveLocationTotal = function(total){
+			   $http.get("/saveLocationTotal/"+total).success(function(data){
+				   console.log(data);
+				   $('#plan-model').modal("toggle");
+				   $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Plan Scheduled successfully",
+					});
+			   });
+		   }
+		   
+		   $scope.saleleadsTime = {};
+		   $scope.saveSalePersonPlan = function(month){
+			   $scope.locationTotal = 0;
+			  
+			   $scope.saleleadsTime.salesList = $scope.salesList;
+			   $scope.saleleadsTime.month = month;
+			   console.log($scope.saleleadsTime);
+			   $http.post("/saveSalePlan",$scope.saleleadsTime).success(function(data){
+				   console.log(data);
+				   $scope.janOpen = 0;
+				   $scope.julyOpen = 0;
+				   $scope.februaryOpen = 0;
+				   $scope.decemberOpen = 0;
+				   $scope.juneOpen = 0;
+				   $scope.mayOpen = 0;
+				   $scope.novemberOpen = 0;
+				   $scope.octoberOpen = 0;
+				   $scope.aprilOpen = 0;
+				   $scope.septemberOpen = 0;
+				   $scope.marchOpen = 0;
+				   $scope.augustOpen = 0;
+				   $scope.saleleadsTime.totalEarning = "";
+				   $scope.saleleadsTime.minEarning = "";
+				   $scope.saleleadsTime.vehiclesSell = "";
+				   $scope.saleleadsTime.avgCheck = "";
+				   console.log("sccesss");
+				   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+					   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
+				   });
+				   $scope.findVehicalPlan($scope.salePerId);
+			   });
 		   }
 		   
 		   $scope.getSalePersonData = function(salesId){
@@ -2514,45 +2590,34 @@ angular.module('newApp')
 	 		 		 $scope.gridOptionsValue.enableHorizontalScrollbar = 0;
 	 		 		 $scope.gridOptionsValue.enableVerticalScrollbar = 2;
 	 		 		 $scope.gridOptionsValue.columnDefs = [
-	 		 		                                 { name: 'startDate', displayName: 'Start Date', width:'30%',cellEditableCondition: false,
+	 		 		                                 { name: 'fullName', displayName: 'Full Name', width:'40%',cellEditableCondition: false,
 	 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	 		   		                                       if (row.entity.isRead === false) {
 	 		   		                                         return 'red';
 	 		   		                                     }
 	 		  		                                	} ,
 	 		 		                                 },
-	 		 		                                 { name: 'endDate', displayName: 'End Date', width:'30%',cellEditableCondition: false,
-	 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-	 		   		                                       if (row.entity.isRead === false) {
-	 		   		                                         return 'red';
-	 		   		                                     }
-	 		  		                                	} ,
-	 		 		                                 },
-	 		 		                                 { name: 'totalEarn', displayName: 'totalEarn', width:'25%',cellEditableCondition: false,
-	 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-	 		   		                                       if (row.entity.isRead === false) {
-	 		   		                                         return 'red';
-	 		   		                                     }
-	 		  		                                	} ,
-	 		 		                                 },
+	 		 		                               
 	 		 		                               { name: 'edit', displayName: 'Edit', width:'14%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-	 		   		   	                                cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editPlanDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Remove Contact" ng-click="grid.appScope.deleteContactsDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>', 
+	 		   		   	                                cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editPlanDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>', 
 	 		   		                                
 	 		   		                                },
 	 		 		                               
 	 		     		                                 ];
 		   
+	 		 		//&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Remove Contact" ng-click="grid.appScope.deleteContactsDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>
 		   
-		   
+	 		 		 $scope.salePerId = 0;
 		   $scope.editPlanDetail = function(row) {
 			 $scope.schedule = $scope.schPlan.scheduleBy;
 			 $scope.saleperson = $scope.schPlan.salePerson;
 			  console.log(row.entity);
 			  $scope.schPlan = row.entity;
+			  $scope.findVehicalPlan(row.entity.id);
 			  $scope.schPlan.scheduleBy = $scope.schedule;
 			  $scope.schPlan.salePerson = $scope.saleperson;
 			  $scope.planIs = "update";
-			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+			/*   angular.forEach($scope.salesPersonPerf, function(obj, index){
 				   angular.forEach($scope.schPlan.salesList, function(obj1, index1){
 					   console.log(obj1);
 					   if(obj.id == obj1){
@@ -2561,16 +2626,310 @@ angular.module('newApp')
 					   }
 				   });
 				   
-			   });
+			   });*/
 			   $scope.nextbutton = 1;
 		   } 
+		   $scope.saleMonthTotal = {};
+		   $scope.salePerpleTotal = 0;
+		   $scope.findVehicalPlan = function(saleId){
+			   $scope.saleMonthTotal = {};
+			   $scope.salePerId = saleId;
+			   $http.get("/getSaleMonthlyPlan/"+saleId).success(function(data){
+				   console.log(data);
+				   $scope.totalLocationPlanData = data;
+				   
+				   angular.forEach(data, function(obj, index){
+					   
+					   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
+					    if(obj.month == "january"){
+					    	$scope.saleMonthTotal.januaryTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "february"){
+					    	$scope.saleMonthTotal.februaryTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "march"){
+					    	$scope.saleMonthTotal.marchTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "april"){
+					    	$scope.saleMonthTotal.aprilTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "may"){
+					    	$scope.saleMonthTotal.mayTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "june"){
+					    	$scope.saleMonthTotal.juneTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "july"){
+					    	$scope.saleMonthTotal.julyTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "august"){
+					    	$scope.saleMonthTotal.augustTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "september"){
+					    	$scope.saleMonthTotal.septemberTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "october"){
+					    	$scope.saleMonthTotal.octoberTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "november"){
+					    	$scope.saleMonthTotal.novemberTotalEarning = obj.totalBrought;
+					    }
+					    if(obj.month == "december"){
+					    	$scope.saleMonthTotal.decemberTotalEarning = obj.totalBrought;
+					    }
+					    
+				   });
+			   });
+			   
+		   }
+		   
 		   $scope.openPlanning = function(){
 			   $scope.schPlan = {};
 			   $scope.nextbutton = 0;
 			   console.log(".............");
 			   $scope.checkManagerLogin();
+			   $scope.getLocationPlan();
 			   $('#plan-model').modal();
 		   };
+		   
+		   $scope.MonthTotal = {};
+		   $scope.totalLocationPlanData = null;
+		   $scope.getLocationPlan = function(){
+			   $http.get("/getlocationsMonthlyPlan").success(function(data){
+				   console.log(data);
+				   $scope.totalLocationPlanData = data;
+				   
+				   
+				   angular.forEach(data, function(obj, index){
+					   
+					   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
+					    if(obj.month == "january"){
+					    	$scope.MonthTotal.januaryTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "february"){
+					    	$scope.MonthTotal.februaryTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "march"){
+					    	$scope.MonthTotal.marchTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "april"){
+					    	$scope.MonthTotal.aprilTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "may"){
+					    	$scope.MonthTotal.mayTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "june"){
+					    	$scope.MonthTotal.juneTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "july"){
+					    	$scope.MonthTotal.julyTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "august"){
+					    	$scope.MonthTotal.augustTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "september"){
+					    	$scope.MonthTotal.septemberTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "october"){
+					    	$scope.MonthTotal.octoberTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "november"){
+					    	$scope.MonthTotal.novemberTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "december"){
+					    	$scope.MonthTotal.decemberTotalEarning = obj.totalEarning;
+					    }
+					    
+				   });
+			   });
+		   }
+		   
+		   $scope.janOpen = 0;
+		   $scope.julyOpen = 0;
+		   $scope.februaryOpen = 0;
+		   $scope.augustOpen = 0;
+		   $scope.marchOpen = 0;
+		   $scope.septemberOpen = 0;
+		   $scope.aprilOpen = 0;
+		   $scope.octoberOpen = 0;
+		   $scope.septemberOpen = 0;
+		   $scope.novemberOpen = 0;
+		   $scope.juneOpen = 0;
+		   $scope.decemberOpen = 0;
+		   
+		   $scope.janrOpen = function(){
+			   $scope.janOpen = 1;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   
+		   $scope.julysOpen = function(){
+			   $scope.julyOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   
+		   $scope.februarysOpen = function(){
+			   $scope.februaryOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   $scope.augustsOpen = function(){
+			   $scope.augustOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.marchOpen = 0;
+		   }
+		   $scope.marchsOpen = function(){
+			   $scope.marchOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   $scope.septembersOpen = function(){
+			   $scope.septemberOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   $scope.aprilsOpen = function(){
+			   $scope.aprilOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   
+		   $scope.octobersOpen = function(){
+			   $scope.octoberOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   $scope.maysOpen = function(){
+			   $scope.septemberOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   $scope.novembersOpen = function(){
+			   $scope.novemberOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   $scope.junesOpen = function(){
+			   $scope.juneOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.decemberOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   $scope.decembersOpen = function(){
+			   $scope.decemberOpen = 1;
+			   $scope.janOpen = 0;
+			   $scope.julyOpen = 0;
+			   $scope.februaryOpen = 0;
+			   $scope.juneOpen = 0;
+			   $scope.mayOpen = 0;
+			   $scope.novemberOpen = 0;
+			   $scope.octoberOpen = 0;
+			   $scope.aprilOpen = 0;
+			   $scope.septemberOpen = 0;
+			   $scope.marchOpen = 0;
+			   $scope.augustOpen = 0;
+		   }
+		   
+		   
 		   
 		   
 		   $scope.nextbutton = 0;
@@ -2727,7 +3086,6 @@ angular.module('newApp')
 			   }
 			   
 			   if($scope.schPlan.scheduleBy == "location"){
-				 
 				   
 				   $http.get("/isValidDatecheck/"+$scope.schPlan.location+'/'+startD+'/'+$scope.schPlan.scheduleBy).success(function(data){
 					console.log(data);

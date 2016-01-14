@@ -61,7 +61,10 @@ import models.Location;
 import models.MyProfile;
 import models.NewsletterDate;
 import models.Permission;
+import models.PlanLocationTotal;
 import models.PlanSchedule;
+import models.PlanScheduleMonthlyLocation;
+import models.PlanScheduleMonthlySalepeople;
 import models.PriceAlert;
 import models.RequestMoreInfo;
 import models.SalesPlanSchedule;
@@ -117,6 +120,7 @@ import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
 import viewmodel.LeadDateWiseVM;
 import viewmodel.LeadVM;
+import viewmodel.LocationMonthPlanVM;
 import viewmodel.LocationVM;
 import viewmodel.LocationWiseDataVM;
 import viewmodel.NoteVM;
@@ -124,6 +128,7 @@ import viewmodel.PageVM;
 import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.RequestInfoVM;
+import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
 import viewmodel.SessionUseVM;
 import viewmodel.SiteContentVM;
@@ -5606,7 +5611,6 @@ public class Application extends Controller {
     
     private static void sendMail(Map map) {
     	
-    	System.out.println("in send email schedule");
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByUser(logoUser);
@@ -13401,6 +13405,127 @@ public class Application extends Controller {
 		}
 		return ok(Json.toJson(pVms));
 	}
+	
+	public static Result saveLocationTotal(String total){
+		AuthUser user = getLocalUser();
+		PlanLocationTotal planLocat = PlanLocationTotal.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		if(planLocat == null){
+			PlanLocationTotal pTotal = new PlanLocationTotal();
+			pTotal.setTotal(total);
+			pTotal.setUser(user);
+			pTotal.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			pTotal.save();
+		}else{
+			planLocat.setTotal(total);
+			planLocat.setUser(user);
+			planLocat.update();
+		}
+		return ok();
+	}
+	
+	public static Result saveSalePlan(){
+		Form<SalepeopleMonthPlanVM> form = DynamicForm.form(SalepeopleMonthPlanVM.class).bindFromRequest();
+		SalepeopleMonthPlanVM vm = form.get();
+		AuthUser user = getLocalUser();
+		
+		for(Integer saleId:vm.salesList){
+			
+			AuthUser uAuthUser = AuthUser.findById(saleId);
+			PlanScheduleMonthlySalepeople pSalePer = PlanScheduleMonthlySalepeople.findByUserMonth(uAuthUser,vm.month);
+			
+			if(pSalePer == null){
+				PlanScheduleMonthlySalepeople planMoth = new PlanScheduleMonthlySalepeople();
+				planMoth.setCell(vm.cell);
+				planMoth.setEmails(vm.emails);
+				planMoth.setMonth(vm.month);
+				planMoth.setLeadsToGenerate(vm.leadsToGenerate);
+				planMoth.setNewCustomers(vm.newCustomers);
+				planMoth.setOutofSale(vm.outofSale);
+				planMoth.setReturningCustomers(vm.returningCustomers);
+				planMoth.setSuccessRate(vm.successRate);
+				planMoth.setTestDrives(vm.testDrives);
+				planMoth.setTotalBrought(vm.totalBrought);
+				planMoth.setVehicalesToSell(vm.vehicalesToSell);
+				planMoth.setUser(uAuthUser);
+				planMoth.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+				planMoth.save();
+			}else{
+				pSalePer.setCell(vm.cell);
+				pSalePer.setEmails(vm.emails);
+				pSalePer.setMonth(vm.month);
+				pSalePer.setLeadsToGenerate(vm.leadsToGenerate);
+				pSalePer.setNewCustomers(vm.newCustomers);
+				pSalePer.setOutofSale(vm.outofSale);
+				pSalePer.setReturningCustomers(vm.returningCustomers);
+				pSalePer.setSuccessRate(vm.successRate);
+				pSalePer.setTestDrives(vm.testDrives);
+				pSalePer.setTotalBrought(vm.totalBrought);
+				pSalePer.setVehicalesToSell(vm.vehicalesToSell);
+				pSalePer.update();
+			}
+		}
+		
+		
+		
+		/*else{
+			pLocation.setAvgCheck(vm.avgCheck);
+			pLocation.setMinEarning(vm.minEarning);
+			//pLocation.setMonth(vm.month);
+			pLocation.setTotalEarning(vm.totalEarning);
+			pLocation.setVehiclesSell(vm.vehiclesSell);
+			pLocation.setUser(user);
+			//pLocation.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			pLocation.update();
+		}*/
+				
+		
+		return ok();
+	}
+	
+	
+	public static Result getSaleMonthlyPlan(Integer saleId){
+		List<PlanScheduleMonthlySalepeople> sMonthlySalepeoples = PlanScheduleMonthlySalepeople.findByListUser(AuthUser.findById(saleId));
+		return ok(Json.toJson(sMonthlySalepeoples));
+	}
+	
+	public static Result getlocationsMonthlyPlan(){
+		
+		List<PlanScheduleMonthlyLocation> pLocation = PlanScheduleMonthlyLocation.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		return ok(Json.toJson(pLocation));
+	}
+	public static Result saveLocationPlan(){
+		
+		Form<LocationMonthPlanVM> form = DynamicForm.form(LocationMonthPlanVM.class).bindFromRequest();
+		LocationMonthPlanVM vm = form.get();
+		AuthUser user = getLocalUser();
+		
+		PlanScheduleMonthlyLocation pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.valueOf(session("USER_LOCATION"))),vm.month);
+		
+		if(pLocation == null){
+			PlanScheduleMonthlyLocation planMoth = new PlanScheduleMonthlyLocation();
+			planMoth.setAvgCheck(vm.avgCheck);
+			planMoth.setMinEarning(vm.minEarning);
+			planMoth.setMonth(vm.month);
+			planMoth.setTotalEarning(vm.totalEarning);
+			planMoth.setVehiclesSell(vm.vehiclesSell);
+			planMoth.setUser(user);
+			planMoth.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			planMoth.save();
+		}else{
+			pLocation.setAvgCheck(vm.avgCheck);
+			pLocation.setMinEarning(vm.minEarning);
+			//pLocation.setMonth(vm.month);
+			pLocation.setTotalEarning(vm.totalEarning);
+			pLocation.setVehiclesSell(vm.vehiclesSell);
+			pLocation.setUser(user);
+			//pLocation.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			pLocation.update();
+		}
+				
+		
+		return ok();
+	}
+	
 	
 	public static Result getLocationPlan(Long locationId){
 		AuthUser user = getLocalUser();
