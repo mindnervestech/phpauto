@@ -6359,8 +6359,6 @@ public class Application extends Controller {
 	    	userObj.setTrainingCost(vm.trainingCost);
 	    	userObj.setTrainingHours(vm.trainingHours);
 	    	userObj.setQuota(vm.quota);
-	    	userObj.setImageName(null);
-	    	userObj.setImageUrl(vm.imageUrl);
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
 	    	}
@@ -6414,6 +6412,9 @@ public class Application extends Controller {
 			  			e.printStackTrace();
 			  		} 
 		    	  } 
+	    	   }else{
+	   	    	userObj.setImageName(null);
+	   	    	userObj.setImageUrl(vm.imageUrl);
 	    	   }
 	    	   userObj.update();
 	    	return ok();
