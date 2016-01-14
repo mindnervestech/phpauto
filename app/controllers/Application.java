@@ -6337,6 +6337,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	
+    		MultipartFormData body = request().body().asMultipartFormData();
 	    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 	    	UserVM vm = form.get();
 	    	
@@ -6359,6 +6360,16 @@ public class Application extends Controller {
 	    	userObj.setTrainingCost(vm.trainingCost);
 	    	userObj.setTrainingHours(vm.trainingHours);
 	    	userObj.setQuota(vm.quota);
+	    	
+	    	String arr2[] = null;
+	    	 if(body != null) {
+	    		 String abcd= vm.permissions.get(0);
+	 	    	abcd = abcd.replace("]", "");
+	 	    	abcd = abcd.replace("[", "");
+	 	    	abcd = abcd.replace("\"", "");
+	 	    	arr2 = abcd.split(",");
+	    	 }
+	    	
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
 	    	}
@@ -6370,22 +6381,39 @@ public class Application extends Controller {
 	    	   }
 	    	   
 	    	   if(vm.userType.equals("Sales Person")) {
-	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   /*List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
 	    			   for(String role:vm.permissions){
 	    				   if(obj.name.equals(role)) {
 		    				   permissionData.add(obj);
 		    			   }
 	    	    	   }
-	    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
+	    			   if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
 	    				   permissionData.add(obj);
-	    			   }*/
+	    			   }
+	    		   }*/
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+	    			   if(body != null) {
+	    				   for(String role:arr2){
+    						   if(obj.name.equals(role)) {
+			    				   permissionData.add(obj);
+	    					   }
+    				   
+	    				   }
+	    			   }else{
+	    				   for(String role:vm.permissions){
+    						   if(obj.name.equals(role)) {
+			    				   permissionData.add(obj);
+	    					   }
+    				   
+	    				   }
+	    			   }
 	    		   }
 	    		   userObj.permission.addAll(permissionData);
 	    	   }
 	    	  
 	    	  
-	    	   MultipartFormData body = request().body().asMultipartFormData();
 	    	   if(body != null) {
 	    	   File file1 = new File(rootDir+userObj.imageUrl);
 	    	   file1.delete();
