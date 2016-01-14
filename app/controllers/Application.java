@@ -5606,6 +5606,7 @@ public class Application extends Controller {
     
     private static void sendMail(Map map) {
     	
+    	System.out.println("in send email schedule");
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByUser(logoUser);
@@ -7975,6 +7976,7 @@ public class Application extends Controller {
     	} else {
     		
     		String msg = "success";
+    		boolean flag = true;
     		AuthUser user = getLocalUser();
     		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
@@ -8004,6 +8006,7 @@ public class Application extends Controller {
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
     							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
+    								flag = false;
     							}
     						}
     					}
@@ -8015,6 +8018,7 @@ public class Application extends Controller {
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
     							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
+    								flag = false;
     							}
     						}
     					}
@@ -8027,6 +8031,7 @@ public class Application extends Controller {
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
     							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
+    								flag = false;
     							}
     						}
     					}
@@ -8065,6 +8070,7 @@ public class Application extends Controller {
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
     							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
+    								flag = false;
     							}
     						}
     					}
@@ -8076,6 +8082,7 @@ public class Application extends Controller {
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
     							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
+    								flag = false;
     							}
     						}
     					}
@@ -8088,6 +8095,7 @@ public class Application extends Controller {
     							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
     							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
     								msg = "error";
+    								flag = false;
     							}
     						}
     					}
@@ -8104,7 +8112,7 @@ public class Application extends Controller {
     			}
     		}
     		
-    		if(msg.equals("success")){
+    		if(flag){
     			Map map = new HashMap();
             	map.put("email",vm.email);
             	map.put("email",vm.email);
