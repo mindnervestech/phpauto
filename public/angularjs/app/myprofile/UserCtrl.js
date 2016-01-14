@@ -332,7 +332,8 @@ angular.module('newApp')
 		console.log($scope.userData);
 		$scope.userData.locationId = 0;
 		if(angular.isUndefined(logofile)) {
-			console.log("in logofile = "+logofile);
+			$scope.userData.imageUrl = $scope.img;
+			console.log("no logofile");
 			if($scope.emailMsg == "") {
 					$http.post('/updateImageFile',$scope.userData)
 					.success(function(data) {
@@ -347,8 +348,7 @@ angular.module('newApp')
 					});
 				}
 			} else {
-				console.log("no logofile");
-				$scope.userData.imageUrl = $scope.img;
+				console.log("in logofile = "+logofile);
 				if($scope.emailMsg == "") {
 					$upload.upload({
 			            url : '/updateImageFile',
