@@ -12,7 +12,14 @@
             $http.get('/getUserInfo').success(function(data,status, headers, config){
             	
             	$scope.name = data.firstName + " " + data.lastName;
-            	$scope.userimage = data.imageUrl;
+            	if(data.imageName == null){
+            		$scope.userimage = data.imageUrl;
+            	}else{
+            		$scope.userimage = "http://glider-autos.com/glivrImg/images"+data.imageUrl;
+            	}
+
+        		console.log($scope.userimage);
+            	
             }).error(function(data,status){
             	if(status == 401) {
             		window.location.href = "/login";
