@@ -20,6 +20,15 @@ angular.module('newApp')
 	$scope.num;
 	$scope.duration="month";
 	$scope.contactVal;
+	$scope.imagesList =[
+	                    	{name:'img1',srcName:'/assets/images/p1.png'},
+	                    	{name:'img2',srcName:'/assets/images/p2.png'},
+	                    	{name:'img3',srcName:'/assets/images/p3.png'},
+	                    	{name:'img4',srcName:'/assets/images/p4.png'},
+	                    	{name:'img5',srcName:'/assets/images/p5.png'},
+	                    	{name:'img6',srcName:'/assets/images/p6.png'},
+	                    	{name:'img7',srcName:'/assets/images/p7.png'}
+	                       ];
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -108,6 +117,21 @@ angular.module('newApp')
 		$scope.img="/assets/images/profile-pic.jpg ";
 		
 	}
+	
+	$scope.imageBorder = function(flag) {
+		angular.forEach($scope.imagesList, function(obj, index){
+			if(obj.name==flag){
+				$("#"+flag).removeClass('noClass').addClass('ImageBorder');
+				$scope.img=obj.srcName;
+				logofile = undefined;
+			}else{
+				$("#"+obj.name).removeClass('ImageBorder').addClass('noClass');
+			}
+		});
+		
+		
+	}	   
+	
 	$scope.showText = 0;
 	$scope.getProvided = function(validText){
 		console.log(validText);
@@ -182,8 +206,11 @@ angular.module('newApp')
 			});
 		});
 		
-		
-		$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.userData.imageUrl;
+		if($scope.userData.imageName==null){
+			$scope.img = $scope.userData.imageUrl;
+		}else{
+			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.userData.imageUrl;
+		}
 	}
 	
 	$scope.deleteUser = function(row) {
@@ -237,6 +264,8 @@ angular.module('newApp')
 			}
 			$scope.user.contractDur = $scope.num+" "+$scope.duration;
 		}
+		$scope.user.imageUrl = $scope.img;
+		console.log(logofile);
 		console.log($scope.user);
 		if(angular.isUndefined(logofile)) {
 			if($scope.emailMsg == "") {
@@ -298,7 +327,7 @@ angular.module('newApp')
 			$scope.userData.contractDur = $scope.num1+" "+$scope.duration1;
 		}
 		
-		
+		$scope.userData.imageUrl = $scope.img;
 		console.log($scope.userData);
 		$scope.userData.locationId = 0;
 		if(angular.isUndefined(logofile)) {

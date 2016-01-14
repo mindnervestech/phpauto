@@ -5718,6 +5718,7 @@ public class Application extends Controller {
 	    	userObj.trainingCost = vm.trainingCost;
 	    	userObj.trainingHours = vm.trainingHours;
 	    	userObj.quota = vm.quota;
+	    	userObj.imageUrl = vm.imageUrl;
 	    	String arr2[] = null;
 	    	 if(body != null) {
 	    		 String abcd= vm.permissions.get(0);
@@ -6358,7 +6359,8 @@ public class Application extends Controller {
 	    	userObj.setTrainingCost(vm.trainingCost);
 	    	userObj.setTrainingHours(vm.trainingHours);
 	    	userObj.setQuota(vm.quota);
-	    	
+	    	userObj.setImageName(vm.imageName);
+	    	userObj.setImageUrl(vm.imageUrl);
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
 	    	}
