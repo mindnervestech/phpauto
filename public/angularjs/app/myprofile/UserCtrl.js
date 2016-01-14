@@ -122,10 +122,12 @@ angular.module('newApp')
 		angular.forEach($scope.imagesList, function(obj, index){
 			if(obj.name==flag){
 				$("#"+flag).removeClass('noClass').addClass('ImageBorder');
+				$("#u"+flag).removeClass('noClass').addClass('ImageBorder');
 				$scope.img=obj.srcName;
 				logofile = undefined;
 			}else{
 				$("#"+obj.name).removeClass('ImageBorder').addClass('noClass');
+				$("#u"+obj.name).removeClass('ImageBorder').addClass('noClass');
 			}
 		});
 		
