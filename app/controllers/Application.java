@@ -6359,7 +6359,7 @@ public class Application extends Controller {
 	    	userObj.setTrainingCost(vm.trainingCost);
 	    	userObj.setTrainingHours(vm.trainingHours);
 	    	userObj.setQuota(vm.quota);
-	    	userObj.setImageName(vm.imageName);
+	    	userObj.setImageName(null);
 	    	userObj.setImageUrl(vm.imageUrl);
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
