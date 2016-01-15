@@ -4387,7 +4387,196 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
+	    	
 	    	List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
+	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
+	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
+	    	Calendar time = Calendar.getInstance();
+	    	for(ScheduleTest info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.bestDay = info.bestDay;
+	    		vm.bestTime = info.bestTime;
+				vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.typeOfLead = "Schedule Test Drive";
+	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		if(info.getConfirmDate() != null) {
+	    			vm.confirmDate = df.format(info.getConfirmDate());
+	    		}
+	    		
+	    		if(info.getConfirmTime() != null) {
+	    			time.setTime(info.getConfirmTime());
+	    			String ampm = "";
+	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+	    				ampm = "PM";
+	    			} else {
+	    				ampm = "AM";
+	    			}
+	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+	    		}
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		vm.option = 0;
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	for(TradeIn info: tradeIns) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.year = vehicle.year;
+					vm.price = vehicle.price;
+	    		}
+	    		vm.name = info.firstName;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		//vm.bestDay = info.bestDay;
+	    		//vm.bestTime = info.bestTime;
+				vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.typeOfLead = "Trade-In Appraisal";
+	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		if(info.getConfirmDate() != null) {
+	    			vm.confirmDate = df.format(info.getConfirmDate());
+	    		}
+	    		
+	    		if(info.getConfirmTime() != null) {
+	    			time.setTime(info.getConfirmTime());
+	    			String ampm = "";
+	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+	    				ampm = "PM";
+	    			} else {
+	    				ampm = "AM";
+	    			}
+	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+	    		}
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		vm.option = 2;
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	for(RequestMoreInfo info: requestMoreInfos) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.year = vehicle.year;
+					vm.price = vehicle.price;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		//vm.bestDay = info.bestDay;
+	    		//vm.bestTime = info.bestTime;
+				vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.typeOfLead = "Request More Info";
+	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		if(info.getConfirmDate() != null) {
+	    			vm.confirmDate = df.format(info.getConfirmDate());
+	    		}
+	    		
+	    		if(info.getConfirmTime() != null) {
+	    			time.setTime(info.getConfirmTime());
+	    			String ampm = "";
+	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+	    				ampm = "PM";
+	    			} else {
+	    				ampm = "AM";
+	    			}
+	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+	    		}
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		vm.option = 1;
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	
+	    	/*List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
@@ -4449,7 +4638,7 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		infoVMList.add(vm);
-	    	}
+	    	}*/
 	    	
 	    	return ok(Json.toJson(infoVMList));
     	}	
