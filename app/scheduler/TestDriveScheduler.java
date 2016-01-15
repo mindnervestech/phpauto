@@ -79,7 +79,7 @@ public class TestDriveScheduler {
 					for (RequestMoreInfo info : moreList) {
 						if(info.confirmDate !=null){
 							System.out.println(info.confirmDate);
-							if((info.confirmDate.after(crDate) && info.confirmDate.before(aftDate)) || (info.confirmDate.equals(crDate) || info.confirmDate.equals(aftDate))){
+							if((info.confirmDate.after(crDate) && info.confirmDate.before(aftDate)) || info.confirmDate.equals(crDate) || info.confirmDate.equals(aftDate)){
 								emailList.add(info.email);
 								/*System.out.println(info.email);
 								System.out.println(info.confirmDate);*/
@@ -91,7 +91,7 @@ public class TestDriveScheduler {
 					}
 					for (TradeIn info : traidList) {
 						if(info.confirmDate !=null){
-							if((info.confirmDate.after(crDate) && info.confirmDate.before(aftDate)) || (info.confirmDate.equals(crDate) || info.confirmDate.equals(aftDate))){
+							if((info.confirmDate.after(crDate) && info.confirmDate.before(aftDate)) || info.confirmDate.equals(crDate) || info.confirmDate.equals(aftDate)){
 								emailList.add(info.email);
 								/*System.out.println(info.email);
 								System.out.println(info.confirmDate);*/
@@ -102,7 +102,7 @@ public class TestDriveScheduler {
 					}
 					for (ScheduleTest info : scheduleList) {
 						if(info.confirmDate !=null){
-							if((info.confirmDate.after(crDate) && info.confirmDate.before(aftDate)) || (info.confirmDate.equals(crDate) || info.confirmDate.equals(aftDate))){
+							if((info.confirmDate.after(crDate) && info.confirmDate.before(aftDate)) || info.confirmDate.equals(crDate) || info.confirmDate.equals(aftDate)){
 								emailList.add(info.email);
 								/*System.out.println(info.email);
 								System.out.println(info.confirmDate);*/
