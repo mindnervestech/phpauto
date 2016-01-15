@@ -5611,6 +5611,7 @@ public class Application extends Controller {
     
     private static void sendMail(Map map) {
     	
+    	System.out.println("in send email schedule");
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByUser(logoUser);
@@ -7712,7 +7713,12 @@ public class Application extends Controller {
         				UserVM vm = new UserVM();
         				vm.fullName = sales.firstName+" "+sales.lastName;
         				if(sales.imageUrl != null) {
-        					vm.imageUrl = sales.imageUrl;
+        					if(sales.imageName !=null){
+        						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+sales.imageUrl;
+        					}else{
+        						vm.imageUrl = sales.imageUrl;
+        					}
+        					
         				} else {
         					vm.imageUrl = "/profile-pic.jpg";
         				}
@@ -7776,7 +7782,11 @@ public class Application extends Controller {
     				UserVM vm = new UserVM();
     				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
     				if(salesUser.imageUrl != null) {
-    					vm.imageUrl = salesUser.imageUrl;
+    					if(salesUser.imageName !=null){
+    						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+salesUser.imageUrl;
+    					}else{
+    						vm.imageUrl = salesUser.imageUrl;
+    					}
     				} else {
     					vm.imageUrl = "/profile-pic.jpg";
     				}
@@ -7819,7 +7829,11 @@ public class Application extends Controller {
         				UserVM vm = new UserVM();
         				vm.fullName = sales.firstName+" "+sales.lastName;
         				if(sales.imageUrl != null) {
-        					vm.imageUrl = sales.imageUrl;
+        					if(sales.imageName !=null){
+        						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+sales.imageUrl;
+        					}else{
+        						vm.imageUrl = sales.imageUrl;
+        					}
         				} else {
         					vm.imageUrl = "/profile-pic.jpg";
         				}
@@ -7884,7 +7898,11 @@ public class Application extends Controller {
     				UserVM vm = new UserVM();
     				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
     				if(salesUser.imageUrl != null) {
-    					vm.imageUrl = salesUser.imageUrl;
+    					if(salesUser.imageName !=null){
+    						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+salesUser.imageUrl;
+    					}else{
+    						vm.imageUrl = salesUser.imageUrl;
+    					}
     				} else {
     					vm.imageUrl = "/profile-pic.jpg";
     				}
