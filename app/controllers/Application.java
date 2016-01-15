@@ -6180,9 +6180,7 @@ public class Application extends Controller {
     	lDataVM.imageUrl = location.getImageUrl();
     	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
     	lDataVM.countSalePerson = countLeads;
-    	System.out.println(".,.,.<><><><countLeads<><><><><><>");
-    	System.out.println(countLeads1);
-    	System.out.println(".,.,.<><><><countLeads<><><><><><>");
+    	
     	Integer pricecount = 0;
     	int saleCarCount = 0;
     	if(users.role.equals("Manager")){
@@ -6692,6 +6690,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
     		SoldContact contact = new SoldContact();
@@ -6724,8 +6723,9 @@ public class Application extends Controller {
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
     		contactsObj.newsLetter = 0;
+    		contactsObj.user = user.id;
+    		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contactsObj.save();
-    		AuthUser user = getLocalUser();
     		
     		
     		Vehicle vehicle = Vehicle.findByVidAndUser(vm.vin);
@@ -6918,6 +6918,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
     		SoldContact contact = new SoldContact();
@@ -6950,6 +6951,8 @@ public class Application extends Controller {
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
     		contactsObj.newsLetter = 0;
+    		contactsObj.user = user.id;
+    		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contactsObj.save();
     		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
     		Vehicle vehicle = Vehicle.findByVin(info.vin);
@@ -7017,6 +7020,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
     		SoldContact contact = new SoldContact();
@@ -7049,6 +7053,8 @@ public class Application extends Controller {
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
     		contactsObj.newsLetter = 0;
+    		contactsObj.user = user.id;
+    		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contactsObj.save();
     		TradeIn info = TradeIn.findById(vm.infoId);
     		Vehicle vehicle = Vehicle.findByVin(info.vin);
