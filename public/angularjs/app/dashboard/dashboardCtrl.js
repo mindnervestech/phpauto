@@ -195,6 +195,8 @@ angular.module('newApp')
     	  
     	   $http.get('/getSoldVehicleDetails')
    		.success(function(data) {
+   			console.log("///';';';';';");
+   			console.log(data);
    		$scope.locationDataList = data;	
        
    		
@@ -1683,7 +1685,6 @@ angular.module('newApp')
     	}
     	
     	$scope.saveScheduleClose = function() {
-    			console.log($scope.scheduleStatusCancel);
 	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.option+'/'+$scope.reasonToCancel)
 				.success(function(data) {
 					$scope.getScheduleTestData();
@@ -2531,8 +2532,12 @@ angular.module('newApp')
 		   }*/
 		   $scope.locationTotal = 0;
 		   $scope.saveLocationPlan = function(month){
+			   var value = 0;
 			   $scope.locationTotal = 0;
-			   console.log($scope.leadsTime);
+			   value = $scope.leadsTime.totalEarning;
+			   console.log($scope.totalLocationPlanData);
+			   
+			  
 			   $scope.leadsTime.month = month;
 			   $http.post("/saveLocationPlan",$scope.leadsTime).success(function(data){
 				   console.log(data);
@@ -2553,10 +2558,17 @@ angular.module('newApp')
 				   $scope.leadsTime.vehiclesSell = "";
 				   $scope.leadsTime.avgCheck = "";
 				   console.log("sccesss");
+				 //  $scope.getLocationPlan();
 				   angular.forEach($scope.totalLocationPlanData, function(obj, index){
-					   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
+					   console.log(obj.totalEarning);
+					   if($scope.leadsTime.month == obj.month){
+						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(value);
+					   }else{
+						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
+					   }
+					   console.log($scope.locationTotal);
 				   });
-				   $scope.getLocationPlan();
+				  
 			   });
 		   }
 		   
@@ -2795,6 +2807,12 @@ angular.module('newApp')
 		   $scope.decemberOpen = 0;
 		   
 		   $scope.janrOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "january"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
 			   $scope.janOpen = 1;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -2810,6 +2828,13 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.julysOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "july"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.julyOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -2825,6 +2850,13 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.februarysOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "february"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.februaryOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2839,6 +2871,13 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.augustsOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "august"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.augustOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2853,6 +2892,13 @@ angular.module('newApp')
 			   $scope.marchOpen = 0;
 		   }
 		   $scope.marchsOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "march"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.marchOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2867,6 +2913,13 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.septembersOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "september"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.septemberOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2881,6 +2934,13 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.aprilsOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "april"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.aprilOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2896,6 +2956,13 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.octobersOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "october"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.octoberOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2910,6 +2977,13 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.maysOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "may"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.septemberOpen = 0;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2924,6 +2998,13 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.novembersOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "november"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.novemberOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2938,6 +3019,13 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.junesOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "june"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.juneOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2952,6 +3040,13 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.decembersOpen = function(){
+			   $scope.leadsTime = {};
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "december"){
+				    	$scope.leadsTime = obj;
+				    }
+			   });
+			   
 			   $scope.decemberOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -3637,9 +3732,10 @@ angular.module('newApp')
 	   console.log(row);
 	   $scope.statusVal = "";
 	   
-	   $('#btnStatusSchedule').click();
+	   
 	   
 	   if(row.entity.status == 'Newly Arrived') {
+		   $('#btnStatusSchedule').click();
 		   $scope.soldContact.statusVal = "Sold";
 	   }
 	   if(row.entity.status == 'Sold') {

@@ -6180,7 +6180,9 @@ public class Application extends Controller {
     	lDataVM.imageUrl = location.getImageUrl();
     	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
     	lDataVM.countSalePerson = countLeads;
-    	
+    	System.out.println(".,.,.<><><><countLeads<><><><><><>");
+    	System.out.println(countLeads1);
+    	System.out.println(".,.,.<><><><countLeads<><><><><><>");
     	Integer pricecount = 0;
     	int saleCarCount = 0;
     	if(users.role.equals("Manager")){
@@ -7951,6 +7953,7 @@ public class Application extends Controller {
         					vm.successRate = 0;
         				}
         				Integer leads = 0;
+        				Integer leadPrice = 0;
         				String count = "";
         				if(rowData.getString("leads") != null) {
         					count = rowData.getString("leads");
@@ -7965,11 +7968,17 @@ public class Application extends Controller {
         				} else {
         					vm.currentLeads = "";
         				}
-        				if(rowData.getString("amount") != null) {
-        					vm.salesAmount = rowData.getString("amount");
+        				if(rowData.getString("tramount") != null) {
+        					leadPrice = leadPrice + Integer.parseInt(rowData.getString("tramount"));
+        				} else if(rowData.getString("samount") != null) {
+        					leadPrice = leadPrice + Integer.parseInt(rowData.getString("samount"));
+        				} if(rowData.getString("ramount") != null) {
+        					leadPrice = leadPrice + Integer.parseInt(rowData.getString("ramount"));
         				} else {
         					vm.salesAmount = "0";
         				}
+        				
+        				vm.salesAmount = leadPrice.toString();
         				tempuserList[index] = vm;
         				index++;
     				}
@@ -14333,11 +14342,21 @@ public class Application extends Controller {
 				}else{
 					pricevalue = 0L;
 				}
+				Long valueD = 0L;
+				Long days = 0L;
+				Long fixdate = 0L;
+				valueD = vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24);
+				days = (Long) (valueD / (1000*60*60*24));
+				fixdate = valueD - days;
 				
-				String objectDate = mapdate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
+				String objectDate = mapdate.get(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24));
 				if (objectDate == null) {
+					
 					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+valueCount);
 				}else{
+					/*valueD = vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24);
+					days = (Long) (valueD / (1000*60*60*24));
+					fixdate = valueD - days;*/
 					String arr[] = objectDate.split(",");
 					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+(Integer.parseInt(arr[1]) + valueCount));
 				}

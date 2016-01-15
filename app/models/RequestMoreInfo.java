@@ -257,6 +257,7 @@ public class RequestMoreInfo extends Model {
 		this.leadStatus = leadStatus;
 	}
 	public static List<RequestMoreInfo> findByVin(String vin) {
+		// TODO Auto-generated method stub
 		return find.where().eq("vin", vin).findList();
 	}
 	public static List<RequestMoreInfo> findByVinDate(String vin, Date date) {
