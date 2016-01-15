@@ -14401,12 +14401,24 @@ public class Application extends Controller {
 		 		  });
 		  
 		 		try{
+		 			
+		 			Message feedback = new MimeMessage(session);
+		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			feedback.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(email));
+		  			 feedback.setSubject("Test Drive Alert");	  			
+		  			 BodyPart messageBodyPart = new MimeBodyPart();	
+		  	         messageBodyPart.setText("Test drive alert message from Glider Autos");	 	    
+		  	         Multipart multipart = new MimeMultipart();	  	    
+		  	         multipart.addBodyPart(messageBodyPart);	            
+		  	         feedback.setContent(multipart);
+		  		     Transport.send(feedback);
 		 		   
-		  			Message message = new MimeMessage(session);
+		  			/*Message message = new MimeMessage(session);
 		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
 		  			message.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(email));
-		  			message.setSubject("Schedule  ");	  			
+		  			message.setSubject("Test Drive Alert");	  			
 		  			Multipart multipart = new MimeMultipart();
 	    			BodyPart messageBodyPart = new MimeBodyPart();
 	    			messageBodyPart = new MimeBodyPart();
@@ -14424,7 +14436,7 @@ public class Application extends Controller {
 	    			messageBodyPart.setContent(content, "text/html");
 	    			multipart.addBodyPart(messageBodyPart);
 	    			message.setContent(multipart);
-	    			Transport.send(message);
+	    			Transport.send(message);*/
 	    			System.out.println("email send");
 		       		} catch (MessagingException e) {
 		  			  throw new RuntimeException(e);
