@@ -56,9 +56,11 @@ angular.module('newApp')
 				$scope.callChart($scope.stackchart);
 			});
 			console.log("hihih");
-			
-			 
 	}
+	
+	setInterval(function(){
+		$scope.userLocationData('week');
+		}, 500000)
 	
 	$scope.openLeadspopUp = function(){
 		/*   $scope.schPlan = {};
