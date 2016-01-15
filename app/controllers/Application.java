@@ -14691,4 +14691,34 @@ public class Application extends Controller {
 		return ok();
 	}
 	
+	public static Result getScheduleTime(String vin,String comDate){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    			List<String> timeList = new ArrayList<>();
+    			try {
+    				DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+    				SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+        			Date d = df1.parse(comDate);
+        			List<RequestMoreInfo> moreInfo = RequestMoreInfo.findByVinDate(vin,d);
+        			List<ScheduleTest> schedule = ScheduleTest.findByVinDate(vin,d);
+        			List<TradeIn> traidInfo = TradeIn.findByVinDate(vin,d);
+        			for (TradeIn info : traidInfo) {
+        				timeList.add(time.format(info.confirmTime));
+					}
+        			for (RequestMoreInfo info : moreInfo) {
+        				timeList.add(time.format(info.confirmTime));
+					}
+        			for (ScheduleTest info : schedule) {
+        				timeList.add(time.format(info.confirmTime));
+					}
+        			
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+    			
+    		return ok(Json.toJson(timeList));
+    	}
+	}
+	
 }

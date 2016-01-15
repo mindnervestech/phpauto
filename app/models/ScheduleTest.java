@@ -284,6 +284,9 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest> findByVin(String vin) {
 		return find.where().eq("vin", vin).findList();
 	}
+	public static List<ScheduleTest> findByVinDate(String vin, Date date) {
+		return find.where().eq("vin", vin).eq("confirm_date", date).findList();
+	}
 	public static List<ScheduleTest> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();
 	}

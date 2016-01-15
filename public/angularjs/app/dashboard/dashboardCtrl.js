@@ -2194,6 +2194,12 @@ angular.module('newApp')
 			   $scope.testDriveData.prefferedContact = "";
 		   }
 		   
+		   $scope.getScheduleTime = function(){
+			   console.log("..........");
+			   console.log();
+			   console.log(testDriveData.bestDay);
+		   }
+		   
 		   $scope.saveTestDrive = function() {
 			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
 			   $scope.testDriveData.bestTime = $('#bestTime').val();
@@ -2301,6 +2307,16 @@ angular.module('newApp')
 			   });
 			   
 			   $('#testDriveDate').on('changeDate', function(e) {
+				   var sDate = $('#testDriveDate').val();
+				   console.log($scope.testDriveData.vin);
+				   console.log(sDate);
+				   console.log("...........");
+				   $http.get("/getScheduleTime/"+$scope.testDriveData.vin+'/'+sDate).success(function(data){
+					   console.log("success");
+					   console.log(data);
+					   $scope.timeList = data;
+				   });
+				   
 				   document.getElementById("testDriveNature").innerHTML = "";
 				   var day = moment(e.date).format('D MMM YYYY');
 				   var img= "";
@@ -2339,7 +2355,18 @@ angular.module('newApp')
 			   });
 			   
 			   $('#cnfDate').on('changeDate', function(e) {
-				   document.getElementById("gridCnfDateNature").innerHTML = "";
+				   
+				   console.log("...........");
+				   var sDate = $('#cnfDate').val();
+				   console.log($scope.scheduleTestData.vin);
+				   console.log(sDate);
+				   $http.get("/getScheduleTime/"+$scope.scheduleTestData.vin+'/'+sDate).success(function(data){
+					   console.log("success");
+					   console.log(data);
+					   $scope.cnTimeList = data;
+				   });
+				   
+				   //document.getElementById("gridCnfDateNature").innerHTML = "";
 				   var day = moment(e.date).format('D MMM YYYY');
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){

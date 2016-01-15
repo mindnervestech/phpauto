@@ -3143,7 +3143,7 @@ margin-left: 5px;
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="requestMore()">Request More Info</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="testDrive()">Schedule Test Drive</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="tradeIn()">Trade In Inquiries</button></a></li>
-			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
+			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
 			    	<h2><b style="margin-left:10%;" ng-show="userType == 'Sales Person'">My Leads</b></h2>
 			    	<select  class="form-control form-white" ng-show="userType == 'General Manager' || userType == 'Manager'" id="salesPersonUserId" ng-model="salesPerson" ng-change="getAllSalesPersonRecord(salesPerson)" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
@@ -3554,33 +3554,45 @@ margin-left: 5px;
 								                </div>
 								                <div class="modal-body">
 								                <form ng-submit="saveConfirmData()">
-								                   <div class="form-group col-sm-12">
-													<label class="col-sm-2 control-label" style="text-align: right;">Email</label>
-														<div class="col-sm-5">
+								                	
+								                	<div class="form-group col-sm-12">
+								                		<div class="form-group col-sm-8">
+								                			<div class="form-group col-sm-12">
+													<label class="col-sm-4 control-label" style="text-align: left;">Email</label>
+														<div class="col-sm-8">
 															<input class="form-control form-white" style="" ng-model="scheduleTestData.email" type="text" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-													<label class="col-sm-2 control-label" style="text-align: right;">Date</label>
-														<div class="col-sm-5">
-															<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="mm/dd/yyyy" required>
+													<label class="col-sm-4 control-label" style="text-align: left;">Date</label>
+														<div class="col-sm-8">
+															<!--<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="yyyy-mm-dd" required>-->
+															<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="yyyy-mm-dd" required>
 														</div>
 														<!-- <div class="col-sm-5" id="gridCnfDateNature">
 														</div> -->
 													</div>
 													<div class="form-group col-sm-12">
-													<label class="col-sm-2 control-label" style="text-align: right;">Time</label>
-														<div class="col-sm-5">
-															<!-- <div class="input-group bootstrap-timepicker timepicker">
-													            <input id="timepicker1" type="text" ng-model="scheduleTestData.confirmTime" class="form-control input-small">
-													            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-													        </div> -->
+													<label class="col-sm-4 control-label" style="text-align: left;">Time</label>
+														<div class="col-sm-8">
 													        <div class="prepend-icon">
 								                              <input type="text" name="timepicker" ng-model="scheduleTestData.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="timePick">
 								                              <i class="icon-clock"></i>
 								                            </div>
 														</div>
 													</div>
+								                		</div>
+								                		<div class="form-group col-sm-4">
+								                			<table>
+								                    		<tr>
+								                    			<td>Time</td>
+								                    		</tr>
+								                    			<tr ng-repeat="noteStatus in cnTimeList">
+								                    				<td>{{noteStatus}}</td>
+								                    			</tr>
+								                    		</table>
+								                		</div>
+								                	</div>		
 													
 														<input type="submit" class="btn btn-default" style="margin-left:29%;margin-top:3%;">
 													</form>
@@ -4257,44 +4269,46 @@ margin-left: 5px;
 								                </div>
 								                 <form ng-submit="saveTestDrive()">
 								                <div class="modal-body">
-								                    	<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
+								                	<div class="form-group col-sm-12">
+								                		<div class="form-group col-sm-8">
+								                			<div class="form-group col-sm-12">
+														<label class="col-sm-5 control-label" style="text-align: left;">Name</label>
 														<div class="col-sm-7">
 															<input type="text" class="form-control form-white" ng-model="testDriveData.name" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Preffered Contact</label>
+														<label class="col-sm-5 control-label" style="text-align: left;">Preffered Contact</label>
 														<div class="col-sm-7">
 															<input type="radio" name="preffered" id="emailCnt" value="email" ng-model="testDriveData.prefferedContact">Email
 															<input type="radio" name="preffered" id="phoneCnt" value="phone" ng-model="testDriveData.prefferedContact">Phone
 														</div>
 													</div>
 								                    <div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Email</label>
+														<label class="col-sm-5 control-label" style="text-align: left;">Email</label>
 														<div class="col-sm-7">
 															<input type="email" class="form-control form-white" ng-model="testDriveData.email" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Phone</label>
+														<label class="col-sm-5 control-label" style="text-align: left;">Phone</label>
 														<div class="col-sm-7">
 															<input type="text" class="form-control form-white" ng-model="testDriveData.phone" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Best Day</label>
+														<label class="col-sm-5 control-label" style="text-align: left;">Best Day</label>
 														<div class="col-sm-7">
-														<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" ng-model="testDriveData.bestDay" data-date-format="dd-mm-yyyy" required>
+														<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" ng-model="testDriveData.bestDay" data-date-format="yyyy-mm-dd" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">&nbsp;</label>
+														<label class="col-sm-5 control-label" style="text-align: left;">&nbsp;</label>
 														<div class="col-sm-7" id="testDriveNature">
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-														<label class="col-sm-4 control-label" style="text-align: right;">Best Time</label>
+														<label class="col-sm-5 control-label" style="text-align: left;">Best Time</label>
 														<div class="col-sm-7">
 															<div class="prepend-icon">
 								                              <input type="text" name="timepicker" ng-model="testDriveData.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime">
@@ -4303,6 +4317,20 @@ margin-left: 5px;
 														</div>
 													</div>
 								                </div>
+								                <div class="form-group col-sm-4">
+								                			<table>
+								                    		<tr>
+								                    			<td>Time</td>
+								                    		</tr>
+								                    			<tr ng-repeat="noteStatus in timeList">
+								                    				<td>{{noteStatus}}</td>
+								                    			</tr>
+								                    		</table>	
+								                		</div>
+								               </div>
+								                				
+								                	</div>	
+								                	
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
 								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>

@@ -493,6 +493,9 @@ public class TradeIn extends Model {
 		// TODO Auto-generated method stub
 		return find.where().eq("vin", vin).findList();
 	}
+	public static List<TradeIn> findByVinDate(String vin, Date date) {
+		return find.where().eq("vin", vin).eq("confirm_date", date).findList();
+	}
 	public static List<TradeIn> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();
 	}
