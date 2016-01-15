@@ -205,7 +205,7 @@ public class ScheduleTest extends Model {
 	
 	
 	public static List<ScheduleTest> findAllAssigned(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("leadStatus", null).orderBy("scheduleDate desc").findList();
+		return find.where().eq("assignedTo", user).eq("leadStatus", null).eq("isRead",true).orderBy("scheduleDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllSeenComplete(AuthUser user) {
@@ -259,7 +259,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static SqlRow getTopPerformers(String start,String end,Integer id) {
-		SqlQuery q = Ebean.createSqlQuery("select count(*) as total,(select count(*) from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and schedule_test.lead_status = 'COMPLETE') as success,(select sum(vehicle.price) from vehicle where vehicle.vin in (select schedule_test.vin from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and schedule_test.lead_status = 'COMPLETE') ) as amount,(select count(*) from schedule_test where schedule_test.assigned_to_id = '"+id+"' and schedule_test.lead_status is null) as leads,(select count(*) from request_more_info where request_more_info.assigned_to_id = '"+id+"' and request_more_info.status is null) as requestleads,(select count(*) from trade_in where trade_in.assigned_to_id = '"+id+"' and trade_in.status is null) as tradeInleads from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and (schedule_test.lead_status = 'COMPLETE' or schedule_test.lead_status = 'LOST')");
+		SqlQuery q = Ebean.createSqlQuery("select count(*) as total,(select count(*) from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and schedule_test.lead_status = 'COMPLETE') as success,(select sum(vehicle.price) from vehicle where vehicle.vin in (select schedule_test.vin from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and schedule_test.lead_status = 'COMPLETE') ) as amount,(select count(*) from schedule_test where schedule_test.assigned_to_id = '"+id+"' and schedule_test.lead_status is null and is_read = 1) as leads,(select count(*) from request_more_info where request_more_info.assigned_to_id = '"+id+"' and request_more_info.status is null and is_read = 1) as requestleads,(select count(*) from trade_in where trade_in.assigned_to_id = '"+id+"' and trade_in.status is null and is_read = 1) as tradeInleads from schedule_test where schedule_test.assigned_to_id = '"+id+"' and (schedule_test.confirm_date between '"+start+"' and '"+end+"') and (schedule_test.lead_status = 'COMPLETE' or schedule_test.lead_status = 'LOST')");
 		SqlRow row = q.findUnique();
 		return row;
 	}

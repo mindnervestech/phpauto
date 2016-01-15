@@ -5611,7 +5611,6 @@ public class Application extends Controller {
     
     private static void sendMail(Map map) {
     	
-    	System.out.println("in send email schedule");
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByUser(logoUser);
