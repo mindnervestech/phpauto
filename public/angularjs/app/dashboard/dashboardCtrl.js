@@ -1683,6 +1683,7 @@ angular.module('newApp')
     	}
     	
     	$scope.saveScheduleClose = function() {
+    			console.log($scope.scheduleStatusCancel);
 	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.option+'/'+$scope.reasonToCancel)
 				.success(function(data) {
 					$scope.getScheduleTestData();
