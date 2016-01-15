@@ -475,7 +475,7 @@ public class TradeIn extends Model {
 	
 	public static List<TradeIn> findAllScheduledUser(AuthUser user) {
 		//return find.where().eq("isScheduled", true).eq("leadStatus", null).eq("user",user).findList();
-		return find.where().eq("isScheduled", true).eq("leadStatus", null).eq("assignedTo",user).findList();
+		return find.where().eq("isScheduled", true).eq("leadStatus", null).eq("isRead",true).eq("assignedTo",user).findList();
 	}
 	
 	public static List<TradeIn>  findByVinAndLocation(String vin,Location location) {
