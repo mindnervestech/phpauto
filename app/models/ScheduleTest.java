@@ -46,7 +46,14 @@ public class ScheduleTest extends Model {
 	public String location;
 	public String google_id;
 	public Boolean is_google_data;
+	public int scheduleEmail;
 	
+	public int getScheduleEmail() {
+		return scheduleEmail;
+	}
+	public void setScheduleEmail(int scheduleEmail) {
+		this.scheduleEmail = scheduleEmail;
+	}
 	public String getContactedFrom() {
 		return contactedFrom;
 	}
@@ -276,5 +283,8 @@ public class ScheduleTest extends Model {
 	}
 	public static List<ScheduleTest> findByVin(String vin) {
 		return find.where().eq("vin", vin).findList();
+	}
+	public static List<ScheduleTest> findByScheduler() {
+		return find.where().eq("schedule_email", 0).findList();
 	}
 }

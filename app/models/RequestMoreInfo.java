@@ -37,6 +37,13 @@ public class RequestMoreInfo extends Model {
 	public Boolean isReassigned = false;
 	public String contactedFrom;
 	public String hearedFrom;
+	public int scheduleEmail;
+	public int getScheduleEmail() {
+		return scheduleEmail;
+	}
+	public void setScheduleEmail(int scheduleEmail) {
+		this.scheduleEmail = scheduleEmail;
+	}
 	public String getContactedFrom() {
 		return contactedFrom;
 	}
@@ -252,6 +259,9 @@ public class RequestMoreInfo extends Model {
 	public static List<RequestMoreInfo> findByVin(String vin) {
 		// TODO Auto-generated method stub
 		return find.where().eq("vin", vin).findList();
+	}
+	public static List<RequestMoreInfo> findByScheduler() {
+		return find.where().eq("schedule_email", 0).findList();
 	}
 	
 }

@@ -4,6 +4,7 @@ import play.Logger;
 import play.api.mvc.EssentialFilter;
 import play.filters.gzip.GzipFilter;
 import scheduler.NewsLetter;
+import scheduler.TestDriveScheduler;
 
 public class Global extends GlobalSettings {
 	public static final int CHAR_LEN = 200;
@@ -16,13 +17,12 @@ public class Global extends GlobalSettings {
 	
 	@Override
 	public void onStart(Application app) {
+		System.out.println("{{{{{{{{{{{}}}}}}}}}");
 		NewsLetter.newsletterSchedulling();
+		TestDriveScheduler.newsletterSchedulling();
 	}
 	
 	
-	
-
-
 	@Override
 	public void onStop(Application app) {
 		Logger.info("Application shutdown...");

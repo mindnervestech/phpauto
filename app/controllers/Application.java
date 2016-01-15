@@ -5611,6 +5611,7 @@ public class Application extends Controller {
     
     private static void sendMail(Map map) {
     	
+    	System.out.println("in send email schedule");
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByUser(logoUser);
@@ -14378,6 +14379,59 @@ public class Application extends Controller {
     		File file = new File(filePath);
     		return ok(file);
     	}
+	}
+	
+	
+	public static Result scheduleEmail(List<String> emailList) {
+		System.out.println("scheduleEmail");
+		for(String email : emailList) {
+			System.out.println(email);
+		}
+			for(String email : emailList) {
+				Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		  
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 		   
+		  			Message message = new MimeMessage(session);
+		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			message.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(email));
+		  			message.setSubject("Schedule  ");	  			
+		  			Multipart multipart = new MimeMultipart();
+	    			BodyPart messageBodyPart = new MimeBodyPart();
+	    			messageBodyPart = new MimeBodyPart();
+	    			
+	    			VelocityEngine ve = new VelocityEngine();
+	    			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+	    			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+	    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+	    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+	    			ve.init();
+	    			
+	    	        StringWriter writer = new StringWriter();
+	    	        String content = writer.toString(); 
+	    			
+	    			messageBodyPart.setContent(content, "text/html");
+	    			multipart.addBodyPart(messageBodyPart);
+	    			message.setContent(multipart);
+	    			Transport.send(message);
+	    			System.out.println("email send");
+		       		} catch (MessagingException e) {
+		  			  throw new RuntimeException(e);
+		  		}
+		}
+		return ok();
 	}
 	
 }

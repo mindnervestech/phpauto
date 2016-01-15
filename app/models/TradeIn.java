@@ -75,6 +75,14 @@ public class TradeIn extends Model {
 	public String pdfPath;
 	public String status;
 	public String reason;
+	public int scheduleEmail;
+	public int getScheduleEmail() {
+		return scheduleEmail;
+	}
+	public void setScheduleEmail(int scheduleEmail) {
+		this.scheduleEmail = scheduleEmail;
+	}
+
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
@@ -484,6 +492,9 @@ public class TradeIn extends Model {
 	public static List<TradeIn> findByVin(String vin) {
 		// TODO Auto-generated method stub
 		return find.where().eq("vin", vin).findList();
+	}
+	public static List<TradeIn> findByScheduler() {
+		return find.where().eq("schedule_email", 0).findList();
 	}
 	
 }
