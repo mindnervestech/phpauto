@@ -58,6 +58,9 @@ public class Contacts extends Model {
 	public Integer newsLetter;
 	
 	 public Integer user;
+	 
+	 @ManyToOne
+		public Location locations;
 	
 	public Integer getUser() {
 		return user;
@@ -271,7 +274,12 @@ public class Contacts extends Model {
 	}
 
 	
-	
+	public Location getLocations() {
+		return locations;
+	}
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
 	public String getWorkEmail() {
 		return workEmail;
 	}
@@ -321,6 +329,10 @@ public class Contacts extends Model {
 	}
 	public static List<Contacts> getAllContactsByUser(int id) {
 		return find.where().eq("user", id).findList();
+	}
+	
+	public static List<Contacts> getAllContactsByLocation(Long locationId) {
+		return find.where().eq("locations.id", locationId).findList();
 	}
 	
 	public static Contacts findByEmail(String email) {

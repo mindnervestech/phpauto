@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -25,6 +26,12 @@ public class SoldContact extends Model {
 	public String year;
 	public String mileage;
 	public String price;
+	
+	@ManyToOne
+	public AuthUser user;
+	
+	@ManyToOne
+	public Location locations;
 	
 	
 	public Long getId() {
@@ -71,6 +78,19 @@ public class SoldContact extends Model {
 	}
 	public String getHowContactedUs() {
 		return howContactedUs;
+	}
+	
+	public AuthUser getUser() {
+		return user;
+	}
+	public void setUser(AuthUser user) {
+		this.user = user;
+	}
+	public Location getLocations() {
+		return locations;
+	}
+	public void setLocations(Location locations) {
+		this.locations = locations;
 	}
 	public void setHowContactedUs(String howContactedUs) {
 		this.howContactedUs = howContactedUs;

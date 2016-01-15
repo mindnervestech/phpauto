@@ -5611,7 +5611,6 @@ public class Application extends Controller {
     
     private static void sendMail(Map map) {
     	
-    	System.out.println("in send email schedule");
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByUser(logoUser);
@@ -6561,6 +6560,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
     		SoldContact contact = new SoldContact();
@@ -6576,6 +6576,8 @@ public class Application extends Controller {
     		contact.year = vm.year;
     		contact.mileage = vm.mileage;
     		contact.price = vm.price;
+    		contact.user = user;
+    		contact.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contact.save();
     		Contacts contactsObj = new Contacts();
     		String arr[] = vm.name.split(" ");
@@ -6593,8 +6595,9 @@ public class Application extends Controller {
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
     		contactsObj.newsLetter = 0;
+    		contactsObj.user = user.id;
+    		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contactsObj.save();
-    		AuthUser user = getLocalUser();
     		
     		String vinNo = null;
     		if(vm.typeOfLead.equals("Request More Info")){
@@ -12327,7 +12330,7 @@ public class Application extends Controller {
     		List<ContactsVM> contactsVMList = new ArrayList<>();
     		List<Contacts> contactsList;
     		if(userObj.role.equalsIgnoreCase("Manager")){
-    			contactsList = Contacts.getAllContacts();
+    			contactsList = Contacts.getAllContactsByLocation(Long.valueOf(session("USER_LOCATION")));
     		}else{
     			contactsList = Contacts.getAllContactsByUser(userObj.id);
     		}
