@@ -1180,8 +1180,10 @@ angular.module('newApp')
 	    				$scope.weekData = response;
 	    				if($scope.currentSelectedType==0) 
 	    					$scope.currentData = response.topVisited;
-	    				else
+	    				else if($scope.currentSelectedType==1)
 	    					$scope.currentData = response.worstVisited;
+	    				else if($scope.currentSelectedType==2)
+	    					$scope.currentData = response.allVehical;
 	    			});
 	    		};
 	    		
@@ -1339,6 +1341,11 @@ angular.module('newApp')
 	    			$scope.currentSelectedType = 1;
 	    			$scope.currentData = $scope.weekData.worstVisited;
 	    		};
+	    		
+	    		$scope.showAllvehicles = function(){
+	    			$scope.currentSelectedType = 2;
+	    			$scope.currentData = $scope.weekData.allVehical;
+	    		}
 	    		
 	    		$scope.showWeekVisited();
 	    		$scope.doComplete = function() {

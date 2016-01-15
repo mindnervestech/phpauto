@@ -11035,6 +11035,7 @@ public class Application extends Controller {
     				List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeen(user);
     				List<ScheduleTest> sTests = ScheduleTest.findAllAssigned(user);
     				List<TradeIn> tIns = TradeIn.findAllSeen(user);
+    				
     				for(RequestMoreInfo rInfo :rMoreInfo){
     					vinUnik.put(rInfo.vin, 1);
     				}
@@ -11142,9 +11143,34 @@ public class Application extends Controller {
     	}
     	java.util.Collections.sort(worstVisitedVms,new VehicleVMComparator());
     	java.util.Collections.sort(topVisitedVms,new VehicleVMComparator());
-    	Map result = new HashMap(2);
+    	
+    	
+    	
+    	List<VehicleAnalyticalVM> allVehical = new ArrayList<>();
+    	List<Vehicle> aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
+    	for(Vehicle vehicle:aVehicles) {
+    		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
+    		anVm.count = 0;
+    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+    		if(vehicleImage!=null) {
+    			anVm.id = vehicleImage.getId();
+    			anVm.isImage = true;
+    		}
+    		else {
+    			anVm.defaultImagePath = "/assets/images/no-image.jpg";
+    		}
+    		anVm.vin = vehicle.getVin();
+    		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
+    		
+    		allVehical.add(anVm);
+    		
+    	}
+    	
+    	
+    	Map result = new HashMap(3);
     	result.put("worstVisited", worstVisitedVms);
     	result.put("topVisited", topVisitedVms);
+    	result.put("allVehical", allVehical);
     	return ok(Json.toJson(result));
     }
     public static class VehicleVMComparator implements Comparator<VehicleAnalyticalVM> {
