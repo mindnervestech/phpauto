@@ -11188,15 +11188,12 @@ public class Application extends Controller {
     		
     	}
     	
-    	
     	Map result = new HashMap(3);
     	result.put("worstVisited", worstVisitedVms);
     	result.put("topVisited", topVisitedVms);
     	result.put("allVehical", allVehical);
     	return ok(Json.toJson(result));
     }
-    
-    
     
     public static class VehicleVMComparator implements Comparator<VehicleAnalyticalVM> {
 
