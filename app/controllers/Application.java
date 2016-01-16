@@ -11166,7 +11166,7 @@ public class Application extends Controller {
     	List<Vehicle> aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
     	for(Vehicle vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
-    		anVm.count = 0;
+    		
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			anVm.id = vehicleImage.getId();
@@ -11177,7 +11177,12 @@ public class Application extends Controller {
     		}
     		anVm.vin = vehicle.getVin();
     		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-    		anVm.count = pagesCount.get(vehicle.getVin());
+    		if(vehicle.getVin() != null){
+    			anVm.count = pagesCount.get(vehicle.getVin());
+    		}else{
+    			anVm.count = 0;
+    		}
+    		
     		allVehical.add(anVm);
     		
     	}
