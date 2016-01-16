@@ -4392,7 +4392,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {
@@ -7375,7 +7375,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {

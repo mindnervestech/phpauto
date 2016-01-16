@@ -782,8 +782,11 @@ angular.module('newApp')
      			 		 		 
      			 		 		$('.datepicker').datepicker({
      			 		 		});
-     			 		 		$("#cnfDate").datepicker().datepicker("setDate", new Date());
-     			 		 		$('#timepicker1').timepicker(); 	
+     			 		 		//$("#cnfDate").datepicker().datepicker("setDate", new Date());
+     			 		 		//$("#cnfDate").datepicker("setDate", new Date());
+     			 		 		$('#cnfDate').val(new Date());
+     			 		 		$('#timepicker1').timepicker(); 
+     			 		 		
      			 		 		
     		  $http.get('/getAllRequestInfoSeen')
     				.success(function(data) {
@@ -2368,7 +2371,7 @@ angular.module('newApp')
 					   $scope.cnTimeList = data;
 				   });
 				   
-				   //document.getElementById("gridCnfDateNature").innerHTML = "";
+				   document.getElementById("gridCnfDateNature").innerHTML = "";
 				   var day = moment(e.date).format('D MMM YYYY');
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){

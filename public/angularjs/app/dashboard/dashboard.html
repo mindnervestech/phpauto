@@ -3591,9 +3591,16 @@ margin-left: 5px;
 													<div class="form-group col-sm-12">
 													<label class="col-sm-4 control-label" style="text-align: left;">Date</label>
 														<div class="col-sm-8">
-															<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="yyyy-mm-dd" required>
+															<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" 
+															ng-model="scheduleTestData.confirmDate" data-date-format="yyyy-mm-dd" required>
 														</div>
 													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-5 control-label" style="text-align: left;">&nbsp;</label>
+														<div class="col-sm-7" id="gridCnfDateNature">
+														</div>
+													</div>
+													
 													<div class="form-group col-sm-12">
 													<label class="col-sm-4 control-label" style="text-align: left;">Time</label>
 														<div class="col-sm-8">
@@ -3609,8 +3616,8 @@ margin-left: 5px;
 								                    		<tr>
 								                    			<td>Time</td>
 								                    		</tr>
-								                    			<tr ng-repeat="noteStatus in cnTimeList">
-								                    				<td>{{noteStatus}}</td>
+								                    			<tr ng-repeat="times in cnTimeList">
+								                    				<td>{{times}}</td>
 								                    			</tr>
 								                    		</table>
 								                		</div>
@@ -4321,7 +4328,8 @@ margin-left: 5px;
 													<div class="form-group col-sm-12">
 														<label class="col-sm-5 control-label" style="text-align: left;">Best Day</label>
 														<div class="col-sm-7">
-														<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" ng-model="testDriveData.bestDay" data-date-format="yyyy-mm-dd" required>
+														<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" 
+														ng-model="testDriveData.bestDay" data-date-format="yyyy-mm-dd" required>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
