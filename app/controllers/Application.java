@@ -4182,13 +4182,14 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		//Long.valueOf(session("USER_LOCATION"))
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<RequestMoreInfo> listData = new ArrayList<>();
-	    	if(user.role == null) {
+	    	if(user.role == null || user.role.equals("General Manager")) {
     			listData = RequestMoreInfo.findAllData();
     		} else {
-    			if(user.role.equals("General Manager") || user.role.equals("Manager")) {
-    				listData = RequestMoreInfo.findAllData();
+    			if(user.role.equals("Manager")) {
+    				listData = RequestMoreInfo.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
     			} else {
     				listData = RequestMoreInfo.findAllByDate();
     			}
@@ -4305,13 +4306,13 @@ public class Application extends Controller {
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<ScheduleTest> listData = new ArrayList<>();
-    		if(user.role == null) {
+    		if(user.role == null || user.role.equals("General Manager")) {
     			listData = ScheduleTest.findAllData();
     		} else {
-    			if(user.role.equals("General Manager") || user.role.equals("Manager")) {
-    				listData = ScheduleTest.findAllData();
+    			if(user.role.equals("Manager")) {
+    				listData = ScheduleTest.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
     			} else {
-    				listData = ScheduleTest.findAllByDate();
+    				listData = ScheduleTest.findAllByLocationDate(Long.valueOf(session("USER_LOCATION")));
     			}
     		}
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
@@ -8599,7 +8600,7 @@ public class Application extends Controller {
     			map.put("data", infoVM);
     		} else {
     			RequestInfoVM infoVM = new RequestInfoVM();
-    			Vehicle vehicle = Vehicle.findByVin(tradeIns.get(0).vin);
+    			Vehicle vehicle = Vehicle.findByVidAndUser(tradeIns.get(0).vin);
     			infoVM.make = vehicle.getMake();
     			if(tradeIns.get(0).isScheduled) 
     				infoVM.leadType = "Schedule Test";
