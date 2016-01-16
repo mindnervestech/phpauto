@@ -4865,7 +4865,7 @@ public class Application extends Controller {
 			scheduleObj.update();
 			
 			ToDo todo = new ToDo();
-			Vehicle vobj = Vehicle.findByVin(scheduleObj.vin);
+			Vehicle vobj = Vehicle.findByVidAndUser(scheduleObj.vin);
 			todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
 			todo.assignedTo = user;
 			todo.assignedBy = user;
@@ -5779,7 +5779,7 @@ public class Application extends Controller {
     private static void makeToDo(String vin) {
     	AuthUser user = (AuthUser) getLocalUser();
     	ToDo todo = new ToDo();
-		Vehicle vobj = Vehicle.findByVin(vin);
+		Vehicle vobj = Vehicle.findByVidAndUser(vin);
 		if(vobj != null){
 			todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
 			todo.assignedTo = user;
@@ -5846,7 +5846,7 @@ public class Application extends Controller {
 	        context.put("monthName", monthName);
 	        context.put("confirmTime", map.get("confirmTime"));
 	        
-	        Vehicle vehicle = Vehicle.findByVin(map.get("vin").toString());
+	        Vehicle vehicle = Vehicle.findByVidAndUser(map.get("vin").toString());
 	        context.put("year", vehicle.year);
 	        context.put("make", vehicle.make);
 	        context.put("model", vehicle.model);
@@ -6203,7 +6203,7 @@ public class Application extends Controller {
     	//	saleCarCount = rInfo1.size() + sList1.size() + tradeIns1.size();
     		
     		for(RequestMoreInfo rMoreInfo: rInfo1){
-    			Vehicle vehicle = Vehicle.findByVin(rMoreInfo.vin);
+    			Vehicle vehicle = Vehicle.findByVidAndUser(rMoreInfo.vin);
     			if(vehicle != null){
     				if(vehicle.soldDate.after(timeBack)) {
             			saleCarCount++;
@@ -6213,7 +6213,7 @@ public class Application extends Controller {
     		}
     		
     		for(ScheduleTest sTest: sList1){
-    			Vehicle vehicle = Vehicle.findByVin(sTest.vin);
+    			Vehicle vehicle = Vehicle.findByVidAndUser(sTest.vin);
     			if(vehicle != null){
     				if(vehicle.soldDate.after(timeBack)) {
             			saleCarCount++;
@@ -6223,7 +6223,7 @@ public class Application extends Controller {
     		}
     		
     		for(TradeIn tradeIn: tradeIns1){
-    			Vehicle vehicle = Vehicle.findByVin(tradeIn.vin);
+    			Vehicle vehicle = Vehicle.findByVidAndUser(tradeIn.vin);
     			if(vehicle != null){
     				if(vehicle.soldDate.after(timeBack)) {
             			saleCarCount++;
@@ -8244,7 +8244,7 @@ public class Application extends Controller {
     		Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
     		RequestInfoVM vm = form.get();
     		Date confirmDate = null;
-    		Vehicle obj = Vehicle.findByVin(vm.vin);
+    		Vehicle obj = Vehicle.findByVidAndUser(vm.vin);
     		if(vm.option==1) {
     			RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(vm.id);
     			requestMoreInfo.setName(vm.name);
@@ -8580,7 +8580,7 @@ public class Application extends Controller {
     	if(tests.size()+infos.size()+tradeIns.size()==1) {
     		if(tests.size()==1) {
     			RequestInfoVM infoVM = new RequestInfoVM();
-    			Vehicle vehicle = Vehicle.findByVin(tests.get(0).vin);
+    			Vehicle vehicle = Vehicle.findByVidAndUser(tests.get(0).vin);
     			infoVM.make = vehicle.getMake();
     			infoVM.leadType = "Schedule Test";
     			infoVM.model = vehicle.getModel();
@@ -8588,7 +8588,7 @@ public class Application extends Controller {
     			map.put("data", infoVM);
     		} else if(infos.size()==1) {
     			RequestInfoVM infoVM = new RequestInfoVM();
-    			Vehicle vehicle = Vehicle.findByVin(infos.get(0).vin);
+    			Vehicle vehicle = Vehicle.findByVidAndUser(infos.get(0).vin);
     			infoVM.make = vehicle.getMake();
     			if(infos.get(0).isScheduled) 
     				infoVM.leadType = "Schedule Test";
@@ -13209,6 +13209,109 @@ public class Application extends Controller {
 	
 	public Set<Event> getEvents() throws IOException{
 		return this.events;
+	}
+	
+	public static Result addSameNewCar(Long vinNo){
+		Vehicle vm = Vehicle.findById(vinNo);
+		
+		Identity user = getLocalUser();
+    	
+    	//Vehicle vehicleObj = Vehicle.findByVidAndUser(vm.vin);
+    	Vehicle vehicle = new Vehicle();
+	    	
+	    	vehicle.category = vm.category;
+	    	vehicle.vin = vm.vin;
+	    	vehicle.year = vm.year;
+	    	vehicle.make = vm.make;
+	    	vehicle.model = vm.model;
+	    	vehicle.trim = vm.trim;
+	    	vehicle.label = vm.label;
+	    	vehicle.stock = vm.stock;
+	    	vehicle.cityMileage = vm.cityMileage;
+	        vehicle.mileage=vm.mileage;
+	    	vehicle.highwayMileage = vm.highwayMileage;
+	    	vehicle.cost = vm.cost;
+	    	vehicle.price = vm.price;
+	    	vehicle.madeIn = vm.madeIn;
+	    	vehicle.optionalSeating = vm.optionalSeating;
+	    	vehicle.exteriorColor = vm.exteriorColor;
+	    	vehicle.colorDescription = vm.colorDescription;
+	    	vehicle.doors = vm.doors;
+	    	vehicle.stereo = vm.stereo;
+	    	vehicle.engine = vm.engine;
+	    	vehicle.bodyStyle = vm.bodyStyle;
+	    	vehicle.location = vm.location;
+	    	vehicle.description = vm.description;
+			
+	    	vehicle.drivetrain = vm.drivetrain;
+	    	vehicle.fuelType = vm.fuelType;
+	    	vehicle.fuelTank = vm.fuelTank;
+	    	vehicle.headlights = vm.headlights;
+	    	vehicle.mirrors = vm.mirrors;
+	    	vehicle.groundClearance = vm.groundClearance;
+	    	vehicle.roof = vm.roof;
+	    	vehicle.height = vm.height;
+	    	vehicle.length = vm.length;
+	    	vehicle.width = vm.width;
+	    	vehicle.acceleration = vm.acceleration;
+	    	vehicle.standardSeating = vm.standardSeating;
+	    	vehicle.engineType = vm.engineType;
+	    	vehicle.cylinders = vm.cylinders;
+	    	vehicle.displacement = vm.displacement;
+	    	vehicle.camType = vm.camType;
+	    	vehicle.valves = vm.valves;
+	    	vehicle.fuelQuality = vm.fuelQuality;
+	    	vehicle.horsePower = vm.horsePower;
+	    	vehicle.transmission = vm.transmission;
+	    	vehicle.gears = vm.gears;
+	    	vehicle.brakes = vm.brakes;
+	    	vehicle.frontBrakeDiameter = vm.frontBrakeDiameter;
+	    	vehicle.frontBrakeType = vm.frontBrakeType;
+	    	vehicle.rearBrakeDiameter = vm.rearBrakeDiameter;
+	    	vehicle.rearBrakeType = vm.rearBrakeType;
+	    	vehicle.activeHeadRestrains = vm.activeHeadRestrains;
+	    	vehicle.bodySideReinforcements = vm.bodySideReinforcements;
+	    	vehicle.crumpleZones = vm.crumpleZones;
+	    	vehicle.impactAbsorbingBumpers = vm.impactAbsorbingBumpers;
+	    	vehicle.impactSensor = vm.impactSensor;
+	    	vehicle.parkingSensors = vm.parkingSensors;
+	    	vehicle.seatbelts = vm.seatbelts;
+	    	vehicle.audiSideAssist = vm.audiSideAssist;
+	    	vehicle.interiorColor = vm.interiorColor;
+	    	vehicle.comfortFeatures = vm.comfortFeatures;
+	    	vehicle.powerOutlet = vm.powerOutlet;
+	    	vehicle.powerSteering = vm.powerSteering;
+	    	vehicle.rearViewCamera = vm.rearViewCamera;
+	    	vehicle.rearViewMonitor = vm.rearViewMonitor;
+	    	vehicle.remoteTrunkRelease = vm.remoteTrunkRelease;
+	    	vehicle.steeringWheel = vm.steeringWheel;
+	    	vehicle.steeringWheelControls = vm.steeringWheelControls;
+			
+	    	vehicle.standardSeating = vm.standardSeating;
+			
+	    	vehicle.mileage = vm.mileage;
+			vehicle.user = (AuthUser)user;
+			vehicle.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			
+	    	vehicle.madeIn = vm.madeIn;
+	    	vehicle.optionalSeating = vm.optionalSeating;
+	    	vehicle.status = "Newly Arrived";
+	    	vehicle.postedDate = new Date();
+	    	/*List<Site> siteList = new ArrayList<>();
+	    	if(vm.siteIds != null) {
+		    	for(Long obj: vm.siteIds) {
+		    		Site siteObj = Site.findById(obj);
+		    		siteList.add(siteObj);
+		    	}
+		    	vehicle.site = siteList;
+	    	}*/
+	    	vehicle.save();
+    	sendEmailToBrandFollowers(vehicle.make);
+		
+		
+		
+		
+		return ok();
 	}
 	
 	public static Result getScheduleTestData(){

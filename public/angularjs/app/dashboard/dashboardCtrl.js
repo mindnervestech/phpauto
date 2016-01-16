@@ -3743,6 +3743,16 @@ angular.module('newApp')
 	   }
 	   if(row.entity.status == 'Sold') {
 		   $scope.soldContact.statusVal = "Newly Arrived";
+		  
+		   $http.get('/addSameNewCar/'+row.entity.id).success(function(data){
+			   $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Add Same New Vehicle",
+				});
+		   });
+		   
+		   
 	   }
 	   
 	   $scope.soldContact.make = row.entity.make;
