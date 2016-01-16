@@ -11177,11 +11177,12 @@ public class Application extends Controller {
     		}
     		anVm.vin = vehicle.getVin();
     		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-    		/*if(vehicle.getVin() != null){
-    			anVm.count = pagesCount.get(vehicle.getVin());
+    		
+    		if(pagesCount.get(vehicle.getVin()) !=null){
+    			anVm.count =  pagesCount.get(vehicle.getVin());
     		}else{
     			anVm.count = 0;
-    		}*/
+    		}
     		
     		allVehical.add(anVm);
     		
@@ -11194,6 +11195,9 @@ public class Application extends Controller {
     	result.put("allVehical", allVehical);
     	return ok(Json.toJson(result));
     }
+    
+    
+    
     public static class VehicleVMComparator implements Comparator<VehicleAnalyticalVM> {
 
 		@Override
