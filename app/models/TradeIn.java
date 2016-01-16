@@ -487,7 +487,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn>  findByVinAndLocation(String vin,Location location) {
-		return find.where().eq("vin", vin).eq("locations", location).findList();
+		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}
 	
 	public static List<TradeIn>  findByVinAndAssignedUser(String vin,AuthUser user) {

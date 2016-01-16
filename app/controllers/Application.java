@@ -4652,13 +4652,13 @@ public class Application extends Controller {
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<TradeIn> listData = new ArrayList<>();
-	    	if(user.role == null) {
+	    	if(user.role == null || user.role.equals("General Manager")) {
     			listData = TradeIn.findAllData();
     		} else {
-    			if(user.role.equals("General Manager") || user.role.equals("Manager")) {
-    				listData = TradeIn.findAllData();
+    			if(user.role.equals("Manager")) {
+    				listData = TradeIn.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
     			} else {
-    				listData = TradeIn.findAllByDate();
+    				listData = TradeIn.findAllByLocationDate(Long.valueOf(session("USER_LOCATION")));
     			}
     		}
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
@@ -6956,7 +6956,7 @@ public class Application extends Controller {
     		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contactsObj.save();
     		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
-    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin);
     		if(vehicle != null){
 	    		vehicle.setStatus("Sold");
 	    		Date date = new Date();
@@ -7058,7 +7058,7 @@ public class Application extends Controller {
     		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contactsObj.save();
     		TradeIn info = TradeIn.findById(vm.infoId);
-    		Vehicle vehicle = Vehicle.findByVin(info.vin);
+    		Vehicle vehicle = Vehicle.findByVidAndUser(info.vin);
     		if(vehicle != null){
     		vehicle.setStatus("Sold");
     		Date date = new Date();

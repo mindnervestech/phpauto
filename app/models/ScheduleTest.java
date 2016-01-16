@@ -259,7 +259,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest>  findByVinAndLocation(String vin,Location location) {
-		return find.where().eq("vin", vin).eq("locations", location).findList();
+		return find.where().eq("vin", vin).eq("leadStatus", null).eq("locations", location).findList();
 	}
 	
 	public static List<ScheduleTest> findAllByAssignedUser(AuthUser user) {

@@ -166,7 +166,7 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static List<RequestMoreInfo>  findByVinAndLocation(String vin,Location location) {
-		return find.where().eq("vin", vin).eq("locations", location).findList();
+		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllData() {
