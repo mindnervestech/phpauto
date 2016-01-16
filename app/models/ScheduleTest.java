@@ -199,8 +199,16 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", null).eq("isRead", 0).orderBy("scheduleDate desc").findList();
 	}
 	
+	public static List<ScheduleTest> findAllByLocationDate(Long locationId) {
+		return find.where().eq("assignedTo", null).eq("locations.id",locationId).eq("isRead", 0).orderBy("scheduleDate desc").findList();
+	}
+	
 	public static List<ScheduleTest> findAllData() {
 		return find.all();
+	}
+	
+	public static List<ScheduleTest> findAllLocationData(Long locationId) {
+		return find.where().eq("leadStatus", null).eq("locations.id",locationId).ne("vin", "no").orderBy("scheduleDate desc").findList();
 	}
 	
 	

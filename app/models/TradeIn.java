@@ -437,12 +437,20 @@ public class TradeIn extends Model {
 		return find.where().eq("isRead", 0).orderBy("tradeDate desc").orderBy("isRead").findList();
 	}
 	
+	public static List<TradeIn> findAllByLocationDate(Long locationId) {
+		return find.where().eq("isRead", 0).eq("locations.id", locationId).eq("status", null).orderBy("tradeDate desc").orderBy("isRead").findList();
+	}
+	
 	public static List<TradeIn> findAllCanceled() {
 		return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
 	}
 	
 	public static List<TradeIn> findAllData() {
 		return find.all();
+	}
+	
+	public static List<TradeIn> findAllLocationData(Long locationId) {
+		return find.where().eq("locations.id", locationId).eq("status", null).findList();
 	}
 	
 	public static List<TradeIn> findByLocation(Long location) {

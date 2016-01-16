@@ -158,7 +158,7 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static List<RequestMoreInfo> findAllByDate() {
-		return find.where().eq("isRead", 0).orderBy("requestDate desc").findList();
+		return find.where().eq("isRead", 0).eq("status", null).orderBy("requestDate desc").findList();
 	}
 	
 	public static List<RequestMoreInfo> findByLocation(Long location) {
@@ -172,6 +172,11 @@ public class RequestMoreInfo extends Model {
 	public static List<RequestMoreInfo> findAllData() {
 		return find.all();
 	}
+	
+	public static List<RequestMoreInfo> findAllLocationData(Long locationId) {
+		return find.where().eq("status", null).eq("locations.id", locationId).findList();
+	}
+	
 	
 	public static List<RequestMoreInfo> findAllSeen(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
