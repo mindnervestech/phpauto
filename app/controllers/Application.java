@@ -8382,7 +8382,7 @@ public class Application extends Controller {
             	map.put("uname", user.firstName+" "+user.lastName);
             	map.put("uphone", user.phone);
             	map.put("uemail", user.email);
-            	makeToDo(vm.vin);
+            	//makeToDo(vm.vin);
             	sendMail(map);
     		}
         	
