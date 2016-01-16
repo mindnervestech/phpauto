@@ -13021,13 +13021,13 @@ public class Application extends Controller {
 	public static Result oauth2Callback() {
 		
 		
-		AuthUser user11 = (AuthUser)getLocalUser();
+		/*AuthUser user11 = (AuthUser)getLocalUser();
 		session("USER_KEY", user11.id+"");
 		session("USER_ROLE", user11.role+"");
 		
 		if(user11.location != null){
 			session("USER_LOCATION", user11.location.id+"");
-		}
+		}*/
 		
 		String code = request().getQueryString("code");
 		//if(flagValue == 0){
@@ -13145,16 +13145,14 @@ public class Application extends Controller {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			AuthUser user = getLocalUser();
+			/*AuthUser user = getLocalUser();
 			HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
 			List<Permission> userPermissions = user.getPermission();
 			for(Permission per: userPermissions) {
 				permission.put(per.name, true);
-			}
-			return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
-		//}
-		//return ok();
-		
+			}*/
+		//	return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+			return redirect("/authenticate");
 	}
 	
 	
