@@ -14460,23 +14460,26 @@ public class Application extends Controller {
 				}else{
 					pricevalue = 0L;
 				}
-				Long valueD = 0L;
-				Long days = 0L;
-				Long fixdate = 0L;
-				valueD = vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24);
-				days = (Long) (valueD / (1000*60*60*24));
-				fixdate = valueD - days;
+				Calendar c = Calendar.getInstance();
+				c.setTime(vhVehicle.getSoldDate());
+				c.add(Calendar.DATE, -1);
 				
-				String objectDate = mapdate.get(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24));
+				String dateCheck = df.format(c.getTime());
+				Date dateFomat = null;
+				try {
+					dateFomat = df.parse(dateCheck);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				String objectDate = mapdate.get(dateFomat.getTime()+ (1000 * 60 * 60 * 24));
 				if (objectDate == null) {
 					
-					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+valueCount);
+					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+valueCount);
 				}else{
-					/*valueD = vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24);
-					days = (Long) (valueD / (1000*60*60*24));
-					fixdate = valueD - days;*/
 					String arr[] = objectDate.split(",");
-					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+(Integer.parseInt(arr[1]) + valueCount));
+					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+(Integer.parseInt(arr[1]) + valueCount));
 				}
 			}
 			
@@ -14524,11 +14527,24 @@ public class Application extends Controller {
 					pricevalue = 0L;
 				}
 				
-				Long objectDate = mapdate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
+				Calendar c = Calendar.getInstance();
+				c.setTime(vhVehicle.getSoldDate());
+				c.add(Calendar.DATE, -1);
+				
+				String dateCheck = df.format(c.getTime());
+				Date dateFomat = null;
+				try {
+					dateFomat = df.parse(dateCheck);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Long objectDate = mapdate.get(dateFomat.getTime() + (1000 * 60 * 60 * 24));
 				if (objectDate == null) {
-					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), pricevalue);
+					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), pricevalue);
 				}else{
-					mapdate.put(vhVehicle.getSoldDate().getTime()+ (1000 * 60 * 60 * 24), objectDate + pricevalue);
+					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), objectDate + pricevalue);
 				}
 			}
 			
