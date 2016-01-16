@@ -3420,7 +3420,31 @@ margin-left: 5px;
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4 col-sm-6 portlets">
+	
+	<div class="col-md-12 col-sm-6 portlets">
+        <div class="panel m-t-0">
+            <div class="panel-header panel-controls">
+                <h3><i class="icon-basket"></i> <strong>Sales</strong> Volume Stats</h3>
+            </div>
+            <div class="panel-header panel-controls">
+                <h3><a style="cursor: pointer;" ng-click="showVehicalBarChart()" title="Vehical Sale"><i class="glyphicon glyphicon-signal"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChart()" title="by Car Make"><i class="fa fa-car"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChartByBodyStyle()" title="Body Style"><i class="fa fa-cogs"></i></a><a style="cursor: pointer;" ng-click="showVehicalBarAvgSale()" title="Average Sale"><i class="glyphicon glyphicon-tasks"></i></a></h3>
+            </div>
+            <div ng-if="showBarvehical == 1">
+            	<div class="panel-content p-t-0 p-b-0">
+                	<div id="bar-chartVehicle">
+                	</div>
+            	</div>
+            </div>
+            <div ng-if="showvehical == 1">
+             	<div id="financial-chart" style="height:320px"></div>
+            </div>
+        </div>
+    </div>
+	
+	
+	
+	
+    <div class="col-md-4 col-sm-12 portlets">
         <div class="panel">
             <div class="panel-header panel-controls">
                 <h3><i class="icon-list"></i> <strong>Todo</strong> List</h3>
@@ -3513,10 +3537,8 @@ margin-left: 5px;
             </div>
         </div>
     </div>
+    <!--
     <div class="col-md-4 col-sm-6 portlets">
-       <!--  <div class="widget widget_calendar bg-dark">
-            <div class="multidatepicker"></div>
-        </div> -->
         <div class="panel m-t-0">
             <div class="panel-header panel-controls">
                 <h3><i class="icon-basket"></i> <strong>Sales</strong> Volume Stats</h3>
@@ -3525,16 +3547,17 @@ margin-left: 5px;
                 <h3><a style="cursor: pointer;" ng-click="showVehicalBarChart()" title="Vehical Sale"><i class="glyphicon glyphicon-signal"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChart()" title="by Car Make"><i class="fa fa-car"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChartByBodyStyle()" title="Body Style"><i class="fa fa-cogs"></i></a><a style="cursor: pointer;" ng-click="showVehicalBarAvgSale()" title="Average Sale"><i class="glyphicon glyphicon-tasks"></i></a></h3>
             </div>
             <div ng-if="showBarvehical == 1">
-            <div class="panel-content p-t-0 p-b-0">
-                <div id="bar-chartVehicle">
-                </div>
-            </div>
+            	<div class="panel-content p-t-0 p-b-0">
+                	<div id="bar-chartVehicle">
+                	</div>
+            	</div>
             </div>
             <div ng-if="showvehical == 1">
-             <div id="financial-chart" style="height:320px"></div>
-             </div>
+             	<div id="financial-chart" style="height:320px"></div>
+            </div>
         </div>
     </div>
+   -->
 </div>
 <div class="footer">
     <div class="copyright">
@@ -3568,11 +3591,8 @@ margin-left: 5px;
 													<div class="form-group col-sm-12">
 													<label class="col-sm-4 control-label" style="text-align: left;">Date</label>
 														<div class="col-sm-8">
-															<!--<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="yyyy-mm-dd" required>-->
 															<input data-provide="datepicker" id="cnfDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="yyyy-mm-dd" required>
 														</div>
-														<!-- <div class="col-sm-5" id="gridCnfDateNature">
-														</div> -->
 													</div>
 													<div class="form-group col-sm-12">
 													<label class="col-sm-4 control-label" style="text-align: left;">Time</label>
