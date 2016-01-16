@@ -5533,7 +5533,7 @@ public class Application extends Controller {
     	boolean flag = false;
     	String vin = null;
     	Date confirmDate = null;
-    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
 		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
 		Date time = null;
 		String msg = "success";
@@ -8239,7 +8239,7 @@ public class Application extends Controller {
     		String msg = "success";
     		boolean flag = true;
     		AuthUser user = getLocalUser();
-    		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
     		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     		request().body().asJson();
     		Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
