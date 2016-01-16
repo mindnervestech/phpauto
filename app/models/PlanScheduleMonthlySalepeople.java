@@ -161,6 +161,10 @@ public class PlanScheduleMonthlySalepeople extends Model {
 		return find.where().eq("user", user).findList();
 	}
 	
+	public static List<PlanScheduleMonthlySalepeople> findByListByMonth(String months) {
+		return find.where().eq("month", months).findList();
+	}
+	
 	public static List<PlanScheduleMonthlySalepeople> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}

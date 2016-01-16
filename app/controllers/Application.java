@@ -62,6 +62,7 @@ import models.MyProfile;
 import models.NewsletterDate;
 import models.Permission;
 import models.PlanLocationTotal;
+import models.PlanSalesTotal;
 import models.PlanSchedule;
 import models.PlanScheduleMonthlyLocation;
 import models.PlanScheduleMonthlySalepeople;
@@ -13882,6 +13883,10 @@ public class Application extends Controller {
 		return ok();
 	}
 	
+	public static Result getSalePerson(String month){
+		List<PlanScheduleMonthlySalepeople> sMonthlySalepeoples = PlanScheduleMonthlySalepeople.findByListByMonth(month);
+		return ok(Json.toJson(sMonthlySalepeoples));
+	}
 	
 	public static Result getSaleMonthlyPlan(Integer saleId){
 		List<PlanScheduleMonthlySalepeople> sMonthlySalepeoples = PlanScheduleMonthlySalepeople.findByListUser(AuthUser.findById(saleId));
@@ -13892,6 +13897,23 @@ public class Application extends Controller {
 		
 		List<PlanScheduleMonthlyLocation> pLocation = PlanScheduleMonthlyLocation.findByLocation(Long.valueOf(session("USER_LOCATION")));
 		return ok(Json.toJson(pLocation));
+	}
+	
+	public static Result saveSalesTotal(String total){
+		AuthUser user = getLocalUser();
+		PlanSalesTotal planLocat = PlanSalesTotal.findByUser(user);
+		if(planLocat == null){
+			PlanSalesTotal pTotal = new PlanSalesTotal();
+			pTotal.setTotal(total);
+			pTotal.setUser(user);
+			pTotal.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			pTotal.save();
+		}else{
+			planLocat.setTotal(total);
+			planLocat.setUser(user);
+			planLocat.update();
+		}
+		return ok();
 	}
 	public static Result saveLocationPlan(){
 		

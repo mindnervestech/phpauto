@@ -60,7 +60,7 @@ angular.module('newApp')
 	
 	setInterval(function(){
 		$scope.userLocationData('week');
-		}, 500000)
+		}, 120000)
 	
 	$scope.openLeadspopUp = function(){
 		/*   $scope.schPlan = {};
@@ -2541,7 +2541,6 @@ angular.module('newApp')
 			   $scope.locationTotal = 0;
 			   value = $scope.leadsTime.totalEarning;
 			   console.log($scope.totalLocationPlanData);
-			   
 			  
 			   $scope.leadsTime.month = month;
 			   $http.post("/saveLocationPlan",$scope.leadsTime).success(function(data){
@@ -2589,13 +2588,28 @@ angular.module('newApp')
 			   });
 		   }
 		   
+		   $scope.saveSalesTotal = function(total){
+			   $http.get("/saveSalesTotal/"+total).success(function(data){
+				   console.log(data);
+				   $('#plan-model').modal("toggle");
+				   $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Plan Scheduled successfully",
+					});
+			   });
+		   }
+		   
 		   $scope.saleleadsTime = {};
 		   $scope.saveSalePersonPlan = function(month){
-			   $scope.locationTotal = 0;
+			   $scope.salePerpleTotal = 0;
+			  var value= 0;
 			  
+			  value = $scope.saleleadsTime.totalBrought;
 			   $scope.saleleadsTime.salesList = $scope.salesList;
 			   $scope.saleleadsTime.month = month;
 			   console.log($scope.saleleadsTime);
+			   console.log($scope.totalLocationPlanData);
 			   $http.post("/saveSalePlan",$scope.saleleadsTime).success(function(data){
 				   console.log(data);
 				   $scope.janOpen = 0;
@@ -2615,10 +2629,21 @@ angular.module('newApp')
 				   $scope.saleleadsTime.vehiclesSell = "";
 				   $scope.saleleadsTime.avgCheck = "";
 				   console.log("sccesss");
-				   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				   /*angular.forEach($scope.totalLocationPlanData, function(obj, index){
 					   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
-				   });
+				   });*/
+				   
 				   $scope.findVehicalPlan($scope.salePerId);
+				   /*angular.forEach($scope.totalLocationPlanData, function(obj, index){
+					   if($scope.saleleadsTime.month == obj.month){
+						   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(value);
+					   }else{
+						   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
+					   }
+					   console.log(obj.totalBrought);
+					   console.log($scope.salePerpleTotal);
+				   });*/
+				  
 			   });
 		   }
 		   
@@ -2686,10 +2711,12 @@ angular.module('newApp')
 		   $scope.saleMonthTotal = {};
 		   $scope.salePerpleTotal = 0;
 		   $scope.findVehicalPlan = function(saleId){
+			   $scope.salePerpleTotal = 0;
 			   $scope.saleMonthTotal = {};
 			   $scope.salePerId = saleId;
 			   $http.get("/getSaleMonthlyPlan/"+saleId).success(function(data){
 				   console.log(data);
+				   console.log("<><><>,,>,.,,");
 				   $scope.totalLocationPlanData = data;
 				   
 				   angular.forEach(data, function(obj, index){
@@ -2813,11 +2840,35 @@ angular.module('newApp')
 		   
 		   $scope.janrOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "january"){
 				    	$scope.leadsTime = obj;
 				    }
 			   });
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "january"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			  
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"january").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
+			   });
+			   
 			   $scope.janOpen = 1;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -2834,10 +2885,33 @@ angular.module('newApp')
 		   
 		   $scope.julysOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "july"){
 				    	$scope.leadsTime = obj;
 				    }
+			   });
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "july"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"july").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
 			   });
 			   
 			   $scope.julyOpen = 1;
@@ -2855,13 +2929,42 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.februarysOpen = function(){
+			  
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "february"){
 				    	$scope.leadsTime = obj;
 				    }
 			   });
 			   
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "february"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   
+			   $scope.salesList = [];
+				   $http.get("/getSalePerson/"+"february").success(function(data){
+					  angular.forEach($scope.salesPersonPerf, function(obj, index){
+						  angular.forEach(data, function(obj1, index1){
+							  if(obj.id == obj1.user.id){
+								  $scope.salesList.push(obj.id);
+								  obj.isSelected = true;
+							  }
+						  });
+					   });
+				   });
+				   
+				   
+			   console.log($scope.salesList);
+			   console.log($scope.saleleadsTime);
 			   $scope.februaryOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2877,10 +2980,34 @@ angular.module('newApp')
 		   }
 		   $scope.augustsOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "august"){
 				    	$scope.leadsTime = obj;
 				    }
+			   });
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "august"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"august").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
 			   });
 			   
 			   $scope.augustOpen = 1;
@@ -2898,10 +3025,34 @@ angular.module('newApp')
 		   }
 		   $scope.marchsOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "march"){
 				    	$scope.leadsTime = obj;
 				    }
+			   });
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "march"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"march").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
 			   });
 			   
 			   $scope.marchOpen = 1;
@@ -2919,10 +3070,33 @@ angular.module('newApp')
 		   }
 		   $scope.septembersOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "september"){
 				    	$scope.leadsTime = obj;
 				    }
+			   });
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "september"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"september").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
 			   });
 			   
 			   $scope.septemberOpen = 1;
@@ -2940,12 +3114,35 @@ angular.module('newApp')
 		   }
 		   $scope.aprilsOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "april"){
 				    	$scope.leadsTime = obj;
 				    }
 			   });
 			   
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "april"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"april").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
+			   });
 			   $scope.aprilOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -2962,10 +3159,34 @@ angular.module('newApp')
 		   
 		   $scope.octobersOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "october"){
 				    	$scope.leadsTime = obj;
 				    }
+			   });
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "october"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"october").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
 			   });
 			   
 			   $scope.octoberOpen = 1;
@@ -2983,10 +3204,33 @@ angular.module('newApp')
 		   }
 		   $scope.maysOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "may"){
 				    	$scope.leadsTime = obj;
 				    }
+			   });
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "may"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"may").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
 			   });
 			   
 			   $scope.septemberOpen = 0;
@@ -3004,12 +3248,34 @@ angular.module('newApp')
 		   }
 		   $scope.novembersOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "november"){
 				    	$scope.leadsTime = obj;
 				    }
 			   });
 			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "november"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"november").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
+			   });
 			   $scope.novemberOpen = 1;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
@@ -3025,10 +3291,32 @@ angular.module('newApp')
 		   }
 		   $scope.junesOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "june"){
 				    	$scope.leadsTime = obj;
 				    }
+			   });
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "june"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   $scope.salesList = [];
+			   $http.get("/getSalePerson/"+"june").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
 			   });
 			   
 			   $scope.juneOpen = 1;
@@ -3046,10 +3334,33 @@ angular.module('newApp')
 		   }
 		   $scope.decembersOpen = function(){
 			   $scope.leadsTime = {};
+			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
 				    if(obj.month == "december"){
 				    	$scope.leadsTime = obj;
 				    }
+			   });
+			   
+			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				    if(obj.month == "december"){
+				    	$scope.saleleadsTime = obj;
+				    }
+			   });
+			   
+			   $scope.salesList = [];
+			   angular.forEach($scope.salesPersonPerf, function(obj, index){
+				   obj.isSelected = false;
+			   });
+			   
+			   $http.get("/getSalePerson/"+"december").success(function(data){
+				  angular.forEach($scope.salesPersonPerf, function(obj, index){
+					  angular.forEach(data, function(obj1, index1){
+						  if(obj.id == obj1.user.id){
+							  $scope.salesList.push(obj.id);
+							  obj.isSelected = true;
+						  }
+					  });
+				   });
 			   });
 			   
 			   $scope.decemberOpen = 1;
