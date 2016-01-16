@@ -4393,7 +4393,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {
@@ -5533,7 +5533,7 @@ public class Application extends Controller {
     	boolean flag = false;
     	String vin = null;
     	Date confirmDate = null;
-    	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
 		Date time = null;
 		String msg = "success";
@@ -7376,7 +7376,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {
@@ -8239,7 +8239,7 @@ public class Application extends Controller {
     		String msg = "success";
     		boolean flag = true;
     		AuthUser user = getLocalUser();
-    		SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     		request().body().asJson();
     		Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
@@ -11166,7 +11166,7 @@ public class Application extends Controller {
     	List<Vehicle> aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
     	for(Vehicle vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
-    		
+    		anVm.count = 0;
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			anVm.id = vehicleImage.getId();
@@ -11177,11 +11177,11 @@ public class Application extends Controller {
     		}
     		anVm.vin = vehicle.getVin();
     		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-    		if(vehicle.getVin() != null){
+    		/*if(vehicle.getVin() != null){
     			anVm.count = pagesCount.get(vehicle.getVin());
     		}else{
     			anVm.count = 0;
-    		}
+    		}*/
     		
     		allVehical.add(anVm);
     		
@@ -14855,7 +14855,7 @@ public class Application extends Controller {
     	} else {
     			List<String> timeList = new ArrayList<>();
     			try {
-    				DateFormat df1 = new SimpleDateFormat("yyyy-mm-dd");
+    				DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
     				SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
         			Date d = df1.parse(comDate);
         			List<RequestMoreInfo> moreInfo = RequestMoreInfo.findByVinDate(vin,d);
