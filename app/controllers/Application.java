@@ -11177,7 +11177,7 @@ public class Application extends Controller {
     		}
     		anVm.vin = vehicle.getVin();
     		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-    		
+    		anVm.count = pagesCount.get(vehicle.getVin());
     		allVehical.add(anVm);
     		
     	}
