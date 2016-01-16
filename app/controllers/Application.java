@@ -13019,6 +13019,16 @@ public class Application extends Controller {
 	}*/
 	
 	public static Result oauth2Callback() {
+		
+		
+		AuthUser user11 = (AuthUser)getLocalUser();
+		session("USER_KEY", user11.id+"");
+		session("USER_ROLE", user11.role+"");
+		
+		if(user11.location != null){
+			session("USER_LOCATION", user11.location.id+"");
+		}
+		
 		String code = request().getQueryString("code");
 		//if(flagValue == 0){
 			events1.clear();
