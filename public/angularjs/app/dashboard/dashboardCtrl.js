@@ -1578,8 +1578,9 @@ angular.module('newApp')
     	$scope.getScheduleTestData = function() {
 	    		$http.get('/getAllScheduleTestAssigned')
 				.success(function(data) {
-				$scope.gridOptions2.data = data;
-				$scope.AllScheduleTestAssignedList = data;
+					console.log(data);
+					$scope.gridOptions2.data = data;
+					$scope.AllScheduleTestAssignedList = data;
 			});
     	};
     	
@@ -1834,6 +1835,7 @@ angular.module('newApp')
     	  $scope.saveConfirmData = function() {
     		  $scope.scheduleTestData.confirmDate = $("#cnfDate").val();
     		  $scope.scheduleTestData.confirmTime = $("#timePick").val();
+    		  console.log($scope.scheduleTestData);
     		  $http.post('/saveConfirmData',$scope.scheduleTestData)
     	 		.success(function(data) {
     	 			

@@ -14834,7 +14834,7 @@ public class Application extends Controller {
     	} else {
     			List<String> timeList = new ArrayList<>();
     			try {
-    				DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+    				DateFormat df1 = new SimpleDateFormat("MM/dd/yyyy");
     				SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
         			Date d = df1.parse(comDate);
         			List<RequestMoreInfo> moreInfo = RequestMoreInfo.findByVinDate(vin,d);
