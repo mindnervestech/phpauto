@@ -2563,7 +2563,7 @@ angular.module('newApp')
 				   $scope.leadsTime.avgCheck = "";
 				   console.log("sccesss");
 				 //  $scope.getLocationPlan();
-				   angular.forEach($scope.totalLocationPlanData, function(obj, index){
+				  /* angular.forEach($scope.totalLocationPlanData, function(obj, index){
 					   console.log(obj.totalEarning);
 					   if($scope.leadsTime.month == obj.month){
 						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(value);
@@ -2571,7 +2571,8 @@ angular.module('newApp')
 						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
 					   }
 					   console.log($scope.locationTotal);
-				   });
+				   });*/
+				   $scope.getLocationPlan();
 				  
 			   });
 		   }
@@ -2776,6 +2777,7 @@ angular.module('newApp')
 		   $scope.MonthTotal = {};
 		   $scope.totalLocationPlanData = null;
 		   $scope.getLocationPlan = function(){
+			   $scope.locationTotal = 0;
 			   $http.get("/getlocationsMonthlyPlan").success(function(data){
 				   console.log(data);
 				   $scope.totalLocationPlanData = data;
