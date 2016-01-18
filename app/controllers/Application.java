@@ -6292,11 +6292,11 @@ public class Application extends Controller {
     	int countPlanCarSold = 0;
     	
     	
-    	String[] monthName = { "january", "february", "march", "april", "may", "june", "july",
-		        "august", "september", "october", "november", "december" };
+    	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+		        "August", "September", "October", "November", "December" };
 		Calendar now = Calendar.getInstance();
-		String month = monthName[now.get(Calendar.MONTH) + 1];
-    	
+		String month = monthName[now.get(Calendar.MONTH)];
+		lDataVM.monthCurr = month;
     	PlanScheduleMonthlyLocation pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), month);
     	if(pLocation != null){
     		List<Integer> longV = new ArrayList<>();
@@ -6308,21 +6308,16 @@ public class Application extends Controller {
     	}
     	
     	
-    	
-    	
+    	int countPlanTotalErForLocation = 0;
+    	DateFormat inputDF  = new SimpleDateFormat("MMMM");
     	List<Vehicle> vehicles = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
 		for(Vehicle veh1:vehicles){
-			//Date date1 = df.f(veh1.soldDate);
-
-	    	Calendar calend = Calendar.getInstance();
-	    	cal.setTime(veh1.soldDate);
-
-	    	int monthValue = calend.get(Calendar.MONTH);
-	    	System.out.println(",.,.,.,.,monthValue.,.,.,.,");
-	    	System.out.println(monthValue);
-			/*if(veh1.soldDate.after(planSch.startDate) && veh1.soldDate.before(planSch.endDate)) {
-				countPlanCarSold++;
-			}*/
+			//countPlanTotalErForLocation = countPlanTotalErForLocation + veh1.price;
+			String dateValue = inputDF.format(veh1.soldDate);
+			if(month.equals(dateValue)){
+				countPlanCarSold = countPlanCarSold + veh1.price;
+			}
+			
 		}
     	
     	/*	List<PlanSchedule> pSchedule = PlanSchedule.findAllByLocation(Long.parseLong(session("USER_LOCATION")));
@@ -6360,7 +6355,7 @@ public class Application extends Controller {
     		List<Integer> longV = new ArrayList<>();
     		DateAndValueVM sValue = new DateAndValueVM();
 			sValue.name = "You";
-			longV.add(vList2.size());
+			longV.add(countPlanCarSold);
 			sValue.data = longV;
 			sAndValues.add(sValue);
     	}

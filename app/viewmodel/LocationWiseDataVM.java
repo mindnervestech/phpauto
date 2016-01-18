@@ -20,6 +20,7 @@ public class LocationWiseDataVM {
     public String leads;
     public String goalTime;
     public List<DateAndValueVM> sendData;
+    public String monthCurr;
     
 	
 	
