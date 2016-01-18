@@ -4063,7 +4063,7 @@ angular.module('newApp')
 			   $.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "Add Same New Vehicle",
+				    text: "Vehicle has been added to Inventory",
 				});
 		   });
 		   
