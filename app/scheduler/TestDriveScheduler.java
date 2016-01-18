@@ -44,7 +44,7 @@ public class TestDriveScheduler {
 			Duration.create(1, TimeUnit.DAYS), new Runnable() {
 				public void run() {
 					
-					SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-mm-dd");
+					SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 					SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
 					Date date = new Date();
 					Calendar cal = Calendar.getInstance();

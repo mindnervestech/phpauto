@@ -95,7 +95,7 @@ public class ToDo extends Model {
 	}
 	
 	public static List<ToDo> findAll() {
-		return find.where().eq("status", "Assigned").findList();
+		return find.where().eq("status", "Assigned").orderBy("due_date desc").findList();
 	}
 	
 	public static List<ToDo> findByDate(Date date) {
