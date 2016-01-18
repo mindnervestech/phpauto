@@ -141,7 +141,22 @@ margin-left: 5px;
 						             <div class="col-sm-12">
 						           
 									     <h4 class="col-sm-3" style="line-height:0.428571;margin-top:3%;float:left;"><b style="margin-left:3%;">MY STATISTICS</b></h4>
-									     <div class="col-sm-5" style="margin-top:3%;float: right;">
+									     <form ng-submit="checkDatewsie(startDate,endDate)">
+									     <div class="col-sm-2">
+									     	<label>Start Date</label>
+									     		<input data-provide="datepicker" id="cnfstartDateValue" name="startDateValue" class="form-control" ng-model="check.startDate" data-date-format="dd-mm-yyyy" required>
+									     		
+									     </div>
+									     <div class="col-sm-2">
+									     	<label>End Date</label>
+									     		<input data-provide="datepicker" id="cnfendDateValue" name="endDateValue" class="form-control" ng-model="check.endDate" data-date-format="dd-mm-yyyy" required>
+									     </div>
+									     <div class="col-sm-1">
+									     <button type="submit" class="btn btn-primary btn-embossed" style="padding: 0px;margin-top: 23px">Ok</button>
+									     <!-- 	<a class="glyphicon glyphicon-zoom-in"></a> -->
+									     </div>
+									     </form>
+									     <div class="col-sm-4" style="margin-top:3%;float: right;">
 									     		<label><a ng-click="userLocationData('Week')" style="cursor: pointer;">Week</a> | </label>
 									     		<label><a ng-click="userLocationData('Month')" style="cursor: pointer;">Month</a> | </label>
 									     		<label><a ng-click="userLocationData('Quater')" style="cursor: pointer;">Quater</a> | </label>

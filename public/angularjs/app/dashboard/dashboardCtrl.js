@@ -42,6 +42,22 @@ angular.module('newApp')
 		$scope.locationDataList = data;	
 	});
 	
+	$scope.findMystatisData = function(startD,endD){
+		console.log(startD);
+		console.log(endD);
+		$http.get('/getUserLocationByDateInfo/'+startD+'/'+endD)
+		//$http.get('/getUserLocationByDateInfo/'+startD+"/"+endD)
+		.success(function(data) {
+			$scope.parLocationData = data;
+			console.log(data);
+			$scope.showLeads = data.leads;
+			$scope.stackchart = data.sendData;
+			console.log(JSON.stringify(data.sendData));
+			console.log($scope.stackchart);
+			$scope.callChart($scope.stackchart);
+		});
+	 }
+	
 	$scope.showLeads = null;
 	$scope.userLocationData = function(timeSet){
 		
@@ -59,7 +75,15 @@ angular.module('newApp')
 	}
 	
 	setInterval(function(){
-		$scope.userLocationData('week');
+		
+		  var startD = $('#cnfstartDateValue').val();
+		   var endD = $('#cnfendDateValue').val();
+		   if(startD != "" && startD != null && startD != undefined && endD != "" && endD != null && endD != undefined){
+			   $scope.findMystatisData(startD,endD);
+		   }else{
+			   $scope.userLocationData('week');
+		   }
+		
 		}, 120000)
 	
 	$scope.openLeadspopUp = function(){
@@ -2798,6 +2822,13 @@ angular.module('newApp')
 			   });
 			   
 		   }
+		   
+		   $scope.checkDatewsie = function(){
+			   var startD = $('#cnfstartDateValue').val();
+			   var endD = $('#cnfendDateValue').val();
+			   $scope.findMystatisData(startD,endD);
+		   }
+		   
 		   
 		   $scope.openPlanning = function(){
 			   $scope.schPlan = {};

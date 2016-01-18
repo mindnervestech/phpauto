@@ -94,7 +94,7 @@ POST	/saveConfirmData			controllers.Application.saveConfirmData()
 GET		/getAllUsers				controllers.Application.getAllUsers()
 GET		/getAllLocation				controllers.Application.getAllLocation()
 GET     /getUserLocationInfo/:timeSet   	controllers.Application.getUserLocationInfo(timeSet:String)
-  
+GET     /getUserLocationByDateInfo/:startDate/:endDate  	 controllers.Application.getUserLocationByDateInfo(startDate:String,endDate:String)
 GET		/deleteUserById/:id			controllers.Application.deleteUserById(id:Integer)
 GET		/getAllScheduleTestAssigned	controllers.Application.getAllScheduleTestAssigned()
 POST	/setVehicleAndScheduleStatus	controllers.Application.setVehicleAndScheduleStatus()
