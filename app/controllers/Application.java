@@ -7374,7 +7374,7 @@ public class Application extends Controller {
     		String[] monthName = { "january", "february", "march", "april", "may", "june", "july",
     		        "august", "september", "october", "november", "december" };
     		Calendar now = Calendar.getInstance();
-    		String month = monthName[now.get(Calendar.MONTH) + 1];
+    		String month = monthName[now.get(Calendar.MONTH)];
     		
     		List<PlanScheduleMonthlySalepeople> pSalepeople = PlanScheduleMonthlySalepeople.findByAllLocationAndMonth(Location.findById(Long.valueOf(session("USER_LOCATION"))),month);
     		//session("USER_LOCATION")

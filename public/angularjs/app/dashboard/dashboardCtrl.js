@@ -2516,6 +2516,16 @@ angular.module('newApp')
 		  
 		   $scope.getSalesPersonData = function(){
 			   console.log(";l;l;l;l;l");
+			   
+   			$http.get('/getSalesUserOnly/'+$scope.locationValue)
+	    		.success(function(data){
+	    			console.log(data);
+	    			$scope.salesPersonPerf = data;
+	    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
+	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
+	    				value.isSelected = false;
+	    			});
+	    		});
 			   $scope.showGrid = 0;
 		   }
 		   
