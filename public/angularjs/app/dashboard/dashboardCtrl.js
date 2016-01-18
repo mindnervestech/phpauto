@@ -1341,6 +1341,14 @@ angular.module('newApp')
 	    			$scope.currentSelectedType = 0;
 	    			$scope.currentData = $scope.weekData.topVisited;
 	    		};
+	    		$scope.visitor="true";
+	    		$scope.countHigh = function() {
+	    			$scope.visitor="true";
+	    		};
+	    		$scope.countLow = function() {
+	    			$scope.visitor="false";
+	    		};
+	    		
 	    		
 	    		$scope.showWorstVisited = function() {
 	    			$scope.currentSelectedType = 1;

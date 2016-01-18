@@ -191,27 +191,46 @@ margin-left: 5px;
 											<div class="col-xlg-4 panel" style="width:846px;height: 268px;margin-left: 5px;overflow: hidden; position: relative;margin-top:1%;">
 												<div>
 								     				<div class="col-sm-12">
-								        				<h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()" ng-if="userRole == 'Sales Person'">My Leads</a><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()" ng-if="userRole != 'Sales Person'">TOP VISITED</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showAllvehicles()" ng-if="userRole == 'Sales Person'">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								        				<h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()" ng-if="userRole == 'Sales Person'">My Leads</a><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()" ng-if="userRole != 'Sales Person'">TOP VISITED</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showAllvehicles()" ng-if="userRole == 'Sales Person'">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								        				<h6 class="col-sm-4">View Count : <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="countHigh()"><i class="glyphicon glyphicon-chevron-up" title="View Count High To Low"></i></a> <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="countLow()"><i class="glyphicon glyphicon-chevron-down" title="View Count Low To High"></i></a></h6>
 								        	    		<h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
 								        			</div>
 								    			</div>
 						       					 <div style="width: 100%;display: flex;overflow-x: scroll;height: 235px;">
-									                <div style="float: left;" ng-repeat="item in currentData">
+									                <div ng-if="visitor=='true'" style="float: left;" ng-repeat="item in currentData | orderBy:'-count'">
 													<div>
 														<div style="float: left;">
 								    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
 								    					</div>
 								   					</div>      
 												
-												<div style="line-height:1.028571;">
-													<label style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 190px;"><b>{{item.name}}</b></label>
+													<div style="line-height:1.028571;">
+														<label style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 190px;"><b>{{item.name}}</b></label>
+													</div>
+													<div style="float: left">
+														<label class="col-sm-4 control-label" style="text-align: center;"><h5>VISITED COUNT</h5></label>
+													</div>
+													<div style="line-height:0.428571;">
+														<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;"><b>{{item.count}}</b></label>
+													</div>
 												</div>
-												<div style="float: left">
-													<label class="col-sm-4 control-label" style="text-align: center;"><h5>VISITED COUNT</h5></label>
-												</div>
-												<div style="line-height:0.428571;">
-													<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;"><b>{{item.count}}</b></label>
-												</div>
+												
+												<div ng-if="visitor=='false'" style="float: left;" ng-repeat="item in currentData | orderBy:'+count'">
+													<div>
+														<div style="float: left;">
+								    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
+								    					</div>
+								   					</div>      
+												
+													<div style="line-height:1.028571;">
+														<label style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 190px;"><b>{{item.name}}</b></label>
+													</div>
+													<div style="float: left">
+														<label class="col-sm-4 control-label" style="text-align: center;"><h5>VISITED COUNT</h5></label>
+													</div>
+													<div style="line-height:0.428571;">
+														<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;"><b>{{item.count}}</b></label>
+													</div>
 												</div>
 												</div>
 											</div>
@@ -3614,7 +3633,7 @@ margin-left: 5px;
 								                		<div class="form-group col-sm-4">
 								                			<table>
 								                    		<tr>
-								                    			<td>Time</td>
+								                    			<td>Existing Appointments</td>
 								                    		</tr>
 								                    			<tr ng-repeat="times in cnTimeList">
 								                    				<td>{{times}}</td>
@@ -4350,7 +4369,7 @@ margin-left: 5px;
 								                <div class="form-group col-sm-4">
 								                			<table>
 								                    		<tr>
-								                    			<td>Time</td>
+								                    			<td>Existing Appointments</td>
 								                    		</tr>
 								                    			<tr ng-repeat="noteStatus in timeList">
 								                    				<td>{{noteStatus}}</td>
