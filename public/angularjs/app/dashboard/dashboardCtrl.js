@@ -2543,6 +2543,9 @@ angular.module('newApp')
 			   });
 			   
 		   }*/
+		   $scope.copyValue = function(monthValue){
+			   $scope.leadsTime.totalEarning = monthValue;
+		   }
 		   $scope.locationTotal = 0;
 		   $scope.saveLocationPlan = function(month){
 			   var value = 0;

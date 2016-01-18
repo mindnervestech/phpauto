@@ -6290,7 +6290,42 @@ public class Application extends Controller {
     	List<DateAndValueVM> sAndValues = new ArrayList<>();
     	List<Long> sAndLong = new ArrayList<>();
     	int countPlanCarSold = 0;
-    	List<PlanSchedule> pSchedule = PlanSchedule.findAllByLocation(Long.parseLong(session("USER_LOCATION")));
+    	
+    	
+    	String[] monthName = { "january", "february", "march", "april", "may", "june", "july",
+		        "august", "september", "october", "november", "december" };
+		Calendar now = Calendar.getInstance();
+		String month = monthName[now.get(Calendar.MONTH) + 1];
+    	
+    	PlanScheduleMonthlyLocation pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), month);
+    	if(pLocation != null){
+    		List<Integer> longV = new ArrayList<>();
+			DateAndValueVM sValue = new DateAndValueVM();
+			sValue.name = "Plan";
+			longV.add(Integer.parseInt(pLocation.totalEarning));
+			sValue.data = longV;
+			sAndValues.add(sValue);
+    	}
+    	
+    	
+    	
+    	
+    	List<Vehicle> vehicles = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
+		for(Vehicle veh1:vehicles){
+			//Date date1 = df.f(veh1.soldDate);
+
+	    	Calendar calend = Calendar.getInstance();
+	    	cal.setTime(veh1.soldDate);
+
+	    	int monthValue = calend.get(Calendar.MONTH);
+	    	System.out.println(",.,.,.,.,monthValue.,.,.,.,");
+	    	System.out.println(monthValue);
+			/*if(veh1.soldDate.after(planSch.startDate) && veh1.soldDate.before(planSch.endDate)) {
+				countPlanCarSold++;
+			}*/
+		}
+    	
+    	/*	List<PlanSchedule> pSchedule = PlanSchedule.findAllByLocation(Long.parseLong(session("USER_LOCATION")));
     	for(PlanSchedule planSch:pSchedule){
     		
     		if(dateobj.after(planSch.startDate) && dateobj.before(planSch.endDate)) {
@@ -6308,7 +6343,7 @@ public class Application extends Controller {
     				}
     			}
         	}
-    	}
+    	}*/
     	
     	if(countPlanCarSold > 0){
     		List<Integer> longV = new ArrayList<>();
@@ -7341,8 +7376,8 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
-    		        "August", "September", "October", "November", "December" };
+    		String[] monthName = { "january", "february", "march", "april", "may", "june", "july",
+    		        "august", "september", "october", "november", "december" };
     		Calendar now = Calendar.getInstance();
     		String month = monthName[now.get(Calendar.MONTH) + 1];
     		
