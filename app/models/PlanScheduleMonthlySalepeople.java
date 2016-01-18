@@ -176,4 +176,8 @@ public class PlanScheduleMonthlySalepeople extends Model {
 	public static PlanScheduleMonthlySalepeople findByLocationAndMonth(Location location,String month) {
 		return find.where().eq("locations", location).eq("month", month).findUnique();
 	}
+	
+	public static List<PlanScheduleMonthlySalepeople> findByAllLocationAndMonth(Location location,String month) {
+		return find.where().eq("locations", location).eq("month", month).findList();
+	}
 }

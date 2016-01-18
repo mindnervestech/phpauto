@@ -7341,6 +7341,12 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+    		        "August", "September", "October", "November", "December" };
+    		Calendar now = Calendar.getInstance();
+    		String month = monthName[now.get(Calendar.MONTH) + 1];
+    		
+    		List<PlanScheduleMonthlySalepeople> pSalepeople = PlanScheduleMonthlySalepeople.findByAllLocationAndMonth(Location.findById(Long.valueOf(session("USER_LOCATION"))),month);
     		//session("USER_LOCATION")
     		List<AuthUser> SalesUserList;
     		if(locationValue == 0){
@@ -7352,9 +7358,16 @@ public class Application extends Controller {
     		List<UserVM> vmList = new ArrayList<>();
     		
     		for(AuthUser obj: SalesUserList) {
+    			
     			UserVM vm = new UserVM();
     			vm.fullName = obj.firstName+" "+obj.lastName;
     			vm.id = obj.id;
+    			for(PlanScheduleMonthlySalepeople ps:pSalepeople){
+    				if(obj.id.equals(ps.user.id)){
+        				vm.quota = ps.totalBrought;
+        			}
+    			}
+    			
     			vmList.add(vm);
     		}
     		return ok(Json.toJson(vmList));

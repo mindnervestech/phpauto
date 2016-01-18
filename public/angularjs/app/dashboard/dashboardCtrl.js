@@ -2685,6 +2685,13 @@ angular.module('newApp')
 	 		   		                                     }
 	 		  		                                	} ,
 	 		 		                                 },
+	 		 		                               { name: 'quota', displayName: 'Quota', width:'20%',cellEditableCondition: false,
+		 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		 		   		                                       if (row.entity.isRead === false) {
+		 		   		                                         return 'red';
+		 		   		                                     }
+		 		  		                                	} ,
+		 		 		                                 },
 	 		 		                               
 	 		 		                               { name: 'edit', displayName: 'Edit', width:'14%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 	 		   		   	                                cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editPlanDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>', 
@@ -2849,6 +2856,7 @@ angular.module('newApp')
 		   $scope.decemberOpen = 0;
 		   
 		   $scope.janrOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -2878,8 +2886,12 @@ angular.module('newApp')
 					  });
 				   });
 			   });
+			   if($scope.janOpen == 0){
+				   $scope.janOpen = 1;   
+			   }else{
+				   $scope.janOpen = 0;
+			   }
 			   
-			   $scope.janOpen = 1;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
 			   $scope.decemberOpen = 0;
@@ -2894,6 +2906,7 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.julysOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -2924,7 +2937,12 @@ angular.module('newApp')
 				   });
 			   });
 			   
-			   $scope.julyOpen = 1;
+			   if($scope.julyOpen == 0){
+				   $scope.julyOpen = 1;   
+			   }else{
+				   $scope.julyOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.februaryOpen = 0;
 			   $scope.decemberOpen = 0;
@@ -2939,7 +2957,7 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.februarysOpen = function(){
-			  
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -2975,7 +2993,14 @@ angular.module('newApp')
 				   
 			   console.log($scope.salesList);
 			   console.log($scope.saleleadsTime);
-			   $scope.februaryOpen = 1;
+			   
+			   
+			   if($scope.februaryOpen == 0){
+				   $scope.februaryOpen = 1;   
+			   }else{
+				   $scope.februaryOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.decemberOpen = 0;
@@ -2989,6 +3014,7 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.augustsOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -3020,7 +3046,12 @@ angular.module('newApp')
 				   });
 			   });
 			   
-			   $scope.augustOpen = 1;
+			   if($scope.augustOpen == 0){
+				   $scope.augustOpen = 1;   
+			   }else{
+				   $scope.augustOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -3034,6 +3065,7 @@ angular.module('newApp')
 			   $scope.marchOpen = 0;
 		   }
 		   $scope.marchsOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -3065,7 +3097,12 @@ angular.module('newApp')
 				   });
 			   });
 			   
-			   $scope.marchOpen = 1;
+			   if($scope.marchOpen == 0){
+				   $scope.marchOpen = 1;   
+			   }else{
+				   $scope.marchOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -3079,6 +3116,7 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.septembersOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -3109,7 +3147,12 @@ angular.module('newApp')
 				   });
 			   });
 			   
-			   $scope.septemberOpen = 1;
+			   if($scope.septemberOpen == 0){
+				   $scope.septemberOpen = 1;   
+			   }else{
+				   $scope.septemberOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -3123,6 +3166,7 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.aprilsOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -3153,7 +3197,13 @@ angular.module('newApp')
 					  });
 				   });
 			   });
-			   $scope.aprilOpen = 1;
+			   
+			   if($scope.aprilOpen == 0){
+				   $scope.aprilOpen = 1;   
+			   }else{
+				   $scope.aprilOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -3168,6 +3218,7 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.octobersOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -3199,7 +3250,12 @@ angular.module('newApp')
 				   });
 			   });
 			   
-			   $scope.octoberOpen = 1;
+			   if($scope.octoberOpen == 0){
+				   $scope.octoberOpen = 1;   
+			   }else{
+				   $scope.octoberOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -3213,6 +3269,7 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.maysOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -3243,13 +3300,18 @@ angular.module('newApp')
 				   });
 			   });
 			   
+			   if($scope.mayOpen == 0){
+				   $scope.mayOpen = 1;   
+			   }else{
+				   $scope.mayOpen = 0;
+			   }
+			   
 			   $scope.septemberOpen = 0;
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
 			   $scope.decemberOpen = 0;
 			   $scope.juneOpen = 0;
-			   $scope.mayOpen = 1;
 			   $scope.novemberOpen = 0;
 			   $scope.octoberOpen = 0;
 			   $scope.aprilOpen = 0;
@@ -3257,6 +3319,7 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.novembersOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -3286,7 +3349,13 @@ angular.module('newApp')
 					  });
 				   });
 			   });
-			   $scope.novemberOpen = 1;
+			   
+			   if($scope.novemberOpen == 0){
+				   $scope.novemberOpen = 1;   
+			   }else{
+				   $scope.novemberOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -3300,6 +3369,7 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.junesOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -3329,7 +3399,12 @@ angular.module('newApp')
 				   });
 			   });
 			   
-			   $scope.juneOpen = 1;
+			   if($scope.juneOpen == 0){
+				   $scope.juneOpen = 1;   
+			   }else{
+				   $scope.juneOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -3343,6 +3418,7 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   $scope.decembersOpen = function(){
+			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
 			   $scope.saleleadsTime = {};
 			   angular.forEach($scope.totalLocationPlanData, function(obj, index){
@@ -3373,7 +3449,12 @@ angular.module('newApp')
 				   });
 			   });
 			   
-			   $scope.decemberOpen = 1;
+			   if($scope.decemberOpen == 0){
+				   $scope.decemberOpen = 1;   
+			   }else{
+				   $scope.decemberOpen = 0;
+			   }
+			   
 			   $scope.janOpen = 0;
 			   $scope.julyOpen = 0;
 			   $scope.februaryOpen = 0;
@@ -3387,8 +3468,16 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   
-		   
-		   
+		   $scope.showOtherIngo = 0;
+		   $scope.showOtherIngos = function(){
+			   console.log($scope.showOtherIngo);
+			   if($scope.showOtherIngo == 0){
+				   $scope.showOtherIngo = 1;
+			   }else{
+				   $scope.showOtherIngo = 0;
+			   }
+			   
+		   }
 		   
 		   $scope.nextbutton = 0;
 		   $scope.goNext = function(){
@@ -4057,8 +4146,6 @@ angular.module('newApp')
    $scope.updateVehicleStatus = function(row){
 	   console.log(row);
 	   $scope.statusVal = "";
-	   
-	   
 	   
 	   if(row.entity.status == 'Newly Arrived') {
 		   $('#btnStatusSchedule').click();
