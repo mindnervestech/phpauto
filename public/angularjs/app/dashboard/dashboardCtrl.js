@@ -4153,7 +4153,11 @@ angular.module('newApp')
 	   }
 	   if(row.entity.status == 'Sold') {
 		   $scope.soldContact.statusVal = "Newly Arrived";
-		  
+		   $.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Vehicle has been added to Inventory",
+			});
 		   $http.get('/addSameNewCar/'+row.entity.id).success(function(data){
 			   $.pnotify({
 				    title: "Success",
