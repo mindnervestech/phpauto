@@ -6398,13 +6398,13 @@ public class Application extends Controller {
     		tradeInsAll = TradeIn.findByLocation(Long.parseLong(session("USER_LOCATION")));
     		
     	}else if(users.role.equals("Sales Person")){
-    		rInfo = RequestMoreInfo.findAllSeen(users);
+    		rInfo = RequestMoreInfo.findAllSeenSch(users);
     		sList = ScheduleTest.findAllAssigned(users);
-    		tradeIns = TradeIn.findAllSeen(users);
+    		tradeIns = TradeIn.findAllSeenSch(users);
     		
-    		rInfoAll = RequestMoreInfo.findAllByUser(users);
-    		sListAll = ScheduleTest.findAllByUser(users);
-    		tradeInsAll = TradeIn.findAllByUser(users);
+    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(users);
+    		sListAll = ScheduleTest.findAllByAssignedUser(users);
+    		tradeInsAll = TradeIn.findAllByAssignedUser(users);
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfo){

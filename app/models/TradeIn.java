@@ -465,6 +465,10 @@ public class TradeIn extends Model {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isScheduled", false).orderBy("tradeDate desc").findList();
 	}
 	
+	public static List<TradeIn> findAllSeenSch(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).orderBy("tradeDate desc").findList();
+	}
+	
 	public static List<TradeIn> findAllSeenComplete(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("status", "COMPLETE").orderBy("scheduleDate desc").findList();
 	}
