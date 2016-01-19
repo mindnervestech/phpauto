@@ -11356,8 +11356,12 @@ public class Application extends Controller {
     	String resultStr = callClickAPI(params);
     	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
     	List<String> vins = new ArrayList<String>(jsonNode.size());
+    	List<String> vins1 = new ArrayList<String>(jsonNode.size());
     	Map<String,Integer> pagesCount = new HashMap<String,Integer>(jsonNode.size());
     	Map<String,Integer> vinUnik = new HashMap<String,Integer>();
+    	
+    	Map<String,Integer> pagesCount1 = new HashMap<String,Integer>(jsonNode.size());
+    	Map<String,Integer> vinUnik1 = new HashMap<String,Integer>();
     	for(JsonNode item:jsonNode) {
     		System.out.println(item.asText());
     		String url = item.get("url").asText();
@@ -11388,6 +11392,31 @@ public class Application extends Controller {
     				   if(arr[arr.length-1].equals(entry.getKey())){
     					   vins.add(arr[arr.length-1]);
     	        			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
+    				   }
+    				}
+    				
+    				
+    				
+    				
+    				List<RequestMoreInfo> rMoreInfo1 = RequestMoreInfo.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
+    				List<ScheduleTest> sTests1 = ScheduleTest.findAllAssignedLocation(Long.valueOf(session("USER_LOCATION")));
+    				List<TradeIn> tIns1 = TradeIn.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
+    				
+    				for(RequestMoreInfo rInfo1 :rMoreInfo1){
+    					vinUnik1.put(rInfo1.vin, 1);
+    				}
+    				for(ScheduleTest sTest1: sTests1){
+    					vinUnik1.put(sTest1.vin, 1);
+    				}
+    				for(TradeIn tradeIn1: tIns1){
+    					vinUnik1.put(tradeIn1.vin, 1);
+    				}
+    				
+    				for (Map.Entry<String, Integer> entry : vinUnik1.entrySet()) {
+    				    String key1 = entry.getKey();
+    				   if(arr[arr.length-1].equals(entry.getKey())){
+    					   vins1.add(arr[arr.length-1]);
+    	        			pagesCount1.put(arr[arr.length-1], item.get("value").asInt());
     				   }
     				}
     				
@@ -11483,10 +11512,12 @@ public class Application extends Controller {
     	
     	
     	List<VehicleAnalyticalVM> allVehical = new ArrayList<>();
-    	List<Vehicle> aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
+    	/*List<Vehicle> aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));*/
+    	  List<Vehicle> aVehicles =null;
+    	  aVehicles = Vehicle.findByVins(vins1);
     	for(Vehicle vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
-    		anVm.count = 0;
+    		anVm.count = pagesCount1.get(vehicle.getVin());
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			anVm.id = vehicleImage.getId();
@@ -11498,11 +11529,11 @@ public class Application extends Controller {
     		anVm.vin = vehicle.getVin();
     		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		
-    		if(pagesCount.get(vehicle.getVin()) !=null){
+    		/*if(pagesCount1.get(vehicle.getVin()) !=null){
     			anVm.count =  pagesCount.get(vehicle.getVin());
     		}else{
     			anVm.count = 0;
-    		}
+    		}*/
     		
     		allVehical.add(anVm);
     		
