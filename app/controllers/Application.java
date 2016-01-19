@@ -11405,7 +11405,7 @@ public class Application extends Controller {
     			if(user.role.equals("General Manager")){
     				vins.add(arr[arr.length-1]);
         			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
-    			}else if(user.role.equals("Sales Person")){
+    			}else if(user.role.equals("Sales Person") || user.role.equals("Manager")){
     				List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeen(user);
     				List<ScheduleTest> sTests = ScheduleTest.findAllAssigned(user);
     				List<TradeIn> tIns = TradeIn.findAllSeen(user);
@@ -11454,7 +11454,7 @@ public class Application extends Controller {
     				   }
     				}
     				
-    			}else if(user.role.equals("Manager")){
+    			}/*else if(user.role.equals("Manager")){
     				List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
     				List<ScheduleTest> sTests = ScheduleTest.findAllAssignedLocation(Long.valueOf(session("USER_LOCATION")));
     				List<TradeIn> tIns = TradeIn.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
@@ -11476,7 +11476,7 @@ public class Application extends Controller {
     	        			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
     				   }
     				}
-    			}
+    			}*/
     			
     		}
     	}
