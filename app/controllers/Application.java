@@ -15198,7 +15198,7 @@ public class Application extends Controller {
     			List<String> timeList = new ArrayList<>();
     			try {
     				DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-    				SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+    				SimpleDateFormat time = new SimpleDateFormat("HH:mm:a");
         			Date d = df1.parse(comDate);
         			List<RequestMoreInfo> moreInfo = RequestMoreInfo.findByVinDate(vin,d);
         			List<ScheduleTest> schedule = ScheduleTest.findByVinDate(vin,d);
