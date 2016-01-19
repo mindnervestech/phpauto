@@ -113,13 +113,12 @@ angular.module('newApp')
 		            categories: ""
 		        },
 		        yAxis: {
-		            min: 0,
 		            title: {
 		                text: ''
 		            }
 		        },
 		        tooltip: {
-		            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+		            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>${point.y}</b><br/>',
 		            shared: true
 		        },
 		        plotOptions: {

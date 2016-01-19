@@ -6065,6 +6065,8 @@ public class Application extends Controller {
     	Date dateobj = new Date();
     	Calendar cal1 = Calendar.getInstance();
     	AuthUser users = (AuthUser) getLocalUser();
+    	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+		        "August", "September", "October", "November", "December" };
     	
     	Map<String, Integer> mapCar = new HashMap<String, Integer>();
     	
@@ -6227,6 +6229,14 @@ public class Application extends Controller {
     	double valAvlPrice= ((double)pricecount/(double)saleCarCount);
     	lDataVM.angSalePrice = (int) valAvlPrice;
     	
+    	Calendar cal = Calendar.getInstance();  
+    	String monthCal = monthName[cal.get(Calendar.MONTH)];
+    	PlanScheduleMonthlyLocation pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), monthCal);
+    	if(pMonthlyLocation != null){
+    		double val= ((double)pricecount/Double.parseDouble(pMonthlyLocation.totalEarning));
+        	lDataVM.AngSale = (int) (val*100);
+    	}
+    	
     	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
     	int saleCar = 0;
     	int newCar = 0;
@@ -6240,9 +6250,8 @@ public class Application extends Controller {
     		//}
     	}
     	
-    	double val= ((double)saleCar/(double)newCar);
-    	lDataVM.AngSale = (int) (val*100);
-    	Calendar cal = Calendar.getInstance();  
+    	/*double val= ((double)saleCar/(double)newCar);
+    	lDataVM.AngSale = (int) (val*100);*/
         
     	List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION")))); 
     	for(LeadsDateWise lWise:lDateWises){
@@ -6274,8 +6283,7 @@ public class Application extends Controller {
     	int countPlanCarSold = 0;
     	
     	
-    	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
-		        "August", "September", "October", "November", "December" };
+    	
 		Calendar now = Calendar.getInstance();
 		String month = monthName[now.get(Calendar.MONTH)];
 		lDataVM.monthCurr = month;
@@ -6337,7 +6345,8 @@ public class Application extends Controller {
     	Date dateobj = new Date();
     	Calendar cal1 = Calendar.getInstance();
     	AuthUser users = (AuthUser) getLocalUser();
-    	
+    	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+		        "August", "September", "October", "November", "December" };
     	Map<String, Integer> mapCar = new HashMap<String, Integer>();
     	
     	Date timeBack = null;
@@ -6519,6 +6528,15 @@ public class Application extends Controller {
     	double valAvlPrice= ((double)pricecount/(double)saleCarCount);
     	lDataVM.angSalePrice = (int) valAvlPrice;
     	
+    	
+    	Calendar cal = Calendar.getInstance();  
+    	String monthCal = monthName[cal.get(Calendar.MONTH)];
+    	PlanScheduleMonthlyLocation pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), monthCal);
+    	if(pMonthlyLocation != null){
+    		double val= ((double)pricecount/Double.parseDouble(pMonthlyLocation.totalEarning));
+        	lDataVM.AngSale = (int) (val*100);
+    	}
+    	
     	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
     	int saleCar = 0;
     	int newCar = 0;
@@ -6532,9 +6550,6 @@ public class Application extends Controller {
     	//	}
     	}
     	
-    	double val= ((double)saleCar/(double)newCar);
-    	lDataVM.AngSale = (int) (val*100);
-    	Calendar cal = Calendar.getInstance();  
         
     	List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION")))); 
     	for(LeadsDateWise lWise:lDateWises){
@@ -6566,8 +6581,7 @@ public class Application extends Controller {
     	int countPlanCarSold = 0;
     	
     	
-    	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
-		        "August", "September", "October", "November", "December" };
+    	
 		Calendar now = Calendar.getInstance();
 		String month = monthName[now.get(Calendar.MONTH)];
 		lDataVM.monthCurr = month;

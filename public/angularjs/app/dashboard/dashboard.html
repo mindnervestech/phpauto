@@ -152,7 +152,7 @@ margin-left: 5px;
 									     		<input data-provide="datepicker" id="cnfendDateValue" name="endDateValue" class="form-control" ng-model="check.endDate" data-date-format="dd-mm-yyyy" required>
 									     </div>
 									     <div class="col-sm-1">
-									     <button type="submit" class="btn btn-primary btn-embossed" style="padding: 0px;margin-top: 23px">Ok</button>
+									     <button type="submit" class="btn btn-primary btn-embossed col-sm-12" style="padding: 0px;margin-top: 23px;text-align: center;">Ok</button>
 									     <!-- 	<a class="glyphicon glyphicon-zoom-in"></a> -->
 									     </div>
 									     </form>
@@ -166,17 +166,17 @@ margin-left: 5px;
 									     
 									     </div>
 									 <div class="row">
-										<div class="col-xlg-4">
+										<div class="col-xlg-3">
 									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/{{parLocationData.imageUrl}}">
 										</div>
-										<div class="col-xlg-4" style="margin-top: 25px;">
-									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
-									       	<span class="glyphicon glyphicon-adjust col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale}}%</label>
-									       	<span class="glyphicon glyphicon-usd col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">${{parLocationData.totalSalePrice}}</label>
-									       	<span class="glyphicon glyphicon-record col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate}}%</label>
-									       	<span class="fa fa-car col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.totalsaleCar}}</label>
-									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
-									       	<span class="glyphicon glyphicon-shopping-cart col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-5 control-label" style="text-align: center;">${{parLocationData.angSalePrice}}</label>
+										<div class="col-xlg-5" style="margin-top: 25px;">
+									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
+									       	<span class="glyphicon glyphicon-adjust col-sm-1" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale}}%</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-1" style="color: darkturquoise;" title="Sold Car Price"></span><label class="col-sm-5 control-label" style="text-align: center;">${{parLocationData.totalSalePrice}}</label>
+									       	<span class="glyphicon glyphicon-record col-sm-1" style="color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate}}%</label>
+									       	<span class="fa fa-car col-sm-1" style="color: darkturquoise;" title="Total Car Sold"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.totalsaleCar}}</label>
+									       	<!-- <span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label> -->
+									       	<span class="glyphicon glyphicon-shopping-cart col-sm-1" style="color: darkturquoise;" title="Average Price"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.angSalePrice}}</label>
 										</div>
 										<div class="col-xlg-4">
 											<p style="text-align: center;font-size: 22px;">{{parLocationData.monthCurr}}</p>
