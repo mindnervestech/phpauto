@@ -225,7 +225,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static int findAll() {
-		return find.where().eq("isRead", 0).findRowCount();
+		return find.where().eq("isRead", 0).ne("vin", "no").findRowCount();
 	}
 	
 	public static List<ScheduleTest> findAllByUser(AuthUser user) {
