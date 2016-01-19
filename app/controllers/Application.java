@@ -6235,9 +6235,9 @@ public class Application extends Controller {
     			if(vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)){
     				saleCar++;
     			}
-    		}else if(vehicle.status.equals("Newly Arrived")){
+    		}//else if(vehicle.status.equals("Newly Arrived")){
     				newCar++;
-    		}
+    		//}
     	}
     	
     	double val= ((double)saleCar/(double)newCar);
@@ -6326,8 +6326,6 @@ public class Application extends Controller {
     	lDataVM.sendData = sAndValues;
 
     	return ok(Json.toJson(lDataVM));
-    	
-    	
     	
     	
     }
@@ -6529,9 +6527,9 @@ public class Application extends Controller {
     			if(vehicle.soldDate.after(timeBack)) {
     				saleCar++;
     			}
-    		}else if(vehicle.status.equals("Newly Arrived")){
+    		}//else if(vehicle.status.equals("Newly Arrived")){
     			newCar++;
-    		}
+    	//	}
     	}
     	
     	double val= ((double)saleCar/(double)newCar);
