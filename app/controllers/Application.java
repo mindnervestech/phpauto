@@ -2164,10 +2164,10 @@ public class Application extends Controller {
     		//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 	    	    SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
 		    	String email = row.email;
-		    	List<FollowBrand> brandList = FollowBrand.getBrandsByEmail(email);
-		    	for(FollowBrand brandObj: brandList) {
+		    	/*List<FollowBrand> brandList = FollowBrand.getBrandsByEmail(email);
+		    	for(FollowBrand brandObj: brandList) {*/
 		    		
-		    		List<Vehicle> vehicleList = Vehicle.getVehiclesByMake(brandObj.brand);
+		    		List<Vehicle> vehicleList = Vehicle.getVehiclesByMake(row.brand);
 		    		List<VehicleVM> vehicleVMList = new ArrayList<>();
 		    		
 		    		for(Vehicle vehicle: vehicleList) {
@@ -2219,8 +2219,8 @@ public class Application extends Controller {
 				        context.put("hostnameUrl", imageUrlPath);
 				        context.put("siteLogo", logo.logoImagePath);
 				        
-				        context.put("name", brandObj.name);
-				        context.put("brand", brandObj.brand);
+				        context.put("name", row.name);
+				        context.put("brand", row.brand);
 				        context.put("vehicleList", vehicleVMList);
 				       
 				        
@@ -2238,7 +2238,7 @@ public class Application extends Controller {
 					{
 						e.printStackTrace();
 					} 
-		    	}
+		    	//}
     	}
     }
     
