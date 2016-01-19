@@ -81,7 +81,7 @@ angular.module('newApp')
 		   if(startD != "" && startD != null && startD != undefined && endD != "" && endD != null && endD != undefined){
 			   $scope.findMystatisData(startD,endD);
 		   }else{
-			   $scope.userLocationData('week');
+			   $scope.userLocationData('Week');
 		   }
 		
 		}, 120000)
