@@ -6058,7 +6058,7 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getUserLocationByDateInfo(String startDate,String endDate){
+    public static Result getUserLocationByDateInfo(String startDate,String endDate,String locOrPer){
     	
     	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     	DateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
@@ -6100,7 +6100,7 @@ public class Application extends Controller {
     	List<ScheduleTest> sListAll = null;
     	List<TradeIn> tradeInsAll = null;
     	
-    	if(users.role.equals("Manager")){
+    	if(users.role.equals("Manager") && locOrPer.equals("location")){
     		rInfo = RequestMoreInfo.findAllSeenLocation(Long.parseLong(session("USER_LOCATION")));
     		sList = ScheduleTest.findAllAssignedLocation(Long.parseLong(session("USER_LOCATION")));
     		tradeIns = TradeIn.findAllSeenLocation(Long.parseLong(session("USER_LOCATION")));
@@ -6109,7 +6109,7 @@ public class Application extends Controller {
     		sListAll = ScheduleTest.findByLocation(Long.parseLong(session("USER_LOCATION")));
     		tradeInsAll = TradeIn.findByLocation(Long.parseLong(session("USER_LOCATION")));
     		
-    	}else if(users.role.equals("Sales Person")){
+    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		rInfo = RequestMoreInfo.findAllSeen(users);
     		sList = ScheduleTest.findAllAssigned(users);
     		tradeIns = TradeIn.findAllSeen(users);
@@ -6168,7 +6168,7 @@ public class Application extends Controller {
     	
     	Integer pricecount = 0;
     	int saleCarCount = 0;
-    	if(users.role.equals("Manager")){
+    	if(users.role.equals("Manager") && locOrPer.equals("location")){
     		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
         	double sucessCount= (double)vList.size()/(double)countLeads1*100;
         	lDataVM.successRate = (int) sucessCount;
@@ -6180,7 +6180,7 @@ public class Application extends Controller {
             			pricecount = pricecount + vehList.price;
             		}
         	}
-    	}else if(users.role.equals("Sales Person")){
+    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		
     		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
     		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
@@ -6346,7 +6346,7 @@ public class Application extends Controller {
     
     /*-----------------------------------------*/
     
-    public static Result getUserLocationInfo(String timeSet){
+    public static Result getUserLocationInfo(String timeSet,String locOrPer){
     	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     	Date dateobj = new Date();
     	Calendar cal1 = Calendar.getInstance();
@@ -6398,7 +6398,7 @@ public class Application extends Controller {
     	List<ScheduleTest> sListAll = null;
     	List<TradeIn> tradeInsAll = null;
     	
-    	if(users.role.equals("Manager")){
+    	if(users.role.equals("Manager") && locOrPer.equals("location")){
     		rInfo = RequestMoreInfo.findAllSeenLocation(Long.parseLong(session("USER_LOCATION")));
     		sList = ScheduleTest.findAllAssignedLocation(Long.parseLong(session("USER_LOCATION")));
     		tradeIns = TradeIn.findAllSeenLocation(Long.parseLong(session("USER_LOCATION")));
@@ -6407,7 +6407,7 @@ public class Application extends Controller {
     		sListAll = ScheduleTest.findByLocation(Long.parseLong(session("USER_LOCATION")));
     		tradeInsAll = TradeIn.findByLocation(Long.parseLong(session("USER_LOCATION")));
     		
-    	}else if(users.role.equals("Sales Person")){
+    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		rInfo = RequestMoreInfo.findAllSeenSch(users);
     		sList = ScheduleTest.findAllAssigned(users);
     		tradeIns = TradeIn.findAllSeenSch(users);
@@ -6478,7 +6478,7 @@ public class Application extends Controller {
     	
     	Integer pricecount = 0;
     	int saleCarCount = 0;
-    	if(users.role.equals("Manager")){
+    	if(users.role.equals("Manager") && locOrPer.equals("location")){
     		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
         	double sucessCount= (double)vList.size()/(double)countLeads1*100;
         	lDataVM.successRate = (int) sucessCount;
@@ -6489,7 +6489,7 @@ public class Application extends Controller {
             			pricecount = pricecount + vehList.price;
             		}
         	}
-    	}else if(users.role.equals("Sales Person")){
+    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		
     		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
     		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
@@ -6544,7 +6544,7 @@ public class Application extends Controller {
     		
     	}
     	
-    	lDataVM.totalSalePrice = pricecount;
+    	lDataVM.totalSalePrice =  pricecount;
     	lDataVM.totalsaleCar = saleCarCount;
     	
     	double valAvlPrice= ((double)pricecount/(double)saleCarCount);

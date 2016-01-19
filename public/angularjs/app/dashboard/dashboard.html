@@ -140,7 +140,12 @@ margin-left: 5px;
 						             <div class="panel widget-map" style="height: 365px;">
 						             <div class="col-sm-12">
 						           
-									     <h4 class="col-sm-3" style="line-height:0.428571;margin-top:3%;float:left;"><b style="margin-left:3%;">MY STATISTICS</b></h4>
+						           <div class="col-sm-3">
+									     <h4 class="col-sm-12"><b style="margin-left:3%;">MY STATISTICS</b></h4>
+									     <div class="col-sm-12" ng-if="userRole == 'Manager'">
+									     	<a style="cursor: pointer;" ng-click="locationOrPersonData('person')">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" style="cursor: pointer;">Location</a>
+									     </div>
+									    </div> 
 									     <form ng-submit="checkDatewsie(startDate,endDate)">
 									     <div class="col-sm-2">
 									     	<label>Start Date</label>
@@ -157,11 +162,11 @@ margin-left: 5px;
 									     </div>
 									     </form>
 									     <div class="col-sm-4" style="margin-top:3%;float: right;">
-									     		<label><a ng-click="userLocationData('Week')" style="cursor: pointer;">Week</a> | </label>
-									     		<label><a ng-click="userLocationData('Month')" style="cursor: pointer;">Month</a> | </label>
-									     		<label><a ng-click="userLocationData('Quater')" style="cursor: pointer;">Quater</a> | </label>
-									     		<label><a ng-click="userLocationData('6 Month')" style="cursor: pointer;">6 Month</a> | </label>
-									     		<label><a ng-click="userLocationData('Year')" style="cursor: pointer;">Year</a> | </label>
+									     		<label><a ng-click="userLocationData('Week',dataLocOrPerWise)" style="cursor: pointer;">Week</a> | </label>
+									     		<label><a ng-click="userLocationData('Month',dataLocOrPerWise)" style="cursor: pointer;">Month</a> | </label>
+									     		<label><a ng-click="userLocationData('Quater',dataLocOrPerWise)" style="cursor: pointer;">Quater</a> | </label>
+									     		<label><a ng-click="userLocationData('6 Month',dataLocOrPerWise)" style="cursor: pointer;">6 Month</a> | </label>
+									     		<label><a ng-click="userLocationData('Year',dataLocOrPerWise)" style="cursor: pointer;">Year</a> | </label>
 									     </div>
 									     
 									     </div>
@@ -171,12 +176,12 @@ margin-left: 5px;
 										</div>
 										<div class="col-xlg-5" style="margin-top: 25px;">
 									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
-									       	<span class="glyphicon glyphicon-adjust col-sm-1" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale}}%</label>
+									       	<span class="glyphicon glyphicon-adjust col-sm-1" style="color: darkturquoise;" title="Plan completed"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale}}%</label>
 									       	<span class="glyphicon glyphicon-usd col-sm-1" style="color: darkturquoise;" title="Sold Car Price"></span><label class="col-sm-5 control-label" style="text-align: center;">${{parLocationData.totalSalePrice}}</label>
 									       	<span class="glyphicon glyphicon-record col-sm-1" style="color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate}}%</label>
 									       	<span class="fa fa-car col-sm-1" style="color: darkturquoise;" title="Total Car Sold"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.totalsaleCar}}</label>
 									       	<!-- <span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label> -->
-									       	<span class="glyphicon glyphicon-shopping-cart col-sm-1" style="color: darkturquoise;" title="Average Price"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.angSalePrice}}</label>
+									       	<span class="glyphicon glyphicon-shopping-cart col-sm-1" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.angSalePrice}}</label>
 										</div>
 										<div class="col-xlg-4">
 											<p style="text-align: center;font-size: 22px;">{{parLocationData.monthCurr}}</p>
@@ -186,7 +191,8 @@ margin-left: 5px;
 									 <div class="row">
 									 	<label class="col-sm-2 control-label" style="margin-left: 20px;">MY GOAL:</label>
 									 	<label class="col-sm-6 control-label" style="font-size: 20px;">{{showLeads}}</label>
-									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label">My LEADS</label></a>
+									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads != null">Edit</label></a>
+									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads == null">Add Goal</label></a>
 									 </div>
 								</div>	
 							</div>

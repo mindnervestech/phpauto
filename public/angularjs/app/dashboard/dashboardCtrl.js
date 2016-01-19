@@ -29,7 +29,7 @@ angular.module('newApp')
 		$scope.getSalesDataValue($scope.locationValue);
 		console.log($scope.userRole);
 		if($scope.userRole != "General Manager"){
-			$scope.userLocationData('Week');
+			$scope.userLocationData('Week','person');
 		}
 		if($scope.userRole == null){
 			  $location.path('/myprofile');
@@ -42,10 +42,10 @@ angular.module('newApp')
 		$scope.locationDataList = data;	
 	});
 	
-	$scope.findMystatisData = function(startD,endD){
+	$scope.findMystatisData = function(startD,endD,locOrPer){
 		console.log(startD);
 		console.log(endD);
-		$http.get('/getUserLocationByDateInfo/'+startD+'/'+endD)
+		$http.get('/getUserLocationByDateInfo/'+startD+'/'+endD+'/'+locOrPer)
 		//$http.get('/getUserLocationByDateInfo/'+startD+"/"+endD)
 		.success(function(data) {
 			$scope.parLocationData = data;
@@ -57,11 +57,11 @@ angular.module('newApp')
 			$scope.callChart($scope.stackchart);
 		});
 	 }
-	
+	$scope.dataLocOrPerWise = "person";
 	$scope.showLeads = null;
-	$scope.userLocationData = function(timeSet){
-		
-			$http.get('/getUserLocationInfo/'+timeSet)
+	$scope.userLocationData = function(timeSet,locOrPer){
+		console.log(locOrPer);
+			$http.get('/getUserLocationInfo/'+timeSet+"/"+locOrPer)
 			.success(function(data) {
 				$scope.parLocationData = data;
 				console.log(data);
@@ -74,14 +74,20 @@ angular.module('newApp')
 			console.log("hihih");
 	}
 	
+	$scope.locationOrPersonData = function(wiseData){
+		
+		$scope.dataLocOrPerWise = wiseData;
+		$scope.userLocationData('Week',$scope.dataLocOrPerWise);
+	}
+	
 	setInterval(function(){
 		
 		  var startD = $('#cnfstartDateValue').val();
 		   var endD = $('#cnfendDateValue').val();
 		   if(startD != "" && startD != null && startD != undefined && endD != "" && endD != null && endD != undefined){
-			   $scope.findMystatisData(startD,endD);
+			   $scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
 		   }else{
-			   $scope.userLocationData('Week');
+			   $scope.userLocationData('Week','person');
 		   }
 		
 		}, 120000)
@@ -97,6 +103,8 @@ angular.module('newApp')
 		console.log($scope.leadsTime);
 		$http.post("/saveLeads",$scope.leadsTime).success(function(data){
 			console.log(data);
+			 $('#Locationwise-model').modal("toggle");
+			 $scope.userLocationData('Week','person');
 		});
 		
 	}
@@ -2825,7 +2833,7 @@ angular.module('newApp')
 		   $scope.checkDatewsie = function(){
 			   var startD = $('#cnfstartDateValue').val();
 			   var endD = $('#cnfendDateValue').val();
-			   $scope.findMystatisData(startD,endD);
+			   $scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
 		   }
 		   
 		   
