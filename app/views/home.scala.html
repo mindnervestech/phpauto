@@ -25,6 +25,15 @@ h2 {
     font-size: 1.5em;
 }
 
+.txt{
+	display: block;
+    font-family: initial;
+    margin: 1em 0px 1em;
+    text-align: left;
+    margin-left: 50px;
+    margin-right: 10px;
+}
+
 input[type='text'], input[type='password'], textarea {
     display: block;
     padding: 10px 5px;
@@ -58,7 +67,12 @@ input[type='submit'] {
     white-space: nowrap;
     margin-left: 90px;
 }
-
+.agreement {
+    text-decoration: none;
+    color: gray;
+    white-space: nowrap;
+    margin-left: 90px;
+}
 .highlight {
     color: red;
 }
@@ -112,6 +126,17 @@ h1, h2 {
   padding-bottom: 20px;
 }
 
+.popss {
+  position: fixed;
+  display: none;
+  z-index: 20;
+  width: 800px;
+  height:600px;
+  background: #fff;
+  text-align: center;
+  padding-bottom: 20px;
+  overflow: auto;
+}
 .close-button {
   height: 25px;
   width: 25px;
@@ -158,16 +183,17 @@ h1, h2 {
     	<h1 class="animated fadeIn">Welcome<br/>to<br/><span class="highlight">glider enterprise</span></h1>
         <form action="authenticate" method="POST">
             <h2>Sign in</h2>
-            <input type="text" name="email" id="" placeholder="Email" required>
-            <input type="password" name="password" id="" placeholder="Password" required>
+            <input type="text" name="email" id="userEmail" placeholder="Email" required>
+            <input type="password" name="password" id="userPass" placeholder="Password" required>
             <div class="row">
-            	<p style="color:red;">@message</p>
+            	<p id="messg" style="color:red;display:none;">@message</p>
                 <input type="submit" value="login">
                 <a href="#" class="remind">Forgot password?</a>
             </div>
         </form>
     </div>
     <a href="#" class="support">support</a>
+    <a href="#" id="agreement" class="agreement"></a>
 </div>
 <div class="page_overlay"></div>
 <div class="remind-pop pops">
@@ -190,8 +216,156 @@ h1, h2 {
     <input type="submit" value="submit" onclick="support()">
     </form>
 </div>
+
+<div class="agreement-pop popss">
+    <a href="#" class="close-button"></a>
+    <img src="/assets/images/glider_logo.png" style="height:150px; width:200px;text-align: center; margin-top:50px;">
+    <h2><b>NON­DISCLOSURE AGREEMENT (NDA)</b></h2>
+    <p class="txt">THIS AGREEMENT is made between GLIDER LLC.,("Discloser") and "Recipient”.</p>
+    
+    <p class="txt"><b>1. Purpose.</b>​The Discloser has agreed to make available to the Recipient certain
+Confidential Information (as defined below) of the Discloser for the purpose of evaluating a possible
+business transaction with the Discloser
+</p>
+
+<p class="txt"><b>2. Definition.</b>​​ "Confidential Information" means any information, technical data, or knowhow,
+including, but not limited to, that which relates to research, product plans, products, services,
+customers, markets, software, developments, inventions, processes, designs, drawings, engineering,
+hardware configuration information, marketing or finances, which Confidential Information is
+designated in writing to be confidential or proprietary, or if given orally, is confirmed promptly in writing
+as having been disclosed as confidential or proprietary. Confidential Information does not include
+information, technical data or know­how which: (i) is in the possession of the receiving party at the
+time of disclosure as shown by the receiving party's files and records immediately prior to the time of
+disclosure; (ii) prior or after the time of disclosure becomes part of the public knowledge or literature,
+not as a result of any inaction or action of the receiving party; or (iii) is approved for release by the
+Discloser in writing.
+</p>
+
+<p class="txt"><b>3. Non­Disclosure of Confidential Information.</b>​​​ The Recipient agrees not to use the
+Confidential Information for any purpose other than that set forth in Section 1 of this Agreement. The
+Recipient will not disclose any Confidential Information to third parties except those who are required to
+have the information in order to carry out the purpose set forth in Section 1 of this Agreement.
+Recipient has had or will have directors, officers, employees, consultants and agents of Recipient to whom
+Confidential Information is disclosed or who have access to Confidential Information sign a Non­Disclosure
+Agreement in content substantially similar to this Agreement and will promptly notify the Discloser in writing
+of the names of each such person who has signed such agreements after such agreements are signed.
+Recipient agrees that it will take all reasonable measures to protect the secrecy of and avoid
+disclosure or use of Confidential Information in order to prevent it from falling into the public domain or
+the possession of persons other than those persons authorized hereunder to have any such
+information, which measures shall include the highest degree of care that Recipient utilizes to protect
+its own Confidential Information of a similar nature. Recipient agrees to notify the Discloser in writing
+of any misuse or misappropriation of such Confidential Information which may come to its attention.
+</p>
+
+<p class="txt"><b>4. Mandatory Disclosure.</b>​​​​ In the event that the Recipient or its directors, officers,
+employees, consultants or agents are requested or required by legal process to disclose any of the
+Confidential Information, the Recipient shall give prompt notice so that the Discloser may seek a
+protective order or other appropriate relief. In the event that such protective order is not obtained, the
+Recipient shall disclose only that portion of the Confidential Information which its counsel advises that
+it is legally required to disclose.
+</p>
+
+<p class="txt"><b>5. Return of Materials.</b>​​​ Any materials or documents of which have been furnished by the
+Discloser to the Recipient will be promptly returned, accompanied by copies of such documentation,
+after the evaluation set forth in Section 1 of this Agreement has been concluded.
+</p>
+
+<p class="txt"><b>6. No License Granted.</b>​​​​Nothing in this Agreement is intended to grant any rights to
+Recipient under any patent, copyright, trade secret or other intellectual property right nor shall this
+Agreement grant Recipient any rights in or to the other party's Confidential Information, except the
+limited right to review such Confidential Information solely for the purpose set forth in Section 1 of this
+Agreement.
+</p>
+
+<p class="txt"><b>7. Term.</b>​​​​ The foregoing commitments shall survive any termination of discussions
+between the parties, and shall continue for a period of three (3) years following the date of this
+Agreement.
+</p>
+
+<p class="txt"><b>8. Miscellaneous.</b>​​​​​This Agreement shall be binding upon and for the benefit of the
+undersigned parties, their successors and assigns, provided that Confidential Information may not be
+assigned without the prior written consent of the Discloser. Failure to enforce any provision of this
+Agreement shall not constitute a waiver of any term hereof.
+</p>
+
+<p class="txt"><b>9. Governing Law and Jurisdiction.</b>​​​​​ ​This Agreement shall be governed by and
+construed and enforced in accordance with the internal laws of California, and shall be
+binding upon the parties hereto in United States and worldwide. The federal and state courts
+within California shall have exclusive jurisdiction to adjudicate any dispute arising out of
+this Agreement.
+</p>
+
+<p class="txt"><b>10. Remedies.</b>​​​​​ Recipient agrees that its obligations hereunder are necessary and
+reasonable in order to protect the Discloser and its business, and expressly agrees that monetary
+damages would be inadequate to compensate the Discloser for any breach of any covenants and
+agreements set forth herein. Accordingly, Recipient agrees and acknowledges that any such
+violation or threatened violation will cause irreparable injury to the Discloser and that, in addition to
+any other remedies that may be available, in law, in equity or otherwise, the Discloser shall be entitled
+to obtain injunctive relief against the threatened breach of this Agreement or the continuation of any
+such breach, without the necessity of proving actual damages.
+IN WITNESS WHEREOF, the parties hereto have executed this Agreement as of the date
+first written above
+</p>
+
+
+    <input type="submit" value="Accept" onclick="acceptAgreement()">
+    <input type="submit" id="cancelAgreement" value="Cancel" onclick="">
+</div>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="/assets/loginPage/particles.min.js"></script>
+
+<script>
+	
+	$( document ).ready(function() {
+		console.log('@message');
+	if('@message' != "Invalid Credentials" && '@message'!="" && '@message'!= null){
+		add_modal('a.agreement','agreement-pop');
+		document.getElementById('agreement').click();
+		$('#messg').css("display","none");
+	}else{
+		console.log("else");
+		$('#messg').css("display","block");
+	}
+	function add_modal(trigger,modal,close) {
+            close = (typeof close === 'undefined') ? false : true;
+            $(''+trigger+'').click(function(e) {
+                close == true ? $('.popss').fadeOut(100) : close;
+                e.preventDefault();
+                $('.page_overlay, .'+modal+'').fadeIn(400);
+                jQuery('.'+modal+'').center();
+                $('html,body').animate({scrollTop:1}, '300', 'swing');
+            });
+        };
+	
+	
+	
+	$(window).on("resize", resizeForm);
+        jQuery.fn.center = function(parent) {
+            if (parent) {
+                parent = this.parent();
+            } else {
+                parent = window;
+            }
+            this.css({
+                "top": (($(window).height() - $(this).outerHeight()) / 2) + "px",
+                "left": (((jQuery(parent).width() - this.outerWidth()) / 2) + jQuery(parent).scrollLeft() + "px")
+            });
+            return this;
+        };
+        function resizeForm() {
+            jQuery('.popss').center();
+        }
+        jQuery('.popss').center();
+        $('.close-button, .page_overlay, #cancelAgreement').click(function() {
+            $('.page_overlay, .popss').fadeOut(500);
+        });
+	
+	
+	
+});
+</script>
+
 <script>
 (function($) {
     $(function() {
@@ -214,6 +388,7 @@ h1, h2 {
         };
         function resizeForm() {
             jQuery('.pops').center();
+            jQuery('.popss').center();
         }
         jQuery('.pops').center();
         $('.close-button, .page_overlay').click(function() {
@@ -231,6 +406,7 @@ h1, h2 {
         };
         add_modal('a.remind','remind-pop');
         add_modal('a.support','support-pop');
+        add_modal('a.agreement','agreement-pop');
     });
 })(jQuery);
 </script>
@@ -238,6 +414,29 @@ h1, h2 {
 </html>
 
 <script language="javascript">
+
+function acceptAgreement(){
+	console.log("..................");
+	console.log('@message');
+	var email = '@message';
+	$.ajax({
+		    url: "/acceptAgreement",
+		    type:"POST",
+		    data:{
+		    	email:email
+		    },
+		    success: function(data){
+		     		    
+		    }
+	});
+}
+
+function cancelAgreement(){
+	console.log("in cancelAgreement");
+	$('.close-button, .page_overlay').click(function() {
+            $('.page_overlay, .popss').fadeOut(500);
+        });
+}
 
 function myFunction (inputText) {
 	
@@ -299,5 +498,27 @@ function support(){
 		    }
 		}); 
  }
+ 
+  function login(){
+	  $.ajax({
+		    url: "/forgotPassword",
+		    type:"POST",
+		    data:{
+		    	email:$('#email_id').val()
+		    },
+		    success: function(data){
+		     if(data == "success") {
+		    	 $('#msg').css("display","none");
+		    	 $('#msg1').css("display","block");
+		     }
+		     if(data == "error") {
+		    	 $('#msg').css("display","block");
+		    	 $('#msg1').css("display","none");
+		     }
+		    
+		    }
+		}); 
+ }
+
 
 </script>

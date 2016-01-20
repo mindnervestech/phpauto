@@ -42,6 +42,15 @@ public class AuthUser extends Model implements Identity {
 	public String trainingPro;
 	public String trialPeriod;
 	public String trial;
+	public int newUser;
+	public int getNewUser() {
+		return newUser;
+	}
+
+	public void setNewUser(int newUser) {
+		this.newUser = newUser;
+	}
+
 	public String getTrial() {
 		return trial;
 	}
