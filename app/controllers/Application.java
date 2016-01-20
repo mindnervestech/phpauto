@@ -8405,9 +8405,9 @@ public class Application extends Controller {
 					vm.imageUrl = "/profile-pic.jpg";
 				}
 				
-				rInfo = RequestMoreInfo.findAllSeen(sales);
+				rInfo = RequestMoreInfo.findAllSeenSch(sales);
 	    		sList = ScheduleTest.findAllAssigned(sales);
-	    		tradeIns = TradeIn.findAllSeen(sales);
+	    		tradeIns = TradeIn.findAllSeenSch(sales);
 	    		
 	    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(sales);
 	    		sListAll = ScheduleTest.findAllByAssignedUser(sales);
