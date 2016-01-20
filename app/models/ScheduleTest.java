@@ -264,7 +264,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllByAssignedUser(AuthUser user) {
-		return find.where().eq("assignedTo", user).findList();
+		return find.where().eq("assignedTo", user).ne("vin", "no").findList();
 	}
 	
 	public static SqlRow getTopPerformers(String start,String end,Integer id) {

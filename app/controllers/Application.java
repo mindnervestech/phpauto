@@ -6120,41 +6120,41 @@ public class Application extends Controller {
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfo){
-    	//	if(rMoreInfo.confirmDate.after(startD) && rMoreInfo.confirmDate.before(endD)){
+    		if(rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)){
     			requestLeadCount++;
-    	//	}
+    		}
     	}
     	
     	
     	for(ScheduleTest sTest:sList){
-    	//	if(sTest.confirmDate.after(startD) && sTest.confirmDate.before(endD)){
+    		if(sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)){
     			scheduleLeadCount++;
-    	//	}
+    		}
     	}
 
     	for(TradeIn tIn:tradeIns){
-    	//	if(tIn.confirmDate.after(startD) && tIn.confirmDate.before(endD)){
+    		if(tIn.confirmDate.after(startD) && tIn.confirmDate.before(endD)){
     				tradeInLeadCount++;
-    	//	}
+    		}
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfoAll){
-    		//if(rMoreInfo.confirmDate.after(startD) && rMoreInfo.confirmDate.before(endD)){
+    		if(rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)){
     			requestLeadCount1++;
-    		//}
+    		}
     	}
     	
     	
     	for(ScheduleTest sTest:sListAll){
-    	//	if(sTest.confirmDate.after(startD) && sTest.confirmDate.before(endD)){
+    	if(sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)){
     			scheduleLeadCount1++;
-    		//}
+    	}
     	}
 
     	for(TradeIn tIn:tradeInsAll){
-    	//	if(tIn.confirmDate.after(startD) && tIn.confirmDate.before(endD)){
+    	if(tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)){
 				tradeInLeadCount1++;
-    	//	}
+    		}
     	}
     	
     	
@@ -6170,8 +6170,8 @@ public class Application extends Controller {
     	int saleCarCount = 0;
     	if(users.role.equals("Manager") && locOrPer.equals("location")){
     		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
-        	double sucessCount= (double)vList.size()/(double)countLeads1*100;
-        	lDataVM.successRate = (int) sucessCount;
+        	/*double sucessCount= (double)vList.size()/(double)countLeads1*100;
+        	lDataVM.successRate = (int) sucessCount;*/
         	
         	for(Vehicle vehList:vList){
         		//	if(vehList.soldDate.after(timeBack)) {
@@ -6180,6 +6180,9 @@ public class Application extends Controller {
             			pricecount = pricecount + vehList.price;
             		}
         	}
+        	
+        	double sucessCount= (double)saleCarCount/(double)countLeads1*100;
+        	lDataVM.successRate = (int) sucessCount;
     	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		
     		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
@@ -6418,53 +6421,53 @@ public class Application extends Controller {
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfo){
-    		//if(rMoreInfo.requestDate != null){
-    		//  if(rMoreInfo.requestDate.after(timeBack)) {
+    		if(rMoreInfo.requestDate != null){
+    		  if(rMoreInfo.requestDate.after(timeBack)) {
     			requestLeadCount++;
-    		// }
-    		//}
+    		 }
+    		}
     	}
     	
     	
     	for(ScheduleTest sTest:sList){
-    	//	if(sTest.scheduleDate != null){
-    	//	if(sTest.scheduleDate.after(timeBack)) {
-    			scheduleLeadCount++;
-    		//}
-    		//}
+    		if(sTest.scheduleDate != null){
+    	    	if(sTest.scheduleDate.after(timeBack)) {
+    	    		scheduleLeadCount++;
+    	    	}
+    		}
     	}
 
     	for(TradeIn tIn:tradeIns){
-    	//	if(tIn.tradeDate != null){
-    	//		if(tIn.tradeDate.after(timeBack)) {
+    		if(tIn.tradeDate != null){
+    			if(tIn.tradeDate.after(timeBack)) {
     				tradeInLeadCount++;
-    		//	}
-    		//}
+    			}
+    		}
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfoAll){
-    	//	if(rMoreInfo.requestDate != null){
-    	//	  if(rMoreInfo.requestDate.after(timeBack)) {
+    		if(rMoreInfo.requestDate != null){
+    		  if(rMoreInfo.requestDate.after(timeBack)) {
     			requestLeadCount1++;
-    	//	 }
-    	//	}
+    		 }
+    		}
     	}
     	
     	
     	for(ScheduleTest sTest:sListAll){
-    	//	if(sTest.scheduleDate != null){
-    	//	if(sTest.scheduleDate.after(timeBack)) {
-    			scheduleLeadCount1++;
-    		//}
-    		//}
+    		if(sTest.scheduleDate != null){
+    			if(sTest.scheduleDate.after(timeBack)) {
+    				scheduleLeadCount1++;
+    			}
+    		}
     	}
 
     	for(TradeIn tIn:tradeInsAll){
-    		//if(tIn.tradeDate != null){
-    		//	if(tIn.tradeDate.after(timeBack)) {
+    		if(tIn.tradeDate != null){
+    			if(tIn.tradeDate.after(timeBack)) {
     				tradeInLeadCount1++;
-    		//	}
-    		//}
+    			}
+    		}
     	}
     	
     	
@@ -6480,8 +6483,7 @@ public class Application extends Controller {
     	int saleCarCount = 0;
     	if(users.role.equals("Manager") && locOrPer.equals("location")){
     		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
-        	double sucessCount= (double)vList.size()/(double)countLeads1*100;
-        	lDataVM.successRate = (int) sucessCount;
+        	
         	
         	for(Vehicle vehList:vList){
         			if(vehList.soldDate.after(timeBack)) {
@@ -6489,6 +6491,10 @@ public class Application extends Controller {
             			pricecount = pricecount + vehList.price;
             		}
         	}
+        	
+        	double sucessCount= (double)saleCarCount/(double)countLeads1*100;
+        	lDataVM.successRate = (int) sucessCount;
+        	
     	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		
     		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
@@ -6573,7 +6579,8 @@ public class Application extends Controller {
     	}
     	
         
-    	List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION")))); 
+    	//List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    	List<LeadsDateWise> lDateWises = LeadsDateWise.getAllVehicles(users);
     	for(LeadsDateWise lWise:lDateWises){
     		
     		if(lWise.goalSetTime.equals("1 week")){
@@ -8262,87 +8269,245 @@ public class Application extends Controller {
     		Calendar cal = Calendar.getInstance();
     		cal.setTime(date);
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
-    		String start = "";
-			String end = "";
+    		String start1 = "";
+			String end1 = "";
+			Date start = null;
+			Date end = null;
     		if(week.equals("true")) {
     			cal.add(Calendar.DATE, -7);
-    			start = df.format(cal.getTime());
-    			end = df.format(date);
+    			start1 = df.format(cal.getTime());
+    			end1 = df.format(date);
+    			try {
+					start = df.parse(start1);
+					end = df.parse(end1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 			if(month.equals("true")) {
 				cal.add(Calendar.DATE, -30);
-				start = df.format(cal.getTime());
-    			end = df.format(date);
+				start1 = df.format(cal.getTime());
+    			end1 = df.format(date);
+    			try {
+					start = df.parse(start1);
+					end = df.parse(end1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 			if(year.equals("true")) {
 				cal.add(Calendar.DATE, -365);
-				start = df.format(cal.getTime());
-    			end = df.format(date);
+				start1 = df.format(cal.getTime());
+    			end1 = df.format(date);
+    			try {
+					start = df.parse(start1);
+					end = df.parse(end1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
+			int requestLeadCount = 0;
+	    	int scheduleLeadCount = 0;
+	    	int tradeInLeadCount = 0;
+	    	
+	    	int requestLeadCount1 = 0;
+	    	int scheduleLeadCount1 = 0;
+	    	int tradeInLeadCount1 = 0;
+	    	
+	    	List<RequestMoreInfo> rInfo = null;
+	    	List<ScheduleTest> sList = null;
+	    	List<TradeIn> tradeIns = null;
+	    	List<RequestMoreInfo> rInfoAll = null;
+	    	List<ScheduleTest> sListAll = null;
+	    	List<TradeIn> tradeInsAll = null;
+			
 			List<UserVM> userList = new ArrayList<>();
+			
+			List<AuthUser> salesUsersList;
+			if(locationValue == 0){
+				salesUsersList = AuthUser.getAllSalesUser();
+			}else{
+				salesUsersList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
+			}
+			
+			UserVM[] tempuserList = new UserVM[salesUsersList.size()];
+			int index=0;
+			    				
+			for(AuthUser sales: salesUsersList) {
+				UserVM vm = new UserVM();
+				vm.fullName = sales.firstName+" "+sales.lastName;
+				if(sales.imageUrl != null) {
+					if(sales.imageName !=null){
+						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+sales.imageUrl;
+					}else{
+						vm.imageUrl = sales.imageUrl;
+					}
+					
+				} else {
+					vm.imageUrl = "/profile-pic.jpg";
+				}
+				
+				rInfo = RequestMoreInfo.findAllSeen(sales);
+	    		sList = ScheduleTest.findAllAssigned(sales);
+	    		tradeIns = TradeIn.findAllSeen(sales);
+	    		
+	    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(sales);
+	    		sListAll = ScheduleTest.findAllByAssignedUser(sales);
+	    		tradeInsAll = TradeIn.findAllByAssignedUser(sales);
+	    	
+	    	
+	    	for(RequestMoreInfo rMoreInfo:rInfo){
+	    		if(rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)){
+	    			requestLeadCount++;
+	    		}
+	    	}
+	    	
+	    	
+	    	for(ScheduleTest sTest:sList){
+	    		if(sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)){
+	    			scheduleLeadCount++;
+	    		}
+	    	}
+
+	    	for(TradeIn tIn:tradeIns){
+	    		if(tIn.tradeDate.after(start) && tIn.tradeDate.before(end)){
+	    				tradeInLeadCount++;
+	    		}
+	    	}
+	    	
+	    	for(RequestMoreInfo rMoreInfo:rInfoAll){
+	    		if(rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)){
+	    			requestLeadCount1++;
+	    		}
+	    	}
+	    	
+	    	
+	    	for(ScheduleTest sTest:sListAll){
+	    		if(sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)){
+	    			scheduleLeadCount1++;
+	    		}
+	    	}
+
+	    	for(TradeIn tIn:tradeInsAll){
+	    		if(tIn.tradeDate.after(start) && tIn.tradeDate.before(end)){
+					tradeInLeadCount1++;
+	    		}
+	    	}
+				
+	    	int countLeads1 = requestLeadCount1 + scheduleLeadCount1 + tradeInLeadCount1;
+	    	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
+	    	int saleCarCount = 0;
+	    	int pricecount = 0;
+	    	List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(sales);
+    		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(sales);
+    		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(sales);
+    		
+    		for(RequestMoreInfo rMoreInfo: rInfo1){
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(rMoreInfo.vin);
+    			for(Vehicle vehicle:vehicleVin){
+    			if(vehicle != null){
+    				if(vehicle.soldDate.after(start) && vehicle.soldDate.before(end)){
+            			saleCarCount++;
+            			pricecount = pricecount + vehicle.price;
+    				}
+    			}
+    		 }
+    		}
+    		
+    		for(ScheduleTest sTest: sList1){
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(sTest.vin);
+    			for(Vehicle vehicle:vehicleVin){
+    			if(vehicle != null){
+    				if(vehicle.soldDate.after(start) && vehicle.soldDate.before(end)){
+            			saleCarCount++;
+            			pricecount = pricecount + vehicle.price;
+    				}
+    			}
+    		}
+    		}
+    		
+    		for(TradeIn tradeIn: tradeIns1){
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(tradeIn.vin);
+    			for(Vehicle vehicle:vehicleVin){
+    			if(vehicle != null){
+    				if(vehicle.soldDate.after(start) && vehicle.soldDate.before(end)){
+            			saleCarCount++;
+            			pricecount = pricecount + vehicle.price;
+    				}
+    			}
+    		}
+    		}
+    		double sucessCount = 0;
+    		if(countLeads1 != 0){
+    			sucessCount= (double)saleCarCount/(double)countLeads1*100;
+    		}else{
+    			 sucessCount = 0;
+    		}
+    		vm.successRate = (int) sucessCount;
+    		vm.salesAmount = String.valueOf(pricecount);
+    		vm.currentLeads = String.valueOf(countLeads);
+				
+				tempuserList[index] = vm;
+				index++;
+				/*SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
+				
+				vm.fullName = sales.firstName+" "+sales.lastName;
+				if(sales.imageUrl != null) {
+					if(sales.imageName !=null){
+						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+sales.imageUrl;
+					}else{
+						vm.imageUrl = sales.imageUrl;
+					}
+					
+				} else {
+					vm.imageUrl = "/profile-pic.jpg";
+				}
+				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
+					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
+				} else {
+					vm.successRate = 0;
+				}
+				Integer leads = 0;
+				Integer leadPrice = 0;
+				String count = "";
+				if(rowData.getString("leads") != null) {
+					count = rowData.getString("leads");
+					leads = Integer.parseInt(count);
+					if(rowData.getString("requestleads") != null) {
+						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
+					}
+					if(rowData.getString("tradeInleads") != null) {
+						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
+					}
+					vm.currentLeads = leads.toString();
+				} else {
+					vm.currentLeads = "";
+				}
+				if(rowData.getString("tramount") != null) {
+					leadPrice = leadPrice + Integer.parseInt(rowData.getString("tramount"));
+				} else if(rowData.getString("samount") != null) {
+					leadPrice = leadPrice + Integer.parseInt(rowData.getString("samount"));
+				} if(rowData.getString("ramount") != null) {
+					leadPrice = leadPrice + Integer.parseInt(rowData.getString("ramount"));
+				} else {
+					vm.salesAmount = "0";
+				}
+				
+				vm.salesAmount = leadPrice.toString();*/
+				
+			}
+			
+			
+			
+			
     		if(top.equals("true")) {
     			if(id == 0) {
-    				List<AuthUser> salesUsersList;
-    				if(locationValue == 0){
-    					salesUsersList = AuthUser.getAllSalesUser();
-    				}else{
-    					salesUsersList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
-    				}
-    				
-    				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
-    				int index=0;
-    				for(AuthUser sales: salesUsersList) {
-    					SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
-        				UserVM vm = new UserVM();
-        				vm.fullName = sales.firstName+" "+sales.lastName;
-        				if(sales.imageUrl != null) {
-        					if(sales.imageName !=null){
-        						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+sales.imageUrl;
-        					}else{
-        						vm.imageUrl = sales.imageUrl;
-        					}
-        					
-        				} else {
-        					vm.imageUrl = "/profile-pic.jpg";
-        				}
-        				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
-        					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
-        				} else {
-        					vm.successRate = 0;
-        				}
-        				Integer leads = 0;
-        				Integer leadPrice = 0;
-        				String count = "";
-        				if(rowData.getString("leads") != null) {
-        					count = rowData.getString("leads");
-        					leads = Integer.parseInt(count);
-        					if(rowData.getString("requestleads") != null) {
-        						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
-        					}
-        					if(rowData.getString("tradeInleads") != null) {
-        						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
-        					}
-        					vm.currentLeads = leads.toString();
-        				} else {
-        					vm.currentLeads = "";
-        				}
-        				if(rowData.getString("tramount") != null) {
-        					leadPrice = leadPrice + Integer.parseInt(rowData.getString("tramount"));
-        				} else if(rowData.getString("samount") != null) {
-        					leadPrice = leadPrice + Integer.parseInt(rowData.getString("samount"));
-        				} if(rowData.getString("ramount") != null) {
-        					leadPrice = leadPrice + Integer.parseInt(rowData.getString("ramount"));
-        				} else {
-        					vm.salesAmount = "0";
-        				}
-        				
-        				vm.salesAmount = leadPrice.toString();
-        				tempuserList[index] = vm;
-        				index++;
-    				}
     				
     				for(int i=0;i<tempuserList.length-1;i++) {
     					for(int j=i+1;j<tempuserList.length;j++) {
@@ -8358,18 +8523,10 @@ public class Application extends Controller {
     					
     						userList.add(tempuserList[i]);
     				}
-    				/*if(tempuserList.length >=1){
-    					userList.add(tempuserList[0]);
-    				}	
-    				if(tempuserList.length >=2){
-    					userList.add(tempuserList[1]);
-    				}
-    				if(tempuserList.length >=3){
-    					userList.add(tempuserList[2]);
-    				}	*/
+    				
     			  }	
     			
-    			if(id != 0) {
+    			/*if(id != 0) {
     				AuthUser salesUser = AuthUser.findById(id);
     				SqlRow rowData = ScheduleTest.getTopPerformers(start, end, id);
     				UserVM vm = new UserVM();
@@ -8409,10 +8566,29 @@ public class Application extends Controller {
     					vm.salesAmount = "0";
     				}
     				userList.add(vm);
-    			}
+    			}*/
     		}
     		
     		if(worst.equals("true")) {
+    			if(id == 0) {
+    				for(int i=0;i<tempuserList.length-1;i++) {
+    					for(int j=i+1;j<tempuserList.length;j++) {
+    						if(tempuserList[i].successRate >= tempuserList[j].successRate) {
+    							UserVM temp = tempuserList[i];
+    							tempuserList[i] = tempuserList[j];
+    							tempuserList[j] = temp;
+    						}
+    					}
+    				}
+    				int iValue = 0;
+    				for(int i=0;i<tempuserList.length;i++) {
+    					
+    						userList.add(tempuserList[i]);
+    				}
+    			}
+    		}	
+    		
+    		/*if(worst.equals("true")) {
     			if(id == 0) {
     				List<AuthUser> salesUsersList = AuthUser.getAllSalesUser();
     				UserVM[] tempuserList = new UserVM[salesUsersList.size()];
@@ -8473,7 +8649,7 @@ public class Application extends Controller {
     					userList.add(tempuserList[i]);
     				}
     				
-    				/*if(tempuserList.length >=1){
+    				if(tempuserList.length >=1){
     					userList.add(tempuserList[0]);
     				}	
     				if(tempuserList.length >=2){
@@ -8481,7 +8657,7 @@ public class Application extends Controller {
     				}
     				if(tempuserList.length >=3){
     					userList.add(tempuserList[2]);
-    				}	*/
+    				}	
     				
     			}
     			
@@ -8526,7 +8702,7 @@ public class Application extends Controller {
     				}
     				userList.add(vm);
     			}
-    		}
+    		}*/
     		
     		
     		return ok(Json.toJson(userList));
@@ -14992,7 +15168,9 @@ public class Application extends Controller {
 	    	LeadDateWiseVM vm = form.get();
 	    	int flag = 0;
 	    	
-	    	List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION")))); 
+	    	//List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION"))));
+	    	List<LeadsDateWise> lDateWises = LeadsDateWise.getAllVehicles(users);
+	    	
 	    	for(LeadsDateWise lWise:lDateWises){
 	    		
 	    		if(lWise.goalSetTime.equals("1 week")){
