@@ -135,7 +135,7 @@ angular.module('newApp')
 		        },
 		        plotOptions: {
 		            column: {
-		                stacking: 'normal'
+		                stacking: ''
 		            }
 		        },
 		        series: stackchart
