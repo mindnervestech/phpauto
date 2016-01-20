@@ -1863,12 +1863,24 @@ angular.module('newApp')
     	$scope.scheduleTestData = {};
     	  
     	  $scope.confirmDateTime = function(entity) {
+    		  $scope.cnTimeList = [];
+    		  $scope.timeList = [];
     		  $scope.scheduleTestData.id = entity.id;
     		  $scope.scheduleTestData.email = entity.email;
     		  $scope.scheduleTestData.confirmDate = entity.confirmDate;
     		  $scope.scheduleTestData.confirmTime = entity.confirmTime;
     		  $scope.scheduleTestData.option = entity.option;
     		  $scope.scheduleTestData.vin = entity.vin;
+    		  console.log("...........");
+			   var sDate = entity.confirmDate;
+			   console.log(entity.vin);
+			   console.log(sDate);
+			   $http.get("/getScheduleTime/"+entity.vin+'/'+sDate).success(function(data){
+				   console.log("success");
+				   console.log(data);
+				   $scope.cnTimeList = data;
+				   $scope.timeList = data;
+			   });
     	  }
     	  
     	  $scope.saveConfirmData = function() {
@@ -2227,6 +2239,8 @@ angular.module('newApp')
 		   }
 		   $scope.testDriveData = {};
 		   $scope.scheduleTestDriveForUser = function(entity,option) {
+			   $scope.cnTimeList = [];
+	    	   	   $scope.timeList = [];
 			   $('#btnTestDrive').click();
 			   $scope.testDriveData.id = entity.id;
 			   $scope.testDriveData.name = entity.name;
@@ -2410,6 +2424,7 @@ angular.module('newApp')
 					   console.log("success");
 					   console.log(data);
 					   $scope.cnTimeList = data;
+					   $scope.timeList = data;
 				   });
 				   
 				   document.getElementById("gridCnfDateNature").innerHTML = "";

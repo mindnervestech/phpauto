@@ -15263,18 +15263,27 @@ public class Application extends Controller {
     			List<String> timeList = new ArrayList<>();
     			try {
     				DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-    				SimpleDateFormat time = new SimpleDateFormat("HH:mm:a");
+    				SimpleDateFormat time = new SimpleDateFormat("h:mm:a");
         			Date d = df1.parse(comDate);
         			List<RequestMoreInfo> moreInfo = RequestMoreInfo.findByVinDate(vin,d);
         			List<ScheduleTest> schedule = ScheduleTest.findByVinDate(vin,d);
         			List<TradeIn> traidInfo = TradeIn.findByVinDate(vin,d);
         			for (TradeIn info : traidInfo) {
+        				System.out.println(".................");
+        				System.out.println(info.confirmTime);
+        				System.out.println(time.format(info.confirmTime));
         				timeList.add(time.format(info.confirmTime));
 					}
         			for (RequestMoreInfo info : moreInfo) {
+        				System.out.println(".................");
+        				System.out.println(info.confirmTime);
+        				System.out.println(time.format(info.confirmTime));
         				timeList.add(time.format(info.confirmTime));
 					}
         			for (ScheduleTest info : schedule) {
+        				System.out.println(".................");
+        				System.out.println(info.confirmTime);
+        				System.out.println(time.format(info.confirmTime));
         				timeList.add(time.format(info.confirmTime));
 					}
         			
