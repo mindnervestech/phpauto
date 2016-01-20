@@ -6432,9 +6432,9 @@ public class Application extends Controller {
     	List<TradeIn> tradeInsAll = null;
     	
     	if(users.role.equals("Manager") && locOrPer.equals("location")){
-    		rInfo = RequestMoreInfo.findAllSeenLocation(Long.parseLong(session("USER_LOCATION")));
+    		rInfo = RequestMoreInfo.findAllSeenLocationSch(Long.parseLong(session("USER_LOCATION")));
     		sList = ScheduleTest.findAllAssignedLocation(Long.parseLong(session("USER_LOCATION")));
-    		tradeIns = TradeIn.findAllSeenLocation(Long.parseLong(session("USER_LOCATION")));
+    		tradeIns = TradeIn.findAllSeenLocationSch(Long.parseLong(session("USER_LOCATION")));
     		
     		rInfoAll = RequestMoreInfo.findByLocation(Long.parseLong(session("USER_LOCATION")));
     		sListAll = ScheduleTest.findByLocation(Long.parseLong(session("USER_LOCATION")));
@@ -8422,6 +8422,22 @@ public class Application extends Controller {
 			int index=0;
 			    				
 			for(AuthUser sales: salesUsersList) {
+				
+				requestLeadCount = 0;
+		    	scheduleLeadCount = 0;
+		    	tradeInLeadCount = 0;
+		    	
+		    	requestLeadCount1 = 0;
+		    	scheduleLeadCount1 = 0;
+		    	tradeInLeadCount1 = 0;
+		    	
+		    	rInfo = null;
+		    	sList = null;
+		    	tradeIns = null;
+		    	rInfoAll = null;
+		    	sListAll = null;
+		    	tradeInsAll = null;
+				
 				UserVM vm = new UserVM();
 				vm.fullName = sales.firstName+" "+sales.lastName;
 				if(sales.imageUrl != null) {

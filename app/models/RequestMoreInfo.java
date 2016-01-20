@@ -190,6 +190,10 @@ public class RequestMoreInfo extends Model {
 		return find.where().eq("locations.id", locationId).eq("isRead", 1).eq("status", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllSeenLocationSch(Long locationId) {
+		return find.where().eq("locations.id", locationId).eq("isRead", 1).eq("status", null).orderBy("requestDate desc").findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllSeenComplete(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("status", "COMPLETE").orderBy("requestDate desc").findList();
 	}
