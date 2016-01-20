@@ -10,6 +10,7 @@ GET     /                           controllers.Application.index()
 # Providers entry points
 GET     /login                      controllers.Application.home()
 POST    /authenticate     			controllers.Application.login()
+POST    /acceptAgreement     			controllers.Application.acceptAgreement()
 GET    /authenticate     			controllers.Application.index()
 GET		/logout						controllers.Application.logout()
 GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized

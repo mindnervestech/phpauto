@@ -257,25 +257,55 @@ public class Application extends Controller {
 		String password= Form.form().bindFromRequest().get("password");
 		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).findUnique();
 		if(user != null) {
+			
+			if(user.getNewUser()== 1){
+
+				session("USER_KEY", user.id+"");
+				session("USER_ROLE", user.role+"");
+				
+				if(user.location != null){
+					session("USER_LOCATION", user.location.id+"");
+				}
+				
+				
+				//return  redirect("/dealer/index.html#/");
+	    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+	    		List<Permission> userPermissions = user.getPermission();
+	    		for(Permission per: userPermissions) {
+	    			permission.put(per.name, true);
+	    		}
+	    		
+	    		return redirect("/googleConnectionStatus");
+			}else{
+				return ok(home.render(user.getEmail()));
+			}
+			
+    		//return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+		} else {
+			return ok(home.render("Invalid Credentials"));
+		}
+	}
+	
+	public static Result acceptAgreement() {
+		String email = Form.form().bindFromRequest().get("email");
+		AuthUser user = AuthUser.findByEmail(email);
+		if(user != null) {
+			user.setNewUser(1);
+			user.update();
 			session("USER_KEY", user.id+"");
 			session("USER_ROLE", user.role+"");
 			
 			if(user.location != null){
 				session("USER_LOCATION", user.location.id+"");
 			}
-			
-			
-			//return  redirect("/dealer/index.html#/");
-    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+			HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
     		List<Permission> userPermissions = user.getPermission();
     		for(Permission per: userPermissions) {
     			permission.put(per.name, true);
     		}
     		
     		return redirect("/googleConnectionStatus");
-			
-    		//return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
-		} else {
+		}else {
 			return ok(home.render("Invalid Credentials"));
 		}
 	}
