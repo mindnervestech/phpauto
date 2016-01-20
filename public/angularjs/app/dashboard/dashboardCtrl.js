@@ -50,6 +50,8 @@ angular.module('newApp')
 		.success(function(data) {
 			$scope.parLocationData = data;
 			console.log(data);
+			$scope.leadsTime.leads = data.leads;
+			$scope.leadsTime.goalSetTime = data.goalTime;
 			$scope.showLeads = data.leads;
 			$scope.stackchart = data.sendData;
 			console.log(JSON.stringify(data.sendData));
@@ -65,6 +67,8 @@ angular.module('newApp')
 			.success(function(data) {
 				$scope.parLocationData = data;
 				console.log(data);
+				$scope.leadsTime.leads = data.leads;
+				$scope.leadsTime.goalSetTime = data.goalTime;
 				$scope.showLeads = data.leads;
 				$scope.stackchart = data.sendData;
 				console.log(JSON.stringify(data.sendData));
@@ -131,7 +135,7 @@ angular.module('newApp')
 		        },
 		        plotOptions: {
 		            column: {
-		                stacking: 'percent'
+		                stacking: 'normal'
 		            }
 		        },
 		        series: stackchart
