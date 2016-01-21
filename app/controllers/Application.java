@@ -5834,7 +5834,7 @@ public class Application extends Controller {
     	
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
-    	SiteLogo logo = SiteLogo.findByUser(logoUser);
+    	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
