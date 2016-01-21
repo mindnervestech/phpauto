@@ -151,6 +151,7 @@ GET		/changeAssignedUser/:id/:userId/:lead		controllers.Application.changeAssign
 GET		/getNewToDoCount				controllers.Application.getNewToDoCount()
 GET		/setTodoSeen					controllers.Application.setTodoSeen()
 GET		/deleteCanceledLead/:id/:type	controllers.Application.deleteCanceledLead(id:Long,type:String)
+GET     /restoreLead/:id/:type  	controllers.Application.restoreLead(id:Long,type:String)
 GET		/getAssignedLeads				controllers.Application.getAssignedLeads()
 GET		/setLeadSeen					controllers.Application.setLeadSeen()
 GET		/getAnalystData					controllers.Application.getAnalystData()

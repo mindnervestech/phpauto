@@ -808,7 +808,7 @@ angular.module('newApp')
      	     			 		    		                                 
      	     			 				                                 },
      	     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'21%',cellEditableCondition: false,
-     	     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.deleteForeverLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">DELETE FOREVER</button>',
+     	     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.deleteForeverLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">DELETE FOREVER</button><button type="button" ng-click="grid.appScope.restoreLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">RESTORE</button>',
      	     	      			 		                                	 
      	     	       			 		                                 },
      	     			 		     		                                 ];
@@ -1110,6 +1110,20 @@ angular.module('newApp')
     			  $scope.leadId = entity.id;
     			  $scope.leadType = entity.leadType;
     			  $('#btnDeleteForever').click();
+    		  }
+    		  
+    		  $scope.restoreLead = function(entity){
+    			  
+    			  console.log(entity);
+    			  $http.get('/restoreLead/'+entity.id+'/'+entity.leadType)
+					.success(function(data) {
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Lead Restore successfully",
+						});
+						$scope.getAllCanceledLeads();
+				});
     		  }
     		  
     		  $scope.deleteMyLead = function() {

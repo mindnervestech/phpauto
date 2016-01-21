@@ -7118,15 +7118,21 @@ public class Application extends Controller {
     		List<TradeIn> tIns = TradeIn.findAllByAssignedUser(user);
     		
     		for(RequestMoreInfo rMoreInfo:rInfo){
-    			rMoreInfo.setStatus("unclaimed");
+    			rMoreInfo.setStatus("UNCLAIMED");
+    			rMoreInfo.setAssignedTo(null);
+    			rMoreInfo.update();
     		}
     		
     		for(ScheduleTest schTest:sTest){
-    			
+    			schTest.setLeadStatus("UNCLAIMED");
+    			schTest.setAssignedTo(null);
+    			schTest.update();
     		}
     		
     		for(TradeIn trIn:tIns){
-    			
+    			trIn.setStatus("UNCLAIMED");
+    			trIn.setAssignedTo(null);
+    			trIn.update();
     		}
     		
     		user.delete();
@@ -9181,6 +9187,29 @@ public class Application extends Controller {
     			todo.setSeen("Seen");
     			todo.update();
     		}
+    		return ok();
+    	}
+    }
+    
+    public static Result restoreLead(Long id,String type){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		if(type.equals("Request More Info")) {
+    			RequestMoreInfo info = RequestMoreInfo.findById(id);
+    			info.setStatus(null);
+    			info.update();
+    		}
+			if(type.equals("Schedule Test")) {
+			    ScheduleTest schedule = ScheduleTest.findById(id);
+			    schedule.setLeadStatus(null);
+			    schedule.update();
+			}
+			if(type.equals("Trade In")) {
+				TradeIn tradeIn = TradeIn.findById(id);
+				tradeIn.setStatus(null);
+				tradeIn.update();
+			}
     		return ok();
     	}
     }
@@ -14044,7 +14073,8 @@ public class Application extends Controller {
 		}*/
 		
 		/**/
-		return redirect("/login");
+			return redirect("/authenticate");
+		//return ok();
 		}
 	
 	private static String  authorizeUpdate() throws Exception {
