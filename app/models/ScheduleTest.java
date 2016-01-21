@@ -221,7 +221,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllAssignedLocation(Long locationId) {
-		return find.where().eq("locations.id", locationId).eq("leadStatus", null).ne("vin", "no").orderBy("scheduleDate desc").findList();
+		return find.where().eq("locations.id", locationId).eq("leadStatus", null).eq("isRead",true).ne("vin", "no").orderBy("scheduleDate desc").findList();
 	}
 	
 	public static int findAll() {
