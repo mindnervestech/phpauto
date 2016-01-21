@@ -464,19 +464,7 @@ function acceptAgreement(){
 }
 
 function cancelAgreement(){
-	
-	
-	$.ajax({
-		    url: "/acceptAgreement",
-		    type:"POST",
-		    data:{
-		    	email:email
-		    },
-		    success: function(data){
-		     		    
-		    }
-	});
-	
+
 	console.log("in cancelAgreement");
 	$('.close-button, .page_overlay').click(function() {
             $('.page_overlay, .popss').fadeOut(500);
