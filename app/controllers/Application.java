@@ -7446,6 +7446,7 @@ public class Application extends Controller {
     		if(vm.typeOfLead.equals("Request More Info")){
     			RequestMoreInfo rInfo = RequestMoreInfo.findById(vm.infoId);
     			rInfo.setLeadStatus("COMPLETE");
+    			rInfo.setStatus("COMPLETE");
     			rInfo.update();
     			vinNo = rInfo.vin;
     		}else if(vm.typeOfLead.equals("Schedule Test Drive")){
@@ -7458,6 +7459,7 @@ public class Application extends Controller {
     		}else if(vm.typeOfLead.equals("Trade-In Appraisal")){
     			TradeIn tIn = TradeIn.findById(vm.infoId);
     			tIn.setLeadStatus("COMPLETE");
+    			tIn.setStatus("COMPLETE");
     			tIn.update();
     			vinNo = tIn.vin;
     		}
