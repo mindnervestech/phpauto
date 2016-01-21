@@ -35,6 +35,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.imageio.ImageIO;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -144,6 +147,7 @@ import viewmodel.VehicleVM;
 import viewmodel.VirtualTourVM;
 import viewmodel.profileVM;
 import viewmodel.sendDateAndValue;
+import views.html.agreement;
 import views.html.home;
 import views.html.index;
 import au.com.bytecode.opencsv.CSVWriter;
@@ -287,7 +291,15 @@ public class Application extends Controller {
 	}
 	
 	public static Result acceptAgreement() {
+		System.out.println("acceptAgreement");
 		String email = Form.form().bindFromRequest().get("email");
+		String userName = Form.form().bindFromRequest().get("name");
+		String userDate = Form.form().bindFromRequest().get("date");
+		String userPhone = Form.form().bindFromRequest().get("phone");
+		System.out.println(email);
+		System.out.println(userName);
+		System.out.println(userDate);
+		System.out.println(userPhone);
 		AuthUser user = AuthUser.findByEmail(email);
 		if(user != null) {
 			user.setNewUser(1);
@@ -304,11 +316,161 @@ public class Application extends Controller {
     			permission.put(per.name, true);
     		}
     		
+    		
+    		 String domain = Play.application().configuration().getString("domain");
+    	        String wkpath = Play.application().configuration().getString("wkpath");
+    	        String folderPath = Play.application().path().getAbsolutePath() + "/pdf";
+    	        File folder = new File(folderPath);
+    	        if (!folder.exists()) {
+    	            folder.mkdir();
+    	        }
+    	        String pdfFilePath = Play.application().path().getAbsolutePath() + "/pdf/"+ "agreement.pdf";
+    	        try {
+    	            Process p = Runtime.getRuntime().exec(wkpath + " --viewport-size 1280x800 " + domain + "getAgreement/" +userName + "/"+userDate +"/"+userPhone +" "+pdfFilePath);
+    	            BufferedReader inStreamReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+    	            String line = inStreamReader.readLine();
+    	            while (line != null) {
+    	                System.out.println(line);
+    	                line = inStreamReader.readLine();
+    	            }
+    	        } catch (Exception e) {
+    	            System.out.println("coming-->" + e.getMessage());
+    	        }
+    	        File f = new File(pdfFilePath);
+    		System.out.println(f.getName().toString());
+    		System.out.println(f.getAbsolutePath().toString());
+
+	        agreementEmail();
+    		
+    		//agreementEmail(userName,userDate,userPhone);
+    		//return ok(agreement.render(userName,userDate,userPhone));
     		return redirect("/googleConnectionStatus");
+    		//return ok();
 		}else {
 			return ok(home.render("Invalid Credentials"));
 		}
 	}
+	
+	public static Result agreementEmail(){
+		System.out.println("agreementEmail");
+		
+	        String to = "info@gliderllc.com";
+	        String from = "glider.autos@gmail.com";
+	        String host = "mail.smtp.host";
+
+	        Properties props = new Properties();
+	 		props.put("mail.smtp.auth", "true");
+	 		props.put("mail.smtp.starttls.enable", "true");
+	 		props.put("mail.smtp.host", "smtp.gmail.com");
+	 		props.put("mail.smtp.port", "587");
+
+	        // Get the Session object.
+	        Session session = Session.getInstance(props,
+	           new javax.mail.Authenticator() {
+	              protected PasswordAuthentication getPasswordAuthentication() {
+	                 return new PasswordAuthentication(emailUsername, emailPassword);
+	              }
+	           });
+
+	        try {
+	           Message message = new MimeMessage(session);
+
+	           message.setFrom(new InternetAddress(from));
+
+	           message.setRecipients(Message.RecipientType.TO,
+	              InternetAddress.parse(to));
+
+	           message.setSubject("User Agreement");
+
+	           BodyPart messageBodyPart = new MimeBodyPart();
+
+	           messageBodyPart.setText("This is message body");
+
+	           Multipart multipart = new MimeMultipart();
+
+	           multipart.addBodyPart(messageBodyPart);
+
+	           messageBodyPart = new MimeBodyPart();
+	           String pdfFilePath = Play.application().path().getAbsolutePath() + "/pdf/"+ "agreement.pdf";
+	           DataSource source = new FileDataSource(pdfFilePath);
+	           messageBodyPart.setDataHandler(new DataHandler(source));
+	           messageBodyPart.setFileName(pdfFilePath);
+	           multipart.addBodyPart(messageBodyPart);
+
+	           message.setContent(multipart);
+
+	           Transport.send(message);
+
+	           System.out.println("Sent message successfully....");
+	    
+	        } catch (MessagingException e) {
+	           throw new RuntimeException(e);
+	        }
+		return ok();
+	}
+	
+	public static Result getAgreement(String userName,String userDate, String userPhone) {
+		return ok(agreement.render(userName,userDate,userPhone));
+	}
+	
+	public static Result agreementEmail(String userName,String userDate, String userPhone) {
+		System.out.println("agreementEmail");
+			
+		Properties props = new Properties();
+ 		props.put("mail.smtp.auth", "true");
+ 		props.put("mail.smtp.starttls.enable", "true");
+ 		props.put("mail.smtp.host", "smtp.gmail.com");
+ 		props.put("mail.smtp.port", "587");
+  
+ 		Session session = Session.getInstance(props,
+ 		  new javax.mail.Authenticator() {
+ 			protected PasswordAuthentication getPasswordAuthentication() {
+ 				return new PasswordAuthentication(emailUsername, emailPassword);
+ 			}
+ 		  });
+  
+ 		try{
+ 		   
+  			Message message = new MimeMessage(session);
+  			message.setFrom(new InternetAddress("dineshkudale2@gmail.com"));
+  			message.setRecipients(Message.RecipientType.TO,
+  			InternetAddress.parse("dineshkudale2@gmail.com"));
+  			message.setSubject("Your username and password ");	  			
+  			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+			
+			Template t = ve.getTemplate("/public/emailTemplate/agreementTemplate.vm"); 
+	        VelocityContext context = new VelocityContext();
+	        
+	        context.put("userName", userName);
+	        context.put("userDate", userDate);
+	        context.put("userPhone", userPhone);
+	       
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString();
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			System.out.println("Agree mail");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return ok();
+	}
+	
 	
 	public static Result logout() {
 		session().clear();
@@ -317,6 +479,9 @@ public class Application extends Controller {
 	
 	public static Result home() {
 		return ok(home.render(""));
+	}
+	public static Result test() {
+		return ok(agreement.render("fdfdsf","fdsf","1"));
 	}
 	
 	

@@ -9,12 +9,13 @@ GET     /                           controllers.Application.index()
 
 # Providers entry points
 GET     /login                      controllers.Application.home()
+GET     /test                      controllers.Application.test()
 POST    /authenticate     			controllers.Application.login()
 POST    /acceptAgreement     			controllers.Application.acceptAgreement()
 GET    /authenticate     			controllers.Application.index()
 GET		/logout						controllers.Application.logout()
 GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized
-
+GET 	/getAgreement/:userName/:userDate/:userPhone		controllers.Application.getAgreement(userName:String, userDate:String, userPhone:String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /dealerjs/*file               controllers.Assets.at(path="/public/angularjs", file)
