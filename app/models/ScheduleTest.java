@@ -232,9 +232,13 @@ public class ScheduleTest extends Model {
 		return find.where().eq("user", user).findList();
 	}
 	
+	public static List<ScheduleTest> findAllByUserAssigned(AuthUser user) {
+		return find.where().eq("assignedTo", user).findList();
+	}
+	
 	
 	public static List<ScheduleTest> findAllByUserServiceTest(AuthUser user) {
-		return find.where().eq("user", user).orderBy("confirmDate desc").setMaxRows(3).findList();
+		return find.where().eq("assignedTo", user).orderBy("confirmDate desc").setMaxRows(3).findList();
 	}
 	
 	public static List<ScheduleTest> findByVinAndAssignedUser(AuthUser user,String vin) {

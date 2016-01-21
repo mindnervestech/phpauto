@@ -1129,6 +1129,8 @@ angular.module('newApp')
     		  $scope.getScheduleBySelectedDate = function(date) {
     			  $http.get('/getScheduleBySelectedDate/'+date)
 					.success(function(data) {
+						console.log("changesss");
+						console.log(data);
 					$scope.scheduleList = data;
 				});  
     			  

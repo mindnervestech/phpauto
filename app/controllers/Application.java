@@ -7110,8 +7110,25 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		//Location location = Location.findById(id);
+    		
     		AuthUser user = AuthUser.findById(id);
+    		//Location location = Location.findById(id);
+    		List<RequestMoreInfo> rInfo = RequestMoreInfo.findAllByAssignedUser(user);
+    		List<ScheduleTest> sTest = ScheduleTest.findAllByUserAssigned(user);
+    		List<TradeIn> tIns = TradeIn.findAllByAssignedUser(user);
+    		
+    		for(RequestMoreInfo rMoreInfo:rInfo){
+    			rMoreInfo.setStatus("unclaimed");
+    		}
+    		
+    		for(ScheduleTest schTest:sTest){
+    			
+    		}
+    		
+    		for(TradeIn trIn:tIns){
+    			
+    		}
+    		
     		user.delete();
     		return ok();
     	}
