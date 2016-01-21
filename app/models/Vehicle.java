@@ -104,6 +104,11 @@ public class Vehicle extends Model {
 	public AuthUser user;
 	
 	@ManyToOne
+	public AuthUser soldUser;
+	
+	
+	
+	@ManyToOne
 	public Location locations;
 	
 	public Long getId() {
@@ -204,6 +209,14 @@ public class Vehicle extends Model {
 
 	public AuthUser getUser() {
 		return user;
+	}
+	
+	public AuthUser getSoldUser() {
+		return soldUser;
+	}
+
+	public void setSoldUser(AuthUser soldUser) {
+		this.soldUser = soldUser;
 	}
 
 	public void setUser(AuthUser user) {
@@ -724,6 +737,10 @@ public class Vehicle extends Model {
 	
 	public static List<Vehicle> findByVidAndUser(String vid) {
 		return find.where().eq("vin", vid).eq("status", "Sold").findList();
+	}
+	
+	public static List<Vehicle> findByVidAndUserWise(String vid,AuthUser soldUser) {
+		return find.where().eq("vin", vid).eq("status", "Sold").eq("soldUser",soldUser).findList();
 	}
 	
 	public static Vehicle findByVinAndStatus(String vid) {

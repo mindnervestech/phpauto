@@ -6222,10 +6222,10 @@ public class Application extends Controller {
     	//	saleCarCount = rInfo1.size() + sList1.size() + tradeIns1.size();
     		
     		for(RequestMoreInfo rMoreInfo: rInfo1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(rMoreInfo.vin);
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,users);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
-    				if(vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)){
+    				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
             			saleCarCount++;
             			pricecount = pricecount + vehicle.price;
     				}
@@ -6234,10 +6234,10 @@ public class Application extends Controller {
     		}
     		
     		for(ScheduleTest sTest: sList1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(sTest.vin);
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,users);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
-    				if(vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)){
+    				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
             			saleCarCount++;
             			pricecount = pricecount + vehicle.price;
     				}
@@ -6249,7 +6249,7 @@ public class Application extends Controller {
     			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(tradeIn.vin);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
-    				if(vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)){
+    				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
             			saleCarCount++;
             			pricecount = pricecount + vehicle.price;
     				}
@@ -6281,7 +6281,7 @@ public class Application extends Controller {
     	int newCar = 0;
     	for(Vehicle vehicle:allVehiList){
     		if(vehicle.status.equals("Sold")){
-    			if(vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)){
+    			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
     				saleCar++;
     			}
     		}//else if(vehicle.status.equals("Newly Arrived")){
@@ -6534,7 +6534,7 @@ public class Application extends Controller {
     	//	saleCarCount = rInfo1.size() + sList1.size() + tradeIns1.size();
     		
     		for(RequestMoreInfo rMoreInfo: rInfo1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(rMoreInfo.vin);
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin, users);
     			for(Vehicle vehicle:vehicleVin){
     				if(vehicle != null){
         				if(vehicle.soldDate.after(timeBack)) {
@@ -6547,7 +6547,7 @@ public class Application extends Controller {
     		}
     		
     		for(ScheduleTest sTest: sList1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(sTest.vin);
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,users);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
     				if(vehicle.status.equals("Sold")){
@@ -6562,7 +6562,7 @@ public class Application extends Controller {
     		}
     		
     		for(TradeIn tradeIn: tradeIns1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(tradeIn.vin);
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,users);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
     				if(vehicle.status.equals("Sold")){
@@ -6697,7 +6697,7 @@ public class Application extends Controller {
         		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(aUser);
         		
         		for(RequestMoreInfo rMoreInfo: rInfo1){
-        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(rMoreInfo.vin);
+        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,aUser);
         			for(Vehicle vehicle:vehicleVin){
         				if(vehicle != null){
             				if(vehicle.soldDate.after(timeBack)) {
@@ -6709,7 +6709,7 @@ public class Application extends Controller {
         		}
         		
         		for(ScheduleTest sTest: sList1){
-        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(sTest.vin);
+        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,aUser);
         			for(Vehicle vehicle:vehicleVin){
         			if(vehicle != null){
         				if(vehicle.status.equals("Sold")){
@@ -6723,7 +6723,7 @@ public class Application extends Controller {
         		}
         		
         		for(TradeIn tradeIn: tradeIns1){
-        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(tradeIn.vin);
+        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,aUser);
         			for(Vehicle vehicle:vehicleVin){
         			if(vehicle != null){
         				if(vehicle.status.equals("Sold")){
@@ -7189,6 +7189,7 @@ public class Application extends Controller {
 	    		vehicle.setStatus("Sold");
 	    		Date date = new Date();
 	    		vehicle.setSoldDate(date);
+	    		vehicle.setSoldUser(user);
 	    		vehicle.update();
     		}
     		
@@ -7302,6 +7303,7 @@ public class Application extends Controller {
 	    		vehicle.setStatus("Sold");
 	    		Date date = new Date();
 	    		vehicle.setSoldDate(date);
+	    		vehicle.setSoldUser(user);
 	    		vehicle.update();
     		}
     		
@@ -7415,6 +7417,7 @@ public class Application extends Controller {
 	    		vehicle.setStatus("Sold");
 	    		Date date = new Date();
 	    		vehicle.setSoldDate(date);
+	    		vehicle.setSoldUser(user);
 	    		vehicle.update();
     		}
     		info.setStatus("COMPLETE");
@@ -7517,6 +7520,7 @@ public class Application extends Controller {
     		vehicle.setStatus("Sold");
     		Date date = new Date();
     		vehicle.setSoldDate(date);
+    		vehicle.setSoldUser(user);
     		vehicle.update();
     		}
     		info.setStatus("COMPLETE");
@@ -8531,10 +8535,10 @@ public class Application extends Controller {
     		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(sales);
     		
     		for(RequestMoreInfo rMoreInfo: rInfo1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(rMoreInfo.vin);
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,sales);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
-    				if(vehicle.soldDate.after(start) && vehicle.soldDate.before(end)){
+    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
             			saleCarCount++;
             			pricecount = pricecount + vehicle.price;
     				}
@@ -8543,10 +8547,10 @@ public class Application extends Controller {
     		}
     		
     		for(ScheduleTest sTest: sList1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(sTest.vin);
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,sales);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
-    				if(vehicle.soldDate.after(start) && vehicle.soldDate.before(end)){
+    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
             			saleCarCount++;
             			pricecount = pricecount + vehicle.price;
     				}
@@ -8555,10 +8559,10 @@ public class Application extends Controller {
     		}
     		
     		for(TradeIn tradeIn: tradeIns1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(tradeIn.vin);
+    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,sales);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
-    				if(vehicle.soldDate.after(start) && vehicle.soldDate.before(end)){
+    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
             			saleCarCount++;
             			pricecount = pricecount + vehicle.price;
     				}
