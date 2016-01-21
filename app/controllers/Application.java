@@ -6657,34 +6657,35 @@ public class Application extends Controller {
 		Calendar now = Calendar.getInstance();
 		String month = monthName[now.get(Calendar.MONTH)];
 		lDataVM.monthCurr = month;
-    	//PlanScheduleMonthlyLocation pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), month);
-		PlanScheduleMonthlySalepeople  pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, month);
-    	if(pMonthlySalepeople != null){
-    		List<Integer> longV = new ArrayList<>();
-			DateAndValueVM sValue = new DateAndValueVM();
-			sValue.name = "Plan";
-			longV.add(Integer.parseInt(pMonthlySalepeople.totalBrought));
-			sValue.data = longV;
-			sAndValues.add(sValue);
-    	}
-    	
-    	
-    	/*int countPlanTotalErForLocation = 0;
-    	DateFormat inputDF  = new SimpleDateFormat("MMMM");
-    	List<Vehicle> vehicles = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
-		for(Vehicle veh1:vehicles){
-			//countPlanTotalErForLocation = countPlanTotalErForLocation + veh1.price;
-			String dateValue = inputDF.format(veh1.soldDate);
-			if(month.equals(dateValue)){
-				countPlanCarSold = countPlanCarSold + veh1.price;
-			}
-		}*/
-    	
-    	
-    	
-    	
-    	
-    	
+		
+		PlanScheduleMonthlyLocation pLocation = null;
+		PlanScheduleMonthlySalepeople  pMonthlySalepeople = null;
+		if(locOrPer.equals("location")){
+			pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), month);
+		}else{
+			pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, month);
+		}
+			
+		if(locOrPer.equals("location")){
+	    	if(pLocation != null){
+	    		List<Integer> longV = new ArrayList<>();
+				DateAndValueVM sValue = new DateAndValueVM();
+				sValue.name = "Plan";
+				longV.add(Integer.parseInt(pLocation.totalEarning));
+				sValue.data = longV;
+				sAndValues.add(sValue);
+	    	}
+		}else{
+			if(pMonthlySalepeople != null){
+	    		List<Integer> longV = new ArrayList<>();
+				DateAndValueVM sValue = new DateAndValueVM();
+				sValue.name = "Plan";
+				longV.add(Integer.parseInt(pMonthlySalepeople.totalBrought));
+				sValue.data = longV;
+				sAndValues.add(sValue);
+	    	}
+		}
+		if(!locOrPer.equals("location")){
     	List<AuthUser> allLoUser = AuthUser.findByLocatio(Location.findById(Long.parseLong(session("USER_LOCATION"))));
     	int flag = 0;
     	for(AuthUser aUser: allLoUser){
@@ -6746,7 +6747,7 @@ public class Application extends Controller {
     			sAndValues.add(sValue);
         	}
     	}
-    	
+    }
     	
     	List<Vehicle> vList2 = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
     	
