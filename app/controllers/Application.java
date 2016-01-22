@@ -279,7 +279,8 @@ public class Application extends Controller {
 	    			permission.put(per.name, true);
 	    		}
 	    		
-	    		return redirect("/googleConnectionStatus");
+	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+	    		//return redirect("/googleConnectionStatus");
 			}else{
 				return ok(home.render(user.getEmail()));
 			}
@@ -344,8 +345,9 @@ public class Application extends Controller {
     		
     		//agreementEmail(userName,userDate,userPhone);
     		//return ok(agreement.render(userName,userDate,userPhone));
-    		return redirect("/googleConnectionStatus");
+    		//return redirect("/googleConnectionStatus");
     		//return ok();
+	        	return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
 		}else {
 			return ok(home.render("Invalid Credentials"));
 		}
@@ -8657,39 +8659,39 @@ public class Application extends Controller {
 	    	
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfo){
-	    		if(rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)){
+	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)){
 	    			requestLeadCount++;
 	    		}
 	    	}
 	    	
 	    	
 	    	for(ScheduleTest sTest:sList){
-	    		if(sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)){
+	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end)){
 	    			scheduleLeadCount++;
 	    		}
 	    	}
 
 	    	for(TradeIn tIn:tradeIns){
-	    		if(tIn.tradeDate.after(start) && tIn.tradeDate.before(end)){
+	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end)){
 	    				tradeInLeadCount++;
 	    		}
 	    	}
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfoAll){
-	    		if(rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)){
+	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)){
 	    			requestLeadCount1++;
 	    		}
 	    	}
 	    	
 	    	
 	    	for(ScheduleTest sTest:sListAll){
-	    		if(sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)){
+	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end)){
 	    			scheduleLeadCount1++;
 	    		}
 	    	}
 
 	    	for(TradeIn tIn:tradeInsAll){
-	    		if(tIn.tradeDate.after(start) && tIn.tradeDate.before(end)){
+	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end)){
 					tradeInLeadCount1++;
 	    		}
 	    	}
