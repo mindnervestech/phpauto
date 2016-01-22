@@ -175,15 +175,15 @@ margin-left: 5px;
 										<div class="col-xlg-3">
 									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/{{parLocationData.imageUrl}}">
 										</div>
-										<div class="col-xlg-5" style="margin-top: 25px;">
-									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
-									       	<span class="glyphicon glyphicon-adjust col-sm-1" ng-if="parLocationData.AngSale != null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale != null" class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale}}%</label>
-									       	<span class="glyphicon glyphicon-adjust col-sm-1" ng-if="parLocationData.AngSale == null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale == null"class="col-sm-4 control-label" style="text-align: center;">N/A</label>
-									       	<span class="glyphicon glyphicon-usd col-sm-1" style="color: darkturquoise;" title="Sold Car Price"></span><label class="col-sm-5 control-label" style="text-align: center;">${{parLocationData.totalSalePrice}}</label>
-									       	<span class="glyphicon glyphicon-record col-sm-1" style="color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate}}%</label>
-									       	<span class="fa fa-car col-sm-1" style="color: darkturquoise;" title="Total Car Sold"></span><label class="col-sm-5 control-label" style="text-align: center;">{{parLocationData.totalsaleCar}}</label>
+										<div class="col-xlg-5" style="margin-top: 25px;width: 350px;">
+									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;width: 25%;" title="Total leads"></span><label class="col-sm-5 control-label" style="width: 25%;text-align: center;">{{parLocationData.countSalePerson}}</label>
+									       	<span class="glyphicon glyphicon-adjust col-sm-1" ng-if="parLocationData.AngSale != null" style="width: 25%;color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale != null" class="col-sm-4 control-label" style="width: 25%;text-align: center;">{{parLocationData.AngSale}}%</label>
+									       	<span class="glyphicon glyphicon-adjust col-sm-1" ng-if="parLocationData.AngSale == null" style="width: 25%;color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale == null"class="col-sm-4 control-label" style="width: 25%;text-align: center;">N/A</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-1" style="width: 25%;color: darkturquoise;" title="Sold Car Price"></span><label class="col-sm-5 control-label" style="width: 25%;text-align: center;">${{parLocationData.totalSalePrice}}</label>
+									       	<span class="glyphicon glyphicon-record col-sm-1" style="width: 25%;color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="width: 25%;text-align: center;">{{parLocationData.successRate}}%</label>
+									       	<span class="fa fa-car col-sm-1" style="color: darkturquoise;width: 25%;" title="Total Car Sold"></span><label class="col-sm-5 control-label" style="text-align: center;width: 25%;">{{parLocationData.totalsaleCar}}</label>
 									       	<!-- <span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label> -->
-									       	<span class="glyphicon glyphicon-shopping-cart col-sm-1" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.angSalePrice}}</label>
+									       	<span class="glyphicon glyphicon-shopping-cart col-sm-1" style="width: 25%;color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" style="width: 25%;text-align: center;">${{parLocationData.angSalePrice}}</label>
 										</div>
 										<div class="col-xlg-4">
 											<p style="text-align: center;font-size: 22px;">{{parLocationData.monthCurr}}</p>
@@ -200,7 +200,92 @@ margin-left: 5px;
 							</div>
 							</div>
 	</div>
-	
+	<div class="col-xlg-5 col-lg-5">
+	<div class="row"> 
+		<div class="col-md-4" style="width: 193px !important;">
+		                <div class="panel no-bd bd-3 panel-stat" style="height:94px;">
+		                	<div class="panel-header">
+		                		<b>CURRENTLY ONLINE</b>
+		                	</div>
+		                	<h1 style="text-align: center;">{{onlineVisitorsCount}}</h1>
+		                </div>
+	            </div>
+	            <button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openCreateNewLeadPopup();"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>CREATE LEAD</button>
+        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>MEETING</button>
+        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button>
+	</div>
+	</div>
+	<div class="row" style="position: relative;float: left;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
+                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-certificate"></i></button>
+            <div class="col-md-12 cal-report" id="load_cal_or_wheth">
+    			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
+			           </div>
+        		</div>
+        </div>
+        <div class="col-md-12 wheth-report" id="load_cal_or_wheth">
+    			     <div class="panel widget-weather"></div>
+        </div>
+       
+        <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;">
+        		<strong>Future Appointments</strong>
+                      <div style="background: none repeat scroll 0% 0% rgb(248, 248, 248);border-left: 2px solid rgb(243, 210, 97);padding: 0px 5px; margin-top: 2px;" ng-repeat="sd in scheduleListData">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button>
+                      </div>
+                  </div>
+            <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="margin-top: 145px;">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                  <h4 class="modal-title"><strong>Schedule Test</strong></h4>
+                </div>
+                <div class="modal-body">
+                <div class="row">
+                <div class="panel panel-default no-bd">
+                <div class="panel-body bg-white">
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <form role="form" class="form-validation" action="/updateScheduleTest" method="post">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="control-label">Date</label>
+                              <div class="append-icon">
+                              	<input type="hidden" id="dataID" ng-model="data1.id" value="{{data1.id}}" name="id" />
+                              	<input type="hidden" id="dataGoogleID" ng-model="data1.google_id" value="{{data1.google_id}}" name="googleID" />
+                                <input data-provide="datepicker" id="cnfReSchDate" name="confDate" class="form-control" ng-model="data1.confirmDate" data-date-format="mm-dd-yyyy" required>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="control-label">Time</label>
+                              <div class="append-icon">
+                                <input type="text" name="confTime" ng-model="data1.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="timeSchPick" required>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="form-group control-label" id="nature-data">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                  		  <button type="submit" class="btn btn-primary btn-embossed" ng-click="">Save</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
 	
 	<div class="col-xlg-7 col-lg-7" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person' ||userRole == 'Manager'">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
@@ -553,7 +638,7 @@ margin-left: 5px;
     </div> -->
     <div class="col-xlg-5 col-lg-5">
         <div class="row">
-        	<div class="col-md-4" style="width: 193px !important;">
+        	<!-- <div class="col-md-4" style="width: 193px !important;">
 		                <div class="panel no-bd bd-3 panel-stat" style="height:94px;">
 		                	<div class="panel-header">
 		                		<b>CURRENTLY ONLINE</b>
@@ -563,7 +648,7 @@ margin-left: 5px;
 	            </div>
         	<button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openCreateNewLeadPopup();"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>CREATE LEAD</button>
         	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>MEETING</button>
-        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button>
+        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button> -->
         	<div class="modal fade" id="meeting-model" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -2875,77 +2960,7 @@ margin-left: 5px;
                      </form>  -->
                      
         </div>
-        <div class="row" style="position: relative;float: left;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
-                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-certificate"></i></button>
-            <div class="col-md-12 cal-report" id="load_cal_or_wheth">
-    			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
-			           </div>
-        		</div>
-        </div>
-        <div class="col-md-12 wheth-report" id="load_cal_or_wheth">
-    			     <div class="panel widget-weather"></div>
-        </div>
-       
-        <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;">
-        		<strong>Future Appointments</strong>
-                      <div style="background: none repeat scroll 0% 0% rgb(248, 248, 248);border-left: 2px solid rgb(243, 210, 97);padding: 0px 5px; margin-top: 2px;" ng-repeat="sd in scheduleListData">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button>
-                      </div>
-                  </div>
-            <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="margin-top: 145px;">
-              <div class="modal-content">
-                <div class="modal-header bg-dark">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-                  <h4 class="modal-title"><strong>Schedule Test</strong></h4>
-                </div>
-                <div class="modal-body">
-                <div class="row">
-                <div class="panel panel-default no-bd">
-                <div class="panel-body bg-white">
-                  <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                      <form role="form" class="form-validation" action="/updateScheduleTest" method="post">
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label class="control-label">Date</label>
-                              <div class="append-icon">
-                              	<input type="hidden" id="dataID" ng-model="data1.id" value="{{data1.id}}" name="id" />
-                              	<input type="hidden" id="dataGoogleID" ng-model="data1.google_id" value="{{data1.google_id}}" name="googleID" />
-                                <input data-provide="datepicker" id="cnfReSchDate" name="confDate" class="form-control" ng-model="data1.confirmDate" data-date-format="mm-dd-yyyy" required>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-sm-6">
-                            <div class="form-group">
-                              <label class="control-label">Time</label>
-                              <div class="append-icon">
-                                <input type="text" name="confTime" ng-model="data1.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="timeSchPick" required>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-6">
-                            <div class="form-group control-label" id="nature-data">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
-                  		  <button type="submit" class="btn btn-primary btn-embossed" ng-click="">Save</button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-                </div>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
+        
       <div class="col-md-4 col-sm-6 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showToDoList">
         <div class="panel">
             <div class="panel-header">
