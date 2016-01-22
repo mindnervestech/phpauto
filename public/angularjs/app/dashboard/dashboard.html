@@ -143,7 +143,8 @@ margin-left: 5px;
 						           <div class="col-sm-3">
 									     <h4 class="col-sm-12"><b style="margin-left:3%;">MY STATISTICS</b></h4>
 									     <div class="col-sm-12" ng-if="userRole == 'Manager'">
-									     	<a style="cursor: pointer;" ng-click="locationOrPersonData('person')">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" style="cursor: pointer;">Location</a>
+									     <!--  -->
+									     	<a style="cursor: pointer;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;">Location</a>
 									     </div>
 									    </div> 
 									     <form ng-submit="checkDatewsie(startDate,endDate)">
@@ -157,7 +158,7 @@ margin-left: 5px;
 									     		<input data-provide="datepicker" id="cnfendDateValue" name="endDateValue" class="form-control" ng-model="check.endDate" data-date-format="dd-mm-yyyy" required>
 									     </div>
 									     <div class="col-sm-1">
-									     <button type="submit" class="btn btn-primary btn-embossed col-sm-12" style="padding: 0px;margin-top: 23px;text-align: center;">Ok</button>
+									     <button type="submit" class="btn btn-primary btn-embossed col-sm-12" style="padding: 0px;margin-top: 23px;text-align: center;">OK</button>
 									     <!-- 	<a class="glyphicon glyphicon-zoom-in"></a> -->
 									     </div>
 									     </form>
@@ -215,7 +216,7 @@ margin-left: 5px;
 												<div>
 								     				<div class="col-sm-12">
 								     				
-								        				<h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								        				<h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								        				<h6 class="col-sm-4">View Count : <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="countHigh()"><i class="glyphicon glyphicon-chevron-up" title="View Count High To Low"></i></a> <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="countLow()"><i class="glyphicon glyphicon-chevron-down" title="View Count Low To High"></i></a></h6>
 								        	    		<h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
 								        			</div>
@@ -290,7 +291,7 @@ margin-left: 5px;
 									<div class="col-xlg-4 panel" style="width:852px;height: 368px;overflow: hidden; position: relative;margin-top:1%;">
 									         <div>
 									           <div class="col-sm-12">
-									               <h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()">WORST PERFORMERS</a></h6>
+									               <h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()" ng-class="topPerformers == true ?'underline':''">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()" ng-class="worstPerformers == true ?'underline':''">WORST PERFORMERS</a></h6>
 									                <h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a></h6>
 									            </div>
 									         </div>
