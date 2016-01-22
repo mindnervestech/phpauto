@@ -1235,6 +1235,8 @@ angular.module('newApp')
 	    		
 	    		$scope.getVisitedData = function(type) {
 	    			$http.get('/getVisitedData/'+type).success(function(response) {
+	    				console.log("///response';''''");
+	    				console.log(response);
 	    				$scope.weekData = response;
 	    				if($scope.currentSelectedType==0) 
 	    					$scope.currentData = response.topVisited;
