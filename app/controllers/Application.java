@@ -5066,8 +5066,8 @@ public class Application extends Controller {
 			scheduleObj.update();
 			
 			ToDo todo = new ToDo();
-			List<Vehicle> vobj = Vehicle.findByVidAndUser(scheduleObj.vin);
-			todo.task = "Confirm Schedule Test Drive for "+vobj.get(0).make+" "+vobj.get(0).model+" ("+vobj.get(0).vin+")";
+			Vehicle vobj = Vehicle.findByVinAndStatus(scheduleObj.vin);
+			todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
 			todo.assignedTo = user;
 			todo.assignedBy = user;
 			todo.priority = "High";
@@ -5171,12 +5171,12 @@ public class Application extends Controller {
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
-	    		List<Vehicle> vehicle = Vehicle.findByVidAndUser(info.vin);
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
-	    			vm.model = vehicle.get(0).model;
-	    			vm.make = vehicle.get(0).make;
-	    			vm.stock = vehicle.get(0).stock;
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
 	    		}
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
@@ -5980,9 +5980,9 @@ public class Application extends Controller {
     private static void makeToDo(String vin) {
     	AuthUser user = (AuthUser) getLocalUser();
     	ToDo todo = new ToDo();
-		List<Vehicle> vobj = Vehicle.findByVidAndUser(vin);
+		Vehicle vobj = Vehicle.findByVinAndStatus(vin);
 		if(vobj != null){
-			todo.task = "Confirm Schedule Test Drive for "+vobj.get(0).make+" "+vobj.get(0).model+" ("+vobj.get(0).vin+")";
+			todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
 			todo.assignedTo = user;
 			todo.assignedBy = user;
 			todo.priority = "High";
