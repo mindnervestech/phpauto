@@ -4389,7 +4389,8 @@ public class Application extends Controller {
     			if(user.role.equals("Manager")) {
     				listData = RequestMoreInfo.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
     			} else {
-    				listData = RequestMoreInfo.findAllByDate();
+    				//listData = RequestMoreInfo.findAllByDate();
+    				listData = RequestMoreInfo.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
     			}
     		}
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();

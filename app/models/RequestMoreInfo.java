@@ -174,7 +174,7 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationData(Long locationId) {
-		return find.where().eq("status", null).eq("locations.id", locationId).findList();
+		return find.where().eq("status", null).eq("isRead", 0).eq("locations.id", locationId).findList();
 	}
 	
 	
