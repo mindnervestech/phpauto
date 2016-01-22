@@ -9115,59 +9115,11 @@ public class Application extends Controller {
     		vm.successRate = (int) sucessCount;
     		vm.salesAmount = String.valueOf(pricecount);
     		vm.currentLeads = String.valueOf(countLeads);
-				
+			vm.saleCar = String.valueOf(saleCarCount);	
 				tempuserList[index] = vm;
 				index++;
-				/*SqlRow rowData = ScheduleTest.getTopPerformers(start, end, sales.id);
-				
-				vm.fullName = sales.firstName+" "+sales.lastName;
-				if(sales.imageUrl != null) {
-					if(sales.imageName !=null){
-						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+sales.imageUrl;
-					}else{
-						vm.imageUrl = sales.imageUrl;
-					}
-					
-				} else {
-					vm.imageUrl = "/profile-pic.jpg";
-				}
-				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
-					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
-				} else {
-					vm.successRate = 0;
-				}
-				Integer leads = 0;
-				Integer leadPrice = 0;
-				String count = "";
-				if(rowData.getString("leads") != null) {
-					count = rowData.getString("leads");
-					leads = Integer.parseInt(count);
-					if(rowData.getString("requestleads") != null) {
-						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
-					}
-					if(rowData.getString("tradeInleads") != null) {
-						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
-					}
-					vm.currentLeads = leads.toString();
-				} else {
-					vm.currentLeads = "";
-				}
-				if(rowData.getString("tramount") != null) {
-					leadPrice = leadPrice + Integer.parseInt(rowData.getString("tramount"));
-				} else if(rowData.getString("samount") != null) {
-					leadPrice = leadPrice + Integer.parseInt(rowData.getString("samount"));
-				} if(rowData.getString("ramount") != null) {
-					leadPrice = leadPrice + Integer.parseInt(rowData.getString("ramount"));
-				} else {
-					vm.salesAmount = "0";
-				}
-				
-				vm.salesAmount = leadPrice.toString();*/
-				
+								
 			}
-			
-			
-			
 			
     		if(top.equals("true")) {
     			if(id == 0) {
@@ -9189,47 +9141,7 @@ public class Application extends Controller {
     				
     			  }	
     			
-    			/*if(id != 0) {
-    				AuthUser salesUser = AuthUser.findById(id);
-    				SqlRow rowData = ScheduleTest.getTopPerformers(start, end, id);
-    				UserVM vm = new UserVM();
-    				vm.fullName = salesUser.firstName+" "+salesUser.lastName;
-    				if(salesUser.imageUrl != null) {
-    					if(salesUser.imageName !=null){
-    						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+salesUser.imageUrl;
-    					}else{
-    						vm.imageUrl = salesUser.imageUrl;
-    					}
-    				} else {
-    					vm.imageUrl = "/profile-pic.jpg";
-    				}
-    				if(rowData.getInteger("success") != null && rowData.getInteger("total") != null && rowData.getInteger("total") != 0) {
-    					vm.successRate = rowData.getInteger("success")*(100/rowData.getInteger("total"));
-    				} else {
-    					vm.successRate = 0;
-    				}
-    				Integer leads = 0;
-    				String count = "";
-    				if(rowData.getString("leads") != null) {
-    					count = rowData.getString("leads");
-    					leads = Integer.parseInt(count);
-    					if(rowData.getString("requestleads") != null) {
-    						leads = leads + Integer.parseInt(rowData.getString("requestleads"));
-    					}
-    					if(rowData.getString("tradeInleads") != null) {
-    						leads = leads + Integer.parseInt(rowData.getString("tradeInleads"));
-    					}
-    					vm.currentLeads = leads.toString();
-    				} else {
-    					vm.currentLeads = "";
-    				}
-    				if(rowData.getString("amount") != null) {
-    					vm.salesAmount = rowData.getString("amount");
-    				} else {
-    					vm.salesAmount = "0";
-    				}
-    				userList.add(vm);
-    			}*/
+    		
     		}
     		
     		if(worst.equals("true")) {
