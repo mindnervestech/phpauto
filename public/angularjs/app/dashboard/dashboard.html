@@ -287,7 +287,7 @@ margin-left: 5px;
           </div>
       </div>
 	
-	<div class="col-xlg-7 col-lg-7" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person' ||userRole == 'Manager'">
+	<div class="col-xlg-12 col-lg-12" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person' ||userRole == 'Manager'">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 					
 							
@@ -297,7 +297,7 @@ margin-left: 5px;
 								    	<h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP LISTINGS</b></h4>
 								    	<br>
 										<div class="row">
-											<div class="col-xlg-4 panel" style="width:846px;height: 274px;margin-left: 5px;overflow: hidden; position: relative;margin-top:1%;">
+											<div class="col-xlg-12 panel" style="height: 274px;margin-left: 5px;position: relative;margin-top:1%;">
 												<div>
 								     				<div class="col-sm-12">
 								     				
@@ -354,7 +354,7 @@ margin-left: 5px;
         
 	</div>
 	
-	 <div class="col-xlg-7 col-lg-7" ng-if="userRole == 'General Manager' || userRole == 'Manager'">
+	 <div class="col-xlg-12 col-lg-12" ng-if="userRole == 'General Manager' || userRole == 'Manager'">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			   <!--  <ul id="myTabs" class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="salesStats()">Top and Least Sales Representatives</button></a></li>
@@ -366,14 +366,14 @@ margin-left: 5px;
 							<div class="row">
 						            <div class="col-md-12">
 						             <div class="panel widget-map" style="height: 413px;">
-									    <h4 style="line-height:0.428571;margin-top:3%;float:left;width:66%;"><b style="margin-left:3%;">TOP SALES PEOPLE  </b></h4>
+									    <h4 style="line-height:0.428571;margin-top:3%;width:66%;"><b style="margin-left:3%;">TOP SALES PEOPLE  </b></h4>
 									   <!--  <select  class="form-control form-white" ng-model="salesPersonUser" ng-change="getPerformanceOfUser()" style="width:29%;margin-left: 4%;margin-top:1%;" >
 									    	<option ng-selected="true" value="">Select user</option>
 						                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
 						                </select> -->
 									    <br>
 									<div class="row">
-									<div class="col-xlg-4 panel" style="width:852px;height: 360px;overflow: hidden; position: relative;margin-top:1%;">
+									<div class="col-xlg-12 panel" style="height: 360px;position: relative;margin-top:1%;">
 									         <div>
 									           <div class="col-sm-12">
 									               <h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()" ng-class="topPerformers == true ?'underline':''">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()" ng-class="worstPerformers == true ?'underline':''">WORST PERFORMERS</a></h6>

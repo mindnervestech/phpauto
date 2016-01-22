@@ -29,7 +29,8 @@ public class UserVM {
 	public String salary;
 	public String trainingCost;
 	public String trainingHours;
-	public String quota;
+	public String saleCar;
+	public  String quota;
 	public List<String> permissions;
 	
 	public Long locationId;
