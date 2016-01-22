@@ -15143,7 +15143,7 @@ public class Application extends Controller {
 		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
-		}else if(user.role.equals("Manager")){
+		}else if(user.role.equals("Manager") || user.role.equals("Sales Person")){
 			vehicle = Vehicle.findByLocationAndSold(user.location.id);
 		}
 		
@@ -15255,7 +15255,7 @@ public class Application extends Controller {
 		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
-		}else if(user.role.equals("Manager")){
+		}else if(user.role.equals("Manager") || user.role.equals("Sales Person")){
 			vehicle = Vehicle.findByLocationAndSold(user.location.id);
 		}
 		
@@ -15374,7 +15374,7 @@ public class Application extends Controller {
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
 			vehicaleNew = Vehicle.findByNewlyArrived();
-		}else if(user.role.equals("Manager")){
+		}else if(user.role.equals("Manager") || user.role.equals("Sales Person")){
 			vehicle = Vehicle.findByLocationAndSold(user.location.id);
 			vehicaleNew = Vehicle.findByNewArrAndLocation(user.location.id);
 		}
@@ -15444,7 +15444,7 @@ public class Application extends Controller {
 		
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
-		}else if(user.role.equals("Manager")){
+		}else if(user.role.equals("Manager") || user.role.equals("Sales Person")){
 			vehicle = Vehicle.findByLocationAndSold(user.location.id);
 		}
 			for(Vehicle vhVehicle:vehicle){
