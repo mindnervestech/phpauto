@@ -12042,12 +12042,13 @@ public class Application extends Controller {
     	
     	
     	List<VehicleAnalyticalVM> allVehical = new ArrayList<>();
-    	/*List<Vehicle> aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));*/
-    	  List<Vehicle> aVehicles =null;
-    	  aVehicles = Vehicle.findByVins(vins1);
+    	 List<Vehicle> aVehicles =null;
+    	aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
+    	 
+    	 // aVehicles = Vehicle.findByVins(vins1);
     	for(Vehicle vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
-    		anVm.count = pagesCount1.get(vehicle.getVin());
+    		//anVm.count = pagesCount1.get(vehicle.getVin());
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			anVm.id = vehicleImage.getId();
@@ -12059,11 +12060,11 @@ public class Application extends Controller {
     		anVm.vin = vehicle.getVin();
     		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		
-    		/*if(pagesCount1.get(vehicle.getVin()) !=null){
+    		if(pagesCount1.get(vehicle.getVin()) !=null){
     			anVm.count =  pagesCount.get(vehicle.getVin());
     		}else{
     			anVm.count = 0;
-    		}*/
+    		}
     		
     		allVehical.add(anVm);
     		
