@@ -6046,19 +6046,19 @@ public class Application extends Controller {
 	        context.put("monthName", monthName);
 	        context.put("confirmTime", map.get("confirmTime"));
 	        
-	        List<Vehicle> vehicle = Vehicle.findByVidAndUser(map.get("vin").toString());
-	        context.put("year", vehicle.get(0).year);
-	        context.put("make", vehicle.get(0).make);
-	        context.put("model", vehicle.get(0).model);
-	        context.put("price", "$"+vehicle.get(0).price);
-	        context.put("stock", vehicle.get(0).stock);
-	        context.put("vin", vehicle.get(0).vin);
-	        context.put("make", vehicle.get(0).make);
-	        context.put("mileage", vehicle.get(0).mileage);
+	        Vehicle vehicle = Vehicle.findByVinAndStatus(map.get("vin").toString());
+	        context.put("year", vehicle.year);
+	        context.put("make", vehicle.make);
+	        context.put("model", vehicle.model);
+	        context.put("price", "$"+vehicle.price);
+	        context.put("stock", vehicle.stock);
+	        context.put("vin", vehicle.vin);
+	        context.put("make", vehicle.make);
+	        context.put("mileage", vehicle.mileage);
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
 	        context.put("phone",  map.get("uphone"));
-	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.get(0).vin);
+	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
 	        	context.put("defaultImage", image.path);
 	        } else {
