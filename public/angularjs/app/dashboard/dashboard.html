@@ -131,13 +131,14 @@ margin-left: 5px;
 				    </div>
   				</div> 
 	</div>
-	  
+	    
+	</div>
 	
-	     <div class="col-xlg-7 col-lg-7" ng-if="userRole != 'General Manager'">
+	 <div class="col-xlg-7 col-lg-7" ng-if="userRole != 'General Manager'">
 			    
 							<div class="row" ng-show="showSalesStats">
 						            <div class="col-md-12">
-						             <div class="panel widget-map">
+						             <div class="panel">
 						             <div class="col-sm-12">
 						           
 						           <div class="col-sm-3">
@@ -175,7 +176,7 @@ margin-left: 5px;
 										<div class="col-xlg-3">
 									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/{{parLocationData.imageUrl}}">
 										</div>
-										<div class="col-xlg-5" style="margin-top: 25px;width: 350px;">
+										<div class="col-xlg-5" style="margin-top: 25px;">
 									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;width: 25%;" title="Total leads"></span><label class="col-sm-5 control-label" style="width: 25%;text-align: center;">{{parLocationData.countSalePerson}}</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-1" ng-if="parLocationData.AngSale != null" style="width: 25%;color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale != null" class="col-sm-4 control-label" style="width: 25%;text-align: center;">{{parLocationData.AngSale}}%</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-1" ng-if="parLocationData.AngSale == null" style="width: 25%;color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale == null"class="col-sm-4 control-label" style="width: 25%;text-align: center;">N/A</label>
@@ -187,20 +188,27 @@ margin-left: 5px;
 										</div>
 										<div class="col-xlg-4">
 											<p style="text-align: center;font-size: 22px;">{{parLocationData.monthCurr}}</p>
-											 <div id="container" style="height:220px"></div>
+											 <div id="container"></div>
+											 
 										</div>
-									</div>
-									 <div class="col-xlg-12">
+										</div>
+										<div class="row">
 									 	<label class="col-sm-2 control-label" style="margin-left: 20px;">MY GOAL:</label>
 									 	<label class="col-sm-6 control-label" style="font-size: 20px;">{{showLeads}}</label>
 									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads != null">Edit</label></a>
 									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads == null">Add Goal</label></a>
 									 </div> 
+									
+									 <!-- <div class="col-xlg-12">
+									 	<label class="col-sm-2 control-label" style="margin-left: 20px;">MY GOAL:</label>
+									 	<label class="col-sm-6 control-label" style="font-size: 20px;">{{showLeads}}</label>
+									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads != null">Edit</label></a>
+									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads == null">Add Goal</label></a>
+									 </div>  -->
 									 </div>
 								</div>	
 							</div>
 							</div>
-	</div>
 	<div class="col-xlg-5 col-lg-5">
 	<div class="row"> 
 		<div class="col-md-4" style="width: 193px !important;">
@@ -418,11 +426,7 @@ margin-left: 5px;
 											<label style="font-size: 20px;width: 74px;"><b>{{item.saleCar}}</b></label>
 											
 										</div>
-										<!-- <div style="width: 190px;">
-											<label style="text-align: center;width: 62px;"><span class="fa fa-car" title="Sold Car" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 20px;width: 74px;"><b>${{item.saleCar}}</b></label>
-											
-										</div> -->
+										
 										</div>
 									               </div>
 									</div>
