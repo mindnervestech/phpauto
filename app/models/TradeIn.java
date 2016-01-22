@@ -450,7 +450,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllLocationData(Long locationId) {
-		return find.where().eq("locations.id", locationId).eq("status", null).findList();
+		return find.where().eq("locations.id", locationId).eq("isRead", 0).eq("status", null).findList();
 	}
 	
 	public static List<TradeIn> findByLocation(Long location) {
