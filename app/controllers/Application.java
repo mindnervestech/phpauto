@@ -4387,7 +4387,7 @@ public class Application extends Controller {
     			listData = RequestMoreInfo.findAllData();
     		} else {
     			if(user.role.equals("Manager")) {
-    				listData = RequestMoreInfo.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
+    				listData = RequestMoreInfo.findAllLocationDataManager(Long.valueOf(session("USER_LOCATION")));
     			} else {
     				//listData = RequestMoreInfo.findAllByDate();
     				listData = RequestMoreInfo.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
@@ -4509,7 +4509,7 @@ public class Application extends Controller {
     			listData = ScheduleTest.findAllData();
     		} else {
     			if(user.role.equals("Manager")) {
-    				listData = ScheduleTest.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
+    				listData = ScheduleTest.findAllLocationDataManager(Long.valueOf(session("USER_LOCATION")));
     			} else {
     				listData = ScheduleTest.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
     				//listData = ScheduleTest.findAllByLocationDate(Long.valueOf(session("USER_LOCATION")));
@@ -4856,7 +4856,7 @@ public class Application extends Controller {
     			listData = TradeIn.findAllData();
     		} else {
     			if(user.role.equals("Manager")) {
-    				listData = TradeIn.findAllLocationData(Long.valueOf(session("USER_LOCATION")));
+    				listData = TradeIn.findAllLocationDataManager(Long.valueOf(session("USER_LOCATION")));
     			} else {
     				listData = TradeIn.findAllByLocationDate(Long.valueOf(session("USER_LOCATION")));
     			}

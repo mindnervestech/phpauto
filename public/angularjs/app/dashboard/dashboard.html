@@ -137,7 +137,7 @@ margin-left: 5px;
 			    
 							<div class="row" ng-show="showSalesStats">
 						            <div class="col-md-12">
-						             <div class="panel widget-map" style="height: 365px;">
+						             <div class="panel widget-map">
 						             <div class="col-sm-12">
 						           
 						           <div class="col-sm-3">
@@ -189,12 +189,13 @@ margin-left: 5px;
 											<p style="text-align: center;font-size: 22px;">{{parLocationData.monthCurr}}</p>
 											 <div id="container" style="height:220px"></div>
 										</div>
-									</div> 
-									 <div class="row">
+									</div>
+									 <div class="col-xlg-12">
 									 	<label class="col-sm-2 control-label" style="margin-left: 20px;">MY GOAL:</label>
 									 	<label class="col-sm-6 control-label" style="font-size: 20px;">{{showLeads}}</label>
 									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads != null">Edit</label></a>
 									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads == null">Add Goal</label></a>
+									 </div> 
 									 </div>
 								</div>	
 							</div>
@@ -408,13 +409,13 @@ margin-left: 5px;
 										</div>
 										 
 										<div style="width: 190px;">
-											<label style="text-align: center;width: 62px;"><span class="glyphicon glyphicon-usd" title="Current Leads" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 62px;"><span class="glyphicon glyphicon-usd" title="$$$ Amount Sold" style="color: darkturquoise;"></span></label>
 											<label style="font-size: 20px;width: 74px;"><b>${{item.salesAmount}}</b></label>
 											
 										</div>
 										<div style="width: 190px;">
 											<label style="text-align: center;width: 62px;"><span class="fa fa-car" title="Sold Car" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 20px;width: 74px;"><b>${{item.saleCar}}</b></label>
+											<label style="font-size: 20px;width: 74px;"><b>{{item.saleCar}}</b></label>
 											
 										</div>
 										<!-- <div style="width: 190px;">

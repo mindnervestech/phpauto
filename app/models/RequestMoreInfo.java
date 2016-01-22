@@ -177,6 +177,10 @@ public class RequestMoreInfo extends Model {
 		return find.where().eq("status", null).eq("isRead", 0).eq("locations.id", locationId).findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllLocationDataManager(Long locationId) {
+		return find.where().eq("status", null).eq("locations.id", locationId).findList();
+	}
+	
 	
 	public static List<RequestMoreInfo> findAllSeen(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
