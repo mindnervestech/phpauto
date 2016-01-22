@@ -90,8 +90,10 @@ angular.module('newApp')
 		   var endD = $('#cnfendDateValue').val();
 		   if(startD != "" && startD != null && startD != undefined && endD != "" && endD != null && endD != undefined){
 			   $scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
+			   $scope.dataLocOrPerWise = $scope.dataLocOrPerWise;
 		   }else{
 			   $scope.userLocationData('Week','person');
+			   $scope.dataLocOrPerWise = "person";
 		   }
 		
 		}, 120000)
