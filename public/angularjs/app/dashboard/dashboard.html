@@ -173,10 +173,10 @@ margin-left: 5px;
 									     
 									     </div>
 									 <div class="row">
-										<div class="col-xlg-3">
+										<div class="col-sm-3">
 									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/{{parLocationData.imageUrl}}">
 										</div>
-										<div class="col-xlg-5" style="margin-top: 25px;">
+										<div class="col-sm-5" style="margin-top: 25px;">
 									       	<span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;width: 25%;" title="Total leads"></span><label class="col-sm-5 control-label" style="width: 25%;text-align: center;">{{parLocationData.countSalePerson}}</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-1" ng-if="parLocationData.AngSale != null" style="width: 25%;color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale != null" class="col-sm-4 control-label" style="width: 25%;text-align: center;">{{parLocationData.AngSale}}%</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-1" ng-if="parLocationData.AngSale == null" style="width: 25%;color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale == null"class="col-sm-4 control-label" style="width: 25%;text-align: center;">N/A</label>
@@ -186,13 +186,13 @@ margin-left: 5px;
 									       	<!-- <span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label> -->
 									       	<span class="glyphicon glyphicon-shopping-cart col-sm-1" style="width: 25%;color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" style="width: 25%;text-align: center;">${{parLocationData.angSalePrice}}</label>
 										</div>
-										<div class="col-xlg-4">
+										<div class="col-sm-4">
 											<p style="text-align: center;font-size: 22px;">{{parLocationData.monthCurr}}</p>
-											 <div id="container"></div>
+											 <div id="container" style="height: 200px"></div>
 											 
 										</div>
-										</div>
-										<div class="row">
+									</div>
+									<div class="row">
 									 	<label class="col-sm-2 control-label" style="margin-left: 20px;">MY GOAL:</label>
 									 	<label class="col-sm-6 control-label" style="font-size: 20px;">{{showLeads}}</label>
 									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads != null">Edit</label></a>
