@@ -11902,9 +11902,9 @@ public class Application extends Controller {
     				vins.add(arr[arr.length-1]);
         			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
     			}else if(user.role.equals("Sales Person") || user.role.equals("Manager")){
-    				List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeen(user);
+    				List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeenSch(user);
     				List<ScheduleTest> sTests = ScheduleTest.findAllAssigned(user);
-    				List<TradeIn> tIns = TradeIn.findAllSeen(user);
+    				List<TradeIn> tIns = TradeIn.findAllSeenSch(user);
     				
     				for(RequestMoreInfo rInfo :rMoreInfo){
     					vinUnik.put(rInfo.vin, 1);
@@ -11919,8 +11919,8 @@ public class Application extends Controller {
     				
     				for (Map.Entry<String, Integer> entry : vinUnik.entrySet()) {
     				    String key = entry.getKey();
+    				    vins.add(entry.getKey());
     				   if(arr[arr.length-1].equals(entry.getKey())){
-    					   vins.add(arr[arr.length-1]);
     	        			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
     				   }
     				}
@@ -11928,9 +11928,9 @@ public class Application extends Controller {
     				
     				
     				
-    				List<RequestMoreInfo> rMoreInfo1 = RequestMoreInfo.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
+    				/*List<RequestMoreInfo> rMoreInfo1 = RequestMoreInfo.findAllSeenLocationSch(Long.valueOf(session("USER_LOCATION")));
     				List<ScheduleTest> sTests1 = ScheduleTest.findAllAssignedLocation(Long.valueOf(session("USER_LOCATION")));
-    				List<TradeIn> tIns1 = TradeIn.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
+    				List<TradeIn> tIns1 = TradeIn.findAllSeenLocationSch(Long.valueOf(session("USER_LOCATION")));
     				
     				for(RequestMoreInfo rInfo1 :rMoreInfo1){
     					vinUnik1.put(rInfo1.vin, 1);
@@ -11940,12 +11940,19 @@ public class Application extends Controller {
     				}
     				for(TradeIn tradeIn1: tIns1){
     					vinUnik1.put(tradeIn1.vin, 1);
+    				}*/
+    				
+    				List<Vehicle> aVeh = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
+    				
+    				for(Vehicle vehicles: aVeh){
+    					vinUnik1.put(vehicles.vin, 1);
     				}
+    				
     				
     				for (Map.Entry<String, Integer> entry : vinUnik1.entrySet()) {
     				    String key1 = entry.getKey();
+    				    vins1.add(entry.getKey());
     				   if(arr[arr.length-1].equals(entry.getKey())){
-    					   vins1.add(arr[arr.length-1]);
     	        			pagesCount1.put(arr[arr.length-1], item.get("value").asInt());
     				   }
     				}
@@ -11986,7 +11993,12 @@ public class Application extends Controller {
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
     	for(Vehicle vehicle:topVisited) {
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
-    		analyticalVM.count = pagesCount.get(vehicle.getVin());
+    		
+    		if(pagesCount.get(vehicle.getVin()) == null){
+    			analyticalVM.count = 0;
+    		}else{
+    			analyticalVM.count = pagesCount.get(vehicle.getVin());
+    		}
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
@@ -12023,7 +12035,12 @@ public class Application extends Controller {
     	for(int i = worstVisitedVms.size();i<3;i++) {
     		Vehicle vehicle = Vehicle.findByVin(vins.get(i-worstVisitedVms.size()));
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
-    		analyticalVM.count =  pagesCount.get(vehicle.getVin());
+    		if(pagesCount.get(vehicle.getVin()) == null){
+    			analyticalVM.count = 0;
+    		}else{
+    			analyticalVM.count =  pagesCount.get(vehicle.getVin());
+    		}
+    		
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
@@ -12043,9 +12060,9 @@ public class Application extends Controller {
     	
     	List<VehicleAnalyticalVM> allVehical = new ArrayList<>();
     	 List<Vehicle> aVehicles =null;
-    	aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
+    	//aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
     	 
-    	 // aVehicles = Vehicle.findByVins(vins1);
+    	  aVehicles = Vehicle.findByVins(vins1);
     	for(Vehicle vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
     		//anVm.count = pagesCount1.get(vehicle.getVin());
@@ -12061,7 +12078,7 @@ public class Application extends Controller {
     		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		
     		if(pagesCount1.get(vehicle.getVin()) !=null){
-    			anVm.count =  pagesCount.get(vehicle.getVin());
+    			anVm.count =  pagesCount1.get(vehicle.getVin());
     		}else{
     			anVm.count = 0;
     		}
