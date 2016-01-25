@@ -22,7 +22,7 @@ public class ScheduleTestVM {
 	public String google_id;
 	public Boolean is_google_data;
 	public String assignedTo;
-	
+	public String Enthicity;
 	public String getAssignedTo() {
 		return assignedTo;
 	}

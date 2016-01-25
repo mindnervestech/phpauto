@@ -47,4 +47,5 @@ public class LeadVM {
 	public String damage;
 	public String salvage;
 	public String paint;
+	public String enthicity;
 }

@@ -32,4 +32,5 @@ public class RequestInfoVM {
 	public String typeOfLead;
 	public int option;
 	public String isgoogle;
+	public String Enthicity;
 }

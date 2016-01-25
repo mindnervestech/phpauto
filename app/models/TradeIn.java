@@ -77,6 +77,14 @@ public class TradeIn extends Model {
 	public String reason;
 	public String custZipCode;
 	public int scheduleEmail;
+	public String Enthicity;
+	
+	public String getEnthicity() {
+		return Enthicity;
+	}
+	public void setEnthicity(String enthicity) {
+		this.Enthicity = enthicity;
+	}
 	public int getScheduleEmail() {
 		return scheduleEmail;
 	}

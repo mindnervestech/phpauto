@@ -43,5 +43,6 @@ public class TradeInVM {
 	public String optionValue;
 	public String vin;
 	public int isRead;
+	public String Enthicity;
 	
 }

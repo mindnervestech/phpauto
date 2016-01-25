@@ -4640,6 +4640,21 @@ margin-left: 5px;
 								                    <div>
 								                    	<div class="col-md-12">
 								                    		<div class="col-md-5" style="width: 50%;">
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>Ethnicity <span style="color: red;">*</span></strong></h3>
+								                    			<div>
+								                    				<select placeholder="TYPE OF REQUEST" ng-model="lead.enthicity">
+								                    					<option value=""></option>
+								                    					<option value="Hispanic or Latino">Hispanic or Latino</option>
+								                    					<option value="Black or African American">Black or African American</option>
+								                    					<option value="Native American or American Indian">Native American or American Indian</option>
+								                    					<option value="Asian / Pacific Islander">Asian / Pacific Islander</option>
+								                    					<option value="Other">Other</option>
+								                    				</select>
+								                    			</div>
+								                    		</div>
+								                    	</div>
+								                    	<div class="col-md-12">
+								                    		<div class="col-md-5" style="width: 50%;">
 								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>WANTS TO? <span style="color: red;">*</span></strong></h3>
 								                    			<div>
 								                    				<select placeholder="TYPE OF REQUEST" ng-model="lead.leadType">
@@ -4658,6 +4673,8 @@ margin-left: 5px;
 																</div>
 								                    		</div>
 								                    	</div>
+								                    	<div class="col-md-12">
+								                    	</div>	
 								                    	<div class="row">
                           									<div class="col-sm-12">
 									                            <div class="form-group">
@@ -4679,22 +4696,7 @@ margin-left: 5px;
 								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>HOW DID HE/SHE HEAR ABOUT US?</strong></h3>
 								                    			<div>
 								                    				<select ng-model="lead.hearedFrom">
-								                    					<option value="Google Search">Google Search</option>
-								                    					<option value="Yahoo Search">Yahoo Search</option>
-								                    					<option value="Bing Search">Bing Search</option>
-								                    					<option value="Google Maps">Google Maps</option>
-								                    					<option value="Google Maps Search">Google Maps Search</option>
-								                    					<option value="Facebook">Facebook</option>
-								                    					<option value="Google Plus">Google Plus</option>
-								                    					<option value="Twitter">Twitter</option>
-								                    					<option value="Word of the mouth">Word of the mouth</option>
-								                    					<option value="Returning Client">Returning Client</option>
-								                    					<option value="Yelp">Yelp</option>
-																		<option value="Cars.com">Cars.com</option>
-																		<option value="AutoGuru">AutoGuru</option>
-																		<option value="AutoTrader">AutoTrader</option>
-																		<option value="Kelly Blue Book">Kelly Blue Book</option>
-																		<option value="Craigslist">Craigslist</option>
+								                    					<option ng-repeat="item in heardAboutUs" value="{{item.value}}">{{item.value}}</option>
 								                    				</select>
 								                    			</div>
 								                    		</div>
@@ -4709,6 +4711,9 @@ margin-left: 5px;
 																	</div>
 																</div>
 								                    		</div>
+								                    	</div>
+								                    	<div class="col-md-12" ng-if="lead.hearedFrom=='Other'" style="margin: 5px 0 0 10px;">
+								                    				<input type="text" id="othertxt" ng-model="othertxt" placeholder="HEAR ABOUT US?"/>
 								                    	</div>
 								                    </div>
 								                    <div>

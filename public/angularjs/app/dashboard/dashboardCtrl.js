@@ -1407,7 +1407,11 @@ angular.module('newApp')
 	    					$scope.currentData = response.allVehical;
 	    			});
 	    		};
-	    		
+	    			$http.get('/getHeardAboutUs').success(function(response) {
+	    				$scope.heardAboutUs = response;
+	    				console.log($scope.heardAboutUs);
+	    			});
+	    			$scope.othertxt=null;
 	    		$scope.openCreateNewLeadPopup = function() {
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
@@ -1498,6 +1502,25 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.makeLead = function() {
+	    			console.log("make Lead");
+	    			$scope.othertxt = $('#othertxt').val();
+	    			console.log($scope.othertxt);
+	    			if($scope.lead.hearedFrom == "Other"){
+	    				console.log($scope.othertxt);
+	    				if($scope.othertxt == null || $scope.othertxt == undefined){
+	    					$scope.lead.hearedFrom = "Other";
+	    				}else{
+	    					$scope.lead.hearedFrom = $scope.othertxt;
+	    					$http.get('/addHeard/'+$scope.lead.hearedFrom).success(function(response) {
+	    						$http.get('/getHeardAboutUs').success(function(response) {
+	    		    				$scope.heardAboutUs = response;
+	    		    				console.log($scope.heardAboutUs);
+	    		    			});
+	    					});
+	    				}
+	    				
+	    			}
+	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
 	    				if($scope.lead.leadType=='2')  {
 	    					$scope.getScheduleTestData();

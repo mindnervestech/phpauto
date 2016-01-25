@@ -13145,6 +13145,31 @@ public class Application extends Controller {
 		}
     }*/
     
+    public static Result getHeardAboutUs(){
+    	List<HeardAboutUsVm> vmList = new ArrayList<>();
+    	List<HeardAboutUs> list = HeardAboutUs.getAll();
+    	for (HeardAboutUs info : list) {
+			HeardAboutUsVm vm = new HeardAboutUsVm();
+			vm.id = info.id;
+			vm.value = info.value;
+			vmList.add(vm);
+		}
+    	return ok(Json.toJson(vmList));
+    }
+    
+    public static Result addHeard(String name){
+    	System.out.println("in addHeard");
+    	List<HeardAboutUs> nameList = HeardAboutUs.getByValue(name);
+    	System.out.println(nameList.size());
+    	if(nameList.size() == 0){
+    		System.out.println("addHeard");
+    		HeardAboutUs obj = new HeardAboutUs();
+    		obj.value = name;
+    		obj.save();
+    	}
+    	return ok();
+    }
+    
     public static Result createLead() {
     	AuthUser user = (AuthUser)getLocalUser();
     	LeadVM leadVM = DynamicForm.form(LeadVM.class).bindFromRequest().get();
@@ -13161,6 +13186,7 @@ public class Application extends Controller {
     		info.setName(leadVM.custName);
     		info.setPhone(leadVM.custNumber);
     		info.setCustZipCode(leadVM.custZipCode);
+    		info.setEnthicity(leadVM.enthicity);
     		info.setVin(vehicles.get(0).getVin());
     		info.setUser(user);
 			info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -13200,6 +13226,7 @@ public class Application extends Controller {
     		test.setName(leadVM.custName);
     		test.setPhone(leadVM.custNumber);
     		test.setCustZipCode(leadVM.custZipCode);
+    		test.setEnthicity(leadVM.enthicity);
     		test.setIsRead(0);
     		test.setUser(user);
 			test.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -13238,6 +13265,7 @@ public class Application extends Controller {
     		}
     		TradeIn tradeIn = new TradeIn();
     		tradeIn.setAccidents(leadVM.accidents);
+    		tradeIn.setEnthicity(leadVM.enthicity);
     		tradeIn.setAssignedTo(user);
     		tradeIn.setIsReassigned(true);
     		tradeIn.setLeadStatus(null);
