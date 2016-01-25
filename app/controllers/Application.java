@@ -9819,6 +9819,9 @@ public class Application extends Controller {
     			notes.createdTime = date;
 				notes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			notes.save();
+    			
+    			//scheduleTest.setNoteFlag(1);
+    			scheduleTest.update();
     		}
     		if(type.equalsIgnoreCase("tradeIn")) {
     			TradeIn tradeIn = TradeIn.findById(id);

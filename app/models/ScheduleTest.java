@@ -33,6 +33,7 @@ public class ScheduleTest extends Model {
 	public Date confirmTime;
 	public String leadStatus;
 	public String reason;
+	//public Integer noteFlag;
 	@ManyToOne
 	public AuthUser assignedTo;
 	@ManyToOne
@@ -170,6 +171,13 @@ public class ScheduleTest extends Model {
 		this.reason = reason;
 	}
 
+	
+	/*public Integer getNoteFlag() {
+		return noteFlag;
+	}
+	public void setNoteFlag(Integer noteFlag) {
+		this.noteFlag = noteFlag;
+	}*/
 	public Location getLocations() {
 		return locations;
 	}
