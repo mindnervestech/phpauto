@@ -573,14 +573,15 @@ angular.module('newApp')
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'10%',cellEditableCondition: false,
+    	 		                                 { name: 'phone', displayName: 'Phone', width:'10%',cellEditableCondition: false,
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
     	  		                                     }
     	 		                                	} ,
     	 		                                 },
-    	 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'12%',cellEditableCondition: false,
+    	 		                                 { name: 'email', displayName: 'Email', width:'12%',cellEditableCondition: false,
+    	 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
@@ -636,42 +637,43 @@ angular.module('newApp')
      				  		                                     }
      				 		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'6%',cellEditableCondition: false,
+     			 		                                 { name: 'phone', displayName: 'Phone', width:'6%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'7%',cellEditableCondition: false,
+     			 		                                 { name: 'email', displayName: 'Email', width:'7%',cellEditableCondition: false,
+     			 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'confirmDate', displayName: 'Confirm Day',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     			 		                                 { name: 'confirmDate', displayName: 'Confirm Day', width:'8%',cellEditableCondition: false,
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
      			   		                                     }
      			  		                                	} ,
      					                                 },
-     					                                 { name: 'confirmTime', displayName: 'Confirm Time',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     					                                 { name: 'confirmTime', displayName: 'Confirm Time', width:'8%',cellEditableCondition: false,
      					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      				  		                                       if (row.entity.confirmDate === null) {
      				  		                                         return 'red';
      				  		                                     }
      				 		                                	} ,
      			 		                                 },
-     			 		                               { name: 'bestDay', displayName: 'Requested Time',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     			 		                               { name: 'bestDay', displayName: 'Requested Time', width:'8%',cellEditableCondition: false,
       			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       			   		                                       if (row.entity.confirmDate === null) {
       			   		                                         return 'red';
       			   		                                     }
       			  		                                	} ,
       					                                 },
-      					                                 { name: 'bestTime', displayName: 'Requested Time',enableFiltering: false, width:'8%',cellEditableCondition: false,
+      					                                 { name: 'bestTime', displayName: 'Requested Time', width:'8%',cellEditableCondition: false,
       					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       				  		                                       if (row.entity.confirmDate === null) {
       				  		                                         return 'red';
@@ -735,14 +737,15 @@ angular.module('newApp')
      			 			  		                                     }
      			 			 		                                	} ,
      			 		 		                                 },
-     			 		 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'7%',cellEditableCondition: false,
+     			 		 		                                 { name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
      			 		   		                                     }
      			 		  		                                	} ,
      			 		 		                                 },
-     			 		 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'12%',cellEditableCondition: false,
+     			 		 		                                 { name: 'email', displayName: 'Email', width:'12%',cellEditableCondition: false,
+     			 		 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
@@ -780,22 +783,23 @@ angular.module('newApp')
      	     			 		 		 $scope.gridOptions4.enableHorizontalScrollbar = 0;
      	     			 		 		 $scope.gridOptions4.enableVerticalScrollbar = 2;
      	     			 		 		 $scope.gridOptions4.columnDefs = [
-     	     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,enableFiltering: false,
+     	     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'model', displayName: 'Model',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'make', displayName: 'Make',enableFiltering: false, width:'9%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'make', displayName: 'Make', width:'9%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'name', displayName: 'Name',enableFiltering: false, width:'9%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
      	     			 				                                	 
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'phone', displayName: 'Phone', width:'8%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'8%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'email', displayName: 'Email', width:'8%',cellEditableCondition: false,
+     	     			 		 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
      	     			 		 		                                	
      	     			 		 		                                 },
      	     			 		 		                                 
@@ -816,6 +820,70 @@ angular.module('newApp')
      	     			 		     		                                 ];
      	     			 		  
      			 		 		 
+     	     			 		 	 $scope.gridOptions6 = {
+     	     			 	    	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+     	     			 	    	 		    paginationPageSize: 150,
+     	     			 	    	 		    enableFiltering: true,
+     	     			 	    	 		    useExternalFiltering: true,
+     	     			 	    	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+     	     			 	    	 		 };
+     	     			 	    	 		 $scope.gridOptions6.enableHorizontalScrollbar = 0;
+     	     			 	    	 		 $scope.gridOptions6.enableVerticalScrollbar = 2;
+     	     			 	    	 		 $scope.gridOptions6.columnDefs = [
+     	     			 	    	 		                                 { name: 'vin', displayName: 'Vin', width:'12%',cellEditableCondition: false,
+     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	 		                                       if (row.entity.isRead === false) {
+     	     			 	    	 		                                         return 'red';
+     	     			 	    	 		                                       }
+     	     			 	    	 		                                	} ,
+     	     			 	    	 		                                 },
+     	     			 	    	 		                                 { name: 'model', displayName: 'Model', width:'10%',cellEditableCondition: false,
+     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	  		                                       if (row.entity.isRead === false) {
+     	     			 	    	  		                                         return 'red';
+     	     			 	    	  		                                     }
+     	     			 	    	 		                                	} ,
+     	     			 	    	 		                                 },
+     	     			 	    	 		                                 { name: 'make', displayName: 'Make', width:'10%',cellEditableCondition: false,
+     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	  		                                       if (row.entity.isRead === false) {
+     	     			 	    	  		                                         return 'red';
+     	     			 	    	  		                                     }
+     	     			 	    	 		                                	} ,
+     	     			 	    	 		                                 },
+     	     			 	    	 		                                 { name: 'name', displayName: 'Name', width:'12%',cellEditableCondition: false,
+     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	  		                                       if (row.entity.isRead === false) {
+     	     			 	    	  		                                         return 'red';
+     	     			 	    	  		                                     }
+     	     			 	    	 		                                	} ,
+     	     			 	    	 		                                 },
+     	     			 	    	 		                                 { name: 'phone', displayName: 'Phone', width:'12%',cellEditableCondition: false,
+     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	  		                                       if (row.entity.isRead === false) {
+     	     			 	    	  		                                         return 'red';
+     	     			 	    	  		                                     }
+     	     			 	    	 		                                	} ,
+     	     			 	    	 		                                 },
+     	     			 	    	 		                                 { name: 'email', displayName: 'Email', width:'15%',cellEditableCondition: false,
+     	     			 	    	 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
+     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 	    	  		                                       if (row.entity.isRead === false) {
+     	     			 	    	  		                                         return 'red';
+     	     			 	    	  		                                     }
+     	     			 	    	 		                                	} ,
+     	     			 	    	 		                                 },
+     	     			 	    	 		                                /*{ name: 'btnSold', displayName: '',enableFiltering: false, width:'42%',cellEditableCondition: false,
+     	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,1)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">ADD TO CLIENTELE</button>',
+     	     			 				 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+     	     			 				   		                                       if (row.entity.isRead === false) {
+     	     			 				   		                                         return 'red';
+     	     			 				   		                                     }
+     	     			 				  		                                	} ,
+     	     			 				 		                                 },*/
+     	     			 	    	     		                                 ]; 
+     	     			 		 		 
+     	     			 		 		 
      			 		 		 
      			 		 		$('.datepicker').datepicker({
      			 		 		});
@@ -831,15 +899,35 @@ angular.module('newApp')
     				$scope.AllRequestInfoSeenList = data;
     			});
     		  
+    		 
+    		  
     		  $scope.gridOptions5.onRegisterApi = function(gridApi){
     				 $scope.gridApi = gridApi;
     				 
     		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
     			          var grid = this.grid;
-    			          $scope.gridOptions5.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term},undefined);
+    			          $scope.gridOptions5.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
     			        });
     		   		
     	  		};
+    	  		
+    	  		 $http.get('/getAllLostAndCompLeads')
+ 				.success(function(data) {
+ 				$scope.gridOptions6.data = data;
+ 				$scope.AllLostAndCompl = data;
+ 			});
+     		  
+     		  $scope.gridOptions6.onRegisterApi = function(gridApi){
+   				 $scope.gridApi = gridApi;
+   				 
+   		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+   			          var grid = this.grid;
+   			          $scope.gridOptions6.data = $filter('filter')($scope.AllLostAndCompl,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
+   			        });
+   		   		
+   	  		};
+   	  		
+   	  		
     		  
     		  $scope.contactsDetails = {};
     		  $scope.contactMsg = "";
@@ -1168,7 +1256,7 @@ angular.module('newApp')
      				 
      		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
      			          var grid = this.grid;
-     			          $scope.gridOptions2.data = $filter('filter')($scope.AllScheduleTestAssignedList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term},undefined);
+     			          $scope.gridOptions2.data = $filter('filter')($scope.AllScheduleTestAssignedList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'confirmDate':grid.columns[6].filters[0].term,'confirmTime':grid.columns[7].filters[0].term,'bestDay':grid.columns[8].filters[0].term,'bestTime':grid.columns[9].filters[0].term},undefined);
      			        });
      		   		
      	  		};
@@ -1184,7 +1272,7 @@ angular.module('newApp')
       				 
       		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
       			          var grid = this.grid;
-      			          $scope.gridOptions3.data = $filter('filter')($scope.AllTradeInSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term},undefined);
+      			          $scope.gridOptions3.data = $filter('filter')($scope.AllTradeInSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[3].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
       			        });
       		   		
       	  		};
@@ -1299,7 +1387,7 @@ angular.module('newApp')
 	    		$scope.isStockError = false;
 	    		
 	    		$scope.createLead = function() {
-	    			if($scope.lead.custName==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' || !(($scope.lead.make!='' && $scope.lead.model!='') || 
+	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' || !(($scope.lead.make!='' && $scope.lead.model!='') || 
 	    					($scope.lead.makeSelect!='' && $scope.lead.modelSelect!='')) || $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
 	    				$scope.isInValid = true;
 	    			} else {
@@ -1583,39 +1671,72 @@ angular.module('newApp')
     	$scope.reqMore = true;	
     	$scope.testdrv = false;
     	$scope.trdin = false;
+    	$scope.showLeads = false;
     	$scope.cancelleads = false;
     	$scope.requestMore = function() {
     		$scope.reqMore = true;	
         	$scope.testdrv = false;
         	$scope.trdin = false;
+        	$scope.showLeads = false;
         	$scope.cancelleads = false;
     	}		  
     	$scope.testDrive = function() {
     		$scope.reqMore = false;	
         	$scope.testdrv = true;
         	$scope.trdin = false;
+        	$scope.showLeads = false;
         	$scope.cancelleads = false;
     	}	
     	$scope.tradeIn = function() {
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
         	$scope.trdin = true;
+        	$scope.showLeads = false;
         	$scope.cancelleads = false;
     	}
         $scope.canceledLeads = function() {
         	$scope.reqMore = false;	
         	$scope.testdrv = false;
         	$scope.trdin = false;
+        	$scope.showLeads = false;
         	$scope.cancelleads = true;
         	$scope.getAllCanceledLeads();
+        }
+        $scope.showLeadsArchive = function(){
+        	$scope.reqMore = false;	
+        	$scope.testdrv = false;
+        	$scope.trdin = false;
+        	$scope.cancelleads = false;
+        	$scope.showLeads = true;
+        	$scope.getAllLostAndComLeads();
+        }
+        
+        
+        $scope.getAllLostAndComLeads = function(){
+        	$http.get('/getAllLostAndCompLeads')
+			.success(function(data) {
+				console.log(data);
+				$scope.gridOptions6.data = data;
+			});
         }
         
         $scope.getAllCanceledLeads = function() {
         	$http.get('/getAllCanceledLeads')
 			.success(function(data) {
 				$scope.gridOptions4.data = data;
+				$scope.canceledLead = data;
 			});
         }
+        
+        $scope.gridOptions4.onRegisterApi = function(gridApi){
+				 $scope.gridApi = gridApi;
+				 
+		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+			          var grid = this.grid;
+			          $scope.gridOptions4.data = $filter('filter')($scope.canceledLead,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
+			        });
+		   		
+	  		};
         
         $scope.assignCanceledLead = function(entity) {
         	$scope.cancelId = entity.id;
@@ -1692,6 +1813,12 @@ angular.module('newApp')
 			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
 				.success(function(data) {
 			 		$scope.gridOptions3.data = data;
+			 		$scope.AllTradeInSeenList = data;
+			 });
+			 
+			 $http.get('/getAllSalesPersonLostAndComp/'+id)
+				.success(function(data) {
+			 		$scope.gridOptions6.data = data;
 			 		$scope.AllTradeInSeenList = data;
 			 });
 	    		

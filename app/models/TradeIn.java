@@ -506,6 +506,12 @@ public class TradeIn extends Model {
 		return find.where().eq("isScheduled", true).eq("status", null).eq("isRead",true).eq("assignedTo",user).findList();
 	}
 	
+	public static List<TradeIn> findAllAssignedLeadsToUser(AuthUser user) {
+		return find.where().ne("status", null).eq("assignedTo",user).findList();
+	}
+	
+	
+	
 	public static List<TradeIn>  findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}

@@ -3256,11 +3256,12 @@ margin-left: 5px;
 			      <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="testDrive()">Schedule Test Drive</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="tradeIn()">Trade In Inquiries</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
+			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="showLeadsArchive()">Archive</button></a></li>
+			      
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
 			    	<h2><b style="margin-left:10%;" ng-show="userType == 'Sales Person'">My Leads</b></h2>
 			    	<select  class="form-control form-white" ng-show="userType == 'General Manager' || userType == 'Manager'" id="salesPersonUserId" ng-model="salesPerson" ng-change="getAllSalesPersonRecord(salesPerson)" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
                                     <option ng-repeat="item in salesPersonList" ng-selected="$index==0" value="{{item.id}}"  >{{item.fullName}}</option>
-                                    
                                     
                                 </select>
 			    </ul>
@@ -3274,7 +3275,9 @@ margin-left: 5px;
 							<div ng-if="trdin" ui-grid="gridOptions3" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 												</div>				
 							<div ng-if="cancelleads" ui-grid="gridOptions4" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-												</div>											
+												</div>
+							<div ng-if="showLeads" ui-grid="gridOptions6" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+												</div>																
 				      </div>
 				      
 				    </div>

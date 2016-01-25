@@ -228,6 +228,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", user).eq("leadStatus", null).ne("vin", "no").eq("isRead",true).orderBy("scheduleDate desc").findList();
 	}
 	
+	public static List<ScheduleTest> findAllAssignedLeadsToUser(AuthUser user) {
+		return find.where().eq("assignedTo", user).ne("leadStatus", null).orderBy("scheduleDate desc").findList();
+	}
+	
 	public static List<ScheduleTest> findAllSeenComplete(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("leadStatus", "COMPLETE").orderBy("scheduleDate desc").findList();
 	}
