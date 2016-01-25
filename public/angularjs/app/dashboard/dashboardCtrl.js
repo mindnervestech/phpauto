@@ -546,6 +546,7 @@ angular.module('newApp')
     	 		 $scope.gridOptions5.enableVerticalScrollbar = 2;
     	 		 $scope.gridOptions5.columnDefs = [
     	 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,
+    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.vin}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	 		                                       if (row.entity.isRead === false) {
     	 		                                         return 'red';
@@ -553,6 +554,7 @@ angular.module('newApp')
     	 		                                	} ,
     	 		                                 },
     	 		                                 { name: 'model', displayName: 'Model', width:'7%',cellEditableCondition: false,
+    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.model}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
@@ -560,6 +562,7 @@ angular.module('newApp')
     	 		                                	} ,
     	 		                                 },
     	 		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
+    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.make}}</a> ',
     	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     	  		                                       if (row.entity.isRead === false) {
     	  		                                         return 'red';
@@ -609,6 +612,7 @@ angular.module('newApp')
      			 		 $scope.gridOptions2.enableVerticalScrollbar = 2;
      			 		 $scope.gridOptions2.columnDefs = [
      			 		                                 { name: 'vin', displayName: 'Vin', width:'5%',cellEditableCondition: false,
+     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.vin}}</a> ',
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
@@ -616,6 +620,7 @@ angular.module('newApp')
      			  		                                	} ,
      			 		                                 },
      			 		                                 { name: 'model', displayName: 'Model', width:'6%',cellEditableCondition: false,
+     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.model}}</a> ',
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
@@ -623,6 +628,7 @@ angular.module('newApp')
      			  		                                	} ,
      			 		                                 },
      			 		                                 { name: 'make', displayName: 'Make', width:'6%',cellEditableCondition: false,
+     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.make}}</a> ',
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null) {
      			   		                                         return 'red';
@@ -710,6 +716,7 @@ angular.module('newApp')
      			 		 		 $scope.gridOptions3.enableVerticalScrollbar = 2;
      			 		 		 $scope.gridOptions3.columnDefs = [
      			 		 		                                 { name: 'vin', displayName: 'Vin', width:'8%',cellEditableCondition: false,
+     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.vin}}</a> ',
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
@@ -717,6 +724,7 @@ angular.module('newApp')
      			 		  		                                	} ,
      			 		 		                                 },
      			 		 		                                 { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
+     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.model}}</a> ',
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
@@ -724,6 +732,7 @@ angular.module('newApp')
      			 		  		                                	} ,
      			 		 		                                 },
      			 		 		                                 { name: 'make', displayName: 'Make', width:'9%',cellEditableCondition: false,
+     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.make}}</a> ',
      			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		   		                                       if (row.entity.isRead === false) {
      			 		   		                                         return 'red';
@@ -927,6 +936,60 @@ angular.module('newApp')
    		   		
    	  		};
    	  		
+   	  		$scope.allVehical = null;
+   	  	$http.get('/getAllVehical')
+		.success(function(data) {
+			console.log(data);
+			$scope.allVehicalss = data;
+		});
+   	  		/*$scope.getAllVehical = function(){
+	   	  		$http.get('/getAllVehical')
+	 				.success(function(data) {
+	 					console.log(data);
+	 					$scope.allVehicalss = data;
+	 				});
+   	  		}*/
+   	  	
+   	  		
+   	  		$scope.editLeads = {};
+   	  		$scope.editVinData = function(entity){
+   	  			$scope.editLeads = {};
+   	  			console.log(entity);
+   	  			//$scope.getAllVehical();
+   	  			$('#btneditleads').click();
+   	  			//$scope.editLeads = entity;
+   	  			$scope.editLeads.vin = entity.vin;
+		   	  	$scope.editLeads.model = entity.model;
+		   	  	$scope.editLeads.make = entity.make;
+		   	  	$scope.editLeads.id = entity.id;
+		   	  	$scope.editLeads.custName = entity.name;
+		   	  	$scope.editLeads.custEmail = entity.email;
+		   	  	$scope.editLeads.custNumber = entity.phone;
+		   	  	$scope.editLeads.leadType = entity.typeOfLead;
+		   	 
+   	
+   	  		}
+   	  		
+   	  		$scope.changesVin = function(vinNo){
+   	  		
+   	  			angular.forEach($scope.allVehicalss, function(value, key) {
+   	  				if(value.vin == vinNo){
+   	  					$scope.editLeads.model = value.model;
+   	  					$scope.editLeads.make = value.make;
+   	  				}
+   	  			});
+   	  		}
+   	  		
+   	  		$scope.editleads = function(){
+   	  			console.log($scope.editLeads);
+	   	  		 $http.post('/editLeads',$scope.editLeads).success(function(data) {
+	   	  			 	$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Lead Update successfully",
+						});
+				 });
+   	  		}
    	  		
     		  
     		  $scope.contactsDetails = {};
@@ -1128,6 +1191,7 @@ angular.module('newApp')
     		  $scope.weekPerformance = false;
     		  $scope.monthPerformance = false;
     		  $scope.yearPerformance = false;
+    		  $scope.showLeads = false;
     		  
     		  $scope.init = function() {
     			  
@@ -1272,7 +1336,7 @@ angular.module('newApp')
       				 
       		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
       			          var grid = this.grid;
-      			          $scope.gridOptions3.data = $filter('filter')($scope.AllTradeInSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[3].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
+      			          $scope.gridOptions3.data = $filter('filter')($scope.AllTradeInSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
       			        });
       		   		
       	  		};
@@ -1671,34 +1735,34 @@ angular.module('newApp')
     	$scope.reqMore = true;	
     	$scope.testdrv = false;
     	$scope.trdin = false;
-    	$scope.showLeads = false;
+    	$scope.showLeadsV = false;
     	$scope.cancelleads = false;
     	$scope.requestMore = function() {
     		$scope.reqMore = true;	
         	$scope.testdrv = false;
         	$scope.trdin = false;
-        	$scope.showLeads = false;
+        	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
     	}		  
     	$scope.testDrive = function() {
     		$scope.reqMore = false;	
         	$scope.testdrv = true;
         	$scope.trdin = false;
-        	$scope.showLeads = false;
+        	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
     	}	
     	$scope.tradeIn = function() {
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
         	$scope.trdin = true;
-        	$scope.showLeads = false;
+        	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
     	}
         $scope.canceledLeads = function() {
         	$scope.reqMore = false;	
         	$scope.testdrv = false;
         	$scope.trdin = false;
-        	$scope.showLeads = false;
+        	$scope.showLeadsV = false;
         	$scope.cancelleads = true;
         	$scope.getAllCanceledLeads();
         }
@@ -1707,7 +1771,7 @@ angular.module('newApp')
         	$scope.testdrv = false;
         	$scope.trdin = false;
         	$scope.cancelleads = false;
-        	$scope.showLeads = true;
+        	$scope.showLeadsV = true;
         	$scope.getAllLostAndComLeads();
         }
         
@@ -2368,7 +2432,7 @@ angular.module('newApp')
 		   
 		   $scope.saveUserNote = function() {
 			   console.log($scope.userNote);
-			   $http.get('/saveNoteOfUser/'+$scope.userNoteId+'/'+$scope.typeOfNote+'/'+$scope.userNote)
+			   $http.get('/saveNoteOfUser/'+$scope.userNoteId+'/'+$scope.typeOfNote+'/'+$scope.userNote+'/'+$scope.action)
 		 		.success(function(data) {
 		 			$.pnotify({
     				    title: "Success",

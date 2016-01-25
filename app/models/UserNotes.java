@@ -16,6 +16,7 @@ public class UserNotes extends Model {
 	@Id
 	public Integer id;
 	public String note;
+	public String action;
 	public Date createdDate;
 	public Date createdTime;
 	@ManyToOne
@@ -84,6 +85,13 @@ public class UserNotes extends Model {
 	}
 	public void setLocations(Location locations) {
 		this.locations = locations;
+	}
+
+	public String getAction() {
+		return action;
+	}
+	public void setAction(String action) {
+		this.action = action;
 	}
 
 

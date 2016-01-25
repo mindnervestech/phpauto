@@ -3,6 +3,8 @@ package viewmodel;
 import java.util.List;
 
 public class LeadVM {
+	public String id;
+	public String vin;
 	public String custName;
 	public String custEmail;
 	public String custNumber;

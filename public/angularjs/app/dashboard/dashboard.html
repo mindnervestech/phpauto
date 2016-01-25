@@ -3256,7 +3256,7 @@ margin-left: 5px;
 			      <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="testDrive()">Schedule Test Drive</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="tradeIn()">Trade In Inquiries</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
-			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="showLeadsArchive()">Archive</button></a></li>
+			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="showLeadsArchive()">Archive</button></a></li>
 			      
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
 			    	<h2><b style="margin-left:10%;" ng-show="userType == 'Sales Person'">My Leads</b></h2>
@@ -3276,7 +3276,7 @@ margin-left: 5px;
 												</div>				
 							<div ng-if="cancelleads" ui-grid="gridOptions4" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 												</div>
-							<div ng-if="showLeads" ui-grid="gridOptions6" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<div ng-if="showLeadsV" ui-grid="gridOptions6" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 												</div>																
 				      </div>
 				      
@@ -3794,6 +3794,7 @@ margin-left: 5px;
 								        </div>
 								    </div>
 								    
+							<button id="btneditleads" data-toggle="modal" data-target="#editLeads" style="display: none;"></button>	    
 							<button id="btnStatusSchedule" data-toggle="modal" data-target="#scheduleStatusModal" style="display: none;"></button>
 							<button id="btnCancelSchedule" data-toggle="modal" data-target="#scheduleCancelModal" style="display: none;"></button>
 							<button id="btnCompleteRequest" data-toggle="modal" data-target="#requestCompleteStatusModal" style="display: none;"></button>
@@ -3965,6 +3966,72 @@ margin-left: 5px;
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
 								                    <button type="submit" class="btn btn-primary btn-embossed">Sold</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    
+								    	<div class="modal fade" id="editLeads" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Edit Leads</h4>
+								                </div>
+								                <form ng-submit="editleads()">
+								                <div class="modal-body" style="height:410px;overflow-x:auto;">
+								                 	<div class="form-group col-sm-12">
+								                 	<label class="col-sm-4 control-label" style="text-align: right;">Make Model Vin</label>
+														<div class="col-sm-7">
+								                      	<select class="form-control form-white" ng-model="editLeads.vin" ng-change="changesVin(editLeads.vin)" required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.vin == vehi.vin" value="{{vehi.vin}}">{{vehi.make}} , {{vehi.model}} , {{vehi.vin}}</option>
+															</select>
+															</div>
+								                 </div>
+								                 <!-- <div class="form-group col-sm-12">
+								                 	<label class="col-sm-4 control-label" style="text-align: right;">Model</label>
+														<div class="col-sm-7">
+								                      	<select class="form-control form-white" ng-model="editLeads.model" disabled required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.model == vehi.model" value="{{vehi.model}}">{{vehi.model}}</option>
+															</select>
+															</div>
+								                 </div>
+								                 <div class="form-group col-sm-12">
+								                 	<label class="col-sm-4 control-label" style="text-align: right;">Make</label>
+														<div class="col-sm-7">
+								                      	<select class="form-control form-white" ng-model="editLeads.make" disabled required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.make == vehi.make" value="{{vehi.make}}">{{vehi.make}}</option>
+															</select>
+															</div>
+								                 </div> -->
+								                   <div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="editLeads.custName" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Email</label>
+														<div class="col-sm-7">
+															<input type="email" class="form-control form-white" ng-model="editLeads.custEmail" required>
+														</div>
+													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">Phone</label>
+														<div class="col-sm-7">
+															<input type="text" class="form-control form-white" ng-model="editLeads.custNumber" required>
+														</div>
+													</div>
+													
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Edit</button>
 								                </div>
 								                </form>
 								            </div>
@@ -4378,15 +4445,37 @@ margin-left: 5px;
 															<input type="text" class="form-control form-white" ng-model="userNote" required>
 														</div>
 													</div>
+													<div class="form-group col-sm-12">
+														<label class="col-sm-3 control-label" style="text-align: right;">Action</label>
+														<div class="col-sm-7">
+														<select class="form-control form-white" ng-model="action" required>
+																<option value="">Select</option>
+																<option value="Called the Client">Called the Client</option>
+																<option value="Emailed the client">Emailed the client</option>
+																<option value="Client called">Client called</option>
+																<option value="Client Emailed">Client Emailed</option>
+																<option value="Interested">Interested</option>
+																<option value="Wants to scheduled a test drive">Wants to scheduled a test drive</option>
+																<option value="More Information Requested">More Information Requested</option>
+																<option value="Interested in the different Product">Interested in the different Product</option>
+																<option value="Other">Other</option>
+															</select>
+															</div>
+													</div>
+													
+													
+													
 								                    <div class="form-group col-sm-12">
 								                    <table class="table">
 								                    	<tr>
 								                    		<td>Note</td>
+								                    		<td>Action</td>
 								                    		<td>Date</td>
 								                    		<td>Time</td>
 								                    	</tr>
 								                    	<tr ng-repeat="noteStatus in userNoteList">
 								                    		<td>{{noteStatus.note}}</td>
+								                    		<td>{{noteStatus.action}}</td>
 								                    		<td>{{noteStatus.date}}</td>
 								                    		<td>{{noteStatus.time}}</td>
 								                    	</tr>

@@ -1954,6 +1954,44 @@ public class Application extends Controller {
     	}	
     }
     
+    public static Result editLeads(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
+	    	LeadVM vm = form.get();
+	    	if(vm.leadType.equals("Request More Info")){
+	    		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
+	    		if(rInfo != null){
+	    			rInfo.setVin(vm.vin);
+	    			rInfo.setName(vm.custName);
+	    			rInfo.setEmail(vm.custEmail);
+	    			rInfo.setPhone(vm.custNumber);
+	    			rInfo.update();
+	    		}
+	    	}else if(vm.leadType.equals("Schedule Test Drive")){
+	    		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
+	    		if(sInfo != null){
+	    			sInfo.setVin(vm.vin);
+	    			sInfo.setName(vm.custName);
+	    			sInfo.setEmail(vm.custEmail);
+	    			sInfo.setPhone(vm.custNumber);
+	    			sInfo.update();
+	    		}
+	    	}else if(vm.leadType.equals("Trade-In Appraisal")){
+	    		TradeIn tInfo = TradeIn.findById(Long.parseLong(vm.id));
+	    		if(tInfo != null){
+	    			tInfo.setVin(vm.vin);
+	    			tInfo.setFirstName(vm.custName);
+	    			tInfo.setEmail(vm.custEmail);
+	    			tInfo.setPhone(vm.custNumber);
+	    			tInfo.update();
+	    		}
+	    	}
+	    	
+	    	return ok();
+    	}	
+    }
     
     public static Result savePosition() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -4443,6 +4481,11 @@ public class Application extends Controller {
     	}	
     }
     
+    public static Result getAllVehical(){
+    		List<Vehicle> vehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
+    		return ok(Json.toJson(vehicles));
+    }
+    
     public static Result getAllSalesPersonLostAndComp(Integer leadId){
 		
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -4489,6 +4532,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -4549,6 +4593,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -4609,6 +4654,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -4686,6 +4732,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -4746,6 +4793,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -4806,6 +4854,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -4877,6 +4926,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = time.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -5023,6 +5073,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -5083,6 +5134,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -5143,6 +5195,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -5209,6 +5262,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+					obj.action = noteObj.action;	    			
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -5343,6 +5397,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = time.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -8851,6 +8906,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -8908,6 +8964,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -8965,6 +9022,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -9042,6 +9100,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -9102,6 +9161,7 @@ public class Application extends Controller {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
 	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
 	    			list.add(obj);
@@ -9724,7 +9784,7 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result saveNoteOfUser(Long id,String type,String note) {
+    public static Result saveNoteOfUser(Long id,String type,String note,String action) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -9732,6 +9792,7 @@ public class Application extends Controller {
     			RequestMoreInfo requestMore = RequestMoreInfo.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
+    			notes.action = action;
     			notes.requestMoreInfo = requestMore;
     			if(requestMore.assignedTo !=null){
     				notes.user = requestMore.assignedTo;
@@ -9747,6 +9808,7 @@ public class Application extends Controller {
     			ScheduleTest scheduleTest = ScheduleTest.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
+    			notes.action = action;
     			notes.scheduleTest = scheduleTest;
     			AuthUser usr = AuthUser.findById(scheduleTest.assignedTo.id);
     			if(scheduleTest.assignedTo != null){
@@ -9762,6 +9824,7 @@ public class Application extends Controller {
     			TradeIn tradeIn = TradeIn.findById(id);
     			UserNotes notes = new UserNotes();
     			notes.note = note;
+    			notes.action = action;
     			notes.tradeIn = tradeIn;
     			if(tradeIn.assignedTo !=null){
     				notes.user = tradeIn.assignedTo;
