@@ -1958,6 +1958,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		Date currDate = new Date();
 	    	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
 	    	LeadVM vm = form.get();
 	    	if(vm.leadType.equals("Request More Info")){
@@ -1968,6 +1969,14 @@ public class Application extends Controller {
 	    			rInfo.setEmail(vm.custEmail);
 	    			rInfo.setPhone(vm.custNumber);
 	    			rInfo.update();
+	    			
+	    			UserNotes uNotes = new UserNotes();
+	        		uNotes.setNote("Client interested in another vehicle");
+	        		uNotes.setAction("Other");
+	        		uNotes.createdDate = currDate;
+	        		uNotes.createdTime = currDate;
+	        		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
+	        		uNotes.save();
 	    		}
 	    	}else if(vm.leadType.equals("Schedule Test Drive")){
 	    		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
@@ -1977,6 +1986,14 @@ public class Application extends Controller {
 	    			sInfo.setEmail(vm.custEmail);
 	    			sInfo.setPhone(vm.custNumber);
 	    			sInfo.update();
+	    			
+	    			UserNotes uNotes = new UserNotes();
+	        		uNotes.setNote("Client interested in another vehicle");
+	        		uNotes.setAction("Other");
+	        		uNotes.createdDate = currDate;
+	        		uNotes.createdTime = currDate;
+	        		uNotes.scheduleTest = ScheduleTest.findById(sInfo.id);
+	        		uNotes.save();
 	    		}
 	    	}else if(vm.leadType.equals("Trade-In Appraisal")){
 	    		TradeIn tInfo = TradeIn.findById(Long.parseLong(vm.id));
@@ -1986,6 +2003,14 @@ public class Application extends Controller {
 	    			tInfo.setEmail(vm.custEmail);
 	    			tInfo.setPhone(vm.custNumber);
 	    			tInfo.update();
+	    			
+	    			UserNotes uNotes = new UserNotes();
+	        		uNotes.setNote("Client interested in another vehicle");
+	        		uNotes.setAction("Other");
+	        		uNotes.createdDate = currDate;
+	        		uNotes.createdTime = currDate;
+	        		uNotes.tradeIn = TradeIn.findById(tInfo.id);
+	        		uNotes.save();
 	    		}
 	    	}
 	    	
@@ -6182,6 +6207,8 @@ public class Application extends Controller {
     }
     
     public static Result saveConfirmData() {
+    	
+    	Date currDate = new Date();
     	AuthUser user = (AuthUser) getLocalUser();
     	Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
     	RequestInfoVM vm = form.get();
@@ -6242,6 +6269,14 @@ public class Application extends Controller {
 						if(msg.equals("success")){
 							flag = true;
 							scheduleTest.update();
+							
+							UserNotes uNotes = new UserNotes();
+		    	    		uNotes.setNote("Test Drive Re-scheduled");
+		    	    		uNotes.setAction("Other");
+		    	    		uNotes.createdDate = currDate;
+		    	    		uNotes.createdTime = currDate;
+		    	    		uNotes.scheduleTest = ScheduleTest.findById(scheduleTest.id);
+		    	    		uNotes.save();
 						}
 					}	
 				}else if(vm.option == 1) {
@@ -6289,6 +6324,14 @@ public class Application extends Controller {
 						if(msg.equals("success")){
 							flag = true;
 							info.update();
+							
+							UserNotes uNotes = new UserNotes();
+		    	    		uNotes.setNote("Test Drive Re-scheduled");
+		    	    		uNotes.setAction("Other");
+		    	    		uNotes.createdDate = currDate;
+		    	    		uNotes.createdTime = currDate;
+		    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+		    	    		uNotes.save();
 						}
 						
 					}
@@ -6337,6 +6380,14 @@ public class Application extends Controller {
 						if(msg.equals("success")){
 							flag = true;
 							info.update();
+							
+							UserNotes uNotes = new UserNotes();
+		    	    		uNotes.setNote("Test Drive Re-scheduled");
+		    	    		uNotes.setAction("Other");
+		    	    		uNotes.createdDate = currDate;
+		    	    		uNotes.createdTime = currDate;
+		    	    		uNotes.tradeIn = TradeIn.findById(info.id);
+		    	    		uNotes.save();
 						}
 						
 					}
@@ -8268,6 +8319,8 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		
+    		Date currDate = new Date();
     		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
@@ -8313,6 +8366,15 @@ public class Application extends Controller {
     			rInfo.setLeadStatus("COMPLETE");
     			rInfo.setStatus("COMPLETE");
     			rInfo.update();
+    			
+    			UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Test Drive Completed");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
+        		uNotes.save();
+    			
     			vinNo = rInfo.vin;
     		}else if(vm.typeOfLead.equals("Schedule Test Drive")){
     			ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
@@ -8320,12 +8382,28 @@ public class Application extends Controller {
         		schedule.setLeadStatus("COMPLETE");
         		schedule.update();
         		
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Test Drive Completed");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
+        		uNotes.save();
+        		
         		vinNo = schedule.vin;
     		}else if(vm.typeOfLead.equals("Trade-In Appraisal")){
     			TradeIn tIn = TradeIn.findById(vm.infoId);
     			tIn.setLeadStatus("COMPLETE");
     			tIn.setStatus("COMPLETE");
     			tIn.update();
+    			
+    			UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Test Drive Completed");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.tradeIn = TradeIn.findById(tIn.id);
+        		uNotes.save();
     			vinNo = tIn.vin;
     		}
     		
@@ -8407,6 +8485,8 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		
+    		Date currDate = new Date();
     		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
@@ -8456,6 +8536,15 @@ public class Application extends Controller {
     		info.update();
     		
     		
+    		UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Test Drive Completed");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = currDate;
+    		uNotes.createdTime = currDate;
+    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+    		uNotes.save();
+    		
+    		
     		List<TradeIn> tIn = TradeIn.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
     		for(TradeIn tradeIn:tIn){
     			if(tradeIn.status == null){
@@ -8502,6 +8591,15 @@ public class Application extends Controller {
     		info.setStatus("CANCEL");
     		info.setReason(reason);
     		info.update();
+    		
+    		Date currDate = new Date();
+    		UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Client interested in another vehicle");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = currDate;
+    		uNotes.createdTime = currDate;
+    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+    		uNotes.save();
     		return ok();
     	}
     }
@@ -8510,6 +8608,8 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		
+    		Date currDate = new Date();
     		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
@@ -8557,6 +8657,14 @@ public class Application extends Controller {
     		}
     		info.setStatus("COMPLETE");
     		info.update();
+    		
+    		UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Test Drive Completed");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = currDate;
+    		uNotes.createdTime = currDate;
+    		uNotes.tradeIn = TradeIn.findById(info.id);
+    		uNotes.save();
     		
     		List<TradeIn> tIn = TradeIn.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
     		for(TradeIn tradeIn:tIn){
@@ -9847,6 +9955,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		
+    		Date currDate = new Date();
     		String msg = "success";
     		boolean flag = true;
     		AuthUser user = getLocalUser();
@@ -9918,6 +10027,14 @@ public class Application extends Controller {
     			requestMoreInfo.setIsScheduled(true);
     			if(msg.equals("success")){
     				requestMoreInfo.update();
+    				
+    				UserNotes uNotes = new UserNotes();
+    	    		uNotes.setNote("Test Drive Scheduled");
+    	    		uNotes.setAction("Other");
+    	    		uNotes.createdDate = currDate;
+    	    		uNotes.createdTime = currDate;
+    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
+    	    		uNotes.save();
     			}
     		} else {
     			TradeIn tradeIn = TradeIn.findById(vm.id);
@@ -9981,6 +10098,14 @@ public class Application extends Controller {
     			tradeIn.setIsScheduled(true);
     			if(msg.equals("success")){
     				tradeIn.update();
+    				
+    				UserNotes uNotes = new UserNotes();
+    	    		uNotes.setNote("Test Drive Scheduled");
+    	    		uNotes.setAction("Other");
+    	    		uNotes.createdDate = currDate;
+    	    		uNotes.createdTime = currDate;
+    	    		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
+    	    		uNotes.save();
     			}
     		}
     		
@@ -13025,8 +13150,7 @@ public class Application extends Controller {
     	LeadVM leadVM = DynamicForm.form(LeadVM.class).bindFromRequest().get();
     	String makestr = leadVM.make!=null&&!leadVM.make.isEmpty()?leadVM.make:leadVM.makeSelect;
     	String model = leadVM.model!=null&&!leadVM.model.isEmpty()?leadVM.model:leadVM.modelSelect;
-    	System.out.println("make:"+makestr);
-    	System.out.println("model:"+model);
+    	Date date = new Date();
     	List<Vehicle> vehicles = Vehicle.findByMakeAndModel(makestr, model);
     	if(leadVM.leadType.equals("1")) {
     		RequestMoreInfo info = new RequestMoreInfo();
@@ -13046,6 +13170,15 @@ public class Application extends Controller {
     		info.setContactedFrom(leadVM.contactedFrom);
     		info.setRequestDate(new Date());
     		info.save();
+    		
+    		UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Lead has been created");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = date;
+    		uNotes.createdTime = date;
+    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+    		uNotes.save();
+    		
     	} else if(leadVM.leadType.equals("2")){
     		Date confirmDate = null;
     		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -13076,6 +13209,15 @@ public class Application extends Controller {
     		test.setPreferredContact(leadVM.prefferedContact);
     		test.setVin(vehicles.get(0).getVin());
     		test.save();
+    		
+    		UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Lead has been created");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = date;
+    		uNotes.createdTime = date;
+    		uNotes.scheduleTest = ScheduleTest.findById(test.id);
+    		uNotes.save();
+    		
     		Map map = new HashMap();
     		map.put("email",user.getEmail());
     		map.put("confirmDate", confirmDate);
@@ -13138,6 +13280,16 @@ public class Application extends Controller {
     		tradeIn.setVin(vehicles.get(0).getVin());
     		tradeIn.setYear(leadVM.year);
     		tradeIn.save();
+    		
+    		UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Lead has been created");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = date;
+    		uNotes.createdTime = date;
+    		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
+    		uNotes.save();
+    		
+    		
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicles.get(0).getVin());
     		
     		AuthUser defaultUser = getLocalUser();
