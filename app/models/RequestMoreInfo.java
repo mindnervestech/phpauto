@@ -37,6 +37,7 @@ public class RequestMoreInfo extends Model {
 	public Boolean isReassigned = false;
 	public String contactedFrom;
 	public String hearedFrom;
+	public String custZipCode;
 	public int scheduleEmail;
 	public int getScheduleEmail() {
 		return scheduleEmail;
@@ -149,6 +150,13 @@ public class RequestMoreInfo extends Model {
 	}
 	public void setLocations(Location locations) {
 		this.locations = locations;
+	}
+
+	public String getCustZipCode() {
+		return custZipCode;
+	}
+	public void setCustZipCode(String custZipCode) {
+		this.custZipCode = custZipCode;
 	}
 
 	public static Finder<Long,RequestMoreInfo> find = new Finder<>(Long.class,RequestMoreInfo.class);

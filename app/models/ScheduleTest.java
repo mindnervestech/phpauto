@@ -45,6 +45,7 @@ public class ScheduleTest extends Model {
 	public String status;
 	public String location;
 	public String google_id;
+	public String custZipCode;
 	public Boolean is_google_data;
 	public int scheduleEmail;
 	
@@ -181,6 +182,13 @@ public class ScheduleTest extends Model {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getCustZipCode() {
+		return custZipCode;
+	}
+	public void setCustZipCode(String custZipCode) {
+		this.custZipCode = custZipCode;
 	}
 
 

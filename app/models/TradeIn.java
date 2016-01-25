@@ -75,6 +75,7 @@ public class TradeIn extends Model {
 	public String pdfPath;
 	public String status;
 	public String reason;
+	public String custZipCode;
 	public int scheduleEmail;
 	public int getScheduleEmail() {
 		return scheduleEmail;
@@ -425,6 +426,13 @@ public class TradeIn extends Model {
 	}
 	public void setLocations(Location locations) {
 		this.locations = locations;
+	}
+
+	public String getCustZipCode() {
+		return custZipCode;
+	}
+	public void setCustZipCode(String custZipCode) {
+		this.custZipCode = custZipCode;
 	}
 
 	public static Finder<Long,TradeIn> find = new Finder<>(Long.class,TradeIn.class);

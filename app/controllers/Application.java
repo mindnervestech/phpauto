@@ -12570,6 +12570,7 @@ public class Application extends Controller {
     		info.setEmail(leadVM.custEmail);
     		info.setName(leadVM.custName);
     		info.setPhone(leadVM.custNumber);
+    		info.setCustZipCode(leadVM.custZipCode);
     		info.setVin(vehicles.get(0).getVin());
     		info.setUser(user);
 			info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -12599,6 +12600,7 @@ public class Application extends Controller {
     		test.setEmail(leadVM.custEmail);
     		test.setName(leadVM.custName);
     		test.setPhone(leadVM.custNumber);
+    		test.setCustZipCode(leadVM.custZipCode);
     		test.setIsRead(0);
     		test.setUser(user);
 			test.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -12638,6 +12640,7 @@ public class Application extends Controller {
     		tradeIn.setDoors(leadVM.doors);
     		tradeIn.setDrivetrain(leadVM.drivetrain);
     		tradeIn.setEmail(leadVM.custEmail);
+    		tradeIn.setCustZipCode(leadVM.custZipCode);
     		tradeIn.setEngine(leadVM.engine);
     		tradeIn.setEngineRating(leadVM.engineRating);
     		tradeIn.setEquipment(leadVM.equipment);

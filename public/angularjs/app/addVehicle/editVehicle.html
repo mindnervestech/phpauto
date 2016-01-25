@@ -13,7 +13,14 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Category *</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.category" placeholder="Cars and Trucks" required>
+												<!-- <input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.category" placeholder="Cars and Trucks" required> -->
+												<select placeholder="Cars and Trucks" class="form-control form-white" ng-model="vinData.specification.category" required>
+			  											<option value="">Select</option>
+														<option value="Car">Car</option>
+														<option value="Truck">Truck</option>
+														<option value="Motorcylce">Motorcylce</option>
+														<option value="Boat">Boat</option>
+												</select>
 											</div>
 										</div>
 										<div class="form-group col-sm-12">
@@ -143,7 +150,13 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Body Style</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" ng-model="vinData.specification.style" type="text">
+												<!-- <input class="form-control form-white" ng-model="vinData.specification.style" type="text"> -->
+												<select placeholder="Body Style" class="form-control form-white" ng-model="vinData.specification.style" required>
+												   <option value="">Select</option>
+												   <option value="Sedan">Sedan</option>
+												   <option value="Coupe">Coupe</option>
+												   <option value="SUV">SUV</option>
+												</select>
 											</div>
 										</div>
 										

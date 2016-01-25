@@ -20,6 +20,7 @@ public class LeadVM {
 	public String comments;
 	public List<String> options;
 	public String year;
+	public String custZipCode;
 	public String exteriorColour;
 	public String kilometres;
 	public String engine;
