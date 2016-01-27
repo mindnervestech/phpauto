@@ -26,6 +26,9 @@ public class SoldContact extends Model {
 	public String year;
 	public String mileage;
 	public String price;
+	public String custZipCode;
+	public String enthicity;
+	
 	
 	@ManyToOne
 	public AuthUser user;
@@ -126,6 +129,21 @@ public class SoldContact extends Model {
 		this.price = price;
 	}
 	
+	public String getCustZipCode() {
+		return custZipCode;
+	}
+	public void setCustZipCode(String custZipCode) {
+		this.custZipCode = custZipCode;
+	}
+	public String getEnthicity() {
+		return enthicity;
+	}
+	public void setEnthicity(String enthicity) {
+		this.enthicity = enthicity;
+	}
+
+
+
 	public static Finder<Long,SoldContact> find = new Finder<>(Long.class,SoldContact.class);
 	
 	public static List<SoldContact> getAllSoldContacts() {

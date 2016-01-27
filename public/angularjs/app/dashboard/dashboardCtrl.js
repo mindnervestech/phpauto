@@ -989,6 +989,8 @@ angular.module('newApp')
 		   	  	$scope.editLeads.model = entity.model;
 		   	  	$scope.editLeads.make = entity.make;
 		   	  	$scope.editLeads.year = entity.year;
+		   	  	$scope.editLeads.custZipCode = entity.custZipCode;
+				$scope.editLeads.enthicity = entity.enthicity;
 		   	  	
 		   	  	$scope.editLeads.id = entity.id;
 		   	  	$scope.editLeads.custName = entity.name;
@@ -1007,6 +1009,8 @@ angular.module('newApp')
 	   	  					$scope.editLeads.model = value.model;
 	   	  					$scope.editLeads.make = value.make;
 	   	  					$scope.editLeads.year = value.year;
+	   	  					//$scope.editLeads.custZipCode = value.custZipCode;
+	   	  					//$scope.editLeads.enthicity = value.enthicity;
 	   	  					$scope.editLeads.stockNumber = value.stock;
 	   	  				}
    	  				}else if(stockNo != ""){
@@ -1014,6 +1018,8 @@ angular.module('newApp')
    	  					$scope.editLeads.model = value.model;
 	  					$scope.editLeads.make = value.make;
 	  					$scope.editLeads.year = value.year;
+	  				//	$scope.editLeads.custZipCode = value.custZipCode;
+	  				//	$scope.editLeads.enthicity = value.enthicity;
 	  					$scope.editLeads.vin = value.vin;
    	  					}
    	  				}
@@ -1966,6 +1972,8 @@ angular.module('newApp')
     		$scope.soldContact.name = entity.name;
     		$scope.soldContact.email = entity.email;
     		$scope.soldContact.phone = entity.phone;
+    		$scope.soldContact.custZipCode = entity.custZipCode;
+    		$scope.soldContact.enthicity = entity.enthicity;
     		$scope.soldContact.typeOfLead = entity.typeOfLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
     			$scope.soldContact.howContactedUs = entity.howContactedUs;
@@ -2036,6 +2044,8 @@ angular.module('newApp')
     		$scope.soldContact.name = entity.name;
     		$scope.soldContact.email = entity.email;
     		$scope.soldContact.phone = entity.phone;
+    		$scope.soldContact.custZipCode = entity.custZipCode;
+    		$scope.soldContact.enthicity = entity.enthicity;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
     			$scope.soldContact.howContactedUs = entity.howContactedUs;
     		} else {
@@ -2092,6 +2102,8 @@ angular.module('newApp')
     		$scope.soldContact.name = entity.name;
     		$scope.soldContact.email = entity.email;
     		$scope.soldContact.phone = entity.phone;
+    		$scope.soldContact.custZipCode = entity.custZipCode;
+    		$scope.soldContact.enthicity = entity.enthicity;
     		$scope.soldContact.typeOfLead = entity.typeOfLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
     			$scope.soldContact.howContactedUs = entity.howContactedUs;

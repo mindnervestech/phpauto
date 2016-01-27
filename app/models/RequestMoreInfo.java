@@ -39,13 +39,16 @@ public class RequestMoreInfo extends Model {
 	public String hearedFrom;
 	public String custZipCode;
 	public int scheduleEmail;
-	public String Enthicity;
+	public String enthicity;
 	public Date statusDate;
+	
+	
+	
 	public String getEnthicity() {
-		return Enthicity;
+		return enthicity;
 	}
 	public void setEnthicity(String enthicity) {
-		this.Enthicity = enthicity;
+		this.enthicity = enthicity;
 	}
 	public int getScheduleEmail() {
 		return scheduleEmail;

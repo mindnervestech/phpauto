@@ -1971,6 +1971,8 @@ public class Application extends Controller {
 	    			rInfo.setName(vm.custName);
 	    			rInfo.setEmail(vm.custEmail);
 	    			rInfo.setPhone(vm.custNumber);
+	    			rInfo.setCustZipCode(vm.custZipCode);
+	    			rInfo.setEnthicity(vm.enthicity);
 	    			rInfo.update();
 	    			
 	    			UserNotes uNotes = new UserNotes();
@@ -1988,6 +1990,8 @@ public class Application extends Controller {
 	    			sInfo.setName(vm.custName);
 	    			sInfo.setEmail(vm.custEmail);
 	    			sInfo.setPhone(vm.custNumber);
+	    			sInfo.setCustZipCode(vm.custZipCode);
+	    			sInfo.setEnthicity(vm.enthicity);
 	    			sInfo.update();
 	    			
 	    			UserNotes uNotes = new UserNotes();
@@ -2005,6 +2009,8 @@ public class Application extends Controller {
 	    			tInfo.setFirstName(vm.custName);
 	    			tInfo.setEmail(vm.custEmail);
 	    			tInfo.setPhone(vm.custNumber);
+	    			tInfo.setCustZipCode(vm.custZipCode);
+	    			tInfo.setEnthicity(vm.enthicity);
 	    			tInfo.update();
 	    			
 	    			UserNotes uNotes = new UserNotes();
@@ -4485,6 +4491,8 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.requestDate = df.format(info.requestDate);
 	    		
 	    		if(info.assignedTo == null) {
@@ -4559,6 +4567,8 @@ public class Application extends Controller {
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4620,6 +4630,8 @@ public class Application extends Controller {
 	    		//vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4681,6 +4693,8 @@ public class Application extends Controller {
 	    		//vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4759,6 +4773,8 @@ public class Application extends Controller {
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.status =info.leadStatus;
 	    		if(info.statusDate != null){
 	    			vm.statusDate = info.statusDate.toString();
@@ -4824,6 +4840,8 @@ public class Application extends Controller {
 	    		//vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.status =info.status;
 	    		if(info.statusDate != null){
 	    			vm.statusDate = df.format(info.statusDate);
@@ -4889,6 +4907,8 @@ public class Application extends Controller {
 	    		//vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.status =info.status;
 	    		if(info.statusDate != null){
 	    			vm.statusDate = df.format(info.statusDate);
@@ -4965,6 +4985,8 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -5034,6 +5056,8 @@ public class Application extends Controller {
 	    		vm.bestTime = info.bestTime;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -5112,6 +5136,8 @@ public class Application extends Controller {
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -5173,6 +5199,8 @@ public class Application extends Controller {
 	    		//vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -5234,6 +5262,8 @@ public class Application extends Controller {
 	    		//vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -5301,6 +5331,8 @@ public class Application extends Controller {
 	    		vm.bestTime = info.bestTime;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -5381,6 +5413,8 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -5436,6 +5470,8 @@ public class Application extends Controller {
 	    		vm.email = info.email!=null ? info.email:"";
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -8390,6 +8426,8 @@ public class Application extends Controller {
     		contact.year = vm.year;
     		contact.mileage = vm.mileage;
     		contact.price = vm.price;
+    		contact.custZipCode = vm.custZipCode;
+    		contact.enthicity = vm.enthicity;
     		contact.user = user;
     		contact.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contact.save();
@@ -8408,6 +8446,8 @@ public class Application extends Controller {
     		} 
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
+    		contactsObj.custZipCode = vm.custZipCode;
+    		contactsObj.enthicity = vm.enthicity;
     		contactsObj.newsLetter = 0;
     		contactsObj.user = user.id;
     		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -8419,6 +8459,8 @@ public class Application extends Controller {
     			rInfo.setLeadStatus("COMPLETE");
     			rInfo.setStatus("COMPLETE");
     			rInfo.setStatusDate(currDate);
+    			rInfo.setCustZipCode(vm.custZipCode);
+    			rInfo.setEnthicity(vm.enthicity);
     			rInfo.update();
     			
     			UserNotes uNotes = new UserNotes();
@@ -8435,6 +8477,8 @@ public class Application extends Controller {
         		//schedule.setLeadStatus("SUCCESSFUL");
         		schedule.setLeadStatus("COMPLETE");
         		schedule.setStatusDate(currDate);
+        		schedule.setCustZipCode(vm.custZipCode);
+        		schedule.setEnthicity(vm.enthicity);
         		schedule.update();
         		
         		UserNotes uNotes = new UserNotes();
@@ -8451,6 +8495,8 @@ public class Application extends Controller {
     			tIn.setLeadStatus("COMPLETE");
     			tIn.setStatus("COMPLETE");
     			tIn.setStatusDate(currDate);
+    			tIn.setCustZipCode(vm.custZipCode);
+    			tIn.setEnthicity(vm.enthicity);
     			tIn.update();
     			
     			UserNotes uNotes = new UserNotes();
@@ -8618,6 +8664,8 @@ public class Application extends Controller {
     		contact.year = vm.year;
     		contact.mileage = vm.mileage;
     		contact.price = vm.price;
+    		contact.custZipCode = vm.custZipCode;
+    		contact.enthicity = vm.enthicity;
     		contact.save();
     		Contacts contactsObj = new Contacts();
     		String arr[] = vm.name.split(" ");
@@ -8634,6 +8682,8 @@ public class Application extends Controller {
     		} 
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
+    		contactsObj.custZipCode = vm.custZipCode;
+    		contactsObj.enthicity = vm.enthicity;
     		contactsObj.newsLetter = 0;
     		contactsObj.user = user.id;
     		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -8648,6 +8698,8 @@ public class Application extends Controller {
 	    		vehicle.update();
     		}
     		info.setStatus("COMPLETE");
+    		info.setCustZipCode(vm.custZipCode);
+    		info.setEnthicity(vm.enthicity);
     		info.update();
     		
     		
@@ -8771,6 +8823,8 @@ public class Application extends Controller {
     		contact.year = vm.year;
     		contact.mileage = vm.mileage;
     		contact.price = vm.price;
+    		contact.custZipCode = vm.custZipCode;
+    		contact.enthicity = vm.enthicity;
     		contact.save();
     		Contacts contactsObj = new Contacts();
     		String arr[] = vm.name.split(" ");
@@ -8787,6 +8841,8 @@ public class Application extends Controller {
     		} 
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
+    		contactsObj.custZipCode = vm.custZipCode;
+    		contactsObj.enthicity = vm.enthicity;
     		contactsObj.newsLetter = 0;
     		contactsObj.user = user.id;
     		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -8801,6 +8857,8 @@ public class Application extends Controller {
     		vehicle.update();
     		}
     		info.setStatus("COMPLETE");
+    		info.setCustZipCode(vm.custZipCode);
+    		info.setEnthicity(vm.enthicity);
     		info.update();
     		
     		UserNotes uNotes = new UserNotes();
@@ -9189,6 +9247,8 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -9245,6 +9305,8 @@ public class Application extends Controller {
 	    		vm.name = info.firstName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		//vm.bestDay = info.bestDay;
 	    		//vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Trade-In Appraisal";
@@ -9303,6 +9365,8 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		//vm.bestDay = info.bestDay;
 	    		//vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Request More Info";
@@ -9383,6 +9447,8 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -9444,6 +9510,8 @@ public class Application extends Controller {
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();

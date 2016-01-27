@@ -56,6 +56,8 @@ public class Contacts extends Model {
 	public String email1;
 	public String phone1;
 	public Integer newsLetter;
+	public String custZipCode;
+	public String enthicity;
 	
 	 public Integer user;
 	 
@@ -272,8 +274,19 @@ public class Contacts extends Model {
 	public void setNewsLetter(Integer newsLetter) {
 		this.newsLetter = newsLetter;
 	}
-
 	
+	public String getCustZipCode() {
+		return custZipCode;
+	}
+	public void setCustZipCode(String custZipCode) {
+		this.custZipCode = custZipCode;
+	}
+	public String getEnthicity() {
+		return enthicity;
+	}
+	public void setEnthicity(String enthicity) {
+		this.enthicity = enthicity;
+	}
 	public Location getLocations() {
 		return locations;
 	}

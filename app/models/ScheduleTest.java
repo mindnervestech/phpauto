@@ -49,14 +49,16 @@ public class ScheduleTest extends Model {
 	public String custZipCode;
 	public Boolean is_google_data;
 	public int scheduleEmail;
-	public String Enthicity;
+	public String enthicity;
 	public Date statusDate;
 	
+	
+	
 	public String getEnthicity() {
-		return Enthicity;
+		return enthicity;
 	}
 	public void setEnthicity(String enthicity) {
-		this.Enthicity = enthicity;
+		this.enthicity = enthicity;
 	}
 	public int getScheduleEmail() {
 		return scheduleEmail;

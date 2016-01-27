@@ -19,5 +19,7 @@ public class SoldContactVM {
 	public String typeOfLead;
 	public String vin;
 	public String statusVal;
+	public String custZipCode;
+	public String enthicity;
 	
 }
