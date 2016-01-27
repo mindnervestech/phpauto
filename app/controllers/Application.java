@@ -2274,7 +2274,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	Vehicle vm = Vehicle.findById(id);
-	    	
+	    	Date currDate = new Date();
 	    	if(vm != null){
 	    		vm.setStatus(status);
 	    		Date date = new Date();
@@ -2286,9 +2286,11 @@ public class Application extends Controller {
 	        		for(TradeIn tradeIn:tIn){
 	        			if(tradeIn.status == null){
 	        				tradeIn.setStatus("LOST");
+	        				tradeIn.setStatusDate(currDate);
 	        				tradeIn.update();
 	        			}else if(!tradeIn.status.equals("COMPLETE")){
 	        				tradeIn.setStatus("LOST");
+	        				tradeIn.setStatusDate(currDate);
 	        				tradeIn.update();
 	        			}
 	        		}
@@ -2297,9 +2299,11 @@ public class Application extends Controller {
 	        		for(RequestMoreInfo rMoreInfo:rInfos){
 	        			if(rMoreInfo.status == null){
 	        				rMoreInfo.setStatus("LOST");
+	        				rMoreInfo.setStatusDate(currDate);
 	        				rMoreInfo.update();
 	        			}else if(!rMoreInfo.status.equals("COMPLETE")){
 	        				rMoreInfo.setStatus("LOST");
+	        				rMoreInfo.setStatusDate(currDate);
 	        				rMoreInfo.update();
 	        			}
 	        		}
@@ -2309,9 +2313,11 @@ public class Application extends Controller {
 	        		for(ScheduleTest scheduleTest:sTests){
 	        			if(scheduleTest.leadStatus == null){
 	        				scheduleTest.setLeadStatus("LOST");
+	        				scheduleTest.setStatusDate(currDate);
 	        				scheduleTest.update();
 	        			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
 	        				scheduleTest.setLeadStatus("LOST");
+	        				scheduleTest.setStatusDate(currDate);
 	        				scheduleTest.update();
 	        			}
 	        		}
@@ -4754,6 +4760,9 @@ public class Application extends Controller {
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.status =info.leadStatus;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = info.statusDate.toString();
+	    		}
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4816,6 +4825,9 @@ public class Application extends Controller {
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.status =info.status;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4878,6 +4890,9 @@ public class Application extends Controller {
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.status =info.status;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}
 	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -8232,6 +8247,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		Date currDate = new Date();
     		AuthUser user = (AuthUser) getLocalUser();
     		List<String> emailList = new ArrayList<>();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
@@ -8286,9 +8302,11 @@ public class Application extends Controller {
         		for(TradeIn tradeIn:tIn){
         			if(tradeIn.status == null){
         				tradeIn.setStatus("LOST");
+        				tradeIn.setStatusDate(currDate);
         				tradeIn.update();
         			}else if(!tradeIn.status.equals("COMPLETE")){
         				tradeIn.setStatus("LOST");
+        				tradeIn.setStatusDate(currDate);
         				tradeIn.update();
         			}
         			
@@ -8304,9 +8322,11 @@ public class Application extends Controller {
         		for(RequestMoreInfo rMoreInfo:rInfos){
         			if(rMoreInfo.status == null){
         				rMoreInfo.setStatus("LOST");
+        				rMoreInfo.setStatusDate(currDate);
         				rMoreInfo.update();
         			}else if(!rMoreInfo.status.equals("COMPLETE")){
         				rMoreInfo.setStatus("LOST");
+        				rMoreInfo.setStatusDate(currDate);
         				rMoreInfo.update();
         			}
         			if(rMoreInfo.assignedTo !=null){
@@ -8322,9 +8342,11 @@ public class Application extends Controller {
         		for(ScheduleTest scheduleTest:sTests){
         			if(scheduleTest.leadStatus == null){
         				scheduleTest.setLeadStatus("LOST");
+        				scheduleTest.setStatusDate(currDate);
         				scheduleTest.update();
         			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
         				scheduleTest.setLeadStatus("LOST");
+        				scheduleTest.setStatusDate(currDate);
         				scheduleTest.update();
         			}
         			if(scheduleTest.assignedTo !=null){
@@ -8396,6 +8418,7 @@ public class Application extends Controller {
     			RequestMoreInfo rInfo = RequestMoreInfo.findById(vm.infoId);
     			rInfo.setLeadStatus("COMPLETE");
     			rInfo.setStatus("COMPLETE");
+    			rInfo.setStatusDate(currDate);
     			rInfo.update();
     			
     			UserNotes uNotes = new UserNotes();
@@ -8411,6 +8434,7 @@ public class Application extends Controller {
     			ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
         		//schedule.setLeadStatus("SUCCESSFUL");
         		schedule.setLeadStatus("COMPLETE");
+        		schedule.setStatusDate(currDate);
         		schedule.update();
         		
         		UserNotes uNotes = new UserNotes();
@@ -8426,6 +8450,7 @@ public class Application extends Controller {
     			TradeIn tIn = TradeIn.findById(vm.infoId);
     			tIn.setLeadStatus("COMPLETE");
     			tIn.setStatus("COMPLETE");
+    			tIn.setStatusDate(currDate);
     			tIn.update();
     			
     			UserNotes uNotes = new UserNotes();
@@ -8453,9 +8478,11 @@ public class Application extends Controller {
     		for(TradeIn tradeIn:tIn){
     			if(tradeIn.status == null){
     				tradeIn.setStatus("LOST");
+    				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
     			}else if(!tradeIn.status.equals("COMPLETE")){
     				tradeIn.setStatus("LOST");
+    				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
     			}
     			if(tradeIn.assignedTo !=null){
@@ -8470,9 +8497,11 @@ public class Application extends Controller {
     		for(RequestMoreInfo rMoreInfo:rInfos){
     			if(rMoreInfo.status == null){
     				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
     			}else if(!rMoreInfo.status.equals("COMPLETE")){
     				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
     			}
     			if(rMoreInfo.assignedTo !=null){
@@ -8488,9 +8517,11 @@ public class Application extends Controller {
     		for(ScheduleTest scheduleTest:sTests){
     			if(scheduleTest.leadStatus == null){
     				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
     			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
     				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
     			}
     			if(scheduleTest.assignedTo !=null){
@@ -8512,13 +8543,15 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		Date currDate = new Date();
     		if(option==0) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setLeadStatus("CANCEL");
+    			schedule.setStatusDate(currDate);
     			schedule.setReason(reason);
     			schedule.update();
     			
-    			Date currDate = new Date();
+    			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Client didn't buy vehicle");
         		uNotes.setAction("Other");
@@ -8530,10 +8563,11 @@ public class Application extends Controller {
     		} else if(option == 1) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
     			info.setLeadStatus("CANCEL");
+    			info.setStatusDate(currDate);
     			info.setReason(reason);
     			info.update();
     			
-    			Date currDate = new Date();
+    			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Client didn't buy vehicle");
         		uNotes.setAction("Other");
@@ -8545,10 +8579,10 @@ public class Application extends Controller {
     		} else if(option == 2) {
     			TradeIn info = TradeIn.findById(id);
     			info.setLeadStatus("CANCEL");
+    			info.setStatusDate(currDate);
     			info.setReason(reason);
     			info.update();
     			
-    			Date currDate = new Date();
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Client didn't buy vehicle");
         		uNotes.setAction("Other");
@@ -8630,9 +8664,11 @@ public class Application extends Controller {
     		for(TradeIn tradeIn:tIn){
     			if(tradeIn.status == null){
     				tradeIn.setStatus("LOST");
+    				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
     			}else if(!tradeIn.status.equals("COMPLETE")){
     				tradeIn.setStatus("LOST");
+    				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
     			}
     			if(tradeIn.assignedTo !=null){
@@ -8647,9 +8683,11 @@ public class Application extends Controller {
     		for(RequestMoreInfo rMoreInfo:rInfos){
     			if(rMoreInfo.status == null){
     				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
     			}else if(!rMoreInfo.status.equals("COMPLETE")){
     				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
     			}
     			if(rMoreInfo.assignedTo !=null){
@@ -8665,9 +8703,11 @@ public class Application extends Controller {
     		for(ScheduleTest scheduleTest:sTests){
     			if(scheduleTest.leadStatus == null){
     				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
     			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
     				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
     			}
     			if(scheduleTest.assignedTo !=null){
@@ -8689,12 +8729,14 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		Date currDate = new Date();
     		RequestMoreInfo info = RequestMoreInfo.findById(id);
     		info.setStatus("CANCEL");
+    		info.setStatusDate(currDate);
     		info.setReason(reason);
     		info.update();
     		
-    		Date currDate = new Date();
+    		
     		UserNotes uNotes = new UserNotes();
     		uNotes.setNote("Client didn't buy vehicle");
     		uNotes.setAction("Other");
@@ -8773,9 +8815,11 @@ public class Application extends Controller {
     		for(TradeIn tradeIn:tIn){
     			if(tradeIn.status == null){
     				tradeIn.setStatus("LOST");
+    				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
     			}else if(!tradeIn.status.equals("COMPLETE")){
     				tradeIn.setStatus("LOST");
+    				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
     			}
     			if(tradeIn.assignedTo !=null){
@@ -8790,9 +8834,11 @@ public class Application extends Controller {
     		for(RequestMoreInfo rMoreInfo:rInfos){
     			if(rMoreInfo.status == null){
     				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
     			}else if(!rMoreInfo.status.equals("COMPLETE")){
     				rMoreInfo.setStatus("LOST");
+    				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
     			}
     			if(rMoreInfo.assignedTo !=null){
@@ -8808,9 +8854,11 @@ public class Application extends Controller {
     		for(ScheduleTest scheduleTest:sTests){
     			if(scheduleTest.leadStatus == null){
     				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
     			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
     				scheduleTest.setLeadStatus("LOST");
+    				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
     			}
     			if(scheduleTest.assignedTo !=null){
@@ -8831,12 +8879,14 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		Date currDate = new Date();
     		TradeIn info = TradeIn.findById(id);
     		info.setStatus("CANCEL");
+    		info.setStatusDate(currDate);
     		info.setReason(reason);
     		info.update();
     		
-    		Date currDate = new Date();
+    		
     		UserNotes uNotes = new UserNotes();
     		uNotes.setNote("Client didn't buy vehicle");
     		uNotes.setAction("Other");

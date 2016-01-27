@@ -899,6 +899,14 @@ angular.module('newApp')
       	     			 	    	  		                                     }
       	     			 	    	 		                                	} ,
       	     			 	    	 		                                 },
+      	     			 	    	 		                            { name: 'statusDate', displayName: 'Date', width:'12%',cellEditableCondition: false,
+       	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+       	     			 	    	  		                                       if (row.entity.isRead === false) {
+       	     			 	    	  		                                         return 'red';
+       	     			 	    	  		                                     }
+       	     			 	    	 		                                	} ,
+       	     			 	    	 		                                 },
+      	     			 	    	 		                            
      	     			 	    	 		                             
      	     			 	    	 		                                /*{ name: 'btnSold', displayName: '',enableFiltering: false, width:'42%',cellEditableCondition: false,
      	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,1)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">ADD TO CLIENTELE</button>',

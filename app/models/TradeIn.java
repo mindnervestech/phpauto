@@ -78,6 +78,7 @@ public class TradeIn extends Model {
 	public String custZipCode;
 	public int scheduleEmail;
 	public String Enthicity;
+	public Date statusDate;
 	
 	public String getEnthicity() {
 		return Enthicity;
@@ -378,6 +379,13 @@ public class TradeIn extends Model {
 	}
 	public void setVehiclenew(String vehiclenew) {
 		this.vehiclenew = vehiclenew;
+	}
+	
+	public Date getStatusDate() {
+		return statusDate;
+	}
+	public void setStatusDate(Date statusDate) {
+		this.statusDate = statusDate;
 	}
 	public String getAccidents() {
 		return accidents;

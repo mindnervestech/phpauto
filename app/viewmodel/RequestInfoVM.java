@@ -24,6 +24,7 @@ public class RequestInfoVM {
 	public boolean isRead;
 	public List<NoteVM> note;
 	public String status;
+	public String statusDate;
 	public String salesRep;
 	public String prefferedContact;
 	public String leadType;

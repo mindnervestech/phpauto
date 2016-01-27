@@ -40,6 +40,7 @@ public class RequestMoreInfo extends Model {
 	public String custZipCode;
 	public int scheduleEmail;
 	public String Enthicity;
+	public Date statusDate;
 	public String getEnthicity() {
 		return Enthicity;
 	}
@@ -164,6 +165,13 @@ public class RequestMoreInfo extends Model {
 	}
 	public void setCustZipCode(String custZipCode) {
 		this.custZipCode = custZipCode;
+	}
+
+	public Date getStatusDate() {
+		return statusDate;
+	}
+	public void setStatusDate(Date statusDate) {
+		this.statusDate = statusDate;
 	}
 
 	public static Finder<Long,RequestMoreInfo> find = new Finder<>(Long.class,RequestMoreInfo.class);
