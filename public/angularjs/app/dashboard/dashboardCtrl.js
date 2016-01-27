@@ -1448,6 +1448,22 @@ angular.module('newApp')
 	    					$scope.currentData = response.allVehical;
 	    			});
 	    		};
+	    		
+	    		$scope.getFromCrm = function(name){
+	    			if(name !=null || name!=''){
+	    				$http.get('/getDataFromCrm/'+name).success(function(data){
+		    				$scope.crmData = data;
+		    			 });
+	    			}
+	    		};
+	    		$scope.dataFromCrm = function(item){
+	    			$scope.item = JSON.parse(item);
+	    			$scope.lead.custName = $scope.item.firstName +" "+ $scope.item.lastName;
+	    			$scope.lead.custNumber = $scope.item.phone;
+	    			$scope.lead.custEmail = $scope.item.email;
+	    			$scope.lead.custZipCode = $scope.item.zip;
+	    			console.log($scope.item);
+	    		};
 	    			$http.get('/getHeardAboutUs').success(function(response) {
 	    				$scope.heardAboutUs = response;
 	    				console.log($scope.heardAboutUs);

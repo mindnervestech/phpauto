@@ -17086,4 +17086,21 @@ public class Application extends Controller {
 		return ok();
 	}
 	
+	public static Result getDataFromCrm(String name){
+		AuthUser userObj = (AuthUser) getLocalUser();
+		List<ContactsVM> contactsVMList = new ArrayList<>();
+		List<Contacts> contactsList = Contacts.getAllByName(name);
+		//List<Contacts> contactsList = Contacts.getAllContacts();
+		for (Contacts contacts : contactsList) {
+			ContactsVM vm = new ContactsVM();
+			vm.setFirstName(contacts.firstName);
+			vm.setLastName(contacts.lastName);
+			vm.setPhone(contacts.phone);
+			vm.setEmail(contacts.email);
+			vm.setZip(contacts.zip);
+			contactsVMList.add(vm);
+		}
+		return ok(Json.toJson(contactsVMList));
+	}
+	
 }

@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
+import com.avaje.ebean.Expr;
+
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
@@ -355,7 +357,11 @@ public class Contacts extends Model {
 	public static Contacts findById(Long id) {
 		return find.byId(id);
 	}
-	
+	public static List<Contacts> getAllByName(String name) {
+		System.out.println(name);
+		return find.where().or(Expr.like("firstName", "%"+name+"%"),Expr.like("lastName", "%"+name+"%")).findList();
+		//return find.where("firstName like '"+name+"'").findList();
+	}
 	public static List<Contacts> getAllNewsletter() {
 		return find.where().eq("newsLetter", 1).findList();
 	}

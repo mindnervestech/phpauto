@@ -224,3 +224,4 @@ GET  /getFinancialVehicleDetailsByBodyStyle	 	controllers.Application.getFinanci
 GET 	/exportContactsData			  			controllers.Application.exportContactsData()
 GET		/downloadStatusFile			  controllers.Application.downloadStatusFile()
 GET    /getScheduleTime/:vin/:comDate 			controllers.Application.getScheduleTime(vin:String,comDate:String)
+GET		/getDataFromCrm/:name			controllers.Application.getDataFromCrm(name:String)
