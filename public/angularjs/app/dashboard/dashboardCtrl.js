@@ -1120,8 +1120,23 @@ angular.module('newApp')
 	    					 }
     					});
     		   }
-    		  
-    		 
+    		  $scope.flags = {};
+    		 $scope.checkIndex = function(item,values){
+    			 console.log(values);
+    			 angular.forEach($scope.currentData, function(value, key) {
+    				 if(value.id == item.id){
+    					 if(values == false || values == undefined){
+    						 value.flag = 1;
+    					 }else{
+    						 value.flag = 0;
+    					 }
+    					 
+    				 }
+    			 });
+    			 console.log($scope.currentData);
+    			/*$scope.flags["flag"+index] = 1;
+    			console.log($scope["flag"+index]);*/
+    		 }
     	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
     			  var visitorsData = {

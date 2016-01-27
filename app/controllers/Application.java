@@ -13169,12 +13169,25 @@ public class Application extends Controller {
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
     	for(Vehicle vehicle:topVisited) {
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
+    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		
+    		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
     		
     		if(pagesCount.get(vehicle.getVin()) == null){
     			analyticalVM.count = 0;
     		}else{
     			analyticalVM.count = pagesCount.get(vehicle.getVin());
     		}
+    		
+    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
+    		if(pAlert != null){
+    			analyticalVM.followerCount =  pAlert.size();
+    		}else{
+    			analyticalVM.followerCount = 0;
+    		}
+    		analyticalVM.price = vehicle.getPrice();
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
@@ -13191,7 +13204,23 @@ public class Application extends Controller {
     	List<Vehicle> notVisitedVehicle = Vehicle.findByNotInVins(vins);
     	for(Vehicle vehicle:notVisitedVehicle) {
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
+    		
+    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		
+    		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
+    		
     		analyticalVM.count = 0;
+    		
+    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
+    		if(pAlert != null){
+    			analyticalVM.followerCount =  pAlert.size();
+    		}else{
+    			analyticalVM.followerCount = 0;
+    		}
+    		analyticalVM.price = vehicle.getPrice();
+    		
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
@@ -13216,7 +13245,19 @@ public class Application extends Controller {
     		}else{
     			analyticalVM.count =  pagesCount.get(vehicle.getVin());
     		}
+    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
     		
+    		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
+    		
+    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
+    		if(pAlert != null){
+    			analyticalVM.followerCount =  pAlert.size();
+    		}else{
+    			analyticalVM.followerCount = 0;
+    		}
+    		analyticalVM.price = vehicle.getPrice();
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
@@ -13250,13 +13291,28 @@ public class Application extends Controller {
     		else {
     			anVm.defaultImagePath = "/assets/images/no-image.jpg";
     		}
+    		
+    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		
+    		anVm.leadsCount = rInfos.size() + sList.size() + tIns.size();
+    		
     		anVm.vin = vehicle.getVin();
+    		anVm.price = vehicle.getPrice();
     		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		
     		if(pagesCount1.get(vehicle.getVin()) !=null){
     			anVm.count =  pagesCount1.get(vehicle.getVin());
     		}else{
     			anVm.count = 0;
+    		}
+    		
+    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
+    		if(pAlert != null){
+    			anVm.followerCount =  pAlert.size();
+    		}else{
+    			anVm.followerCount = 0;
     		}
     		
     		allVehical.add(anVm);
@@ -13283,6 +13339,10 @@ public class Application extends Controller {
     	public int count;
     	public Long id;
     	public String vin;
+    	public Integer price;
+    	public Integer followerCount;
+    	public Integer leadsCount;
+    	public Integer flag = 0;
     	public boolean isImage = false;
     	public String defaultImagePath;
     }
