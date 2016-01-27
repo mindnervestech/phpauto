@@ -3982,33 +3982,7 @@ margin-left: 5px;
 								                </div>
 								                <form ng-submit="editleads()">
 								                <div class="modal-body" style="height:410px;overflow-x:auto;">
-								                 	<div class="form-group col-sm-12">
-								                 	<label class="col-sm-4 control-label" style="text-align: right;">Make Model Vin</label>
-														<div class="col-sm-7">
-								                      	<select class="form-control form-white" ng-model="editLeads.vin" ng-change="changesVin(editLeads.vin)" required>
-																<option value="">Select</option>
-																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.vin == vehi.vin" value="{{vehi.vin}}">{{vehi.make}} , {{vehi.model}} , {{vehi.vin}}</option>
-															</select>
-															</div>
-								                 </div>
-								                 <!-- <div class="form-group col-sm-12">
-								                 	<label class="col-sm-4 control-label" style="text-align: right;">Model</label>
-														<div class="col-sm-7">
-								                      	<select class="form-control form-white" ng-model="editLeads.model" disabled required>
-																<option value="">Select</option>
-																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.model == vehi.model" value="{{vehi.model}}">{{vehi.model}}</option>
-															</select>
-															</div>
-								                 </div>
-								                 <div class="form-group col-sm-12">
-								                 	<label class="col-sm-4 control-label" style="text-align: right;">Make</label>
-														<div class="col-sm-7">
-								                      	<select class="form-control form-white" ng-model="editLeads.make" disabled required>
-																<option value="">Select</option>
-																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.make == vehi.make" value="{{vehi.make}}">{{vehi.make}}</option>
-															</select>
-															</div>
-								                 </div> -->
+								                
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
 														<div class="col-sm-7">
@@ -4027,6 +4001,55 @@ margin-left: 5px;
 															<input type="text" class="form-control form-white" ng-model="editLeads.custNumber" required>
 														</div>
 													</div>
+													 <div class="form-group col-sm-12">
+								                 	<label class="col-sm-4 control-label" style="text-align: right;">Stock Number</label>
+														<div class="col-sm-7">
+								                      	<select class="form-control form-white" ng-model="editLeads.stockNumber" ng-change="changesVin('',editLeads.stockNumber)" required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.stockNumber == vehi.stock" value="{{vehi.stock}}">{{vehi.stock}}</option>
+															</select>
+															</div>
+								                 </div>
+												<div class="form-group col-sm-12">
+								                 	<label class="col-sm-4 control-label" style="text-align: right;">Vin</label>
+														<div class="col-sm-7">
+								                      	<select class="form-control form-white" ng-model="editLeads.vin" ng-change="changesVin(editLeads.vin,'')" required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.vin == vehi.vin" value="{{vehi.vin}}">{{vehi.vin}}</option>
+															</select>
+															</div>
+								                 </div>
+								                
+								                 <div class="form-group col-sm-12">
+								                 	<label class="col-sm-4 control-label" style="text-align: right;">Year</label>
+														<div class="col-sm-7">
+								                      	<!-- <select class="form-control form-white" ng-model="editLeads.year" disabled required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.year == vehi.year" value="{{vehi.year}}">{{vehi.year}}</option>
+															</select> -->
+															<input type="text" class="form-control form-white" ng-model="editLeads.year" disabled required>
+															</div>
+								                 </div>
+								                  <div class="form-group col-sm-12">
+								                 	<label class="col-sm-4 control-label" style="text-align: right;">Model</label>
+														<div class="col-sm-7">
+								                      	<!-- <select class="form-control form-white" ng-model="editLeads.model" disabled required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.model == vehi.model" value="{{vehi.model}}">{{vehi.model}}</option>
+															</select> -->
+															<input type="text" class="form-control form-white" ng-model="editLeads.model" disabled required>
+															</div>
+								                 </div>
+								                 <div class="form-group col-sm-12">
+								                 	<label class="col-sm-4 control-label" style="text-align: right;">Make</label>
+														<div class="col-sm-7">
+								                      	<!-- <select class="form-control form-white" ng-model="editLeads.make" disabled required>
+																<option value="">Select</option>
+																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.make == vehi.make" value="{{vehi.make}}">{{vehi.make}}</option>
+															</select> -->
+															<input type="text" class="form-control form-white" ng-model="editLeads.make" disabled required>
+															</div>
+								                 </div> 
 													
 								                </div>
 								                <div class="modal-footer">

@@ -985,8 +985,11 @@ angular.module('newApp')
    	  			$('#btneditleads').click();
    	  			//$scope.editLeads = entity;
    	  			$scope.editLeads.vin = entity.vin;
+   	  			$scope.editLeads.stockNumber = entity.stock;
 		   	  	$scope.editLeads.model = entity.model;
 		   	  	$scope.editLeads.make = entity.make;
+		   	  	$scope.editLeads.year = entity.year;
+		   	  	
 		   	  	$scope.editLeads.id = entity.id;
 		   	  	$scope.editLeads.custName = entity.name;
 		   	  	$scope.editLeads.custEmail = entity.email;
@@ -996,13 +999,25 @@ angular.module('newApp')
    	
    	  		}
    	  		
-   	  		$scope.changesVin = function(vinNo){
+   	  		$scope.changesVin = function(vinNo,stockNo){
    	  		
    	  			angular.forEach($scope.allVehicalss, function(value, key) {
-   	  				if(value.vin == vinNo){
+   	  				if(vinNo != ""){
+	   	  				if(value.vin == vinNo){
+	   	  					$scope.editLeads.model = value.model;
+	   	  					$scope.editLeads.make = value.make;
+	   	  					$scope.editLeads.year = value.year;
+	   	  					$scope.editLeads.stockNumber = value.stock;
+	   	  				}
+   	  				}else if(stockNo != ""){
+   	  					if(value.stock == stockNo){
    	  					$scope.editLeads.model = value.model;
-   	  					$scope.editLeads.make = value.make;
+	  					$scope.editLeads.make = value.make;
+	  					$scope.editLeads.year = value.year;
+	  					$scope.editLeads.vin = value.vin;
+   	  					}
    	  				}
+   	  				
    	  			});
    	  		}
    	  		
