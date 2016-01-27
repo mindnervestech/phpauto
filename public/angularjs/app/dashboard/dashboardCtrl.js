@@ -4610,6 +4610,7 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Vehicle status marked Newly Arrived",
 					});
+				 $scope.soldTab();
 			} 
 			if($scope.soldContact.statusVal == 'Sold') {
 				$scope.soldTab();
@@ -4618,7 +4619,12 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Vehicle status marked sold",
 				});
+				
+				$scope.newlyArrivedTab();
 			}
+			
+			
+			
 	});
 }
    

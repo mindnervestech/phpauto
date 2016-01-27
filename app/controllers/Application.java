@@ -8301,6 +8301,9 @@ public class Application extends Controller {
     		contact.year = vm.year;
     		contact.mileage = vm.mileage;
     		contact.price = vm.price;
+    		contact.custZipCode = vm.custZipCode;
+    		contact.enthicity = vm.enthicity;
+    		
     		contact.save();
     		Contacts contactsObj = new Contacts();
     		String arr[] = vm.name.split(" ");
@@ -8317,6 +8320,8 @@ public class Application extends Controller {
     		} 
     		contactsObj.email = vm.email;
     		contactsObj.phone = vm.phone;
+    		contactsObj.custZipCode = vm.custZipCode;
+    		contactsObj.enthicity = vm.enthicity;
     		contactsObj.newsLetter = 0;
     		contactsObj.user = user.id;
     		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
