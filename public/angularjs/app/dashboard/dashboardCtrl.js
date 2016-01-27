@@ -2466,7 +2466,7 @@ angular.module('newApp')
 				   $scope.typeOfNote = 'scheduleTest';
 			   } else if(entity.typeOfLead == "Request More Info") {
 				   $scope.typeOfNote = 'requestMore';
-			   } else if(entity.typeOfLead == "Trade In") {
+			   } else if(entity.typeOfLead == "Trade In" || entity.typeOfLead == "Trade-In Appraisal") {
 				   $scope.typeOfNote = 'tradeIn';
 			   } 
 			   
