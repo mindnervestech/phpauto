@@ -663,6 +663,7 @@ angular.module('newApp')
      			  		                                	} ,
      			 		                                 },
      			 		                                 { name: 'confirmDate', displayName: 'Confirm Day', width:'8%',cellEditableCondition: false,
+     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmDate}}</a> ',
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 0) {
      			   		                                         return 'red';
@@ -670,6 +671,7 @@ angular.module('newApp')
      			  		                                	} ,
      					                                 },
      					                                 { name: 'confirmTime', displayName: 'Confirm Time', width:'8%',cellEditableCondition: false,
+     					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmTime}}</a> ',
      					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      				  		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 0) {
      				  		                                         return 'red';
@@ -677,6 +679,7 @@ angular.module('newApp')
      				 		                                	} ,
      			 		                                 },
      			 		                               { name: 'bestDay', displayName: 'Requested Time', width:'8%',cellEditableCondition: false,
+     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bastDay}}</a> ',
       			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       			   		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 0) {
       			   		                                         return 'red';
@@ -684,6 +687,7 @@ angular.module('newApp')
       			  		                                	} ,
       					                                 },
       					                                 { name: 'bestTime', displayName: 'Requested Time', width:'8%',cellEditableCondition: false,
+      					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bastTime}}</a> ',
       					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       				  		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 0) {
       				  		                                         return 'red';
@@ -888,6 +892,14 @@ angular.module('newApp')
      	     			 	    	  		                                     }
      	     			 	    	 		                                	} ,
      	     			 	    	 		                                 },
+     	     			 	    	 		                             { name: 'status', displayName: 'Status', width:'12%',cellEditableCondition: false,
+      	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+      	     			 	    	  		                                       if (row.entity.isRead === false) {
+      	     			 	    	  		                                         return 'red';
+      	     			 	    	  		                                     }
+      	     			 	    	 		                                	} ,
+      	     			 	    	 		                                 },
+     	     			 	    	 		                             
      	     			 	    	 		                                /*{ name: 'btnSold', displayName: '',enableFiltering: false, width:'42%',cellEditableCondition: false,
      	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,1)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">ADD TO CLIENTELE</button>',
      	     			 				 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -2448,15 +2460,14 @@ angular.module('newApp')
 		   $scope.addNoteToRequestUser = function(entity,type) {
 			   $scope.userNoteId = entity.id;
 			   console.log(entity);
-			  /* if(entity.option == 0) {
+			   if(entity.typeOfLead == "Schedule Test") {
 				   $scope.typeOfNote = 'scheduleTest';
-			   } else if(entity.option == 1) {
+			   } else if(entity.typeOfLead == "Request More Info") {
 				   $scope.typeOfNote = 'requestMore';
-			   } else if(entity.option == 2) {
+			   } else if(entity.typeOfLead == "Trade In") {
 				   $scope.typeOfNote = 'tradeIn';
-			   } else {*/
-				   $scope.typeOfNote = type;
-			   //}
+			   } 
+			   
 			   $scope.userNoteList = entity.note;
 			   $scope.userNote = "";
 			   $('#btnUserNote').click();

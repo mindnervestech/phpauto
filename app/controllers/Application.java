@@ -4752,6 +4752,7 @@ public class Application extends Controller {
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.status =info.leadStatus;
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4813,6 +4814,7 @@ public class Application extends Controller {
 	    		//vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.status =info.status;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4874,6 +4876,7 @@ public class Application extends Controller {
 	    		//vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.status =info.status;
 	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -8465,19 +8468,48 @@ public class Application extends Controller {
     	} else {
     		if(option==0) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
-    			schedule.setLeadStatus("FAILED");
+    			schedule.setLeadStatus("CANCEL");
     			schedule.setReason(reason);
     			schedule.update();
+    			
+    			Date currDate = new Date();
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Client didn't buy vehicle");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
+        		uNotes.save();
+        		
     		} else if(option == 1) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
-    			info.setLeadStatus("FAILED");
+    			info.setLeadStatus("CANCEL");
     			info.setReason(reason);
     			info.update();
+    			
+    			Date currDate = new Date();
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Client didn't buy vehicle");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+        		uNotes.save();
+        		
     		} else if(option == 2) {
     			TradeIn info = TradeIn.findById(id);
-    			info.setLeadStatus("FAILED");
+    			info.setLeadStatus("CANCEL");
     			info.setReason(reason);
     			info.update();
+    			
+    			Date currDate = new Date();
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Client didn't buy vehicle");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.tradeIn = TradeIn.findById(info.id);
+        		uNotes.save();
     		}
     		return ok();
     	}
@@ -8596,7 +8628,7 @@ public class Application extends Controller {
     		
     		Date currDate = new Date();
     		UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Client interested in another vehicle");
+    		uNotes.setNote("Client didn't buy vehicle");
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;
@@ -8714,6 +8746,15 @@ public class Application extends Controller {
     		info.setStatus("CANCEL");
     		info.setReason(reason);
     		info.update();
+    		
+    		Date currDate = new Date();
+    		UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Client didn't buy vehicle");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = currDate;
+    		uNotes.createdTime = currDate;
+    		uNotes.tradeIn = TradeIn.findById(info.id);
+    		uNotes.save();
     		return ok();
     	}
     }
