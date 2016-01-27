@@ -48,6 +48,8 @@ GET    	/deleteVehicleById/:id      controllers.Application.deleteVehicleById(id
 GET    	/updateVehicleStatus/:id/:status    controllers.Application.updateVehicleStatus(id: Long,status:String)
 POST   	/updateVehicle              controllers.Application.updateVehicle()
 GET		/getVehicleById/:id			controllers.Application.getVehicleById(id: Long)
+GET     /saveAction/:actionV		controllers.Application.saveAction(actionV: String)
+GET     /getAllAction				controllers.Application.getAllAction()
 POST	/updateVehicleById			controllers.Application.updateVehicleById()
 POST	/uploadSoundFile			controllers.Application.uplaodSoundFile()
 GET		/getAllAudio/:vin			controllers.Application.getAllAudio(vin:String)

@@ -2460,6 +2460,8 @@ angular.module('newApp')
 		   $scope.addNoteToRequestUser = function(entity,type) {
 			   $scope.userNoteId = entity.id;
 			   console.log(entity);
+			   $scope.action = "";
+			   console.log($scope.action);
 			   if(entity.typeOfLead == "Schedule Test") {
 				   $scope.typeOfNote = 'scheduleTest';
 			   } else if(entity.typeOfLead == "Request More Info") {
@@ -2470,7 +2472,38 @@ angular.module('newApp')
 			   
 			   $scope.userNoteList = entity.note;
 			   $scope.userNote = "";
+			   $http.get('/getAllAction').success(function(data) {
+				   $scope.allAction = data;
+		   		});
 			   $('#btnUserNote').click();
+		   }
+		   $scope.showOtherText = 0;
+		   $scope.selectOther = function(action){
+			   console.log(action);
+			   if(action == "Other"){
+				   $scope.showOtherText = 1;
+			   }else{
+				   $scope.showOtherText = 0;
+			   }
+		   }
+		   $scope.errMsg = 0;
+		   $scope.saveAction = function(actionValue){
+			   if(actionValue == null || actionValue == '' || actionValue == undefined){
+				   $scope.errMsg = 1;
+			   }else{
+				   $scope.errMsg = 0;
+				   $http.get('/saveAction/'+actionValue).success(function(data) {
+					   $.pnotify({
+	   				    title: "Success",
+	   				    type:'success',
+	   				    text: "Action saved successfully",
+	   				});
+					   $http.get('/getAllAction').success(function(data) {
+						   $scope.allAction = data;
+				   		});
+					   $scope.showOtherText = 0;
+				   });
+			   }
 		   }
 		   
 		   $scope.saveUserNote = function() {

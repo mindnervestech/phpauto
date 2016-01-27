@@ -52,6 +52,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
+import models.ActionAdd;
 import models.AuthUser;
 import models.Blog;
 import models.Contacts;
@@ -10079,6 +10080,18 @@ public class Application extends Controller {
     		}
     		return ok();
     	}
+    }
+    
+    public static Result getAllAction(){
+    	List<ActionAdd> actionAdd = ActionAdd.getAll();
+    	return ok(Json.toJson(actionAdd));
+    }
+    
+    public static Result saveAction(String actionV){
+    	ActionAdd actionAdd = new ActionAdd();
+    	actionAdd.value = actionV;
+    	actionAdd.save();
+    	return ok();
     }
     
     public static Result saveTestDrive() {
