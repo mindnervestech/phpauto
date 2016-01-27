@@ -665,7 +665,7 @@ td,span,a{font-family: Arial, sans-serif !important;}
                           <tr>
                             <td width="100%" valign="top" align="left" class="image-170px">
                               
-                                <img src="$hostnameUrl/email_images/$obj.imageUrl" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl/$obj.imageUrl" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
