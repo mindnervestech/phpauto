@@ -8232,6 +8232,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
+    		List<String> emailList = new ArrayList<>();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
     		SoldContact contact = new SoldContact();
@@ -8289,6 +8290,13 @@ public class Application extends Controller {
         				tradeIn.setStatus("LOST");
         				tradeIn.update();
         			}
+        			
+        			if(tradeIn.assignedTo !=null){
+        				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
+        				if(userObj !=null){
+        					emailList.add(userObj.email);
+        				}
+        			}
         		}
         		
         		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vm.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
@@ -8299,6 +8307,12 @@ public class Application extends Controller {
         			}else if(!rMoreInfo.status.equals("COMPLETE")){
         				rMoreInfo.setStatus("LOST");
         				rMoreInfo.update();
+        			}
+        			if(rMoreInfo.assignedTo !=null){
+        				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
+        				if(userObj !=null){
+        					emailList.add(userObj.email);
+        				}
         			}
         		}
         		
@@ -8312,7 +8326,17 @@ public class Application extends Controller {
         				scheduleTest.setLeadStatus("LOST");
         				scheduleTest.update();
         			}
+        			if(scheduleTest.assignedTo !=null){
+        				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
+        				if(userObj !=null){
+        					emailList.add(userObj.email);
+        				}
+        			}
         		}
+    		}
+    		
+    		if(emailList.size()>0){
+    			vehicleSoldEmail(emailList);
     		}
     		
     		return ok();
@@ -8326,6 +8350,7 @@ public class Application extends Controller {
     	} else {
     		
     		Date currDate = new Date();
+    		List<String> emailList = new ArrayList<>();
     		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
@@ -8432,6 +8457,12 @@ public class Application extends Controller {
     				tradeIn.setStatus("LOST");
     				tradeIn.update();
     			}
+    			if(tradeIn.assignedTo !=null){
+    				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
+    				if(userObj !=null){
+    					emailList.add(userObj.email);
+    				}
+    			}
     		}
     		
     		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vinNo, Location.findById(Long.parseLong(session("USER_LOCATION"))));
@@ -8442,6 +8473,12 @@ public class Application extends Controller {
     			}else if(!rMoreInfo.status.equals("COMPLETE")){
     				rMoreInfo.setStatus("LOST");
     				rMoreInfo.update();
+    			}
+    			if(rMoreInfo.assignedTo !=null){
+    				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
+    				if(userObj !=null){
+    					emailList.add(userObj.email);
+    				}
     			}
     		}
     		
@@ -8455,9 +8492,17 @@ public class Application extends Controller {
     				scheduleTest.setLeadStatus("LOST");
     				scheduleTest.update();
     			}
+    			if(scheduleTest.assignedTo !=null){
+    				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
+    				if(userObj !=null){
+    					emailList.add(userObj.email);
+    				}
+    			}
     		}
     		
-    		
+    		if(emailList.size()>0){
+    			vehicleSoldEmail(emailList);
+    		}
     		return ok();
     	}
     }
@@ -8521,6 +8566,7 @@ public class Application extends Controller {
     	} else {
     		
     		Date currDate = new Date();
+    		List<String> emailList = new ArrayList<>();
     		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
@@ -8588,6 +8634,12 @@ public class Application extends Controller {
     				tradeIn.setStatus("LOST");
     				tradeIn.update();
     			}
+    			if(tradeIn.assignedTo !=null){
+    				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
+    				if(userObj !=null){
+    					emailList.add(userObj.email);
+    				}
+    			}
     		}
     		
     		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
@@ -8598,6 +8650,12 @@ public class Application extends Controller {
     			}else if(!rMoreInfo.status.equals("COMPLETE")){
     				rMoreInfo.setStatus("LOST");
     				rMoreInfo.update();
+    			}
+    			if(rMoreInfo.assignedTo !=null){
+    				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
+    				if(userObj !=null){
+    					emailList.add(userObj.email);
+    				}
     			}
     		}
     		
@@ -8611,8 +8669,17 @@ public class Application extends Controller {
     				scheduleTest.setLeadStatus("LOST");
     				scheduleTest.update();
     			}
+    			if(scheduleTest.assignedTo !=null){
+    				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
+    				if(userObj !=null){
+    					emailList.add(userObj.email);
+    				}
+    			}
     		}
     		
+    		if(emailList.size()>0){
+    			vehicleSoldEmail(emailList);
+    		}
     		return ok();
     	}
     }
@@ -8644,6 +8711,7 @@ public class Application extends Controller {
     	} else {
     		
     		Date currDate = new Date();
+    		List<String> emailList = new ArrayList<>();
     		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
@@ -8709,6 +8777,12 @@ public class Application extends Controller {
     				tradeIn.setStatus("LOST");
     				tradeIn.update();
     			}
+    			if(tradeIn.assignedTo !=null){
+    				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
+    				if(userObj !=null){
+    					emailList.add(userObj.email);
+    				}
+    			}
     		}
     		
     		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
@@ -8719,6 +8793,12 @@ public class Application extends Controller {
     			}else if(!rMoreInfo.status.equals("COMPLETE")){
     				rMoreInfo.setStatus("LOST");
     				rMoreInfo.update();
+    			}
+    			if(rMoreInfo.assignedTo !=null){
+    				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
+    				if(userObj !=null){
+    					emailList.add(userObj.email);
+    				}
     			}
     		}
     		
@@ -8732,8 +8812,16 @@ public class Application extends Controller {
     				scheduleTest.setLeadStatus("LOST");
     				scheduleTest.update();
     			}
+    			if(scheduleTest.assignedTo !=null){
+    				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
+    				if(userObj !=null){
+    					emailList.add(userObj.email);
+    				}
+    			}
     		}
-    		
+    		if(emailList.size()>0){
+    			vehicleSoldEmail(emailList);
+    		}
     		return ok();
     	}
     }
@@ -16820,6 +16908,46 @@ public class Application extends Controller {
     			
     		return ok(Json.toJson(timeList));
     	}
+	}
+	
+	public static Result vehicleSoldEmail(List<String> emailList) {
+		System.out.println("vehicleSoldEmail");
+		for(String email : emailList) {
+			System.out.println(email);
+		}
+			for(String email : emailList) {
+				Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		  
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 			
+		 			Message feedback = new MimeMessage(session);
+		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			feedback.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(email));
+		  			 feedback.setSubject("Vehicle Sold notificatio");	  			
+		  			 BodyPart messageBodyPart = new MimeBodyPart();	
+		  	         messageBodyPart.setText("Vehicle Sold notificatio");	 	    
+		  	         Multipart multipart = new MimeMultipart();	  	    
+		  	         multipart.addBodyPart(messageBodyPart);	            
+		  	         feedback.setContent(multipart);
+		  		     Transport.send(feedback);
+	    			System.out.println("email send");
+		       		} catch (MessagingException e) {
+		  			  throw new RuntimeException(e);
+		  		}
+		}
+		return ok();
 	}
 	
 }
