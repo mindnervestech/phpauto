@@ -40,7 +40,8 @@ POST    /editLeads				controllers.Application.editLeads
 POST	/saveSliderPosition		controllers.Application.saveSliderPosition
 POST	/saveFeaturedPosition		controllers.Application.saveFeaturedPosition
 GET		/getUserInfo				controllers.Application.getUserInfo()
-
+GET		/getHeardAboutUs				controllers.Application.getHeardAboutUs()
+GET    	/addHeard/:name      			controllers.Application.addHeard(name: String)
 GET    	/getAllVehicles             controllers.Application.getAllVehicles()
 GET		/getAllSoldVehicles			controllers.Application.getAllSoldVehicles()
 GET    	/deleteVehicleById/:id      controllers.Application.deleteVehicleById(id: Long)
