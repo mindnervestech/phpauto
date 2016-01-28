@@ -1690,12 +1690,12 @@ angular.module('newApp')
 	    		$scope.findMake = function(value,searchBy){
 	    			console.log(value);
 	    			$scope.searchBy = searchBy;
-	    			$scope.getVisitedData('week','0',value,$scope.searchBy);
+	    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy);
 	    		}
 	    		$scope.findModel = function(value,searchBy){
 	    			console.log(value);
 	    			$scope.searchBy = searchBy;
-	    			$scope.getVisitedData('week','0',value,$scope.searchBy);
+	    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy);
 	    		}
 	    		
 	    		$scope.showWorstVisited = function() {
