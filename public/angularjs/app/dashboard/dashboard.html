@@ -3817,7 +3817,7 @@ margin-left: 5px;
 								        </div>
 								    </div>
 								    
-								    <button id="openPdf" data-toggle="modal" data-target="#openpdfs" style="display: none;"></button>
+								    
 							<button id="btneditleads" data-toggle="modal" data-target="#editLeads" style="display: none;"></button>	    
 							<button id="btnStatusSchedule" data-toggle="modal" data-target="#scheduleStatusModal" style="display: none;"></button>
 							<button id="btnCancelSchedule" data-toggle="modal" data-target="#scheduleCancelModal" style="display: none;"></button>
@@ -3826,7 +3826,7 @@ margin-left: 5px;
 							<button id="btnCompleteTradeIn" data-toggle="modal" data-target="#tradeInCompleteStatusModal" style="display: none;"></button>
 							<button id="btnCancelTradeIn" data-toggle="modal" data-target="#tradeInCancelStatusModal" style="display: none;"></button>
 							<button id="btnAssignUser" data-toggle="modal" data-target="#assignUserModal" style="display: none;"></button>
-							
+							<button id="openPdffile" data-toggle="modal" data-target="#openpdffiles" style="display: none;"></button>
 							<button id="btnCompleteToDo" data-toggle="modal" data-target="#todoCompleteStatusModal" style="display: none;"></button>
 							<button id="btnCancelToDo" data-toggle="modal" data-target="#todoCancelStatusModal" style="display: none;"></button>
 							<button id="btnUserNote" data-toggle="modal" data-target="#userNoteModal" style="display: none;"></button>
@@ -3863,14 +3863,14 @@ margin-left: 5px;
 								    </div>
 							
 									<div class="modal fade" id="scheduleStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
-								        <div class="modal-dialog">
+								        <div class="modal-dialog" style="width: 750px;">
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">Sold Vehical</h4>
 								                </div>
 								                <form ng-submit="saveScheduleStatus()">
-								                <div class="modal-body" style="height:410px;overflow-x:auto;">
+								                <div class="modal-body" style="height:752px;overflow-x:auto;">
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
 														<div class="col-sm-7">
@@ -4018,15 +4018,15 @@ margin-left: 5px;
 								    </div>
 								    
 								    
-								    	<div class="modal fade" id="editLeads" tabindex="-1" role="dialog" aria-hidden="true">
-								        <div class="modal-dialog" style="width: 700px;">
+								    	<div class="modal fade" id="editLeads" tabindex="-1" role="dialog" aria-hidden="true" style="height: 938px;">
+								        <div class="modal-dialog" style="width: 750px;">
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">Edit Leads</h4>
 								                </div>
 								                <form ng-submit="editleads()">
-								                <div class="modal-body" style="height:554px;overflow-x:auto;">
+								                <div class="modal-body" style="height:604px;overflow-x:auto;">
 								                
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
@@ -4117,11 +4117,12 @@ margin-left: 5px;
 															<input type="text" class="form-control form-white" ng-model="editLeads.make" disabled required>
 															</div>
 								                 </div> 
+								                 <div ng-if="pdffile != null">
 								                 <div class="form-group col-sm-11" style="text-align: center;" ng-if="editLeads.leadType == 'Trade In' || editLeads.leadType == 'Trade-In Appraisal'">
 								                 	<a ng-click="showPdf(editLeads.id)" style="cursor: pointer;"><span class="glyphicon glyphicon-list-alt" style="font-size: 50px;"></span>
 								                 	Trade_In.pdf</a>
 								                 </div>
-								               													
+												</div>									               													
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
@@ -4132,7 +4133,7 @@ margin-left: 5px;
 								        </div>
 								    </div>
 								    
-								    <div class="modal fade" id="openpdfs" tabindex="-1" role="dialog" aria-hidden="true">
+							    <div class="modal fade" id="openpdffiles" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog" style="width: 923px;">
 								            <div class="modal-content">
 								                <div class="modal-header">
@@ -4142,18 +4143,18 @@ margin-left: 5px;
 								                <div class="modal-body" style="height:692px;overflow-x:auto;">
 								                
 								               
-								                  <div class="form-group col-sm-12">
+								                   <div class="form-group col-sm-12">
 				
-															 <OBJECT data="{{pdfFile}}" TYPE="application/pdf" WIDTH=850 HEIGHT=900> 
+															 <OBJECT data="{{pdfFile}}" TYPE="application/pdf" WIDTH=850 HEIGHT=900> </OBJECT>
 				
 			
-													</div> 
+													</div>  
 													
 								                </div>
 								               
 								            </div>
 								        </div>
-								    </div>
+								    </div> 
 
 									<div class="modal fade" id="deleteForeverModal" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog">
@@ -4199,14 +4200,14 @@ margin-left: 5px;
 								    </div>
 								    
 								    <div class="modal fade" id="requestCompleteStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
-								        <div class="modal-dialog">
+								        <div class="modal-dialog" style="width: 750px;">
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">Add to Client Base</h4>
 								                </div>
 								                <form ng-submit="saveRequestStatus()">
-								                <div class="modal-body" style="height:410px;overflow-x:auto;">
+								                <div class="modal-body" style="height:752px;overflow-x:auto;">
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
 														<div class="col-sm-7">
@@ -4377,14 +4378,14 @@ margin-left: 5px;
 								    </div>
 								    
 								    <div class="modal fade" id="tradeInCompleteStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
-								        <div class="modal-dialog">
+								        <div class="modal-dialog" style="width: 750px;">
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">Sold Vehical</h4>
 								                </div>
 								                <form ng-submit="saveCompleteTradeInStatus()">
-								                <div class="modal-body" style="height:410px;overflow-x:auto;">
+								                <div class="modal-body" style="height:752px;overflow-x:auto;">
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-4 control-label" style="text-align: right;">Name</label>
 														<div class="col-sm-7">

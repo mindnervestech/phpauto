@@ -5427,6 +5427,7 @@ public class Application extends Controller {
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.pdfPath = info.pdfPath;
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -5484,6 +5485,7 @@ public class Application extends Controller {
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.pdfPath = info.pdfPath;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -5730,6 +5732,7 @@ public class Application extends Controller {
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		vm.pdfPath = info.pdfPath;
 	    		vm.requestDate = df.format(info.tradeDate);
 	    		
 	    		if(info.assignedTo == null) {
@@ -9529,6 +9532,7 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.pdfPath = info.pdfPath;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();

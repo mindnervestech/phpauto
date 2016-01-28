@@ -35,4 +35,5 @@ public class RequestInfoVM {
 	public String isgoogle;
 	public String enthicity;
 	public String custZipCode;
+	public String pdfPath;
 }

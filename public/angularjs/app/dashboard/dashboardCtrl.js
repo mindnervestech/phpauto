@@ -985,8 +985,10 @@ angular.module('newApp')
    	  		
    	  	$scope.showPdf = function(id){
    	  		console.log(id);
-   	  		$('#openPdf').click();
    	  		$scope.pdfFile = "/getPdfPath/"+id;
+   	  		$('#openPdffile').click();
+   	  		
+   	  		console.log($scope.pdfFile);
    	  	}
    	  		$scope.editLeads = {};
    	  		$scope.editVinData = function(entity){
@@ -995,7 +997,9 @@ angular.module('newApp')
    	  			//$scope.getAllVehical();
    	  			$('#btneditleads').click();
    	  			//$scope.editLeads = entity;
-   	  			   	  		    
+   	  			if(entity.typeOfLead == "Trade In" || entity.typeOfLead == "Trade-In Appraisal") {
+				   $scope.pdffile = entity.pdfPath;
+			   }   	  		    
    	  			
    	  			$scope.editLeads.vin = entity.vin;
    	  			$scope.editLeads.stockNumber = entity.stock;
