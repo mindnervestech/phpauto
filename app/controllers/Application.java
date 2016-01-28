@@ -13334,8 +13334,8 @@ public class Application extends Controller {
     		//worstVisitedVms.add(analyticalVM);
     		
     	}
-    	for(int i = worstVisitedVms.size();i<3;i++) {
-    		Vehicle vehicle = Vehicle.findByVin(vins.get(i-worstVisitedVms.size()));
+    	/*for(int i = worstVisitedVms.size();i<3;i++) {
+    		Vehicle vehicle = Vehicle.findByVinAndStatus(vins.get(i-worstVisitedVms.size()));
     		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
     		if(pagesCount.get(vehicle.getVin()) == null){
     			analyticalVM.count = 0;
@@ -13381,7 +13381,7 @@ public class Application extends Controller {
     			worstVisitedVms.add(analyticalVM);
     		}
     	}
-    	
+    	*/
     	
     
     	
