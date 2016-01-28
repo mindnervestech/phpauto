@@ -4569,6 +4569,10 @@ public class Application extends Controller {
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.status = info.leadStatus;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}	
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4632,6 +4636,10 @@ public class Application extends Controller {
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.status = info.status;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4695,6 +4703,10 @@ public class Application extends Controller {
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.status = info.status;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}
 	    		vm.typeOfLead = "Request More Info";
 	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -4777,7 +4789,7 @@ public class Application extends Controller {
 	    		vm.enthicity = info.enthicity;
 	    		vm.status =info.leadStatus;
 	    		if(info.statusDate != null){
-	    			vm.statusDate = info.statusDate.toString();
+	    			vm.statusDate = df.format(info.statusDate);
 	    		}
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
@@ -10394,6 +10406,8 @@ public class Application extends Controller {
     	}
     }
     
+   
+    
     public static Result getAllCanceledLeads() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
@@ -10401,6 +10415,7 @@ public class Application extends Controller {
 	    	List<ScheduleTest> listData = ScheduleTest.getAllFailed();
     		
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
@@ -10416,13 +10431,30 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.status = info.reason;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}	
 	    		if(info.assignedTo != null) {
 	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
 	    		}
 	    		if(info.scheduleDate != null){
 	    			vm.requestDate = df.format(info.scheduleDate);
 	    		}
-	    		vm.leadType = "Schedule Test";
+	    		
+	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		
+	    		vm.typeOfLead = "Schedule Test";
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -10441,10 +10473,27 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.status = info.reason;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}
 	    		if(info.assignedTo != null) {
 	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
 	    		}
-	    		vm.leadType = "Request More Info";
+	    		
+	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		
+	    		vm.typeOfLead = "Request More Info";
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -10463,10 +10512,26 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.status = info.reason;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}
 	    		if(info.assignedTo != null) {
 	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
 	    		}
-	    		vm.leadType = "Trade In";
+	    		
+	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		vm.typeOfLead = "Trade In";
 	    		infoVMList.add(vm);
 	    	}
 	    	

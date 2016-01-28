@@ -290,7 +290,9 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> getAllFailed() {
-		return find.where().eq("leadStatus", "FAILED").findList();
+		return find.where().add(Expr.or(Expr.eq("lead_status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
+		
+		//return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
 	}
 	
 	public static List<SqlRow> getScheduleDates(AuthUser user) {

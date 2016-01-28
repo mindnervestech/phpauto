@@ -808,13 +808,13 @@ angular.module('newApp')
      	     			 		 		                                 { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'make', displayName: 'Make', width:'9%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
      	     			 		 		                                 { name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
      	     			 				                                	 
      	     			 		 		                                 },
-     	     			 		 		                                 { name: 'phone', displayName: 'Phone', width:'8%',cellEditableCondition: false,
+     	     			 		 		                                 { name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
      	     			 		 		                                	
      	     			 		 		                                 },
      	     			 		 		                                 { name: 'email', displayName: 'Email', width:'8%',cellEditableCondition: false,
@@ -826,14 +826,18 @@ angular.module('newApp')
      	     			 		    		                                 
      	     			 				                                 
      	     			 				                                 },
-     	     			 				                              { name: 'leadType', displayName: 'Lead', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 				                              { name: 'leadType', displayName: 'Lead', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 				                                 
      	     			 				                                 },
-     	     			 				                              { name: 'status', displayName: 'Reason', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 				                              { name: 'status', displayName: 'Reason', width:'6%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 		    		                                 
      	     			 				                                 },
-     	     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'21%',cellEditableCondition: false,
-     	     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.deleteForeverLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">DELETE FOREVER</button><button type="button" ng-click="grid.appScope.restoreLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">RESTORE</button>',
+     	     			 				                              { name: 'statusDate', displayName: 'Date added', width:'6%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 		    		                                 
+  	     			 				                                 },
+     	     			 				                              
+     	     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'24%',cellEditableCondition: false,
+     	     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.deleteForeverLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">DELETE</button><button type="button" ng-click="grid.appScope.restoreLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">RESTORE</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button>',
      	     	      			 		                                	 
      	     	       			 		                                 },
      	     			 		     		                                 ];
@@ -892,14 +896,14 @@ angular.module('newApp')
      	     			 	    	  		                                     }
      	     			 	    	 		                                	} ,
      	     			 	    	 		                                 },
-     	     			 	    	 		                             { name: 'status', displayName: 'Status', width:'12%',cellEditableCondition: false,
+     	     			 	    	 		                             { name: 'status', displayName: 'Status', width:'10%',cellEditableCondition: false,
       	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       	     			 	    	  		                                       if (row.entity.isRead === false) {
       	     			 	    	  		                                         return 'red';
       	     			 	    	  		                                     }
       	     			 	    	 		                                	} ,
       	     			 	    	 		                                 },
-      	     			 	    	 		                            { name: 'statusDate', displayName: 'Date', width:'12%',cellEditableCondition: false,
+      	     			 	    	 		                            { name: 'statusDate', displayName: 'Date added', width:'10%',cellEditableCondition: false,
        	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
        	     			 	    	  		                                       if (row.entity.isRead === false) {
        	     			 	    	  		                                         return 'red';
@@ -908,14 +912,14 @@ angular.module('newApp')
        	     			 	    	 		                                 },
       	     			 	    	 		                            
      	     			 	    	 		                             
-     	     			 	    	 		                                /*{ name: 'btnSold', displayName: '',enableFiltering: false, width:'42%',cellEditableCondition: false,
-     	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary "  ng-show="grid.appScope.userType != \'\'" style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,1)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">ADD TO CLIENTELE</button>',
+     	     			 	    	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,
+     	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button>',
      	     			 				 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     			 				   		                                       if (row.entity.isRead === false) {
      	     			 				   		                                         return 'red';
      	     			 				   		                                     }
      	     			 				  		                                	} ,
-     	     			 				 		                                 },*/
+     	     			 				 		                                 },
      	     			 	    	     		                                 ]; 
      	     			 		 		 
      	     			 		 		 
@@ -1984,6 +1988,9 @@ angular.module('newApp')
 			 		$scope.AllTradeInSeenList = data;
 			 });
 			 
+			 $scope.getAllCanceledLeads();
+			 
+			 
 			 $http.get('/getAllSalesPersonLostAndComp/'+id)
 				.success(function(data) {
 			 		$scope.gridOptions6.data = data;
@@ -2575,7 +2582,10 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.saveUserNote = function() {
+			   console.log($scope.userNoteId);
+			   console.log($scope.typeOfNote);
 			   console.log($scope.userNote);
+			   console.log($scope.action);
 			   $http.get('/saveNoteOfUser/'+$scope.userNoteId+'/'+$scope.typeOfNote+'/'+$scope.userNote+'/'+$scope.action)
 		 		.success(function(data) {
 		 			$.pnotify({
