@@ -34,6 +34,7 @@ GET		/getSliderImage/:id/:type	controllers.Application.getSliderImageById(id:Lon
 GET		/getFeaturedImage/:id/:type	controllers.Application.getFeaturedImageById(id:Long,type:String)
 GET		/deleteImage/:id			controllers.Application.deleteImage(id:Long)
 GET		/setDefaultImage/:id		controllers.Application.setDefaultImage(id:Long)
+GET     /getPdfPath/:id				controllers.Application.getPdfPath(id:Long)
 GET		/removeDefault/:old/:newId	controllers.Application.removeDefault(old:Long,newId:Long)
 POST	/savePosition			controllers.Application.savePosition
 POST    /editLeads				controllers.Application.editLeads

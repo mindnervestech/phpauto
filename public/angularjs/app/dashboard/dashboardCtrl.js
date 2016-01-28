@@ -42,6 +42,8 @@ angular.module('newApp')
 		$scope.locationDataList = data;	
 	});
 	
+	
+	
 	$scope.findMystatisData = function(startD,endD,locOrPer){
 		console.log(startD);
 		console.log(endD);
@@ -981,6 +983,11 @@ angular.module('newApp')
    	  		}*/
    	  	
    	  		
+   	  	$scope.showPdf = function(id){
+   	  		console.log(id);
+   	  		$('#openPdf').click();
+   	  		$scope.pdfFile = "/getPdfPath/"+id;
+   	  	}
    	  		$scope.editLeads = {};
    	  		$scope.editVinData = function(entity){
    	  			$scope.editLeads = {};
@@ -988,6 +995,8 @@ angular.module('newApp')
    	  			//$scope.getAllVehical();
    	  			$('#btneditleads').click();
    	  			//$scope.editLeads = entity;
+   	  			   	  		    
+   	  			
    	  			$scope.editLeads.vin = entity.vin;
    	  			$scope.editLeads.stockNumber = entity.stock;
 		   	  	$scope.editLeads.model = entity.model;

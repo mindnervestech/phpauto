@@ -17228,4 +17228,22 @@ public class Application extends Controller {
 		return ok(Json.toJson(contactsVMList));
 	}
 	
+	
+	
+	public static Result getPdfPath(long id) {
+		String found = ""; 
+		//createDir(pdfRootDir,supplierCode);
+		TradeIn tIn = TradeIn.findById(id);
+		response().setContentType("application/pdf");
+		response().setHeader("Content-Disposition", "inline; filename="+"SupplierAgreement.pdf");
+		
+		String PdfFile = pdfRootDir + File.separator + tIn.locations.id +File.separator+ "trade_in_pdf"+File.separator+tIn.id+File.separator+"Trade_In.pdf";
+		File f = new File(PdfFile);
+		
+		response().setHeader("Content-Length", ((int)f.length())+"");
+	    return ok(f);	
+		
+		
+	}
+	
 }
