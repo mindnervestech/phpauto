@@ -2567,6 +2567,8 @@ angular.module('newApp')
 					   $http.get('/getAllAction').success(function(data) {
 						   $scope.allAction = data;
 				   		});
+					   
+					  
 					   $scope.showOtherText = 0;
 				   });
 			   }
@@ -2581,6 +2583,7 @@ angular.module('newApp')
     				    type:'success',
     				    text: "Note saved successfully",
     				});
+		 			 $scope.getAllSalesPersonRecord($scope.salesPerson);
 					$('#noteClose').click();
 					if($scope.typeOfNote == 'scheduleTest') {
 						$scope.getScheduleTestData();
