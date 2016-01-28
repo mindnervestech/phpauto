@@ -2548,7 +2548,7 @@ angular.module('newApp')
 			   console.log(entity);
 			   $scope.action = "";
 			   console.log($scope.action);
-			   if(entity.typeOfLead == "Schedule Test") {
+			   if(entity.typeOfLead == "Schedule Test" || entity.typeOfLead == "Schedule Test Drive") {
 				   $scope.typeOfNote = 'scheduleTest';
 			   } else if(entity.typeOfLead == "Request More Info") {
 				   $scope.typeOfNote = 'requestMore';
@@ -2617,7 +2617,7 @@ angular.module('newApp')
 					if($scope.typeOfNote == 'tradeIn') {
 						$scope.getTradeInData();
 					}
-					$scope.getAllSalesPersonRecord($('#salesPersonUserId').val());
+					//$scope.getAllSalesPersonRecord($('#salesPersonUserId').val());
 		 		});
 		   }
 		   $scope.testDriveData = {};
