@@ -13120,7 +13120,7 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
-    public static Result getVisitedData(String type) {
+    public static Result getVisitedData(String type,String filterBy,String search,String searchBy) {
     	
     	AuthUser user = (AuthUser)getLocalUser();
     	String params = null;
@@ -13129,6 +13129,8 @@ public class Application extends Controller {
     	else
     		params = "&type=pages&date=last-30-days&limit=all";
     	String resultStr = callClickAPI(params);
+    	
+    	
     	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
     	List<String> vins = new ArrayList<String>(jsonNode.size());
     	List<String> vins1 = new ArrayList<String>(jsonNode.size());
@@ -13237,37 +13239,51 @@ public class Application extends Controller {
     	}*/
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
     	for(Vehicle vehicle:topVisited) {
-    		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
-    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-    		
-    		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
-    		
-    		if(pagesCount.get(vehicle.getVin()) == null){
-    			analyticalVM.count = 0;
-    		}else{
-    			analyticalVM.count = pagesCount.get(vehicle.getVin());
-    		}
-    		
-    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
-    		if(pAlert != null){
-    			analyticalVM.followerCount =  pAlert.size();
-    		}else{
-    			analyticalVM.followerCount = 0;
-    		}
-    		analyticalVM.price = vehicle.getPrice();
-    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
-    		if(vehicleImage!=null) {
-    			analyticalVM.id = vehicleImage.getId();
-    			analyticalVM.isImage = true;
-    		}
-    		else {
-    			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
-    		}
-    		analyticalVM.vin = vehicle.getVin();
-    		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-    		topVisitedVms.add(analyticalVM);
+    			
+	    		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
+	    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    		
+	    		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
+	    		
+	    		if(pagesCount.get(vehicle.getVin()) == null){
+	    			analyticalVM.count = 0;
+	    		}else{
+	    			analyticalVM.count = pagesCount.get(vehicle.getVin());
+	    		}
+	    		
+	    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
+	    		if(pAlert != null){
+	    			analyticalVM.followerCount =  pAlert.size();
+	    		}else{
+	    			analyticalVM.followerCount = 0;
+	    		}
+	    		analyticalVM.price = vehicle.getPrice();
+	    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+	    		if(vehicleImage!=null) {
+	    			analyticalVM.id = vehicleImage.getId();
+	    			analyticalVM.isImage = true;
+	    		}
+	    		else {
+	    			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
+	    		}
+	    		analyticalVM.vin = vehicle.getVin();
+	    		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
+	    		
+	    		if(!searchBy.equals("0") && !search.equals("0")){
+		    		if(searchBy.equals("Model")){
+	    				if(search.equals(vehicle.model)){
+	    					topVisitedVms.add(analyticalVM);
+	    				}
+	    			}else if(searchBy.equals("Make")){
+	    				if(search.equals(vehicle.make)){
+	    					topVisitedVms.add(analyticalVM);
+	    				}
+	    			}
+	    		}else{
+	    			topVisitedVms.add(analyticalVM);
+	    		}
     	}
     	List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<>();
     	List<Vehicle> notVisitedVehicle = Vehicle.findByNotInVins(vins);
@@ -13301,10 +13317,22 @@ public class Application extends Controller {
     		analyticalVM.vin = vehicle.getVin();
     		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		
-    		worstVisitedVms.add(analyticalVM);
-    		/*if(worstVisitedVms.size()==3) {
-    			break;
-    		}*/
+    		
+    		if(!searchBy.equals("0") && !search.equals("0")){
+	    		if(searchBy.equals("Model")){
+    				if(search.equals(vehicle.model)){
+    					worstVisitedVms.add(analyticalVM);
+    				}
+    			}else if(searchBy.equals("Make")){
+    				if(search.equals(vehicle.make)){
+    					worstVisitedVms.add(analyticalVM);
+    				}
+    			}
+    		}else{
+    			worstVisitedVms.add(analyticalVM);
+    		}
+    		//worstVisitedVms.add(analyticalVM);
+    		
     	}
     	for(int i = worstVisitedVms.size();i<3;i++) {
     		Vehicle vehicle = Vehicle.findByVin(vins.get(i-worstVisitedVms.size()));
@@ -13337,12 +13365,25 @@ public class Application extends Controller {
     		}
     		analyticalVM.vin = vehicle.getVin();
     		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-    		worstVisitedVms.add(analyticalVM);
+    		//worstVisitedVms.add(analyticalVM);
+    		
+    		if(!searchBy.equals("0") && !search.equals("0")){
+	    		if(searchBy.equals("Model")){
+    				if(search.equals(vehicle.model)){
+    					worstVisitedVms.add(analyticalVM);
+    				}
+    			}else if(searchBy.equals("Make")){
+    				if(search.equals(vehicle.make)){
+    					worstVisitedVms.add(analyticalVM);
+    				}
+    			}
+    		}else{
+    			worstVisitedVms.add(analyticalVM);
+    		}
     	}
-    	java.util.Collections.sort(worstVisitedVms,new VehicleVMComparator());
-    	java.util.Collections.sort(topVisitedVms,new VehicleVMComparator());
     	
     	
+    
     	
     	List<VehicleAnalyticalVM> allVehical = new ArrayList<>();
     	 List<Vehicle> aVehicles =null;
@@ -13384,9 +13425,63 @@ public class Application extends Controller {
     			anVm.followerCount = 0;
     		}
     		
-    		allVehical.add(anVm);
+    		//allVehical.add(anVm);
+    		if(!searchBy.equals("0") && !search.equals("0")){
+	    		if(searchBy.equals("Model")){
+    				if(search.equals(vehicle.model)){
+    					allVehical.add(anVm);
+    				}
+    			}else if(searchBy.equals("Make")){
+    				if(search.equals(vehicle.make)){
+    					allVehical.add(anVm);
+    				}
+    			}
+    		}else{
+    			allVehical.add(anVm);
+    		}
     		
     	}
+    	
+    	if(filterBy.equals("countHigh")){
+    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountHigh());
+        	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorCountHigh());
+        	java.util.Collections.sort(allVehical,new VehicleVMComparatorCountHigh());
+    	}else if(filterBy.equals("countLow")){
+    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountLow());
+        	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorCountLow());
+        	java.util.Collections.sort(allVehical,new VehicleVMComparatorCountLow());
+    	}
+    	
+    	if(filterBy.equals("priceHigh")){
+    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorPriceHigh());
+        	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorPriceHigh());
+        	java.util.Collections.sort(allVehical,new VehicleVMComparatorPriceHigh());
+    	}else if(filterBy.equals("priceLow")){
+    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorPriceLow());
+        	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorPriceLow());
+        	java.util.Collections.sort(allVehical,new VehicleVMComparatorPriceLow());
+    	}
+    	if(filterBy.equals("followerHigh")){
+    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorFollowerHigh());
+        	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorFollowerHigh());
+        	java.util.Collections.sort(allVehical,new VehicleVMComparatorFollowerHigh());
+    	}else if(filterBy.equals("followerLow")){
+    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorFollowerLow());
+        	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorFollowerLow());
+        	java.util.Collections.sort(allVehical,new VehicleVMComparatorFollowerLow());
+    	}
+    	
+    	if(filterBy.equals("leadsHigh")){
+    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorLeadsHigh());
+        	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorLeadsHigh());
+        	java.util.Collections.sort(allVehical,new VehicleVMComparatorLeadsHigh());
+    	}else if(filterBy.equals("leadsLow")){
+    		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorLeadsLow());
+        	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorLeadsLow());
+        	java.util.Collections.sort(allVehical,new VehicleVMComparatorLeadsLow());
+    	}
+    	
+    	
     	
     	Map result = new HashMap(3);
     	result.put("worstVisited", worstVisitedVms);
@@ -13395,14 +13490,62 @@ public class Application extends Controller {
     	return ok(Json.toJson(result));
     }
     
-    public static class VehicleVMComparator implements Comparator<VehicleAnalyticalVM> {
-
+    public static class VehicleVMComparatorCountHigh implements Comparator<VehicleAnalyticalVM> {
 		@Override
-		public int compare(VehicleAnalyticalVM o1, VehicleAnalyticalVM o2) {
-			return Integer.compare(o2.count, o1.count);
+		public int compare(VehicleAnalyticalVM o2,VehicleAnalyticalVM o1) {
+			return o1.count > o2.count ? -1 : o1.count < o2.count ? 1 : 0;
 		}
-    	
     }
+    
+    public static class VehicleVMComparatorPriceHigh implements Comparator<VehicleAnalyticalVM> {
+		@Override
+		public int compare(VehicleAnalyticalVM o2,VehicleAnalyticalVM o1) {
+			return o1.price > o2.price ? -1 : o1.price < o2.price ? 1 : 0;
+		}
+    }
+    
+    public static class VehicleVMComparatorFollowerHigh implements Comparator<VehicleAnalyticalVM> {
+		@Override
+		public int compare(VehicleAnalyticalVM o2,VehicleAnalyticalVM o1) {
+			return o1.followerCount > o2.followerCount ? -1 : o1.followerCount < o2.followerCount ? 1 : 0;
+		}
+    }
+    
+    public static class VehicleVMComparatorLeadsHigh implements Comparator<VehicleAnalyticalVM> {
+		@Override
+		public int compare(VehicleAnalyticalVM o2,VehicleAnalyticalVM o1) {
+			return o1.leadsCount > o2.leadsCount ? -1 : o1.leadsCount < o2.leadsCount ? 1 : 0;
+		}
+    }
+    
+    public static class VehicleVMComparatorCountLow implements Comparator<VehicleAnalyticalVM> {
+		@Override
+		public int compare(VehicleAnalyticalVM o2,VehicleAnalyticalVM o1) {
+			return o1.count < o2.count ? -1 : o1.count > o2.count ? 1 : 0;
+		}
+    }
+    
+    public static class VehicleVMComparatorPriceLow implements Comparator<VehicleAnalyticalVM> {
+		@Override
+		public int compare(VehicleAnalyticalVM o2,VehicleAnalyticalVM o1) {
+			return o1.price< o2.price ? -1 : o1.price > o2.price ? 1 : 0;
+		}
+    }
+    
+    public static class VehicleVMComparatorFollowerLow implements Comparator<VehicleAnalyticalVM> {
+		@Override
+		public int compare(VehicleAnalyticalVM o2,VehicleAnalyticalVM o1) {
+			return o1.followerCount < o2.followerCount ? -1 : o1.followerCount > o2.followerCount ? 1 : 0;
+		}
+    }
+    
+    public static class VehicleVMComparatorLeadsLow implements Comparator<VehicleAnalyticalVM> {
+		@Override
+		public int compare(VehicleAnalyticalVM o2,VehicleAnalyticalVM o1) {
+			return o1.leadsCount < o2.leadsCount ? -1 : o1.leadsCount > o2.leadsCount ? 1 : 0;
+		}
+    }
+    
     public static class VehicleAnalyticalVM {
     	public String name;
     	public int count;

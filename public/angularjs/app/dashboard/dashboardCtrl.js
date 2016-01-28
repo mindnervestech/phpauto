@@ -1459,17 +1459,19 @@ angular.module('newApp')
 	    		$scope.currentData = [];
 	    		$scope.showWeekVisited = function() {
 	    			$scope.currentSelectedDuration = 0;
-	    			$scope.getVisitedData('week');
+	    			$scope.getVisitedData('week','countHigh','0','0');
 	    		};
 	    		
 	    		$scope.showMonthVisited = function() {
 	    			$scope.currentSelectedDuration = 1;
-	    			$scope.getVisitedData('month');
+	    			$scope.getVisitedData('month','countHigh','0','0');
 	    		};
 	    		
-	    		$scope.getVisitedData = function(type) {
-	    			$http.get('/getVisitedData/'+type).success(function(response) {
-	    				console.log("///response';''''");
+	    		$scope.getVisitedData = function(type,filterBy,search,searchBy) {
+	    			console.log("HIhihihihih%%^^66666666666666666666666");
+	    			console.log(searchBy);
+	    			console.log(search);
+	    			$http.get('/getVisitedData/'+type+'/'+filterBy+'/'+search+'/'+searchBy).success(function(response) {
 	    				console.log(response);
 	    				$scope.weekData = response;
 	    				if($scope.currentSelectedType==0) 
@@ -1666,17 +1668,35 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.showTopVisited = function() {
+	    			$scope.getVisitedData('week','countHigh','0','0');
 	    			$scope.currentSelectedType = 0;
 	    			$scope.currentData = $scope.weekData.topVisited;
 	    		};
-	    		$scope.visitor="true";
-	    		$scope.countHigh = function() {
-	    			$scope.visitor="true";
-	    		};
-	    		$scope.countLow = function() {
-	    			$scope.visitor="false";
-	    		};
 	    		
+	    		$scope.filterFunction = function(filterBy) {
+	    			console.log(filterBy);
+	    			$scope.getVisitedData('week',filterBy,'0','0');
+	    		};
+	    		$scope.search = "";
+	    		$scope.searchBy = "";
+	    		$scope.showTextBox = function(search){
+	    			console.log($scope.search);
+	    			console.log($scope.searchBy)
+	    			$scope.search = search;
+	    			
+	    			
+	    		}
+	    		
+	    		$scope.findMake = function(value,searchBy){
+	    			console.log(value);
+	    			$scope.searchBy = searchBy;
+	    			$scope.getVisitedData('week','0',value,$scope.searchBy);
+	    		}
+	    		$scope.findModel = function(value,searchBy){
+	    			console.log(value);
+	    			$scope.searchBy = searchBy;
+	    			$scope.getVisitedData('week','0',value,$scope.searchBy);
+	    		}
 	    		
 	    		$scope.showWorstVisited = function() {
 	    			$scope.currentSelectedType = 1;
@@ -1684,6 +1704,7 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.showAllvehicles = function(){
+	    			$scope.getVisitedData('week','countHigh','0','0');
 	    			$scope.currentSelectedType = 2;
 	    			$scope.currentData = $scope.weekData.allVehical;
 	    		}

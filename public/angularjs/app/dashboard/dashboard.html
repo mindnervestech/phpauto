@@ -310,13 +310,18 @@ margin-left: 5px;
 												<div>
 								     				<div class="col-sm-12">
 								     				
-								        				<h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
-								        				<h6 class="col-sm-4">View Count : <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="countHigh()"><i class="glyphicon glyphicon-chevron-up" title="View Count High To Low"></i></a> <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="countLow()"><i class="glyphicon glyphicon-chevron-down" title="View Count Low To High"></i></a></h6>
-								        	    		<h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
+								        				<h6 class="col-sm-2"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								        				<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;"></span>Views: <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="filterFunction('countLow')"><i class="glyphicon glyphicon-chevron-up" title="View Count High To Low"></i></a> <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="filterFunction('countHigh')"><i class="glyphicon glyphicon-chevron-down" title="View Count Low To High"></i></a></h6>
+								        				<h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"></span>Price: <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="filterFunction('priceLow')"><i class="glyphicon glyphicon-chevron-up" title="Price High To Low"></i></a> <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="filterFunction('priceHigh')"><i class="glyphicon glyphicon-chevron-down" title="Price Low To High"></i></a></h6>
+								        				<h6 class="col-sm-1" style="padding-left: 0px;"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;"></span>Follower: <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="filterFunction('followerLow')"><i class="glyphicon glyphicon-chevron-up" title="Follower High To Low"></i></a> <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="filterFunction('followerHigh')"><i class="glyphicon glyphicon-chevron-down" title="Follower Low To High"></i></a></h6>
+								        				<h6 class="col-sm-2"><span class="glyphicon glyphicon-user" style="color: darkturquoise;"></span>Leads: <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="filterFunction('leadsLow')"><i class="glyphicon glyphicon-chevron-up" title="Leads High To Low"></i></a> <a style="cursor: pointer;" id="" ng-class="currentSelectedType == 0 ?'underline':''" ng-click="filterFunction('leadsHigh')"><i class="glyphicon glyphicon-chevron-down" title="Leads Low To High"></i></a></h6>
+														<h6 class="col-sm-3"><span class="col-sm-12"><a style="cursor:pointer;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" type="text" class="col-sm-4">&nbsp;&nbsp;<button ng-click="findMake(makeSaerch,'Make')" class="col-sm-2" style="margin-left: 5px;">OK</button></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" type="text" class="col-sm-4">&nbsp;&nbsp;<button ng-click="findModel(modelSaerch,'Model')" class="col-sm-2" style="margin-left: 5px;">OK</button></span></h6>
+								        	    		<h6 class="col-sm-2"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
 								        			</div>
 								    			</div>
 						       					 <div style="width: 100%;display: flex;overflow-x: scroll;height: 327px;">
-									                <div ng-if="visitor=='true'" style="float: left;" ng-repeat="item in currentData | orderBy:'-count'">
+						       					 	  <div style="float: left;" ng-repeat="item in currentData">
+									               
 													<div>
 														<div style="float: left;">
 								    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
@@ -357,23 +362,6 @@ margin-left: 5px;
 													</div> -->
 												</div>
 												
-												<div ng-if="visitor=='false'" style="float: left;" ng-repeat="item in currentData | orderBy:'+count'">
-													<div>
-														<div style="float: left;">
-								    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
-								    					</div>
-								   					</div>      
-												
-													<div style="line-height:1.028571;">
-														<label style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 190px;"><b>{{item.name}}</b></label>
-													</div>
-													<div style="float: left">
-														<label class="col-sm-4 control-label" style="text-align: center;"><h5>VISITED COUNT</h5></label>
-													</div>
-													<div style="line-height:0.428571;">
-														<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;"><b>{{item.count}}</b></label>
-													</div>
-												</div>
 												</div>
 											</div>
 										</div>
