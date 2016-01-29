@@ -5726,16 +5726,27 @@ angular.module('newApp')
 
 angular.module('newApp')
 .controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
-
+	$scope.premium = {};
 	$scope.init = function() {
 		$http.get('/getImageConfig')
 		.success(function(data) {
+			console.log("989898989898989898");
+			console.log(data);
 			$scope.slider = data.slider;
 			$scope.featured = data.featured;
 			$scope.newsletterDay = data.NewsletterDate;
 			$scope.newsletterId = data.NewsletterId;
 			$scope.newsletterTime = data.newsletterTime;
 			$scope.newsletterTimeZone = data.NewsletterTimeZone;
+		
+			$scope.premium.priceVehical = data.premiumLeads.premium_amount;
+			
+			console.log($scope.premium.priceVehical);
+			if(data.premiumLeads.premium_flag == 1){
+				$scope.premium.premiumFlag = true;
+			}else{
+				$scope.premium.premiumFlag = false;
+			}
 		});
 	}
 	
@@ -5759,6 +5770,21 @@ angular.module('newApp')
 			    title: "Success",
 			    type:'success',
 			    text: "Featured config saved successfully",
+			});
+		});
+	}
+	
+	
+	$scope.savePremium = function() {
+		console.log($scope.premium.priceVehical);
+		console.log($scope.premium.premiumFlag);
+		$http.get('/savePremiumConfig/'+$scope.premium.priceVehical+'/'+$scope.premium.premiumFlag)
+		.success(function(data) {
+			console.log('success');
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Premium saved successfully",
 			});
 		});
 	}

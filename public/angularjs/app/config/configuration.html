@@ -101,4 +101,24 @@
 																</div>
 				<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
 	</form>	
+	
+
+
+<h1 style="margin-top:5%;">Premium Leads</h1>
+
+<form ng-submit="savePremium()">
+	<div class="form-group col-sm-12">
+		<label>Receive Customer requests for the items that are higer than</label>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label">Price of the vehicle *</label>
+			<div class="col-sm-3">
+				<input class="form-control form-white" ng-model="priceVehical" value="premium.priceVehical" type="number" required>
+			</div>
+	</div>
+	<div class="form-group col-sm-12" style="margin-left: 1%;">
+		<input type="checkbox" value="true" ng-model="premium.premiumFlag">&nbsp&nbsp Redirect all leads to Manager<br>
+	</div>
+	<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
+</form>	
 </div>

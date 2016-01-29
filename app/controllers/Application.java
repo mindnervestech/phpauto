@@ -71,6 +71,7 @@ import models.PlanSalesTotal;
 import models.PlanSchedule;
 import models.PlanScheduleMonthlyLocation;
 import models.PlanScheduleMonthlySalepeople;
+import models.PremiumLeads;
 import models.PriceAlert;
 import models.RequestMoreInfo;
 import models.SalesPlanSchedule;
@@ -3972,6 +3973,11 @@ public class Application extends Controller {
 	    		map.put("NewsletterTimeZone", "");
 	    	}
 	    	
+	       PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	       if(pLeads != null){	
+	    	   map.put("premiumLeads", pLeads);
+	       }  
+	    	
 	    	return ok(Json.toJson(map));
     	}
     }
@@ -4000,6 +4006,36 @@ public class Application extends Controller {
     	}	
     }
     
+    public static Result savePremiumConfig(String priceVehical,String premiumFlag){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	PremiumLeads preMim = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	if(preMim != null){
+	    		preMim.setPremium_amount(priceVehical);
+	    		if(premiumFlag.equals("false")){
+	    			preMim.setPremium_flag(0);
+	    		}else if(premiumFlag.equals("true")){
+	    			preMim.setPremium_flag(1);
+	    		}
+	    		preMim.update();
+	    	}else{
+	    		PremiumLeads pLeads = new PremiumLeads();
+	    		pLeads.setPremium_amount(priceVehical);
+	    		if(premiumFlag.equals("false")){
+	    			pLeads.setPremium_flag(0);
+	    		}else if(premiumFlag.equals("true")){
+	    			pLeads.setPremium_flag(1);
+	    		}
+	    		pLeads.setUser(user);
+	    		pLeads.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    		pLeads.save();
+	    	}
+	
+	    	return ok();
+    	}	
+    }
     
     public static Result saveFeaturedConfig(Integer width,Integer height) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -15379,7 +15415,6 @@ public class Application extends Controller {
     		 tIn.setGlassRating(leadVM.glassRating);
     		 tIn.setHearedFrom(leadVM.hearedFrom);
     		 tIn.setInteriorRating(leadVM.interiorRating);
-    		 tIn.setIsRead(0);
     		 tIn.setKilometres(leadVM.kilometres);
     		 tIn.setLeaseOrRental(leadVM.rentalReturn);
     		 tIn.setLienholder(leadVM.lienholder);
