@@ -852,13 +852,13 @@ angular.module('newApp')
      	     			 		    		                                 
      	     			 				                                 
      	     			 				                                 },
-     	     			 				                              { name: 'leadType', displayName: 'Lead', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 				                              { name: 'leadType', displayName: 'Lead', width:'9%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 				                                 
      	     			 				                                 },
-     	     			 				                              { name: 'status', displayName: 'Reason', width:'6%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 				                              { name: 'status', displayName: 'Reason', width:'6%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 		    		                                 
      	     			 				                                 },
-     	     			 				                              { name: 'statusDate', displayName: 'Date added', width:'6%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 				                              { name: 'statusDate', displayName: 'Date added', width:'6%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     			 		    		                                 
   	     			 				                                 },
      	     			 				                              
@@ -971,7 +971,7 @@ angular.module('newApp')
     				 
     		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
     			          var grid = this.grid;
-    			          $scope.gridOptions5.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
+    			          $scope.gridOptions5.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'requestDate':grid.columns[6].filters[0].term},undefined);
     			        });
     		   		
     	  		};
@@ -1446,7 +1446,7 @@ angular.module('newApp')
       				 
       		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
       			          var grid = this.grid;
-      			          $scope.gridOptions3.data = $filter('filter')($scope.AllTradeInSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
+      			          $scope.gridOptions3.data = $filter('filter')($scope.AllTradeInSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'requestDate':grid.columns[6].filters[0].term},undefined);
       			        });
       		   		
       	  		};
@@ -1994,10 +1994,12 @@ angular.module('newApp')
 				 
 		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 			          var grid = this.grid;
-			          $scope.gridOptions4.data = $filter('filter')($scope.canceledLead,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term},undefined);
+			          $scope.gridOptions4.data = $filter('filter')($scope.canceledLead,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'leadType':grid.columns[7].filters[0].term,'status':grid.columns[8].filters[0].term,'statusDate':grid.columns[9].filters[0].term},undefined);
 			        });
 		   		
 	  		};
+	  		
+	  		
         
         $scope.assignCanceledLead = function(entity) {
         	$scope.cancelId = entity.id;
