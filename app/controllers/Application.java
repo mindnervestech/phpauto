@@ -5628,7 +5628,7 @@ public class Application extends Controller {
 		    		uNotes.createdTime = currDate;
 		    		uNotes.user = user;
 	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-		    		uNotes.scheduleTest = ScheduleTest.findById(infoObj.id);
+		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(infoObj.id);
 		    		uNotes.save();
 	    		}
 	    		if(flag.equals("false")) {
@@ -5813,7 +5813,7 @@ public class Application extends Controller {
 	    		uNotes.createdTime = currDate;
 	    		uNotes.user = user;
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    		uNotes.scheduleTest = ScheduleTest.findById(tradeObjV.id);
+	    		uNotes.tradeIn = TradeIn.findById(tradeObjV.id);
 	    		uNotes.save();
 			}
 			if(flag.equals("false")) {
