@@ -5545,6 +5545,70 @@ public class Application extends Controller {
     	}	
     }
     
+    public static Result getAllPremiumIn(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<TradeIn> listData = new ArrayList<>();
+	    	if(user.role == null || user.role.equals("General Manager")) {
+    			listData = TradeIn.findAllData();
+    		} else {
+    			if(user.role.equals("Manager")) {
+    				listData = TradeIn.findAllLocationDataManager(Long.valueOf(session("USER_LOCATION")));
+    			} else {
+    				listData = TradeIn.findAllByLocationDate(Long.valueOf(session("USER_LOCATION")));
+    			}
+    		}
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	for(TradeIn info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
+	    		}
+	    		vm.name = info.firstName+" "+info.lastName;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
+	    		vm.pdfPath = info.pdfPath;
+	    		if(info.assignedTo == null) {
+	    			vm.status = "Unclaimed";
+	    		} else {
+		    		if(info.assignedTo != null && info.status == null) {
+		    			vm.status = "In Progress";
+		    		} else {
+		    			vm.status = info.status;
+		    		}
+	    		}
+	    		if(info.assignedTo != null) {
+	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
+	    		}
+	    		vm.requestDate = df.format(info.tradeDate);
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
+    }
     
     public static Result getAllTradeIn() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -14347,6 +14411,15 @@ public class Application extends Controller {
     		info.setHearedFrom(leadVM.hearedFrom);
     		info.setContactedFrom(leadVM.contactedFrom);
     		info.setRequestDate(new Date());
+    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		if(pLeads != null){
+    			if(pLeads.premium_flag.equals(1)){
+    				if(Integer.parseInt(pLeads.premium_amount) >= vehicles.get(0).price){
+    					info.setPremiumFlag(1);
+    				}
+    			}
+    		}
+    		
     		info.save();
     		
     		UserNotes uNotes = new UserNotes();
@@ -14389,6 +14462,16 @@ public class Application extends Controller {
     		test.setScheduleDate(new Date());
     		test.setPreferredContact(leadVM.prefferedContact);
     		test.setVin(vehicles.get(0).getVin());
+    		
+    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		if(pLeads != null){
+    			if(pLeads.premium_flag.equals(1)){
+    				if(Integer.parseInt(pLeads.premium_amount) >= vehicles.get(0).price){
+    					test.setPremiumFlag(1);
+    				}
+    			}
+    		}
+    		
     		test.save();
     		
     		UserNotes uNotes = new UserNotes();
@@ -14469,6 +14552,16 @@ public class Application extends Controller {
         		tradeIn.setVehiclenew(leadVM.vehiclenew);
         		tradeIn.setVin(vehicles.get(0).getVin());
         		tradeIn.setYear(leadVM.year);
+        		
+        		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+        		if(pLeads != null){
+        			if(pLeads.premium_flag.equals(1)){
+        				if(Integer.parseInt(pLeads.premium_amount) >= vehicles.get(0).price){
+        					tradeIn.setPremiumFlag(1);
+        				}
+        			}
+        		}
+        		
         		tradeIn.save();
         		
         		UserNotes uNotes = new UserNotes();
@@ -15426,7 +15519,7 @@ public class Application extends Controller {
     		 tIn.setPhone(leadVM.custNumber);
     		 tIn.setPreferredContact(leadVM.prefferedContact);
     		 tIn.setSalvage(leadVM.salvage);
-    		 tIn.setScheduleDate(new Date());
+    		// tIn.setScheduleDate(new Date());
     		 tIn.setTireRating(leadVM.tireRating);
     		 tIn.setTradeDate(new Date());
     		 tIn.setTransmission(leadVM.transmission);

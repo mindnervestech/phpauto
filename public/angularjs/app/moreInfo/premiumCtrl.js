@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('TradeInCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
+.controller('premiumCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
 	
   $scope.gridOptions = {
  		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -123,7 +123,7 @@ angular.module('newApp')
     	}	 
     	
  		 
-	  $http.get('/getAllTradeIn')
+	  $http.get('/getAllPremiumIn')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.tradeInList = data;
@@ -138,7 +138,7 @@ angular.module('newApp')
 	  }
 	  
 	  var promo =  $interval(function(){
-			  $http.get('/getAllTradeIn')
+			  $http.get('/getAllPremiumIn')
 				.success(function(data) {
 				$scope.gridOptions.data = data;
 				$scope.tradeInList = data;
@@ -162,8 +162,8 @@ angular.module('newApp')
 	  $scope.requestMore = function() {
 			$location.path('/requestMoreInfo');
 		}  
-	  $scope.goPremium = function() {
-			$location.path('/premiumpage');
+	  $scope.tradeIn = function() {
+			$location.path('/tradeIn');
 		}
 	  
 }]);

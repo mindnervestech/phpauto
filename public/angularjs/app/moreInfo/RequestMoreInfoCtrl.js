@@ -143,5 +143,11 @@ angular.module('newApp')
 		$location.path('/tradeIn');
 	}
 	
+	$scope.goPremium = function() {
+		$location.path('/premiumpage');
+	}
+	
+	
+	
   
 }]);

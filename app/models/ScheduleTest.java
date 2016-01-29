@@ -51,7 +51,7 @@ public class ScheduleTest extends Model {
 	public int scheduleEmail;
 	public String enthicity;
 	public Date statusDate;
-	
+	public Integer premiumFlag;
 	
 	
 	public String getEnthicity() {
@@ -180,8 +180,13 @@ public class ScheduleTest extends Model {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-
 	
+	public Integer getPremiumFlag() {
+		return premiumFlag;
+	}
+	public void setPremiumFlag(Integer premiumFlag) {
+		this.premiumFlag = premiumFlag;
+	}
 	/*public Integer getNoteFlag() {
 		return noteFlag;
 	}

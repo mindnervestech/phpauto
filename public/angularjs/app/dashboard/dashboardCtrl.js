@@ -852,13 +852,13 @@ angular.module('newApp')
      	     			 		    		                                 
      	     			 				                                 
      	     			 				                                 },
-     	     			 				                              { name: 'leadType', displayName: 'Lead', width:'9%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 				                              { name: 'leadType', displayName: 'Lead', width:'9%', cellEditableCondition: false, 
      	     			 				                                 
      	     			 				                                 },
-     	     			 				                              { name: 'status', displayName: 'Reason', width:'6%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 				                              { name: 'status', displayName: 'Reason', width:'6%', cellEditableCondition: false, 
      	     			 		    		                                 
      	     			 				                                 },
-     	     			 				                              { name: 'statusDate', displayName: 'Date added', width:'6%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+     	     			 				                              { name: 'statusDate', displayName: 'Date added', width:'6%', cellEditableCondition: false,
      	     			 		    		                                 
   	     			 				                                 },
      	     			 				                              

@@ -88,6 +88,11 @@ var MakeApp = angular
             templateUrl: '/dealer/moreInfo/requestMoreInfo.html',
             controller: 'RequestMoreInfoCtrl'
         })
+        .when('/premiumpage', {
+            templateUrl: '/dealer/moreInfo/premiumPage.html',
+            controller: 'premiumCtrl'
+        })
+        
          .when('/scheduleTest', {
             templateUrl: '/dealer/moreInfo/scheduleTest.html',
             controller: 'ScheduleTestCtrl'

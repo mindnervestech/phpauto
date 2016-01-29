@@ -79,7 +79,7 @@ public class TradeIn extends Model {
 	public int scheduleEmail;
 	public String enthicity;
 	public Date statusDate;
-	
+	public Integer premiumFlag;	
 	
 	
 	public String getEnthicity() {
@@ -446,6 +446,13 @@ public class TradeIn extends Model {
 		this.locations = locations;
 	}
 
+	
+	public Integer getPremiumFlag() {
+		return premiumFlag;
+	}
+	public void setPremiumFlag(Integer premiumFlag) {
+		this.premiumFlag = premiumFlag;
+	}
 	public String getCustZipCode() {
 		return custZipCode;
 	}

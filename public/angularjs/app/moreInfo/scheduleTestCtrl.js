@@ -187,5 +187,9 @@ angular.module('newApp')
 	$scope.tradeIn = function() {
 		$location.path('/tradeIn');
 	}
+	
+	$scope.goPremium = function() {
+		$location.path('/premiumpage');
+	}
   
 }]);
