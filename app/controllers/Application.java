@@ -2301,10 +2301,30 @@ public class Application extends Controller {
 	        				tradeIn.setStatus("LOST");
 	        				tradeIn.setStatusDate(currDate);
 	        				tradeIn.update();
+	        				
+	        				UserNotes uNotes1 = new UserNotes();
+	        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	        	    		uNotes1.setAction("Other");
+	        	    		uNotes1.createdDate = currDate;
+	        	    		uNotes1.createdTime = currDate;
+	        	    		//uNotes1.user = user;
+	        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	        	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+	        	    		uNotes1.save();
 	        			}else if(!tradeIn.status.equals("COMPLETE")){
 	        				tradeIn.setStatus("LOST");
 	        				tradeIn.setStatusDate(currDate);
 	        				tradeIn.update();
+	        				
+	        				UserNotes uNotes1 = new UserNotes();
+	        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	        	    		uNotes1.setAction("Other");
+	        	    		uNotes1.createdDate = currDate;
+	        	    		uNotes1.createdTime = currDate;
+	        	    		//uNotes1.user = user;
+	        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	        	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+	        	    		uNotes1.save();
 	        			}
 	        		}
 	        		
@@ -2314,10 +2334,30 @@ public class Application extends Controller {
 	        				rMoreInfo.setStatus("LOST");
 	        				rMoreInfo.setStatusDate(currDate);
 	        				rMoreInfo.update();
+	        				
+	        				UserNotes uNotes1 = new UserNotes();
+	        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	        	    		uNotes1.setAction("Other");
+	        	    		uNotes1.createdDate = currDate;
+	        	    		uNotes1.createdTime = currDate;
+	        	    		//uNotes1.user = user;
+	        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	        	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+	        	    		uNotes1.save();
 	        			}else if(!rMoreInfo.status.equals("COMPLETE")){
 	        				rMoreInfo.setStatus("LOST");
 	        				rMoreInfo.setStatusDate(currDate);
 	        				rMoreInfo.update();
+	        				
+	        				UserNotes uNotes1 = new UserNotes();
+	        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	        	    		uNotes1.setAction("Other");
+	        	    		uNotes1.createdDate = currDate;
+	        	    		uNotes1.createdTime = currDate;
+	        	    		//uNotes1.user = user;
+	        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	        	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+	        	    		uNotes1.save();
 	        			}
 	        		}
 	        		
@@ -2328,10 +2368,30 @@ public class Application extends Controller {
 	        				scheduleTest.setLeadStatus("LOST");
 	        				scheduleTest.setStatusDate(currDate);
 	        				scheduleTest.update();
+	        				
+	        				UserNotes uNotes1 = new UserNotes();
+	        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	        	    		uNotes1.setAction("Other");
+	        	    		uNotes1.createdDate = currDate;
+	        	    		uNotes1.createdTime = currDate;
+	        	    		//uNotes1.user = user;
+	        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	        	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+	        	    		uNotes1.save();
 	        			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
 	        				scheduleTest.setLeadStatus("LOST");
 	        				scheduleTest.setStatusDate(currDate);
 	        				scheduleTest.update();
+	        				
+	        				UserNotes uNotes1 = new UserNotes();
+	        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	        	    		uNotes1.setAction("Other");
+	        	    		uNotes1.createdDate = currDate;
+	        	    		uNotes1.createdTime = currDate;
+	        	    		//uNotes1.user = user;
+	        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	        	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+	        	    		uNotes1.save();
 	        			}
 	        		}
 	    		}
@@ -4581,7 +4641,8 @@ public class Application extends Controller {
 	    			vm.statusDate = df.format(info.statusDate);
 	    		}	
 	    		vm.typeOfLead = "Schedule Test Drive";
-	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
+	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -4648,7 +4709,8 @@ public class Application extends Controller {
 	    			vm.statusDate = df.format(info.statusDate);
 	    		}
 	    		vm.typeOfLead = "Trade-In Appraisal";
-	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -4715,7 +4777,8 @@ public class Application extends Controller {
 	    			vm.statusDate = df.format(info.statusDate);
 	    		}
 	    		vm.typeOfLead = "Request More Info";
-	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -4799,7 +4862,8 @@ public class Application extends Controller {
 	    			vm.statusDate = df.format(info.statusDate);
 	    		}
 	    		vm.typeOfLead = "Schedule Test Drive";
-	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
+	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -4866,7 +4930,8 @@ public class Application extends Controller {
 	    			vm.statusDate = df.format(info.statusDate);
 	    		}
 	    		vm.typeOfLead = "Trade-In Appraisal";
-	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -4933,7 +4998,8 @@ public class Application extends Controller {
 	    			vm.statusDate = df.format(info.statusDate);
 	    		}
 	    		vm.typeOfLead = "Request More Info";
-	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -5004,10 +5070,12 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.requestDate = df.format(info.requestDate);
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Request More Info";
-	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -5158,7 +5226,9 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Schedule Test Drive";
-	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
+	    		
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -5222,7 +5292,8 @@ public class Application extends Controller {
 	    		vm.pdfPath = info.pdfPath;
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Trade-In Appraisal";
-	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -5285,7 +5356,8 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Request More Info";
-	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -5494,8 +5566,10 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.pdfPath = info.pdfPath;
+	    		vm.requestDate = df.format(info.tradeDate);
 	    		vm.typeOfLead = "Trade-In Appraisal";
-	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -5540,11 +5614,22 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		Date currDate = new Date();
     		AuthUser user = (AuthUser) getLocalUser();
 	    	RequestMoreInfo infoObj = RequestMoreInfo.findById(id);
 	    		if(flag.equals("true")) {
 	    			infoObj.setIsRead(1);
 	    			infoObj.setAssignedTo(user);
+	    			
+	    			UserNotes uNotes = new UserNotes();
+		    		uNotes.setNote("Lead has been claim");
+		    		uNotes.setAction("Other");
+		    		uNotes.createdDate = currDate;
+		    		uNotes.createdTime = currDate;
+		    		uNotes.user = user;
+	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		uNotes.scheduleTest = ScheduleTest.findById(infoObj.id);
+		    		uNotes.save();
 	    		}
 	    		if(flag.equals("false")) {
 	    			infoObj.setIsRead(0);
@@ -5611,11 +5696,22 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		Date currDate = new Date();
 	    	ScheduleTest scheduleObj = ScheduleTest.findById(id);
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	if(flag.equals("true")) {
 	    		scheduleObj.setIsRead(1);
 	    		scheduleObj.setAssignedTo(user);
+	    		
+	    		UserNotes uNotes = new UserNotes();
+	    		uNotes.setNote("Lead has been claim");
+	    		uNotes.setAction("Other");
+	    		uNotes.createdDate = currDate;
+	    		uNotes.createdTime = currDate;
+	    		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes.scheduleTest = ScheduleTest.findById(scheduleObj.id);
+	    		uNotes.save();
 			}
 			if(flag.equals("false")) {
 				scheduleObj.setIsRead(0);
@@ -5703,11 +5799,22 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		Date currDate = new Date();
     		AuthUser user = (AuthUser) getLocalUser();
 	    	TradeIn tradeObjV = TradeIn.findById(id);
 	    	if(flag.equals("true")) {
 	    		tradeObjV.setIsRead(1);
 	    		tradeObjV.setAssignedTo(user);
+	    		
+	    		UserNotes uNotes = new UserNotes();
+	    		uNotes.setNote("Lead has been claim");
+	    		uNotes.setAction("Other");
+	    		uNotes.createdDate = currDate;
+	    		uNotes.createdTime = currDate;
+	    		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes.scheduleTest = ScheduleTest.findById(tradeObjV.id);
+	    		uNotes.save();
 			}
 			if(flag.equals("false")) {
 				tradeObjV.setIsRead(0);
@@ -8374,10 +8481,30 @@ public class Application extends Controller {
         				tradeIn.setStatus("LOST");
         				tradeIn.setStatusDate(currDate);
         				tradeIn.update();
+        				
+        				UserNotes uNotes1 = new UserNotes();
+        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+        	    		uNotes1.setAction("Other");
+        	    		uNotes1.createdDate = currDate;
+        	    		uNotes1.createdTime = currDate;
+        	    		//uNotes1.user = user;
+        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+        	    		uNotes1.save();
         			}else if(!tradeIn.status.equals("COMPLETE")){
         				tradeIn.setStatus("LOST");
         				tradeIn.setStatusDate(currDate);
         				tradeIn.update();
+        				
+        				UserNotes uNotes1 = new UserNotes();
+        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+        	    		uNotes1.setAction("Other");
+        	    		uNotes1.createdDate = currDate;
+        	    		uNotes1.createdTime = currDate;
+        	    		//uNotes1.user = user;
+        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+        	    		uNotes1.save();
         			}
         			
         			if(tradeIn.assignedTo !=null){
@@ -8394,10 +8521,30 @@ public class Application extends Controller {
         				rMoreInfo.setStatus("LOST");
         				rMoreInfo.setStatusDate(currDate);
         				rMoreInfo.update();
+        				
+        				UserNotes uNotes1 = new UserNotes();
+        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+        	    		uNotes1.setAction("Other");
+        	    		uNotes1.createdDate = currDate;
+        	    		uNotes1.createdTime = currDate;
+        	    		//uNotes1.user = user;
+        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+        	    		uNotes1.save();
         			}else if(!rMoreInfo.status.equals("COMPLETE")){
         				rMoreInfo.setStatus("LOST");
         				rMoreInfo.setStatusDate(currDate);
         				rMoreInfo.update();
+        				
+        				UserNotes uNotes1 = new UserNotes();
+        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+        	    		uNotes1.setAction("Other");
+        	    		uNotes1.createdDate = currDate;
+        	    		uNotes1.createdTime = currDate;
+        	    		//uNotes1.user = user;
+        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+        	    		uNotes1.save();
         			}
         			if(rMoreInfo.assignedTo !=null){
         				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
@@ -8414,10 +8561,30 @@ public class Application extends Controller {
         				scheduleTest.setLeadStatus("LOST");
         				scheduleTest.setStatusDate(currDate);
         				scheduleTest.update();
+        				
+        				UserNotes uNotes1 = new UserNotes();
+        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+        	    		uNotes1.setAction("Other");
+        	    		uNotes1.createdDate = currDate;
+        	    		uNotes1.createdTime = currDate;
+        	    		//uNotes1.user = user;
+        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+        	    		uNotes1.save();
         			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
         				scheduleTest.setLeadStatus("LOST");
         				scheduleTest.setStatusDate(currDate);
         				scheduleTest.update();
+        				
+        				UserNotes uNotes1 = new UserNotes();
+        	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+        	    		uNotes1.setAction("Other");
+        	    		uNotes1.createdDate = currDate;
+        	    		uNotes1.createdTime = currDate;
+        	    		//uNotes1.user = user;
+        	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+        	    		uNotes1.save();
         			}
         			if(scheduleTest.assignedTo !=null){
         				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
@@ -8498,7 +8665,7 @@ public class Application extends Controller {
     			rInfo.update();
     			
     			UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Test Drive Completed");
+        		uNotes.setNote("Vehicle Sold");
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
@@ -8518,7 +8685,7 @@ public class Application extends Controller {
         		schedule.update();
         		
         		UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Test Drive Completed");
+        		uNotes.setNote("Vehicle Sold");
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
@@ -8538,7 +8705,7 @@ public class Application extends Controller {
     			tIn.update();
     			
     			UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Test Drive Completed");
+        		uNotes.setNote("Vehicle Sold");
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
@@ -8566,10 +8733,31 @@ public class Application extends Controller {
     				tradeIn.setStatus("LOST");
     				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+    	    		
+    	    		uNotes1.save();
     			}else if(!tradeIn.status.equals("COMPLETE")){
     				tradeIn.setStatus("LOST");
     				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+    	    		uNotes1.save();
     			}
     			if(tradeIn.assignedTo !=null){
     				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
@@ -8585,10 +8773,30 @@ public class Application extends Controller {
     				rMoreInfo.setStatus("LOST");
     				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+    	    		uNotes1.save();
     			}else if(!rMoreInfo.status.equals("COMPLETE")){
     				rMoreInfo.setStatus("LOST");
     				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+    	    		uNotes1.save();
     			}
     			if(rMoreInfo.assignedTo !=null){
     				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
@@ -8605,10 +8813,31 @@ public class Application extends Controller {
     				scheduleTest.setLeadStatus("LOST");
     				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+    	    		
+    	    		uNotes1.save();
     			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
     				scheduleTest.setLeadStatus("LOST");
     				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+    	    		uNotes1.save();
     			}
     			if(scheduleTest.assignedTo !=null){
     				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
@@ -8651,7 +8880,7 @@ public class Application extends Controller {
         		
     		} else if(option == 1) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
-    			info.setLeadStatus("CANCEL");
+    			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
     			info.setReason(reason);
     			info.update();
@@ -8669,7 +8898,7 @@ public class Application extends Controller {
         		
     		} else if(option == 2) {
     			TradeIn info = TradeIn.findById(id);
-    			info.setLeadStatus("CANCEL");
+    			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
     			info.setReason(reason);
     			info.update();
@@ -8747,11 +8976,12 @@ public class Application extends Controller {
     		info.setStatus("COMPLETE");
     		info.setCustZipCode(vm.custZipCode);
     		info.setEnthicity(vm.enthicity);
+    		info.setStatusDate(currDate);
     		info.update();
     		
     		
     		UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Test Drive Completed");
+    		uNotes.setNote("Vehicle Sold");
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;
@@ -8767,10 +8997,32 @@ public class Application extends Controller {
     				tradeIn.setStatus("LOST");
     				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+    	    		uNotes1.save();
+    	    		
     			}else if(!tradeIn.status.equals("COMPLETE")){
     				tradeIn.setStatus("LOST");
     				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+    	    		
+    	    		uNotes1.save();
     			}
     			if(tradeIn.assignedTo !=null){
     				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
@@ -8786,10 +9038,31 @@ public class Application extends Controller {
     				rMoreInfo.setStatus("LOST");
     				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+    	    		
+    	    		uNotes1.save();
     			}else if(!rMoreInfo.status.equals("COMPLETE")){
     				rMoreInfo.setStatus("LOST");
     				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+    	    		uNotes1.save();
     			}
     			if(rMoreInfo.assignedTo !=null){
     				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
@@ -8806,10 +9079,31 @@ public class Application extends Controller {
     				scheduleTest.setLeadStatus("LOST");
     				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+    	    		uNotes1.save();
     			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
     				scheduleTest.setLeadStatus("LOST");
     				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+    	    		
+    	    		uNotes1.save();
     			}
     			if(scheduleTest.assignedTo !=null){
     				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
@@ -8911,10 +9205,11 @@ public class Application extends Controller {
     		info.setStatus("COMPLETE");
     		info.setCustZipCode(vm.custZipCode);
     		info.setEnthicity(vm.enthicity);
+    		info.setStatusDate(currDate);
     		info.update();
     		
     		UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Test Drive Completed");
+    		uNotes.setNote("Vehicle Sold");
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;
@@ -8929,10 +9224,31 @@ public class Application extends Controller {
     				tradeIn.setStatus("LOST");
     				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+    	    		uNotes1.save();
+    	    		
     			}else if(!tradeIn.status.equals("COMPLETE")){
     				tradeIn.setStatus("LOST");
     				tradeIn.setStatusDate(currDate);
     				tradeIn.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+    	    		uNotes1.save();
     			}
     			if(tradeIn.assignedTo !=null){
     				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
@@ -8948,10 +9264,30 @@ public class Application extends Controller {
     				rMoreInfo.setStatus("LOST");
     				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+    	    		uNotes1.save();
     			}else if(!rMoreInfo.status.equals("COMPLETE")){
     				rMoreInfo.setStatus("LOST");
     				rMoreInfo.setStatusDate(currDate);
     				rMoreInfo.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+    	    		uNotes1.save();
     			}
     			if(rMoreInfo.assignedTo !=null){
     				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
@@ -8968,10 +9304,30 @@ public class Application extends Controller {
     				scheduleTest.setLeadStatus("LOST");
     				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+    	    		uNotes1.save();
     			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
     				scheduleTest.setLeadStatus("LOST");
     				scheduleTest.setStatusDate(currDate);
     				scheduleTest.update();
+    				
+    				UserNotes uNotes1 = new UserNotes();
+    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+    	    		uNotes1.setAction("Other");
+    	    		uNotes1.createdDate = currDate;
+    	    		uNotes1.createdTime = currDate;
+    	    		//uNotes1.user = user;
+    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+    	    		uNotes1.save();
     			}
     			if(scheduleTest.assignedTo !=null){
     				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
@@ -9307,7 +9663,8 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Schedule Test Drive";
-	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
+	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -9368,7 +9725,9 @@ public class Application extends Controller {
 	    		//vm.bestDay = info.bestDay;
 	    		//vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Trade-In Appraisal";
-	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
+	    		
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -9428,7 +9787,8 @@ public class Application extends Controller {
 	    		//vm.bestDay = info.bestDay;
 	    		//vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Request More Info";
-	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -9507,8 +9867,10 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.requestDate = df.format(info.requestDate);
 	    		vm.typeOfLead = "Request More Info";
-	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -9571,8 +9933,10 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.pdfPath = info.pdfPath;
+	    		vm.requestDate = df.format(info.tradeDate);
 	    		vm.typeOfLead = "Trade-In Appraisal";
-	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -10205,6 +10569,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = getLocalUser();
     		if(type.equalsIgnoreCase("requestMore")) {
     			RequestMoreInfo requestMore = RequestMoreInfo.findById(id);
     			UserNotes notes = new UserNotes();
@@ -10213,7 +10578,9 @@ public class Application extends Controller {
     			notes.requestMoreInfo = requestMore;
     			if(requestMore.assignedTo !=null){
     				notes.user = requestMore.assignedTo;
-    			}
+    			}/*else{
+    				notes.user = user;
+    			}*/
     			
     			Date date = new Date();
     			notes.createdDate = date;
@@ -10230,7 +10597,9 @@ public class Application extends Controller {
     			AuthUser usr = AuthUser.findById(scheduleTest.assignedTo.id);
     			if(scheduleTest.assignedTo != null){
     				notes.user = scheduleTest.assignedTo;
-    			}
+    			}/*else{
+    				notes.user = user;
+    			}*/
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
@@ -10248,7 +10617,9 @@ public class Application extends Controller {
     			notes.tradeIn = tradeIn;
     			if(tradeIn.assignedTo !=null){
     				notes.user = tradeIn.assignedTo;
-    			}
+    			}/*else{
+    				notes.user = user;
+    			}*/
     			Date date = new Date();
     			notes.createdDate = date;
     			notes.createdTime = date;
@@ -10486,7 +10857,8 @@ public class Application extends Controller {
 	    			vm.requestDate = df.format(info.scheduleDate);
 	    		}
 	    		
-	    		List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
+	    		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
+	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -10525,7 +10897,9 @@ public class Application extends Controller {
 	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
 	    		}
 	    		
-	    		List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
+	    		
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -10564,7 +10938,8 @@ public class Application extends Controller {
 	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
 	    		}
 	    		
-	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
