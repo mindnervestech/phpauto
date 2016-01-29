@@ -130,7 +130,7 @@ angular.module('newApp')
 		});
   
 	  $scope.getAllTradeInData = function() {
-		  $http.get('/getAllTradeIn')
+		  $http.get('/getAllPremiumIn')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.tradeInList = data;

@@ -249,7 +249,11 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllLocationDataManager(Long locationId) {
-		return find.where().eq("leadStatus", null).eq("locations.id",locationId).ne("vin", "no").orderBy("scheduleDate desc").findList();
+		return find.where().eq("leadStatus", null).eq("locations.id",locationId).ne("vin", "no").eq("premiumFlag", 0).orderBy("scheduleDate desc").findList();
+	}
+	
+	public static List<ScheduleTest> findAllLocationDataManagerPremium(Long locationId) {
+		return find.where().eq("leadStatus", null).eq("locations.id",locationId).ne("vin", "no").eq("premiumFlag", 1).orderBy("scheduleDate desc").findList();
 	}
 	
 	

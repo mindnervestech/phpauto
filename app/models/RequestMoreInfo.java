@@ -213,7 +213,11 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationDataManager(Long locationId) {
-		return find.where().eq("status", null).eq("locations.id", locationId).findList();
+		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).findList();
+	}
+	
+	public static List<RequestMoreInfo> findAllLocationDataManagerPremium(Long locationId) {
+		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 1).findList();
 	}
 	
 	

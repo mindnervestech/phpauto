@@ -105,6 +105,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.omg.PortableInterceptor.RequestInfo;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -5551,14 +5552,18 @@ public class Application extends Controller {
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<TradeIn> listData = new ArrayList<>();
+	    	List<RequestMoreInfo> lInfos = new ArrayList<>();
+	    	List<ScheduleTest> sList = new ArrayList<>();
 	    	if(user.role == null || user.role.equals("General Manager")) {
     			listData = TradeIn.findAllData();
     		} else {
     			if(user.role.equals("Manager")) {
-    				listData = TradeIn.findAllLocationDataManager(Long.valueOf(session("USER_LOCATION")));
-    			} else {
+    				listData = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+    				sList = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+    				lInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+    			} /*else {
     				listData = TradeIn.findAllByLocationDate(Long.valueOf(session("USER_LOCATION")));
-    			}
+    			}*/
     		}
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -5606,6 +5611,115 @@ public class Application extends Controller {
 	    		infoVMList.add(vm);
 	    	}
 	    	
+	    	for(RequestMoreInfo info: lInfos) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
+	    		vm.requestDate = df.format(info.requestDate);
+	    		
+	    		if(info.assignedTo == null) {
+	    			vm.status = "Unclaimed";
+	    		} else {
+		    		if(info.assignedTo != null && info.status == null) {
+		    			vm.status = "In Progress";
+		    		} else {
+		    			vm.status = info.status;
+		    		}
+	    		}
+	    		if(info.assignedTo != null) {
+	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
+	    		}
+	    		
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	Calendar time = Calendar.getInstance();
+	    	for(ScheduleTest info: sList) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.bestDay = info.bestDay;
+	    		vm.bestTime = info.bestTime;
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
+	    		if(info.assignedTo == null) {
+	    			vm.status = "Unclaimed";
+	    		} else {
+		    		if(info.assignedTo != null && info.leadStatus == null) {
+		    			vm.status = "In Progress";
+		    		} else {
+		    			vm.status = info.leadStatus;
+		    		}
+	    		}
+	    		if(info.assignedTo != null) {
+	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
+	    		}
+	    		
+	    		if(info.getConfirmDate() != null) {
+	    			vm.confirmDate = df.format(info.getConfirmDate());
+	    		}
+	    		
+	    		if(info.getConfirmTime() != null) {
+	    			time.setTime(info.getConfirmTime());
+	    			String ampm = "";
+	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+	    				ampm = "PM";
+	    			} else {
+	    				ampm = "AM";
+	    			}
+	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+	    		}
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
+	    		
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		infoVMList.add(vm);
+	    	}
 	    	return ok(Json.toJson(infoVMList));
     	}	
     }
@@ -14416,9 +14530,15 @@ public class Application extends Controller {
     			if(pLeads.premium_flag.equals(1)){
     				if(Integer.parseInt(pLeads.premium_amount) >= vehicles.get(0).price){
     					info.setPremiumFlag(1);
+    				}else{
+    					info.setPremiumFlag(0);
     				}
-    			}
-    		}
+    			}else{
+					info.setPremiumFlag(0);
+				}
+    		}else{
+				info.setPremiumFlag(0);
+			}
     		
     		info.save();
     		
@@ -14468,9 +14588,15 @@ public class Application extends Controller {
     			if(pLeads.premium_flag.equals(1)){
     				if(Integer.parseInt(pLeads.premium_amount) >= vehicles.get(0).price){
     					test.setPremiumFlag(1);
+    				}else{
+    					test.setPremiumFlag(0);
     				}
-    			}
-    		}
+    			}else{
+    				test.setPremiumFlag(0);
+				}
+    		}else{
+    			test.setPremiumFlag(0);
+			}
     		
     		test.save();
     		
@@ -14558,9 +14684,15 @@ public class Application extends Controller {
         			if(pLeads.premium_flag.equals(1)){
         				if(Integer.parseInt(pLeads.premium_amount) >= vehicles.get(0).price){
         					tradeIn.setPremiumFlag(1);
+        				}else{
+        					tradeIn.setPremiumFlag(0);
         				}
-        			}
-        		}
+        			}else{
+        				tradeIn.setPremiumFlag(0);
+    				}
+        		}else{
+        			tradeIn.setPremiumFlag(0);
+				}
         		
         		tradeIn.save();
         		

@@ -487,7 +487,11 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllLocationDataManager(Long locationId) {
-		return find.where().eq("locations.id", locationId).eq("status", null).findList();
+		return find.where().eq("locations.id", locationId).eq("status", null).eq("premiumFlag", 0).findList();
+	}
+	
+	public static List<TradeIn> findAllLocationDataManagerPremium(Long locationId) {
+		return find.where().eq("locations.id", locationId).eq("status", null).eq("premiumFlag", 1).findList();
 	}
 	
 	public static List<TradeIn> findByLocation(Long location) {
