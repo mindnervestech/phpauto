@@ -1961,6 +1961,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
     		Date currDate = new Date();
 	    	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
 	    	LeadVM vm = form.get();
@@ -1980,6 +1981,8 @@ public class Application extends Controller {
 	        		uNotes.setAction("Other");
 	        		uNotes.createdDate = currDate;
 	        		uNotes.createdTime = currDate;
+	        		uNotes.user = user;
+	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	        		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
 	        		uNotes.save();
 	    		}
@@ -1999,6 +2002,8 @@ public class Application extends Controller {
 	        		uNotes.setAction("Other");
 	        		uNotes.createdDate = currDate;
 	        		uNotes.createdTime = currDate;
+	        		uNotes.user = user;
+	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	        		uNotes.scheduleTest = ScheduleTest.findById(sInfo.id);
 	        		uNotes.save();
 	    		}
@@ -2018,6 +2023,8 @@ public class Application extends Controller {
 	        		uNotes.setAction("Other");
 	        		uNotes.createdDate = currDate;
 	        		uNotes.createdTime = currDate;
+	        		uNotes.user = user;
+	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	        		uNotes.tradeIn = TradeIn.findById(tInfo.id);
 	        		uNotes.save();
 	    		}
@@ -5212,6 +5219,7 @@ public class Application extends Controller {
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
+	    		vm.pdfPath = info.pdfPath;
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
@@ -6347,6 +6355,8 @@ public class Application extends Controller {
 		    	    		uNotes.setAction("Other");
 		    	    		uNotes.createdDate = currDate;
 		    	    		uNotes.createdTime = currDate;
+		    	    		uNotes.user = user;
+			        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	    		uNotes.scheduleTest = ScheduleTest.findById(scheduleTest.id);
 		    	    		uNotes.save();
 						}
@@ -6402,6 +6412,8 @@ public class Application extends Controller {
 		    	    		uNotes.setAction("Other");
 		    	    		uNotes.createdDate = currDate;
 		    	    		uNotes.createdTime = currDate;
+		    	    		uNotes.user = user;
+			        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 		    	    		uNotes.save();
 						}
@@ -6458,6 +6470,8 @@ public class Application extends Controller {
 		    	    		uNotes.setAction("Other");
 		    	    		uNotes.createdDate = currDate;
 		    	    		uNotes.createdTime = currDate;
+		    	    		uNotes.user = user;
+			        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	    		uNotes.tradeIn = TradeIn.findById(info.id);
 		    	    		uNotes.save();
 						}
@@ -8488,6 +8502,8 @@ public class Application extends Controller {
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
         		uNotes.save();
     			
@@ -8506,6 +8522,8 @@ public class Application extends Controller {
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
         		uNotes.save();
         		
@@ -8524,6 +8542,8 @@ public class Application extends Controller {
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.tradeIn = TradeIn.findById(tIn.id);
         		uNotes.save();
     			vinNo = tIn.vin;
@@ -8609,6 +8629,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = getLocalUser();
     		Date currDate = new Date();
     		if(option==0) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
@@ -8623,6 +8644,8 @@ public class Application extends Controller {
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
         		uNotes.save();
         		
@@ -8639,6 +8662,8 @@ public class Application extends Controller {
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
         		uNotes.save();
         		
@@ -8654,6 +8679,8 @@ public class Application extends Controller {
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.tradeIn = TradeIn.findById(info.id);
         		uNotes.save();
     		}
@@ -8728,6 +8755,8 @@ public class Application extends Controller {
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;
+    		uNotes.user = user;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
     		uNotes.save();
     		
@@ -8801,6 +8830,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = getLocalUser();
     		Date currDate = new Date();
     		RequestMoreInfo info = RequestMoreInfo.findById(id);
     		info.setStatus("CANCEL");
@@ -8814,6 +8844,8 @@ public class Application extends Controller {
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;
+    		uNotes.user = user;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
     		uNotes.save();
     		return ok();
@@ -8886,6 +8918,8 @@ public class Application extends Controller {
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;
+    		uNotes.user = user;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		uNotes.tradeIn = TradeIn.findById(info.id);
     		uNotes.save();
     		
@@ -8957,6 +8991,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = getLocalUser();
     		Date currDate = new Date();
     		TradeIn info = TradeIn.findById(id);
     		info.setStatus("CANCEL");
@@ -8970,6 +9005,8 @@ public class Application extends Controller {
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;
+    		uNotes.user = user;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		uNotes.tradeIn = TradeIn.findById(info.id);
     		uNotes.save();
     		return ok();
@@ -9327,6 +9364,7 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.pdfPath = info.pdfPath;
 	    		//vm.bestDay = info.bestDay;
 	    		//vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Trade-In Appraisal";
@@ -10316,6 +10354,8 @@ public class Application extends Controller {
     	    		uNotes.setAction("Other");
     	    		uNotes.createdDate = currDate;
     	    		uNotes.createdTime = currDate;
+    	    		uNotes.user = user;
+	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
     	    		uNotes.save();
     			}
@@ -10387,6 +10427,7 @@ public class Application extends Controller {
     	    		uNotes.setAction("Other");
     	    		uNotes.createdDate = currDate;
     	    		uNotes.createdTime = currDate;
+    	    		uNotes.user = user;
     	    		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
     	    		uNotes.save();
     			}
@@ -13741,6 +13782,8 @@ public class Application extends Controller {
     		uNotes.setAction("Other");
     		uNotes.createdDate = date;
     		uNotes.createdTime = date;
+    		uNotes.user = user;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
     		uNotes.save();
     		
@@ -13781,6 +13824,8 @@ public class Application extends Controller {
     		uNotes.setAction("Other");
     		uNotes.createdDate = date;
     		uNotes.createdTime = date;
+    		uNotes.user = user;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		uNotes.scheduleTest = ScheduleTest.findById(test.id);
     		uNotes.save();
     		
@@ -13853,6 +13898,8 @@ public class Application extends Controller {
     		uNotes.setAction("Other");
     		uNotes.createdDate = date;
     		uNotes.createdTime = date;
+    		uNotes.user = user;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
     		uNotes.save();
     		
