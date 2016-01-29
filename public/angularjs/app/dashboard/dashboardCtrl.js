@@ -1007,11 +1007,14 @@ angular.module('newApp')
    	  		}*/
    	  	
    	  		
+   	  	$scope.openForm = function(){
+			$("#tradeInAppEdit").modal();
+		}
+   	  	
    	  	$scope.showPdf = function(id){
    	  		console.log(id);
    	  		$scope.pdfFile = "/getPdfPath/"+id;
    	  		$('#openPdffile').click();
-   	  		
    	  		console.log($scope.pdfFile);
    	  	}
    	  		$scope.editLeads = {};
@@ -1023,6 +1026,7 @@ angular.module('newApp')
    	  			//$scope.editLeads = entity;
    	  			if(entity.typeOfLead == "Trade In" || entity.typeOfLead == "Trade-In Appraisal") {
 				   $scope.pdffile = entity.pdfPath;
+				   $scope.lead = entity.leadsValue;
 			   }   	  		    
    	  			
    	  			$scope.editLeads.vin = entity.vin;
@@ -1628,6 +1632,15 @@ angular.module('newApp')
 	    			});*/
 	    		};
 	    		
+	    		$scope.makeLeadEdit = function(){
+	    				$scope.lead.leadType = '3';
+	    			console.log($scope.lead);
+	    			$http.post('/createLead',$scope.lead).success(function(response) {
+	    					$("#tradeInAppEdit").modal('hide');
+	    				
+	    			});
+	    		}
+	    		
 	    		$scope.makeLead = function() {
 	    			console.log("make Lead");
 	    			$scope.othertxt = $('#othertxt').val();
@@ -1647,6 +1660,8 @@ angular.module('newApp')
 	    				}
 	    				
 	    			}
+	    			
+	    			
 	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
 	    				if($scope.lead.leadType=='2')  {
@@ -2038,7 +2053,6 @@ angular.module('newApp')
 		       
 		       $scope.salesPerson = id;
 		       	if($scope.salesPerson == undefined){
-		       		console.log("kokokokokokoko");
 		       		$scope.salesPerson = 0;
 		       		id = 0;
 		       	}
@@ -2203,7 +2217,7 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Status changed successfully",
 				});
-				$scope.getRequestMoreData();
+				$scope.getAllSalesPersonRecord($scope.salesPerson);
 			});
     	};
     	

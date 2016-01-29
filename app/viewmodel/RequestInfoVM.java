@@ -36,4 +36,9 @@ public class RequestInfoVM {
 	public String enthicity;
 	public String custZipCode;
 	public String pdfPath;
+	public LeadVM leadsValue;
+	
+	
+	
+	
 }

@@ -5291,6 +5291,46 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.pdfPath = info.pdfPath;
 	    		vm.enthicity = info.enthicity;
+	    		LeadVM lVm = new LeadVM();
+	    		lVm.id = info.id.toString();
+	    			lVm.comments = info.comments;
+	    			lVm.year = info.year;
+	    			lVm.make = info.make;
+	    			lVm.model = info.model;
+	    			lVm.exteriorColour = info.exteriorColour;
+	    			lVm.kilometres = info.kilometres;
+	    			lVm.engine = info.engine;
+	    			lVm.doors = info.doors;
+	    			lVm.transmission = info.transmission;
+	    			lVm.drivetrain = info.drivetrain;
+	    			lVm.bodyRating = info.bodyRating;
+	    			lVm.tireRating = info.tireRating;
+	    			lVm.engineRating = info.engineRating;
+	    			lVm.glassRating = info.glassRating;
+	    			lVm.interiorRating = info.interiorRating;
+	    			lVm.exhaustRating = info.exhaustRating;
+	    			lVm.rentalReturn = info.leaseOrRental;
+	    			lVm.odometerAccurate = info.operationalAndAccurate;
+	    			lVm.serviceRecords = info.serviceRecord;
+	    			lVm.lienholder = info.lienholder;
+	    			lVm.prefferedContact = info.preferredContact;
+	    			lVm.equipment = info.equipment;
+	    			lVm.accidents = info.accidents;
+	    			lVm.vehiclenew = info.vehiclenew;
+	    			lVm.paint = info.paint;
+	    			lVm.salvage = info.salvage;
+	    			lVm.damage = info.damage;
+	    			lVm.titleholder = info.holdsThisTitle;
+	    			lVm.prefferedContact = info.preferredContact;
+	    			
+	    			List<String> sList = new ArrayList<>();
+	    			String arr[] =  info.optionValue.split(",");
+	    			for(int i=0;i<arr.length;i++){
+	    				sList.add(arr[i]);
+	    			}
+	    			lVm.options = sList;
+	    			
+	    		vm.leadsValue = lVm;	
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
@@ -5568,6 +5608,46 @@ public class Application extends Controller {
 	    		vm.pdfPath = info.pdfPath;
 	    		vm.requestDate = df.format(info.tradeDate);
 	    		vm.typeOfLead = "Trade-In Appraisal";
+	    		
+	    		LeadVM lVm = new LeadVM();
+	    		lVm.id = info.id.toString();
+    			lVm.comments = info.comments;
+    			lVm.year = info.year;
+    			lVm.make = info.make;
+    			lVm.model = info.model;
+    			lVm.exteriorColour = info.exteriorColour;
+    			lVm.kilometres = info.kilometres;
+    			lVm.engine = info.engine;
+    			lVm.doors = info.doors;
+    			lVm.transmission = info.transmission;
+    			lVm.drivetrain = info.drivetrain;
+    			lVm.bodyRating = info.bodyRating;
+    			lVm.tireRating = info.tireRating;
+    			lVm.engineRating = info.engineRating;
+    			lVm.glassRating = info.glassRating;
+    			lVm.interiorRating = info.interiorRating;
+    			lVm.exhaustRating = info.exhaustRating;
+    			lVm.rentalReturn = info.leaseOrRental;
+    			lVm.odometerAccurate = info.operationalAndAccurate;
+    			lVm.serviceRecords = info.serviceRecord;
+    			lVm.lienholder = info.lienholder;
+    			lVm.prefferedContact = info.preferredContact;
+    			lVm.equipment = info.equipment;
+    			lVm.accidents = info.accidents;
+    			lVm.vehiclenew = info.vehiclenew;
+    			lVm.paint = info.paint;
+    			lVm.salvage = info.salvage;
+    			lVm.damage = info.damage;
+    			lVm.titleholder = info.holdsThisTitle;
+    			List<String> sList = new ArrayList<>();
+    			String arr[] =  info.optionValue.split(",");
+    			for(int i=0;i<arr.length;i++){
+    				sList.add(arr[i]);
+    			}
+    			lVm.options = sList;
+    			
+    		vm.leadsValue = lVm;
+	    		
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -9725,6 +9805,48 @@ public class Application extends Controller {
 	    		vm.bestDay = info.bestDay;
 	    		vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Trade-In Appraisal";
+	    		
+	    		LeadVM lVm = new LeadVM();
+	    		lVm.id = info.id.toString();
+	    			lVm.comments = info.comments;
+	    			lVm.year = info.year;
+	    			lVm.make = info.make;
+	    			lVm.model = info.model;
+	    			lVm.exteriorColour = info.exteriorColour;
+	    			lVm.kilometres = info.kilometres;
+	    			lVm.engine = info.engine;
+	    			lVm.doors = info.doors;
+	    			lVm.transmission = info.transmission;
+	    			lVm.drivetrain = info.drivetrain;
+	    			lVm.bodyRating = info.bodyRating;
+	    			lVm.tireRating = info.tireRating;
+	    			lVm.engineRating = info.engineRating;
+	    			lVm.glassRating = info.glassRating;
+	    			lVm.interiorRating = info.interiorRating;
+	    			lVm.exhaustRating = info.exhaustRating;
+	    			lVm.rentalReturn = info.leaseOrRental;
+	    			lVm.odometerAccurate = info.operationalAndAccurate;
+	    			lVm.serviceRecords = info.serviceRecord;
+	    			lVm.lienholder = info.lienholder;
+	    			lVm.prefferedContact = info.preferredContact;
+	    			lVm.titleholder = info.holdsThisTitle;
+	    			lVm.prefferedContact = info.preferredContact;
+	    			lVm.equipment = info.equipment;
+	    			lVm.accidents = info.accidents;
+	    			lVm.vehiclenew = info.vehiclenew;
+	    			lVm.paint = info.paint;
+	    			lVm.salvage = info.salvage;
+	    			lVm.damage = info.damage;
+	    			
+	    			
+	    			List<String> sList = new ArrayList<>();
+	    			String arr[] =  info.optionValue.split(",");
+	    			for(int i=0;i<arr.length;i++){
+	    				sList.add(arr[i]);
+	    			}
+	    			lVm.options = sList;
+	    			
+	    		vm.leadsValue = lVm;	
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		
@@ -9935,6 +10057,45 @@ public class Application extends Controller {
 	    		vm.pdfPath = info.pdfPath;
 	    		vm.requestDate = df.format(info.tradeDate);
 	    		vm.typeOfLead = "Trade-In Appraisal";
+	    		
+	    		LeadVM lVm = new LeadVM();
+	    		lVm.id = info.id.toString();
+    			lVm.comments = info.comments;
+    			lVm.year = info.year;
+    			lVm.make = info.make;
+    			lVm.model = info.model;
+    			lVm.exteriorColour = info.exteriorColour;
+    			lVm.kilometres = info.kilometres;
+    			lVm.engine = info.engine;
+    			lVm.doors = info.doors;
+    			lVm.transmission = info.transmission;
+    			lVm.drivetrain = info.drivetrain;
+    			lVm.bodyRating = info.bodyRating;
+    			lVm.tireRating = info.tireRating;
+    			lVm.engineRating = info.engineRating;
+    			lVm.glassRating = info.glassRating;
+    			lVm.interiorRating = info.interiorRating;
+    			lVm.exhaustRating = info.exhaustRating;
+    			lVm.rentalReturn = info.leaseOrRental;
+    			lVm.odometerAccurate = info.operationalAndAccurate;
+    			lVm.serviceRecords = info.serviceRecord;
+    			lVm.lienholder = info.lienholder;
+    			lVm.titleholder = info.holdsThisTitle;
+    			lVm.prefferedContact = info.preferredContact;
+    			lVm.equipment = info.equipment;
+    			lVm.accidents = info.accidents;
+    			lVm.vehiclenew = info.vehiclenew;
+    			lVm.paint = info.paint;
+    			lVm.salvage = info.salvage;
+    			lVm.damage = info.damage;
+    			List<String> sList = new ArrayList<>();
+    			String arr[] =  info.optionValue.split(",");
+    			for(int i=0;i<arr.length;i++){
+    				sList.add(arr[i]);
+    			}
+    			lVm.options = sList;
+    		vm.leadsValue = lVm;
+    		
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -14215,6 +14376,10 @@ public class Application extends Controller {
     		makeToDo(vehicles.get(0).getVin());
     		sendMail(map);
     	} else {
+    		
+    		TradeIn tIn = TradeIn.findById(Long.parseLong(leadVM.id));
+    		if(tIn == null){
+    			
     		StringBuffer buffer = new StringBuffer();
     		for(String opt:leadVM.options) {
     			buffer.append(opt+",");
@@ -14222,61 +14387,63 @@ public class Application extends Controller {
     		if(buffer.length()>0) {
     			buffer.deleteCharAt(buffer.length()-1);
     		}
-    		TradeIn tradeIn = new TradeIn();
-    		tradeIn.setAccidents(leadVM.accidents);
-    		tradeIn.setEnthicity(leadVM.enthicity);
-    		tradeIn.setAssignedTo(user);
-    		tradeIn.setIsReassigned(true);
-    		tradeIn.setLeadStatus(null);
-    		tradeIn.setBodyRating(leadVM.bodyRating);
-    		tradeIn.setComments(leadVM.comments);
-    		tradeIn.setContactedFrom(leadVM.contactedFrom);
-    		tradeIn.setDamage(leadVM.damage);
-    		tradeIn.setDoors(leadVM.doors);
-    		tradeIn.setDrivetrain(leadVM.drivetrain);
-    		tradeIn.setEmail(leadVM.custEmail);
-    		tradeIn.setCustZipCode(leadVM.custZipCode);
-    		tradeIn.setEngine(leadVM.engine);
-    		tradeIn.setEngineRating(leadVM.engineRating);
-    		tradeIn.setEquipment(leadVM.equipment);
-    		tradeIn.setExhaustRating(leadVM.exhaustRating);
-    		tradeIn.setExteriorColour(leadVM.exteriorColour);
-    		tradeIn.setFirstName(leadVM.custName);
-    		tradeIn.setGlassRating(leadVM.glassRating);
-    		tradeIn.setHearedFrom(leadVM.hearedFrom);
-    		tradeIn.setInteriorRating(leadVM.interiorRating);
-    		tradeIn.setIsRead(0);
-    		tradeIn.setKilometres(leadVM.kilometres);
-    		tradeIn.setLeaseOrRental(leadVM.rentalReturn);
-    		tradeIn.setLienholder(leadVM.lienholder);
-    		tradeIn.setMake(makestr);
-    		tradeIn.setModel(model);
-    		tradeIn.setOperationalAndAccurate(leadVM.odometerAccurate);
-    		tradeIn.setOptionValue(buffer.toString());
-    		tradeIn.setPaint(leadVM.paint);
-    		tradeIn.setPhone(leadVM.custNumber);
-    		tradeIn.setPreferredContact(leadVM.prefferedContact);
-    		tradeIn.setSalvage(leadVM.salvage);
-    		tradeIn.setScheduleDate(new Date());
-    		tradeIn.setTireRating(leadVM.tireRating);
-    		tradeIn.setTradeDate(new Date());
-    		tradeIn.setTransmission(leadVM.transmission);
-    		tradeIn.setUser(user);
-			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		tradeIn.setVehiclenew(leadVM.vehiclenew);
-    		tradeIn.setVin(vehicles.get(0).getVin());
-    		tradeIn.setYear(leadVM.year);
-    		tradeIn.save();
     		
-    		UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Lead has been created");
-    		uNotes.setAction("Other");
-    		uNotes.createdDate = date;
-    		uNotes.createdTime = date;
-    		uNotes.user = user;
-    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
-    		uNotes.save();
+    		
+    			TradeIn tradeIn = new TradeIn();
+        		tradeIn.setAccidents(leadVM.accidents);
+        		tradeIn.setEnthicity(leadVM.enthicity);
+        		tradeIn.setAssignedTo(user);
+        		tradeIn.setIsReassigned(true);
+        		tradeIn.setLeadStatus(null);
+        		tradeIn.setBodyRating(leadVM.bodyRating);
+        		tradeIn.setComments(leadVM.comments);
+        		tradeIn.setContactedFrom(leadVM.contactedFrom);
+        		tradeIn.setDamage(leadVM.damage);
+        		tradeIn.setDoors(leadVM.doors);
+        		tradeIn.setDrivetrain(leadVM.drivetrain);
+        		tradeIn.setEmail(leadVM.custEmail);
+        		tradeIn.setCustZipCode(leadVM.custZipCode);
+        		tradeIn.setEngine(leadVM.engine);
+        		tradeIn.setEngineRating(leadVM.engineRating);
+        		tradeIn.setEquipment(leadVM.equipment);
+        		tradeIn.setExhaustRating(leadVM.exhaustRating);
+        		tradeIn.setExteriorColour(leadVM.exteriorColour);
+        		tradeIn.setFirstName(leadVM.custName);
+        		tradeIn.setGlassRating(leadVM.glassRating);
+        		tradeIn.setHearedFrom(leadVM.hearedFrom);
+        		tradeIn.setInteriorRating(leadVM.interiorRating);
+        		tradeIn.setIsRead(0);
+        		tradeIn.setKilometres(leadVM.kilometres);
+        		tradeIn.setLeaseOrRental(leadVM.rentalReturn);
+        		tradeIn.setLienholder(leadVM.lienholder);
+        		tradeIn.setMake(makestr);
+        		tradeIn.setModel(model);
+        		tradeIn.setOperationalAndAccurate(leadVM.odometerAccurate);
+        		tradeIn.setOptionValue(buffer.toString());
+        		tradeIn.setPaint(leadVM.paint);
+        		tradeIn.setPhone(leadVM.custNumber);
+        		tradeIn.setPreferredContact(leadVM.prefferedContact);
+        		tradeIn.setSalvage(leadVM.salvage);
+        		tradeIn.setScheduleDate(new Date());
+        		tradeIn.setTireRating(leadVM.tireRating);
+        		tradeIn.setTradeDate(new Date());
+        		tradeIn.setTransmission(leadVM.transmission);
+        		tradeIn.setUser(user);
+    			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		tradeIn.setVehiclenew(leadVM.vehiclenew);
+        		tradeIn.setVin(vehicles.get(0).getVin());
+        		tradeIn.setYear(leadVM.year);
+        		tradeIn.save();
+        		
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Lead has been created");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = date;
+        		uNotes.createdTime = date;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
+        		uNotes.save();
     		
     		
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicles.get(0).getVin());
@@ -15180,6 +15347,62 @@ public class Application extends Controller {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+    	 }else{
+    		 
+    		 StringBuffer buffer = new StringBuffer();
+     		for(String opt:leadVM.options) {
+     			buffer.append(opt+",");
+     		}
+     		if(buffer.length()>0) {
+     			buffer.deleteCharAt(buffer.length()-1);
+     		}
+    		 
+    		 tIn.setAccidents(leadVM.accidents);
+    		 tIn.setEnthicity(leadVM.enthicity);
+    		 tIn.setAssignedTo(user);
+    		 tIn.setIsReassigned(true);
+    		 tIn.setLeadStatus(null);
+    		 tIn.setBodyRating(leadVM.bodyRating);
+    		 tIn.setComments(leadVM.comments);
+    		 tIn.setContactedFrom(leadVM.contactedFrom);
+    		 tIn.setDamage(leadVM.damage);
+    		 tIn.setDoors(leadVM.doors);
+    		 tIn.setDrivetrain(leadVM.drivetrain);
+    		 tIn.setEmail(leadVM.custEmail);
+    		 tIn.setCustZipCode(leadVM.custZipCode);
+    		 tIn.setEngine(leadVM.engine);
+    		 tIn.setEngineRating(leadVM.engineRating);
+    		 tIn.setEquipment(leadVM.equipment);
+    		 tIn.setExhaustRating(leadVM.exhaustRating);
+    		 tIn.setExteriorColour(leadVM.exteriorColour);
+    		 tIn.setFirstName(leadVM.custName);
+    		 tIn.setGlassRating(leadVM.glassRating);
+    		 tIn.setHearedFrom(leadVM.hearedFrom);
+    		 tIn.setInteriorRating(leadVM.interiorRating);
+    		 tIn.setIsRead(0);
+    		 tIn.setKilometres(leadVM.kilometres);
+    		 tIn.setLeaseOrRental(leadVM.rentalReturn);
+    		 tIn.setLienholder(leadVM.lienholder);
+    		 tIn.setMake(makestr);
+    		 tIn.setModel(model);
+    		 tIn.setOperationalAndAccurate(leadVM.odometerAccurate);
+    		 tIn.setOptionValue(buffer.toString());
+    		 tIn.setPaint(leadVM.paint);
+    		 tIn.setPhone(leadVM.custNumber);
+    		 tIn.setPreferredContact(leadVM.prefferedContact);
+    		 tIn.setSalvage(leadVM.salvage);
+    		 tIn.setScheduleDate(new Date());
+    		 tIn.setTireRating(leadVM.tireRating);
+    		 tIn.setTradeDate(new Date());
+    		 tIn.setTransmission(leadVM.transmission);
+    		 tIn.setUser(user);
+    		 tIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		 tIn.setVehiclenew(leadVM.vehiclenew);
+    		 tIn.setYear(leadVM.year);
+    		 tIn.update();
+     		
+     		
+    	 }
     	}
     	return ok();
     }
