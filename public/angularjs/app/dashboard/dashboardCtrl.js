@@ -689,7 +689,7 @@ angular.module('newApp')
      				 		                                	} ,
      			 		                                 },
      			 		                               { name: 'bestDay', displayName: 'Date Added', width:'8%',cellEditableCondition: false,
-     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bastDay}}</a> ',
+     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bestDay}}</a> ',
       			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       			   		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 0) {
       			   		                                         return 'red';
@@ -697,7 +697,7 @@ angular.module('newApp')
       			  		                                	} ,
       					                                 },
       					                                 { name: 'bestTime', displayName: 'Requested Time', width:'8%',cellEditableCondition: false,
-      					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bastTime}}</a> ',
+      					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bestTime}}</a> ',
       					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       				  		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 0) {
       				  		                                         return 'red';
@@ -1484,9 +1484,6 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.getVisitedData = function(type,filterBy,search,searchBy) {
-	    			console.log("HIhihihihih%%^^66666666666666666666666");
-	    			console.log(searchBy);
-	    			console.log(search);
 	    			$http.get('/getVisitedData/'+type+'/'+filterBy+'/'+search+'/'+searchBy).success(function(response) {
 	    				console.log(response);
 	    				$scope.weekData = response;
@@ -1712,7 +1709,7 @@ angular.module('newApp')
 	    		}
 	    		$scope.findModel = function(value,searchBy){
 	    			console.log(value.length);
-	    			if(value.length > 2){
+	    			if(value.length > 1){
 	    				$scope.searchBy = searchBy;
 		    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy);
 	    			}
