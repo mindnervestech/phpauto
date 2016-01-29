@@ -5284,8 +5284,8 @@ public class Application extends Controller {
 	    		vm.name = info.firstName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		//vm.bestDay = info.bestDay;
-	    		//vm.bestTime = info.bestTime;
+	    		vm.bestDay = info.bestDay;
+	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
@@ -5349,8 +5349,8 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		//vm.bestDay = info.bestDay;
-	    		//vm.bestTime = info.bestTime;
+	    		vm.bestDay = info.bestDay;
+	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
@@ -9722,8 +9722,8 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.pdfPath = info.pdfPath;
-	    		//vm.bestDay = info.bestDay;
-	    		//vm.bestTime = info.bestTime;
+	    		vm.bestDay = info.bestDay;
+	    		vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
@@ -9784,8 +9784,8 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
-	    		//vm.bestDay = info.bestDay;
-	    		//vm.bestTime = info.bestTime;
+	    		vm.bestDay = info.bestDay;
+	    		vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Request More Info";
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
@@ -13689,11 +13689,11 @@ public class Application extends Controller {
 	    		
 	    		if(!searchBy.equals("0") && !search.equals("0")){
 		    		if(searchBy.equals("Model")){
-	    				if(search.equals(vehicle.model)){
+	    				if(vehicle.model.startsWith(search)){
 	    					topVisitedVms.add(analyticalVM);
 	    				}
 	    			}else if(searchBy.equals("Make")){
-	    				if(search.equals(vehicle.make)){
+	    				if(vehicle.make.startsWith(search)){
 	    					topVisitedVms.add(analyticalVM);
 	    				}
 	    			}
@@ -13735,12 +13735,12 @@ public class Application extends Controller {
     		
     		
     		if(!searchBy.equals("0") && !search.equals("0")){
-	    		if(searchBy.equals("Model")){
-    				if(search.equals(vehicle.model)){
+    			if(searchBy.equals("Model")){
+    				if(vehicle.model.startsWith(search)){
     					worstVisitedVms.add(analyticalVM);
     				}
     			}else if(searchBy.equals("Make")){
-    				if(search.equals(vehicle.make)){
+    				if(vehicle.make.startsWith(search)){
     					worstVisitedVms.add(analyticalVM);
     				}
     			}
@@ -13843,12 +13843,12 @@ public class Application extends Controller {
     		
     		//allVehical.add(anVm);
     		if(!searchBy.equals("0") && !search.equals("0")){
-	    		if(searchBy.equals("Model")){
-    				if(search.equals(vehicle.model)){
+    			if(searchBy.equals("Model")){
+    				if(vehicle.model.startsWith(search)){
     					allVehical.add(anVm);
     				}
     			}else if(searchBy.equals("Make")){
-    				if(search.equals(vehicle.make)){
+    				if(vehicle.make.startsWith(search)){
     					allVehical.add(anVm);
     				}
     			}
