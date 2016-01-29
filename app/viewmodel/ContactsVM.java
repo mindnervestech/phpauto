@@ -40,7 +40,14 @@ public class ContactsVM {
 	public String workPhone1;
 	public String email1;
 	public String phone1;
+	public String fullName;
 	
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
 	public boolean newsletter;
 	
 	public Long getContactId() {

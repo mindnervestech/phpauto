@@ -4741,20 +4741,20 @@ margin-left: 5px;
 								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>CUSTOMER'S INFO</strong></h3>
 								                    		<div class="col-md-6">
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custName" placeholder="NAME" ng-change="getFromCrm(lead.custName)"/> <span style="color: red;">*</span>
+								                    				
+								                    				<angucomplete-alt id="ex1"
+														              placeholder="Search Name"
+														              pause="10"
+														              selected-object="selectedObj"
+														              local-data="searchList"
+														              search-fields="fullName"
+														              title-field="fullName"
+														              minlength="3"
+														              focus-out="focusOut()"
+														              input-class="form-control form-control-small">
+															    </angucomplete-alt>
+															    
 								                    			</div>
-								                    			
-								                    			<div class="col-md-12" ng-if="lead.custName !=''" style="margin: 10px 0 10px 0;">
-								                    				<!-- 
-								                    					<select placeholder="MODEL" ng-model="fromCrm" ng-change="dataFromCrm(fromCrm)" style="width:100px;">
-								                    					<option ng-repeat="item in crmData | byNameFilter:fromCrm"" value="{{item}}">{{item.firstName}} {{item.lastName}}</option>
-								                    				</select>
-								                    					-->
-								                    				<select placeholder="MODEL" ng-model="fromCrm" ng-change="dataFromCrm(fromCrm)" style="width:100px;">
-								                    					<option ng-repeat="item in crmData" value="{{item}}">{{item.firstName}} {{item.lastName}}</option>
-								                    				</select>
-								                    			</div>
-								                    			
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER"/> <span style="color: red;">*</span>
 								                    			</div>

@@ -21,6 +21,14 @@ angular.module('newApp')
 	$scope.userKey = userKey;
 	$scope.userRole;
 	$scope.locationValue = null;
+	
+		
+	$http.get('/getDataFromCrm').success(function(data){
+		$scope.searchList = data;
+		console.log($scope.searchList);
+	 });
+	
+	
 	$http.get('/getUserRole').success(function(data) {
 		console.log(data);
 		
@@ -1496,20 +1504,30 @@ angular.module('newApp')
 	    			});
 	    		};
 	    		
-	    		$scope.getFromCrm = function(name){
+	    		/*$scope.getFromCrm = function(name){
 	    			if(name !=null || name!=''){
 	    				$http.get('/getDataFromCrm/'+name).success(function(data){
 		    				$scope.crmData = data;
 		    			 });
 	    			}
-	    		};
-	    		$scope.dataFromCrm = function(item){
+	    		};*/
+	    		/*$scope.dataFromCrm = function(item){
 	    			$scope.item = JSON.parse(item);
 	    			$scope.lead.custName = $scope.item.firstName +" "+ $scope.item.lastName;
 	    			$scope.lead.custNumber = $scope.item.phone;
 	    			$scope.lead.custEmail = $scope.item.email;
 	    			$scope.lead.custZipCode = $scope.item.zip;
 	    			console.log($scope.item);
+	    		};*/
+	    		
+	    		$scope.selectedObj = function (selectObj) {
+	    			if(selectObj.originalObject != undefined){
+	    				$scope.item = selectObj.originalObject;
+		    		    $scope.lead.custName = $scope.item.fullName;
+		    		    $scope.lead.custNumber = $scope.item.phone;
+		    			$scope.lead.custEmail = $scope.item.email;
+		    			$scope.lead.custZipCode = $scope.item.zip;
+	    			}
 	    		};
 	    			$http.get('/getHeardAboutUs').success(function(response) {
 	    				$scope.heardAboutUs = response;
@@ -1566,8 +1584,13 @@ angular.module('newApp')
 	    		$scope.initialiase();
 	    		$scope.isInValid = false;
 	    		$scope.isStockError = false;
-	    		
+	    		$scope.focusOut = function(){
+	    			console.log($('#ex1_value').val());
+	    		};
 	    		$scope.createLead = function() {
+	    			console.log($('#ex1_value').val());
+	    			$scope.lead.custName = $('#ex1_value').val();
+	    			console.log($scope.lead);
 	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' || !(($scope.lead.make!='' && $scope.lead.model!='') || 
 	    					($scope.lead.makeSelect!='' && $scope.lead.modelSelect!='')) || $scope.lead.leadType =='' || $scope.lead.contactedFrom==''||$scope.lead.enthicity==''||$scope.lead.enthicity==null) {
 	    				$scope.isInValid = true;

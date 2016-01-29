@@ -15452,6 +15452,7 @@ public class Application extends Controller {
        			vm.website = contact.website;
        			vm.allAddresses = contact.allAddresses;
        			vm.title = contact.title;
+       			vm.fullName = contact.firstName+" "+contact.lastName;
        			/*vm.birthday = contact.birthday;
        			vm.backgroundInfo = contact.backgroundInfo;
        			vm.industry = contact.industry;
@@ -17780,18 +17781,29 @@ public class Application extends Controller {
 		return ok();
 	}
 	
-	public static Result getDataFromCrm(String name){
+	public static Result getDataFromCrm(){
 		AuthUser userObj = (AuthUser) getLocalUser();
 		List<ContactsVM> contactsVMList = new ArrayList<>();
-		List<Contacts> contactsList = Contacts.getAllByName(name);
+		List<Contacts> contactsList = Contacts.getAllContacts();
 		//List<Contacts> contactsList = Contacts.getAllContacts();
 		for (Contacts contacts : contactsList) {
 			ContactsVM vm = new ContactsVM();
+			String fullName=null;
 			vm.setFirstName(contacts.firstName);
 			vm.setLastName(contacts.lastName);
 			vm.setPhone(contacts.phone);
 			vm.setEmail(contacts.email);
 			vm.setZip(contacts.zip);
+			if(contacts.firstName !=null && contacts.lastName !=null){
+				fullName = contacts.firstName+" "+contacts.lastName;
+			}else{
+				if(contacts.firstName !=null){
+					fullName=contacts.firstName;
+				}if(contacts.lastName !=null){
+					fullName=contacts.lastName;
+				}
+			}
+			vm.setFullName(fullName);
 			contactsVMList.add(vm);
 		}
 		return ok(Json.toJson(contactsVMList));
