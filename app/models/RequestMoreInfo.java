@@ -246,7 +246,7 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static int findAll() {
-		return find.where().eq("isRead", 0).eq("status", null).findRowCount();
+		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).findRowCount();
 	}
 	
 	public static List<RequestMoreInfo> findAllByUser(AuthUser user) {

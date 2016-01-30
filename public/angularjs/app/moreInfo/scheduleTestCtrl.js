@@ -125,6 +125,7 @@ angular.module('newApp')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.scheduleList = data;
+			$scope.userRole = data[0].userRole;
 			$('#sliderBtn').click();
 		});
 	  
@@ -133,7 +134,7 @@ angular.module('newApp')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.scheduleList = data;
-			$scope.userRole = data[0].userRole;
+			
 			$('#sliderBtn').click();
 		});
 	  }

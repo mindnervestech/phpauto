@@ -523,7 +523,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static int findAll() {
-		return find.where().eq("isRead", 0).eq("status", null).findRowCount();
+		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).findRowCount();
 	}
 	
 	public static List<TradeIn> findAllByUser(AuthUser user) {
