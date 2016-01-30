@@ -14414,8 +14414,15 @@ public class Application extends Controller {
     		map.put("mileage", vehicles.get(0).getMileage());
     		map.put("transmission", vehicles.get(0).getTransmission());
     		map.put("drivetrain", vehicles.get(0).getDrivetrain());
-    		map.put("vehicleImage", vehicles.get(0).getDrivetrain());
-    		map.put("id",vehicles.get(0).getId());
+    		//map.put("vehicleImage", vehicles.get(0).getDrivetrain());
+    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicles.get(0).vin);
+    		if(vehicleImage!=null) {
+    			map.put("imgId",vehicleImage.getId());
+    		}
+    		else {
+    			map.put("imgId","/assets/images/no-image.jpg");
+    		}
+    		
     		
     	} else {
     		map.put("isData", false);

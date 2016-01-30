@@ -1707,7 +1707,7 @@ angular.module('newApp')
 	    					$scope.transmission = response.transmission;
 	    					$scope.drivetrain = response.drivetrain;
 	    					$scope.vehicleImage = response.vehicleImage;
-	    					$scope.imgId = response.id;
+	    					$scope.imgId = response.imgId;
 	    					
 	    					
 	    				} else {
