@@ -5916,7 +5916,7 @@ public class Application extends Controller {
 	    			infoObj.setAssignedTo(user);
 	    			
 	    			UserNotes uNotes = new UserNotes();
-		    		uNotes.setNote("Lead has been claim");
+		    		uNotes.setNote("Lead has been claimed");
 		    		uNotes.setAction("Other");
 		    		uNotes.createdDate = currDate;
 		    		uNotes.createdTime = currDate;
@@ -5998,7 +5998,7 @@ public class Application extends Controller {
 	    		scheduleObj.setAssignedTo(user);
 	    		
 	    		UserNotes uNotes = new UserNotes();
-	    		uNotes.setNote("Lead has been claim");
+	    		uNotes.setNote("Lead has been claimed");
 	    		uNotes.setAction("Other");
 	    		uNotes.createdDate = currDate;
 	    		uNotes.createdTime = currDate;
@@ -6101,7 +6101,7 @@ public class Application extends Controller {
 	    		tradeObjV.setAssignedTo(user);
 	    		
 	    		UserNotes uNotes = new UserNotes();
-	    		uNotes.setNote("Lead has been claim");
+	    		uNotes.setNote("Lead has been claimed");
 	    		uNotes.setAction("Other");
 	    		uNotes.createdDate = currDate;
 	    		uNotes.createdTime = currDate;
@@ -14064,11 +14064,11 @@ public class Application extends Controller {
 	    		
 	    		if(!searchBy.equals("0") && !search.equals("0")){
 		    		if(searchBy.equals("Model")){
-	    				if(vehicle.model.startsWith(search)){
+	    				if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
 	    					topVisitedVms.add(analyticalVM);
 	    				}
 	    			}else if(searchBy.equals("Make")){
-	    				if(vehicle.make.startsWith(search)){
+	    				if(vehicle.make.toUpperCase().startsWith(search.toUpperCase())){
 	    					topVisitedVms.add(analyticalVM);
 	    				}
 	    			}
@@ -14111,11 +14111,11 @@ public class Application extends Controller {
     		
     		if(!searchBy.equals("0") && !search.equals("0")){
     			if(searchBy.equals("Model")){
-    				if(vehicle.model.startsWith(search)){
+    				if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
     					worstVisitedVms.add(analyticalVM);
     				}
     			}else if(searchBy.equals("Make")){
-    				if(vehicle.make.startsWith(search)){
+    				if(vehicle.make.toUpperCase().startsWith(search.toUpperCase())){
     					worstVisitedVms.add(analyticalVM);
     				}
     			}
@@ -14219,11 +14219,11 @@ public class Application extends Controller {
     		//allVehical.add(anVm);
     		if(!searchBy.equals("0") && !search.equals("0")){
     			if(searchBy.equals("Model")){
-    				if(vehicle.model.startsWith(search)){
+    				if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
     					allVehical.add(anVm);
     				}
     			}else if(searchBy.equals("Make")){
-    				if(vehicle.make.startsWith(search)){
+    				if(vehicle.make.toUpperCase().startsWith(search.toUpperCase())){
     					allVehical.add(anVm);
     				}
     			}
