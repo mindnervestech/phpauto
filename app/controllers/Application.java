@@ -5109,7 +5109,11 @@ public class Application extends Controller {
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.requestDate = df.format(info.requestDate);
-	    		vm.custZipCode = info.custZipCode;
+	    		
+	    		if(!info.custZipCode.equals("null")){
+	    			vm.custZipCode = info.custZipCode;
+	    		}
+	    		
 	    		vm.enthicity = info.enthicity;
 	    		vm.typeOfLead = "Request More Info";
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
@@ -18307,9 +18311,18 @@ public class Application extends Controller {
 			String fullName=null;
 			vm.setFirstName(contacts.firstName);
 			vm.setLastName(contacts.lastName);
-			vm.setPhone(contacts.phone);
-			vm.setEmail(contacts.email);
-			vm.setZip(contacts.zip);
+			if(!contacts.phone.equals(null) && !contacts.phone.equals("null")){
+				vm.setPhone(contacts.phone);
+			}
+			
+			if(!contacts.email.equals(null) && !contacts.email.equals("null")){
+				vm.setEmail(contacts.email);
+			}
+			
+			if(!contacts.zip.equals(null) && !contacts.zip.equals("null")){
+				vm.setZip(contacts.zip);
+			}
+			
 			if(contacts.firstName !=null && contacts.lastName !=null){
 				fullName = contacts.firstName+" "+contacts.lastName;
 			}else{
