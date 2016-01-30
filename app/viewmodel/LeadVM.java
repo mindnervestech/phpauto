@@ -48,4 +48,5 @@ public class LeadVM {
 	public String salvage;
 	public String paint;
 	public String enthicity;
+	public List<VehicleVM> stockWiseData;
 }

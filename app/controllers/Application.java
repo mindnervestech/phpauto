@@ -5391,15 +5391,11 @@ public class Application extends Controller {
 	    		if(!info.operationalAndAccurate.equals("null")){
 	    			lVm.odometerAccurate = info.operationalAndAccurate;
 	    		}
-	    		if(!info.serviceRecord.equals("null")){
 	    			lVm.serviceRecords = info.serviceRecord;
-	    		}
 	    		if(!info.lienholder.equals("null")){
 	    			lVm.lienholder = info.lienholder;
 	    		}
-	    		if(!info.preferredContact.equals("null")){
 	    			lVm.prefferedContact = info.preferredContact;
-	    		}
 	    		if(!info.equipment.equals("null")){
 	    			lVm.equipment = info.equipment;
 	    		}
@@ -5418,12 +5414,8 @@ public class Application extends Controller {
 	    		if(!info.damage.equals("null")){
 	    			lVm.damage = info.damage;
 	    		}
-	    		if(!info.holdsThisTitle.equals("null")){
 	    			lVm.titleholder = info.holdsThisTitle;
-	    		}
-	    		if(!info.preferredContact.equals("null")){
 	    			lVm.prefferedContact = info.preferredContact;
-	    		}
 	    			
 	    			
 	    			List<String> sList = new ArrayList<>();
@@ -5955,15 +5947,11 @@ public class Application extends Controller {
 	    		if(!info.operationalAndAccurate.equals("null")){
 	    			lVm.odometerAccurate = info.operationalAndAccurate;
 	    		}
-	    		if(!info.serviceRecord.equals("null")){
 	    			lVm.serviceRecords = info.serviceRecord;
-	    		}
 	    		if(!info.lienholder.equals("null")){
 	    			lVm.lienholder = info.lienholder;
 	    		}
-	    		if(!info.preferredContact.equals("null")){
 	    			lVm.prefferedContact = info.preferredContact;
-	    		}
 	    		if(!info.equipment.equals("null")){
 	    			lVm.equipment = info.equipment;
 	    		}
@@ -5982,12 +5970,8 @@ public class Application extends Controller {
 	    		if(!info.damage.equals("null")){
 	    			lVm.damage = info.damage;
 	    		}
-	    		if(!info.holdsThisTitle.equals("null")){
 	    			lVm.titleholder = info.holdsThisTitle;
-	    		}
-	    		if(!info.preferredContact.equals("null")){
 	    			lVm.prefferedContact = info.preferredContact;
-	    		}
     			List<String> sList = new ArrayList<>();
     			String arr[] =  info.optionValue.split(",");
     			for(int i=0;i<arr.length;i++){
@@ -10220,15 +10204,11 @@ public class Application extends Controller {
 	    		if(!info.operationalAndAccurate.equals("null")){
 	    			lVm.odometerAccurate = info.operationalAndAccurate;
 	    		}
-	    		if(!info.serviceRecord.equals("null")){
 	    			lVm.serviceRecords = info.serviceRecord;
-	    		}
 	    		if(!info.lienholder.equals("null")){
 	    			lVm.lienholder = info.lienholder;
 	    		}
-	    		if(!info.preferredContact.equals("null")){
 	    			lVm.prefferedContact = info.preferredContact;
-	    		}
 	    		if(!info.equipment.equals("null")){
 	    			lVm.equipment = info.equipment;
 	    		}
@@ -10247,12 +10227,8 @@ public class Application extends Controller {
 	    		if(!info.damage.equals("null")){
 	    			lVm.damage = info.damage;
 	    		}
-	    		if(!info.holdsThisTitle.equals("null")){
 	    			lVm.titleholder = info.holdsThisTitle;
-	    		}
-	    		if(!info.preferredContact.equals("null")){
 	    			lVm.prefferedContact = info.preferredContact;
-	    		}
 	    			
 	    			
 	    			List<String> sList = new ArrayList<>();
@@ -10530,15 +10506,11 @@ public class Application extends Controller {
 	    		if(!info.operationalAndAccurate.equals("null")){
 	    			lVm.odometerAccurate = info.operationalAndAccurate;
 	    		}
-	    		if(!info.serviceRecord.equals("null")){
 	    			lVm.serviceRecords = info.serviceRecord;
-	    		}
 	    		if(!info.lienholder.equals("null")){
 	    			lVm.lienholder = info.lienholder;
 	    		}
-	    		if(!info.preferredContact.equals("null")){
 	    			lVm.prefferedContact = info.preferredContact;
-	    		}
 	    		if(!info.equipment.equals("null")){
 	    			lVm.equipment = info.equipment;
 	    		}
@@ -10557,12 +10529,8 @@ public class Application extends Controller {
 	    		if(!info.damage.equals("null")){
 	    			lVm.damage = info.damage;
 	    		}
-	    		if(!info.holdsThisTitle.equals("null")){
 	    			lVm.titleholder = info.holdsThisTitle;
-	    		}
-	    		if(!info.preferredContact.equals("null")){
 	    			lVm.prefferedContact = info.preferredContact;
-	    		}
     			List<String> sList = new ArrayList<>();
     			String arr[] =  info.optionValue.split(",");
     			for(int i=0;i<arr.length;i++){

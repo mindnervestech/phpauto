@@ -8,6 +8,15 @@ public class VehicleVM {
 	public String price;
 	public String imageUrl;
 	public String date;
+	public String bodyStyle;
+	public String drivetrain;
+	public String engine;
+	public String imgId;
+	public String mileage;
+	public String stockNumber;
+	public String transmission;
+	public String vehicleImage;
+	public String year;
 	
 	public String getVin() {
 		return vin;
