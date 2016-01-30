@@ -14874,8 +14874,11 @@ public class Application extends Controller {
     		makeToDo(vehicles.get(0).getVin());
     		sendMail(map);
     	} else {
+    		TradeIn tIn = null;
+    		if(leadVM.id != null){
+    			tIn = TradeIn.findById(Long.parseLong(leadVM.id));
+    		}
     		
-    		TradeIn tIn = TradeIn.findById(Long.parseLong(leadVM.id));
     		if(tIn == null){
     			
     		StringBuffer buffer = new StringBuffer();
