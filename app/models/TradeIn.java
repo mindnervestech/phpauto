@@ -471,7 +471,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllByLocationDate(Long locationId) {
-		return find.where().eq("isRead", 0).eq("locations.id", locationId).eq("status", null).orderBy("tradeDate desc").orderBy("isRead").findList();
+		return find.where().eq("isRead", 0).eq("locations.id", locationId).eq("premiumFlag", 0).eq("status", null).orderBy("tradeDate desc").orderBy("isRead").findList();
 	}
 	
 	public static List<TradeIn> findAllCanceled() {
