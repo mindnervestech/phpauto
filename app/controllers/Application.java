@@ -11368,6 +11368,7 @@ public class Application extends Controller {
     		if(leadType.equals("Schedule Test")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setAssignedTo(userObj);
+    			schedule.setIsRead(1);
     			schedule.setPremiumFlag(0);
     			schedule.setLeadStatus(null);
     			schedule.setIsReassigned(true);
@@ -11377,6 +11378,7 @@ public class Application extends Controller {
 			    RequestMoreInfo info = RequestMoreInfo.findById(id);
 			    info.setAssignedTo(userObj);
 			    info.setPremiumFlag(0);
+			    info.setIsRead(1);
 			    info.setStatus(null);
 			    info.setLeadStatus(null);
 			    info.setIsReassigned(true);
@@ -11386,6 +11388,7 @@ public class Application extends Controller {
 				TradeIn tradeIn = TradeIn.findById(id);
 				tradeIn.setAssignedTo(userObj);
 				tradeIn.setPremiumFlag(0);
+				tradeIn.setIsRead(1);
 				tradeIn.setStatus(null);
 				tradeIn.setLeadStatus(null);
 				tradeIn.setIsReassigned(true);
