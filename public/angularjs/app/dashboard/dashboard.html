@@ -4728,7 +4728,7 @@ margin-left: 5px;
 								        </div>
 								    </div>
 								    <div class="modal fade" id="createLeadPopup" tabindex="-1" role="dialog" aria-hidden="true" style="top:-75px;">
-								        <div class="modal-dialog">
+								        <div class="modal-dialog" style="width: 815px;">
 								            <div class="modal-content">
 								                <form ng-submit="createLead()">
 								                <div class="modal-header">
@@ -4791,22 +4791,25 @@ margin-left: 5px;
 								                    				<input type="text" ng-model="lead.model" disabled="disabled" placeholder="MODEL"/>
 								                    			</div>
 								                    		</div>
-								                    		<!-- <div class="col-md-2" style="text-align: center;">OR</div>
-								                    		<div class="col-md-5">
-								                    			<div class="col-md-12"><label>Select From the Inventory</label></div>
+								                    		
+								                    		<div class="col-md-6" style="background-color:gainsboro">
 								                    			<div>
-								                    				<select placeholder="CAR MAKE" ng-model="lead.makeSelect" ng-change="getModelsByMake(lead.makeSelect)">
-								                    					<option value="">Select</option>
-								                    					<option ng-repeat="item in makes" value="{{item}}">{{item}}</option>
-								                    				</select>
+								                    				<div class="col-md-4">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="/getImage/'+imgId+'">
+								    								</div>
+								    								<div class="col-md-8">
+								    										<label class="col-md-12" style="font-size: 22px;">2006 mmmmaa</label>
+								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">.</label>
+								    										<label class="col-md-6">Mileage:</label><label class="col-md-6">.</label>
+								    										<label class="col-md-6">Transmission:</label><label class="col-md-6">.</label>
+								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6">.</label>
+								    										<label class="col-md-6">Engine:</label><label class="col-md-6">.</label>
+								    								</div>
+								                    				
 								                    			</div>
-								                    			<div style="margin-top: 5px;">
-								                    				<select placeholder="MODEL" ng-model="lead.modelSelect" ng-change="changeMakeSelect(lead.modelSelect)">
-								                    					<option value="">Select</option>
-								                    					<option ng-repeat="item in models" value="{{item}}">{{item}}</option>
-								                    				</select>
-								                    			</div>
-								                    		</div> -->
+								                    			
+								                    		</div> 
 								                    	</div>
 								                    </div>
 								                    <div>

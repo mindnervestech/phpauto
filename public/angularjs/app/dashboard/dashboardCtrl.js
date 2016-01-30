@@ -1701,6 +1701,15 @@ angular.module('newApp')
 	    					$scope.isStockError = false;
 	    					$scope.lead.make = response.make;
 	    					$scope.lead.model = response.model;
+	    					$scope.bodyStyle = response.bodyStyle;
+	    					$scope.engine = response.engine;
+	    					$scope.mileage = response.mileage;
+	    					$scope.transmission = response.transmission;
+	    					$scope.drivetrain = response.drivetrain;
+	    					$scope.vehicleImage = response.vehicleImage;
+	    					$scope.imgId = response.id;
+	    					
+	    					
 	    				} else {
 	    					$scope.isStockError = true;
 	    				}
