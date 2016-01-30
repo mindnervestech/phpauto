@@ -15,10 +15,38 @@
 	      
 	    </div>
   </div>
+	<button id="btnAssignUser" data-toggle="modal" data-target="#assignUserModal" style="display: none;"></button>
+	<!-- <button id="popupBtn" data-toggle="modal" data-target="#modal-large" style="display: none;"></button> -->
 	
-	<button id="popupBtn" data-toggle="modal" data-target="#modal-large" style="display: none;"></button>
+	<div class="modal fade" id="assignUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" id="closeChangeUser" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Assign Sales Representative</h4>
+								                </div>
+								                <form ng-submit="changeAssignedUser()">
+								                <div class="modal-body">
+								                    <div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">User</label>
+														<div class="col-sm-6">
+															<select  class="form-control form-white" ng-model="changedUser" required>
+														    	<option value="">Select user</option>
+											                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.firstName}} {{item.lastName}}</option>
+											                </select>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Yes</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
 	
-	<div class="modal fade" id="modal-large" tabindex="-1" role="dialog" aria-hidden="true">
+	<!-- <div class="modal fade" id="modal-large" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -241,7 +269,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 	
 <style>
 .red { color: black;  background-color: #ffd3d3 !important; }

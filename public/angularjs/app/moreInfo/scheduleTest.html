@@ -4,7 +4,7 @@
       <li role="presentation" class=""><a  role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="requestMore()">Request More Info</button></a></li>
       <li role="presentation" class="active"><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="home" aria-expanded="false"><button type="button" class="btn btn-blue">Schedule Test Drive</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="tradeIn()">Trade In Inquiries</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goPremium()">Premium</button></a></li>
+      <li role="presentation" class="" ng-if="userRole == 'Manager'"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goPremium()">Premium</button></a></li>
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">

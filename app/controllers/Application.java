@@ -4598,6 +4598,7 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.requestDate = df.format(info.requestDate);
+	    		vm.userRole = user.role;
 	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
@@ -5182,6 +5183,8 @@ public class Application extends Controller {
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.userRole = user.role;
+	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -5588,6 +5591,10 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.pdfPath = info.pdfPath;
+	    		vm.userRole = user.role;
+	    		vm.leadType = "Trade In";
+	    		
+	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -5632,6 +5639,7 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.requestDate = df.format(info.requestDate);
+	    		vm.leadType = "Request More Info";
 	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
@@ -5680,6 +5688,9 @@ public class Application extends Controller {
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.leadType = "Schedule Test";
+	    		
+	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -5762,6 +5773,8 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.pdfPath = info.pdfPath;
+	    		vm.userRole = user.role;
+	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -9881,6 +9894,15 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result getSalesUserValue(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		List<AuthUser> SalesUserList = AuthUser.getAllUserByLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		return ok(Json.toJson(SalesUserList));
+    	}
+    }
+    
     public static Result getSalesUserOnly(Long locationValue) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
@@ -11342,6 +11364,7 @@ public class Application extends Controller {
     		if(leadType.equals("Schedule Test")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setAssignedTo(userObj);
+    			schedule.setPremiumFlag(0);
     			schedule.setLeadStatus(null);
     			schedule.setIsReassigned(true);
     			schedule.update();
@@ -11349,6 +11372,7 @@ public class Application extends Controller {
 			if(leadType.equals("Request More Info")) {
 			    RequestMoreInfo info = RequestMoreInfo.findById(id);
 			    info.setAssignedTo(userObj);
+			    info.setPremiumFlag(0);
 			    info.setStatus(null);
 			    info.setLeadStatus(null);
 			    info.setIsReassigned(true);
@@ -11357,6 +11381,7 @@ public class Application extends Controller {
 			if(leadType.equals("Trade In")) {
 				TradeIn tradeIn = TradeIn.findById(id);
 				tradeIn.setAssignedTo(userObj);
+				tradeIn.setPremiumFlag(0);
 				tradeIn.setStatus(null);
 				tradeIn.setLeadStatus(null);
 				tradeIn.setIsReassigned(true);
@@ -14509,7 +14534,6 @@ public class Application extends Controller {
     	List<Vehicle> vehicles = Vehicle.findByMakeAndModel(makestr, model);
     	if(leadVM.leadType.equals("1")) {
     		RequestMoreInfo info = new RequestMoreInfo();
-    		info.setAssignedTo(user);
     		info.setIsReassigned(true);
     		info.setLeadStatus(null);
     		info.setEmail(leadVM.custEmail);
@@ -14528,16 +14552,19 @@ public class Application extends Controller {
     		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
     		if(pLeads != null){
     			if(pLeads.premium_flag.equals(1)){
-    				if(Integer.parseInt(pLeads.premium_amount) >= vehicles.get(0).price){
+    				if(Integer.parseInt(pLeads.premium_amount) <= vehicles.get(0).price){
     					info.setPremiumFlag(1);
     				}else{
     					info.setPremiumFlag(0);
+    					info.setAssignedTo(user);
     				}
     			}else{
 					info.setPremiumFlag(0);
+					info.setAssignedTo(user);
 				}
     		}else{
 				info.setPremiumFlag(0);
+				info.setAssignedTo(user);
 			}
     		
     		info.save();
@@ -14557,7 +14584,7 @@ public class Application extends Controller {
     		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     		ScheduleTest test = new ScheduleTest();
-    		test.setAssignedTo(user);
+    		
     		test.setIsReassigned(true);
     		test.setLeadStatus(null);
     		test.setBestDay(leadVM.bestDay);
@@ -14586,16 +14613,19 @@ public class Application extends Controller {
     		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
     		if(pLeads != null){
     			if(pLeads.premium_flag.equals(1)){
-    				if(Integer.parseInt(pLeads.premium_amount) >= vehicles.get(0).price){
+    				if(Integer.parseInt(pLeads.premium_amount) <= vehicles.get(0).price){
     					test.setPremiumFlag(1);
     				}else{
     					test.setPremiumFlag(0);
+    					test.setAssignedTo(user);
     				}
     			}else{
     				test.setPremiumFlag(0);
+    				test.setAssignedTo(user);
 				}
     		}else{
     			test.setPremiumFlag(0);
+    			test.setAssignedTo(user);
 			}
     		
     		test.save();
@@ -14637,7 +14667,7 @@ public class Application extends Controller {
     			TradeIn tradeIn = new TradeIn();
         		tradeIn.setAccidents(leadVM.accidents);
         		tradeIn.setEnthicity(leadVM.enthicity);
-        		tradeIn.setAssignedTo(user);
+        		
         		tradeIn.setIsReassigned(true);
         		tradeIn.setLeadStatus(null);
         		tradeIn.setBodyRating(leadVM.bodyRating);
@@ -14682,16 +14712,19 @@ public class Application extends Controller {
         		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
         		if(pLeads != null){
         			if(pLeads.premium_flag.equals(1)){
-        				if(Integer.parseInt(pLeads.premium_amount) >= vehicles.get(0).price){
+        				if(Integer.parseInt(pLeads.premium_amount) <= vehicles.get(0).price){
         					tradeIn.setPremiumFlag(1);
         				}else{
         					tradeIn.setPremiumFlag(0);
+        					tradeIn.setAssignedTo(user);
         				}
         			}else{
         				tradeIn.setPremiumFlag(0);
+        				tradeIn.setAssignedTo(user);
     				}
         		}else{
         			tradeIn.setPremiumFlag(0);
+        			tradeIn.setAssignedTo(user);
 				}
         		
         		tradeIn.save();

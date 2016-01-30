@@ -158,6 +158,7 @@ GET     /getSaleMonthlyPlan/:saleId				controllers.Application.getSaleMonthlyPla
 GET     /saveLocationTotal/:total  					controllers.Application.saveLocationTotal(total:String)
 GET		/getAllCanceledLeads			controllers.Application.getAllCanceledLeads()
 GET		/getSalesUserOnly/:locationValue				controllers.Application.getSalesUserOnly(locationValue:Long)
+GET     /getSalesUserValue				controllers.Application.getSalesUserValue()
 GET		/changeAssignedUser/:id/:userId/:lead		controllers.Application.changeAssignedUser(id:Long,userId:Integer,lead:String)
 GET		/getNewToDoCount				controllers.Application.getNewToDoCount()
 GET		/setTodoSeen					controllers.Application.setTodoSeen()

@@ -127,6 +127,7 @@ angular.module('newApp')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.tradeInList = data;
+			$scope.userRole = data[0].userRole;
 		});
   
 	  $scope.getAllTradeInData = function() {

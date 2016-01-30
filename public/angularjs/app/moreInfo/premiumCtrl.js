@@ -90,14 +90,19 @@ angular.module('newApp')
 	    		                                     }
 	   		                                	} ,
 	   		                                 },
-		                                 { name: 'isRead', displayName: 'Claim',enableFiltering: false, width:'6%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
- 		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" title="Claim this lead" style="margin-left:18%;"></div>', 
+		                                 { name: 'btn', displayName: 'Assign',enableFiltering: false, width:'6%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+ 		                                	 cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button>', 
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
  		                                 },
+ 		                                /*{ name: 'btnSold', displayName: '',enableFiltering: false, width:'24%',cellEditableCondition: false,
+		 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.deleteForeverLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">DELETE</button><button type="button" ng-click="grid.appScope.restoreLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">RESTORE</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button>',
+		 		                                	 
+		 		                                 },*/
+ 		                                 
      		                                 ];
   
   
@@ -111,29 +116,55 @@ angular.module('newApp')
 	   		
 		};
  		 
- 		$scope.getTradeData = function(row) {
-    		/*console.log(row.entity.id);
+		$http.get('/getSalesUserValue')
+		.success(function(data){
+			console.log(data);
+			$scope.salesPersonPerf = data;
+			
+		});
+		
+		
+		 $scope.changeAssignedUser = function() {
+			 console.log($scope.leadlId);
+			 console.log($scope.leadType);
+			 console.log($scope.changedUser);
+	        	$http.get('/changeAssignedUser/'+$scope.leadlId+'/'+$scope.changedUser+'/'+$scope.leadType)
+				.success(function(data) {
+					$('#assignUserModal').modal('hide');
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "User assigned successfully",
+					});
+					 $scope.getAllPremiumData();
+				});
+	        	
+	        }
+		
+ 		/*$scope.getTradeData = function(row) {
+    		console.log(row.entity.id);
     		 $http.get('/getTradeInDataById/'+row.entity.id)
     	 		.success(function(data) {
     	 			console.log(data);
     	 			$scope.tradeInData = data;
     	 		});
-    		$('#popupBtn').click();*/
+    		$('#popupBtn').click();
  			
-    	}	 
+    	}	 */
     	
  		 
 	  $http.get('/getAllPremiumIn')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.tradeInList = data;
+			$scope.userRole = data[0].userRole;
 		});
   
-	  $scope.getAllTradeInData = function() {
+	  $scope.getAllPremiumData = function() {
 		  $http.get('/getAllPremiumIn')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
-			$scope.tradeInList = data;
+			//$scope.tradeInList = data;
 		});
 	  }
 	  
@@ -145,7 +176,7 @@ angular.module('newApp')
 			});
 		},60000);
 	  
-	  $scope.setAsRead = function(flag,id) {
+	 /* $scope.setAsRead = function(flag,id) {
 		  
 		  $http.get('/tradeInMarkRead/'+flag+'/'+id)
 			.success(function(data) {
@@ -153,8 +184,33 @@ angular.module('newApp')
 				$scope.$emit('getCountEvent', '123');
 		});
 		  
-		  $scope.getAllTradeInData();
-	  }
+		 // $scope.getAllPremiumData();
+	  }*/
+	  
+	  
+	  $scope.assignCanceledLead = function(entity) {
+		  console.log(entity);
+      	$scope.leadlId = entity.id;
+      	$scope.leadType = entity.leadType;
+      	$scope.changedUser = "";
+      	$('#btnAssignUser').click();
+      }
+      
+      /*$scope.changeAssignedUser = function() {
+      	$http.get('/changeAssignedUser/'+$scope.cancelId+'/'+$scope.changedUser+'/'+$scope.leadType)
+			.success(function(data) {
+				$('#closeChangeUser').click();
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User assigned successfully",
+				});
+				$scope.getAllCanceledLeads();
+			});
+      	
+      }*/
+	  
+	  
 		 
 	  $scope.testDrive = function() {
 			$location.path('/scheduleTest');
