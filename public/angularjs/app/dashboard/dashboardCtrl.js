@@ -1539,6 +1539,8 @@ angular.module('newApp')
 	    			});
 	    			$scope.othertxt=null;
 	    		$scope.openCreateNewLeadPopup = function() {
+	    			$scope.stockWiseData = [];
+	    			$scope.stockWiseData = [{}];
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
 	    		};
@@ -2062,8 +2064,9 @@ angular.module('newApp')
 	  		
         
         $scope.assignCanceledLead = function(entity) {
+        	console.log(entity);
         	$scope.cancelId = entity.id;
-        	$scope.leadType = entity.leadType;
+        	$scope.leadType = entity.typeOfLead;
         	$scope.changedUser = "";
         	$('#btnAssignUser').click();
         }

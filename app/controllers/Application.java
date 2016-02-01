@@ -7133,12 +7133,13 @@ public class Application extends Controller {
 		props.put("mail.smtp.port", "587");
 		props.put("mail.smtp.starttls.enable", "true");
 		     
-		   Session session = Session.getDefaultInstance(props,  
-		    new javax.mail.Authenticator() {  
-		      protected PasswordAuthentication getPasswordAuthentication() {  
-		    return new PasswordAuthentication(username,password);  
-		      }  
-		    });  
+		
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+		
 		  
 		    try {  
 		     MimeMessage message = new MimeMessage(session);  
@@ -14769,6 +14770,8 @@ public class Application extends Controller {
     	String makestr = leadVM.make!=null&&!leadVM.make.isEmpty()?leadVM.make:leadVM.makeSelect;
     	String model = leadVM.model!=null&&!leadVM.model.isEmpty()?leadVM.model:leadVM.modelSelect;
     	Date date = new Date();
+    	int parentFlag = 0;
+    	long parentLeadId = 0L;
     	List<Vehicle> vehicles = Vehicle.findByMakeAndModel(makestr, model);
     	if(leadVM.leadType.equals("1")) {
     		for(VehicleVM vehicleVM:leadVM.stockWiseData){
@@ -14809,7 +14812,16 @@ public class Application extends Controller {
 					info.setAssignedTo(user);
 				}
 	    		
+	    		if(parentFlag == 1){
+	    			info.setParentId(parentLeadId);
+	    		}
+	    		
 	    		info.save();
+	    		
+	    		if(parentFlag == 0){
+	    			parentFlag = 1;
+	    			parentLeadId = info.getId();
+	    		}
 	    		
 	    		UserNotes uNotes = new UserNotes();
 	    		uNotes.setNote("Lead has been created");
@@ -14824,6 +14836,7 @@ public class Application extends Controller {
 	    		if(info.premiumFlag == 1){
 	    			sendMailpremium();
 	    		}
+	    		
 	    		
 	    		
 	    		

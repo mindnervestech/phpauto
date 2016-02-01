@@ -112,6 +112,8 @@ public class TradeIn extends Model {
 	public Boolean isReassigned = false;
 	public String contactedFrom;
 	public String hearedFrom;
+	public Long parentId;
+	
 	public String getContactedFrom() {
 		return contactedFrom;
 	}
@@ -358,6 +360,15 @@ public class TradeIn extends Model {
 	public void setServiceRecord(String serviceRecord) {
 		this.serviceRecord = serviceRecord;
 	}
+	
+	
+	
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
 	/*public String getLienHolder() {
 		return lienholder;
 	}
@@ -459,6 +470,8 @@ public class TradeIn extends Model {
 	public void setCustZipCode(String custZipCode) {
 		this.custZipCode = custZipCode;
 	}
+	
+	
 
 	public static Finder<Long,TradeIn> find = new Finder<>(Long.class,TradeIn.class);
 	

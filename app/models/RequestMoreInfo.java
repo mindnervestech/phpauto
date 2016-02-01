@@ -42,6 +42,7 @@ public class RequestMoreInfo extends Model {
 	public String enthicity;
 	public Date statusDate;
 	public Integer premiumFlag;
+	public Long parentId;
 	
 	
 	
@@ -177,13 +178,19 @@ public class RequestMoreInfo extends Model {
 	public void setStatusDate(Date statusDate) {
 		this.statusDate = statusDate;
 	}
-
 	
 	public Integer getPremiumFlag() {
 		return premiumFlag;
 	}
 	public void setPremiumFlag(Integer premiumFlag) {
 		this.premiumFlag = premiumFlag;
+	}
+	
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 
 	public static Finder<Long,RequestMoreInfo> find = new Finder<>(Long.class,RequestMoreInfo.class);

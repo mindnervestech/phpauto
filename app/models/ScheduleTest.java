@@ -52,6 +52,7 @@ public class ScheduleTest extends Model {
 	public String enthicity;
 	public Date statusDate;
 	public Integer premiumFlag;
+	public Long parentId;
 	
 	
 	public String getEnthicity() {
@@ -219,6 +220,16 @@ public class ScheduleTest extends Model {
 	public void setStatusDate(Date statusDate) {
 		this.statusDate = statusDate;
 	}
+
+
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+
 
 
 
