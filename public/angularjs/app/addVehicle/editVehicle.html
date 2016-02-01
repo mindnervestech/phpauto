@@ -99,6 +99,24 @@
 												<p>Numbers only,Enter 0 to display "Call"</p>
 											</div>
 										</div>
+										<div class="form-group col-sm-12">
+											<div class="col-sm-2">
+											</div>	
+											<div class="col-sm-5">
+								                    	<table class="table">
+								                    		<tr>
+									                    		<td>Date & Time</td>
+									                    		<td>Person</td>
+									                    		<td>Price</td>
+								                    		</tr>
+								                    		<tr ng-repeat="history in priceHistory">
+									                    		<td>{{history.dateTime}}</td>
+									                    		<td>{{history.person}}</td>
+									                    		<td>{{history.price}}</td>
+								                    		</tr>
+								                    	</table>
+								                    </div>	
+								                    </div>
 										
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Made In</label>

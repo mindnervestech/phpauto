@@ -4928,7 +4928,7 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('EditVehicleCtrl', ['$scope','$http','$location','$routeParams','$upload', function ($scope,$http,$location,$routeParams,$upload) {
+.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload', function ($filter,$scope,$http,$location,$routeParams,$upload) {
 	
 	$scope.gridsterOpts = {
 		    columns: 6, // the width of the grid, in columns
@@ -5002,6 +5002,19 @@ angular.module('newApp')
 		.success(function(data) {
 			 console.log(data);
 			 $scope.vinData = data;
+			 
+			 $http.get('/getPriceHistory/'+data.vin)
+				.success(function(data) {
+					console.log("success");
+					console.log(data);
+					$scope.priceHistory = data;
+					angular.forEach($scope.priceHistory, function(value, key) {
+						console.log(value);
+						value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
+					});
+					
+				});
+			 
 				if($scope.vinData.specification.siteIds != null) {
 					for(var i=0;i<$scope.vinData.specification.siteIds.length;i++) {
 						for(var j=0;j<$scope.siteList.length;j++) {

@@ -73,6 +73,7 @@ import models.PlanScheduleMonthlyLocation;
 import models.PlanScheduleMonthlySalepeople;
 import models.PremiumLeads;
 import models.PriceAlert;
+import models.PriceChange;
 import models.RequestMoreInfo;
 import models.SalesPlanSchedule;
 import models.ScheduleTest;
@@ -136,6 +137,7 @@ import viewmodel.NoteVM;
 import viewmodel.PageVM;
 import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
+import viewmodel.PriceChangeVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
@@ -2274,6 +2276,26 @@ public class Application extends Controller {
     	}
 	}
     
+	public static Result getPriceHistory(String vin){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+    		List<PriceChangeVM> priceList = new ArrayList<>();
+    		List<PriceChange> list = PriceChange.findByVin(vin);
+    		for (PriceChange obj : list) {
+				PriceChangeVM vm =new PriceChangeVM();
+				vm.dateTime = obj.dateTime.toString();
+				vm.person = obj.person;
+				vm.price = obj.price;
+				priceList.add(vm);
+			}
+    		return ok(Json.toJson(list));
+    	}
+	}
+	
+	
 	public static Result getAllSoldVehicles() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
@@ -2809,6 +2831,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = getLocalUser();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
 	    	Vehicle vehicle = Vehicle.findById(vm.id);
@@ -2821,6 +2844,13 @@ public class Application extends Controller {
 	    					priceAlert.setOldPrice(vehicle.price);
 	    					priceAlert.update();
 	    				}
+	    				Date crDate = new Date();
+	    				PriceChange change = new PriceChange();
+	    				change.dateTime = crDate;
+	    				change.price = vm.price.toString();
+	    				change.person = user.firstName +" "+user.lastName;
+	    				change.vin = vm.vin;
+	    				change.save();
 	    				
 	    		}
 	    		vehicle.setMake(vm.make);
@@ -2856,6 +2886,13 @@ public class Application extends Controller {
     					priceAlert.setOldPrice(vehicle.price);
     					priceAlert.update();
     				}
+    				
+    				Date crDate = new Date();
+    				PriceChange change = new PriceChange();
+    				change.dateTime = crDate;
+    				change.price = vm.price.toString();
+    				change.person = userObj.firstName +" "+userObj.lastName;
+    				change.save();
     				
 	    		}
 	    		
