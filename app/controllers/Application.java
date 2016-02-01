@@ -14895,7 +14895,16 @@ public class Application extends Controller {
 	    			test.setAssignedTo(user);
 				}
 	    		
+	    		if(parentFlag == 1){
+	    			test.setParentId(parentLeadId);
+	    		}
+	    		
 	    		test.save();
+	    		
+	    		if(parentFlag == 0){
+	    			parentFlag = 1;
+	    			parentLeadId = test.getId();
+	    		}
 	    		
 	    		UserNotes uNotes = new UserNotes();
 	    		uNotes.setNote("Lead has been created");
@@ -15007,7 +15016,16 @@ public class Application extends Controller {
         			tradeIn.setAssignedTo(user);
 				}
         		
+        		if(parentFlag == 1){
+        			tradeIn.setParentId(parentLeadId);
+	    		}
+	    		
         		tradeIn.save();
+	    		
+	    		if(parentFlag == 0){
+	    			parentFlag = 1;
+	    			parentLeadId = tradeIn.getId();
+	    		}
         		
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Lead has been created");
