@@ -313,6 +313,16 @@
                                 </a>
                                 
                             </li>
+                            <li ng-sec = "Customer Requests" class="dropdown" id="messages-header" ng-if="userType == 'Manager'">
+                                <a href="#premiumpage">
+                                <!-- href="/assets/global/images/favicon.png" -->
+                                <img src="/assets/images/premium1.png" style="width: 24px;"></img>
+                                <span class="badge badge-primary badge-header" ng-show="premiumlength != 0">
+                                {{premiumlength}}
+                                </span>
+                                </a>
+                                
+                            </li>
                             <li class="dropdown" id="notifications-header">
                                 <a href="http://glider-autos.com/glivr/" target="_blank">
                                 	<i class="glyphicon glyphicon-globe" title="View Website" style="color:white;"></i>

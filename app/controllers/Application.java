@@ -6022,10 +6022,19 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
 	    	InfoCountVM vm = new InfoCountVM();
 	    	vm.schedule = ScheduleTest.findAll();
 	    	vm.trade = TradeIn.findAll();
 	    	vm.req = RequestMoreInfo.findAll();
+	    	List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+	    	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+	    	List<TradeIn> tradeIns = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+
+	    	int premi = sched.size() + reInfos.size() + tradeIns.size();
+	    	vm.premium = premi;
+	    	
+	    	vm.userType = user.role;
 	    	
 	    	return ok(Json.toJson(vm));
     	}
