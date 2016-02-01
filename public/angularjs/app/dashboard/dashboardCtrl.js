@@ -5748,7 +5748,7 @@ angular.module('newApp')
 			$scope.newsletterTime = data.newsletterTime;
 			$scope.newsletterTimeZone = data.NewsletterTimeZone;
 		
-			$scope.premium.priceVehical = data.premiumLeads.premium_amount;
+			$scope.premium.priceVehical = parseInt(data.premiumLeads.premium_amount);
 			
 			console.log($scope.premium.priceVehical);
 			if(data.premiumLeads.premium_flag == 1){
