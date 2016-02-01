@@ -4761,13 +4761,13 @@ margin-left: 5px;
 								                    			</div>
 								                    			
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER"/> <span style="color: red;">*</span>
+								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
 								                    			</div>
 								                    			
 								                    		</div>
 								                    		<div class="col-md-6">
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL"/> <span style="color: red;">*</span>
+								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL" required/> <span style="color: red;">*</span>
 								                    			</div>	
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custZipCode" placeholder="ZIP CODE" required/> <span style="color: red;">*</span>
@@ -4775,43 +4775,45 @@ margin-left: 5px;
 								                    		</div>	
 								                    	</div>
 								                    </div>
-								                <div class="row">
-								                    	<div class="col-md-12">
+								                    <div class="row">
+								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
 								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>INTERESTED IN MODEL? <span style="color: red;">*</span></strong></h3>
 								                    		<div class="col-md-5">
 								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
 								                    			<div ng-show="isStockError" style="color: red;">Stock Number Not Found.</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.stockNumber" ng-blur="getStockDetails()"/>
+								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.make" disabled="disabled" placeholder="CAR MAKE"/>
+								                    				<input type="text" ng-model="stockRp.make" disabled="disabled" placeholder="CAR MAKE"/>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="lead.model" disabled="disabled" placeholder="MODEL"/>
+								                    				<input type="text" ng-model="stockRp.model" disabled="disabled" placeholder="MODEL"/>
 								                    			</div>
 								                    		</div>
-								                    		
-								                    		 <!--    <div class="col-md-6" style="background-color:gainsboro">
+								                    		<div class="col-md-7" style="background-color:gainsboro" ng-if="stockRp.vin != null">
 								                    			<div>
 								                    				<div class="col-md-4">
-								                    				 <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> 
-								    									<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="/getImage/{{imgId}}/thumbnail">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img style="width: 120px;margin-top: 25px;" src="/getImage/{{stockRp.imgId}}/thumbnail">
 								    								</div>
-								    								<div class="col-md-8">
-								    										<label class="col-md-12" style="font-size: 22px;">2006 mmmmaa</label>
-								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{bodyStyle}}</label>
-								    										<label class="col-md-6">Mileage:</label><label class="col-md-6">{{mileage}}</label>
-								    										<label class="col-md-6">Transmission:</label><label class="col-md-6">{{transmission}}</label>
-								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6">{{drivetrain}}</label>
-								    										<label class="col-md-6">Engine:</label><label class="col-md-6">{{engine}}</label>
+								    								<div class="col-md-8" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.year}} {{stockRp.make}} {{stockRp.model}}</label>
+								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{stockRp.bodyStyle}}</label>
+								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="stockRp.mileage != null">{{stockRp.mileage}}</label><label class="col-md-6" ng-if="stockRp.mileage == null">_</label>
+								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="stockRp.transmission != null">{{stockRp.transmission}}</label><label class="col-md-6" ng-if="stockRp.transmission == null">_</label>
+								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="stockRp.drivetrain != null">{{stockRp.drivetrain}}</label><label class="col-md-6" ng-if="stockRp.drivetrain == null">_</label>
+								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockRp.engine != null">{{stockRp.engine}}</label><label class="col-md-6" ng-if="stockRp.engine == null">_</label>
 								    								</div>
 								                    				
 								                    			</div>
 								                    			
-								                    		</div> -->
+								                    		</div> 
 								                    	</div>
-								                    </div> 
+								                    	<div class="col-md-12">
+								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
+								                    	</div>
+								                    </div>
 								                    <div>
 								                    	<div class="col-md-12">
 								                    		<div class="col-md-5" style="width: 50%;">

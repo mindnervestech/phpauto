@@ -1592,7 +1592,37 @@ angular.module('newApp')
 	    			console.log($('#ex1_value').val());
 	    		};
 	    		$scope.createLead = function() {
-	    			console.log($('#ex1_value').val());
+	    			
+	    			//!(($scope.lead.make!='' && $scope.lead.model!='') ||
+	    			//($scope.lead.makeSelect!='' && $scope.lead.modelSelect!='')) ||
+	    			
+	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' ||  
+	    					 $scope.lead.leadType =='' || $scope.lead.contactedFrom==''||$scope.lead.enthicity==''||$scope.lead.enthicity==null) {
+	    				$scope.isInValid = true;
+	    			} else {
+	    				$scope.isInValid = false;
+	    			
+		    			if($scope.lead.leadType=='1') {
+	    					$scope.makeLead();
+		    			} else if($scope.lead.leadType=='2') {
+		    				$scope.lead.bestDay = $("#leadBestDay").val();
+			    			$scope.lead.bestTime = $("#leadBestTime").val();
+			    			if($("input[name=leadPreffered]:checked").val())
+			    				$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
+			    			
+			    			if(!$scope.lead.bestDay || $scope.lead.bestDay == '' ||!$scope.lead.bestTime || $scope.lead.bestTime=='' || !$scope.lead.prefferedContact ||$scope.lead.prefferedContact=='') {
+			    				$scope.isInValid = true;
+			    			} else {
+			    				$scope.makeLead();
+			    			}
+		    			} else {
+		    				$("#createLeadPopup").modal('hide');
+		    				$("#tradeInApp").modal();
+		    			}
+	    			}
+	    			
+	    			//$scope.makeLead();
+	    			/*console.log($('#ex1_value').val());
 	    			$scope.lead.custName = $('#ex1_value').val();
 	    			console.log($scope.lead);
 	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' || !(($scope.lead.make!='' && $scope.lead.model!='') || 
@@ -1617,7 +1647,7 @@ angular.module('newApp')
 		    				$("#createLeadPopup").modal('hide');
 		    				$("#tradeInApp").modal();
 		    			}
-	    			}
+	    			}*/
 	    			
 	    			
 	    			console.log($scope.lead);
@@ -1642,6 +1672,7 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.makeLead = function() {
+	    			console.log($scope.stockWiseData);
 	    			console.log("make Lead");
 	    			$scope.othertxt = $('#othertxt').val();
 	    			console.log($scope.othertxt);
@@ -1661,7 +1692,7 @@ angular.module('newApp')
 	    				
 	    			}
 	    			
-	    			
+	    			$scope.lead.stockWiseData = $scope.stockWiseData;
 	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
 	    				if($scope.lead.leadType=='2')  {
@@ -1691,23 +1722,33 @@ angular.module('newApp')
 	    				$scope.models = response;
 	    			});
 	    		};
+	    		$scope.stockWiseData = [];
+	    		$scope.stockWiseData.push({});
+	    		$scope.getStockDetails = function(stockRp) {
+	    			console.log(stockRp.stockNumber);
 	    		
-	    		$scope.getStockDetails = function() {
-	    			$scope.lead.make = '';
-	    			$scope.lead.model = '';
 	    			$scope.isStockError = false;
-	    			$http.get('/getStockDetails/'+$scope.lead.stockNumber).success(function(response) {
+	    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
+	    				
+	    				/*$scope.AddImgAndInfo.addImg.push({
+	    					pictureName:obj.pictureName,
+	    					img:"/hotel_profile/getImagePath/"+obj.supplierCode+"/"+obj.indexValue,
+	    					description:obj.pictureDescription
+	    				})*/
+	    				console.log(response);
 	    				if(response.isData) {
 	    					$scope.isStockError = false;
-	    					$scope.lead.make = response.make;
-	    					$scope.lead.model = response.model;
-	    					$scope.bodyStyle = response.bodyStyle;
-	    					$scope.engine = response.engine;
-	    					$scope.mileage = response.mileage;
-	    					$scope.transmission = response.transmission;
-	    					$scope.drivetrain = response.drivetrain;
-	    					$scope.vehicleImage = response.vehicleImage;
-	    					$scope.imgId = response.imgId;
+	    					stockRp.make = response.make;
+	    					stockRp.model = response.model;
+	    					stockRp.bodyStyle = response.bodyStyle;
+	    					stockRp.engine = response.engine;
+	    					stockRp.mileage = response.mileage;
+	    						stockRp.transmission = response.transmission;
+	    					stockRp.drivetrain = response.drivetrain;
+	    					stockRp.vehicleImage = response.vehicleImage;
+	    					stockRp.imgId = response.imgId;
+	    					stockRp.year = response.year;
+	    					stockRp.vin = response.vin;
 	    					
 	    					
 	    				} else {
@@ -1715,6 +1756,11 @@ angular.module('newApp')
 	    				}
 	    			});
 	    		};
+	    		
+	    		$scope.pushRecord = function(){
+	    			$scope.stockWiseData.push({});
+	    			
+	    		}
 	    		
 	    		$scope.makes = [];
 	    		$scope.models = [];

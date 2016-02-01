@@ -14618,6 +14618,7 @@ public class Application extends Controller {
     		map.put("mileage", vehicles.get(0).getMileage());
     		map.put("transmission", vehicles.get(0).getTransmission());
     		map.put("drivetrain", vehicles.get(0).getDrivetrain());
+    		map.put("vin", vehicles.get(0).getVin());
     		//map.put("vehicleImage", vehicles.get(0).getDrivetrain());
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicles.get(0).vin);
     		if(vehicleImage!=null) {
@@ -14724,123 +14725,170 @@ public class Application extends Controller {
     	Date date = new Date();
     	List<Vehicle> vehicles = Vehicle.findByMakeAndModel(makestr, model);
     	if(leadVM.leadType.equals("1")) {
-    		RequestMoreInfo info = new RequestMoreInfo();
-    		info.setIsReassigned(true);
-    		info.setLeadStatus(null);
-    		info.setEmail(leadVM.custEmail);
-    		info.setName(leadVM.custName);
-    		info.setPhone(leadVM.custNumber);
-    		info.setCustZipCode(leadVM.custZipCode);
-    		info.setEnthicity(leadVM.enthicity);
-    		info.setVin(vehicles.get(0).getVin());
-    		info.setUser(user);
-			info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		info.setIsScheduled(false);
-    		info.setIsRead(0);
-    		info.setHearedFrom(leadVM.hearedFrom);
-    		info.setContactedFrom(leadVM.contactedFrom);
-    		info.setRequestDate(new Date());
-    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		if(pLeads != null){
-    			if(pLeads.premium_flag.equals(1)){
-    				if(Integer.parseInt(pLeads.premium_amount) <= vehicles.get(0).price){
-    					info.setPremiumFlag(1);
-    				}else{
-    					info.setPremiumFlag(0);
-    					info.setAssignedTo(user);
-    				}
-    			}else{
+    		for(VehicleVM vehicleVM:leadVM.stockWiseData){
+	    		RequestMoreInfo info = new RequestMoreInfo();
+	    		info.setIsReassigned(true);
+	    		info.setLeadStatus(null);
+	    		info.setEmail(leadVM.custEmail);
+	    		info.setName(leadVM.custName);
+	    		info.setPhone(leadVM.custNumber);
+	    		info.setCustZipCode(leadVM.custZipCode);
+	    		info.setEnthicity(leadVM.enthicity);
+	    		
+	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+	    		info.setVin(vehicle.getVin());
+	    		info.setUser(user);
+				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		info.setIsScheduled(false);
+	    		info.setIsRead(0);
+	    		info.setHearedFrom(leadVM.hearedFrom);
+	    		info.setContactedFrom(leadVM.contactedFrom);
+	    		
+	    		info.setRequestDate(new Date());
+	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		if(pLeads != null){
+	    			if(pLeads.premium_flag.equals(1)){
+	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	    					info.setPremiumFlag(1);
+	    				}else{
+	    					info.setPremiumFlag(0);
+	    					info.setAssignedTo(user);
+	    				}
+	    			}else{
+						info.setPremiumFlag(0);
+						info.setAssignedTo(user);
+					}
+	    		}else{
 					info.setPremiumFlag(0);
 					info.setAssignedTo(user);
 				}
-    		}else{
-				info.setPremiumFlag(0);
-				info.setAssignedTo(user);
-			}
-    		
-    		info.save();
-    		
-    		UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Lead has been created");
-    		uNotes.setAction("Other");
-    		uNotes.createdDate = date;
-    		uNotes.createdTime = date;
-    		uNotes.user = user;
-    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
-    		uNotes.save();
-    		
+	    		
+	    		info.save();
+	    		
+	    		UserNotes uNotes = new UserNotes();
+	    		uNotes.setNote("Lead has been created");
+	    		uNotes.setAction("Other");
+	    		uNotes.createdDate = date;
+	    		uNotes.createdTime = date;
+	    		uNotes.user = user;
+	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+	    		uNotes.save();
+	    		
+	    		
+	    		/*--------------------------------*/
+	    		final String username = emailUsername;
+				final String password = emailPassword;
+	    		
+	    		Properties props = new Properties();  
+	    		props.put("mail.smtp.auth", "true");
+				props.put("mail.smtp.host", "smtp.gmail.com");
+				props.put("mail.smtp.port", "587");
+				props.put("mail.smtp.starttls.enable", "true");
+	    		     
+	    		   Session session = Session.getDefaultInstance(props,  
+	    		    new javax.mail.Authenticator() {  
+	    		      protected PasswordAuthentication getPasswordAuthentication() {  
+	    		    return new PasswordAuthentication(username,password);  
+	    		      }  
+	    		    });  
+	    		  
+	    		   //Compose the message  
+	    		    try {  
+	    		     MimeMessage message = new MimeMessage(session);  
+	    		     message.setFrom(new InternetAddress(username));  
+	    		     message.addRecipient(Message.RecipientType.TO,new InternetAddress("Yogeshpatil424@gmail.com"));  
+	    		     message.setSubject("Premium Leads");  
+	    		     message.setText("Premium Request has been submitted");  
+	    		       
+	    		    //send the message  
+	    		     Transport.send(message);  
+	    		  
+	    		     System.out.println("message sent successfully...");  
+	    		   
+	    		     } catch (MessagingException e) {e.printStackTrace();} 
+	    		
+	    		
+	    		/*------------------------------------*/
+	    		
+    	 }
     	} else if(leadVM.leadType.equals("2")){
     		Date confirmDate = null;
     		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
-    		ScheduleTest test = new ScheduleTest();
     		
-    		test.setIsReassigned(true);
-    		test.setLeadStatus(null);
-    		test.setBestDay(leadVM.bestDay);
-    		test.setBestTime(leadVM.bestTime);
-    		try {
-    			confirmDate = df.parse(leadVM.bestDay);
-    			test.setConfirmDate(confirmDate);
-    		} catch(Exception e) {}
-    		try {
-    			test.setConfirmTime(parseTime.parse(leadVM.bestTime));
-    		} catch(Exception e) {}
-    		test.setEmail(leadVM.custEmail);
-    		test.setName(leadVM.custName);
-    		test.setPhone(leadVM.custNumber);
-    		test.setCustZipCode(leadVM.custZipCode);
-    		test.setEnthicity(leadVM.enthicity);
-    		test.setIsRead(0);
-    		test.setUser(user);
-			test.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		test.setHearedFrom(leadVM.hearedFrom);
-    		test.setContactedFrom(leadVM.contactedFrom);
-    		test.setScheduleDate(new Date());
-    		test.setPreferredContact(leadVM.prefferedContact);
-    		test.setVin(vehicles.get(0).getVin());
-    		
-    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		if(pLeads != null){
-    			if(pLeads.premium_flag.equals(1)){
-    				if(Integer.parseInt(pLeads.premium_amount) <= vehicles.get(0).price){
-    					test.setPremiumFlag(1);
-    				}else{
-    					test.setPremiumFlag(0);
-    					test.setAssignedTo(user);
-    				}
-    			}else{
-    				test.setPremiumFlag(0);
-    				test.setAssignedTo(user);
+    		for(VehicleVM vehicleVM:leadVM.stockWiseData){
+	    		ScheduleTest test = new ScheduleTest();
+	    		
+	    		test.setIsReassigned(true);
+	    		test.setLeadStatus(null);
+	    		test.setBestDay(leadVM.bestDay);
+	    		test.setBestTime(leadVM.bestTime);
+	    		try {
+	    			confirmDate = df.parse(leadVM.bestDay);
+	    			test.setConfirmDate(confirmDate);
+	    		} catch(Exception e) {}
+	    		try {
+	    			test.setConfirmTime(parseTime.parse(leadVM.bestTime));
+	    		} catch(Exception e) {}
+	    		test.setEmail(leadVM.custEmail);
+	    		test.setName(leadVM.custName);
+	    		test.setPhone(leadVM.custNumber);
+	    		test.setCustZipCode(leadVM.custZipCode);
+	    		test.setEnthicity(leadVM.enthicity);
+	    		test.setIsRead(0);
+	    		test.setUser(user);
+				test.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		test.setHearedFrom(leadVM.hearedFrom);
+	    		test.setContactedFrom(leadVM.contactedFrom);
+	    		test.setScheduleDate(new Date());
+	    		test.setPreferredContact(leadVM.prefferedContact);
+	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+	    		test.setVin(vehicle.getVin());
+	    		
+	    		//test.setVin(vehicles.get(0).getVin());
+	    		
+	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		if(pLeads != null){
+	    			if(pLeads.premium_flag.equals(1)){
+	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	    					test.setPremiumFlag(1);
+	    				}else{
+	    					test.setPremiumFlag(0);
+	    					test.setAssignedTo(user);
+	    				}
+	    			}else{
+	    				test.setPremiumFlag(0);
+	    				test.setAssignedTo(user);
+					}
+	    		}else{
+	    			test.setPremiumFlag(0);
+	    			test.setAssignedTo(user);
 				}
-    		}else{
-    			test.setPremiumFlag(0);
-    			test.setAssignedTo(user);
-			}
-    		
-    		test.save();
-    		
-    		UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Lead has been created");
-    		uNotes.setAction("Other");
-    		uNotes.createdDate = date;
-    		uNotes.createdTime = date;
-    		uNotes.user = user;
-    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		uNotes.scheduleTest = ScheduleTest.findById(test.id);
-    		uNotes.save();
-    		
-    		Map map = new HashMap();
-    		map.put("email",user.getEmail());
-    		map.put("confirmDate", confirmDate);
-    		map.put("confirmTime",leadVM.bestTime);
-    		map.put("vin", vehicles.get(0).getVin());
-    		map.put("uname", user.firstName+" "+user.lastName);
-    		map.put("uphone", user.phone);
-    		map.put("uemail", user.email);
-    		makeToDo(vehicles.get(0).getVin());
+	    		
+	    		test.save();
+	    		
+	    		UserNotes uNotes = new UserNotes();
+	    		uNotes.setNote("Lead has been created");
+	    		uNotes.setAction("Other");
+	    		uNotes.createdDate = date;
+	    		uNotes.createdTime = date;
+	    		uNotes.user = user;
+	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes.scheduleTest = ScheduleTest.findById(test.id);
+	    		uNotes.save();
+	    		
+	    		Map map = new HashMap();
+	    		map.put("email",user.getEmail());
+	    		map.put("confirmDate", confirmDate);
+	    		map.put("confirmTime",leadVM.bestTime);
+	    		map.put("vin", vehicle.getVin());
+	    		map.put("uname", user.firstName+" "+user.lastName);
+	    		map.put("uphone", user.phone);
+	    		map.put("uemail", user.email);
+	    		makeToDo(vehicle.vin);
     		sendMail(map);
+    	}
     	} else {
     		TradeIn tIn = null;
     		if(leadVM.id != null){
@@ -14848,6 +14896,8 @@ public class Application extends Controller {
     		}
     		
     		if(tIn == null){
+    			
+    			
     			
     		StringBuffer buffer = new StringBuffer();
     		for(String opt:leadVM.options) {
@@ -14857,7 +14907,8 @@ public class Application extends Controller {
     			buffer.deleteCharAt(buffer.length()-1);
     		}
     		
-    		
+    		for(VehicleVM vehicleVM:leadVM.stockWiseData){
+    			
     			TradeIn tradeIn = new TradeIn();
         		tradeIn.setAccidents(leadVM.accidents);
         		tradeIn.setEnthicity(leadVM.enthicity);
@@ -14900,13 +14951,16 @@ public class Application extends Controller {
         		tradeIn.setUser(user);
     			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		tradeIn.setVehiclenew(leadVM.vehiclenew);
-        		tradeIn.setVin(vehicles.get(0).getVin());
+        		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+        		tradeIn.setVin(vehicle.getVin());
+        		
+        		//tradeIn.setVin(vehicles.get(0).getVin());
         		tradeIn.setYear(leadVM.year);
         		
         		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
         		if(pLeads != null){
         			if(pLeads.premium_flag.equals(1)){
-        				if(Integer.parseInt(pLeads.premium_amount) <= vehicles.get(0).price){
+        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
         					tradeIn.setPremiumFlag(1);
         				}else{
         					tradeIn.setPremiumFlag(0);
@@ -14934,7 +14988,7 @@ public class Application extends Controller {
         		uNotes.save();
     		
     		
-    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicles.get(0).getVin());
+    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		
     		AuthUser defaultUser = getLocalUser();
     		//AuthUser defaultUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
@@ -15628,10 +15682,10 @@ public class Application extends Controller {
 				context.put("year", tradeIn.getYear());
 				context.put("make", tradeIn.getMake());
 				context.put("model", tradeIn.getModel());
-				context.put("price", "$" + vehicles.get(0).getPrice());
-				context.put("vin", vehicles.get(0).getVin());
-				context.put("stock", vehicles.get(0).getStock());
-				context.put("mileage", vehicles.get(0).getMileage());
+				context.put("price", "$" + vehicle.getPrice());
+				context.put("vin", vehicle.getVin());
+				context.put("stock", vehicle.getStock());
+				context.put("mileage", vehicle.getMileage());
 				context.put("pdffilePath", findpath);
 
 				if (tradeIn.getPreferredContact() != null) {
@@ -15835,6 +15889,7 @@ public class Application extends Controller {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+    		}
     	 }else{
     		 
     		 StringBuffer buffer = new StringBuffer();
