@@ -7111,6 +7111,43 @@ public class Application extends Controller {
 		
     }
     
+    private static void sendMailpremium() {
+    	/*--------------------------------*/
+		
+		AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+		final String username = emailUsername;
+		final String password = emailPassword;
+		
+		Properties props = new Properties();  
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		     
+		   Session session = Session.getDefaultInstance(props,  
+		    new javax.mail.Authenticator() {  
+		      protected PasswordAuthentication getPasswordAuthentication() {  
+		    return new PasswordAuthentication(username,password);  
+		      }  
+		    });  
+		  
+		    try {  
+		     MimeMessage message = new MimeMessage(session);  
+		     message.setFrom(new InternetAddress(username));  
+		     message.addRecipient(Message.RecipientType.TO,new InternetAddress(aUser.communicationemail));  
+		     message.setSubject("Premium Leads");  
+		     message.setText("Premium Request has been submitted");  
+		       
+		     Transport.send(message);  
+		  
+		     System.out.println("message sent successfully...");  
+		   
+		     } catch (MessagingException e) {e.printStackTrace();} 
+		
+		
+		/*------------------------------------*/
+    }
+    
     private static void sendMail(Map map) {
     	
     	AuthUser logoUser = getLocalUser();
@@ -14775,41 +14812,11 @@ public class Application extends Controller {
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    		uNotes.save();
 	    		
-	    		
-	    		/*--------------------------------*/
-	    		final String username = emailUsername;
-				final String password = emailPassword;
-	    		
-	    		Properties props = new Properties();  
-	    		props.put("mail.smtp.auth", "true");
-				props.put("mail.smtp.host", "smtp.gmail.com");
-				props.put("mail.smtp.port", "587");
-				props.put("mail.smtp.starttls.enable", "true");
-	    		     
-	    		   Session session = Session.getDefaultInstance(props,  
-	    		    new javax.mail.Authenticator() {  
-	    		      protected PasswordAuthentication getPasswordAuthentication() {  
-	    		    return new PasswordAuthentication(username,password);  
-	    		      }  
-	    		    });  
-	    		  
-	    		   //Compose the message  
-	    		    try {  
-	    		     MimeMessage message = new MimeMessage(session);  
-	    		     message.setFrom(new InternetAddress(username));  
-	    		     message.addRecipient(Message.RecipientType.TO,new InternetAddress("Yogeshpatil424@gmail.com"));  
-	    		     message.setSubject("Premium Leads");  
-	    		     message.setText("Premium Request has been submitted");  
-	    		       
-	    		    //send the message  
-	    		     Transport.send(message);  
-	    		  
-	    		     System.out.println("message sent successfully...");  
-	    		   
-	    		     } catch (MessagingException e) {e.printStackTrace();} 
+	    		if(info.premiumFlag == 1){
+	    			sendMailpremium();
+	    		}
 	    		
 	    		
-	    		/*------------------------------------*/
 	    		
     	 }
     	} else if(leadVM.leadType.equals("2")){
@@ -14887,6 +14894,9 @@ public class Application extends Controller {
 	    		map.put("uphone", user.phone);
 	    		map.put("uemail", user.email);
 	    		makeToDo(vehicle.vin);
+	    		if(test.premiumFlag == 1){
+	    			sendMailpremium();
+	    		}
     		sendMail(map);
     	}
     	} else {
@@ -14986,6 +14996,10 @@ public class Application extends Controller {
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
         		uNotes.save();
+        		
+        		if(tradeIn.premiumFlag == 1){
+	    			sendMailpremium();
+	    		}
     		
     		
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());

@@ -4793,9 +4793,9 @@ margin-left: 5px;
 								                    		</div>
 								                    		<div class="col-md-7" style="background-color:gainsboro" ng-if="stockRp.vin != null">
 								                    			<div>
-								                    				<div class="col-md-4">
+								                    				<div class="col-md-4" style="padding-left: 0px;">
 								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
-								    									<img style="width: 120px;margin-top: 25px;" src="/getImage/{{stockRp.imgId}}/thumbnail">
+								    									<img style="margin-top: 25px;" src="/getImage/{{stockRp.imgId}}/thumbnail">
 								    								</div>
 								    								<div class="col-md-8" style="padding: 0px;">
 								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockRp.year}} {{stockRp.make}} {{stockRp.model}}</label>
@@ -4810,7 +4810,7 @@ margin-left: 5px;
 								                    			
 								                    		</div> 
 								                    	</div>
-								                    	<div class="col-md-12">
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;">
 								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
 								                    	</div>
 								                    </div>
