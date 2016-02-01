@@ -4604,7 +4604,7 @@ angular.module('newApp')
 
 angular.module('newApp')
 .controller('ViewVehiclesCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
-  
+	$scope.tempDate = new Date().getTime();
      $scope.gridOptions = {
     		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     		    paginationPageSize: 150,
@@ -4615,25 +4615,28 @@ angular.module('newApp')
     		 $scope.gridOptions.enableHorizontalScrollbar = 0;
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 $scope.gridOptions.columnDefs = [
-    		                                 { name: 'make', displayName: 'Title', width:'12%',cellEditableCondition: false,
+    		                                 { name: 'make', displayName: 'Title', width:'12%',cellEditableCondition: true,
+    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.make}}">{{row.entity.make}}</a></div>',
     		                                 },
     		                                 { name: 'stock', displayName: 'Stock', width:'7%',
     		                                 },
-    		                                 { name: 'intColor', displayName: 'Int Color',enableFiltering: false, width:'9%',cellEditableCondition: false,
+    		                                 { name: 'bodyStyle', displayName: 'Body Style',enableFiltering: false, width:'9%',cellEditableCondition: false,
+    		                                	 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
     		                                 },
-    		                                 { name: 'extColor', displayName: 'Ext Color',enableFiltering: false, width:'9%',cellEditableCondition: false,
+    		                                 { name: 'extColor', displayName: 'Milage',enableFiltering: false, width:'9%',cellEditableCondition: true,
     		                                 },
-    		                                 { name: 'city_mileage', displayName: 'City Mileage',enableFiltering: false, width:'10%',cellEditableCondition: false,
+    		                                 { name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'10%',cellEditableCondition: true,
     		                                 },
-    		                                 { name: 'highway_mileage', displayName: 'Highway Mileage',enableFiltering: false, width:'10%',cellEditableCondition: false,
+    		                                 { name: 'highway_mileage', displayName: 'HWY MPG',enableFiltering: false, width:'10%',cellEditableCondition: true,
     		                                 },
     		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'8%',
     		                                 },
     		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'8%',cellEditableCondition: false,
+    		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.getImages(row)" style="line-height: 200%;" title="" data-content="{{row.entity.vehicleCnt}}">{{row.entity.vehicleCnt}}</a></div>',
     		                                 },
-    		                                 { name: 'testDrive', displayName: 'Next Test Drive',enableFiltering: false, width:'10%',cellEditableCondition: false,
+    		                                 { name: 'testDrive', displayName: 'Date Sold',enableFiltering: false, width:'10%',cellEditableCondition: false,
     		                                 },
-    		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false, width:'9%',cellEditableCondition: false,
+    		                                 { name: 'pageViewCount', displayName: 'History',enableFiltering: false, width:'9%',cellEditableCondition: false,
     		                                 },
     		                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
         		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)"  title="sessions"></i>', 
@@ -4663,6 +4666,30 @@ angular.module('newApp')
     			 
     			 };
     			 
+    			 $scope.updateVehicleBody = function(row){
+    				 $scope.rowData = row.entity;
+    				 console.log($scope.rowData);
+    				 var str = $scope.rowData.price.split(" ");
+    				 $scope.rowData.price = str[1];
+    				 console.log($scope.rowData.bodyStyle);
+    				 $http.post('/updateVehicle',$scope.rowData)
+        			 .success(function(data) {
+        					console.log('success');
+        				});
+    			 };
+    			 $scope.mouse = function(row) {
+    					console.log(row.entity.imgId);
+    					$('#thumb_image').attr("src", "/getImage/"+row.entity.imgId+"/thumbnail?date="+$scope.tempDate );
+    					$('#thumb_image').show();
+    					$('#imagePopup').modal();
+    				};
+    				$scope.mouseout = function(row) {
+    					$('#imgClose').click();
+    				};
+    				
+    				$scope.getImages = function(row) {
+    					$location.path('/editVehicle/'+row.entity.id+"/"+true);
+    				};
     		    			 $scope.newlyArrivedTab = function() {
     		    				 $http.get('/getAllVehicles')
     		    			 		.success(function(data) {
@@ -4690,7 +4717,7 @@ angular.module('newApp')
     		    			 }
     		    			 
     	$scope.editVehicle = function(row) {
-    		$location.path('/editVehicle/'+row.entity.id);
+    		$location.path('/editVehicle/'+row.entity.id+"/"+false);
     	}	 
     	
    $scope.vehiClesList = [];
@@ -4958,6 +4985,13 @@ angular.module('newApp')
 					}
 				}
 				$scope.setDropZone();
+				
+				console.log($routeParams.temp);
+				if($routeParams.temp == 'true'){
+					$('#vImg').click();
+					console.log("cilck img");
+					$scope.getImages();
+				}
 		});
 		
 		

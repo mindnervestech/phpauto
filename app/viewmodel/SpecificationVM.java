@@ -80,4 +80,6 @@ public class SpecificationVM {
 	public List<Long> siteIds;
 	public String testDrive;
 	public String salesRep;
+	public String imagePath;
+	public Long imgId;
 }

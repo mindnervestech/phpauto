@@ -2136,6 +2136,9 @@ public class Application extends Controller {
 	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
 	    	String params = "&date=last-28-days&type=visitors-list&limit=all";
 	     	for(Vehicle vm : vehicleObjList){
+	     		
+	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+	     		
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
 		    	vehicle.category = vm.category;
@@ -2163,7 +2166,8 @@ public class Application extends Controller {
 		    	vehicle.transmission = vm.transmission;
 		    	vehicle.location = vm.location;
 		    	vehicle.status  =  vm.status;
-		    	
+		    	vehicle.imagePath = vehicleImg.thumbPath;
+		    	vehicle.imgId = vehicleImg.id;
 		    	visitorCount = 0;
 		    	
         		try {
@@ -2764,8 +2768,13 @@ public class Application extends Controller {
 	    				}
 	    				
 	    		}
+	    		vehicle.setMake(vm.make);
+	    		vehicle.setExteriorColor(vm.extColor);
+	    		vehicle.setCityMileage(vm.city_mileage);
+	    		vehicle.setHighwayMileage(vm.highway_mileage);
 		    	vehicle.setStock(vm.stock);
 		    	vehicle.setPrice(vm.price);
+		    	vehicle.setBodyStyle(vm.bodyStyle);
 		    	
 		    	vehicle.update();
 		    	sendPriceAlertMail(vehicle.vin);
