@@ -4640,6 +4640,7 @@ angular.module('newApp')
     		                                 { name: 'testDrive', displayName: 'Date Sold',enableFiltering: false, width:'10%',cellEditableCondition: false,
     		                                 },
     		                                 { name: 'pageViewCount', displayName: 'History',enableFiltering: false, width:'9%',cellEditableCondition: false,
+    		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
     		                                 },
     		                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
         		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)"  title="sessions"></i>', 
@@ -4657,8 +4658,12 @@ angular.module('newApp')
     				 $scope.rowData.price = str[1];
     			 $http.post('/updateVehicle',$scope.rowData)
     			 .success(function(data) {
+    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
     					console.log('success');
-    					$scope.rowData.price = "$ "+$scope.rowData.price;
+    					/*$scope.vehiClesList = [];
+			 			$scope.gridOptions.data = [];
+    					//$scope.soldTab();
+    					$scope.newlyArrivedTab();*/
     				});
     			 });
     			 
@@ -4672,13 +4677,32 @@ angular.module('newApp')
     			 $scope.updateVehicleBody = function(row){
     				 $scope.rowData = row.entity;
     				 console.log($scope.rowData);
-    				 var str = $scope.rowData.price.split(" ");
-    				 $scope.rowData.price = str[1];
+    				 if($scope.rowData.price !=null && $scope.rowData.price != undefined){
+    					 //$scope.$apply();
+    					 var str = $scope.rowData.price.split(" ");
+        				 $scope.rowData.price = str[1];
+    				 }
+    				 
     				 console.log($scope.rowData.bodyStyle);
     				 $http.post('/updateVehicle',$scope.rowData)
         			 .success(function(data) {
         					console.log('success');
+        					$scope.rowData.price = "$ "+$scope.rowData.price;
+        					/*$scope.vehiClesList = [];
+    			 			$scope.gridOptions.data = [];
+        					//$scope.soldTab();
+        					$scope.newlyArrivedTab();*/
         				});
+    			 };
+    			 
+    			 $scope.historyVehicle = function(row){
+    				 console.log(row.entity.vin);
+    				 $http.get('/getVehicleHistory/'+row.entity.vin)
+    					.success(function(data) {
+    						console.log(data);
+    						$scope.vehicleHistory = data;
+    						$('#vehicleHistory').click();
+    					});
     			 };
     			 $scope.mouse = function(row) {
     					console.log(row.entity.imgId);

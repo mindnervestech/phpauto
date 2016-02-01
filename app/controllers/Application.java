@@ -147,6 +147,7 @@ import viewmodel.SoldContactVM;
 import viewmodel.SpecificationVM;
 import viewmodel.ToDoVM;
 import viewmodel.TradeInVM;
+import viewmodel.UserNoteVM;
 import viewmodel.UserVM;
 import viewmodel.VehicleVM;
 import viewmodel.VirtualTourVM;
@@ -2168,6 +2169,7 @@ public class Application extends Controller {
 		    	vehicle.status  =  vm.status;
 		    	vehicle.imagePath = vehicleImg.thumbPath;
 		    	vehicle.imgId = vehicleImg.id;
+		    	vehicle.sold = false;
 		    	visitorCount = 0;
 		    	
         		try {
@@ -2222,6 +2224,55 @@ public class Application extends Controller {
     	}	
     }
     
+	public static Result getVehicleHistory(String vin){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+    		List<UserNoteVM> userNote = new ArrayList<>();
+    		List<RequestMoreInfo> infoList = RequestMoreInfo.findByVin(vin);
+    		List<ScheduleTest>  scheduleList = ScheduleTest.findByVin(vin);
+    		for (ScheduleTest scheduleTest : scheduleList) {
+    			List<UserNotes> notes = UserNotes.findScheduleTest(scheduleTest);
+				for (UserNotes note : notes) {
+					UserNoteVM vm = new UserNoteVM();
+					vm.id = note.id;
+					vm.action = note.action;
+					vm.note = note.note;
+					vm.createdDate = df.format(note.createdDate);
+					vm.createdTime = time.format(note.createdTime);
+					userNote.add(vm);
+				}
+			}
+    		List<TradeIn> traid = TradeIn.findByVin(vin);
+    		for (TradeIn tradeIn : traid) {
+    			List<UserNotes> notes = UserNotes.findTradeIn(tradeIn);
+				for (UserNotes note : notes) {
+					UserNoteVM vm = new UserNoteVM();
+					vm.id = note.id;
+					vm.action = note.action;
+					vm.note = note.note;
+					vm.createdDate = df.format(note.createdDate);
+					vm.createdTime = time.format(note.createdTime);
+					userNote.add(vm);
+				}
+			}
+    		for (RequestMoreInfo info : infoList) {
+				List<UserNotes> notes = UserNotes.findRequestMore(info);
+				for (UserNotes note : notes) {
+					UserNoteVM vm = new UserNoteVM();
+					vm.id = note.id;
+					vm.action = note.action;
+					vm.note = note.note;
+					vm.createdDate = df.format(note.createdDate);
+					vm.createdTime = time.format(note.createdTime);
+					userNote.add(vm);
+				}
+			}
+    		return ok(Json.toJson(userNote));
+    	}
+	}
     
 	public static Result getAllSoldVehicles() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -2231,6 +2282,7 @@ public class Application extends Controller {
 	        
 	    	ArrayList<SpecificationVM> soldVMs = new ArrayList<>(); 
 	     	for(Vehicle vm : soldVehicleObjList){
+	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
 		    	vehicle.category = vm.category;
@@ -2259,6 +2311,9 @@ public class Application extends Controller {
 		    	vehicle.location = vm.location;
 		    	vehicle.status  =  vm.status;
 		    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+		    	vehicle.sold = true;
+		    	vehicle.imagePath = vehicleImg.thumbPath;
+		    	vehicle.imgId = vehicleImg.id;
 		    	soldVMs.add(vehicle);
 	    	}
 	     	

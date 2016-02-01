@@ -197,6 +197,40 @@
 								        </div>
 								    </div>
 								    
+					<div style="display:none;" id="vehicleHistory" data-toggle="modal" data-target="#modal-vehicleHistory"></div>
+					<div class="modal fade" id="modal-vehicleHistory" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" id="noteClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Vehicle History</h4>
+								                </div>
+								                <div class="modal-body">
+								                    <div class="form-group col-sm-12">
+								                    	<table class="table">
+								                    		<tr>
+									                    		<td>Note</td>
+									                    		<td>Action</td>
+									                    		<td>Date</td>
+									                    		<td>Time</td>
+								                    		</tr>
+								                    		<tr ng-repeat="noteStatus in vehicleHistory">
+									                    		<td>{{noteStatus.note}}</td>
+									                    		<td>{{noteStatus.action}}</td>
+									                    		<td>{{noteStatus.createdDate}}</td>
+									                    		<td>{{noteStatus.createdTime}}</td>
+								                    		</tr>
+								                    	</table>
+								                    </div>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>								    
+								    
+								    
 	<div class="modal fade" id="imagePopup" tabindex="-1" role="dialog" aria-hidden="true" style="text-align:right; margin-top:20%; margin-left:30%; height:200px;width:250px;">
   		<div class="modal-dialog" style="height:200px; width: 250px;">
   			<div class="modal-header" style="display:none;">
