@@ -40,6 +40,8 @@
 	            	$scope.requestMoreLength = data.req;
 	                $scope.scheduleTestLength = data.schedule;
 	                $scope.tradeInLength = data.trade;
+	                $scope.premiumlength = data.premium;
+	                $scope.userType = data.userType;
 	            })
 				},15000);
             
@@ -48,6 +50,8 @@
                 	$scope.requestMoreLength = data.req;
                     $scope.scheduleTestLength = data.schedule;
                     $scope.tradeInLength = data.trade;
+                    $scope.premiumlength = data.premium;
+                    $scope.userType = data.userType;
                 })
             });
             
