@@ -1585,6 +1585,11 @@ angular.module('newApp')
 	    					salvage:''
 	    			};
 	    		};
+	    		$scope.removeLead = function(index){
+	    			$scope.stockWiseData.splice(index, 1);
+	    			console.log($scope.stockWiseData);
+	    		}
+	    		
 	    		$scope.initialiase();
 	    		$scope.isInValid = false;
 	    		$scope.isStockError = false;

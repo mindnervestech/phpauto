@@ -4778,7 +4778,7 @@ margin-left: 5px;
 								                    <div class="row">
 								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
 								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>INTERESTED IN MODEL? <span style="color: red;">*</span></strong></h3>
-								                    		<div class="col-md-5">
+								                    		<div class="col-md-4">
 								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
 								                    			<div ng-show="isStockError" style="color: red;">Stock Number Not Found.</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
@@ -4809,8 +4809,12 @@ margin-left: 5px;
 								                    			</div>
 								                    			
 								                    		</div> 
+								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-if="stockRp.vin != null">
+								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
+								                    		</div>
+								                    		
 								                    	</div>
-								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;">
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].vin != null">
 								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
 								                    	</div>
 								                    </div>

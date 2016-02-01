@@ -15006,8 +15006,8 @@ public class Application extends Controller {
     		
     		AuthUser defaultUser = getLocalUser();
     		//AuthUser defaultUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
-    		SiteLogo siteLogo = SiteLogo.findByUser(defaultUser);
-    		SiteContent siteContent = SiteContent.findByUser(defaultUser);
+    		SiteLogo siteLogo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		SiteContent siteContent = SiteContent.findByLocation(Long.valueOf(session("USER_LOCATION")));
     		String heading1 = "",heading2 = "";
     		if(siteContent.getHeading()!=null) {
     		    int index= siteContent.getHeading().lastIndexOf(" ");
