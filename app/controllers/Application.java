@@ -4038,6 +4038,7 @@ public class Application extends Controller {
 	    				change.vin = vm.vin;
 	    				change.save();
 	    				
+	    				sendPriceAlertMail(vehicle.vin);
 	    		}
 	    		vehicle.setMake(vm.make);
 	    		vehicle.setExteriorColor(vm.extColor);
@@ -4046,9 +4047,10 @@ public class Application extends Controller {
 		    	vehicle.setStock(vm.stock);
 		    	vehicle.setPrice(vm.price);
 		    	vehicle.setBodyStyle(vm.bodyStyle);
+		    	vehicle.setMileage(vm.mileage);
 		    	
 		    	vehicle.update();
-		    	sendPriceAlertMail(vehicle.vin);
+		    //	sendPriceAlertMail(vehicle.vin);
 	    	}
 	    	return ok();
     	}	
@@ -4080,7 +4082,7 @@ public class Application extends Controller {
     				change.person = userObj.firstName +" "+userObj.lastName;
     				change.vin = vm.vin;
     				change.save();
-    				
+    				sendPriceAlertMail(vehicle.vin);
 	    		}
 	    		
 	    		vehicle.setCategory(vm.category);
@@ -4164,7 +4166,7 @@ public class Application extends Controller {
 		    	}
 		    	vehicle.update();
 		    	
-		    	sendPriceAlertMail(vehicle.vin);
+		//    	sendPriceAlertMail(vehicle.vin);
 		    	
 		    	Vehicle vehicleObj2 = Vehicle.findByVinAndStatus(vm.vin);
 		    	List<Site> siteList2 = vehicleObj2.getSite();
