@@ -2080,17 +2080,23 @@ public class Application extends Controller {
 	    	    		info.setRequestDate(new Date());
 	    	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	    		if(pLeads != null){
-	    	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
-	    	    					info.setPremiumFlag(1);
-	    	    				}else{
-	    	    					info.setPremiumFlag(0);
-	    	    					info.setAssignedTo(user);
-	    	    				}
-	    	    			
+	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	        					info.setPremiumFlag(1);
+	        				}else{
+	        					info.setPremiumFlag(0);
+	        					if(pLeads.premium_flag == 0){
+	        						info.setAssignedTo(user);
+	        					}
+	        				}
+	        				if(pLeads.premium_flag == 1){
+	        					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	        					info.setAssignedTo(aUser);
+	        				}
+	        			
 	    	    		}else{
-	    					info.setPremiumFlag(0);
-	    					info.setAssignedTo(user);
-	    				}
+	    	    			info.setPremiumFlag(0);
+	    	    			info.setAssignedTo(user);
+	    	    		}
 	    	    		
 	    	    		if(parentFlag == 1){
 	    	    			info.setParentId(parentLeadId);
@@ -2156,17 +2162,23 @@ public class Application extends Controller {
 	    	    		
 	    	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	    		if(pLeads != null){
-	    	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
-	    	    					test.setPremiumFlag(1);
-	    	    				}else{
-	    	    					test.setPremiumFlag(0);
-	    	    					test.setAssignedTo(user);
-	    	    				}
-	    	    			
+	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	        					test.setPremiumFlag(1);
+	        				}else{
+	        					test.setPremiumFlag(0);
+	        					if(pLeads.premium_flag == 0){
+	        						test.setAssignedTo(user);
+	        					}
+	        				}
+	        				if(pLeads.premium_flag == 1){
+	        					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	        					test.setAssignedTo(aUser);
+	        				}
+	        			
 	    	    		}else{
 	    	    			test.setPremiumFlag(0);
 	    	    			test.setAssignedTo(user);
-	    				}
+	    	    		}
 	    	    		
 	    	    		if(parentFlag == 1){
 	    	    			test.setParentId(parentLeadId);
@@ -2205,14 +2217,6 @@ public class Application extends Controller {
 	        	}else if(vm.leadType.equals("Trade-In Appraisal")){
 		    		TradeIn leadVM = TradeIn.findById(Long.parseLong(vm.id));
 	        		
-	        		/*StringBuffer buffer = new StringBuffer();
-	        		for(String opt:leadVM.optionValue) {
-	        			buffer.append(opt+",");
-	        		}
-	        		if(buffer.length()>0) {
-	        			buffer.deleteCharAt(buffer.length()-1);
-	        		}
-*/	        		
 	        			TradeIn tradeIn = new TradeIn();
 	            		tradeIn.setAccidents(leadVM.accidents);
 	            		tradeIn.setEnthicity(leadVM.enthicity);
@@ -2263,17 +2267,23 @@ public class Application extends Controller {
 	            		
 	            		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	            		if(pLeads != null){
-	            				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
-	            					tradeIn.setPremiumFlag(1);
-	            				}else{
-	            					tradeIn.setPremiumFlag(0);
-	            					tradeIn.setAssignedTo(user);
-	            				}
-	            			
-	            		}else{
-	            			tradeIn.setPremiumFlag(0);
-	            			tradeIn.setAssignedTo(user);
-	    				}
+	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	        					tradeIn.setPremiumFlag(1);
+	        				}else{
+	        					tradeIn.setPremiumFlag(0);
+	        					if(pLeads.premium_flag == 0){
+	        						tradeIn.setAssignedTo(user);
+	        					}
+	        				}
+	        				if(pLeads.premium_flag == 1){
+	        					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	        					tradeIn.setAssignedTo(aUser);
+	        				}
+	        			
+	    	    		}else{
+	    	    			tradeIn.setPremiumFlag(0);
+	    	    			tradeIn.setAssignedTo(user);
+	    	    		}
 	            		
 	            		if(parentFlag == 1){
 	            			tradeIn.setParentId(parentLeadId);
@@ -2318,16 +2328,17 @@ public class Application extends Controller {
 	    			try {
 	    				Document document = new Document();
 	    				createDir(pdfRootDir, Long.parseLong(session("USER_LOCATION")), tradeIn.getId());
-	    				filepath = pdfRootDir + File.separator + Integer.getInteger(session("USER_LOCATION"))
+	    				filepath = pdfRootDir + File.separator + Long.parseLong(session("USER_LOCATION"))
 	    						+ File.separator + "trade_in_pdf" + File.separator
 	    						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
-	    				findpath = File.separator + Integer.getInteger(session("USER_LOCATION")) + File.separator + "trade_in_pdf" + File.separator
+	    				findpath = File.separator + Long.parseLong(session("USER_LOCATION")) + File.separator + "trade_in_pdf" + File.separator
 	    						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
 	    				// UPDATE table_name
 	    				// SET column1=value1,column2=value2,...
 	    				// WHERE some_column=some_value;
-	    				tradeIn.setPdfPath(findpath);
-	    				tradeIn.update();
+	    				TradeIn tIn2 = TradeIn.findById(tradeIn.getId());
+	    				tIn2.setPdfPath(findpath);
+	    				tIn2.update();
 	    				PdfWriter pdfWriter = PdfWriter.getInstance(document,
 	    						new FileOutputStream(filepath));
 
@@ -16240,6 +16251,7 @@ public class Application extends Controller {
 	    		info.setHearedFrom(leadVM.hearedFrom);
 	    		info.setContactedFrom(leadVM.contactedFrom);
 	    		
+	    		
 	    		info.setRequestDate(new Date());
 	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
@@ -16247,12 +16259,18 @@ public class Application extends Controller {
 	    					info.setPremiumFlag(1);
 	    				}else{
 	    					info.setPremiumFlag(0);
-	    					info.setAssignedTo(user);
+	    					if(pLeads.premium_flag == 0){
+	    						info.setAssignedTo(user);
+	    					}
+	    				}
+	    				if(pLeads.premium_flag == 1){
+	    					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    					info.setAssignedTo(aUser);
 	    				}
 	    			
 	    		}else{
 					info.setPremiumFlag(0);
-					info.setAssignedTo(user);
+						info.setAssignedTo(user);
 				}
 	    		
 	    		if(parentFlag == 1){
@@ -16322,17 +16340,23 @@ public class Application extends Controller {
 	    		
 	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
-	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
-	    					test.setPremiumFlag(1);
-	    				}else{
-	    					test.setPremiumFlag(0);
-	    					test.setAssignedTo(user);
-	    				}
-	    			
+    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+    					test.setPremiumFlag(1);
+    				}else{
+    					test.setPremiumFlag(0);
+    					if(pLeads.premium_flag == 0){
+    						test.setAssignedTo(user);
+    					}
+    				}
+    				if(pLeads.premium_flag == 1){
+    					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    					test.setAssignedTo(aUser);
+    				}
+    			
 	    		}else{
 	    			test.setPremiumFlag(0);
 	    			test.setAssignedTo(user);
-				}
+	    		}
 	    		
 	    		if(parentFlag == 1){
 	    			test.setParentId(parentLeadId);
@@ -16439,17 +16463,23 @@ public class Application extends Controller {
         		
         		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
         		if(pLeads != null){
-        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
-        					tradeIn.setPremiumFlag(1);
-        				}else{
-        					tradeIn.setPremiumFlag(0);
-        					tradeIn.setAssignedTo(user);
-        				}
-        			
-        		}else{
-        			tradeIn.setPremiumFlag(0);
-        			tradeIn.setAssignedTo(user);
-				}
+    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+    					tradeIn.setPremiumFlag(1);
+    				}else{
+    					tradeIn.setPremiumFlag(0);
+    					if(pLeads.premium_flag == 0){
+    						tradeIn.setAssignedTo(user);
+    					}
+    				}
+    				if(pLeads.premium_flag == 1){
+    					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    					tradeIn.setAssignedTo(aUser);
+    				}
+    			
+	    		}else{
+	    			tradeIn.setPremiumFlag(0);
+	    			tradeIn.setAssignedTo(user);
+	    		}
         		
         		if(parentFlag == 1){
         			tradeIn.setParentId(parentLeadId);
@@ -16494,16 +16524,17 @@ public class Application extends Controller {
 			try {
 				Document document = new Document();
 				createDir(pdfRootDir, Long.parseLong(session("USER_LOCATION")), tradeIn.getId());
-				filepath = pdfRootDir + File.separator + Integer.getInteger(session("USER_LOCATION"))
+				filepath = pdfRootDir + File.separator + Long.parseLong(session("USER_LOCATION"))
 						+ File.separator + "trade_in_pdf" + File.separator
 						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
-				findpath = File.separator + Integer.getInteger(session("USER_LOCATION")) + File.separator + "trade_in_pdf" + File.separator
+				findpath = File.separator + Long.parseLong(session("USER_LOCATION")) + File.separator + "trade_in_pdf" + File.separator
 						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
 				// UPDATE table_name
 				// SET column1=value1,column2=value2,...
 				// WHERE some_column=some_value;
-				tradeIn.setPdfPath(findpath);
-				tradeIn.update();
+				TradeIn tIn2 = TradeIn.findById(tradeIn.getId());
+				tIn2.setPdfPath(findpath);
+				tIn2.update();
 				PdfWriter pdfWriter = PdfWriter.getInstance(document,
 						new FileOutputStream(filepath));
 

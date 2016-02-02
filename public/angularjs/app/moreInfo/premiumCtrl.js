@@ -67,15 +67,7 @@ angular.module('newApp')
    		                                     }
   		                                	} ,
  		                                 },
- 		                                { name: 'edit', displayName: '', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		                                 cellTemplate:' <a ng-click="grid.appScope.getTradeData(row)" href="/showPdf/{{row.entity.id}}" target="_blank" style="margin-top:7px;margin-left:6px;" >View</a>',
-    		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-    		                                       if (row.entity.isRead === false) {
-    		                                         return 'red';
-    		                                     }
-   		                                	} ,
-		                                 
-		                                 },
+ 		                               
 		                                 { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'11%',cellEditableCondition: false,
 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	    		                                       if (row.entity.isRead === false) {
