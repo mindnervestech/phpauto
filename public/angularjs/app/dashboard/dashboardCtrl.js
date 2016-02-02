@@ -4643,7 +4643,7 @@ angular.module('newApp')
     		                                 { name: 'bodyStyle', displayName: 'Body Style',enableFiltering: false, width:'9%',cellEditableCondition: false,
     		                                	 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
     		                                 },
-    		                                 { name: 'extColor', displayName: 'Milage',enableFiltering: false, width:'9%',cellEditableCondition: true,
+    		                                 { name: 'mileage', displayName: 'Milage',enableFiltering: false, width:'9%',cellEditableCondition: true,
     		                                 },
     		                                 { name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'10%',cellEditableCondition: true,
     		                                 },
