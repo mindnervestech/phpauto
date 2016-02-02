@@ -329,11 +329,13 @@ margin-left: 5px;
 								   					</div>      
 												
 													<div style="line-height:1.028571;">
-														<label style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 190px;" title="{{item.name}}"><b>{{item.name | limitTo: 14}}</b></label>
+														<label ng-if="nameLbl=='true' || $index != index" id="namelb" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 150px;" title="{{item.name}}"><b>{{item.name | limitTo: 14}}</b></label>
+														<input ng-if="nameTxt=='true' &&  vin == item.vin" id="editName" type="text" ng-model="item.name" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 180px;" ng-blur="setName(item.name,item.vin)"/>
+														<i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editName(item.vin,$index,item.id)"></i>
 													</div>
 													<div class="col-sm-12">
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8">${{item.price}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;"></span><span style="width:80px;" ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-8">${{item.price}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
 													</div>
 													<div>
 														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.count}}</span>

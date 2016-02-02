@@ -51,6 +51,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
+import javax.security.auth.AuthPermission;
 
 import models.ActionAdd;
 import models.AuthUser;
@@ -20120,5 +20121,66 @@ public class Application extends Controller {
 		
 		
 	}
+	
+	public static Result getUserPermission(){
+		AuthUser userObj = (AuthUser) getLocalUser();
+		List<Permission> permission = userObj.getPermission();
+		for (Permission per : permission) {
+			if(per.name.equalsIgnoreCase("Add Vehicle") || per.name.equalsIgnoreCase("Inventory")){
+				return ok("true");
+			}
+			System.out.println(per.id);
+			System.out.println(per.name);
+		}
+		return ok("false");
+	}
+	
+	public static Result updateVehiclePrice(String vin , String price){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Integer vprice = Integer.parseInt(price);
+	    	Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+	    	if(vehicle != null) {
+	    		if(vprice != vehicle.price) {
+	    			
+	    				List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin, Long.valueOf(session("USER_LOCATION")));
+	    				for(PriceAlert priceAlert: alertList) {
+	    					priceAlert.setSendEmail("Y");
+	    					priceAlert.setOldPrice(vehicle.price);
+	    					priceAlert.update();
+	    				}
+	    				Date crDate = new Date();
+	    				PriceChange change = new PriceChange();
+	    				change.dateTime = crDate;
+	    				change.price = price;
+	    				change.person = user.firstName +" "+user.lastName;
+	    				change.vin = vin;
+	    				change.save();
+	    				
+	    		}
+		    	vehicle.setPrice(vprice);
+		    	
+		    	vehicle.update();
+		    	//sendPriceAlertMail(vehicle.vin);
+	    	}
+	    	return ok();
+    	}	
+    } 
+	
+	public static Result updateVehicleName(String vin , String name){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+	    	Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+	    	if(vehicle != null) {
+		    	vehicle.setMake(name);
+		    	vehicle.update();
+	    	}
+	    	return ok();
+    	}	
+    }
 	
 }

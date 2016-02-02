@@ -21,13 +21,56 @@ angular.module('newApp')
 	$scope.userKey = userKey;
 	$scope.userRole;
 	$scope.locationValue = null;
-	
-		
+	$scope.priceLbl = 'true';
+	$scope.priceTxt = 'false';
+	$scope.nameLbl = 'true';
+	$scope.nameTxt = 'false';
+	$scope.vin = null;
+	$scope.index = null;
+	$http.get('/getUserPermission').success(function(data){
+		$scope.userPer = data;
+		console.log($scope.userPer);
+	 });	
 	$http.get('/getDataFromCrm').success(function(data){
 		$scope.searchList = data;
 		console.log($scope.searchList);
 	 });
-	
+	$scope.editPrice = function(vin,index,id){
+		$scope.priceLbl = 'false';
+		$scope.priceTxt = 'true';
+		$scope.vin = vin;
+		$scope.index = index;
+		$('#editPrice').focus();
+		console.log(id);
+	};
+	$scope.editName = function(vin,index,id){
+		$scope.nameLbl = 'false';
+		$scope.nameTxt = 'true';
+		$scope.vin = vin;
+		$scope.index = index;
+		$('#editName').focus();
+		console.log(id);
+	};
+	$scope.setLable = function(price,vin){
+		$scope.priceLbl = 'true';
+		$scope.priceTxt = 'false';
+		console.log(price);
+		console.log(vin);
+		$http.get('/updateVehiclePrice/'+vin+"/"+price)
+		.success(function(data) {
+			console.log("success");
+		});
+	};
+	$scope.setName = function(name,vin){
+		$scope.nameLbl = 'true';
+		$scope.nameTxt = 'false';
+		console.log(name);
+		console.log(vin);
+		$http.get('/updateVehicleName/'+vin+"/"+name)
+		.success(function(data) {
+			console.log("success");
+		});
+	};
 	
 	$http.get('/getUserRole').success(function(data) {
 		console.log(data);
