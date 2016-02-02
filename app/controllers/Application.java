@@ -6447,7 +6447,7 @@ public class Application extends Controller {
 	    				rList1.id = rMoreInfo.id;
 	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
 	    	    		rList1.vin = rMoreInfo.vin;
-	    	    		if(vehicle != null) {
+	    	    		if(vehicle1 != null) {
 	    	    			rList1.model = vehicle1.model;
 	    	    			rList1.make = vehicle1.make;
 	    	    			rList1.stock = vehicle1.stock;
@@ -6480,7 +6480,7 @@ public class Application extends Controller {
     				rList1.id = info1.id;
     	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
     	    		rList1.vin = info1.vin;
-    	    		if(vehicle != null) {
+    	    		if(vehicle1 != null) {
     	    			rList1.model = vehicle1.model;
     	    			rList1.make = vehicle1.make;
     	    			rList1.stock = vehicle1.stock;
@@ -6707,7 +6707,7 @@ public class Application extends Controller {
 	    				rList1.id = sTest.id;
 	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(sTest.vin);
 	    	    		rList1.vin = sTest.vin;
-	    	    		if(vehicle != null) {
+	    	    		if(vehicle1 != null) {
 	    	    			rList1.model = vehicle1.model;
 	    	    			rList1.make = vehicle1.make;
 	    	    			rList1.stock = vehicle1.stock;
@@ -6740,7 +6740,7 @@ public class Application extends Controller {
     				rList1.id = info1.id;
     	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
     	    		rList1.vin = info1.vin;
-    	    		if(vehicle != null) {
+    	    		if(vehicle1 != null) {
     	    			rList1.model = vehicle1.model;
     	    			rList1.make = vehicle1.make;
     	    			rList1.stock = vehicle1.stock;
@@ -6942,7 +6942,7 @@ public class Application extends Controller {
 	    				rList1.id = tIn.id;
 	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
 	    	    		rList1.vin = tIn.vin;
-	    	    		if(vehicle != null) {
+	    	    		if(vehicle1 != null) {
 	    	    			rList1.model = vehicle1.model;
 	    	    			rList1.make = vehicle1.make;
 	    	    			rList1.stock = vehicle1.stock;
@@ -6975,7 +6975,7 @@ public class Application extends Controller {
     				rList1.id = info1.id;
     	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
     	    		rList1.vin = info1.vin;
-    	    		if(vehicle != null) {
+    	    		if(vehicle1 != null) {
     	    			rList1.model = vehicle1.model;
     	    			rList1.make = vehicle1.make;
     	    			rList1.stock = vehicle1.stock;
@@ -7086,7 +7086,7 @@ public class Application extends Controller {
 	    				rList1.id = rMoreInfo.id;
 	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
 	    	    		rList1.vin = rMoreInfo.vin;
-	    	    		if(vehicle != null) {
+	    	    		if(vehicle1 != null) {
 	    	    			rList1.model = vehicle1.model;
 	    	    			rList1.make = vehicle1.make;
 	    	    			rList1.stock = vehicle1.stock;
@@ -7119,7 +7119,7 @@ public class Application extends Controller {
     				rList1.id = info1.id;
     	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
     	    		rList1.vin = info1.vin;
-    	    		if(vehicle != null) {
+    	    		if(vehicle1 != null) {
     	    			rList1.model = vehicle1.model;
     	    			rList1.make = vehicle1.make;
     	    			rList1.stock = vehicle1.stock;
@@ -7265,7 +7265,13 @@ public class Application extends Controller {
 	        			vm.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    		}
-	    		vm.name = info.firstName+" "+info.lastName;
+	    		if(info.lastName != null){
+	    			vm.name = info.firstName+" "+info.lastName;
+	    		}else{
+	    			vm.name = info.firstName;
+	    		}
+	    			
+	    		
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.howContactedUs = info.contactedFrom;
@@ -7482,7 +7488,13 @@ public class Application extends Controller {
 	        			vm.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    		}
-	    		vm.name = info.firstName+" "+info.lastName;
+	    		
+	    		if(info.lastName != null){
+	    			vm.name = info.firstName+" "+info.lastName;
+	    		}else{
+	    			vm.name = info.firstName;
+	    		}
+	    		
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.howContactedUs = info.contactedFrom;
@@ -7685,7 +7697,7 @@ public class Application extends Controller {
 	    				rList1.id = tIn.id;
 	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
 	    	    		rList1.vin = tIn.vin;
-	    	    		if(vehicle != null) {
+	    	    		if(vehicle1 != null) {
 	    	    			rList1.model = vehicle1.model;
 	    	    			rList1.make = vehicle1.make;
 	    	    			rList1.stock = vehicle1.stock;
@@ -7718,7 +7730,7 @@ public class Application extends Controller {
     				rList1.id = info1.id;
     	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
     	    		rList1.vin = info1.vin;
-    	    		if(vehicle != null) {
+    	    		if(vehicle1 != null) {
     	    			rList1.model = vehicle1.model;
     	    			rList1.make = vehicle1.make;
     	    			rList1.stock = vehicle1.stock;
@@ -8008,7 +8020,12 @@ public class Application extends Controller {
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
 	    		}
-	    		vm.name = info.firstName+" "+info.lastName;
+	    		if(info.lastName != null){
+	    			vm.name = info.firstName+" "+info.lastName;
+	    		}else{
+	    			vm.name = info.firstName;
+	    		}
+
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.pdfPath = info.pdfPath;
@@ -12338,7 +12355,7 @@ public class Application extends Controller {
 	    				rList1.id = rMoreInfo.id;
 	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
 	    	    		rList1.vin = rMoreInfo.vin;
-	    	    		if(vehicle != null) {
+	    	    		if(vehicle1 != null) {
 	    	    			rList1.model = vehicle1.model;
 	    	    			rList1.make = vehicle1.make;
 	    	    			rList1.stock = vehicle1.stock;
@@ -12371,7 +12388,7 @@ public class Application extends Controller {
     				rList1.id = info1.id;
     	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
     	    		rList1.vin = info1.vin;
-    	    		if(vehicle != null) {
+    	    		if(vehicle1 != null) {
     	    			rList1.model = vehicle1.model;
     	    			rList1.make = vehicle1.make;
     	    			rList1.stock = vehicle1.stock;
@@ -12443,7 +12460,12 @@ public class Application extends Controller {
 	        			vm.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    		}
-	    		vm.name = info.firstName+" "+info.lastName;
+	    		if(info.lastName != null){
+	    			vm.name = info.firstName+" "+info.lastName;
+	    		}else{
+	    			vm.name = info.firstName;
+	    		}
+
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.custZipCode = info.custZipCode;
@@ -12571,7 +12593,7 @@ public class Application extends Controller {
 	    				rList1.id = tIn.id;
 	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
 	    	    		rList1.vin = tIn.vin;
-	    	    		if(vehicle != null) {
+	    	    		if(vehicle1 != null) {
 	    	    			rList1.model = vehicle1.model;
 	    	    			rList1.make = vehicle1.make;
 	    	    			rList1.stock = vehicle1.stock;
@@ -12604,7 +12626,7 @@ public class Application extends Controller {
     				rList1.id = info1.id;
     	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
     	    		rList1.vin = info1.vin;
-    	    		if(vehicle != null) {
+    	    		if(vehicle1 != null) {
     	    			rList1.model = vehicle1.model;
     	    			rList1.make = vehicle1.make;
     	    			rList1.stock = vehicle1.stock;
@@ -13601,7 +13623,12 @@ public class Application extends Controller {
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
 	    		}
-	    		vm.name = info.firstName+" "+info.lastName;
+	    		if(info.lastName != null){
+	    			vm.name = info.firstName+" "+info.lastName;
+	    		}else{
+	    			vm.name = info.firstName;
+	    		}
+
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		vm.status = info.reason;
@@ -16535,7 +16562,6 @@ public class Application extends Controller {
     		}else{
     			allVehical.add(anVm);
     		}
-    		
     	}
     	
     	if(filterBy.equals("countHigh")){

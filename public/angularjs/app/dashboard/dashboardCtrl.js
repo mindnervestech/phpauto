@@ -1100,8 +1100,6 @@ angular.module('newApp')
 		   	  	$scope.editLeads.custEmail = entity.email;
 		   	  	$scope.editLeads.custNumber = entity.phone;
 		   	  	$scope.editLeads.leadType = entity.typeOfLead;
-		   	 
-   	
    	  		}
    	  		
    	  		$scope.changesVin = function(vinNo,stockNo){
@@ -2165,6 +2163,7 @@ angular.module('newApp')
 		$scope.getTradeInData = function() {
 			 $http.get('/getAllTradeInSeen')
 				.success(function(data) {
+					console.log(data);
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
 			 });
@@ -2197,6 +2196,7 @@ angular.module('newApp')
   
 			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
 				.success(function(data) {
+					console.log(data);
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
 			 });
