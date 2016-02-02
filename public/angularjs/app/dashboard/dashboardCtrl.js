@@ -5095,6 +5095,17 @@ angular.module('newApp')
 			    type:'success',
 			    text: "Vehicle updated successfuly",
 			});
+			$http.get('/getPriceHistory/'+data.vin)
+			.success(function(data) {
+				console.log("success");
+				console.log(data);
+				$scope.priceHistory = data;
+				angular.forEach($scope.priceHistory, function(value, key) {
+					console.log(value);
+					value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
+				});
+				
+			});
 		});
 	}
 	

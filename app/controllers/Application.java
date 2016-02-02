@@ -2892,6 +2892,7 @@ public class Application extends Controller {
     				change.dateTime = crDate;
     				change.price = vm.price.toString();
     				change.person = userObj.firstName +" "+userObj.lastName;
+    				change.vin = vm.vin;
     				change.save();
     				
 	    		}
