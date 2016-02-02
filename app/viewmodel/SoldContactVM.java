@@ -1,5 +1,7 @@
 package viewmodel;
 
+import java.util.List;
+
 public class SoldContactVM {
 
 	public Long id;
@@ -21,5 +23,5 @@ public class SoldContactVM {
 	public String statusVal;
 	public String custZipCode;
 	public String enthicity;
-	
+	public List<RequestInfoVM> parentChildLead;
 }

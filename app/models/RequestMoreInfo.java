@@ -203,6 +203,10 @@ public class RequestMoreInfo extends Model {
 		return find.where().eq("isRead", 0).eq("status", null).orderBy("requestDate desc").findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllByParentID(Long parentId) {
+		return find.where().eq("parentId", parentId).orderBy("requestDate desc").findList();
+	}
+	
 	public static List<RequestMoreInfo> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}

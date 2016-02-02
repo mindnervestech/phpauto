@@ -43,6 +43,7 @@ public class RequestInfoVM {
 	public String pdfPath;
 	public LeadVM leadsValue;
 	public String userRole;
+	public List<RequestInfoVM> parentChildLead;
 	
 	
 	

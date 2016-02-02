@@ -6439,7 +6439,72 @@ public class Application extends Controller {
 	    		if(info.isRead == 1) {
 	    			vm.isRead = true;
 	    		}
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findById(info.parentId);
+	    			if(rMoreInfo != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = rMoreInfo.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
+	    	    		rList1.vin = rMoreInfo.vin;
+	    	    		if(vehicle != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = rMoreInfo.name;
+	    	    		rList1.phone = rMoreInfo.phone;
+	    	    		rList1.email = rMoreInfo.email;
+	    	    		rList1.requestDate = df.format(rMoreInfo.requestDate);
+	    	    		rList1.typeOfLead = "Request More Info";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
 	    		
+	    		List<RequestMoreInfo> requestMoreInfo = RequestMoreInfo.findAllByParentID(info.getId());
+	    		for(RequestMoreInfo info1:requestMoreInfo){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.name;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.requestDate);
+    	    		rList1.typeOfLead = "Request More Info";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -6633,6 +6698,74 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		vm.option = 0;
+	    		
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			ScheduleTest sTest = ScheduleTest.findById(info.parentId);
+	    			if(sTest != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = sTest.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(sTest.vin);
+	    	    		rList1.vin = sTest.vin;
+	    	    		if(vehicle != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = sTest.name;
+	    	    		rList1.phone = sTest.phone;
+	    	    		rList1.email = sTest.email;
+	    	    		rList1.requestDate = df.format(sTest.scheduleDate);
+	    	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
+	    		
+	    		List<ScheduleTest> tIns = ScheduleTest.findAllByParentID(info.getId());
+	    		for(ScheduleTest info1:tIns){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.name;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.scheduleDate);
+    	    		rList1.typeOfLead = "Trade-In Appraisal";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -6800,6 +6933,74 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		vm.option = 2;
+	    		
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			TradeIn tIn = TradeIn.findById(info.parentId);
+	    			if(tIn != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = tIn.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
+	    	    		rList1.vin = tIn.vin;
+	    	    		if(vehicle != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = tIn.firstName;
+	    	    		rList1.phone = tIn.phone;
+	    	    		rList1.email = tIn.email;
+	    	    		rList1.requestDate = df.format(tIn.tradeDate);
+	    	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
+	    		
+	    		List<TradeIn> tIns = TradeIn.findAllByParentID(info.getId());
+	    		for(TradeIn info1:tIns){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.firstName;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.tradeDate);
+    	    		rList1.typeOfLead = "Trade-In Appraisal";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -6876,6 +7077,73 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		vm.option = 1;
+	    		
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findById(info.parentId);
+	    			if(rMoreInfo != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = rMoreInfo.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
+	    	    		rList1.vin = rMoreInfo.vin;
+	    	    		if(vehicle != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = rMoreInfo.name;
+	    	    		rList1.phone = rMoreInfo.phone;
+	    	    		rList1.email = rMoreInfo.email;
+	    	    		rList1.requestDate = df.format(rMoreInfo.requestDate);
+	    	    		rList1.typeOfLead = "Request More Info";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
+	    		
+	    		List<RequestMoreInfo> requestMoreInfo = RequestMoreInfo.findAllByParentID(info.getId());
+	    		for(RequestMoreInfo info1:requestMoreInfo){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.name;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.requestDate);
+    	    		rList1.typeOfLead = "Request More Info";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -7407,6 +7675,75 @@ public class Application extends Controller {
 	    		if(info.isRead == 1) {
 	    			vm.isRead = true;
 	    		}
+	    		
+	    		
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			TradeIn tIn = TradeIn.findById(info.parentId);
+	    			if(tIn != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = tIn.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
+	    	    		rList1.vin = tIn.vin;
+	    	    		if(vehicle != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = tIn.firstName;
+	    	    		rList1.phone = tIn.phone;
+	    	    		rList1.email = tIn.email;
+	    	    		rList1.requestDate = df.format(tIn.tradeDate);
+	    	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
+	    		
+	    		List<TradeIn> tIns = TradeIn.findAllByParentID(info.getId());
+	    		for(TradeIn info1:tIns){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.firstName;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.tradeDate);
+    	    		rList1.typeOfLead = "Trade-In Appraisal";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -10788,7 +11125,7 @@ public class Application extends Controller {
     	} else {
     		
     		Date currDate = new Date();
-    		List<String> emailList = new ArrayList<>();
+    		
     		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
@@ -10831,9 +11168,9 @@ public class Application extends Controller {
     		contactsObj.save();
     		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
     		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+    		Date date = new Date();
     		if(vehicle != null){
 	    		vehicle.setStatus("Sold");
-	    		Date date = new Date();
 	    		vehicle.setSoldDate(date);
 	    		vehicle.setSoldUser(user);
 	    		vehicle.update();
@@ -10843,6 +11180,90 @@ public class Application extends Controller {
     		info.setEnthicity(vm.enthicity);
     		info.setStatusDate(currDate);
     		info.update();
+    		
+    		for(RequestInfoVM rMoreInfo: vm.parentChildLead){
+    			if(rMoreInfo.status.equals("Sold")){
+    				if(rMoreInfo.typeOfLead.equals("Request More Info")){
+    					RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(rMoreInfo.id);
+    					requestMoreInfo.setStatus("COMPLETE");
+    					requestMoreInfo.update();
+    					
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(requestMoreInfo.vin);
+    		    		if(vehicle1 != null){
+    			    		vehicle1.setStatus("Sold");
+    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.update();
+    		    		}
+    		    		
+    		    		UserNotes uNotes = new UserNotes();
+    		    		uNotes.setNote("Vehicle Sold");
+    		    		uNotes.setAction("Other");
+    		    		uNotes.createdDate = currDate;
+    		    		uNotes.createdTime = currDate;
+    		    		uNotes.user = user;
+    		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
+    		    		uNotes.save();
+    		    		
+    		    		lostLeadsFunction(requestMoreInfo.vin, currDate);
+    				}else if(rMoreInfo.typeOfLead.equals("Schedule Test Drive")){
+    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
+    					schTest.setStatus("COMPLETE");
+    					schTest.update();
+    					
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
+    		    		if(vehicle1 != null){
+    			    		vehicle1.setStatus("Sold");
+    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.update();
+    		    		}
+    		    		
+    		    		UserNotes uNotes = new UserNotes();
+    		    		uNotes.setNote("Vehicle Sold");
+    		    		uNotes.setAction("Other");
+    		    		uNotes.createdDate = currDate;
+    		    		uNotes.createdTime = currDate;
+    		    		uNotes.user = user;
+    		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(schTest.id);
+    		    		uNotes.save();
+    		    		
+    		    		lostLeadsFunction(schTest.vin, currDate);
+    				}else if(rMoreInfo.typeOfLead.equals("Trade-In Appraisal")){
+    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
+    					schTest.setStatus("COMPLETE");
+    					schTest.update();
+    					
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
+    		    		if(vehicle1 != null){
+    			    		vehicle1.setStatus("Sold");
+    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.update();
+    		    		}
+    		    		
+    		    		UserNotes uNotes = new UserNotes();
+    		    		uNotes.setNote("Vehicle Sold");
+    		    		uNotes.setAction("Other");
+    		    		uNotes.createdDate = currDate;
+    		    		uNotes.createdTime = currDate;
+    		    		uNotes.user = user;
+    		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(schTest.id);
+    		    		uNotes.save();
+    		    		
+    		    		lostLeadsFunction(schTest.vin, currDate);
+    				}
+    			}else if(rMoreInfo.status.equals("Cancel")){
+    				if(rMoreInfo.typeOfLead.equals("Request More Info")){
+    					RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(rMoreInfo.id);
+    					requestMoreInfo.setStatus("CANCEL");
+    					requestMoreInfo.update();
+    				}
+    			}
+    		}
     		
     		
     		UserNotes uNotes = new UserNotes();
@@ -10855,134 +11276,140 @@ public class Application extends Controller {
     		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
     		uNotes.save();
     		
-    		
-    		List<TradeIn> tIn = TradeIn.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    		for(TradeIn tradeIn:tIn){
-    			if(tradeIn.status == null){
-    				tradeIn.setStatus("LOST");
-    				tradeIn.setStatusDate(currDate);
-    				tradeIn.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
-    	    		uNotes1.save();
-    	    		
-    			}else if(!tradeIn.status.equals("COMPLETE")){
-    				tradeIn.setStatus("LOST");
-    				tradeIn.setStatusDate(currDate);
-    				tradeIn.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
-    	    		
-    	    		uNotes1.save();
-    			}
-    			if(tradeIn.assignedTo !=null){
-    				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
-    				if(userObj !=null){
-    					emailList.add(userObj.email);
-    				}
-    			}
-    		}
-    		
-    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    		for(RequestMoreInfo rMoreInfo:rInfos){
-    			if(rMoreInfo.status == null){
-    				rMoreInfo.setStatus("LOST");
-    				rMoreInfo.setStatusDate(currDate);
-    				rMoreInfo.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
-    	    		
-    	    		uNotes1.save();
-    			}else if(!rMoreInfo.status.equals("COMPLETE")){
-    				rMoreInfo.setStatus("LOST");
-    				rMoreInfo.setStatusDate(currDate);
-    				rMoreInfo.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
-    	    		uNotes1.save();
-    			}
-    			if(rMoreInfo.assignedTo !=null){
-    				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
-    				if(userObj !=null){
-    					emailList.add(userObj.email);
-    				}
-    			}
-    		}
+    		lostLeadsFunction(info.vin, currDate);
     		
     		
-    		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    		for(ScheduleTest scheduleTest:sTests){
-    			if(scheduleTest.leadStatus == null){
-    				scheduleTest.setLeadStatus("LOST");
-    				scheduleTest.setStatusDate(currDate);
-    				scheduleTest.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
-    	    		uNotes1.save();
-    			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
-    				scheduleTest.setLeadStatus("LOST");
-    				scheduleTest.setStatusDate(currDate);
-    				scheduleTest.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
-    	    		
-    	    		uNotes1.save();
-    			}
-    			if(scheduleTest.assignedTo !=null){
-    				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
-    				if(userObj !=null){
-    					emailList.add(userObj.email);
-    				}
-    			}
-    		}
-    		
-    		if(emailList.size()>0){
-    			vehicleSoldEmail(emailList);
-    		}
     		return ok();
     	}
+    }
+    
+    public static void lostLeadsFunction(String vin, Date currDate){
+    	List<String> emailList = new ArrayList<>();
+    	List<TradeIn> tIn = TradeIn.findByVinAndLocation(vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+		for(TradeIn tradeIn:tIn){
+			if(tradeIn.status == null){
+				tradeIn.setStatus("LOST");
+				tradeIn.setStatusDate(currDate);
+				tradeIn.update();
+				
+				UserNotes uNotes1 = new UserNotes();
+	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	    		uNotes1.setAction("Other");
+	    		uNotes1.createdDate = currDate;
+	    		uNotes1.createdTime = currDate;
+	    		//uNotes1.user = user;
+	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+	    		uNotes1.save();
+	    		
+			}else if(!tradeIn.status.equals("COMPLETE")){
+				tradeIn.setStatus("LOST");
+				tradeIn.setStatusDate(currDate);
+				tradeIn.update();
+				
+				UserNotes uNotes1 = new UserNotes();
+	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	    		uNotes1.setAction("Other");
+	    		uNotes1.createdDate = currDate;
+	    		uNotes1.createdTime = currDate;
+	    		//uNotes1.user = user;
+	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
+	    		
+	    		uNotes1.save();
+			}
+			if(tradeIn.assignedTo !=null){
+				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
+				if(userObj !=null){
+					emailList.add(userObj.email);
+				}
+			}
+		}
+		
+		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+		for(RequestMoreInfo rMoreInfo:rInfos){
+			if(rMoreInfo.status == null){
+				rMoreInfo.setStatus("LOST");
+				rMoreInfo.setStatusDate(currDate);
+				rMoreInfo.update();
+				
+				UserNotes uNotes1 = new UserNotes();
+	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	    		uNotes1.setAction("Other");
+	    		uNotes1.createdDate = currDate;
+	    		uNotes1.createdTime = currDate;
+	    		//uNotes1.user = user;
+	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+	    		
+	    		uNotes1.save();
+			}else if(!rMoreInfo.status.equals("COMPLETE")){
+				rMoreInfo.setStatus("LOST");
+				rMoreInfo.setStatusDate(currDate);
+				rMoreInfo.update();
+				
+				UserNotes uNotes1 = new UserNotes();
+	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	    		uNotes1.setAction("Other");
+	    		uNotes1.createdDate = currDate;
+	    		uNotes1.createdTime = currDate;
+	    		//uNotes1.user = user;
+	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
+	    		uNotes1.save();
+			}
+			if(rMoreInfo.assignedTo !=null){
+				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
+				if(userObj !=null){
+					emailList.add(userObj.email);
+				}
+			}
+		}
+		
+		
+		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+		for(ScheduleTest scheduleTest:sTests){
+			if(scheduleTest.leadStatus == null){
+				scheduleTest.setLeadStatus("LOST");
+				scheduleTest.setStatusDate(currDate);
+				scheduleTest.update();
+				
+				UserNotes uNotes1 = new UserNotes();
+	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	    		uNotes1.setAction("Other");
+	    		uNotes1.createdDate = currDate;
+	    		uNotes1.createdTime = currDate;
+	    		//uNotes1.user = user;
+	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+	    		uNotes1.save();
+			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
+				scheduleTest.setLeadStatus("LOST");
+				scheduleTest.setStatusDate(currDate);
+				scheduleTest.update();
+				
+				UserNotes uNotes1 = new UserNotes();
+	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
+	    		uNotes1.setAction("Other");
+	    		uNotes1.createdDate = currDate;
+	    		uNotes1.createdTime = currDate;
+	    		//uNotes1.user = user;
+	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
+	    		
+	    		uNotes1.save();
+			}
+			if(scheduleTest.assignedTo !=null){
+				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
+				if(userObj !=null){
+					emailList.add(userObj.email);
+				}
+			}
+		}
+		
+		if(emailList.size()>0){
+			vehicleSoldEmail(emailList);
+		}
     }
     
     public static Result setRequestStatusCancel(Long id,String reason) {
@@ -11902,6 +12329,73 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		
+	    		
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findById(info.parentId);
+	    			if(rMoreInfo != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = rMoreInfo.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
+	    	    		rList1.vin = rMoreInfo.vin;
+	    	    		if(vehicle != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = rMoreInfo.name;
+	    	    		rList1.phone = rMoreInfo.phone;
+	    	    		rList1.email = rMoreInfo.email;
+	    	    		rList1.requestDate = df.format(rMoreInfo.requestDate);
+	    	    		rList1.typeOfLead = "Request More Info";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
+	    		
+	    		List<RequestMoreInfo> requestMoreInfo = RequestMoreInfo.findAllByParentID(info.getId());
+	    		for(RequestMoreInfo info1:requestMoreInfo){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.name;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.requestDate);
+    	    		rList1.typeOfLead = "Request More Info";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -12068,6 +12562,74 @@ public class Application extends Controller {
 	    		if(info.isRead == 1) {
 	    			vm.isRead = true;
 	    		}
+	    		
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			TradeIn tIn = TradeIn.findById(info.parentId);
+	    			if(tIn != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = tIn.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
+	    	    		rList1.vin = tIn.vin;
+	    	    		if(vehicle != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = tIn.firstName;
+	    	    		rList1.phone = tIn.phone;
+	    	    		rList1.email = tIn.email;
+	    	    		rList1.requestDate = df.format(tIn.tradeDate);
+	    	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
+	    		
+	    		List<TradeIn> tIns = TradeIn.findAllByParentID(info.getId());
+	    		for(TradeIn info1:tIns){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.firstName;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.tradeDate);
+    	    		rList1.typeOfLead = "Trade-In Appraisal";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	

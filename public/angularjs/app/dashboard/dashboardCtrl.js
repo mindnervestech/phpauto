@@ -2297,6 +2297,7 @@ angular.module('newApp')
     		$scope.soldContact.phone = entity.phone;
     		$scope.soldContact.custZipCode = entity.custZipCode;
     		$scope.soldContact.enthicity = entity.enthicity;
+    		$scope.soldContact.parentChildLead = entity.parentChildLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
     			$scope.soldContact.howContactedUs = entity.howContactedUs;
     		} else {
@@ -2315,6 +2316,8 @@ angular.module('newApp')
     	};
     	
     	$scope.saveRequestStatus = function() {
+    		
+    		console.log($scope.soldContact);
     		$http.post('/setRequestStatusComplete',$scope.soldContact)
 			.success(function(data) {
 				$('#requestCompleteStatusModal').modal('hide');
