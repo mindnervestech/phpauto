@@ -19,7 +19,7 @@
                                     </tab-heading>
                                </tab>     
      </tabset>         
-     <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+     <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-cellNav>
 	</div>                 
 </div>   
 
@@ -231,9 +231,9 @@
 								    </div>								    
 								    
 								    
-	<div class="modal fade" id="imagePopup" tabindex="-1" role="dialog" aria-hidden="true" style="text-align:right; margin-top:20%; margin-left:30%; height:200px;width:250px;">
-  		<div class="modal-dialog" style="height:200px; width: 250px;">
-  			<div class="modal-header" style="display:none;">
+	<div class="modal fade" id="imagePopup" tabindex="-1" role="dialog" aria-hidden="true" style="text-align:right; margin-top:20%;height:200px; overflow: hidden; margin-left:30%;width:250px;">
+  		<div class="modal-dialog" style=" width: 250px;padding-right: 0 !important;    margin: 0;">
+  			 <div class="modal-header" style="display:none;">
 				<button type="button" class="close" id="imgClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
        		</div>
   			<div id="img" style="height:200px; width: 250px;"> 

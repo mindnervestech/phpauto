@@ -26,7 +26,8 @@ var MakeApp = angular
     'angucomplete',
     'angucomplete-alt',
     'textAngular',
-    'nvd3'
+    'nvd3',
+    'ui.grid.cellNav'
   ])
   .config(function ($routeProvider) {
       $routeProvider
