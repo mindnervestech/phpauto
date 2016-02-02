@@ -13,6 +13,11 @@ public class RequestInfoVM {
 	public String mileage;
 	public Integer price;
 	public String stock;
+	public String bodyStyle;
+	public String engine;
+	public String transmission;
+	public String drivetrain;
+	public String imgId;
 	public String name;
 	public String email;
 	public String phone;
@@ -38,6 +43,9 @@ public class RequestInfoVM {
 	public String pdfPath;
 	public LeadVM leadsValue;
 	public String userRole;
+	
+	
+	
 	
 	
 	

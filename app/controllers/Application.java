@@ -1970,69 +1970,1243 @@ public class Application extends Controller {
     		Date currDate = new Date();
 	    	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
 	    	LeadVM vm = form.get();
-	    	if(vm.leadType.equals("Request More Info")){
-	    		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
-	    		if(rInfo != null){
-	    			rInfo.setVin(vm.vin);
-	    			rInfo.setName(vm.custName);
-	    			rInfo.setEmail(vm.custEmail);
-	    			rInfo.setPhone(vm.custNumber);
-	    			rInfo.setCustZipCode(vm.custZipCode);
-	    			rInfo.setEnthicity(vm.enthicity);
-	    			rInfo.update();
+	    	int parentFlag = 0;
+	    	Long parentLeadId = 0L;
+	    	for(VehicleVM vehicleVM:vm.stockWiseData){
+	    		if(parentFlag == 0){
 	    			
-	    			UserNotes uNotes = new UserNotes();
-	        		uNotes.setNote("Client interested in another vehicle");
-	        		uNotes.setAction("Other");
-	        		uNotes.createdDate = currDate;
-	        		uNotes.createdTime = currDate;
-	        		uNotes.user = user;
-	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	        		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
-	        		uNotes.save();
-	    		}
-	    	}else if(vm.leadType.equals("Schedule Test Drive")){
-	    		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
-	    		if(sInfo != null){
-	    			sInfo.setVin(vm.vin);
-	    			sInfo.setName(vm.custName);
-	    			sInfo.setEmail(vm.custEmail);
-	    			sInfo.setPhone(vm.custNumber);
-	    			sInfo.setCustZipCode(vm.custZipCode);
-	    			sInfo.setEnthicity(vm.enthicity);
-	    			sInfo.update();
+		    	if(vm.leadType.equals("Request More Info")){
+		    		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
+		    		if(rInfo != null){
+		    			rInfo.setVin(vehicleVM.vin);
+		    			rInfo.setName(vm.custName);
+		    			rInfo.setEmail(vm.custEmail);
+		    			rInfo.setPhone(vm.custNumber);
+		    			rInfo.setCustZipCode(vm.custZipCode);
+		    			rInfo.setEnthicity(vm.enthicity);
+		    			rInfo.update();
+		    			
+			    		if(parentFlag == 0){
+			    			parentFlag = 1;
+			    			parentLeadId = rInfo.getId();
+			    		}
+		    			
+		    			UserNotes uNotes = new UserNotes();
+		        		uNotes.setNote("Client interested in another vehicle");
+		        		uNotes.setAction("Other");
+		        		uNotes.createdDate = currDate;
+		        		uNotes.createdTime = currDate;
+		        		uNotes.user = user;
+		        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		        		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
+		        		uNotes.save();
+		    		}
+		    	}else if(vm.leadType.equals("Schedule Test Drive")){
+		    		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
+		    		if(sInfo != null){
+		    			sInfo.setVin(vehicleVM.vin);
+		    			sInfo.setName(vm.custName);
+		    			sInfo.setEmail(vm.custEmail);
+		    			sInfo.setPhone(vm.custNumber);
+		    			sInfo.setCustZipCode(vm.custZipCode);
+		    			sInfo.setEnthicity(vm.enthicity);
+		    			sInfo.update();
+		    			
+		    			if(parentFlag == 0){
+			    			parentFlag = 1;
+			    			parentLeadId = sInfo.getId();
+			    		}
+		    			
+		    			UserNotes uNotes = new UserNotes();
+		        		uNotes.setNote("Client interested in another vehicle");
+		        		uNotes.setAction("Other");
+		        		uNotes.createdDate = currDate;
+		        		uNotes.createdTime = currDate;
+		        		uNotes.user = user;
+		        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		        		uNotes.scheduleTest = ScheduleTest.findById(sInfo.id);
+		        		uNotes.save();
+		    		}
+		    	}else if(vm.leadType.equals("Trade-In Appraisal")){
+		    		TradeIn tInfo = TradeIn.findById(Long.parseLong(vm.id));
+		    		if(tInfo != null){
+		    			tInfo.setVin(vehicleVM.vin);
+		    			tInfo.setFirstName(vm.custName);
+		    			tInfo.setEmail(vm.custEmail);
+		    			tInfo.setPhone(vm.custNumber);
+		    			tInfo.setCustZipCode(vm.custZipCode);
+		    			tInfo.setEnthicity(vm.enthicity);
+		    			tInfo.update();
+		    			
+		    			if(parentFlag == 0){
+			    			parentFlag = 1;
+			    			parentLeadId = tInfo.getId();
+			    		}
+		    			
+		    			UserNotes uNotes = new UserNotes();
+		        		uNotes.setNote("Client interested in another vehicle");
+		        		uNotes.setAction("Other");
+		        		uNotes.createdDate = currDate;
+		        		uNotes.createdTime = currDate;
+		        		uNotes.user = user;
+		        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		        		uNotes.tradeIn = TradeIn.findById(tInfo.id);
+		        		uNotes.save();
+		    		}
+		    	}
+	    	}else{
+	    		if(vm.leadType.equals("Request More Info")){
 	    			
-	    			UserNotes uNotes = new UserNotes();
-	        		uNotes.setNote("Client interested in another vehicle");
-	        		uNotes.setAction("Other");
-	        		uNotes.createdDate = currDate;
-	        		uNotes.createdTime = currDate;
-	        		uNotes.user = user;
-	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	        		uNotes.scheduleTest = ScheduleTest.findById(sInfo.id);
-	        		uNotes.save();
-	    		}
-	    	}else if(vm.leadType.equals("Trade-In Appraisal")){
-	    		TradeIn tInfo = TradeIn.findById(Long.parseLong(vm.id));
-	    		if(tInfo != null){
-	    			tInfo.setVin(vm.vin);
-	    			tInfo.setFirstName(vm.custName);
-	    			tInfo.setEmail(vm.custEmail);
-	    			tInfo.setPhone(vm.custNumber);
-	    			tInfo.setCustZipCode(vm.custZipCode);
-	    			tInfo.setEnthicity(vm.enthicity);
-	    			tInfo.update();
+	    			RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
 	    			
-	    			UserNotes uNotes = new UserNotes();
-	        		uNotes.setNote("Client interested in another vehicle");
-	        		uNotes.setAction("Other");
-	        		uNotes.createdDate = currDate;
-	        		uNotes.createdTime = currDate;
-	        		uNotes.user = user;
-	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	        		uNotes.tradeIn = TradeIn.findById(tInfo.id);
-	        		uNotes.save();
-	    		}
+	    	    		RequestMoreInfo info = new RequestMoreInfo();
+	    	    		info.setIsReassigned(true);
+	    	    		info.setLeadStatus(null);
+	    	    		info.setEmail(vm.custEmail);
+	    	    		info.setName(vm.custName);
+	    	    		info.setPhone(vm.custNumber);
+	    	    		info.setCustZipCode(vm.custZipCode);
+	    	    		info.setEnthicity(vm.enthicity);
+	    	    		
+	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+	    	    		info.setVin(vehicle.getVin());
+	    	    		info.setUser(user);
+	    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    	    		info.setIsScheduled(false);
+	    	    		info.setIsRead(0);
+	    	    		info.setHearedFrom(rInfo.hearedFrom);
+	    	    		info.setContactedFrom(rInfo.contactedFrom);
+	    	    		
+	    	    		info.setRequestDate(new Date());
+	    	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	    		if(pLeads != null){
+	    	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	    	    					info.setPremiumFlag(1);
+	    	    				}else{
+	    	    					info.setPremiumFlag(0);
+	    	    					info.setAssignedTo(user);
+	    	    				}
+	    	    			
+	    	    		}else{
+	    					info.setPremiumFlag(0);
+	    					info.setAssignedTo(user);
+	    				}
+	    	    		
+	    	    		if(parentFlag == 1){
+	    	    			info.setParentId(parentLeadId);
+	    	    		}
+	    	    		
+	    	    		info.save();
+	    	    		
+	    	    		if(parentFlag == 0){
+	    	    			parentFlag = 1;
+	    	    			parentLeadId = info.getId();
+	    	    		}
+	    	    		
+	    	    		UserNotes uNotes = new UserNotes();
+	    	    		uNotes.setNote("Lead has been created");
+	    	    		uNotes.setAction("Other");
+	    	    		uNotes.createdDate = currDate;
+	    	    		uNotes.createdTime = currDate;
+	    	    		uNotes.user = user;
+	    	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+	    	    		uNotes.save();
+	    	    		
+	    	    		if(info.premiumFlag == 1){
+	    	    			sendMailpremium();
+	    	    		}
+	    	    		
+	        	}else if(vm.leadType.equals("Schedule Test Drive")){
+	        		
+	        		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
+	        		Date confirmDate = null;
+	        		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+	        		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+	        		
+	    	    		ScheduleTest test = new ScheduleTest();
+	    	    		
+	    	    		test.setIsReassigned(true);
+	    	    		test.setLeadStatus(null);
+	    	    		test.setBestDay(sInfo.bestDay);
+	    	    		test.setBestTime(sInfo.bestTime);
+	    	    		try {
+	    	    			confirmDate = df.parse(sInfo.bestDay);
+	    	    			test.setConfirmDate(confirmDate);
+	    	    		} catch(Exception e) {}
+	    	    		try {
+	    	    			test.setConfirmTime(parseTime.parse(sInfo.bestTime));
+	    	    		} catch(Exception e) {}
+	    	    		test.setEmail(vm.custEmail);
+	    	    		test.setName(vm.custName);
+	    	    		test.setPhone(vm.custNumber);
+	    	    		test.setCustZipCode(vm.custZipCode);
+	    	    		test.setEnthicity(vm.enthicity);
+	    	    		test.setIsRead(0);
+	    	    		test.setUser(user);
+	    				test.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    	    		test.setHearedFrom(sInfo.hearedFrom);
+	    	    		test.setContactedFrom(sInfo.contactedFrom);
+	    	    		test.setScheduleDate(new Date());
+	    	    		test.setPreferredContact(sInfo.preferredContact);
+	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+	    	    		test.setVin(vehicle.getVin());
+	    	    		
+	    	    		//test.setVin(vehicles.get(0).getVin());
+	    	    		
+	    	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	    		if(pLeads != null){
+	    	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	    	    					test.setPremiumFlag(1);
+	    	    				}else{
+	    	    					test.setPremiumFlag(0);
+	    	    					test.setAssignedTo(user);
+	    	    				}
+	    	    			
+	    	    		}else{
+	    	    			test.setPremiumFlag(0);
+	    	    			test.setAssignedTo(user);
+	    				}
+	    	    		
+	    	    		if(parentFlag == 1){
+	    	    			test.setParentId(parentLeadId);
+	    	    		}
+	    	    		
+	    	    		test.save();
+	    	    		
+	    	    		if(parentFlag == 0){
+	    	    			parentFlag = 1;
+	    	    			parentLeadId = test.getId();
+	    	    		}
+	    	    		
+	    	    		UserNotes uNotes = new UserNotes();
+	    	    		uNotes.setNote("Lead has been created");
+	    	    		uNotes.setAction("Other");
+	    	    		uNotes.createdDate = currDate;
+	    	    		uNotes.createdTime = currDate;
+	    	    		uNotes.user = user;
+	    	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    	    		uNotes.scheduleTest = ScheduleTest.findById(test.id);
+	    	    		uNotes.save();
+	    	    		
+	    	    		Map map = new HashMap();
+	    	    		map.put("email",user.getEmail());
+	    	    		map.put("confirmDate", confirmDate);
+	    	    		map.put("confirmTime",sInfo.bestTime);
+	    	    		map.put("vin", vehicle.getVin());
+	    	    		map.put("uname", user.firstName+" "+user.lastName);
+	    	    		map.put("uphone", user.phone);
+	    	    		map.put("uemail", user.email);
+	    	    		makeToDo(vehicle.vin);
+	    	    		if(test.premiumFlag == 1){
+	    	    			sendMailpremium();
+	    	    		}
+	        		sendMail(map);
+	        	}else if(vm.leadType.equals("Trade-In Appraisal")){
+		    		TradeIn leadVM = TradeIn.findById(Long.parseLong(vm.id));
+	        		
+	        		/*StringBuffer buffer = new StringBuffer();
+	        		for(String opt:leadVM.optionValue) {
+	        			buffer.append(opt+",");
+	        		}
+	        		if(buffer.length()>0) {
+	        			buffer.deleteCharAt(buffer.length()-1);
+	        		}
+*/	        		
+	        			TradeIn tradeIn = new TradeIn();
+	            		tradeIn.setAccidents(leadVM.accidents);
+	            		tradeIn.setEnthicity(leadVM.enthicity);
+	            		
+	            		tradeIn.setIsReassigned(true);
+	            		tradeIn.setLeadStatus(null);
+	            		tradeIn.setBodyRating(leadVM.bodyRating);
+	            		tradeIn.setComments(leadVM.comments);
+	            		tradeIn.setContactedFrom(leadVM.contactedFrom);
+	            		tradeIn.setDamage(leadVM.damage);
+	            		tradeIn.setDoors(leadVM.doors);
+	            		tradeIn.setDrivetrain(leadVM.drivetrain);
+	            		tradeIn.setEmail(vm.custEmail);
+	            		tradeIn.setCustZipCode(leadVM.custZipCode);
+	            		tradeIn.setEngine(leadVM.engine);
+	            		tradeIn.setEngineRating(leadVM.engineRating);
+	            		tradeIn.setEquipment(leadVM.equipment);
+	            		tradeIn.setExhaustRating(leadVM.exhaustRating);
+	            		tradeIn.setExteriorColour(leadVM.exteriorColour);
+	            		tradeIn.setFirstName(vm.custName);
+	            		tradeIn.setGlassRating(leadVM.glassRating);
+	            		tradeIn.setHearedFrom(leadVM.hearedFrom);
+	            		tradeIn.setInteriorRating(leadVM.interiorRating);
+	            		tradeIn.setIsRead(0);
+	            		tradeIn.setKilometres(leadVM.kilometres);
+	            		tradeIn.setLeaseOrRental(leadVM.leaseOrRental);
+	            		tradeIn.setLienholder(leadVM.lienholder);
+	            		tradeIn.setMake(vm.make);
+	            		tradeIn.setModel(vm.model);
+	            		tradeIn.setOperationalAndAccurate(leadVM.operationalAndAccurate);
+	            		tradeIn.setOptionValue(leadVM.optionValue);
+	            		tradeIn.setPaint(leadVM.paint);
+	            		tradeIn.setPhone(vm.custNumber);
+	            		tradeIn.setPreferredContact(leadVM.preferredContact);
+	            		tradeIn.setSalvage(leadVM.salvage);
+	            		tradeIn.setScheduleDate(new Date());
+	            		tradeIn.setTireRating(leadVM.tireRating);
+	            		tradeIn.setTradeDate(new Date());
+	            		tradeIn.setTransmission(leadVM.transmission);
+	            		tradeIn.setUser(user);
+	        			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	            		tradeIn.setVehiclenew(leadVM.vehiclenew);
+	            		Vehicle vehicle = Vehicle.findByStockAndNew(vm.stockNumber);
+	            		tradeIn.setVin(vm.vin);
+	            		
+	            		//tradeIn.setVin(vehicles.get(0).getVin());
+	            		tradeIn.setYear(vm.year);
+	            		
+	            		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	            		if(pLeads != null){
+	            				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+	            					tradeIn.setPremiumFlag(1);
+	            				}else{
+	            					tradeIn.setPremiumFlag(0);
+	            					tradeIn.setAssignedTo(user);
+	            				}
+	            			
+	            		}else{
+	            			tradeIn.setPremiumFlag(0);
+	            			tradeIn.setAssignedTo(user);
+	    				}
+	            		
+	            		if(parentFlag == 1){
+	            			tradeIn.setParentId(parentLeadId);
+	    	    		}
+	    	    		
+	            		tradeIn.save();
+	    	    		
+	    	    		if(parentFlag == 0){
+	    	    			parentFlag = 1;
+	    	    			parentLeadId = tradeIn.getId();
+	    	    		}
+	            		
+	            		UserNotes uNotes = new UserNotes();
+	            		uNotes.setNote("Lead has been created");
+	            		uNotes.setAction("Other");
+	            		uNotes.createdDate = currDate;
+	            		uNotes.createdTime = currDate;
+	            		uNotes.user = user;
+	            		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	            		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
+	            		uNotes.save();
+	            		
+	            		if(tradeIn.premiumFlag == 1){
+	    	    			sendMailpremium();
+	    	    		}
+	        		
+	        		
+	        		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+	        		
+	        		AuthUser defaultUser = getLocalUser();
+	        		//AuthUser defaultUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+	        		SiteLogo siteLogo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        		SiteContent siteContent = SiteContent.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        		String heading1 = "",heading2 = "";
+	        		if(siteContent.getHeading()!=null) {
+	        		    int index= siteContent.getHeading().lastIndexOf(" ");
+	        		    heading1 = siteContent.getHeading().substring(0, index);
+	        		    heading2 = siteContent.getHeading().substring(index+1);
+	        		}
+	        		String filepath = null,findpath = null;
+
+	    			try {
+	    				Document document = new Document();
+	    				createDir(pdfRootDir, Long.parseLong(session("USER_LOCATION")), tradeIn.getId());
+	    				filepath = pdfRootDir + File.separator + Integer.getInteger(session("USER_LOCATION"))
+	    						+ File.separator + "trade_in_pdf" + File.separator
+	    						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
+	    				findpath = File.separator + Integer.getInteger(session("USER_LOCATION")) + File.separator + "trade_in_pdf" + File.separator
+	    						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
+	    				// UPDATE table_name
+	    				// SET column1=value1,column2=value2,...
+	    				// WHERE some_column=some_value;
+	    				tradeIn.setPdfPath(findpath);
+	    				tradeIn.update();
+	    				PdfWriter pdfWriter = PdfWriter.getInstance(document,
+	    						new FileOutputStream(filepath));
+
+	    				// Properties
+	    				document.addAuthor("Celinio");
+	    				document.addCreator("Celinio");
+	    				document.addSubject("iText with Maven");
+	    				document.addTitle("Fourth tutorial");
+	    				document.addKeywords("iText, Maven, Java");
+
+	    				document.open();
+
+	    				/* Chunk chunk = new Chunk("Fourth tutorial"); */
+	    				Font font = new Font();
+	    				font.setStyle(Font.UNDERLINE);
+	    				font.setStyle(Font.ITALIC);
+	    				/* chunk.setFont(font); */
+	    				// chunk.setBackground(Color.BLACK);
+	    				/* document.add(chunk); */
+
+	    				Font font1 = new Font(FontFamily.HELVETICA, 8, Font.NORMAL,
+	    						BaseColor.BLACK);
+	    				Font font2 = new Font(FontFamily.HELVETICA, 8, Font.BOLD,
+	    						BaseColor.BLACK);
+
+	    				PdfPTable Titlemain = new PdfPTable(1);
+	    				Titlemain.setWidthPercentage(100);
+	    				float[] TitlemainWidth = { 2f };
+	    				Titlemain.setWidths(TitlemainWidth);
+
+	    				PdfPCell title = new PdfPCell(new Phrase("Trade-IN Appraisal"));
+	    				title.setBorderColor(BaseColor.WHITE);
+	    				title.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				Titlemain.addCell(title);
+
+	    				PdfPTable contactInfo = new PdfPTable(4);
+	    				contactInfo.setWidthPercentage(100);
+	    				float[] contactInfoWidth = { 2f, 2f, 2f, 2f };
+	    				contactInfo.setWidths(contactInfoWidth);
+
+	    				PdfPCell firstname = new PdfPCell(new Phrase("First Name:",
+	    						font1));
+	    				firstname.setBorderColor(BaseColor.WHITE);
+	    				firstname.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				contactInfo.addCell(firstname);
+
+	    				PdfPCell firstnameValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getFirstName(), font2));
+	    				firstnameValue.setBorderColor(BaseColor.WHITE);
+	    				firstnameValue.setBorderWidth(1f);
+	    				contactInfo.addCell(firstnameValue);
+
+	    				PdfPCell lastname = new PdfPCell(
+	    						new Phrase("Last Name:", font1));
+	    				lastname.setBorderColor(BaseColor.WHITE);
+	    				contactInfo.addCell(lastname);
+
+	    				PdfPCell lastnameValue = new PdfPCell(new Paragraph("", font2));
+	    				lastnameValue.setBorderColor(BaseColor.WHITE);
+	    				lastnameValue.setBorderWidth(1f);
+	    				// lastnameValue.setHorizontalAlignment(Element.ALIGN_LEFT);
+	    				contactInfo.addCell(lastnameValue);
+
+	    				PdfPCell workPhone = new PdfPCell(new Phrase("Work Phone:",
+	    						font1));
+	    				workPhone.setBorderColor(BaseColor.WHITE);
+	    				contactInfo.addCell(workPhone);
+
+	    				PdfPCell workPhoneValue = new PdfPCell(new Paragraph("", font2));
+	    				workPhoneValue.setBorderColor(BaseColor.WHITE);
+	    				workPhoneValue.setBorderWidth(1f);
+	    				contactInfo.addCell(workPhoneValue);
+
+	    				PdfPCell phone = new PdfPCell(new Phrase("Phone:", font1));
+	    				phone.setBorderColor(BaseColor.WHITE);
+	    				contactInfo.addCell(phone);
+
+	    				PdfPCell phoneValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getPhone(), font2));
+	    				phoneValue.setBorderColor(BaseColor.WHITE);
+	    				phoneValue.setBorderWidth(1f);
+	    				contactInfo.addCell(phoneValue);
+
+	    				PdfPCell email = new PdfPCell(new Phrase("Email", font1));
+	    				email.setBorderColor(BaseColor.WHITE);
+	    				contactInfo.addCell(email);
+
+	    				PdfPCell emailValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getEmail(), font2));
+	    				emailValue.setBorderColor(BaseColor.WHITE);
+	    				emailValue.setBorderWidth(1f);
+	    				contactInfo.addCell(emailValue);
+
+	    				PdfPCell options = new PdfPCell(new Phrase("Options:", font1));
+	    				options.setBorderColor(BaseColor.WHITE);
+	    				contactInfo.addCell(options);
+
+	    				PdfPCell optionsValue = new PdfPCell(new Paragraph(
+	    						leadVM.optionValue, font2));
+	    				optionsValue.setBorderColor(BaseColor.WHITE);
+	    				optionsValue.setBorderWidth(1f);
+	    				contactInfo.addCell(optionsValue);
+
+	    				// --------------Vehicle Information
+
+	    				PdfPTable vehicleInformationTitle = new PdfPTable(1);
+	    				vehicleInformationTitle.setWidthPercentage(100);
+	    				float[] vehicleInformationTitleWidth = { 2f };
+	    				vehicleInformationTitle.setWidths(vehicleInformationTitleWidth);
+
+	    				PdfPCell vehicleInformationTitleValue = new PdfPCell(
+	    						new Phrase("Vehicle Information"));
+	    				vehicleInformationTitleValue.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformationTitleValue.setBackgroundColor(new BaseColor(
+	    						255, 255, 255));
+	    				vehicleInformationTitle.addCell(vehicleInformationTitleValue);
+
+	    				// ------------vehicle info data
+
+	    				PdfPTable vehicleInformation = new PdfPTable(4);
+	    				vehicleInformation.setWidthPercentage(100);
+	    				float[] vehicleInformationWidth = { 2f, 2f, 2f, 2f };
+	    				vehicleInformation.setWidths(vehicleInformationWidth);
+
+	    				PdfPCell year = new PdfPCell(new Phrase("Year:", font1));
+	    				year.setBorderColor(BaseColor.WHITE);
+	    				year.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleInformation.addCell(year);
+
+	    				PdfPCell yearValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getYear(), font2));
+	    				yearValue.setBorderColor(BaseColor.WHITE);
+	    				yearValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(yearValue);
+
+	    				PdfPCell make = new PdfPCell(new Phrase("Make:", font1));
+	    				make.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformation.addCell(make);
+
+	    				PdfPCell makeValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getMake(), font2));
+	    				makeValue.setBorderColor(BaseColor.WHITE);
+	    				makeValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(makeValue);
+
+	    				PdfPCell Model = new PdfPCell(new Phrase("Model:", font1));
+	    				Model.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformation.addCell(Model);
+
+	    				PdfPCell modelValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getModel(), font2));
+	    				modelValue.setBorderColor(BaseColor.WHITE);
+	    				modelValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(modelValue);
+
+	    				PdfPCell exteriorColour = new PdfPCell(new Phrase(
+	    						"exteriorColour:", font1));
+	    				exteriorColour.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformation.addCell(exteriorColour);
+
+	    				PdfPCell exteriorColourValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getExteriorColour(), font2));
+	    				exteriorColourValue.setBorderColor(BaseColor.WHITE);
+	    				exteriorColourValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(exteriorColourValue);
+
+	    				PdfPCell vin = new PdfPCell(new Phrase("VIN:", font1));
+	    				vin.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformation.addCell(vin);
+
+	    				PdfPCell vinValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getVin(), font2));
+	    				vinValue.setBorderColor(BaseColor.WHITE);
+	    				vinValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(vinValue);
+
+	    				PdfPCell kilometres = new PdfPCell(new Phrase("Kilometres:",
+	    						font1));
+	    				kilometres.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformation.addCell(kilometres);
+
+	    				PdfPCell kilometresValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getKilometres(), font2));
+	    				kilometresValue.setBorderColor(BaseColor.WHITE);
+	    				kilometresValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(kilometresValue);
+
+	    				PdfPCell engine = new PdfPCell(new Phrase("Engine:", font1));
+	    				engine.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformation.addCell(engine);
+
+	    				PdfPCell engineValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getEngine(), font2));
+	    				engineValue.setBorderColor(BaseColor.WHITE);
+	    				engineValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(engineValue);
+
+	    				PdfPCell doors = new PdfPCell(new Phrase("Doors:", font1));
+	    				doors.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformation.addCell(doors);
+
+	    				PdfPCell doorsValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getDoors(), font2));
+	    				doorsValue.setBorderColor(BaseColor.WHITE);
+	    				doorsValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(doorsValue);
+
+	    				PdfPCell transmission = new PdfPCell(new Phrase(
+	    						"Transmission:", font1));
+	    				transmission.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformation.addCell(transmission);
+
+	    				PdfPCell transmissionValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getTransmission(), font2));
+	    				transmissionValue.setBorderColor(BaseColor.WHITE);
+	    				transmissionValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(transmissionValue);
+
+	    				PdfPCell drivetrain = new PdfPCell(new Phrase("Drivetrain:",
+	    						font1));
+	    				drivetrain.setBorderColor(BaseColor.WHITE);
+	    				vehicleInformation.addCell(drivetrain);
+
+	    				PdfPCell drivetrainValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getDrivetrain(), font2));
+	    				drivetrainValue.setBorderColor(BaseColor.WHITE);
+	    				drivetrainValue.setBorderWidth(1f);
+	    				vehicleInformation.addCell(drivetrainValue);
+
+	    				// ----------------Vehicle Rating title----
+
+	    				PdfPTable vehicleRatingTitle = new PdfPTable(1);
+	    				vehicleRatingTitle.setWidthPercentage(100);
+	    				float[] vehicleRatingTitleWidth = { 2f };
+	    				vehicleRatingTitle.setWidths(vehicleRatingTitleWidth);
+
+	    				PdfPCell vehicleRatingTitleValue = new PdfPCell(new Phrase(
+	    						"Vehicle Rating"));
+	    				vehicleRatingTitleValue.setBorderColor(BaseColor.WHITE);
+	    				vehicleRatingTitleValue.setBackgroundColor(new BaseColor(255,
+	    						255, 255));
+	    				vehicleRatingTitle.addCell(vehicleRatingTitleValue);
+
+	    				// ------------Vehicle Rating data
+
+	    				PdfPTable vehicleRatingData = new PdfPTable(4);
+	    				vehicleRatingData.setWidthPercentage(100);
+	    				float[] vehicleRatingDataWidth = { 2f, 2f, 2f, 2f };
+	    				vehicleRatingData.setWidths(vehicleRatingDataWidth);
+
+	    				PdfPCell body = new PdfPCell(new Phrase("Body :", font1));
+	    				body.setBorderColor(BaseColor.WHITE);
+	    				body.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleRatingData.addCell(body);
+
+	    				PdfPCell bodyValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getBodyRating(), font2));
+	    				bodyValue.setBorderColor(BaseColor.WHITE);
+	    				bodyValue.setBorderWidth(1f);
+	    				vehicleRatingData.addCell(bodyValue);
+
+	    				PdfPCell tires = new PdfPCell(new Phrase("Tires :", font1));
+	    				tires.setBorderColor(BaseColor.WHITE);
+	    				tires.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleRatingData.addCell(tires);
+
+	    				PdfPCell tiresValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getTireRating(), font2));
+	    				tiresValue.setBorderColor(BaseColor.WHITE);
+	    				tiresValue.setBorderWidth(1f);
+	    				vehicleRatingData.addCell(tiresValue);
+
+	    				PdfPCell engineRate = new PdfPCell(
+	    						new Phrase("Engine :", font1));
+	    				engineRate.setBorderColor(BaseColor.WHITE);
+	    				engineRate.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleRatingData.addCell(engineRate);
+
+	    				PdfPCell engineRateValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getEngineRating(), font2));
+	    				engineRateValue.setBorderColor(BaseColor.WHITE);
+	    				engineRateValue.setBorderWidth(1f);
+	    				vehicleRatingData.addCell(engineRateValue);
+
+	    				PdfPCell transmissionRate = new PdfPCell(new Phrase(
+	    						"Transmission :", font1));
+	    				transmissionRate.setBorderColor(BaseColor.WHITE);
+	    				transmissionRate
+	    						.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleRatingData.addCell(transmissionRate);
+
+	    				PdfPCell transmissionRateValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getTransmissionRating(), font2));
+	    				transmissionRateValue.setBorderColor(BaseColor.WHITE);
+	    				transmissionRateValue.setBorderWidth(1f);
+	    				vehicleRatingData.addCell(transmissionRateValue);
+
+	    				PdfPCell glass = new PdfPCell(new Phrase("Glass :", font1));
+	    				glass.setBorderColor(BaseColor.WHITE);
+	    				glass.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleRatingData.addCell(glass);
+
+	    				PdfPCell glassValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getGlassRating(), font2));
+	    				glassValue.setBorderColor(BaseColor.WHITE);
+	    				glassValue.setBorderWidth(1f);
+	    				vehicleRatingData.addCell(glassValue);
+
+	    				PdfPCell interior = new PdfPCell(
+	    						new Phrase("Interior :", font1));
+	    				interior.setBorderColor(BaseColor.WHITE);
+	    				interior.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleRatingData.addCell(interior);
+
+	    				PdfPCell interiorValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getInteriorRating(), font2));
+	    				interiorValue.setBorderColor(BaseColor.WHITE);
+	    				interiorValue.setBorderWidth(1f);
+	    				vehicleRatingData.addCell(interiorValue);
+
+	    				PdfPCell exhaust = new PdfPCell(new Phrase("Exhaust :", font1));
+	    				exhaust.setBorderColor(BaseColor.WHITE);
+	    				exhaust.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleRatingData.addCell(exhaust);
+
+	    				PdfPCell exhaustValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getExhaustRating(), font2));
+	    				exhaustValue.setBorderColor(BaseColor.WHITE);
+	    				exhaustValue.setBorderWidth(1f);
+	    				vehicleRatingData.addCell(exhaustValue);
+
+	    				// ----------------Vehicle History title----
+
+	    				PdfPTable vehiclehistoryTitle = new PdfPTable(1);
+	    				vehiclehistoryTitle.setWidthPercentage(100);
+	    				float[] vehiclehistoryTitleWidth = { 2f };
+	    				vehiclehistoryTitle.setWidths(vehiclehistoryTitleWidth);
+
+	    				PdfPCell vehiclehistoryValue = new PdfPCell(new Phrase(
+	    						"Vehicle History"));
+	    				vehiclehistoryValue.setBorderColor(BaseColor.WHITE);
+	    				vehiclehistoryValue.setBackgroundColor(new BaseColor(255, 255,
+	    						255));
+	    				vehiclehistoryTitle.addCell(vehiclehistoryValue);
+
+	    				// ------------Vehicle History data
+
+	    				PdfPTable vehicleHistoryData = new PdfPTable(4);
+	    				vehicleHistoryData.setWidthPercentage(100);
+	    				float[] vehicleHistoryDataWidth = { 2f, 2f, 2f, 2f };
+	    				vehicleHistoryData.setWidths(vehicleHistoryDataWidth);
+
+	    				PdfPCell rentalReturn = new PdfPCell(new Phrase(
+	    						"Was it ever a lease or rental return?  :", font1));
+	    				rentalReturn.setBorderColor(BaseColor.WHITE);
+	    				rentalReturn.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleHistoryData.addCell(rentalReturn);
+
+	    				PdfPCell rentalReturnValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getLeaseOrRental(), font2));
+	    				rentalReturnValue.setBorderColor(BaseColor.WHITE);
+	    				rentalReturnValue.setBorderWidth(1f);
+	    				vehicleHistoryData.addCell(rentalReturnValue);
+
+	    				PdfPCell operationalAndaccu = new PdfPCell(new Phrase(
+	    						"Is the odometer operational and accurate?  :", font1));
+	    				operationalAndaccu.setBorderColor(BaseColor.WHITE);
+	    				operationalAndaccu.setBackgroundColor(new BaseColor(255, 255,
+	    						255));
+	    				vehicleHistoryData.addCell(operationalAndaccu);
+
+	    				PdfPCell operationalAndaccuValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getOperationalAndAccurate(), font2));
+	    				operationalAndaccuValue.setBorderColor(BaseColor.WHITE);
+	    				operationalAndaccuValue.setBorderWidth(1f);
+	    				vehicleHistoryData.addCell(operationalAndaccuValue);
+
+	    				PdfPCell serviceRecodes = new PdfPCell(new Phrase(
+	    						"Detailed service records available?   :", font1));
+	    				serviceRecodes.setBorderColor(BaseColor.WHITE);
+	    				serviceRecodes.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleHistoryData.addCell(serviceRecodes);
+
+	    				PdfPCell serviceRecodesValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getServiceRecord(), font2));
+	    				serviceRecodesValue.setBorderColor(BaseColor.WHITE);
+	    				serviceRecodesValue.setBorderWidth(1f);
+	    				vehicleHistoryData.addCell(serviceRecodesValue);
+
+	    				// ----------------Title History title----
+
+	    				PdfPTable historyTitle = new PdfPTable(1);
+	    				historyTitle.setWidthPercentage(100);
+	    				float[] historyTitleWidth = { 2f };
+	    				historyTitle.setWidths(historyTitleWidth);
+
+	    				PdfPCell historyTitleValue = new PdfPCell(new Phrase(
+	    						"Title History"));
+	    				historyTitleValue.setBorderColor(BaseColor.WHITE);
+	    				historyTitleValue.setBackgroundColor(new BaseColor(255, 255,
+	    						255));
+	    				historyTitle.addCell(historyTitleValue);
+
+	    				// ------------Title History data
+
+	    				PdfPTable historyTitleData = new PdfPTable(2);
+	    				historyTitleData.setWidthPercentage(100);
+	    				float[] historyTitleDataWidth = { 2f, 2f };
+	    				historyTitleData.setWidths(historyTitleDataWidth);
+
+	    				PdfPCell lineholder = new PdfPCell(new Phrase(
+	    						"Is there a lineholder? :", font1));
+	    				lineholder.setBorderColor(BaseColor.WHITE);
+	    				lineholder.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				historyTitleData.addCell(lineholder);
+
+	    				PdfPCell lineholderValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getLienholder(), font2));
+	    				lineholderValue.setBorderColor(BaseColor.WHITE);
+	    				lineholderValue.setBorderWidth(1f);
+	    				historyTitleData.addCell(lineholderValue);
+
+	    				PdfPCell titleholder = new PdfPCell(new Phrase(
+	    						"Who holds this title?  :", font1));
+	    				titleholder.setBorderColor(BaseColor.WHITE);
+	    				titleholder.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				historyTitleData.addCell(titleholder);
+
+	    				PdfPCell titleholderValue = new PdfPCell(new Paragraph("",
+	    						font2));
+	    				titleholderValue.setBorderColor(BaseColor.WHITE);
+	    				titleholderValue.setBorderWidth(1f);
+	    				historyTitleData.addCell(titleholderValue);
+
+	    				// ----------------Vehicle Assessment title----
+
+	    				PdfPTable vehicleAssessmentTitle = new PdfPTable(1);
+	    				vehicleAssessmentTitle.setWidthPercentage(100);
+	    				float[] vehicleAssessmentTitleWidth = { 2f };
+	    				vehicleAssessmentTitle.setWidths(vehiclehistoryTitleWidth);
+
+	    				PdfPCell vehiclTitle = new PdfPCell(new Phrase(
+	    						"Vehicle Assessment"));
+	    				vehiclTitle.setBorderColor(BaseColor.WHITE);
+	    				vehiclTitle.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleAssessmentTitle.addCell(vehiclTitle);
+
+	    				// ------------Vehicle Assessment data
+
+	    				PdfPTable vehicleAssessmentData = new PdfPTable(1);
+	    				vehicleAssessmentData.setWidthPercentage(100);
+	    				float[] vehicleAssessmentDataWidth = { 2f };
+	    				vehicleAssessmentData.setWidths(vehicleAssessmentDataWidth);
+
+	    				PdfPCell equipment = new PdfPCell(new Phrase(
+	    						"Does all equipment and accessories work correctly? :",
+	    						font1));
+	    				equipment.setBorderColor(BaseColor.WHITE);
+	    				equipment.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleAssessmentData.addCell(rentalReturn);
+
+	    				PdfPCell equipmentValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getEquipment(), font2));
+	    				equipmentValue.setBorderColor(BaseColor.WHITE);
+	    				equipmentValue.setBorderWidth(1f);
+	    				vehicleAssessmentData.addCell(equipmentValue);
+
+	    				PdfPCell buyVehicle = new PdfPCell(new Phrase(
+	    						"Did you buy the vehicle new? :", font1));
+	    				buyVehicle.setBorderColor(BaseColor.WHITE);
+	    				buyVehicle.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleAssessmentData.addCell(buyVehicle);
+
+	    				PdfPCell buyVehicleValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getVehiclenew(), font2));
+	    				buyVehicleValue.setBorderColor(BaseColor.WHITE);
+	    				buyVehicleValue.setBorderWidth(1f);
+	    				vehicleAssessmentData.addCell(buyVehicleValue);
+
+	    				PdfPCell accidents = new PdfPCell(
+	    						new Phrase(
+	    								"Has the vehicle ever been in any accidents? Cost of repairs? :",
+	    								font1));
+	    				accidents.setBorderColor(BaseColor.WHITE);
+	    				accidents.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleAssessmentData.addCell(accidents);
+
+	    				PdfPCell accidentsValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getAccidents(), font2));
+	    				accidentsValue.setBorderColor(BaseColor.WHITE);
+	    				accidentsValue.setBorderWidth(1f);
+	    				vehicleAssessmentData.addCell(accidentsValue);
+
+	    				PdfPCell damage = new PdfPCell(new Phrase(
+	    						"Is there existing damage on the vehicle? Where? :",
+	    						font1));
+	    				damage.setBorderColor(BaseColor.WHITE);
+	    				damage.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleAssessmentData.addCell(damage);
+
+	    				PdfPCell damageValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getDamage(), font2));
+	    				damageValue.setBorderColor(BaseColor.WHITE);
+	    				damageValue.setBorderWidth(1f);
+	    				vehicleAssessmentData.addCell(damageValue);
+
+	    				PdfPCell paintWork = new PdfPCell(new Phrase(
+	    						"Has the vehicle ever had paint work performed? :",
+	    						font1));
+	    				paintWork.setBorderColor(BaseColor.WHITE);
+	    				paintWork.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleAssessmentData.addCell(paintWork);
+
+	    				PdfPCell paintWorkValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getPaint(), font2));
+	    				paintWorkValue.setBorderColor(BaseColor.WHITE);
+	    				paintWorkValue.setBorderWidth(1f);
+	    				vehicleAssessmentData.addCell(paintWorkValue);
+
+	    				PdfPCell salvage = new PdfPCell(
+	    						new Phrase(
+	    								"Is the title designated 'Salvage' or 'Reconstructed'? Any other? :",
+	    								font1));
+	    				salvage.setBorderColor(BaseColor.WHITE);
+	    				salvage.setBackgroundColor(new BaseColor(255, 255, 255));
+	    				vehicleAssessmentData.addCell(salvage);
+
+	    				PdfPCell salvageValue = new PdfPCell(new Paragraph(
+	    						tradeIn.getSalvage(), font2));
+	    				salvageValue.setBorderColor(BaseColor.WHITE);
+	    				salvageValue.setBorderWidth(1f);
+	    				vehicleAssessmentData.addCell(salvageValue);
+
+	    				// ----------sub main Table----------
+
+	    				PdfPTable AddAllTableInMainTable = new PdfPTable(1);
+	    				AddAllTableInMainTable.setWidthPercentage(100);
+	    				float[] AddAllTableInMainTableWidth = { 2f };
+	    				AddAllTableInMainTable.setWidths(AddAllTableInMainTableWidth);
+
+	    				PdfPCell hotelVoucherTitlemain1 = new PdfPCell(Titlemain);
+	    				hotelVoucherTitlemain1.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(hotelVoucherTitlemain1);
+
+	    				PdfPCell contactInfoData = new PdfPCell(contactInfo);
+	    				contactInfoData.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(contactInfoData);
+
+	    				PdfPCell vehicaleInfoTitle = new PdfPCell(
+	    						vehicleInformationTitle);
+	    				vehicaleInfoTitle.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(vehicaleInfoTitle);
+
+	    				PdfPCell vehicaleInfoData = new PdfPCell(vehicleInformation);
+	    				vehicaleInfoData.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(vehicaleInfoData);
+
+	    				PdfPCell vehicleRatingTitles = new PdfPCell(vehicleRatingTitle);
+	    				vehicleRatingTitles.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(vehicleRatingTitles);
+
+	    				PdfPCell vehicleRatinginfo = new PdfPCell(vehicleRatingData);
+	    				vehicleRatinginfo.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(vehicleRatinginfo);
+
+	    				PdfPCell vehicleHisTitle = new PdfPCell(vehiclehistoryTitle);
+	    				vehicleHisTitle.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(vehicleHisTitle);
+
+	    				PdfPCell vehicleHistoryInfo = new PdfPCell(vehicleHistoryData);
+	    				vehicleHistoryInfo.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(vehicleHistoryInfo);
+
+	    				PdfPCell historyTitles = new PdfPCell(historyTitle);
+	    				historyTitles.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(historyTitles);
+
+	    				PdfPCell historyTitleinfo = new PdfPCell(historyTitleData);
+	    				historyTitleinfo.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(historyTitleinfo);
+
+	    				PdfPCell vehicleTitleAssessment = new PdfPCell(
+	    						vehicleAssessmentTitle);
+	    				vehicleTitleAssessment.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(vehicleTitleAssessment);
+
+	    				PdfPCell vehicleAssessmentDataTitle = new PdfPCell(
+	    						vehicleAssessmentData);
+	    				vehicleAssessmentDataTitle.setBorder(Rectangle.NO_BORDER);
+	    				AddAllTableInMainTable.addCell(vehicleAssessmentDataTitle);
+
+	    				// ----------main Table----------
+
+	    				PdfPTable AddMainTable = new PdfPTable(1);
+	    				AddMainTable.setWidthPercentage(100);
+	    				float[] AddMainTableWidth = { 2f };
+	    				AddMainTable.setWidths(AddMainTableWidth);
+
+	    				PdfPCell AddAllTableInMainTable1 = new PdfPCell(
+	    						AddAllTableInMainTable);
+	    				AddAllTableInMainTable1.setPadding(10);
+	    				AddAllTableInMainTable1.setBorderWidth(1f);
+	    				AddMainTable.addCell(AddAllTableInMainTable1);
+
+	    				document.add(AddMainTable);
+
+	    				document.close();
+
+	    			} catch (Exception e) {
+	    				System.out.println("fFFFFFFFFFFFFFFFF");
+	    				System.out.println(e);
+	    				e.printStackTrace();
+	    			}
+
+	    			final String username = emailUsername;
+	    			final String password = emailPassword;
+	    			Properties props = new Properties();
+	    			props.put("mail.smtp.auth", "true");
+	    			props.put("mail.smtp.host", "smtp.gmail.com");
+	    			props.put("mail.smtp.port", "587");
+	    			props.put("mail.smtp.starttls.enable", "true");
+	    			Session session = Session.getInstance(props,
+	    					new javax.mail.Authenticator() {
+	    						protected PasswordAuthentication getPasswordAuthentication() {
+	    							return new PasswordAuthentication(username,
+	    									password);
+	    						}
+	    					});
+	    			try {
+	    				List<AuthUser> users = AuthUser.getAllUsers();
+
+	    				InternetAddress[] usersArray = new InternetAddress[users.size() + 1];
+	    				int index = 0;
+	    				usersArray[index] = new InternetAddress(user.getEmail());
+	    				
+	    				Message message = new MimeMessage(session);
+	    				message.setFrom(new InternetAddress(emailUsername));
+	    				message.setRecipients(Message.RecipientType.TO, usersArray);
+	    				message.setSubject("Trade-In Appraisal");
+	    				Multipart multipart = new MimeMultipart();
+	    				BodyPart messageBodyPart = new MimeBodyPart();
+	    				messageBodyPart = new MimeBodyPart();
+
+	    				VelocityEngine ve = new VelocityEngine();
+	    				ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+	    						"org.apache.velocity.runtime.log.Log4JLogChute");
+	    				ve.setProperty("runtime.log.logsystem.log4j.logger",
+	    						"clientService");
+	    				ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+	    				ve.setProperty("classpath.resource.loader.class",
+	    						ClasspathResourceLoader.class.getName());
+	    				ve.init();
+
+	    				String urlfind = "http://www.glider-autos.com/dealer/index.html#/tradeIn";
+
+	    				Template t = ve.getTemplate("/public/emailTemplate/trade_in_app.vm");
+	    				VelocityContext context = new VelocityContext();
+
+	    				// ---------Trad in info---------------
+
+	    				// contact info
+	    				context.put("first_name", tradeIn.getFirstName());
+	    				context.put("last_name", "");
+	    				context.put("work_phone", "");
+	    				context.put("email", tradeIn.getEmail());
+
+	    				context.put("year", tradeIn.getYear());
+	    				context.put("make", tradeIn.getMake());
+	    				context.put("model", tradeIn.getModel());
+	    				context.put("price", "$" + vehicle.getPrice());
+	    				context.put("vin", vehicle.getVin());
+	    				context.put("stock", vehicle.getStock());
+	    				context.put("mileage", vehicle.getMileage());
+	    				context.put("pdffilePath", findpath);
+
+	    				if (tradeIn.getPreferredContact() != null) {
+	    					context.put("preferred", tradeIn.getPreferredContact());
+	    				} else {
+	    					context.put("preferred", "");
+	    				}
+
+	    				context.put("optionValue", leadVM.optionValue);
+
+	    				// vehicale info
+
+	    				System.out.println(tradeIn.getYear());
+	    				if (tradeIn.getYear() != null) {
+	    					context.put("yearValue", tradeIn.getYear());
+	    				} else {
+	    					context.put("yearValue", "");
+	    				}
+	    				if (tradeIn.getMake() != null) {
+	    					context.put("makeValue", tradeIn.getMake());
+	    				} else {
+	    					context.put("makeValue", "");
+	    				}
+	    				if (tradeIn.getModel() != null) {
+	    					context.put("modelValue", tradeIn.getModel());
+	    				} else {
+	    					context.put("modelValue", "");
+	    				}
+	    				if (tradeIn.getExteriorColour() != null) {
+	    					context.put("exterior_colour", tradeIn.getExteriorColour());
+	    				} else {
+	    					context.put("exterior_colour", "");
+	    				}
+
+	    				if (tradeIn.getKilometres() != null) {
+	    					context.put("kilometres", tradeIn.getKilometres());
+	    				} else {
+	    					context.put("kilometres", "");
+	    				}
+
+	    				if (tradeIn.getEngine() != null) {
+	    					context.put("engine", tradeIn.getEngine());
+	    				} else {
+	    					context.put("engine", "");
+	    				}
+
+	    				if (tradeIn.getModel() != null) {
+	    					context.put("doors", tradeIn.getModel());
+	    				} else {
+	    					context.put("doors", "");
+	    				}
+
+	    				if (tradeIn.getTransmission() != null) {
+	    					context.put("transmission", tradeIn.getTransmission());
+	    				} else {
+	    					context.put("transmission", "");
+	    				}
+
+	    				if (tradeIn.getDrivetrain() != null) {
+	    					context.put("drivetrain", tradeIn.getDrivetrain());
+	    				} else {
+	    					context.put("drivetrain", "");
+	    				}
+
+	    				// vehicale rating
+
+	    				if (tradeIn.getBodyRating() != null) {
+	    					context.put("body_rating", tradeIn.getBodyRating());
+	    				} else {
+	    					context.put("body_rating", "");
+	    				}
+
+	    				if (tradeIn.getTireRating() != null) {
+	    					context.put("tire_rating", tradeIn.getTireRating());
+	    				} else {
+	    					context.put("tire_rating", "");
+	    				}
+
+	    				if (tradeIn.getEngineRating() != null) {
+	    					context.put("engine_rating", tradeIn.getEngineRating());
+	    				} else {
+	    					context.put("engine_rating", "");
+	    				}
+
+	    				if (tradeIn.getTransmissionRating() != null) {
+	    					context.put("transmission_rating",
+	    							tradeIn.getTransmissionRating());
+	    				} else {
+	    					context.put("transmission_rating", "");
+	    				}
+
+	    				if (tradeIn.getGlassRating() != null) {
+	    					context.put("glass_rating", tradeIn.getGlassRating());
+	    				} else {
+	    					context.put("glass_rating", "");
+	    				}
+
+	    				if (tradeIn.getInteriorRating() != null) {
+	    					context.put("interior_rating", tradeIn.getInteriorRating());
+	    				} else {
+	    					context.put("interior_rating", "");
+	    				}
+
+	    				if (tradeIn.getExhaustRating() != null) {
+	    					context.put("exhaust_rating", tradeIn.getExhaustRating());
+	    				} else {
+	    					context.put("exhaust_rating", "");
+	    				}
+
+	    				// vehicale History
+
+	    				if (tradeIn.getLeaseOrRental() != null) {
+	    					context.put("lease_or_rental", tradeIn.getLeaseOrRental());
+	    				} else {
+	    					context.put("lease_or_rental", "");
+	    				}
+
+	    				if (tradeIn.getOperationalAndAccurate() != null) {
+	    					context.put("operational_and_accurate",
+	    							tradeIn.getOperationalAndAccurate());
+	    				} else {
+	    					context.put("operational_and_accurate", "");
+	    				}
+
+	    				if (tradeIn.getServiceRecord() != null) {
+	    					context.put("service_record", tradeIn.getServiceRecord());
+	    				} else {
+	    					context.put("service_record", "");
+	    				}
+
+	    				// title History
+
+	    				if (tradeIn.getLienholder() != null) {
+	    					context.put("lienholder", tradeIn.getLienholder());
+	    				} else {
+	    					context.put("lienholder", "");
+	    				}
+
+	    				if (tradeIn.getHoldsThisTitle() != null) {
+	    					context.put("holds_this_title", tradeIn.getHoldsThisTitle());
+	    				} else {
+	    					context.put("holds_this_title", "");
+	    				}
+
+	    				// Vehicle Assessment
+
+	    				if (tradeIn.getEquipment() != null) {
+	    					context.put("equipment", tradeIn.getEquipment());
+	    				} else {
+	    					context.put("equipment", "");
+	    				}
+
+	    				if (tradeIn.getVehiclenew() != null) {
+	    					context.put("vehiclenew", tradeIn.getVehiclenew());
+	    				} else {
+	    					context.put("vehiclenew", "");
+	    				}
+
+	    				if (tradeIn.getAccidents() != null) {
+	    					context.put("accidents", tradeIn.getAccidents());
+	    				} else {
+	    					context.put("accidents", "");
+	    				}
+
+	    				if (tradeIn.getDamage() != null) {
+	    					context.put("damage", tradeIn.getDamage());
+	    				} else {
+	    					context.put("damage", "");
+	    				}
+
+	    				if (tradeIn.getPaint() != null) {
+	    					context.put("paint", tradeIn.getPaint());
+	    				} else {
+	    					context.put("paint", "");
+	    				}
+
+	    				if (tradeIn.getSalvage() != null) {
+	    					context.put("salvage", tradeIn.getSalvage());
+	    				} else {
+	    					context.put("salvage", "");
+	    				}
+
+	    				context.put("sitelogo", siteLogo.getLogoImageName());
+	    				context.put("path", siteLogo.getLogoImagePath());
+	    				context.put("heading1", heading1);
+	    				context.put("heading2", heading2);
+	    				context.put("urlLink", vehicleUrlPath);
+	    				context.put("urlfind", urlfind);
+	    				context.put("hostnameimg", imageUrlPath);
+
+	    				StringWriter writer = new StringWriter();
+	    				t.merge(context, writer);
+	    				String content = writer.toString();
+	    				// attachPart.attachFile(file);
+	    				messageBodyPart.setContent(content, "text/html");
+	    				multipart.addBodyPart(messageBodyPart);
+
+	    				message.setContent(multipart);
+	    				Transport.send(message);
+	    				System.out.println("Sent test message successfully....");
+	    			} catch (Exception e) {
+	    				e.printStackTrace();
+	    			}
+	        	}
+	    		
+	    	 }
 	    	}
 	    	
 	    	return ok();
@@ -5204,6 +6378,18 @@ public class Application extends Controller {
 	    			vm.year = vehicle.year;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.price = vehicle.price;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
+	    			
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -5279,6 +6465,17 @@ public class Application extends Controller {
 	    			vm.year = vehicle.year;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.price = vehicle.price;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -5361,6 +6558,17 @@ public class Application extends Controller {
 	    			vm.year = vehicle.year;
 	    			vm.mileage = vehicle.mileage;
 					vm.price = vehicle.price;
+					vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -5426,6 +6634,17 @@ public class Application extends Controller {
 	    			vm.mileage = vehicle.mileage;
 	    			vm.year = vehicle.year;
 					vm.price = vehicle.price;
+					vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.firstName;
 	    		vm.phone = info.phone;
@@ -5582,6 +6801,18 @@ public class Application extends Controller {
 	    			vm.mileage = vehicle.mileage;
 	    			vm.year = vehicle.year;
 					vm.price = vehicle.price;
+					
+					vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -5739,6 +6970,18 @@ public class Application extends Controller {
 	    			vm.year = vehicle.year;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.price = vehicle.price;
+	    			
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
@@ -5787,6 +7030,18 @@ public class Application extends Controller {
 	    			vm.year = vehicle.year;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.price = vehicle.price;
+	    			
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -5835,6 +7090,18 @@ public class Application extends Controller {
 	    			vm.year = vehicle.year;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.price = vehicle.price;
+	    			
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -5921,6 +7188,17 @@ public class Application extends Controller {
 	    			vm.year = vehicle.year;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.price = vehicle.price;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
@@ -5981,6 +7259,17 @@ public class Application extends Controller {
 	    			vm.year = vehicle.year;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.price = vehicle.price;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = (info.firstName!=null?info.firstName:"")+" "+(info.lastName!=null?info.lastName:"");
 	    		vm.phone = info.phone!=null ? info.phone:"";
@@ -10225,6 +11514,18 @@ public class Application extends Controller {
 	    			vm.stock = vehicle.stock;
 	    			vm.year = vehicle.year;
 	    			vm.mileage = vehicle.mileage;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
+	    			
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -10286,6 +11587,17 @@ public class Application extends Controller {
 	    			vm.stock = vehicle.stock;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.year = vehicle.year;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.firstName;
 	    		vm.phone = info.phone;
@@ -10441,6 +11753,17 @@ public class Application extends Controller {
 	    			vm.stock = vehicle.stock;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.year = vehicle.year;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -10524,6 +11847,17 @@ public class Application extends Controller {
 	    			vm.stock = vehicle.stock;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.year = vehicle.year;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
@@ -10589,6 +11923,17 @@ public class Application extends Controller {
 	    			vm.stock = vehicle.stock;
 	    			vm.year =vehicle.year;
 	    			vm.mileage =vehicle.mileage;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
 	    		}
 	    		vm.name = info.firstName+" "+info.lastName;
 	    		vm.phone = info.phone;
@@ -14898,17 +16243,13 @@ public class Application extends Controller {
 	    		info.setRequestDate(new Date());
 	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
-	    			if(pLeads.premium_flag.equals(1)){
 	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
 	    					info.setPremiumFlag(1);
 	    				}else{
 	    					info.setPremiumFlag(0);
 	    					info.setAssignedTo(user);
 	    				}
-	    			}else{
-						info.setPremiumFlag(0);
-						info.setAssignedTo(user);
-					}
+	    			
 	    		}else{
 					info.setPremiumFlag(0);
 					info.setAssignedTo(user);
@@ -14981,17 +16322,13 @@ public class Application extends Controller {
 	    		
 	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
-	    			if(pLeads.premium_flag.equals(1)){
 	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
 	    					test.setPremiumFlag(1);
 	    				}else{
 	    					test.setPremiumFlag(0);
 	    					test.setAssignedTo(user);
 	    				}
-	    			}else{
-	    				test.setPremiumFlag(0);
-	    				test.setAssignedTo(user);
-					}
+	    			
 	    		}else{
 	    			test.setPremiumFlag(0);
 	    			test.setAssignedTo(user);
@@ -15102,17 +16439,13 @@ public class Application extends Controller {
         		
         		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
         		if(pLeads != null){
-        			if(pLeads.premium_flag.equals(1)){
         				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
         					tradeIn.setPremiumFlag(1);
         				}else{
         					tradeIn.setPremiumFlag(0);
         					tradeIn.setAssignedTo(user);
         				}
-        			}else{
-        				tradeIn.setPremiumFlag(0);
-        				tradeIn.setAssignedTo(user);
-    				}
+        			
         		}else{
         			tradeIn.setPremiumFlag(0);
         			tradeIn.setAssignedTo(user);
@@ -15160,11 +16493,11 @@ public class Application extends Controller {
 
 			try {
 				Document document = new Document();
-				createDir(pdfRootDir, Integer.getInteger(session("USER_KEY")), tradeIn.getId());
-				filepath = pdfRootDir + File.separator + Integer.getInteger(session("USER_KEY"))
+				createDir(pdfRootDir, Long.parseLong(session("USER_LOCATION")), tradeIn.getId());
+				filepath = pdfRootDir + File.separator + Integer.getInteger(session("USER_LOCATION"))
 						+ File.separator + "trade_in_pdf" + File.separator
 						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
-				findpath = File.separator + Integer.getInteger(session("USER_KEY")) + File.separator + "trade_in_pdf" + File.separator
+				findpath = File.separator + Integer.getInteger(session("USER_LOCATION")) + File.separator + "trade_in_pdf" + File.separator
 						+ tradeIn.getId() + File.separator + "Trade_In.pdf";
 				// UPDATE table_name
 				// SET column1=value1,column2=value2,...
@@ -16105,8 +17438,8 @@ public class Application extends Controller {
     	return ok();
     }
     
-	public static void createDir(String pdfRootDir,int userId, long lastId) {
-        File file = new File(pdfRootDir + File.separator+ userId +File.separator+ "trade_in_pdf"+File.separator+lastId);
+	public static void createDir(String pdfRootDir,long locationId, long lastId) {
+        File file = new File(pdfRootDir + File.separator+ locationId +File.separator+ "trade_in_pdf"+File.separator+lastId);
         if (!file.exists()) {
                 file.mkdirs();
         }

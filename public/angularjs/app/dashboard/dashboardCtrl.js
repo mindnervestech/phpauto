@@ -1018,7 +1018,9 @@ angular.module('newApp')
    	  		console.log($scope.pdfFile);
    	  	}
    	  		$scope.editLeads = {};
+   	  	$scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
+   	  			$scope.stockWiseData = [];
    	  			$scope.editLeads = {};
    	  			console.log(entity);
    	  			//$scope.getAllVehical();
@@ -1027,8 +1029,21 @@ angular.module('newApp')
    	  			if(entity.typeOfLead == "Trade In" || entity.typeOfLead == "Trade-In Appraisal") {
 				   $scope.pdffile = entity.pdfPath;
 				   $scope.lead = entity.leadsValue;
-			   }   	  		    
+			   }   	  		  
    	  			
+   	  		$scope.stockWiseData.push({
+				model:entity.model,
+				make:entity.make,
+				stockNumber:entity.stock,
+				year:entity.year,
+				bodyStyle:entity.bodyStyle,
+				mileage:entity.mileage,
+				transmission:entity.transmission,
+				drivetrain:entity.drivetrain,
+				engine:entity.engine,
+				vin:entity.vin,
+			});
+   	  			console.log($scope.stockWiseData);
    	  			$scope.editLeads.vin = entity.vin;
    	  			$scope.editLeads.stockNumber = entity.stock;
 		   	  	$scope.editLeads.model = entity.model;
@@ -1073,7 +1088,9 @@ angular.module('newApp')
    	  		}
    	  		
    	  		$scope.editleads = function(){
-   	  			console.log($scope.salesPerson);
+   	  		
+   	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
+   	  			console.log($scope.editLeads);
 	   	  		 $http.post('/editLeads',$scope.editLeads).success(function(data) {
 	   	  			 
 	   	  			 	$.pnotify({
