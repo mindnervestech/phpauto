@@ -3333,7 +3333,7 @@ public class Application extends Controller {
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
 		    	vehicle.year = vm.year;
-		    	vehicle.make = vm.make+" "+vm.model;
+		    	vehicle.make = vm.make;
 		    	vehicle.model = vm.model;
 		    	vehicle.trim_level = vm.trim;
 		    	vehicle.label = vm.label;
@@ -4022,7 +4022,10 @@ public class Application extends Controller {
 	    	SpecificationVM vm = form.get();
 	    	Vehicle vehicle = Vehicle.findById(vm.id);
 	    	if(vehicle != null) {
-	    		if(vm.price != vehicle.price) {
+	    		
+	    		String databasevalue=vehicle.price.toString();
+	    		String vmvalue= vm.price.toString();
+	    		if(!vmvalue.equals(databasevalue)) {
 	    			
 	    				List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin, Long.valueOf(session("USER_LOCATION")));
 	    				for(PriceAlert priceAlert: alertList) {
@@ -4041,6 +4044,7 @@ public class Application extends Controller {
 	    				sendPriceAlertMail(vehicle.vin);
 	    		}
 	    		vehicle.setMake(vm.make);
+	    		vehicle.setModel(vm.model);
 	    		vehicle.setExteriorColor(vm.extColor);
 	    		vehicle.setCityMileage(vm.city_mileage);
 	    		vehicle.setHighwayMileage(vm.highway_mileage);
@@ -20748,7 +20752,7 @@ public class Application extends Controller {
 	    				change.person = user.firstName +" "+user.lastName;
 	    				change.vin = vin;
 	    				change.save();
-	    				
+	    				sendPriceAlertMail(vehicle.vin);
 	    		}
 		    	vehicle.setPrice(vprice);
 		    	
