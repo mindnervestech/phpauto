@@ -1655,9 +1655,15 @@ angular.module('newApp')
 	    		$scope.isStockError = false;
 	    		$scope.focusOut = function(){
 	    			console.log($('#ex1_value').val());
+	    			//$scope.lead.custName = $('#ex1_value').val();
 	    		};
 	    		$scope.createLead = function() {
 	    			
+	    			
+	    			if($scope.lead.custName == ''){
+	    				$scope.lead.custName = $('#ex1_value').val();
+	    			}
+	    			console.log($scope.lead.custName);
 	    			//!(($scope.lead.make!='' && $scope.lead.model!='') ||
 	    			//($scope.lead.makeSelect!='' && $scope.lead.modelSelect!='')) ||
 	    			
