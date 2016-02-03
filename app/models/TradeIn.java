@@ -479,12 +479,16 @@ public class TradeIn extends Model {
 		return find.byId(id);
 	}
 	
+	public static TradeIn findByIdAndParent(Long id) {
+		return find.where().eq("id", id).eq("status", null).findUnique();
+	}
+	
 	public static List<TradeIn> findAllByDate() {
 		return find.where().eq("isRead", 0).orderBy("tradeDate desc").orderBy("isRead").findList();
 	}
 	
 	public static List<TradeIn> findAllByParentID(Long parentId) {
-		return find.where().eq("parentId", parentId).findList();
+		return find.where().eq("parentId", parentId).eq("status", null).findList();
 	}
 	
 	public static List<TradeIn> findAllByLocationDate(Long locationId) {

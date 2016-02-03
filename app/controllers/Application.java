@@ -6459,7 +6459,7 @@ public class Application extends Controller {
 	    		}
 	    		List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
-	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findById(info.parentId);
+	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
 	    			if(rMoreInfo != null){
 	    				RequestInfoVM rList1 = new RequestInfoVM();
 	    				rList1.id = rMoreInfo.id;
@@ -6719,7 +6719,7 @@ public class Application extends Controller {
 	    		
 	    		List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
-	    			ScheduleTest sTest = ScheduleTest.findById(info.parentId);
+	    			ScheduleTest sTest = ScheduleTest.findByIdAndParent(info.parentId);
 	    			if(sTest != null){
 	    				RequestInfoVM rList1 = new RequestInfoVM();
 	    				rList1.id = sTest.id;
@@ -6954,7 +6954,7 @@ public class Application extends Controller {
 	    		
 	    		List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
-	    			TradeIn tIn = TradeIn.findById(info.parentId);
+	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
 	    			if(tIn != null){
 	    				RequestInfoVM rList1 = new RequestInfoVM();
 	    				rList1.id = tIn.id;
@@ -7098,7 +7098,7 @@ public class Application extends Controller {
 	    		
 	    		List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
-	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findById(info.parentId);
+	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
 	    			if(rMoreInfo != null){
 	    				RequestInfoVM rList1 = new RequestInfoVM();
 	    				rList1.id = rMoreInfo.id;
@@ -7709,7 +7709,7 @@ public class Application extends Controller {
 	    		
 	    		List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
-	    			TradeIn tIn = TradeIn.findById(info.parentId);
+	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
 	    			if(tIn != null){
 	    				RequestInfoVM rList1 = new RequestInfoVM();
 	    				rList1.id = tIn.id;
@@ -10954,17 +10954,100 @@ public class Application extends Controller {
     		}
     		
     		Vehicle vehicle = Vehicle.findByVinAndStatus(vinNo);
-    		
+    		Date date = new Date();
     		if(vehicle != null){
 	    		vehicle.setStatus("Sold");
-	    		Date date = new Date();
+	    		
 	    		vehicle.setSoldDate(date);
 	    		vehicle.setSoldUser(user);
 	    		vehicle.update();
     		}
     		
+    		for(RequestInfoVM rMoreInfo: vm.parentChildLead){
+    			if(rMoreInfo.status.equals("Sold")){
+    				if(rMoreInfo.typeOfLead.equals("Request More Info")){
+    					RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(rMoreInfo.id);
+    					requestMoreInfo.setStatus("COMPLETE");
+    					requestMoreInfo.update();
+    					
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(requestMoreInfo.vin);
+    		    		if(vehicle1 != null){
+    			    		vehicle1.setStatus("Sold");
+    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.update();
+    		    		}
+    		    		
+    		    		UserNotes uNotes = new UserNotes();
+    		    		uNotes.setNote("Vehicle Sold");
+    		    		uNotes.setAction("Other");
+    		    		uNotes.createdDate = currDate;
+    		    		uNotes.createdTime = currDate;
+    		    		uNotes.user = user;
+    		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
+    		    		uNotes.save();
+    		    		
+    		    		lostLeadsFunction(requestMoreInfo.vin, currDate);
+    				}else if(rMoreInfo.typeOfLead.equals("Schedule Test Drive")){
+    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
+    					schTest.setStatus("COMPLETE");
+    					schTest.update();
+    					
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
+    		    		if(vehicle1 != null){
+    			    		vehicle1.setStatus("Sold");
+    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.update();
+    		    		}
+    		    		
+    		    		UserNotes uNotes = new UserNotes();
+    		    		uNotes.setNote("Vehicle Sold");
+    		    		uNotes.setAction("Other");
+    		    		uNotes.createdDate = currDate;
+    		    		uNotes.createdTime = currDate;
+    		    		uNotes.user = user;
+    		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(schTest.id);
+    		    		uNotes.save();
+    		    		
+    		    		lostLeadsFunction(schTest.vin, currDate);
+    				}else if(rMoreInfo.typeOfLead.equals("Trade-In Appraisal")){
+    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
+    					schTest.setStatus("COMPLETE");
+    					schTest.update();
+    					
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
+    		    		if(vehicle1 != null){
+    			    		vehicle1.setStatus("Sold");
+    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.update();
+    		    		}
+    		    		
+    		    		UserNotes uNotes = new UserNotes();
+    		    		uNotes.setNote("Vehicle Sold");
+    		    		uNotes.setAction("Other");
+    		    		uNotes.createdDate = currDate;
+    		    		uNotes.createdTime = currDate;
+    		    		uNotes.user = user;
+    		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(schTest.id);
+    		    		uNotes.save();
+    		    		
+    		    		lostLeadsFunction(schTest.vin, currDate);
+    				}
+    			}else if(rMoreInfo.status.equals("Cancel")){
+    				if(rMoreInfo.typeOfLead.equals("Request More Info")){
+    					RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(rMoreInfo.id);
+    					requestMoreInfo.setStatus("CANCEL");
+    					requestMoreInfo.update();
+    				}
+    			}
+    		}
     		
-    		List<TradeIn> tIn = TradeIn.findByVinAndLocation(vinNo, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    	/*	List<TradeIn> tIn = TradeIn.findByVinAndLocation(vinNo, Location.findById(Long.parseLong(session("USER_LOCATION"))));
     		for(TradeIn tradeIn:tIn){
     			if(tradeIn.status == null){
     				tradeIn.setStatus("LOST");
@@ -11086,7 +11169,7 @@ public class Application extends Controller {
     		
     		if(emailList.size()>0){
     			vehicleSoldEmail(emailList);
-    		}
+    		}*/
     		return ok();
     	}
     }
@@ -11522,9 +11605,9 @@ public class Application extends Controller {
     		contactsObj.save();
     		TradeIn info = TradeIn.findById(vm.infoId);
     		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+    		Date date = new Date();
     		if(vehicle != null){
     		vehicle.setStatus("Sold");
-    		Date date = new Date();
     		vehicle.setSoldDate(date);
     		vehicle.setSoldUser(user);
     		vehicle.update();
@@ -11534,6 +11617,90 @@ public class Application extends Controller {
     		info.setEnthicity(vm.enthicity);
     		info.setStatusDate(currDate);
     		info.update();
+    		
+    		for(RequestInfoVM rMoreInfo: vm.parentChildLead){
+    			if(rMoreInfo.status.equals("Sold")){
+    				if(rMoreInfo.typeOfLead.equals("Request More Info")){
+    					RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(rMoreInfo.id);
+    					requestMoreInfo.setStatus("COMPLETE");
+    					requestMoreInfo.update();
+    					
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(requestMoreInfo.vin);
+    		    		if(vehicle1 != null){
+    			    		vehicle1.setStatus("Sold");
+    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.update();
+    		    		}
+    		    		
+    		    		UserNotes uNotes = new UserNotes();
+    		    		uNotes.setNote("Vehicle Sold");
+    		    		uNotes.setAction("Other");
+    		    		uNotes.createdDate = currDate;
+    		    		uNotes.createdTime = currDate;
+    		    		uNotes.user = user;
+    		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
+    		    		uNotes.save();
+    		    		
+    		    		lostLeadsFunction(requestMoreInfo.vin, currDate);
+    				}else if(rMoreInfo.typeOfLead.equals("Schedule Test Drive")){
+    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
+    					schTest.setStatus("COMPLETE");
+    					schTest.update();
+    					
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
+    		    		if(vehicle1 != null){
+    			    		vehicle1.setStatus("Sold");
+    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.update();
+    		    		}
+    		    		
+    		    		UserNotes uNotes = new UserNotes();
+    		    		uNotes.setNote("Vehicle Sold");
+    		    		uNotes.setAction("Other");
+    		    		uNotes.createdDate = currDate;
+    		    		uNotes.createdTime = currDate;
+    		    		uNotes.user = user;
+    		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(schTest.id);
+    		    		uNotes.save();
+    		    		
+    		    		lostLeadsFunction(schTest.vin, currDate);
+    				}else if(rMoreInfo.typeOfLead.equals("Trade-In Appraisal")){
+    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
+    					schTest.setStatus("COMPLETE");
+    					schTest.update();
+    					
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
+    		    		if(vehicle1 != null){
+    			    		vehicle1.setStatus("Sold");
+    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.update();
+    		    		}
+    		    		
+    		    		UserNotes uNotes = new UserNotes();
+    		    		uNotes.setNote("Vehicle Sold");
+    		    		uNotes.setAction("Other");
+    		    		uNotes.createdDate = currDate;
+    		    		uNotes.createdTime = currDate;
+    		    		uNotes.user = user;
+    		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(schTest.id);
+    		    		uNotes.save();
+    		    		
+    		    		lostLeadsFunction(schTest.vin, currDate);
+    				}
+    			}else if(rMoreInfo.status.equals("Cancel")){
+    				if(rMoreInfo.typeOfLead.equals("Request More Info")){
+    					RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(rMoreInfo.id);
+    					requestMoreInfo.setStatus("CANCEL");
+    					requestMoreInfo.update();
+    				}
+    			}
+    		}
     		
     		UserNotes uNotes = new UserNotes();
     		uNotes.setNote("Vehicle Sold");
@@ -11545,7 +11712,9 @@ public class Application extends Controller {
     		uNotes.tradeIn = TradeIn.findById(info.id);
     		uNotes.save();
     		
-    		List<TradeIn> tIn = TradeIn.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    		
+    		
+    	/*	List<TradeIn> tIn = TradeIn.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
     		for(TradeIn tradeIn:tIn){
     			if(tradeIn.status == null){
     				tradeIn.setStatus("LOST");
@@ -11665,7 +11834,7 @@ public class Application extends Controller {
     		}
     		if(emailList.size()>0){
     			vehicleSoldEmail(emailList);
-    		}
+    		}*/
     		return ok();
     	}
     }
@@ -12367,7 +12536,7 @@ public class Application extends Controller {
 	    		
 	    		List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
-	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findById(info.parentId);
+	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
 	    			if(rMoreInfo != null){
 	    				RequestInfoVM rList1 = new RequestInfoVM();
 	    				rList1.id = rMoreInfo.id;
@@ -12605,7 +12774,7 @@ public class Application extends Controller {
 	    		
 	    		List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
-	    			TradeIn tIn = TradeIn.findById(info.parentId);
+	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
 	    			if(tIn != null){
 	    				RequestInfoVM rList1 = new RequestInfoVM();
 	    				rList1.id = tIn.id;

@@ -243,6 +243,10 @@ public class ScheduleTest extends Model {
 		return find.byId(id);
 	}
 	
+	public static ScheduleTest findByIdAndParent(Long id) {
+		return find.where().eq("id", id).eq("leadStatus", null).findUnique();
+	}
+	
 	public static List<ScheduleTest> findAllByDate() {
 		return find.where().eq("assignedTo", null).eq("isRead", 0).ne("vin", "no").orderBy("scheduleDate desc").findList();
 	}
@@ -273,7 +277,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllByParentID(Long parentId) {
-		return find.where().eq("parentId", parentId).findList();
+		return find.where().eq("parentId", parentId).eq("leadStatus", null).findList();
 	}
 	
 	public static List<ScheduleTest> findAllAssignedLeadsToUser(AuthUser user) {

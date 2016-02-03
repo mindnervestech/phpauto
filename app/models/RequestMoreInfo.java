@@ -199,12 +199,16 @@ public class RequestMoreInfo extends Model {
 		return find.byId(id);
 	}
 	
+	public static RequestMoreInfo findByIdAndParent(Long id) {
+		return find.where().eq("id", id).eq("status", null).findUnique();
+	}
+	
 	public static List<RequestMoreInfo> findAllByDate() {
 		return find.where().eq("isRead", 0).eq("status", null).orderBy("requestDate desc").findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllByParentID(Long parentId) {
-		return find.where().eq("parentId", parentId).orderBy("requestDate desc").findList();
+		return find.where().eq("parentId", parentId).eq("status", null).orderBy("requestDate desc").findList();
 	}
 	
 	public static List<RequestMoreInfo> findByLocation(Long location) {
