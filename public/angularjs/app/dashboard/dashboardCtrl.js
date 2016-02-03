@@ -1674,6 +1674,7 @@ angular.module('newApp')
 	    				$scope.isInValid = false;
 	    			
 		    			if($scope.lead.leadType=='1') {
+		    				
 	    					$scope.makeLead();
 		    			} else if($scope.lead.leadType=='2') {
 		    				$scope.lead.bestDay = $("#leadBestDay").val();
@@ -1762,7 +1763,7 @@ angular.module('newApp')
 	    				}
 	    				
 	    			}
-	    			
+	    			$("#createLeadPopup").modal('hide');
 	    			$scope.lead.stockWiseData = $scope.stockWiseData;
 	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
