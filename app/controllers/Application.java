@@ -9541,18 +9541,18 @@ public class Application extends Controller {
     		sList = ScheduleTest.findAllAssignedLocation(Long.parseLong(session("USER_LOCATION")));
     		tradeIns = TradeIn.findAllSeenLocationSch(Long.parseLong(session("USER_LOCATION")));
     		
-    		rInfoAll = RequestMoreInfo.findByLocation(Long.parseLong(session("USER_LOCATION")));
-    		sListAll = ScheduleTest.findByLocation(Long.parseLong(session("USER_LOCATION")));
-    		tradeInsAll = TradeIn.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    		rInfoAll = RequestMoreInfo.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
+    		sListAll = ScheduleTest.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
+    		tradeInsAll = TradeIn.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
     		
     	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		rInfo = RequestMoreInfo.findAllSeenSch(users);
     		sList = ScheduleTest.findAllAssigned(users);
     		tradeIns = TradeIn.findAllSeenSch(users);
     		
-    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(users);
-    		sListAll = ScheduleTest.findAllByAssignedUser(users);
-    		tradeInsAll = TradeIn.findAllByAssignedUser(users);
+    		rInfoAll = RequestMoreInfo.findByAssigUserNotCancel(users);
+    		sListAll = ScheduleTest.findByAssigUserNotCancel(users);
+    		tradeInsAll = TradeIn.findByAssigUserNotCancel(users);
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfo){
@@ -9935,18 +9935,18 @@ public class Application extends Controller {
     		sList = ScheduleTest.findAllAssignedLocation(Long.parseLong(session("USER_LOCATION")));
     		tradeIns = TradeIn.findAllSeenLocationSch(Long.parseLong(session("USER_LOCATION")));
     		
-    		rInfoAll = RequestMoreInfo.findByLocation(Long.parseLong(session("USER_LOCATION")));
-    		sListAll = ScheduleTest.findByLocation(Long.parseLong(session("USER_LOCATION")));
-    		tradeInsAll = TradeIn.findByLocation(Long.parseLong(session("USER_LOCATION")));
+    		rInfoAll = RequestMoreInfo.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
+    		sListAll = ScheduleTest.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
+    		tradeInsAll = TradeIn.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
     		
     	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		rInfo = RequestMoreInfo.findAllSeenSch(users);
     		sList = ScheduleTest.findAllAssigned(users);
     		tradeIns = TradeIn.findAllSeenSch(users);
     		
-    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(users);
-    		sListAll = ScheduleTest.findAllByAssignedUser(users);
-    		tradeInsAll = TradeIn.findAllByAssignedUser(users);
+    		rInfoAll = RequestMoreInfo.findByAssigUserNotCancel(users);
+    		sListAll = ScheduleTest.findByAssigUserNotCancel(users);
+    		tradeInsAll = TradeIn.findByAssigUserNotCancel(users);
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfo){
@@ -13034,9 +13034,9 @@ public class Application extends Controller {
 	    		sList = ScheduleTest.findAllAssigned(sales);
 	    		tradeIns = TradeIn.findAllSeenSch(sales);
 	    		
-	    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(sales);
-	    		sListAll = ScheduleTest.findAllByAssignedUser(sales);
-	    		tradeInsAll = TradeIn.findAllByAssignedUser(sales);
+	    		rInfoAll = RequestMoreInfo.findByAssigUserNotCancel(sales);
+	    		sListAll = ScheduleTest.findByAssigUserNotCancel(sales);
+	    		tradeInsAll = TradeIn.findByAssigUserNotCancel(sales);
 	    	
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfo){

@@ -333,12 +333,20 @@ public class ScheduleTest extends Model {
 		return find.where().eq("locations.id", location).findList();
 	}
 	
+	public static List<ScheduleTest> findByLocationNotCancel(Long location) {
+		return find.where().eq("locations.id", location).ne("leadStatus", "CANCEL").findList();
+	}
+	
 	public static List<ScheduleTest>  findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("leadStatus", null).eq("locations", location).findList();
 	}
 	
 	public static List<ScheduleTest> findAllByAssignedUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).ne("vin", "no").findList();
+	}
+	
+	public static List<ScheduleTest> findByAssigUserNotCancel(AuthUser user) {
+		return find.where().eq("assignedTo", user).ne("vin", "no").ne("leadStatus", "CANCEL").findList();
 	}
 	
 	public static SqlRow getTopPerformers(String start,String end,Integer id) {

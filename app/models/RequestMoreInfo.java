@@ -215,6 +215,10 @@ public class RequestMoreInfo extends Model {
 		return find.where().eq("locations.id", location).findList();
 	}
 	
+	public static List<RequestMoreInfo> findByLocationNotCancel(Long location) {
+		return find.where().eq("locations.id", location).ne("status", "CANCEL").findList();
+	}
+	
 	public static List<RequestMoreInfo>  findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}
@@ -270,6 +274,10 @@ public class RequestMoreInfo extends Model {
 	
 	public static List<RequestMoreInfo> findAllByAssignedUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).findList();
+	}
+	
+	public static List<RequestMoreInfo> findByAssigUserNotCancel(AuthUser user) {
+		return find.where().eq("assignedTo", user).ne("status", "CANCEL").findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllScheduledUser(AuthUser user) {
