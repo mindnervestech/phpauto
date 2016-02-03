@@ -2247,27 +2247,10 @@ angular.module('newApp')
     		$scope.soldContact.year = entity.year;
     		$scope.soldContact.mileage = entity.mileage;
     		$scope.soldContact.price = entity.price;
-    		$('#btnStatusSchedule').click();
+    		$('#btnCompleteRequest').click();
     	}
     	
-    	$scope.saveScheduleStatus = function() {
-    		
-	    		$http.post('/setVehicleAndScheduleStatus',$scope.soldContact)
-				.success(function(data) {
-					$('#scheduleStatusModal').modal('hide');
-					$scope.getAllSalesPersonRecord($scope.salesPerson);
-					$.pnotify({
-    				    title: "Success",
-    				    type:'success',
-    				    text: "Vehicle status changed successfully",
-    				});
-					for(var i=0;i<$scope.scheduleList.length;i++) {
-	 					if($scope.scheduleStatusVal.id == $scope.scheduleList[i].id) {
-	 						$scope.scheduleList.splice(i,1);
-	 					}
-	 				}
-			});
-    	}
+    	
     	
     	$scope.cancelScheduleStatus = function(entity) {
     		$scope.scheduleStatusCancel = entity;
@@ -2303,6 +2286,7 @@ angular.module('newApp')
     		$scope.soldContact.email = entity.email;
     		$scope.soldContact.phone = entity.phone;
     		$scope.soldContact.custZipCode = entity.custZipCode;
+    		$scope.soldContact.typeOfLead = entity.typeOfLead;
     		$scope.soldContact.enthicity = entity.enthicity;
     		$scope.soldContact.parentChildLead = entity.parentChildLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
@@ -2322,6 +2306,26 @@ angular.module('newApp')
     		$('#btnCompleteRequest').click();
     	};
     	
+    	
+    	
+    	/*$scope.saveScheduleStatus = function() {
+    		
+    		$http.post('/setVehicleAndScheduleStatus',$scope.soldContact)
+			.success(function(data) {
+				$('#scheduleStatusModal').modal('hide');
+				$scope.getAllSalesPersonRecord($scope.salesPerson);
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Vehicle status changed successfully",
+				});
+				for(var i=0;i<$scope.scheduleList.length;i++) {
+ 					if($scope.scheduleStatusVal.id == $scope.scheduleList[i].id) {
+ 						$scope.scheduleList.splice(i,1);
+ 					}
+ 				}
+		});
+	}*/
     	$scope.saveRequestStatus = function() {
     		
     		console.log($scope.soldContact);
@@ -2381,12 +2385,28 @@ angular.module('newApp')
     		$scope.soldContact.year = entity.year;
     		$scope.soldContact.mileage = entity.mileage;
     		$scope.soldContact.price = entity.price;
-    		$('#btnCompleteTradeIn').click();
+    		$('#btnCompleteRequest').click();
     	}
     	
-    	$scope.saveCompleteTradeInStatus = function() {
+    	$scope.saveRequestStatus = function() {
+    		
+    		console.log($scope.soldContact);
+    		$http.post('/setRequestStatusComplete',$scope.soldContact)
+			.success(function(data) {
+				$('#requestCompleteStatusModal').modal('hide');
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Status changed successfully",
+				});
+				$scope.getAllSalesPersonRecord($scope.salesPerson);
+			});
+    	};		
+    	
+    	/*$scope.saveCompleteTradeInStatus = function() {
     		$http.post('/setTradeInStatusComplete',$scope.soldContact)
 			.success(function(data) {
+			
 				$('#tradeInCompleteStatusModal').modal('hide');
 				$.pnotify({
 				    title: "Success",
@@ -2395,7 +2415,7 @@ angular.module('newApp')
 				});
 				$scope.getAllSalesPersonRecord($scope.salesPerson);
 			});
-    	}
+    	}*/
     	
     	$scope.cancelTradeInStatus = function(entity) {
     		$scope.tradeInStatusCancel = entity;

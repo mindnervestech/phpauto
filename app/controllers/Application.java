@@ -10847,7 +10847,7 @@ public class Application extends Controller {
     }
     
     
-    public static Result setVehicleAndScheduleStatus() {
+   /* public static Result setVehicleAndScheduleStatus() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -10997,7 +10997,7 @@ public class Application extends Controller {
     		    		lostLeadsFunction(requestMoreInfo.vin, currDate);
     				}else if(rMoreInfo.typeOfLead.equals("Schedule Test Drive")){
     					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
-    					schTest.setStatus("COMPLETE");
+    					schTest.setLeadStatus("COMPLETE");
     					schTest.update();
     					
     					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
@@ -11020,11 +11020,11 @@ public class Application extends Controller {
     		    		
     		    		lostLeadsFunction(schTest.vin, currDate);
     				}else if(rMoreInfo.typeOfLead.equals("Trade-In Appraisal")){
-    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
-    					schTest.setStatus("COMPLETE");
-    					schTest.update();
+    					TradeIn tTest = TradeIn.findById(rMoreInfo.id);
+    					tTest.setStatus("COMPLETE");
+    					tTest.update();
     					
-    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(tTest.vin);
     		    		if(vehicle1 != null){
     			    		vehicle1.setStatus("Sold");
     			    		vehicle1.setSoldDate(date);
@@ -11039,146 +11039,31 @@ public class Application extends Controller {
     		    		uNotes.createdTime = currDate;
     		    		uNotes.user = user;
     		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(schTest.id);
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(tTest.id);
     		    		uNotes.save();
     		    		
-    		    		lostLeadsFunction(schTest.vin, currDate);
+    		    		lostLeadsFunction(tTest.vin, currDate);
     				}
     			}else if(rMoreInfo.status.equals("Cancel")){
     				if(rMoreInfo.typeOfLead.equals("Request More Info")){
     					RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(rMoreInfo.id);
     					requestMoreInfo.setStatus("CANCEL");
     					requestMoreInfo.update();
+    				}else if(rMoreInfo.typeOfLead.equals("Schedule Test Drive")){
+    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
+    					schTest.setLeadStatus("CANCEL");
+    					schTest.update();
+    				}else if(rMoreInfo.typeOfLead.equals("Trade-In Appraisal")){
+    					TradeIn tTest = TradeIn.findById(rMoreInfo.id);
+    					tTest.setStatus("CANCEL");
+    					tTest.update();
     				}
     			}
     		}
-    		
-    	/*	List<TradeIn> tIn = TradeIn.findByVinAndLocation(vinNo, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    		for(TradeIn tradeIn:tIn){
-    			if(tradeIn.status == null){
-    				tradeIn.setStatus("LOST");
-    				tradeIn.setStatusDate(currDate);
-    				tradeIn.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
-    	    		
-    	    		uNotes1.save();
-    			}else if(!tradeIn.status.equals("COMPLETE")){
-    				tradeIn.setStatus("LOST");
-    				tradeIn.setStatusDate(currDate);
-    				tradeIn.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
-    	    		uNotes1.save();
-    			}
-    			if(tradeIn.assignedTo !=null){
-    				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
-    				if(userObj !=null){
-    					emailList.add(userObj.email);
-    				}
-    			}
-    		}
-    		
-    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vinNo, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    		for(RequestMoreInfo rMoreInfo:rInfos){
-    			if(rMoreInfo.status == null){
-    				rMoreInfo.setStatus("LOST");
-    				rMoreInfo.setStatusDate(currDate);
-    				rMoreInfo.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
-    	    		uNotes1.save();
-    			}else if(!rMoreInfo.status.equals("COMPLETE")){
-    				rMoreInfo.setStatus("LOST");
-    				rMoreInfo.setStatusDate(currDate);
-    				rMoreInfo.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
-    	    		uNotes1.save();
-    			}
-    			if(rMoreInfo.assignedTo !=null){
-    				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
-    				if(userObj !=null){
-    					emailList.add(userObj.email);
-    				}
-    			}
-    		}
-    		
-    		
-    		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(vinNo, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    		for(ScheduleTest scheduleTest:sTests){
-    			if(scheduleTest.leadStatus == null){
-    				scheduleTest.setLeadStatus("LOST");
-    				scheduleTest.setStatusDate(currDate);
-    				scheduleTest.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
-    	    		
-    	    		uNotes1.save();
-    			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
-    				scheduleTest.setLeadStatus("LOST");
-    				scheduleTest.setStatusDate(currDate);
-    				scheduleTest.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
-    	    		uNotes1.save();
-    			}
-    			if(scheduleTest.assignedTo !=null){
-    				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
-    				if(userObj !=null){
-    					emailList.add(userObj.email);
-    				}
-    			}
-    		}
-    		
-    		if(emailList.size()>0){
-    			vehicleSoldEmail(emailList);
-    		}*/
+    	
     		return ok();
     	}
-    }
+    }*/
     
     public static Result setScheduleStatusClose(Long id,Integer option,String reason) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -11253,6 +11138,7 @@ public class Application extends Controller {
     		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
+    		
     		SoldContact contact = new SoldContact();
     		contact.name = vm.name;
     		contact.email = vm.email;
@@ -11290,23 +11176,100 @@ public class Application extends Controller {
     		contactsObj.user = user.id;
     		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contactsObj.save();
-    		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
-    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
     		Date date = new Date();
-    		if(vehicle != null){
-	    		vehicle.setStatus("Sold");
-	    		vehicle.setSoldDate(date);
-	    		vehicle.setSoldUser(user);
-	    		vehicle.setPrice(Integer.parseInt(vm.price));
-	    		vehicle.update();
+    		if(vm.typeOfLead.equals("Request More Info")){
+		    		
+		    		RequestMoreInfo info = RequestMoreInfo.findById(vm.infoId);
+		    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+		    		if(vehicle != null){
+			    		vehicle.setStatus("Sold");
+			    		vehicle.setSoldDate(date);
+			    		vehicle.setSoldUser(user);
+			    		vehicle.update();
+		    		}
+		    		info.setStatus("COMPLETE");
+		    		info.setCustZipCode(vm.custZipCode);
+		    		info.setEnthicity(vm.enthicity);
+		    		info.setStatusDate(currDate);
+		    		info.update();
+		    		
+		    		
+		    		UserNotes uNotes = new UserNotes();
+		    		uNotes.setNote("Vehicle Sold");
+		    		uNotes.setAction("Other");
+		    		uNotes.createdDate = currDate;
+		    		uNotes.createdTime = currDate;
+		    		uNotes.user = user;
+		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+		    		uNotes.save();
+		    		
+		    		otherParentChildLeadsStatus(vm,user,currDate);
+		    		lostLeadsFunction(info.vin, currDate);
+    		}else if(vm.typeOfLead.equals("Trade-In Appraisal")){
+    				
+    			
+        		TradeIn info = TradeIn.findById(vm.infoId);
+        		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+        		
+        		if(vehicle != null){
+        		vehicle.setStatus("Sold");
+        		vehicle.setSoldDate(date);
+        		vehicle.setSoldUser(user);
+        		vehicle.update();
+        		}
+        		info.setStatus("COMPLETE");
+        		info.setCustZipCode(vm.custZipCode);
+        		info.setEnthicity(vm.enthicity);
+        		info.setStatusDate(currDate);
+        		info.update();
+        		
+        		
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Vehicle Sold");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		uNotes.tradeIn = TradeIn.findById(info.id);
+        		uNotes.save();
+        		
+        		otherParentChildLeadsStatus(vm,user,currDate);
+        		lostLeadsFunction(info.vin, currDate);
+        		
+        	
+    		}else if(vm.typeOfLead.equals("Schedule Test Drive")){
+    			ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
+        		schedule.setLeadStatus("COMPLETE");
+        		schedule.setStatusDate(currDate);
+        		schedule.setCustZipCode(vm.custZipCode);
+        		schedule.setEnthicity(vm.enthicity);
+        		schedule.update();
+        		
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Vehicle Sold");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
+        		uNotes.save();
+        		otherParentChildLeadsStatus(vm,user,currDate);
+        		lostLeadsFunction(schedule.vin, currDate);
     		}
-    		info.setStatus("COMPLETE");
-    		info.setCustZipCode(vm.custZipCode);
-    		info.setEnthicity(vm.enthicity);
-    		info.setStatusDate(currDate);
-    		info.update();
     		
-    		for(RequestInfoVM rMoreInfo: vm.parentChildLead){
+    		
+    		
+    		
+    		return ok();
+    	}
+    }
+    
+    public static void otherParentChildLeadsStatus(SoldContactVM vm,AuthUser user,Date currDate){
+    	if(vm.parentChildLead != null){
+			for(RequestInfoVM rMoreInfo: vm.parentChildLead){
     			if(rMoreInfo.status.equals("Sold")){
     				if(rMoreInfo.typeOfLead.equals("Request More Info")){
     					RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(rMoreInfo.id);
@@ -11316,7 +11279,7 @@ public class Application extends Controller {
     					Vehicle vehicle1 = Vehicle.findByVinAndStatus(requestMoreInfo.vin);
     		    		if(vehicle1 != null){
     			    		vehicle1.setStatus("Sold");
-    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldDate(currDate);
     			    		vehicle1.setSoldUser(user);
     			    		vehicle1.update();
     		    		}
@@ -11334,13 +11297,13 @@ public class Application extends Controller {
     		    		lostLeadsFunction(requestMoreInfo.vin, currDate);
     				}else if(rMoreInfo.typeOfLead.equals("Schedule Test Drive")){
     					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
-    					schTest.setStatus("COMPLETE");
+    					schTest.setLeadStatus("COMPLETE");
     					schTest.update();
     					
     					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
     		    		if(vehicle1 != null){
     			    		vehicle1.setStatus("Sold");
-    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldDate(currDate);
     			    		vehicle1.setSoldUser(user);
     			    		vehicle1.update();
     		    		}
@@ -11357,14 +11320,14 @@ public class Application extends Controller {
     		    		
     		    		lostLeadsFunction(schTest.vin, currDate);
     				}else if(rMoreInfo.typeOfLead.equals("Trade-In Appraisal")){
-    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
-    					schTest.setStatus("COMPLETE");
-    					schTest.update();
+    					TradeIn tTest = TradeIn.findById(rMoreInfo.id);
+    					tTest.setStatus("COMPLETE");
+    					tTest.update();
     					
-    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(schTest.vin);
+    					Vehicle vehicle1 = Vehicle.findByVinAndStatus(tTest.vin);
     		    		if(vehicle1 != null){
     			    		vehicle1.setStatus("Sold");
-    			    		vehicle1.setSoldDate(date);
+    			    		vehicle1.setSoldDate(currDate);
     			    		vehicle1.setSoldUser(user);
     			    		vehicle1.update();
     		    		}
@@ -11376,36 +11339,29 @@ public class Application extends Controller {
     		    		uNotes.createdTime = currDate;
     		    		uNotes.user = user;
     		    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(schTest.id);
+    		    		uNotes.requestMoreInfo = RequestMoreInfo.findById(tTest.id);
     		    		uNotes.save();
     		    		
-    		    		lostLeadsFunction(schTest.vin, currDate);
+    		    		lostLeadsFunction(tTest.vin, currDate);
     				}
     			}else if(rMoreInfo.status.equals("Cancel")){
     				if(rMoreInfo.typeOfLead.equals("Request More Info")){
     					RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(rMoreInfo.id);
     					requestMoreInfo.setStatus("CANCEL");
     					requestMoreInfo.update();
+    				}else if(rMoreInfo.typeOfLead.equals("Schedule Test Drive")){
+    					ScheduleTest schTest = ScheduleTest.findById(rMoreInfo.id);
+    					schTest.setLeadStatus("CANCEL");
+    					schTest.update();
+    				}else if(rMoreInfo.typeOfLead.equals("Trade-In Appraisal")){
+    					TradeIn tTest = TradeIn.findById(rMoreInfo.id);
+    					tTest.setStatus("CANCEL");
+    					tTest.update();
     				}
     			}
     		}
     		
-    		
-    		UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Vehicle Sold");
-    		uNotes.setAction("Other");
-    		uNotes.createdDate = currDate;
-    		uNotes.createdTime = currDate;
-    		uNotes.user = user;
-    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
-    		uNotes.save();
-    		
-    		lostLeadsFunction(info.vin, currDate);
-    		
-    		
-    		return ok();
-    	}
+		}
     }
     
     public static void lostLeadsFunction(String vin, Date currDate){
@@ -11563,7 +11519,7 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result setTradeInStatusComplete() {
+    /*public static Result setTradeInStatusComplete() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -11719,132 +11675,12 @@ public class Application extends Controller {
     		uNotes.tradeIn = TradeIn.findById(info.id);
     		uNotes.save();
     		
+    		lostLeadsFunction(info.vin, currDate);
     		
-    		
-    	/*	List<TradeIn> tIn = TradeIn.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    		for(TradeIn tradeIn:tIn){
-    			if(tradeIn.status == null){
-    				tradeIn.setStatus("LOST");
-    				tradeIn.setStatusDate(currDate);
-    				tradeIn.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
-    	    		uNotes1.save();
-    	    		
-    			}else if(!tradeIn.status.equals("COMPLETE")){
-    				tradeIn.setStatus("LOST");
-    				tradeIn.setStatusDate(currDate);
-    				tradeIn.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(tradeIn.id);
-    	    		uNotes1.save();
-    			}
-    			if(tradeIn.assignedTo !=null){
-    				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
-    				if(userObj !=null){
-    					emailList.add(userObj.email);
-    				}
-    			}
-    		}
-    		
-    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    		for(RequestMoreInfo rMoreInfo:rInfos){
-    			if(rMoreInfo.status == null){
-    				rMoreInfo.setStatus("LOST");
-    				rMoreInfo.setStatusDate(currDate);
-    				rMoreInfo.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
-    	    		uNotes1.save();
-    			}else if(!rMoreInfo.status.equals("COMPLETE")){
-    				rMoreInfo.setStatus("LOST");
-    				rMoreInfo.setStatusDate(currDate);
-    				rMoreInfo.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(rMoreInfo.id);
-    	    		uNotes1.save();
-    			}
-    			if(rMoreInfo.assignedTo !=null){
-    				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
-    				if(userObj !=null){
-    					emailList.add(userObj.email);
-    				}
-    			}
-    		}
-    		
-    		
-    		List<ScheduleTest> sTests = ScheduleTest.findByVinAndLocation(info.vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    		for(ScheduleTest scheduleTest:sTests){
-    			if(scheduleTest.leadStatus == null){
-    				scheduleTest.setLeadStatus("LOST");
-    				scheduleTest.setStatusDate(currDate);
-    				scheduleTest.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
-    	    		uNotes1.save();
-    			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
-    				scheduleTest.setLeadStatus("LOST");
-    				scheduleTest.setStatusDate(currDate);
-    				scheduleTest.update();
-    				
-    				UserNotes uNotes1 = new UserNotes();
-    	    		uNotes1.setNote("Vehicle has been sold by another Sales Person");
-    	    		uNotes1.setAction("Other");
-    	    		uNotes1.createdDate = currDate;
-    	    		uNotes1.createdTime = currDate;
-    	    		//uNotes1.user = user;
-    	    		uNotes1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes1.tradeIn = TradeIn.findById(scheduleTest.id);
-    	    		uNotes1.save();
-    			}
-    			if(scheduleTest.assignedTo !=null){
-    				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
-    				if(userObj !=null){
-    					emailList.add(userObj.email);
-    				}
-    			}
-    		}
-    		if(emailList.size()>0){
-    			vehicleSoldEmail(emailList);
-    		}*/
+    	
     		return ok();
     	}
-    }
+    }*/
     
     public static Result setTradeInStatusCancel(Long id,String reason) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -17032,7 +16868,7 @@ public class Application extends Controller {
 	    		info.setPhone(leadVM.custNumber);
 	    		info.setCustZipCode(leadVM.custZipCode);
 	    		info.setEnthicity(leadVM.enthicity);
-	    		
+	    		info.setAssignedTo(user);
 	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
 	    		info.setVin(vehicle.getVin());
 	    		info.setUser(user);
@@ -17044,7 +16880,7 @@ public class Application extends Controller {
 	    		
 	    		
 	    		info.setRequestDate(new Date());
-	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
 	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
 	    					info.setPremiumFlag(1);
@@ -17062,7 +16898,7 @@ public class Application extends Controller {
 	    		}else{
 					info.setPremiumFlag(0);
 						info.setAssignedTo(user);
-				}
+				}*/
 	    		
 	    		if(parentFlag == 1){
 	    			info.setParentId(parentLeadId);
@@ -17085,12 +16921,9 @@ public class Application extends Controller {
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    		uNotes.save();
 	    		
-	    		if(info.premiumFlag == 1){
+	    		/*if(info.premiumFlag == 1){
 	    			sendMailpremium();
-	    		}
-	    		
-	    		
-	    		
+	    		}*/
 	    		
     	 }
     	} else if(leadVM.leadType.equals("2")){
@@ -17126,10 +16959,11 @@ public class Application extends Controller {
 	    		test.setPreferredContact(leadVM.prefferedContact);
 	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
 	    		test.setVin(vehicle.getVin());
+	    		test.setAssignedTo(user);
 	    		
 	    		//test.setVin(vehicles.get(0).getVin());
 	    		
-	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
     				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
     					test.setPremiumFlag(1);
@@ -17147,7 +16981,7 @@ public class Application extends Controller {
 	    		}else{
 	    			test.setPremiumFlag(0);
 	    			test.setAssignedTo(user);
-	    		}
+	    		}*/
 	    		
 	    		if(parentFlag == 1){
 	    			test.setParentId(parentLeadId);
@@ -17179,9 +17013,9 @@ public class Application extends Controller {
 	    		map.put("uphone", user.phone);
 	    		map.put("uemail", user.email);
 	    		makeToDo(vehicle.vin);
-	    		if(test.premiumFlag == 1){
+	    		/*if(test.premiumFlag == 1){
 	    			sendMailpremium();
-	    		}
+	    		}*/
     		sendMail(map);
     	}
     	} else {
@@ -17191,8 +17025,6 @@ public class Application extends Controller {
     		}
     		
     		if(tIn == null){
-    			
-    			
     			
     		StringBuffer buffer = new StringBuffer();
     		for(String opt:leadVM.options) {
@@ -17248,11 +17080,12 @@ public class Application extends Controller {
         		tradeIn.setVehiclenew(leadVM.vehiclenew);
         		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
         		tradeIn.setVin(vehicle.getVin());
+        		tradeIn.setAssignedTo(user);
         		
         		//tradeIn.setVin(vehicles.get(0).getVin());
         		tradeIn.setYear(leadVM.year);
         		
-        		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+        	/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
         		if(pLeads != null){
     				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
     					tradeIn.setPremiumFlag(1);
@@ -17270,7 +17103,7 @@ public class Application extends Controller {
 	    		}else{
 	    			tradeIn.setPremiumFlag(0);
 	    			tradeIn.setAssignedTo(user);
-	    		}
+	    		}*/
         		
         		if(parentFlag == 1){
         			tradeIn.setParentId(parentLeadId);
@@ -17293,9 +17126,9 @@ public class Application extends Controller {
         		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
         		uNotes.save();
         		
-        		if(tradeIn.premiumFlag == 1){
+        		/*if(tradeIn.premiumFlag == 1){
 	    			sendMailpremium();
-	    		}
+	    		}*/
     		
     		
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
