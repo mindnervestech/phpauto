@@ -11185,6 +11185,7 @@ public class Application extends Controller {
 			    		vehicle.setStatus("Sold");
 			    		vehicle.setSoldDate(date);
 			    		vehicle.setSoldUser(user);
+			    		vehicle.setPrice(Integer.parseInt(vm.price));
 			    		vehicle.update();
 		    		}
 		    		info.setStatus("COMPLETE");
@@ -11216,6 +11217,7 @@ public class Application extends Controller {
         		vehicle.setStatus("Sold");
         		vehicle.setSoldDate(date);
         		vehicle.setSoldUser(user);
+        		vehicle.setPrice(Integer.parseInt(vm.price));
         		vehicle.update();
         		}
         		info.setStatus("COMPLETE");
@@ -11259,10 +11261,6 @@ public class Application extends Controller {
         		otherParentChildLeadsStatus(vm,user,currDate);
         		lostLeadsFunction(schedule.vin, currDate);
     		}
-    		
-    		
-    		
-    		
     		return ok();
     	}
     }
@@ -11281,6 +11279,7 @@ public class Application extends Controller {
     			    		vehicle1.setStatus("Sold");
     			    		vehicle1.setSoldDate(currDate);
     			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.setPrice(Integer.parseInt(vm.price));
     			    		vehicle1.update();
     		    		}
     		    		
@@ -11305,6 +11304,7 @@ public class Application extends Controller {
     			    		vehicle1.setStatus("Sold");
     			    		vehicle1.setSoldDate(currDate);
     			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.setPrice(Integer.parseInt(vm.price));
     			    		vehicle1.update();
     		    		}
     		    		
@@ -11329,6 +11329,7 @@ public class Application extends Controller {
     			    		vehicle1.setStatus("Sold");
     			    		vehicle1.setSoldDate(currDate);
     			    		vehicle1.setSoldUser(user);
+    			    		vehicle1.setPrice(Integer.parseInt(vm.price));
     			    		vehicle1.update();
     		    		}
     		    		
