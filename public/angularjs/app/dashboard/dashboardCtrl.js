@@ -4690,10 +4690,8 @@ angular.module('newApp')
     		 $scope.gridOptions.enableHorizontalScrollbar = 0;
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 $scope.gridOptions.columnDefs = [
-    		                                 { name: 'make', displayName: 'Make', width:'10%',cellEditableCondition: true,
-    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.make}}">{{row.entity.make}}</a></div>',
-    		                                 },
-    		                                 { name: 'model', displayName: 'Model', width:'08%',cellEditableCondition: true
+    		                                 { name: 'title', displayName: 'Title', width:'10%',cellEditableCondition: true,
+    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
     		                                 { name: 'stock', displayName: 'Stock', width:'6%',
     		                                 },

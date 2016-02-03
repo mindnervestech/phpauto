@@ -5,6 +5,7 @@ import java.util.List;
 public class SpecificationVM {
     
 	public long id; 
+	public String title;
 	public String category;
 	public String vin;
 	public String year;

@@ -1011,6 +1011,7 @@ public class Application extends Controller {
 	    	Vehicle vehicle = new Vehicle();
 	    	if(vehicleObj == null) {
 		    	
+	    		vehicle.setTitle(vm.make+" "+vm.model+" "+vm.year);
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
 		    	vehicle.year = vm.year;
@@ -3330,6 +3331,7 @@ public class Application extends Controller {
 	     		
 	     		SpecificationVM vehicle = new SpecificationVM();
 	     		vehicle.id = vm.id;
+	     	    vehicle.title=vm.getTitle();
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
 		    	vehicle.year = vm.year;
@@ -3705,7 +3707,7 @@ public class Application extends Controller {
 			specificationVM.style = vehicle.getBodyStyle();
 			specificationVM.location = vehicle.getLocation();
 			specificationVM.description = vehicle.getDescription();
-			
+			specificationVM.title = vehicle.getTitle();
 			
 			specificationVM.drivetrain = vehicle.getDrivetrain();
 			specificationVM.fuelType = vehicle.getFuelType();
@@ -4045,6 +4047,7 @@ public class Application extends Controller {
 	    				flag=1;
 	    			//	sendPriceAlertMail(vehicle.vin);
 	    		}
+	    		vehicle.setTitle(vm.title);
 	    		vehicle.setMake(vm.make);
 	    		vehicle.setModel(vm.model);
 	    		vehicle.setExteriorColor(vm.extColor);
@@ -4101,6 +4104,7 @@ public class Application extends Controller {
 	    		}
 	    		
 	    		vehicle.setCategory(vm.category);
+	    		vehicle.setTitle(vm.title);
 		    	vehicle.setYear(vm.year);
 		    	vehicle.setMake(vm.make);
 		    	vehicle.setModel(vm.model);
@@ -16588,8 +16592,8 @@ public class Application extends Controller {
 	    			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
 	    		}
 	    		analyticalVM.vin = vehicle.getVin();
-	    		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-	    		
+	    	//	analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
+	    		analyticalVM.name=vehicle.getTitle();
 	    		if(!searchBy.equals("0") && !search.equals("0")){
 		    		if(searchBy.equals("Model")){
 	    				if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
@@ -20925,12 +20929,16 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		int flag=0;
     		AuthUser user = getLocalUser();
     		Integer vprice = Integer.parseInt(price);
 	    	Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
 	    	if(vehicle != null) {
-	    		if(vprice != vehicle.price) {
-	    			
+	    		String databaseVal=vehicle.price.toString();
+	    		String latestPrice=vprice.toString();
+	    		if(!latestPrice.equals(databaseVal))
+	    		{
+	    		   System.out.println("in price change..");	
 	    				List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin, Long.valueOf(session("USER_LOCATION")));
 	    				for(PriceAlert priceAlert: alertList) {
 	    					priceAlert.setSendEmail("Y");
@@ -20944,11 +20952,16 @@ public class Application extends Controller {
 	    				change.person = user.firstName +" "+user.lastName;
 	    				change.vin = vin;
 	    				change.save();
-	    				sendPriceAlertMail(vehicle.vin);
+	    				flag=1;
+	    			//	sendPriceAlertMail(vehicle.vin);
 	    		}
 		    	vehicle.setPrice(vprice);
 		    	
 		    	vehicle.update();
+		    	if(flag==1){
+		    		System.out.println("in flag 1");
+		    		sendPriceAlertMail(vehicle.vin);
+		    	}
 		    	//sendPriceAlertMail(vehicle.vin);
 	    	}
 	    	return ok();
@@ -20962,7 +20975,7 @@ public class Application extends Controller {
     		AuthUser user = getLocalUser();
 	    	Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
 	    	if(vehicle != null) {
-		    	vehicle.setMake(name);
+		    	vehicle.setTitle(name);
 		    	vehicle.update();
 	    	}
 	    	return ok();

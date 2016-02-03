@@ -24,6 +24,7 @@ public class Vehicle extends Model {
 
 	@Id
 	public Long id;
+	public String title;
 	public String category;
 	public String vin;
 	public String year;
@@ -111,6 +112,14 @@ public class Vehicle extends Model {
 	@ManyToOne
 	public Location locations;
 	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public Long getId() {
 		return id;
 	}
