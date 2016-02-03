@@ -13130,6 +13130,7 @@ public class Application extends Controller {
     		vm.salesAmount = String.valueOf(pricecount);
     		vm.currentLeads = String.valueOf(countLeads);
 			vm.saleCar = String.valueOf(saleCarCount);	
+			vm.email = sales.communicationemail;
 				tempuserList[index] = vm;
 				index++;
 								
@@ -13696,6 +13697,30 @@ public class Application extends Controller {
 	    	return ok(Json.toJson(infoVMList));
     	}
     }
+    
+    public static Result releaseLeads(Long id,String leadType) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		if(leadType.equals("Schedule Test")) {
+    			ScheduleTest schedule = ScheduleTest.findById(id);
+    			schedule.setPremiumFlag(0);
+    			schedule.update();
+    		}
+			if(leadType.equals("Request More Info")) {
+			    RequestMoreInfo info = RequestMoreInfo.findById(id);
+			    info.setPremiumFlag(0);
+			    info.update();
+			}
+			if(leadType.equals("Trade In")) {
+				TradeIn tradeIn = TradeIn.findById(id);
+				tradeIn.setPremiumFlag(0);
+				tradeIn.update();
+			}
+    		return ok();
+    	}
+    }
+    
     
     public static Result changeAssignedUser(Long id,Integer user,String leadType) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

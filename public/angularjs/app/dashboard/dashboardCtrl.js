@@ -1240,6 +1240,20 @@ angular.module('newApp')
     			/*$scope.flags["flag"+index] = 1;
     			console.log($scope["flag"+index]);*/
     		 }
+    		 
+    		 $scope.checkSalePersonIndex = function(item,values){
+    			 console.log($scope.userPerformanceList);
+    			// angular.forEach($scope.userPerformanceList, function(value, key) {
+    				// if(value.id == item.id){
+    					 if(values == false || values == undefined){
+    						 item.flag = 1;
+    					 }else{
+    						 item.flag = 0;
+    					 }
+    					 
+    				// }
+    			 //});
+    		 }
     	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
     			  var visitorsData = {
@@ -1744,6 +1758,9 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.makeLead = function() {
+	    			
+	    			
+	    			
 	    			console.log($scope.stockWiseData);
 	    			console.log("make Lead");
 	    			$scope.othertxt = $('#othertxt').val();
@@ -1767,6 +1784,7 @@ angular.module('newApp')
 	    			$scope.lead.stockWiseData = $scope.stockWiseData;
 	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
+	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    				if($scope.lead.leadType=='2')  {
 	    					$scope.getScheduleTestData();
 	    					$("#createLeadPopup").modal('hide');

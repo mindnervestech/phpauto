@@ -409,35 +409,44 @@ margin-left: 5px;
 									               									                
 									              <div>
 									              <div>
-									                     <img style="width: 120px;"  src="{{item.imageUrl}}">
+									                     <img style="width: 116px;"  src="{{item.imageUrl}}">
 									                 	
 									                  </div>      
 									              </div>
-										 <div style="line-height:1.028571;margin-left: 30px;">
-											<label class="control-label" style="text-align: center;font-size: 19px;"><b>{{item.fullName}}</b></label>
+										 <div style="line-height:1.028571;margin-left: 25px;">
+											<label class="control-label" style="text-align: center;font-size: 17px;"><b>{{item.fullName}}</b></label>
 										
 										</div>
-										<div style="width: 190px;">
-											<label style="text-align: center;width: 62px;"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 20px;width: 74px;"><b>{{item.successRate}}%</b></label>
+										<div style="width: 180px;">
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;width: 70px;"><b>{{item.successRate}}%</b></label>
 																					
 										</div>
 									
-										<div style="width: 190px;">
-											<label style="text-align: center;width: 62px;"><span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 20px;width: 74px;"><b>{{item.currentLeads}}</b></label>
+										<div style="width: 180px;">
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;width: 70px;"><b>{{item.currentLeads}}</b></label>
 											
 										</div>
 										 
-										<div style="width: 190px;">
-											<label style="text-align: center;width: 62px;"><span class="glyphicon glyphicon-usd" title="$$$ Amount Sold" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 20px;width: 74px;"><b>${{item.salesAmount}}</b></label>
+										<div style="width: 180px;">
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="$$$ Amount Sold" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;width: 70px;"><b>${{item.salesAmount}}</b></label>
 											
 										</div>
-										<div style="width: 190px;">
-											<label style="text-align: center;width: 62px;"><span class="fa fa-car" title="Sold Car" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 20px;width: 74px;"><b>{{item.saleCar}}</b></label>
+										<div style="width: 180px;">
+											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Sold Car" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;width: 70px;"><b>{{item.saleCar}}</b></label>
 											
+										</div>
+										<div style="width: 180px;">
+												<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkSalePersonIndex(item,compare)" style="margin-left: 18px;"> <label style="color: darkturquoise;">Compare</label>
+										</div>
+										<div style="width: 180px;" ng-if="item.flag == 1">
+												<button type="button" class="btn btn-blue">Compare</button>
+										</div>
+										<div>
+											<a style="font-size: 25px;margin-left: 18px;"><span class="glyphicon glyphicon-thumbs-up" style="width: 50px;"></span></a><a style="width: 60px;font-size: 25px;" href="mailto:{{item.email}}"><span class="glyphicon glyphicon-envelope" style="width: 50px;"></span></a>
 										</div>
 										
 										</div>
