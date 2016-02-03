@@ -2226,6 +2226,7 @@ angular.module('newApp')
     		$scope.soldContact.custZipCode = entity.custZipCode;
     		$scope.soldContact.enthicity = entity.enthicity;
     		$scope.soldContact.typeOfLead = entity.typeOfLead;
+    		$scope.soldContact.parentChildLead = entity.parentChildLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
     			$scope.soldContact.howContactedUs = entity.howContactedUs;
     		} else {
@@ -2359,6 +2360,7 @@ angular.module('newApp')
     		$scope.soldContact.custZipCode = entity.custZipCode;
     		$scope.soldContact.enthicity = entity.enthicity;
     		$scope.soldContact.typeOfLead = entity.typeOfLead;
+    		$scope.soldContact.parentChildLead = entity.parentChildLead;
     		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
     			$scope.soldContact.howContactedUs = entity.howContactedUs;
     		} else {
