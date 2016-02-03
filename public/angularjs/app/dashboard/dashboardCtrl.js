@@ -4895,7 +4895,8 @@ angular.module('newApp')
 	   $scope.soldContact.year = row.entity.year;
 	   $scope.soldContact.vin = row.entity.vin;
 	   $scope.soldContact.id = row.entity.id;
-	   
+	   var str = row.entity.price.split(" ");
+	   $scope.soldContact.price = str[1];
 	   
 	/*   $http.get('/updateVehicleStatus/'+row.entity.id+'/'+$scope.statusVal)
 		.success(function(data) {

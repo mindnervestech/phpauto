@@ -3496,7 +3496,8 @@ public class Application extends Controller {
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
 		    	vehicle.year = vm.year;
-		    	vehicle.make = vm.make+" "+vm.model;
+		    	//vehicle.make = vm.make+" "+vm.model;
+		    	vehicle.make = vm.make;
 		    	vehicle.model = vm.model;
 		    	vehicle.trim_level = vm.trim;
 		    	vehicle.label = vm.label;
@@ -10708,6 +10709,7 @@ public class Application extends Controller {
 	    		Date date = new Date();
 	    		vehicle.setSoldDate(date);
 	    		vehicle.setSoldUser(user);
+	    		vehicle.setPrice(Integer.parseInt(vm.price));
 	    		vehicle.update();
     		}
     		
@@ -11291,6 +11293,7 @@ public class Application extends Controller {
 	    		vehicle.setStatus("Sold");
 	    		vehicle.setSoldDate(date);
 	    		vehicle.setSoldUser(user);
+	    		vehicle.setPrice(Integer.parseInt(vm.price));
 	    		vehicle.update();
     		}
     		info.setStatus("COMPLETE");
@@ -12163,6 +12166,7 @@ public class Application extends Controller {
 	    			vm.drivetrain = vehicle.drivetrain;
 	    			vm.engine = vehicle.engine;
 	    			vm.transmission = vehicle.transmission;
+	    			vm.price = vehicle.price;
 	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
 	        			vm.imgId = vehicleImage.getId().toString();
@@ -12235,6 +12239,7 @@ public class Application extends Controller {
 	    			vm.bodyStyle =vehicle.bodyStyle;
 	    			vm.drivetrain = vehicle.drivetrain;
 	    			vm.engine = vehicle.engine;
+	    			vm.price = vehicle.price;
 	    			vm.transmission = vehicle.transmission;
 	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
@@ -12401,6 +12406,7 @@ public class Application extends Controller {
 	    			vm.bodyStyle =vehicle.bodyStyle;
 	    			vm.drivetrain = vehicle.drivetrain;
 	    			vm.engine = vehicle.engine;
+	    			vm.price = vehicle.price;
 	    			vm.transmission = vehicle.transmission;
 	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
@@ -12496,6 +12502,7 @@ public class Application extends Controller {
 	    			vm.drivetrain = vehicle.drivetrain;
 	    			vm.engine = vehicle.engine;
 	    			vm.transmission = vehicle.transmission;
+	    			vm.price = vehicle.price;
 	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
 	        			vm.imgId = vehicleImage.getId().toString();
@@ -12509,6 +12516,7 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
+	    		vm.price = vehicle.price;
 	    		vm.requestDate = df.format(info.requestDate);
 	    		vm.typeOfLead = "Request More Info";
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
@@ -12638,6 +12646,7 @@ public class Application extends Controller {
 	    			vm.bodyStyle =vehicle.bodyStyle;
 	    			vm.drivetrain = vehicle.drivetrain;
 	    			vm.engine = vehicle.engine;
+	    			vm.price = vehicle.price;
 	    			vm.transmission = vehicle.transmission;
 	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
 	        		if(vehicleImage!=null) {
