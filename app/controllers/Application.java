@@ -16875,10 +16875,10 @@ public class Application extends Controller {
 	    		info.setUser(user);
 				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		info.setIsScheduled(false);
-	    		info.setIsRead(0);
+	    		info.setIsRead(1);
 	    		info.setHearedFrom(leadVM.hearedFrom);
 	    		info.setContactedFrom(leadVM.contactedFrom);
-	    		
+	    		info.setPremiumFlag(0);
 	    		
 	    		info.setRequestDate(new Date());
 	    		/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -16951,7 +16951,7 @@ public class Application extends Controller {
 	    		test.setPhone(leadVM.custNumber);
 	    		test.setCustZipCode(leadVM.custZipCode);
 	    		test.setEnthicity(leadVM.enthicity);
-	    		test.setIsRead(0);
+	    		test.setIsRead(1);
 	    		test.setUser(user);
 				test.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		test.setHearedFrom(leadVM.hearedFrom);
@@ -16961,7 +16961,7 @@ public class Application extends Controller {
 	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
 	    		test.setVin(vehicle.getVin());
 	    		test.setAssignedTo(user);
-	    		
+	    		test.setPremiumFlag(0);
 	    		//test.setVin(vehicles.get(0).getVin());
 	    		
 	    	/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -17060,7 +17060,7 @@ public class Application extends Controller {
         		tradeIn.setGlassRating(leadVM.glassRating);
         		tradeIn.setHearedFrom(leadVM.hearedFrom);
         		tradeIn.setInteriorRating(leadVM.interiorRating);
-        		tradeIn.setIsRead(0);
+        		tradeIn.setIsRead(1);
         		tradeIn.setKilometres(leadVM.kilometres);
         		tradeIn.setLeaseOrRental(leadVM.rentalReturn);
         		tradeIn.setLienholder(leadVM.lienholder);
@@ -17082,7 +17082,7 @@ public class Application extends Controller {
         		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
         		tradeIn.setVin(vehicle.getVin());
         		tradeIn.setAssignedTo(user);
-        		
+        		tradeIn.setPremiumFlag(0);
         		//tradeIn.setVin(vehicles.get(0).getVin());
         		tradeIn.setYear(leadVM.year);
         		
