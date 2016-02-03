@@ -4017,6 +4017,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		int flag=0;
     		AuthUser user = getLocalUser();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
@@ -4040,8 +4041,8 @@ public class Application extends Controller {
 	    				change.person = user.firstName +" "+user.lastName;
 	    				change.vin = vm.vin;
 	    				change.save();
-	    				
-	    				sendPriceAlertMail(vehicle.vin);
+	    				flag=1;
+	    			//	sendPriceAlertMail(vehicle.vin);
 	    		}
 	    		vehicle.setMake(vm.make);
 	    		vehicle.setModel(vm.model);
@@ -4054,6 +4055,10 @@ public class Application extends Controller {
 		    	vehicle.setMileage(vm.mileage);
 		    	
 		    	vehicle.update();
+		    	if(flag==1){
+		    		System.out.println("in flag 1....");
+		    		sendPriceAlertMail(vehicle.vin);
+		    	}
 		    //	sendPriceAlertMail(vehicle.vin);
 	    	}
 	    	return ok();
@@ -4065,13 +4070,17 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		int flag=0;
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
 	    	Vehicle vehicle = Vehicle.findById(vm.id);
 	    	if(vehicle != null) {
 	    		
-	    		if(vm.price != vehicle.price) {
+	    	
+	    		String databasevalue=vehicle.price.toString();
+	    		String vmvalue= vm.price.toString();
+	    		if(!vmvalue.equals(databasevalue)) {
 	    			List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin,Long.valueOf(session("USER_LOCATION")));
     				for(PriceAlert priceAlert: alertList) {
     					priceAlert.setSendEmail("Y");
@@ -4086,7 +4095,8 @@ public class Application extends Controller {
     				change.person = userObj.firstName +" "+userObj.lastName;
     				change.vin = vm.vin;
     				change.save();
-    				sendPriceAlertMail(vehicle.vin);
+    				flag=1;
+    		//		sendPriceAlertMail(vehicle.vin);
 	    		}
 	    		
 	    		vehicle.setCategory(vm.category);
@@ -4170,6 +4180,10 @@ public class Application extends Controller {
 		    	}
 		    	vehicle.update();
 		    	
+		    	if(flag==1){
+		    		System.out.println("in flag 1");
+		    		sendPriceAlertMail(vehicle.vin);
+		    	}
 		//    	sendPriceAlertMail(vehicle.vin);
 		    	
 		    	Vehicle vehicleObj2 = Vehicle.findByVinAndStatus(vm.vin);

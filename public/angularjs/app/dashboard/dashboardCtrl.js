@@ -4682,25 +4682,25 @@ angular.module('newApp')
     		 $scope.gridOptions.enableHorizontalScrollbar = 0;
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 $scope.gridOptions.columnDefs = [
-    		                                 { name: 'make', displayName: 'Make', width:'12%',cellEditableCondition: true,
+    		                                 { name: 'make', displayName: 'Make', width:'10%',cellEditableCondition: true,
     		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.make}}">{{row.entity.make}}</a></div>',
     		                                 },
-    		                                 { name: 'model', displayName: 'Model', width:'12%',cellEditableCondition: true
+    		                                 { name: 'model', displayName: 'Model', width:'08%',cellEditableCondition: true
     		                                 },
-    		                                 { name: 'stock', displayName: 'Stock', width:'7%',
+    		                                 { name: 'stock', displayName: 'Stock', width:'6%',
     		                                 },
     		                                 { name: 'bodyStyle', displayName: 'Body Style',enableFiltering: false, width:'9%',cellEditableCondition: false,
     		                                	 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
     		                                 },
-    		                                 { name: 'mileage', displayName: 'Mileage',enableFiltering: false, width:'9%',cellEditableCondition: true,
+    		                                 { name: 'mileage', displayName: 'Mileage',enableFiltering: false, width:'8%',cellEditableCondition: true,
     		                                 },
-    		                                 { name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'10%',cellEditableCondition: true,
+    		                                 { name: 'city_mileage', displayName: 'City MPG',enableFiltering: false, width:'8%',cellEditableCondition: true,
     		                                 },
-    		                                 { name: 'highway_mileage', displayName: 'HWY MPG',enableFiltering: false, width:'10%',cellEditableCondition: true,
+    		                                 { name: 'highway_mileage', displayName: 'HWY MPG',enableFiltering: false, width:'8%',cellEditableCondition: true,
     		                                 },
     		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'8%',
     		                                 },
-    		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'8%',cellEditableCondition: false,
+    		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'7%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.getImages(row)" style="line-height: 200%;" title="" data-content="{{row.entity.vehicleCnt}}">{{row.entity.vehicleCnt}}</a></div>',
     		                                 },
     		                                 { name: 'testDrive', displayName: 'Date Sold',enableFiltering: false, width:'10%',cellEditableCondition: false,
