@@ -16475,8 +16475,8 @@ public class Application extends Controller {
     			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
     		}
     		analyticalVM.vin = vehicle.getVin();
-    		analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-    		
+    		//analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
+    		analyticalVM.name=vehicle.getTitle();
     		
     		if(!searchBy.equals("0") && !search.equals("0")){
     			if(searchBy.equals("Model")){
@@ -16570,8 +16570,8 @@ public class Application extends Controller {
     		
     		anVm.vin = vehicle.getVin();
     		anVm.price = vehicle.getPrice();
-    		anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-    		
+    		//anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
+    		anVm.name=vehicle.getTitle();
     		if(pagesCount1.get(vehicle.getVin()) !=null){
     			anVm.count =  pagesCount1.get(vehicle.getVin());
     		}else{
