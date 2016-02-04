@@ -1166,6 +1166,7 @@ angular.module('newApp')
 		   	  	$scope.editLeads.year = entity.year;
 		   	  	$scope.editLeads.custZipCode = entity.custZipCode;
 				$scope.editLeads.enthicity = entity.enthicity;
+				$scope.editLeads.parentChildLead = entity.parentChildLead;
 		   	  	
 		   	  	$scope.editLeads.id = entity.id;
 		   	  	$scope.editLeads.custName = entity.name;

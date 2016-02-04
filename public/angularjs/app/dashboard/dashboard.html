@@ -4060,7 +4060,7 @@ margin-left: 5px;
 								    
 								    
 								    	<div class="modal fade" id="editLeads" tabindex="-1" role="dialog" aria-hidden="true" style="height: 938px;">
-								        <div class="modal-dialog" style="width: 850px;">
+								        <div class="modal-dialog" style="width: 950px;">
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
@@ -4147,8 +4147,43 @@ margin-left: 5px;
 								                    			</div>
 								                    			
 								                    		</div> 
+								                    		
 								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-show="stockWiseData.length  > 1">
 								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
+								                    		</div>
+								                    		   <div ng-if="$index == 0">	
+								                    		<div ng-repeat="childL in editLeads.parentChildLead" style="float: left;">
+								                    				<div class="col-md-4" style="margin-top: 11px;">
+								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="childL.stock" ng-blur="getStockDetails(childL)" disabled="disabled"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="childL.make" disabled="disabled" placeholder="CAR MAKE"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="childL.model" disabled="disabled" placeholder="MODEL"/>
+								                    			</div>
+								                    		</div>
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;margin-top: 11px;" ng-if="stockRp.vin != null">
+								                    			<div>
+								                    				<div class="col-md-4" style="padding-left: 0px;">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121PX;" src="/getImage/{{childL.imgId}}/thumbnail">
+								    								</div>
+								    								<div class="col-md-8" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{childL.year}} {{childL.make}} {{childL.model}}</label>
+								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{childL.bodyStyle}}</label>
+								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="childL.mileage != null">{{childL.mileage}}</label><label class="col-md-6" ng-if="childL.mileage == null">_</label>
+								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="childL.transmission != null">{{childL.transmission}}</label><label class="col-md-6" ng-if="childL.transmission == null">_</label>
+								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="childL.drivetrain != null">{{childL.drivetrain}}</label><label class="col-md-6" ng-if="childL.drivetrain == null">_</label>
+								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="childL.engine != null">{{childL.engine}}</label><label class="col-md-6" ng-if="childL.engine == null">_</label>
+								    								</div>
+								                    				
+								                    			</div>
+								                    			
+								                    		</div> 
+								                    		</div>
 								                    		</div>
 								                    		
 								                    	</div>

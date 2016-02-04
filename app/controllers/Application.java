@@ -2076,12 +2076,13 @@ public class Application extends Controller {
 	    	    		info.setUser(user);
 	    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	    		info.setIsScheduled(false);
-	    	    		info.setIsRead(0);
+	    	    		info.setIsRead(1);
 	    	    		info.setHearedFrom(rInfo.hearedFrom);
 	    	    		info.setContactedFrom(rInfo.contactedFrom);
+	    	    		info.setAssignedTo(user);
 	    	    		
 	    	    		info.setRequestDate(new Date());
-	    	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	    		/*PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	    		if(pLeads != null){
 	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
 	        					info.setPremiumFlag(1);
@@ -2099,7 +2100,7 @@ public class Application extends Controller {
 	    	    		}else{
 	    	    			info.setPremiumFlag(0);
 	    	    			info.setAssignedTo(user);
-	    	    		}
+	    	    		}*/
 	    	    		
 	    	    		if(parentFlag == 1){
 	    	    			info.setParentId(parentLeadId);
@@ -2122,9 +2123,9 @@ public class Application extends Controller {
 	    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
 	    	    		uNotes.save();
 	    	    		
-	    	    		if(info.premiumFlag == 1){
+	    	    		/*if(info.premiumFlag == 1){
 	    	    			sendMailpremium();
-	    	    		}
+	    	    		}*/
 	    	    		
 	        	}else if(vm.leadType.equals("Schedule Test Drive")){
 	        		
@@ -2151,7 +2152,7 @@ public class Application extends Controller {
 	    	    		test.setPhone(vm.custNumber);
 	    	    		test.setCustZipCode(vm.custZipCode);
 	    	    		test.setEnthicity(vm.enthicity);
-	    	    		test.setIsRead(0);
+	    	    		test.setIsRead(1);
 	    	    		test.setUser(user);
 	    				test.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	    		test.setHearedFrom(sInfo.hearedFrom);
@@ -2160,10 +2161,10 @@ public class Application extends Controller {
 	    	    		test.setPreferredContact(sInfo.preferredContact);
 	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
 	    	    		test.setVin(vehicle.getVin());
-	    	    		
+	    	    		test.setAssignedTo(user);
 	    	    		//test.setVin(vehicles.get(0).getVin());
 	    	    		
-	    	    		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	    	/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	    		if(pLeads != null){
 	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
 	        					test.setPremiumFlag(1);
@@ -2181,7 +2182,7 @@ public class Application extends Controller {
 	    	    		}else{
 	    	    			test.setPremiumFlag(0);
 	    	    			test.setAssignedTo(user);
-	    	    		}
+	    	    		}*/
 	    	    		
 	    	    		if(parentFlag == 1){
 	    	    			test.setParentId(parentLeadId);
@@ -2213,9 +2214,9 @@ public class Application extends Controller {
 	    	    		map.put("uphone", user.phone);
 	    	    		map.put("uemail", user.email);
 	    	    		makeToDo(vehicle.vin);
-	    	    		if(test.premiumFlag == 1){
+	    	    		/*if(test.premiumFlag == 1){
 	    	    			sendMailpremium();
-	    	    		}
+	    	    		}*/
 	        		sendMail(map);
 	        	}else if(vm.leadType.equals("Trade-In Appraisal")){
 		    		TradeIn leadVM = TradeIn.findById(Long.parseLong(vm.id));
@@ -2243,7 +2244,7 @@ public class Application extends Controller {
 	            		tradeIn.setGlassRating(leadVM.glassRating);
 	            		tradeIn.setHearedFrom(leadVM.hearedFrom);
 	            		tradeIn.setInteriorRating(leadVM.interiorRating);
-	            		tradeIn.setIsRead(0);
+	            		tradeIn.setIsRead(1);
 	            		tradeIn.setKilometres(leadVM.kilometres);
 	            		tradeIn.setLeaseOrRental(leadVM.leaseOrRental);
 	            		tradeIn.setLienholder(leadVM.lienholder);
@@ -2264,11 +2265,12 @@ public class Application extends Controller {
 	            		tradeIn.setVehiclenew(leadVM.vehiclenew);
 	            		Vehicle vehicle = Vehicle.findByStockAndNew(vm.stockNumber);
 	            		tradeIn.setVin(vm.vin);
+	            		tradeIn.setAssignedTo(user);
 	            		
 	            		//tradeIn.setVin(vehicles.get(0).getVin());
 	            		tradeIn.setYear(vm.year);
 	            		
-	            		PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	            	/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	            		if(pLeads != null){
 	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
 	        					tradeIn.setPremiumFlag(1);
@@ -2286,7 +2288,7 @@ public class Application extends Controller {
 	    	    		}else{
 	    	    			tradeIn.setPremiumFlag(0);
 	    	    			tradeIn.setAssignedTo(user);
-	    	    		}
+	    	    		}*/
 	            		
 	            		if(parentFlag == 1){
 	            			tradeIn.setParentId(parentLeadId);
