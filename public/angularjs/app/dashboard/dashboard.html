@@ -4291,7 +4291,7 @@ margin-left: 5px;
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">Add to Client Base</h4>
+								                    <h4 class="modal-title">Sold Vehicle</h4>
 								                </div>
 								                <form ng-submit="saveRequestStatus()">
 								                <div class="modal-body" style="height:752px;overflow-x:auto;">
@@ -4791,8 +4791,8 @@ margin-left: 5px;
 								    </div>
 								    
 								    <div class="modal fade" id="scheduleTestDriveModal" tabindex="-1" role="dialog" aria-hidden="true">
-								        <div class="modal-dialog">
-								            <div class="modal-content">
+								        <div class="modal-dialog" style="width: 800px;">
+								            <div class="modal-content" style="height: 780px;overflow: auto;">
 								                <div class="modal-header">
 								                    <button type="button" class="close" id="driveClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">Schedule Test Drive</h4>
@@ -4800,6 +4800,24 @@ margin-left: 5px;
 								                 <form ng-submit="saveTestDrive()">
 								                <div class="modal-body">
 								                	<div class="form-group col-sm-12">
+								                			<div class="form-group col-md-12" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
+								                    			<div>
+								                    				<div class="col-md-4" style="padding-left: 0px;">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121px;" src="/getImage/{{stockWiseData[0].imgId}}/thumbnail">
+								    								</div>
+								    								<div class="col-md-8" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{stockWiseData[0].year}} {{stockWiseData[0].make}} {{stockWiseData[0].model}}</label>
+								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{stockWiseData[0].bodyStyle}}</label>
+								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="stockWiseData[0].mileage != null">{{stockWiseData[0].mileage}}</label><label class="col-md-6" ng-if="stockWiseData[0].mileage == null">_</label>
+								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="stockWiseData[0].transmission != null">{{stockWiseData[0].transmission}}</label><label class="col-md-6" ng-if="stockWiseData[0].transmission == null">_</label>
+								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="stockWiseData[0].drivetrain != null">{{stockWiseData[0].drivetrain}}</label><label class="col-md-6" ng-if="stockWiseData[0].drivetrain == null">_</label>
+								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="stockWiseData[0].engine != null">{{stockWiseData[0].engine}}</label><label class="col-md-6" ng-if="stockWiseData[0].engine == null">_</label>
+								    								</div>
+								                    				
+								                    			</div>
+								                    			
+								                    		</div> 
 								                		<div class="form-group col-sm-8">
 								                			<div class="form-group col-sm-12">
 														<label class="col-sm-5 control-label" style="text-align: left;">Name</label>
@@ -4859,10 +4877,52 @@ margin-left: 5px;
 								                    		</table>	
 								                		</div>
 								               </div>
-								                				
+								               		<div ng-repeat="parentchil in testDriveData.parentChildLead">
+								                			<div class="form-group col-md-8" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
+								                    			<div>
+								                    				<div class="col-md-4" style="padding-left: 0px;">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121px;" src="/getImage/{{parentchil.imgId}}/thumbnail">
+								    								</div>
+								    								<div class="col-md-8" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{parentchil.year}} {{parentchil.make}} {{parentchil.model}}</label>
+								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{parentchil.bodyStyle}}</label>
+								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="parentchil.mileage != null">{{parentchil.mileage}}</label><label class="col-md-6" ng-if="parentchil.mileage == null">_</label>
+								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="parentchil.transmission != null">{{parentchil.transmission}}</label><label class="col-md-6" ng-if="parentchil.transmission == null">_</label>
+								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="parentchil.drivetrain != null">{{parentchil.drivetrain}}</label><label class="col-md-6" ng-if="parentchil.drivetrain == null">_</label>
+								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="parentchil.engine != null">{{stockWiseData[0].engine}}</label><label class="col-md-6" ng-if="parentchil.engine == null">_</label>
+								    								</div>
+								                    				
+								                    			</div>
+								                    			
+								                    		</div> 	
+								                    		<div class="form-group col-md-4">
+								                    			<div class="form-group col-sm-12" style="padding: 0px;">
+																	<label class="col-sm-5 control-label" style="text-align: left;padding: 0px;">Best Day</label>
+																	<div class="col-sm-7" style="padding: 0px;">
+																		<input data-provide="datepicker" id="testDriveDate{{$index}}" class="form-control input-sm" 
+																		ng-model="parentchil.bestDay" data-date-format="yyyy-mm-dd" required>
+																	</div>
+																</div>
+																<div class="form-group col-sm-12" style="padding: 0px;">
+																	<label class="col-sm-5 control-label" style="text-align: left;padding: 0px;">&nbsp;</label>
+																	<div class="col-sm-7" id="testDriveNature">
+																	</div>
+																</div>
+																<div class="form-group col-sm-12" style="padding: 0px;">
+																	<label class="col-sm-5 control-label" style="text-align: left;padding: 0px;">Best Time</label>
+																	<div class="col-sm-7">
+																		<div class="prepend-icon">
+											                              <input type="text" name="timepicker" ng-model="parentchil.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime{{$index}}">
+											                              <i class="icon-clock"></i>
+											                            </div>
+																	</div>
+																</div>
+								                    		</div>	
+								                    	</div>	
 								                	</div>	
-								                	
-								                <div class="modal-footer">
+																			                	
+								                <div class="modal-footer" style="float: left;">
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
 								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
 								                </div>

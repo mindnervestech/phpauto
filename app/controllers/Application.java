@@ -13381,162 +13381,31 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		
-    		Date currDate = new Date();
     		String msg = "success";
     		boolean flag = true;
+    		int flagFirstComp = 0;
     		AuthUser user = getLocalUser();
-    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+    		
     		request().body().asJson();
     		Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
     		RequestInfoVM vm = form.get();
     		Date confirmDate = null;
-    		Vehicle obj = Vehicle.findByVinAndStatus(vm.vin);
-    		if(vm.option==1) {
-    			RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(vm.id);
-    			requestMoreInfo.setName(vm.name);
-    			requestMoreInfo.setEmail(vm.email);
-    			requestMoreInfo.setPhone(vm.phone);
-    			requestMoreInfo.setBestDay(vm.bestDay);
-    			try {
-    				confirmDate = df.parse(vm.bestDay);
-    				requestMoreInfo.setConfirmDate(confirmDate);
-    				requestMoreInfo.setConfirmTime(parseTime.parse(vm.bestTime));
-    				List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
-    				List<TradeIn> list1 = TradeIn.findByVin(vm.vin);
-    				List<ScheduleTest> list2 = ScheduleTest.findByVin(vm.vin);
-    				Date date = parseTime.parse(vm.bestTime);
+    		//Vehicle obj = Vehicle.findByVinAndStatus(vm.vin);
+    		
+    		
+    			schTestDrive(vm, msg, flag, confirmDate);
+    			if(vm.parentChildLead != null){
+    				for(RequestInfoVM rVm:vm.parentChildLead){
+    					rVm.option = vm.option;
+    					msg = "success";
+    		    		flag = true;
+    					schTestDrive(rVm, msg, flag, confirmDate);
+    				}
     				
-    				for (RequestMoreInfo info2 : list) {
-    					if(info2.confirmDate != null && info2.confirmTime !=null){
-    						if(info2.confirmDate.equals(confirmDate)){
-    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
-    								msg = "error";
-    								flag = false;
-    							}
-    						}
-    					}
-					}
-    				
-    				for (TradeIn info2 : list1) {
-    					if(info2.confirmDate != null && info2.confirmTime !=null){
-    						if(info2.confirmDate.equals(confirmDate)){
-    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
-    								msg = "error";
-    								flag = false;
-    							}
-    						}
-    					}
-					}
-    				
-    				
-    				for (ScheduleTest info2 : list2) {
-    					if(info2.confirmDate != null && info2.confirmTime !=null){
-    						if(info2.confirmDate.equals(confirmDate)){
-    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
-    								msg = "error";
-    								flag = false;
-    							}
-    						}
-    					}
-					}
-    				
-    			} catch(Exception e) {}
-    			requestMoreInfo.setBestTime(vm.bestTime);
-    			requestMoreInfo.setPreferredContact(vm.prefferedContact);
-    			requestMoreInfo.setVin(vm.vin);
-    			requestMoreInfo.setScheduleDate(new Date());
-    			requestMoreInfo.setUser(user);
-    			requestMoreInfo.setIsScheduled(true);
-    			if(msg.equals("success")){
-    				requestMoreInfo.update();
-    				
-    				UserNotes uNotes = new UserNotes();
-    	    		uNotes.setNote("Test Drive Scheduled");
-    	    		uNotes.setAction("Other");
-    	    		uNotes.createdDate = currDate;
-    	    		uNotes.createdTime = currDate;
-    	    		uNotes.user = user;
-	        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
-    	    		uNotes.save();
     			}
-    		} else {
-    			TradeIn tradeIn = TradeIn.findById(vm.id);
-    			tradeIn.setFirstName(vm.name);
-    			tradeIn.setEmail(vm.email);
-    			tradeIn.setPhone(vm.phone);
-    			tradeIn.setBestDay(vm.bestDay);
-    			tradeIn.setBestTime(vm.bestTime);
-    			try {
-    				confirmDate = df.parse(vm.bestDay);
-    				tradeIn.setConfirmDate(confirmDate);
-    				tradeIn.setConfirmTime(parseTime.parse(vm.bestTime));
-    				
-    				List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
-    				List<TradeIn> list1 = TradeIn.findByVin(vm.vin);
-    				List<ScheduleTest> list2 = ScheduleTest.findByVin(vm.vin);
-    				Date date = parseTime.parse(vm.bestTime);
-    				
-    				for (RequestMoreInfo info2 : list) {
-    					if(info2.confirmDate != null && info2.confirmTime !=null){
-    						if(info2.confirmDate.equals(confirmDate)){
-    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
-    								msg = "error";
-    								flag = false;
-    							}
-    						}
-    					}
-					}
-    				
-    				for (TradeIn info2 : list1) {
-    					if(info2.confirmDate != null && info2.confirmTime !=null){
-    						if(info2.confirmDate.equals(confirmDate)){
-    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
-    								msg = "error";
-    								flag = false;
-    							}
-    						}
-    					}
-					}
-    				
-    				
-    				for (ScheduleTest info2 : list2) {
-    					if(info2.confirmDate != null && info2.confirmTime !=null){
-    						if(info2.confirmDate.equals(confirmDate)){
-    							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
-    							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
-    								msg = "error";
-    								flag = false;
-    							}
-    						}
-    					}
-					}
-    				
-    			} catch(Exception e) {}
-    			tradeIn.setPreferredContact(vm.prefferedContact);
-    			tradeIn.setVin(vm.vin);
-    			tradeIn.setScheduleDate(new Date());
-    			tradeIn.setUser(user);
-    			tradeIn.setIsScheduled(true);
-    			if(msg.equals("success")){
-    				tradeIn.update();
-    				
-    				UserNotes uNotes = new UserNotes();
-    	    		uNotes.setNote("Test Drive Scheduled");
-    	    		uNotes.setAction("Other");
-    	    		uNotes.createdDate = currDate;
-    	    		uNotes.createdTime = currDate;
-    	    		uNotes.user = user;
-    	    		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
-    	    		uNotes.save();
-    			}
-    		}
+    			
+    		
+    		
     		
     		if(flag){
     			Map map = new HashMap();
@@ -13556,7 +13425,158 @@ public class Application extends Controller {
     	}
     }
     
-   
+   public static void schTestDrive(RequestInfoVM vm, String msg,boolean flag,Date confirmDate){
+	   AuthUser user = getLocalUser();
+	   Date currDate = new Date();
+	   SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+		
+	   if(vm.option==1) {
+			RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(vm.id);
+			requestMoreInfo.setName(vm.name);
+			requestMoreInfo.setEmail(vm.email);
+			requestMoreInfo.setPhone(vm.phone);
+			requestMoreInfo.setBestDay(vm.bestDay);
+			try {
+				confirmDate = df.parse(vm.bestDay);
+				requestMoreInfo.setConfirmDate(confirmDate);
+				requestMoreInfo.setConfirmTime(parseTime.parse(vm.bestTime));
+				List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
+				List<TradeIn> list1 = TradeIn.findByVin(vm.vin);
+				List<ScheduleTest> list2 = ScheduleTest.findByVin(vm.vin);
+				Date date = parseTime.parse(vm.bestTime);
+				
+				for (RequestMoreInfo info2 : list) {
+					if(info2.confirmDate != null && info2.confirmTime !=null){
+						if(info2.confirmDate.equals(confirmDate)){
+							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
+								msg = "error";
+								flag = false;
+							}
+						}
+					}
+				}
+				
+				for (TradeIn info2 : list1) {
+					if(info2.confirmDate != null && info2.confirmTime !=null){
+						if(info2.confirmDate.equals(confirmDate)){
+							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
+								msg = "error";
+								flag = false;
+							}
+						}
+					}
+				}
+				
+				
+				for (ScheduleTest info2 : list2) {
+					if(info2.confirmDate != null && info2.confirmTime !=null){
+						if(info2.confirmDate.equals(confirmDate)){
+							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
+								msg = "error";
+								flag = false;
+							}
+						}
+					}
+				}
+				
+			} catch(Exception e) {}
+			requestMoreInfo.setBestTime(vm.bestTime);
+			requestMoreInfo.setPreferredContact(vm.prefferedContact);
+			requestMoreInfo.setVin(vm.vin);
+			requestMoreInfo.setScheduleDate(new Date());
+			requestMoreInfo.setUser(user);
+			requestMoreInfo.setIsScheduled(true);
+			if(msg.equals("success")){
+				requestMoreInfo.update();
+				
+				UserNotes uNotes = new UserNotes();
+	    		uNotes.setNote("Test Drive Scheduled");
+	    		uNotes.setAction("Other");
+	    		uNotes.createdDate = currDate;
+	    		uNotes.createdTime = currDate;
+	    		uNotes.user = user;
+       		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
+	    		uNotes.save();
+			}
+		} else {
+			TradeIn tradeIn = TradeIn.findById(vm.id);
+			tradeIn.setFirstName(vm.name);
+			tradeIn.setEmail(vm.email);
+			tradeIn.setPhone(vm.phone);
+			tradeIn.setBestDay(vm.bestDay);
+			tradeIn.setBestTime(vm.bestTime);
+			try {
+				confirmDate = df.parse(vm.bestDay);
+				tradeIn.setConfirmDate(confirmDate);
+				tradeIn.setConfirmTime(parseTime.parse(vm.bestTime));
+				
+				List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
+				List<TradeIn> list1 = TradeIn.findByVin(vm.vin);
+				List<ScheduleTest> list2 = ScheduleTest.findByVin(vm.vin);
+				Date date = parseTime.parse(vm.bestTime);
+				
+				for (RequestMoreInfo info2 : list) {
+					if(info2.confirmDate != null && info2.confirmTime !=null){
+						if(info2.confirmDate.equals(confirmDate)){
+							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
+								msg = "error";
+								flag = false;
+							}
+						}
+					}
+				}
+				
+				for (TradeIn info2 : list1) {
+					if(info2.confirmDate != null && info2.confirmTime !=null){
+						if(info2.confirmDate.equals(confirmDate)){
+							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
+								msg = "error";
+								flag = false;
+							}
+						}
+					}
+				}
+				
+				
+				for (ScheduleTest info2 : list2) {
+					if(info2.confirmDate != null && info2.confirmTime !=null){
+						if(info2.confirmDate.equals(confirmDate)){
+							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
+								msg = "error";
+								flag = false;
+							}
+						}
+					}
+				}
+				
+			} catch(Exception e) {}
+			tradeIn.setPreferredContact(vm.prefferedContact);
+			tradeIn.setVin(vm.vin);
+			tradeIn.setScheduleDate(new Date());
+			tradeIn.setUser(user);
+			tradeIn.setIsScheduled(true);
+			if(msg.equals("success")){
+				tradeIn.update();
+				
+				UserNotes uNotes = new UserNotes();
+	    		uNotes.setNote("Test Drive Scheduled");
+	    		uNotes.setAction("Other");
+	    		uNotes.createdDate = currDate;
+	    		uNotes.createdTime = currDate;
+	    		uNotes.user = user;
+	    		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
+	    		uNotes.save();
+			}
+		}
+   }
     
     public static Result getAllCanceledLeads() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

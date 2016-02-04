@@ -2924,6 +2924,8 @@ angular.module('newApp')
 		   }
 		   $scope.testDriveData = {};
 		   $scope.scheduleTestDriveForUser = function(entity,option) {
+			   console.log(entity);
+			   $scope.stockWiseData = [];
 			   $scope.cnTimeList = [];
 	    	   	   $scope.timeList = [];
 			   $('#btnTestDrive').click();
@@ -2932,11 +2934,60 @@ angular.module('newApp')
 			   $scope.testDriveData.email = entity.email;
 			   $scope.testDriveData.phone = entity.phone;
 			   $scope.testDriveData.vin = entity.vin;
+			   $scope.testDriveData.parentChildLead = entity.parentChildLead;
 			   $scope.testDriveData.bestDay = "";
 			   $scope.testDriveData.bestTime = "";
 			   $scope.testDriveData.option = option;
 			   $('#bestTime').val("");
 			   $scope.testDriveData.prefferedContact = "";
+			   
+			   $scope.stockWiseData.push({
+					model:entity.model,
+					make:entity.make,
+					stockNumber:entity.stock,
+					year:entity.year,
+					bodyStyle:entity.bodyStyle,
+					mileage:entity.mileage,
+					transmission:entity.transmission,
+					drivetrain:entity.drivetrain,
+					engine:entity.engine,
+					vin:entity.vin,
+				});
+			   
+			   
+			   
+			   
+			   
+			   /*
+			   $scope.requestStatusComplete = entity;
+	    		$scope.soldContact = {};
+	    		$scope.soldContact.infoId = entity.id;
+	    		$scope.soldContact.name = entity.name;
+	    		$scope.soldContact.email = entity.email;
+	    		$scope.soldContact.phone = entity.phone;
+	    		$scope.soldContact.custZipCode = entity.custZipCode;
+	    		$scope.soldContact.typeOfLead = entity.typeOfLead;
+	    		$scope.soldContact.enthicity = entity.enthicity;
+	    		$scope.soldContact.parentChildLead = entity.parentChildLead;
+	    		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
+	    			$scope.soldContact.howContactedUs = entity.howContactedUs;
+	    		} else {
+	    			$scope.soldContact.howContactedUs = "Online";
+	    		}
+	    		if(entity.howFoundUs != null && angular.isUndefined(entity.howFoundUs)) {
+	    			$scope.soldContact.howFoundUs = entity.howFoundUs;
+	    		} else {
+	    			$scope.soldContact.howFoundUs = "";
+	    		}
+	    		$scope.soldContact.make = entity.make;
+	    		$scope.soldContact.year = entity.year;
+	    		$scope.soldContact.mileage = entity.mileage;
+	    		$scope.soldContact.price = entity.price;
+	    		$('#btnCompleteRequest').click();*/
+			   
+			   
+			   
+			   
 		   }
 		   
 		   $scope.getScheduleTime = function(){
@@ -2948,6 +2999,12 @@ angular.module('newApp')
 		   $scope.saveTestDrive = function() {
 			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
 			   $scope.testDriveData.bestTime = $('#bestTime').val();
+			   
+			   	angular.forEach($scope.testDriveData.parentChildLead,function(value,key){
+			   			value.bestDay = $('#testDriveDate'+key).val();
+			   			value.bestTime =  $('#bestTime'+key).val();
+			   	});  
+			   
 			   $scope.testDriveData.prefferedContact = $("input:radio[name=preffered]:checked").val();
 			   console.log($scope.testDriveData);
 			   $http.post('/saveTestDrive',$scope.testDriveData)
