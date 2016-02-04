@@ -27,6 +27,58 @@ angular.module('newApp')
 	$scope.nameTxt = 'false';
 	$scope.vin = null;
 	$scope.index = null;
+	$scope.successRate= 'true';
+	$scope.currentLeads = 'true';
+	$scope.amountSold = 'true';
+	$scope.soldCar= 'true';
+	$scope.orderItem = null;
+	$scope.index=null;
+	
+	$scope.imageEnter = function(index){
+		$scope.index=index;
+	};
+	$scope.imageLeave  = function(index){
+		$scope.index=null;
+	};
+	$scope.successRateFilter = function(successRate){
+		if(successRate == 'true'){
+			$scope.orderItem = 'successRate';
+			$scope.successRate = 'false';
+		}else if(successRate == 'false'){
+			$scope.orderItem = '-successRate';
+			$scope.successRate = 'true';
+		}
+		console.log($scope.orderItem);
+		console.log($scope.successRate);
+	};
+	$scope.currentLeadsFilter = function(currentLeads){
+		if(currentLeads == 'true'){
+			$scope.orderItem = 'currentLeads';
+			$scope.currentLeads = 'false';
+		}else if(currentLeads == 'false'){
+			$scope.orderItem = '-currentLeads';
+			$scope.currentLeads = 'true';
+		}
+	};
+	$scope.amountSoldFilter = function(amountSold){
+		if(amountSold == 'true'){
+			$scope.orderItem = 'salesAmount';
+			$scope.amountSold = 'false';
+		}else if(amountSold == 'false'){
+			$scope.orderItem = '-salesAmount';
+			$scope.amountSold = 'true';
+		}
+	};
+	$scope.soldCarFilter = function(soldCar){
+		if(soldCar == 'true'){
+			$scope.orderItem = 'saleCar';
+			$scope.soldCar = 'false';
+		}else if(soldCar == 'false'){
+			$scope.orderItem = '-saleCar';
+			$scope.soldCar = 'true';
+		}
+	};
+	
 	$http.get('/getUserPermission').success(function(data){
 		$scope.userPer = data;
 		console.log($scope.userPer);

@@ -22,6 +22,18 @@
     </div>
 </div> -->
 <style type="text/css">
+.circleBase {
+    border-radius: 50%;
+    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+}
+
+.type {
+    width: 120px;
+    height: 120px;
+    background: black;
+    border: 3px solid black;
+}
+
 .wheth-report div{
 background-color: black !important;
 }
@@ -389,6 +401,7 @@ margin-left: 5px;
 						            <div class="col-md-12">
 						             <div class="panel" style="height: 413px;">
 									    <h4 style="line-height:0.428571;margin-top:3%;width:66%;"><b style="margin-left:3%;">TOP SALES PEOPLE  </b></h4>
+									    
 									   <!--  <select  class="form-control form-white" ng-model="salesPersonUser" ng-change="getPerformanceOfUser()" style="width:29%;margin-left: 4%;margin-top:1%;" >
 									    	<option ng-selected="true" value="">Select user</option>
 						                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
@@ -398,21 +411,29 @@ margin-left: 5px;
 									<div class="col-xlg-12 panel" style="height: 360px;position: relative;margin-top:1%;">
 									         <div>
 									           <div class="col-sm-12">
-									               <h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()" ng-class="topPerformers == true ?'underline':''">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()" ng-class="worstPerformers == true ?'underline':''">WORST PERFORMERS</a></h6>
+									               <h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()" ng-class="topPerformers == true ?'underline':''">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()" ng-class="worstPerformers == true ?'underline':''">WORST PERFORMERS</a></h6>
+									               <div class="col-sm-4">
+									               		<span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;" ng-click="successRateFilter(successRate)">  </span>
+									    				<span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;" ng-click="currentLeadsFilter(currentLeads)">  </span>
+									    				<span class="glyphicon glyphicon-usd" title="$$$ Amount Sold" style="color: darkturquoise;" ng-click="amountSoldFilter(amountSold)">  </span>
+									    				<span class="fa fa-car" title="Sold Car" style="color: darkturquoise;" ng-click="soldCarFilter(soldCar)">  </span>
+									    		</div>
 									                <h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a></h6>
 									            </div>
 									         </div>
 								         
 									         
 									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 341px;">
-									                <div style="float: left;" ng-repeat="item in userPerformanceList">
+									                <div style="float: left;" ng-repeat="item in userPerformanceList | orderBy: orderItem">
 									               									                
 									              <div>
-									              <div>
-									                     <img style="width: 116px;"  src="{{item.imageUrl}}">
-									                 	
-									                  </div>      
-									              </div>
+									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)">
+									                     <img ng-if="$index!=index"  style="width: 116px;"  src="{{item.imageUrl}}">
+									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
+									                 		<h1 style="color:white;margin-top: 20px;">99%</h1>
+									                 	</div>
+									                 </div> 
+									            </div>
 										 <div style="line-height:1.028571;margin-left: 25px;">
 											<label class="control-label" style="text-align: center;font-size: 17px;"><b>{{item.fullName}}</b></label>
 										
