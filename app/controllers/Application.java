@@ -51,7 +51,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
-import javax.security.auth.AuthPermission;
 
 import models.ActionAdd;
 import models.AuthUser;
@@ -108,7 +107,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.omg.PortableInterceptor.RequestInfo;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -12066,6 +12064,74 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		vm.option = 0;
+	    		
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			ScheduleTest sTest = ScheduleTest.findByIdAndParent(info.parentId);
+	    			if(sTest != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = sTest.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(sTest.vin);
+	    	    		rList1.vin = sTest.vin;
+	    	    		if(vehicle1 != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = sTest.name;
+	    	    		rList1.phone = sTest.phone;
+	    	    		rList1.email = sTest.email;
+	    	    		rList1.requestDate = df.format(sTest.scheduleDate);
+	    	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
+	    		
+	    		List<ScheduleTest> tIns = ScheduleTest.findAllByParentID(info.getId());
+	    		for(ScheduleTest info1:tIns){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle1 != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.name;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.scheduleDate);
+    	    		rList1.typeOfLead = "Trade-In Appraisal";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -12233,6 +12299,75 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		vm.option = 2;
+	    		
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
+	    			if(tIn != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = tIn.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
+	    	    		rList1.vin = tIn.vin;
+	    	    		if(vehicle1 != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = tIn.firstName;
+	    	    		rList1.phone = tIn.phone;
+	    	    		rList1.email = tIn.email;
+	    	    		rList1.requestDate = df.format(tIn.tradeDate);
+	    	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
+	    		
+	    		List<TradeIn> tIns = TradeIn.findAllByParentID(info.getId());
+	    		for(TradeIn info1:tIns){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle1 != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.firstName;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.tradeDate);
+    	    		rList1.typeOfLead = "Trade-In Appraisal";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
+	    		
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -12306,6 +12441,74 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		vm.option = 1;
+	    		
+	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		if(info.parentId != null){
+	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
+	    			if(rMoreInfo != null){
+	    				RequestInfoVM rList1 = new RequestInfoVM();
+	    				rList1.id = rMoreInfo.id;
+	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
+	    	    		rList1.vin = rMoreInfo.vin;
+	    	    		if(vehicle1 != null) {
+	    	    			rList1.model = vehicle1.model;
+	    	    			rList1.make = vehicle1.make;
+	    	    			rList1.stock = vehicle1.stock;
+	    	    			rList1.year = vehicle1.year;
+	    	    			rList1.mileage = vehicle1.mileage;
+	    	    			rList1.price = vehicle1.price;
+	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	    	        		if(vehicleImage!=null) {
+	    	        			rList1.imgId = vehicleImage.getId().toString();
+	    	        		}
+	    	        		else {
+	    	        			rList1.imgId = "/assets/images/no-image.jpg";
+	    	        		}
+	    	    			
+	    	    		}
+	    	    		rList1.name = rMoreInfo.name;
+	    	    		rList1.phone = rMoreInfo.phone;
+	    	    		rList1.email = rMoreInfo.email;
+	    	    		rList1.requestDate = df.format(rMoreInfo.requestDate);
+	    	    		rList1.typeOfLead = "Request More Info";
+	    	    		
+	    	    		rList2.add(rList1);
+	    			}
+	    		}
+	    		
+	    		List<RequestMoreInfo> requestMoreInfo = RequestMoreInfo.findAllByParentID(info.getId());
+	    		for(RequestMoreInfo info1:requestMoreInfo){
+	    			RequestInfoVM rList1 = new RequestInfoVM();
+    				rList1.id = info1.id;
+    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    	    		rList1.vin = info1.vin;
+    	    		if(vehicle1 != null) {
+    	    			rList1.model = vehicle1.model;
+    	    			rList1.make = vehicle1.make;
+    	    			rList1.stock = vehicle1.stock;
+    	    			rList1.year = vehicle1.year;
+    	    			rList1.mileage = vehicle1.mileage;
+    	    			rList1.price = vehicle1.price;
+    	    			rList1.bodyStyle =vehicle1.bodyStyle;
+    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+    	        		if(vehicleImage!=null) {
+    	        			rList1.imgId = vehicleImage.getId().toString();
+    	        		}
+    	        		else {
+    	        			rList1.imgId = "/assets/images/no-image.jpg";
+    	        		}
+    	    		}
+    	    		rList1.name = info1.name;
+    	    		rList1.phone = info1.phone;
+    	    		rList1.email = info1.email;
+    	    		rList1.requestDate = df.format(info1.requestDate);
+    	    		rList1.typeOfLead = "Request More Info";
+    	    		
+    	    		rList2.add(rList1);
+	    		}
+	    		vm.parentChildLead = rList2;
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	
