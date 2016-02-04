@@ -6835,10 +6835,10 @@ public class Application extends Controller {
 	    		if(!info.year.equals("null")){
 	    			lVm.year = info.year;
 	    		}
-	    		if(!info.make.equals("null")){
+	    		if(info.make != null){
 	    			lVm.make = info.make;
 	    		}
-	    		if(!info.model.equals("null")){
+	    		if(info.model != null){
 	    			lVm.model = info.model;
 	    		}
 	    		if(!info.exteriorColour.equals("null")){
@@ -7608,10 +7608,10 @@ public class Application extends Controller {
 	    		if(!info.year.equals("null")){
 	    			lVm.year = info.year;
 	    		}
-	    		if(!info.make.equals("null")){
+	    		if(info.make != null){
 	    			lVm.make = info.make;
 	    		}
-	    		if(!info.model.equals("null")){
+	    		if(info.model != null){
 	    			lVm.model = info.model;
 	    		}
 	    		if(!info.exteriorColour.equals("null")){
@@ -12725,10 +12725,10 @@ public class Application extends Controller {
 	    		if(!info.year.equals("null")){
 	    			lVm.year = info.year;
 	    		}
-	    		if(!info.make.equals("null")){
+	    		if(info.make != null){
 	    			lVm.make = info.make;
 	    		}
-	    		if(!info.model.equals("null")){
+	    		if(info.model != null){
 	    			lVm.model = info.model;
 	    		}
 	    		if(!info.exteriorColour.equals("null")){
