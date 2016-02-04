@@ -1157,6 +1157,7 @@ angular.module('newApp')
 				drivetrain:entity.drivetrain,
 				engine:entity.engine,
 				vin:entity.vin,
+				imgId:entity.imgId,
 			});
    	  			console.log($scope.stockWiseData);
    	  			$scope.editLeads.vin = entity.vin;
@@ -2973,6 +2974,7 @@ angular.module('newApp')
 					drivetrain:entity.drivetrain,
 					engine:entity.engine,
 					vin:entity.vin,
+					imgId:entity.imgId,
 				});
 			   
 			   
