@@ -56,6 +56,7 @@ import javax.security.auth.AuthPermission;
 import models.ActionAdd;
 import models.AuthUser;
 import models.Blog;
+import models.Comments;
 import models.Contacts;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
@@ -13019,6 +13020,7 @@ public class Application extends Controller {
 				
 				UserVM vm = new UserVM();
 				vm.fullName = sales.firstName+" "+sales.lastName;
+				vm.id = sales.id;
 				if(sales.imageUrl != null) {
 					if(sales.imageName !=null){
 						vm.imageUrl = "http://glider-autos.com/glivrImg/images"+sales.imageUrl;
@@ -20860,5 +20862,61 @@ public class Application extends Controller {
 	    	return ok();
     	}	
     }
+	
+	public static Result updateUserComment(Integer id , String comment){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser userObj = AuthUser.findById(id);
+	    	Comments comm = Comments.getByUser(userObj);
+	    	if(comm != null) {
+	    		comm.setComment(comment);
+	    		comm.update();
+	    	}else{
+	    		Comments cm = new Comments();
+	    		cm.comment = comment;
+	    		cm.user = userObj;
+	    		cm.save();
+	    	}
+	    	likeEmail(userObj.email, comment);
+	    	return ok();
+    	}	
+    }
+	
+	public static Result likeEmail(String email, String comment) {
+		System.out.println("Work like Email"+email);
+		
+				Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		  
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 			
+		 			Message feedback = new MimeMessage(session);
+		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			feedback.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(email));
+		  			 feedback.setSubject("Manager like your work");	  			
+		  			 BodyPart messageBodyPart = new MimeBodyPart();	
+		  	         messageBodyPart.setText("Comment: "+comment);	 	    
+		  	         Multipart multipart = new MimeMultipart();	  	    
+		  	         multipart.addBodyPart(messageBodyPart);	            
+		  	         feedback.setContent(multipart);
+		  		     Transport.send(feedback);
+	    			System.out.println("email send");
+		       		} catch (MessagingException e) {
+		  			  throw new RuntimeException(e);
+		  		}
+		return ok();
+	}
 	
 }

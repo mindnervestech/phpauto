@@ -33,7 +33,8 @@ angular.module('newApp')
 	$scope.soldCar= 'true';
 	$scope.orderItem = null;
 	$scope.index=null;
-	
+	$scope.userId = null;
+	$scope.userComment = null;
 	$scope.imageEnter = function(index){
 		$scope.index=index;
 	};
@@ -77,6 +78,25 @@ angular.module('newApp')
 			$scope.orderItem = '-saleCar';
 			$scope.soldCar = 'true';
 		}
+	};
+	
+	$scope.openComment = function(item){
+		console.log(item);
+		$scope.userId = item.id;
+		$('#commentModel').modal();
+	};
+	
+	$scope.saveComment = function(){
+		console.log($scope.userId);
+		console.log($scope.userComment);
+		if($scope.userComment !=null && $scope.userComment !=""){
+			$http.get('/updateUserComment/'+$scope.userId+"/"+$scope.userComment)
+			.success(function(data) {
+				console.log("success");
+			});
+		}
+		$scope.userId = null;
+		$scope.userComment = null;
 	};
 	
 	$http.get('/getUserPermission').success(function(data){

@@ -430,7 +430,7 @@ margin-left: 5px;
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)">
 									                     <img ng-if="$index!=index"  style="width: 116px;"  src="{{item.imageUrl}}">
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
-									                 		<h1 style="color:white;margin-top: 20px;">99%</h1>
+									                 		<h1 style="color:white;margin-top: 30px;">99%</h1>
 									                 	</div>
 									                 </div> 
 									            </div>
@@ -467,7 +467,7 @@ margin-left: 5px;
 												<button type="button" class="btn btn-blue">Compare</button>
 										</div>
 										<div>
-											<a style="font-size: 25px;margin-left: 18px;"><span class="glyphicon glyphicon-thumbs-up" style="width: 50px;"></span></a><a style="width: 60px;font-size: 25px;" href="mailto:{{item.email}}"><span class="glyphicon glyphicon-envelope" style="width: 50px;"></span></a>
+											<a style="font-size: 25px;margin-left: 18px;"><span class="glyphicon glyphicon-thumbs-up" style="width: 50px;" ng-click="openComment(item)"></span></a><a style="width: 60px;font-size: 25px;" href="mailto:{{item.email}}"><span class="glyphicon glyphicon-envelope" style="width: 50px;"></span></a>
 										</div>
 										
 										</div>
@@ -4707,6 +4707,28 @@ margin-left: 5px;
 								            </div>
 								        </div>
 								    </div>
+								    
+								    
+								    <div class="modal fade" id="commentModel" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Write Comment</h4>
+								                </div>
+								                <div class="modal-body">
+								                    <input type="text" ng-model="userComment" style="height: 50px;width: 500px;font-size: 22px;"><br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="saveComment()">Save</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    
+								    
 								    <div class="modal fade" id="todoCancelStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog">
 								            <div class="modal-content">
