@@ -12174,13 +12174,13 @@ public class Application extends Controller {
 	    		if(!info.comments.equals("null")){
 	    			lVm.comments = info.comments;
 	    		}
-	    		if(!info.year.equals("null") && !info.year.equals("")){
+	    		if(!info.year.equals("null")){
 	    			lVm.year = info.year;
 	    		}
-	    		if(!info.make.equals("null") && !info.make.equals("")){
+	    		if(info.make != null){
 	    			lVm.make = info.make;
 	    		}
-	    		if(!info.model.equals("null") && !info.model.equals("")){
+	    		if(info.model != null){
 	    			lVm.model = info.model;
 	    		}
 	    		if(!info.exteriorColour.equals("null")){
