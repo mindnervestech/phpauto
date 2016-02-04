@@ -68,7 +68,7 @@ angular.module('newApp')
   		                                	} ,
  		                                 },
  		                               
-		                                 { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'11%',cellEditableCondition: false,
+		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'11%',cellEditableCondition: false,
 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	    		                                       if (row.entity.isRead === false) {
 	    		                                         return 'red';
