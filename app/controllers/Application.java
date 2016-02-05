@@ -11527,6 +11527,66 @@ public class Application extends Controller {
     	}
     }*/
     
+    public static Result setScheduleConfirmClose(Long id,Integer option){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = getLocalUser();
+    		Date currDate = new Date();
+    		if(option==0) {
+    			ScheduleTest schedule = ScheduleTest.findById(id);
+    			schedule.setConfirmDate(null);
+    			schedule.setConfirmTime(null);
+    			schedule.update();
+    			
+    			
+        		/*UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Client didn't buy vehicle");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
+        		uNotes.save();*/
+        		
+    		} else if(option == 1) {
+    			RequestMoreInfo info = RequestMoreInfo.findById(id);
+    			info.setConfirmDate(null);
+    			info.setConfirmTime(null);
+    			info.update();
+    			
+    			
+        		/*UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Client didn't buy vehicle");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+        		uNotes.save();*/
+        		
+    		} else if(option == 2) {
+    			TradeIn info = TradeIn.findById(id);
+    			info.setConfirmDate(null);
+    			info.setConfirmTime(null);
+    			info.update();
+    			
+        		/*UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Client didn't buy vehicle");
+        		uNotes.setAction("Other");
+        		uNotes.createdDate = currDate;
+        		uNotes.createdTime = currDate;
+        		uNotes.user = user;
+        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		uNotes.tradeIn = TradeIn.findById(info.id);
+        		uNotes.save();*/
+    		}
+    		return ok();
+    	}
+    }
+    
     public static Result setScheduleStatusClose(Long id,Integer option,String reason) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));

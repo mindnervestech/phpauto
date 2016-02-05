@@ -1298,7 +1298,7 @@ angular.module('newApp')
         	     		     			 				                                 },*/
         	     		     			 				                                 
         	     		     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'35%',cellEditableCondition: false,
-        	     		     			 				                                	cellTemplate:'<button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType != \'\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;" ng-click="confres()">Reschedule</button><button type="button" ng-click="grid.appScope.cancelScheduleStatus(row.entity)" ng-show="grid.appScope.userType != \'\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
+        	     		     			 				                                	cellTemplate:'<button type="button" ng-click="grid.appScope.confirmDateTime(row.entity)"ng-show="grid.appScope.userType != \'\'"ng-show="row.entity.isRead" data-toggle="modal" data-target="#modal-basic" class="btn btn-sm btn-primary" style="margin-top:2%;" ng-click="confres()">Reschedule</button><button type="button" ng-click="grid.appScope.cancelScheduleComfir(row.entity)" ng-show="grid.appScope.userType != \'\'"class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button>',
         	     		     	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     		     	       			   		                                       if (row.entity.isRead === false) {
         	     		     	       			   		                                         return 'red';
@@ -2680,6 +2680,20 @@ angular.module('newApp')
     		$scope.scheduleStatusCancel = entity;
     		$scope.reasonToCancel = "";
     		$('#btnCancelSchedule').click();
+    	}
+    	
+    	$scope.cancelScheduleComfir = function(entity){
+    		
+    		$http.get('/setScheduleConfirmClose/'+entity.id+'/'+entity.option)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Cancel successfully",
+				});
+				$scope.getAllSalesPersonRecord($scope.salesPerson);
+			});
+    		
     	}
     	
     	$scope.saveScheduleClose = function() {
