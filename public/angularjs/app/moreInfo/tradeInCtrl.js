@@ -137,6 +137,8 @@ angular.module('newApp')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.tradeInList = data;
+			console.log(data);
+			console.log(data[0]);
 			if(data[0].userRole !=undefined){
 				$scope.userRole = data[0].userRole;
 			}
