@@ -27,7 +27,7 @@ angular.module('newApp')
 	$scope.nameTxt = 'false';
 	$scope.vin = null;
 	$scope.index = null;
-	$scope.successRate= 'true';
+	$scope.successRate= 'false';
 	$scope.currentLeads = 'true';
 	$scope.amountSold = 'true';
 	$scope.soldCar= 'true';
@@ -35,6 +35,49 @@ angular.module('newApp')
 	$scope.index=null;
 	$scope.userId = null;
 	$scope.userComment = null;
+	$scope.countFlag = 'true';
+	$scope.priceFlag = 'true';
+	$scope.followerFlag = 'true';
+	$scope.leadFlag = 'true';
+	$scope.listingFilter = null;
+	
+	$scope.topListingCount = function(name,flag){
+		if(flag=='true'){
+			$scope.listingFilter = "-"+name;
+			$scope.countFlag = 'false';
+		}else{
+			$scope.listingFilter = name;
+			$scope.countFlag = 'true';
+		}		
+	};
+	$scope.topListingPrice = function(name,flag){
+		if(flag=='true'){
+			$scope.listingFilter = "-"+name;
+			$scope.priceFlag = 'false';
+		}else{
+			$scope.listingFilter = name;
+			$scope.priceFlag = 'true';
+		}		
+	};
+	$scope.topListingFollower = function(name,flag){
+		if(flag=='true'){
+			$scope.listingFilter = "-"+name;
+			$scope.followerFlag = 'false';
+		}else{
+			$scope.listingFilter = name;
+			$scope.followerFlag = 'true';
+		}		
+	};
+	$scope.topListingLead = function(name,flag){
+		if(flag=='true'){
+			$scope.listingFilter = "-"+name;
+			$scope.leadFlag = 'false';
+		}else{
+			$scope.listingFilter = name;
+			$scope.leadFlag = 'true';
+		}		
+	};
+	
 	$scope.imageEnter = function(index){
 		$scope.index=index;
 	};
@@ -43,10 +86,10 @@ angular.module('newApp')
 	};
 	$scope.successRateFilter = function(successRate){
 		if(successRate == 'true'){
-			$scope.orderItem = 'successRate';
+			$scope.orderItem = '-successRate';
 			$scope.successRate = 'false';
 		}else if(successRate == 'false'){
-			$scope.orderItem = '-successRate';
+			$scope.orderItem = 'successRate';
 			$scope.successRate = 'true';
 		}
 		console.log($scope.orderItem);
@@ -54,28 +97,28 @@ angular.module('newApp')
 	};
 	$scope.currentLeadsFilter = function(currentLeads){
 		if(currentLeads == 'true'){
-			$scope.orderItem = 'currentLeads';
+			$scope.orderItem = '-currentLeads';
 			$scope.currentLeads = 'false';
 		}else if(currentLeads == 'false'){
-			$scope.orderItem = '-currentLeads';
+			$scope.orderItem = 'currentLeads';
 			$scope.currentLeads = 'true';
 		}
 	};
 	$scope.amountSoldFilter = function(amountSold){
 		if(amountSold == 'true'){
-			$scope.orderItem = 'salesAmount';
+			$scope.orderItem = '-salesAmount';
 			$scope.amountSold = 'false';
 		}else if(amountSold == 'false'){
-			$scope.orderItem = '-salesAmount';
+			$scope.orderItem = 'salesAmount';
 			$scope.amountSold = 'true';
 		}
 	};
 	$scope.soldCarFilter = function(soldCar){
 		if(soldCar == 'true'){
-			$scope.orderItem = 'saleCar';
+			$scope.orderItem = '-saleCar';
 			$scope.soldCar = 'false';
 		}else if(soldCar == 'false'){
-			$scope.orderItem = '-saleCar';
+			$scope.orderItem = 'saleCar';
 			$scope.soldCar = 'true';
 		}
 	};
@@ -5132,7 +5175,7 @@ angular.module('newApp')
     		 $scope.gridOptions.enableHorizontalScrollbar = 0;
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 $scope.gridOptions.columnDefs = [
-    		                                 { name: 'title', displayName: 'Title', width:'10%',cellEditableCondition: true,
+    		                                 { name: 'title', displayName: 'Title', width:'15%',cellEditableCondition: true,
     		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
     		                                 { name: 'stock', displayName: 'Stock', width:'6%',
@@ -5151,12 +5194,12 @@ angular.module('newApp')
     		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'7%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.getImages(row)" style="line-height: 200%;" title="" data-content="{{row.entity.vehicleCnt}}">{{row.entity.vehicleCnt}}</a></div>',
     		                                 },
-    		                                 { name: 'testDrive', displayName: 'Date Sold',enableFiltering: false, width:'10%',cellEditableCondition: false,
+    		                                 { name: 'testDrive', displayName: 'Next Test Drive',enableFiltering: false, width:'10%',cellEditableCondition: false,
     		                                 },
-    		                                 { name: 'pageViewCount', displayName: 'History',enableFiltering: false, width:'9%',cellEditableCondition: false,
+    		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false, width:'9%',cellEditableCondition: false,
     		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
     		                                 },
-    		                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    		                                 { name: 'edit', displayName: '', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
         		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)"  title="sessions"></i>', 
     		                                 
     		                                 },

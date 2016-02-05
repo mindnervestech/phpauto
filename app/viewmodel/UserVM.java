@@ -32,7 +32,7 @@ public class UserVM {
 	public String saleCar;
 	public  String quota;
 	public List<String> permissions;
-	
+	public double per;
 	public Long locationId;
 	
 }

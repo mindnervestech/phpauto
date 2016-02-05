@@ -13484,8 +13484,70 @@ public class Application extends Controller {
 		    	rInfoAll = null;
 		    	sListAll = null;
 		    	tradeInsAll = null;
-				
+		    	Integer total = 0;
 				UserVM vm = new UserVM();
+				SimpleDateFormat dform = new SimpleDateFormat("MMMM");
+
+				String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+				        "August", "September", "October", "November", "December" };
+		    	
+		     	String crMonth = monthName[cal.get(Calendar.MONTH)+1];
+		     	
+				PlanScheduleMonthlySalepeople  pMonthlySalepeople = null;
+				pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(sales, crMonth);
+				
+				if(pMonthlySalepeople != null){
+					total = Integer.parseInt(pMonthlySalepeople.totalBrought);
+		    	}
+				int pricecountOther = 0;
+				List<RequestMoreInfo> reqInfo = RequestMoreInfo.findAllSeenComplete(sales);
+        		List<ScheduleTest> schedList = ScheduleTest.findAllSeenComplete(sales);
+        		List<TradeIn> tradeInsList = TradeIn.findAllSeenComplete(sales);
+				
+        		for(RequestMoreInfo rMoreInfo: reqInfo){
+        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,sales);
+        			for(Vehicle vehicle:vehicleVin){
+        				if(vehicle != null){
+        				 if(vehicle.status.equals("Sold")){
+        					if(crMonth.equals(dform.format(vehicle.soldDate))){
+        						pricecountOther = pricecountOther + vehicle.price;
+                    		}
+        				 }
+            			}
+        			}
+        			
+        		}
+        		for(ScheduleTest sTest: schedList){
+        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,sales);
+        			for(Vehicle vehicle:vehicleVin){
+        			if(vehicle != null){
+        				if(vehicle.status.equals("Sold")){
+        					if(crMonth.equals(dform.format(vehicle.soldDate))){
+        						pricecountOther = pricecountOther + vehicle.price;
+                    		}
+        				 }
+        				
+        			}
+        		}
+        		}
+        		
+        		for(TradeIn tradeIn: tradeInsList){
+        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,sales);
+        			for(Vehicle vehicle:vehicleVin){
+        			if(vehicle != null){
+        				if(vehicle.status.equals("Sold")){
+        					if(crMonth.equals(dform.format(vehicle.soldDate))){
+        						pricecountOther = pricecountOther + vehicle.price;
+                    		}
+        				 }
+        			}
+        		}
+        		}
+				
+				if(pricecountOther > 0 && total > 0){
+					double per = (pricecountOther*100)/total;
+					vm.per = per;
+				}
 				vm.fullName = sales.firstName+" "+sales.lastName;
 				vm.id = sales.id;
 				if(sales.imageUrl != null) {
