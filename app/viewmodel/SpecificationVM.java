@@ -84,4 +84,5 @@ public class SpecificationVM {
 	public String imagePath;
 	public Long imgId;
 	public boolean sold;
+	public String soldDate;
 }

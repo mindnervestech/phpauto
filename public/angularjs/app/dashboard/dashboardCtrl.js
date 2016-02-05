@@ -5211,7 +5211,7 @@ angular.module('newApp')
     		                                 { name: 'vehicleCnt', displayName: 'Photos',enableFiltering: false, width:'7%',cellEditableCondition: false,
     		                                	 cellTemplate: '<div> <a ng-click="grid.appScope.getImages(row)" style="line-height: 200%;" title="" data-content="{{row.entity.vehicleCnt}}">{{row.entity.vehicleCnt}}</a></div>',
     		                                 },
-    		                                 { name: 'testDrive', displayName: 'Next Test Drive',enableFiltering: false, width:'10%',cellEditableCondition: false,
+    		                                 { name: 'testDrive', displayName:'Date' ,enableFiltering: false, width:'10%',cellEditableCondition: false,
     		                                 },
     		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false, width:'9%',cellEditableCondition: false,
     		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',

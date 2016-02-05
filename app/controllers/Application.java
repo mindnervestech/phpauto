@@ -3490,7 +3490,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	List <Vehicle> soldVehicleObjList = Vehicle.getVehiclesByStatus("Sold");
-	        
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> soldVMs = new ArrayList<>(); 
 	     	for(Vehicle vm : soldVehicleObjList){
 	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -3526,6 +3526,8 @@ public class Application extends Controller {
 		    	vehicle.sold = true;
 		    	vehicle.imagePath = vehicleImg.thumbPath;
 		    	vehicle.imgId = vehicleImg.id;
+		    	vehicle.testDrive = df.format(vm.soldDate);
+		    	vehicle.title = vm.title;
 		    	soldVMs.add(vehicle);
 	    	}
 	     	
