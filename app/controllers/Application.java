@@ -14274,6 +14274,38 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result deletePremiumLead(Long id,String leadType) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		if(leadType.equals("Schedule Test")) {
+    			ScheduleTest schedule = ScheduleTest.findById(id);
+    			List<UserNotes> userNote = UserNotes.findScheduleTest(schedule);
+    			for (UserNotes userNotes : userNote) {
+    				userNotes.delete();
+				}
+    			schedule.delete();
+    		}
+			if(leadType.equals("Request More Info")) {
+			    RequestMoreInfo info = RequestMoreInfo.findById(id);
+			    List<UserNotes> userNote = UserNotes.findRequestMore(info);
+			    for (UserNotes userNotes : userNote) {
+    				userNotes.delete();
+				}
+			    info.delete();
+			}
+			if(leadType.equals("Trade In")) {
+				TradeIn tradeIn = TradeIn.findById(id);
+				List<UserNotes> userNote = UserNotes.findTradeIn(tradeIn);
+						for (UserNotes userNotes : userNote) {
+		    				userNotes.delete();
+						}
+				tradeIn.delete();
+			}
+    		return ok();
+    	}
+    }
+    
     
     public static Result changeAssignedUser(Long id,Integer user,String leadType) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

@@ -68,7 +68,7 @@ angular.module('newApp')
   		                                	} ,
  		                                 },
  		                               
-		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'11%',cellEditableCondition: false,
+		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'7%',cellEditableCondition: false,
 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	    		                                       if (row.entity.isRead === false) {
 	    		                                         return 'red';
@@ -82,8 +82,8 @@ angular.module('newApp')
 	    		                                     }
 	   		                                	} ,
 	   		                                 },
-		                                 { name: 'btn', displayName: 'Assign',enableFiltering: false, width:'13%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
- 		                                	 cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.releaseLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">RELEASE</button>', 
+		                                 { name: 'btn', displayName: 'Assign',enableFiltering: false, width:'17%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+ 		                                	 cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.releaseLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">RELEASE</button><button type="button" ng-click="grid.appScope.deleteLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">DELETE</button>', 
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
@@ -128,6 +128,33 @@ angular.module('newApp')
 				});
 	        	
 	        }
+		 $scope.leadId = null;
+		 $scope.leadType = null;
+		 $scope.deleteLead = function(entity){
+			 console.log(entity);
+			 $scope.leadId = entity.id;
+			 $scope.leadType = entity.leadType;
+			 $('#deleteBtn').click();
+		 };
+		 
+		 $scope.deletePremiumLead = function(){
+			 console.log($scope.leadId);
+			 console.log($scope.leadType);
+			 $http.get('/deletePremiumLead/'+$scope.leadId+'/'+$scope.leadType)
+				.success(function(data) {
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Delete successfully",
+					});
+					$http.get('/getAllPremiumIn')
+					.success(function(data) {
+					$scope.gridOptions.data = data;
+					$scope.tradeInList = data;
+					$scope.userRole = data[0].userRole;
+				});
+				});
+		 };
 		 
 		 $scope.releaseLead = function(entity){
 			 $http.get('/releaseLeads/'+entity.id+'/'+entity.leadType)
