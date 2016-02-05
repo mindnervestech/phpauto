@@ -126,7 +126,7 @@ angular.module('newApp')
 			$scope.gridOptions.data = data;
 			$scope.scheduleList = data;
 			console.log(data);
-			if(data[0].userRole !=undefined){
+			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
 			}
 			$('#sliderBtn').click();
@@ -160,7 +160,7 @@ angular.module('newApp')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.scheduleList = data;
-			if(data[0].userRole !=undefined){
+			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
 			}
 			$('#sliderBtn').click();
