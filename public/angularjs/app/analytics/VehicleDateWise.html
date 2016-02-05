@@ -1,0 +1,47 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+	<ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class=""><a id="profile-tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goSessionInfo()">Sessions Data</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="home-tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Vehicle Info</button></a></li>
+      
+    </ul>
+	<div class="row">
+	
+	<div class="col-md-12 col-sm-6 portlets">
+        <div class="panel m-t-0">
+            <!-- <div class="panel-header panel-controls">
+                <h3><i class="icon-basket"></i> <strong>Sales</strong> Volume Stats</h3>
+            </div> -->
+            <div class="col-md-4">
+            	<div class="col-md-6">
+            		<div class="col-md-12">
+            			<label>Start Date</label>
+            		</div>
+            		<div class="col-md-12">
+            			<input data-provide="datepicker" id="startDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="yyyy-mm-dd" required>
+            		</div>
+            	</div>
+            	<div class="col-md-6">
+            		<div class="col-md-12">
+            			<label>End Date</label>
+            		</div>
+            		<div class="col-md-12">
+            			<input data-provide="datepicker" id="endDate" class="form-control input-sm" ng-model="scheduleTestData.confirmDate" data-date-format="yyyy-mm-dd" required>
+            		</div>
+            	</div>
+            	
+            </div>
+            <div class="panel-header panel-controls col-md-8" style="float: right;">
+                 <h3><a style="cursor: pointer;" ng-click="showVehicalBarChart()" >Views</a>&nbsp&nbsp|&nbsp&nbsp<a style="cursor: pointer;" ng-click="showCustomerRequest()">Customer Requests</a>&nbsp&nbsp|&nbsp&nbsp<a style="cursor: pointer;" ng-click="showVehicalFinancialChartByBodyStyle()">Leads</a>&nbsp&nbsp|&nbsp&nbsp<a style="cursor: pointer;" ng-click="showVehicalBarAvgSale()">Followers</a>&nbsp&nbsp|&nbsp&nbsp<a style="cursor: pointer;" ng-click="showVehicalBarAvgSale()">Likes</a>&nbsp&nbsp|&nbsp&nbsp<a style="cursor: pointer;" ng-click="showVehicalBarAvgSale()">Shares</a></h3> 
+            </div>
+           
+            <div>
+             	<div id="financial-chart" style="height:320px"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+								    
+								    
+								    
+</div>
+

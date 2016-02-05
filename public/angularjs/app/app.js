@@ -127,6 +127,12 @@ var MakeApp = angular
             controller: 'SessionsCtrl'
         })
         
+         .when('/goToVehicalInfo/:vin', {
+            templateUrl: '/dealer/analytics/VehicleDateWise.html',
+            controller: 'VehicleDateWiseCtrl'
+        })
+        
+        
         .when('/allVehicleSessions', {
             templateUrl: '/dealer/analytics/allVehicleSessionsData.html',
             controller: 'allVehicleSessionsDataCtrl'

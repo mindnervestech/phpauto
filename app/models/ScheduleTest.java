@@ -317,6 +317,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", user).eq("confirmDate", date).findList();
 	}
 	
+	public static List<ScheduleTest> findByConfirmLeads(Long locationId, AuthUser user) {
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
+	}
+	
 	public static List<ScheduleTest> getAllFailed() {
 		return find.where().add(Expr.or(Expr.eq("lead_status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
 		

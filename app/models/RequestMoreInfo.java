@@ -287,7 +287,9 @@ public class RequestMoreInfo extends Model {
 		return find.where().eq("assignedTo", user).ne("status", null).findList();
 	}
 	
-	
+	public static List<RequestMoreInfo> findByConfirmLeads(Long locationId, AuthUser user) {
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
+	}
 	
 	public static List<RequestMoreInfo> findByVinAndAssignedUser(String vin,AuthUser user) {
 		return find.where().eq("vin", vin).eq("user", user).findList();

@@ -573,12 +573,114 @@ angular.module('newApp')
 
 
 angular.module('newApp')
+.controller('VehicleDateWiseCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+console.log("....................");
+console.log($routeParams.vin);
+	
+	$http.get('/getFinancialVehicleDetailsByBodyStyle').success(function(data) {
+		console.log("succee");
+		console.log(data);
+		 createChart(data);
+	});
+	
+	$scope.showCustomerRequest = function(){
+		
+		var startDate = $("#startDate").val();
+		var endDate = $("#endDate").val();
+		
+		if(startDate == ""){
+			startDate = 0;
+		}
+		
+		if(endDate == ""){
+			endDate = 0;
+		}
+		
+		$http.get('/getCustomerRequest/'+$routeParams.vin+"/"+startDate+"/"+endDate).success(function(data) {
+			console.log("succeess");
+			console.log(data);
+			 createChart(data);
+		});
+		
+	}
+	
+	 var seriesOptions = [];
+     var seriesCounter = 0;
+     var stockChart; 
+     var stockChart1; 
+     function createChart(initdata) {
+   	  stockChart1 = 1;
+   	  
+   	  stockChart = $('#financial-chart').highcharts('StockChart', {
+             chart: {
+                 height: 300,
+                 borderColor: '#C9625F',
+                 backgroundColor: 'transparent'
+             },
+             rangeSelector: {
+                 selected: 1,
+                 inputEnabled: $('#container').width() > 480
+             },
+             colors: ['#18A689', '#f7a35c', '#8085e9', '#f15c80', '#91e8e1'],
+             credits: {
+                 enabled: false
+             },
+             exporting: {
+                 enabled: false
+             },
+             scrollbar: {
+                 enabled: false
+             },
+             navigator: {
+                 enabled: false
+             },
+             xAxis: {
+                 lineColor: '#e1e1e1',
+                 tickColor: '#EFEFEF',
+             },
+             yAxis: {
+                 gridLineColor: '#e1e1e1',
+                 labels: {
+                     formatter: function () {
+                         return (this.value > 0 ? ' + ' : '') + this.value;
+                     }
+                 },
+                 plotLines: [{
+                     value: 0,
+                     width: 2,
+                     color: 'silver'
+                 }]
+             },
+             /*plotOptions: {
+                 series: {
+                     compare: 'percent'
+                 }
+             },*/
+             tooltip: {
+                 pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change})<br/>',
+                 valueDecimals: 2
+             },
+
+             series: initdata
+         });
+     }; 
+
+	$scope.goSessionInfo = function(){
+		$location.path('/sessionsAnalytics/'+$routeParams.vin);
+	}
+	
+	
+}]);
+
+
+angular.module('newApp')
 .controller('SessionsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 console.log("....................");
 console.log($routeParams.vin);
 $scope.lineChartweek = 0;
 $scope.lineChartmonth = 0;
 $scope.lineChartday = 0;
+
 
 $scope.lineChartMap = function(lasttime){
 	console.log(lasttime);
@@ -1019,7 +1121,7 @@ $scope.mailmonthFunction = function(){
 		$scope.analylineChartmonth = 1;
 	}
 
-	$scope.goToVisitors = function(analyType) {
+	/*$scope.goToVisitors = function(analyType) {
 		$location.path('/visitorsAnalytics');
 	}
 	
@@ -1049,6 +1151,10 @@ $scope.mailmonthFunction = function(){
 	
 	$scope.goToVehicleInfo = function(){
 		$location.path('/allVehicleSessions');
+	}*/
+	
+	$scope.goToVehicalInfo = function(){
+		$location.path('/goToVehicalInfo/'+$routeParams.vin);
 	}
 	
 	
