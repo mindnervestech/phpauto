@@ -2354,6 +2354,7 @@ angular.module('newApp')
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
         	$scope.trdin = false;
+        	$scope.allLeadd = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
     		$scope.schedulTestDir();
@@ -2363,6 +2364,7 @@ angular.module('newApp')
     		$scope.schedTest = false;
     		$scope.reqMore = true;	
         	$scope.testdrv = false;
+        	$scope.allLeadd = false;
         	$scope.trdin = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
@@ -2372,6 +2374,7 @@ angular.module('newApp')
     		$scope.reqMore = false;	
         	$scope.testdrv = true;
         	$scope.trdin = false;
+        	$scope.allLeadd = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
     	}	
@@ -2380,6 +2383,7 @@ angular.module('newApp')
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
         	$scope.trdin = true;
+        	$scope.allLeadd = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
     	}
