@@ -2309,9 +2309,9 @@ public class Application extends Controller {
 	            		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
 	            		uNotes.save();
 	            		
-	            		if(tradeIn.premiumFlag == 1){
+	            		/*if(tradeIn.premiumFlag == 1){
 	    	    			sendMailpremium();
-	    	    		}
+	    	    		}*/
 	        		
 	        		
 	        		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
