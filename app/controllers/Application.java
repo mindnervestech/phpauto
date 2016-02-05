@@ -6727,79 +6727,339 @@ public class Application extends Controller {
 	    		if(info.isRead == 1) {
 	    			vm.isRead = true;
 	    		}
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
-	    		if(info.parentId != null){
-	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
-	    			if(rMoreInfo != null){
-	    				RequestInfoVM rList1 = new RequestInfoVM();
-	    				rList1.id = rMoreInfo.id;
-	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
-	    	    		rList1.vin = rMoreInfo.vin;
-	    	    		if(vehicle1 != null) {
-	    	    			rList1.model = vehicle1.model;
-	    	    			rList1.make = vehicle1.make;
-	    	    			rList1.stock = vehicle1.stock;
-	    	    			rList1.year = vehicle1.year;
-	    	    			rList1.mileage = vehicle1.mileage;
-	    	    			rList1.price = vehicle1.price;
-	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-	    	        		if(vehicleImage!=null) {
-	    	        			rList1.imgId = vehicleImage.getId().toString();
-	    	        		}
-	    	        		else {
-	    	        			rList1.imgId = "/assets/images/no-image.jpg";
-	    	        		}
-	    	    			
-	    	    		}
-	    	    		rList1.name = rMoreInfo.name;
-	    	    		rList1.phone = rMoreInfo.phone;
-	    	    		rList1.email = rMoreInfo.email;
-	    	    		rList1.requestDate = df.format(rMoreInfo.requestDate);
-	    	    		rList1.typeOfLead = "Request More Info";
-	    	    		
-	    	    		rList2.add(rList1);
-	    			}
-	    		}
 	    		
-	    		List<RequestMoreInfo> requestMoreInfo = RequestMoreInfo.findAllByParentID(info.getId());
-	    		for(RequestMoreInfo info1:requestMoreInfo){
-	    			RequestInfoVM rList1 = new RequestInfoVM();
-    				rList1.id = info1.id;
-    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
-    	    		rList1.vin = info1.vin;
-    	    		if(vehicle1 != null) {
-    	    			rList1.model = vehicle1.model;
-    	    			rList1.make = vehicle1.make;
-    	    			rList1.stock = vehicle1.stock;
-    	    			rList1.year = vehicle1.year;
-    	    			rList1.mileage = vehicle1.mileage;
-    	    			rList1.price = vehicle1.price;
-    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-    	        		if(vehicleImage!=null) {
-    	        			rList1.imgId = vehicleImage.getId().toString();
-    	        		}
-    	        		else {
-    	        			rList1.imgId = "/assets/images/no-image.jpg";
-    	        		}
-    	    		}
-    	    		rList1.name = info1.name;
-    	    		rList1.phone = info1.phone;
-    	    		rList1.email = info1.email;
-    	    		rList1.requestDate = df.format(info1.requestDate);
-    	    		rList1.typeOfLead = "Request More Info";
-    	    		
-    	    		rList2.add(rList1);
-	    		}
-	    		vm.parentChildLead = rList2;
-	    		infoVMList.add(vm);
+	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
 	    	}
 	    	
 	    	return ok(Json.toJson(infoVMList));
     	}	
     }
     
+    public static void findSchedulParentChildAndBro(List<RequestInfoVM> infoVMList, ScheduleTest info,SimpleDateFormat df, RequestInfoVM vm){
+    	
+    	List<RequestInfoVM> rList2 = new ArrayList<>();
+		if(info.parentId != null){
+			ScheduleTest sTest = ScheduleTest.findByIdAndParent(info.parentId);
+			if(sTest != null){
+				RequestInfoVM rList1 = new RequestInfoVM();
+				rList1.id = sTest.id;
+	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(sTest.vin);
+	    		rList1.vin = sTest.vin;
+	    		if(vehicle1 != null) {
+	    			rList1.model = vehicle1.model;
+	    			rList1.make = vehicle1.make;
+	    			rList1.stock = vehicle1.stock;
+	    			rList1.year = vehicle1.year;
+	    			rList1.mileage = vehicle1.mileage;
+	    			rList1.price = vehicle1.price;
+	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	        		if(vehicleImage!=null) {
+	        			rList1.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			rList1.imgId = "/assets/images/no-image.jpg";
+	        		}
+	    			
+	    		}
+	    		rList1.name = sTest.name;
+	    		rList1.phone = sTest.phone;
+	    		rList1.email = sTest.email;
+	    		rList1.requestDate = df.format(sTest.scheduleDate);
+	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    		
+	    		rList2.add(rList1);
+			}
+		}
+		
+		if(info.parentId != null){
+			List<ScheduleTest> tIns = ScheduleTest.findAllByParentID(info.parentId);
+			for(ScheduleTest info1:tIns){
+				if(!info.getId().equals(info1.getId())){
+				RequestInfoVM rList1 = new RequestInfoVM();
+				rList1.id = info1.id;
+	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+	    		rList1.vin = info1.vin;
+	    		if(vehicle1 != null) {
+	    			rList1.model = vehicle1.model;
+	    			rList1.make = vehicle1.make;
+	    			rList1.stock = vehicle1.stock;
+	    			rList1.year = vehicle1.year;
+	    			rList1.mileage = vehicle1.mileage;
+	    			rList1.price = vehicle1.price;
+	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	        		if(vehicleImage!=null) {
+	        			rList1.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			rList1.imgId = "/assets/images/no-image.jpg";
+	        		}
+	    		}
+	    		rList1.name = info1.name;
+	    		rList1.phone = info1.phone;
+	    		rList1.email = info1.email;
+	    		rList1.requestDate = df.format(info1.scheduleDate);
+	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    		
+	    		rList2.add(rList1);
+			}
+			}
+		}
+		
+		List<ScheduleTest> tIns = ScheduleTest.findAllByParentID(info.getId());
+		for(ScheduleTest info1:tIns){
+			RequestInfoVM rList1 = new RequestInfoVM();
+			rList1.id = info1.id;
+    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    		rList1.vin = info1.vin;
+    		if(vehicle1 != null) {
+    			rList1.model = vehicle1.model;
+    			rList1.make = vehicle1.make;
+    			rList1.stock = vehicle1.stock;
+    			rList1.year = vehicle1.year;
+    			rList1.mileage = vehicle1.mileage;
+    			rList1.price = vehicle1.price;
+    			rList1.bodyStyle =vehicle1.bodyStyle;
+    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+        		if(vehicleImage!=null) {
+        			rList1.imgId = vehicleImage.getId().toString();
+        		}
+        		else {
+        			rList1.imgId = "/assets/images/no-image.jpg";
+        		}
+    		}
+    		rList1.name = info1.name;
+    		rList1.phone = info1.phone;
+    		rList1.email = info1.email;
+    		rList1.requestDate = df.format(info1.scheduleDate);
+    		rList1.typeOfLead = "Trade-In Appraisal";
+    		
+    		rList2.add(rList1);
+		}
+		vm.parentChildLead = rList2;
+		
+		infoVMList.add(vm);
+    	
+    }
+    
+    public static void findTreadParentChildAndBro(List<RequestInfoVM> infoVMList, TradeIn info,SimpleDateFormat df, RequestInfoVM vm){
+    	
+    	List<RequestInfoVM> rList2 = new ArrayList<>();
+		if(info.parentId != null){
+			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
+			if(tIn != null){
+				RequestInfoVM rList1 = new RequestInfoVM();
+				rList1.id = tIn.id;
+	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
+	    		rList1.vin = tIn.vin;
+	    		if(vehicle1 != null) {
+	    			rList1.model = vehicle1.model;
+	    			rList1.make = vehicle1.make;
+	    			rList1.stock = vehicle1.stock;
+	    			rList1.year = vehicle1.year;
+	    			rList1.mileage = vehicle1.mileage;
+	    			rList1.price = vehicle1.price;
+	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	        		if(vehicleImage!=null) {
+	        			rList1.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			rList1.imgId = "/assets/images/no-image.jpg";
+	        		}
+	    			
+	    		}
+	    		rList1.name = tIn.firstName;
+	    		rList1.phone = tIn.phone;
+	    		rList1.email = tIn.email;
+	    		rList1.requestDate = df.format(tIn.tradeDate);
+	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    		
+	    		rList2.add(rList1);
+			}
+		}
+		
+		if(info.parentId !=null){
+			
+			List<TradeIn> tIns = TradeIn.findAllByParentID(info.parentId);
+			for(TradeIn info1:tIns){
+				if(!info.getId().equals(info1.getId())){
+				RequestInfoVM rList1 = new RequestInfoVM();
+				rList1.id = info1.id;
+	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+	    		rList1.vin = info1.vin;
+	    		if(vehicle1 != null) {
+	    			rList1.model = vehicle1.model;
+	    			rList1.make = vehicle1.make;
+	    			rList1.stock = vehicle1.stock;
+	    			rList1.year = vehicle1.year;
+	    			rList1.mileage = vehicle1.mileage;
+	    			rList1.price = vehicle1.price;
+	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	        		if(vehicleImage!=null) {
+	        			rList1.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			rList1.imgId = "/assets/images/no-image.jpg";
+	        		}
+	    		}
+	    		rList1.name = info1.firstName;
+	    		rList1.phone = info1.phone;
+	    		rList1.email = info1.email;
+	    		rList1.requestDate = df.format(info1.tradeDate);
+	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    		
+	    		rList2.add(rList1);
+			}
+			}
+	    }
+		
+		
+		List<TradeIn> tIns = TradeIn.findAllByParentID(info.getId());
+		for(TradeIn info1:tIns){
+			RequestInfoVM rList1 = new RequestInfoVM();
+			rList1.id = info1.id;
+    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    		rList1.vin = info1.vin;
+    		if(vehicle1 != null) {
+    			rList1.model = vehicle1.model;
+    			rList1.make = vehicle1.make;
+    			rList1.stock = vehicle1.stock;
+    			rList1.year = vehicle1.year;
+    			rList1.mileage = vehicle1.mileage;
+    			rList1.price = vehicle1.price;
+    			rList1.bodyStyle =vehicle1.bodyStyle;
+    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+        		if(vehicleImage!=null) {
+        			rList1.imgId = vehicleImage.getId().toString();
+        		}
+        		else {
+        			rList1.imgId = "/assets/images/no-image.jpg";
+        		}
+    		}
+    		rList1.name = info1.firstName;
+    		rList1.phone = info1.phone;
+    		rList1.email = info1.email;
+    		rList1.requestDate = df.format(info1.tradeDate);
+    		rList1.typeOfLead = "Trade-In Appraisal";
+    		
+    		rList2.add(rList1);
+		}
+		vm.parentChildLead = rList2;
+		
+		infoVMList.add(vm);
+    }
+    
+    public static void findRequestParentChildAndBro(List<RequestInfoVM> infoVMList, RequestMoreInfo info,SimpleDateFormat df, RequestInfoVM vm){
+    	
+    	List<RequestInfoVM> rList2 = new ArrayList<>();
+		if(info.parentId != null){
+			
+			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
+			if(rMoreInfo != null){
+				
+				RequestInfoVM rList1 = new RequestInfoVM();
+				rList1.id = rMoreInfo.id;
+	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(rMoreInfo.vin);
+	    		rList1.vin = rMoreInfo.vin;
+	    		if(vehicle1 != null) {
+	    			rList1.model = vehicle1.model;
+	    			rList1.make = vehicle1.make;
+	    			rList1.stock = vehicle1.stock;
+	    			rList1.year = vehicle1.year;
+	    			rList1.mileage = vehicle1.mileage;
+	    			rList1.price = vehicle1.price;
+	    			rList1.bodyStyle =vehicle1.bodyStyle;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+	        		if(vehicleImage!=null) {
+	        			rList1.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			rList1.imgId = "/assets/images/no-image.jpg";
+	        		}
+	    			
+	    		}
+	    		rList1.name = rMoreInfo.name;
+	    		rList1.phone = rMoreInfo.phone;
+	    		rList1.email = rMoreInfo.email;
+	    		rList1.requestDate = df.format(rMoreInfo.requestDate);
+	    		rList1.typeOfLead = "Request More Info";
+	    		
+	    		rList2.add(rList1);
+			}
+		}
+		
+		if(info.parentId !=null){
+			
+		List<RequestMoreInfo> rMoreInfo1 = RequestMoreInfo.findAllByParentID(info.parentId);
+		for(RequestMoreInfo info1:rMoreInfo1){
+			if(!info1.getId().equals(info.getId())){
+			RequestInfoVM rList1 = new RequestInfoVM();
+			rList1.id = info1.id;
+    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    		rList1.vin = info1.vin;
+    		if(vehicle1 != null) {
+    			rList1.model = vehicle1.model;
+    			rList1.make = vehicle1.make;
+    			rList1.stock = vehicle1.stock;
+    			rList1.year = vehicle1.year;
+    			rList1.mileage = vehicle1.mileage;
+    			rList1.price = vehicle1.price;
+    			rList1.bodyStyle =vehicle1.bodyStyle;
+    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+        		if(vehicleImage!=null) {
+        			rList1.imgId = vehicleImage.getId().toString();
+        		}
+        		else {
+        			rList1.imgId = "/assets/images/no-image.jpg";
+        		}
+    		}
+    		rList1.name = info1.name;
+    		rList1.phone = info1.phone;
+    		rList1.email = info1.email;
+    		rList1.requestDate = df.format(info1.requestDate);
+    		rList1.typeOfLead = "Request More Info";
+    		
+    		rList2.add(rList1);
+		 }
+		}
+    }
+		
+		List<RequestMoreInfo> requestMoreInfo = RequestMoreInfo.findAllByParentID(info.getId());
+		for(RequestMoreInfo info1:requestMoreInfo){
+			RequestInfoVM rList1 = new RequestInfoVM();
+			rList1.id = info1.id;
+    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
+    		rList1.vin = info1.vin;
+    		if(vehicle1 != null) {
+    			rList1.model = vehicle1.model;
+    			rList1.make = vehicle1.make;
+    			rList1.stock = vehicle1.stock;
+    			rList1.year = vehicle1.year;
+    			rList1.mileage = vehicle1.mileage;
+    			rList1.price = vehicle1.price;
+    			rList1.bodyStyle =vehicle1.bodyStyle;
+    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
+        		if(vehicleImage!=null) {
+        			rList1.imgId = vehicleImage.getId().toString();
+        		}
+        		else {
+        			rList1.imgId = "/assets/images/no-image.jpg";
+        		}
+    		}
+    		rList1.name = info1.name;
+    		rList1.phone = info1.phone;
+    		rList1.email = info1.email;
+    		rList1.requestDate = df.format(info1.requestDate);
+    		rList1.typeOfLead = "Request More Info";
+    		
+    		rList2.add(rList1);
+		}
+		vm.parentChildLead = rList2;
+		infoVMList.add(vm);
+    }
     
     public static Result getAllScheduleTest() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -6987,7 +7247,8 @@ public class Application extends Controller {
 	    		}
 	    		vm.option = 0;
 	    		
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		findSchedulParentChildAndBro(infoVMList, info, df, vm);
+	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
 	    			ScheduleTest sTest = ScheduleTest.findByIdAndParent(info.parentId);
 	    			if(sTest != null){
@@ -7054,7 +7315,7 @@ public class Application extends Controller {
 	    		}
 	    		vm.parentChildLead = rList2;
 	    		
-	    		infoVMList.add(vm);
+	    		infoVMList.add(vm);*/
 	    	}
 	    	
 	    	for(TradeIn info: tradeIns) {
@@ -7222,7 +7483,9 @@ public class Application extends Controller {
 	    		}
 	    		vm.option = 2;
 	    		
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		findTreadParentChildAndBro(infoVMList, info, df, vm);
+	    		
+	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
 	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
 	    			if(tIn != null){
@@ -7289,7 +7552,7 @@ public class Application extends Controller {
 	    		}
 	    		vm.parentChildLead = rList2;
 	    		
-	    		infoVMList.add(vm);
+	    		infoVMList.add(vm);*/
 	    	}
 	    	
 	    	for(RequestMoreInfo info: requestMoreInfos) {
@@ -7366,7 +7629,9 @@ public class Application extends Controller {
 	    		}
 	    		vm.option = 1;
 	    		
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
+	    		
+	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
 	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
 	    			if(rMoreInfo != null){
@@ -7432,7 +7697,7 @@ public class Application extends Controller {
     	    		rList2.add(rList1);
 	    		}
 	    		vm.parentChildLead = rList2;
-	    		infoVMList.add(vm);
+	    		infoVMList.add(vm);*/
 	    	}
 	    	
 	    	
@@ -7976,75 +8241,7 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		
-	    		
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
-	    		if(info.parentId != null){
-	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
-	    			if(tIn != null){
-	    				RequestInfoVM rList1 = new RequestInfoVM();
-	    				rList1.id = tIn.id;
-	    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(tIn.vin);
-	    	    		rList1.vin = tIn.vin;
-	    	    		if(vehicle1 != null) {
-	    	    			rList1.model = vehicle1.model;
-	    	    			rList1.make = vehicle1.make;
-	    	    			rList1.stock = vehicle1.stock;
-	    	    			rList1.year = vehicle1.year;
-	    	    			rList1.mileage = vehicle1.mileage;
-	    	    			rList1.price = vehicle1.price;
-	    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-	    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-	    	        		if(vehicleImage!=null) {
-	    	        			rList1.imgId = vehicleImage.getId().toString();
-	    	        		}
-	    	        		else {
-	    	        			rList1.imgId = "/assets/images/no-image.jpg";
-	    	        		}
-	    	    			
-	    	    		}
-	    	    		rList1.name = tIn.firstName;
-	    	    		rList1.phone = tIn.phone;
-	    	    		rList1.email = tIn.email;
-	    	    		rList1.requestDate = df.format(tIn.tradeDate);
-	    	    		rList1.typeOfLead = "Trade-In Appraisal";
-	    	    		
-	    	    		rList2.add(rList1);
-	    			}
-	    		}
-	    		
-	    		List<TradeIn> tIns = TradeIn.findAllByParentID(info.getId());
-	    		for(TradeIn info1:tIns){
-	    			RequestInfoVM rList1 = new RequestInfoVM();
-    				rList1.id = info1.id;
-    	    		Vehicle vehicle1 = Vehicle.findByVinAndStatus(info1.vin);
-    	    		rList1.vin = info1.vin;
-    	    		if(vehicle1 != null) {
-    	    			rList1.model = vehicle1.model;
-    	    			rList1.make = vehicle1.make;
-    	    			rList1.stock = vehicle1.stock;
-    	    			rList1.year = vehicle1.year;
-    	    			rList1.mileage = vehicle1.mileage;
-    	    			rList1.price = vehicle1.price;
-    	    			rList1.bodyStyle =vehicle1.bodyStyle;
-    	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle1.vin);
-    	        		if(vehicleImage!=null) {
-    	        			rList1.imgId = vehicleImage.getId().toString();
-    	        		}
-    	        		else {
-    	        			rList1.imgId = "/assets/images/no-image.jpg";
-    	        		}
-    	    		}
-    	    		rList1.name = info1.firstName;
-    	    		rList1.phone = info1.phone;
-    	    		rList1.email = info1.email;
-    	    		rList1.requestDate = df.format(info1.tradeDate);
-    	    		rList1.typeOfLead = "Trade-In Appraisal";
-    	    		
-    	    		rList2.add(rList1);
-	    		}
-	    		vm.parentChildLead = rList2;
-	    		
-	    		infoVMList.add(vm);
+	    		findTreadParentChildAndBro(infoVMList, info, df, vm);
 	    	}
 	    	
 	    	return ok(Json.toJson(infoVMList));
@@ -12329,7 +12526,9 @@ public class Application extends Controller {
 	    		}
 	    		vm.option = 0;
 	    		
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		findSchedulParentChildAndBro(infoVMList, info, df, vm);
+	    		
+	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
 	    			ScheduleTest sTest = ScheduleTest.findByIdAndParent(info.parentId);
 	    			if(sTest != null){
@@ -12396,7 +12595,7 @@ public class Application extends Controller {
 	    		}
 	    		vm.parentChildLead = rList2;
 	    		
-	    		infoVMList.add(vm);
+	    		infoVMList.add(vm);*/
 	    	}
 	    	
 	    	for(TradeIn info: tradeIns) {
@@ -12564,7 +12763,9 @@ public class Application extends Controller {
 	    		}
 	    		vm.option = 2;
 	    		
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		
+	    		findTreadParentChildAndBro(infoVMList, info, df, vm);
+	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
 	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
 	    			if(tIn != null){
@@ -12632,7 +12833,7 @@ public class Application extends Controller {
 	    		vm.parentChildLead = rList2;
 	    		
 	    		
-	    		infoVMList.add(vm);
+	    		infoVMList.add(vm);*/
 	    	}
 	    	
 	    	for(RequestMoreInfo info: requestMoreInfos) {
@@ -12706,7 +12907,9 @@ public class Application extends Controller {
 	    		}
 	    		vm.option = 1;
 	    		
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
+	    		
+	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
 	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
 	    			if(rMoreInfo != null){
@@ -12773,7 +12976,7 @@ public class Application extends Controller {
 	    		}
 	    		vm.parentChildLead = rList2;
 	    		
-	    		infoVMList.add(vm);
+	    		infoVMList.add(vm);*/
 	    	}
 	    	
 	    	return ok(Json.toJson(infoVMList));
@@ -12852,8 +13055,9 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		
+	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
 	    		
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
 	    			RequestMoreInfo rMoreInfo = RequestMoreInfo.findByIdAndParent(info.parentId);
 	    			if(rMoreInfo != null){
@@ -12919,7 +13123,7 @@ public class Application extends Controller {
     	    		rList2.add(rList1);
 	    		}
 	    		vm.parentChildLead = rList2;
-	    		infoVMList.add(vm);
+	    		infoVMList.add(vm);*/
 	    	}
 	    	
 	    	return ok(Json.toJson(infoVMList));
@@ -13092,7 +13296,9 @@ public class Application extends Controller {
 	    			vm.isRead = true;
 	    		}
 	    		
-	    		List<RequestInfoVM> rList2 = new ArrayList<>();
+	    		findTreadParentChildAndBro(infoVMList, info, df, vm);
+	    		
+	    		/*List<RequestInfoVM> rList2 = new ArrayList<>();
 	    		if(info.parentId != null){
 	    			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
 	    			if(tIn != null){
@@ -13159,7 +13365,7 @@ public class Application extends Controller {
 	    		}
 	    		vm.parentChildLead = rList2;
 	    		
-	    		infoVMList.add(vm);
+	    		infoVMList.add(vm);*/
 	    	}
 	    	
 	    	return ok(Json.toJson(infoVMList));
