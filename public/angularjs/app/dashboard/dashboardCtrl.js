@@ -838,7 +838,7 @@ angular.module('newApp')
      			   		                                     }
      			  		                                	} ,
      			 		                                 },
-     			 		                                 { name: 'confirmDate', displayName: 'Confirm Day', width:'8%',cellEditableCondition: false,
+     			 		                                 /*{ name: 'confirmDate', displayName: 'Confirm Day', width:'8%',cellEditableCondition: false,
      			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmDate}}</a> ',
      			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			   		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 0) {
@@ -853,7 +853,7 @@ angular.module('newApp')
      				  		                                         return 'red';
      				  		                                     }
      				 		                                	} ,
-     			 		                                 },
+     			 		                                 },*/
      			 		                               { name: 'bestDay', displayName: 'Date Added', width:'8%',cellEditableCondition: false,
      			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.bestDay}}</a> ',
       			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -1194,7 +1194,7 @@ angular.module('newApp')
      	     		     			 				                                 },
      	     		     			 				                                 
      	     		     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'35%',cellEditableCondition: false,
-     	     		     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button><button ng-show="grid.appScope.userType = \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
+     	     		     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeTradeInStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-top:2%;margin-left:3%;">SOLD</button><button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelTradeInStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0px;">SCHEDULE</button><button ng-show="userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
      	     		     	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     		     	       			   		                                       if (row.entity.isRead === false) {
      	     		     	       			   		                                         return 'red';
@@ -1270,7 +1270,22 @@ angular.module('newApp')
         	     		     			 		   		                                     }
         	     		     			 		  		                                	} ,
         	     		     			 		 		                                 },
-        	     		     			 		 		                                
+        	     		     			 		 		                             { name: 'confirmDate', displayName: 'Confirm Day', width:'8%',cellEditableCondition: false,
+        	     		     	     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmDate}}</a> ',
+        	     		     	     			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+        	     		     	     			   		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 0) {
+        	     		     	     			   		                                         return 'red';
+        	     		     	     			   		                                     }
+        	     		     	     			  		                                	} ,
+        	     		     	     					                                 },
+        	     		     	     					                                 { name: 'confirmTime', displayName: 'Confirm Time', width:'8%',cellEditableCondition: false,
+        	     		     	     					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmTime}}</a> ',
+        	     		     	     					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+        	     		     	     				  		                                       if (row.entity.confirmDate === null && row.entity.note.length <= 0) {
+        	     		     	     				  		                                         return 'red';
+        	     		     	     				  		                                     }
+        	     		     	     				 		                                	} ,
+        	     		     	     			 		                                 },
         	     		     			 		 		                                			 		 		                                 
         	     		     			 		 		                                /*{ name: 'edit', displayName: '', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
         	     		     			 		    		                                 cellTemplate:' <a ng-click="grid.appScope.getTradeData(row)" href="/showPdf/{{row.entity.id}}" target="_blank" style="margin-top:7px;margin-left:6px;" >View</a>',
@@ -2377,10 +2392,10 @@ angular.module('newApp')
 	    			$scope.showPagesVisited = true;
 	    		}
 	    		
-    	$scope.reqMore = true;	
+    	$scope.reqMore = false;	
     	$scope.testdrv = false;
     	$scope.trdin = false;
-    	$scope.allLeadd = false;
+    	$scope.allLeadd = true;
     	$scope.showLeadsV = false;
     	$scope.cancelleads = false;
     	$scope.showAllTypeLeads = true;
@@ -2388,8 +2403,8 @@ angular.module('newApp')
     	
     	$scope.showLeadsDrive = function(){
     		$scope.showAllTypeLeads = true;
-        	
-    		$scope.requestMore();
+    		$scope.getAllLeadIn();
+    		//$scope.requestMore();
     	}
     	$scope.schedultestDrive = function(){
     		$scope.showAllTypeLeads = false;
@@ -2466,7 +2481,7 @@ angular.module('newApp')
         
         $scope.getAllListLeadDate = [];
         $scope.getAllLeadsValue = function(){
-        	 $scope.getAllListLeadDate = [];
+        	$scope.getAllListLeadDate = [];
         	angular.forEach($scope.gridOptions2.data,function(value,key){
         		$scope.getAllListLeadDate.push(value);
         	});
@@ -2478,6 +2493,8 @@ angular.module('newApp')
         	});
         	console.log($scope.gridOptions7.data);
         	$scope.gridOptions7.data = $scope.getAllListLeadDate;
+        	//console.log($scope.salesPerson);
+        	//$scope.getAllSalesPersonRecord($scope.salesPerson);
         }
        // $scope.gridOptions8 = {};
         $scope.schedulTestDir = function(){

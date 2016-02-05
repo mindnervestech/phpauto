@@ -3310,23 +3310,24 @@ margin-left: 5px;
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="showLeadsDrive()">Leads</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="schedultestDrive()">Test Drive</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
-			      
+			       <li role="presentation" class="" style="float: right;"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="showLeadsArchive()">Archive</button></a></li>
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
 			    	<h2><b style="margin-left:10%;" ng-show="userType == 'Sales Person'">My Leads</b></h2>
 			    	<select  class="form-control form-white" ng-show="userType == 'General Manager' || userType == 'Manager'" id="salesPersonUserId" ng-model="salesPerson" ng-change="getAllSalesPersonRecord(salesPerson)" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
                                     <option ng-repeat="item in salesPersonList" ng-selected="$index==0" value="{{item.id}}"  >{{item.fullName}}</option>
                                     
                                 </select>
-                    <li role="presentation" class="" style="float: right;"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="showLeadsArchive()">Archive</button></a></li>            
+                               
 			    </ul>
-				    <div id="myTabContent" class="tab-content" ng-if="showAllTypeLeads">
+				    <div id="myTabContent" class="tab-content" ng-if="showAllTypeLeads" style="background-color: white;">
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 				        
 				        <ul id="myTabs" class="nav nav-tabs" role="tablist">
-			      			<li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="requestMore()">Request More Info </a></li>
+				        <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="getAllLeadIn()">All </a></li>
+			      			<li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="requestMore()">Request More Info </a></li>
 			      			<li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="testDrive()">Schedule Test Drive</a></li>
 			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="tradeIn()">Trade In Inquiries</a></li>
-			      			<li role="presentation" class=""><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="getAllLeadIn()">All </a></li>
+			      			
 			    		</ul>
 				        
 						<div ng-if="reqMore" ui-grid="gridOptions5" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
@@ -4951,7 +4952,7 @@ margin-left: 5px;
 								                              <input type="text" name="timepicker" ng-model="testDriveData.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime">
 								                              <i class="icon-clock"></i>
 								                            </div>
-														</div>
+														</div> 
 													</div>
 								                </div>
 								                <div class="form-group col-sm-4">
@@ -5001,7 +5002,7 @@ margin-left: 5px;
 																	<label class="col-sm-5 control-label" style="text-align: left;padding: 0px;">Best Time</label>
 																	<div class="col-sm-7">
 																		<div class="prepend-icon">
-											                              <input type="text" name="timepicker" ng-model="parentchil.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime{{$index}}">
+											                              <input type="text" name="timepicker{{$index}}" ng-model="parentchil.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime{{$index}}">
 											                              <i class="icon-clock"></i>
 											                            </div>
 																	</div>
