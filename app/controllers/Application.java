@@ -19573,7 +19573,7 @@ public class Application extends Controller {
     	
     	//Vehicle vehicleObj = Vehicle.findByVidAndUser(vm.vin);
     	Vehicle vehicle = new Vehicle();
-	    	
+	    	vehicle.title = vm.title;
 	    	vehicle.category = vm.category;
 	    	vehicle.vin = vm.vin;
 	    	vehicle.year = vm.year;

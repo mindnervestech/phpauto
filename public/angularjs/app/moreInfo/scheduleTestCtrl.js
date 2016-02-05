@@ -120,7 +120,7 @@ angular.module('newApp')
  		});
  		$("#cnfDate").datepicker().datepicker("setDate", new Date());
  		$('#timepicker1').timepicker();
- 		
+ 		$scope.userRole = null;
 	  $http.get('/getAllScheduleTest')
 			.success(function(data) {
 			$scope.gridOptions.data = data;

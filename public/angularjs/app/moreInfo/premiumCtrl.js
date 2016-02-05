@@ -169,7 +169,7 @@ angular.module('newApp')
 		 }
 		
  		    	
- 		 
+		 $scope.userRole = null;
 	  $http.get('/getAllPremiumIn')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
