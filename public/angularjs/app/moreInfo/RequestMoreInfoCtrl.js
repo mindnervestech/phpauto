@@ -130,7 +130,14 @@ angular.module('newApp')
 	  
 	  $http.get('/requestInfoMarkRead/'+flag+'/'+id)
 		.success(function(data) {
+			//$scope.gridOptions.data = data;
+			$http.get('/getAllRequestInfo')
+			.success(function(data) {
+				console.log(data);
 			$scope.gridOptions.data = data;
+			$scope.requsetMoreList = data;
+			$scope.userRole = data[0].userRole;
+		});
 			$scope.$emit('getCountEvent', '123');
 	});
 	  
