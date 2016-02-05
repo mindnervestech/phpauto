@@ -106,7 +106,9 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.requsetMoreList = data;
-			$scope.userRole = data[0].userRole;
+			if(data !=null){
+				$scope.userRole = data[0].userRole;
+			}
 		});
 	  
 	  $scope.getAllRequestInfo = function() {
@@ -136,7 +138,9 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.requsetMoreList = data;
-			$scope.userRole = data[0].userRole;
+			if(data !=null){
+				$scope.userRole = data[0].userRole;
+			}
 		});
 			$scope.$emit('getCountEvent', '123');
 	});
