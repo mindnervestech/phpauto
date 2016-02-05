@@ -127,7 +127,7 @@ angular.module('newApp')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.tradeInList = data;
-			if(data !=null){
+			if(data[0].userRole !=undefined){
 				$scope.userRole = data[0].userRole;
 			}
 		});
@@ -137,7 +137,7 @@ angular.module('newApp')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
 			$scope.tradeInList = data;
-			if(data !=null){
+			if(data[0].userRole !=undefined){
 				$scope.userRole = data[0].userRole;
 			}
 		});

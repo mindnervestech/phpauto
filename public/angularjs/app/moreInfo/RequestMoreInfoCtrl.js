@@ -106,7 +106,7 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.requsetMoreList = data;
-			if(data !=null){
+			if(data[0].userRole !=undefined){
 				$scope.userRole = data[0].userRole;
 			}
 		});
@@ -138,7 +138,7 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.requsetMoreList = data;
-			if(data !=null){
+			if(data[0].userRole !=undefined){
 				$scope.userRole = data[0].userRole;
 			}
 		});
