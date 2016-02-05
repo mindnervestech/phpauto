@@ -422,8 +422,9 @@ margin-left: 5px;
 									<div class="col-xlg-12 panel" style="height: 360px;position: relative;margin-top:1%;">
 									         <div>
 									           <div class="col-sm-12">
-									               <h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()" ng-class="topPerformers == true ?'underline':''">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()" ng-class="worstPerformers == true ?'underline':''">WORST PERFORMERS</a></h6>
-									               <div class="col-sm-4">
+									              <!-- <h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()" ng-class="topPerformers == true ?'underline':''">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()" ng-class="worstPerformers == true ?'underline':''">WORST PERFORMERS</a></h6>
+									              -->
+									               <div class="col-sm-8">
 									               		<span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;margin-right: 10px;" ng-click="successRateFilter(successRate)">  </span>
 									    				<span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;margin-right: 10px;" ng-click="currentLeadsFilter(currentLeads)">  </span>
 									    				<span class="glyphicon glyphicon-usd" title="$$$ Amount Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="amountSoldFilter(amountSold)">  </span>
@@ -441,7 +442,7 @@ margin-left: 5px;
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)">
 									                     <img ng-if="$index!=index"  style="width: 116px;"  src="{{item.imageUrl}}">
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
-									                 		<h1 style="color:white;margin-top: 30px;">99%</h1>
+									                 		<h1 style="color:white;margin-top: 30px;">{{item.per}}%</h1>
 									                 	</div>
 									                 </div> 
 									            </div>
