@@ -19450,6 +19450,7 @@ public class Application extends Controller {
  		    contacts.setPhone1(vm.phone1);
  		    //contacts.userId = userObj;
  		    contacts.setUser(userObj.id);
+ 		    contacts.setLocations(userObj.location);
  		    
  		   /*
  		     contacts.setAllEmail(vm.allEmail);
