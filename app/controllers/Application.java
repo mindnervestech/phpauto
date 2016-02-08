@@ -6265,8 +6265,12 @@ public class Application extends Controller {
     			obj.action = noteObj.action;
     			obj.date = df.format(noteObj.createdDate);
     			obj.time = timedf.format(noteObj.createdTime);
-    			if(noteObj.saveHistory.equals(1)){
-    				nFlag = 1;
+    			if(noteObj.saveHistory != null){
+    				if(noteObj.saveHistory != null){
+        				if(noteObj.saveHistory.equals(1)){
+            				nFlag = 1;
+            			}
+        			}
     			}
     			list.add(obj);
     		}
@@ -6338,8 +6342,12 @@ public class Application extends Controller {
     			obj.action = noteObj.action;
     			obj.date = df.format(noteObj.createdDate);
     			obj.time = timedf.format(noteObj.createdTime);
-    			if(noteObj.saveHistory.equals(1)){
-    				nFlag = 1;
+    			if(noteObj.saveHistory != null){
+    				if(noteObj.saveHistory != null){
+        				if(noteObj.saveHistory.equals(1)){
+            				nFlag = 1;
+            			}
+        			}
     			}
     			list.add(obj);
     		}
@@ -6411,8 +6419,12 @@ public class Application extends Controller {
     			obj.action = noteObj.action;
     			obj.date = df.format(noteObj.createdDate);
     			obj.time = timedf.format(noteObj.createdTime);
-    			if(noteObj.saveHistory.equals(1)){
-    				nFlag = 1;
+    			if(noteObj.saveHistory != null){
+    				if(noteObj.saveHistory != null){
+        				if(noteObj.saveHistory.equals(1)){
+            				nFlag = 1;
+            			}
+        			}
     			}
     			list.add(obj);
     		}
@@ -6732,8 +6744,12 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = time.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory != null){
+	        				if(noteObj.saveHistory.equals(1)){
+	            				nFlag = 1;
+	            			}
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -7238,8 +7254,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -7479,8 +7497,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -7630,8 +7650,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -8264,8 +8286,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = time.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -11840,7 +11864,7 @@ public class Application extends Controller {
     			    		vehicle1.setStatus("Sold");
     			    		vehicle1.setSoldDate(currDate);
     			    		vehicle1.setSoldUser(user);
-    			    		vehicle1.setPrice(Integer.parseInt(vm.price));
+    			    		vehicle1.setPrice(rMoreInfo.price);
     			    		vehicle1.update();
     		    		}
     		    		
@@ -11865,7 +11889,7 @@ public class Application extends Controller {
     			    		vehicle1.setStatus("Sold");
     			    		vehicle1.setSoldDate(currDate);
     			    		vehicle1.setSoldUser(user);
-    			    		vehicle1.setPrice(Integer.parseInt(vm.price));
+    			    		vehicle1.setPrice(rMoreInfo.price);
     			    		vehicle1.update();
     		    		}
     		    		
@@ -11890,7 +11914,7 @@ public class Application extends Controller {
     			    		vehicle1.setStatus("Sold");
     			    		vehicle1.setSoldDate(currDate);
     			    		vehicle1.setSoldUser(user);
-    			    		vehicle1.setPrice(Integer.parseInt(vm.price));
+    			    		vehicle1.setPrice(rMoreInfo.price);
     			    		vehicle1.update();
     		    		}
     		    		
@@ -12597,8 +12621,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -12838,10 +12864,11 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
-	    			}
-	    			list.add(obj);
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
+	    			}	    			list.add(obj);
 	    		}
 	    		vm.note = list;
 	    		vm.noteFlag = 0;
@@ -12987,8 +13014,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -13157,8 +13186,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -13403,8 +13434,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -14498,8 +14531,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -14542,8 +14577,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -14591,8 +14628,10 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
-	    			if(noteObj.saveHistory.equals(1)){
-	    				nFlag = 1;
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
 	    			}
 	    			list.add(obj);
 	    		}
@@ -20953,15 +20992,24 @@ public class Application extends Controller {
 			
 			for(RequestMoreInfo rMoreInfo:rInfo){
 				Long countCar = 1L;
-				Long objectDate = mapdate.get(rMoreInfo.requestDate.getTime() + (1000 * 60 * 60 * 24));
+				String DateString = df.format(rMoreInfo.requestDate);
+				Date dateDate = null;
+				try {
+					dateDate = df.parse(DateString);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Long objectDate = mapdate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
 				if (objectDate == null) {
-					Long objectAllDate = mapAlldate.get(rMoreInfo.requestDate.getTime() + (1000 * 60 * 60 * 24));
+					Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
 					if(objectAllDate == null){
-						mapAlldate.put(rMoreInfo.requestDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
+						mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
 					}
-					mapdate.put(rMoreInfo.requestDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
+					mapdate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
 				}else{
-					mapdate.put(rMoreInfo.requestDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
+					mapdate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
 				}
 			}
 			

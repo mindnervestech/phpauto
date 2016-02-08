@@ -1273,19 +1273,25 @@ angular.module('newApp')
         	     		     			 		 		                             { name: 'confirmDate', displayName: 'Confirm Day', width:'8%',cellEditableCondition: false,
         	     		     	     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmDate}}</a> ',
         	     		     	     			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-        	     		     	     			   		                                      
+        	     		     	     			 		                                	 if (row.entity.isRead === false) {
+        	     		     			 		   		                                         return 'red';
+        	     		     			 		   		                                     }
         	     		     	     			  		                                	} ,
         	     		     	     					                                 },
         	     		     	     					                                 { name: 'confirmTime', displayName: 'Confirm Time', width:'8%',cellEditableCondition: false,
         	     		     	     					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmTime}}</a> ',
         	     		     	     					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-        	     		     	     				  		                                       
+        	     		     	     					                                		 if (row.entity.isRead === false) {
+            	     		     			 		   		                                         return 'red';
+            	     		     			 		   		                                     }
         	     		     	     				 		                                	} ,
         	     		     	     			 		                                 },
         	     		     	     			 		                             { name: 'confirmTime', displayName: 'Weather', width:'8%',cellEditableCondition: false,
          	     		     	     					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.wether}}&deg;</a> ',
          	     		     	     					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-         	     		     	     				  		                                       
+         	     		     	     					                                	 if (row.entity.isRead === false) {
+        	     		     			 		   		                                         return 'red';
+        	     		     			 		   		                                     }
          	     		     	     				 		                                	} ,
          	     		     	     			 		                                 },
         	     		     			 				                                 

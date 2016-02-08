@@ -4502,7 +4502,7 @@ margin-left: 5px;
 															<input type="text" class="form-control form-white" ng-model="soldContact.price" required>
 														</div>
 													</div>
-													<div class="form-group col-sm-12">
+													<!-- <div class="form-group col-sm-12">
 														<table class="table">
 								                    		<tr>
 									                    		<td>Vin</td>
@@ -4522,7 +4522,49 @@ margin-left: 5px;
 																	</select></td>
 								                    		</tr>
 								                    	</table>
-													</div>
+													</div> -->
+													
+													<div ng-repeat="otherLeads in soldContact.parentChildLead">
+								                			<div class="form-group col-md-8" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
+								                    			<div>
+								                    				<div class="col-md-4" style="padding-left: 0px;">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img class="preview" style="margin-top: 7px;width: 124px;height: 121px;" src="/getImage/{{otherLeads.imgId}}/thumbnail">
+								    								</div>
+								    								<div class="col-md-8" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">{{otherLeads.year}} {{otherLeads.make}} {{otherLeads.model}}</label>
+								    										<label class="col-md-6">Body Style:</label><label class="col-md-6">{{otherLeads.bodyStyle}}</label>
+								    										<label class="col-md-6">Mileage:</label><label class="col-md-6" ng-if="otherLeads.mileage != null">{{otherLeads.mileage}}</label><label class="col-md-6" ng-if="otherLeads.mileage == null">_</label>
+								    										<label class="col-md-6">Transmission:</label><label class="col-md-6" ng-if="otherLeads.transmission != null">{{otherLeads.transmission}}</label><label class="col-md-6" ng-if="otherLeads.transmission == null">_</label>
+								    										<label class="col-md-6">Drivetrain:</label><label class="col-md-6" ng-if="otherLeads.drivetrain != null">{{otherLeads.drivetrain}}</label><label class="col-md-6" ng-if="otherLeads.drivetrain == null">_</label>
+								    										<label class="col-md-6">Engine:</label><label class="col-md-6" ng-if="otherLeads.engine != null">{{otherLeads.engine}}</label><label class="col-md-6" ng-if="otherLeads.engine == null">_</label>
+								    								</div>
+								                    				
+								                    			</div>
+								                    			
+								                    		</div> 	
+								                    		<div class="form-group col-md-4">
+								                    			<div class="form-group col-sm-12" style="padding: 0px;">
+																	<label class="col-sm-5 control-label" style="text-align: left;padding: 0px;">Best Day</label>
+																	<div class="col-sm-7" style="padding: 0px;">
+																		<select class="form-control form-white" ng-model="otherLeads.status" required>
+																			<option value="">Select</option>
+																			<option value="Sold">Sold</option>
+																			<option value="Cancel">CANCEL</option>
+																			<option value="No Change">No Change</option>
+																		</select>
+																	</div>
+																</div>
+																
+																<div class="form-group col-sm-12" style="padding: 0px;" ng-if="otherLeads.status == 'Sold'">
+																	<label class="col-sm-5 control-label" style="text-align: left;padding: 0px;">Final Price</label>
+																	<div class="col-sm-7">
+											                              <input type="text" class="form-control" name="price" ng-model="otherLeads.price" >
+																	</div>
+																</div>
+								                    		</div>	
+								                    	</div>
+													
 													
 								                </div>
 								                <div class="modal-footer">
