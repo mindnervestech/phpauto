@@ -4949,7 +4949,7 @@ margin-left: 5px;
 														<label class="col-sm-5 control-label" style="text-align: left;">Best Time</label>
 														<div class="col-sm-7">
 															<div class="prepend-icon">
-								                              <input type="text" name="timepicker1" ng-model="testDriveData.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime">
+								                              <input type="text" name="timepicker" ng-model="testDriveData.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime">
 								                              <i class="icon-clock"></i>
 								                            </div>
 														</div> 
@@ -5002,12 +5002,10 @@ margin-left: 5px;
 																	<label class="col-sm-5 control-label" style="text-align: left;padding: 0px;">Best Time</label>
 																	<div class="col-sm-7">
 																		<div class="prepend-icon">
-											                              <input type="text" name="timepicker{{$index}}" ng-model="parentchil.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime{{$index}}">
+											                              <input type="text" name="timepicker{{$index}}" ng-click="joinDatePick($index)" ng-model="parentchil.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="bestTime{{$index}}">
 											                              <i class="icon-clock"></i>
 											                            </div>
-											                            <script>
-											                            	$("bestTime0").timepicker();
-											                            </script>
+											                    
 																	</div>
 																</div>
 								                    		</div>	
