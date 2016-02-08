@@ -4529,7 +4529,13 @@ margin-left: 5px;
 													</div> -->
 													
 													<div ng-repeat="otherLeads in soldContact.parentChildLead">
-								                			<div class="form-group col-md-8" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
+								                			<div class="col-md-12">
+								                			<div class="col-md-1" style="padding-left: 0px;">
+								                				<div class="col-md-1" style="font-size: 29px;margin-top: 54px;">
+								                    			   <a ng-click="cancelLeadSold(otherLeads,$index)"><span class="glyphicon glyphicon-remove"></span></a>
+								                    		   </div>
+								                			</div>
+								                			<div class="form-group col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
 								                    			<div>
 								                    				<div class="col-md-4" style="padding-left: 0px;">
 								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
@@ -4567,6 +4573,7 @@ margin-left: 5px;
 																	</div>
 																</div>
 								                    		</div>	
+								                    		</div>
 								                    	</div>
 													
 													
@@ -5013,7 +5020,14 @@ margin-left: 5px;
 								                		</div>
 								               </div>
 								               		<div ng-repeat="parentchil in testDriveData.parentChildLead">
-								                			<div class="form-group col-md-8" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
+										                			
+								                			<div class="col-md-12">
+								                			<div class="col-md-1" style="padding-left: 0px;">
+								                				<div class="col-md-1" style="font-size: 29px;margin-top: 54px;">
+								                    			   <a ng-click="cancelLeadSched(parentchil,$index)"><span class="glyphicon glyphicon-remove"></span></a>
+								                    		   </div>
+								                			</div>
+								                			<div class="form-group col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
 								                    			<div>
 								                    				<div class="col-md-4" style="padding-left: 0px;">
 								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
@@ -5055,6 +5069,7 @@ margin-left: 5px;
 																	</div>
 																</div>
 								                    		</div>	
+								                    		</div>
 								                    	</div>	
 								                	</div>	
 																			                	

@@ -2897,9 +2897,74 @@ angular.module('newApp')
     	
     	
     	$scope.cancelLead = function(leads,index){
-    		$scope.cancelRequestStatus(leads);
+    		if(leads.typeOfLead == "Schedule Test Drive"){
+    			leads.option = 0;
+    		}else if(leads.typeOfLead == "Request More Info"){
+    			leads.option = 1;
+    		}else if(leads.typeOfLead == "Trade-In Appraisale"){
+    			leads.option = 2;
+    		}
+    		var change = "0";
+    		$http.get('/setScheduleStatusClose/'+leads.id+'/'+leads.option+'/'+change)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Status changed successfully",
+				});
+				
+			});
+    		
     		$scope.editLeads.parentChildLead.splice(index, 1);
     		
+    	}
+    	
+    	$scope.cancelLeadSold = function(leads,index){
+    		
+    		
+    		if(leads.typeOfLead == "Schedule Test Drive"){
+    			leads.option = 0;
+    		}else if(leads.typeOfLead == "Request More Info"){
+    			leads.option = 1;
+    		}else if(leads.typeOfLead == "Trade-In Appraisale"){
+    			leads.option = 2;
+    		}
+    		var change = "0";
+    		$http.get('/setScheduleStatusClose/'+leads.id+'/'+leads.option+'/'+change)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Status changed successfully",
+				});
+				
+			});
+    		$scope.soldContact.parentChildLead.splice(index, 1);
+    		
+    	}
+    	
+    	$scope.cancelLeadSched = function(leads,index){
+    		
+    		console.log(leads);
+    		
+    		if(leads.typeOfLead == "Schedule Test Drive"){
+    			leads.option = 0;
+    		}else if(leads.typeOfLead == "Request More Info"){
+    			leads.option = 1;
+    		}else if(leads.typeOfLead == "Trade-In Appraisale"){
+    			leads.option = 2;
+    		}
+    		var change = "0";
+    		$http.get('/setScheduleStatusClose/'+leads.id+'/'+leads.option+'/'+change)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Status changed successfully",
+				});
+				
+			});
+    		$scope.testDriveData.parentChildLead.splice(index, 1);
     	}
     	
     	$scope.cancelTradeInStatus = function(entity) {
