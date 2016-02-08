@@ -50,6 +50,23 @@ angular.module('newApp')
 	   		
    		};
    		 
+   		$scope.deleteAllContactPop = function(){
+   			$('#removeModal').click();
+   		};
+   		$scope.removeAllContactsData = function(){
+   			$http.get('/removeAllContactsData').success(function(data){
+   				console.log("success.");
+   				$.pnotify({
+						title: "Success",
+						type:'success',
+						text: "File download successfully",
+   					});
+   				$scope.getContactsData();
+   			});
+   		};
+   		$scope.exportCsvPop = function(){
+   			$('#exportModal').click();
+   		};
    		$scope.exportCsv = function(){
    			$http.get('/exportContactsData').success(function(data){
    				console.log(data);
@@ -95,6 +112,7 @@ angular.module('newApp')
    			 $http.get('/getAllContactsData').success(function(data){
    				$scope.gridOptions.data = data;
    				$scope.contactsList = data;
+   				console.log("get data success");
    			 });
    		 }
    		 
@@ -110,8 +128,9 @@ angular.module('newApp')
 	            method: 'post',
 	            file:logofile,
 		   }).progress(function(evt) {
+			   console.log(evt);
 			   $scope.showProgress = true;
-			   $scope.progress = parseInt(100.0 * evt.loaded / evt.total)+"%";
+			   $scope.progress = parseInt((100.0 * evt.loaded) / evt.total)+"%";
 	        }).success(function(data, status, headers, config) {
 	            console.log('success');
 	            $.pnotify({

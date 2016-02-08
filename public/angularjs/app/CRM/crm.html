@@ -6,8 +6,9 @@
 <form class="row" style="margin-left:20%;" ng-submit="saveContactsFile()">
 	<input type="file" name="contactsFile" accept=".csv" ng-file-select="onCsvFileSelect($files)" style="float:left;" required><button type="submit" class="btn btn-primary">Import Contacts</button>
 	<label ng-show="showProgress" style="float:left;">Progress : {{progress}}</label>
-	<a class="btn btn-primary"  ng-click="exportCsv()">Export CSV</a>
-	<a class="btn btn-primary" style="margin-left:6%;" ng-click="createContact()">Create Contact</a>
+	<a class="btn btn-primary"  ng-click="exportCsvPop()">Export CSV</a>
+	<a class="btn btn-primary" ng-click="createContact()">Create Contact</a>
+	<a class="btn btn-primary"  ng-click="deleteAllContactPop()">Remove All</a>
 </form>
 <div>
 <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
@@ -540,7 +541,7 @@
 								        </div>
 								    </div>
 								
-								<div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-basic"></div>
+<div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-basic"></div>
 <div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
        <div class="modal-dialog">
            <div class="modal-content">
@@ -558,6 +559,46 @@
            </div>
        </div>
    </div>
+   
+   
+<div style="display:none;" id="exportModal" data-toggle="modal" data-target="#export_basic"></div>
+<div class="modal fade" id="export_basic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Export CSV</strong></h4>
+                </div>
+                <div class="modal-body">
+                   Are you want to export csv?<br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="exportCsv()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+<div style="display:none;" id="removeModal" data-toggle="modal" data-target="#remove_basic"></div>
+<div class="modal fade" id="remove_basic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Remove all contacts</strong></h4>
+                </div>
+                <div class="modal-body">
+                   Are you want to remove all contacts from database?<br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="removeAllContactsData()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>      
+   
 <style>
 	.modal-dialog{
 		margin-top: 1%;

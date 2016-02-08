@@ -21799,4 +21799,24 @@ public class Application extends Controller {
 		return ok();
 	}
 	
+	public static Result removeAllContactsData(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		
+    		AuthUser userObj = (AuthUser) getLocalUser();
+    		List<Contacts> contactsList;
+    		if(userObj.role.equalsIgnoreCase("Manager")){
+    			contactsList = Contacts.getAllContactsByLocation(Long.valueOf(session("USER_LOCATION")));
+    		}else{
+    			contactsList = Contacts.getAllContactsByUser(userObj.id);
+    		}
+    		
+    		for (Contacts con : contactsList) {
+				con.delete();
+			}
+    		return ok();
+    	}
+	}
+	
 }
