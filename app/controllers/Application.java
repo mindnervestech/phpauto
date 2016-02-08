@@ -5968,10 +5968,22 @@ public class Application extends Controller {
 	    	
 	    	fillLeadsData(listData, requestMoreInfos, tradeIns, infoVMList);
 	    	
+	    	// java.util.Collections.sort(infoVMList,new infoVMListComparatorCountHigh());
+	    	
 	    	return ok(Json.toJson(infoVMList));
     	}	
     	
     }
+    
+   
+	/* public static class infoVMListComparatorCountHigh implements Comparator<RequestInfoVM> {
+			@Override
+			public int compare(RequestInfoVM o2,RequestInfoVM o1) {
+				return o1.confirmDate > o2.confirmDate ? -1 : o1.confirmDate < o2.confirmDate ? 1 : 0;
+			}
+	    }*/
+	
+    
     
     public static Result getAllSalesPersonLostAndComp(Integer leadId){
 		
@@ -14412,7 +14424,7 @@ public class Application extends Controller {
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
 	    		uNotes.save();
 			}
-		} else {
+		} else if(vm.option==3) {
 			TradeIn tradeIn = TradeIn.findById(vm.id);
 			tradeIn.setFirstName(vm.name);
 			tradeIn.setEmail(vm.email);
@@ -14482,6 +14494,78 @@ public class Application extends Controller {
 	    		uNotes.createdTime = currDate;
 	    		uNotes.user = user;
 	    		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
+	    		uNotes.save();
+			}
+		}else if(vm.option==2) {
+			ScheduleTest scTest = ScheduleTest.findById(vm.id);
+			scTest.setName(vm.name);
+			scTest.setEmail(vm.email);
+			scTest.setPhone(vm.phone);
+			scTest.setBestDay(vm.bestDay);
+			scTest.setBestTime(vm.bestTime);
+			try {
+				confirmDate = df.parse(vm.bestDay);
+				scTest.setConfirmDate(confirmDate);
+				scTest.setConfirmTime(parseTime.parse(vm.bestTime));
+				
+				List<RequestMoreInfo> list = RequestMoreInfo.findByVin(vm.vin);
+				List<TradeIn> list1 = TradeIn.findByVin(vm.vin);
+				List<ScheduleTest> list2 = ScheduleTest.findByVin(vm.vin);
+				Date date = parseTime.parse(vm.bestTime);
+				
+				for (RequestMoreInfo info2 : list) {
+					if(info2.confirmDate != null && info2.confirmTime !=null){
+						if(info2.confirmDate.equals(confirmDate)){
+							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
+								msg = "error";
+								flag = false;
+							}
+						}
+					}
+				}
+				
+				for (TradeIn info2 : list1) {
+					if(info2.confirmDate != null && info2.confirmTime !=null){
+						if(info2.confirmDate.equals(confirmDate)){
+							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
+								msg = "error";
+								flag = false;
+							}
+						}
+					}
+				}
+				
+				
+				for (ScheduleTest info2 : list2) {
+					if(info2.confirmDate != null && info2.confirmTime !=null){
+						if(info2.confirmDate.equals(confirmDate)){
+							Date newDate = DateUtils.addHours(info2.confirmTime, 1);
+							if((date.after(info2.confirmTime) && date.before(newDate)) || date.equals(info2.confirmTime)){
+								msg = "error";
+								flag = false;
+							}
+						}
+					}
+				}
+				
+			} catch(Exception e) {}
+			scTest.setPreferredContact(vm.prefferedContact);
+			scTest.setVin(vm.vin);
+			scTest.setScheduleDate(new Date());
+			scTest.setUser(user);
+			//scTest.setIsScheduled(true);
+			if(msg.equals("success")){
+				scTest.update();
+				
+				UserNotes uNotes = new UserNotes();
+	    		uNotes.setNote("Test Drive Scheduled");
+	    		uNotes.setAction("Other");
+	    		uNotes.createdDate = currDate;
+	    		uNotes.createdTime = currDate;
+	    		uNotes.user = user;
+	    		uNotes.scheduleTest = scTest;
 	    		uNotes.save();
 			}
 		}
@@ -14706,7 +14790,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		AuthUser userObj = AuthUser.findById(user);
-    		if(leadType.equals("Schedule Test")) {
+    		if(leadType.equals("Schedule Test") || leadType.equals("Schedule Test Drive")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setAssignedTo(userObj);
     			schedule.setIsRead(1);
@@ -14725,7 +14809,7 @@ public class Application extends Controller {
 			    info.setIsReassigned(true);
 			    info.update();
 			}
-			if(leadType.equals("Trade In")) {
+			if(leadType.equals("Trade In") || leadType.equals("Trade-In Appraisal")) {
 				TradeIn tradeIn = TradeIn.findById(id);
 				tradeIn.setAssignedTo(userObj);
 				tradeIn.setPremiumFlag(0);
@@ -17607,7 +17691,7 @@ public class Application extends Controller {
     	
     	if(filterBy.equals("countHigh")){
     		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountHigh());
-        	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorCountHigh());
+    		java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorCountHigh());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorCountHigh());
     	}else if(filterBy.equals("countLow")){
     		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountLow());

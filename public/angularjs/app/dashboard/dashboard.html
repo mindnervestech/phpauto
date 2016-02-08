@@ -4183,6 +4183,7 @@ margin-left: 5px;
 								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-show="stockWiseData.length  > 1">
 								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
 								                    		</div>
+								                    		
 								                    		   <div ng-if="$index == 0">	
 								                    		<div ng-repeat="childL in editLeads.parentChildLead" style="float: left;">
 								                    				<div class="col-md-4" style="margin-top: 11px;">
@@ -4215,6 +4216,9 @@ margin-left: 5px;
 								                    			</div>
 								                    			
 								                    		</div> 
+								                    			<div class="col-md-1" style="font-size: 29px;margin-top: 54px;">
+								                    			<a ng-click="cancelLead(childL,$parent.$index)"><span class="glyphicon glyphicon-remove"></span></a>
+								                    		</div>
 								                    		</div>
 								                    		</div>
 								                    		
