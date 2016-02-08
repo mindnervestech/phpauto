@@ -28,6 +28,7 @@ public class RequestInfoVM {
 	public String confirmTime;
 	public boolean isRead;
 	public List<NoteVM> note;
+	public Integer noteFlag;
 	public String status;
 	public String statusDate;
 	public String salesRep;

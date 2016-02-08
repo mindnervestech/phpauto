@@ -19,6 +19,8 @@ public class UserNotes extends Model {
 	public String action;
 	public Date createdDate;
 	public Date createdTime;
+	public Integer saveHistory;
+	
 	@ManyToOne
 	public RequestMoreInfo requestMoreInfo;
 	@ManyToOne
@@ -92,6 +94,15 @@ public class UserNotes extends Model {
 	}
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+
+
+	public int getSaveHistory() {
+		return saveHistory;
+	}
+	public void setSaveHistory(int saveHistory) {
+		this.saveHistory = saveHistory;
 	}
 
 

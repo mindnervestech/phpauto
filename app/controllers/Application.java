@@ -6256,6 +6256,7 @@ public class Application extends Controller {
     		vm.typeOfLead = "Schedule Test Drive";
     		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
     		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
+    		Integer nFlag = 0;
     		List<NoteVM> list = new ArrayList<>();
     		for(UserNotes noteObj :notesList) {
     			NoteVM obj = new NoteVM();
@@ -6264,9 +6265,13 @@ public class Application extends Controller {
     			obj.action = noteObj.action;
     			obj.date = df.format(noteObj.createdDate);
     			obj.time = timedf.format(noteObj.createdTime);
+    			if(noteObj.saveHistory.equals(1)){
+    				nFlag = 1;
+    			}
     			list.add(obj);
     		}
     		vm.note = list;
+    		vm.noteFlag = nFlag;
     		if(info.getConfirmDate() != null) {
     			vm.confirmDate = df.format(info.getConfirmDate());
     		}
@@ -6324,6 +6329,7 @@ public class Application extends Controller {
     		vm.typeOfLead = "Trade-In Appraisal";
     		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
     		List<UserNotes> notesList = UserNotes.findTradeIn(info);
+    		Integer nFlag = 0;
     		List<NoteVM> list = new ArrayList<>();
     		for(UserNotes noteObj :notesList) {
     			NoteVM obj = new NoteVM();
@@ -6332,9 +6338,13 @@ public class Application extends Controller {
     			obj.action = noteObj.action;
     			obj.date = df.format(noteObj.createdDate);
     			obj.time = timedf.format(noteObj.createdTime);
+    			if(noteObj.saveHistory.equals(1)){
+    				nFlag = 1;
+    			}
     			list.add(obj);
     		}
     		vm.note = list;
+    		vm.noteFlag = nFlag;
     		if(info.getConfirmDate() != null) {
     			vm.confirmDate = df.format(info.getConfirmDate());
     		}
@@ -6392,6 +6402,7 @@ public class Application extends Controller {
     		vm.typeOfLead = "Request More Info";
     		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
     		List<UserNotes> notesList = UserNotes.findRequestMore(info);
+    		Integer nFlag = 0;
     		List<NoteVM> list = new ArrayList<>();
     		for(UserNotes noteObj :notesList) {
     			NoteVM obj = new NoteVM();
@@ -6400,9 +6411,13 @@ public class Application extends Controller {
     			obj.action = noteObj.action;
     			obj.date = df.format(noteObj.createdDate);
     			obj.time = timedf.format(noteObj.createdTime);
+    			if(noteObj.saveHistory.equals(1)){
+    				nFlag = 1;
+    			}
     			list.add(obj);
     		}
     		vm.note = list;
+    		vm.noteFlag = nFlag;
     		if(info.getConfirmDate() != null) {
     			vm.confirmDate = df.format(info.getConfirmDate());
     		}
@@ -6709,6 +6724,7 @@ public class Application extends Controller {
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		List<NoteVM> list = new ArrayList<>();
+	    		Integer nFlag = 0;
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
 	    			obj.id = noteObj.id;
@@ -6716,9 +6732,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = time.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		vm.requestDate = df.format(info.requestDate);
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
@@ -7209,7 +7229,7 @@ public class Application extends Controller {
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		//List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
-	    		
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -7218,9 +7238,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		if(info.getConfirmDate() != null) {
 	    			vm.confirmDate = df.format(info.getConfirmDate());
 	    		}
@@ -7446,6 +7470,7 @@ public class Application extends Controller {
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -7454,9 +7479,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		if(info.getConfirmDate() != null) {
 	    			vm.confirmDate = df.format(info.getConfirmDate());
 	    		}
@@ -7592,6 +7621,7 @@ public class Application extends Controller {
 	    		vm.typeOfLead = "Request More Info";
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -7600,9 +7630,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		if(info.getConfirmDate() != null) {
 	    			vm.confirmDate = df.format(info.getConfirmDate());
 	    		}
@@ -8221,6 +8255,7 @@ public class Application extends Controller {
 	    		
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -8229,9 +8264,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = time.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		vm.requestDate = df.format(info.tradeDate);
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
@@ -12549,6 +12588,7 @@ public class Application extends Controller {
 	    		vm.typeOfLead = "Schedule Test Drive";
 	    		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
 	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
+	    		Integer nFlag =0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -12557,9 +12597,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		if(info.getConfirmDate() != null) {
 	    			vm.confirmDate = df.format(info.getConfirmDate());
 	    		}
@@ -12785,7 +12829,7 @@ public class Application extends Controller {
 	    		vm.leadsValue = lVm;	
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
-	    		
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -12794,9 +12838,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = 0;
 	    		if(info.getConfirmDate() != null) {
 	    			vm.confirmDate = df.format(info.getConfirmDate());
 	    		}
@@ -12930,6 +12978,7 @@ public class Application extends Controller {
 	    		vm.typeOfLead = "Request More Info";
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -12938,9 +12987,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		if(info.getConfirmDate() != null) {
 	    			vm.confirmDate = df.format(info.getConfirmDate());
 	    		}
@@ -13095,6 +13148,7 @@ public class Application extends Controller {
 	    		vm.typeOfLead = "Request More Info";
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -13103,9 +13157,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		vm.requestDate = df.format(info.requestDate);
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
@@ -13336,6 +13394,7 @@ public class Application extends Controller {
     		
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -13344,9 +13403,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		vm.requestDate = df.format(info.tradeDate);
 	    		if(info.isRead == 0) {
 	    			vm.isRead = false;
@@ -14120,6 +14183,7 @@ public class Application extends Controller {
     			notes.note = note;
     			notes.action = action;
     			notes.requestMoreInfo = requestMore;
+    			notes.saveHistory = 1;
     			if(requestMore.assignedTo !=null){
     				notes.user = requestMore.assignedTo;
     			}/*else{
@@ -14138,6 +14202,7 @@ public class Application extends Controller {
     			notes.note = note;
     			notes.action = action;
     			notes.scheduleTest = scheduleTest;
+    			notes.saveHistory = 1;
     			AuthUser usr = AuthUser.findById(scheduleTest.assignedTo.id);
     			if(scheduleTest.assignedTo != null){
     				notes.user = scheduleTest.assignedTo;
@@ -14159,6 +14224,7 @@ public class Application extends Controller {
     			notes.note = note;
     			notes.action = action;
     			notes.tradeIn = tradeIn;
+    			notes.saveHistory = 1;
     			if(tradeIn.assignedTo !=null){
     				notes.user = tradeIn.assignedTo;
     			}/*else{
@@ -14423,6 +14489,7 @@ public class Application extends Controller {
 	    		
 	    		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
 	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -14431,10 +14498,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
-	    		
+	    		vm.noteFlag = nFlag;
 	    		vm.typeOfLead = "Schedule Test";
 	    		infoVMList.add(vm);
 	    	}
@@ -14463,7 +14533,7 @@ public class Application extends Controller {
 	    		
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
-	    		
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -14472,10 +14542,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
-	    		
+	    		vm.noteFlag = nFlag;
 	    		vm.typeOfLead = "Request More Info";
 	    		infoVMList.add(vm);
 	    	}
@@ -14509,6 +14582,7 @@ public class Application extends Controller {
 	    		
 	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
+	    		Integer nFlag = 0;
 	    		List<NoteVM> list = new ArrayList<>();
 	    		for(UserNotes noteObj :notesList) {
 	    			NoteVM obj = new NoteVM();
@@ -14517,9 +14591,13 @@ public class Application extends Controller {
 	    			obj.action = noteObj.action;
 	    			obj.date = df.format(noteObj.createdDate);
 	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory.equals(1)){
+	    				nFlag = 1;
+	    			}
 	    			list.add(obj);
 	    		}
 	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
 	    		vm.typeOfLead = "Trade In";
 	    		infoVMList.add(vm);
 	    	}
@@ -17888,6 +17966,7 @@ public class Application extends Controller {
 	    		uNotes.createdDate = date;
 	    		uNotes.createdTime = date;
 	    		uNotes.user = user;
+	    		uNotes.saveHistory = 0;
 	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		uNotes.scheduleTest = ScheduleTest.findById(test.id);
 	    		uNotes.save();
@@ -18009,6 +18088,7 @@ public class Application extends Controller {
         		uNotes.setAction("Other");
         		uNotes.createdDate = date;
         		uNotes.createdTime = date;
+        		uNotes.saveHistory = 0;
         		uNotes.user = user;
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
