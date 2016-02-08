@@ -83,7 +83,7 @@ angular.module('newApp')
 	   		                                	} ,
 	   		                                 },
 		                                 { name: 'btn', displayName: 'Assign',enableFiltering: false, width:'17%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
- 		                                	 cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.releaseLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">RELEASE</button><button type="button" ng-click="grid.appScope.deleteLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">DELETE</button>', 
+ 		                                	 cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.releaseLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">RELEASE</button><button type="button" ng-click="grid.appScope.deleteLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">REMOVE</button>', 
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
