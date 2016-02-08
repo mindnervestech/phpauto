@@ -365,5 +365,8 @@ public class Contacts extends Model {
 	public static List<Contacts> getAllNewsletter() {
 		return find.where().eq("newsLetter", 1).findList();
 	}
+	public static List<Contacts> findAll() {
+		return find.all();
+	}
 	
 }

@@ -15,8 +15,8 @@ public class UserVM {
 	public String imageName;
 	public String imageUrl;
 	public Integer successRate;
-	public String currentLeads;
-	public String salesAmount;
+	public Long currentLeads;
+	public Long salesAmount;
 	public String password;
 	public String age;
 	public String commission;
@@ -29,10 +29,10 @@ public class UserVM {
 	public String salary;
 	public String trainingCost;
 	public String trainingHours;
-	public String saleCar;
+	public Long saleCar;
 	public  String quota;
 	public List<String> permissions;
-	public double per;
+	public int per;
 	public Long locationId;
 	
 }

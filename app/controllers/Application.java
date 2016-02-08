@@ -13759,7 +13759,7 @@ public class Application extends Controller {
 				String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
 				        "August", "September", "October", "November", "December" };
 		    	
-		     	String crMonth = monthName[cal.get(Calendar.MONTH)+1];
+		     	String crMonth = monthName[cal.get(Calendar.MONTH)];
 		     	
 				PlanScheduleMonthlySalepeople  pMonthlySalepeople = null;
 				pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(sales, crMonth);
@@ -13767,7 +13767,7 @@ public class Application extends Controller {
 				if(pMonthlySalepeople != null){
 					total = Integer.parseInt(pMonthlySalepeople.totalBrought);
 		    	}
-				int pricecountOther = 0;
+				/*int pricecountOther = 0;
 				List<RequestMoreInfo> reqInfo = RequestMoreInfo.findAllSeenComplete(sales);
         		List<ScheduleTest> schedList = ScheduleTest.findAllSeenComplete(sales);
         		List<TradeIn> tradeInsList = TradeIn.findAllSeenComplete(sales);
@@ -13811,11 +13811,13 @@ public class Application extends Controller {
         			}
         		}
         		}
-				
+        		System.out.println(pricecountOther);
+        		System.out.println(total);
 				if(pricecountOther > 0 && total > 0){
 					double per = (pricecountOther*100)/total;
 					vm.per = per;
-				}
+					System.out.println(per);
+				}*/
 				vm.fullName = sales.firstName+" "+sales.lastName;
 				vm.id = sales.id;
 				if(sales.imageUrl != null) {
@@ -13879,7 +13881,8 @@ public class Application extends Controller {
 	    	int countLeads1 = requestLeadCount1 + scheduleLeadCount1 + tradeInLeadCount1;
 	    	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
 	    	int saleCarCount = 0;
-	    	int pricecount = 0;
+	    	Long pricecount = 0l;
+	    	int per = 0;
 	    	List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(sales);
     		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(sales);
     		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(sales);
@@ -13925,10 +13928,18 @@ public class Application extends Controller {
     		}else{
     			 sucessCount = 0;
     		}
+    		
+    		System.out.println(pricecount);
+    		System.out.println(total);
+			if(pricecount > 0 && total > 0){
+				per = (int) ((pricecount*100)/total);
+				vm.per = per;
+				System.out.println(per);
+			}
     		vm.successRate = (int) sucessCount;
-    		vm.salesAmount = String.valueOf(pricecount);
-    		vm.currentLeads = String.valueOf(countLeads);
-			vm.saleCar = String.valueOf(saleCarCount);	
+    		vm.salesAmount = pricecount;
+    		vm.currentLeads = Long.parseLong(String.valueOf(countLeads));
+			vm.saleCar = Long.parseLong(String.valueOf(saleCarCount));
 			vm.email = sales.communicationemail;
 				tempuserList[index] = vm;
 				index++;
