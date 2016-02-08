@@ -5252,7 +5252,7 @@ angular.module('newApp')
     		                                 },
     		                                 { name: 'testDrive', displayName:'Next Test Drive' ,enableFiltering: false, width:'10%',cellEditableCondition: false,
     		                                 },
-    		                                 { name: 'pageViewCount', displayName: 'History',enableFiltering: false, width:'9%',cellEditableCondition: false,
+    		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false, width:'9%',cellEditableCondition: false,
     		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
     		                                 },
     		                                 { name: 'edit', displayName: '', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
@@ -5341,6 +5341,7 @@ angular.module('newApp')
     		    			 			$scope.gridOptions.data = data;
     		    			 			console.log(data);
     		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
+    		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
     		    			 		});
     		    			 }	    			 
     		    			 
@@ -5356,6 +5357,7 @@ angular.module('newApp')
     		    			 			console.log(data);
     		    			 			console.log($scope.gridOptions.columnDefs[8]);
     		    			 			$scope.gridOptions.columnDefs[8].displayName='Sold Date';
+    		    			 			$scope.gridOptions.columnDefs[9].displayName='History';
     		    			 		});
     		    			 }
     		    			 
