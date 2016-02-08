@@ -74,14 +74,21 @@ angular.module('newApp')
 	  		                                     }
 	 		                                	} ,
  		                                 },
- 		                                 { name: 'requestDate', displayName: 'Request Date',enableFiltering: false, width:'10%',cellEditableCondition: false,
+ 		                                 { name: 'requestDate', displayName: 'Request Date',enableFiltering: false, width:'8%',cellEditableCondition: false,
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
    		                                       if (row.entity.isRead === false) {
    		                                         return 'red';
    		                                     }
   		                                	} ,
  		                                 },
- 		                                { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'11%',cellEditableCondition: false,
+ 		                                { name: 'price', displayName: 'Price',enableFiltering: false, width:'5%',cellEditableCondition: false,
+	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	    		                                       if (row.entity.isRead === false) {
+	    		                                         return 'red';
+	    		                                     }
+	   		                                	} ,
+	   		                             }, 
+ 		                                { name: 'salesRep', displayName: 'Sales Rep',enableFiltering: false, width:'8%',cellEditableCondition: false,
    		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     		                                       if (row.entity.isRead === false) {
     		                                         return 'red';
