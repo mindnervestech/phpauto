@@ -6828,7 +6828,7 @@ public class Application extends Controller {
 	    		rList1.phone = sTest.phone;
 	    		rList1.email = sTest.email;
 	    		rList1.requestDate = df.format(sTest.scheduleDate);
-	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    		rList1.typeOfLead = "Schedule Test Drive";
 	    		
 	    		rList2.add(rList1);
 			}
@@ -6862,7 +6862,7 @@ public class Application extends Controller {
 	    		rList1.phone = info1.phone;
 	    		rList1.email = info1.email;
 	    		rList1.requestDate = df.format(info1.scheduleDate);
-	    		rList1.typeOfLead = "Trade-In Appraisal";
+	    		rList1.typeOfLead = "Schedule Test Drive";
 	    		
 	    		rList2.add(rList1);
 			}
@@ -6895,7 +6895,7 @@ public class Application extends Controller {
     		rList1.phone = info1.phone;
     		rList1.email = info1.email;
     		rList1.requestDate = df.format(info1.scheduleDate);
-    		rList1.typeOfLead = "Trade-In Appraisal";
+    		rList1.typeOfLead = "Schedule Test Drive";
     		
     		rList2.add(rList1);
 		}
