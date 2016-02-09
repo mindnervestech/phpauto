@@ -1973,6 +1973,7 @@ public class Application extends Controller {
 	    	LeadVM vm = form.get();
 	    	int parentFlag = 0;
 	    	Long parentLeadId = 0L;
+	    	Date reqDate = null;
 	    	for(VehicleVM vehicleVM:vm.stockWiseData){
 	    		if(parentFlag == 0){
 	    			
@@ -1986,6 +1987,8 @@ public class Application extends Controller {
 		    			rInfo.setCustZipCode(vm.custZipCode);
 		    			rInfo.setEnthicity(vm.enthicity);
 		    			rInfo.update();
+		    			
+		    			reqDate = rInfo.requestDate;
 		    			
 			    		if(parentFlag == 0){
 			    			parentFlag = 1;
@@ -2013,6 +2016,8 @@ public class Application extends Controller {
 		    			sInfo.setEnthicity(vm.enthicity);
 		    			sInfo.update();
 		    			
+		    			reqDate = sInfo.scheduleDate;
+		    			
 		    			if(parentFlag == 0){
 			    			parentFlag = 1;
 			    			parentLeadId = sInfo.getId();
@@ -2038,6 +2043,8 @@ public class Application extends Controller {
 		    			tInfo.setCustZipCode(vm.custZipCode);
 		    			tInfo.setEnthicity(vm.enthicity);
 		    			tInfo.update();
+		    			
+		    			reqDate = tInfo.tradeDate;
 		    			
 		    			if(parentFlag == 0){
 			    			parentFlag = 1;
@@ -2079,7 +2086,7 @@ public class Application extends Controller {
 	    	    		info.setContactedFrom(rInfo.contactedFrom);
 	    	    		info.setAssignedTo(user);
 	    	    		
-	    	    		info.setRequestDate(new Date());
+	    	    		info.setRequestDate(reqDate);
 	    	    		/*PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	    		if(pLeads != null){
 	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
@@ -2116,6 +2123,7 @@ public class Application extends Controller {
 	    	    		uNotes.setAction("Other");
 	    	    		uNotes.createdDate = currDate;
 	    	    		uNotes.createdTime = currDate;
+	    	    		uNotes.saveHistory = 1;
 	    	    		uNotes.user = user;
 	    	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
@@ -2138,13 +2146,13 @@ public class Application extends Controller {
 	    	    		test.setLeadStatus(null);
 	    	    		test.setBestDay(sInfo.bestDay);
 	    	    		test.setBestTime(sInfo.bestTime);
-	    	    		try {
+	    	    		/*try {
 	    	    			confirmDate = df.parse(sInfo.bestDay);
 	    	    			test.setConfirmDate(confirmDate);
 	    	    		} catch(Exception e) {}
 	    	    		try {
 	    	    			test.setConfirmTime(parseTime.parse(sInfo.bestTime));
-	    	    		} catch(Exception e) {}
+	    	    		} catch(Exception e) {}*/
 	    	    		test.setEmail(vm.custEmail);
 	    	    		test.setName(vm.custName);
 	    	    		test.setPhone(vm.custNumber);
@@ -2155,7 +2163,8 @@ public class Application extends Controller {
 	    				test.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	    		test.setHearedFrom(sInfo.hearedFrom);
 	    	    		test.setContactedFrom(sInfo.contactedFrom);
-	    	    		test.setScheduleDate(new Date());
+	    	    		//test.setScheduleDate(new Date());
+	    	    		test.setScheduleDate(reqDate);
 	    	    		test.setPreferredContact(sInfo.preferredContact);
 	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
 	    	    		test.setVin(vehicle.getVin());
@@ -2198,6 +2207,7 @@ public class Application extends Controller {
 	    	    		uNotes.setAction("Other");
 	    	    		uNotes.createdDate = currDate;
 	    	    		uNotes.createdTime = currDate;
+	    	    		uNotes.saveHistory = 1;
 	    	    		uNotes.user = user;
 	    	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    	    		uNotes.scheduleTest = ScheduleTest.findById(test.id);
@@ -2215,7 +2225,10 @@ public class Application extends Controller {
 	    	    		/*if(test.premiumFlag == 1){
 	    	    			sendMailpremium();
 	    	    		}*/
-	        		sendMail(map);
+	    	    		
+	    	    		
+	    	    		
+	        		
 	        	}else if(vm.leadType.equals("Trade-In Appraisal")){
 		    		TradeIn leadVM = TradeIn.findById(Long.parseLong(vm.id));
 	        		
@@ -2256,7 +2269,7 @@ public class Application extends Controller {
 	            		tradeIn.setSalvage(leadVM.salvage);
 	            		tradeIn.setScheduleDate(new Date());
 	            		tradeIn.setTireRating(leadVM.tireRating);
-	            		tradeIn.setTradeDate(new Date());
+	            		tradeIn.setTradeDate(reqDate);
 	            		tradeIn.setTransmission(leadVM.transmission);
 	            		tradeIn.setUser(user);
 	        			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -2304,6 +2317,7 @@ public class Application extends Controller {
 	            		uNotes.setAction("Other");
 	            		uNotes.createdDate = currDate;
 	            		uNotes.createdTime = currDate;
+	            		uNotes.saveHistory = 1;
 	            		uNotes.user = user;
 	            		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	            		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
@@ -17949,6 +17963,7 @@ public class Application extends Controller {
     	Date date = new Date();
     	int parentFlag = 0;
     	long parentLeadId = 0L;
+    	
     	List<Vehicle> vehicles = Vehicle.findByMakeAndModel(makestr, model);
     	if(leadVM.leadType.equals("1")) {
     		for(VehicleVM vehicleVM:leadVM.stockWiseData){
@@ -18008,6 +18023,7 @@ public class Application extends Controller {
 	    		uNotes.setAction("Other");
 	    		uNotes.createdDate = date;
 	    		uNotes.createdTime = date;
+	    		uNotes.saveHistory = 1;
 	    		uNotes.user = user;
 	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
@@ -18030,13 +18046,17 @@ public class Application extends Controller {
 	    		test.setLeadStatus(null);
 	    		test.setBestDay(leadVM.bestDay);
 	    		test.setBestTime(leadVM.bestTime);
-	    		try {
-	    			confirmDate = df.parse(leadVM.bestDay);
-	    			test.setConfirmDate(confirmDate);
-	    		} catch(Exception e) {}
-	    		try {
-	    			test.setConfirmTime(parseTime.parse(leadVM.bestTime));
-	    		} catch(Exception e) {}
+	    		
+	    		if(parentFlag == 0){
+	    			try {
+		    			confirmDate = df.parse(leadVM.bestDay);
+		    			test.setConfirmDate(confirmDate);
+		    		} catch(Exception e) {}
+		    		try {
+		    			test.setConfirmTime(parseTime.parse(leadVM.bestTime));
+		    		} catch(Exception e) {}
+	    		}
+	    		
 	    		test.setEmail(leadVM.custEmail);
 	    		test.setName(leadVM.custName);
 	    		test.setPhone(leadVM.custNumber);
@@ -18092,7 +18112,7 @@ public class Application extends Controller {
 	    		uNotes.createdDate = date;
 	    		uNotes.createdTime = date;
 	    		uNotes.user = user;
-	    		uNotes.saveHistory = 0;
+	    		uNotes.saveHistory = 1;
 	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	    		uNotes.scheduleTest = ScheduleTest.findById(test.id);
 	    		uNotes.save();
@@ -18106,10 +18126,16 @@ public class Application extends Controller {
 	    		map.put("uphone", user.phone);
 	    		map.put("uemail", user.email);
 	    		makeToDo(vehicle.vin);
-	    		/*if(test.premiumFlag == 1){
-	    			sendMailpremium();
-	    		}*/
-    		sendMail(map);
+	    		
+	    		
+	    		if(parentFlag == 0){
+	    			sendMail(map);
+	    		}
+    		   
+    		   
+    		   /*if(test.premiumFlag == 1){
+   					sendMailpremium();
+   				}*/
     	}
     	} else {
     		TradeIn tIn = null;
@@ -18214,7 +18240,7 @@ public class Application extends Controller {
         		uNotes.setAction("Other");
         		uNotes.createdDate = date;
         		uNotes.createdTime = date;
-        		uNotes.saveHistory = 0;
+        		uNotes.saveHistory = 1;
         		uNotes.user = user;
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.tradeIn = tradeIn.findById(tradeIn.id);

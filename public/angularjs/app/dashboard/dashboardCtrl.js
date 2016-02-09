@@ -2513,7 +2513,7 @@ angular.module('newApp')
         
         $scope.getAllListLeadDate = [];
         $scope.getAllLeadsValue = function(){
-        	$scope.getAllListLeadDate = [];
+        	/*$scope.getAllListLeadDate = [];
         	angular.forEach($scope.gridOptions2.data,function(value,key){
         		$scope.getAllListLeadDate.push(value);
         	});
@@ -2524,11 +2524,9 @@ angular.module('newApp')
         		$scope.getAllListLeadDate.push(value);
         	});
         	console.log($scope.gridOptions7.data);
-        	$scope.gridOptions7.data = $scope.getAllListLeadDate;
-        	//console.log($scope.salesPerson);
-        	//$scope.getAllSalesPersonRecord($scope.salesPerson);
+        	$scope.gridOptions7.data = $scope.getAllListLeadDate;*/
         }
-       // $scope.gridOptions8 = {};
+        
         $scope.schedulTestDir = function(){
         	$http.get('/getTestDirConfir')
 			.success(function(data) {
@@ -2637,6 +2635,7 @@ angular.module('newApp')
 		$scope.getAllSalesPersonRecord = function(id){
 		       console.log(id);
 		       $scope.getAllListLeadDate = [];
+		      
 		       $scope.salesPerson = id;
 		       	if($scope.salesPerson == undefined){
 		       		$scope.salesPerson = 0;
@@ -2648,9 +2647,7 @@ angular.module('newApp')
 				$scope.gridOptions2.data = data;
 				$scope.AllScheduleTestAssignedList = data;
 				
-				 angular.forEach($scope.gridOptions2.data,function(value,key){
-		        		$scope.getAllListLeadDate.push(value);
-		        	});
+				
 			    });
  
     		$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
@@ -2658,9 +2655,7 @@ angular.module('newApp')
 			$scope.gridOptions5.data = data;
 			$scope.AllRequestInfoSeenList = data;
 			
-			angular.forEach($scope.gridOptions5.data,function(value,key){
-        		$scope.getAllListLeadDate.push(value);
-        	});
+			
 		    });
 
   
@@ -2670,9 +2665,7 @@ angular.module('newApp')
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
 			 		
-			 		angular.forEach($scope.gridOptions3.data,function(value,key){
-		        		$scope.getAllListLeadDate.push(value);
-		        	});
+			 		
 			 });
 			 
 			 
@@ -2693,13 +2686,29 @@ angular.module('newApp')
 					$scope.allTestDirConfir = data;
 				
 				});
-	    		
 			 
-			
-	        	
-	        	
-	        	
+			 var countUnReadLead = 0;
+			 angular.forEach($scope.gridOptions5.data,function(value,key){
+	        		$scope.getAllListLeadDate.push(value);
+	        		if(value.noteFlag == 0){
+	        			countUnReadLead++;
+	        		}
+	        	});
+			 angular.forEach($scope.gridOptions2.data,function(value,key){
+	        		$scope.getAllListLeadDate.push(value);
+	        		if(value.noteFlag == 0){
+	        			countUnReadLead++;
+	        		}
+	        	});
+			 angular.forEach($scope.gridOptions3.data,function(value,key){
+	        		$scope.getAllListLeadDate.push(value);
+	        		if(value.noteFlag == 0){
+	        			countUnReadLead++;
+	        		}
+	        	});
+	    	
 	        	$scope.gridOptions7.data = $scope.getAllListLeadDate;
+	        	$scope.lengthOfAllLead = countUnReadLead;
 			
 	}
 		
