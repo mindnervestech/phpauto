@@ -1309,6 +1309,15 @@ angular.module('newApp')
         	     		     	       			   		                                     }
         	     		     	       			  		                                	} ,
         	     		     	       			 		                                 },
+        	     		     	       			 		                                 
+        	     		     	       			 		                                 { name: 'checkBoxComp', displayName: 'Completed',enableFiltering: false, width:'35%',cellEditableCondition: false,
+	     		     			 				                                	cellTemplate:'<input type="checkbox" name="vehicle" value="Bike">',
+	     		     	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	     		     	       			   		                                       if (row.entity.isRead === false) {
+	     		     	       			   		                                         return 'red';
+	     		     	       			   		                                     }
+	     		     	       			  		                                	} ,
+	     		     	       			 		                                 },
         	     		     			 		     		                                 ]; 
      	     		     			 		 		 		 
      	     			 		 		 

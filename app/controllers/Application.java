@@ -6798,7 +6798,7 @@ public class Application extends Controller {
     }
     
     public static void findSchedulParentChildAndBro(List<RequestInfoVM> infoVMList, ScheduleTest info,SimpleDateFormat df, RequestInfoVM vm){
-    	
+    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
     	List<RequestInfoVM> rList2 = new ArrayList<>();
 		if(info.parentId != null){
 			ScheduleTest sTest = ScheduleTest.findByIdAndParent(info.parentId);
@@ -6823,6 +6823,12 @@ public class Application extends Controller {
 	        			rList1.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    			
+	    		}
+	    		if(sTest.confirmDate != null){
+	    			rList1.bestDay = df.format(sTest.confirmDate);
+	    		}
+	    		if(sTest.confirmTime != null){
+	    			rList1.bestTime = timedf.format(sTest.confirmTime);
 	    		}
 	    		rList1.name = sTest.name;
 	    		rList1.phone = sTest.phone;
@@ -6858,6 +6864,12 @@ public class Application extends Controller {
 	        			rList1.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    		}
+	    		if(info1.confirmDate != null){
+	    			rList1.bestDay = df.format(info1.confirmDate);
+	    		}
+	    		if(info1.confirmTime != null){
+	    			rList1.bestTime = timedf.format(info1.confirmTime);
+	    		}
 	    		rList1.name = info1.name;
 	    		rList1.phone = info1.phone;
 	    		rList1.email = info1.email;
@@ -6891,6 +6903,13 @@ public class Application extends Controller {
         			rList1.imgId = "/assets/images/no-image.jpg";
         		}
     		}
+    		if(info1.confirmDate != null){
+    			rList1.bestDay = df.format(info1.confirmDate);
+    		}
+    		if(info1.confirmTime != null){
+    			rList1.bestTime = timedf.format(info1.confirmTime);
+    		}
+    		
     		rList1.name = info1.name;
     		rList1.phone = info1.phone;
     		rList1.email = info1.email;
@@ -6906,7 +6925,7 @@ public class Application extends Controller {
     }
     
     public static void findTreadParentChildAndBro(List<RequestInfoVM> infoVMList, TradeIn info,SimpleDateFormat df, RequestInfoVM vm){
-    	
+    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
     	List<RequestInfoVM> rList2 = new ArrayList<>();
 		if(info.parentId != null){
 			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
@@ -6931,6 +6950,12 @@ public class Application extends Controller {
 	        			rList1.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    			
+	    		}
+	    		if(tIn.confirmDate != null){
+	    			rList1.bestDay = df.format(tIn.confirmDate);
+	    		}
+	    		if(tIn.confirmTime != null){
+	    			rList1.bestTime = timedf.format(tIn.confirmTime);
 	    		}
 	    		rList1.name = tIn.firstName;
 	    		rList1.phone = tIn.phone;
@@ -6967,6 +6992,12 @@ public class Application extends Controller {
 	        			rList1.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    		}
+	    		if(info1.confirmDate != null){
+	    			rList1.bestDay = df.format(info1.confirmDate);
+	    		}
+	    		if(info1.confirmTime != null){
+	    			rList1.bestTime = timedf.format(info1.confirmTime);
+	    		}
 	    		rList1.name = info1.firstName;
 	    		rList1.phone = info1.phone;
 	    		rList1.email = info1.email;
@@ -7001,6 +7032,12 @@ public class Application extends Controller {
         			rList1.imgId = "/assets/images/no-image.jpg";
         		}
     		}
+    		if(info1.confirmDate != null){
+    			rList1.bestDay = df.format(info1.confirmDate);
+    		}
+    		if(info1.confirmTime != null){
+    			rList1.bestTime = timedf.format(info1.confirmTime);
+    		}
     		rList1.name = info1.firstName;
     		rList1.phone = info1.phone;
     		rList1.email = info1.email;
@@ -7015,7 +7052,7 @@ public class Application extends Controller {
     }
     
     public static void findRequestParentChildAndBro(List<RequestInfoVM> infoVMList, RequestMoreInfo info,SimpleDateFormat df, RequestInfoVM vm){
-    	
+    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
     	List<RequestInfoVM> rList2 = new ArrayList<>();
 		if(info.parentId != null){
 			
@@ -7042,6 +7079,12 @@ public class Application extends Controller {
 	        			rList1.imgId = "/assets/images/no-image.jpg";
 	        		}
 	    			
+	    		}
+	    		if(rMoreInfo.confirmDate != null){
+	    			rList1.bestDay = df.format(rMoreInfo.confirmDate);
+	    		}
+	    		if(rMoreInfo.confirmTime != null){
+	    			rList1.bestTime = timedf.format(rMoreInfo.confirmTime);
 	    		}
 	    		rList1.name = rMoreInfo.name;
 	    		rList1.phone = rMoreInfo.phone;
@@ -7078,6 +7121,12 @@ public class Application extends Controller {
         			rList1.imgId = "/assets/images/no-image.jpg";
         		}
     		}
+    		if(info1.confirmDate != null){
+    			rList1.bestDay = df.format(info1.confirmDate);
+    		}
+    		if(info1.confirmTime != null){
+    			rList1.bestTime = timedf.format(info1.confirmTime);
+    		}
     		rList1.name = info1.name;
     		rList1.phone = info1.phone;
     		rList1.email = info1.email;
@@ -7110,6 +7159,13 @@ public class Application extends Controller {
         		else {
         			rList1.imgId = "/assets/images/no-image.jpg";
         		}
+    		}
+    		
+    		if(info1.confirmDate != null){
+    			rList1.bestDay = df.format(info1.confirmDate);
+    		}
+    		if(info1.confirmTime != null){
+    			rList1.bestTime = timedf.format(info1.confirmTime);
     		}
     		rList1.name = info1.name;
     		rList1.phone = info1.phone;
@@ -11682,15 +11738,15 @@ public class Application extends Controller {
     			schedule.update();
     			
     			
-        		/*UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Client didn't buy vehicle");
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Test Drive has been canceled");
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
         		uNotes.user = user;
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
-        		uNotes.save();*/
+        		uNotes.save();
         		
     		} else if(option == 1) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
@@ -11699,15 +11755,15 @@ public class Application extends Controller {
     			info.update();
     			
     			
-        		/*UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Client didn't buy vehicle");
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Test Drive has been canceled");
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
         		uNotes.user = user;
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
-        		uNotes.save();*/
+        		uNotes.save();
         		
     		} else if(option == 2) {
     			TradeIn info = TradeIn.findById(id);
@@ -11715,15 +11771,15 @@ public class Application extends Controller {
     			info.setConfirmTime(null);
     			info.update();
     			
-        		/*UserNotes uNotes = new UserNotes();
-        		uNotes.setNote("Client didn't buy vehicle");
+        		UserNotes uNotes = new UserNotes();
+        		uNotes.setNote("Test Drive has been canceled");
         		uNotes.setAction("Other");
         		uNotes.createdDate = currDate;
         		uNotes.createdTime = currDate;
         		uNotes.user = user;
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.tradeIn = TradeIn.findById(info.id);
-        		uNotes.save();*/
+        		uNotes.save();
     		}
     		return ok();
     	}
