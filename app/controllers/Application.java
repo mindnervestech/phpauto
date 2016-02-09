@@ -7422,83 +7422,110 @@ public class Application extends Controller {
 	    		vm.enthicity = info.enthicity;
 	    		LeadVM lVm = new LeadVM();
 	    		lVm.id = info.id.toString();
-	    		if(!info.comments.equals("null")){
+	    		
+	    		//if(!info.comments.equals("null")){
 	    			lVm.comments = info.comments;
+	    		//}
+	    		if(info.year != null){
+	    			if(!info.year.equals("null")){
+		    			lVm.year = info.year;
+		    		}
 	    		}
-	    		if(!info.year.equals("null")){
-	    			lVm.year = info.year;
-	    		}
+	    		
 	    		if(info.make != null){
 	    			lVm.make = info.make;
 	    		}
 	    		if(info.model != null){
 	    			lVm.model = info.model;
 	    		}
-	    		if(!info.exteriorColour.equals("null")){
-	    			lVm.exteriorColour = info.exteriorColour;
+	    		
+	    		if(info.exteriorColour != null){
+	    			if(!info.exteriorColour.equals("null")){
+		    			lVm.exteriorColour = info.exteriorColour;
+		    		}
 	    		}
-	    		if(!info.kilometres.equals("null")){
-	    			lVm.kilometres = info.kilometres;
+	    		
+	    		if(info.kilometres != null){
+	    			if(!info.kilometres.equals("null")){
+		    			lVm.kilometres = info.kilometres;
+		    		}
 	    		}
-	    		if(!info.engine.equals("null")){
-	    			lVm.engine = info.engine;
+	    		
+	    		if(info.year != null){
+	    			if(!info.engine.equals("null")){
+	    				lVm.engine = info.engine;
+	    			}
 	    		}
-	    		if(!info.doors.equals("null")){
-	    			lVm.doors = info.doors;
+	    		if(info.doors != null){
+		    		if(!info.doors.equals("null")){
+		    			lVm.doors = info.doors;
+		    		}
 	    		}
-	    		if(!info.transmission.equals("null")){
-	    			lVm.transmission = info.transmission;
+	    		if(info.transmission != null){
+		    		if(!info.transmission.equals("null")){
+		    			lVm.transmission = info.transmission;
+		    		}
 	    		}
-	    		if(!info.drivetrain.equals("null")){
-	    			lVm.drivetrain = info.drivetrain;
+	    		if(info.drivetrain != null){
+		    		if(!info.drivetrain.equals("null")){
+		    			lVm.drivetrain = info.drivetrain;
+		    		}
 	    		}
-	    		if(!info.bodyRating.equals("null")){
-	    			lVm.bodyRating = info.bodyRating;
+	    		if(info.bodyRating != null){
+		    		if(!info.bodyRating.equals("null")){
+		    			lVm.bodyRating = info.bodyRating;
+		    		}
 	    		}
-	    		if(!info.tireRating.equals("null")){
-	    			lVm.tireRating = info.tireRating;
+	    		
+	    		if(info.tireRating != null){
+		    		if(!info.tireRating.equals("null")){
+		    			lVm.tireRating = info.tireRating;
+		    		}
 	    		}
-	    		if(!info.engineRating.equals("null")){
-	    			lVm.engineRating = info.engineRating;
+	    		
+	    		if(info.engineRating != null){
+		    		if(!info.engineRating.equals("null")){
+		    			lVm.engineRating = info.engineRating;
+		    		}
 	    		}
-	    		if(!info.glassRating.equals("null")){
+	    		//if(!info.glassRating.equals("null")){
 	    			lVm.glassRating = info.glassRating;
-	    		}
-	    		if(!info.interiorRating.equals("null")){
+	    		//}
+	    		//if(!info.interiorRating.equals("null")){
 	    			lVm.interiorRating = info.interiorRating;
-	    		}
-	    		if(!info.exhaustRating.equals("null")){
+	    		//}
+	    		//if(!info.exhaustRating.equals("null")){
 	    			lVm.exhaustRating = info.exhaustRating;
-	    		}
-	    		if(!info.leaseOrRental.equals("null")){
+	    		//}
+	    		//if(!info.leaseOrRental.equals("null")){
 	    			lVm.rentalReturn = info.leaseOrRental;
-	    		}
-	    		if(!info.operationalAndAccurate.equals("null")){
+	    		//}
+	    		//if(!info.operationalAndAccurate.equals("null")){
 	    			lVm.odometerAccurate = info.operationalAndAccurate;
-	    		}
+	    	//	}
 	    			lVm.serviceRecords = info.serviceRecord;
-	    		if(!info.lienholder.equals("null")){
+	    		//if(!info.lienholder.equals("null")){
 	    			lVm.lienholder = info.lienholder;
-	    		}
+	    		//}
 	    			lVm.prefferedContact = info.preferredContact;
-	    		if(!info.equipment.equals("null")){
+	    		//if(!info.equipment.equals("null")){
 	    			lVm.equipment = info.equipment;
-	    		}
-	    		if(!info.accidents.equals("null")){
+	    		//}
+	    		//if(!info.accidents.equals("null")){
 	    			lVm.accidents = info.accidents;
-	    		}
-	    		if(!info.vehiclenew.equals("null")){
+	    		//}
+	    		//if(!info.vehiclenew.equals("null")){
 	    			lVm.vehiclenew = info.vehiclenew;
-	    		}
-	    		if(!info.paint.equals("null")){
+	    		//}
+	    		//if(!info.paint.equals("null")){
 	    			lVm.paint = info.paint;
-	    		}
-	    		if(!info.salvage.equals("null")){
+	    		//}
+	    		//if(!info.salvage.equals("null")){
 	    			lVm.salvage = info.salvage;
-	    		}
-	    		if(!info.damage.equals("null")){
+	    		//}
+	    		//if(!info.damage.equals("null")){
 	    			lVm.damage = info.damage;
-	    		}
+	    		//}
 	    			lVm.titleholder = info.holdsThisTitle;
 	    			lVm.prefferedContact = info.preferredContact;
 	    			
@@ -8213,83 +8240,109 @@ public class Application extends Controller {
 	    		
 	    		LeadVM lVm = new LeadVM();
 	    		lVm.id = info.id.toString();
-	    		if(!info.comments.equals("null")){
-	    			lVm.comments = info.comments;
-	    		}
-	    		if(!info.year.equals("null")){
+	    		//if(!info.comments.equals("null")){
+    			lVm.comments = info.comments;
+    		//}
+    		if(info.year != null){
+    			if(!info.year.equals("null")){
 	    			lVm.year = info.year;
 	    		}
-	    		if(info.make != null){
-	    			lVm.make = info.make;
-	    		}
-	    		if(info.model != null){
-	    			lVm.model = info.model;
-	    		}
-	    		if(!info.exteriorColour.equals("null")){
+    		}
+    		
+    		if(info.make != null){
+    			lVm.make = info.make;
+    		}
+    		if(info.model != null){
+    			lVm.model = info.model;
+    		}
+    		
+    		if(info.exteriorColour != null){
+    			if(!info.exteriorColour.equals("null")){
 	    			lVm.exteriorColour = info.exteriorColour;
 	    		}
-	    		if(!info.kilometres.equals("null")){
+    		}
+    		
+    		if(info.kilometres != null){
+    			if(!info.kilometres.equals("null")){
 	    			lVm.kilometres = info.kilometres;
 	    		}
-	    		if(!info.engine.equals("null")){
-	    			lVm.engine = info.engine;
-	    		}
+    		}
+    		
+    		if(info.year != null){
+    			if(!info.engine.equals("null")){
+    				lVm.engine = info.engine;
+    			}
+    		}
+    		if(info.doors != null){
 	    		if(!info.doors.equals("null")){
 	    			lVm.doors = info.doors;
 	    		}
+    		}
+    		if(info.transmission != null){
 	    		if(!info.transmission.equals("null")){
 	    			lVm.transmission = info.transmission;
 	    		}
+    		}
+    		if(info.drivetrain != null){
 	    		if(!info.drivetrain.equals("null")){
 	    			lVm.drivetrain = info.drivetrain;
 	    		}
+    		}
+    		if(info.bodyRating != null){
 	    		if(!info.bodyRating.equals("null")){
 	    			lVm.bodyRating = info.bodyRating;
 	    		}
+    		}
+    		
+    		if(info.tireRating != null){
 	    		if(!info.tireRating.equals("null")){
 	    			lVm.tireRating = info.tireRating;
 	    		}
+    		}
+    		
+    		if(info.engineRating != null){
 	    		if(!info.engineRating.equals("null")){
 	    			lVm.engineRating = info.engineRating;
 	    		}
-	    		if(!info.glassRating.equals("null")){
-	    			lVm.glassRating = info.glassRating;
-	    		}
-	    		if(!info.interiorRating.equals("null")){
-	    			lVm.interiorRating = info.interiorRating;
-	    		}
-	    		if(!info.exhaustRating.equals("null")){
-	    			lVm.exhaustRating = info.exhaustRating;
-	    		}
-	    		if(!info.leaseOrRental.equals("null")){
-	    			lVm.rentalReturn = info.leaseOrRental;
-	    		}
-	    		if(!info.operationalAndAccurate.equals("null")){
-	    			lVm.odometerAccurate = info.operationalAndAccurate;
-	    		}
-	    			lVm.serviceRecords = info.serviceRecord;
-	    		if(!info.lienholder.equals("null")){
-	    			lVm.lienholder = info.lienholder;
-	    		}
-	    			lVm.prefferedContact = info.preferredContact;
-	    		if(!info.equipment.equals("null")){
-	    			lVm.equipment = info.equipment;
-	    		}
-	    		if(!info.accidents.equals("null")){
-	    			lVm.accidents = info.accidents;
-	    		}
-	    		if(!info.vehiclenew.equals("null")){
-	    			lVm.vehiclenew = info.vehiclenew;
-	    		}
-	    		if(!info.paint.equals("null")){
-	    			lVm.paint = info.paint;
-	    		}
-	    		if(!info.salvage.equals("null")){
-	    			lVm.salvage = info.salvage;
-	    		}
-	    		if(!info.damage.equals("null")){
-	    			lVm.damage = info.damage;
-	    		}
+    		}
+    		//if(!info.glassRating.equals("null")){
+    			lVm.glassRating = info.glassRating;
+    		//}
+    		//if(!info.interiorRating.equals("null")){
+    			lVm.interiorRating = info.interiorRating;
+    		//}
+    		//if(!info.exhaustRating.equals("null")){
+    			lVm.exhaustRating = info.exhaustRating;
+    		//}
+    		//if(!info.leaseOrRental.equals("null")){
+    			lVm.rentalReturn = info.leaseOrRental;
+    		//}
+    		//if(!info.operationalAndAccurate.equals("null")){
+    			lVm.odometerAccurate = info.operationalAndAccurate;
+    	//	}
+    			lVm.serviceRecords = info.serviceRecord;
+    		//if(!info.lienholder.equals("null")){
+    			lVm.lienholder = info.lienholder;
+    		//}
+    			lVm.prefferedContact = info.preferredContact;
+    		//if(!info.equipment.equals("null")){
+    			lVm.equipment = info.equipment;
+    		//}
+    		//if(!info.accidents.equals("null")){
+    			lVm.accidents = info.accidents;
+    		//}
+    		//if(!info.vehiclenew.equals("null")){
+    			lVm.vehiclenew = info.vehiclenew;
+    		//}
+    		//if(!info.paint.equals("null")){
+    			lVm.paint = info.paint;
+    		//}
+    		//if(!info.salvage.equals("null")){
+    			lVm.salvage = info.salvage;
+    		//}
+    		//if(!info.damage.equals("null")){
+    			lVm.damage = info.damage;
+    		//}
 	    			lVm.titleholder = info.holdsThisTitle;
 	    			lVm.prefferedContact = info.preferredContact;
     			List<String> sList = new ArrayList<>();
@@ -12790,83 +12843,109 @@ public class Application extends Controller {
 	    		
 	    		LeadVM lVm = new LeadVM();
 	    		lVm.id = info.id.toString();
-	    		if(!info.comments.equals("null")){
-	    			lVm.comments = info.comments;
-	    		}
-	    		if(!info.year.equals("null")){
+	    		//if(!info.comments.equals("null")){
+    			lVm.comments = info.comments;
+    		//}
+    		if(info.year != null){
+    			if(!info.year.equals("null")){
 	    			lVm.year = info.year;
 	    		}
-	    		if(info.make != null){
-	    			lVm.make = info.make;
-	    		}
-	    		if(info.model != null){
-	    			lVm.model = info.model;
-	    		}
-	    		if(!info.exteriorColour.equals("null")){
+    		}
+    		
+    		if(info.make != null){
+    			lVm.make = info.make;
+    		}
+    		if(info.model != null){
+    			lVm.model = info.model;
+    		}
+    		
+    		if(info.exteriorColour != null){
+    			if(!info.exteriorColour.equals("null")){
 	    			lVm.exteriorColour = info.exteriorColour;
 	    		}
-	    		if(!info.kilometres.equals("null")){
+    		}
+    		
+    		if(info.kilometres != null){
+    			if(!info.kilometres.equals("null")){
 	    			lVm.kilometres = info.kilometres;
 	    		}
-	    		if(!info.engine.equals("null")){
-	    			lVm.engine = info.engine;
-	    		}
+    		}
+    		
+    		if(info.year != null){
+    			if(!info.engine.equals("null")){
+    				lVm.engine = info.engine;
+    			}
+    		}
+    		if(info.doors != null){
 	    		if(!info.doors.equals("null")){
 	    			lVm.doors = info.doors;
 	    		}
+    		}
+    		if(info.transmission != null){
 	    		if(!info.transmission.equals("null")){
 	    			lVm.transmission = info.transmission;
 	    		}
+    		}
+    		if(info.drivetrain != null){
 	    		if(!info.drivetrain.equals("null")){
 	    			lVm.drivetrain = info.drivetrain;
 	    		}
+    		}
+    		if(info.bodyRating != null){
 	    		if(!info.bodyRating.equals("null")){
 	    			lVm.bodyRating = info.bodyRating;
 	    		}
+    		}
+    		
+    		if(info.tireRating != null){
 	    		if(!info.tireRating.equals("null")){
 	    			lVm.tireRating = info.tireRating;
 	    		}
+    		}
+    		
+    		if(info.engineRating != null){
 	    		if(!info.engineRating.equals("null")){
 	    			lVm.engineRating = info.engineRating;
 	    		}
-	    		if(!info.glassRating.equals("null")){
-	    			lVm.glassRating = info.glassRating;
-	    		}
-	    		if(!info.interiorRating.equals("null")){
-	    			lVm.interiorRating = info.interiorRating;
-	    		}
-	    		if(!info.exhaustRating.equals("null")){
-	    			lVm.exhaustRating = info.exhaustRating;
-	    		}
-	    		if(!info.leaseOrRental.equals("null")){
-	    			lVm.rentalReturn = info.leaseOrRental;
-	    		}
-	    		if(!info.operationalAndAccurate.equals("null")){
-	    			lVm.odometerAccurate = info.operationalAndAccurate;
-	    		}
-	    			lVm.serviceRecords = info.serviceRecord;
-	    		if(!info.lienholder.equals("null")){
-	    			lVm.lienholder = info.lienholder;
-	    		}
-	    			lVm.prefferedContact = info.preferredContact;
-	    		if(!info.equipment.equals("null")){
-	    			lVm.equipment = info.equipment;
-	    		}
-	    		if(!info.accidents.equals("null")){
-	    			lVm.accidents = info.accidents;
-	    		}
-	    		if(!info.vehiclenew.equals("null")){
-	    			lVm.vehiclenew = info.vehiclenew;
-	    		}
-	    		if(!info.paint.equals("null")){
-	    			lVm.paint = info.paint;
-	    		}
-	    		if(!info.salvage.equals("null")){
-	    			lVm.salvage = info.salvage;
-	    		}
-	    		if(!info.damage.equals("null")){
-	    			lVm.damage = info.damage;
-	    		}
+    		}
+    		//if(!info.glassRating.equals("null")){
+    			lVm.glassRating = info.glassRating;
+    		//}
+    		//if(!info.interiorRating.equals("null")){
+    			lVm.interiorRating = info.interiorRating;
+    		//}
+    		//if(!info.exhaustRating.equals("null")){
+    			lVm.exhaustRating = info.exhaustRating;
+    		//}
+    		//if(!info.leaseOrRental.equals("null")){
+    			lVm.rentalReturn = info.leaseOrRental;
+    		//}
+    		//if(!info.operationalAndAccurate.equals("null")){
+    			lVm.odometerAccurate = info.operationalAndAccurate;
+    	//	}
+    			lVm.serviceRecords = info.serviceRecord;
+    		//if(!info.lienholder.equals("null")){
+    			lVm.lienholder = info.lienholder;
+    		//}
+    			lVm.prefferedContact = info.preferredContact;
+    		//if(!info.equipment.equals("null")){
+    			lVm.equipment = info.equipment;
+    		//}
+    		//if(!info.accidents.equals("null")){
+    			lVm.accidents = info.accidents;
+    		//}
+    		//if(!info.vehiclenew.equals("null")){
+    			lVm.vehiclenew = info.vehiclenew;
+    		//}
+    		//if(!info.paint.equals("null")){
+    			lVm.paint = info.paint;
+    		//}
+    		//if(!info.salvage.equals("null")){
+    			lVm.salvage = info.salvage;
+    		//}
+    		//if(!info.damage.equals("null")){
+    			lVm.damage = info.damage;
+    		//}
 	    			lVm.titleholder = info.holdsThisTitle;
 	    			lVm.prefferedContact = info.preferredContact;
 	    			
