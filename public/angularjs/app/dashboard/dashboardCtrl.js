@@ -1335,7 +1335,24 @@ angular.module('newApp')
     				$scope.AllRequestInfoSeenList = data;
     			});
     		  
-    		 
+	    		  $scope.gridOptions7.onRegisterApi = function(gridApi){
+	 				 $scope.gridApi = gridApi;
+	 				 
+	 		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+	 			          var grid = this.grid;
+	 			          $scope.gridOptions7.data = $filter('filter')($scope.getAllListLeadDate,{'name':grid.columns[0].filters[0].term,'phone':grid.columns[1].filters[0].term,'email':grid.columns[2].filters[0].term,'requestDate':grid.columns[3].filters[0].term,'vin':grid.columns[4].filters[0].term,'model':grid.columns[5].filters[0].term,'make':grid.columns[6].filters[0].term,'typeOfLead':grid.columns[7].filters[0].term},undefined);
+	 			        });
+	 		   		
+	 	  		};
+	 	  		$scope.gridOptions9.onRegisterApi = function(gridApi){
+					 $scope.gridApi = gridApi;
+					 
+			   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+				          var grid = this.grid;
+				          $scope.gridOptions9.data = $filter('filter')($scope.allTestDirConfir,{'name':grid.columns[0].filters[0].term,'phone':grid.columns[1].filters[0].term,'email':grid.columns[2].filters[0].term,'requestDate':grid.columns[3].filters[0].term,'vin':grid.columns[4].filters[0].term,'model':grid.columns[5].filters[0].term,'make':grid.columns[6].filters[0].term,'confirmDate':grid.columns[7].filters[0].term,'confirmTime':grid.columns[8].filters[0].term,'wethar':grid.columns[9].filters[0].term},undefined);
+				        });
+			   		
+		  		};
     		  
     		  $scope.gridOptions5.onRegisterApi = function(gridApi){
     				 $scope.gridApi = gridApi;
@@ -2517,6 +2534,7 @@ angular.module('newApp')
 			.success(function(data) {
 				console.log(data);
 				$scope.gridOptions9.data = data;
+				$scope.allTestDirConfir = data;
 				$scope.setWether($scope.gridOptions9.data);
 			});
         }
@@ -2672,6 +2690,7 @@ angular.module('newApp')
 					console.log(data);
 					$scope.gridOptions9.data = data;
 					$scope.setWether($scope.gridOptions9.data);
+					$scope.allTestDirConfir = data;
 				
 				});
 	    		
@@ -5519,7 +5538,7 @@ angular.module('newApp')
 				   $.pnotify({
 					    title: "Error",
 					    type:'success',
-					    text: "Vehicle allready in Inventory",
+					    text: "Vehicle already in Inventory",
 					});
 			   }
 		   });
