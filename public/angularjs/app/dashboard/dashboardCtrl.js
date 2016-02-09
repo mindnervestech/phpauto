@@ -1284,7 +1284,7 @@ angular.module('newApp')
         	     		     			 		   		                                     }
         	     		     			 		  		                                	} ,
         	     		     			 		 		                                 },
-        	     		     			 		 		                             { name: 'confirmDate', displayName: 'Date & Time', width:'8%',cellEditableCondition: false,
+        	     		     			 		 		                             { name: 'confirmDate', displayName: 'Date', width:'8%',cellEditableCondition: false,
         	     		     	     			 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmDate}}</a> ',
         	     		     	     			 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     		     	     			 		                                	 if (row.entity.isRead === false) {
@@ -1292,7 +1292,7 @@ angular.module('newApp')
         	     		     			 		   		                                     }
         	     		     	     			  		                                	} ,
         	     		     	     					                                 },
-        	     		     	     					                                 { name: 'confirmTime', displayName: 'Confirm Time', width:'8%',cellEditableCondition: false,
+        	     		     	     					                                 { name: 'confirmTime', displayName: 'Time', width:'6%',cellEditableCondition: false,
         	     		     	     					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.confirmTime}}</a> ',
         	     		     	     					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     		     	     					                                		 if (row.entity.isRead === false) {
@@ -1300,7 +1300,7 @@ angular.module('newApp')
             	     		     			 		   		                                     }
         	     		     	     				 		                                	} ,
         	     		     	     			 		                                 },
-        	     		     	     			 		                             { name: 'confirmTime', displayName: 'Weather', width:'8%',cellEditableCondition: false,
+        	     		     	     			 		                             { name: 'wethar', displayName: 'Weather', width:'8%',cellEditableCondition: false,
          	     		     	     					                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.wether}}&deg;</a> ',
          	     		     	     					                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
          	     		     	     					                                	 if (row.entity.isRead === false) {
@@ -3400,6 +3400,7 @@ angular.module('newApp')
 		   $scope.testDriveData = {};
 		   $scope.scheduleTestDriveForUser = function(entity,option) {
 			   console.log(entity);
+			   
 			   $scope.stockWiseData = [];
 			   $scope.cnTimeList = [];
 	    	   	   $scope.timeList = [];
@@ -3413,6 +3414,7 @@ angular.module('newApp')
 			   $scope.testDriveData.bestDay = "";
 			   $scope.testDriveData.bestTime = "";
 			   $scope.testDriveData.option = option;
+			   $scope.testDriveData.typeOfLead = entity.typeOfLead;
 			   $('#bestTime').val("");
 			   $scope.testDriveData.prefferedContact = "";
 			   
@@ -3473,6 +3475,9 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.saveTestDrive = function() {
+			   
+			   
+			   
 			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
 			   $scope.testDriveData.bestTime = $('#bestTime').val();
 			   

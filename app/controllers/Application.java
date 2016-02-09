@@ -14352,7 +14352,9 @@ public class Application extends Controller {
 	   SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
 		
-	   if(vm.option==1) {
+		if(vm.bestDay != null && !vm.bestDay.equals("")){
+			
+	   if(vm.typeOfLead.equals("Request More Info")) {
 			RequestMoreInfo requestMoreInfo = RequestMoreInfo.findById(vm.id);
 			requestMoreInfo.setName(vm.name);
 			requestMoreInfo.setEmail(vm.email);
@@ -14424,7 +14426,7 @@ public class Application extends Controller {
 	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(requestMoreInfo.id);
 	    		uNotes.save();
 			}
-		} else if(vm.option==3) {
+		} else if(vm.typeOfLead.equals("Trade-In Appraisal")) {
 			TradeIn tradeIn = TradeIn.findById(vm.id);
 			tradeIn.setFirstName(vm.name);
 			tradeIn.setEmail(vm.email);
@@ -14496,7 +14498,7 @@ public class Application extends Controller {
 	    		uNotes.tradeIn = tradeIn.findById(tradeIn.id);
 	    		uNotes.save();
 			}
-		}else if(vm.option==2) {
+		} else if(vm.typeOfLead.equals("Schedule Test Drive")) {
 			ScheduleTest scTest = ScheduleTest.findById(vm.id);
 			scTest.setName(vm.name);
 			scTest.setEmail(vm.email);
@@ -14569,6 +14571,7 @@ public class Application extends Controller {
 	    		uNotes.save();
 			}
 		}
+     }
    }
     
     public static Result getAllCanceledLeads() {

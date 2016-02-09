@@ -3307,7 +3307,7 @@ margin-left: 5px;
         <div class="panel">
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			    <ul id="myTabs" class="nav nav-tabs" role="tablist">
-			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="showLeadsDrive()">Leads</button></a></li>
+			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;margin-right: 0px;" ng-click="showLeadsDrive()">Leads</button><span class="badge badge-header" style="border-radius: 17px / 19px;background-color: red;">5</span></a></li>
 			      <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="schedultestDrive()">Test Drive</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
 			       <li role="presentation" class="" style="float: right;"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="showLeadsArchive()">Archive</button></a></li>
@@ -4987,7 +4987,7 @@ margin-left: 5px;
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
-														<label class="col-sm-5 control-label" style="text-align: left;">Best Day</label>
+														<label class="col-sm-5 control-label" style="text-align: left;">Action</label>
 														<div class="col-sm-7">
 														<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" 
 														ng-model="testDriveData.bestDay" data-date-format="yyyy-mm-dd" required>
@@ -5047,10 +5047,10 @@ margin-left: 5px;
 								                    		</div> 	
 								                    		<div class="form-group col-md-4">
 								                    			<div class="form-group col-sm-12" style="padding: 0px;">
-																	<label class="col-sm-5 control-label" style="text-align: left;padding: 0px;">Best Day</label>
+																	<label class="col-sm-5 control-label" style="text-align: left;padding: 0px;">Action</label>
 																	<div class="col-sm-7" style="padding: 0px;">
 																		<input data-provide="datepicker" id="testDriveDate{{$index}}" class="form-control input-sm" 
-																		ng-model="parentchil.bestDay" data-date-format="yyyy-mm-dd" required>
+																		ng-model="parentchil.bestDay" data-date-format="yyyy-mm-dd">
 																	</div>
 																</div>
 																<div class="form-group col-sm-12" style="padding: 0px;">
