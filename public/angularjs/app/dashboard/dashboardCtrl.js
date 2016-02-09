@@ -5499,18 +5499,24 @@ angular.module('newApp')
 		   $scope.soldContact.statusVal = "Sold";
 	   }
 	   if(row.entity.status == 'Sold') {
-		   $scope.soldContact.statusVal = "Newly Arrived";
-		   $.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Vehicle has been added to Inventory",
-			});
+		   
 		   $http.get('/addSameNewCar/'+row.entity.id).success(function(data){
-			   $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Vehicle has been added to Inventory",
-				});
+			   if(data=='success'){
+				   console.log('success');
+				   $scope.soldContact.statusVal = "Newly Arrived";
+				   $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Vehicle has been added to Inventory",
+					});
+			   }else{
+				   console.log('error');
+				   $.pnotify({
+					    title: "Error",
+					    type:'success',
+					    text: "Vehicle allready in Inventory",
+					});
+			   }
 		   });
 		   
 		   

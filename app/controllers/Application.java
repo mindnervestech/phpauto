@@ -20049,105 +20049,105 @@ public class Application extends Controller {
 	
 	public static Result addSameNewCar(Long vinNo){
 		Vehicle vm = Vehicle.findById(vinNo);
+		Vehicle vObj = Vehicle.findByVinAndStatus(vm.vin);
 		
-		Identity user = getLocalUser();
-    	
-    	//Vehicle vehicleObj = Vehicle.findByVidAndUser(vm.vin);
-    	Vehicle vehicle = new Vehicle();
-	    	vehicle.title = vm.title;
-	    	vehicle.category = vm.category;
-	    	vehicle.vin = vm.vin;
-	    	vehicle.year = vm.year;
-	    	vehicle.make = vm.make;
-	    	vehicle.model = vm.model;
-	    	vehicle.trim = vm.trim;
-	    	vehicle.label = vm.label;
-	    	vehicle.stock = vm.stock;
-	    	vehicle.cityMileage = vm.cityMileage;
-	        vehicle.mileage=vm.mileage;
-	    	vehicle.highwayMileage = vm.highwayMileage;
-	    	vehicle.cost = vm.cost;
-	    	vehicle.price = vm.price;
-	    	vehicle.madeIn = vm.madeIn;
-	    	vehicle.optionalSeating = vm.optionalSeating;
-	    	vehicle.exteriorColor = vm.exteriorColor;
-	    	vehicle.colorDescription = vm.colorDescription;
-	    	vehicle.doors = vm.doors;
-	    	vehicle.stereo = vm.stereo;
-	    	vehicle.engine = vm.engine;
-	    	vehicle.bodyStyle = vm.bodyStyle;
-	    	vehicle.location = vm.location;
-	    	vehicle.description = vm.description;
-			
-	    	vehicle.drivetrain = vm.drivetrain;
-	    	vehicle.fuelType = vm.fuelType;
-	    	vehicle.fuelTank = vm.fuelTank;
-	    	vehicle.headlights = vm.headlights;
-	    	vehicle.mirrors = vm.mirrors;
-	    	vehicle.groundClearance = vm.groundClearance;
-	    	vehicle.roof = vm.roof;
-	    	vehicle.height = vm.height;
-	    	vehicle.length = vm.length;
-	    	vehicle.width = vm.width;
-	    	vehicle.acceleration = vm.acceleration;
-	    	vehicle.standardSeating = vm.standardSeating;
-	    	vehicle.engineType = vm.engineType;
-	    	vehicle.cylinders = vm.cylinders;
-	    	vehicle.displacement = vm.displacement;
-	    	vehicle.camType = vm.camType;
-	    	vehicle.valves = vm.valves;
-	    	vehicle.fuelQuality = vm.fuelQuality;
-	    	vehicle.horsePower = vm.horsePower;
-	    	vehicle.transmission = vm.transmission;
-	    	vehicle.gears = vm.gears;
-	    	vehicle.brakes = vm.brakes;
-	    	vehicle.frontBrakeDiameter = vm.frontBrakeDiameter;
-	    	vehicle.frontBrakeType = vm.frontBrakeType;
-	    	vehicle.rearBrakeDiameter = vm.rearBrakeDiameter;
-	    	vehicle.rearBrakeType = vm.rearBrakeType;
-	    	vehicle.activeHeadRestrains = vm.activeHeadRestrains;
-	    	vehicle.bodySideReinforcements = vm.bodySideReinforcements;
-	    	vehicle.crumpleZones = vm.crumpleZones;
-	    	vehicle.impactAbsorbingBumpers = vm.impactAbsorbingBumpers;
-	    	vehicle.impactSensor = vm.impactSensor;
-	    	vehicle.parkingSensors = vm.parkingSensors;
-	    	vehicle.seatbelts = vm.seatbelts;
-	    	vehicle.audiSideAssist = vm.audiSideAssist;
-	    	vehicle.interiorColor = vm.interiorColor;
-	    	vehicle.comfortFeatures = vm.comfortFeatures;
-	    	vehicle.powerOutlet = vm.powerOutlet;
-	    	vehicle.powerSteering = vm.powerSteering;
-	    	vehicle.rearViewCamera = vm.rearViewCamera;
-	    	vehicle.rearViewMonitor = vm.rearViewMonitor;
-	    	vehicle.remoteTrunkRelease = vm.remoteTrunkRelease;
-	    	vehicle.steeringWheel = vm.steeringWheel;
-	    	vehicle.steeringWheelControls = vm.steeringWheelControls;
-			
-	    	vehicle.standardSeating = vm.standardSeating;
-			
-	    	vehicle.mileage = vm.mileage;
-			vehicle.user = (AuthUser)user;
-			vehicle.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-			
-	    	vehicle.madeIn = vm.madeIn;
-	    	vehicle.optionalSeating = vm.optionalSeating;
-	    	vehicle.status = "Newly Arrived";
-	    	vehicle.postedDate = new Date();
-	    	/*List<Site> siteList = new ArrayList<>();
-	    	if(vm.siteIds != null) {
-		    	for(Long obj: vm.siteIds) {
-		    		Site siteObj = Site.findById(obj);
-		    		siteList.add(siteObj);
-		    	}
-		    	vehicle.site = siteList;
-	    	}*/
-	    	vehicle.save();
-    	sendEmailToBrandFollowers(vehicle.make);
-		
-		
-		
-		
-		return ok();
+		if(vObj == null){
+			Identity user = getLocalUser();
+	    	//Vehicle vehicleObj = Vehicle.findByVidAndUser(vm.vin);
+	    	Vehicle vehicle = new Vehicle();
+		    	vehicle.title = vm.title;
+		    	vehicle.category = vm.category;
+		    	vehicle.vin = vm.vin;
+		    	vehicle.year = vm.year;
+		    	vehicle.make = vm.make;
+		    	vehicle.model = vm.model;
+		    	vehicle.trim = vm.trim;
+		    	vehicle.label = vm.label;
+		    	vehicle.stock = vm.stock;
+		    	vehicle.cityMileage = vm.cityMileage;
+		        vehicle.mileage=vm.mileage;
+		    	vehicle.highwayMileage = vm.highwayMileage;
+		    	vehicle.cost = vm.cost;
+		    	vehicle.price = vm.price;
+		    	vehicle.madeIn = vm.madeIn;
+		    	vehicle.optionalSeating = vm.optionalSeating;
+		    	vehicle.exteriorColor = vm.exteriorColor;
+		    	vehicle.colorDescription = vm.colorDescription;
+		    	vehicle.doors = vm.doors;
+		    	vehicle.stereo = vm.stereo;
+		    	vehicle.engine = vm.engine;
+		    	vehicle.bodyStyle = vm.bodyStyle;
+		    	vehicle.location = vm.location;
+		    	vehicle.description = vm.description;
+				
+		    	vehicle.drivetrain = vm.drivetrain;
+		    	vehicle.fuelType = vm.fuelType;
+		    	vehicle.fuelTank = vm.fuelTank;
+		    	vehicle.headlights = vm.headlights;
+		    	vehicle.mirrors = vm.mirrors;
+		    	vehicle.groundClearance = vm.groundClearance;
+		    	vehicle.roof = vm.roof;
+		    	vehicle.height = vm.height;
+		    	vehicle.length = vm.length;
+		    	vehicle.width = vm.width;
+		    	vehicle.acceleration = vm.acceleration;
+		    	vehicle.standardSeating = vm.standardSeating;
+		    	vehicle.engineType = vm.engineType;
+		    	vehicle.cylinders = vm.cylinders;
+		    	vehicle.displacement = vm.displacement;
+		    	vehicle.camType = vm.camType;
+		    	vehicle.valves = vm.valves;
+		    	vehicle.fuelQuality = vm.fuelQuality;
+		    	vehicle.horsePower = vm.horsePower;
+		    	vehicle.transmission = vm.transmission;
+		    	vehicle.gears = vm.gears;
+		    	vehicle.brakes = vm.brakes;
+		    	vehicle.frontBrakeDiameter = vm.frontBrakeDiameter;
+		    	vehicle.frontBrakeType = vm.frontBrakeType;
+		    	vehicle.rearBrakeDiameter = vm.rearBrakeDiameter;
+		    	vehicle.rearBrakeType = vm.rearBrakeType;
+		    	vehicle.activeHeadRestrains = vm.activeHeadRestrains;
+		    	vehicle.bodySideReinforcements = vm.bodySideReinforcements;
+		    	vehicle.crumpleZones = vm.crumpleZones;
+		    	vehicle.impactAbsorbingBumpers = vm.impactAbsorbingBumpers;
+		    	vehicle.impactSensor = vm.impactSensor;
+		    	vehicle.parkingSensors = vm.parkingSensors;
+		    	vehicle.seatbelts = vm.seatbelts;
+		    	vehicle.audiSideAssist = vm.audiSideAssist;
+		    	vehicle.interiorColor = vm.interiorColor;
+		    	vehicle.comfortFeatures = vm.comfortFeatures;
+		    	vehicle.powerOutlet = vm.powerOutlet;
+		    	vehicle.powerSteering = vm.powerSteering;
+		    	vehicle.rearViewCamera = vm.rearViewCamera;
+		    	vehicle.rearViewMonitor = vm.rearViewMonitor;
+		    	vehicle.remoteTrunkRelease = vm.remoteTrunkRelease;
+		    	vehicle.steeringWheel = vm.steeringWheel;
+		    	vehicle.steeringWheelControls = vm.steeringWheelControls;
+				
+		    	vehicle.standardSeating = vm.standardSeating;
+				
+		    	vehicle.mileage = vm.mileage;
+				vehicle.user = (AuthUser)user;
+				vehicle.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				
+		    	vehicle.madeIn = vm.madeIn;
+		    	vehicle.optionalSeating = vm.optionalSeating;
+		    	vehicle.status = "Newly Arrived";
+		    	vehicle.postedDate = new Date();
+		    	/*List<Site> siteList = new ArrayList<>();
+		    	if(vm.siteIds != null) {
+			    	for(Long obj: vm.siteIds) {
+			    		Site siteObj = Site.findById(obj);
+			    		siteList.add(siteObj);
+			    	}
+			    	vehicle.site = siteList;
+		    	}*/
+		    	vehicle.save();
+	    	sendEmailToBrandFollowers(vehicle.make);
+	    	return ok("success");
+		}else{
+			return ok("error");
+		}
 	}
 	
 	public static Result getScheduleTestData(){
