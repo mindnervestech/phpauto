@@ -6292,8 +6292,8 @@ public class Application extends Controller {
     		vm.name = info.name;
     		vm.phone = info.phone;
     		vm.email = info.email;
-    		vm.bestDay = info.bestDay;
-    		vm.bestTime = info.bestTime;
+    		vm.bestDay = df.format(info.confirmDate);
+    		vm.bestTime = timedf.format(info.confirmTime);
 			vm.howContactedUs = info.contactedFrom;
     		vm.howFoundUs = info.hearedFrom;
     		vm.custZipCode = info.custZipCode;
@@ -6350,6 +6350,7 @@ public class Application extends Controller {
     			vm.isRead = true;
     		}
     		vm.option = 0;
+    		findSchedulParentChildAndBro(infoVMList, info, df, vm);
     		infoVMList.add(vm);
     	}
     	
@@ -6369,8 +6370,8 @@ public class Application extends Controller {
     		vm.name = info.firstName;
     		vm.phone = info.phone;
     		vm.email = info.email;
-    		//vm.bestDay = info.bestDay;
-    		//vm.bestTime = info.bestTime;
+    		vm.bestDay = df.format(info.confirmDate);
+    		vm.bestTime = timedf.format(info.confirmTime);
 			vm.howContactedUs = info.contactedFrom;
     		vm.howFoundUs = info.hearedFrom;
     		vm.custZipCode = info.custZipCode;
@@ -6427,6 +6428,7 @@ public class Application extends Controller {
     			vm.isRead = true;
     		}
     		vm.option = 2;
+    		findTreadParentChildAndBro(infoVMList, info, df, vm);
     		infoVMList.add(vm);
     	}
     	
@@ -6446,8 +6448,8 @@ public class Application extends Controller {
     		vm.name = info.name;
     		vm.phone = info.phone;
     		vm.email = info.email;
-    		//vm.bestDay = info.bestDay;
-    		//vm.bestTime = info.bestTime;
+    		vm.bestDay = df.format(info.confirmDate);
+    		vm.bestTime = timedf.format(info.confirmTime);
 			vm.howContactedUs = info.contactedFrom;
     		vm.howFoundUs = info.hearedFrom;
     		vm.custZipCode = info.custZipCode;
@@ -6504,6 +6506,8 @@ public class Application extends Controller {
     			vm.isRead = true;
     		}
     		vm.option = 1;
+    		
+    		findRequestParentChildAndBro(infoVMList, info, df, vm);
     		infoVMList.add(vm);
     	}
     }
