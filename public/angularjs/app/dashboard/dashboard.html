@@ -3330,7 +3330,7 @@ margin-left: 5px;
 			      			
 			    		</ul>
 				        
-						<div ng-if="reqMore" ui-grid="gridOptions5" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+						   <div ng-if="reqMore" ui-grid="gridOptions5" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 												</div>
 							<div ng-if="testdrv" ui-grid="gridOptions2" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 												</div> 
@@ -3342,13 +3342,28 @@ margin-left: 5px;
 				      </div>
 				      
 				    </div>
+				    <div id="myTabContent" class="tab-content" ng-if="schedTest">
+				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+				         <ul id="myTabs" class="nav nav-tabs" role="tablist">
+				        <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="getScheduless()">Scheduled </a></li>
+			      			<li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="getCompletedLeads()">Completed</a></li>
+			      			
+			    		</ul>
+				        
+				        <div ng-if="schedTestGrid" ui-grid="gridOptions9" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+												</div>
+						<div ng-if="completedLeadsTest" ui-grid="gridOptions10" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+												</div>						
+																						
+				      </div>
+				      
+				    </div>
+				    
 				     <div id="myTabContent" class="tab-content" ng-if="showAllTypeLeads == false">
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 				        
 				        
-				        <div ng-if="schedTest" ui-grid="gridOptions9" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-												</div>
-							<div ng-if="cancelleads" ui-grid="gridOptions4" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+				        	<div ng-if="cancelleads" ui-grid="gridOptions4" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 												</div>
 							<div ng-if="showLeadsV" ui-grid="gridOptions6" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 												</div>																
@@ -5601,6 +5616,44 @@ margin-left: 5px;
     								</div>
   								</div>
   								
+  								<div class="modal fade" id="completedPopup" role="dialog" style="top:-75px;">
+    									<div class="modal-dialog" style="width: 610px">
+     										<form method="post" ng-submit="saveCompleted()">
+      											<div class="modal-content" style="width: 610px;height: 240px;margin-top: 200px;">
+        											<div class="modal-header">
+          												<button type="button" class="close" data-dismiss="modal">&times;</button>
+          												<h4 class="modal-title">Completed</h4>
+        											</div>
+        											<div class="modal-body">
+        												<div class="form-group col-sm-12">
+        													<div class="col-sm-4">
+        														<label>Duration</label>
+        													</div>
+        													<div class="col-sm-6">
+																<input class="form-control form-white" ng-model="testCompleted.duration" type="number" required>
+        													</div>
+        													<div class="col-sm-2">
+																<label>Minutes</label>
+        													</div>
+        													
+        												</div>
+        												<div class="form-group col-sm-12">
+        													<div class="col-sm-4">
+        														<label>Comment</label>
+        													</div>
+        													<div class="col-sm-8">
+        														<input type="text" class="form-control form-white" ng-model="testCompleted.comment">
+        													</div>
+        												</div>
+  													</div>
+  													<div class="modal-footer">
+								                    	<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    	<button type="submit" class="btn btn-primary btn-embossed">Completed</button>
+								                	</div>
+  												</div>
+  											</form>
+  										</div>
+  								</div>					
   								
   								<div class="modal fade" id="tradeInAppEdit" role="dialog" style="top:-75px;">
     									<div class="modal-dialog" style="width: 961px">

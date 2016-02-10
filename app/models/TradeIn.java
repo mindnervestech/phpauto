@@ -80,7 +80,8 @@ public class TradeIn extends Model {
 	public String enthicity;
 	public Date statusDate;
 	public Integer premiumFlag;	
-	
+	public String testDriveCompletedComment;
+	public String testDriveCompletedDuration;
 	
 	public String getEnthicity() {
 		return enthicity;
@@ -342,6 +343,19 @@ public class TradeIn extends Model {
 	public void setExhaustRating(String exhaustRating) {
 		this.exhaustRating = exhaustRating;
 	}
+	
+	public String getTestDriveCompletedComment() {
+		return testDriveCompletedComment;
+	}
+	public void setTestDriveCompletedComment(String testDriveCompletedComment) {
+		this.testDriveCompletedComment = testDriveCompletedComment;
+	}
+	public String getTestDriveCompletedDuration() {
+		return testDriveCompletedDuration;
+	}
+	public void setTestDriveCompletedDuration(String testDriveCompletedDuration) {
+		this.testDriveCompletedDuration = testDriveCompletedDuration;
+	}
 	public String getLeaseOrRental() {
 		return leaseOrRental;
 	}
@@ -556,7 +570,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findByConfirmLeads(Long locationId, AuthUser user) {
-		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
 	}
 	
 	public static List<TradeIn> findAllByUser(AuthUser user) {
@@ -572,6 +586,9 @@ public class TradeIn extends Model {
 		return find.where().ne("status", null).eq("assignedTo",user).findList();
 	}
 	
+	public static List<TradeIn> findAllCompletedToUser(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("status", "TestDriveCompleted").findList();
+	}
 	
 	
 	public static List<TradeIn>  findByVinAndLocation(String vin,Location location) {

@@ -51,6 +51,8 @@ public class ScheduleTest extends Model {
 	public int scheduleEmail;
 	public String enthicity;
 	public Date statusDate;
+	public String testDriveCompletedComment;
+	public String testDriveCompletedDuration;
 	public Integer premiumFlag;
 	public Long parentId;
 	
@@ -207,7 +209,20 @@ public class ScheduleTest extends Model {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 
+	public String getTestDriveCompletedComment() {
+		return testDriveCompletedComment;
+	}
+	public void setTestDriveCompletedComment(String testDriveCompletedComment) {
+		this.testDriveCompletedComment = testDriveCompletedComment;
+	}
+	public String getTestDriveCompletedDuration() {
+		return testDriveCompletedDuration;
+	}
+	public void setTestDriveCompletedDuration(String testDriveCompletedDuration) {
+		this.testDriveCompletedDuration = testDriveCompletedDuration;
+	}
 	public String getCustZipCode() {
 		return custZipCode;
 	}
@@ -284,6 +299,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", user).ne("leadStatus", null).orderBy("scheduleDate desc").findList();
 	}
 	
+	public static List<ScheduleTest> findAllCompletedToUser(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("leadStatus", "TestDriveCompleted").orderBy("scheduleDate desc").findList();
+	}
+	
 	public static List<ScheduleTest> findAllSeenComplete(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("leadStatus", "COMPLETE").orderBy("scheduleDate desc").findList();
 	}
@@ -318,7 +337,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findByConfirmLeads(Long locationId, AuthUser user) {
-		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("locations.id", locationId).eq("lead_status", null).eq("assignedTo", user).findList();
 	}
 	
 	public static List<ScheduleTest> getAllFailed() {

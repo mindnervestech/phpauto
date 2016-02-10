@@ -40,6 +40,8 @@ public class RequestMoreInfo extends Model {
 	public String custZipCode;
 	public int scheduleEmail;
 	public String enthicity;
+	public String testDriveCompletedComment;
+	public String testDriveCompletedDuration;
 	public Date statusDate;
 	public Integer premiumFlag;
 	public Long parentId;
@@ -193,6 +195,19 @@ public class RequestMoreInfo extends Model {
 		this.parentId = parentId;
 	}
 
+	public String getTestDriveCompletedComment() {
+		return testDriveCompletedComment;
+	}
+	public void setTestDriveCompletedComment(String testDriveCompletedComment) {
+		this.testDriveCompletedComment = testDriveCompletedComment;
+	}
+	public String getTestDriveCompletedDuration() {
+		return testDriveCompletedDuration;
+	}
+	public void setTestDriveCompletedDuration(String testDriveCompletedDuration) {
+		this.testDriveCompletedDuration = testDriveCompletedDuration;
+	}
+
 	public static Finder<Long,RequestMoreInfo> find = new Finder<>(Long.class,RequestMoreInfo.class);
 	
 	public static RequestMoreInfo findById(Long id) {
@@ -287,8 +302,12 @@ public class RequestMoreInfo extends Model {
 		return find.where().eq("assignedTo", user).ne("status", null).findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllCompletedToUser(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("status", "TestDriveCompleted").findList();
+	}
+	
 	public static List<RequestMoreInfo> findByConfirmLeads(Long locationId, AuthUser user) {
-		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
 	}
 	
 	public static List<RequestMoreInfo> findByVinAndAssignedUser(String vin,AuthUser user) {

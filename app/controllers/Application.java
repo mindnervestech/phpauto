@@ -5963,6 +5963,29 @@ public class Application extends Controller {
     		return ok(Json.toJson(vehicles));
     }
     
+    
+    public static Result getAllCompletedLeadsbyId(Integer leadId){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user;
+    		if(leadId == 0){
+    			user = getLocalUser();
+    		}else{
+    			user = AuthUser.findById(leadId);
+    		}
+	    	
+	    	List<ScheduleTest> listData = ScheduleTest.findAllCompletedToUser(user);
+	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllCompletedToUser(user);
+	    	List<TradeIn> tradeIns = TradeIn.findAllCompletedToUser(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	
+	    	fillLeadsData(listData, requestMoreInfos, tradeIns, infoVMList);
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
+    }
+    
     public static Result getTestDirConfirById(Integer leadId){
     	
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -6483,6 +6506,19 @@ public class Application extends Controller {
     		vm.option = 1;
     		infoVMList.add(vm);
     	}
+    }
+    
+    public static Result getAllCompletedLeads(){
+    	AuthUser user = (AuthUser) getLocalUser();
+    	
+    	List<ScheduleTest> listData = ScheduleTest.findAllCompletedToUser(user);
+    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllCompletedToUser(user);
+    	List<TradeIn> tradeIns = TradeIn.findAllCompletedToUser(user);
+    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+    	
+    	fillLeadsData(listData, requestMoreInfos, tradeIns, infoVMList);
+    	
+    	return ok(Json.toJson(infoVMList));
     }
     
     public static Result getAllLostAndCompLeads() {
@@ -12083,6 +12119,68 @@ public class Application extends Controller {
     		}
     		
 		}
+    }
+    
+    public static Result saveCompletedLeads(String duration,String comment,String id,String typeOfLead){
+    	
+    	AuthUser user = getLocalUser();
+    	Date currDate = new Date();
+		if(typeOfLead.equals("requestMore") || typeOfLead.equals("Request More Info")) {
+			RequestMoreInfo requestMore = RequestMoreInfo.findById(Long.parseLong(id));
+			requestMore.setStatus("TestDriveCompleted");
+			requestMore.setTestDriveCompletedComment(comment);
+			requestMore.setTestDriveCompletedDuration(duration);
+			requestMore.update();
+			
+			UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Test Drive Successfully");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = currDate;
+    		uNotes.createdTime = currDate;
+    		uNotes.user = user;
+    		uNotes.requestMoreInfo = requestMore;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		uNotes.save();
+			
+		}
+		if(typeOfLead.equals("scheduleTest") || typeOfLead.equals("Schedule Test Drive")) {
+			ScheduleTest scheduleTest = ScheduleTest.findById(Long.parseLong(id));
+			
+			scheduleTest.setLeadStatus("TestDriveCompleted");
+			scheduleTest.setTestDriveCompletedComment(comment);
+			scheduleTest.setTestDriveCompletedDuration(duration);
+			scheduleTest.update();
+			
+			UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Test Drive Successfully");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = currDate;
+    		uNotes.createdTime = currDate;
+    		uNotes.user = user;
+    		uNotes.scheduleTest = scheduleTest;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		uNotes.save();
+			
+		}
+		if(typeOfLead.equals("tradeIn") || typeOfLead.equals("Trade-In Appraisal")) {
+			TradeIn tradeIn = TradeIn.findById(Long.parseLong(id));
+			
+			tradeIn.setLeadStatus("TestDriveCompleted");
+			tradeIn.setTestDriveCompletedComment(comment);
+			tradeIn.setTestDriveCompletedDuration(duration);
+			tradeIn.update();
+			
+			UserNotes uNotes = new UserNotes();
+    		uNotes.setNote("Test Drive Successfully");
+    		uNotes.setAction("Other");
+    		uNotes.createdDate = currDate;
+    		uNotes.createdTime = currDate;
+    		uNotes.user = user;
+    		uNotes.tradeIn = tradeIn;
+    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		uNotes.save();
+		}
+    	return ok();
     }
     
     public static void lostLeadsFunction(String vin, Date currDate){
@@ -21230,14 +21328,16 @@ public class Application extends Controller {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
 		List<sendDateAndValue> sAndValues = new ArrayList<>();
-		sendDateAndValue sValue = new sendDateAndValue();
-		Map<Long, Long> mapdate = new HashMap<Long, Long>();
+		
+		Map<Long, Long> mapdateRequest = new HashMap<Long, Long>();
+		Map<Long, Long> mapdateTrade = new HashMap<Long, Long>();
 		List<List<Long>> lonnn = new ArrayList<>();
 		Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+		
 		if(vehicle != null){
-			
+			/*---------------Request More Info-----------------*/
 			List<RequestMoreInfo> rInfo = RequestMoreInfo.findByVinAndLocation(vin,Location.findById(Long.parseLong(session("USER_LOCATION"))));
-			
+			sendDateAndValue sValue = new sendDateAndValue();
 			for(RequestMoreInfo rMoreInfo:rInfo){
 				Long countCar = 1L;
 				String DateString = df.format(rMoreInfo.requestDate);
@@ -21249,19 +21349,19 @@ public class Application extends Controller {
 					e.printStackTrace();
 				}
 				
-				Long objectDate = mapdate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+				Long objectDate = mapdateRequest.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
 				if (objectDate == null) {
-					Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+					/*Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
 					if(objectAllDate == null){
 						mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
-					}
-					mapdate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
+					}*/
+					mapdateRequest.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
 				}else{
-					mapdate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
+					mapdateRequest.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
 				}
 			}
 			
-			for (Entry<Long, Long> entryValue : mapdate.entrySet()) {
+			for (Entry<Long, Long> entryValue : mapdateRequest.entrySet()) {
 				List<Long> value = new ArrayList<>();
 				value.add(entryValue.getKey());
 				value.add(entryValue.getValue()); //= {entryValue.getKey(),entryValue.getValue()};
@@ -21269,13 +21369,54 @@ public class Application extends Controller {
 			  }
 			sValue.data = lonnn;
 			sValue.name = "Request More Info";
+		
+			sAndValues.add(sValue);
+			
+			/*---------------TradeIn-----------------*/
+			sendDateAndValue sValue1 = new sendDateAndValue();
+			List<TradeIn> tradeList = TradeIn.findByVinAndLocation(vin,Location.findById(Long.parseLong(session("USER_LOCATION"))));
+			
+			for(TradeIn trIn:tradeList){
+				Long countCar = 1L;
+				String DateString = df.format(trIn.tradeDate);
+				Date dateDate = null;
+				try {
+					dateDate = df.parse(DateString);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Long objectDate = mapdateTrade.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+				if (objectDate == null) {
+					/*Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+					if(objectAllDate == null){
+						mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
+					}*/
+					mapdateTrade.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
+				}else{
+					mapdateTrade.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
+				}
+			}
+			
+			for (Entry<Long, Long> entryValue : mapdateTrade.entrySet()) {
+				List<Long> value = new ArrayList<>();
+				value.add(entryValue.getKey());
+				value.add(entryValue.getValue()); //= {entryValue.getKey(),entryValue.getValue()};
+				lonnn.add(value);
+			  }
+			sValue1.data = lonnn;
+			sValue1.name = "Trade-In Appraisal";
+		
+			//sAndValues.add(sValue1);
 		}
 
-		sAndValues.add(sValue);
+		
+		//Schedule Test Drive
 		
 		for(sendDateAndValue sAndValue:sAndValues){
 			
-			Collections.sort(sValue.data, new Comparator<List<Long>>(){
+			Collections.sort(sAndValue.data, new Comparator<List<Long>>(){
 				 @Override
 		            public int compare(List<Long> o1, List<Long> o2) {
 		                return o1.get(0).compareTo(o2.get(0));
