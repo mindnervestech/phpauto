@@ -5667,7 +5667,7 @@ angular.module('newApp')
    
    $scope.showSessionData = function(row){
 	   console.log(row.entity);
-	   $location.path('/sessionsAnalytics/'+row.entity.vin+"/"+row.entity.status);
+	   $location.path('/sessionsAnalytics/'+row.entity.id+"/"+row.entity.vin+"/"+row.entity.status);
    }
    
    /*$scope.showAllVehicalSessionData = function(row){

@@ -597,7 +597,29 @@ console.log($routeParams.status);
 			endDate = "0";
 		}
 		
-		$http.get('/getCustomerRequest/'+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
+		$http.get('/getCustomerRequest/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
+			console.log("succeess");
+			console.log(data);
+			 createChart(data);
+		});
+		
+	}
+	
+$scope.showLeads = function(){
+		
+	console.log("KLKLK");
+		var startDate = $("#startDate").val();
+		var endDate = $("#endDate").val();
+		
+		if(startDate == ""){
+			startDate = "0";
+		}
+		
+		if(endDate == ""){
+			endDate = "0";
+		}
+		
+		$http.get('/getCustomerRequestLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 			console.log("succeess");
 			console.log(data);
 			 createChart(data);
@@ -1155,7 +1177,7 @@ $scope.mailmonthFunction = function(){
 	}*/
 	
 	$scope.goToVehicalInfo = function(){
-		$location.path('/goToVehicalInfo/'+$routeParams.vin+"/"+$routeParams.status);
+		$location.path('/goToVehicalInfo/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status);
 	}
 	
 	

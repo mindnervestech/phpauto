@@ -82,6 +82,7 @@ public class TradeIn extends Model {
 	public Integer premiumFlag;	
 	public String testDriveCompletedComment;
 	public String testDriveCompletedDuration;
+	public int onlineOrOfflineLeads;
 	
 	public String getEnthicity() {
 		return enthicity;
@@ -344,6 +345,12 @@ public class TradeIn extends Model {
 		this.exhaustRating = exhaustRating;
 	}
 	
+	public int getOnlineOrOfflineLeads() {
+		return onlineOrOfflineLeads;
+	}
+	public void setOnlineOrOfflineLeads(int onlineOrOfflineLeads) {
+		this.onlineOrOfflineLeads = onlineOrOfflineLeads;
+	}
 	public String getTestDriveCompletedComment() {
 		return testDriveCompletedComment;
 	}
@@ -594,6 +601,11 @@ public class TradeIn extends Model {
 	public static List<TradeIn>  findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
 	}
+	
+	public static List<TradeIn>  findByVinSoldAndLocation(String vin,Location location) {
+		return find.where().eq("vin", vin).ne("status", null).eq("locations", location).findList();
+	}
+	
 	
 	public static List<TradeIn>  findByVinAndAssignedUser(String vin,AuthUser user) {
 		return find.where().eq("vin", vin).eq("user", user).findList();

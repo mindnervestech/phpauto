@@ -53,6 +53,7 @@ public class ScheduleTest extends Model {
 	public Date statusDate;
 	public String testDriveCompletedComment;
 	public String testDriveCompletedDuration;
+	public int onlineOrOfflineLeads;
 	public Integer premiumFlag;
 	public Long parentId;
 	
@@ -209,8 +210,13 @@ public class ScheduleTest extends Model {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
 
+	public int getOnlineOrOfflineLeads() {
+		return onlineOrOfflineLeads;
+	}
+	public void setOnlineOrOfflineLeads(int onlineOrOfflineLeads) {
+		this.onlineOrOfflineLeads = onlineOrOfflineLeads;
+	}
 	public String getTestDriveCompletedComment() {
 		return testDriveCompletedComment;
 	}
@@ -363,6 +369,12 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest>  findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("leadStatus", null).eq("locations", location).findList();
 	}
+	
+	public static List<ScheduleTest>  findByVinSoldAndLocation(String vin,Location location) {
+		return find.where().eq("vin", vin).ne("leadStatus", null).eq("locations", location).findList();
+	}
+	
+	
 	
 	public static List<ScheduleTest> findAllByAssignedUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).ne("vin", "no").findList();

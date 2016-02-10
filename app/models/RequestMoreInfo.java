@@ -45,6 +45,7 @@ public class RequestMoreInfo extends Model {
 	public Date statusDate;
 	public Integer premiumFlag;
 	public Long parentId;
+	public int onlineOrOfflineLeads;
 	
 	
 	
@@ -194,7 +195,14 @@ public class RequestMoreInfo extends Model {
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
+	
 
+	public int getOnlineOrOfflineLeads() {
+		return onlineOrOfflineLeads;
+	}
+	public void setOnlineOrOfflineLeads(int onlineOrOfflineLeads) {
+		this.onlineOrOfflineLeads = onlineOrOfflineLeads;
+	}
 	public String getTestDriveCompletedComment() {
 		return testDriveCompletedComment;
 	}
@@ -234,8 +242,12 @@ public class RequestMoreInfo extends Model {
 		return find.where().eq("locations.id", location).ne("status", "CANCEL").findList();
 	}
 	
-	public static List<RequestMoreInfo>  findByVinAndLocation(String vin,Location location) {
+	public static List<RequestMoreInfo> findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();
+	}
+	
+	public static List<RequestMoreInfo> findByVinSoldAndLocation(String vin,Location location) {
+		return find.where().eq("vin", vin).ne("status", null).eq("locations", location).findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllData() {
