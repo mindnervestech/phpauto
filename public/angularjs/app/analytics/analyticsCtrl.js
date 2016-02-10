@@ -578,14 +578,18 @@ console.log("....................");
 console.log($routeParams.vin);
 console.log($routeParams.status);
 	
-	$http.get('/getFinancialVehicleDetailsByBodyStyle').success(function(data) {
+$('#viewsChartS').css("text-decoration","underline");
+	/*$http.get('/getFinancialVehicleDetailsByBodyStyle').success(function(data) {
 		console.log("succee");
 		console.log(data);
 		 createChart(data);
-	});
+	});*/
 	
 	$scope.showCustomerRequest = function(){
-		
+		$('#customerR').css("text-decoration","underline");
+		$('#leadsV').css("text-decoration","none");
+		 $('#viewsChartS').css("text-decoration","none");
+		$('#follwersChartS').css("text-decoration","none");
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
 		
@@ -606,8 +610,10 @@ console.log($routeParams.status);
 	}
 	
 $scope.showLeads = function(){
-		
-	console.log("KLKLK");
+	$('#customerR').css("text-decoration","none");
+	$('#follwersChartS').css("text-decoration","none");
+	 $('#viewsChartS').css("text-decoration","none");
+	$('#leadsV').css("text-decoration","underline");
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
 		
@@ -626,6 +632,53 @@ $scope.showLeads = function(){
 		});
 		
 	}
+
+ $scope.showViewsChart = function(){
+	 $('#customerR').css("text-decoration","none");
+	 $('#leadsV').css("text-decoration","none");
+	 $('#follwersChartS').css("text-decoration","none");
+	 $('#viewsChartS').css("text-decoration","underline");
+			var startDate = $("#startDate").val();
+			var endDate = $("#endDate").val();
+			
+			if(startDate == ""){
+				startDate = "0";
+			}
+			
+			if(endDate == ""){
+				endDate = "0";
+			}
+			
+			/*$http.get('/getCustomerRequestLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
+				console.log("succeess");
+				console.log(data);
+				 createChart(data);
+			});*/
+ }
+ 
+  $scope.showFollwerChart = function(){
+	  $('#customerR').css("text-decoration","none");
+	  $('#leadsV').css("text-decoration","none");
+	  $('#viewsChartS').css("text-decoration","none");
+	  $('#follwersChartS').css("text-decoration","underline");
+	  
+			var startDate = $("#startDate").val();
+			var endDate = $("#endDate").val();
+			
+			if(startDate == ""){
+				startDate = "0";
+			}
+			
+			if(endDate == ""){
+				endDate = "0";
+			}
+			
+			/*$http.get('/getCustomerRequestLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
+				console.log("succeess");
+				console.log(data);
+				 createChart(data);
+			});*/
+  }
 	
 	 var seriesOptions = [];
      var seriesCounter = 0;
