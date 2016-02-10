@@ -122,12 +122,12 @@ var MakeApp = angular
             templateUrl: '/dealer/analytics/heatMapInfo.html',
             controller: 'heatMapInfoCtrl'
         })
-        .when('/sessionsAnalytics/:vin', {
+        .when('/sessionsAnalytics/:vin/:status', {
             templateUrl: '/dealer/analytics/sessionsData.html',
             controller: 'SessionsCtrl'
         })
         
-         .when('/goToVehicalInfo/:vin', {
+         .when('/goToVehicalInfo/:vin/:status', {
             templateUrl: '/dealer/analytics/VehicleDateWise.html',
             controller: 'VehicleDateWiseCtrl'
         })

@@ -576,6 +576,7 @@ angular.module('newApp')
 .controller('VehicleDateWiseCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 console.log("....................");
 console.log($routeParams.vin);
+console.log($routeParams.status);
 	
 	$http.get('/getFinancialVehicleDetailsByBodyStyle').success(function(data) {
 		console.log("succee");
@@ -589,14 +590,14 @@ console.log($routeParams.vin);
 		var endDate = $("#endDate").val();
 		
 		if(startDate == ""){
-			startDate = 0;
+			startDate = "0";
 		}
 		
 		if(endDate == ""){
-			endDate = 0;
+			endDate = "0";
 		}
 		
-		$http.get('/getCustomerRequest/'+$routeParams.vin+"/"+startDate+"/"+endDate).success(function(data) {
+		$http.get('/getCustomerRequest/'+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 			console.log("succeess");
 			console.log(data);
 			 createChart(data);
@@ -1154,7 +1155,7 @@ $scope.mailmonthFunction = function(){
 	}*/
 	
 	$scope.goToVehicalInfo = function(){
-		$location.path('/goToVehicalInfo/'+$routeParams.vin);
+		$location.path('/goToVehicalInfo/'+$routeParams.vin+"/"+$routeParams.status);
 	}
 	
 	

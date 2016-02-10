@@ -6292,8 +6292,12 @@ public class Application extends Controller {
     		vm.name = info.name;
     		vm.phone = info.phone;
     		vm.email = info.email;
-    		vm.bestDay = df.format(info.confirmDate);
-    		vm.bestTime = timedf.format(info.confirmTime);
+    		if(info.confirmDate != null){
+    			vm.bestDay = df.format(info.confirmDate);
+    		}
+    		if(info.confirmTime != null){
+    			vm.bestTime = timedf.format(info.confirmTime);
+    		}	
 			vm.howContactedUs = info.contactedFrom;
     		vm.howFoundUs = info.hearedFrom;
     		vm.custZipCode = info.custZipCode;
@@ -6370,8 +6374,12 @@ public class Application extends Controller {
     		vm.name = info.firstName;
     		vm.phone = info.phone;
     		vm.email = info.email;
-    		vm.bestDay = df.format(info.confirmDate);
-    		vm.bestTime = timedf.format(info.confirmTime);
+    		if(info.confirmDate != null){
+    			vm.bestDay = df.format(info.confirmDate);
+    		}
+    		if(info.confirmTime != null){
+    			vm.bestTime = timedf.format(info.confirmTime);
+    		}
 			vm.howContactedUs = info.contactedFrom;
     		vm.howFoundUs = info.hearedFrom;
     		vm.custZipCode = info.custZipCode;
@@ -6448,8 +6456,12 @@ public class Application extends Controller {
     		vm.name = info.name;
     		vm.phone = info.phone;
     		vm.email = info.email;
-    		vm.bestDay = df.format(info.confirmDate);
-    		vm.bestTime = timedf.format(info.confirmTime);
+    		if(info.confirmDate != null){
+    			vm.bestDay = df.format(info.confirmDate);
+    		}
+    		if(info.confirmTime != null){
+    			vm.bestTime = timedf.format(info.confirmTime);
+    		}
 			vm.howContactedUs = info.contactedFrom;
     		vm.howFoundUs = info.hearedFrom;
     		vm.custZipCode = info.custZipCode;
@@ -21328,106 +21340,230 @@ public class Application extends Controller {
 		AuthUser user = getLocalUser();
 		return ok(Json.toJson(user));
 	}
-	public static Result getCustomerRequest(String vin, String startDate, String endDate){
+	public static Result getCustomerRequest(String vin,String status, String startDate, String endDate){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
 		List<sendDateAndValue> sAndValues = new ArrayList<>();
-		
+		int flagDate = 0;
 		Map<Long, Long> mapdateRequest = new HashMap<Long, Long>();
 		Map<Long, Long> mapdateTrade = new HashMap<Long, Long>();
-		List<List<Long>> lonnn = new ArrayList<>();
+		Map<Long, Long> mapdateSchedule = new HashMap<Long, Long>();
+		List<List<Long>> lonRequest = new ArrayList<>();
+		List<List<Long>> lonTrade = new ArrayList<>();
+		List<List<Long>> lonSchedule = new ArrayList<>();
+		if(startDate.equals("0") || endDate.equals("0")){
+			flagDate = 1;
+		}
 		Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+		
 		
 		if(vehicle != null){
 			/*---------------Request More Info-----------------*/
 			List<RequestMoreInfo> rInfo = RequestMoreInfo.findByVinAndLocation(vin,Location.findById(Long.parseLong(session("USER_LOCATION"))));
 			sendDateAndValue sValue = new sendDateAndValue();
 			for(RequestMoreInfo rMoreInfo:rInfo){
-				Long countCar = 1L;
-				String DateString = df.format(rMoreInfo.requestDate);
-				Date dateDate = null;
-				try {
-					dateDate = df.parse(DateString);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			  /*if((vehicle.postedDate.before(rMoreInfo.requestDate) && rMoreInfo.requestDate.before(vehicle.soldDate)) || vehicle.postedDate.equals(rMoreInfo.requestDate) || rMoreInfo.requestDate.equals(vehicle.soldDate)){*/
+				if(vehicle.postedDate.before(rMoreInfo.requestDate) || vehicle.postedDate.equals(rMoreInfo.requestDate)){
 				
-				Long objectDate = mapdateRequest.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
-				if (objectDate == null) {
-					/*Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
-					if(objectAllDate == null){
-						mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
-					}*/
-					mapdateRequest.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
-				}else{
-					mapdateRequest.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
-				}
+					if(flagDate == 1){
+						startDate = df.format(rMoreInfo.requestDate);
+						endDate = df.format(rMoreInfo.requestDate);
+					}
+					try {
+						if((rMoreInfo.requestDate.after(df.parse(startDate)) && rMoreInfo.requestDate.before(df.parse(endDate))) || rMoreInfo.requestDate.equals(df.parse(startDate)) || rMoreInfo.requestDate.equals(df.parse(endDate))){
+							
+							Long countCar = 1L;
+							String DateString = df.format(rMoreInfo.requestDate);
+							Date dateDate = null;
+							try {
+								dateDate = df.parse(DateString);
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							Long objectDate = mapdateRequest.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+							if (objectDate == null) {
+								Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+								if(objectAllDate == null){
+									mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
+								}
+								mapdateRequest.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
+								
+							}else{
+								mapdateRequest.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
+							}
+						}
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			 }	
 			}
 			
 			for (Entry<Long, Long> entryValue : mapdateRequest.entrySet()) {
 				List<Long> value = new ArrayList<>();
 				value.add(entryValue.getKey());
-				value.add(entryValue.getValue()); //= {entryValue.getKey(),entryValue.getValue()};
-				lonnn.add(value);
+				value.add(entryValue.getValue()); 
+				lonRequest.add(value);
 			  }
-			sValue.data = lonnn;
+			sValue.data = lonRequest;
 			sValue.name = "Request More Info";
 		
 			sAndValues.add(sValue);
 			
-			/*---------------TradeIn-----------------*/
+		
+			/*---------------Trade-In Appraisal-----------------*/
+			List<TradeIn> tInfo = TradeIn.findByVinAndLocation(vin,Location.findById(Long.parseLong(session("USER_LOCATION"))));
 			sendDateAndValue sValue1 = new sendDateAndValue();
-			List<TradeIn> tradeList = TradeIn.findByVinAndLocation(vin,Location.findById(Long.parseLong(session("USER_LOCATION"))));
-			
-			for(TradeIn trIn:tradeList){
-				Long countCar = 1L;
-				String DateString = df.format(trIn.tradeDate);
-				Date dateDate = null;
-				try {
-					dateDate = df.parse(DateString);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				Long objectDate = mapdateTrade.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
-				if (objectDate == null) {
-					/*Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
-					if(objectAllDate == null){
-						mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
-					}*/
-					mapdateTrade.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
-				}else{
-					mapdateTrade.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
-				}
+			for(TradeIn tIn:tInfo){
+				if(vehicle.postedDate.before(tIn.tradeDate) || vehicle.postedDate.equals(tIn.tradeDate)){
+					if(flagDate == 1){
+						startDate = df.format(tIn.tradeDate);
+						endDate = df.format(tIn.tradeDate);
+					}
+					try {
+						if((tIn.tradeDate.after(df.parse(startDate)) && tIn.tradeDate.before(df.parse(endDate))) || tIn.tradeDate.equals(df.parse(startDate)) || tIn.tradeDate.equals(df.parse(endDate))){
+							Long countCar = 1L;
+							String DateString = df.format(tIn.tradeDate);
+							Date dateDate = null;
+							try {
+								dateDate = df.parse(DateString);
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							Long objectDate = mapdateTrade.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+							if (objectDate == null) {
+								Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+								if(objectAllDate == null){
+									mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
+								}
+								mapdateTrade.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
+							}else{
+								mapdateTrade.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
+							}
+						}
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			 }
 			}
 			
 			for (Entry<Long, Long> entryValue : mapdateTrade.entrySet()) {
 				List<Long> value = new ArrayList<>();
 				value.add(entryValue.getKey());
-				value.add(entryValue.getValue()); //= {entryValue.getKey(),entryValue.getValue()};
-				lonnn.add(value);
+				value.add(entryValue.getValue()); 
+				lonTrade.add(value);
 			  }
-			sValue1.data = lonnn;
+			sValue1.data = lonTrade;
 			sValue1.name = "Trade-In Appraisal";
 		
-			//sAndValues.add(sValue1);
-		}
-
-		
-		//Schedule Test Drive
-		
-		for(sendDateAndValue sAndValue:sAndValues){
+			sAndValues.add(sValue1);
 			
-			Collections.sort(sAndValue.data, new Comparator<List<Long>>(){
-				 @Override
-		            public int compare(List<Long> o1, List<Long> o2) {
-		                return o1.get(0).compareTo(o2.get(0));
-		            }
+			/*---------------Schedule Test Drive-----------------*/
+			List<ScheduleTest> sInfo = ScheduleTest.findByVinAndLocation(vin,Location.findById(Long.parseLong(session("USER_LOCATION"))));
+			sendDateAndValue sValue2 = new sendDateAndValue();
+			for(ScheduleTest sTest:sInfo){
+				if(vehicle.postedDate.before(sTest.scheduleDate) || vehicle.postedDate.equals(sTest.scheduleDate)){
+					
+					if(flagDate == 1){
+						startDate = df.format(sTest.scheduleDate);
+						endDate = df.format(sTest.scheduleDate);
+					}
+					try {
+						if((sTest.scheduleDate.after(df.parse(startDate)) && sTest.scheduleDate.before(df.parse(endDate))) || sTest.scheduleDate.equals(df.parse(startDate)) || sTest.scheduleDate.equals(df.parse(endDate))){
+					
+							Long countCar = 1L;
+							String DateString = df.format(sTest.scheduleDate);
+							Date dateDate = null;
+							try {
+								dateDate = df.parse(DateString);
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							Long objectDate = mapdateSchedule.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+							if (objectDate == null) {
+								Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+								if(objectAllDate == null){
+									mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
+								}
+								mapdateSchedule.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), countCar);
+							}else{
+								mapdateSchedule.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), objectDate + countCar);
+							}
+						}
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}	 
+			}
+			
+			for (Entry<Long, Long> entryValue : mapdateSchedule.entrySet()) {
+				List<Long> value = new ArrayList<>();
+				value.add(entryValue.getKey());
+				value.add(entryValue.getValue()); 
+				lonSchedule.add(value);
+			  }
+			sValue2.data = lonSchedule;
+			sValue2.name = "Schedule Test Drive";
+		
+			sAndValues.add(sValue2);
+			
+			
+			for(sendDateAndValue sAndValue:sAndValues){
+				for(List<Long> longs:sAndValue.data){
+					int i = 0;
+					for(Long long1:longs){
+						if(i == 0){
+							for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
+								if(!entryValue.getValue().equals(0L)){
+									if(!long1.equals(entryValue.getKey())){
+										mapAlldate.put(entryValue.getKey(), 1L);
+									}else{
+										mapAlldate.put(entryValue.getKey(), 0L);
+									}
+								}
+								
+							  }
+							i++;
+						}
+						
+					}
+					
+				}
+				for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
+					if(entryValue.getValue().equals(1L)){
+						List<Long> value = new ArrayList<>();
+						value.add(entryValue.getKey());
+						value.add(0L);//entryValue.getKey(),0L};
+						sAndValue.data.add(value);
+						
+					}else{
+						mapAlldate.put(entryValue.getKey(), 1L);
+					}
+				  }
 				
-			});
-		}
+			}
+			
+			
+			
+			for(sendDateAndValue sAndValue:sAndValues){
+				
+				Collections.sort(sAndValue.data, new Comparator<List<Long>>(){
+					 @Override
+			            public int compare(List<Long> o1, List<Long> o2) {
+			                return o1.get(0).compareTo(o2.get(0));
+			            }
+					
+				});
+			}
+			}
 		
 		return ok(Json.toJson(sAndValues));
 	}
