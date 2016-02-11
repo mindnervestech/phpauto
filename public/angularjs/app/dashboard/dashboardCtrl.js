@@ -2899,7 +2899,6 @@ angular.module('newApp')
 				 
 				 $scope.lengthOfAllLead = countUnReadLead;
 			 }
-			
 	    	
 	        	$scope.gridOptions7.data = $scope.getAllListLeadDate;
 	        	
