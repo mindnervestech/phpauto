@@ -7366,7 +7366,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {
@@ -11808,13 +11808,13 @@ public class Application extends Controller {
     	}
     }*/
     
-    public static Result setScheduleConfirmClose(Long id,Integer option){
+    public static Result setScheduleConfirmClose(Long id,String leadType){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
-    		if(option==0) {
+    		if(leadType.equals("Schedule Test Drive")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setConfirmDate(null);
     			schedule.setConfirmTime(null);
@@ -11831,7 +11831,7 @@ public class Application extends Controller {
         		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
         		uNotes.save();
         		
-    		} else if(option == 1) {
+    		} else if(leadType.equals("Request More Info")) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
     			info.setConfirmDate(null);
     			info.setConfirmTime(null);
@@ -11848,7 +11848,7 @@ public class Application extends Controller {
         		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
         		uNotes.save();
         		
-    		} else if(option == 2) {
+    		} else if(leadType.equals("Trade-In Appraisal")) {
     			TradeIn info = TradeIn.findById(id);
     			info.setConfirmDate(null);
     			info.setConfirmTime(null);
@@ -12854,7 +12854,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {

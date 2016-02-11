@@ -2958,14 +2958,16 @@ angular.module('newApp')
     	}
     	
     	$scope.cancelScheduleComfir = function(entity){
-    		
-    		$http.get('/setScheduleConfirmClose/'+entity.id+'/'+entity.option)
+
+    		$http.get('/setScheduleConfirmClose/'+entity.id+'/'+entity.typeOfLead)
 			.success(function(data) {
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
 				    text: "Cancel successfully",
 				});
+				entity.bestDay = "";
+				entity.bestTime = "";
 				$scope.getAllSalesPersonRecord($scope.salesPerson);
 			});
     		

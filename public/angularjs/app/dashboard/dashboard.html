@@ -4163,7 +4163,7 @@ margin-left: 5px;
 													 <div class="row">
 								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
 								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>INTERESTED IN MODEL? <span style="color: red;">*</span></strong></h3>
-								                    		<div class="col-md-4">
+								                    		<div class="col-md-3">
 								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
 								                    			<div ng-show="isStockError" style="color: red;">Stock Number Not Found.</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
@@ -4196,12 +4196,17 @@ margin-left: 5px;
 								                    		</div> 
 								                    		
 								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-show="stockWiseData.length  > 1">
+								                    			<div class="col-sm-12">
 								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
+								                    			</div>
+								                    			<!-- <div class="col-sm-12" style="padding: 0px;">
+											                              <button type="button" ng-click="cancelScheduleComfir(parentchil)" class="btn btn-primary btn-embossed">Cancel</button>
+																</div> -->
 								                    		</div>
 								                    		
 								                    		   <div ng-if="$index == 0">	
 								                    		<div ng-repeat="childL in editLeads.parentChildLead" style="float: left;">
-								                    				<div class="col-md-4" style="margin-top: 11px;">
+								                    				<div class="col-md-3" style="margin-top: 11px;">
 								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="childL.stock" ng-blur="getStockDetails(childL)" disabled="disabled"/>
@@ -4232,7 +4237,12 @@ margin-left: 5px;
 								                    			
 								                    		</div> 
 								                    			<div class="col-md-1" style="font-size: 29px;margin-top: 54px;">
+								                    			<div class="col-sm-12">
 								                    			<a ng-click="cancelLead(childL,$parent.$index)"><span class="glyphicon glyphicon-remove"></span></a>
+								                    			</div>
+								                    			<div class="col-sm-12" style="padding: 0px;">
+											                              <button type="button" ng-click="cancelScheduleComfir(childL)" class="btn btn-primary btn-embossed">Cancel</button>
+																</div>
 								                    		</div>
 								                    		</div>
 								                    		</div>
@@ -5083,13 +5093,16 @@ margin-left: 5px;
 											                    
 																	</div>
 																</div>
+																<div class="col-sm-6" style="padding: 0px;float: right;">
+											                              <button type="button" ng-click="cancelScheduleComfir(parentchil)" class="btn btn-primary btn-embossed">Cancel</button>
+																</div>
 								                    		</div>	
 								                    		</div>
 								                    	</div>	
 								                	</div>	
 																			                	
 								                <div class="modal-footer" style="float: left;">
-								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
 								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
 								                </div>
 								                </form>
