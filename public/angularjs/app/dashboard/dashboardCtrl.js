@@ -2819,7 +2819,7 @@ angular.module('newApp')
 					if($scope.userType == "Sales Person"){
 						angular.forEach($scope.gridOptions2.data,function(value,key){
 			        		$scope.getAllListLeadDate.push(value);
-			        		if(value.noteFlag == 0){
+			        		if(value.noteFlag == 0 && value.confirmDate == null){
 			        			countUnReadLead++;
 			        		}
 			        	});
@@ -2836,7 +2836,7 @@ angular.module('newApp')
 			if($scope.userType == "Sales Person"){
 				angular.forEach($scope.gridOptions5.data,function(value,key){
 	        		$scope.getAllListLeadDate.push(value);
-	        		if(value.noteFlag == 0){
+	        		if(value.noteFlag == 0 && value.confirmDate == null){
 	        			countUnReadLead++;
 	        		}
 	        	});
@@ -2853,7 +2853,7 @@ angular.module('newApp')
 			 		if($scope.userType == "Sales Person"){
 						angular.forEach($scope.gridOptions3.data,function(value,key){
 			        		$scope.getAllListLeadDate.push(value);
-			        		if(value.noteFlag == 0){
+			        		if(value.noteFlag == 0 && value.confirmDate == null){
 			        			countUnReadLead++;
 			        		}
 			        	});
@@ -2893,19 +2893,19 @@ angular.module('newApp')
 			 if($scope.userType == "Manager"){
 				 angular.forEach($scope.gridOptions5.data,function(value,key){
 		        		$scope.getAllListLeadDate.push(value);
-		        		if(value.noteFlag == 0){
+		        		if(value.noteFlag == 0 && value.confirmDate == null){
 		        			countUnReadLead++;
 		        		}
 		        	});
 				 angular.forEach($scope.gridOptions2.data,function(value,key){
 		        		$scope.getAllListLeadDate.push(value);
-		        		if(value.noteFlag == 0){
+		        		if(value.noteFlag == 0 && value.confirmDate == null){
 		        			countUnReadLead++;
 		        		}
 		        	});
 				 angular.forEach($scope.gridOptions3.data,function(value,key){
 		        		$scope.getAllListLeadDate.push(value);
-		        		if(value.noteFlag == 0){
+		        		if(value.noteFlag == 0 && value.confirmDate == null){
 		        			countUnReadLead++;
 		        		}
 		        	});
