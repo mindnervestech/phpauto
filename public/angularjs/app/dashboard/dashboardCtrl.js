@@ -1336,35 +1336,35 @@ angular.module('newApp')
         	     	     	     			 	    	 		                                       }
         	     	     	     			 	    	 		                                	} ,
         	     	     	     			 	    	 		                                 },
-        	     	     	     			 	    	 		                                 { name: 'model', displayName: 'Model', width:'14%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                                 { name: 'model', displayName: 'Model', width:'10%',cellEditableCondition: false,
         	     	     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	     	     			 	    	  		                                       if (row.entity.isRead === false) {
         	     	     	     			 	    	  		                                         return 'red';
         	     	     	     			 	    	  		                                     }
         	     	     	     			 	    	 		                                	} ,
         	     	     	     			 	    	 		                                 },
-        	     	     	     			 	    	 		                                 { name: 'make', displayName: 'Make', width:'14%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                                 { name: 'make', displayName: 'Make', width:'10%',cellEditableCondition: false,
         	     	     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	     	     			 	    	  		                                       if (row.entity.isRead === false) {
         	     	     	     			 	    	  		                                         return 'red';
         	     	     	     			 	    	  		                                     }
         	     	     	     			 	    	 		                                	} ,
         	     	     	     			 	    	 		                                 },
-        	     	     	     			 	    	 		                                 { name: 'name', displayName: 'Name', width:'16%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                                 { name: 'name', displayName: 'Name', width:'12%',cellEditableCondition: false,
         	     	     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	     	     			 	    	  		                                       if (row.entity.isRead === false) {
         	     	     	     			 	    	  		                                         return 'red';
         	     	     	     			 	    	  		                                     }
         	     	     	     			 	    	 		                                	} ,
         	     	     	     			 	    	 		                                 },
-        	     	     	     			 	    	 		                                 { name: 'phone', displayName: 'Phone', width:'12%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                                 { name: 'phone', displayName: 'Phone', width:'10%',cellEditableCondition: false,
         	     	     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	     	     			 	    	  		                                       if (row.entity.isRead === false) {
         	     	     	     			 	    	  		                                         return 'red';
         	     	     	     			 	    	  		                                     }
         	     	     	     			 	    	 		                                	} ,
         	     	     	     			 	    	 		                                 },
-        	     	     	     			 	    	 		                                 { name: 'email', displayName: 'Email', width:'18%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                                 { name: 'email', displayName: 'Email', width:'13%',cellEditableCondition: false,
         	     	     	     			 	    	 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
         	     	     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	     	     			 	    	  		                                       if (row.entity.isRead === false) {
@@ -1386,6 +1386,7 @@ angular.module('newApp')
         	     	       	     			 	    	  		                                     }
         	     	       	     			 	    	 		                                	} ,
         	     	       	     			 	    	 		                                 },
+        	     	       	     			 	    	 		                                 */
         	     	       	     			 	    	 		                           { name: 'testDriveCompletedComment', displayName: 'Comments', width:'10%',cellEditableCondition: false,
          	     	       	     			 	    	 		                               	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
          	     	       	     			 	    	  		                                       if (row.entity.isRead === false) {
@@ -1401,7 +1402,7 @@ angular.module('newApp')
 		       	     	       	     			 	    	 		                               } ,
 		       	     	       	     			 	    	 		                          },
         	     	      	     			 	    	 		                            
-*/        	     	     	     			 	    	 		                             
+        	     	     	     			 	    	 		                             
         	     	     	     			 	    	 		                                /*{ name: 'btnSold', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,
         	     	     	     			 				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'cansal\')" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:0%;">ASSIGN</button>',
         	     	     	     			 				 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
