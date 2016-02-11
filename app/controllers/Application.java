@@ -18320,7 +18320,7 @@ public class Application extends Controller {
 	    		test.setBestDay(leadVM.bestDay);
 	    		test.setBestTime(leadVM.bestTime);
 	    		
-	    		if(parentFlag == 0){
+	    		//if(parentFlag == 0){
 	    			try {
 		    			confirmDate = df.parse(leadVM.bestDay);
 		    			test.setConfirmDate(confirmDate);
@@ -18328,7 +18328,7 @@ public class Application extends Controller {
 		    		try {
 		    			test.setConfirmTime(parseTime.parse(leadVM.bestTime));
 		    		} catch(Exception e) {}
-	    		}
+	    		//}
 	    		
 	    		test.setEmail(leadVM.custEmail);
 	    		test.setName(leadVM.custName);
