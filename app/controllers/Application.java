@@ -9681,7 +9681,6 @@ public class Application extends Controller {
     private static void sendMail(Map map) {
     	
     	AuthUser logoUser = getLocalUser();
-    	
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
 		Properties props = new Properties();

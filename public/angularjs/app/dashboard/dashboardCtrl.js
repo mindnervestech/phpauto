@@ -1134,7 +1134,7 @@ angular.module('newApp')
 																					{ name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
 																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
 																					    	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-																					    		 if (row.entity.noteFlag != 1) {
+																					    		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																					                   return 'red';
 																					               }
 																					         	} ,
@@ -1142,7 +1142,7 @@ angular.module('newApp')
 																					      { name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
 																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.phone}}</a> ',
 																					     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-																					     		 if (row.entity.noteFlag != 1) {
+																					     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																					                return 'red';
 																					            }
 																					      	} ,
@@ -1150,7 +1150,7 @@ angular.module('newApp')
 																					      { name: 'email', displayName: 'Email', width:'12%',cellEditableCondition: false,
 																					     	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
 																					     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-																					     		 if (row.entity.noteFlag != 1) {
+																					     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																					                return 'red';
 																					            }
 																					      	} ,
@@ -1158,7 +1158,7 @@ angular.module('newApp')
 																					   { name: 'requestDate', displayName: 'Date Added', width:'8%',cellEditableCondition: false,
 																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
 																					     	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-																					     		 if (row.entity.noteFlag != 1) {
+																					     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
 																					                 return 'red';
 																					             }
 																					       	} ,
@@ -1166,7 +1166,7 @@ angular.module('newApp')
      	     		     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'8%',cellEditableCondition: false,
      	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.vin}}</a> ',
      	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     		     			 		 		                                	 if (row.entity.noteFlag != 1) {
+     	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
      	     		     			 		   		                                         return 'red';
      	     		     			 		   		                                     }
      	     		     			 		  		                                	} ,
@@ -1174,7 +1174,7 @@ angular.module('newApp')
      	     		     			 		 		                                 { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
      	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.model}}</a> ',
      	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     		     			 		 		                                	 if (row.entity.noteFlag != 1) {
+     	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
      	     		     			 		   		                                         return 'red';
      	     		     			 		   		                                     }
      	     		     			 		  		                                	} ,
@@ -1182,7 +1182,7 @@ angular.module('newApp')
      	     		     			 		 		                                 { name: 'make', displayName: 'Make', width:'9%',cellEditableCondition: false,
      	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.make}}</a> ',
      	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     		     			 		 		                                	 if (row.entity.noteFlag != 1) {
+     	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
      	     		     			 		   		                                         return 'red';
      	     		     			 		   		                                     }
      	     		     			 		  		                                	} ,
@@ -1190,7 +1190,7 @@ angular.module('newApp')
      	     		     			 		 		                            { name: 'typeOfLead', displayName: 'type', width:'9%',cellEditableCondition: false,
       	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.typeOfLead}}</a> ',
       	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-      	     		     			 		 		                                	 if (row.entity.noteFlag != 1) {
+      	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
       	     		     			 		   		                                         return 'red';
       	     		     			 		   		                                     }
       	     		     			 		  		                                	} ,
@@ -1200,7 +1200,7 @@ angular.module('newApp')
      	     		     			 		 		                                { name: 'edit', displayName: '', width:'4%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
      	     		     			 		    		                                 cellTemplate:' <a ng-click="grid.appScope.getTradeData(row)" ng-show="row.entity.typeOfLead == \'Trade-In Appraisal\'" href="/showPdf/{{row.entity.id}}" target="_blank" style="margin-top:7px;margin-left:6px;" >View</a>',
      	     		     			 		    		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     		     			 		    		                                 if (row.entity.noteFlag != 1) {
+     	     		     			 		    		                                 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
      	     		     			 		    		                                         return 'red';
      	     		     			 		    		                                     }
      	     		     			 		   		                                	} ,
@@ -1210,7 +1210,7 @@ angular.module('newApp')
      	     		     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'35%',cellEditableCondition: false,
      	     		     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-left:3%;">SOLD</button><button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
      	     		     	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-     	     		     	      			 		                                	 if (row.entity.noteFlag != 1) {
+     	     		     	      			 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
      	     		     	       			   		                                         return 'red';
      	     		     	       			   		                                     }
      	     		     	       			  		                                	} ,
