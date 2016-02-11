@@ -9681,6 +9681,7 @@ public class Application extends Controller {
     private static void sendMail(Map map) {
     	
     	AuthUser logoUser = getLocalUser();
+    	
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
 		Properties props = new Properties();
@@ -9695,15 +9696,15 @@ public class Application extends Controller {
 		});
     	try
 		{
-    		InternetAddress[] usersArray = new InternetAddress[2];
+    		/*InternetAddress[] usersArray = new InternetAddress[2];
     		int index = 0;
     		usersArray[0] = new InternetAddress(map.get("email").toString());
-    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());
+    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
     		
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(emailUsername));
 			message.setRecipients(Message.RecipientType.TO,
-					usersArray);
+					InternetAddress.parse(map.get("email").toString()));
 			message.setSubject("TEST DRIVE CONFIRMATION");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
@@ -18394,14 +18395,13 @@ public class Application extends Controller {
 	    		uNotes.save();
 	    		
 	    		Map map = new HashMap();
-	    		map.put("email",user.getEmail());
+	    		map.put("email",leadVM.custEmail);
 	    		map.put("confirmDate", confirmDate);
 	    		map.put("confirmTime",leadVM.bestTime);
 	    		map.put("vin", vehicle.getVin());
 	    		map.put("uname", user.firstName+" "+user.lastName);
 	    		map.put("uphone", user.phone);
 	    		map.put("uemail", user.email);
-	    		map.put("custEmail", leadVM.custEmail);
 	    		
 	    		makeToDo(vehicle.vin);
 	    		
