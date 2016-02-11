@@ -11861,13 +11861,13 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result setScheduleStatusClose(Long id,Integer option,String reason) {
+    public static Result setScheduleStatusClose(Long id,String leadtype,String reason) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
-    		if(option==0) {
+    		if(leadtype.equals("Schedule Test Drive")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setLeadStatus("CANCEL");
     			schedule.setStatusDate(currDate);
@@ -11885,7 +11885,7 @@ public class Application extends Controller {
         		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
         		uNotes.save();
         		
-    		} else if(option == 1) {
+    		} else if(leadtype.equals("Request More Info")) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
     			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
@@ -11903,7 +11903,7 @@ public class Application extends Controller {
         		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
         		uNotes.save();
         		
-    		} else if(option == 2) {
+    		} else if(leadtype.equals("Trade-In Appraisal")) {
     			TradeIn info = TradeIn.findById(id);
     			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
@@ -18374,10 +18374,6 @@ public class Application extends Controller {
 	    		
 	    		test.save();
 	    		
-	    		if(parentFlag == 0){
-	    			parentFlag = 1;
-	    			parentLeadId = test.getId();
-	    		}
 	    		
 	    		UserNotes uNotes = new UserNotes();
 	    		uNotes.setNote("Lead has been created");
@@ -18400,9 +18396,11 @@ public class Application extends Controller {
 	    		map.put("uemail", user.email);
 	    		makeToDo(vehicle.vin);
 	    		
-	    		
+
 	    		if(parentFlag == 0){
 	    			sendMail(map);
+	    			parentFlag = 1;
+	    			parentLeadId = test.getId();
 	    		}
     		   
     		   

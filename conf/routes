@@ -110,7 +110,7 @@ GET     /getUserLocationByDateInfo/:startDate/:endDate/:locOrPer  	 controllers.
 GET		/deleteUserById/:id			controllers.Application.deleteUserById(id:Integer)
 GET		/getAllScheduleTestAssigned	controllers.Application.getAllScheduleTestAssigned()
 #POST	/setVehicleAndScheduleStatus	controllers.Application.setVehicleAndScheduleStatus()
-GET		/setScheduleStatusClose/:id/:option/:reason		controllers.Application.setScheduleStatusClose(id:Long,option:Integer,reason:String)
+GET		/setScheduleStatusClose/:id/:leadtype/:reason		controllers.Application.setScheduleStatusClose(id:Long,leadtype:String,reason:String)
 GET     /setScheduleConfirmClose/:id/:option  		controllers.Application.setScheduleConfirmClose(id:Long,option:Integer)
 GET		/getAllRequestInfoSeen		controllers.Application.getAllRequestInfoSeen()
 GET     /getAllLostAndCompLeads			controllers.Application.getAllLostAndCompLeads()

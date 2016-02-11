@@ -2959,7 +2959,8 @@ angular.module('newApp')
     	}
     	
     	$scope.saveScheduleClose = function() {
-	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.option+'/'+$scope.reasonToCancel)
+    		console.log($scope.scheduleStatusCancel);
+	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.typeOfLead+'/'+$scope.reasonToCancel)
 				.success(function(data) {
 					$scope.getScheduleTestData();
 					$('#scheduleCancelBtn').click();
@@ -2968,11 +2969,12 @@ angular.module('newApp')
     				    type:'success',
     				    text: "Status changed successfully",
     				});
-					for(var i=0;i<$scope.scheduleList.length;i++) {
+					$scope.getAllSalesPersonRecord($scope.salesPerson);
+					/*for(var i=0;i<$scope.scheduleList.length;i++) {
 	 					if($scope.scheduleStatusCancel.id == $scope.scheduleList[i].id) {
 	 						$scope.scheduleList.splice(i,1);
 	 					}
-	 				}
+	 				}*/
 			});
     	}
     	
@@ -3127,7 +3129,7 @@ angular.module('newApp')
     			leads.option = 2;
     		}
     		var change = "0";
-    		$http.get('/setScheduleStatusClose/'+leads.id+'/'+leads.option+'/'+change)
+    		$http.get('/setScheduleStatusClose/'+leads.id+'/'+leads.typeOfLead+'/'+change)
 			.success(function(data) {
 				$.pnotify({
 				    title: "Success",
