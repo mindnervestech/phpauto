@@ -12174,7 +12174,7 @@ public class Application extends Controller {
     	Date currDate = new Date();
 		if(typeOfLead.equals("requestMore") || typeOfLead.equals("Request More Info")) {
 			RequestMoreInfo requestMore = RequestMoreInfo.findById(Long.parseLong(id));
-			requestMore.setStatus("TestDriveCompleted");
+			requestMore.setTestDriveStatus("TestDriveCompleted");
 			requestMore.setTestDriveCompletedComment(comment);
 			requestMore.setTestDriveCompletedDuration(duration);
 			requestMore.update();
@@ -12193,7 +12193,8 @@ public class Application extends Controller {
 		if(typeOfLead.equals("scheduleTest") || typeOfLead.equals("Schedule Test Drive")) {
 			ScheduleTest scheduleTest = ScheduleTest.findById(Long.parseLong(id));
 			
-			scheduleTest.setLeadStatus("TestDriveCompleted");
+			//scheduleTest.setLeadStatus("TestDriveCompleted");
+			scheduleTest.setTestDriveStatus("TestDriveCompleted");
 			scheduleTest.setTestDriveCompletedComment(comment);
 			scheduleTest.setTestDriveCompletedDuration(duration);
 			scheduleTest.update();
@@ -12212,7 +12213,7 @@ public class Application extends Controller {
 		if(typeOfLead.equals("tradeIn") || typeOfLead.equals("Trade-In Appraisal")) {
 			TradeIn tradeIn = TradeIn.findById(Long.parseLong(id));
 			
-			tradeIn.setLeadStatus("TestDriveCompleted");
+			tradeIn.setTestDriveStatus("TestDriveCompleted");
 			tradeIn.setTestDriveCompletedComment(comment);
 			tradeIn.setTestDriveCompletedDuration(duration);
 			tradeIn.update();
@@ -12848,7 +12849,6 @@ public class Application extends Controller {
     		}else{
     			user = AuthUser.findById(id);
     		}
-    			
 	    	
 	    	List<ScheduleTest> listData = ScheduleTest.findAllAssigned(user);
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);

@@ -83,7 +83,18 @@ public class TradeIn extends Model {
 	public String testDriveCompletedComment;
 	public String testDriveCompletedDuration;
 	public int onlineOrOfflineLeads;
+public String testDriveStatus;
 	
+	
+	
+	
+	
+	public String getTestDriveStatus() {
+		return testDriveStatus;
+	}
+	public void setTestDriveStatus(String testDriveStatus) {
+		this.testDriveStatus = testDriveStatus;
+	}
 	public String getEnthicity() {
 		return enthicity;
 	}
@@ -577,7 +588,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findByConfirmLeads(Long locationId, AuthUser user) {
-		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
 	}
 	
 	public static List<TradeIn> findAllByUser(AuthUser user) {
@@ -594,7 +605,7 @@ public class TradeIn extends Model {
 	}
 	
 	public static List<TradeIn> findAllCompletedToUser(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("status", "TestDriveCompleted").findList();
+		return find.where().eq("assignedTo", user).eq("status", null).eq("testDriveStatus", "TestDriveCompleted").findList();
 	}
 	
 	

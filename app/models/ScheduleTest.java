@@ -56,8 +56,18 @@ public class ScheduleTest extends Model {
 	public int onlineOrOfflineLeads;
 	public Integer premiumFlag;
 	public Long parentId;
+	public String testDriveStatus;
 	
 	
+	
+	
+	
+	public String getTestDriveStatus() {
+		return testDriveStatus;
+	}
+	public void setTestDriveStatus(String testDriveStatus) {
+		this.testDriveStatus = testDriveStatus;
+	}
 	public String getEnthicity() {
 		return enthicity;
 	}
@@ -306,7 +316,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllCompletedToUser(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("leadStatus", "TestDriveCompleted").orderBy("scheduleDate desc").findList();
+		return find.where().eq("assignedTo", user).eq("leadStatus", null).eq("testDriveStatus","TestDriveCompleted").orderBy("scheduleDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllSeenComplete(AuthUser user) {
@@ -343,7 +353,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findByConfirmLeads(Long locationId, AuthUser user) {
-		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("locations.id", locationId).eq("lead_status", null).eq("assignedTo", user).findList();
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("locations.id", locationId).eq("lead_status", null).eq("testDriveStatus", null).eq("assignedTo", user).findList();
 	}
 	
 	public static List<ScheduleTest> getAllFailed() {

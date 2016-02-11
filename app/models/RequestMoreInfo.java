@@ -46,9 +46,18 @@ public class RequestMoreInfo extends Model {
 	public Integer premiumFlag;
 	public Long parentId;
 	public int onlineOrOfflineLeads;
+public String testDriveStatus;
 	
 	
 	
+	
+	
+	public String getTestDriveStatus() {
+		return testDriveStatus;
+	}
+	public void setTestDriveStatus(String testDriveStatus) {
+		this.testDriveStatus = testDriveStatus;
+	}
 	public String getEnthicity() {
 		return enthicity;
 	}
@@ -315,11 +324,11 @@ public class RequestMoreInfo extends Model {
 	}
 	
 	public static List<RequestMoreInfo> findAllCompletedToUser(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("status", "TestDriveCompleted").findList();
+		return find.where().eq("assignedTo", user).eq("status", null).eq("testDriveStatus", "TestDriveCompleted").findList();
 	}
 	
 	public static List<RequestMoreInfo> findByConfirmLeads(Long locationId, AuthUser user) {
-		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
 	}
 	
 	public static List<RequestMoreInfo> findByVinAndAssignedUser(String vin,AuthUser user) {
