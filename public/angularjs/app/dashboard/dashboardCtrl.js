@@ -1329,7 +1329,7 @@ angular.module('newApp')
         	     	     	     			 	    	 		 $scope.gridOptions10.enableHorizontalScrollbar = 0;
         	     	     	     			 	    	 		 $scope.gridOptions10.enableVerticalScrollbar = 2;
         	     	     	     			 	    	 		 $scope.gridOptions10.columnDefs = [
-        	     	     	     			 	    	 		                                 { name: 'vin', displayName: 'Vin', width:'12%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,
         	     	     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	     	     			 	    	 		                                       if (row.entity.isRead === false) {
         	     	     	     			 	    	 		                                         return 'red';
@@ -1350,14 +1350,14 @@ angular.module('newApp')
         	     	     	     			 	    	  		                                     }
         	     	     	     			 	    	 		                                	} ,
         	     	     	     			 	    	 		                                 },
-        	     	     	     			 	    	 		                                 { name: 'name', displayName: 'Name', width:'12%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                                 { name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
         	     	     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	     	     			 	    	  		                                       if (row.entity.isRead === false) {
         	     	     	     			 	    	  		                                         return 'red';
         	     	     	     			 	    	  		                                     }
         	     	     	     			 	    	 		                                	} ,
         	     	     	     			 	    	 		                                 },
-        	     	     	     			 	    	 		                                 { name: 'phone', displayName: 'Phone', width:'12%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                                 { name: 'phone', displayName: 'Phone', width:'10%',cellEditableCondition: false,
         	     	     	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	     	     			 	    	  		                                       if (row.entity.isRead === false) {
         	     	     	     			 	    	  		                                         return 'red';
@@ -1372,7 +1372,7 @@ angular.module('newApp')
         	     	     	     			 	    	  		                                     }
         	     	     	     			 	    	 		                                	} ,
         	     	     	     			 	    	 		                                 },
-        	     	     	     			 	    	 		                             { name: 'status', displayName: 'Status', width:'10%',cellEditableCondition: false,
+        	     	     	     			 	    	 		                             { name: 'status', displayName: 'Status', width:'8%',cellEditableCondition: false,
         	     	      	     			 	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
         	     	      	     			 	    	  		                                       if (row.entity.isRead === false) {
         	     	      	     			 	    	  		                                         return 'red';
@@ -1386,6 +1386,20 @@ angular.module('newApp')
         	     	       	     			 	    	  		                                     }
         	     	       	     			 	    	 		                                	} ,
         	     	       	     			 	    	 		                                 },
+        	     	       	     			 	    	 		                           { name: 'testDriveCompletedComment', displayName: 'Comments', width:'10%',cellEditableCondition: false,
+         	     	       	     			 	    	 		                               	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+         	     	       	     			 	    	  		                                       if (row.entity.isRead === false) {
+         	     	       	     			 	    	  		                                    	   return 'red';
+         	     	       	     			 	    	  		                                     }
+         	     	       	     			 	    	 		                               } ,
+         	     	       	     			 	    	 		                          },  
+		         	     	       	     			 	    	 		                  { name: 'testDriveCompletedDuration', displayName: 'Duration', width:'7%',cellEditableCondition: false,
+		       	     	       	     			 	    	 		                               	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		       	     	       	     			 	    	  		                                       if (row.entity.isRead === false) {
+		       	     	       	     			 	    	  		                                    	   return 'red';
+		       	     	       	     			 	    	  		                                     }
+		       	     	       	     			 	    	 		                               } ,
+		       	     	       	     			 	    	 		                          },
         	     	      	     			 	    	 		                            
         	     	     	     			 	    	 		                             
         	     	     	     			 	    	 		                                /*{ name: 'btnSold', displayName: '',enableFiltering: false, width:'12%',cellEditableCondition: false,

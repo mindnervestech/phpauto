@@ -6313,6 +6313,8 @@ public class Application extends Controller {
     		vm.custZipCode = info.custZipCode;
     		vm.enthicity = info.enthicity;
     		vm.status =info.leadStatus;
+    		vm.testDriveCompletedComment = info.testDriveCompletedComment;
+    		vm.testDriveCompletedDuration = info.testDriveCompletedDuration;
     		if(info.statusDate != null){
     			vm.statusDate = df.format(info.statusDate);
     		}

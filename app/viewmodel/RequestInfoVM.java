@@ -44,6 +44,8 @@ public class RequestInfoVM {
 	public String pdfPath;
 	public LeadVM leadsValue;
 	public String userRole;
+	public String testDriveCompletedComment;
+	public String testDriveCompletedDuration;
 	public List<RequestInfoVM> parentChildLead;
 	
 	
