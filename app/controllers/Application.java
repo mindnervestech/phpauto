@@ -6365,7 +6365,7 @@ public class Application extends Controller {
     		}
     		vm.option = 0;
     		findSchedulParentChildAndBro(infoVMList, info, df, vm);
-    		infoVMList.add(vm);
+    		//infoVMList.add(vm);
     	}
     	
     	for(TradeIn info: tradeIns) {
@@ -6454,7 +6454,7 @@ public class Application extends Controller {
     		}
     		vm.option = 2;
     		findTreadParentChildAndBro(infoVMList, info, df, vm);
-    		infoVMList.add(vm);
+    		//infoVMList.add(vm);
     	}
     	
     	for(RequestMoreInfo info: requestMoreInfos) {
@@ -6544,7 +6544,7 @@ public class Application extends Controller {
     		vm.option = 1;
     		
     		findRequestParentChildAndBro(infoVMList, info, df, vm);
-    		infoVMList.add(vm);
+    		//infoVMList.add(vm);
     	}
     }
     
@@ -12173,7 +12173,7 @@ public class Application extends Controller {
 			requestMore.update();
 			
 			UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Test Drive Successfully");
+    		uNotes.setNote("Test Drive Successfully Completed. Duration "+duration+" minutes");
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;
@@ -12192,7 +12192,7 @@ public class Application extends Controller {
 			scheduleTest.update();
 			
 			UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Test Drive Successfully");
+			uNotes.setNote("Test Drive Successfully Completed. Duration "+duration+" minutes");
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;
@@ -12211,7 +12211,7 @@ public class Application extends Controller {
 			tradeIn.update();
 			
 			UserNotes uNotes = new UserNotes();
-    		uNotes.setNote("Test Drive Successfully");
+			uNotes.setNote("Test Drive Successfully Completed. Duration "+duration+" minutes");
     		uNotes.setAction("Other");
     		uNotes.createdDate = currDate;
     		uNotes.createdTime = currDate;

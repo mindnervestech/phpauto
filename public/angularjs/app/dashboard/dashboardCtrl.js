@@ -1503,8 +1503,6 @@ angular.module('newApp')
    	  			$scope.testCompleted.typeOfLead = entity.typeOfLead;
    	  			$("#completedPopup").modal();
    	  		}
-   	  		
-   	  		console.log(entity);
    	  	}
    	  	
    	  	$scope.showPdf = function(id){
