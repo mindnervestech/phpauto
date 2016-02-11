@@ -9695,10 +9695,15 @@ public class Application extends Controller {
 		});
     	try
 		{
+    		InternetAddress[] usersArray = new InternetAddress[2];
+    		int index = 0;
+    		usersArray[0] = new InternetAddress(map.get("email").toString());
+    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());
+    		
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(emailUsername));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(map.get("email").toString()));
+					usersArray);
 			message.setSubject("TEST DRIVE CONFIRMATION");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
@@ -18396,6 +18401,8 @@ public class Application extends Controller {
 	    		map.put("uname", user.firstName+" "+user.lastName);
 	    		map.put("uphone", user.phone);
 	    		map.put("uemail", user.email);
+	    		map.put("custEmail", leadVM.custEmail);
+	    		
 	    		makeToDo(vehicle.vin);
 	    		
 
