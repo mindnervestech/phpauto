@@ -6274,7 +6274,8 @@ public class Application extends Controller {
     
     public static void fillLeadsData(List<ScheduleTest> listData, List<RequestMoreInfo> requestMoreInfos, List<TradeIn> tradeIns, List<RequestInfoVM> infoVMList){
     	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
+    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm");
+    	SimpleDateFormat hourSDF = new SimpleDateFormat("hh:mm a");
     	Calendar time = Calendar.getInstance();
     	
     	for(ScheduleTest info: listData) {
@@ -6289,6 +6290,13 @@ public class Application extends Controller {
     			vm.year = vehicle.year;
     			vm.mileage = vehicle.mileage;
 				vm.price = vehicle.price;
+				VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+        		if(vehicleImage!=null) {
+        			vm.imgId = vehicleImage.getId().toString();
+        		}
+        		else {
+        			vm.imgId = "/assets/images/no-image.jpg";
+        		}
     		}
     		vm.name = info.name;
     		vm.phone = info.phone;
@@ -6297,7 +6305,8 @@ public class Application extends Controller {
     			vm.bestDay = df.format(info.confirmDate);
     		}
     		if(info.confirmTime != null){
-    			vm.bestTime = timedf.format(info.confirmTime);
+    			// Date _24HourDt = timedf.parse(info.confirmTime);
+    			vm.bestTime = hourSDF.format(info.confirmTime);
     		}	
 			vm.howContactedUs = info.contactedFrom;
     		vm.howFoundUs = info.hearedFrom;
@@ -6371,6 +6380,13 @@ public class Application extends Controller {
     			vm.mileage = vehicle.mileage;
     			vm.year = vehicle.year;
 				vm.price = vehicle.price;
+				VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+        		if(vehicleImage!=null) {
+        			vm.imgId = vehicleImage.getId().toString();
+        		}
+        		else {
+        			vm.imgId = "/assets/images/no-image.jpg";
+        		}
     		}
     		vm.name = info.firstName;
     		vm.phone = info.phone;
@@ -6379,7 +6395,7 @@ public class Application extends Controller {
     			vm.bestDay = df.format(info.confirmDate);
     		}
     		if(info.confirmTime != null){
-    			vm.bestTime = timedf.format(info.confirmTime);
+    			vm.bestTime = hourSDF.format(info.confirmTime);
     		}
 			vm.howContactedUs = info.contactedFrom;
     		vm.howFoundUs = info.hearedFrom;
@@ -6453,6 +6469,13 @@ public class Application extends Controller {
     			vm.mileage = vehicle.mileage;
     			vm.year = vehicle.year;
 				vm.price = vehicle.price;
+				VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+        		if(vehicleImage!=null) {
+        			vm.imgId = vehicleImage.getId().toString();
+        		}
+        		else {
+        			vm.imgId = "/assets/images/no-image.jpg";
+        		}
     		}
     		vm.name = info.name;
     		vm.phone = info.phone;
@@ -6461,7 +6484,7 @@ public class Application extends Controller {
     			vm.bestDay = df.format(info.confirmDate);
     		}
     		if(info.confirmTime != null){
-    			vm.bestTime = timedf.format(info.confirmTime);
+    			vm.bestTime = hourSDF.format(info.confirmTime);
     		}
 			vm.howContactedUs = info.contactedFrom;
     		vm.howFoundUs = info.hearedFrom;
@@ -6851,7 +6874,7 @@ public class Application extends Controller {
     }
     
     public static void findSchedulParentChildAndBro(List<RequestInfoVM> infoVMList, ScheduleTest info,SimpleDateFormat df, RequestInfoVM vm){
-    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
+    	SimpleDateFormat timedf = new SimpleDateFormat("hh:mm a");
     	List<RequestInfoVM> rList2 = new ArrayList<>();
 		if(info.parentId != null){
 			ScheduleTest sTest = ScheduleTest.findByIdAndParent(info.parentId);
@@ -6978,7 +7001,7 @@ public class Application extends Controller {
     }
     
     public static void findTreadParentChildAndBro(List<RequestInfoVM> infoVMList, TradeIn info,SimpleDateFormat df, RequestInfoVM vm){
-    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
+    	SimpleDateFormat timedf = new SimpleDateFormat("hh:mm a");
     	List<RequestInfoVM> rList2 = new ArrayList<>();
 		if(info.parentId != null){
 			TradeIn tIn = TradeIn.findByIdAndParent(info.parentId);
@@ -7105,7 +7128,7 @@ public class Application extends Controller {
     }
     
     public static void findRequestParentChildAndBro(List<RequestInfoVM> infoVMList, RequestMoreInfo info,SimpleDateFormat df, RequestInfoVM vm){
-    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
+    	SimpleDateFormat timedf = new SimpleDateFormat("hh:mm a");
     	List<RequestInfoVM> rList2 = new ArrayList<>();
 		if(info.parentId != null){
 			
