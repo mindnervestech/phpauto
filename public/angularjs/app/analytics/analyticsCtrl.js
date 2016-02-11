@@ -628,7 +628,8 @@ $scope.showLeads = function(){
 		$http.get('/getCustomerRequestLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 			console.log("succeess");
 			console.log(data);
-			 createChart(data);
+			$scope.listingLog = data.pList;
+			 createChart(data.sAndValues);
 		});
 		
 	}
@@ -649,11 +650,11 @@ $scope.showLeads = function(){
 				endDate = "0";
 			}
 			
-			/*$http.get('/getCustomerRequestLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
+			$http.get('/getviniewsChartLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 				console.log("succeess");
 				console.log(data);
 				 createChart(data);
-			});*/
+			});
  }
  
   $scope.showFollwerChart = function(){
@@ -673,11 +674,13 @@ $scope.showLeads = function(){
 				endDate = "0";
 			}
 			
-			/*$http.get('/getCustomerRequestLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
+			$http.get('/getFollowerLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 				console.log("succeess");
 				console.log(data);
 				 createChart(data);
-			});*/
+			});
+			
+			
   }
 	
 	 var seriesOptions = [];

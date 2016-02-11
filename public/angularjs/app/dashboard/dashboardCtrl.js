@@ -2788,19 +2788,31 @@ angular.module('newApp')
 	
 		$scope.getAllSalesPersonRecord = function(id){
 		       console.log(id);
+		       console.log($scope.userType);
 		       $scope.getAllListLeadDate = [];
-		      
+		       var countUnReadLead = 0;
 		       $scope.salesPerson = id;
 		       	if($scope.salesPerson == undefined){
 		       		$scope.salesPerson = 0;
 		       		id = 0;
 		       	}
+		       	
+		       	
 		       
 		       	$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
 				.success(function(data) {
 				$scope.gridOptions2.data = data;
 				$scope.AllScheduleTestAssignedList = data;
-				
+					if($scope.userType == "Sales Person"){
+						angular.forEach($scope.gridOptions2.data,function(value,key){
+			        		$scope.getAllListLeadDate.push(value);
+			        		if(value.noteFlag == 0){
+			        			countUnReadLead++;
+			        		}
+			        	});
+						$scope.lengthOfAllLead = countUnReadLead;
+					}
+					
 				
 			    });
  
@@ -2808,8 +2820,15 @@ angular.module('newApp')
 			.success(function(data) {
 			$scope.gridOptions5.data = data;
 			$scope.AllRequestInfoSeenList = data;
-			
-			
+			if($scope.userType == "Sales Person"){
+				angular.forEach($scope.gridOptions5.data,function(value,key){
+	        		$scope.getAllListLeadDate.push(value);
+	        		if(value.noteFlag == 0){
+	        			countUnReadLead++;
+	        		}
+	        	});
+				$scope.lengthOfAllLead = countUnReadLead;
+			}
 		    });
 
   
@@ -2818,13 +2837,19 @@ angular.module('newApp')
 					console.log(data);
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
-			 		
-			 		
-			 });
+			 		if($scope.userType == "Sales Person"){
+						angular.forEach($scope.gridOptions3.data,function(value,key){
+			        		$scope.getAllListLeadDate.push(value);
+			        		if(value.noteFlag == 0){
+			        			countUnReadLead++;
+			        		}
+			        	});
+						$scope.lengthOfAllLead = countUnReadLead;
+					}
+				});
 			 
 			 
 			 $scope.getAllCanceledLeads();
-			 
 			 
 			 $http.get('/getAllSalesPersonLostAndComp/'+id)
 				.success(function(data) {
@@ -2851,28 +2876,33 @@ angular.module('newApp')
 					$scope.completedL = data;
 				});
 			 
-			 var countUnReadLead = 0;
-			 angular.forEach($scope.gridOptions5.data,function(value,key){
-	        		$scope.getAllListLeadDate.push(value);
-	        		if(value.noteFlag == 0){
-	        			countUnReadLead++;
-	        		}
-	        	});
-			 angular.forEach($scope.gridOptions2.data,function(value,key){
-	        		$scope.getAllListLeadDate.push(value);
-	        		if(value.noteFlag == 0){
-	        			countUnReadLead++;
-	        		}
-	        	});
-			 angular.forEach($scope.gridOptions3.data,function(value,key){
-	        		$scope.getAllListLeadDate.push(value);
-	        		if(value.noteFlag == 0){
-	        			countUnReadLead++;
-	        		}
-	        	});
+			 
+			 if($scope.userType == "Manager"){
+				 angular.forEach($scope.gridOptions5.data,function(value,key){
+		        		$scope.getAllListLeadDate.push(value);
+		        		if(value.noteFlag == 0){
+		        			countUnReadLead++;
+		        		}
+		        	});
+				 angular.forEach($scope.gridOptions2.data,function(value,key){
+		        		$scope.getAllListLeadDate.push(value);
+		        		if(value.noteFlag == 0){
+		        			countUnReadLead++;
+		        		}
+		        	});
+				 angular.forEach($scope.gridOptions3.data,function(value,key){
+		        		$scope.getAllListLeadDate.push(value);
+		        		if(value.noteFlag == 0){
+		        			countUnReadLead++;
+		        		}
+		        	});
+				 
+				 $scope.lengthOfAllLead = countUnReadLead;
+			 }
+			
 	    	
 	        	$scope.gridOptions7.data = $scope.getAllListLeadDate;
-	        	$scope.lengthOfAllLead = countUnReadLead;
+	        	
 			
 	}
 		

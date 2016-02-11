@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -21341,6 +21342,70 @@ public class Application extends Controller {
 		return ok(Json.toJson(user));
 	}
 	
+	
+	public static Result getFollowerLeads(Long id, String vin,
+			String status, String startDate, String endDate) {
+		
+	/*	List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vin, Long.valueOf(session("USER_LOCATION")));
+    	int followerCount = pAlert.size();*/
+		
+			return ok();
+	}
+	
+	
+	public static Result getviniewsChartLeads(Long id, String vin,
+			String status, String startDate, String endDate) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    	String params1 = "&type=visitors-list&date=last-30-days&limit=all";
+    		int totalTime = 0;
+    		int flagDate = 1;
+    		int lagCount = 0;
+    		int newuserCount = 0;
+    		int avgDur = 0;
+    		
+    		if (startDate.equals("0") || endDate.equals("0")) {
+				flagDate = 1;
+			}
+
+			JSONArray jsonArray;
+			try {
+				jsonArray = new JSONArray(callClickAPI(params1)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+				for(int i=0;i<jsonArray.length();i++){
+					
+					String checkDate = null;
+					if (status.equals("Newly Arrived")) {
+						//	checkDate = jsonArray.getJSONObject(i).get("time_pretty").toString();
+							String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
+							String arrNew[] = arr[3].split(",");
+							checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
+							try {
+								Date thedate = df.parse(checkDate);
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+					}
+					
+					
+					
+	    			String data = jsonArray.getJSONObject(i).get("landing_page").toString();
+	    			String arr[] = data.split("/");
+	    			if(arr.length > 5){
+	    			  if(arr[5] != null){
+	    				  if(arr[5].equals(vin)){
+	    					  lagCount++;
+	    				}
+	    			  }
+	    			}
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			return ok();
+	}
+	
 	public static Result getCustomerRequestLeads(Long id, String vin,
 			String status, String startDate, String endDate) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -21351,6 +21416,7 @@ public class Application extends Controller {
 		Map<Long, Long> mapdateOnline = new HashMap<Long, Long>();
 		List<List<Long>> lonOffline = new ArrayList<>();
 		List<List<Long>> lonOnline = new ArrayList<>();
+		List<PriceChangeVM> pList = new ArrayList<>(); 
 
 		if (startDate.equals("0") || endDate.equals("0")) {
 			flagDate = 1;
@@ -21790,6 +21856,41 @@ public class Application extends Controller {
 
 							});
 				}
+				
+						
+				List<PriceChange> pChange = PriceChange.findByVin(vin);
+				
+				/*Collections.sort(pChange,new Comparator<List<PriceChange>>() {
+							@Override
+							public int compare(List<PriceChange> o1, List<PriceChange> o2) {
+								return o1..compareTo(o2.get(0));
+							}
+
+						});*/
+				
+				PriceChangeVM pVm1 = new PriceChangeVM();
+				pVm1.person = "Has been added to the invnetory";
+				pVm1.dateTime =vehicle.postedDate.toString();
+				pList.add(pVm1);
+				
+				for(PriceChange pChg:pChange){
+					String dateChanege = df.format(pChg.getDateTime());
+					Date changDate = null;
+					try {
+						changDate = df.parse(dateChanege);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					if (vehicle.postedDate.before(changDate) || vehicle.postedDate.equals(changDate)) {
+						PriceChangeVM pVm = new PriceChangeVM();
+						pVm.person = "Price Change"+pChg.price;
+						pVm.dateTime = df.format(pChg.dateTime);
+						pList.add(pVm);
+					}
+				}
+				
 			}
 		} else if (status.equals("Sold")) {
 
@@ -22238,10 +22339,39 @@ public class Application extends Controller {
 
 							});
 				}
+				
+				List<PriceChange> pChange = PriceChange.findByVin(vin);
+				
+				PriceChangeVM pVm1 = new PriceChangeVM();
+				pVm1.person = "Has been added to the invnetory";
+				pVm1.dateTime =vehicle.postedDate.toString();
+				pList.add(pVm1);
+				
+				for(PriceChange pChg:pChange){
+					String dateChanege = df.format(pChg.getDateTime());
+					Date changDate = null;
+					try {
+						changDate = df.parse(dateChanege);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					if (vehicle.postedDate.before(changDate) && vehicle.soldDate.after(changDate)){
+						PriceChangeVM pVm = new PriceChangeVM();
+						pVm.person = "Price Change"+pChg.price;
+						pVm.dateTime = df.format(pChg.dateTime);
+						pList.add(pVm);
+					}
+				}
+				
 			}
 		}
+		Map map = new HashMap();
+		map.put("sAndValues",sAndValues);
+		map.put("pList",pList);
 
-		return ok(Json.toJson(sAndValues));
+		return ok(Json.toJson(map));
 	}
 	
 	public static Result getCustomerRequest(Long id,String vin,String status, String startDate, String endDate){

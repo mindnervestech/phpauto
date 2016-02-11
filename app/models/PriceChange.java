@@ -18,6 +18,8 @@ public class PriceChange extends Model {
 	public String price;
 	public String person;
 	public String vin;
+	public Date dateTime;
+	
 	public String getVin() {
 		return vin;
 	}
@@ -48,7 +50,7 @@ public class PriceChange extends Model {
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
 	}
-	public Date dateTime;
+	
 	public static Finder<Long,PriceChange> find = new Finder<>(Long.class,PriceChange.class);
 	public static List<PriceChange> findByVin(String vin) {
 		return find.where().eq("vin", vin).findList();
