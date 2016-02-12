@@ -21598,22 +21598,88 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						}
 						
 						if (vehicle.postedDate.before(thedate) || vehicle.postedDate.equals(thedate)) {
+							
+							if (flagDate == 1) {
+								startDate = df.format(thedate);
+								endDate = df.format(thedate);
+							}
+							try {
+								if ((thedate.after(df.parse(startDate)) && thedate.before(df.parse(endDate))) || thedate.equals(df.parse(startDate)) || thedate.equals(df.parse(endDate))) {
+								
+								Long countCar = 1L;
+								String data = jsonArray.getJSONObject(i).get("landing_page").toString();
+								String arrVin[] = data.split("/");
+								if(arrVin.length > 5){
+								  if(arrVin[5] != null){
+									  if(arrVin[5].equals(vin)){
+										  Long objectDate = mapdateView.get(thedate.getTime()+ (1000 * 60 * 60 * 24));
+											if (objectDate == null) {
+												mapdateView.put(thedate.getTime()+ (1000 * 60 * 60 * 24),countCar);
+											} else {
+												mapdateView.put(thedate.getTime()+ (1000 * 60 * 60 * 24),objectDate + countCar);
+											}
+									}
+								  }
+								}
+}
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}		
+				}else if (status.equals("Sold")) {
+					Vehicle vehicle = Vehicle.findById(id);
+					
+					String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
+					String arrNew[] = arr[3].split(",");
+					checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
+					try {
+						thedate = df1.parse(checkDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					if ((vehicle.postedDate.before(thedate) && vehicle.soldDate
+							.after(thedate))
+							|| vehicle.postedDate
+									.equals(thedate)
+							|| vehicle.soldDate
+									.equals(thedate)) {
+						
+						if (flagDate == 1) {
+							startDate = df.format(thedate);
+							endDate = df.format(thedate);
+						}
+							
+						try {
+							if ((thedate.after(df.parse(startDate)) && thedate.before(df.parse(endDate))) || thedate.equals(df.parse(startDate)) || thedate.equals(df.parse(endDate))) {
+							
 							Long countCar = 1L;
 							String data = jsonArray.getJSONObject(i).get("landing_page").toString();
-			    			String arrVin[] = data.split("/");
-			    			if(arrVin.length > 5){
-			    			  if(arrVin[5] != null){
-			    				  if(arrVin[5].equals(vin)){
-			    					  Long objectDate = mapdateView.get(thedate.getTime()+ (1000 * 60 * 60 * 24));
-			    						if (objectDate == null) {
-			    							mapdateView.put(thedate.getTime()+ (1000 * 60 * 60 * 24),countCar);
-			    						} else {
-			    							mapdateView.put(thedate.getTime()+ (1000 * 60 * 60 * 24),objectDate + countCar);
-			    						}
-			    				}
-			    			  }
-			    			}
+							String arrVin[] = data.split("/");
+							if(arrVin.length > 5){
+							  if(arrVin[5] != null){
+								  if(arrVin[5].equals(vin)){
+									  Long objectDate = mapdateView.get(thedate.getTime()+ (1000 * 60 * 60 * 24));
+										if (objectDate == null) {
+											mapdateView.put(thedate.getTime()+ (1000 * 60 * 60 * 24),countCar);
+										} else {
+											mapdateView.put(thedate.getTime()+ (1000 * 60 * 60 * 24),objectDate + countCar);
+										}
+								}
+							  }
+							}
+							
+							
+								}
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
+		    			
+		    			
+					}
 				}
     			
 			}
