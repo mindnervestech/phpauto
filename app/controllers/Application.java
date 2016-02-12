@@ -6490,8 +6490,9 @@ public class Application extends Controller {
     		vm.phone = info.phone;
     		vm.email = info.email;
     		if(info.bestDay != null){
-    			String chaArr[] = info.bestDay.split("-");
-    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+    			/*String chaArr[] = info.bestDay.split("-");
+    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
+    			vm.bestDay = info.bestDay;
     		}
     		if(info.confirmTime != null){
     			vm.bestTime = hourSDF.format(info.confirmTime);
@@ -6805,7 +6806,7 @@ public class Application extends Controller {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeen(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
@@ -7377,7 +7378,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {
@@ -8361,7 +8362,7 @@ public class Application extends Controller {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<TradeIn> listData = TradeIn.findAllSeen(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
 	    	for(TradeIn info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
@@ -12887,7 +12888,7 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findAllScheduledUser(user);
 	    	List<TradeIn> tradeIns = TradeIn.findAllScheduledUser(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	Calendar time = Calendar.getInstance();
 	    	for(ScheduleTest info: listData) {
@@ -13075,8 +13076,9 @@ public class Application extends Controller {
 	    		vm.enthicity = info.enthicity;
 	    		vm.pdfPath = info.pdfPath;
 	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];
+	    			/*String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];*/
+	    			vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Trade-In Appraisal";
@@ -13346,8 +13348,9 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    			/*String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
+	    			vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Request More Info";
@@ -13489,7 +13492,7 @@ public class Application extends Controller {
     			
 	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeen(user);
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
 	    	for(RequestMoreInfo info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
@@ -14943,7 +14946,7 @@ public class Application extends Controller {
     		
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
-	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	for(ScheduleTest info: listData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
