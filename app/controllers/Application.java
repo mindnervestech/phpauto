@@ -7315,8 +7315,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    			/*String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
+	    			vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.howContactedUs = info.contactedFrom;
@@ -7566,8 +7567,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    			/*String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
+	    			vm.bestDay = info.bestDay;
 	    		}
 	    		
 	    		vm.bestTime = info.bestTime;
@@ -7842,8 +7844,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    			/*String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
+	    			vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
@@ -8218,8 +8221,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    			/*String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
+	    			vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.howContactedUs = info.contactedFrom;
@@ -8729,8 +8733,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    			/*String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
+	    			vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
 	    		if(info.scheduleDate != null){
@@ -20563,7 +20568,7 @@ public class Application extends Controller {
 		
 		try {
 			ScheduleTest test = ScheduleTest.findById(Long.parseLong(id));
-			test.setConfirmDate(new SimpleDateFormat("MM-dd-YYYY").parse(confDate));
+			test.setConfirmDate(new SimpleDateFormat("YYYY-MM-dd").parse(confDate));
 			test.setConfirmTime(new SimpleDateFormat("HH:mm a").parse(confTime));
 			test.update();
 		} catch (Exception e) {
@@ -21318,7 +21323,7 @@ public class Application extends Controller {
 		moTest.isReassigned = false;
 		moTest.is_google_data = false;
 		try {
-			moTest.confirmDate = new SimpleDateFormat("MM-dd-YYYY").parse(vm.getBestDay());
+			moTest.confirmDate = new SimpleDateFormat("YYYY-MM-dd").parse(vm.getBestDay());
 			moTest.confirmTime = new SimpleDateFormat("HH:mm a").parse(vm.getBestTime());
 		} catch (Exception e) {
 			e.printStackTrace();
