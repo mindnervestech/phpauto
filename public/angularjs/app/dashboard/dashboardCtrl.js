@@ -2037,6 +2037,14 @@ angular.module('newApp')
 		    		$scope.bounceRate[0] = response[2].dates[0].items[0].value;
 		    		$scope.bounceRate[1] = response[2].dates[1].items[0].value;
 	    		});
+	    		
+	    		$scope.showSessionAnalytics = function(id,vin,status){
+	    			console.log(id);
+	    			console.log(vin);
+	    			console.log(status);
+	    			$location.path('/sessionsAnalytics/'+id+"/"+vin+"/"+status);
+	    		};
+	    		
 	    		$scope.currentSelectedType = 0;
 	    		$scope.currentSelectedDuration = 0;
 	    		$scope.weekData = {};
