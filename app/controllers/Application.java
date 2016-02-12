@@ -9725,11 +9725,15 @@ public class Application extends Controller {
 	        Template t = ve.getTemplate("/public/emailTemplate/confirmationTemplate.vm"); 
 	        VelocityContext context = new VelocityContext();
 	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
-	        Calendar cal = Calendar.getInstance();
-	        cal.setTime((Date)map.get("confirmDate"));
-	        int dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
-	        int month = cal.get(Calendar.MONTH);
-	        String monthName = months[month];
+	       
+	        String arr[] = map.get("confirmDate").toString().split("/");
+	        int dayOfmonth = Integer.parseInt(arr[1]);
+	        int month = Integer.parseInt(arr[0]);
+	        // Calendar cal = Calendar.getInstance();
+	       // cal.setTime((Date)map.get("confirmDate"));
+	       // int dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+	       // int month = cal.get(Calendar.MONTH);
+	        String monthName = months[month-1];
 	        context.put("hostnameUrl", imageUrlPath);
 	        context.put("siteLogo", logo.logoImagePath);
 	        context.put("dayOfmonth", dayOfmonth);
@@ -14605,7 +14609,7 @@ public class Application extends Controller {
     		boolean flag = true;
     		int flagFirstComp = 0;
     		AuthUser user = getLocalUser();
-    		
+    		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     		request().body().asJson();
     		Form<RequestInfoVM> form = DynamicForm.form(RequestInfoVM.class).bindFromRequest();
     		RequestInfoVM vm = form.get();
@@ -14617,7 +14621,7 @@ public class Application extends Controller {
     			if(flag){
         			Map map = new HashMap();
                 	map.put("email",vm.email);
-                	map.put("confirmDate", confirmDate);
+                	map.put("confirmDate", vm.bestDay);
                 	map.put("confirmTime", vm.bestTime);
                 	map.put("vin", vm.vin);
                 	map.put("uname", user.firstName+" "+user.lastName);
@@ -14637,7 +14641,7 @@ public class Application extends Controller {
     						if(flag){
         		    			Map map = new HashMap();
         		            	map.put("email",vm.email);
-        		            	map.put("confirmDate", confirmDate);
+        		            	map.put("confirmDate", rVm.bestDay);
         		            	map.put("confirmTime", rVm.bestTime);
         		            	map.put("vin", rVm.vin);
         		            	map.put("uname", user.firstName+" "+user.lastName);
