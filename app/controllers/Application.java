@@ -9750,9 +9750,9 @@ public class Application extends Controller {
 	        VelocityContext context = new VelocityContext();
 	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
 	       
-	        String arr[] = map.get("confirmDate").toString().split("/");
-	        int dayOfmonth = Integer.parseInt(arr[1]);
-	        int month = Integer.parseInt(arr[0]);
+	        String arr[] = map.get("confirmDate").toString().split("-");
+	        int dayOfmonth = Integer.parseInt(arr[2]);
+	        int month = Integer.parseInt(arr[1]);
 	        // Calendar cal = Calendar.getInstance();
 	       // cal.setTime((Date)map.get("confirmDate"));
 	       // int dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
