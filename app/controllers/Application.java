@@ -6306,8 +6306,9 @@ public class Application extends Controller {
     		vm.name = info.name;
     		vm.phone = info.phone;
     		vm.email = info.email;
-    		if(info.confirmDate != null){
-    			vm.bestDay = df.format(info.confirmDate);
+    		if(info.bestDay != null){
+    			String chaArr[] = info.bestDay.split("-");
+    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
     		}
     		if(info.confirmTime != null){
     			// Date _24HourDt = timedf.parse(info.confirmTime);
@@ -6398,8 +6399,9 @@ public class Application extends Controller {
     		vm.name = info.firstName;
     		vm.phone = info.phone;
     		vm.email = info.email;
-    		if(info.confirmDate != null){
-    			vm.bestDay = df.format(info.confirmDate);
+    		if(info.bestDay != null){
+    			String chaArr[] = info.bestDay.split("-");
+    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
     		}
     		if(info.confirmTime != null){
     			vm.bestTime = hourSDF.format(info.confirmTime);
@@ -6487,8 +6489,9 @@ public class Application extends Controller {
     		vm.name = info.name;
     		vm.phone = info.phone;
     		vm.email = info.email;
-    		if(info.confirmDate != null){
-    			vm.bestDay = df.format(info.confirmDate);
+    		if(info.bestDay != null){
+    			String chaArr[] = info.bestDay.split("-");
+    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
     		}
     		if(info.confirmTime != null){
     			vm.bestTime = hourSDF.format(info.confirmTime);
@@ -7308,7 +7311,10 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
@@ -7401,7 +7407,10 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];
+	    		}	
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
@@ -7552,7 +7561,11 @@ public class Application extends Controller {
 	    		vm.name = info.firstName;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    		}
+	    		
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
@@ -7824,7 +7837,10 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    		}
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
@@ -7970,7 +7986,9 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			vm.bestDay = df.format(info.bestDay);
+	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
@@ -8195,7 +8213,10 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.howContactedUs = info.contactedFrom;
 	    		vm.howFoundUs = info.hearedFrom;
@@ -8703,7 +8724,10 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    		}
 	    		vm.bestTime = info.bestTime;
 	    		if(info.scheduleDate != null){
 	    			vm.requestDate = df.format(info.scheduleDate);
@@ -12894,7 +12918,10 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];
+	    		}	
 	    		vm.bestTime = info.bestTime;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
@@ -13047,7 +13074,10 @@ public class Application extends Controller {
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.pdfPath = info.pdfPath;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];
+	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Trade-In Appraisal";
 	    		
@@ -13315,7 +13345,10 @@ public class Application extends Controller {
 	    		vm.email = info.email;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
-	    		vm.bestDay = info.bestDay;
+	    		if(info.bestDay != null){
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];
+	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.typeOfLead = "Request More Info";
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
