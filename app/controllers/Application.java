@@ -4111,7 +4111,7 @@ public class Application extends Controller {
     				for(PriceAlert priceAlert: alertList) {
     					priceAlert.setSendEmail("Y");
     					priceAlert.setOldPrice(vehicle.price);
-    					priceAlert.set(currDate);
+    					priceAlert.setCurrDate(currDate);
     					priceAlert.update();
     				}
     				
