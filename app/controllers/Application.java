@@ -7409,8 +7409,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];
+	    			/*String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];*/
+	    			vm.bestDay = info.bestDay;
 	    		}	
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
@@ -12920,8 +12921,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];
+	    			/*String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];*/
+	    			vm.bestDay = info.bestDay;
 	    		}	
 	    		vm.bestTime = info.bestTime;
 	    		vm.custZipCode = info.custZipCode;
