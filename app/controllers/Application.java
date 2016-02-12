@@ -21446,68 +21446,209 @@ public class Application extends Controller {
 	}
 	
 	
-	public static Result getFollowerLeads(Long id, String vin,
-			String status, String startDate, String endDate) {
+public static Result getFollowerLeads(Long id, String vin,String status, String startDate, String endDate) {
 		
-	/*	List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vin, Long.valueOf(session("USER_LOCATION")));
-    	int followerCount = pAlert.size();*/
-		
-			return ok();
-	}
-	
-	
-	public static Result getviniewsChartLeads(Long id, String vin,
-			String status, String startDate, String endDate) {
+		int flagDate = 0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    	String params1 = "&type=visitors-list&date=last-30-days&limit=all";
-    		int totalTime = 0;
-    		int flagDate = 1;
-    		int lagCount = 0;
-    		int newuserCount = 0;
-    		int avgDur = 0;
-    		
-    		if (startDate.equals("0") || endDate.equals("0")) {
-				flagDate = 1;
-			}
-
-			JSONArray jsonArray;
-			try {
-				jsonArray = new JSONArray(callClickAPI(params1)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-				for(int i=0;i<jsonArray.length();i++){
-					
-					String checkDate = null;
-					if (status.equals("Newly Arrived")) {
-						//	checkDate = jsonArray.getJSONObject(i).get("time_pretty").toString();
-							String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
-							String arrNew[] = arr[3].split(",");
-							checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
-							try {
-								Date thedate = df.parse(checkDate);
-							} catch (ParseException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-					}
-					
-					
-					
-	    			String data = jsonArray.getJSONObject(i).get("landing_page").toString();
-	    			String arr[] = data.split("/");
-	    			if(arr.length > 5){
-	    			  if(arr[5] != null){
-	    				  if(arr[5].equals(vin)){
-	    					  lagCount++;
-	    				}
-	    			  }
-	    			}
-				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		Map<Long, Long> mapdateFollower = new HashMap<Long, Long>();
+		List<List<Long>> lonn = new ArrayList<>();
+		List<sendDateAndValue> sAndValues = new ArrayList<>();
+		sendDateAndValue sValue = new sendDateAndValue();
 		
-			return ok();
+		if (startDate.equals("0") || endDate.equals("0")) {
+			flagDate = 1;
+		}
+
+		if (status.equals("Newly Arrived")) {
+		
+			Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+			
+			List<PriceAlert> pInfo = PriceAlert.getEmailsByVin(vin, Long.parseLong(session("USER_LOCATION")));
+			
+			for(PriceAlert pAlert:pInfo){
+				if (vehicle.postedDate.before(pAlert.currDate) || vehicle.postedDate.equals(pAlert.currDate)) {
+					Long countCar = 1L;
+					String DateString = df.format(pAlert.currDate);
+					Date dateDate = null;
+					try {
+						dateDate = df.parse(DateString);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					Long objectDate = mapdateFollower.get(dateDate.getTime()+ (1000 * 60 * 60 * 24));
+					if (objectDate == null) {
+						
+						mapdateFollower.put(dateDate.getTime()+ (1000 * 60 * 60 * 24),countCar);
+
+					} else {
+						mapdateFollower.put(dateDate.getTime()+ (1000 * 60 * 60 * 24),objectDate + countCar);
+					}
+				}
+			}
+			
+			
+			
+		}else if (status.equals("Sold")) {
+			
+			Vehicle vehicle = Vehicle.findById(id);
+			
+			List<PriceAlert> pInfo = PriceAlert.getEmailsByVin(vin, Long.parseLong(session("USER_LOCATION")));
+			
+			for(PriceAlert pAlert:pInfo){
+				
+				if ((vehicle.postedDate.before(pAlert.currDate) && vehicle.soldDate
+						.after(pAlert.currDate))
+						|| vehicle.postedDate
+								.equals(pAlert.currDate)
+						|| vehicle.soldDate
+								.equals(pAlert.currDate)) {
+				
+					Long countCar = 1L;
+					String DateString = df.format(pAlert.currDate);
+					Date dateDate = null;
+					try {
+						dateDate = df.parse(DateString);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					Long objectDate = mapdateFollower.get(dateDate.getTime()+ (1000 * 60 * 60 * 24));
+					if (objectDate == null) {
+						
+						mapdateFollower.put(dateDate.getTime()+ (1000 * 60 * 60 * 24),countCar);
+
+					} else {
+						mapdateFollower.put(dateDate.getTime()+ (1000 * 60 * 60 * 24),objectDate + countCar);
+					}
+				}
+			}
+			
+		}
+		
+		for (Entry<Long, Long> entryValue : mapdateFollower.entrySet()) {
+			List<Long> value = new ArrayList<>();
+			value.add(entryValue.getKey());
+			value.add(entryValue.getValue());
+			lonn.add(value);
+		}
+		
+		sValue.data = lonn;
+		sValue.name = "Follower";
+		
+		sAndValues.add(sValue);
+		
+		
+		for (sendDateAndValue sAndValue : sAndValues) {
+
+			Collections.sort(sAndValue.data,
+					new Comparator<List<Long>>() {
+						@Override
+						public int compare(List<Long> o1, List<Long> o2) {
+							return o1.get(0).compareTo(o2.get(0));
+						}
+					});
+		}
+		
+			return ok(Json.toJson(sAndValues));
 	}
+	
+	
+public static Result getviniewsChartLeads(Long id, String vin,
+		String status, String startDate, String endDate) {
+	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
+	Map<Long, Long> mapdateView = new HashMap<Long, Long>();
+	List<List<Long>> lonn = new ArrayList<>();
+	List<sendDateAndValue> sAndValues = new ArrayList<>();
+	sendDateAndValue sValue = new sendDateAndValue();
+	
+	String params1 = "&type=visitors-list&date=last-30-days&limit=all";
+		int totalTime = 0;
+		int flagDate = 1;
+		int lagCount = 0;
+		int newuserCount = 0;
+		int avgDur = 0;
+		
+		if (startDate.equals("0") || endDate.equals("0")) {
+			flagDate = 1;
+		}
+
+		JSONArray jsonArray;
+		try {
+			jsonArray = new JSONArray(callClickAPI(params1)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+			for(int i=0;i<jsonArray.length();i++){
+				
+				String checkDate = null;
+				Date thedate = null;
+				if (status.equals("Newly Arrived")) {
+					
+					Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+					
+						String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
+						String arrNew[] = arr[3].split(",");
+						checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
+						try {
+							thedate = df1.parse(checkDate);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						if (vehicle.postedDate.before(thedate) || vehicle.postedDate.equals(thedate)) {
+							Long countCar = 1L;
+							String data = jsonArray.getJSONObject(i).get("landing_page").toString();
+			    			String arrVin[] = data.split("/");
+			    			if(arrVin.length > 5){
+			    			  if(arrVin[5] != null){
+			    				  if(arrVin[5].equals(vin)){
+			    					  Long objectDate = mapdateView.get(thedate.getTime()+ (1000 * 60 * 60 * 24));
+			    						if (objectDate == null) {
+			    							mapdateView.put(thedate.getTime()+ (1000 * 60 * 60 * 24),countCar);
+			    						} else {
+			    							mapdateView.put(thedate.getTime()+ (1000 * 60 * 60 * 24),objectDate + countCar);
+			    						}
+			    				}
+			    			  }
+			    			}
+						}
+				}
+    			
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (Entry<Long, Long> entryValue : mapdateView.entrySet()) {
+			List<Long> value = new ArrayList<>();
+			value.add(entryValue.getKey());
+			value.add(entryValue.getValue());
+			lonn.add(value);
+		}
+		
+		sValue.data = lonn;
+		sValue.name = "Views";
+		
+		sAndValues.add(sValue);
+		
+		
+		for (sendDateAndValue sAndValue : sAndValues) {
+
+			Collections.sort(sAndValue.data,
+					new Comparator<List<Long>>() {
+						@Override
+						public int compare(List<Long> o1, List<Long> o2) {
+							return o1.get(0).compareTo(o2.get(0));
+						}
+					});
+		}
+
+	
+		return ok(Json.toJson(sAndValues));
+}
 	
 	public static Result getCustomerRequestLeads(Long id, String vin,
 			String status, String startDate, String endDate) {
