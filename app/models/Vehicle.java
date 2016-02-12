@@ -811,13 +811,15 @@ public class Vehicle extends Model {
 		return find.where().eq("locations.id", location).eq("status", "Sold").findList();
 	}
 	public static List<Vehicle> findByUserAndSold(AuthUser user) {
-		return find.where().eq("soldUser", user).eq("status", "Sold").findList();
+		return find.where().eq("user", user).eq("status", "Sold").findList();
 	}
 	
 	public static List<Vehicle> findByNewArrAndLocation(Long location) {
 		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").findList();
 	}
-	
+	public static List<Vehicle> findByUserAndNew(AuthUser user) {
+		return find.where().eq("user", user).eq("status", "Newly Arrived").findList();
+	}
 	public static List<Vehicle> findByMakeAndSold(String make) {
 		return find.where().eq("make", make).eq("status", "Sold").findList();
 	}

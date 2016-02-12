@@ -23150,11 +23150,14 @@ public class Application extends Controller {
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
 			vehicaleNew = Vehicle.findByNewlyArrived();
-		}else if(user.role.equals("Manager") || user.role.equals("Sales Person")){
+			
+		}else if(user.role.equals("Manager")){
 			vehicle = Vehicle.findByLocationAndSold(user.location.id);
 			vehicaleNew = Vehicle.findByNewArrAndLocation(user.location.id);
-		}
-		
+		}else if(user.role.equals("Sales Person")){
+			vehicle = Vehicle.findByUserAndSold(user);
+			vehicaleNew = Vehicle.findByUserAndNew(user);
+		}		
 		
 		int valueCount = 1;
 			for(Vehicle vhVehicle:vehicle){
