@@ -23220,8 +23220,10 @@ public class Application extends Controller {
 		
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
-		}else if(user.role.equals("Manager") || user.role.equals("Sales Person")){
+		}else if(user.role.equals("Manager")){
 			vehicle = Vehicle.findByLocationAndSold(user.location.id);
+		}else if(user.role.equals("Sales Person")){
+			vehicle = Vehicle.findByUserAndSold(user);
 		}
 			for(Vehicle vhVehicle:vehicle){
 				if(vhVehicle.price != null){
