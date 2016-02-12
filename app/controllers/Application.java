@@ -6307,9 +6307,9 @@ public class Application extends Controller {
     		vm.phone = info.phone;
     		vm.email = info.email;
     		if(info.bestDay != null){
-    			/*String chaArr[] = info.bestDay.split("-");
-    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
-    			vm.bestDay = info.bestDay;
+    			String chaArr[] = info.bestDay.split("-");
+    			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
+    			//vm.bestDay = info.bestDay;
     		}
     		if(info.confirmTime != null){
     			// Date _24HourDt = timedf.parse(info.confirmTime);
@@ -7315,9 +7315,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			/*String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
-	    			vm.bestDay = info.bestDay;
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
+	    			//vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
 	    		vm.howContactedUs = info.contactedFrom;
@@ -7412,9 +7412,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			/*String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];*/
-	    			vm.bestDay = info.bestDay;
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
+	    			//vm.bestDay = info.bestDay;
 	    		}	
 	    		vm.bestTime = info.bestTime;
 				vm.howContactedUs = info.contactedFrom;
@@ -8733,9 +8733,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			/*String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[2]+"/"+chaArr[0];*/
-	    			vm.bestDay = info.bestDay;
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
+	    			//vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
 	    		if(info.scheduleDate != null){
@@ -12928,9 +12928,9 @@ public class Application extends Controller {
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
 	    		if(info.bestDay != null){
-	    			/*String chaArr[] = info.bestDay.split("-");
-	    			vm.bestDay = chaArr[1]+"/"+chaArr[0]+"/"+chaArr[2];*/
-	    			vm.bestDay = info.bestDay;
+	    			String chaArr[] = info.bestDay.split("-");
+	    			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
+	    			//vm.bestDay = info.bestDay;
 	    		}	
 	    		vm.bestTime = info.bestTime;
 	    		vm.custZipCode = info.custZipCode;
