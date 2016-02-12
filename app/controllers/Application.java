@@ -14636,7 +14636,7 @@ public class Application extends Controller {
     					if(rVm.bestDay != null && !rVm.bestDay.equals("")){
     						if(flag){
         		    			Map map = new HashMap();
-        		            	map.put("email",rVm.email);
+        		            	map.put("email",vm.email);
         		            	map.put("confirmDate", confirmDate);
         		            	map.put("confirmTime", rVm.bestTime);
         		            	map.put("vin", rVm.vin);
