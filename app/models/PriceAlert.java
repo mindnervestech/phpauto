@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -20,6 +21,7 @@ public class PriceAlert extends Model {
 	public String vin;
 	public String sendEmail;
 	public Integer oldPrice;
+	public Date currDate;
 	@ManyToOne
 	public AuthUser user;
 	
@@ -63,7 +65,12 @@ public class PriceAlert extends Model {
 		this.oldPrice = oldPrice;
 	}
 
-
+	public Date getCurrDate() {
+		return currDate;
+	}
+	public void setCurrDate(Date currDate) {
+		this.currDate = currDate;
+	}
 	public Location getLocations() {
 		return locations;
 	}

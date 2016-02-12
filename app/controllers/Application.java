@@ -4039,6 +4039,8 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		int flag=0;
+    		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    		Date currDate = new Date();
     		AuthUser user = getLocalUser();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
@@ -4053,6 +4055,7 @@ public class Application extends Controller {
 	    				for(PriceAlert priceAlert: alertList) {
 	    					priceAlert.setSendEmail("Y");
 	    					priceAlert.setOldPrice(vehicle.price);
+	    					priceAlert.setCurrDate(currDate);
 	    					priceAlert.update();
 	    				}
 	    				Date crDate = new Date();
@@ -4093,6 +4096,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		int flag=0;
+    		Date currDate = new Date();
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
@@ -4107,6 +4111,7 @@ public class Application extends Controller {
     				for(PriceAlert priceAlert: alertList) {
     					priceAlert.setSendEmail("Y");
     					priceAlert.setOldPrice(vehicle.price);
+    					priceAlert.set(currDate);
     					priceAlert.update();
     				}
     				
@@ -14607,22 +14612,47 @@ public class Application extends Controller {
     		Date confirmDate = null;
     		//Vehicle obj = Vehicle.findByVinAndStatus(vm.vin);
     		
-    		
     			schTestDrive(vm, msg, flag, confirmDate);
+    			
+    			if(flag){
+        			Map map = new HashMap();
+                	map.put("email",vm.email);
+                	map.put("confirmDate", confirmDate);
+                	map.put("confirmTime", vm.bestTime);
+                	map.put("vin", vm.vin);
+                	map.put("uname", user.firstName+" "+user.lastName);
+                	map.put("uphone", user.phone);
+                	map.put("uemail", user.email);
+                	//makeToDo(vm.vin);
+                	sendMail(map);
+        		}
+    			
     			if(vm.parentChildLead != null){
     				for(RequestInfoVM rVm:vm.parentChildLead){
     					rVm.option = vm.option;
     					msg = "success";
     		    		flag = true;
     					schTestDrive(rVm, msg, flag, confirmDate);
+    					if(rVm.bestDay != null && !rVm.bestDay.equals("")){
+    						if(flag){
+        		    			Map map = new HashMap();
+        		            	map.put("email",rVm.email);
+        		            	map.put("confirmDate", confirmDate);
+        		            	map.put("confirmTime", rVm.bestTime);
+        		            	map.put("vin", rVm.vin);
+        		            	map.put("uname", user.firstName+" "+user.lastName);
+        		            	map.put("uphone", user.phone);
+        		            	map.put("uemail", user.email);
+        		            	//makeToDo(vm.vin);
+        		            	sendMail(map);
+        		    		}
+    					}
     				}
     				
     			}
     			
     		
-    		
-    		
-    		if(flag){
+    		/*if(flag){
     			Map map = new HashMap();
             	map.put("email",vm.email);
             	map.put("email",vm.email);
@@ -14634,7 +14664,7 @@ public class Application extends Controller {
             	map.put("uemail", user.email);
             	//makeToDo(vm.vin);
             	sendMail(map);
-    		}
+    		}*/
         	
     		return ok(msg);
     	}
@@ -23634,6 +23664,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		int flag=0;
+    		Date currDate = new Date();
     		AuthUser user = getLocalUser();
     		Integer vprice = Integer.parseInt(price);
 	    	Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
@@ -23647,6 +23678,7 @@ public class Application extends Controller {
 	    				for(PriceAlert priceAlert: alertList) {
 	    					priceAlert.setSendEmail("Y");
 	    					priceAlert.setOldPrice(vehicle.price);
+	    					priceAlert.setCurrDate(currDate);
 	    					priceAlert.update();
 	    				}
 	    				Date crDate = new Date();

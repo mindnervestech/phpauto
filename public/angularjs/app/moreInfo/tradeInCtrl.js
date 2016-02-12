@@ -167,11 +167,11 @@ angular.module('newApp')
 				//$scope.gridOptions.data = data;
 				$http.get('/getAllTradeIn')
 				.success(function(data) {
-				$scope.gridOptions.data = data;
-				$scope.tradeInList = data;
-				if(data.length > 0){
-					$scope.userRole = data[0].userRole;
-				}
+					$scope.gridOptions.data = data;
+					$scope.tradeInList = data;
+					if(data.length > 0){
+						$scope.userRole = data[0].userRole;
+					}
 			});
 				$scope.$emit('getCountEvent', '123');
 		});
