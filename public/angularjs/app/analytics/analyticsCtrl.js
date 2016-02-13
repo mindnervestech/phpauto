@@ -575,9 +575,6 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('VehicleDateWiseCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 console.log("....................");
-console.log($routeParams.vin);
-console.log($routeParams.status);
-console.log($routeParams);
 
 $http.get('/getVehiclePriceLogs/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status).success(function(data) {
 	console.log("succeess");
@@ -610,12 +607,21 @@ $('#viewsChartS').css("text-decoration","underline");
 		
 		$http.get('/getCustomerRequest/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 			console.log("succeess");
-			console.log(data);
-			 createChart(data);
+			
+			$http.get('/getCustomerRequestFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data1) {
+				console.log("succeess");
+				console.log(data1);
+				
+				data.push(data1);
+				 createChart(data);
+			
+			});
+			
 		});
 		
 	}
 	
+	$scope.dataValue = [];
 $scope.showLeads = function(){
 	$('#customerR').css("text-decoration","none");
 	$('#follwersChartS').css("text-decoration","none");
@@ -634,9 +640,15 @@ $scope.showLeads = function(){
 		
 		$http.get('/getCustomerRequestLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 			console.log("succeess");
+			//$scope.dataValue = data;
 			console.log(data);
-			//$scope.listingLog = data.pList;
-			 createChart(data.sAndValues);
+			$http.get('/getCustomerRequestFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data1) {
+				console.log("succeess");
+				console.log(data1);
+				data.push(data1);
+		       createChart(data);
+			
+			});
 		});
 		
 	}
@@ -660,7 +672,14 @@ $scope.showLeads = function(){
 			$http.get('/getviniewsChartLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 				console.log("succeess");
 				console.log(data);
-				 createChart(data);
+				$http.get('/getCustomerRequestFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data1) {
+					console.log("succeess");
+					console.log(data1);
+					
+					//data.push(data1);
+					 createChart(data);
+				
+				});
 			});
  }
  
@@ -684,9 +703,15 @@ $scope.showLeads = function(){
 			$http.get('/getFollowerLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 				console.log("succeess");
 				console.log(data);
-				 createChart(data);
+				$http.get('/getCustomerRequestFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data1) {
+					console.log("succeess");
+					console.log(data1);
+					
+					data.push(data1);
+					 createChart(data);
+				
+				});
 			});
-			
 			
   }
 	
@@ -696,7 +721,7 @@ $scope.showLeads = function(){
      var stockChart1; 
      function createChart(initdata) {
    	  stockChart1 = 1;
-   	  
+   	  console.log(initdata);
    	  stockChart = $('#financial-chart').highcharts('StockChart', {
              chart: {
                  height: 300,
@@ -743,7 +768,7 @@ $scope.showLeads = function(){
                  }
              },*/
              tooltip: {
-                 pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change})<br/>',
+                 //pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change})<br/>',
                  valueDecimals: 2
              },
 

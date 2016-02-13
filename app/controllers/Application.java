@@ -140,10 +140,12 @@ import viewmodel.PageVM;
 import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
+import viewmodel.PriceFormatDate;
 import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
 import viewmodel.SessionUseVM;
+import viewmodel.SetPriceChangeFlag;
 import viewmodel.SiteContentVM;
 import viewmodel.SiteLogoVM;
 import viewmodel.SiteVM;
@@ -21722,6 +21724,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 		return ok(Json.toJson(sAndValues));
 }
+
+ 
 	
 	public static Result getCustomerRequestLeads(Long id, String vin,
 			String status, String startDate, String endDate) {
@@ -22173,40 +22177,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 
 							});
 				}
-				
-						
-				List<PriceChange> pChange = PriceChange.findByVin(vin);
-				
-				/*Collections.sort(pChange,new Comparator<List<PriceChange>>() {
-							@Override
-							public int compare(List<PriceChange> o1, List<PriceChange> o2) {
-								return o1..compareTo(o2.get(0));
-							}
 
-						});*/
-				
-				PriceChangeVM pVm1 = new PriceChangeVM();
-				pVm1.person = "Has been added to the invnetory";
-				pVm1.dateTime =vehicle.postedDate.toString();
-				pList.add(pVm1);
-				
-				for(PriceChange pChg:pChange){
-					String dateChanege = df.format(pChg.getDateTime());
-					Date changDate = null;
-					try {
-						changDate = df.parse(dateChanege);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					if (vehicle.postedDate.before(changDate) || vehicle.postedDate.equals(changDate)) {
-						PriceChangeVM pVm = new PriceChangeVM();
-						pVm.person = "Price Change"+pChg.price;
-						pVm.dateTime = df.format(pChg.dateTime);
-						pList.add(pVm);
-					}
-				}
 				
 			}
 		} else if (status.equals("Sold")) {
@@ -22684,12 +22655,162 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				
 			}
 		}
-		Map map = new HashMap();
-		map.put("sAndValues",sAndValues);
-		map.put("pList",pList);
+	//	Map map = new HashMap();
+	//	map.put("sAndValues",sAndValues);
+		//map.put("pList",pList);
 
-		return ok(Json.toJson(map));
+		return ok(Json.toJson(sAndValues));
 	}
+	
+	 public static Result getCustomerRequestFlag(Long id, String vin,String status, String startDate, String endDate) {
+		 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		 	Map<Long, Long> mapdateFlag = new HashMap<Long, Long>();
+		 	SetPriceChangeFlag sPrice = new SetPriceChangeFlag();
+		 	List<PriceFormatDate> sAndValues = new ArrayList<>();
+		 	int flagDate = 0;
+			//List<List<Long>> lonFlag = new ArrayList<>();
+			if(startDate.equals("0") || endDate.equals("0")){
+				flagDate = 1;
+			}
+			
+			if(status.equals("Newly Arrived")){
+				Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+				
+				if(vehicle != null){
+					sendDateAndValue sValue3 = new sendDateAndValue();
+					
+					List<PriceChange> pChanges = PriceChange.findByVin(vin);
+					for(PriceChange pCh:pChanges){
+						Long countCar = 1L;
+						String DateString = df.format(pCh.dateTime);
+						Date dateDate = null;
+						try {
+							dateDate = df.parse(DateString);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						if(vehicle.postedDate.before(dateDate) || vehicle.postedDate.equals(dateDate)){
+							
+							if(flagDate == 1){
+								startDate = df.format(dateDate);
+								endDate = df.format(dateDate);
+							}
+							try {
+								if((dateDate.after(df.parse(startDate)) && dateDate.before(df.parse(endDate))) || dateDate.equals(df.parse(startDate)) || dateDate.equals(df.parse(endDate))){
+							
+										Long objectDate = mapdateFlag.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+										if (objectDate == null) {
+											//Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+											//if(objectAllDate == null){
+												//mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
+											//}
+											mapdateFlag.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), Long.parseLong(pCh.price));
+										}else{
+											mapdateFlag.put(dateDate.getTime()+ (1000 * 60 * 60 * 24),Long.parseLong(pCh.price));
+										}
+								}
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+						
+					}
+					
+					
+					for (Entry<Long, Long> entryValue : mapdateFlag.entrySet()) {
+						PriceFormatDate pvalue = new PriceFormatDate();
+						pvalue.x = entryValue.getKey();
+						pvalue.title = "Price Change";
+						pvalue.text = "Price has changed to "+entryValue.getValue();
+						sAndValues.add(pvalue);
+					  }
+					/*for (Entry<Long, Long> entryValue : mapdateFlag.entrySet()) {
+						List<Long> value = new ArrayList<>();
+						value.add(entryValue.getKey());
+						value.add(entryValue.getValue()); 
+						lonFlag.add(value);
+					  }*/
+					
+					sPrice.y = -180;
+					sPrice.type = "flags";
+					sPrice.data = sAndValues;
+					sPrice.name = "Price Changes";
+				
+				}
+			}else if(status.equals("Sold")){
+				Vehicle vehicle = Vehicle.findById(id);
+				
+				if(vehicle != null){
+					sendDateAndValue sValue3 = new sendDateAndValue();
+					
+					List<PriceChange> pChanges = PriceChange.findByVin(vin);
+					for(PriceChange pCh:pChanges){
+						Long countCar = 1L;
+						String DateString = df.format(pCh.dateTime);
+						Date dateDate = null;
+						try {
+							dateDate = df.parse(DateString);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						if(vehicle.postedDate.before(dateDate) || vehicle.postedDate.equals(dateDate)){
+							
+							if(flagDate == 1){
+								startDate = df.format(dateDate);
+								endDate = df.format(dateDate);
+							}
+							try {
+								if((dateDate.after(df.parse(startDate)) && dateDate.before(df.parse(endDate))) || dateDate.equals(df.parse(startDate)) || dateDate.equals(df.parse(endDate))){
+							
+										Long objectDate = mapdateFlag.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+										if (objectDate == null) {
+											//Long objectAllDate = mapAlldate.get(dateDate.getTime() + (1000 * 60 * 60 * 24));
+											//if(objectAllDate == null){
+												//mapAlldate.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), 1L);
+											//}
+											mapdateFlag.put(dateDate.getTime()+ (1000 * 60 * 60 * 24), Long.parseLong(pCh.price));
+										}else{
+											mapdateFlag.put(dateDate.getTime()+ (1000 * 60 * 60 * 24),Long.parseLong(pCh.price));
+										}
+								}
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+						
+					}
+					
+					
+					for (Entry<Long, Long> entryValue : mapdateFlag.entrySet()) {
+						PriceFormatDate pvalue = new PriceFormatDate();
+						pvalue.x = entryValue.getKey();
+						pvalue.title = "Price Change";
+						pvalue.text = "Price has changed to "+entryValue.getValue();
+						sAndValues.add(pvalue);
+					  }
+					/*for (Entry<Long, Long> entryValue : mapdateFlag.entrySet()) {
+						List<Long> value = new ArrayList<>();
+						value.add(entryValue.getKey());
+						value.add(entryValue.getValue()); 
+						lonFlag.add(value);
+					  }*/
+					
+					sPrice.y = -180;
+					sPrice.type = "flags";
+					sPrice.data = sAndValues;
+					sPrice.name = "Price Changes";
+				
+				}
+			}
+			
+			return ok(Json.toJson(sPrice));
+	  }
 	
 	public static Result getCustomerRequest(Long id,String vin,String status, String startDate, String endDate){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -22699,9 +22820,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		Map<Long, Long> mapdateRequest = new HashMap<Long, Long>();
 		Map<Long, Long> mapdateTrade = new HashMap<Long, Long>();
 		Map<Long, Long> mapdateSchedule = new HashMap<Long, Long>();
+		
 		List<List<Long>> lonRequest = new ArrayList<>();
 		List<List<Long>> lonTrade = new ArrayList<>();
 		List<List<Long>> lonSchedule = new ArrayList<>();
+		List<List<Long>> lonFlag = new ArrayList<>();
 		if(startDate.equals("0") || endDate.equals("0")){
 			flagDate = 1;
 		}
@@ -22882,13 +23005,10 @@ public static Result getviniewsChartLeads(Long id, String vin,
 										mapAlldate.put(entryValue.getKey(), 0L);
 									}
 								}
-								
 							  }
 							i++;
 						}
-						
 					}
-					
 				}
 				for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
 					if(entryValue.getValue().equals(1L)){
@@ -22896,15 +23016,14 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						value.add(entryValue.getKey());
 						value.add(0L);//entryValue.getKey(),0L};
 						sAndValue.data.add(value);
-						
 					}else{
 						mapAlldate.put(entryValue.getKey(), 1L);
 					}
 				  }
-				
 			}
 			
 			
+
 			
 			for(sendDateAndValue sAndValue:sAndValues){
 				
