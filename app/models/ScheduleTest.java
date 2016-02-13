@@ -314,6 +314,9 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest> findAllAssignedLeadsToUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).ne("leadStatus", null).orderBy("scheduleDate desc").findList();
 	}
+	public static List<ScheduleTest> findAllAssignedLeadsToUser1(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("leadStatus", null).orderBy("scheduleDate desc").findList();
+	}
 	
 	public static List<ScheduleTest> findAllCompletedToUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("leadStatus", null).eq("testDriveStatus","TestDriveCompleted").orderBy("scheduleDate desc").findList();

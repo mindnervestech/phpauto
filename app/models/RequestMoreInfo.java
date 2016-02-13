@@ -322,6 +322,9 @@ public String testDriveStatus;
 	public static List<RequestMoreInfo> findAllAssignedLeadsToUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).ne("status", null).findList();
 	}
+	public static List<RequestMoreInfo> findAllAssignedLeadsToUser1(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("status", null).findList();
+	}
 	
 	public static List<RequestMoreInfo> findAllCompletedToUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("status", null).eq("testDriveStatus", "TestDriveCompleted").findList();

@@ -603,7 +603,9 @@ public String testDriveStatus;
 	public static List<TradeIn> findAllAssignedLeadsToUser(AuthUser user) {
 		return find.where().ne("status", null).eq("assignedTo",user).findList();
 	}
-	
+	public static List<TradeIn> findAllAssignedLeadsToUser1(AuthUser user) {
+		return find.where().eq("status", null).eq("assignedTo",user).findList();
+	}
 	public static List<TradeIn> findAllCompletedToUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("status", null).eq("testDriveStatus", "TestDriveCompleted").findList();
 	}

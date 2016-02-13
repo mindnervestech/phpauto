@@ -24246,9 +24246,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
     		if(user !=null){
-    			List<RequestMoreInfo> listData = RequestMoreInfo.findAllAssignedLeadsToUser(user);
-    			List<ScheduleTest> scheduleData = ScheduleTest.findAllAssignedLeadsToUser(user);
-    			List<TradeIn> tradeData = TradeIn.findAllAssignedLeadsToUser(user);
+    			List<RequestMoreInfo> listData = RequestMoreInfo.findAllAssignedLeadsToUser1(user);
+    			List<ScheduleTest> scheduleData = ScheduleTest.findAllAssignedLeadsToUser1(user);
+    			List<TradeIn> tradeData = TradeIn.findAllAssignedLeadsToUser1(user);
     			for (RequestMoreInfo info : listData) {
     				UserLeadVM vm = new UserLeadVM();
     				Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
