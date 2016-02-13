@@ -184,6 +184,14 @@ angular.module('newApp')
 		  });
 	}
 	
+	$scope.selectAll = function(){
+		$scope.checked = [];
+		angular.forEach($scope.gridOptions1.data, function(obj, index){
+			 obj.check = true;
+			 $scope.checked.push(obj);
+		  });
+		console.log($scope.checked);
+	};
 	$scope.assignTo = function(){
 		//console.log($scope.assignUser);
 		//console.log($scope.checked);
