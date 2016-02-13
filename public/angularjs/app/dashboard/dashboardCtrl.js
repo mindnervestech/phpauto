@@ -7006,7 +7006,9 @@ angular.module('newApp')
 	$scope.goToUsers = function() {
 		$location.path('/createUser');
 	}
-
+	$scope.goToDeactive = function() {
+		$location.path('/deactiveUsers');
+	};
 	$scope.createGeneralManager =function(){
 		$scope.imgGM="/assets/images/profile-pic.jpg ";
 		
