@@ -46,6 +46,7 @@ angular.module('newApp')
 	 	$scope.userType = data;
 	 	if($scope.userType == "Manager") {
 	 		$scope.getGMData();
+	 		$scope.getAllSalesPersonRecord($scope.userKey);
 	 		//$scope.getAnalystData();
 	 	}
 	 	if($scope.userType == "Sales Person") {
@@ -3271,7 +3272,7 @@ angular.module('newApp')
         				    text: "Saved successfully",
         				});
         	 			$('#modalClose').click();
-        	 			$scope.getScheduleTestData();
+        	 			$scope.getAllSalesPersonRecord($scope.salesPerson);
         	 			$scope.init();
     	 			}else{
     	 				$.pnotify({
