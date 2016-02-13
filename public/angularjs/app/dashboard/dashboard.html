@@ -236,7 +236,45 @@ margin-left: 5px;
         	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button>
 	</div>
 	</div>
-	<div class="row" style="position: relative;float: left;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
+	
+	<div class="col-md-4 col-sm-6 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager')  && showToDoList">    <!-- && showToDoList -->
+        <div class="panel">
+            <div class="panel-header">
+            <a ng-click="showCalendarData()" style="cursor: pointer;float:left;margin-top:13px;margin-left:4px;">Back to calendar</a>
+                	<h3><strong style="float:left;margin-left:11%;margin-top:3px;margin-top:3px;">My tasks</strong> <P style="margin-left: 72%;">{{selectedDate}}</P></h3>
+                	
+            </div>
+            <div class="panel-content" style="height:364px;overflow-y:auto;">
+                <ul class="todo-list ui-sortable">
+                    <li ng-repeat="schedule in scheduleList" title="{{schedule.vin}}">
+                    <i ng-if="schedule.isgoogle != ''" class="fa fa-google-plus-square" style="font-size: 20px;"></i>
+                        <div class="pull-right">
+                        	<!--
+                            <div class="label label-success" style="cursor: pointer;" ng-click="confirmDateTime(schedule)" data-toggle="modal" data-target="#modal-basic">Reschedule</div>
+                            <div class="label label-success" style="cursor: pointer;" ng-click="soldScheduleStatus(schedule)">Sold</div>
+                            <div class="label label-success" style="cursor: pointer;" ng-click="cancelScheduleStatus(schedule)">Cancel</div>
+                           -->
+                        </div>	
+							<span class="todo-task">{{schedule.make}}&nbsp;&nbsp; {{schedule.year}}&nbsp;&nbsp; {{schedule.model}}  &nbsp;&nbsp;{{schedule.trim}}</span><br>
+							<span class="todo-task">{{schedule.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span class="todo-task">{{schedule.email}}</span>&nbsp;&nbsp;
+							
+							<span class="todo-task">{{schedule.phone}}</span>
+                    </li>
+                    <li ng-repeat="todo in toDoDateList" ng-class="{'': todo.priority == 'Low','low': todo.priority == 'Medium','medium': todo.priority == 'High','high': todo.priority == 'Critical'}">
+                         <div class="pull-right">
+                            <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusComplete(todo.id)">Complete</div>
+                            <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusClose(todo.id)">Close</div>
+                        </div>
+                        <span class="todo-task">{{todo.task}}</span><br>
+                        <span class="todo-task">{{todo.dueDate}}</span>
+                    </li>
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+	<div class="col-sm-4" style="position: relative;float: left;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
                     <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-certificate"></i></button>
             <div class="col-md-12 cal-report" id="load_cal_or_wheth">
     			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
@@ -3033,41 +3071,7 @@ margin-left: 5px;
                      
         </div>
         
-      <div class="col-md-4 col-sm-6 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showToDoList">
-        <div class="panel">
-            <div class="panel-header">
-            <a ng-click="showCalendarData()" style="cursor: pointer;float:left;margin-top:13px;margin-left:4px;">Back to calendar</a>
-                	<h3><strong style="float:left;margin-left:11%;margin-top:3px;margin-top:3px;">My tasks</strong> <P style="margin-left: 72%;">{{selectedDate}}</P></h3>
-                	
-            </div>
-            <div class="panel-content" style="height:364px;overflow-y:auto;">
-                <ul class="todo-list ui-sortable">
-                    <li ng-repeat="schedule in scheduleList" title="{{schedule.vin}}">
-                    <i ng-if="schedule.isgoogle != ''" class="fa fa-google-plus-square" style="font-size: 20px;"></i>
-                        <div class="pull-right">
-                        	<!--
-                            <div class="label label-success" style="cursor: pointer;" ng-click="confirmDateTime(schedule)" data-toggle="modal" data-target="#modal-basic">Reschedule</div>
-                            <div class="label label-success" style="cursor: pointer;" ng-click="soldScheduleStatus(schedule)">Sold</div>
-                            <div class="label label-success" style="cursor: pointer;" ng-click="cancelScheduleStatus(schedule)">Cancel</div>
-                           -->
-                        </div>	
-							<span class="todo-task">{{schedule.make}} {{schedule.model}}</span><br>
-							<span class="todo-task">{{schedule.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span class="todo-task">{{schedule.email}}</span>
-                    </li>
-                    <li ng-repeat="todo in toDoDateList" ng-class="{'': todo.priority == 'Low','low': todo.priority == 'Medium','medium': todo.priority == 'High','high': todo.priority == 'Critical'}">
-                         <div class="pull-right">
-                            <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusComplete(todo.id)">Complete</div>
-                            <div class="label label-success" style="cursor: pointer;" ng-click="toDoStatusClose(todo.id)">Close</div>
-                        </div>
-                        <span class="todo-task">{{todo.task}}</span><br>
-                        <span class="todo-task">{{todo.dueDate}}</span>
-                    </li>
-                </ul>
-                
-            </div>
-        </div>
-    </div>
+      
      </div>
 </div>
 <div class="row">

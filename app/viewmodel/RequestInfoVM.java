@@ -6,6 +6,7 @@ import java.util.List;
 public class RequestInfoVM {
 
 	public Long id;
+	public String trim;
 	public String vin;
 	public String model;
 	public String make;

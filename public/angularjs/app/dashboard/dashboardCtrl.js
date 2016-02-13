@@ -1869,6 +1869,8 @@ angular.module('newApp')
 						 var datesArray = [];
 						 for(var i=0;i<$scope.scheduleDates.length;i++) {
 							 var dateStr = $scope.scheduleDates[i].confirmDate;
+							 console.log("dates::::::::::::");
+							 console.log(dateStr);
 							 var date = new Date();
 							 var arr = [];
 							    arr = dateStr.split('-');
@@ -1884,7 +1886,19 @@ angular.module('newApp')
 			        				  $scope.showToDoList = true;
 			        				  $scope.showCalendar = false;
 			        				  $scope.selectedDate = dateText;
-			        				  $scope.getScheduleBySelectedDate(dateText);
+			        				  console.log("datesssssssss");
+			        				  console.log(dateText);
+//			        				  var date = new Date();
+									 var arr1 = [];										
+			        				    arr1 = dateText.split('/');
+			        				    if(arr1.length > 2){
+			        				    	$scope.editdate = arr1[2]+"-"+arr1[0]+"-"+arr1[1];
+			        				    }else{
+			        				    	$scope.editdate =arr1[0];
+			        				    }
+			        				    
+							        	console.log($scope.editdate);
+			        				  $scope.getScheduleBySelectedDate($scope.editdate);
 			        			  }
 			    		  });
 					});

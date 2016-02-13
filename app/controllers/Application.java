@@ -12678,6 +12678,9 @@ public class Application extends Controller {
 	    		if(vehicle != null) {
 	    			vm.make = vehicle.make;
 	    			vm.model = vehicle.model;
+	    			vm.trim=vehicle.trim;
+	    			vm.year=vehicle.year;
+	    			
 	    		}
 	    		vm.name = test.name;
 	    		vm.email = test.email;
