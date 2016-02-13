@@ -43,6 +43,15 @@ public class AuthUser extends Model implements Identity {
 	public String trialPeriod;
 	public String trial;
 	public int newUser;
+	public String account;
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
 	public int getNewUser() {
 		return newUser;
 	}
@@ -299,7 +308,7 @@ public class AuthUser extends Model implements Identity {
 	}
 
 	public static List<AuthUser> getUserByType() {
-		return find.where().or(Expr.eq("role", "General Manager"), Expr.eq("role", "Sales Person")).findList();
+		return find.where().or(Expr.eq("role", "General Manager"), Expr.eq("role", "Sales Person")).eq("account", "active").findList();
 	}
 
 	public static AuthUser findById(Integer id) {
@@ -308,7 +317,7 @@ public class AuthUser extends Model implements Identity {
 
 	public static List<AuthUser> getAllSalesUser() {
 	
-		return find.where().eq("role", "Sales Person").findList();
+		return find.where().eq("role", "Sales Person").eq("account", "active").findList();
 	}
 	
 	public static List<AuthUser> getAllUsers() {
@@ -317,30 +326,33 @@ public class AuthUser extends Model implements Identity {
 	}
 	
 	public static AuthUser findByEmail(String email) {
-		return find.where().eq("email", email).findUnique();
+		return find.where().eq("email", email).eq("account", "active").findUnique();
 	}
 	
 	public static List<AuthUser> findByLocatio(Location locations) {
-		return find.where().eq("location", locations).findList();
+		return find.where().eq("location", locations).eq("account", "active").findList();
+	}
+	public static List<AuthUser> findByLocationDeactive(Location locations) {
+		return find.where().eq("location", locations).eq("account", "deactive").findList();
 	}
 	
 	public static AuthUser getlocationAndManagerByType(Location locations,String roles) {
-		return find.where().and(Expr.eq("location", locations), Expr.eq("role", roles)).findUnique();
+		return find.where().and(Expr.eq("location", locations), Expr.eq("role", roles)).eq("account", "active").findUnique();
 	}
 	
 	public static List<AuthUser> getlocationAndRoleByType(Location locations,String roles) {
-		return find.where().and(Expr.eq("location", locations), Expr.eq("role", roles)).findList();
+		return find.where().and(Expr.eq("location", locations), Expr.eq("role", roles)).eq("account", "active").findList();
 	}
 	
 	public static List<AuthUser> getAllUserByLocation(Location locations){
-		return find.where().eq("location", locations).eq("role", "Sales Person").findList();
+		return find.where().eq("location", locations).eq("role", "Sales Person").eq("account", "active").findList();
 	}
 	
 	public static List<AuthUser> getlocationAndManager(Location locations) {
-		return find.where().eq("location", locations).eq("role", "Manager").findList();
+		return find.where().eq("location", locations).eq("role", "Manager").eq("account", "active").findList();
 	}
 	
 	public static AuthUser getlocationAndManagerOne(Location locations) {
-		return find.where().eq("location", locations).eq("role", "Manager").findUnique();
+		return find.where().eq("location", locations).eq("role", "Manager").eq("account", "active").findUnique();
 	}
 }

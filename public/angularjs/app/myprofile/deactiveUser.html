@@ -1,0 +1,76 @@
+  
+  <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+    	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">Manager Profile</button></a></li>
+    	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
+      	<li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Deactive Users</button></a></li>
+    </ul>
+	    <div id="myTabContent" class="tab-content">
+	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+	      	<div>
+		        <h2><b>Deactive Users</b></h2>
+	        </div>
+			<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+				</div> 
+	      </div>
+	      
+	    </div>
+  </div>
+  
+<div style="display:none;" id="activateModal" data-toggle="modal" data-target="#modal-delete"></div>
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="deleteClose" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Activate User</strong></h4>
+                </div>
+                <div class="modal-body">
+                	<h2> Are you want to active this account?</h2>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="activeUserAccount()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<style>
+.ImageBorder
+{
+        border: 5px solid #0099FF;
+}
+.noClass{
+	
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+</style>	
+
+<script>
+var _URL = window.URL || window.webkitURL;
+function displayPreview(files) {
+  var file = files[0]
+  var img = new Image();
+  var sizeKB = file.size / 1024;
+   img.onload = function() {
+	   console.log("image");
+     $('#preview').append(img);
+     alert("Size: " + sizeKB + "KB\nWidth: " + img.width + "\nHeight: " + img.height);
+  } 
+  img.src = _URL.createObjectURL(file);
+}
+#{field 'user.ImageName'}
+</script>

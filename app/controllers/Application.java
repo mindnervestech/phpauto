@@ -120,6 +120,7 @@ import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import viewmodel.AssignToVM;
 import viewmodel.AudioVM;
 import viewmodel.BarChartVM;
 import viewmodel.BlogVM;
@@ -150,6 +151,7 @@ import viewmodel.SoldContactVM;
 import viewmodel.SpecificationVM;
 import viewmodel.ToDoVM;
 import viewmodel.TradeInVM;
+import viewmodel.UserLeadVM;
 import viewmodel.UserNoteVM;
 import viewmodel.UserVM;
 import viewmodel.VehicleVM;
@@ -268,7 +270,7 @@ public class Application extends Controller {
 	public static Result login() {
 		String email = Form.form().bindFromRequest().get("email");
 		String password= Form.form().bindFromRequest().get("password");
-		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).findUnique();
+		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).eq("account", "active").findUnique();
 		if(user != null) {
 			
 			if(user.getNewUser()== 1){
@@ -24113,4 +24115,242 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	}
 	}
 	
+	public static Result getAllLeadsByUser(Integer id){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = AuthUser.findById(id);
+    		List<UserLeadVM> list = new ArrayList<>();
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+    		if(user !=null){
+    			List<RequestMoreInfo> listData = RequestMoreInfo.findAllAssignedLeadsToUser(user);
+    			List<ScheduleTest> scheduleData = ScheduleTest.findAllAssignedLeadsToUser(user);
+    			List<TradeIn> tradeData = TradeIn.findAllAssignedLeadsToUser(user);
+    			for (RequestMoreInfo info : listData) {
+    				UserLeadVM vm = new UserLeadVM();
+    				Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+    	    		if(vehicle != null) {
+    	    			vm.model = vehicle.model;
+    	    			vm.make = vehicle.make;
+    	    			vm.stock = vehicle.stock;
+    	    			vm.year = vehicle.year;
+    	    			vm.mileage = vehicle.mileage;
+    	    			vm.price = vehicle.price;
+    	    			vm.bodyStyle =vehicle.bodyStyle;
+    	    			vm.drivetrain = vehicle.drivetrain;
+    	    			vm.engine = vehicle.engine;
+    	    			vm.transmission = vehicle.transmission;
+    	    		}
+    					vm.leadType = "Request More Info";
+    					vm.name = info.name;
+    					vm.phone = info.phone;
+    					vm.email = info.email;
+    					vm.vin = info.vin;
+    					vm.check = false;
+    					vm.id = info.id;
+    					vm.requestDate = df.format(info.requestDate);
+    					list.add(vm);
+				}
+    			for (ScheduleTest info : scheduleData) {
+    				UserLeadVM vm = new UserLeadVM();
+    				Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+    	    		if(vehicle != null) {
+    	    			vm.model = vehicle.model;
+    	    			vm.make = vehicle.make;
+    	    			vm.stock = vehicle.stock;
+    	    			vm.year = vehicle.year;
+    	    			vm.mileage = vehicle.mileage;
+    	    			vm.price = vehicle.price;
+    	    			vm.bodyStyle =vehicle.bodyStyle;
+    	    			vm.drivetrain = vehicle.drivetrain;
+    	    			vm.engine = vehicle.engine;
+    	    			vm.transmission = vehicle.transmission;
+    	    		}
+    					vm.leadType = "Schedule Test Drive";
+    					vm.name = info.name;
+    					vm.phone = info.phone;
+    					vm.email = info.email;
+    					vm.vin = info.vin;
+    					vm.check = false;
+    					vm.id = info.id;
+    					vm.requestDate = df.format(info.scheduleDate);
+    					list.add(vm);
+				}
+    			for (TradeIn info : tradeData) {
+    				UserLeadVM vm = new UserLeadVM();
+    				Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+    	    		if(vehicle != null) {
+    	    			vm.model = vehicle.model;
+    	    			vm.make = vehicle.make;
+    	    			vm.stock = vehicle.stock;
+    	    			vm.year = vehicle.year;
+    	    			vm.mileage = vehicle.mileage;
+    	    			vm.price = vehicle.price;
+    	    			vm.bodyStyle =vehicle.bodyStyle;
+    	    			vm.drivetrain = vehicle.drivetrain;
+    	    			vm.engine = vehicle.engine;
+    	    			vm.transmission = vehicle.transmission;
+    	    		}
+    					vm.leadType = "Trade In Info";
+    					vm.name = info.firstName+" "+info.lastName;
+    					vm.phone = info.phone;
+    					vm.email = info.email;
+    					vm.vin = info.vin;
+    					vm.check = false;
+    					vm.id = info.id;
+    					vm.requestDate = df.format(info.tradeDate);
+    					list.add(vm);
+				}
+    		}
+    		return ok(Json.toJson(list));
+    	}
+	}
+	
+    public static Result getAllUsersToAssign() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		
+    		AuthUser users = getLocalUser();
+    		/*List<AuthUser> userList = AuthUser.getUserByType();*/
+    		List<AuthUser> userList = AuthUser.findByLocatio(users.location);
+    		List<UserVM> vmList = new ArrayList<>();
+    	
+    		for(AuthUser user : userList) {
+    			List<String> parmi = new ArrayList<>();
+    			UserVM vm = new UserVM();
+    			vm.fullName = user.firstName + " "+ user.lastName;
+    			vm.firstName = user.firstName;
+    			vm.lastName = user.lastName;
+    			vm.email = user.email;
+    			vm.phone = user.phone;
+    			vm.userType = user.role;
+    			vm.commission =user.commission;
+    			vm.contractDur = user.contractDur;
+    			vm.age = user.age;
+    			vm.userGender = user.userGender;
+    			vm.experience = user.experience;
+    			vm.trainingPro = user.trainingPro;
+    			vm.salary = user.salary;
+    			vm.trialPeriod = user.trialPeriod;
+    			vm.trainingCost = user.trainingCost;
+    			vm.trainingHours = user.trainingHours;
+    			vm.quota = user.quota;
+    			vm.imageName = user.imageName;
+    			vm.imageUrl = user.imageUrl;
+    			vm.trial = user.trial;
+    			vm.id = user.id;
+    			for(Permission permission:user.permission){
+    				parmi.add(permission.name);
+    			}
+    			vm.permissions = parmi;
+    			
+    				vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
+    
+    public static Result assignToUser(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	Identity user = getLocalUser();
+	    	Form<AssignToVM> form = DynamicForm.form(AssignToVM.class).bindFromRequest();
+	    	AssignToVM vm = form.get();
+	    	AuthUser assUser = AuthUser.findById(Integer.parseInt(vm.id));
+	    	for(UserLeadVM userLead : vm.leads) {
+	    		if(userLead.leadType.equalsIgnoreCase("Request More Info")){
+	    			RequestMoreInfo info = RequestMoreInfo.findById(userLead.id);
+	    			info.setAssignedTo(assUser);
+	    			info.update();
+	    		}else if(userLead.leadType.equalsIgnoreCase("Schedule Test Drive")){
+	    			ScheduleTest info = ScheduleTest.findById(userLead.id);
+	    			info.setAssignedTo(assUser);
+	    			info.update();
+	    		}else if(userLead.leadType.equalsIgnoreCase("Trade In Info")){
+	    			TradeIn info = TradeIn.findById(userLead.id);
+	    			info.setAssignedTo(assUser);
+	    			info.update();
+	    		}
+	    	}
+	    	return ok();
+    	}
+    }	
+    
+    public static Result deactivateAccount(Integer id){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		System.out.println(id);
+    		AuthUser user = AuthUser.findById(id);
+    		if(user !=null){
+    			user.setAccount("deactive");
+        		user.update();
+    		}
+        	return ok();
+    	}
+    }
+    public static Result getAllDeactivateUsers(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		
+    		AuthUser users = getLocalUser();
+    		/*List<AuthUser> userList = AuthUser.getUserByType();*/
+    		List<AuthUser> userList = AuthUser.findByLocationDeactive(users.location);
+    		List<UserVM> vmList = new ArrayList<>();
+    	
+    		for(AuthUser user : userList) {
+    			List<String> parmi = new ArrayList<>();
+    			UserVM vm = new UserVM();
+    			vm.fullName = user.firstName + " "+ user.lastName;
+    			vm.firstName = user.firstName;
+    			vm.lastName = user.lastName;
+    			vm.email = user.email;
+    			vm.phone = user.phone;
+    			vm.userType = user.role;
+    			vm.commission =user.commission;
+    			vm.contractDur = user.contractDur;
+    			vm.age = user.age;
+    			vm.userGender = user.userGender;
+    			vm.experience = user.experience;
+    			vm.trainingPro = user.trainingPro;
+    			vm.salary = user.salary;
+    			vm.trialPeriod = user.trialPeriod;
+    			vm.trainingCost = user.trainingCost;
+    			vm.trainingHours = user.trainingHours;
+    			vm.quota = user.quota;
+    			vm.imageName = user.imageName;
+    			vm.imageUrl = user.imageUrl;
+    			vm.trial = user.trial;
+    			vm.id = user.id;
+    			for(Permission permission:user.permission){
+    				parmi.add(permission.name);
+    			}
+    			vm.permissions = parmi;
+    			
+    			if(!vm.userType.equals("Manager")){
+    				vmList.add(vm);
+    			}
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
+    public static Result activeAccount(Integer id){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		System.out.println(id);
+    		AuthUser user = AuthUser.findById(id);
+    		if(user !=null){
+    			user.setAccount("active");
+        		user.update();
+    		}
+        	return ok();
+    	}
+    }
 }

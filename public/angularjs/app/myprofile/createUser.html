@@ -1,8 +1,9 @@
   
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-    <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">Manager Profile</button></a></li>
-      <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Users</button></a></li>
+    	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">Manager Profile</button></a></li>
+      	<li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Users</button></a></li>
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactive()">Deactive Users</button></a></li>
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
@@ -828,20 +829,28 @@
         </div>
     </div>
   
-  <div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-delete"></div>
+<div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-delete"></div>
 <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="modal-dialog" style="margin:100px;">
+            <div class="modal-content" style="width:1500px;height: 900px;">
                 <div class="modal-header">
                     <button type="button" id="deleteClose" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-                    <h4 class="modal-title"><strong>Delete User</strong></h4>
+                    <h4 class="modal-title"><strong>Disable User</strong></h4>
                 </div>
                 <div class="modal-body">
-                   Are you sure to delete user?<br>
+                	<div class="col-sm-12" style="margin-bottom: 50px;">
+                		<select class="form-control form-white" id="assignUserId" ng-model="assignUser" style="width:150px;margin-left: 70%;">
+                            <option ng-repeat="item in usersList" value="{{item.id}}">{{item.fullName}}</option>
+                         </select>
+                		<button class="btn btn-primary btn-embossed" style="margin-left: 5px;" ng-click="assignTo()">Assign To User</button>
+                	</div>
+                	<div class="col-sm-12">
+                		<div ui-grid="gridOptions1" style="height:600px; width:1450px;" ui-grid-edit ui-grid-pagination></div>
+					</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteUserById()">Yes</button>
+                    <button id="clsUserLead" type="button" class="btn btn-default btn-embossed" data-dismiss="modal" style="margin-top:30px;" ng-click="clouseUserLead()">Close</button>
+                    <button type="button" class="btn btn-primary btn-embossed" ng-click="deactivateAccount()" style="margin-top:30px;">Deactivate</button>
                 </div>
             </div>
         </div>

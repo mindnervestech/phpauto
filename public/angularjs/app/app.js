@@ -55,8 +55,10 @@ var MakeApp = angular
             templateUrl: '/dealer/myprofile/createLocation.html',
             controller: 'createLocationCtrl'
         })
-        
-         
+        .when('/deactiveUsers', {
+            templateUrl: '/dealer/myprofile/deactiveUser.html',
+            controller: 'DeactivateUserCtrl'
+        })         
         .when('/sliderImages', {
             templateUrl: '/dealer/homePage/sliderImages.html',
             controller: 'HomePageCtrl'

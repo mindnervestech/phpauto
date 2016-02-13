@@ -146,10 +146,6 @@ angular.module('newApp')
 	$scope.gotoProfile = function() {
 		$location.path('/myprofile');
 	};
-	$scope.goToDeactive = function() {
-		console.log("....");
-		$location.path('/deactiveUsers');
-	};
 	$scope.userId = null;
 	$scope.checked = [];
 	$scope.usersList = null;
@@ -157,14 +153,14 @@ angular.module('newApp')
 	$scope.userLeads = {};
 	$http.get('/getAllUsersToAssign')
 	.success(function(data) {
-		//console.log(data);
+		console.log(data);
 		$scope.usersList = data;
 		angular.forEach($scope.usersList, function(obj, index){
 			 if ((obj.userType == "Manager")) {
 				 $scope.assignUser = obj.id;
 		    };
 		  });
-		//console.log($scope.assignUser);
+		console.log($scope.assignUser);
 	});
 	
 	$scope.selectLead = function(row){
@@ -185,11 +181,11 @@ angular.module('newApp')
 	}
 	
 	$scope.assignTo = function(){
-		//console.log($scope.assignUser);
-		//console.log($scope.checked);
+		console.log($scope.assignUser);
+		console.log($scope.checked);
 		$scope.userLeads.id = $scope.assignUser;
 		$scope.userLeads.leads = $scope.checked;
-		//console.log($scope.userLeads);
+		console.log($scope.userLeads);
 		if($scope.userLeads.leads.length > 0){
 			$http.post('/assignToUser',$scope.userLeads)
 			.success(function(data) {
@@ -200,7 +196,7 @@ angular.module('newApp')
 				});
 	            $http.get('/getAllLeadsByUser/'+$scope.userId)
 	    		.success(function(data) {
-	    			//console.log(data);
+	    			console.log(data);
 	    		$scope.gridOptions1.data = data;
 	    		
 	    	});
@@ -218,7 +214,7 @@ angular.module('newApp')
 	$scope.deactivateAccount = function(){
 		console.log($scope.gridOptions1.data.length);
 		if($scope.gridOptions1.data.length <= 0){
-			//console.log($scope.userId);
+			console.log($scope.userId);
 			 $http.get('/deactivateAccount/'+$scope.userId)
 	    		.success(function(data) {
 	    			$scope.init();
@@ -244,7 +240,7 @@ angular.module('newApp')
 		$scope.userLeads = {};
 		$http.get('/getAllUsersToAssign')
 		.success(function(data) {
-			//console.log(data);
+			console.log(data);
 			$scope.usersList = data;
 			angular.forEach($scope.usersList, function(obj, index){
 				 if ((obj.userType == "Manager")) {
@@ -258,7 +254,7 @@ angular.module('newApp')
 		var type = $('#userType').val();
 		console.log(type);
 		if(type == "Sales Person"){
-			//console.log("in if");
+			console.log("in if");
 			angular.forEach($scope.permissionList, function(obj, index){
 				 if ((obj.name == "My Profile") || (obj.name == "Inventory") || (obj.name == "Dashboard")) {
 					 $scope.permission.push(obj.name);
@@ -266,7 +262,7 @@ angular.module('newApp')
 			    };
 			  });
 		}else{
-			//console.log("in else");
+			console.log("in else");
 			$scope.permission = [];
 			angular.forEach($scope.permissionList, function(obj, index){
 				
@@ -281,7 +277,7 @@ angular.module('newApp')
 	$scope.init = function() {
 		$http.get('/getAllUsers')
 		.success(function(data) {
-			//console.log(data);
+			console.log(data);
 		$scope.gridOptions.data = data;
 		
 	});
@@ -329,7 +325,7 @@ angular.module('newApp')
 	
 	$scope.showText = 0;
 	$scope.getProvided = function(validText){
-		//console.log(validText);
+		console.log(validText);
 		if(validText == "Yes"){
 			$scope.showText = 1;
 		}else{
@@ -338,7 +334,7 @@ angular.module('newApp')
 		
 	}
 	$scope.getTrial = function(validText){
-		//console.log(validText);
+		console.log(validText);
 		if(validText == "Yes"){
 			$scope.showText = 1;
 		}else{
@@ -347,7 +343,7 @@ angular.module('newApp')
 		
 	}
 	
-	//console.log($scope.permissionList);
+	console.log($scope.permissionList);
 	
 	$scope.rolesClicked = function(e, rolePer,value){
 		console.log(rolePer);
@@ -357,7 +353,7 @@ angular.module('newApp')
 		}else{
 			$scope.deleteItem(rolePer);
 		}
-		//console.log($scope.permission);
+		console.log($scope.permission);
 	}
 	$scope.deleteItem = function(rolePer){
 		angular.forEach($scope.permission, function(obj, index){
@@ -385,11 +381,11 @@ angular.module('newApp')
 			$scope.duration1=val[1];
 			$('#txt1').click();
 		}
-		//console.log($scope.num1);
-		//console.log($scope.duration1);
+		console.log($scope.num1);
+		console.log($scope.duration1);
 		$scope.userData = row.entity;
 		$scope.userData.trialPeriod = parseInt($scope.userData.trialPeriod);
-		//console.log($scope.userData);
+		console.log($scope.userData);
 		$scope.permission = [];
 		
 		angular.forEach($scope.permissionList, function(obj, index){
@@ -409,12 +405,12 @@ angular.module('newApp')
 	}
 	
 	$scope.deleteUser = function(row) {
-		//console.log(row.entity);
-		//console.log(row.entity.id);
+		console.log(row.entity);
+		console.log(row.entity.id);
 		$scope.userId = row.entity.id;
 		$http.get('/getAllLeadsByUser/'+$scope.userId)
 		.success(function(data) {
-			//console.log(data);
+			console.log(data);
 		$scope.gridOptions1.data = data;
 		
 	});
@@ -447,7 +443,7 @@ angular.module('newApp')
 						fileReader.onload = function (e) {
 							$timeout(function () {
 								$scope.img = e.target.result;
-								//console.log(e.target.result);
+								console.log(e.target.result);
 							});
 							
 						}
@@ -469,8 +465,8 @@ angular.module('newApp')
 			$scope.user.contractDur = $scope.num+" "+$scope.duration;
 		}
 		$scope.user.imageUrl = $scope.img;
-		//console.log(logofile);
-		//console.log($scope.user);
+		console.log(logofile);
+		console.log($scope.user);
 		if(angular.isUndefined(logofile)) {
 			if($scope.emailMsg == "") {
 				$http.post('/uploadImageFile',$scope.user)
@@ -531,11 +527,11 @@ angular.module('newApp')
 			$scope.userData.contractDur = $scope.num1+" "+$scope.duration1;
 		}
 		
-		//console.log($scope.userData);
+		console.log($scope.userData);
 		$scope.userData.locationId = 0;
 		if(angular.isUndefined(logofile)) {
 			$scope.userData.imageUrl = $scope.img;
-			//console.log("no logofile");
+			console.log("no logofile");
 			if($scope.emailMsg == "") {
 					$http.post('/updateImageFile',$scope.userData)
 					.success(function(data) {
@@ -550,7 +546,7 @@ angular.module('newApp')
 					});
 				}
 			} else {
-				//console.log("in logofile = "+logofile);
+				console.log("in logofile = "+logofile);
 				if($scope.emailMsg == "") {
 					$upload.upload({
 			            url : '/updateImageFile',
@@ -558,7 +554,7 @@ angular.module('newApp')
 			            file:logofile,
 			            data:$scope.userData
 			        }).success(function(data, status, headers, config) {
-			            //console.log('success');
+			            console.log('success');
 			            $('#btnEditClose').click();
 			           
 			            $.pnotify({
@@ -587,70 +583,3 @@ angular.module('newApp')
 	}
 	
 }]);	
-
-angular.module('newApp')
-.controller('DeactivateUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
-
-	//console.log("in DeactivateUserCtrl");
-	$scope.gridOptions = {
-	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-	 		    paginationPageSize: 150,
-	 		    enableFiltering: true,
-	 		    useExternalFiltering: true,
-	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
-	 		 };
-	 		 $scope.gridOptions.enableHorizontalScrollbar = 0;
-	 		 $scope.gridOptions.enableVerticalScrollbar = 2;
-	 		 $scope.gridOptions.columnDefs = [
-	 		                                 { name: 'fullName', displayName: 'Name', width:'25%',cellEditableCondition: false,enableFiltering: false,
-	 		                                	
-	 		                                 },
-	 		                                 { name: 'email', displayName: 'Email',enableFiltering: false, width:'20%',cellEditableCondition: false,
-	 		                                	
-	 		                                 },
-	 		                                 { name: 'phone', displayName: 'Phone',enableFiltering: false, width:'20%',cellEditableCondition: false,
-	 		                                	
-	 		                                 },
-	 		                                 { name: 'userType', displayName: 'Role',enableFiltering: false, width:'20%',cellEditableCondition: false,
-	 		                                	
-	 		                                 },
-	 		                                 { name: 'edit', displayName: '', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-       		                                 cellTemplate:'<button type="button" ng-click="grid.appScope.activateAccount(row.entity)" style="margin-left:5px;" class="btn btn-sm btn-primary">Active</button>', 
-   		                                 
-   		                                 },
-	     		                                 ];
-	 		$scope.init = function() {
-	 			$http.get('/getAllDeactivateUsers')
-	 			.success(function(data) {
-	 				//console.log(data);
-	 			$scope.gridOptions.data = data;
-	 			
-	 			});
-	 		};
-	 		$scope.activateAccount = function(item){
-	 			//console.log(item);
-	 			$scope.userId = item.id;
-	 			$('#activateModal').click();
-	 		};
-	 		$scope.activeUserAccount = function(){
-	 			console.log($scope.userId);
-	 			$http.get('/activeAccount/'+$scope.userId)
-	 			.success(function(data) {
-	 				//console.log("success");
-	 				$scope.init();
-	 			});
-	 		};
-	 		$scope.gotoProfile = function() {
-	 			$location.path('/myprofile');
-	 		};
-	 		$scope.goToLoaction = function() {
-	 			$location.path('/createLocation');
-	 		};
-	 		
-	 		$scope.goToUsers = function() {
-	 			$location.path('/createUser');
-	 		};
-	 		$scope.goToDeactive = function() {
-	 			$location.path('/deactiveUsers');
-	 		};
-}]);
