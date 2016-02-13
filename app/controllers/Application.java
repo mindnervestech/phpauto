@@ -24055,4 +24055,62 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	}
 	}
 	
+	public static Result getVehiclePriceLogs(Long id,String vin,String status){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Vehicle vehicle = null;
+    		if(status.equalsIgnoreCase("Newly Arrived")){
+    			vehicle = Vehicle.findByVinAndStatus(vin);
+    		}else{
+    			vehicle = Vehicle.findById(id);
+    		}
+    		List<PriceChange> pChange = PriceChange.findByVin(vin);
+    		 
+			List<PriceChangeVM> pList = new ArrayList<>();
+			PriceChangeVM pVm1 = new PriceChangeVM();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			if(vehicle != null){
+				pVm1.person = "Has been added to the invnetory";
+				pVm1.dateTime = df.format(vehicle.postedDate);
+				pList.add(pVm1);
+				
+				for(PriceChange pChg:pChange){
+					String dateChanege = df.format(pChg.getDateTime());
+					Date changDate = null;
+					try {
+						changDate = df.parse(dateChanege);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(vehicle.soldDate == null){
+						if (vehicle.postedDate.before(changDate) || vehicle.postedDate.equals(changDate)) {
+							PriceChangeVM pVm = new PriceChangeVM();
+							pVm.person = "Price Change "+pChg.price;
+							pVm.dateTime = df.format(pChg.dateTime);
+							pList.add(pVm);
+						}
+					}else{
+						if ((vehicle.postedDate.before(changDate) || vehicle.postedDate.equals(changDate)) && changDate.before(vehicle.soldDate)) {
+							PriceChangeVM pVm = new PriceChangeVM();
+							pVm.person = "Price Change"+pChg.price;
+							pVm.dateTime = df.format(pChg.dateTime);
+							pList.add(pVm);
+						}
+					}
+					
+				}
+				
+				if(vehicle.soldDate !=null){
+					pVm1 = new PriceChangeVM();
+					pVm1.person = "Vehicle sold";
+					pVm1.dateTime = df.format(vehicle.soldDate);
+					pList.add(pVm1);
+				}
+			}
+			return ok(Json.toJson(pList));
+    	}
+	}
+	
 }

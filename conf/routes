@@ -236,6 +236,7 @@ GET   /getSoldVehicleDetailsAvgSale		controllers.Application.getSoldVehicleDetai
 GET   /getFinancialVehicleDetails		controllers.Application.getFinancialVehicleDetails()
 GET   /getFinancialVehicleDetailsByBodyStyle	 	controllers.Application.getFinancialVehicleDetailsByBodyStyle()
 GET   /getCustomerRequest/:id/:vinNo/:status/:startDate/:endDate		 	controllers.Application.getCustomerRequest(id:Long,vinNo:String,status:String,startDate:String,endDate:String)
+GET   /getVehiclePriceLogs/:id/:vinNo/:status		 	controllers.Application.getVehiclePriceLogs(id:Long,vinNo:String,status:String)
 GET   /getCustomerRequestLeads/:id/:vinNo/:status/:startDate/:endDate		 	controllers.Application.getCustomerRequestLeads(id:Long,vinNo:String,status:String,startDate:String,endDate:String)
 GET   /getFollowerLeads/:id/:vinNo/:status/:startDate/:endDate		 	 controllers.Application.getFollowerLeads(id:Long,vinNo:String,status:String,startDate:String,endDate:String)
 GET   /getviniewsChartLeads/:id/:vinNo/:status/:startDate/:endDate		  	controllers.Application.getviniewsChartLeads(id:Long,vinNo:String,status:String,startDate:String,endDate:String)

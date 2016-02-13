@@ -577,7 +577,14 @@ angular.module('newApp')
 console.log("....................");
 console.log($routeParams.vin);
 console.log($routeParams.status);
-	
+console.log($routeParams);
+
+$http.get('/getVehiclePriceLogs/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status).success(function(data) {
+	console.log("succeess");
+	console.log(data);
+	$scope.listingLog = data;;
+});
+
 $('#viewsChartS').css("text-decoration","underline");
 	/*$http.get('/getFinancialVehicleDetailsByBodyStyle').success(function(data) {
 		console.log("succee");
@@ -628,7 +635,7 @@ $scope.showLeads = function(){
 		$http.get('/getCustomerRequestLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 			console.log("succeess");
 			console.log(data);
-			$scope.listingLog = data.pList;
+			//$scope.listingLog = data.pList;
 			 createChart(data.sAndValues);
 		});
 		
