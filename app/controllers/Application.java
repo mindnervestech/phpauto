@@ -11961,7 +11961,7 @@ public class Application extends Controller {
     	} else {
     		
     		Date currDate = new Date();
-    		
+    		String msg="success";
     		AuthUser user = (AuthUser) getLocalUser();
     		Form<SoldContactVM> form = DynamicForm.form(SoldContactVM.class).bindFromRequest();
     		SoldContactVM vm = form.get();
@@ -11982,29 +11982,39 @@ public class Application extends Controller {
     		contact.custZipCode = vm.custZipCode;
     		contact.enthicity = vm.enthicity;
     		contact.save();
-    		Contacts contactsObj = new Contacts();
-    		String arr[] = vm.name.split(" ");
-    		if(arr.length >= 1) {
-    			contactsObj.firstName = arr[0];
-    		} else {
-    			contactsObj.firstName = vm.name;
-    		}
-    		if(arr.length >= 2) {
-    			contactsObj.middleName = arr[1];
-    		}
-    		if(arr.length >= 3) {
-    			contactsObj.lastName = arr[2];
-    		} 
-    		contactsObj.email = vm.email;
-    		contactsObj.phone = vm.phone;
-    		contactsObj.custZipCode = vm.custZipCode;
-    		contactsObj.enthicity = vm.enthicity;
-    		contactsObj.newsLetter = 1;
-    		contactsObj.user = user.id;
-    		contactsObj.type = "Online";
-    		contactsObj.assignedTo = user.id.toString();
-    		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-    		contactsObj.save();
+    		try {
+    			Contacts con = Contacts.findByEmail(vm.email);
+        		if(con ==null){
+        			Contacts contactsObj = new Contacts();
+            		String arr[] = vm.name.split(" ");
+            		if(arr.length >= 1) {
+            			contactsObj.firstName = arr[0];
+            		} else {
+            			contactsObj.firstName = vm.name;
+            		}
+            		if(arr.length >= 2) {
+            			contactsObj.middleName = arr[1];
+            		}
+            		if(arr.length >= 3) {
+            			contactsObj.lastName = arr[2];
+            		} 
+            		contactsObj.email = vm.email;
+            		contactsObj.phone = vm.phone;
+            		contactsObj.custZipCode = vm.custZipCode;
+            		contactsObj.enthicity = vm.enthicity;
+            		contactsObj.newsLetter = 1;
+            		contactsObj.user = user.id;
+            		contactsObj.type = "Online";
+            		contactsObj.assignedTo = user.id.toString();
+            		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+            		contactsObj.save();
+        		}else{
+        			msg="contact error";
+        		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    		
     		Date date = new Date();
     		if(vm.typeOfLead.equals("Request More Info")){
 		    		
@@ -12090,7 +12100,7 @@ public class Application extends Controller {
         		otherParentChildLeadsStatus(vm,user,currDate);
         		lostLeadsFunction(schedule.vin, currDate);
     		}
-    		return ok();
+    		return ok(msg);
     	}
     }
     
