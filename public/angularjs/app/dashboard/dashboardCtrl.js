@@ -3741,7 +3741,7 @@ angular.module('newApp')
 						    text: "Test Drive Time Allready Exist",
 						});
 					}
-					
+					$('#clsPop').click();
 				});
 		   }
 		   

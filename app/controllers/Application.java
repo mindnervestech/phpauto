@@ -9745,14 +9745,24 @@ public class Application extends Controller {
 	        VelocityContext context = new VelocityContext();
 	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
 	       
-	        /*String arr[] = map.get("confirmDate").toString().split("-");
-	        int dayOfmonth = Integer.parseInt(arr[2]);
-	        int month = Integer.parseInt(arr[1]);*/
-	         Calendar cal = Calendar.getInstance();
-	         cal.setTime((Date)map.get("confirmDate"));
-	         int dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
-	         int month = cal.get(Calendar.MONTH);
-	        String monthName = months[month];
+	        int dayOfmonth=1;
+	        int month=0;
+	        try {
+	        	String arr[] = map.get("confirmDate").toString().split("-");
+		        if(arr.length >=2){
+		        	dayOfmonth = Integer.parseInt(arr[2]);
+			        month = Integer.parseInt(arr[1]);
+		        }else{
+		        	Calendar cal = Calendar.getInstance();
+			         cal.setTime((Date)map.get("confirmDate"));
+			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+			         month = cal.get(Calendar.MONTH)+1;
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        
+	        String monthName = months[month-1];
 	        context.put("hostnameUrl", imageUrlPath);
 	        context.put("siteLogo", logo.logoImagePath);
 	        context.put("dayOfmonth", dayOfmonth);
