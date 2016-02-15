@@ -310,10 +310,6 @@ public class Application extends Controller {
 		String userName = Form.form().bindFromRequest().get("name");
 		String userDate = Form.form().bindFromRequest().get("date");
 		String userPhone = Form.form().bindFromRequest().get("phone");
-		System.out.println(email);
-		System.out.println(userName);
-		System.out.println(userDate);
-		System.out.println(userPhone);
 		AuthUser user = AuthUser.findByEmail(email);
 		if(user != null) {
 			user.setNewUser(1);
@@ -344,15 +340,12 @@ public class Application extends Controller {
     	            BufferedReader inStreamReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
     	            String line = inStreamReader.readLine();
     	            while (line != null) {
-    	                System.out.println(line);
     	                line = inStreamReader.readLine();
     	            }
     	        } catch (Exception e) {
     	            System.out.println("coming-->" + e.getMessage());
     	        }
     	        File f = new File(pdfFilePath);
-    		System.out.println(f.getName().toString());
-    		System.out.println(f.getAbsolutePath().toString());
 
 	        agreementEmail();
     		
@@ -367,7 +360,6 @@ public class Application extends Controller {
 	}
 	
 	public static Result agreementEmail(){
-		System.out.println("agreementEmail");
 		
 	        String to = "info@gliderllc.com";
 	        String from = "glider.autos@gmail.com";
@@ -429,7 +421,6 @@ public class Application extends Controller {
 	}
 	
 	public static Result agreementEmail(String userName,String userDate, String userPhone) {
-		System.out.println("agreementEmail");
 			
 		Properties props = new Properties();
  		props.put("mail.smtp.auth", "true");
@@ -2970,8 +2961,6 @@ public class Application extends Controller {
 	    				document.close();
 
 	    			} catch (Exception e) {
-	    				System.out.println("fFFFFFFFFFFFFFFFF");
-	    				System.out.println(e);
 	    				e.printStackTrace();
 	    			}
 
@@ -3046,7 +3035,6 @@ public class Application extends Controller {
 
 	    				// vehicale info
 
-	    				System.out.println(tradeIn.getYear());
 	    				if (tradeIn.getYear() != null) {
 	    					context.put("yearValue", tradeIn.getYear());
 	    				} else {
@@ -3794,7 +3782,6 @@ public class Application extends Controller {
     	
     	AuthUser user = (AuthUser) getLocalUser();
     	List<FollowBrand> brandFollowers = FollowBrand.getAllBrandFollowersName(brand);
-    	System.out.println(brandFollowers.size());
     	for(FollowBrand row: brandFollowers) {
     		AuthUser logoUser = getLocalUser();	
     		//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
@@ -4085,7 +4072,6 @@ public class Application extends Controller {
 		    	
 		    	vehicle.update();
 		    	if(flag==1){
-		    		System.out.println("in flag 1....");
 		    		sendPriceAlertMail(vehicle.vin);
 		    	}
 		    //	sendPriceAlertMail(vehicle.vin);
@@ -4213,7 +4199,6 @@ public class Application extends Controller {
 		    	vehicle.update();
 		    	
 		    	if(flag==1){
-		    		System.out.println("in flag 1");
 		    		sendPriceAlertMail(vehicle.vin);
 		    	}
 		//    	sendPriceAlertMail(vehicle.vin);
@@ -9203,10 +9188,7 @@ public class Application extends Controller {
     	
     	AuthUser userObj = (AuthUser) getLocalUser();
     	MyProfile mpObj = MyProfile.findByUser(userObj);
-    	System.out.println("////////////////");
-    	System.out.println(session("USER_LOCATION"));
     	if(mpObj != null) {
-    		System.out.println("userObj 8888888 == "+userObj.communicationemail);
     		mpObj.setMyname(vm.myname);
     		mpObj.setDealer_id(vm.dealer_id);
     		mpObj.setLatlong(vm.latlong);
@@ -9298,7 +9280,6 @@ public class Application extends Controller {
     	
     	userObj.communicationemail = vm.email;
     	userObj.update();
-    	/*System.out.println("userObj after 1 == "+userObj.communicationemail);*/
 		return ok();
     }
   
@@ -11243,7 +11224,6 @@ public class Application extends Controller {
 	        		
 	    	    	AuthUser userObj = new AuthUser();
 	    	    	LocationVM vm = form.get();
-	    	    	System.out.println(vm.locationaddress);
 	    	    	Location loc = Location.findById((long)vm.id);
 	    	    	if(loc != null){
 	    	    		loc.setEmail(vm.locationemail);
@@ -11335,7 +11315,6 @@ public class Application extends Controller {
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
 	    	}
-	    	System.out.println(vm.permissions);
 	    	userObj.deleteManyToManyAssociations("permission");
 	    	List<Permission> permissionList = Permission.getAllPermission();
 	    	   if(vm.userType.equals("General Manager") || vm.userType.equals("Manager")) {
@@ -14392,12 +14371,9 @@ public class Application extends Controller {
     			 sucessCount = 0;
     		}
     		
-    		System.out.println(pricecount);
-    		System.out.println(total);
 			if(pricecount > 0 && total > 0){
 				per = (int) ((pricecount*100)/total);
 				vm.per = per;
-				System.out.println(per);
 			}
     		vm.successRate = (int) sucessCount;
     		vm.salesAmount = pricecount;
@@ -15607,7 +15583,6 @@ public class Application extends Controller {
     		JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     		for(int i=0;i<jsonArray1.length();i++){
     			String data = jsonArray1.getJSONObject(i).get("action_url").toString();
-    			System.out.println(data);
     			String dataArr[] = data.split("#");
     			if(dataArr!=null && dataArr.length>0){
     				int count = data.split("#").length - 1;
@@ -15735,7 +15710,6 @@ public class Application extends Controller {
     	map.put("emailtofriend", countSubemailtofriend);
     	map.put("emailtofriendshow", countShowemailtofriend);
     	map.put("emailtofriendTotal", (countSubemailtofriend+countShowemailtofriend));
-    	System.out.println(map);
     	return ok(Json.toJson(map));
     }
     
@@ -15743,7 +15717,6 @@ public class Application extends Controller {
     public static Result getStatusList(String value){
     	
     	
-    	System.out.println("--------------- getStatusList ---------- "+value+" ---------");
     	String params = "&type=actions-list&date=last-30-days&limit=all";
     	
     	int countSubrequestmoreinfo = 0;
@@ -15765,7 +15738,6 @@ public class Application extends Controller {
     		JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     		for(int i=0;i<jsonArray1.length();i++){
     			String data = jsonArray1.getJSONObject(i).get("action_url").toString();
-    			System.out.println(data);
     			String dataArr[] = data.split("#");
     			if(dataArr!=null && dataArr.length>0){
     				int count = data.split("#").length - 1;
@@ -15919,7 +15891,6 @@ public class Application extends Controller {
     	map.put("emailtofriend", countSubemailtofriend);
     	map.put("emailtofriendshow", countShowemailtofriend);
     	map.put("emailtofriendTotal", (countSubemailtofriend+countShowemailtofriend));
-    	System.out.println(map);
     	return ok(Json.toJson(map));
     }
     
@@ -16082,7 +16053,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         					int count = data.split("#").length - 1;
@@ -16148,7 +16118,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -16216,7 +16185,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -16372,7 +16340,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -16471,7 +16438,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -16570,7 +16536,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -16752,7 +16717,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         					int count = data.split("#").length - 1;
@@ -16818,7 +16782,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -16883,7 +16846,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -17026,8 +16988,6 @@ public class Application extends Controller {
         			month = 0+month;
         		}
         		String dates = year + month + days;
-        		System.out.println("................................;;;;;;");
-        		System.out.println(dates);
         		if(analyType.equals("enginesound") || analyType.equals("virtualtour")){
         			
         			String params = "&date="+dates+"&type=actions-list&limit=all";
@@ -17037,7 +16997,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -17138,7 +17097,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -17239,7 +17197,6 @@ public class Application extends Controller {
         				JSONArray jsonArray1 = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
         				for(int j=0;j<jsonArray1.length();j++){
         					String data = jsonArray1.getJSONObject(j).get("action_url").toString();
-        					System.out.println(data);
         					String dataArr[] = data.split("#");
         					if(dataArr!=null && dataArr.length>0){
         						int count = data.split("#").length - 1;
@@ -17688,8 +17645,6 @@ public class Application extends Controller {
     	    					  SimpleDateFormat ra = new SimpleDateFormat("HH:mm:ss");
     	    					  String timevisit = jsonArray.getJSONObject(j).get("time_pretty").toString();
     	    					  String[] timeset = timevisit.split(",");
-    	    					  System.out.println("==========time================");
-									System.out.println(timeset[1]);
 									String[] timeDiv = timeset[1].split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)");
 									if(timeDiv[1].equals(String.valueOf(chagehr))){
 										if(timeDiv[4].equals("am") && i < 12){
@@ -17771,7 +17726,6 @@ public class Application extends Controller {
     	Map<String,Integer> pagesCount1 = new HashMap<String,Integer>(jsonNode.size());
     	Map<String,Integer> vinUnik1 = new HashMap<String,Integer>();
     	for(JsonNode item:jsonNode) {
-    		System.out.println(item.asText());
     		String url = item.get("url").asText();
     		if(url.contains("vehicleDetails")) {
     			String[] arr = url.split("/");
@@ -18309,9 +18263,7 @@ public class Application extends Controller {
     }
     
     public static Result addHeard(String name){
-    	System.out.println("in addHeard");
     	List<HeardAboutUs> nameList = HeardAboutUs.getByValue(name);
-    	System.out.println(nameList.size());
     	if(nameList.size() == 0){
     		System.out.println("addHeard");
     		HeardAboutUs obj = new HeardAboutUs();
@@ -19327,7 +19279,6 @@ public class Application extends Controller {
 
 				// vehicale info
 
-				System.out.println(tradeIn.getYear());
 				if (tradeIn.getYear() != null) {
 					context.put("yearValue", tradeIn.getYear());
 				} else {
@@ -20116,7 +20067,6 @@ public class Application extends Controller {
 	}	
 	
 	public static Result sendNewsletterEmail() {
-		System.out.println("template");
 		Date date = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -20272,7 +20222,6 @@ public class Application extends Controller {
 						APPLICATION_NAME).build();
 				com.google.api.services.calendar.Calendar.Events events=client.events();
 				com.google.api.services.calendar.model.Events eventList=events.list("primary").execute();
-				System.out.println("eventList :: "+eventList.getItems().size());
 				events1 = eventList.getItems();
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
@@ -20315,8 +20264,6 @@ public class Application extends Controller {
 				TaskLists taskLists = service.tasklists().list().execute();
 				//String code1 = null;
 				for (TaskList taskList : taskLists.getItems()) {
-				  System.out.println(taskList.getTitle());
-				  System.out.println(taskList.getUpdated());
 				  idtastlist.add(taskList.getId());
 				}
 				AuthUser user = getLocalUser();
@@ -20391,7 +20338,6 @@ public class Application extends Controller {
 	//static List<String> SCOPESTASK = new ArrayList<String>();
 
 	private static String  authorize() throws Exception {
-		System.out.println("call------------------calllllllllllllloooooo111111111");
 		AuthorizationCodeRequestUrl authorizationUrl;
 		System.out.println(flow);
 		if(flow==null){
@@ -20595,7 +20541,6 @@ public class Application extends Controller {
 		}
 	
 	private static String  authorizeUpdate() throws Exception {
-		System.out.println("call------------------calllllllllllllloooooo111111111");
 		AuthorizationCodeRequestUrl authorizationUrl;
 		System.out.println(flow);
 		if(flow==null){
@@ -20616,7 +20561,6 @@ public class Application extends Controller {
 	
 	public static Result updatecalenderdata(){
 		String  sessionValue =  session("sessionVmData");
-		System.out.println("sessionValue :: "+sessionValue);
 		
 		String code = request().getQueryString("code");
 		events1.clear();
@@ -21338,7 +21282,6 @@ public class Application extends Controller {
 		moTest.save();
 		sendMeetingMailToAssignee(vm, user, assi, loc);
 		sendMeetingMailToOrgnizer(vm, user, assi, loc);
-		System.out.println(vm);
 		return ok();
 	}
 	
@@ -23719,7 +23662,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
         		List<Contacts> list = Contacts.getAllContacts();
         		
         		for (Contacts contacts : list) {
-        			System.out.println("in loop");
         			
         			fileWriter.append(String.valueOf(contacts.contactId));
             		fileWriter.append(COMMA_DELIMITER);
@@ -23835,7 +23777,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	
 	public static Result scheduleEmail(List<String> emailList) {
-		System.out.println("scheduleEmail");
 		for(String email : emailList) {
 			System.out.println(email);
 		}
