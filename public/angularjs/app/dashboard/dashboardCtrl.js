@@ -2031,28 +2031,28 @@ angular.module('newApp')
 	    			$scope.getVisitedData('month','countHigh','0','0');
 	    		};
 	    		
+	    		$scope.notchange = 0;
 	    		$scope.getVisitedData = function(type,filterBy,search,searchBy) {
 	    			$http.get('/getVisitedData/'+type+'/'+filterBy+'/'+search+'/'+searchBy).success(function(response) {
 	    				console.log(response);
 	    				$scope.weekData = response;
 	    				
-	    				if(response.topVisited.length!=null)
-	    					{
-	    					console.log("length of response.topVisite");
-		    				console.log(response.topVisited.length);
-	    				    	$scope.currentSelectedType=0;
-	    					}else{
-	    						$scope.currentSelectedType=2;
-	    					}
+	    				if(response.topVisited.length == 0){
+	    					console.log("gggg");
+	    					console.log(response.topVisited.length);
+	    					$scope.currentSelectedType = 2;
+	    					$scope.notchange = 1;
+	    				}else{
+	    					console.log("ggggKKKK");
+	    					console.log(response.topVisited.length);
+	    					$scope.notchange = 0;
+	    				}
 	    				
 	    				if($scope.currentSelectedType==0) 
-	    					console.log("inside leadss");
 	    					$scope.currentData = response.topVisited;
-	    				
-	    				 if($scope.currentSelectedType==1)
+	    				else if($scope.currentSelectedType==1)
 	    					$scope.currentData = response.worstVisited;
-	    				if($scope.currentSelectedType==2)
-	    					console.log("inside all vehicles");
+	    				else if($scope.currentSelectedType==2)
 	    					$scope.currentData = response.allVehical;
 	    			});
 	    		};

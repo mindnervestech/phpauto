@@ -366,7 +366,7 @@ margin-left: 5px;
 												<div>
 								     				<div class="col-sm-12">
 								     					<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''"  ng-if="currentData.length!=null" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     					</div>
 								     					<div class="col-sm-2">
 								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;" ng-click="topListingCount('count',countFlag)"></span></h6>
