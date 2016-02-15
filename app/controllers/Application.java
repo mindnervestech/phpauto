@@ -21532,9 +21532,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
 	Map<Long, Long> mapdateView = new HashMap<Long, Long>();
+	Map<Long,Long> mapAlldate = new HashMap<Long, Long>();
 	List<List<Long>> lonn = new ArrayList<>();
 	List<sendDateAndValue> sAndValues = new ArrayList<>();
 	sendDateAndValue sValue = new sendDateAndValue();
+	
+	
 	
 	String params1 = "&type=visitors-list&date=last-30-days&limit=all";
 		int totalTime = 0;
@@ -21659,6 +21662,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			e.printStackTrace();
 		}
 		
+		
+		
 		for (Entry<Long, Long> entryValue : mapdateView.entrySet()) {
 			List<Long> value = new ArrayList<>();
 			value.add(entryValue.getKey());
@@ -21671,6 +21676,91 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		
 		sAndValues.add(sValue);
 		
+		Vehicle vehicle1 = null;
+		if (status.equals("Newly Arrived")) {
+			vehicle1 = Vehicle.findByVinAndStatus(vin);
+		}else if(status.equals("Sold")) {
+			 vehicle1 = Vehicle.findById(id);
+		}
+			int iDate = 2;
+			Date addDates = vehicle1.postedDate;
+			Date aajDate = new Date();
+			while(iDate > 0){
+				Calendar c = Calendar.getInstance(); 
+				c.setTime(addDates); 
+				c.add(Calendar.DATE, 1);
+				System.out.println(c.getTime());
+				
+				String DateString1 = df
+						.format(c.getTime());
+				Date dateDate1 = null;
+				try {
+					dateDate1 = df.parse(DateString1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
+				if (objectAllDate == null) {
+					mapAlldate.put(dateDate1.getTime() + (1000 * 60 * 60 * 24),1L);
+				}
+				
+				String DateString2 = df
+						.format(aajDate);
+				Date dateDate2 = null;
+				try {
+					dateDate2 = df.parse(DateString2);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				addDates = c.getTime();
+				if(addDates.equals(dateDate2)){
+					iDate = 0;
+				}
+			}
+		
+		
+		for (sendDateAndValue sAndValue : sAndValues) {
+			for (List<Long> longs : sAndValue.data) {
+				int i = 0;
+				for (Long long1 : longs) {
+					if (i == 0) {
+						for (Entry<Long, Long> entryValue : mapAlldate
+								.entrySet()) {
+							if (!entryValue.getValue().equals(0L)) {
+								if (!long1.equals(entryValue.getKey())) {
+									mapAlldate.put(entryValue.getKey(),
+											1L);
+								} else {
+									mapAlldate.put(entryValue.getKey(),
+											0L);
+								}
+							}
+
+						}
+						i++;
+					}
+
+				}
+
+			}
+			for (Entry<Long, Long> entryValue : mapAlldate.entrySet()) {
+				if (entryValue.getValue().equals(1L)) {
+					List<Long> value = new ArrayList<>();
+					value.add(entryValue.getKey());
+					value.add(0L);// entryValue.getKey(),0L};
+					sAndValue.data.add(value);
+
+				} else {
+					mapAlldate.put(entryValue.getKey(), 1L);
+				}
+			}
+
+		}
+
 		
 		for (sendDateAndValue sAndValue : sAndValues) {
 
