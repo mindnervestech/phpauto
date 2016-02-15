@@ -21687,14 +21687,17 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		sAndValues.add(sValue);
 		
 		Vehicle vehicle1 = null;
+		Date aajDate = null;
 		if (status.equals("Newly Arrived")) {
 			vehicle1 = Vehicle.findByVinAndStatus(vin);
+			  aajDate = new Date();
 		}else if(status.equals("Sold")) {
 			 vehicle1 = Vehicle.findById(id);
+				aajDate = vehicle1.soldDate;
 		}
 			int iDate = 2;
 			Date addDates = vehicle1.postedDate;
-			Date aajDate = new Date();
+		
 			while(iDate > 0){
 				Calendar c = Calendar.getInstance(); 
 				c.setTime(addDates); 
