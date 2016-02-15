@@ -3651,7 +3651,7 @@ angular.module('newApp')
 			   $scope.testDriveData.bestTime = entity.bestTime;
 			   $scope.testDriveData.option = option;
 			   $scope.testDriveData.typeOfLead = entity.typeOfLead;
-			   $('#bestTime').val("");
+			   //$('#bestTime').val("");
 			   $scope.testDriveData.prefferedContact = "";
 			   
 			   $scope.stockWiseData.push({
