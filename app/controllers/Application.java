@@ -14220,57 +14220,7 @@ public class Application extends Controller {
 				if(pMonthlySalepeople != null){
 					total = Integer.parseInt(pMonthlySalepeople.totalBrought);
 		    	}
-				/*int pricecountOther = 0;
-				List<RequestMoreInfo> reqInfo = RequestMoreInfo.findAllSeenComplete(sales);
-        		List<ScheduleTest> schedList = ScheduleTest.findAllSeenComplete(sales);
-        		List<TradeIn> tradeInsList = TradeIn.findAllSeenComplete(sales);
-				
-        		for(RequestMoreInfo rMoreInfo: reqInfo){
-        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,sales);
-        			for(Vehicle vehicle:vehicleVin){
-        				if(vehicle != null){
-        				 if(vehicle.status.equals("Sold")){
-        					if(crMonth.equals(dform.format(vehicle.soldDate))){
-        						pricecountOther = pricecountOther + vehicle.price;
-                    		}
-        				 }
-            			}
-        			}
-        			
-        		}
-        		for(ScheduleTest sTest: schedList){
-        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,sales);
-        			for(Vehicle vehicle:vehicleVin){
-        			if(vehicle != null){
-        				if(vehicle.status.equals("Sold")){
-        					if(crMonth.equals(dform.format(vehicle.soldDate))){
-        						pricecountOther = pricecountOther + vehicle.price;
-                    		}
-        				 }
-        				
-        			}
-        		}
-        		}
-        		
-        		for(TradeIn tradeIn: tradeInsList){
-        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,sales);
-        			for(Vehicle vehicle:vehicleVin){
-        			if(vehicle != null){
-        				if(vehicle.status.equals("Sold")){
-        					if(crMonth.equals(dform.format(vehicle.soldDate))){
-        						pricecountOther = pricecountOther + vehicle.price;
-                    		}
-        				 }
-        			}
-        		}
-        		}
-        		System.out.println(pricecountOther);
-        		System.out.println(total);
-				if(pricecountOther > 0 && total > 0){
-					double per = (pricecountOther*100)/total;
-					vm.per = per;
-					System.out.println(per);
-				}*/
+			
 				vm.fullName = sales.firstName+" "+sales.lastName;
 				vm.id = sales.id;
 				if(sales.imageUrl != null) {
@@ -21703,6 +21653,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				c.setTime(addDates); 
 				c.add(Calendar.DATE, 1);
 				System.out.println(c.getTime());
+				System.out.println(",,.,.,.,.,.");
 				
 				String DateString1 = df
 						.format(c.getTime());
@@ -21732,6 +21683,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				addDates = c.getTime();
 				if(addDates.equals(dateDate2)){
 					iDate = 0;
+					break;
 				}
 			}
 		
