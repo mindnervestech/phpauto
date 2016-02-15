@@ -12000,8 +12000,10 @@ public class Application extends Controller {
     		contactsObj.phone = vm.phone;
     		contactsObj.custZipCode = vm.custZipCode;
     		contactsObj.enthicity = vm.enthicity;
-    		contactsObj.newsLetter = 0;
+    		contactsObj.newsLetter = 1;
     		contactsObj.user = user.id;
+    		contactsObj.type = "Online";
+    		contactsObj.assignedTo = user.id.toString();
     		contactsObj.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     		contactsObj.save();
     		Date date = new Date();
@@ -19790,7 +19792,7 @@ public class Application extends Controller {
        			vm.street = contact.street;
        			vm.city = contact.city;
        			vm.state = contact.state;
-       			vm.zip = contact.zip;
+       			vm.zip = contact.custZipCode;
        			vm.country = contact.country;
        			vm.allEmail = contact.allEmail;
        			vm.allPhone = contact.allPhone;
@@ -19798,12 +19800,17 @@ public class Application extends Controller {
        			vm.allAddresses = contact.allAddresses;
        			vm.title = contact.title;
        			vm.fullName = contact.firstName+" "+contact.lastName;
+       			vm.enthicity = contact.enthicity;
        			/*vm.birthday = contact.birthday;
        			vm.backgroundInfo = contact.backgroundInfo;
        			vm.industry = contact.industry;
        			vm.numberOfEmployees = contact.numberOfEmployees;
        			vm.creationDate = contact.creationDate;
        			vm.lastEditedDate = contact.lastEditedDate;*/
+       			if(contact.assignedTo !=null){
+       				AuthUser user = AuthUser.findById(Integer.parseInt(contact.assignedTo));
+           			vm.assignedToName = user.firstName+" "+user.lastName;
+       			}
        			vm.assignedTo = contact.assignedTo;
        			vm.campaignSource = contact.campaignSource;
        			vm.priority = contact.priority;
@@ -19816,6 +19823,7 @@ public class Application extends Controller {
        			vm.workPhone1 = contact.workPhone1;
        			vm.email1 = contact.email1;
        			vm.phone1 = contact.phone1;
+       			
     			if(contact.newsLetter == 0) {
     				vm.newsletter = false;
     			} else {
@@ -19847,6 +19855,8 @@ public class Application extends Controller {
     			contacts.setCity(vm.city);
     			contacts.setState(vm.state);
     			contacts.setZip(vm.zip);
+    			contacts.setCustZipCode(vm.zip);
+    			contacts.setEnthicity(vm.enthicity);
     			contacts.setCountry(vm.country);
     			contacts.setAllEmail(vm.allEmail);
     			contacts.setAllPhone(vm.allPhone);
@@ -19906,7 +19916,11 @@ public class Application extends Controller {
  		    contacts.setWebsite(vm.website);
  		    contacts.setAllAddresses(vm.allAddresses);
  		   	contacts.setTitle(vm.title);
- 		    contacts.setAssignedTo(vm.assignedTo);
+ 		   	if(vm.assignedTo == null){
+ 		   		contacts.setAssignedTo(userObj.id.toString());
+ 		   	}else{
+ 		   		contacts.setAssignedTo(vm.assignedTo);
+ 		   	}
  		    contacts.setCampaignSource(vm.campaignSource);
  		    contacts.setPriority(vm.priority);
  		    contacts.setGroups(vm.groups);
@@ -19919,7 +19933,9 @@ public class Application extends Controller {
  		    //contacts.userId = userObj;
  		    contacts.setUser(userObj.id);
  		    contacts.setLocations(userObj.location);
- 		    
+ 		    contacts.setType("Offline");
+ 		    contacts.setEnthicity(vm.enthicity);
+ 		    contacts.setCustZipCode(vm.zip);
  		   /*
  		     contacts.setAllEmail(vm.allEmail);
  		    contacts.setAllPhone(vm.allPhone);
@@ -19941,11 +19957,12 @@ public class Application extends Controller {
  		    contacts.setLastEditedDate(vm.lastEditedDate);
  		    contacts.setRelationships(vm.relationships);
  		    contacts.setNotes(vm.notes);*/
-    			if(vm.newsletter == true) {
+    			/*if(vm.newsletter == true) {
     				contacts.setNewsLetter(1);
     			} else {
     				contacts.setNewsLetter(0);
-    			}
+    			}*/
+ 		   contacts.setNewsLetter(1);
     			contacts.save();
     		} else {
     			msg = "Email already exists";

@@ -29,6 +29,7 @@ public class ContactsVM {
 	public String creationDate;
 	public String lastEditedDate;
 	public String assignedTo;
+	public String assignedToName;
 	public String campaignSource;
 	public String priority;
 	public String groups;
@@ -41,7 +42,21 @@ public class ContactsVM {
 	public String email1;
 	public String phone1;
 	public String fullName;
+	public String enthicity;
 	
+
+	public String getEnthicity() {
+		return enthicity;
+	}
+	public void setEnthicity(String enthicity) {
+		this.enthicity = enthicity;
+	}
+	public String getAssignedToName() {
+		return assignedToName;
+	}
+	public void setAssignedToName(String assignedToName) {
+		this.assignedToName = assignedToName;
+	}
 	public String getFullName() {
 		return fullName;
 	}

@@ -3130,7 +3130,8 @@ angular.module('newApp')
     	
     	$scope.saveRequestStatus = function() {
     		
-    		console.log($scope.soldContact);
+    		//console.log($scope.soldContact);
+    		$('#soldBtn').attr("disabled", true);
     		$http.post('/setRequestStatusComplete',$scope.soldContact)
 			.success(function(data) {
 				$('#requestCompleteStatusModal').modal('hide');
@@ -3139,6 +3140,7 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Status changed successfully",
 				});
+				$('#soldBtn').attr("disabled", false);
 				$scope.getAllSalesPersonRecord($scope.salesPerson);
 			});
     	};		
