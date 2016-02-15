@@ -2030,11 +2030,24 @@ angular.module('newApp')
 	    			$http.get('/getVisitedData/'+type+'/'+filterBy+'/'+search+'/'+searchBy).success(function(response) {
 	    				console.log(response);
 	    				$scope.weekData = response;
+	    				
+	    				if(response.topVisited.length!=null)
+	    					{
+	    					console.log("length of response.topVisite");
+		    				console.log(response.topVisited.length);
+	    				    	$scope.currentSelectedType=0;
+	    					}else{
+	    						$scope.currentSelectedType=2;
+	    					}
+	    				
 	    				if($scope.currentSelectedType==0) 
+	    					console.log("inside leadss");
 	    					$scope.currentData = response.topVisited;
-	    				else if($scope.currentSelectedType==1)
+	    				
+	    				 if($scope.currentSelectedType==1)
 	    					$scope.currentData = response.worstVisited;
-	    				else if($scope.currentSelectedType==2)
+	    				if($scope.currentSelectedType==2)
+	    					console.log("inside all vehicles");
 	    					$scope.currentData = response.allVehical;
 	    			});
 	    		};
