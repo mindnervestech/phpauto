@@ -2223,7 +2223,7 @@ angular.module('newApp')
 	    				else
 	    					$scope.getTradeInData();
 	    			});*/
-	    			$route.reload();
+	    			//$route.reload();
 	    		};
 	    		
 	    		$scope.makeLeadEdit = function(){
