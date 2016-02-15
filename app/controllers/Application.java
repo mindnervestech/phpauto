@@ -21476,7 +21476,8 @@ public static Result getFollowerLeads(Long id, String vin,String status, String 
 			Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
 			
 			List<PriceAlert> pInfo = PriceAlert.getEmailsByVin(vin, Long.parseLong(session("USER_LOCATION")));
-			
+			if(vehicle != null){
+				
 			for(PriceAlert pAlert:pInfo){
 				if (vehicle.postedDate.before(pAlert.currDate) || vehicle.postedDate.equals(pAlert.currDate)) {
 					Long countCar = 1L;
@@ -21499,7 +21500,7 @@ public static Result getFollowerLeads(Long id, String vin,String status, String 
 					}
 				}
 			}
-			
+		}
 			
 			
 		}else if (status.equals("Sold")) {
