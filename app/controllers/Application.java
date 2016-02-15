@@ -10995,7 +10995,6 @@ public class Application extends Controller {
         		for(ScheduleTest sTest: sList1){
         			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,aUser);
         			for(Vehicle vehicle:vehicleVin){
-        				System.out.println(onlyMonth.format(vehicle.soldDate));
         			if(vehicle != null){
         				if(vehicle.status.equals("Sold")){
         					if(onlyMonth.format(vehicle.soldDate).equals(month)) {
@@ -11010,7 +11009,6 @@ public class Application extends Controller {
         		for(TradeIn tradeIn: tradeIns1){
         			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,aUser);
         			for(Vehicle vehicle:vehicleVin){
-        				System.out.println(onlyMonth.format(vehicle.soldDate));
         			if(vehicle != null){
         				if(vehicle.status.equals("Sold")){
         					if(onlyMonth.format(vehicle.soldDate).equals(month)) {
@@ -18267,7 +18265,6 @@ public class Application extends Controller {
     public static Result addHeard(String name){
     	List<HeardAboutUs> nameList = HeardAboutUs.getByValue(name);
     	if(nameList.size() == 0){
-    		System.out.println("addHeard");
     		HeardAboutUs obj = new HeardAboutUs();
     		obj.value = name;
     		obj.save();
@@ -20356,7 +20353,6 @@ public class Application extends Controller {
 
 	private static String  authorize() throws Exception {
 		AuthorizationCodeRequestUrl authorizationUrl;
-		System.out.println(flow);
 		if(flow==null){
 			Details web=new Details();
 			web.setClientId(clientId);
@@ -20559,7 +20555,6 @@ public class Application extends Controller {
 	
 	private static String  authorizeUpdate() throws Exception {
 		AuthorizationCodeRequestUrl authorizationUrl;
-		System.out.println(flow);
 		if(flow==null){
 			Details web=new Details();
 			web.setClientId(clientId);
@@ -23630,7 +23625,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    	
 	    	
 	    	if(flag == 0){
-	    		System.out.println(vm.leads);
 		    	LeadsDateWise lDateWise = new LeadsDateWise();
 		    	lDateWise.setLeads(vm.leads);
 				lDateWise.setLeadsDate(date);
@@ -23660,11 +23654,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
        	    }
        	    String filePath = rootDir+File.separator+"CsvFile/contacts.csv";
     		
-    		System.out.println(filePath);
     		
     		try {
        			Boolean sts = FileUtils.deleteQuietly(new File(filePath));
-       			System.out.println("delete "+sts);
     			} catch (Exception e) {
     				e.printStackTrace();
     			}
@@ -23794,9 +23786,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	
 	public static Result scheduleEmail(List<String> emailList) {
-		for(String email : emailList) {
-			System.out.println(email);
-		}
+		
 			for(String email : emailList) {
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
@@ -23869,21 +23859,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
         			List<ScheduleTest> schedule = ScheduleTest.findByVinDate(vin,d);
         			List<TradeIn> traidInfo = TradeIn.findByVinDate(vin,d);
         			for (TradeIn info : traidInfo) {
-        				System.out.println(".................");
-        				System.out.println(info.confirmTime);
-        				System.out.println(time.format(info.confirmTime));
         				timeList.add(time.format(info.confirmTime));
 					}
         			for (RequestMoreInfo info : moreInfo) {
-        				System.out.println(".................");
-        				System.out.println(info.confirmTime);
-        				System.out.println(time.format(info.confirmTime));
         				timeList.add(time.format(info.confirmTime));
 					}
         			for (ScheduleTest info : schedule) {
-        				System.out.println(".................");
-        				System.out.println(info.confirmTime);
-        				System.out.println(time.format(info.confirmTime));
         				timeList.add(time.format(info.confirmTime));
 					}
         			
@@ -23896,10 +23877,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	}
 	
 	public static Result vehicleSoldEmail(List<String> emailList) {
-		System.out.println("vehicleSoldEmail");
-		for(String email : emailList) {
-			System.out.println(email);
-		}
+		
 			for(String email : emailList) {
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
@@ -23997,8 +23975,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			if(per.name.equalsIgnoreCase("Add Vehicle") || per.name.equalsIgnoreCase("Inventory")){
 				return ok("true");
 			}
-			System.out.println(per.id);
-			System.out.println(per.name);
 		}
 		return ok("false");
 	}
@@ -24017,7 +23993,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		String latestPrice=vprice.toString();
 	    		if(!latestPrice.equals(databaseVal))
 	    		{
-	    		   System.out.println("in price change..");	
 	    				List<PriceAlert> alertList = PriceAlert.getEmailsByVin(vehicle.vin, Long.valueOf(session("USER_LOCATION")));
 	    				for(PriceAlert priceAlert: alertList) {
 	    					priceAlert.setSendEmail("Y");
@@ -24039,7 +24014,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		    	
 		    	vehicle.update();
 		    	if(flag==1){
-		    		System.out.println("in flag 1");
 		    		sendPriceAlertMail(vehicle.vin);
 		    	}
 		    	//sendPriceAlertMail(vehicle.vin);
@@ -24083,7 +24057,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
     }
 	
 	public static Result likeEmail(String email, String comment) {
-		System.out.println("Work like Email"+email);
 		
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
@@ -24365,7 +24338,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		System.out.println(id);
     		AuthUser user = AuthUser.findById(id);
     		if(user !=null){
     			user.setAccount("deactive");
@@ -24425,7 +24397,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		System.out.println(id);
     		AuthUser user = AuthUser.findById(id);
     		if(user !=null){
     			user.setAccount("active");

@@ -17,7 +17,6 @@ public class Global extends GlobalSettings {
 	
 	@Override
 	public void onStart(Application app) {
-		System.out.println("{{{{{{{{{{{}}}}}}}}}");
 		NewsLetter.newsletterSchedulling();
 		TestDriveScheduler.newsletterSchedulling();
 	}

@@ -107,8 +107,6 @@ angular.module('newApp')
 			$scope.orderItem = 'successRate';
 			$scope.successRate = 'true';
 		}
-		console.log($scope.orderItem);
-		console.log($scope.successRate);
 	};
 	$scope.currentLeadsFilter = function(currentLeads){
 		if(currentLeads == 'true'){
@@ -139,18 +137,14 @@ angular.module('newApp')
 	};
 	
 	$scope.openComment = function(item){
-		console.log(item);
 		$scope.userId = item.id;
 		$('#commentModel').modal();
 	};
 	
 	$scope.saveComment = function(){
-		console.log($scope.userId);
-		console.log($scope.userComment);
 		if($scope.userComment !=null && $scope.userComment !=""){
 			$http.get('/updateUserComment/'+$scope.userId+"/"+$scope.userComment)
 			.success(function(data) {
-				console.log("success");
 			});
 		}
 		$scope.userId = null;
@@ -163,7 +157,6 @@ angular.module('newApp')
 	 });	
 	$http.get('/getDataFromCrm').success(function(data){
 		$scope.searchList = data;
-		console.log($scope.searchList);
 	 });
 	$scope.editPrice = function(vin,index,id){
 		$scope.priceLbl = 'false';
@@ -171,7 +164,6 @@ angular.module('newApp')
 		$scope.vin = vin;
 		$scope.index = index;
 		$('#editPrice').focus();
-		console.log(id);
 	};
 	$scope.editName = function(vin,index,id){
 		$scope.nameLbl = 'false';
@@ -179,36 +171,27 @@ angular.module('newApp')
 		$scope.vin = vin;
 		$scope.index = index;
 		$('#editName').focus();
-		console.log(id);
 	};
 	$scope.setLable = function(price,vin){
 		$scope.priceLbl = 'true';
 		$scope.priceTxt = 'false';
-		console.log(price);
-		console.log(vin);
 		$http.get('/updateVehiclePrice/'+vin+"/"+price)
 		.success(function(data) {
-			console.log("success");
 		});
 	};
 	$scope.setName = function(name,vin){
 		$scope.nameLbl = 'true';
 		$scope.nameTxt = 'false';
-		console.log(name);
-		console.log(vin);
 		$http.get('/updateVehicleName/'+vin+"/"+name)
 		.success(function(data) {
-			console.log("success");
 		});
 	};
 	
 	$http.get('/getUserRole').success(function(data) {
-		console.log(data);
 		
 		$scope.userRole = data.role;
 		$scope.locationValue = data.location.id;
 		$scope.getSalesDataValue($scope.locationValue);
-		console.log($scope.userRole);
 		if($scope.userRole != "General Manager"){
 			$scope.userLocationData('Week','person');
 		}
@@ -219,26 +202,20 @@ angular.module('newApp')
 	
 	$http.get('/getAllLocation')
 		.success(function(data) {
-			console.log(data);
 		$scope.locationDataList = data;	
 	});
 	
 	
 	
 	$scope.findMystatisData = function(startD,endD,locOrPer){
-		console.log(startD);
-		console.log(endD);
 		$http.get('/getUserLocationByDateInfo/'+startD+'/'+endD+'/'+locOrPer)
 		//$http.get('/getUserLocationByDateInfo/'+startD+"/"+endD)
 		.success(function(data) {
 			$scope.parLocationData = data;
-			console.log(data);
 			$scope.leadsTime.leads = data.leads;
 			$scope.leadsTime.goalSetTime = data.goalTime;
 			$scope.showLeads = data.leads;
 			$scope.stackchart = data.sendData;
-			console.log(JSON.stringify(data.sendData));
-			console.log($scope.stackchart);
 			$scope.callChart($scope.stackchart);
 		});
 	 }
@@ -249,16 +226,12 @@ angular.module('newApp')
 			$http.get('/getUserLocationInfo/'+timeSet+"/"+locOrPer)
 			.success(function(data) {
 				$scope.parLocationData = data;
-				console.log(data);
 				$scope.leadsTime.leads = data.leads;
 				$scope.leadsTime.goalSetTime = data.goalTime;
 				$scope.showLeads = data.leads;
 				$scope.stackchart = data.sendData;
-				console.log(JSON.stringify(data.sendData));
-				console.log($scope.stackchart);
 				$scope.callChart($scope.stackchart);
 			});
-			console.log("hihih");
 	}
 	
 	$scope.locationOrPersonData = function(wiseData){
@@ -289,9 +262,7 @@ angular.module('newApp')
 	   };
 	   $scope.leadsTime = {};
 	$scope.saveLeads = function(){
-		console.log($scope.leadsTime);
 		$http.post("/saveLeads",$scope.leadsTime).success(function(data){
-			console.log(data);
 			 $('#Locationwise-model').modal("toggle");
 			 $scope.userLocationData('Week','person');
 		});
@@ -337,7 +308,6 @@ angular.module('newApp')
 	});
 	
 	$scope.showLocationWise = function(locationId){
-		console.log(locationId);
 		$scope.locationValue = locationId.id;
 		$scope.getPerformanceOfUser(0);
 		$scope.getSalesDataValue($scope.locationValue);
@@ -356,7 +326,6 @@ angular.module('newApp')
         
     	  $http.get('/getVisitorList/'+30)
   		.success(function(data) {
-  			console.log(data[0].dates[0].items);
   			$scope.gridOptions.data = data[0].dates[0].items;
   			$scope.visitiorList = data[0].dates[0].items;
   			angular.forEach($scope.visitiorList, function(value, key) {
@@ -388,10 +357,6 @@ angular.module('newApp')
   				}
   			});
   			
-  			console.log($scope.stringArray);
-  			console.log($scope.visitiorListMap);
-  			
-  			
   			dashboardService.init($scope.visitiorListMap);
             pluginsService.init();
             dashboardService.setHeights()
@@ -415,8 +380,6 @@ angular.module('newApp')
     	  
     	   $http.get('/getSoldVehicleDetails')
    		.success(function(data) {
-   			console.log("///';';';';';");
-   			console.log(data);
    		$scope.locationDataList = data;	
        
    		
@@ -484,12 +447,9 @@ angular.module('newApp')
       $scope.arrayname = [];
       
       $scope.showVehicalFinancialChartByBodyStyle = function(){
-  	  	console.log("chhhhhhhhh");
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
     	  	$http.get('/getFinancialVehicleDetailsByBodyStyle').success(function(data) {
-    	  		console.log("succee");
-    	  		console.log(data);
     	  		 createChart(data);
   			});
     	  
@@ -500,8 +460,6 @@ angular.module('newApp')
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
     	  	$http.get('/getFinancialVehicleDetails').success(function(data) {
-    	  		console.log("succ");
-    	  		console.log(data);
     	  		 createChart(data);
   			});
     	  
@@ -577,11 +535,8 @@ angular.module('newApp')
     	  $scope.showBarvehical = 1;
     	  $scope.showvehical = 0;
     	  
-    	  console.log("1111111111111");
-    	  
     	  $http.get('/getSoldVehicleDetailsAvgSale')
   		.success(function(data) {
-  			console.log(data);
   		$scope.locationDataList = data;	
       
   		
@@ -649,7 +604,6 @@ angular.module('newApp')
       
       $http.get('/getSoldVehicleDetails')
 		.success(function(data) {
-			console.log(data);
 		$scope.locationDataList = data;	
     
 		
@@ -1869,8 +1823,6 @@ angular.module('newApp')
 						 var datesArray = [];
 						 for(var i=0;i<$scope.scheduleDates.length;i++) {
 							 var dateStr = $scope.scheduleDates[i].confirmDate;
-							 console.log("dates::::::::::::");
-							 console.log(dateStr);
 							 var date = new Date();
 							 var arr = [];
 							    arr = dateStr.split('-');
