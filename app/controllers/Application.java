@@ -2081,7 +2081,7 @@ public class Application extends Controller {
 	    	    		info.setHearedFrom(rInfo.hearedFrom);
 	    	    		info.setContactedFrom(rInfo.contactedFrom);
 	    	    		info.setAssignedTo(user);
-	    	    		
+	    	    		info.setOnlineOrOfflineLeads(1);
 	    	    		info.setRequestDate(reqDate);
 	    	    		/*PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	    		if(pLeads != null){
@@ -2165,6 +2165,7 @@ public class Application extends Controller {
 	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
 	    	    		test.setVin(vehicle.getVin());
 	    	    		test.setAssignedTo(user);
+	    	    		test.setOnlineOrOfflineLeads(1);
 	    	    		//test.setVin(vehicles.get(0).getVin());
 	    	    		
 	    	    	/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -2273,7 +2274,7 @@ public class Application extends Controller {
 	            		Vehicle vehicle = Vehicle.findByStockAndNew(vm.stockNumber);
 	            		tradeIn.setVin(vm.vin);
 	            		tradeIn.setAssignedTo(user);
-	            		
+	            		tradeIn.setOnlineOrOfflineLeads(1);
 	            		//tradeIn.setVin(vehicles.get(0).getVin());
 	            		tradeIn.setYear(vm.year);
 	            		
@@ -18302,7 +18303,7 @@ public class Application extends Controller {
 	    		info.setHearedFrom(leadVM.hearedFrom);
 	    		info.setContactedFrom(leadVM.contactedFrom);
 	    		info.setPremiumFlag(0);
-	    		
+	    		info.setOnlineOrOfflineLeads(1);
 	    		info.setRequestDate(new Date());
 	    		/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
@@ -18390,6 +18391,7 @@ public class Application extends Controller {
 	    		test.setVin(vehicle.getVin());
 	    		test.setAssignedTo(user);
 	    		test.setPremiumFlag(0);
+	    		test.setOnlineOrOfflineLeads(1);
 	    		//test.setVin(vehicles.get(0).getVin());
 	    		
 	    	/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -18517,6 +18519,7 @@ public class Application extends Controller {
         		tradeIn.setVin(vehicle.getVin());
         		tradeIn.setAssignedTo(user);
         		tradeIn.setPremiumFlag(0);
+        		tradeIn.setOnlineOrOfflineLeads(1);
         		//tradeIn.setVin(vehicles.get(0).getVin());
         		tradeIn.setYear(leadVM.year);
         		
@@ -21725,24 +21728,26 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(rMoreInfo.requestDate);
 							}
 							try {
-								if ((rMoreInfo.requestDate.after(df
-										.parse(startDate)) && rMoreInfo.requestDate
+								
+								Long countCar = 1L;
+								String DateString = df
+										.format(rMoreInfo.requestDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df
+										.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| rMoreInfo.requestDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| rMoreInfo.requestDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
 
-									Long countCar = 1L;
-									String DateString = df
-											.format(rMoreInfo.requestDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
 
 									Long objectDate = mapdateOffline
 											.get(dateDate.getTime()
@@ -21783,24 +21788,26 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(rMoreInfo.requestDate);
 							}
 							try {
-								if ((rMoreInfo.requestDate.after(df
-										.parse(startDate)) && rMoreInfo.requestDate
+								
+								Long countCar = 1L;
+								String DateString = df
+										.format(rMoreInfo.requestDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df
+										.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| rMoreInfo.requestDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| rMoreInfo.requestDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
 
-									Long countCar = 1L;
-									String DateString = df
-											.format(rMoreInfo.requestDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
 
 									Long objectDate = mapdateOnline
 											.get(dateDate.getTime()
@@ -21846,23 +21853,26 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(tIn.tradeDate);
 							}
 							try {
-								if ((tIn.tradeDate.after(df.parse(startDate)) && tIn.tradeDate
-										.before(df.parse(endDate)))
-										|| tIn.tradeDate.equals(df
-												.parse(startDate))
-										|| tIn.tradeDate.equals(df
-												.parse(endDate))) {
-									Long countCar = 1L;
-									String DateString = df
-											.format(tIn.tradeDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+								
+								Long countCar = 1L;
+								String DateString = df
+										.format(tIn.tradeDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 
+								
+								if ((dateDate.after(df.parse(startDate)) && dateDate
+										.before(df.parse(endDate)))
+										|| dateDate.equals(df
+												.parse(startDate))
+										|| dateDate.equals(df
+												.parse(endDate))) {
+									
 									Long objectDate = mapdateOffline
 											.get(dateDate.getTime()
 													+ (1000 * 60 * 60 * 24));
@@ -21898,22 +21908,25 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(tIn.tradeDate);
 							}
 							try {
-								if ((tIn.tradeDate.after(df.parse(startDate)) && tIn.tradeDate
+								
+								Long countCar = 1L;
+								String DateString = df
+										.format(tIn.tradeDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| tIn.tradeDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| tIn.tradeDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
-									Long countCar = 1L;
-									String DateString = df
-											.format(tIn.tradeDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+									
 
 									Long objectDate = mapdateOnline
 											.get(dateDate.getTime()
@@ -21960,24 +21973,25 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(sTest.scheduleDate);
 							}
 							try {
-								if ((sTest.scheduleDate.after(df
-										.parse(startDate)) && sTest.scheduleDate
+								Long countCar = 1L;
+								String DateString = df
+										.format(sTest.scheduleDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df
+										.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| sTest.scheduleDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| sTest.scheduleDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
 
-									Long countCar = 1L;
-									String DateString = df
-											.format(sTest.scheduleDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
 
 									Long objectDate = mapdateOffline
 											.get(dateDate.getTime()
@@ -22016,24 +22030,26 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(sTest.scheduleDate);
 							}
 							try {
-								if ((sTest.scheduleDate.after(df
-										.parse(startDate)) && sTest.scheduleDate
+								Long countCar = 1L;
+								String DateString = df
+										.format(sTest.scheduleDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df
+										.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| sTest.scheduleDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| sTest.scheduleDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
 
-									Long countCar = 1L;
-									String DateString = df
-											.format(sTest.scheduleDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+									
 
 									Long objectDate = mapdateOnline
 											.get(dateDate.getTime()
@@ -22164,24 +22180,27 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(rMoreInfo.requestDate);
 							}
 							try {
-								if ((rMoreInfo.requestDate.after(df
-										.parse(startDate)) && rMoreInfo.requestDate
+								
+								Long countCar = 1L;
+								String DateString = df
+										.format(rMoreInfo.requestDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df
+										.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| rMoreInfo.requestDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| rMoreInfo.requestDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
 
-									Long countCar = 1L;
-									String DateString = df
-											.format(rMoreInfo.requestDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+									
 
 									Long objectDate = mapdateOffline
 											.get(dateDate.getTime()
@@ -22224,24 +22243,26 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(rMoreInfo.requestDate);
 							}
 							try {
-								if ((rMoreInfo.requestDate.after(df
-										.parse(startDate)) && rMoreInfo.requestDate
+								
+								Long countCar = 1L;
+								String DateString = df
+										.format(rMoreInfo.requestDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df
+										.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| rMoreInfo.requestDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| rMoreInfo.requestDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
 
-									Long countCar = 1L;
-									String DateString = df
-											.format(rMoreInfo.requestDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
 
 									Long objectDate = mapdateOnline
 											.get(dateDate.getTime()
@@ -22290,22 +22311,25 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(tIn.tradeDate);
 							}
 							try {
-								if ((tIn.tradeDate.after(df.parse(startDate)) && tIn.tradeDate
+								
+								Long countCar = 1L;
+								String DateString = df
+										.format(tIn.tradeDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| tIn.tradeDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| tIn.tradeDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
-									Long countCar = 1L;
-									String DateString = df
-											.format(tIn.tradeDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+									
 
 									Long objectDate = mapdateOffline
 											.get(dateDate.getTime()
@@ -22344,22 +22368,24 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(tIn.tradeDate);
 							}
 							try {
-								if ((tIn.tradeDate.after(df.parse(startDate)) && tIn.tradeDate
+								Long countCar = 1L;
+								String DateString = df
+										.format(tIn.tradeDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| tIn.tradeDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| tIn.tradeDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
-									Long countCar = 1L;
-									String DateString = df
-											.format(tIn.tradeDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+									
 
 									Long objectDate = mapdateOnline
 											.get(dateDate.getTime()
@@ -22408,24 +22434,26 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(sTest.scheduleDate);
 							}
 							try {
-								if ((sTest.scheduleDate.after(df
-										.parse(startDate)) && sTest.scheduleDate
+								
+								Long countCar = 1L;
+								String DateString = df
+										.format(sTest.scheduleDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								
+								if ((dateDate.after(df
+										.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| sTest.scheduleDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| sTest.scheduleDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
 
-									Long countCar = 1L;
-									String DateString = df
-											.format(sTest.scheduleDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
 
 									Long objectDate = mapdateOffline
 											.get(dateDate.getTime()
@@ -22466,25 +22494,28 @@ public static Result getviniewsChartLeads(Long id, String vin,
 								endDate = df.format(sTest.scheduleDate);
 							}
 							try {
-								if ((sTest.scheduleDate.after(df
-										.parse(startDate)) && sTest.scheduleDate
+								
+								Long countCar = 1L;
+								String DateString = df
+										.format(sTest.scheduleDate);
+								Date dateDate = null;
+								try {
+									dateDate = df.parse(DateString);
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+
+								
+								if ((dateDate.after(df
+										.parse(startDate)) && dateDate
 										.before(df.parse(endDate)))
-										|| sTest.scheduleDate.equals(df
+										|| dateDate.equals(df
 												.parse(startDate))
-										|| sTest.scheduleDate.equals(df
+										|| dateDate.equals(df
 												.parse(endDate))) {
 
-									Long countCar = 1L;
-									String DateString = df
-											.format(sTest.scheduleDate);
-									Date dateDate = null;
-									try {
-										dateDate = df.parse(DateString);
-									} catch (ParseException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-
+									
 									Long objectDate = mapdateOnline
 											.get(dateDate.getTime()
 													+ (1000 * 60 * 60 * 24));
