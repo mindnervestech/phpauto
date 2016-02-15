@@ -23963,7 +23963,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			}
 			
 			//if(!contacts.zip.equals(null) && !contacts.zip.equals("null")){
-				vm.setZip(contacts.zip);
+				vm.setZip(contacts.custZipCode);
 			//}
 			
 			if(contacts.firstName !=null && contacts.lastName !=null){
@@ -24432,6 +24432,20 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		if(user !=null){
     			user.setAccount("active");
         		user.update();
+    		}
+        	return ok();
+    	}
+    }
+    public static Result deleteAppointById(Long id){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		ScheduleTest test = ScheduleTest.findById(id);
+    		if(test !=null){
+    			test.setConfirmDate(null);
+    			test.setConfirmTime(null);
+    			test.setLeadStatus(null);
+    			test.update();
     		}
         	return ok();
     	}

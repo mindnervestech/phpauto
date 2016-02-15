@@ -293,7 +293,7 @@ margin-left: 5px;
        
         <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;">
         		<strong>Future Appointments</strong>
-                      <div style="background: none repeat scroll 0% 0% rgb(248, 248, 248);border-left: 2px solid rgb(243, 210, 97);padding: 0px 5px; margin-top: 2px;" ng-repeat="sd in scheduleListData">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button>
+                      <div style="background: none repeat scroll 0% 0% rgb(248, 248, 248);border-left: 2px solid rgb(243, 210, 97);padding: 0px 5px; margin-top: 2px;" ng-repeat="sd in scheduleListData">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="fa fa-trash"></i></button>
                       </div>
                   </div>
             <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
@@ -6332,6 +6332,25 @@ margin-left: 5px;
 								        </div>
 								    </div>
 								    </div>
+								    
+<div style="display:none;" id="futureAppointmentsModal" data-toggle="modal" data-target="#futureAppointments"></div>
+<div class="modal fade" id="futureAppointments" tabindex="-1" role="dialog" aria-hidden="true">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                   <h4 class="modal-title"><strong>Delete Future Appointment</strong></h4>
+               </div>
+               <div class="modal-body">
+                  Are you sure to delete Future Appointment?<br>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                   <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteFutureAppointment()">Yes</button>
+               </div>
+           </div>
+       </div>
+   </div>
   								
 <style>
 

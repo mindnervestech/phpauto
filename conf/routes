@@ -256,3 +256,4 @@ GET    /updateVehicleName/:vin/:name 			controllers.Application.updateVehicleNam
 GET		/updateUserComment/:id/:comment			controllers.Application.updateUserComment(id:Integer,comment:String)
 GET 	/removeAllContactsData					controllers.Application.removeAllContactsData()
 GET		/getAllLeadsByUser/:id			controllers.Application.getAllLeadsByUser(id:Integer)
+GET		/deleteAppointById/:id			controllers.Application.deleteAppointById(id:Long)

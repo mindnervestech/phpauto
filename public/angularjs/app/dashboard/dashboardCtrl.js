@@ -15,7 +15,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route) {
 	console.log(userKey);
 	$scope.userKey = userKey;
 	
@@ -3112,6 +3112,7 @@ angular.module('newApp')
 				});
 				$('#soldBtn').attr("disabled", false);
 				$scope.getAllSalesPersonRecord($scope.salesPerson);
+				$route.reload();
 			});
     	};		
     	
@@ -3779,6 +3780,21 @@ angular.module('newApp')
 			   $('#dataID').val($scope.data1.id);
 			   $('#dataGoogleID').val($scope.data1.google_id);
 			   $('#colored-header').modal();
+		   };
+		   $scope.deleteServiceType = function(serviceData){
+			   console.log(serviceData);
+			   $scope.appointData = serviceData;
+			   $('#futureAppointmentsModal').click();
+			   
+		   };
+		   $scope.deleteFutureAppointment = function(){
+			   console.log($scope.appointData.id);
+			   $http.get("/deleteAppointById/"+$scope.appointData.id).success(function(data){
+				   console.log("success");
+				   $http.get("/getscheduletest").success(function(data){
+					   $scope.scheduleListData = data;
+				   });
+			   });
 		   };
 
 		   $timeout(function(){
