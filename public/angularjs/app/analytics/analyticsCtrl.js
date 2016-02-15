@@ -676,7 +676,7 @@ $scope.showLeads = function(){
 					console.log("succeess");
 					console.log(data1);
 					
-					//data.push(data1);
+					data.push(data1);
 					 createChart(data);
 				
 				});
