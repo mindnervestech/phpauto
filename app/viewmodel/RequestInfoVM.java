@@ -28,6 +28,7 @@ public class RequestInfoVM {
 	public String confirmDate;
 	public String confirmTime;
 	public boolean isRead;
+	public boolean is_google;
 	public List<NoteVM> note;
 	public Integer noteFlag;
 	public String status;

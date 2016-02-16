@@ -12673,7 +12673,8 @@ public class Application extends Controller {
     			RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = test.id;
 	    		vm.vin = test.vin;
-	    		vm.isgoogle = test.google_id;
+	    		//vm.isgoogle = test.google_id;
+	    		vm.is_google = test.is_google_data;
 	    		Vehicle vehicle = Vehicle.findByVinAndStatus(test.vin);
 	    		if(vehicle != null) {
 	    			vm.make = vehicle.make;
@@ -12682,6 +12683,7 @@ public class Application extends Controller {
 	    			vm.year=vehicle.year;
 	    			
 	    		}
+	    		vm.bestTime=test.bestTime;
 	    		vm.name = test.name;
 	    		vm.email = test.email;
 	    		vm.phone = test.phone;

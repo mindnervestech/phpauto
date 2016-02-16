@@ -247,10 +247,13 @@ margin-left: 5px;
             <div class="panel-content" style="height:364px;overflow-y:auto;">
                 <ul class="todo-list ui-sortable">
                     <li ng-repeat="schedule in scheduleList" title="{{schedule.vin}}">
-                     <i ng-if="schedule.isgoogle != ''" class="fa fa-google-plus-square" style="font-size: 20px;"></i> 
-                    <span ng-if="schedule.isgoogle != ''"> Test Drive  </span>  
-                    <span ng-if="schedule.isgoogle == ''">Meeting  </span>&nbsp;&nbsp;
-                    <span class="todo-task">{{schedule.bestTime}}</span>  <br>   
+                      <i ng-if="schedule.is_google == true	" class="fa fa-google-plus-square" style="font-size: 20px;"></i>  
+                    <span ng-if="schedule.is_google != true "> Test Drive  </span>  
+                    <span ng-if="schedule.is_google == true ">Meeting  </span>&nbsp;&nbsp;
+                    <span class="todo-task">{{schedule.bestTime}}   {{schedule.id}}  </span>  <br>  
+                     <span class="todo-task"></span> 
+                    
+                   
                           <div class="pull-right">
                         
                         	<!--
