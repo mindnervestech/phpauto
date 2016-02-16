@@ -3752,6 +3752,7 @@ angular.module('newApp')
 			   console.log($scope.testDriveData);
 			   $http.post('/saveTestDrive',$scope.testDriveData)
 				.success(function(data) {
+					$('#clsPop').click();
 					if(data == "success"){
 						$scope.getAllSalesPersonRecord($scope.salesPerson);
 						$('#driveClose').click();
@@ -3760,6 +3761,7 @@ angular.module('newApp')
 						    type:'success',
 						    text: "saved successfully",
 						});
+						$scope.testDrive();
 						$("#test-drive-tabSched").click();
 						//$scope.testDrive();
 					}else{
@@ -3769,7 +3771,6 @@ angular.module('newApp')
 						    text: "Test Drive Time Allready Exist",
 						});
 					}
-					$('#clsPop').click();
 				});
 		   }
 		   
