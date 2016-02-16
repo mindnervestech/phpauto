@@ -24044,7 +24044,16 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			Map<Long, Long> treeMap = null;
 			List<List<Long>> lonnn = new ArrayList<>();
 			sendDateAndValue sValue = new sendDateAndValue();
-			List<Vehicle> veList = Vehicle.findByBodyStyleAndSold(entry.getKey());
+			List<Vehicle> veList = null;
+			
+			if(user.role.equals("General Manager")){
+				veList = Vehicle.findBySold();
+			}else if(user.role.equals("Manager")){
+				veList = Vehicle.findByBodyStyleAndSoldLocation(entry.getKey(), user.location.id);
+			}else if(user.role.equals("Sales Person")){
+				veList = Vehicle.findByBodyStyleAndSold(entry.getKey(), user);
+			}
+			
 			sValue.name = entry.getKey();
 			if(veList != null){
 					
@@ -24171,6 +24180,21 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			if(veList != null){
 					
 				for(Vehicle vhVehicle:veList){
+					
+					
+					/*Calendar c = Calendar.getInstance();
+					c.setTime(vhVehicle.getSoldDate());
+					c.add(Calendar.DATE, -1);
+					
+					String dateCheck = df.format(c.getTime());
+					Date dateFomat = null;
+					try {
+						dateFomat = df.parse(dateCheck);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}*/
+					
 					Long countCar = 1L;
 					Long objectDate = mapdate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
 					if (objectDate == null) {
