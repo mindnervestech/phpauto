@@ -307,6 +307,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", user).eq("leadStatus", null).ne("vin", "no").eq("isRead",true).orderBy("scheduleDate desc").findList();
 	}
 	
+	public static List<ScheduleTest> findAllLostSch(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("leadStatus", "LOST").findList();
+	}
+	
 	public static List<ScheduleTest> findAllByParentID(Long parentId) {
 		return find.where().eq("parentId", parentId).eq("leadStatus", null).findList();
 	}

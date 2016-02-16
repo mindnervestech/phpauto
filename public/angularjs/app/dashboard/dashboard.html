@@ -427,7 +427,7 @@ margin-left: 5px;
 														<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
 													</div>
 													<div class="col-sm-12" ng-if="userRole == 'Manager' && item.flag == 0">
-														<button type="button" class="btn btn-blue" ng-click="comparisonSalePerson()">Promote</button>
+														<button type="button" class="btn btn-blue">Promote</button>
 														<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
 													</div>
 													</div>
@@ -525,7 +525,7 @@ margin-left: 5px;
 												<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkSalePersonIndex(item,compare)" style="margin-left: 18px;"> <label style="color: darkturquoise;">Compare</label>
 										</div>
 										<div style="width: 180px;" ng-if="item.flag == 1">
-												<button type="button" class="btn btn-blue">Compare</button>
+												<button type="button" class="btn btn-blue" ng-click="comparisonSalePerson()">Compare</button>
 										</div>
 										<div>
 											<a style="font-size: 25px;margin-left: 18px;"><span class="glyphicon glyphicon-thumbs-up" style="width: 50px;" ng-click="openComment(item)"></span></a><a style="width: 60px;font-size: 25px;" href="mailto:{{item.email}}"><span class="glyphicon glyphicon-envelope" style="width: 50px;"></span></a>
@@ -5078,40 +5078,38 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															</div>
+															
 															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Sedan</label>
+															 
+															   <div class="col-sm-5">
+									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="byt in comparisonperson[0].byType">
+									                 						<div class="col-sm-8" style="padding: 0px;float: right;">
+									                 							<div class="col-sm-6" style="padding: 0px;">
+									                 								<label style="color: darkturquoise;">{{byt.bodyStyle}}</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label class="col-sm-4" style="text-align: right;">{{byt.count}}</label>
+									                 							</div>	
+									                 						</div>
 									                 					</div>
 															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
+															   <div class="col-sm-2" style="text-align: center;">
+															   		<label class="col-sm-4" style="float: center;text-align: center;">.</label>
 															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">Sedan</label>
-									                 				</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">SUV</label>
+															   <div class="col-sm-5">
+									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="byt in comparisonperson[1].byType">
+									                 						<div class="col-sm-8" style="padding: 0px;">
+									                 							<div class="col-sm-6" style="padding: 0px;">
+									                 								<label class="col-sm-4" style="text-align: right;">{{byt.count}}</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label style="color: darkturquoise;">{{byt.bodyStyle}}</label>
+									                 							</div>	
+									                 						</div>
 									                 					</div>
 															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">SUV</label>
-									                 				</div>
-															   </div>
 															</div>
+														
 															<div class="col-sm-12">
 															   <div class="col-sm-4">
 									                 					<div class="col-sm-12">
@@ -5206,9 +5204,9 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">436</label>
+															   		<label class="col-sm-4" style="float: left;text-align: right;">{{comparisonperson[0].lostLeadCount}}</label>
 															   		<label class="col-sm-4" style="float: center;text-align: center;">47.6%</label>
-															   		<label class="col-sm-4" style="float: right;">245</label>
+															   		<label class="col-sm-4" style="float: right;">{{comparisonperson[1].lostLeadCount}}</label>
 															   </div>
 															   <div class="col-sm-4">
 									                 				<div class="col-sm-12">
@@ -5223,9 +5221,9 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">436</label>
+															   		<label class="col-sm-4" style="float: left;text-align: right;">{{comparisonperson[0].successRate}}</label>
 															   		<label class="col-sm-4" style="float: center;text-align: center;">47.6%</label>
-															   		<label class="col-sm-4" style="float: right;">245</label>
+															   		<label class="col-sm-4" style="float: right;">{{comparisonperson[1].successRate}}</label>
 															   </div>
 															   <div class="col-sm-4">
 									                 				<div class="col-sm-12">

@@ -571,6 +571,10 @@ public String testDriveStatus;
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).orderBy("tradeDate desc").findList();
 	}
 	
+	public static List<TradeIn> findAllLostSch(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("status", "LOST").findList();
+	}
+	
 	public static List<TradeIn> findAllSeenComplete(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("status", "COMPLETE").orderBy("scheduleDate desc").findList();
 	}

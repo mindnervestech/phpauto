@@ -20,6 +20,8 @@ public class LocationWiseDataVM {
     public Integer angSalePrice;
     public String leads;
     public String goalTime;
+    public Integer lostLeadCount;
+    public List<bodyStyleSetVM> byType;
     public List<DateAndValueVM> sendData;
     public String monthCurr;
     
