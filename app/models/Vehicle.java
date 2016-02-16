@@ -828,8 +828,12 @@ public class Vehicle extends Model {
 	public static List<Vehicle> findByUserAndNew(AuthUser user) {
 		return find.where().eq("user", user).eq("status", "Newly Arrived").findList();
 	}
-	public static List<Vehicle> findByMakeAndSold(String make) {
-		return find.where().eq("make", make).eq("status", "Sold").findList();
+	public static List<Vehicle> findByMakeAndSold(String make, AuthUser user) {
+		return find.where().eq("soldUser", user).eq("make", make).eq("status", "Sold").findList();
+	}
+	
+	public static List<Vehicle> findByMakeAndSoldLocation(String make, Long location) {
+		return find.where().eq("locations.id", location).eq("make", make).eq("status", "Sold").findList();
 	}
 	
 	public static List<Vehicle> findByBodyStyleAndSold(String bodyStyle) {

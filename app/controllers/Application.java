@@ -24158,7 +24158,15 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			Map<Long, Long> treeMap = null;
 			List<List<Long>> lonnn = new ArrayList<>();
 			sendDateAndValue sValue = new sendDateAndValue();
-			List<Vehicle> veList = Vehicle.findByMakeAndSold(entry.getKey());
+			List<Vehicle> veList  = null;
+			if(user.role.equals("General Manager")){
+				veList = Vehicle.findBySold();
+			}else if(user.role.equals("Manager")){
+				veList = Vehicle.findByMakeAndSoldLocation(entry.getKey(), user.location.id);
+			}else if(user.role.equals("Sales Person")){
+				veList = Vehicle.findByMakeAndSold(entry.getKey(), user);
+			}
+			 
 			sValue.name = entry.getKey();
 			if(veList != null){
 					
