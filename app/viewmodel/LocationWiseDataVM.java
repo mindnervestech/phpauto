@@ -6,6 +6,7 @@ public class LocationWiseDataVM {
 
 	public Long id;
 	public String locationName;
+	public String SalePersonName;
 	public String locationaddress;
 	public String locationemail;
 	public String locationphone;
