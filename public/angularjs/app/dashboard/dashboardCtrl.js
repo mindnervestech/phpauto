@@ -3281,6 +3281,7 @@ angular.module('newApp')
         	 			$('#modalClose').click();
         	 			$scope.getAllSalesPersonRecord($scope.salesPerson);
         	 			$scope.init();
+        	 			$route.reload();
     	 			}else{
     	 				$.pnotify({
         				    title: "Error",
@@ -3668,6 +3669,8 @@ angular.module('newApp')
 			   $scope.testDriveData.parentChildLead = entity.parentChildLead;
 			   $scope.testDriveData.bestDay = entity.bestDay;
 			   $scope.testDriveData.bestTime = entity.bestTime;
+			   $scope.testDriveData.confirmDate = entity.confirmDate;
+			   $scope.testDriveData.confirmTime = entity.confirmTime;
 			   $scope.testDriveData.option = option;
 			   $scope.testDriveData.typeOfLead = entity.typeOfLead;
 			   //$('#bestTime').val("");

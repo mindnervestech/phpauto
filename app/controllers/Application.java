@@ -12934,6 +12934,7 @@ public class Application extends Controller {
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
+	    		
 	    		if(info.bestDay != null){
 	    			String chaArr[] = info.bestDay.split("-");
 	    			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
@@ -12964,7 +12965,9 @@ public class Application extends Controller {
 	    		vm.note = list;
 	    		vm.noteFlag = nFlag;
 	    		if(info.getConfirmDate() != null) {
-	    			vm.confirmDate = df.format(info.getConfirmDate());
+	    			//vm.confirmDate = df.format(info.getConfirmDate());
+	    			String chaArr[] = df.format(info.getConfirmDate()).split("-");
+	    			vm.confirmDate = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
 	    		}
 	    		
 	    		if(info.getConfirmTime() != null) {
