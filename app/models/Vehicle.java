@@ -818,6 +818,10 @@ public class Vehicle extends Model {
 		return find.where().eq("user", user).eq("status", "Sold").findList();
 	}
 	
+	public static List<Vehicle> findBySoldUserAndSold(AuthUser user) {
+		return find.where().eq("soldUser", user).eq("status", "Sold").findList();
+	}
+	
 	public static List<Vehicle> findByNewArrAndLocation(Long location) {
 		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").findList();
 	}

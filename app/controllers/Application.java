@@ -23814,7 +23814,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		}else if(user.role.equals("Manager")){
 			vehicle = Vehicle.findByLocationAndSold(user.location.id);
 		}else if(user.role.equals("Sales Person")){
-			vehicle = Vehicle.findByUserAndSold(user);
+			vehicle = Vehicle.findBySoldUserAndSold(user);
 		}
 			for(Vehicle vhVehicle:vehicle){
 				if(vhVehicle.price != null){
@@ -23825,7 +23825,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				
 				Calendar c = Calendar.getInstance();
 				c.setTime(vhVehicle.getSoldDate());
-				c.add(Calendar.DATE, -1);
+				//c.add(Calendar.DATE, -1);
 				
 				String dateCheck = df.format(c.getTime());
 				Date dateFomat = null;
