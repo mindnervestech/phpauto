@@ -1668,6 +1668,8 @@ angular.module('newApp')
     			console.log($scope["flag"+index]);*/
     		 }
     		 
+    		 $scope.comparisonperson = [];
+    		 
     		 $scope.checkSalePersonIndex = function(item,values){
     			 
     				console.log(values);
@@ -1683,20 +1685,24 @@ angular.module('newApp')
             			console.log($filter('date')(priorDate,"yyyy-MM-dd"));
             			startDate = $filter('date')(priorDate,"yyyy-MM-dd");
             			endDate = $filter('date')(today,"yyyy-MM-dd");
+            			$('#comparisonStartDate').val(startDate);
+            			$('#comparisonEndDate').val(endDate); 
         			}
     			 
     			 console.log($scope.userPerformanceList);
     					 if(values == false || values == undefined){
     						 item.flag = 1;
     						 
-    						 /*$http.get('/getSalePersonData').success(function(response) {
-							 
-    						 });*/
+    						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
+    							 	console.log("scuurrrrr");
+    							 	console.log(response);
+    							 	$scope.comparisonperson.push(response);
+    							 	console.log($scope.comparisonperson);
+    						 });
     						 
     					 }else{
     						 item.flag = 0;
     					 }
-    					 
     		 }
     	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {

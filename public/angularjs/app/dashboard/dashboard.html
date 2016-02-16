@@ -5005,10 +5005,10 @@ margin-left: 5px;
 															<div class="form-group col-sm-12">
 															   <div class="col-sm-5">
 															   			<div class="col-sm-12" style="text-align: center;">
-									                    				 <img style="width: 116px;"  src="{{userPerformanceList[0].imageUrl}}">
+									                    				 <img style="width: 116px;"  src="{{comparisonperson[0].imageUrl}}">
 									                 					</div>
 									                 					<div class="col-sm-12" style="text-align: center;">
-									                 						<label style="font-size: 24px;">Name</label>
+									                 						<label style="font-size: 24px;">{{comparisonperson[0].SalePersonName}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5016,10 +5016,10 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5">
 															   		<div class="col-sm-12" style="text-align: center;">
-									                    				 <img style="width: 116px;"  src="{{userPerformanceList[0].imageUrl}}">
+									                    				 <img style="width: 116px;"  src="{{comparisonperson[1].imageUrl}}">
 									                 				</div>
 									                 				<div class="col-sm-12" style="text-align: center;">
-									                 						<label style="font-size: 24px;">Name</label>
+									                 						<label style="font-size: 24px;">{{comparisonperson[1].SalePersonName}}</label>
 									                 				</div>
 									                 				
 															   </div>
@@ -5031,9 +5031,9 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">$4,500,333</label>
+															   		<label class="col-sm-4" style="float: left;text-align: right;">${{comparisonperson[0].totalSalePrice}}</label>
 															   		<label class="col-sm-4" style="float: center;text-align: center;">80.44%</label>
-															   		<label class="col-sm-4" style="float: right;">$4,500,333</label>
+															   		<label class="col-sm-4" style="float: right;">${{comparisonperson[1].totalSalePrice}}</label>
 															   </div>
 															   <div class="col-sm-4">
 									                 				<div class="col-sm-12">
@@ -5048,9 +5048,9 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">150</label>
+															   		<label class="col-sm-4" style="float: left;text-align: right;">{{comparisonperson[0].totalsaleCar}}</label>
 															   		<label class="col-sm-4" style="float: center;text-align: center;">80.44%</label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
+															   		<label class="col-sm-4" style="float: right;">{{comparisonperson[1].totalsaleCar}}</label>
 															   </div>
 															   <div class="col-sm-4">
 									                 				<div class="col-sm-12">
