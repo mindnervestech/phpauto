@@ -24373,7 +24373,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				
 				Calendar c = Calendar.getInstance();
 				c.setTime(vhVehicle.getSoldDate());
-				//c.add(Calendar.DATE, -1);
+				c.add(Calendar.DATE, -1);
 				
 				String dateCheck = df.format(c.getTime());
 				Date dateFomat = null;
