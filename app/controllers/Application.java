@@ -12674,7 +12674,9 @@ public class Application extends Controller {
 	    		vm.id = test.id;
 	    		vm.vin = test.vin;
 	    		//vm.isgoogle = test.google_id;
-	    		vm.is_google = test.is_google_data;
+	    		if(test.is_google_data !=null){
+	    			vm.is_google = test.is_google_data;
+	    		}	    		
 	    		Vehicle vehicle = Vehicle.findByVinAndStatus(test.vin);
 	    		if(vehicle != null) {
 	    			vm.make = vehicle.make;
