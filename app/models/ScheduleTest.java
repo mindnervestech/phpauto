@@ -307,6 +307,14 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", user).eq("leadStatus", null).ne("vin", "no").eq("isRead",true).orderBy("scheduleDate desc").findList();
 	}
 	
+	public static List<ScheduleTest> findAllAssignedOffine(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("onlineOrOfflineLeads",0).eq("leadStatus", null).ne("vin", "no").eq("isRead",true).orderBy("scheduleDate desc").findList();
+	}
+	
+	public static List<ScheduleTest> findAllAssignedOnline(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("onlineOrOfflineLeads",1).eq("leadStatus", null).ne("vin", "no").eq("isRead",true).orderBy("scheduleDate desc").findList();
+	}
+	
 	public static List<ScheduleTest> findAllLostSch(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("leadStatus", "LOST").findList();
 	}

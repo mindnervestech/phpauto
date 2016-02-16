@@ -5085,10 +5085,10 @@ margin-left: 5px;
 									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="byt in comparisonperson[0].byType">
 									                 						<div class="col-sm-8" style="padding: 0px;float: right;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">{{byt.bodyStyle}}</label>
+									                 								<label style="color: darkturquoise;">{{byt.name}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
-									                 								<label class="col-sm-4" style="text-align: right;">{{byt.count}}</label>
+									                 								<label class="col-sm-4" style="text-align: right;">{{byt.value}}</label>
 									                 							</div>	
 									                 						</div>
 									                 					</div>
@@ -5100,10 +5100,10 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="byt in comparisonperson[1].byType">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{byt.count}}</label>
+									                 								<label class="col-sm-4" style="text-align: right;">{{byt.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">{{byt.bodyStyle}}</label>
+									                 								<label style="color: darkturquoise;">{{byt.name}}</label>
 									                 							</div>	
 									                 						</div>
 									                 					</div>
@@ -5266,39 +5266,36 @@ margin-left: 5px;
 															   </div>
 															</div>
 															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">January</label>
+															 
+															   <div class="col-sm-5">
+									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="planCom in comparisonperson[0].planComplete">
+									                 						<div class="col-sm-8" style="padding: 0px;float: right;">
+									                 							<div class="col-sm-6" style="padding: 0px;">
+									                 								<label style="color: darkturquoise;">{{planCom.name}}</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label class="col-sm-4" style="text-align: right;">{{planCom.value}}</label>
+									                 							</div>	
+									                 						</div>
 									                 					</div>
 															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
+															   <div class="col-sm-2" style="text-align: center;">
+															   		<label class="col-sm-4" style="float: center;text-align: center;">.</label>
 															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">January</label>
-									                 				</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">February</label>
+															   <div class="col-sm-5">
+									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="planCom in comparisonperson[1].planComplete">
+									                 						<div class="col-sm-8" style="padding: 0px;">
+									                 							<div class="col-sm-6" style="padding: 0px;">
+									                 								<label class="col-sm-4" style="text-align: right;">{{planCom.value}}</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label style="color: darkturquoise;">{{planCom.name}}</label>
+									                 							</div>	
+									                 						</div>
 									                 					</div>
 															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">February</label>
-									                 				</div>
-															   </div>
 															</div>
+														
 															<div class="col-sm-12" style="margin-bottom: 30px;">
 															</div>
 															<div class="col-sm-12">
@@ -5369,40 +5366,37 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															</div>
-															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Walk-ins</label>
+																<div class="col-sm-12">
+															 
+															   <div class="col-sm-5">
+									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="offline in comparisonperson[0].offlineLead">
+									                 						<div class="col-sm-8" style="padding: 0px;float: right;">
+									                 							<div class="col-sm-6" style="padding: 0px;">
+									                 								<label style="color: darkturquoise;">{{offline.name}}</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label class="col-sm-4" style="text-align: right;">{{offline.value}}</label>
+									                 							</div>	
+									                 						</div>
 									                 					</div>
 															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
+															   <div class="col-sm-2" style="text-align: center;">
+															   		<label class="col-sm-4" style="float: center;text-align: center;">.</label>
 															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">Walk-ins</label>
-									                 				</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Calls</label>
+															   <div class="col-sm-5">
+									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="offline in comparisonperson[1].offlineLead">
+									                 						<div class="col-sm-8" style="padding: 0px;">
+									                 							<div class="col-sm-6" style="padding: 0px;">
+									                 								<label class="col-sm-4" style="text-align: right;">{{offline.value}}</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label style="color: darkturquoise;">{{offline.name}}</label>
+									                 							</div>	
+									                 						</div>
 									                 					</div>
 															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">Calls</label>
-									                 				</div>
-															   </div>
 															</div>
+														
 															<div class="col-sm-12">
 															   <div class="col-sm-4">
 									                 					<div class="col-sm-12">
@@ -5420,58 +5414,39 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															</div>
-															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Request More Info</label>
+																<div class="col-sm-12">
+															 
+															   <div class="col-sm-5">
+									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="online in comparisonperson[0].onLineLead">
+									                 						<div class="col-sm-8" style="padding: 0px;float: right;">
+									                 							<div class="col-sm-6" style="padding: 0px;">
+									                 								<label style="color: darkturquoise;">{{online.name}}</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label class="col-sm-4" style="text-align: right;">{{online.value}}</label>
+									                 							</div>	
+									                 						</div>
 									                 					</div>
 															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
+															   <div class="col-sm-2" style="text-align: center;">
+															   		<label class="col-sm-4" style="float: center;text-align: center;">.</label>
 															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">Request More Info</label>
-									                 				</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Schedule Test Drive</label>
+															   <div class="col-sm-5">
+									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="online in comparisonperson[1].onLineLead">
+									                 						<div class="col-sm-8" style="padding: 0px;">
+									                 							<div class="col-sm-6" style="padding: 0px;">
+									                 								<label class="col-sm-4" style="text-align: right;">{{online.value}}</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label style="color: darkturquoise;">{{online.name}}</label>
+									                 							</div>	
+									                 						</div>
 									                 					</div>
 															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">Schedule Test Drive</label>
-									                 				</div>
-															   </div>
 															</div>
-															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Trade-In Inquires</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">Trade-In Inquires</label>
-									                 				</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
+															
+															
+														<!-- 	<div class="col-sm-12">
 															   <div class="col-sm-4">
 									                 					<div class="col-sm-12">
 									                 						<label style="color: darkturquoise;float: right;">Contact Us</label>
@@ -5487,7 +5462,7 @@ margin-left: 5px;
 									                 						<label style="color: darkturquoise;float: left;">Contact Us</label>
 									                 				</div>
 															   </div>
-															</div>
+															</div> -->
 															<div class="form-group col-sm-12">
 															</div>
 															<div class="col-sm-12">

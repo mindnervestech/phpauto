@@ -22,6 +22,9 @@ public class LocationWiseDataVM {
     public String goalTime;
     public Integer lostLeadCount;
     public List<bodyStyleSetVM> byType;
+    public List<bodyStyleSetVM> planComplete;
+    public List<bodyStyleSetVM> offlineLead;
+    public List<bodyStyleSetVM> onLineLead;
     public List<DateAndValueVM> sendData;
     public String monthCurr;
     

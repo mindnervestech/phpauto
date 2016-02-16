@@ -18470,21 +18470,130 @@ public class Application extends Controller {
      	
      	for (Entry<String , Integer> entryValue : mapByType.entrySet()) {
      		bodyStyleSetVM value = new bodyStyleSetVM();
-			value.bodyStyle = entryValue.getKey();
-			value.count = entryValue.getValue();
+			value.name = entryValue.getKey();
+			value.value = entryValue.getValue();
 			bSetVMs.add(value);
 		}
      	lDataVM.byType = bSetVMs;
      	
-      	PlanScheduleMonthlySalepeople  pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, monthCal); 
-         	if(pMonthlySalepeople != null){
-         		double val= ((double)pricecount/Double.parseDouble(pMonthlySalepeople.totalBrought));
-             	lDataVM.AngSale = (int) (val*100);
-         	}
+     	List<bodyStyleSetVM> bSetVMsPlan = new ArrayList<>();
+      	List<PlanScheduleMonthlySalepeople> pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByListUser(users); 
+        for(PlanScheduleMonthlySalepeople pSalepeople: pMonthlySalepeople){
+        	bodyStyleSetVM nSetVM = new bodyStyleSetVM();
+        	nSetVM.name = pSalepeople.month;
+        	
+        	double val= ((double)pricecount/Double.parseDouble(pSalepeople.totalBrought));
+        	nSetVM.value = (int) (val*100);
+        	
+        	bSetVMsPlan.add(nSetVM);
+        	
+        }
+        
+        lDataVM.planComplete = bSetVMsPlan;
+        
+        List<RequestMoreInfo> offlineRInfo = RequestMoreInfo.findAllAssignedOffine(users);
+        List<ScheduleTest> offlineSList = ScheduleTest.findAllAssignedOffine(users);
+        List<TradeIn> offlineTradeIns = TradeIn.findAllAssignedOffine(users);
+        
+        Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+        
+    	for(RequestMoreInfo rMoreInfo:offlineRInfo){
+     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+     			if(rMoreInfo.contactedFrom != null){
+     				Integer objectMake = mapOffline.get(rMoreInfo.contactedFrom);
+        			if (objectMake == null) {
+        				mapOffline.put(rMoreInfo.contactedFrom, countBodyStyle);
+        			}else{
+        				mapOffline.put(rMoreInfo.contactedFrom, countBodyStyle + 1);
+        			}
+     			}
+     			
+     		}
+     	}
+     	
+     	for(ScheduleTest sTest:offlineSList){
+     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+    			if(sTest.contactedFrom != null){
+    				Integer objectMake = mapOffline.get(sTest.contactedFrom);
+    				if (objectMake == null) {
+        				mapOffline.put(sTest.contactedFrom, countBodyStyle);
+        			}else{
+        				mapOffline.put(sTest.contactedFrom, countBodyStyle + 1);
+        			}
+    			}
+     		}
+     	}
+
+     	for(TradeIn tIn:offlineTradeIns){
+     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+     			if(tIn.contactedFrom != null){
+     				Integer objectMake = mapOffline.get(tIn.contactedFrom);
+        			if (objectMake == null) {
+        				mapOffline.put(tIn.contactedFrom, countBodyStyle);
+        			}else{
+        				mapOffline.put(tIn.contactedFrom, countBodyStyle + 1);
+        			}
+     			}
+     		}
+     	}
+     	List<bodyStyleSetVM> bSetVMsoffline = new ArrayList<>();
+     	for (Entry<String , Integer> entryValue : mapOffline.entrySet()) {
+     		bodyStyleSetVM value = new bodyStyleSetVM();
+			value.name = entryValue.getKey();
+			value.value = entryValue.getValue();
+			bSetVMsoffline.add(value);
+		}
+     	lDataVM.offlineLead = bSetVMsoffline;
      	
      	
+     	List<RequestMoreInfo> onlineRInfo = RequestMoreInfo.findAllAssignedOnline(users);
+        List<ScheduleTest> onlineSList = ScheduleTest.findAllAssignedOnline(users);
+        List<TradeIn> onlineTradeIns = TradeIn.findAllAssignedOnline(users);
+        
+        Map<String, Integer> mapOnline = new HashMap<String, Integer>();
+        
+    	for(RequestMoreInfo rMoreInfo:onlineRInfo){
+     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+     			Integer objectMake = mapOnline.get("Request More Info");
+    			if (objectMake == null) {
+    				mapOnline.put("Request More Info", countBodyStyle);
+    			}else{
+    				mapOnline.put("Request More Info", countBodyStyle + 1);
+    			}
+     		}
+     	}
      	
+     	for(ScheduleTest sTest:onlineSList){
+     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+     			Integer objectMake = mapOnline.get("Schedule Test Drive");
+    			if (objectMake == null) {
+    				mapOnline.put("Schedule Test Drive", countBodyStyle);
+    			}else{
+    				mapOnline.put("Schedule Test Drive", countBodyStyle + 1);
+    			}
+     		}
+     	}
+
+     	for(TradeIn tIn:onlineTradeIns){
+     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+     			Integer objectMake = mapOnline.get("Trade-In Inquires");
+    			if (objectMake == null) {
+    				mapOnline.put("Trade-In Inquires", countBodyStyle);
+    			}else{
+    				mapOnline.put("Trade-In Inquires", countBodyStyle + 1);
+    			}
+     		}
+     	}
+     	List<bodyStyleSetVM> bSetVMsonline = new ArrayList<>();
+     	for (Entry<String , Integer> entryValue : mapOnline.entrySet()) {
+     		bodyStyleSetVM value = new bodyStyleSetVM();
+			value.name = entryValue.getKey();
+			value.value = entryValue.getValue();
+			bSetVMsonline.add(value);
+		}
+     	lDataVM.onLineLead = bSetVMsonline;
      	
+        
      	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
      	int saleCar = 0;
      	int newCar = 0;
@@ -18500,7 +18609,7 @@ public class Application extends Controller {
      	
          
      	//List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION"))));
-     	List<LeadsDateWise> lDateWises = LeadsDateWise.getAllVehicles(users);
+     /*	List<LeadsDateWise> lDateWises = LeadsDateWise.getAllVehicles(users);
      	for(LeadsDateWise lWise:lDateWises){
      		
      		if(lWise.goalSetTime.equals("1 week")){
@@ -18523,17 +18632,17 @@ public class Application extends Controller {
      			}
      		}
      		
-     	}
+     	}*/
      	
-     	List<DateAndValueVM> sAndValues = new ArrayList<>();
+     	/*List<DateAndValueVM> sAndValues = new ArrayList<>();
      	List<Long> sAndLong = new ArrayList<>();
      	int countPlanCarSold = 0;
+     	*/
      	
-     	
-     	
+     /*	
  		Calendar now = Calendar.getInstance();
  		String month = monthName[now.get(Calendar.MONTH)];
- 		lDataVM.monthCurr = month;
+ 		lDataVM.monthCurr = month;*/
  		
  	/*	PlanScheduleMonthlyLocation pLocation = null;
  		PlanScheduleMonthlySalepeople  pMonthlySalepeople = null;
@@ -18628,7 +18737,7 @@ public class Application extends Controller {
      	}
      }*/
      	
-     	List<Vehicle> vList2 = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
+     	/*List<Vehicle> vList2 = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
      	
      	if(vList2.size() != 0){
      		List<Integer> longV = new ArrayList<>();
@@ -18637,9 +18746,9 @@ public class Application extends Controller {
  			longV.add(monthPriceCount);
  			sValue.data = longV;
  			sAndValues.add(sValue);
-     	}
+     	}*/
      	
-     	lDataVM.sendData = sAndValues;
+     	//lDataVM.sendData = sAndValues;
 
      	return ok(Json.toJson(lDataVM));
     }
