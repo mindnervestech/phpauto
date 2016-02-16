@@ -22167,6 +22167,55 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				sValue1.name = "Online";
 
 				sAndValues.add(sValue1);
+				
+				
+				Vehicle vehicle1 = null;
+				Date aajDate = null;
+				if (status.equals("Newly Arrived")) {
+					vehicle1 = Vehicle.findByVinAndStatus(vin);
+					  aajDate = new Date();
+				}
+					int iDate = 2;
+					Date addDates = vehicle1.postedDate;
+				
+					while(iDate > 0){
+						Calendar c = Calendar.getInstance(); 
+						c.setTime(addDates); 
+						c.add(Calendar.DATE, 1);
+						
+						String DateString1 = df
+								.format(c.getTime());
+						Date dateDate1 = null;
+						try {
+							dateDate1 = df.parse(DateString1);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
+						if (objectAllDate == null) {
+							mapAlldate.put(dateDate1.getTime() + (1000 * 60 * 60 * 24),1L);
+						}
+						
+						String DateString2 = df
+								.format(aajDate);
+						Date dateDate2 = null;
+						try {
+							dateDate2 = df.parse(DateString2);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						addDates = c.getTime();
+						if(addDates.equals(dateDate2)){
+							iDate = 0;
+							break;
+						}
+					}
+				
+				
 
 				for (sendDateAndValue sAndValue : sAndValues) {
 					for (List<Long> longs : sAndValue.data) {
@@ -22632,6 +22681,56 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				sValue1.name = "Online";
 
 				sAndValues.add(sValue1);
+				
+				
+				
+				Vehicle vehicle1 = null;
+				Date aajDate = null;
+				if(status.equals("Sold")) {
+					 vehicle1 = Vehicle.findById(id);
+						aajDate = vehicle1.soldDate;
+				}
+					int iDate = 2;
+					Date addDates = vehicle1.postedDate;
+				
+					while(iDate > 0){
+						Calendar c = Calendar.getInstance(); 
+						c.setTime(addDates); 
+						c.add(Calendar.DATE, 1);
+						
+						String DateString1 = df
+								.format(c.getTime());
+						Date dateDate1 = null;
+						try {
+							dateDate1 = df.parse(DateString1);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
+						if (objectAllDate == null) {
+							mapAlldate.put(dateDate1.getTime() + (1000 * 60 * 60 * 24),1L);
+						}
+						
+						String DateString2 = df
+								.format(aajDate);
+						Date dateDate2 = null;
+						try {
+							dateDate2 = df.parse(DateString2);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						addDates = c.getTime();
+						if(addDates.equals(dateDate2)){
+							iDate = 0;
+							break;
+						}
+					}
+				
+				
 
 				for (sendDateAndValue sAndValue : sAndValues) {
 					for (List<Long> longs : sAndValue.data) {
@@ -23047,6 +23146,53 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			sAndValues.add(sValue2);
 			
 			
+			Vehicle vehicle1 = null;
+			Date aajDate = null;
+			if (status.equals("Newly Arrived")) {
+				vehicle1 = Vehicle.findByVinAndStatus(vin);
+				  aajDate = new Date();
+			}
+				int iDate = 2;
+				Date addDates = vehicle1.postedDate;
+			
+				while(iDate > 0){
+					Calendar c = Calendar.getInstance(); 
+					c.setTime(addDates); 
+					c.add(Calendar.DATE, 1);
+					
+					String DateString1 = df
+							.format(c.getTime());
+					Date dateDate1 = null;
+					try {
+						dateDate1 = df.parse(DateString1);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
+					if (objectAllDate == null) {
+						mapAlldate.put(dateDate1.getTime() + (1000 * 60 * 60 * 24),1L);
+					}
+					
+					String DateString2 = df
+							.format(aajDate);
+					Date dateDate2 = null;
+					try {
+						dateDate2 = df.parse(DateString2);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					addDates = c.getTime();
+					if(addDates.equals(dateDate2)){
+						iDate = 0;
+						break;
+					}
+				}
+			
+			
 			for(sendDateAndValue sAndValue:sAndValues){
 				for(List<Long> longs:sAndValue.data){
 					int i = 0;
@@ -23251,6 +23397,53 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			sValue2.name = "Schedule Test Drive";
 		
 			sAndValues.add(sValue2);
+			
+			
+			Vehicle vehicle1 = null;
+			Date aajDate = null;
+			if(status.equals("Sold")) {
+				 vehicle1 = Vehicle.findById(id);
+					aajDate = vehicle1.soldDate;
+			}
+				int iDate = 2;
+				Date addDates = vehicle1.postedDate;
+			
+				while(iDate > 0){
+					Calendar c = Calendar.getInstance(); 
+					c.setTime(addDates); 
+					c.add(Calendar.DATE, 1);
+					
+					String DateString1 = df
+							.format(c.getTime());
+					Date dateDate1 = null;
+					try {
+						dateDate1 = df.parse(DateString1);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
+					if (objectAllDate == null) {
+						mapAlldate.put(dateDate1.getTime() + (1000 * 60 * 60 * 24),1L);
+					}
+					
+					String DateString2 = df
+							.format(aajDate);
+					Date dateDate2 = null;
+					try {
+						dateDate2 = df.parse(DateString2);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					addDates = c.getTime();
+					if(addDates.equals(dateDate2)){
+						iDate = 0;
+						break;
+					}
+				}
 			
 			
 			for(sendDateAndValue sAndValue:sAndValues){

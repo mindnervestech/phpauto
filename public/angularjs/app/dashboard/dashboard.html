@@ -4978,7 +4978,7 @@ margin-left: 5px;
 								                    <button type="button" class="close" id="driveClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">comparison</h4>
 								                </div>
-								                 <form ng-submit="saveTestDrive()">
+								                 <form ng-submit="showComparison()">
 								                <div class="modal-body">
 								                	<div class="form-group col-sm-12">
 								                			<div class="form-group col-md-12" style="text-align: center;font-size: 24px;">
@@ -4989,12 +4989,12 @@ margin-left: 5px;
 								                    		 <div class="col-sm-9" style="float: right;">
 																<label class="col-sm-1 control-label" style="padding: 0px;">Start Date</label>
 																<div class="col-sm-2">
-																	<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" 
+																	<input data-provide="datepicker" id="comparisonStartDate" class="form-control input-sm" 
 																	ng-model="testDriveData.bestDay" data-date-format="yyyy-mm-dd" required>
 																</div>
 																<label class="col-sm-1 control-label" style="padding: 0px;">End Date</label>
 																<div class="col-sm-2">
-																	<input data-provide="datepicker" id="testDriveDate" class="form-control input-sm" 
+																	<input data-provide="datepicker" id="comparisonEndDate" class="form-control input-sm" 
 																	ng-model="testDriveData.bestDay" data-date-format="yyyy-mm-dd" required>
 																</div>
 																<div class="col-sm-1">

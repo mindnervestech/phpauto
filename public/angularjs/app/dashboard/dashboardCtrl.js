@@ -1669,17 +1669,34 @@ angular.module('newApp')
     		 }
     		 
     		 $scope.checkSalePersonIndex = function(item,values){
+    			 
+    				console.log(values);
+        			console.log(item);
+        			
+        			var startDate = $('#comparisonStartDate').val();
+        			var endDate = $('#comparisonEndDate').val();
+        			
+        			if(startDate == "" || endDate == ""){
+        				var today = new Date()
+            			var priorDate = new Date().setDate(today.getDate()-30)
+            			console.log($filter('date')(today,"yyyy-MM-dd"));
+            			console.log($filter('date')(priorDate,"yyyy-MM-dd"));
+            			startDate = $filter('date')(priorDate,"yyyy-MM-dd");
+            			endDate = $filter('date')(today,"yyyy-MM-dd");
+        			}
+    			 
     			 console.log($scope.userPerformanceList);
-    			// angular.forEach($scope.userPerformanceList, function(value, key) {
-    				// if(value.id == item.id){
     					 if(values == false || values == undefined){
     						 item.flag = 1;
+    						 
+    						 /*$http.get('/getSalePersonData').success(function(response) {
+							 
+    						 });*/
+    						 
     					 }else{
     						 item.flag = 0;
     					 }
     					 
-    				// }
-    			 //});
     		 }
     	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
