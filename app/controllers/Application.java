@@ -18623,21 +18623,117 @@ public class Application extends Controller {
      	List<ScheduleTest>  sListAllG = ScheduleTest.findAllByAssignedUser(users);
      	List<TradeIn> tradeInsAllG = TradeIn.findAllByAssignedUser(users);
  		
+     	int totalLeadDay = 0;
  		
  	for(RequestMoreInfo rMoreInfo:rInfoAllG){
  		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+ 			/*int value = 2;
+ 			Date dt = rMoreInfo.requestDate;
+ 			while(value > 1){
+ 				Calendar c = Calendar.getInstance(); 
+ 				c.setTime(dt); 
+ 				c.add(Calendar.DATE, 1);
+ 				dt = c.getTime();
+ 				
+ 				totalLeadDay++;
+ 				if(rMoreInfo.statusDate != null){
+ 					if(rMoreInfo.statusDate.equals(dt)){
+ 						value = 0;
+ 						break;
+ 					}
+ 				}else{
+ 					Date nowDate  =new Date();
+ 					String datef = df.format(nowDate);
+ 					Date  ndate = null;
+ 					try {
+						ndate = df.parse(datef);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}		
+ 					if(dt.equals(ndate)){
+ 						value = 0;
+ 						break;
+ 					}
+ 				}
+ 				
+ 			}*/
+ 			
  			requestGLeadCount++;
  		}
  	}
  	
  	for(ScheduleTest sTest:sListAllG){
  		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+ 			
+ 			/*int value = 2;
+ 			Date dt = sTest.scheduleDate;
+ 			while(value > 1){
+ 				Calendar c = Calendar.getInstance(); 
+ 				c.setTime(dt); 
+ 				c.add(Calendar.DATE, 1);
+ 				dt = c.getTime();
+ 				
+ 				totalLeadDay++;
+ 				if(sTest.statusDate != null){
+ 					if(sTest.statusDate.equals(dt)){
+ 						value = 0;
+ 						break;
+ 					}
+ 				}else{
+ 					Date nowDate  =new Date();
+ 					String datef = df.format(nowDate);
+ 					Date  ndate = null;
+ 					try {
+						ndate = df.parse(datef);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}		
+ 					if(dt.equals(ndate)){
+ 						value = 0;
+ 						break;
+ 					}
+ 				}
+ 			}*/
  			scheduleGLeadCount++;
  		}
  	}
 
  	for(TradeIn tIn:tradeInsAllG){
  		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+ 			
+ 			/*int value = 2;
+ 			Date dt = tIn.tradeDate;
+ 			while(value > 1){
+ 				Calendar c = Calendar.getInstance(); 
+ 				c.setTime(dt); 
+ 				c.add(Calendar.DATE, 1);
+ 				dt = c.getTime();
+ 				
+ 				totalLeadDay++;
+ 				if(tIn.statusDate != null){
+ 					if(tIn.statusDate.equals(dt)){
+ 						value = 0;
+ 						break;
+ 					}
+ 				}else{
+ 					Date nowDate  =new Date();
+ 					String datef = df.format(nowDate);
+ 					Date  ndate = null;
+ 					try {
+						ndate = df.parse(datef);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}		
+ 					if(dt.equals(ndate)){
+ 						value = 0;
+ 						break;
+ 					}
+ 				}
+ 			}
+ 			*/
  				tradeInGLeadCount++;
  		}
  	}
@@ -18646,7 +18742,27 @@ public class Application extends Controller {
      	lDataVM.allGeneratedLeadCount = AllGeneratedLead;
      	
      	
-        
+     	//Integer AvgLeadLifeCyc = totalLeadDay / AllGeneratedLead;
+     	//lDataVM.avgLeadLifeCycle = AvgLeadLifeCyc;
+     	
+     	List<UserNotes> uNotes = UserNotes.findByUserAndcall(users);
+     	int callActionCount =  0;
+     	for(UserNotes sNot:uNotes){
+     		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD)){
+     			callActionCount++;
+     		}
+     	}
+     	lDataVM.callMade = callActionCount;
+     	
+     	List<UserNotes> uNotesEmail = UserNotes.findByUserAndemail(users);
+     	int mailActionCount =  0;
+     	for(UserNotes sNot:uNotes){
+     		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD)){
+     			mailActionCount++;
+     		}
+     	}
+     	lDataVM.mailSent = callActionCount;
+     	
      	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
      	int saleCar = 0;
      	int newCar = 0;

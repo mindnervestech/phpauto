@@ -22,6 +22,10 @@ public class LocationWiseDataVM {
     public String goalTime;
     public Integer lostLeadCount;
     public Integer allGeneratedLeadCount;
+    public Integer avgLeadLifeCycle;
+    public Integer callMade;
+    public Integer mailSent;
+    
     public List<bodyStyleSetVM> byType;
     public List<bodyStyleSetVM> planComplete;
     public List<bodyStyleSetVM> offlineLead;
