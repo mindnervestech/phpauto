@@ -18756,12 +18756,22 @@ public class Application extends Controller {
      	
      	List<UserNotes> uNotesEmail = UserNotes.findByUserAndemail(users);
      	int mailActionCount =  0;
-     	for(UserNotes sNot:uNotes){
+     	for(UserNotes sNot:uNotesEmail){
      		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD)){
      			mailActionCount++;
      		}
      	}
      	lDataVM.mailSent = callActionCount;
+     	
+     	List<UserNotes> uNotesTest = UserNotes.findByUserAndSched(users);
+     	int testDriveActionCount =  0;
+     	for(UserNotes sNot:uNotesTest){
+     		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD)){
+     			testDriveActionCount++;
+     		}
+     	}
+     	lDataVM.testDriveSched = callActionCount;
+     	
      	
      	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
      	int saleCar = 0;

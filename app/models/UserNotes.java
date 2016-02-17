@@ -149,4 +149,8 @@ public class UserNotes extends Model {
 		return find.where().eq("user",user).eq("action", "Emailed the client").findList();
 	}
 	
+	public static List<UserNotes> findByUserAndSched(AuthUser user) {
+		return find.where().eq("user",user).eq("note", "Test Drive Scheduled").findList();
+	}
+	
 }
