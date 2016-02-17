@@ -10815,10 +10815,19 @@ public class Application extends Controller {
     		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
     		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
     		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(users);
-    		
+    		List<Vehicle> vList = Vehicle.findBySoldUserAndSold(users);
+    		for (Vehicle vehicle : vList) {
+    			if(vehicle.soldDate.after(timeBack)) {
+        			saleCarCount++;
+        			pricecount = pricecount + vehicle.price;
+				}
+				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
+					monthPriceCount = monthPriceCount + vehicle.price;
+				}
+			}
     	//	saleCarCount = rInfo1.size() + sList1.size() + tradeIns1.size();
     		
-    		for(RequestMoreInfo rMoreInfo: rInfo1){
+    		/*for(RequestMoreInfo rMoreInfo: rInfo1){
     			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin, users);
     			for(Vehicle vehicle:vehicleVin){
     				if(vehicle != null){
@@ -10868,7 +10877,7 @@ public class Application extends Controller {
     				}
     			}
     		}
-    		}
+    		}*/
     		
     		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
     		lDataVM.successRate = (int) sucessCount;
@@ -12092,6 +12101,7 @@ public class Application extends Controller {
         		
         	
     		}else if(vm.typeOfLead.equals("Schedule Test Drive")){
+    			
     			ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
         		schedule.setLeadStatus("COMPLETE");
         		schedule.setStatusDate(currDate);
@@ -12099,6 +12109,14 @@ public class Application extends Controller {
         		schedule.setEnthicity(vm.enthicity);
         		schedule.update();
         		
+        		Vehicle vehicle = Vehicle.findByVinAndStatus(schedule.vin);
+        		if(vehicle != null){
+	        		vehicle.setStatus("Sold");
+	        		vehicle.setSoldDate(date);
+	        		vehicle.setSoldUser(user);
+	        		vehicle.setPrice(Integer.parseInt(vm.price));
+	        		vehicle.update();
+        		}
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Vehicle Sold");
         		uNotes.setAction("Other");
