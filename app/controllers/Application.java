@@ -17816,13 +17816,20 @@ public class Application extends Controller {
 	    		}else{
 	    			analyticalVM.count = pagesCount.get(vehicle.getVin());
 	    		}
-	    		
+	    		analyticalVM.followerCount = 0;
 	    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
-	    		if(pAlert != null){
+	    		for (PriceAlert priceAlert : pAlert) {
+					PriceAlert alt = PriceAlert.findById(priceAlert.id);
+					if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
+						analyticalVM.followerCount++;
+		    		}
+				}
+	    		
+	    		/*if(pAlert != null){
 	    			analyticalVM.followerCount =  pAlert.size();
 	    		}else{
 	    			analyticalVM.followerCount = 0;
-	    		}
+	    		}*/
 	    		analyticalVM.price = vehicle.getPrice();
 	    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
 	    		if(vehicleImage!=null) {
