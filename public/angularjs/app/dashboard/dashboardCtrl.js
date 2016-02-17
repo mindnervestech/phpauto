@@ -2259,11 +2259,6 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.makeLead = function() {
-	    			
-	    			
-	    			
-	    			console.log($scope.stockWiseData);
-	    			console.log("make Lead");
 	    			$scope.othertxt = $('#othertxt').val();
 	    			console.log($scope.othertxt);
 	    			if($scope.lead.hearedFrom == "Other"){
@@ -2302,6 +2297,7 @@ angular.module('newApp')
 	    				}
 	    				$scope.initialiase();
 	    			});
+	    			$scope.getAllLeadIn();
 	    		};
 	    		
 	    		$scope.changeMakeSelect = function(modelSelect) {
@@ -2685,6 +2681,7 @@ angular.module('newApp')
         
         $scope.getAllListLeadDate = [];
         $scope.getAllLeadsValue = function(){
+        	$scope.getAllSalesPersonRecord($scope.salesPerson);
         	/*$scope.getAllListLeadDate = [];
         	angular.forEach($scope.gridOptions2.data,function(value,key){
         		$scope.getAllListLeadDate.push(value);
@@ -3130,6 +3127,14 @@ angular.module('newApp')
     		$('#soldBtn').attr("disabled", true);
     		$http.post('/setRequestStatusComplete',$scope.soldContact)
 			.success(function(data) {
+				console.log(data);
+				if(data=='contact error'){
+					$.pnotify({
+					    title: "Error",
+					    type:'success',
+					    text: "Contact email already exist",
+					});
+				}
 				$('#requestCompleteStatusModal').modal('hide');
 				$.pnotify({
 				    title: "Success",
@@ -3137,7 +3142,7 @@ angular.module('newApp')
 				    text: "Status changed successfully",
 				});
 				$('#soldBtn').attr("disabled", false);
-				$scope.getAllSalesPersonRecord($scope.salesPerson);
+				$scope.getAllLeadIn();
 				$route.reload();
 			});
     	};		
