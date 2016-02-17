@@ -22063,6 +22063,9 @@ public class Application extends Controller {
 	
 public static Result getFollowerLeads(Long id, String vin,String status, String startDate, String endDate) {
 		
+	
+	
+		System.out.println("{{{{{{{{{{{{}}}}}}}}}}}");
 		int flagDate = 0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Map<Long, Long> mapdateFollower = new HashMap<Long, Long>();
