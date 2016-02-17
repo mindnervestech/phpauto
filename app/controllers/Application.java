@@ -18363,9 +18363,20 @@ public class Application extends Controller {
      	int countLeads1 = requestLeadCount1 + scheduleLeadCount1 + tradeInLeadCount1;
      	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
     	int countLostLeads = lostRequestLeadCount + lostScheduleLeadCount + lostTradeInLeadCount;
-     	Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
      	LocationWiseDataVM lDataVM = new LocationWiseDataVM();
-     	lDataVM.imageUrl = location.getImageUrl();
+     	
+     	
+     	if(users.imageUrl != null) {
+			if(users.imageName !=null){
+				lDataVM.imageUrl = "http://glider-autos.com/glivrImg/images"+users.imageUrl;
+			}else{
+				lDataVM.imageUrl = users.imageUrl;
+			}
+			
+		} else {
+			lDataVM.imageUrl = "/profile-pic.jpg";
+		}
+     	
      	lDataVM.countSalePerson = countLeads;
      	lDataVM.lostLeadCount = countLostLeads;
      	
@@ -18773,7 +18784,7 @@ public class Application extends Controller {
      	lDataVM.testDriveSched = callActionCount;
      	
      	
-     	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
+     /*	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
      	int saleCar = 0;
      	int newCar = 0;
      	for(Vehicle vehicle:allVehiList){
@@ -18784,7 +18795,7 @@ public class Application extends Controller {
      		}//else if(vehicle.status.equals("Newly Arrived")){
      				newCar++;
      		//}
-     	}
+     	}*/
      	
          
      	

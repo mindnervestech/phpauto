@@ -3550,8 +3550,6 @@ angular.module('newApp')
 		 			console.log(data);
 		 			$scope.userPerformanceList = data;
 		 			
-		 			
-		 			
 		 			console.log($scope.userPerformanceList);
 		 		});
 		   }
