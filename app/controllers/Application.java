@@ -18366,6 +18366,10 @@ public class Application extends Controller {
      	Integer pricecount = 0;
      	int saleCarCount = 0;
      	
+     	Map<String, Integer> priceRang = new HashMap<String, Integer>();
+     	
+     	addPriceRang(priceRang);
+     	
      	lDataVM.SalePersonName = users.firstName +" "+users.lastName; 
      		
      		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
@@ -18380,7 +18384,7 @@ public class Application extends Controller {
      				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
              			saleCarCount++;
              			pricecount = pricecount + vehicle.price;
-             			
+             			fillPriceRang(priceRang, vehicle.price);
              			
              				if(vehicle.getBodyStyle() != null){
              					
@@ -18409,7 +18413,7 @@ public class Application extends Controller {
      				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
              			saleCarCount++;
              			pricecount = pricecount + vehicle.price;
-             			
+             			fillPriceRang(priceRang, vehicle.price);
              			if(vehicle.getBodyStyle() != null){
          					
          					Integer objectMake = mapByType.get(vehicle.getBodyStyle());
@@ -18436,7 +18440,7 @@ public class Application extends Controller {
      				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
              			saleCarCount++;
              			pricecount = pricecount + vehicle.price;
-             			
+             			fillPriceRang(priceRang, vehicle.price);
              			if(vehicle.getBodyStyle() != null){
          					
          					Integer objectMake = mapByType.get(vehicle.getBodyStyle());
@@ -18475,6 +18479,17 @@ public class Application extends Controller {
 			bSetVMs.add(value);
 		}
      	lDataVM.byType = bSetVMs;
+     	
+     	
+     	List<bodyStyleSetVM> bSetVMPriceRang = new ArrayList<>();
+     	
+     	for (Entry<String , Integer> entryValue : priceRang.entrySet()) {
+     		bodyStyleSetVM value = new bodyStyleSetVM();
+			value.name = entryValue.getKey();
+			value.value = entryValue.getValue();
+			bSetVMPriceRang.add(value);
+		}
+     	lDataVM.priceRang = bSetVMPriceRang;
      	
      	List<bodyStyleSetVM> bSetVMsPlan = new ArrayList<>();
       	List<PlanScheduleMonthlySalepeople> pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByListUser(users); 
@@ -18751,6 +18766,49 @@ public class Application extends Controller {
      	//lDataVM.sendData = sAndValues;
 
      	return ok(Json.toJson(lDataVM));
+    }
+    
+    public static void addPriceRang(Map<String, Integer> priceRang){
+    	 priceRang.put("0-$10,000", 0);
+ 		priceRang.put("$10,000-$20,000", 0);
+ 		priceRang.put("$20,000-$30,000", 0);
+ 		priceRang.put("$30,000-$40,000", 0);
+ 		priceRang.put("$40,000-$50,000", 0);
+ 		priceRang.put("$50,000-$60,000", 0);
+ 		priceRang.put("$60,000-$70,000", 0);
+ 		priceRang.put("$70,000-$80,000", 0);
+ 		priceRang.put("$80,000-$90,000", 0);
+ 		priceRang.put("$90,000-$1,00,000", 0);
+ 		priceRang.put("$1,00,000 +", 0);
+ 		
+    }
+
+    public static void fillPriceRang(Map<String, Integer> priceRang, Integer price){
+    	 	int count = 1;	
+ 		if(price >= 0 && price < 10000){
+ 			priceRang.put("0-$10,000", priceRang.get("0-$10,000") + 1);
+ 		}else if(price >= 10000 && price < 20000){
+ 			priceRang.put("$10,000-$20,000", priceRang.get("$10,000-$20,000") + 1);
+ 		}else if(price >= 20000 && price < 30000){
+ 			priceRang.put("$20,000-$30,000", priceRang.get("$20,000-$30,000") + 1);
+ 		}else if(price >= 30000 && price < 40000){
+ 			priceRang.put("$30,000-$40,000", priceRang.get("$30,000-$40,000") + 1);
+ 		}else if(price >= 40000 && price < 50000){
+ 			priceRang.put("$40,000-$50,000", priceRang.get("$40,000-$50,000") + 1);
+ 		}else if(price >= 50000 && price < 60000){
+ 			priceRang.put("$50,000-$60,000", priceRang.get("$50,000-$60,000") + 1);
+ 		}else if(price >= 60000 && price < 70000){
+ 			priceRang.put("$60,000-$70,000", priceRang.get("$60,000-$70,000") + 1);
+ 		}else if(price >= 70000 && price < 80000){
+ 			priceRang.put("$70,000-$80,000", priceRang.get("$70,000-$80,000") + 1);
+ 		}else if(price >= 80000 && price < 90000){
+ 			priceRang.put("$80,000-$90,000", priceRang.get("$80,000-$90,000") + 1);
+ 		}else if(price >= 90000 && price < 100000){
+ 			priceRang.put("$90,000-$1,00,000", priceRang.get("$90,000-$1,00,000") + 1);
+ 		}else if(price >= 100000){
+ 			priceRang.put("$1,00,000 +", priceRang.get("$1,00,000 +") + 1);
+ 		}
+ 		
     }
     
     public static Result getHeardAboutUs(){

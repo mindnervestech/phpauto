@@ -25,6 +25,7 @@ public class LocationWiseDataVM {
     public List<bodyStyleSetVM> planComplete;
     public List<bodyStyleSetVM> offlineLead;
     public List<bodyStyleSetVM> onLineLead;
+    public List<bodyStyleSetVM> priceRang;
     public List<DateAndValueVM> sendData;
     public String monthCurr;
     
