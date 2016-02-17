@@ -153,7 +153,6 @@ angular.module('newApp')
 	
 	$http.get('/getUserPermission').success(function(data){
 		$scope.userPer = data;
-		console.log($scope.userPer);
 	 });	
 	$http.get('/getDataFromCrm').success(function(data){
 		$scope.searchList = data;
@@ -1432,13 +1431,11 @@ angular.module('newApp')
    	  		$scope.allVehical = null;
    	  	$http.get('/getAllVehical')
 		.success(function(data) {
-			console.log(data);
 			$scope.allVehicalss = data;
 		});
    	  		/*$scope.getAllVehical = function(){
 	   	  		$http.get('/getAllVehical')
 	 				.success(function(data) {
-	 					console.log(data);
 	 					$scope.allVehicalss = data;
 	 				});
    	  		}*/
@@ -1446,7 +1443,6 @@ angular.module('newApp')
    	  	
    	  	
    	  	$scope.saveCompleted = function(){
-   	  		console.log($scope.testCompleted);
 	   	  	 $http.get('/saveCompletedLeads/'+$scope.testCompleted.duration+'/'+$scope.testCompleted.comment+'/'+$scope.testCompleted.id+'/'+$scope.testCompleted.typeOfLead)
 				.success(function(data) {
 					$.pnotify({
@@ -1465,9 +1461,7 @@ angular.module('newApp')
 		}
    	 $scope.testCompleted = {};
    	  	$scope.testDriveCompleted = function(entity, check){
-   	  		console.log(check);
    	  		$scope.check = true;
-   	  		console.log(entity);
    	  		if(check == false || check == undefined){
    	  			$scope.testCompleted.id = entity.id;
    	  			$scope.testCompleted.typeOfLead = entity.typeOfLead;
@@ -1476,17 +1470,14 @@ angular.module('newApp')
    	  	}
    	  	
    	  	$scope.showPdf = function(id){
-   	  		console.log(id);
    	  		$scope.pdfFile = "/getPdfPath/"+id;
    	  		$('#openPdffile').click();
-   	  		console.log($scope.pdfFile);
    	  	}
    	  		$scope.editLeads = {};
    	  	$scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
    	  			$scope.stockWiseData = [];
    	  			$scope.editLeads = {};
-   	  			console.log(entity);
    	  			//$scope.getAllVehical();
    	  			$('#btneditleads').click();
    	  			//$scope.editLeads = entity;
@@ -1508,7 +1499,6 @@ angular.module('newApp')
 				vin:entity.vin,
 				imgId:entity.imgId,
 			});
-   	  			console.log($scope.stockWiseData);
    	  			$scope.editLeads.vin = entity.vin;
    	  			$scope.editLeads.stockNumber = entity.stock;
 		   	  	$scope.editLeads.model = entity.model;
@@ -1588,29 +1578,22 @@ angular.module('newApp')
     		  }
     		  
     		  $http.get('/getUsers').success(function(data){
-    				console.log(data);
     				$scope.allUser = data;
     			 });
 
     	   		$http.get('/getgroupInfo').success(function(data){
-    				console.log(data);
     				$scope.allGroup = data;
     			 });
     	   		
     	   	 $scope.saveGroup = function(createGroup){
-    			   console.log(createGroup);
-    			   
     			   $http.get('/saveGroup/'+createGroup)
     				.success(function(data) {
-    					console.log("sccess");
     					$.pnotify({
     					    title: "Success",
     					    type:'success',
     					    text: "group saved successfully",
     					});
     					$http.get('/getgroupInfo').success(function(data){
-    						console.log(data);
-    						
     						$scope.allGroup = data;
     					 });
     				});
@@ -1618,17 +1601,14 @@ angular.module('newApp')
     		   }
     		   
     		   $scope.deleteGroup = function(groupId){
-    			   console.log(groupId);
     			   $http.get('/deleteGroup/'+groupId)
     				.success(function(data) {
-    					console.log("sccess");
     					$.pnotify({
     					    title: "Success",
     					    type:'success',
     					    text: "group deleted successfully",
     					});
     					$http.get('/getgroupInfo').success(function(data){
-    						console.log(data);
     						$scope.allGroup = data;
     					 });
     				});
@@ -1663,7 +1643,6 @@ angular.module('newApp')
     					 
     				 }
     			 });
-    			 console.log($scope.currentData);
     			/*$scope.flags["flag"+index] = 1;
     			console.log($scope["flag"+index]);*/
     		 }
@@ -1672,9 +1651,6 @@ angular.module('newApp')
     		 
     		 $scope.checkSalePersonIndex = function(item,values){
     			 
-    				console.log(values);
-        			console.log(item);
-        			
         			var startDate = $('#comparisonStartDate').val();
         			var endDate = $('#comparisonEndDate').val();
         			
@@ -1694,12 +1670,8 @@ angular.module('newApp')
     						 item.flag = 1;
     						 
     						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
-    							 	console.log("scuurrrrr");
-    							 	console.log(response);
     							 	$scope.comparisonperson.push(response);
-    							 	console.log($scope.comparisonperson);
     						 });
-    						 
     					 }else{
     						 item.flag = 0;
     					 }
@@ -1797,8 +1769,6 @@ angular.module('newApp')
     		$scope.onlineVisitorFind = function(){
     			  
     			  $http.get('/getVisitorOnline').success(function(response) {
-    				  //console.log("hi  hihih yogesh");
-    				  //console.log(response);
     				  $scope.onlineVisitorsCount = response;
     			  });
     		  }	
@@ -1861,8 +1831,6 @@ angular.module('newApp')
 			        				  $scope.showToDoList = true;
 			        				  $scope.showCalendar = false;
 			        				  $scope.selectedDate = dateText;
-			        				  console.log("datesssssssss");
-			        				  console.log(dateText);
 //			        				  var date = new Date();
 									 var arr1 = [];										
 			        				    arr1 = dateText.split('/');
@@ -1871,8 +1839,6 @@ angular.module('newApp')
 			        				    }else{
 			        				    	$scope.editdate =arr1[0];
 			        				    }
-			        				    
-							        	console.log($scope.editdate);
 			        				  $scope.getScheduleBySelectedDate($scope.editdate);
 			        			  }
 			    		  });
@@ -2297,7 +2263,7 @@ angular.module('newApp')
 	    				}
 	    				$scope.initialiase();
 	    			});
-	    			$scope.getAllLeadIn();
+	    			$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    		};
 	    		
 	    		$scope.changeMakeSelect = function(modelSelect) {
