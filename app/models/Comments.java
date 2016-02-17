@@ -56,5 +56,9 @@ public class Comments extends Model {
 		//return null;
 	}
 	
+	public static List<Comments> getByListUser(AuthUser user) {
+		return find.where().eq("user", user).findList();
+	}
+	
 	
 }

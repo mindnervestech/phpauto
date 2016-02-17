@@ -26,6 +26,7 @@ public class LocationWiseDataVM {
     public Integer callMade;
     public Integer mailSent;
     public Integer testDriveSched;
+    public Integer likeCount;;
     
     public List<bodyStyleSetVM> byType;
     public List<bodyStyleSetVM> planComplete;

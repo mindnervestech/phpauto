@@ -5031,15 +5031,15 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Total Money Brought</label>
-									                 						<label class="col-sm-6" style="text-align: right;">${{comparisonperson[0].totalSalePrice}}</label>
+									                 						<label class="col-sm-6" style="text-align: right;" id="moneyBrougthOne">${{comparisonperson[0].totalSalePrice}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label></label>
+															   		<label id="moneyBrougthPer"></label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">${{comparisonperson[1].totalSalePrice}}</label>
+									                 						<label class="col-sm-6" id="moneyBrougthsecond">${{comparisonperson[1].totalSalePrice}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Total Money Brought</label>
 									                 					</div>
 															   </div>
@@ -5468,7 +5468,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Logged In Time</label>
-									                 						<label class="col-sm-6" style="text-align: right;">72hr 52min</label>
+									                 						<label class="col-sm-6" style="text-align: right;">-----</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5476,7 +5476,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">52hr 45min</label>
+									                 						<label class="col-sm-6">-----</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Logged In Time</label>
 									                 					</div>
 															   </div>
@@ -5543,7 +5543,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Likes</label>
-									                 						<label class="col-sm-6" style="text-align: right;">436</label>
+									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].likeCount}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5551,7 +5551,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">245</label>
+									                 						<label class="col-sm-6">{{comparisonperson[1].likeCount}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Likes</label>
 									                 					</div>
 															   </div>
@@ -5632,7 +5632,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Average follow-up Time</label>
-									                 						<label class="col-sm-6" style="text-align: right;">436</label>
+									                 						<label class="col-sm-6" style="text-align: right;">-----</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5640,7 +5640,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">245</label>
+									                 						<label class="col-sm-6">-----</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Average follow-up Time</label>
 									                 					</div>
 															   </div>
@@ -5788,7 +5788,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Returning clients</label>
-									                 						<label class="col-sm-6" style="text-align: right;">436</label>
+									                 						<label class="col-sm-6" style="text-align: right;">----</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5796,7 +5796,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">245</label>
+									                 						<label class="col-sm-6">----</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Returning clients</label>
 									                 					</div>
 															   </div>
@@ -5859,7 +5859,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Salary</label>
-									                 						<label class="col-sm-6" style="text-align: right;">$10,833,3</label>
+									                 						<label class="col-sm-6" style="text-align: right;">------</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5867,7 +5867,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">$10,833,3</label>
+									                 						<label class="col-sm-6">-----</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Salary</label>
 									                 					</div>
 															   </div>
@@ -5877,7 +5877,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Comission</label>
-									                 						<label class="col-sm-6" style="text-align: right;">$2,500</label>
+									                 						<label class="col-sm-6" style="text-align: right;">-----</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5885,7 +5885,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">$2,000</label>
+									                 						<label class="col-sm-6">----</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Comission</label>
 									                 					</div>
 															   </div>
@@ -5913,7 +5913,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Training Cost</label>
-									                 						<label class="col-sm-6" style="text-align: right;">$5000</label>
+									                 						<label class="col-sm-6" style="text-align: right;">-----</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5921,7 +5921,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">$5000</label>
+									                 						<label class="col-sm-6">-----</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Training Cost</label>
 									                 					</div>
 															   </div>
@@ -5931,7 +5931,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Lead Cost</label>
-									                 						<label class="col-sm-6" style="text-align: right;">$76.1</label>
+									                 						<label class="col-sm-6" style="text-align: right;">-----</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5939,7 +5939,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">$54.2</label>
+									                 						<label class="col-sm-6">-----</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Lead Cost</label>
 									                 					</div>
 															   </div>

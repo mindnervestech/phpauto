@@ -18664,9 +18664,18 @@ public class Application extends Controller {
  				c.add(Calendar.DATE, 1);
  				dt = c.getTime();
  				
+ 				String nextDate = df.format(dt);
+				Date  dfnext = null;
+				try {
+				dfnext = df.parse(nextDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+ 				
  				totalLeadDay++;
  				if(rMoreInfo.statusDate != null){
- 					if(rMoreInfo.statusDate.equals(dt)){
+ 					if(rMoreInfo.statusDate.equals(dfnext)){
  						value = 0;
  						break;
  					}
@@ -18680,7 +18689,7 @@ public class Application extends Controller {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}		
- 					if(dt.equals(ndate)){
+ 					if(dfnext.equals(ndate)){
  						value = 0;
  						break;
  					}
@@ -18703,9 +18712,18 @@ public class Application extends Controller {
  				c.add(Calendar.DATE, 1);
  				dt = c.getTime();
  				
+ 				String nextDate = df.format(dt);
+				Date  dfnext = null;
+				try {
+				dfnext = df.parse(nextDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+ 				
  				totalLeadDay++;
  				if(sTest.statusDate != null){
- 					if(sTest.statusDate.equals(dt)){
+ 					if(sTest.statusDate.equals(dfnext)){
  						value = 0;
  						break;
  					}
@@ -18719,7 +18737,7 @@ public class Application extends Controller {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}		
- 					if(dt.equals(ndate)){
+ 					if(dfnext.equals(ndate)){
  						value = 0;
  						break;
  					}
@@ -18740,9 +18758,18 @@ public class Application extends Controller {
  				c.add(Calendar.DATE, 1);
  				dt = c.getTime();
  				
+ 				String nextDate = df.format(dt);
+					Date  dfnext = null;
+					try {
+					dfnext = df.parse(nextDate);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}		
+ 				
  				totalLeadDay++;
  				if(tIn.statusDate != null){
- 					if(tIn.statusDate.equals(dt)){
+ 					if(tIn.statusDate.equals(dfnext)){
  						value = 0;
  						break;
  					}
@@ -18756,13 +18783,13 @@ public class Application extends Controller {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}		
- 					if(dt.equals(ndate)){
+ 					if(dfnext.equals(ndate)){
  						value = 0;
  						break;
  					}
  				}
- 			}
- 			*/
+ 			}*/
+ 			
  				tradeInGLeadCount++;
  		}
  	}
@@ -18770,8 +18797,7 @@ public class Application extends Controller {
  	int AllGeneratedLead = requestGLeadCount + scheduleGLeadCount + tradeInGLeadCount;
      	lDataVM.allGeneratedLeadCount = AllGeneratedLead;
      	
-     	
-     	//Integer AvgLeadLifeCyc = totalLeadDay / AllGeneratedLead;
+     //	Integer AvgLeadLifeCyc = totalLeadDay / AllGeneratedLead;
      	//lDataVM.avgLeadLifeCycle = AvgLeadLifeCyc;
      	
      	List<UserNotes> uNotes = UserNotes.findByUserAndcall(users);
@@ -18802,6 +18828,12 @@ public class Application extends Controller {
      	lDataVM.testDriveSched = callActionCount;
      	
      	
+     	List<Comments> comments = Comments.getByListUser(users);
+     	int likeCount = 0;
+     	if(comments != null){
+     		likeCount = comments.size();
+     	}
+     	lDataVM.likeCount = likeCount;
      /*	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
      	int saleCar = 0;
      	int newCar = 0;
