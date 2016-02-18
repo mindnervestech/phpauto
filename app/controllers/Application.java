@@ -18980,7 +18980,7 @@ public class Application extends Controller {
 	    		info.setHearedFrom(leadVM.hearedFrom);
 	    		info.setContactedFrom(leadVM.contactedFrom);
 	    		info.setPremiumFlag(0);
-	    		info.setOnlineOrOfflineLeads(1);
+	    		info.setOnlineOrOfflineLeads(0);
 	    		info.setRequestDate(new Date());
 	    		/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
@@ -19068,7 +19068,7 @@ public class Application extends Controller {
 	    		test.setVin(vehicle.getVin());
 	    		test.setAssignedTo(user);
 	    		test.setPremiumFlag(0);
-	    		test.setOnlineOrOfflineLeads(1);
+	    		test.setOnlineOrOfflineLeads(0);
 	    		//test.setVin(vehicles.get(0).getVin());
 	    		
 	    	/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -19196,7 +19196,7 @@ public class Application extends Controller {
         		tradeIn.setVin(vehicle.getVin());
         		tradeIn.setAssignedTo(user);
         		tradeIn.setPremiumFlag(0);
-        		tradeIn.setOnlineOrOfflineLeads(1);
+        		tradeIn.setOnlineOrOfflineLeads(0);
         		//tradeIn.setVin(vehicles.get(0).getVin());
         		tradeIn.setYear(leadVM.year);
         		
