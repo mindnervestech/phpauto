@@ -14325,8 +14325,18 @@ public class Application extends Controller {
 	    	List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(sales);
     		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(sales);
     		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(sales);
+    		List<Vehicle> salesVehicleList = Vehicle.findBySoldUserAndSold(sales);
+    		for (Vehicle vehicle : salesVehicleList) {
+    			if(vehicle != null){
+    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
+            			saleCarCount++;
+            			pricecount = pricecount + vehicle.price;
+    				}
+    			}
+			}
     		
-    		for(RequestMoreInfo rMoreInfo: rInfo1){
+    		
+    		/*for(RequestMoreInfo rMoreInfo: rInfo1){
     			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,sales);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
@@ -14360,7 +14370,7 @@ public class Application extends Controller {
     				}
     			}
     		}
-    		}
+    		}*/
     		double sucessCount = 0;
     		if(countLeads1 != 0){
     			sucessCount= (double)saleCarCount/(double)countLeads1*100;
