@@ -121,6 +121,19 @@ public class UserNotes extends Model {
 		return find.where().eq("requestMoreInfo", info).findList();
 	}
 	
+	public static List<UserNotes> findRequestMoreAndFirstAdd(RequestMoreInfo info) {
+		return find.where().eq("requestMoreInfo", info).eq("saveHistory",1).orderBy("createdDate asc").findList();
+	}
+	
+	public static List<UserNotes> findScheduleTestAndFirstAdd(ScheduleTest schedule) {
+		return find.where().eq("scheduleTest", schedule).eq("saveHistory",1).orderBy("createdDate asc").findList();
+	}
+	
+	public static List<UserNotes> findTradeInAndFirstAdd(TradeIn tradeIn) {
+		return find.where().eq("tradeIn", tradeIn).eq("saveHistory",1).orderBy("createdDate asc").findList();
+	}
+	
+	
 	public static List<UserNotes> findScheduleTestByUser(ScheduleTest schedule,AuthUser user) {
 		return find.where().eq("scheduleTest", schedule).eq("user",user).findList();
 	}

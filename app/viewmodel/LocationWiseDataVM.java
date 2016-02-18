@@ -23,6 +23,7 @@ public class LocationWiseDataVM {
     public Integer lostLeadCount;
     public Integer allGeneratedLeadCount;
     public Long avgLeadLifeCycle;
+    public Long followUpTime;
     public Integer callMade;
     public Integer mailSent;
     public Integer testDriveSched;

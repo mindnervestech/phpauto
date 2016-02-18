@@ -18340,22 +18340,52 @@ public class Application extends Controller {
      		sListAll = ScheduleTest.findByAssigUserNotCancel(users);
      		tradeInsAll = TradeIn.findByAssigUserNotCancel(users);
      		
-     		
+     		Long difffoll = 0L;
+     		Long countFollo = 0L; 
      	for(RequestMoreInfo rMoreInfo:rInfo){
      		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
      			requestLeadCount++;
+     			difffoll = 0L;
+     			List<UserNotes> uNotes = UserNotes.findRequestMoreAndFirstAdd(rMoreInfo);
+     			for(UserNotes uN:uNotes){
+     				System.out.println(uN.createdDate);
+     				difffoll = uN.createdDate.getTime() - rMoreInfo.requestDate.getTime();
+     				difffoll = (difffoll / 1000 /60 /60 /24);
+     				break;
+     			}
+     			countFollo = countFollo + difffoll;
      		}
      	}
      	
      	for(ScheduleTest sTest:sList){
      		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
      			scheduleLeadCount++;
+     			
+     			difffoll = 0L;
+     			List<UserNotes> uNotes = UserNotes.findScheduleTestAndFirstAdd(sTest);
+     			for(UserNotes uN:uNotes){
+     				System.out.println(uN.createdDate);
+     				difffoll = uN.createdDate.getTime() - sTest.scheduleDate.getTime();
+     				difffoll = (difffoll / 1000 /60 /60 /24);
+     				break;
+     			}
+     			countFollo = countFollo + difffoll;
      		}
      	}
 
      	for(TradeIn tIn:tradeIns){
      		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
      				tradeInLeadCount++;
+     				
+     				difffoll = 0L;
+         			List<UserNotes> uNotes = UserNotes.findTradeInAndFirstAdd(tIn);
+         			for(UserNotes uN:uNotes){
+         				System.out.println(uN.createdDate);
+         				difffoll = uN.createdDate.getTime() - tIn.tradeDate.getTime();
+         				difffoll = (difffoll / 1000 /60 /60 /24);
+         				break;
+         			}
+         			countFollo = countFollo + difffoll;
      		}
      	}
      	
@@ -18400,7 +18430,9 @@ public class Application extends Controller {
      	int countLeads1 = requestLeadCount1 + scheduleLeadCount1 + tradeInLeadCount1;
      	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
     	int countLostLeads = lostRequestLeadCount + lostScheduleLeadCount + lostTradeInLeadCount;
-     	LocationWiseDataVM lDataVM = new LocationWiseDataVM();
+     	
+    	
+    	LocationWiseDataVM lDataVM = new LocationWiseDataVM();
      	
      	
      	if(users.imageUrl != null) {
@@ -18413,6 +18445,12 @@ public class Application extends Controller {
 		} else {
 			lDataVM.imageUrl = "/profile-pic.jpg";
 		}
+     	
+     	if(countFollo != 0 && countLeads != 0){
+     		lDataVM.followUpTime = (countFollo / Long.valueOf(countLeads));
+     	}else{
+     		lDataVM.followUpTime = 0L;
+     	}
      	
      	lDataVM.countSalePerson = countLeads;
      	lDataVM.lostLeadCount = countLostLeads;
@@ -18832,6 +18870,7 @@ public class Application extends Controller {
      	lDataVM.likeCount = likeCount;
      	
      	
+     	
      	Map<String, Integer> returnIng = new HashMap<String, Integer>();
       List<Contacts> cList = Contacts.findByUser(users.id);
       
@@ -18895,21 +18934,6 @@ public class Application extends Controller {
  	lDataVM.leadCost = sl + tcl + cl;
  	
  	
-     /*	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
-     	int saleCar = 0;
-     	int newCar = 0;
-     	for(Vehicle vehicle:allVehiList){
-     		if(vehicle.status.equals("Sold")){
-     			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
-     				saleCar++;
-     			}
-     		}//else if(vehicle.status.equals("Newly Arrived")){
-     				newCar++;
-     		//}
-     	}*/
-     	
-         
-     	
 
      	return ok(Json.toJson(lDataVM));
     }
