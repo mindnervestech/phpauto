@@ -354,6 +354,10 @@ public class Contacts extends Model {
 		return find.where().eq("email", email).findUnique();
 	}
 	
+	public static List<Contacts> findByUser(Integer user) {
+		return find.where().eq("user", user).findList();
+	}
+	
 	public static Contacts findById(Long id) {
 		return find.byId(id);
 	}

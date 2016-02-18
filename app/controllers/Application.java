@@ -18834,6 +18834,28 @@ public class Application extends Controller {
      		likeCount = comments.size();
      	}
      	lDataVM.likeCount = likeCount;
+     	
+     	
+     	Map<String, Integer> returnIng = new HashMap<String, Integer>();
+      List<Contacts> cList = Contacts.findByUser(users.id);
+      
+      for(Contacts contacts:cList){
+    	  Integer objectMake = returnIng.get(contacts.email);
+  		if (objectMake == null) {
+  			returnIng.put(contacts.email, countBodyStyle);
+  		}else{
+  			returnIng.put(contacts.email, countBodyStyle + 1);
+  		}
+      }
+      
+      int returningCount = 0;
+ 	for (Entry<String , Integer> entryValue : returnIng.entrySet()) {
+ 		if(entryValue.getValue() >= 2){
+ 			returningCount++;
+ 		}
+	}
+ 	lDataVM.returningClints = returningCount;
+      
      /*	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
      	int saleCar = 0;
      	int newCar = 0;
@@ -22063,9 +22085,6 @@ public class Application extends Controller {
 	
 public static Result getFollowerLeads(Long id, String vin,String status, String startDate, String endDate) {
 		
-	
-	
-		System.out.println("{{{{{{{{{{{{}}}}}}}}}}}");
 		int flagDate = 0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Map<Long, Long> mapdateFollower = new HashMap<Long, Long>();
