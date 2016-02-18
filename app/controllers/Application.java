@@ -22194,7 +22194,7 @@ public static Result getFollowerLeads(Long id, String vin,String status, String 
 			while(iDate > 0){
 				Calendar c = Calendar.getInstance(); 
 				c.setTime(addDates); 
-				c.add(Calendar.DATE, 1);
+				
 				
 				String DateString1 = df
 						.format(c.getTime());
@@ -22205,6 +22205,8 @@ public static Result getFollowerLeads(Long id, String vin,String status, String 
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				c.add(Calendar.DATE, 1);
 				
 				Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
 				if (objectAllDate == null) {
@@ -22447,9 +22449,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			while(iDate > 0){
 				Calendar c = Calendar.getInstance(); 
 				c.setTime(addDates); 
-				c.add(Calendar.DATE, 1);
-				System.out.println(c.getTime());
-				System.out.println(",,.,.,.,.,.");
+				
 				
 				String DateString1 = df
 						.format(c.getTime());
@@ -22460,6 +22460,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				c.add(Calendar.DATE, 1);
 				
 				Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
 				if (objectAllDate == null) {
@@ -22967,7 +22969,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					while(iDate > 0){
 						Calendar c = Calendar.getInstance(); 
 						c.setTime(addDates); 
-						c.add(Calendar.DATE, 1);
+						
 						
 						String DateString1 = df
 								.format(c.getTime());
@@ -22978,7 +22980,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
+						c.add(Calendar.DATE, 1);
 						Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
 						if (objectAllDate == null) {
 							mapAlldate.put(dateDate1.getTime() + (1000 * 60 * 60 * 24),1L);
@@ -23482,7 +23484,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					while(iDate > 0){
 						Calendar c = Calendar.getInstance(); 
 						c.setTime(addDates); 
-						c.add(Calendar.DATE, 1);
+						
 						
 						String DateString1 = df
 								.format(c.getTime());
@@ -23492,7 +23494,10 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+							
 						}
+						
+						c.add(Calendar.DATE, 1);
 						
 						Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
 						if (objectAllDate == null) {
@@ -23944,7 +23949,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				while(iDate > 0){
 					Calendar c = Calendar.getInstance(); 
 					c.setTime(addDates); 
-					c.add(Calendar.DATE, 1);
 					
 					String DateString1 = df
 							.format(c.getTime());
@@ -23955,6 +23959,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					c.add(Calendar.DATE, 1);
 					
 					Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
 					if (objectAllDate == null) {
@@ -23977,6 +23983,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						break;
 					}
 				}
+				
+				
 			
 			
 			for(sendDateAndValue sAndValue:sAndValues){
@@ -24197,7 +24205,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				while(iDate > 0){
 					Calendar c = Calendar.getInstance(); 
 					c.setTime(addDates); 
-					c.add(Calendar.DATE, 1);
 					
 					String DateString1 = df
 							.format(c.getTime());
@@ -24208,6 +24215,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					c.add(Calendar.DATE, 1);
 					
 					Long objectAllDate = mapAlldate.get(dateDate1.getTime() + (1000 * 60 * 60 * 24));
 					if (objectAllDate == null) {
