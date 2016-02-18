@@ -5001,7 +5001,7 @@ margin-left: 5px;
 																	 data-date-format="yyyy-mm-dd" required>
 																</div>
 																<div class="col-sm-1">
-																	<button type="button" class="btn btn-primary btn-embossed">OK</button>
+																	<button type="button" class="btn btn-primary btn-embossed" ng-click="comparisonTwoData()">OK</button>
 																</div>
 																</div>
 															</div>
@@ -5859,7 +5859,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Salary</label>
-									                 						<label class="col-sm-6" style="text-align: right;">------</label>
+									                 						<label class="col-sm-6" style="text-align: right;">${{comparisonperson[0].salary}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5867,7 +5867,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">-----</label>
+									                 						<label class="col-sm-6">${{comparisonperson[1].salary}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Salary</label>
 									                 					</div>
 															   </div>
@@ -5877,7 +5877,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Comission</label>
-									                 						<label class="col-sm-6" style="text-align: right;">-----</label>
+									                 						<label class="col-sm-6" style="text-align: right;">${{comparisonperson[0].comission}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5885,7 +5885,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">----</label>
+									                 						<label class="col-sm-6">${{comparisonperson[1].comission}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Comission</label>
 									                 					</div>
 															   </div>
@@ -5895,7 +5895,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Training</label>
-									                 						<label class="col-sm-6" style="text-align: right;">Yes</label>
+									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].training}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5903,7 +5903,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">Yes</label>
+									                 						<label class="col-sm-6">{{comparisonperson[1].training}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Training</label>
 									                 					</div>
 															   </div>
@@ -5913,7 +5913,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Training Cost</label>
-									                 						<label class="col-sm-6" style="text-align: right;">-----</label>
+									                 						<label class="col-sm-6" style="text-align: right;">${{comparisonperson[0].trainingCost}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5921,7 +5921,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">-----</label>
+									                 						<label class="col-sm-6">${{comparisonperson[1].trainingCost}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Training Cost</label>
 									                 					</div>
 															   </div>
@@ -5931,7 +5931,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Lead Cost</label>
-									                 						<label class="col-sm-6" style="text-align: right;">-----</label>
+									                 						<label class="col-sm-6" style="text-align: right;">${{comparisonperson[0].leadCost}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5939,7 +5939,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">-----</label>
+									                 						<label class="col-sm-6">${{comparisonperson[1].leadCost}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Lead Cost</label>
 									                 					</div>
 															   </div>

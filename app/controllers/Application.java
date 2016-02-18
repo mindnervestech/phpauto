@@ -18407,7 +18407,7 @@ public class Application extends Controller {
      	
      	lDataVM.countSalePerson = countLeads;
      	lDataVM.lostLeadCount = countLostLeads;
-     	
+     	lDataVM.id = users.id;
      	Integer monthPriceCount = 0;
      	Integer pricecount = 0;
      	int saleCarCount = 0;
@@ -18840,9 +18840,13 @@ public class Application extends Controller {
      	
      	List<Comments> comments = Comments.getByListUser(users);
      	int likeCount = 0;
-     	if(comments != null){
-     		likeCount = comments.size();
+     	
+     	for(Comments comm:comments){
+     		if((comm.likeDate.after(startD) && comm.likeDate.before(endD)) || comm.likeDate.equals(endD)){
+     			likeCount++;
+     		}
      	}
+     	
      	lDataVM.likeCount = likeCount;
      	
      	
@@ -18865,7 +18869,48 @@ public class Application extends Controller {
  		}
 	}
  	lDataVM.returningClints = returningCount;
+ 	
+ 	int parDataSalary = Integer.parseInt(users.salary) / 30;
+ 	int dayCount = 1;
+ 	int value1 = 2;
+ 	Date dts = startD;
+ 	while(value1 > 1){
+				Calendar c = Calendar.getInstance(); 
+				c.setTime(dts); 
+				c.add(Calendar.DATE, 1);
+				dts = c.getTime();
+				dayCount++;
+				String nextDate = df.format(dts);
+				Date  dfnext = null;
+				try {
+				dfnext = df.parse(nextDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+				
+				if(dfnext.equals(endD)){
+					value1 = 0;
+					break;
+				}
+ 	}
       
+ 	lDataVM.salary = (parDataSalary * dayCount);
+ 	lDataVM.training = users.trainingPro;
+ 	int tcl = 0;
+ 	if(users.trainingCost != null){
+ 		lDataVM.trainingCost = Integer.parseInt(users.trainingCost);
+ 		tcl = Integer.parseInt(users.trainingCost) / lDataVM.allGeneratedLeadCount;
+ 	}else{
+ 		
+ 		lDataVM.trainingCost = 0;
+ 	}
+ 	lDataVM.comission = (lDataVM.totalSalePrice * Integer.parseInt(users.commission)) / 100; 
+ 	int sl = lDataVM.salary / lDataVM.allGeneratedLeadCount;
+ 	int cl = lDataVM.comission / lDataVM.allGeneratedLeadCount;
+ 	lDataVM.leadCost = sl + tcl + cl;
+ 	
+ 	
      /*	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
      	int saleCar = 0;
      	int newCar = 0;
@@ -25171,16 +25216,18 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		return ok(home.render(""));
     	} else {
 	    	AuthUser userObj = AuthUser.findById(id);
-	    	Comments comm = Comments.getByUser(userObj);
+	    	/*Comments comm = Comments.getByUser(userObj);
 	    	if(comm != null) {
 	    		comm.setComment(comment);
 	    		comm.update();
-	    	}else{
+	    	}else{*/
+	    	Date currDate = new Date();
 	    		Comments cm = new Comments();
 	    		cm.comment = comment;
+	    		cm.likeDate = currDate;
 	    		cm.user = userObj;
 	    		cm.save();
-	    	}
+	    	//}
 	    	likeEmail(userObj.email, comment);
 	    	return ok();
     	}	

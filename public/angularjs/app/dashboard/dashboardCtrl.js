@@ -1647,6 +1647,42 @@ angular.module('newApp')
     			console.log($scope["flag"+index]);*/
     		 }
     		 
+    		 $scope.comparisonTwoData = function(){
+    			 var startDate = $('#comparisonStartDate').val();
+     			var endDate = $('#comparisonEndDate').val();
+     			
+     			if(startDate == "" || endDate == ""){
+     				var today = new Date()
+         			var priorDate = new Date().setDate(today.getDate()-30)
+         			console.log($filter('date')(today,"yyyy-MM-dd"));
+         			console.log($filter('date')(priorDate,"yyyy-MM-dd"));
+         			startDate = $filter('date')(priorDate,"yyyy-MM-dd");
+         			endDate = $filter('date')(today,"yyyy-MM-dd");
+         			$('#comparisonStartDate').val(startDate);
+         			$('#comparisonEndDate').val(endDate); 
+     			}
+     			
+     			/*for(var i=0;i<$scope.toDoDateList.length;i++) {
+					if($scope.toDoId == $scope.toDoDateList[i].id) {
+						$scope.toDoDateList.splice(i,1);
+					}
+				}*/
+     			$scope.arrId = [];
+     			angular.forEach($scope.comparisonperson, function(value, key) {
+     				$scope.arrId.push(value.id);
+     			});
+     			console.log($scope.arrId);
+     			$scope.comparisonperson = [];
+     			
+     			angular.forEach($scope.arrId, function(value, key) {
+     				console.log(value);
+     				$http.get('/getComperSalePersonData/'+value+"/"+startDate+"/"+endDate).success(function(response) {
+					 	$scope.comparisonperson.push(response);
+				 });
+     			});
+     			
+    		 }
+    		 
     		 $scope.comparisonperson = [];
     		 
     		 $scope.checkSalePersonIndex = function(item,values){
@@ -1923,8 +1959,11 @@ angular.module('newApp')
     				  }else{
     					  $scope.returningClintsPer = (($scope.comparisonperson[1].returningClints - $scope.comparisonperson[0].returningClints) * 100 / $scope.comparisonperson[1].returningClints).toFixed(2);
     				  }
+    				  if(isNaN($scope.returningClintsPer)){
+    					  $scope.returningClintsPer = "";
+    				  }
     				  
-    				  if($scope.comparisonperson[0].callMade > $scope.comparisonperson[1].returningClints){
+    				  if($scope.comparisonperson[0].callMade > $scope.comparisonperson[1].callMade){
     					  $scope.callMadePer = (($scope.comparisonperson[0].callMade - $scope.comparisonperson[1].callMade) * 100 / $scope.comparisonperson[0].callMade).toFixed(2);
     				  }else{
     					  $scope.callMadePer = (($scope.comparisonperson[1].callMade - $scope.comparisonperson[0].callMade) * 100 / $scope.comparisonperson[1].callMade).toFixed(2);

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class LocationWiseDataVM {
 
-	public Long id;
+	public Integer id;
 	public String locationName;
 	public String SalePersonName;
 	public String locationaddress;
@@ -27,7 +27,13 @@ public class LocationWiseDataVM {
     public Integer mailSent;
     public Integer testDriveSched;
     public Integer returningClints;
-    public Integer likeCount;;
+    public Integer likeCount;
+    public Integer salary;
+    public String training;
+    public Integer trainingCost;
+    public Integer comission;
+    public Integer leadCost;
+    
     
     public List<bodyStyleSetVM> byType;
     public List<bodyStyleSetVM> planComplete;
