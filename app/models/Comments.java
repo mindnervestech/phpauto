@@ -19,6 +19,7 @@ public class Comments extends Model {
 	@Id
 	public Long id;
 	public String comment;
+	public Date likeDate;
 	@ManyToOne
 	public AuthUser user;
 	public String getComment() {
