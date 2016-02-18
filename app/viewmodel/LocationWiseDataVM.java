@@ -22,7 +22,7 @@ public class LocationWiseDataVM {
     public String goalTime;
     public Integer lostLeadCount;
     public Integer allGeneratedLeadCount;
-    public Integer avgLeadLifeCycle;
+    public Long avgLeadLifeCycle;
     public Integer callMade;
     public Integer mailSent;
     public Integer testDriveSched;

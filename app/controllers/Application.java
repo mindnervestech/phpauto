@@ -10410,9 +10410,18 @@ public class Application extends Controller {
     		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
     		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(users);
     		
-    	//	saleCarCount = rInfo1.size() + sList1.size() + tradeIns1.size();
+    		List<Vehicle> vList = Vehicle.findBySoldUserAndSold(users);
+    		for (Vehicle vehicle : vList) {
+    			if(vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) {
+        			saleCarCount++;
+        			pricecount = pricecount + vehicle.price;
+				}
+				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
+					monthPriceCount = monthPriceCount + vehicle.price;
+				}
+			}
     		
-    		for(RequestMoreInfo rMoreInfo: rInfo1){
+    		/*for(RequestMoreInfo rMoreInfo: rInfo1){
     			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,users);
     			for(Vehicle vehicle:vehicleVin){
     			if(vehicle != null){
@@ -10459,7 +10468,7 @@ public class Application extends Controller {
 				}
     			}
     		}
-    		}
+    		}*/
     		
     		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
     		lDataVM.successRate = (int) sucessCount;
@@ -18423,7 +18432,30 @@ public class Application extends Controller {
      		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(users);
      		
      		Integer countBodyStyle = 1;
-     		for(RequestMoreInfo rMoreInfo: rInfo1){
+     		
+     		List<Vehicle> vList = Vehicle.findBySoldUserAndSold(users);
+    		for (Vehicle vehicle : vList) {
+    			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(startD) || vehicle.soldDate.equals(endD)) {
+        			saleCarCount++;
+        			pricecount = pricecount + vehicle.price;
+        			fillPriceRang(priceRang, vehicle.price);
+        			
+        			if(vehicle.getBodyStyle() != null){
+     					
+     					Integer objectMake = mapByType.get(vehicle.getBodyStyle());
+     					if (objectMake == null) {
+     						mapByType.put(vehicle.getBodyStyle(), countBodyStyle);
+     					}else{
+     						mapByType.put(vehicle.getBodyStyle(), countBodyStyle + 1);
+     					}
+     				}
+				}
+				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
+					monthPriceCount = monthPriceCount + vehicle.price;
+				}
+			}
+     		
+     	/*	for(RequestMoreInfo rMoreInfo: rInfo1){
      			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,users);
      			for(Vehicle vehicle:vehicleVin){
      			if(vehicle != null){
@@ -18503,7 +18535,7 @@ public class Application extends Controller {
  				}
      			}
      		}
-     		}
+     		}*/
      		
      		
      		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
@@ -18662,51 +18694,36 @@ public class Application extends Controller {
      	List<ScheduleTest>  sListAllG = ScheduleTest.findAllByAssignedUser(users);
      	List<TradeIn> tradeInsAllG = TradeIn.findAllByAssignedUser(users);
  		
-     	int totalLeadDay = 0;
+     	Long totalLeadDay = 0L;
  		
  	for(RequestMoreInfo rMoreInfo:rInfoAllG){
  		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
- 			/*int value = 2;
- 			Date dt = rMoreInfo.requestDate;
- 			while(value > 1){
- 				Calendar c = Calendar.getInstance(); 
- 				c.setTime(dt); 
- 				c.add(Calendar.DATE, 1);
- 				dt = c.getTime();
- 				
- 				String nextDate = df.format(dt);
-				Date  dfnext = null;
-				try {
-				dfnext = df.parse(nextDate);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
- 				
- 				totalLeadDay++;
- 				if(rMoreInfo.statusDate != null){
- 					if(rMoreInfo.statusDate.equals(dfnext)){
- 						value = 0;
- 						break;
- 					}
- 				}else{
- 					Date nowDate  =new Date();
+ 			
+ 			 			
+ 			Long diff = 0L;
+				if(rMoreInfo.statusDate != null){
+					diff = rMoreInfo.statusDate.getTime() - rMoreInfo.requestDate.getTime();
+					
+					diff = (diff / 1000 /60 /60 /24);
+				}else{
+					Date nowDate  =new Date();
  					String datef = df.format(nowDate);
  					Date  ndate = null;
+ 					
  					try {
 						ndate = df.parse(datef);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}		
- 					if(dfnext.equals(ndate)){
- 						value = 0;
- 						break;
- 					}
- 				}
- 				
- 			}*/
- 			
+					}
+ 					
+ 					diff = ndate.getTime() - rMoreInfo.requestDate.getTime();
+ 					diff = (diff / 1000 /60 /60 /24);
+				}
+				
+				totalLeadDay = totalLeadDay + diff;
+				
+		
  			requestGLeadCount++;
  		}
  	}
@@ -18714,45 +18731,29 @@ public class Application extends Controller {
  	for(ScheduleTest sTest:sListAllG){
  		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
  			
- 			/*int value = 2;
- 			Date dt = sTest.scheduleDate;
- 			while(value > 1){
- 				Calendar c = Calendar.getInstance(); 
- 				c.setTime(dt); 
- 				c.add(Calendar.DATE, 1);
- 				dt = c.getTime();
- 				
- 				String nextDate = df.format(dt);
-				Date  dfnext = null;
-				try {
-				dfnext = df.parse(nextDate);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
- 				
- 				totalLeadDay++;
- 				if(sTest.statusDate != null){
- 					if(sTest.statusDate.equals(dfnext)){
- 						value = 0;
- 						break;
- 					}
- 				}else{
- 					Date nowDate  =new Date();
- 					String datef = df.format(nowDate);
- 					Date  ndate = null;
- 					try {
-						ndate = df.parse(datef);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}		
- 					if(dfnext.equals(ndate)){
- 						value = 0;
- 						break;
- 					}
- 				}
- 			}*/
+ 			Long diff = 0L;
+			if(sTest.statusDate != null){
+				diff = sTest.statusDate.getTime() - sTest.scheduleDate.getTime();
+				
+				diff = (diff / 1000 /60 /60 /24);
+			}else{
+				Date nowDate  =new Date();
+					String datef = df.format(nowDate);
+					Date  ndate = null;
+					
+					try {
+					ndate = df.parse(datef);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					
+					diff = ndate.getTime() - sTest.scheduleDate.getTime();
+					diff = (diff / 1000 /60 /60 /24);
+			}
+			
+			totalLeadDay = totalLeadDay + diff;
+			
  			scheduleGLeadCount++;
  		}
  	}
@@ -18760,46 +18761,27 @@ public class Application extends Controller {
  	for(TradeIn tIn:tradeInsAllG){
  		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
  			
- 			/*int value = 2;
- 			Date dt = tIn.tradeDate;
- 			while(value > 1){
- 				Calendar c = Calendar.getInstance(); 
- 				c.setTime(dt); 
- 				c.add(Calendar.DATE, 1);
- 				dt = c.getTime();
- 				
- 				String nextDate = df.format(dt);
-					Date  dfnext = null;
+ 			Long diff = 0L;
+			if(tIn.statusDate != null){
+				diff = tIn.statusDate.getTime() - tIn.tradeDate.getTime();
+				
+				diff = (diff / 1000 /60 /60 /24);
+			}else{
+				Date nowDate  =new Date();
+					String datef = df.format(nowDate);
+					Date  ndate = null;
+					
 					try {
-					dfnext = df.parse(nextDate);
+					ndate = df.parse(datef);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}		
- 				
- 				totalLeadDay++;
- 				if(tIn.statusDate != null){
- 					if(tIn.statusDate.equals(dfnext)){
- 						value = 0;
- 						break;
- 					}
- 				}else{
- 					Date nowDate  =new Date();
- 					String datef = df.format(nowDate);
- 					Date  ndate = null;
- 					try {
-						ndate = df.parse(datef);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}		
- 					if(dfnext.equals(ndate)){
- 						value = 0;
- 						break;
- 					}
- 				}
- 			}*/
- 			
+				}
+					
+					diff = ndate.getTime() - tIn.tradeDate.getTime();
+					diff = (diff / 1000 /60 /60 /24);
+			}
+			totalLeadDay = totalLeadDay + diff;
  				tradeInGLeadCount++;
  		}
  	}
@@ -18807,8 +18789,8 @@ public class Application extends Controller {
  	int AllGeneratedLead = requestGLeadCount + scheduleGLeadCount + tradeInGLeadCount;
      	lDataVM.allGeneratedLeadCount = AllGeneratedLead;
      	
-     //	Integer AvgLeadLifeCyc = totalLeadDay / AllGeneratedLead;
-     	//lDataVM.avgLeadLifeCycle = AvgLeadLifeCyc;
+     	Long AvgLeadLifeCyc = totalLeadDay / Long.valueOf(AllGeneratedLead);
+     	lDataVM.avgLeadLifeCycle = AvgLeadLifeCyc;
      	
      	List<UserNotes> uNotes = UserNotes.findByUserAndcall(users);
      	int callActionCount =  0;
@@ -18899,8 +18881,10 @@ public class Application extends Controller {
  	lDataVM.training = users.trainingPro;
  	int tcl = 0;
  	if(users.trainingCost != null){
- 		lDataVM.trainingCost = Integer.parseInt(users.trainingCost);
- 		tcl = Integer.parseInt(users.trainingCost) / lDataVM.allGeneratedLeadCount;
+ 		if(!users.trainingCost.equals("null")){
+ 			lDataVM.trainingCost = Integer.parseInt(users.trainingCost);
+ 			tcl = Integer.parseInt(users.trainingCost) / lDataVM.allGeneratedLeadCount;
+ 		}
  	}else{
  		
  		lDataVM.trainingCost = 0;

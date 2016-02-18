@@ -1708,11 +1708,18 @@ angular.module('newApp')
     						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
     							 	$scope.comparisonperson.push(response);
     						 });
-    						 
-    						 console.log($scope.comparisonperson);
+    						
     					 }else{
+    						 angular.forEach($scope.comparisonperson, function(value, key) {
+    							 if(value.id == item.id){
+    								 $scope.comparisonperson.splice(key,1);
+    							 }
+    							 
+    						 });
+    						 
     						 item.flag = 0;
     					 }
+    					 console.log($scope.comparisonperson);
     		 }
     	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
