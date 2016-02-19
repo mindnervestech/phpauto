@@ -18447,9 +18447,10 @@ public class Application extends Controller {
 		}
      	
      	if(countFollo != 0 && countLeads != 0){
-     		lDataVM.followUpTime = (countFollo / Long.valueOf(countLeads));
+     		 Long followUpTime= (countFollo / Long.valueOf(countLeads));
+     		lDataVM.followUpTime=followUpTime.toString()+":00 Hrs";
      	}else{
-     		lDataVM.followUpTime = 0L;
+     		lDataVM.followUpTime = "00:00 Hrs";
      	}
      	
      	lDataVM.countSalePerson = countLeads;
@@ -18827,8 +18828,16 @@ public class Application extends Controller {
  	int AllGeneratedLead = requestGLeadCount + scheduleGLeadCount + tradeInGLeadCount;
      	lDataVM.allGeneratedLeadCount = AllGeneratedLead;
      	
+     	
      	Long AvgLeadLifeCyc = totalLeadDay / Long.valueOf(AllGeneratedLead);
-     	lDataVM.avgLeadLifeCycle = AvgLeadLifeCyc;
+     	System.out.println("::no of days");
+     	System.out.println(AvgLeadLifeCyc);
+     	Long hours=AvgLeadLifeCyc*24;
+     	
+     	 
+              
+     	lDataVM.avgLeadLifeCycle =hours.toString()+":00 Hrs";
+     	
      	
      	List<UserNotes> uNotes = UserNotes.findByUserAndcall(users);
      	int callActionCount =  0;

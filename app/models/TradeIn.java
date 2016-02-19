@@ -572,11 +572,11 @@ public String testDriveStatus;
 	}
 	
 	public static List<TradeIn> findAllAssignedOffine(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("onlineOrOfflineLeads",0).eq("isRead", 1).eq("status", null).orderBy("tradeDate desc").findList();
+		return find.where().eq("assignedTo", user).eq("onlineOrOfflineLeads",0).orderBy("tradeDate desc").findList();
 	}
 	
 	public static List<TradeIn> findAllAssignedOnline(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("onlineOrOfflineLeads",1).eq("isRead", 1).eq("status", null).orderBy("tradeDate desc").findList();
+		return find.where().eq("assignedTo", user).eq("onlineOrOfflineLeads",1).orderBy("tradeDate desc").findList();
 	}
 	
 	public static List<TradeIn> findAllLostSch(AuthUser user) {
