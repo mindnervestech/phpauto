@@ -18551,6 +18551,22 @@ public class Application extends Controller {
      	
      	addPriceRang(priceRang);
      	
+     	List<Vehicle> totalVehicleVM = Vehicle.findByLocation(Long.valueOf(session("USER_LOCATION")));
+     	
+     	for(Vehicle vm:totalVehicleVM ){
+     		    
+     		Integer objectMake = mapByType.get(vm.getBodyStyle());
+			if (objectMake == null) {
+				mapByType.put(vm.getBodyStyle(), 0);
+			}
+     		
+     	
+     		
+                                        	}
+     	
+     	
+     	
+     	
      	lDataVM.SalePersonName = users.firstName +" "+users.lastName; 
      		
      		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
