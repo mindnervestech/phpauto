@@ -1739,8 +1739,9 @@ angular.module('newApp')
  					if(response != $scope.salesPerson){
  						$http.get('/getComperSalePersonData/'+response+"/"+startDate+"/"+endDate).success(function(response) {
  						 	$scope.comparisonperson.push(response);
+ 						 	 $scope.comparisonPassSalePerson($scope.comparisonperson);
  		 				});
- 						 $scope.comparisonSalePerson();
+ 						
  					}else{
  						$scope.bestImg = "http://glider-autos.com/glivrImg/images/LocationImg/BEST-_SALES-PERSON-HEADER.jpg"
  						$('#btncomparisonBest').click();
@@ -1749,6 +1750,11 @@ angular.module('newApp')
  				});
     			
     		 }
+    		 
+    		 $scope.comparisonPassSalePerson = function(comparisonperson){
+    			 $scope.comparisonSalePerson();
+    		 }
+    		 
     	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
     			  var visitorsData = {
@@ -2014,16 +2020,9 @@ angular.module('newApp')
     				  }else{
     					  $scope.testDriveSchedPer = (($scope.comparisonperson[1].testDriveSched - $scope.comparisonperson[0].testDriveSched) * 100 / $scope.comparisonperson[1].testDriveSched).toFixed(2);
     				  }
-    				
-    				  
     				  
     			  }
-    			  
-    			  
-    			 // comparisonperson
-    			//  var moneyPer = "33.33%";
-    			   
-    		     //   document.getElementById("moneyBrougthPer").innerHTML = moneyPer;
+    			
     			  $('#btncomparisonSale').click();
     		  }
     		  

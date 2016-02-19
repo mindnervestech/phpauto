@@ -18588,7 +18588,7 @@ public class Application extends Controller {
      					if (objectMake == null) {
      						mapByType.put(vehicle.getBodyStyle(), countBodyStyle);
      					}else{
-     						mapByType.put(vehicle.getBodyStyle(), countBodyStyle + 1);
+     						mapByType.put(vehicle.getBodyStyle(), mapByType.get(vehicle.getBodyStyle()) + 1);
      					}
      				}
 				}
