@@ -522,7 +522,7 @@ margin-left: 5px;
 											
 										</div>
 										<div style="width: 180px;">
-												<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkSalePersonIndex(item,compare)" style="margin-left: 18px;"> <label style="color: darkturquoise;">Compare</label>
+												<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkSalePersonIndex(item,compare)" style="margin-left: 18px;" ng-disabled="(compare == null || compare == false) && comparisonperson.length >=2"> <label style="color: darkturquoise;">Compare</label>
 										</div>
 										<div style="width: 180px;" ng-if="item.flag == 1">
 												<button type="button" class="btn btn-blue" ng-click="comparisonSalePerson()">Compare</button>
