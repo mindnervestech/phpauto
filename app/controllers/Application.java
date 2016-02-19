@@ -18340,9 +18340,10 @@ public class Application extends Controller {
  		int maxPrice = 0;
  		int salePersonId = 0;
  		
- 		List<AuthUser> aUser = AuthUser.findByLocatio(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+ 		List<AuthUser> aUser = AuthUser.getAllUserByLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
     	
  		for(AuthUser authUser:aUser){
+ 			pricecount = 0;
  			List<Vehicle> vList = Vehicle.findBySoldUserAndSold(authUser);
  			for (Vehicle vehicle : vList) {
  				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(startD) || vehicle.soldDate.equals(endD)) {
