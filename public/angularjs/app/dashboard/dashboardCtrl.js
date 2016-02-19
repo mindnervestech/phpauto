@@ -6100,7 +6100,6 @@ angular.module('newApp')
 	$scope.isUpdated = false;
 	$scope.vinData;
 	$scope.init = function() {
-		$scope.showVehicalBarChart();
 		$scope.isUpdated = false;
 		$http.get('/getAllSites')
  		.success(function(data) {
