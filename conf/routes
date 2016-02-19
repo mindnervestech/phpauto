@@ -158,6 +158,7 @@ GET		/getSixMonthChartData/:id		controllers.Application.getSixMonthChartData(id:
 GET		/getYearChartData/:id			controllers.Application.getYearChartData(id:Integer)
 GET		/getRangeChartData/:id/:start/:end		controllers.Application.getRangeChartData(id:Integer,start:String,end:String)
 GET     /getComperSalePersonData/:id/:startDate/:endDate	  controllers.Application.getComperSalePersonData(id:Integer,startDate:String,endDate:String)
+GET     /getDateRangSalePerson/:startDate/:endDate 		  controllers.Application.getDateRangSalePerson(startDate:String,endDate:String)
 GET		/getPerformanceOfUser/:top/:worst/:week/:month/:year/:id/:locationValue	controllers.Application.getPerformanceOfUser(top:String,worst:String,week:String,month:String,year:String,id:Integer,locationValue:Long)
 GET		/saveNoteOfUser/:id/:type/:note/:action		controllers.Application.saveNoteOfUser(id:Long,type:String,note:String,action:String)
 POST	/saveTestDrive					controllers.Application.saveTestDrive()
