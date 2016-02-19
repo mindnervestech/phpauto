@@ -18535,7 +18535,7 @@ public class Application extends Controller {
 		}
      	
      	if(countFollo != 0 && countLeads != 0){
-     		 Double followUpTime= ((double)countFollo / (double) countLeads) * 24;
+     		 Long followUpTime= (long)((double)countFollo / (double) countLeads) * 24;
      		lDataVM.followUpTime=followUpTime.toString()+":00 Hrs";
      	}else{
      		lDataVM.followUpTime = "00:00 Hrs";
@@ -18947,8 +18947,8 @@ public class Application extends Controller {
      	
      	
      	Double AvgLeadLifeCyc = (double)totalLeadDay / (double)AllGeneratedLead;
-     	Double hours=AvgLeadLifeCyc*24;
-     	
+     	Long hours= (long)(AvgLeadLifeCyc*24);
+     	//TextField.setText(String.format("%.2f",Double.parseDouble(custom.getValue())));
      	lDataVM.avgLeadLifeCycle =hours.toString()+":00 Hrs";
      	
      	
