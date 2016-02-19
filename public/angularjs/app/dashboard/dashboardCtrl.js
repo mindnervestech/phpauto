@@ -1845,8 +1845,7 @@ angular.module('newApp')
     		  $scope.showLeads = false;
     		  
     		  $scope.init = function() {
-    			  
-    			  
+    			  $scope.showVehicalBarChart();
     			 $scope.getPerformanceOfUser();
     			 if($scope.locationValue == null){
     				 $scope.getSalesDataValue(0);
@@ -3217,6 +3216,7 @@ angular.module('newApp')
     		$http.post('/setRequestStatusComplete',$scope.soldContact)
 			.success(function(data) {
 				console.log(data);
+				$route.reload();
 				if(data=='contact error'){
 					$.pnotify({
 					    title: "Error",
@@ -3232,7 +3232,7 @@ angular.module('newApp')
 				});
 				$('#soldBtn').attr("disabled", false);
 				$scope.getAllLeadIn();
-				$route.reload();
+				$scope.showVehicalBarChart();
 			});
     	};		
     	
@@ -6076,6 +6076,7 @@ angular.module('newApp')
 	$scope.isUpdated = false;
 	$scope.vinData;
 	$scope.init = function() {
+		$scope.showVehicalBarChart();
 		$scope.isUpdated = false;
 		$http.get('/getAllSites')
  		.success(function(data) {

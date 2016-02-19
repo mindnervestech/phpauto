@@ -24667,7 +24667,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+valueCount);
 				}else{
 					String arr[] = objectDate.split(",");
-					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), pricevalue+","+(Integer.parseInt(arr[1]) + valueCount));
+					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), Integer.parseInt(arr[0])+pricevalue+","+(Integer.parseInt(arr[1]) + valueCount));
 				}
 			}
 			
