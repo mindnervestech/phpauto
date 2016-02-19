@@ -18269,7 +18269,49 @@ public class Application extends Controller {
 		}
 }*/
     
-    
+    public static Result getDateRangSalePerson(String startDate,String endDate){
+    	
+    	DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+    	
+    	Map<String, Integer> mapSalePerson = new HashMap<String, Integer>();
+    	
+    	Date startD = null;
+ 		try {
+ 			startD = df1.parse(startDate);
+ 		} catch (ParseException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+     	Date endD = null;
+ 		try {
+ 			endD = df1.parse(endDate);
+ 		} catch (ParseException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+ 		
+ 		int pricecount = 0;
+ 		int maxPrice = 0;
+ 		int salePersonId = 0;
+ 		
+ 		List<AuthUser> aUser = AuthUser.findByLocatio(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    	
+ 		for(AuthUser authUser:aUser){
+ 			List<Vehicle> vList = Vehicle.findBySoldUserAndSold(authUser);
+ 			for (Vehicle vehicle : vList) {
+ 				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(startD) || vehicle.soldDate.equals(endD)) {
+ 	    			pricecount = pricecount + vehicle.price;
+ 				}
+ 			}
+ 			if(pricecount > maxPrice){
+ 				maxPrice = pricecount;
+ 				salePersonId = authUser.id;
+ 			}
+ 			
+ 		}
+    	
+		return ok(Json.toJson(salePersonId));
+    }
     
  
     public static Result getComperSalePersonData(Integer id,String startDate,String endDate){
@@ -18576,7 +18618,12 @@ public class Application extends Controller {
      		}*/
      		
      		
-     		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
+    		double sucessCount = 0;
+    		if(countLeads1 != 0){
+    			sucessCount= (double)saleCarCount/(double)countLeads1*100;
+    		}else{
+    			 sucessCount = 0;
+    		}
      		lDataVM.successRate = (int) sucessCount;
      		
      	

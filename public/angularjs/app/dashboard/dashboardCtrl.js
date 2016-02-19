@@ -1661,11 +1661,7 @@ angular.module('newApp')
         			$('#comparisonEndDate').val(endDate); 
      			}
      			
-     			/*for(var i=0;i<$scope.toDoDateList.length;i++) {
-					if($scope.toDoId == $scope.toDoDateList[i].id) {
-						$scope.toDoDateList.splice(i,1);
-					}
-				}*/
+     			
      			$scope.arrId = [];
      			angular.forEach($scope.comparisonperson, function(value, key) {
      				$scope.arrId.push(value.id);
@@ -1685,6 +1681,8 @@ angular.module('newApp')
     		 $scope.comparisonperson = [];
     		 
     		 $scope.checkSalePersonIndex = function(item,values){
+    			 
+    			 $scope.ComperFlag = 0;
     			 
         			var startDate = $('#comparisonStartDate').val();
         			var endDate = $('#comparisonEndDate').val();
@@ -1714,7 +1712,6 @@ angular.module('newApp')
     							 if(value.id == item.id){
     								 $scope.comparisonperson.splice(key,1);
     							 }
-    							 
     						 });
     						 
     						 item.flag = 0;
@@ -1723,7 +1720,34 @@ angular.module('newApp')
     		 }
     		 
     		 $scope.bestEmpComp = function(){
-    			 console.log("chhhhhh");
+    			 
+    			 $scope.ComperFlag = 1;
+    			 
+    			 $scope.comparisonperson = [];
+    			 var today = new Date()
+     			var endDate = $filter('date')(today,"yyyy-MM-dd");
+ 				var arr = [];
+     			arr = $filter('date')(today,"yyyy-MM-dd").split('-');
+ 				var startDate = arr[0]+"-"+arr[1]+"-"+"01";
+    			 
+ 				$http.get('/getComperSalePersonData/'+$scope.salesPerson+"/"+startDate+"/"+endDate).success(function(response) {
+				 	$scope.comparisonperson.push(response);
+ 				});
+ 				
+ 				$http.get('/getDateRangSalePerson/'+startDate+"/"+endDate).success(function(response) {
+ 					console.log(response);
+ 					if(response != $scope.salesPerson){
+ 						$http.get('/getComperSalePersonData/'+response+"/"+startDate+"/"+endDate).success(function(response) {
+ 						 	$scope.comparisonperson.push(response);
+ 		 				});
+ 						 $scope.comparisonSalePerson();
+ 					}else{
+ 						$scope.bestImg = "http://glider-autos.com/glivrImg/images/LocationImg/BEST-_SALES-PERSON-HEADER.jpg"
+ 						$('#btncomparisonBest').click();
+ 						console.log("HuuuuHHHHoooo");
+ 					}
+ 				});
+    			
     		 }
     	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
