@@ -1743,9 +1743,7 @@ angular.module('newApp')
  		 				});
  						
  					}else{
- 						$scope.bestImg = "http://glider-autos.com/glivrImg/images/LocationImg/BEST-_SALES-PERSON-HEADER.jpg"
  						$('#btncomparisonBest').click();
- 						console.log("HuuuuHHHHoooo");
  					}
  				});
     			
@@ -1754,7 +1752,6 @@ angular.module('newApp')
     		 $scope.comparisonPassSalePerson = function(comparisonperson){
     			 $scope.comparisonSalePerson();
     		 }
-    		 
     	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
     			  var visitorsData = {

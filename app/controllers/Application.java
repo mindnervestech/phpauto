@@ -95,6 +95,7 @@ import models.VirtualTour;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.velocity.Template;
@@ -18554,17 +18555,11 @@ public class Application extends Controller {
      	List<Vehicle> totalVehicleVM = Vehicle.findByLocation(Long.valueOf(session("USER_LOCATION")));
      	
      	for(Vehicle vm:totalVehicleVM ){
-     		    
      		Integer objectMake = mapByType.get(vm.getBodyStyle());
 			if (objectMake == null) {
 				mapByType.put(vm.getBodyStyle(), 0);
 			}
-     		
-     	
-     		
-                                        	}
-     	
-     	
+          }
      	
      	
      	lDataVM.SalePersonName = users.firstName +" "+users.lastName; 
@@ -18720,12 +18715,26 @@ public class Application extends Controller {
       	List<PlanScheduleMonthlySalepeople> pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByListUser(users); 
         for(PlanScheduleMonthlySalepeople pSalepeople: pMonthlySalepeople){
         	bodyStyleSetVM nSetVM = new bodyStyleSetVM();
-        	nSetVM.name = pSalepeople.month;
+        	Date nowDate = new Date();
         	
-        	double val= ((double)pricecount/Double.parseDouble(pSalepeople.totalBrought));
-        	nSetVM.value = (int) (val*100);
+        	Calendar calnow = Calendar.getInstance();
+        	calnow.setTime(nowDate);
+
+            int month = calnow.get(Calendar.MONTH);
         	
-        	bSetVMsPlan.add(nSetVM);
+        	String changVls = WordUtils.capitalize(pSalepeople.month);
+        	for(int i=0;i<12;i++){
+        		if(monthName[i].equals(changVls)){
+        			if(i <= month){
+        				nSetVM.name = changVls;
+        	        	
+        	        	double val= ((double)pricecount/Double.parseDouble(pSalepeople.totalBrought));
+        	        	nSetVM.value = (int) (val*100);
+        	        	
+        	        	bSetVMsPlan.add(nSetVM);
+        			}
+        		}
+        	}
         	
         }
         
