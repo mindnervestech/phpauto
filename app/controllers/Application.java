@@ -9820,6 +9820,7 @@ public class Application extends Controller {
 	    	userObj.firstName = vm.firstName;
 	    	userObj.lastName = vm.lastName;
 	    	userObj.email = vm.email;
+	    	userObj.account = "active";
 	    	userObj.communicationemail = vm.email;
 	    	userObj.phone = vm.phone;
 	    	userObj.role = vm.userType;
@@ -17723,25 +17724,93 @@ public class Application extends Controller {
     }
     
     public static Result getVisitedData(String type,String filterBy,String search,String searchBy) {
-    	
+    	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
     	AuthUser user = (AuthUser)getLocalUser();
     	String params = null;
+    	String checkDate = null;
+    	Date thedate = null;
+    	String params1 = "&type=visitors-list&date=last-30-days&limit=all";
     	if(type.equals("week"))
-    		params = "&type=pages&date=last-7-days&limit=all";
+    		//params = "&type=pages&date=last-7-days&limit=all";
+    		params = "&type=visitors-list&date=last-7-days&limit=all";
     	else
-    		params = "&type=pages&date=last-30-days&limit=all";
+    		//params = "&type=pages&date=last-30-days&limit=all";
+    		params = "&type=visitors-list&date=last-30-days&limit=all";
     	String resultStr = callClickAPI(params);
-    	
-    	
+    	    	
     	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
+    	    	
     	List<String> vins = new ArrayList<String>(jsonNode.size());
     	List<String> vins1 = new ArrayList<String>(jsonNode.size());
+    	
     	Map<String,Integer> pagesCount = new HashMap<String,Integer>(jsonNode.size());
     	Map<String,Integer> vinUnik = new HashMap<String,Integer>();
     	
     	Map<String,Integer> pagesCount1 = new HashMap<String,Integer>(jsonNode.size());
     	Map<String,Integer> vinUnik1 = new HashMap<String,Integer>();
+    	int i = 1;
     	for(JsonNode item:jsonNode) {
+    		String data = item.get("landing_page").toString();
+			String arrVin[] = data.split("/");
+			if(arrVin.length > 5){
+				String van[] = arrVin[5].split("\"");
+				System.out.println(van[0]);
+				
+				Vehicle vehicle = Vehicle.findByVinAndStatus(van[0]);
+				if(vehicle !=null){
+					String arr[] = item.get("time_pretty").toString().split(" ");
+					String arrNew[] = arr[3].split(",");
+					checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
+					try {
+						thedate = df1.parse(checkDate);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					
+					if (vehicle.postedDate.before(thedate) || vehicle.postedDate.equals(thedate)) {
+						if(pagesCount1.get(vehicle.vin) !=null){
+							int j = pagesCount1.get(vehicle.vin);
+							pagesCount1.put(vehicle.vin, j+1);
+						}else{
+							pagesCount1.put(vehicle.vin, 1);
+						}
+						
+					}
+				}
+				
+			}
+    	}
+    	
+    	
+    	List<Vehicle> vlist = Vehicle.findByNewlyArrived();
+    	for (Vehicle vehicle : vlist) {
+    		vins1.add(vehicle.vin);
+		}
+    	
+    	/*for (Map.Entry<String, Integer> entry : pagesCount1.entrySet()) {
+    		vins.add(entry.getKey());
+		    System.out.println(entry.getKey()+" - "+entry.getValue());
+		}*/
+    	if(user.role.equals("Sales Person") || user.role.equals("Manager")){
+			List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeenSch(user);
+			List<ScheduleTest> sTests = ScheduleTest.findAllAssigned(user);
+			List<TradeIn> tIns = TradeIn.findAllSeenSch(user);
+			
+			for(RequestMoreInfo rInfo :rMoreInfo){
+				vinUnik.put(rInfo.vin, 1);
+			}
+			for(ScheduleTest sTest: sTests){
+				vinUnik.put(sTest.vin, 1);
+			}
+			for(TradeIn tradeIn: tIns){
+				vinUnik.put(tradeIn.vin, 1);
+			}
+			for (Map.Entry<String, Integer> entry : vinUnik.entrySet()) {
+				vins.add(entry.getKey());
+			}
+    	}
+    	/*for(JsonNode item:jsonNode) {
+    		
     		String url = item.get("url").asText();
     		if(url.contains("vehicleDetails")) {
     			String[] arr = url.split("/");
@@ -17764,7 +17833,6 @@ public class Application extends Controller {
     					vinUnik.put(tradeIn.vin, 1);
     				}
     				
-    				
     				for (Map.Entry<String, Integer> entry : vinUnik.entrySet()) {
     				    String key = entry.getKey();
     				    vins.add(entry.getKey());
@@ -17772,24 +17840,7 @@ public class Application extends Controller {
     	        			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
     				   }
     				}
-    				
-    				
-    				
-    				
-    				/*List<RequestMoreInfo> rMoreInfo1 = RequestMoreInfo.findAllSeenLocationSch(Long.valueOf(session("USER_LOCATION")));
-    				List<ScheduleTest> sTests1 = ScheduleTest.findAllAssignedLocation(Long.valueOf(session("USER_LOCATION")));
-    				List<TradeIn> tIns1 = TradeIn.findAllSeenLocationSch(Long.valueOf(session("USER_LOCATION")));
-    				
-    				for(RequestMoreInfo rInfo1 :rMoreInfo1){
-    					vinUnik1.put(rInfo1.vin, 1);
-    				}
-    				for(ScheduleTest sTest1: sTests1){
-    					vinUnik1.put(sTest1.vin, 1);
-    				}
-    				for(TradeIn tradeIn1: tIns1){
-    					vinUnik1.put(tradeIn1.vin, 1);
-    				}*/
-    				
+    				    				
     				List<Vehicle> aVeh = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
     				
     				for(Vehicle vehicles: aVeh){
@@ -17805,32 +17856,13 @@ public class Application extends Controller {
     				   }
     				}
     				
-    			}/*else if(user.role.equals("Manager")){
-    				List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
-    				List<ScheduleTest> sTests = ScheduleTest.findAllAssignedLocation(Long.valueOf(session("USER_LOCATION")));
-    				List<TradeIn> tIns = TradeIn.findAllSeenLocation(Long.valueOf(session("USER_LOCATION")));
-    				
-    				for(RequestMoreInfo rInfo :rMoreInfo){
-    					vinUnik.put(rInfo.vin, 1);
-    				}
-    				for(ScheduleTest sTest: sTests){
-    					vinUnik.put(sTest.vin, 1);
-    				}
-    				for(TradeIn tradeIn: tIns){
-    					vinUnik.put(tradeIn.vin, 1);
-    				}
-    				
-    				for (Map.Entry<String, Integer> entry : vinUnik.entrySet()) {
-    				    String key = entry.getKey();
-    				   if(arr[arr.length-1].equals(entry.getKey())){
-    					   vins.add(arr[arr.length-1]);
-    	        			pagesCount.put(arr[arr.length-1], item.get("value").asInt());
-    				   }
-    				}
-    			}*/
+    			}
     			
     		}
     	}
+    	for (Map.Entry<String, Integer> entry : pagesCount1.entrySet()) {
+		    System.out.println(entry.getKey()+" - "+entry.getValue());
+		}*/
     	List<Vehicle> topVisited =null;
     	topVisited = Vehicle.findByVins(vins);
     	/*if(vins.size()>=3) {
@@ -17905,13 +17937,19 @@ public class Application extends Controller {
     		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
     		
     		analyticalVM.count = 0;
-    		
+    		analyticalVM.followerCount = 0;
     		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
-    		if(pAlert != null){
+    		for (PriceAlert priceAlert : pAlert) {
+				PriceAlert alt = PriceAlert.findById(priceAlert.id);
+				if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
+					analyticalVM.followerCount++;
+	    		}
+			}
+    	 /*if(pAlert != null){
     			analyticalVM.followerCount =  pAlert.size();
     		}else{
     			analyticalVM.followerCount = 0;
-    		}
+    		}*/
     		analyticalVM.price = vehicle.getPrice();
     		
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
@@ -18025,13 +18063,20 @@ public class Application extends Controller {
     		}else{
     			anVm.count = 0;
     		}
-    		
+    		anVm.followerCount = 0;
     		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
+    		for (PriceAlert priceAlert : pAlert) {
+				PriceAlert alt = PriceAlert.findById(priceAlert.id);
+				if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
+					anVm.followerCount++;
+	    		}
+			}
+    		/*List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
     		if(pAlert != null){
     			anVm.followerCount =  pAlert.size();
     		}else{
     			anVm.followerCount = 0;
-    		}
+    		}*/
     		
     		//allVehical.add(anVm);
     		if(!searchBy.equals("0") && !search.equals("0")){
