@@ -1653,13 +1653,12 @@ angular.module('newApp')
      			
      			if(startDate == "" || endDate == ""){
      				var today = new Date()
-         			var priorDate = new Date().setDate(today.getDate()-30)
-         			console.log($filter('date')(today,"yyyy-MM-dd"));
-         			console.log($filter('date')(priorDate,"yyyy-MM-dd"));
-         			startDate = $filter('date')(priorDate,"yyyy-MM-dd");
-         			endDate = $filter('date')(today,"yyyy-MM-dd");
-         			$('#comparisonStartDate').val(startDate);
-         			$('#comparisonEndDate').val(endDate); 
+     				endDate = $filter('date')(today,"yyyy-MM-dd");
+    				var arr = [];
+        			arr = $filter('date')(today,"yyyy-MM-dd").split('-');
+    				startDate = arr[0]+"-"+arr[1]+"-"+"01";
+        			$('#comparisonStartDate').val(startDate);
+        			$('#comparisonEndDate').val(endDate); 
      			}
      			
      			/*for(var i=0;i<$scope.toDoDateList.length;i++) {
@@ -1692,11 +1691,12 @@ angular.module('newApp')
         			
         			if(startDate == "" || endDate == ""){
         				var today = new Date()
-            			var priorDate = new Date().setDate(today.getDate()-30)
-            			console.log($filter('date')(today,"yyyy-MM-dd"));
-            			console.log($filter('date')(priorDate,"yyyy-MM-dd"));
-            			startDate = $filter('date')(priorDate,"yyyy-MM-dd");
+            			//var priorDate = new Date().setDate(today.getDate()-30)
+        				 
             			endDate = $filter('date')(today,"yyyy-MM-dd");
+        				var arr = [];
+            			arr = $filter('date')(today,"yyyy-MM-dd").split('-');
+        				startDate = arr[0]+"-"+arr[1]+"-"+"01";
             			$('#comparisonStartDate').val(startDate);
             			$('#comparisonEndDate').val(endDate); 
         			}
