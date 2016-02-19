@@ -1721,6 +1721,10 @@ angular.module('newApp')
     					 }
     					 console.log($scope.comparisonperson);
     		 }
+    		 
+    		 $scope.bestEmpComp = function(){
+    			 console.log("chhhhhh");
+    		 }
     	
     		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
     			  var visitorsData = {
