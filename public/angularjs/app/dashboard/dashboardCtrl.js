@@ -1651,7 +1651,7 @@ angular.module('newApp')
     			 var startDate = $('#comparisonStartDate').val();
      			var endDate = $('#comparisonEndDate').val();
      			
-     			if(startDate == "" || endDate == ""){
+     			if(startDate == "" || endDate == "" || startDate == undefined || endDate == undefined){
      				var today = new Date()
      				endDate = $filter('date')(today,"yyyy-MM-dd");
     				var arr = [];
@@ -1686,11 +1686,11 @@ angular.module('newApp')
     			 
         			var startDate = $('#comparisonStartDate').val();
         			var endDate = $('#comparisonEndDate').val();
-        			
-        			if(startDate == "" || endDate == ""){
+        			console.log(startDate);
+        			console.log(endDate);
+        			if(startDate == "" || endDate == "" || startDate == undefined || endDate == undefined){
         				var today = new Date()
             			//var priorDate = new Date().setDate(today.getDate()-30)
-        				 
             			endDate = $filter('date')(today,"yyyy-MM-dd");
         				var arr = [];
             			arr = $filter('date')(today,"yyyy-MM-dd").split('-');

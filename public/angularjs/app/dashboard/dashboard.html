@@ -185,7 +185,10 @@ margin-left: 5px;
 									     
 									     </div>
 									 <div class="row">
-										<div class="col-sm-3">
+									 <div class="col-sm-3" ng-if="userRole == 'Manager'">
+									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/{{parLocationData.imageUrl}}">
+										</div>
+										<div class="col-sm-3" ng-if="userRole == 'Sales Person'">
 									       <a ng-click="bestEmpComp(parLocationData)"><img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"></a>
 										</div>
 										<div class="col-sm-5" style="margin-top: 25px;">
@@ -5009,7 +5012,7 @@ margin-left: 5px;
 															<div class="form-group col-sm-12">
 															   <div class="col-sm-5">
 															   			<div class="col-sm-12" style="text-align: center;">
-									                    				 <img style="width: 116px;"  src="{{comparisonperson[0].imageUrl}}">
+									                    				 <img  style="width: 116px;"  src="{{comparisonperson[0].imageUrl}}">
 									                 					</div>
 									                 					<div class="col-sm-12" style="text-align: center;">
 									                 						<label style="font-size: 24px;">{{comparisonperson[0].SalePersonName}}</label>
@@ -5020,7 +5023,8 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5">
 															   		<div class="col-sm-12" style="text-align: center;">
-									                    				 <img style="width: 116px;"  src="{{comparisonperson[1].imageUrl}}">
+															   		     <img ng-if="ComperFlag == 1" style="width: 116px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png">
+									                    				 <img ng-if="ComperFlag == 0" style="width: 116px;"  src="{{comparisonperson[1].imageUrl}}">
 									                 				</div>
 									                 				<div class="col-sm-12" style="text-align: center;">
 									                 						<label style="font-size: 24px;">{{comparisonperson[1].SalePersonName}}</label>
@@ -5953,806 +5957,518 @@ margin-left: 5px;
 								            <div class="modal-content" style="overflow: auto;">
 								                <div class="modal-header">
 								                    <button type="button" data-dismiss="modal" style="float: right;"><i class="glyphicon glyphicon-remove"></i></button>
-								                    <h4 class="modal-title">comparison</h4>
+								                    <h4 class="modal-title">Congratulations</h4>
 								                </div>
 								                <div class="modal-body">
 								                	<div class="form-group col-sm-12">
 								                			<div class="form-group col-md-12" style="text-align: center;font-size: 24px;" >
-								                    			 <img style="width: 116px;"  src="http://glider-autos.com/glivrImg/images/LocationImg/BEST-_SALES-PERSON-HEADER.jpg">
+								                    			 <img style="height: 527px;"  src="http://glider-autos.com/glivrImg/images/LocationImg/BEST-_SALES-PERSON-HEADER.jpg">
 								                    		</div> 
 								                    		
 															
 															<div class="col-sm-12">
-																	<div class="col-sm-8">
+																	 <div class="col-sm-3">
+																	</div>
+																		<div class="col-sm-8"> 
 																				<label class="col-sm-6" style="color: darkturquoise;">Total Money Brought</label>
 																				<label class="col-sm-6">${{comparisonperson[0].totalSalePrice}}</label>
-									                 						
-															   		</div>
+									                 					 </div>
+									                 				<div class="col-sm-1">
+																	</div>	 
 															</div>
 															
 															<div class="col-sm-12">
+																<div class="col-sm-3">
+																	</div>
 															   <div class="col-sm-8">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Car Sold</label>
 									                 						<label class="col-sm-6">{{comparisonperson[0].totalsaleCar}}</label>
 															   </div>
+															   <div class="col-sm-1">
+																	</div>
 															  
 															</div>
 															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;">By Type</label>
-									                 					</div>
+															   <div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">By Type</label>
+									                 						<label class="col-sm-6"></label>
 															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;"></label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"></label>
-															   		<label class="col-sm-4" style="float: right;"></label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">By Type</label>
-									                 					</div>
-															   </div>
+															   <div class="col-sm-1">
+																	</div>
 															</div>
 															
-															<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="byt in comparisonperson[0].byType">
-									                 						<div class="col-sm-6" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
+															<div class="col-sm-12" ng-repeat="byt in comparisonperson[0].byType">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
 									                 								<label style="color: darkturquoise;">{{byt.name}}</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div class="col-sm-6">	
 									                 								<label>{{byt.value}}</label>
 									                 							</div>	
-									                 						</div>
-									                 					</div>
 															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="byt in comparisonperson[1].byType">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{byt.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">{{byt.name}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
 															</div>
 														
 															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;">By Price Range</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;"></label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"></label>
-															   		<label class="col-sm-4" style="float: right;"></label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">By Price Range</label>
-									                 					</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '0-$10,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">0-$10,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '0-$10,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">0-$10,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-																<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$10,000-$20,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$10,000-$20,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$10,000-$20,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$10,000-$20,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-																<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$20,000-$30,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$20,000-$30,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$20,000-$30,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$20,000-$30,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-																<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$30,000-$40,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$30,000-$40,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$30,000-$40,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$30,000-$40,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-																<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$40,000-$50,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$40,000-$50,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$40,000-$50,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$40,000-$50,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$50,000-$60,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$50,000-$60,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$50,000-$60,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$50,000-$60,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$60,000-$70,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$60,000-$70,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$60,000-$70,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$60,000-$70,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$70,000-$80,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$70,000-$80,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$70,000-$80,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$70,000-$80,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$80,000-$90,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$80,000-$90,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$80,000-$90,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$80,000-$90,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$90,000-$1,00,000'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$90,000-$1,00,000</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label ></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$90,000-$1,00,000'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$90,000-$1,00,000</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
 															
-															<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$1,00,000 +'">
-									                 						<div class="col-sm-7" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label style="color: darkturquoise;">$1,00,000 +</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{priceRan.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$1,00,000 +'">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">$1,00,000 +</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															</div>
-															
-																
-															<div class="form-group col-sm-12">
-															</div>
-															
-															
-															
-															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
-									                 						<label class="col-sm-6" style="color: darkturquoise;">Leads Generated</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].allGeneratedLeadCount}}</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{allGeneratedLeadCountPer}}%</label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].allGeneratedLeadCount}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Leads Generated</label>
-									                 					</div>
-															   </div>
-															</div>
-															
-															
-															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
-									                 						<label class="col-sm-6" style="color: darkturquoise;">Lost Leads</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].lostLeadCount}}</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{lostLeadCountPer}}%</label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].lostLeadCount}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">lost Leads</label>
-									                 					</div>
-															   </div>
-															</div>
-															
-															
-															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
-									                 						<label class="col-sm-6" style="color: darkturquoise;">Success Rate</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].successRate}}</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{successRatePer}}%</label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].successRate}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Success Rate</label>
-									                 					</div>
-															   </div>
-															</div>
-															
-															
-															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
-									                 						<label class="col-sm-6" style="color: darkturquoise;">Likes</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].likeCount}}</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{likeCountPer}}%</label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].likeCount}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Likes</label>
-									                 					</div>
-															   </div>
-															</div>
-															
-															
-															
-															
-															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
-									                 						<label class="col-sm-6" style="color: darkturquoise;">Plans Completion</label>
-									                 						<label class="col-sm-6" style="text-align: right;"></label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;"></label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
+															<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">By Price Range</label>
 									                 						<label class="col-sm-6"></label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Plans Completion</label>
-									                 					</div>
 															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															
+															 
 															</div>
 															
-																<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="planCom in comparisonperson[0].planComplete">
-									                 						<div class="col-sm-6" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '0-$10,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">0-$10,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$10,000-$20,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$10,000-$20,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$20,000-$30,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$20,000-$30,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$30,000-$40,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$30,000-$40,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$40,000-$50,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$40,000-$50,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$50,000-$60,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$50,000-$60,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$60,000-$70,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$60,000-$70,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$70,000-$80,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$70,000-$80,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$80,000-$90,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$80,000-$90,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$90,000-$1,00,000'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$90,000-$1,00,000</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="priceRan in comparisonperson[0].priceRang" ng-if="priceRan.name == '$1,00,000 +'">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
+									                 								<label style="color: darkturquoise;">$1,00,000 +</label>
+									                 							</div>
+									                 							<div class="col-sm-6">	
+									                 								<label>{{priceRan.value}}</label>
+									                 							</div>	
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															
+															<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Leads Generated</label>
+									                 						<label class="col-sm-6">{{comparisonperson[0].allGeneratedLeadCount}}</label>
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															  
+															</div>
+															
+															
+															<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Lost Leads</label>
+									                 						<label class="col-sm-6">{{comparisonperson[0].lostLeadCount}}</label>
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Success Rate</label>
+									                 						<label class="col-sm-6">{{comparisonperson[0].successRate}}</label>
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Likes</label>
+									                 						<label class="col-sm-6">{{comparisonperson[0].likeCount}}</label>
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Plans Completion</label>
+									                 						<label class="col-sm-6"></label>
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>
+															
+															<div class="col-sm-12" ng-repeat="planCom in comparisonperson[0].planComplete">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
 									                 								<label style="color: darkturquoise;">{{planCom.name}}</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div class="col-sm-6">	
 									                 								<label>{{planCom.value}}%</label>
 									                 							</div>	
-									                 						</div>
-									                 					</div>
 															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="planCom in comparisonperson[1].planComplete">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{planCom.value}}%</label>
-									                 							</div>
-									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">{{planCom.name}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
 															</div>
 															
 															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Average Leads Life Cycle</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].avgLeadLifeCycle}}</label>
-									                 					</div>
+									                 						<label class="col-sm-6">{{comparisonperson[0].avgLeadLifeCycle}}</label>
 															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label></label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].avgLeadLifeCycle}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Average Leads Life Cycle</label>
-									                 					</div>
-															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
 															</div>
-															
-															
+																
 															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Average follow-up Time</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].followUpTime}}</label>
-									                 					</div>
+									                 						<label class="col-sm-6">{{comparisonperson[0].followUpTime}}</label>
 															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label></label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].followUpTime}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Average follow-up Time</label>
-									                 					</div>
-															   </div>
-															</div>
-															
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>	
 															
 															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;">Type of the Leads</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;"></label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"></label>
-															   		<label class="col-sm-4" style="float: right;"></label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Type of the Leads</label>
-									                 					</div>
-															   </div>
-															</div>
-															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;">Offline:</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;"></label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"></label>
-															   		<label class="col-sm-4" style="float: right;"></label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Offline:</label>
-									                 					</div>
-															   </div>
-															</div>
 															
-																<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="offline in comparisonperson[0].offlineLead">
-									                 						<div class="col-sm-6" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Type of the Leads</label>
+									                 						<label class="col-sm-6"></label>
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>	
+															
+															<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Offline:</label>
+									                 						<label class="col-sm-6"></label>
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>	
+																
+															<div class="col-sm-12" ng-repeat="offline in comparisonperson[0].offlineLead">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
 									                 								<label style="color: darkturquoise;">{{offline.name}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{offline.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="offline in comparisonperson[1].offlineLead">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{offline.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">{{offline.name}}</label>
+									                 								<label>{{offline.value}}%</label>
 									                 							</div>	
-									                 						</div>
-									                 					</div>
 															   </div>
-															</div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>															
 															
+															
+															<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Online:</label>
+									                 						<label class="col-sm-6"></label>
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>	
 														
-															<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;">Online:</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;"></label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"></label>
-															   		<label class="col-sm-4" style="float: right;"></label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Online:</label>
-									                 					</div>
-															   </div>
-															</div>
-															
-																	<div class="col-sm-12">
-															 
-															   <div class="col-sm-5">
-									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="online in comparisonperson[0].onLineLead">
-									                 						<div class="col-sm-6" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
+															<div class="col-sm-12" ng-repeat="online in comparisonperson[0].onLineLead">
+															 	<div class="col-sm-3">
+																	</div>
+															  	 <div class="col-sm-8" >
+															  	 				<div class="col-sm-3">
+															  	 				</div>
+									                 							<div class="col-sm-3">
 									                 								<label style="color: darkturquoise;">{{online.name}}</label>
-									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
-									                 								<label>{{online.value}}</label>
-									                 							</div>	
-									                 						</div>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label></label>
-															   </div>
-															   <div class="col-sm-5">
-									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="online in comparisonperson[1].onLineLead">
-									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{online.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
-									                 								<label style="color: darkturquoise;">{{online.name}}</label>
+									                 								<label>{{online.value}}%</label>
 									                 							</div>	
-									                 						</div>
-									                 					</div>
 															   </div>
-															</div>
-															
-											
-															
-														<!-- 	<div class="col-sm-12">
-															   <div class="col-sm-4">
-									                 					<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: right;">Contact Us</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-4" style="text-align: center;">
-															   		<label class="col-sm-4" style="float: left;text-align: right;">100</label>
-															   		<label class="col-sm-4" style="float: center;text-align: center;"> </label>
-															   		<label class="col-sm-4" style="float: right;">23</label>
-															   </div>
-															   <div class="col-sm-4">
-									                 				<div class="col-sm-12">
-									                 						<label style="color: darkturquoise;float: left;">Contact Us</label>
-									                 				</div>
-															   </div>
-															</div> -->
-															
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>	
 															
 															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Returning clients</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].returningClints}}</label>
-									                 					</div>
+									                 						<label class="col-sm-6">{{comparisonperson[0].returningClints}}</label>
 															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green">{{returningClintsPer}}</label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].returningClints}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Returning clients</label>
-									                 					</div>
-															   </div>
-															</div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>	
+															
 															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Calls Made</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].callMade}}</label>
-									                 					</div>
+									                 						<label class="col-sm-6">{{comparisonperson[0].callMade}}</label>
 															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green">{{callMadePer}}</label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].callMade}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Calls Made</label>
-									                 					</div>
-															   </div>
-															</div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>	
+															
 															
 															<div class="col-sm-12">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
-									                 						<label class="col-sm-6" style="color: darkturquoise;">Emails Sent</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].mailSent}}</label>
-									                 					</div>
-															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green">{{mailSentPer}}</label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].mailSent}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Emails Sent</label>
-									                 					</div>
-															   </div>
-															</div>
 															
-															<div class="col-sm-12" style="margin-bottom: 41px;">
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 					<div class="col-sm-12">
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Emails Sent</label>
+									                 						<label class="col-sm-6">{{comparisonperson[0].mailSent}}</label>
+															   </div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>	
+															
+															<div class="col-sm-12">
+															
+																<div class="col-sm-3">
+																	</div>
+															   <div class="col-sm-8">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Test Drive schedule</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].testDriveSched}}</label>
-									                 					</div>
+									                 						<label class="col-sm-6">{{comparisonperson[0].testDriveSched}}</label>
 															   </div>
-															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green">{{testDriveSchedPer}}</label>
-															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
-									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].testDriveSched}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Test Drive schedule</label>
-									                 					</div>
-															   </div>
-															</div>
+															   <div class="col-sm-1">
+																	</div>
+															   
+															</div>	
+															
 															
 															<div class="col-sm-12" ng-if="ComperFlag == 0">
 															   <div class="col-sm-5" style="padding: 0px;">
