@@ -17,6 +17,12 @@ public class LocationVM {
 	public String managerFullName;
 	public String mImageName;
 	public String mImageUrl;
+	public Integer salePeopleUserLocation;
+	public Integer totalMoneyBrougthLocation;
+	public Integer carSoldLocation;
+	public Double avgSaleLocation;
+	public Double percentOfMoney;
+	public Double successRate;
 	
 	
 	

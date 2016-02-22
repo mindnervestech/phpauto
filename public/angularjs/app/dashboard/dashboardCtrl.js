@@ -37,7 +37,11 @@ angular.module('newApp')
 	$scope.userComment = null;
 	$scope.countFlag = 'true';
 	$scope.priceFlag = 'true';
+	$scope.priceFlagL = 'true';
 	$scope.followerFlag = 'true';
+	$scope.avgSaleFlagL = 'true';
+	$scope.soldCarFlagL = 'true';
+	$scope.percentOfMoneyFlagL = 'true';
 	$scope.leadFlag = 'true';
 	$scope.listingFilter = null;
 	
@@ -53,6 +57,10 @@ angular.module('newApp')
 	 		$scope.getToDoNotification();
 	 		$scope.getAssignedLeads();
 	 		$scope.getAllSalesPersonRecord($scope.userKey);
+	 	}
+	 	
+	 	if($scope.userType == "General Manager"){
+	 		$scope.topLocations('Week');
 	 	}
 	});
 	
@@ -138,6 +146,64 @@ angular.module('newApp')
 		}
 	};
 	
+	
+	$scope.topListingPriceLocation = function(flag){
+		console.log(flag);
+		if(flag=='true'){
+			$scope.listingFilterLocation = '-totalMoneyBrougthLocation';
+			$scope.priceFlagL = 'false';
+		}else{
+			$scope.listingFilterLocation = 'totalMoneyBrougthLocation';
+			$scope.priceFlagL = 'true';
+		}		
+	};	
+	
+	$scope.topListingSoldCarLocation = function(flag){
+		console.log(flag);
+		if(flag=='true'){
+			$scope.listingFilterLocation = '-carSoldLocation';
+			$scope.soldCarFlagL = 'false';
+		}else{
+			$scope.listingFilterLocation = 'carSoldLocation';
+			$scope.soldCarFlagL = 'true';
+		}		
+	};	
+	
+	$scope.topListingAvgSaleLocation = function(flag){
+		console.log(flag);
+		if(flag=='true'){
+			$scope.listingFilterLocation = '-avgSaleLocation';
+			$scope.avgSaleFlagL = 'false';
+		}else{
+			$scope.listingFilterLocation = 'avgSaleLocation';
+			$scope.avgSaleFlagL = 'true';
+		}		
+	};	
+	
+	$scope.topListingPercentOfMoneyLocation = function(flag){
+		console.log(flag);
+		if(flag=='true'){
+			$scope.listingFilterLocation = '-percentOfMoney';
+			$scope.percentOfMoneyFlagL = 'false';
+		}else{
+			$scope.listingFilterLocation = 'percentOfMoney';
+			$scope.percentOfMoneyFlagL = 'true';
+		}		
+	};	
+	
+	$scope.topListingSuccessRateLocation = function(flag){
+		console.log(flag);
+		if(flag=='true'){
+			$scope.listingFilterLocation = '-percentOfMoney';
+			$scope.percentOfMoneyFlagL = 'false';
+		}else{
+			$scope.listingFilterLocation = 'percentOfMoney';
+			$scope.percentOfMoneyFlagL = 'true';
+		}		
+	};	
+	
+	
+	
 	$scope.openComment = function(item){
 		$scope.userId = item.id;
 		$('#commentModel').modal();
@@ -191,7 +257,7 @@ angular.module('newApp')
 	$http.get('/getUserRole').success(function(data) {
 		
 		$scope.userRole = data.role;
-		$scope.locationValue = data.location.id;
+		//$scope.locationValue = data.location.id;
 		$scope.getSalesDataValue($scope.locationValue);
 		if($scope.userRole != "General Manager"){
 			$scope.userLocationData('Week','person');
@@ -201,10 +267,29 @@ angular.module('newApp')
 		}
 	});
 	
-	$http.get('/getAllLocation')
+	$scope.topLocations = function(timeSet){
+		$http.get('/getAllLocation/'+timeSet)
 		.success(function(data) {
-		$scope.locationDataList = data;	
+			
+		$scope.locationDataListShow = data;	
+		angular.forEach($scope.locationDataListShow, function(value, key) {
+			if(value.successRate !=null){
+				value.successRate = value.successRate.toFixed(2);
+			}else{
+				value.successRate = = 0;
+			}
+			
+			if(value.avgSaleLocation !=null){
+				value.avgSaleLocation = value.avgSaleLocation.toFixed(2);
+			}else{
+				value.avgSaleLocation = 0;
+			}
+			
+			console.log(value.avgSaleLocation);
+		});
+		console.log($scope.locationDataListShow);
 	});
+	}
 	
 	
 	

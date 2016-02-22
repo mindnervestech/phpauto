@@ -327,6 +327,10 @@ public String testDriveStatus;
 		return find.where().eq("assignedTo", user).ne("status", "CANCEL").findList();
 	}
 	
+	public static List<RequestMoreInfo> findByLocationNotCancel(Location location) {
+		return find.where().eq("locations", location).ne("status", "CANCEL").findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllScheduledUser(AuthUser user) {
 		return find.where().eq("isScheduled", true).eq("isRead",true).eq("assignedTo", user).eq("status", null).findList();
 	}

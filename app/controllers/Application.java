@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.TextField;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -18,6 +19,7 @@ import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10669,12 +10671,12 @@ public class Application extends Controller {
     	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     	DateFormat onlyMonth = new SimpleDateFormat("MMMM");
     	
-    	Date dateobj = new Date();
+    	
     	Calendar cal1 = Calendar.getInstance();
     	AuthUser users = (AuthUser) getLocalUser();
     	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
 		        "August", "September", "October", "November", "December" };
-    	
+    	Date dateobj = new Date();
     	Calendar cal = Calendar.getInstance();  
     	String monthCal = monthName[cal.get(Calendar.MONTH)];
     	Map<String, Integer> mapCar = new HashMap<String, Integer>();
@@ -11081,15 +11083,44 @@ public class Application extends Controller {
     	return ok(Json.toJson(lDataVM));
     }
     
-    public static Result getAllLocation() {
+    public static Result getAllLocation(String timeSet) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
     		
+    		Date dateobj = new Date();
+        	Calendar cal = Calendar.getInstance();  
+    		
+    		Date timeBack = null;
+        	
+        	if(timeSet.equals("Week")){
+        		cal.setTime(dateobj);  
+    			cal.add(Calendar.DATE, -7);
+    			timeBack =  cal.getTime(); 
+        	}else if(timeSet.equals("Month")){
+        		cal.setTime(dateobj);  
+    			cal.add(Calendar.MONTH, -1);
+    			timeBack =  cal.getTime(); 
+        	}else if(timeSet.equals("Quater")){
+        		cal.setTime(dateobj);  
+    			cal.add(Calendar.MONTH, -3);
+    			timeBack =  cal.getTime(); 
+        	}else if(timeSet.equals("6 Month")){
+        		cal.setTime(dateobj);  
+    			cal.add(Calendar.MONTH, -6);
+    			timeBack =  cal.getTime(); 
+        	}else if(timeSet.equals("Year")){
+        		cal.setTime(dateobj);  
+    			cal.add(Calendar.MONTH, -12);
+    			timeBack =  cal.getTime(); 
+        	}
+    		
+    		Integer totalPrice = 0;
     		List<AuthUser> userList = AuthUser.getUserByType();
     		List<LocationVM> vmList = new ArrayList<>();
     		List<Location> locationList = Location.findAllData();
     		for(Location location : locationList) {
+    			totalPrice = 0;
     			LocationVM vm = new LocationVM();
     			vm.id = location.id;
     			vm.locationaddress = location.address;
@@ -11101,15 +11132,71 @@ public class Application extends Controller {
     			String roles = "Manager";
     			AuthUser users = AuthUser.getlocationAndManagerByType(location, roles);
     			if(users != null){
-    			vm.managerId = users.id;
-    			vm.email = users.email;
-    			vm.firstName = users.firstName;
-    			vm.lastName = users.lastName;
-    			vm.phone = users.phone;
-    			vm.managerFullName = users.firstName+""+users.lastName;
-    			vm.mImageName = users.imageName;
-    			vm.mImageUrl = users.imageUrl;
+	    			vm.managerId = users.id;
+	    			vm.email = users.email;
+	    			vm.firstName = users.firstName;
+	    			vm.lastName = users.lastName;
+	    			vm.phone = users.phone;
+	    			vm.managerFullName = users.firstName+""+users.lastName;
+	    			vm.mImageName = users.imageName;
+	    			vm.mImageUrl = users.imageUrl;
     			}
+    			List<AuthUser> saleUsers = AuthUser.getAllUserByLocation(location);
+    			vm.salePeopleUserLocation = saleUsers.size();
+    			List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
+    			int carCount = 0;
+    			for(Vehicle vehicle:vList){
+    				if(vehicle.soldDate.after(timeBack)){
+    					totalPrice = totalPrice + vehicle.price; 
+    					carCount++;
+    				}
+    			}
+    			vm.carSoldLocation = carCount;
+    			vm.totalMoneyBrougthLocation = totalPrice;
+    			if(totalPrice != 0 && vm.carSoldLocation != 0){
+    				Double values = (double) vm.totalMoneyBrougthLocation / (double) vm.carSoldLocation;
+    				vm.avgSaleLocation = values;
+    			}
+    			
+    			List<Vehicle> vListAllSold = Vehicle.findBySold();
+    			int totalPriceForAllLocation = 0;
+    			for(Vehicle vehicle:vListAllSold){
+    				if(vehicle.soldDate.after(timeBack)){
+    					totalPriceForAllLocation = totalPriceForAllLocation + vehicle.price; 
+    				}
+    			}
+    			
+    			vm.percentOfMoney = (double)(totalPrice / totalPriceForAllLocation) * 100;
+    			
+    			List<RequestMoreInfo> rInfoAll = RequestMoreInfo.findByLocationNotCancel(location);
+    			List<ScheduleTest> sListAll = ScheduleTest.findByLocationNotCancel(location);
+    			List<TradeIn> tradeInsAll = TradeIn.findByLocationNotCancel(location);
+    			
+    			int totalLead = 0;
+    			
+    			for(RequestMoreInfo rInfo:rInfoAll){
+    				if(rInfo.requestDate.after(timeBack)){
+    					totalLead++;
+    				}
+    			}
+    			
+    			for(ScheduleTest sInfo:sListAll){
+    				if(sInfo.scheduleDate.after(timeBack)){
+    					totalLead++;
+    				}
+    			}
+    			
+    			for(TradeIn tInfo:tradeInsAll){
+    				if(tInfo.tradeDate.after(timeBack)){
+    					totalLead++;
+    				}
+    			}
+    			
+    			if(carCount != 0 && totalLead != 0){
+    				double value = (double)carCount / (double)totalLead;
+    				vm.successRate = value * 100;
+    			}
+    			
     				vmList.add(vm);
     		}
     		return ok(Json.toJson(vmList));

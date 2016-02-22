@@ -563,6 +563,10 @@ public String testDriveStatus;
 		return find.where().eq("assignedTo", user).ne("status", "CANCEL").findList();
 	}
 	
+	public static List<TradeIn> findByLocationNotCancel(Location location) {
+		return find.where().eq("locations", location).ne("status", "CANCEL").findList();
+	}
+	
 	public static List<TradeIn> findAllSeen(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isScheduled", false).orderBy("tradeDate desc").findList();
 	}
