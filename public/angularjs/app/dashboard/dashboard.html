@@ -27,6 +27,11 @@
     behavior: url(PIE.htc); /* remove if you don't care about IE8 */
 }
 
+.typeNew{
+	width: 115px;
+    height: 115px;
+}
+
 .type {
     width: 115px;
     height: 115px;
@@ -89,7 +94,7 @@ margin-left: 5px;
 									                <div style="float: left;" ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation">
 									               		<div>							                
 									              	<div>
-									                     <img  style="width: 116px;"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                     <img class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
 									                 	<!-- <div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
 									                 		<h1 style="color:white;margin-top: 30px;">{{item.per}}%</h1>
 									                 	</div> -->

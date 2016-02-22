@@ -276,7 +276,7 @@ angular.module('newApp')
 			if(value.successRate !=null){
 				value.successRate = value.successRate.toFixed(2);
 			}else{
-				value.successRate = = 0;
+				value.successRate = 0;
 			}
 			
 			if(value.avgSaleLocation !=null){
