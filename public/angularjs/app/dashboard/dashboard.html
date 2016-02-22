@@ -59,7 +59,7 @@ z-index: 1000;
 margin-left: 5px;
 }
 </style>
-<div ng-if="userRole == 'General Manager'">
+<div>
 <div class="row" ng-init="init()" >
     
     	 <div class="col-xlg-12 col-lg-12" ng-if="userRole == 'General Manager'" style=" padding: 0px;">
@@ -162,91 +162,8 @@ margin-left: 5px;
         
 	</div>
     
-<!--      <div class="col-xlg-7 col-lg-7" ng-if="userRole == 'General Manager'">
-     	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
-			 
-				    <div id="myTabContent" class="tab-content" style="padding:0px;">
-							<div class="row" ng-show="showSalesStats">
-						            <div class="col-md-12">
-						             <div class="panel widget-map" style="height: 413px;">
-									    <h4 style="line-height:0.428571;margin-top:3%;float:left;width:66%;"><b style="margin-left:3%;">TOP LOCATIONS</b></h4>
-									    
-									    <br>
-									<div class="row">
-									<div class="col-xlg-4 panel" style="width:852px;height: 368px;overflow: hidden; position: relative;margin-top:1%;">
-									         <div>
-									           <div class="col-sm-12">
-									               <h6 class="col-sm-8"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()">WORST PERFORMERS</a></h6>
-									                <h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a></h6>
-									            </div>
-									         </div>
-									                
-									              <div>
-									              <div class="col-sm-12">
-									                      <a ng-if="locationDataList.length >= 1" ng-click="showLocationWise(locationDataList[0])"><img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/{{locationDataList[0].imageUrl}}"></a>
-									                      <a ng-if="locationDataList.length >= 2" ng-click="showLocationWise(locationDataList[1])"><img class="col-sm-4"style="width: 120px;margin-left: 80px;margin-top: 25px;" ng-if="locationDataList.length >= 2" src="http://glider-autos.com/glivrImg/images/{{locationDataList[1].imageUrl}}"></a>
-									                      <a ng-if="locationDataList.length >= 3" ng-click="showLocationWise(locationDataList[2])"><img class="col-sm-4"style="width: 120px;margin-left: 80px;margin-top: 25px;" ng-if="locationDataList.length >= 3" src="http://glider-autos.com/glivrImg/images/{{locationDataList[2].imageUrl}}"></a>
-									                      <a ng-if="locationDataList.length >= 4" ng-click="showLocationWise(locationDataList[3])"><img class="col-sm-4"style="width: 120px;margin-left: 80px;margin-top: 25px;" ng-if="locationDataList.length >= 4" src="http://glider-autos.com/glivrImg/images/{{locationDataList[3].imageUrl}}"></a>
-									                  </div>      
-									              </div>
-										 <div class="col-sm-12 " style="line-height:1.028571;width:113%;">
-											<label class="col-sm-3 control-label" style="text-align: left;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 1"><b>{{locationDataList[0].locationName}}</b></label>
-											<label class="col-sm-3 control-label" style="text-align: left;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 2"><b>{{locationDataList[1].locationName}}</b></label>
-											<label class="col-sm-3 control-label" style="text-align: left;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 3"><b>{{locationDataList[2].locationName}}</b></label>
-											<label class="col-sm-3 control-label" style="text-align: left;font-size: 19px;margin-top: 10px;" ng-if="locationDataList.length >= 4"><b>{{locationDataList[3].locationName}}</b></label>
-										</div>
-										 <div class="col-sm-12">
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-user" style="color: darkturquoise;"></span>EMAIL</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-user" style="color: darkturquoise;"></span>EMAIL</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-user" style="color: darkturquoise;"></span>EMAIL</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-user" style="color: darkturquoise;"></span>EMAIL</h5></label>
-										</div>
-										<div class="col-sm-12">
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"></span>amount</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"></span>amount</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"></span>amount</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"></span>amount</h5></label>
-										</div>
-										<div class="col-sm-12">
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="fa fa-car" style="color: darkturquoise;"></span>amount11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="fa fa-car" style="color: darkturquoise;"></span>amount11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="fa fa-car" style="color: darkturquoise;"></span>amount11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="fa fa-car" style="color: darkturquoise;"></span>amount11</h5></label>
-										</div>
-										<div class="col-sm-12">
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;"></span>amo11</h5></label>
-										</div>
-										<div class="col-sm-12">
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-adjust" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-adjust" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-adjust" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-adjust" style="color: darkturquoise;"></span>amo11</h5></label>
-										</div>
-										<div class="col-sm-12">
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="glyphicon glyphicon-record" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="glyphicon glyphicon-record" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="glyphicon glyphicon-record" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="glyphicon glyphicon-record" style="color: darkturquoise;"></span>amo11</h5></label>
-										</div>
-										<div class="col-sm-12">
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 1"><h5><span class="fa fa-female" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 2"><h5><span class="fa fa-female" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 3"><h5><span class="fa fa-female" style="color: darkturquoise;"></span>amo11</h5></label>
-											<label class="col-sm-3 control-label" style="text-align: left;" ng-if="locationDataList.length >= 4"><h5><span class="fa fa-female" style="color: darkturquoise;"></span>amo11</h5></label>
-										</div>
-									
-									</div>
-									</div>
-								</div>	
-							</div>
-							</div>
-				    </div>
-  				</div> 
-	</div> -->
-	    
+
+	  </div>  
 	</div>
 	
 	 <div class="col-xlg-7 col-lg-7" ng-if="userRole != 'General Manager'" style="padding-left: 0px;padding-right: 0px;">

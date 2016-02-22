@@ -255,18 +255,25 @@ angular.module('newApp')
 		});
 	};
 	
-	$http.get('/getUserRole').success(function(data) {
+		$http.get('/getUserRole').success(function(data) {
+			
+			$scope.userRole = data.role;
+			$scope.locationValue = data.location.id;
+			$scope.getSalesDataValue($scope.locationValue);
+			if($scope.userRole != "General Manager"){
+				$scope.userLocationData('Week','person');
+				
+			}
+			
+			if($scope.userRole == null){
+				  $location.path('/myprofile');
+			}
+			console.log("dfdfdfdfdf");
+			console.log($scope.locationValue);
+		});
 		
-		$scope.userRole = data.role;
-		//$scope.locationValue = data.location.id;
-		$scope.getSalesDataValue($scope.locationValue);
-		if($scope.userRole != "General Manager"){
-			$scope.userLocationData('Week','person');
-		}
-		if($scope.userRole == null){
-			  $location.path('/myprofile');
-		}
-	});
+		
+	
 	
 	$scope.topLocations = function(timeSet){
 		$http.get('/getAllLocation/'+timeSet)
@@ -1961,7 +1968,7 @@ angular.module('newApp')
     		  
     		  $scope.init = function() {
     			  $scope.showVehicalBarChart();
-    			 $scope.getPerformanceOfUser();
+    			  $scope.getPerformanceOfUser();
     			 if($scope.locationValue == null){
     				 $scope.getSalesDataValue(0);
     			 }
@@ -3770,19 +3777,34 @@ angular.module('newApp')
 		   $scope.userPerformanceList = {};
 		   $scope.countNextValue = 0;
 		   $scope.getPerformanceOfUser = function() {
-			   if($scope.locationValue == null){
-				   $scope.locationValue = 0;
-			   }
+			   
 			   if(angular.isUndefined($scope.salesPersonUser) || $scope.salesPersonUser == "") {
 				   $scope.salesPersonUser = 0;
 			   }
-			   $http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue)
-		 		.success(function(data) {
-		 			console.log(data);
-		 			$scope.userPerformanceList = data;
-		 			
-		 			console.log($scope.userPerformanceList);
-		 		});
+			   if($scope.locationValue == null){
+				   
+				   $http.get('/getUserRole').success(function(data) {
+						if($scope.userRole != "General Manager"){
+							$scope.locationValue = data.location.id;
+							
+						}else{
+							 $scope.locationValue = 0;
+						}
+						
+						console.log("UHUUGYUGYGYGYYYYYYYYYYYYYYYY");
+						console.log($scope.locationValue);
+						
+						$http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue)
+				 		.success(function(data) {
+				 			console.log(data);
+				 			console.log("<><><>BBBBBDDD.,.,.,.<><><>");
+				 			$scope.userPerformanceList = data;
+				 			
+				 			console.log($scope.userPerformanceList);
+				 		});
+					});
+			   }
+			   
 		   }
 		   
 		   
@@ -4262,7 +4284,6 @@ angular.module('newApp')
 		   
 		  
 		   $scope.getSalesPersonData = function(){
-			   console.log(";l;l;l;l;l");
 			   
    			$http.get('/getSalesUserOnly/'+$scope.locationValue)
 	    		.success(function(data){
