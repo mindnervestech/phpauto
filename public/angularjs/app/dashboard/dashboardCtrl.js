@@ -99,6 +99,8 @@ angular.module('newApp')
 	$scope.imageLeave  = function(index){
 		$scope.index=null;
 	};
+	
+	$scope.orderItem = '-salesAmount';
 	$scope.successRateFilter = function(successRate){
 		if(successRate == 'true'){
 			$scope.orderItem = '-successRate';

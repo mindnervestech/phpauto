@@ -23865,7 +23865,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						lonFlag.add(value);
 					  }*/
 					
-					sPrice.y = -180;
+					sPrice.y = -220;
 					sPrice.type = "flags";
 					sPrice.data = sAndValues;
 					sPrice.name = "Price Changes";
@@ -23932,7 +23932,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						lonFlag.add(value);
 					  }*/
 					
-					sPrice.y = -180;
+					sPrice.y = -220;
 					sPrice.type = "flags";
 					sPrice.data = sAndValues;
 					sPrice.name = "Price Changes";
