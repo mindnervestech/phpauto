@@ -41,6 +41,7 @@ angular.module('newApp')
 	$scope.followerFlag = 'true';
 	$scope.avgSaleFlagL = 'true';
 	$scope.soldCarFlagL = 'true';
+	$scope.successRateFlagL = 'true';
 	$scope.percentOfMoneyFlagL = 'true';
 	$scope.leadFlag = 'true';
 	$scope.listingFilter = null;
@@ -194,11 +195,11 @@ angular.module('newApp')
 	$scope.topListingSuccessRateLocation = function(flag){
 		console.log(flag);
 		if(flag=='true'){
-			$scope.listingFilterLocation = '-percentOfMoney';
-			$scope.percentOfMoneyFlagL = 'false';
+			$scope.listingFilterLocation = '-successRate';
+			$scope.successRateFlagL = 'false';
 		}else{
-			$scope.listingFilterLocation = 'percentOfMoney';
-			$scope.percentOfMoneyFlagL = 'true';
+			$scope.listingFilterLocation = 'successRate';
+			$scope.successRateFlagL = 'true';
 		}		
 	};	
 	
