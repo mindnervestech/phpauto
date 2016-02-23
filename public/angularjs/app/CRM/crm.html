@@ -1,21 +1,28 @@
 <html>
-<head>
-</head>
-<body ng-init="init()">
-<h4><b>Contacts</b></h4>
-<form class="row" style="margin-left:20%;" ng-submit="saveContactsFile()">
-	<input type="file" name="contactsFile" accept=".csv" ng-file-select="onCsvFileSelect($files)" style="float:left;" required><button type="submit" class="btn btn-primary">Import Contacts</button>
-	<label ng-show="showProgress" style="float:left;">Progress : {{progress}}</label>
-	<a class="btn btn-primary"  ng-click="exportCsvPop()">Export CSV</a>
-	<a class="btn btn-primary" ng-click="createContact()">Create Contact</a>
-	<a class="btn btn-primary"  ng-click="deleteAllContactPop()">Remove All</a>
-</form>
-<div>
-<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
-				</div>
-</div>
-
-</body>
+	<head>
+	</head>
+	<body ng-init="init()">
+		<h4><b>Contacts</b></h4>
+		<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+    		<ul id="myTabs" class="nav nav-tabs" role="tablist" ng-if="userRole == 'General Manager'">
+    			<li ng-repeat="location in locationData" role="presentation" ng-class="locId == location.id?'active':''"><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="home" aria-expanded="false">
+            		<button type="button" class="btn btn-blue" ng-click="getLocationData(location.id)">{{location.name}}</button></a></li>
+    		</ul>
+    	
+    		<div ng-if="userRole != 'General Manager'">
+	    		<form class="row" style="margin-left:20%;" ng-submit="saveContactsFile()">
+					<input type="file" name="contactsFile" accept=".csv" ng-file-select="onCsvFileSelect($files)" style="float:left;" required><button type="submit" class="btn btn-primary">Import Contacts</button>
+					<label ng-show="showProgress" style="float:left;">Progress : {{progress}}</label>
+					<a class="btn btn-primary"  ng-click="exportCsvPop()">Export CSV</a>
+					<a class="btn btn-primary" ng-click="createContact()">Create Contact</a>
+					<a class="btn btn-primary"  ng-click="deleteAllContactPop()">Remove All</a>
+				</form>
+    		</div>
+		<div>
+			<div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+			</div>
+		</div>
+	</body>
 </html>
 
 <div class="modal fade" id="contactsModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -647,4 +654,14 @@
 	.modal-dialog{
 		margin-top: 1%;
 	}
+	.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
 </style>								    

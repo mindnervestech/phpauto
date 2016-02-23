@@ -20729,7 +20729,9 @@ public class Application extends Controller {
     		AuthUser userObj = (AuthUser) getLocalUser();
     		List<ContactsVM> contactsVMList = new ArrayList<>();
     		List<Contacts> contactsList;
-    		if(userObj.role.equalsIgnoreCase("Manager")){
+    		if(userObj.role.equalsIgnoreCase("General Manager")){
+    			contactsList = Contacts.getAllContacts();
+    		}else if(userObj.role.equalsIgnoreCase("Manager")){
     			contactsList = Contacts.getAllContactsByLocation(Long.valueOf(session("USER_LOCATION")));
     		}else{
     			contactsList = Contacts.getAllContactsByUser(userObj.id);
@@ -25502,6 +25504,67 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		  			  throw new RuntimeException(e);
 		  		}
 		return ok();
+	}
+	
+	public static Result getAllContactsByLocation(Long id){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		
+    		AuthUser userObj = (AuthUser) getLocalUser();
+    		List<ContactsVM> contactsVMList = new ArrayList<>();
+    		List<Contacts> contactsList = Contacts.getAllContactsByLocation(id);
+    			
+    		for(Contacts contact : contactsList) {
+    			ContactsVM vm = new ContactsVM();
+    			vm.contactId = contact.contactId;
+       			vm.type = contact.type;
+       			vm.salutation = contact.salutation;
+       			vm.firstName = contact.firstName;
+       			vm.middleName = contact.middleName;
+       			vm.lastName = contact.lastName;
+       			vm.suffix = contact.suffix;
+       			vm.companyName = contact.companyName;
+       			vm.email = contact.email;
+       			vm.phone = contact.phone;
+       			vm.street = contact.street;
+       			vm.city = contact.city;
+       			vm.state = contact.state;
+       			vm.zip = contact.custZipCode;
+       			vm.country = contact.country;
+       			vm.allEmail = contact.allEmail;
+       			vm.allPhone = contact.allPhone;
+       			vm.website = contact.website;
+       			vm.allAddresses = contact.allAddresses;
+       			vm.title = contact.title;
+       			vm.fullName = contact.firstName+" "+contact.lastName;
+       			vm.enthicity = contact.enthicity;
+       			if(contact.assignedTo !=null){
+       				AuthUser user = AuthUser.findById(Integer.parseInt(contact.assignedTo));
+           			vm.assignedToName = user.firstName+" "+user.lastName;
+       			}
+       			vm.assignedTo = contact.assignedTo;
+       			vm.campaignSource = contact.campaignSource;
+       			vm.priority = contact.priority;
+       			vm.groups = contact.groups;
+       			vm.relationships = contact.relationships;
+       			vm.notes = contact.notes;
+       			vm.workEmail = contact.workEmail;
+       			vm.workEmail1 = contact.workEmail1;
+       			vm.workPhone = contact.workPhone;
+       			vm.workPhone1 = contact.workPhone1;
+       			vm.email1 = contact.email1;
+       			vm.phone1 = contact.phone1;
+       			
+    			if(contact.newsLetter == 0) {
+    				vm.newsletter = false;
+    			} else {
+    				vm.newsletter = true;
+    			}
+    			contactsVMList.add(vm);
+    		}
+    		return ok(Json.toJson(contactsVMList));
+    	}
 	}
 	
 	public static Result removeAllContactsData(){

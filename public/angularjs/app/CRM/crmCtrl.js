@@ -68,8 +68,6 @@ angular.module('newApp')
    		};
    		$scope.exportCsv = function(){
    			$http.get('/exportContactsData').success(function(data){
-   				console.log(data);
-   				
    				$.fileDownload('/downloadStatusFile',
 						{	   	
 							   /*httpMethod : "POST",
@@ -98,12 +96,29 @@ angular.module('newApp')
 			 });
    		 
    		$http.get('/getUsers').success(function(data){
-			console.log(data);
 			$scope.allUser = data;
 		 });
+   		$http.get('/getlocations').success(function(data){
+			$scope.locationData = data;
+		 });
+   		$http.get('/getUserRole').success(function(data) {
+			$scope.userRole = data.role;
+			if($scope.userRole != "General Manager"){
+			}
+		});
+   		$scope.getLocationData = function(locatnId){
+   			$scope.locId = locatnId;
+   			console.log($scope.locId);
+   			if(locatnId !=null){
+   				$http.get('/getAllContactsByLocation/'+locatnId)
+   				.success(function(data) {
+   					$scope.gridOptions.data = data;
+   	   				$scope.contactsList = data;
+   				});
+   			}
+   		};
 
    		$http.get('/getgroupInfo').success(function(data){
-			console.log(data);
 			$scope.allGroup = data;
 		 });
    		 
@@ -111,7 +126,6 @@ angular.module('newApp')
    			 $http.get('/getAllContactsData').success(function(data){
    				$scope.gridOptions.data = data;
    				$scope.contactsList = data;
-   				console.log("get data success");
    			 });
    		 }
    		 
@@ -127,7 +141,6 @@ angular.module('newApp')
 	            method: 'post',
 	            file:logofile,
 		   }).progress(function(evt) {
-			   console.log(evt);
 			   $scope.showProgress = true;
 			   $scope.progress = parseInt((100.0 * evt.loaded) / evt.total)+"%";
 	        }).success(function(data, status, headers, config) {
@@ -196,8 +209,6 @@ angular.module('newApp')
 	   }
 	   
 	   $scope.setAsRead = function(newsletter,id) {
-		   console.log(newsletter);
-		   console.log(id);
 		   $http.get('/addNewsLetter/'+newsletter+'/'+id)
 			.success(function(data) {
 				
@@ -233,8 +244,6 @@ angular.module('newApp')
 	   }
 	   
 	   $scope.saveGroup = function(createGroup){
-		   console.log(createGroup);
-		   
 		   $http.get('/saveGroup/'+createGroup)
 			.success(function(data) {
 				console.log("sccess");
@@ -244,19 +253,15 @@ angular.module('newApp')
 				    text: "group saved successfully",
 				});
 				$http.get('/getgroupInfo').success(function(data){
-					console.log(data);
-					
 					$scope.allGroup = data;
 				 });
 			});
-		   
 	   }
 	   
 	   $scope.deleteGroup = function(groupId){
 		   console.log(groupId);
 		   $http.get('/deleteGroup/'+groupId)
 			.success(function(data) {
-				console.log("sccess");
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
