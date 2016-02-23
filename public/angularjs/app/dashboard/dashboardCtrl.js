@@ -4294,11 +4294,12 @@ angular.module('newApp')
 		   $scope.getLocationData = function(locationId){
 			   console.log(locationId);
 			   $scope.locationTotal = 0;
-			   
+			    $scope.locationList = [];
 			   
 			   angular.forEach($scope.locationdata, function(value, key){
 				   if(value.id == locationId){
 					   value.isSelected = true;
+					   $scope.locationList.push(locationId);
 				   }else{
 					   value.isSelected = false;
 				   }
