@@ -23,6 +23,7 @@ public class LocationVM {
 	public Double avgSaleLocation;
 	public Double percentOfMoney;
 	public Double successRate;
+	public Double PlanPer;
 	
 	
 	

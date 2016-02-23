@@ -11197,6 +11197,24 @@ public class Application extends Controller {
     				vm.successRate = value * 100;
     			}
     			
+    			int total = 0;
+    			String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+				        "August", "September", "October", "November", "December" };
+		    	
+		     	String crMonth = monthName[Calendar.MONTH - 1];
+		     	
+				PlanScheduleMonthlyLocation  pMonthlyLocation = null;
+				pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(location, crMonth);
+				
+				if(pMonthlyLocation != null){
+					total = Integer.parseInt(pMonthlyLocation.totalEarning);
+		    	}
+				if(total > 0 && totalPrice > 0){
+					Double PlanPer =  (double)((totalPrice*100)/total);
+					vm.PlanPer = PlanPer;		
+				}
+    			
+    			
     				vmList.add(vm);
     		}
     		return ok(Json.toJson(vmList));

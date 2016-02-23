@@ -287,6 +287,12 @@ angular.module('newApp')
 				value.successRate = 0;
 			}
 			
+			if(value.PlanPer !=null){
+				value.PlanPer = value.PlanPer.toFixed(2);
+			}else{
+				value.PlanPer = 0;
+			}
+			
 			if(value.avgSaleLocation !=null){
 				value.avgSaleLocation = value.avgSaleLocation.toFixed(2);
 			}else{
@@ -3791,13 +3797,9 @@ angular.module('newApp')
 							 $scope.locationValue = 0;
 						}
 						
-						console.log("UHUUGYUGYGYGYYYYYYYYYYYYYYYY");
-						console.log($scope.locationValue);
 						
 						$http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue)
 				 		.success(function(data) {
-				 			console.log(data);
-				 			console.log("<><><>BBBBBDDD.,.,.,.<><><>");
 				 			$scope.userPerformanceList = data;
 				 			
 				 			console.log($scope.userPerformanceList);
