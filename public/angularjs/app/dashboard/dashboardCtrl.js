@@ -2260,13 +2260,9 @@ angular.module('newApp')
 	    				$scope.weekData = response;
 	    				
 	    				if(response.topVisited.length == 0){
-	    					console.log("gggg");
-	    					console.log(response.topVisited.length);
 	    					$scope.currentSelectedType = 2;
 	    					$scope.notchange = 1;
 	    				}else{
-	    					console.log("ggggKKKK");
-	    					console.log(response.topVisited.length);
 	    					$scope.notchange = 0;
 	    				}
 	    				
