@@ -258,9 +258,10 @@ angular.module('newApp')
 		$http.get('/getUserRole').success(function(data) {
 			
 			$scope.userRole = data.role;
-			$scope.locationValue = data.location.id;
+			
 			$scope.getSalesDataValue($scope.locationValue);
 			if($scope.userRole != "General Manager"){
+				$scope.locationValue = data.location.id;
 				$scope.userLocationData('Week','person');
 				
 			}
