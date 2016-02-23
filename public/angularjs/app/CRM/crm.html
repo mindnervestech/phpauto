@@ -5,6 +5,8 @@
 		<h4><b>Contacts</b></h4>
 		<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
     		<ul id="myTabs" class="nav nav-tabs" role="tablist" ng-if="userRole == 'General Manager'">
+    			<li role="presentation" ng-class="allLoc?'active':''"><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="home" aria-expanded="false">
+            		<button type="button" class="btn btn-blue" ng-click="getContactsData()">All Location</button></a></li>
     			<li ng-repeat="location in locationData" role="presentation" ng-class="locId == location.id?'active':''"><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="home" aria-expanded="false">
             		<button type="button" class="btn btn-blue" ng-click="getLocationData(location.id)">{{location.name}}</button></a></li>
     		</ul>

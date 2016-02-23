@@ -3,6 +3,7 @@ angular.module('newApp')
 	if(!$scope.$$phase) {
 		$scope.$apply();
 	}
+	$scope.allLoc = true;
 	$scope.gridOptions = {
    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
    		    paginationPageSize: 150,
@@ -107,6 +108,7 @@ angular.module('newApp')
 			}
 		});
    		$scope.getLocationData = function(locatnId){
+   			$scope.allLoc = false;
    			$scope.locId = locatnId;
    			console.log($scope.locId);
    			if(locatnId !=null){
@@ -123,6 +125,8 @@ angular.module('newApp')
 		 });
    		 
    		 $scope.getContactsData = function() {
+   			 $scope.allLoc = true;
+   			$scope.locId = null;
    			 $http.get('/getAllContactsData').success(function(data){
    				$scope.gridOptions.data = data;
    				$scope.contactsList = data;
