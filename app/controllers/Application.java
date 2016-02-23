@@ -21873,14 +21873,25 @@ public class Application extends Controller {
 		return ok(Json.toJson(pVms));
 	}
 	
-	public static Result saveLocationTotal(String total){
+	public static Result saveLocationTotal(String total,Long locationId){
 		AuthUser user = getLocalUser();
-		PlanLocationTotal planLocat = PlanLocationTotal.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		PlanLocationTotal planLocat = null;
+		if(locationId == 0){
+			 planLocat = PlanLocationTotal.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		}else{
+			planLocat = PlanLocationTotal.findByLocation(locationId);
+		}
+		
 		if(planLocat == null){
 			PlanLocationTotal pTotal = new PlanLocationTotal();
 			pTotal.setTotal(total);
 			pTotal.setUser(user);
-			pTotal.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			if(locationId == 0){
+				pTotal.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			}else{
+				pTotal.setLocations(Location.findById(locationId));
+			}
+			
 			pTotal.save();
 		}else{
 			planLocat.setTotal(total);

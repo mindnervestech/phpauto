@@ -4294,6 +4294,16 @@ angular.module('newApp')
 		   $scope.getLocationData = function(locationId){
 			   console.log(locationId);
 			   $scope.locationTotal = 0;
+			   
+			   
+			   angular.forEach($scope.locationdata, function(value, key){
+				   if(value.id == locationId){
+					   value.isSelected = true;
+				   }else{
+					   value.isSelected = false;
+				   }
+			   });
+			   
 			   $scope.schPlan.scheduleBy = 'location';
 			   $http.get("/getLocationPlan/"+locationId).success(function(data){
 				   
@@ -4423,8 +4433,13 @@ angular.module('newApp')
 			   });
 		   }
 		   
-		   $scope.saveLocationTotal = function(total){
-			   $http.get("/saveLocationTotal/"+total).success(function(data){
+		   $scope.saveLocationTotal = function(total, locationId){
+			   console.log(locationId);
+			   if(locationId == null){
+				   locationId = 0;
+			   }
+			   
+			   $http.get("/saveLocationTotal/"+total+"/"+locationId).success(function(data){
 				   console.log(data);
 				   $('#plan-model').modal("toggle");
 				   $.pnotify({

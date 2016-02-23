@@ -171,7 +171,7 @@ GET		/getAllContactsByLocation/:id					controllers.Application.getAllContactsByL
 GET     /getlocationsMonthlyPlan 					controllers.Application.getlocationsMonthlyPlan()
 GET    /getSalePerson/:month			controllers.Application.getSalePerson(month:String)
 GET     /getSaleMonthlyPlan/:saleId				controllers.Application.getSaleMonthlyPlan(saleId:Integer)
-GET     /saveLocationTotal/:total  					controllers.Application.saveLocationTotal(total:String)
+GET     /saveLocationTotal/:total/:locationId  					controllers.Application.saveLocationTotal(total:String,locationId:Long)
 GET		/getAllCanceledLeads			controllers.Application.getAllCanceledLeads()
 GET		/getSalesUserOnly/:locationValue				controllers.Application.getSalesUserOnly(locationValue:Long)
 GET     /getSalesUserValue				controllers.Application.getSalesUserValue()
