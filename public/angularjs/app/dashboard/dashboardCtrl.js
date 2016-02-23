@@ -4301,9 +4301,61 @@ angular.module('newApp')
 		   
 		   $scope.showGrid = 0;
 		   
-		/*   $scope.getLocationData = function(locationId){
+		   $scope.getLocationData = function(locationId){
 			   console.log(locationId);
+			   $scope.locationTotal = 0;
+			   $scope.schPlan.scheduleBy = 'location';
 			   $http.get("/getLocationPlan/"+locationId).success(function(data){
+				   
+				   $scope.MonthTotal = {};
+				   	$scope.totalLocationPlanData = data;
+				   
+				   
+				   angular.forEach(data, function(obj, index){
+					   
+					   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
+					    if(obj.month == "january"){
+					    	$scope.MonthTotal.januaryTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "february"){
+					    	$scope.MonthTotal.februaryTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "march"){
+					    	$scope.MonthTotal.marchTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "april"){
+					    	$scope.MonthTotal.aprilTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "may"){
+					    	$scope.MonthTotal.mayTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "june"){
+					    	$scope.MonthTotal.juneTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "july"){
+					    	$scope.MonthTotal.julyTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "august"){
+					    	$scope.MonthTotal.augustTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "september"){
+					    	$scope.MonthTotal.septemberTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "october"){
+					    	$scope.MonthTotal.octoberTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "november"){
+					    	$scope.MonthTotal.novemberTotalEarning = obj.totalEarning;
+					    }
+					    if(obj.month == "december"){
+					    	$scope.MonthTotal.decemberTotalEarning = obj.totalEarning;
+					    }
+					    
+				   });
+				   
+				   
+				   /*	   
+				   
 				   console.log(data);
 				   $scope.showGrid = 1;
 				   $scope.gridOptionsValue.data = data;
@@ -4319,10 +4371,10 @@ angular.module('newApp')
 						   }
 					   });
 					   
-				   });
+				   });*/
 			   });
 			   
-		   }*/
+		   }
 		   $scope.copyValue = function(monthValue){
 			   $scope.leadsTime.totalEarning = monthValue;
 		   }
@@ -4333,9 +4385,10 @@ angular.module('newApp')
 		   
 		   
 		   $scope.locationTotal = 0;
-		   $scope.saveLocationPlan = function(month){
+		   $scope.saveLocationPlan = function(month, locationId){
 			   var value = 0;
 			   $scope.locationTotal = 0;
+			   $scope.leadsTime.locationList  = $scope.locationList;
 			   value = $scope.leadsTime.totalEarning;
 			   console.log($scope.totalLocationPlanData);
 			  
@@ -4369,7 +4422,13 @@ angular.module('newApp')
 					   }
 					   console.log($scope.locationTotal);
 				   });*/
-				   $scope.getLocationPlan();
+				  
+				   if($scope.userType == "General Manager"){
+					   $scope.getLocationData(locationId);
+				   }else{
+					   $scope.getLocationPlan();
+				   }
+				   
 				  
 			   });
 		   }
@@ -4581,7 +4640,9 @@ angular.module('newApp')
 			   $scope.nextbutton = 0;
 			   console.log(".............");
 			   $scope.checkManagerLogin();
-			   $scope.getLocationPlan();
+			   if($scope.userType != "General Manager"){
+				   $scope.getLocationPlan();
+			   }
 			   $('#plan-model').modal();
 		   };
 		   
@@ -5290,7 +5351,7 @@ angular.module('newApp')
 		   });
 		   $scope.locationList = [];
 		   $scope.locationClicked = function(e, locationPer,value){
-			   console.log(locationPer);
+			/*   console.log(locationPer);
 			   console.log(value);
 			   var startD = $('#cnfstartdate').val();
 			   var endD = $('#cnfenddate').val();
@@ -5307,15 +5368,15 @@ angular.module('newApp')
 							    type:'success',
 						    text: "Plan already exists",
 						});
-				   }else{
+				   }else{*/
 					   if(value == false){
 							$scope.locationList.push(locationPer.id);
 						}else{
 							$scope.deleteItem(locationPer);
 						}
-				   }
+				  // }
 				   
-			   });
+			   //});
 			   
 				
 				

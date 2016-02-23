@@ -22063,93 +22063,63 @@ public class Application extends Controller {
 		LocationMonthPlanVM vm = form.get();
 		AuthUser user = getLocalUser();
 		
-		PlanScheduleMonthlyLocation pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.valueOf(session("USER_LOCATION"))),vm.month);
 		
-		if(pLocation == null){
-			PlanScheduleMonthlyLocation planMoth = new PlanScheduleMonthlyLocation();
-			planMoth.setAvgCheck(vm.avgCheck);
-			planMoth.setMinEarning(vm.minEarning);
-			planMoth.setMonth(vm.month);
-			planMoth.setTotalEarning(vm.totalEarning);
-			planMoth.setVehiclesSell(vm.vehiclesSell);
-			planMoth.setUser(user);
-			planMoth.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
-			planMoth.save();
-		}else{
-			pLocation.setAvgCheck(vm.avgCheck);
-			pLocation.setMinEarning(vm.minEarning);
-			//pLocation.setMonth(vm.month);
-			pLocation.setTotalEarning(vm.totalEarning);
-			pLocation.setVehiclesSell(vm.vehiclesSell);
-			pLocation.setUser(user);
-			//pLocation.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-			pLocation.update();
-		}
+		if(user.role.equals("General Manager")){
+			
+			for(Long lvalue:vm.locationList){
+				PlanScheduleMonthlyLocation pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(lvalue),vm.month);
 				
+				if(pLocation == null){
+					PlanScheduleMonthlyLocation planMoth = new PlanScheduleMonthlyLocation();
+					planMoth.setAvgCheck(vm.avgCheck);
+					planMoth.setMinEarning(vm.minEarning);
+					planMoth.setMonth(vm.month);
+					planMoth.setTotalEarning(vm.totalEarning);
+					planMoth.setVehiclesSell(vm.vehiclesSell);
+					planMoth.setUser(user);
+					planMoth.setLocations(Location.findById(lvalue));
+					planMoth.save();
+				}else{
+					pLocation.setAvgCheck(vm.avgCheck);
+					pLocation.setMinEarning(vm.minEarning);
+					pLocation.setTotalEarning(vm.totalEarning);
+					pLocation.setVehiclesSell(vm.vehiclesSell);
+					pLocation.setUser(user);
+					pLocation.update();
+				}
+			}
+			
+		}else if(user.role.equals("Manager")){
+			PlanScheduleMonthlyLocation pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.valueOf(session("USER_LOCATION"))),vm.month);
+			
+			if(pLocation == null){
+				PlanScheduleMonthlyLocation planMoth = new PlanScheduleMonthlyLocation();
+				planMoth.setAvgCheck(vm.avgCheck);
+				planMoth.setMinEarning(vm.minEarning);
+				planMoth.setMonth(vm.month);
+				planMoth.setTotalEarning(vm.totalEarning);
+				planMoth.setVehiclesSell(vm.vehiclesSell);
+				planMoth.setUser(user);
+				planMoth.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+				planMoth.save();
+			}else{
+				pLocation.setAvgCheck(vm.avgCheck);
+				pLocation.setMinEarning(vm.minEarning);
+				pLocation.setTotalEarning(vm.totalEarning);
+				pLocation.setVehiclesSell(vm.vehiclesSell);
+				pLocation.setUser(user);
+				pLocation.update();
+			}
+		}
 		
 		return ok();
 	}
 	
 	
 	public static Result getLocationPlan(Long locationId){
-		AuthUser user = getLocalUser();
-		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		/* Date dateobj = new Date();
-	    String stringDate = df.format(dateobj);
-	    Date DateString = null;
-		try {
-			DateString = df.parse(stringDate);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		List<Long> longList = new ArrayList<>();
 		
-		List<PlanScheduleVM> pVms = new ArrayList<>();
-		List<PlanSchedule> plSchedule;
-		if(locationId != 0){
-			plSchedule = PlanSchedule.findAllByLocation(locationId);
-		}else{
-			plSchedule = PlanSchedule.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
-		}
-		
-		if(plSchedule != null){
-			for(PlanSchedule ps:plSchedule){
-				//if(DateString.after(ps.getStartDate()) && DateString.before(ps.getEndDate())){
-				PlanScheduleVM pVm = new PlanScheduleVM();
-					pVm.carsSold = ps.carsSold;
-					pVm.contractsSign = ps.contractsSign;
-					pVm.dayContract = ps.dayContract;
-					pVm.endDate = df.format(ps.endDate);
-					pVm.startDate = df.format(ps.startDate);
-					pVm.id = ps.id;
-					pVm.location = ps.locations.id;
-					pVm.meetingSalesAm = ps.meetingSalesAm;
-					pVm.monthContract = ps.monthContract;
-					pVm.quarterContract = ps.quarterContract;
-					pVm.sixMonthContract = ps.sixMonthContract;
-					pVm.totalEarn = ps.totalEarn;
-					pVm.totalMeetingAm = ps.totalMeetingAm;
-					pVm.weekContract = ps.weekContract;
-					pVm.workWithClient = ps.workWithClient;
-					if(session("USER_ROLE").equals("General Manager")){
-						List<PlanSchedule> pList = PlanSchedule.findAllByUser(user);
-						if(pList != null){
-							for(PlanSchedule ps1:pList){
-								//if(DateString.after(ps1.getStartDate()) && DateString.before(ps1.getEndDate())){
-									longList.add(ps1.locations.id);
-							//	}
-							}
-						}
-						pVm.locationList = longList;
-					}
-					
-				//}
-				pVms.add(pVm);
-			}
-			
-		}
-		return ok(Json.toJson(pVms));
+		List<PlanScheduleMonthlyLocation> pLocation = PlanScheduleMonthlyLocation.findByLocation(locationId);
+		return ok(Json.toJson(pLocation));
 	}
 	
 	public static Result isValidDatecheck(Long finderId, String checkDates, String scheduleBy){

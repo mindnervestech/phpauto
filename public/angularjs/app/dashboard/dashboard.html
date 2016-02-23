@@ -994,7 +994,7 @@ margin-left: 5px;
                             <div class="form-group">
                               <label class="control-label">Plan Schedule by</label>
                               <div class="append-icon">
-                              	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getLocationData(0)" value="location">Location
+                              	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getLocationDatass(0)" value="location">Location
                               	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getSalesPersonData()" value="salePerson">Sale person
                               </div>
                             </div>
@@ -1036,7 +1036,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="janOpen == 1">
                          	<hr>
-                         	<form role="form" ng-submit="saveLocationPlan('january')">
+                         	<form role="form" ng-submit="saveLocationPlan('january',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1068,6 +1068,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1086,7 +1098,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="julyOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('july')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('july',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1119,9 +1131,22 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
+                         		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
                          		</div>
+                         		
                          	</form>
                          	</div>
                           </div>
@@ -1135,7 +1160,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="februaryOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('february')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('february',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1167,6 +1192,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1185,7 +1222,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="augustOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('august')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('august',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1217,6 +1254,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1234,7 +1283,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="marchOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('march')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('march',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1266,6 +1315,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1283,7 +1344,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="septemberOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('september')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('september',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1315,6 +1376,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1332,7 +1405,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="aprilOpen == 1">
                          	<hr>
-                           	<form role="form" ng-submit="saveLocationPlan('april')">
+                           	<form role="form" ng-submit="saveLocationPlan('april',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1364,6 +1437,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1381,7 +1466,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="octoberOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('october')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('october',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1413,6 +1498,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1430,7 +1527,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="mayOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('may')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('may',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1462,6 +1559,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1478,7 +1587,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="novemberOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('november')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('november',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1510,6 +1619,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1526,7 +1647,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="juneOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('june')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('june',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1558,6 +1679,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>
@@ -1575,7 +1708,7 @@ margin-left: 5px;
                          		</div>
                          	<div class="col-sm-12" ng-if="decemberOpen == 1">
                          	<hr>
-                         	  	<form role="form" ng-submit="saveLocationPlan('december')">
+                         	  	<form role="form" ng-submit="saveLocationPlan('december',schPlan.location)">
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>Total Earning<span style="color:red;">*</span></label>
@@ -1607,6 +1740,18 @@ margin-left: 5px;
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
+                         		</div>
+                         		<div ng-if="userType =='General Manager'">
+                         		<div class="col-sm-12" >
+                         		<hr>
+                         			<label>Location List</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="locat in locationdata" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectLocation"  ng-click="locationClicked($event,locat,locat.isSelected)"
+				 						   	ng-model="locat.isSelected">					
+   					 						{{locat.name}}</label>
+                         		</div>
                          		</div>
                          		<div style="text-align: center;">
                          			<button type="submit" class="btn btn-primary btn-embossed" style="margin-top: 8px;">Save</button>

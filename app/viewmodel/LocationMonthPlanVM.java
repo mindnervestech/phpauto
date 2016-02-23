@@ -1,5 +1,7 @@
 package viewmodel;
 
+import java.util.List;
+
 public class LocationMonthPlanVM {
 
 	public Integer id;
@@ -9,5 +11,6 @@ public class LocationMonthPlanVM {
 	public String avgCheck;
 	public String month;
 	public String location;
+	public List<Long> locationList;
 	
 }
