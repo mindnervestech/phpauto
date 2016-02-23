@@ -440,6 +440,9 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest> findByVin(String vin) {
 		return find.where().eq("vin", vin).findList();
 	}
+	public static List<ScheduleTest> findByVinStatus(String vin) {
+		return find.where().eq("vin", vin).eq("leadStatus", null).findList();
+	}
 	public static List<ScheduleTest> findByVinDate(String vin, Date date) {
 		return find.where().eq("vin", vin).eq("confirm_date", date).findList();
 	}

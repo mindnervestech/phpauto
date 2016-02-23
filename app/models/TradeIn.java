@@ -643,6 +643,9 @@ public String testDriveStatus;
 	public static List<TradeIn>  findAllReassigned(AuthUser user) {
 		return find.where().eq("isReassigned", true).eq("assignedTo",user).findList();
 	}
+	public static List<TradeIn> findByVinStatus(String vin) {
+		return find.where().eq("vin", vin).eq("status", null).findList();
+	}
 	public static List<TradeIn> findByVin(String vin) {
 		// TODO Auto-generated method stub
 		return find.where().eq("vin", vin).findList();

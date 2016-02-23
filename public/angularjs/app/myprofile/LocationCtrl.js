@@ -41,7 +41,7 @@ angular.module('newApp')
 	}
 	
 	$scope.init = function() {
-		$http.get('/getAllLocation')
+		$http.get('/getLocationForGM')
 		.success(function(data) {
 			console.log(data);
 		$scope.gridOptions.data = data;

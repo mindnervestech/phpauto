@@ -149,7 +149,6 @@ angular.module('newApp')
 	
 	
 	$scope.topListingPriceLocation = function(flag){
-		console.log(flag);
 		if(flag=='true'){
 			$scope.listingFilterLocation = '-totalMoneyBrougthLocation';
 			$scope.priceFlagL = 'false';
@@ -160,7 +159,6 @@ angular.module('newApp')
 	};	
 	
 	$scope.topListingSoldCarLocation = function(flag){
-		console.log(flag);
 		if(flag=='true'){
 			$scope.listingFilterLocation = '-carSoldLocation';
 			$scope.soldCarFlagL = 'false';
@@ -171,7 +169,6 @@ angular.module('newApp')
 	};	
 	
 	$scope.topListingAvgSaleLocation = function(flag){
-		console.log(flag);
 		if(flag=='true'){
 			$scope.listingFilterLocation = '-avgSaleLocation';
 			$scope.avgSaleFlagL = 'false';
@@ -182,7 +179,6 @@ angular.module('newApp')
 	};	
 	
 	$scope.topListingPercentOfMoneyLocation = function(flag){
-		console.log(flag);
 		if(flag=='true'){
 			$scope.listingFilterLocation = '-percentOfMoney';
 			$scope.percentOfMoneyFlagL = 'false';
@@ -193,7 +189,6 @@ angular.module('newApp')
 	};	
 	
 	$scope.topListingSuccessRateLocation = function(flag){
-		console.log(flag);
 		if(flag=='true'){
 			$scope.listingFilterLocation = '-successRate';
 			$scope.successRateFlagL = 'false';
@@ -269,8 +264,6 @@ angular.module('newApp')
 			if($scope.userRole == null){
 				  $location.path('/myprofile');
 			}
-			console.log("dfdfdfdfdf");
-			console.log($scope.locationValue);
 		});
 		
 		
@@ -299,10 +292,7 @@ angular.module('newApp')
 			}else{
 				value.avgSaleLocation = 0;
 			}
-			
-			console.log(value.avgSaleLocation);
 		});
-		console.log($scope.locationDataListShow);
 	});
 	}
 	
@@ -323,7 +313,6 @@ angular.module('newApp')
 	$scope.dataLocOrPerWise = "person";
 	$scope.showLeads = null;
 	$scope.userLocationData = function(timeSet,locOrPer){
-		console.log(locOrPer);
 			$http.get('/getUserLocationInfo/'+timeSet+"/"+locOrPer)
 			.success(function(data) {
 				$scope.parLocationData = data;

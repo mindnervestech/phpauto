@@ -103,6 +103,9 @@ public class PriceAlert extends Model {
 	public static List<PriceAlert> getEmailsByVin(String vin,Long location) {
 		return find.where().eq("vin", vin).eq("locations.id",location).findList();
 	}
+	public static List<PriceAlert> getByVin(String vin) {
+		return find.where().eq("vin", vin).findList();
+	}
 	
 	
 	
