@@ -428,9 +428,9 @@ margin-left: 5px;
 								        			</div>
 								    			</div>
 						       					 <div style="width: 100%;display: flex;overflow-x: scroll;height: 327px;">
-						       					 	  <div style="float: left;" ng-repeat="item in currentData | orderBy: listingFilter">
+						       					 	  <div style="float: left;" ng-repeat="item in currentData | orderBy: listingFilter " class="col-sm-2">
 									               
-													<div class="col-sm-8">
+													<div class="col-sm-12">
 														<div style="float: left;">
 								    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
 								    					</div>
@@ -464,14 +464,20 @@ margin-left: 5px;
 														<button type="button" class="btn btn-blue">Compare</button>
 														<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
 													</div>
+													
 													<div class="col-sm-12" ng-if="userRole == 'Manager' && item.flag == 0">
-														<button type="button" class="btn btn-blue">Promote</button>
-														<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
+														<button type="button" class="btn btn-blue">Promote</button>													
+																			
+													</div>
+													<div class="col-sm-12">
+													<div class="col-sm-2" style="padding-left: 0px;">
+													<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
+													</div>
+													<div class="col-sm-2" style="padding-left: 0px;">
+									<a class="btn " style="color: darkturquoise;border: darkturquoise; border-style: solid;">+ Lead </a> 													
 													</div>
 													</div>
-													<!-- <div style="line-height:0.428571;">
-														<label class="col-sm-4 control-label" style="text-align: center;margin-left: 0%;font-size: 20px;"><b>{{item.count}}</b></label>
-													</div> -->
+																									
 												</div>
 												
 												</div>
