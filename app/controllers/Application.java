@@ -3371,8 +3371,11 @@ public class Application extends Controller {
 		    	vehicle.transmission = vm.transmission;
 		    	vehicle.location = vm.location;
 		    	vehicle.status  =  vm.status;
-		    	vehicle.imagePath = vehicleImg.thumbPath;
-		    	vehicle.imgId = vehicleImg.id;
+		    	if(vehicleImg != null){
+		    		vehicle.imagePath = vehicleImg.thumbPath;
+		    		vehicle.imgId = vehicleImg.id;
+		    	}	
+		    	
 		    	vehicle.sold = false;
 		    	visitorCount = 0;
 		    	
@@ -21491,6 +21494,7 @@ public class Application extends Controller {
 		return ok(Json.toJson(list));
 	}
 	
+
 	public static Result getManagers(Long value){
 		Location loc = Location.findById(value);
 		List<AuthUser> user = AuthUser.getlocationAndManager(loc);

@@ -5476,6 +5476,7 @@ angular.module('newApp')
 					   });
 				   });
 			   }
+			
 		   }
 		   
 		   $scope.checkDateValid = function(){

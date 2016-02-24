@@ -352,6 +352,10 @@ public class AuthUser extends Model implements Identity {
 		return find.where().eq("location", locations).eq("role", "Manager").eq("account", "active").findList();
 	}
 	
+	public static List<AuthUser> getOnlyManagers() {
+		return find.where().eq("role", "Manager").eq("account", "active").findList();
+	}
+	
 	public static AuthUser getlocationAndManagerOne(Location locations) {
 		return find.where().eq("location", locations).eq("role", "Manager").eq("account", "active").findUnique();
 	}
