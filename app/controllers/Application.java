@@ -3406,7 +3406,10 @@ public class Application extends Controller {
 		    		Date timeObj = (Date) row.get("confirm_time");
 		    		vehicle.testDrive = df.format(date) +" ";
 		    		Calendar time = Calendar.getInstance();
-		    		time.setTime(timeObj);
+		    		if(timeObj != null){
+		    			time.setTime(timeObj);
+		    		}
+		    		
 	    			String ampm = "";
 	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
 	    				ampm = "PM";
