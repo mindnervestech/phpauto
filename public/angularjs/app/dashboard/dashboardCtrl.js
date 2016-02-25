@@ -2311,6 +2311,36 @@ angular.module('newApp')
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
 	    		};
+	    		
+	    		$scope.openCreateNewLeads = function(item) {
+	    			console.log(item);
+	    			$scope.stockWiseData = [];
+	    			$http.get('/getStockDetails/'+item).success(function(response) {
+	    				
+	    				console.log(response);
+	    				if(response.isData) {
+
+	    					 $scope.stockWiseData.push({
+	    							model:response.model,
+	    							make:response.make,
+	    							stockNumber:response.stock,
+	    							year:response.year,
+	    							bodyStyle:response.bodyStyle,
+	    							mileage:response.mileage,
+	    							transmission:response.transmission,
+	    							drivetrain:response.drivetrain,
+	    							engine:response.engine,
+	    							vin:response.vin,
+	    							imgId:response.imgId,
+	    						});
+	    					
+	    				} 
+	    			});
+	    			//$scope.getStockDetails(item);
+	    			$scope.getMakes();
+	    			$("#createLeadPopup").modal();
+	    		};
+	    		
 	    		$scope.initialiase = function() {
 	    			$scope.lead = {
 	    					make:'',
@@ -2514,11 +2544,7 @@ angular.module('newApp')
 	    			$scope.isStockError = false;
 	    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
 	    				
-	    				/*$scope.AddImgAndInfo.addImg.push({
-	    					pictureName:obj.pictureName,
-	    					img:"/hotel_profile/getImagePath/"+obj.supplierCode+"/"+obj.indexValue,
-	    					description:obj.pictureDescription
-	    				})*/
+	    				
 	    				console.log(response);
 	    				if(response.isData) {
 	    					$scope.isStockError = false;

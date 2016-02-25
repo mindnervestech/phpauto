@@ -18010,6 +18010,7 @@ public class Application extends Controller {
 	    		}else{
 	    			analyticalVM.count = pagesCount.get(vehicle.getVin());
 	    		}
+	    		analyticalVM.stockNumber = vehicle.stock;
 	    		analyticalVM.followerCount = 0;
 	    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
 	    		for (PriceAlert priceAlert : pAlert) {
@@ -18074,7 +18075,7 @@ public class Application extends Controller {
 	    		}
 			}
     		analyticalVM.price = vehicle.getPrice();
-    		
+    		analyticalVM.stockNumber = vehicle.stock;
     		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
     		if(vehicleImage!=null) {
     			analyticalVM.id = vehicleImage.getId();
@@ -18147,6 +18148,7 @@ public class Application extends Controller {
     			anVm.count = 0;
     		}
     		anVm.followerCount = 0;
+    		anVm.stockNumber = vehicle.stock;
     		for (PriceAlert priceAlert : pAlert) {
 				PriceAlert alt = PriceAlert.findById(priceAlert.id);
 				if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
@@ -18277,6 +18279,7 @@ public class Application extends Controller {
     	public int count;
     	public Long id;
     	public String vin;
+    	public String stockNumber;
     	public Integer price;
     	public Integer followerCount;
     	public Integer leadsCount;
@@ -18315,6 +18318,7 @@ public class Application extends Controller {
     		map.put("year", vehicles.get(0).getYear());
     		map.put("bodyStyle", vehicles.get(0).getBodyStyle());
     		map.put("engine", vehicles.get(0).getEngine());
+    		map.put("stock", vehicles.get(0).getStock());
     		map.put("mileage", vehicles.get(0).getMileage());
     		map.put("transmission", vehicles.get(0).getTransmission());
     		map.put("drivetrain", vehicles.get(0).getDrivetrain());
