@@ -3932,40 +3932,6 @@ angular.module('newApp')
 					imgId:entity.imgId,
 				});
 			   
-			   
-			   
-			   
-			   
-			   /*
-			   $scope.requestStatusComplete = entity;
-	    		$scope.soldContact = {};
-	    		$scope.soldContact.infoId = entity.id;
-	    		$scope.soldContact.name = entity.name;
-	    		$scope.soldContact.email = entity.email;
-	    		$scope.soldContact.phone = entity.phone;
-	    		$scope.soldContact.custZipCode = entity.custZipCode;
-	    		$scope.soldContact.typeOfLead = entity.typeOfLead;
-	    		$scope.soldContact.enthicity = entity.enthicity;
-	    		$scope.soldContact.parentChildLead = entity.parentChildLead;
-	    		if(entity.howContactedUs != null && angular.isUndefined(entity.howContactedUs)) {
-	    			$scope.soldContact.howContactedUs = entity.howContactedUs;
-	    		} else {
-	    			$scope.soldContact.howContactedUs = "Online";
-	    		}
-	    		if(entity.howFoundUs != null && angular.isUndefined(entity.howFoundUs)) {
-	    			$scope.soldContact.howFoundUs = entity.howFoundUs;
-	    		} else {
-	    			$scope.soldContact.howFoundUs = "";
-	    		}
-	    		$scope.soldContact.make = entity.make;
-	    		$scope.soldContact.year = entity.year;
-	    		$scope.soldContact.mileage = entity.mileage;
-	    		$scope.soldContact.price = entity.price;
-	    		$('#btnCompleteRequest').click();*/
-			   
-			   
-			   
-			   
 		   }
 		   
 		   $scope.getScheduleTime = function(){

@@ -11512,16 +11512,18 @@ public class Application extends Controller {
 	    	userObj.setQuota(vm.quota);
 	    	
 	    	String arr2[] = null;
-	    	 if(body != null) {
-	    		 String abcd= vm.permissions.get(0);
-	 	    	abcd = abcd.replace("]", "");
-	 	    	abcd = abcd.replace("[", "");
-	 	    	abcd = abcd.replace("\"", "");
-	 	    	arr2 = abcd.split(",");
-	    	 }
+	    	 
 	    	
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
+	    	}else{
+	    		if(body != null) {
+		    		 String abcd= vm.permissions.get(0);
+		 	    	abcd = abcd.replace("]", "");
+		 	    	abcd = abcd.replace("[", "");
+		 	    	abcd = abcd.replace("\"", "");
+		 	    	arr2 = abcd.split(",");
+		    	 }
 	    	}
 	    	userObj.deleteManyToManyAssociations("permission");
 	    	List<Permission> permissionList = Permission.getAllPermission();
