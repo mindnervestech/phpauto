@@ -46,6 +46,35 @@ angular.module('newApp')
 	$scope.leadFlag = 'true';
 	$scope.listingFilter = null;
 	
+	$http.get('/getAllVehicles')
+		.success(function(data) {
+			console.log("{{{{{{{{{{}}}}");
+			console.log(data);
+			$scope.vinSearchList = data;
+		});
+		//$scope.stockRp = {};
+	$scope.selectedVin = function (selectObj) {
+		if(selectObj.originalObject != undefined){
+			$scope.item = selectObj.originalObject;
+			console.log($scope.item);
+			//$scope.stockWiseData = [];
+			$scope.stockWiseData.push({
+				model:$scope.item.model,
+				make:$scope.item.make,
+				stockNumber:$scope.item.stock,
+				year:$scope.item.year,
+				bodyStyle:$scope.item.bodyStyle,
+				mileage:$scope.item.mileage,
+				transmission:$scope.item.transmission,
+				drivetrain:$scope.item.drivetrain,
+				engine:$scope.item.engine,
+				vin:$scope.item.vin,
+				imgId:$scope.item.imgId,
+				searchStr:$scope.item.vin,
+			});
+			$('#vinSearch_value').val($scope.item.vin);
+		}
+	};
 	$http.get('/getUserType')
 	  .success(function(data) {
 	 	$scope.userType = data;
@@ -1589,8 +1618,12 @@ angular.module('newApp')
 				engine:entity.engine,
 				vin:entity.vin,
 				imgId:entity.imgId,
+				searchStr:entity.vin,
 			});
    	  			$scope.editLeads.vin = entity.vin;
+				$('#vinSearch_value').val(entity.vin);
+				$('#vinSearch').val(entity.vin);
+				console.log($('#vinSearch_value').val());
    	  			$scope.editLeads.stockNumber = entity.stock;
 		   	  	$scope.editLeads.model = entity.model;
 		   	  	$scope.editLeads.make = entity.make;
@@ -2393,7 +2426,7 @@ angular.module('newApp')
 	    		$scope.isInValid = false;
 	    		$scope.isStockError = false;
 	    		$scope.focusOut = function(){
-	    			console.log($('#ex1_value').val());
+	    		console.log($('#ex1_value').val());
 	    			//$scope.lead.custName = $('#ex1_value').val();
 	    		};
 	    		$scope.createLead = function() {
@@ -2553,7 +2586,7 @@ angular.module('newApp')
 	    					stockRp.bodyStyle = response.bodyStyle;
 	    					stockRp.engine = response.engine;
 	    					stockRp.mileage = response.mileage;
-	    						stockRp.transmission = response.transmission;
+	    					stockRp.transmission = response.transmission;
 	    					stockRp.drivetrain = response.drivetrain;
 	    					stockRp.vehicleImage = response.vehicleImage;
 	    					stockRp.imgId = response.imgId;

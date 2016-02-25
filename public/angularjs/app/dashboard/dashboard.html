@@ -4376,6 +4376,20 @@ margin-left: 5px;
 								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<angucomplete-alt id="vinSearch"
+														              placeholder=stockRp.stockNumber
+														              pause="10"
+														              selected-object="selectedVin"
+														              local-data="vinSearchList"
+														              search-fields="vin"
+														              title-field="vin"
+														              minlength="3"
+														              focus-out="focusOut()"
+														              input-class="form-control form-control-small"
+																	  initial-value="searchStr">
+															    	</angucomplete-alt>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.make" disabled="disabled" placeholder="CAR MAKE"/>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
@@ -4416,6 +4430,19 @@ margin-left: 5px;
 								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="childL.stock" ng-blur="getStockDetails(childL)" disabled="disabled"/>
+								                    			</div>
+																<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<angucomplete-alt id="vinSearchChild"
+														              placeholder="Search Vin"
+														              pause="10"
+														              selected-object="selectedVin"
+														              local-data="vinSearchList"
+														              search-fields="vin"
+														              title-field="vin"
+														              minlength="3"
+														              focus-out="focusOut()"
+														              input-class="form-control form-control-small">
+															    	</angucomplete-alt>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="childL.make" disabled="disabled" placeholder="CAR MAKE"/>
