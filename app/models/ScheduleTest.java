@@ -371,8 +371,8 @@ public class ScheduleTest extends Model {
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("locations.id", locationId).eq("lead_status", null).eq("testDriveStatus", null).eq("assignedTo", user).findList();
 	}
 	
-	public static List<ScheduleTest> getAllFailed() {
-		return find.where().add(Expr.or(Expr.eq("lead_status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
+	public static List<ScheduleTest> getAllFailed(Long locationId) {
+		return find.where().add(Expr.or(Expr.eq("lead_status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).eq("locations.id", locationId).findList();
 		
 		//return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
 	}

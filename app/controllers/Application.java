@@ -11512,7 +11512,6 @@ public class Application extends Controller {
 	    	userObj.setQuota(vm.quota);
 	    	
 	    	String arr2[] = null;
-	    	 
 	    	
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
@@ -15132,7 +15131,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-	    	List<ScheduleTest> listData = ScheduleTest.getAllFailed();
+	    	List<ScheduleTest> listData = ScheduleTest.getAllFailed(Long.valueOf(session("USER_LOCATION")));
     		
 	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
 	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
@@ -15185,7 +15184,7 @@ public class Application extends Controller {
 	    		infoVMList.add(vm);
 	    	}
 	    	
-	    	List<RequestMoreInfo> requestData = RequestMoreInfo.findAllCancel();
+	    	List<RequestMoreInfo> requestData = RequestMoreInfo.findAllCancel(Long.valueOf(session("USER_LOCATION")));
 	    	for(RequestMoreInfo info: requestData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;
@@ -15231,7 +15230,7 @@ public class Application extends Controller {
 	    		infoVMList.add(vm);
 	    	}
 	    	
-	    	List<TradeIn> tradeInData = TradeIn.findAllCanceled();
+	    	List<TradeIn> tradeInData = TradeIn.findAllCanceled(Long.valueOf(session("USER_LOCATION")));
 	    	for(TradeIn info: tradeInData) {
 	    		RequestInfoVM vm = new RequestInfoVM();
 	    		vm.id = info.id;

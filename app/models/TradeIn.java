@@ -527,8 +527,8 @@ public String testDriveStatus;
 		return find.where().eq("isRead", 0).eq("locations.id", locationId).eq("assignedTo", null).eq("premiumFlag", 0).eq("status", null).orderBy("tradeDate desc").orderBy("isRead").findList();
 	}
 	
-	public static List<TradeIn> findAllCanceled() {
-		return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
+	public static List<TradeIn> findAllCanceled(Long locationId) {
+		return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).eq("locations.id", locationId).findList();
 	}
 	
 	public static List<TradeIn> findAllData() {

@@ -307,8 +307,8 @@ public String testDriveStatus;
 		return find.where().eq("assignedTo", user).eq("status", "COMPLETE").orderBy("requestDate desc").findList();
 	}
 	
-	public static List<RequestMoreInfo> findAllCancel() {
-		return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
+	public static List<RequestMoreInfo> findAllCancel(Long locationId) {
+		return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).eq("locations.id", locationId).findList();
 	}
 	
 	public static int findAll() {
