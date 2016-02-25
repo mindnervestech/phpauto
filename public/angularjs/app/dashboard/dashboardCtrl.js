@@ -45,7 +45,7 @@ angular.module('newApp')
 	$scope.percentOfMoneyFlagL = 'true';
 	$scope.leadFlag = 'true';
 	$scope.listingFilter = null;
-	
+	$scope.len = null;
 	$http.get('/getAllVehicles')
 		.success(function(data) {
 			console.log("{{{{{{{{{{}}}}");
@@ -53,28 +53,34 @@ angular.module('newApp')
 			$scope.vinSearchList = data;
 		});
 		//$scope.stockRp = {};
+		
+			$scope.stockWiseData = [];
 	$scope.selectedVin = function (selectObj) {
-		if(selectObj.originalObject != undefined){
+		if(typeof selectObj.originalObject != 'undefined'){
 			$scope.item = selectObj.originalObject;
 			console.log($scope.item);
-			//$scope.stockWiseData = [];
-			$scope.stockWiseData.push({
-				model:$scope.item.model,
-				make:$scope.item.make,
-				stockNumber:$scope.item.stock,
-				year:$scope.item.year,
-				bodyStyle:$scope.item.bodyStyle,
-				mileage:$scope.item.mileage,
-				transmission:$scope.item.transmission,
-				drivetrain:$scope.item.drivetrain,
-				engine:$scope.item.engine,
-				vin:$scope.item.vin,
-				imgId:$scope.item.imgId,
-				searchStr:$scope.item.vin,
-			});
+			console.log($scope.stockWiseData.length);
+			console.log($scope.stockWiseData);
+			if($scope.len !=null){
+				$scope.stockWiseData[$scope.len].model = $scope.item.model;
+				$scope.stockWiseData[$scope.len].make = $scope.item.make;
+				$scope.stockWiseData[$scope.len].stockNumber = $scope.item.stock;
+				$scope.stockWiseData[$scope.len].year = $scope.item.year;
+				$scope.stockWiseData[$scope.len].bodyStyle = $scope.item.bodyStyle;
+				$scope.stockWiseData[$scope.len].mileage = $scope.item.mileage;
+				$scope.stockWiseData[$scope.len].transmission = $scope.item.transmission;
+				$scope.stockWiseData[$scope.len].drivetrain = $scope.item.drivetrain;
+				$scope.stockWiseData[$scope.len].engine = $scope.item.engine;
+				$scope.stockWiseData[$scope.len].vin = $scope.item.vin;
+				$scope.stockWiseData[$scope.len].imgId = $scope.item.imgId;
+				$scope.stockWiseData[$scope.len].searchStr = $scope.item.vin;
+			}
+				
+			console.log($scope.stockWiseData[$scope.len]);	
 			$('#vinSearch_value').val($scope.item.vin);
 		}
 	};
+	
 	$http.get('/getUserType')
 	  .success(function(data) {
 	 	$scope.userType = data;
@@ -2425,9 +2431,9 @@ angular.module('newApp')
 	    		$scope.initialiase();
 	    		$scope.isInValid = false;
 	    		$scope.isStockError = false;
-	    		$scope.focusOut = function(){
-	    		console.log($('#ex1_value').val());
-	    			//$scope.lead.custName = $('#ex1_value').val();
+	    		$scope.focusIn = function(itm){
+					console.log(itm);
+					$scope.len = itm;
 	    		};
 	    		$scope.createLead = function() {
 	    			
