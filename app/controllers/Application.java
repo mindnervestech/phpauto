@@ -5387,12 +5387,15 @@ public class Application extends Controller {
 	    		preMim.update();
 	    	}else{
 	    		PremiumLeads pLeads = new PremiumLeads();
+	    		System.out.println(premiumFlag);
 	    		pLeads.setPremium_amount(priceVehical);
 	    		if(premiumFlag.equals("false")){
 	    			pLeads.setPremium_flag(0);
 	    		}else if(premiumFlag.equals("true")){
 	    			pLeads.setPremium_flag(1);
-	    		}
+	    		}else if(premiumFlag.equals("0")){
+	    			pLeads.setPremium_flag(0);
+	    		}	
 	    		pLeads.setUser(user);
 	    		pLeads.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    		pLeads.save();

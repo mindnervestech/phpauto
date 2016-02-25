@@ -7194,6 +7194,9 @@ angular.module('newApp')
 	$scope.savePremium = function() {
 		console.log($scope.premium.priceVehical);
 		console.log($scope.premium.premiumFlag);
+		if($scope.premium.premiumFlag == undefined || $scope.premium.premiumFlag == null){
+			$scope.premium.premiumFlag = "0";
+		}
 		$http.get('/savePremiumConfig/'+$scope.premium.priceVehical+'/'+$scope.premium.premiumFlag)
 		.success(function(data) {
 			console.log('success');
