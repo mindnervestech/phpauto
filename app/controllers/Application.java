@@ -3535,7 +3535,7 @@ public class Application extends Controller {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-	    	List <Vehicle> soldVehicleObjList = Vehicle.getVehiclesByStatus("Sold");
+	    	List <Vehicle> soldVehicleObjList = Vehicle.getVehiclesByStatusAndLocation("Sold",Long.valueOf(session("USER_LOCATION")));
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> soldVMs = new ArrayList<>(); 
 	     	for(Vehicle vm : soldVehicleObjList){

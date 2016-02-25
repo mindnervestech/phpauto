@@ -802,6 +802,11 @@ public class Vehicle extends Model {
 		
 	}
 	
+	public static List<Vehicle> getVehiclesByStatusAndLocation(String status, Long location) {
+		return find.where().eq("status", status).eq("locations.id", location).findList();
+		
+	}
+	
 	public static List<Vehicle> getRandom(String vin) {
 		return find.where().ne("vin", vin).findList();
 	}
