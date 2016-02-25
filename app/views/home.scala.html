@@ -360,7 +360,7 @@ first written above
 	
 	$( document ).ready(function() {
 		console.log('@message');
-	if('@message' != "Invalid Credentials" && '@message'!="" && '@message'!= null){
+	if('@message' != "Invalid Credentials" && '@message'!="" && '@message'!= null && '@message' !="Your account has been suspended, please contact your management for further questions"){
 		add_modal('a.agreement','agreement-pop');
 		document.getElementById('agreement').click();
 		$('#messg').css("display","none");

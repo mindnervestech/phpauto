@@ -24,6 +24,7 @@ public class LocationVM {
 	public Double percentOfMoney;
 	public Double successRate;
 	public Double PlanPer;
+	public String type;
 	
 	
 	

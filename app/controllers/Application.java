@@ -278,30 +278,55 @@ public class Application extends Controller {
 		String password= Form.form().bindFromRequest().get("password");
 		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).eq("account", "active").findUnique();
 		if(user != null) {
-			
-			if(user.getNewUser()== 1){
+			System.out.println(user.role);
+			if(user.role.equalsIgnoreCase("General Manager")){
+				if(user.getNewUser()== 1){
 
-				session("USER_KEY", user.id+"");
-				session("USER_ROLE", user.role+"");
-				
-				if(user.location != null){
-					session("USER_LOCATION", user.location.id+"");
+					session("USER_KEY", user.id+"");
+					session("USER_ROLE", user.role+"");
+					
+					if(user.location != null){
+						session("USER_LOCATION", user.location.id+"");
+					}
+					//return  redirect("/dealer/index.html#/");
+		    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+		    		List<Permission> userPermissions = user.getPermission();
+		    		for(Permission per: userPermissions) {
+		    			permission.put(per.name, true);
+		    		}
+		    		
+		    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+		    		//return redirect("/googleConnectionStatus");
+				}else{
+					return ok(home.render(user.getEmail()));
 				}
-				
-				
-				//return  redirect("/dealer/index.html#/");
-	    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
-	    		List<Permission> userPermissions = user.getPermission();
-	    		for(Permission per: userPermissions) {
-	    			permission.put(per.name, true);
-	    		}
-	    		
-	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
-	    		//return redirect("/googleConnectionStatus");
 			}else{
-				return ok(home.render(user.getEmail()));
+				Location loc = Location.findById(user.location.id);
+				if(loc.getType().equalsIgnoreCase("active")){
+					if(user.getNewUser()== 1){
+
+						session("USER_KEY", user.id+"");
+						session("USER_ROLE", user.role+"");
+						
+						if(user.location != null){
+							session("USER_LOCATION", user.location.id+"");
+						}
+						//return  redirect("/dealer/index.html#/");
+			    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+			    		List<Permission> userPermissions = user.getPermission();
+			    		for(Permission per: userPermissions) {
+			    			permission.put(per.name, true);
+			    		}
+			    		
+			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+			    		//return redirect("/googleConnectionStatus");
+					}else{
+						return ok(home.render(user.getEmail()));
+					}
+				}else{
+					return ok(home.render("Your account has been suspended, please contact your management for further questions"));
+				}
 			}
-			
     		//return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
 		} else {
 			return ok(home.render("Invalid Credentials"));
@@ -1558,6 +1583,7 @@ public class Application extends Controller {
 	    	loc.setAddress(vm.locationaddress);
 	    	loc.setName(vm.locationName);
 	    	loc.setPhone(vm.locationphone);
+	    	loc.setType("active");
 	    	loc.save();
 	    	
 	    	MyProfile mProfile = new MyProfile();
@@ -1676,6 +1702,7 @@ public class Application extends Controller {
 	    	userObj.role = vm.userType;
 	    	userObj.location = Location.findById(vm.locationId);
 	    	userObj.communicationemail = vm.email;
+	    	userObj.account = "active";
 	    	
 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    	Random rnd = new Random();
@@ -1738,7 +1765,7 @@ public class Application extends Controller {
 		    	  } 
 	    	   } 
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
-	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(logoUser);
+	    	   //SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(logoUser);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
@@ -11236,7 +11263,7 @@ public class Application extends Controller {
     		Integer totalPrice = 0;
     		List<AuthUser> userList = AuthUser.getUserByType();
     		List<LocationVM> vmList = new ArrayList<>();
-    		List<Location> locationList = Location.findAllData();
+    		List<Location> locationList = Location.findAllType();
     		for(Location location : locationList) {
     			totalPrice = 0;
     			LocationVM vm = new LocationVM();
@@ -11247,6 +11274,7 @@ public class Application extends Controller {
     			vm.locationphone = location.phone;
     			vm.imageName = location.imageName;
     			vm.imageUrl = location.imageUrl;
+    			vm.type = location.type;
     			String roles = "Manager";
     			AuthUser users = AuthUser.getlocationAndManagerByType(location, roles);
     			if(users != null){
@@ -25803,6 +25831,19 @@ public static Result getviniewsChartLeads(Long id, String vin,
     			test.setConfirmTime(null);
     			test.setLeadStatus(null);
     			test.update();
+    		}
+        	return ok();
+    	}
+    }
+    
+    public static Result deactiveLocationById(Long id){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Location loc = Location.findById(id);
+    		if(loc !=null){
+    			loc.setType("deactive");
+    			loc.update();
     		}
         	return ok();
     	}

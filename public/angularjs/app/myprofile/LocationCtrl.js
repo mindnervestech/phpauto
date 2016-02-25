@@ -29,7 +29,7 @@ angular.module('newApp')
 	 		                                 	
 	 		                               },
 	 		                                 { name: 'edit', displayName: '', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editUser(row)" style="margin-top:7px;margin-left:14px;" title="Edit"></i>', 
+        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editUser(row)" style="margin-top:7px;margin-left:14px;" title="Edit"></i> <i class="fa fa-trash" ng-click="grid.appScope.deactiveLocation(row)" style="margin-top:7px;margin-left:14px;" title="Deactive Location"></i>', 
     		                                 
     		                                 },
 	     		                                 ];
@@ -46,9 +46,13 @@ angular.module('newApp')
 			console.log(data);
 		$scope.gridOptions.data = data;
 	});
-	}
+	};
 	
-	
+	$scope.deactiveLocation = function(row){
+		console.log(row.entity);
+		$('#deactiveLocation').click();
+		$scope.rowDataVal = row;
+	};
 	
 	$scope.createNewLocation=function(){
 		$scope.img="/assets/images/profile-pic.jpg ";
@@ -66,19 +70,15 @@ angular.module('newApp')
 		$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.user.mImageUrl;
 	}
 	
-	$scope.deleteUser = function(row) {
-		$('#deleteModal').click();
-		   $scope.rowDataVal = row;
-	};
-	
-	$scope.deleteUserById = function() {
-		$http.get('/deleteUserById/'+$scope.rowDataVal.entity.id)
+	$scope.deactiveLocationById = function() {
+		console.log($scope.rowDataVal.entity.id);
+		$http.get('/deactiveLocationById/'+$scope.rowDataVal.entity.id)
 		.success(function(data) {
 			$('#deleteClose').click();
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
-			    text: "User deleted succesfully!",
+			    text: "Location deactive succesfully!",
 			});
 			$scope.init();
 		});
@@ -96,7 +96,7 @@ angular.module('newApp')
 						fileReader.onload = function (e) {
 							$timeout(function () {
 								$scope.img = e.target.result;
-								console.log(e.target.result);
+								//console.log(e.target.result);
 							});
 							
 						}
@@ -116,7 +116,7 @@ angular.module('newApp')
 						fileReader.onload = function (e) {
 							$timeout(function () {
 								$scope.imgLocation = e.target.result;
-								console.log(e.target.result);
+								//console.log(e.target.result);
 							});
 							
 						}
@@ -157,7 +157,6 @@ angular.module('newApp')
 					    type:'success',
 					    text: "User saved successfully",
 					});
-		            $scope.init();
 				});
 		} else {
 			   $upload.upload({
@@ -166,12 +165,8 @@ angular.module('newApp')
 		            file:logofile1,
 		            data:$scope.locationObj
 		        }).success(function(data, status, headers, config) {
-		            console.log('success');
-		            console.log(data);
-		           
 		    		$scope.managerObj.locationId = data;
 		    		$scope.saveManager();
-		            
 		            $("#file").val('');
 		            $('#btnClose').click();
 		            $.pnotify({
@@ -179,10 +174,10 @@ angular.module('newApp')
 					    type:'success',
 					    text: "User saved successfully",
 					});
-		            $scope.init();
 		        });
 		}
-	   }
+		$scope.init();
+	   };
 	
 	$scope.saveManager = function(){
 		if(angular.isUndefined(logofile)) {
@@ -196,7 +191,6 @@ angular.module('newApp')
 				    type:'success',
 				    text: "User saved successfully",
 				});
-	            $scope.init();
 			});
 	} else {
 		   $upload.upload({
@@ -205,8 +199,6 @@ angular.module('newApp')
 	            file:logofile,
 	            data:$scope.managerObj
 	        }).success(function(data, status, headers, config) {
-	            console.log('success');
-	           
 	            $("#file").val('');
 	            $('#btnClose').click();
 	            $.pnotify({
@@ -214,10 +206,11 @@ angular.module('newApp')
 				    type:'success',
 				    text: "User saved successfully",
 				});
-	            $scope.init();
 	        });
 	}
-	}
+
+        $scope.init();
+	};
 	
 	
 	$scope.updateImage = function() {
@@ -284,7 +277,7 @@ angular.module('newApp')
 			$http.post('/UpdateuploadManagerImageFile',$scope.managerObj)
 			.success(function(data) {
 				
-	            $('#btnClose').click();
+	            $('#btnClose1').click();
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -307,7 +300,7 @@ angular.module('newApp')
 	            $scope.user.userType=" ";
 	            $scope.user.img=" ";
 	            $("#file").val('');
-	            $('#btnClose').click();
+	            $('#btnClose1').click();
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -316,7 +309,8 @@ angular.module('newApp')
 	            $scope.init();
 	        });
 	}
-	}
+		$('#btnClose1').click();
+	};
 	
 /*	$scope.updateImage = function() {
 		delete $scope.userData.successRate;

@@ -26,9 +26,19 @@ public class Location extends Model {
 	public String phone;
 	public String imageName;
 	public String imageUrl;
+	public String type;
 	
 	
-	
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 
 	public static Finder<Long,Location> find = new Finder<>(Long.class,Location.class);
 	
@@ -111,11 +121,11 @@ public class Location extends Model {
 	public static List<Location> findAllData() {
 		return find.all();
 	}
+	public static List<Location> findAllType() {
+		return find.where().eq("type", "active").findList();
+	}
 	
 	/*
-	public static List<Location> findAllByUser(AuthUser user) {
-		return find.where().eq("user", user).findList();
-	}
 	
 	public static List<Location> findByVinAndAssignedUser(AuthUser user,String vin) {
 		return find.where().eq("assignedTo", user).eq("vin", vin).findList();
