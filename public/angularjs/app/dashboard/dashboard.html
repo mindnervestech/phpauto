@@ -6998,6 +6998,20 @@ margin-left: 5px;
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
 								                    			</div>
+																<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<angucomplete-alt id="vinSearch"
+														              placeholder="Vin"
+														              pause="10"
+														              selected-object="selectedVin"
+														              local-data="vinSearchList"
+														              search-fields="vin"
+														              title-field="vin"
+														              minlength="3"
+														              focus-In="focusIn($index)"
+														              input-class="form-control form-control-small"
+																	  initial-value= searchStr >
+															    	</angucomplete-alt>
+								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.make" disabled="disabled" placeholder="CAR MAKE"/>
 								                    			</div>
