@@ -17934,8 +17934,13 @@ public class Application extends Controller {
 			if(arrVin.length > 5){
 				String van[] = arrVin[5].split("\"");
 				System.out.println(van[0]);
+				Vehicle vehicle = null;
+				if(user.role.equals("Sales Person") || user.role.equals("Manager")){
+					vehicle = Vehicle.findByVinAndStatusForGM(van[0],Location.findById(Long.valueOf(session("USER_LOCATION"))));
+				}else{
+					vehicle = Vehicle.findByVinAndStatus(van[0]);
+				}
 				
-				Vehicle vehicle = Vehicle.findByVinAndStatus(van[0]);
 				if(vehicle !=null){
 					String arr[] = item.get("time_pretty").toString().split(" ");
 					String arrNew[] = arr[3].split(",");
@@ -17960,8 +17965,13 @@ public class Application extends Controller {
 			}
     	}
     	
+    	List<Vehicle> vlist = null;
+    	if(user.role.equals("Sales Person") || user.role.equals("Manager")){
+    		vlist = Vehicle.findByNewlyArrivedForGM(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+		}else{
+			vlist = Vehicle.findByNewlyArrived();
+		}
     	
-    	List<Vehicle> vlist = Vehicle.findByNewlyArrived();
     	for (Vehicle vehicle : vlist) {
     		vins1.add(vehicle.vin);
 		}
