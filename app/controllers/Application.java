@@ -18313,7 +18313,7 @@ public class Application extends Controller {
     }
     
     public static Result getStockDetails(String stockNumber) {
-    	List<Vehicle> vehicles = Vehicle.findByStock(stockNumber);
+    	List<Vehicle> vehicles = Vehicle.findByStock(stockNumber,Location.findById(Long.valueOf(session("USER_LOCATION"))));
     	Map map = new HashMap();
     	if(vehicles.size()>0) {
     		map.put("isData", true);
