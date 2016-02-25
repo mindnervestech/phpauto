@@ -60,7 +60,7 @@ margin-left: 5px;
 }
 </style>
 <div>
-<div class="row" ng-init="init()" >
+<div class="row col-xlg-7 col-lg-7" ng-init="init()" >
     
     	 <div class="col-xlg-12 col-lg-12" ng-if="userRole == 'General Manager'" style=" padding: 0px;">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
@@ -71,17 +71,17 @@ margin-left: 5px;
 						            <div class="col-md-12">
 						             <div class="panel" style="height: 413px;">
 						              <div class="col-sm-12" style="margin-top:25px">
-						                <div class="col-sm-2">
+						                <div class="col-sm-4">
 									    	<h4 style="line-height:0.428571;"><b style="margin-left:3%;">TOP LOCATIONS</b></h4>
 									    </div>
-									    <div class="col-sm-5">
+									    <div class="col-sm-3">
 									    				<span class="glyphicon glyphicon-usd" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingPriceLocation(priceFlagL)">  </span>
 									    				<span class="fa fa-car" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingSoldCarLocation(soldCarFlagL)">  </span>
 									    				<span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingAvgSaleLocation(avgSaleFlagL)">  </span>
 									    				<span class="glyphicon glyphicon-adjust" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingPercentOfMoneyLocation(percentOfMoneyFlagL)">  </span>
 									    				<span class="glyphicon glyphicon-record" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingSuccessRateLocation(successRateFlagL)">  </span>
 									    </div>
-									    <div class="col-sm-4">
+									    <div class="col-sm-5">
 									    	<a style="cursor:pointer;" id="weekPerf" ng-click="topLocations('Week')">WEEK</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="topLocations('Month')">MONTH</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Quater')">Quater</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('6 Month')">6 Month</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Year')">YEAR</a>
 									    </div>	
 									  </div>
@@ -90,7 +90,7 @@ margin-left: 5px;
 									<div class="col-xlg-12 panel" style="height: 360px;position: relative;margin-top:1%;padding-left: 0px;padding-right: 0px;">
 									        							         
 									         
-									          <div style="width: 100%;  float: left;display: flex;">
+									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 360px;">
 									                <div style="float: left;" ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation">
 									               		<div>							                
 									              	<!-- <div>
