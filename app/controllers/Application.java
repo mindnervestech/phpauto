@@ -25287,7 +25287,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	public static Result getDataFromCrm(){
 		AuthUser userObj = (AuthUser) getLocalUser();
 		List<ContactsVM> contactsVMList = new ArrayList<>();
-		List<Contacts> contactsList = Contacts.getAllContacts();
+		List<Contacts> contactsList = Contacts.getAllContactsByLocation(Long.valueOf(session("USER_LOCATION")));
 		//List<Contacts> contactsList = Contacts.getAllContacts();
 		for (Contacts contacts : contactsList) {
 			ContactsVM vm = new ContactsVM();
