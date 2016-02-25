@@ -599,8 +599,8 @@ public String testDriveStatus;
 		return find.where().eq("locations.id", locationId).eq("isRead", 1).eq("status", null).orderBy("tradeDate desc").findList();
 	}
 	
-	public static int findAll() {
-		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).findRowCount();
+	public static int findAll(Long locationId) {
+		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("locations.id", locationId).eq("status", null).findRowCount();
 	}
 	
 	public static List<TradeIn> findByConfirmLeads(Long locationId, AuthUser user) {

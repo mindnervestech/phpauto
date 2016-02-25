@@ -8595,9 +8595,9 @@ public class Application extends Controller {
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
 	    	InfoCountVM vm = new InfoCountVM();
-	    	vm.schedule = ScheduleTest.findAll();
-	    	vm.trade = TradeIn.findAll();
-	    	vm.req = RequestMoreInfo.findAll();
+	    	vm.schedule = ScheduleTest.findAll(Long.valueOf(session("USER_LOCATION")));
+	    	vm.trade = TradeIn.findAll(Long.valueOf(session("USER_LOCATION")));
+	    	vm.req = RequestMoreInfo.findAll(Long.valueOf(session("USER_LOCATION")));
 	    	List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
 	    	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
 	    	List<TradeIn> tradeIns = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));

@@ -342,8 +342,8 @@ public class ScheduleTest extends Model {
 		return find.where().eq("locations.id", locationId).eq("leadStatus", null).eq("isRead",true).ne("vin", "no").orderBy("scheduleDate desc").findList();
 	}
 	
-	public static int findAll() {
-		return find.where().eq("isRead", 0).ne("vin", "no").eq("premiumFlag", 0).eq("leadStatus", null).findRowCount();
+	public static int findAll(Long locationId) {
+		return find.where().eq("isRead", 0).ne("vin", "no").eq("premiumFlag", 0).eq("locations.id", locationId).eq("leadStatus", null).findRowCount();
 	}
 	
 	public static List<ScheduleTest> findAllByUser(AuthUser user) {
