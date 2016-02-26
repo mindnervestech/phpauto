@@ -458,18 +458,6 @@ margin-left: 5px;
 														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Lead" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.leadsCount}}</span>
 													</div>
 													<div class="col-sm-12">
-														<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkIndex(item,compare)"> <label style="color: darkturquoise;">Compare</label>
-													</div>
-													<div class="col-sm-12" ng-if="userRole == 'Sales Person' || item.flag == 1">
-														<button type="button" class="btn btn-blue">Compare</button>
-														
-													</div>
-													
-													<div class="col-sm-12" ng-if="userRole == 'Manager' && item.flag == 0">
-														<button type="button" class="btn btn-blue">Promote</button>													
-																			
-													</div>
-													<div class="col-sm-12">
 													<div class="col-sm-2" style="padding-left: 0px;">
 													<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
 													</div>
