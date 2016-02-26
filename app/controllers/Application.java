@@ -10312,282 +10312,251 @@ public class Application extends Controller {
     	
     }*/
     
-    
- public static Result getUserLocationByDateInfo(String startDate,String endDate,String locOrPer){
-    	
- 	 DateFormat onlyMonth = new SimpleDateFormat("MMMM");
-    	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-    	DateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
-    	Date dateobj = new Date();
-    	Calendar cal1 = Calendar.getInstance();
-    	AuthUser users = (AuthUser) getLocalUser();
-    	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+   public static Result getUserLocationByDateInfoOther(String startDate,String endDate,String locOrPer,Long locationId,Integer managerId){
+	   AuthUser users = AuthUser.findById(managerId);
+		LocationWiseDataVM lDataVM = new LocationWiseDataVM();
+	   mystatisticsDateWise(startDate,endDate,"location",locationId,users,lDataVM);
+		return ok(Json.toJson(lDataVM));
+   }
+   
+   public static Result getUserLocationByDateInfo(String startDate,String endDate,String locOrPer){
+		AuthUser users = (AuthUser) getLocalUser();
+		LocationWiseDataVM lDataVM = new LocationWiseDataVM();
+		long locationId = 0;
+    	if(session("USER_LOCATION") == null){
+    		locationId = 0L;
+    	}else{
+    		locationId = Long.valueOf(session("USER_LOCATION"));
+    	}
+	   mystatisticsDateWise(startDate,endDate,locOrPer,locationId,users,lDataVM);
+   		return ok(Json.toJson(lDataVM));
+   }
+   
+   public static void mystatisticsDateWise(String startDate,String endDate,String locOrPer,Long locationId,AuthUser users,LocationWiseDataVM lDataVM){
+	   DateFormat onlyMonth = new SimpleDateFormat("MMMM");
+   	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+   	DateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
+   	Date dateobj = new Date();
+   	Calendar cal1 = Calendar.getInstance();
+   
+   	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
 		        "August", "September", "October", "November", "December" };
-    	
-    	Calendar cal = Calendar.getInstance();  
-     	String monthCal = monthName[cal.get(Calendar.MONTH)];
-    	
-    	Map<String, Integer> mapCar = new HashMap<String, Integer>();
-    	
-    	Date startD = null;
+   	
+   	Calendar cal = Calendar.getInstance();  
+    	String monthCal = monthName[cal.get(Calendar.MONTH)];
+   	
+   	Map<String, Integer> mapCar = new HashMap<String, Integer>();
+   	
+   	Date startD = null;
 		try {
 			startD = df1.parse(startDate);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	Date endD = null;
+   	Date endD = null;
 		try {
 			endD = df1.parse(endDate);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    	int requestLeadCount = 0;
-    	int scheduleLeadCount = 0;
-    	int tradeInLeadCount = 0;
-    	
-    	int requestLeadCount1 = 0;
-    	int scheduleLeadCount1 = 0;
-    	int tradeInLeadCount1 = 0;
-    	
-    	List<RequestMoreInfo> rInfo = null;
-    	List<ScheduleTest> sList = null;
-    	List<TradeIn> tradeIns = null;
-    	List<RequestMoreInfo> rInfoAll = null;
-    	List<ScheduleTest> sListAll = null;
-    	List<TradeIn> tradeInsAll = null;
-    	
-    	if(users.role.equals("Manager") && locOrPer.equals("location")){
-    		rInfo = RequestMoreInfo.findAllSeenLocationSch(Long.parseLong(session("USER_LOCATION")));
-    		sList = ScheduleTest.findAllAssignedLocation(Long.parseLong(session("USER_LOCATION")));
-    		tradeIns = TradeIn.findAllSeenLocationSch(Long.parseLong(session("USER_LOCATION")));
-    		
-    		rInfoAll = RequestMoreInfo.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
-    		sListAll = ScheduleTest.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
-    		tradeInsAll = TradeIn.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
-    		
-    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
-    		rInfo = RequestMoreInfo.findAllSeenSch(users);
-    		sList = ScheduleTest.findAllAssigned(users);
-    		tradeIns = TradeIn.findAllSeenSch(users);
-    		
-    		rInfoAll = RequestMoreInfo.findByAssigUserNotCancel(users);
-    		sListAll = ScheduleTest.findByAssigUserNotCancel(users);
-    		tradeInsAll = TradeIn.findByAssigUserNotCancel(users);
-    	}
-    	
-    	for(RequestMoreInfo rMoreInfo:rInfo){
-    		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
-    			requestLeadCount++;
-    		}
-    	}
-    	
-    	
-    	for(ScheduleTest sTest:sList){
-    		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
-    			scheduleLeadCount++;
-    		}
-    	}
+   	
+   	int requestLeadCount = 0;
+   	int scheduleLeadCount = 0;
+   	int tradeInLeadCount = 0;
+   	
+   	int requestLeadCount1 = 0;
+   	int scheduleLeadCount1 = 0;
+   	int tradeInLeadCount1 = 0;
+   	
+   	List<RequestMoreInfo> rInfo = null;
+   	List<ScheduleTest> sList = null;
+   	List<TradeIn> tradeIns = null;
+   	List<RequestMoreInfo> rInfoAll = null;
+   	List<ScheduleTest> sListAll = null;
+   	List<TradeIn> tradeInsAll = null;
+   	
+   	if(users.role.equals("Manager") && locOrPer.equals("location")){
+   		rInfo = RequestMoreInfo.findAllSeenLocationSch(locationId);
+   		sList = ScheduleTest.findAllAssignedLocation(locationId);
+   		tradeIns = TradeIn.findAllSeenLocationSch(locationId);
+   		
+   		rInfoAll = RequestMoreInfo.findByLocationNotCancel(locationId);
+   		sListAll = ScheduleTest.findByLocationNotCancel(locationId);
+   		tradeInsAll = TradeIn.findByLocationNotCancel(locationId);
+   		
+   	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
+   		rInfo = RequestMoreInfo.findAllSeenSch(users);
+   		sList = ScheduleTest.findAllAssigned(users);
+   		tradeIns = TradeIn.findAllSeenSch(users);
+   		
+   		rInfoAll = RequestMoreInfo.findByAssigUserNotCancel(users);
+   		sListAll = ScheduleTest.findByAssigUserNotCancel(users);
+   		tradeInsAll = TradeIn.findByAssigUserNotCancel(users);
+   	}
+   	
+   	for(RequestMoreInfo rMoreInfo:rInfo){
+   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+   			requestLeadCount++;
+   		}
+   	}
+   	
+   	
+   	for(ScheduleTest sTest:sList){
+   		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+   			scheduleLeadCount++;
+   		}
+   	}
 
-    	for(TradeIn tIn:tradeIns){
-    		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
-    				tradeInLeadCount++;
-    		}
-    	}
-    	
-    	for(RequestMoreInfo rMoreInfo:rInfoAll){
-    		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
-    			requestLeadCount1++;
-    		}
-    	}
-    	
-    	
-    	for(ScheduleTest sTest:sListAll){
-    	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
-    			scheduleLeadCount1++;
-    	}
-    	}
+   	for(TradeIn tIn:tradeIns){
+   		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+   				tradeInLeadCount++;
+   		}
+   	}
+   	
+   	for(RequestMoreInfo rMoreInfo:rInfoAll){
+   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+   			requestLeadCount1++;
+   		}
+   	}
+   	
+   	
+   	for(ScheduleTest sTest:sListAll){
+   	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+   			scheduleLeadCount1++;
+   	}
+   	}
 
-    	for(TradeIn tIn:tradeInsAll){
-    	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+   	for(TradeIn tIn:tradeInsAll){
+   	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
 				tradeInLeadCount1++;
-    		}
-    	}
-    	
-    	
-    	int countLeads1 = requestLeadCount1 + scheduleLeadCount1 + tradeInLeadCount1;
-    	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
-    	Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
-    	LocationWiseDataVM lDataVM = new LocationWiseDataVM();
-    	lDataVM.imageUrl = location.getImageUrl();
-    	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
-    	lDataVM.countSalePerson = countLeads;
-    	
-    	Integer monthPriceCount = 0;
-    	Integer pricecount = 0;
-    	int saleCarCount = 0;
-    	if(users.role.equals("Manager") && locOrPer.equals("location")){
-    		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
-        	
-        	
-        	for(Vehicle vehList:vList){
-        		//	if(vehList.soldDate.after(timeBack)) {
-        		if(vehList.soldDate.after(startD) && vehList.soldDate.before(endD)){
-            			saleCarCount++;
-            			pricecount = pricecount + vehList.price;
-            		}
-        		if(monthCal.equals(onlyMonth.format(vehList.soldDate))){
-        			monthPriceCount = monthPriceCount + vehList.price;
-        		}
-        	}
-        	
-        	double sucessCount= (double)saleCarCount/(double)countLeads1*100;
-        	lDataVM.successRate = (int) sucessCount;
-    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
-    		
-    		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
-    		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
-    		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(users);
-    		
-    		List<Vehicle> vList = Vehicle.findBySoldUserAndSold(users);
-    		for (Vehicle vehicle : vList) {
-    			if(vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) {
-        			saleCarCount++;
-        			pricecount = pricecount + vehicle.price;
+   		}
+   	}
+   	
+   	
+   	int countLeads1 = requestLeadCount1 + scheduleLeadCount1 + tradeInLeadCount1;
+   	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
+   	Location location = Location.findById(locationId);
+   
+   	lDataVM.imageUrl = location.getImageUrl();
+   	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
+   	lDataVM.countSalePerson = countLeads;
+   	
+   	Integer monthPriceCount = 0;
+   	Integer pricecount = 0;
+   	int saleCarCount = 0;
+   	if(users.role.equals("Manager") && locOrPer.equals("location")){
+   		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
+       	
+       	
+       	for(Vehicle vehList:vList){
+       		//	if(vehList.soldDate.after(timeBack)) {
+       		if(vehList.soldDate.after(startD) && vehList.soldDate.before(endD)){
+           			saleCarCount++;
+           			pricecount = pricecount + vehList.price;
+           		}
+       		if(monthCal.equals(onlyMonth.format(vehList.soldDate))){
+       			monthPriceCount = monthPriceCount + vehList.price;
+       		}
+       	}
+       	
+       	double sucessCount= (double)saleCarCount/(double)countLeads1*100;
+       	lDataVM.successRate = (int) sucessCount;
+   	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
+   		
+   		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
+   		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(users);
+   		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(users);
+   		
+   		List<Vehicle> vList = Vehicle.findBySoldUserAndSold(users);
+   		for (Vehicle vehicle : vList) {
+   			if(vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) {
+       			saleCarCount++;
+       			pricecount = pricecount + vehicle.price;
 				}
 				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
 					monthPriceCount = monthPriceCount + vehicle.price;
 				}
 			}
-    		
-    		/*for(RequestMoreInfo rMoreInfo: rInfo1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,users);
-    			for(Vehicle vehicle:vehicleVin){
-    			if(vehicle != null){
-    				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
-            			saleCarCount++;
-            			pricecount = pricecount + vehicle.price;
-    				}
-    				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-            			monthPriceCount = monthPriceCount + vehicle.price;
-            		}
-    			}
-    		 }
-    		}
-    		
-    		for(ScheduleTest sTest: sList1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,users);
-    			for(Vehicle vehicle:vehicleVin){
-    			if(vehicle != null){
-				if(vehicle.status.equals("Sold")){
-    				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
-            			saleCarCount++;
-            			pricecount = pricecount + vehicle.price;
-    				}
-    				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-            			monthPriceCount = monthPriceCount + vehicle.price;
-            		}
-			 }	
-    			}
-    		}
-    		}
-    		
-    		for(TradeIn tradeIn: tradeIns1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(tradeIn.vin);
-    			for(Vehicle vehicle:vehicleVin){
-    			if(vehicle != null){
-				if(vehicle.status.equals("Sold")){
-    				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
-            			saleCarCount++;
-            			pricecount = pricecount + vehicle.price;
-    				}
-    				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-            			monthPriceCount = monthPriceCount + vehicle.price;
-            		}
-				}
-    			}
-    		}
-    		}*/
-    		
-    		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
-    		lDataVM.successRate = (int) sucessCount;
-    		
-    	}
-    	
-    	lDataVM.totalSalePrice =  pricecount;
-    	lDataVM.totalsaleCar = saleCarCount;
-    	
-    	double valAvlPrice= ((double)pricecount/(double)saleCarCount);
-    	lDataVM.angSalePrice = (int) valAvlPrice;
-    	
-    	
-      	if(users.role.equals("Manager") && locOrPer.equals("location")){
-    	
-      		PlanScheduleMonthlyLocation pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), monthCal);
-        	if(pMonthlyLocation != null){
-        		double val= ((double)pricecount/Double.parseDouble(pMonthlyLocation.totalEarning));
-            	lDataVM.AngSale = (int) (val*100);
-        	}
-        	
-    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
-    		PlanScheduleMonthlySalepeople  pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, monthCal); 
-        	if(pMonthlySalepeople != null){
-        		double val= ((double)pricecount/Double.parseDouble(pMonthlySalepeople.totalBrought));
-            	lDataVM.AngSale = (int) (val*100);
-        	}
-    	}
-    	
-    	
-    	
-    	
-    	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
-    	int saleCar = 0;
-    	int newCar = 0;
-    	for(Vehicle vehicle:allVehiList){
-    		if(vehicle.status.equals("Sold")){
-    			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
-    				saleCar++;
-    			}
-    		}//else if(vehicle.status.equals("Newly Arrived")){
-    				newCar++;
-    		//}
-    	}
-    	
-        
-    	//List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    	List<LeadsDateWise> lDateWises = LeadsDateWise.getAllVehicles(users);
-    	for(LeadsDateWise lWise:lDateWises){
-    		
-    		if(lWise.goalSetTime.equals("1 week")){
-    			cal.setTime(lWise.leadsDate);  
-    			cal.add(Calendar.DATE, 7);
-    			Date m =  cal.getTime(); 
-    			if(m.after(dateobj)) {
-    				lDataVM.leads = lWise.leads;
-    				lDataVM.goalTime =lWise.goalSetTime;
-    				
-    			}
-    			
-    		}else if(lWise.goalSetTime.equals("1 month")){
-    			cal.setTime(lWise.leadsDate);  
-    			cal.add(Calendar.DATE, 30);
-    			Date m =  cal.getTime(); 
-    			if(m.after(dateobj)) {
-    				lDataVM.leads = lWise.leads;
-    				lDataVM.goalTime =lWise.goalSetTime;
-    			}
-    		}
-    		
-    	}
-    	
-    	List<DateAndValueVM> sAndValues = new ArrayList<>();
-    	List<Long> sAndLong = new ArrayList<>();
-    	int countPlanCarSold = 0;
-    	
-    	
-    	
+   		
+   		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
+   		lDataVM.successRate = (int) sucessCount;
+   		
+   	}
+   	
+   	lDataVM.totalSalePrice =  pricecount;
+   	lDataVM.totalsaleCar = saleCarCount;
+   	
+   	double valAvlPrice= ((double)pricecount/(double)saleCarCount);
+   	lDataVM.angSalePrice = (int) valAvlPrice;
+   	
+   	
+     	if(users.role.equals("Manager") && locOrPer.equals("location")){
+   	
+     		PlanScheduleMonthlyLocation pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(locationId), monthCal);
+       	if(pMonthlyLocation != null){
+       		double val= ((double)pricecount/Double.parseDouble(pMonthlyLocation.totalEarning));
+           	lDataVM.AngSale = (int) (val*100);
+       	}
+       	
+   	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
+   		PlanScheduleMonthlySalepeople  pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, monthCal); 
+       	if(pMonthlySalepeople != null){
+       		double val= ((double)pricecount/Double.parseDouble(pMonthlySalepeople.totalBrought));
+           	lDataVM.AngSale = (int) (val*100);
+       	}
+   	}
+   	
+   	
+   	
+   	
+   	List<Vehicle> allVehiList = Vehicle.findByLocation(location.id);
+   	int saleCar = 0;
+   	int newCar = 0;
+   	for(Vehicle vehicle:allVehiList){
+   		if(vehicle.status.equals("Sold")){
+   			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
+   				saleCar++;
+   			}
+   		}//else if(vehicle.status.equals("Newly Arrived")){
+   				newCar++;
+   		//}
+   	}
+   	
+       
+   	//List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION"))));
+   	List<LeadsDateWise> lDateWises = LeadsDateWise.getAllVehicles(users);
+   	for(LeadsDateWise lWise:lDateWises){
+   		
+   		if(lWise.goalSetTime.equals("1 week")){
+   			cal.setTime(lWise.leadsDate);  
+   			cal.add(Calendar.DATE, 7);
+   			Date m =  cal.getTime(); 
+   			if(m.after(dateobj)) {
+   				lDataVM.leads = lWise.leads;
+   				lDataVM.goalTime =lWise.goalSetTime;
+   				
+   			}
+   			
+   		}else if(lWise.goalSetTime.equals("1 month")){
+   			cal.setTime(lWise.leadsDate);  
+   			cal.add(Calendar.DATE, 30);
+   			Date m =  cal.getTime(); 
+   			if(m.after(dateobj)) {
+   				lDataVM.leads = lWise.leads;
+   				lDataVM.goalTime =lWise.goalSetTime;
+   			}
+   		}
+   		
+   	}
+   	
+   	List<DateAndValueVM> sAndValues = new ArrayList<>();
+   	List<Long> sAndLong = new ArrayList<>();
+   	int countPlanCarSold = 0;
+   	
+   	
+   	
 		Calendar now = Calendar.getInstance();
 		String month = monthName[now.get(Calendar.MONTH)];
 		lDataVM.monthCurr = month;
@@ -10595,7 +10564,7 @@ public class Application extends Controller {
 		PlanScheduleMonthlyLocation pLocation = null;
 		PlanScheduleMonthlySalepeople  pMonthlySalepeople = null;
 		if(locOrPer.equals("location")){
-			pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), month);
+			pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(locationId), month);
 		}else{
 			pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, month);
 		}
@@ -10620,97 +10589,112 @@ public class Application extends Controller {
 	    	}
 		}
 		if(!locOrPer.equals("location")){
-    	List<AuthUser> allLoUser = AuthUser.findByLocatio(Location.findById(Long.parseLong(session("USER_LOCATION"))));
-    	int flag = 0;
-    	for(AuthUser aUser: allLoUser){
-    		int pricecountOther = 0;
-    		if(allLoUser != null){
-        		
-        		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(aUser);
-        		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(aUser);
-        		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(aUser);
-        		
-        		for(RequestMoreInfo rMoreInfo: rInfo1){
-        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,aUser);
-        			for(Vehicle vehicle:vehicleVin){
-        				if(vehicle != null){
-        				 if(vehicle.status.equals("Sold")){
-        					if(month.equals(onlyMonth.format(vehicle.soldDate))){
-        						pricecountOther = pricecountOther + vehicle.price;
-                    		}
-        				 }
-            			}
-        			}
-        			
-        		}
-        		
-        		for(ScheduleTest sTest: sList1){
-        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,aUser);
-        			for(Vehicle vehicle:vehicleVin){
-        			if(vehicle != null){
-        				if(vehicle.status.equals("Sold")){
-        					if(month.equals(onlyMonth.format(vehicle.soldDate))){
-        						pricecountOther = pricecountOther + vehicle.price;
-                    		}
-        				 }
-        				
-        			}
-        		}
-        		}
-        		
-        		for(TradeIn tradeIn: tradeIns1){
-        			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,aUser);
-        			for(Vehicle vehicle:vehicleVin){
-        			if(vehicle != null){
-        				if(vehicle.status.equals("Sold")){
-        					if(month.equals(onlyMonth.format(vehicle.soldDate))){
-        						pricecountOther = pricecountOther + vehicle.price;
-                    		}
-        				 }
-        			}
-        		}
-        		}
-        		
-        	}
-    		
-    		if(pricecountOther > monthPriceCount && flag == 0){
-    			flag = 1;
-        		List<Integer> longV = new ArrayList<>();
-        		DateAndValueVM sValue = new DateAndValueVM();
-    			sValue.name = "Record";
-    			longV.add(pricecountOther);
-    			sValue.data = longV;
-    			sAndValues.add(sValue);
-        	}
-    	}
-    }
-    	
-    	List<Vehicle> vList2 = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
-    	
-    	if(vList2.size() != 0){
-    		List<Integer> longV = new ArrayList<>();
-    		DateAndValueVM sValue = new DateAndValueVM();
+   	List<AuthUser> allLoUser = AuthUser.findByLocatio(Location.findById(locationId));
+   	int flag = 0;
+   	for(AuthUser aUser: allLoUser){
+   		int pricecountOther = 0;
+   		if(allLoUser != null){
+       		
+       		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(aUser);
+       		List<ScheduleTest> sList1 = ScheduleTest.findAllSeenComplete(aUser);
+       		List<TradeIn> tradeIns1 = TradeIn.findAllSeenComplete(aUser);
+       		
+       		for(RequestMoreInfo rMoreInfo: rInfo1){
+       			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,aUser);
+       			for(Vehicle vehicle:vehicleVin){
+       				if(vehicle != null){
+       				 if(vehicle.status.equals("Sold")){
+       					if(month.equals(onlyMonth.format(vehicle.soldDate))){
+       						pricecountOther = pricecountOther + vehicle.price;
+                   		}
+       				 }
+           			}
+       			}
+       			
+       		}
+       		
+       		for(ScheduleTest sTest: sList1){
+       			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,aUser);
+       			for(Vehicle vehicle:vehicleVin){
+       			if(vehicle != null){
+       				if(vehicle.status.equals("Sold")){
+       					if(month.equals(onlyMonth.format(vehicle.soldDate))){
+       						pricecountOther = pricecountOther + vehicle.price;
+                   		}
+       				 }
+       				
+       			}
+       		}
+       		}
+       		
+       		for(TradeIn tradeIn: tradeIns1){
+       			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,aUser);
+       			for(Vehicle vehicle:vehicleVin){
+       			if(vehicle != null){
+       				if(vehicle.status.equals("Sold")){
+       					if(month.equals(onlyMonth.format(vehicle.soldDate))){
+       						pricecountOther = pricecountOther + vehicle.price;
+                   		}
+       				 }
+       			}
+       		}
+       		}
+       		
+       	}
+   		
+   		if(pricecountOther > monthPriceCount && flag == 0){
+   			flag = 1;
+       		List<Integer> longV = new ArrayList<>();
+       		DateAndValueVM sValue = new DateAndValueVM();
+   			sValue.name = "Record";
+   			longV.add(pricecountOther);
+   			sValue.data = longV;
+   			sAndValues.add(sValue);
+       	}
+   	}
+   }
+   	
+   	List<Vehicle> vList2 = Vehicle.findByLocationAndSold(locationId);
+   	
+   	if(vList2.size() != 0){
+   		List<Integer> longV = new ArrayList<>();
+   		DateAndValueVM sValue = new DateAndValueVM();
 			sValue.name = "You";
 			longV.add(monthPriceCount);
 			sValue.data = longV;
 			sAndValues.add(sValue);
-    	}
-    	
-    	lDataVM.sendData = sAndValues;
+   	}
+   	
+   	lDataVM.sendData = sAndValues;
 
-    	return ok(Json.toJson(lDataVM));
-    }
+   }
+    
     
     
     /*-----------------------------------------*/
-    
-    public static Result getUserLocationInfo(String timeSet,String locOrPer){
+ 
+ public static Result getUserLocationInfoOther(String timeSet,String locOrPer,Long LocationId,Integer managerId){
+	 AuthUser users = AuthUser.findById(managerId);
+	 LocationWiseDataVM lDataVM = new LocationWiseDataVM();
+	 findStatistics(timeSet,"location",LocationId,users, lDataVM);
+	 return ok(Json.toJson(lDataVM));
+ }
+ 
+ public static Result getUserLocationInfo(String timeSet,String locOrPer){
+	 AuthUser users = (AuthUser) getLocalUser();
+	 LocationWiseDataVM lDataVM = new LocationWiseDataVM();
+	 findStatistics(timeSet,locOrPer,Long.parseLong(session("USER_LOCATION")),users, lDataVM);
+ 	return ok(Json.toJson(lDataVM));
+ }
+ 
+    public static void findStatistics(String timeSet,String locOrPer,Long locationId,AuthUser users, LocationWiseDataVM lDataVM){
+    	
     	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     	DateFormat onlyMonth = new SimpleDateFormat("MMMM");
     	
     	
     	Calendar cal1 = Calendar.getInstance();
-    	AuthUser users = (AuthUser) getLocalUser();
+    	
     	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
 		        "August", "September", "October", "November", "December" };
     	Date dateobj = new Date();
@@ -10763,13 +10747,13 @@ public class Application extends Controller {
     	List<TradeIn> tradeInsAll = null;
     	
     	if(users.role.equals("Manager") && locOrPer.equals("location")){
-    		rInfo = RequestMoreInfo.findAllSeenLocationSch(Long.parseLong(session("USER_LOCATION")));
-    		sList = ScheduleTest.findAllAssignedLocation(Long.parseLong(session("USER_LOCATION")));
-    		tradeIns = TradeIn.findAllSeenLocationSch(Long.parseLong(session("USER_LOCATION")));
+    		rInfo = RequestMoreInfo.findAllSeenLocationSch(locationId);
+    		sList = ScheduleTest.findAllAssignedLocation(locationId);
+    		tradeIns = TradeIn.findAllSeenLocationSch(locationId);
     		
-    		rInfoAll = RequestMoreInfo.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
-    		sListAll = ScheduleTest.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
-    		tradeInsAll = TradeIn.findByLocationNotCancel(Long.parseLong(session("USER_LOCATION")));
+    		rInfoAll = RequestMoreInfo.findByLocationNotCancel(locationId);
+    		sListAll = ScheduleTest.findByLocationNotCancel(locationId);
+    		tradeInsAll = TradeIn.findByLocationNotCancel(locationId);
     		
     	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		rInfo = RequestMoreInfo.findAllSeenSch(users);
@@ -10834,8 +10818,8 @@ public class Application extends Controller {
     	
     	int countLeads1 = requestLeadCount1 + scheduleLeadCount1 + tradeInLeadCount1;
     	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
-    	Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
-    	LocationWiseDataVM lDataVM = new LocationWiseDataVM();
+    	Location location = Location.findById(locationId);
+    	
     	lDataVM.imageUrl = location.getImageUrl();
     	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
     	lDataVM.countSalePerson = countLeads;
@@ -10875,60 +10859,7 @@ public class Application extends Controller {
 					monthPriceCount = monthPriceCount + vehicle.price;
 				}
 			}
-    	//	saleCarCount = rInfo1.size() + sList1.size() + tradeIns1.size();
-    		
-    		/*for(RequestMoreInfo rMoreInfo: rInfo1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin, users);
-    			for(Vehicle vehicle:vehicleVin){
-    				if(vehicle != null){
-        				if(vehicle.soldDate.after(timeBack)) {
-                			saleCarCount++;
-                			pricecount = pricecount + vehicle.price;
-        				}
-        				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-        					monthPriceCount = monthPriceCount + vehicle.price;
-        				}
-        			}
-    			}
-    			
-    		}
-    		
-    		for(ScheduleTest sTest: sList1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,users);
-    			for(Vehicle vehicle:vehicleVin){
-    			if(vehicle != null){
-    				if(vehicle.status.equals("Sold")){
-    					if(vehicle.soldDate.after(timeBack)) {
-                			saleCarCount++;
-                			pricecount = pricecount + vehicle.price;
-        				}
-    					
-    					if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-        					monthPriceCount = monthPriceCount + vehicle.price;
-        				}
-    				}
-    				
-    			}
-    		}
-    		}
-    		
-    		for(TradeIn tradeIn: tradeIns1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,users);
-    			for(Vehicle vehicle:vehicleVin){
-    			if(vehicle != null){
-    				if(vehicle.status.equals("Sold")){
-    					if(vehicle.soldDate.after(timeBack)) {
-                			saleCarCount++;
-                			pricecount = pricecount + vehicle.price;
-        				}
-    					if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-        					monthPriceCount = monthPriceCount + vehicle.price;
-        				}
-    				}
-    			}
-    		}
-    		}*/
-    		
+    
     		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
     		lDataVM.successRate = (int) sucessCount;
     		
@@ -10944,7 +10875,7 @@ public class Application extends Controller {
     	
       	if(users.role.equals("Manager") && locOrPer.equals("location")){
     	
-      		PlanScheduleMonthlyLocation pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), monthCal);
+      		PlanScheduleMonthlyLocation pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(locationId), monthCal);
         	if(pMonthlyLocation != null){
         		double val= ((double)pricecount/Double.parseDouble(pMonthlyLocation.totalEarning));
             	lDataVM.AngSale = (int) (val*100);
@@ -11014,7 +10945,7 @@ public class Application extends Controller {
 		PlanScheduleMonthlyLocation pLocation = null;
 		PlanScheduleMonthlySalepeople  pMonthlySalepeople = null;
 		if(locOrPer.equals("location")){
-			pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.parseLong(session("USER_LOCATION"))), month);
+			pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(locationId), month);
 		}else{
 			pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, month);
 		}
@@ -11039,7 +10970,7 @@ public class Application extends Controller {
 	    	}
 		}
 		if(!locOrPer.equals("location")){
-    	List<AuthUser> allLoUser = AuthUser.findByLocatio(Location.findById(Long.parseLong(session("USER_LOCATION"))));
+    	List<AuthUser> allLoUser = AuthUser.findByLocatio(Location.findById(locationId));
     	int flag = 0;
     	for(AuthUser aUser: allLoUser){
     		int pricecountOther = 0;
@@ -11104,7 +11035,7 @@ public class Application extends Controller {
     	}
     }
     	
-    	List<Vehicle> vList2 = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
+    	List<Vehicle> vList2 = Vehicle.findByLocationAndSold(locationId);
     	
     	if(vList2.size() != 0){
     		List<Integer> longV = new ArrayList<>();
@@ -11116,9 +11047,8 @@ public class Application extends Controller {
     	}
     	
     	lDataVM.sendData = sAndValues;
-
-    	return ok(Json.toJson(lDataVM));
     }
+   
     
     public static Result getAllLocation(String timeSet) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -17942,9 +17872,31 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
+    public static Result getVisitedDataOther(String type,String filterBy,String search,String searchBy,Long locationId,Integer managerId) {
+    	AuthUser user = AuthUser.findById(managerId);
+    	Map result = new HashMap(3);
+    	
+    	topListings(type,filterBy,search,searchBy,locationId,user,result);
+    	return ok(Json.toJson(result));
+    }
+    
     public static Result getVisitedData(String type,String filterBy,String search,String searchBy) {
-    	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
+    	Map result = new HashMap(3);
     	AuthUser user = (AuthUser)getLocalUser();
+    	long locationId = 0;
+    	if(session("USER_LOCATION") == null){
+    		locationId = 0L;
+    	}else{
+    		locationId = Long.valueOf(session("USER_LOCATION"));
+    	}
+    	
+    	topListings(type,filterBy,search,searchBy,locationId,user,result);
+    	return ok(Json.toJson(result));
+    }
+    
+    public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result){
+    	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
+    	
     	String params = null;
     	String checkDate = null;
     	Date thedate = null;
@@ -17976,7 +17928,7 @@ public class Application extends Controller {
 				System.out.println(van[0]);
 				Vehicle vehicle = null;
 				if(user.role.equals("Sales Person") || user.role.equals("Manager")){
-					vehicle = Vehicle.findByVinAndStatusForGM(van[0],Location.findById(Long.valueOf(session("USER_LOCATION"))));
+					vehicle = Vehicle.findByVinAndStatusForGM(van[0],Location.findById(locationId));
 				}else{
 					vehicle = Vehicle.findByVinAndStatus(van[0]);
 				}
@@ -18007,7 +17959,7 @@ public class Application extends Controller {
     	
     	List<Vehicle> vlist = null;
     	if(user.role.equals("Sales Person") || user.role.equals("Manager")){
-    		vlist = Vehicle.findByNewlyArrivedForGM(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    		vlist = Vehicle.findByNewlyArrivedForGM(Location.findById(locationId));
 		}else{
 			vlist = Vehicle.findByNewlyArrived();
 		}
@@ -18039,9 +17991,9 @@ public class Application extends Controller {
     	for(Vehicle vehicle:topVisited) {
     			
 	    		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
-	    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+	    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+	    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
 	    		
 	    		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
 	    		
@@ -18052,7 +18004,7 @@ public class Application extends Controller {
 	    		}
 	    		analyticalVM.stockNumber = vehicle.stock;
 	    		analyticalVM.followerCount = 0;
-	    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
+	    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), locationId);
 	    		for (PriceAlert priceAlert : pAlert) {
 					PriceAlert alt = PriceAlert.findById(priceAlert.id);
 					if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
@@ -18098,11 +18050,11 @@ public class Application extends Controller {
         		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
         		pAlert = PriceAlert.getByVin(vehicle.getVin());
     		}else{
-    			List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-        		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-        		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    			List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+        		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+        		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
         		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
-        		pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
+        		pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), locationId);
     		}
     		
     		
@@ -18170,10 +18122,10 @@ public class Application extends Controller {
         		tIns = TradeIn.findByVinStatus(vehicle.getVin());
         		pAlert = PriceAlert.getByVin(vehicle.getVin());
     		}else{
-    			rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-        		sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-        		tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(Long.valueOf(session("USER_LOCATION"))));
-        		pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), Long.valueOf(session("USER_LOCATION")));
+    			rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+        		sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+        		tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+        		pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), locationId);
     		}
     		
     		anVm.leadsCount = rInfos.size() + sList.size() + tIns.size();
@@ -18251,12 +18203,12 @@ public class Application extends Controller {
     	
     	
     	
-    	Map result = new HashMap(3);
+    	
     	result.put("worstVisited", worstVisitedVms);
     	result.put("topVisited", topVisitedVms);
     	result.put("allVehical", allVehical);
-    	return ok(Json.toJson(result));
     }
+    
     
     public static class VehicleVMComparatorCountHigh implements Comparator<VehicleAnalyticalVM> {
 		@Override
@@ -24842,15 +24794,30 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		return ok(Json.toJson(sAndValues));
 	}
 	
+	
+	
 	public static Result getSoldVehicleDetailsAvgSale(){
-		
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		List<Long[]> lonnn = new ArrayList<>();
 		AuthUser user = getLocalUser();
+		soldSaleVolu(user,lonnn);
+		return ok(Json.toJson(lonnn));
+	}
+	
+	public static Result getSoldVehicleDetailsAvgSaleOther(Long locationId,Integer managerId){
+		AuthUser user = AuthUser.findById(managerId);
+		List<Long[]> lonnn = new ArrayList<>();
+		soldSaleVolu(user,lonnn);
+		return ok(Json.toJson(lonnn));
+	}
+	
+	public static void soldSaleVolu(AuthUser user, List<Long[]> lonnn){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
 		Map<Long, String> mapdate = new HashMap<Long, String>();
 		Long pricevalue = 0L;
 		List<Vehicle> vehicle = null;
 		List<Vehicle> vehicaleNew = null;
-		List<Long[]> lonnn = new ArrayList<>();
+		
 		Map<Long, Long> treeMap = null;
 		
 		if(user.role.equals("General Manager")){
@@ -24914,17 +24881,28 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		            }
 				
 			});
-		
+	}
+	
+	
+	public static Result getSoldVehicleDetailsOther(Long locationId,Integer managerId){
+		AuthUser user = AuthUser.findById(managerId);
+		List<Long[]> lonnn = new ArrayList<>();
+		soldVehicalDetailsSaleVolu(user,lonnn);
 		return ok(Json.toJson(lonnn));
 	}
 	
 	public static Result getSoldVehicleDetails(){
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		AuthUser user = getLocalUser();
+		List<Long[]> lonnn = new ArrayList<>();
+		soldVehicalDetailsSaleVolu(user,lonnn);
+		return ok(Json.toJson(lonnn));
+	}
+	
+	public static void soldVehicalDetailsSaleVolu(AuthUser user,List<Long[]> lonnn){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Map<Long, Long> mapdate = new HashMap<Long, Long>();
 		Long pricevalue = 0L;
 		List<Vehicle> vehicle = null;
-		List<Long[]> lonnn = new ArrayList<>();
 		Map<Long, Long> treeMap = null;
 		
 		if(user.role.equals("General Manager")){
@@ -24970,9 +24948,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				lonnn.add(value);
 			  }
 		
-		
-		return ok(Json.toJson(lonnn));
 	}
+	
+	
 	
 	public static void printMap(Map<Long, Long> map) {
 		for (Map.Entry<Long, Long> entry : map.entrySet()) {

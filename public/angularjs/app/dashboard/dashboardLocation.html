@@ -92,7 +92,7 @@ margin-left: 5px;
 									         
 									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 360px;">
 									            <div style="float: left;" ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation">
-									             <a ng-click="openLocationDasboard(item)">   
+									             <a ng-click="openLocationDasboard()">   
 									               		<div>							                
 									             
 									                 
@@ -180,10 +180,9 @@ margin-left: 5px;
 						           
 						           <div class="col-sm-3">
 									     <h4 class="col-sm-12"><b style="margin-left:3%;">MY STATISTICS</b></h4>
-									     <div class="col-sm-12" ng-if="userRole == 'Manager'">
-									     <!--  -->
+									     <!-- <div class="col-sm-12" ng-if="userRole == 'Manager'">
 									     	<a style="cursor: pointer;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;">Location</a>
-									     </div>
+									     </div> -->
 									    </div> 
 									     <form ng-submit="checkDatewsie(startDate,endDate)">
 									     <div class="col-sm-2">
@@ -249,7 +248,7 @@ margin-left: 5px;
 								</div>	
 							</div>
 							</div>
-	<div class="col-xlg-5 col-lg-5">
+	<!-- <div class="col-xlg-5 col-lg-5">
 	<div class="row"> 
 		<div class="col-md-4" style="width: 193px !important;">
 		                <div class="panel no-bd bd-3 panel-stat" style="height:94px;">
@@ -263,9 +262,9 @@ margin-left: 5px;
         	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>MEETING</button>
         	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button>
 	</div>
-	</div>
+	</div> -->
 	
-	<div class="col-md-4 col-sm-6 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager')  && showToDoList">    <!-- && showToDoList -->
+	<!-- <div class="col-md-4 col-sm-6 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager')  && showToDoList">    && showToDoList
         <div class="panel">
             <div class="panel-header">
             <a ng-click="showCalendarData()" style="cursor: pointer;float:left;margin-top:13px;margin-left:4px;">Back to calendar</a>
@@ -284,11 +283,11 @@ margin-left: 5px;
                    
                           <div class="pull-right">
                         
-                        	<!--
+                        	
                             <div class="label label-success" style="cursor: pointer;" ng-click="confirmDateTime(schedule)" data-toggle="modal" data-target="#modal-basic">Reschedule</div>
                             <div class="label label-success" style="cursor: pointer;" ng-click="soldScheduleStatus(schedule)">Sold</div>
                             <div class="label label-success" style="cursor: pointer;" ng-click="cancelScheduleStatus(schedule)">Cancel</div>
-                           -->
+                          
                            
                         </div>	                              
                                                    
@@ -310,8 +309,8 @@ margin-left: 5px;
                 
             </div>
         </div>
-    </div>
-	<div class="col-sm-4" style="position: relative;float: left;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
+    </div> -->
+<!-- 	<div class="col-sm-4" style="position: relative;float: left;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
                     <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-certificate"></i></button>
             <div class="col-md-12 cal-report" id="load_cal_or_wheth">
     			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
@@ -381,7 +380,7 @@ margin-left: 5px;
               </div>
             </div>
           </div>
-      </div>
+      </div> -->
 	
 	<div class="col-xlg-12 col-lg-12" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person' ||userRole == 'Manager'"style="padding-left: 0px;padding-right: 0px">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
@@ -392,7 +391,6 @@ margin-left: 5px;
 					            <div class="col-md-12">			            	
 							        							        	    		
 					             <div class="panel">
-								    	<!-- <h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP LISTINGS</b></h4> --> 
 								    	    	<div class="col-sm-12"style=" margin-top: 20px;" >
 								    	    	<div class="col-sm-4">
 								    	<h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP LISTINGS</b></h4> </div>
@@ -404,7 +402,8 @@ margin-left: 5px;
 												<div>
 								     				<div class="col-sm-12">
 								     					<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								     					<!-- <a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp; -->
+								     						<h6 class="col-sm-12"><a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     					</div>
 								     					<div class="col-sm-2">
 								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;" ng-click="topListingCount('count',countFlag)"></span></h6>
@@ -420,7 +419,6 @@ margin-left: 5px;
 								     					<div class="col-sm-2">
 								     						<h6 class="col-sm-12"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
 								     					</div>
-								     				
 								        			</div>
 								    			</div>
 						       					 <div style="width: 100%;display: flex;overflow-x: scroll;height: 327px;">
@@ -454,10 +452,22 @@ margin-left: 5px;
 														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Lead" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.leadsCount}}</span>
 													</div>
 													<div class="col-sm-12">
+														<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkIndex(item,compare)"> <label style="color: darkturquoise;">Compare</label>
+													</div>
+													<div class="col-sm-12" ng-if="userRole == 'Sales Person' || item.flag == 1">
+														<button type="button" class="btn btn-blue">Compare</button>
+														
+													</div>
+													
+													<div class="col-sm-12" ng-if="userRole == 'Manager' && item.flag == 0">
+														<button type="button" class="btn btn-blue">Promote</button>													
+																			
+													</div>
+													<div class="col-sm-12">
 													<div class="col-sm-2" style="padding-left: 0px;">
 													<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
 													</div>
-													<div class="col-sm-2" style="padding-left: 0px;"  ng-if="userRole != 'General Manager'">
+													<div class="col-sm-2" style="padding-left: 0px;">
 									<a class="btn " ng-click="openCreateNewLeads(item.stockNumber)" style="color: darkturquoise;border: darkturquoise; border-style: solid;">+ Lead </a> 													
 													</div>
 													</div>
@@ -3490,7 +3500,7 @@ margin-left: 5px;
 </div>
 
 
-<div class="row" ng-if="userType == 'Sales Person' || userType == 'Manager'">
+<!-- <div class="row" ng-if="userType == 'Sales Person' || userType == 'Manager'">
     <div class="col-xlg-12">
         <div class="panel">
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
@@ -3562,7 +3572,7 @@ margin-left: 5px;
   				</div>  
 		</div>
 	</div>
-</div>	
+</div>	 -->
 <!-- <div class="row">
 	<div class="col-xlg-12">
 		<div class="panel">
@@ -4361,15 +4371,16 @@ margin-left: 5px;
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<angucomplete-alt id="vinSearch"
-														              placeholder="{{stockRp.vin}}"
+														              placeholder=stockRp.stockNumber
 														              pause="10"
 														              selected-object="selectedVin"
 														              local-data="vinSearchList"
 														              search-fields="vin"
 														              title-field="vin"
 														              minlength="3"
-														              focus-In="focusIn($index)"
-														              input-class="form-control form-control-small">
+														              focus-out="focusOut()"
+														              input-class="form-control form-control-small"
+																	  initial-value="searchStr">
 															    	</angucomplete-alt>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
@@ -4415,11 +4426,8 @@ margin-left: 5px;
 								                    				<input type="text" ng-model="childL.stock" ng-blur="getStockDetails(childL)" disabled="disabled"/>
 								                    			</div>
 																<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<input type="text" ng-model="childL.vin" disabled="disabled"/>
-								                    			</div>
-																<!--<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<angucomplete-alt id="vinSearchChild"
-														              placeholder="{{childL.vin}}"
+														              placeholder="Search Vin"
 														              pause="10"
 														              selected-object="selectedVin"
 														              local-data="vinSearchList"
@@ -4429,7 +4437,7 @@ margin-left: 5px;
 														              focus-out="focusOut()"
 														              input-class="form-control form-control-small">
 															    	</angucomplete-alt>
-								                    			</div>-->
+								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="childL.make" disabled="disabled" placeholder="CAR MAKE"/>
 								                    			</div>
@@ -6983,19 +6991,6 @@ margin-left: 5px;
 								                    			<div ng-show="isStockError" style="color: red;">Stock Number Not Found.</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
-								                    			</div>
-																<div class="col-md-12" style="margin: 10px 0 10px 0;">
-								                    				<angucomplete-alt id="vinSearch"
-														              placeholder="{{stockRp.vin}}"
-														              pause="10"
-														              selected-object="selectedVin"
-														              local-data="vinSearchList"
-														              search-fields="vin"
-														              title-field="vin"
-														              minlength="3"
-														              focus-In="focusIn($index)"
-														              input-class="form-control form-control-small" >
-															    	</angucomplete-alt>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.make" disabled="disabled" placeholder="CAR MAKE"/>
