@@ -10843,9 +10843,13 @@ public class Application extends Controller {
             			monthPriceCount = monthPriceCount + vehList.price;
             		}
         	}
+        	if(countLeads1 != 0 && saleCarCount != 0){
+        		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
+            	lDataVM.successRate = (int) sucessCount;
+        	}else{
+        		lDataVM.successRate = 0;
+        	}
         	
-        	double sucessCount= (double)saleCarCount/(double)countLeads1*100;
-        	lDataVM.successRate = (int) sucessCount;
         	
     	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		
