@@ -396,6 +396,17 @@ margin-left: 5px;
 								    	    	<div class="col-sm-12"style=" margin-top: 20px;" >
 								    	    	<div class="col-sm-4">
 								    	<h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP LISTINGS</b></h4> </div>
+								    	    	<div class="col-sm-6">
+								    	    														
+														<div class="col-sm-4">
+															<select class="form-control form-white"  ng-model="vehicles" ng-change="vehicleData(vehicles)"  required>
+																<option value="All">All Vehicles</option>
+																<option value="New" >New</option>
+																<option value="Used">Used</option>																
+															</select>
+														</div>
+															
+													</div>
 								    	    	<div class="col-sm-2" style=" float: right">
 												<a class="btn btn-blue" href="#addVehicle" >Add Vehicle</a>
 												</div>	</div>

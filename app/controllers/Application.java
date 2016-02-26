@@ -591,10 +591,13 @@ public class Application extends Controller {
     
     
     public static Result getVehicleInfo(String vin) throws IOException,Exception {
+    	
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-	    	Vehicle vehicle = Vehicle.findByVinAndStatus(vin); 
+    		AuthUser user = getLocalUser();
+    		Location location=Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    	Vehicle vehicle = Vehicle.findByVinAndStatusForGM(vin,location); 
 	    	if(vehicle == null) {
 	    		PinVM pinObj = new PinVM();
 	    		if(!simulate ) {
@@ -17900,11 +17903,12 @@ public class Application extends Controller {
     	AuthUser user = AuthUser.findById(managerId);
     	Map result = new HashMap(3);
     	
-    	topListings(type,filterBy,search,searchBy,locationId,user,result);
+    	topListings(type,filterBy,search,searchBy,locationId,user,result,"All");
     	return ok(Json.toJson(result));
     }
     
-    public static Result getVisitedData(String type,String filterBy,String search,String searchBy) {
+    public static Result getVisitedData(String type,String filterBy,String search,String searchBy,String vehicles) {
+    	
     	Map result = new HashMap(3);
     	AuthUser user = (AuthUser)getLocalUser();
     	long locationId = 0;
@@ -17914,11 +17918,11 @@ public class Application extends Controller {
     		locationId = Long.valueOf(session("USER_LOCATION"));
     	}
     	
-    	topListings(type,filterBy,search,searchBy,locationId,user,result);
+    	topListings(type,filterBy,search,searchBy,locationId,user,result,vehicles);
     	return ok(Json.toJson(result));
     }
     
-    public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result){
+    public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result,String vehicles){
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
     	
     	String params = null;
@@ -18010,7 +18014,14 @@ public class Application extends Controller {
 			}
     	}
     	List<Vehicle> topVisited =null;
-    	topVisited = Vehicle.findByVins(vins);
+    	
+if(vehicles.equals("All")){
+	topVisited = Vehicle.findByVins(vins);
+}else{
+	topVisited = Vehicle.findByVinsAndTypeVehi(vins,vehicles);
+}
+    	
+    	
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
     	for(Vehicle vehicle:topVisited) {
     			
@@ -18123,7 +18134,14 @@ public class Application extends Controller {
     	 List<Vehicle> aVehicles =null;
     	//aVehicles = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
     	 
-    	  aVehicles = Vehicle.findByVins(vins1);
+    	 // aVehicles = Vehicle.findByVins(vins1);
+    	 if(vehicles.equals("All")){
+    		 aVehicles = Vehicle.findByVins(vins1);
+    		}else{
+    			aVehicles= Vehicle.findByVinsAndTypeVehi(vins1,vehicles);
+    		}
+    	 
+    	 
     	for(Vehicle vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
     		//anVm.count = pagesCount1.get(vehicle.getVin());

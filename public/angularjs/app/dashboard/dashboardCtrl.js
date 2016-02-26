@@ -48,6 +48,8 @@ angular.module('newApp')
 	$scope.len = null;
 	$http.get('/getAllVehicles')
 		.success(function(data) {
+			console.log("{{{{{{{{{{}}}}");
+			console.log(data);
 			$scope.vinSearchList = data;
 		});
 		//$scope.stockRp = {};
@@ -78,6 +80,7 @@ angular.module('newApp')
 			$('#vinSearch_value').val($scope.item.vin);
 		}
 	};
+	
 	$http.get('/getUserType')
 	  .success(function(data) {
 	 	$scope.userType = data;
@@ -2288,17 +2291,30 @@ angular.module('newApp')
 	    		$scope.currentData = [];
 	    		$scope.showWeekVisited = function() {
 	    			$scope.currentSelectedDuration = 0;
-	    			$scope.getVisitedData('week','countHigh','0','0');
+	    			$scope.getVisitedData('week','countHigh','0','0','All');
 	    		};
 	    		
 	    		$scope.showMonthVisited = function() {
 	    			$scope.currentSelectedDuration = 1;
-	    			$scope.getVisitedData('month','countHigh','0','0');
+	    			$scope.getVisitedData('month','countHigh','0','0','All');
+	    		};
+	    		$scope.vehicleData=function(vehicles){
+	    			$scope.all=vehicles; 
+	    			$scope.getVisitedData('month','countHigh','0','0',vehicles); 			
+	    			
+	    			
+	    			console.log(":::vehicle data");
+	    			console.log(vehicles);
+	    			
+	    			
+	    			
 	    		};
 	    		
+	    		
+	    		
 	    		$scope.notchange = 0;
-	    		$scope.getVisitedData = function(type,filterBy,search,searchBy) {
-	    			$http.get('/getVisitedData/'+type+'/'+filterBy+'/'+search+'/'+searchBy).success(function(response) {
+	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,vehicles) {
+	    			$http.get('/getVisitedData/'+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles).success(function(response) {
 	    				console.log(response);
 	    				$scope.weekData = response;
 	    				
@@ -2548,7 +2564,7 @@ angular.module('newApp')
 	    			$scope.lead.stockWiseData = $scope.stockWiseData;
 	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
-	    				$scope.getVisitedData('week','countHigh','0','0');
+	    				$scope.getVisitedData('week','countHigh','0','0','All');
 	    				$scope.userLocationData('Week','person');
 	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    				if($scope.lead.leadType=='2')  {
@@ -2601,7 +2617,9 @@ angular.module('newApp')
 	    					stockRp.vehicleImage = response.vehicleImage;
 	    					stockRp.imgId = response.imgId;
 	    					stockRp.year = response.year;
-	    					stockRp.vin = response.vin;	    					
+	    					stockRp.vin = response.vin;
+	    					
+	    					
 	    				} else {
 	    					$scope.isStockError = true;
 	    				}
@@ -2625,14 +2643,14 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.showTopVisited = function() {
-	    			$scope.getVisitedData('week','countHigh','0','0');
+	    			$scope.getVisitedData('week','countHigh','0','0','All');
 	    			$scope.currentSelectedType = 0;
 	    			$scope.currentData = $scope.weekData.topVisited;
 	    		};
 	    		
 	    		$scope.filterFunction = function(filterBy) {
 	    			console.log(filterBy);
-	    			$scope.getVisitedData('week',filterBy,'0','0');
+	    			$scope.getVisitedData('week',filterBy,'0','0','All');
 	    		};
 	    		$scope.search = "";
 	    		$scope.searchBy = "";
@@ -2647,14 +2665,14 @@ angular.module('newApp')
 	    			console.log(value.length);
 	    			if(value.length > 2){
 	    				$scope.searchBy = searchBy;
-	    				$scope.getVisitedData('week','countHigh',value,$scope.searchBy);
+	    				$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All');
 	    			}
 	    		}
 	    		$scope.findModel = function(value,searchBy){
 	    			console.log(value.length);
 	    			if(value.length > 1){
 	    				$scope.searchBy = searchBy;
-		    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy);
+		    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All');
 	    			}
 	    		}
 	    		
@@ -2664,7 +2682,7 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.showAllvehicles = function(){
-	    			$scope.getVisitedData('week','countHigh','0','0');
+	    			$scope.getVisitedData('week','countHigh','0','0','All');
 	    			$scope.currentSelectedType = 2;
 	    			$scope.currentData = $scope.weekData.allVehical;
 	    		}
@@ -5717,6 +5735,7 @@ angular.module('newApp')
    }
    
    $scope.saveVehicle = function() {
+	   console.log("::::vinData");
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  

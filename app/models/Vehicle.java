@@ -784,6 +784,10 @@ public class Vehicle extends Model {
 		return find.where().in("vin", vins).eq("status", "Newly Arrived").findList();
 	}
 	
+	public static List<Vehicle> findByVinsAndTypeVehi(List<String> vins,String typeVehi) {
+		return find.where().in("vin", vins).eq("status", "Newly Arrived").eq("typeofVehicle",typeVehi).findList();
+	}
+	
 	public static List<Vehicle> findByNotInVins(List<String> vins) {
 		return find.where().not(Expr.in("vin", vins)).findList();
 	}
