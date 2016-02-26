@@ -4365,7 +4365,7 @@ margin-left: 5px;
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<angucomplete-alt id="vinSearch"
-														              placeholder="Vin"
+														              placeholder="{{stockRp.vin}}"
 														              pause="10"
 														              selected-object="selectedVin"
 														              local-data="vinSearchList"
@@ -4373,8 +4373,7 @@ margin-left: 5px;
 														              title-field="vin"
 														              minlength="3"
 														              focus-In="focusIn($index)"
-														              input-class="form-control form-control-small"
-																	  initial-value= searchStr >
+														              input-class="form-control form-control-small">
 															    	</angucomplete-alt>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
@@ -4420,8 +4419,11 @@ margin-left: 5px;
 								                    				<input type="text" ng-model="childL.stock" ng-blur="getStockDetails(childL)" disabled="disabled"/>
 								                    			</div>
 																<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="childL.vin" disabled="disabled"/>
+								                    			</div>
+																<!--<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<angucomplete-alt id="vinSearchChild"
-														              placeholder="Search Vin"
+														              placeholder="{{childL.vin}}"
 														              pause="10"
 														              selected-object="selectedVin"
 														              local-data="vinSearchList"
@@ -4431,7 +4433,7 @@ margin-left: 5px;
 														              focus-out="focusOut()"
 														              input-class="form-control form-control-small">
 															    	</angucomplete-alt>
-								                    			</div>
+								                    			</div>-->
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="childL.make" disabled="disabled" placeholder="CAR MAKE"/>
 								                    			</div>
@@ -6988,7 +6990,7 @@ margin-left: 5px;
 								                    			</div>
 																<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<angucomplete-alt id="vinSearch"
-														              placeholder="Vin"
+														              placeholder="{{stockRp.vin}}"
 														              pause="10"
 														              selected-object="selectedVin"
 														              local-data="vinSearchList"
@@ -6996,8 +6998,7 @@ margin-left: 5px;
 														              title-field="vin"
 														              minlength="3"
 														              focus-In="focusIn($index)"
-														              input-class="form-control form-control-small"
-																	  initial-value= searchStr >
+														              input-class="form-control form-control-small" >
 															    	</angucomplete-alt>
 								                    			</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
