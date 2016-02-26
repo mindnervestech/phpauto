@@ -33,6 +33,8 @@ public class Vehicle extends Model {
 	public String trim;
 	public String label;
 	public String stock;
+	public String typeofVehicle;
+	
 	public String mileage;
 	public Integer cost;
 	public Integer price;
@@ -736,6 +738,16 @@ public class Vehicle extends Model {
 	public void setLocations(Location locations) {
 		this.locations = locations;
 	}
+	
+	public String getTypeofVehicle() {
+		return typeofVehicle;
+	}
+
+	public void setTypeofVehicle(String typeofVehicle) {
+		this.typeofVehicle = typeofVehicle;
+	}
+
+
 
 
 	public static Finder<Long,Vehicle> find = new Finder<>(Long.class,Vehicle.class);

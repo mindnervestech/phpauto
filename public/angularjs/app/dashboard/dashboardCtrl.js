@@ -48,6 +48,8 @@ angular.module('newApp')
 	$scope.len = null;
 	$http.get('/getAllVehicles')
 		.success(function(data) {
+			console.log("{{{{{{{{{{}}}}");
+			console.log(data);
 			$scope.vinSearchList = data;
 		});
 		//$scope.stockRp = {};
@@ -2601,7 +2603,9 @@ angular.module('newApp')
 	    					stockRp.vehicleImage = response.vehicleImage;
 	    					stockRp.imgId = response.imgId;
 	    					stockRp.year = response.year;
-	    					stockRp.vin = response.vin;	    					
+	    					stockRp.vin = response.vin;
+	    					
+	    					
 	    				} else {
 	    					$scope.isStockError = true;
 	    				}
@@ -5685,6 +5689,10 @@ angular.module('newApp')
  	  
    };
    
+   $scope.vinData = {};
+   $scope.vinData.specification = {};
+   $scope.vinData.specification.typeofVehicle = "New";
+   
    $scope.getVinData = function() {
 	   if(!angular.isUndefined($scope.vinNumber)) {
 	 	  $http.get('/getVehicleInfo/'+$scope.vinNumber)
@@ -5713,6 +5721,7 @@ angular.module('newApp')
    }
    
    $scope.saveVehicle = function() {
+	   console.log("::::vinData");
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  

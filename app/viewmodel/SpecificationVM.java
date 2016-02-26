@@ -4,6 +4,8 @@ import java.util.List;
 
 public class SpecificationVM {
     
+	public String typeofVehicle;
+	
 	public long id; 
 	public String title;
 	public String category;

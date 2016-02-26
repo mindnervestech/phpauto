@@ -1038,6 +1038,8 @@ public class Application extends Controller {
 	    		vehicle.setTitle(vm.make+" "+vm.model+" "+vm.year);
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
+		    	vehicle.typeofVehicle=vm.typeofVehicle;
+		    	
 		    	vehicle.year = vm.year;
 		    	vehicle.make = vm.make;
 		    	vehicle.model = vm.model;
@@ -3736,6 +3738,7 @@ public class Application extends Controller {
 			specificationVM.id = vehicle.getId();
 			specificationVM.category = vehicle.getCategory();
 			specificationVM.vin = vehicle.getVin();
+			specificationVM.typeofVehicle=vehicle.getTypeofVehicle();
 			specificationVM.year = vehicle.getYear();
 			specificationVM.make = vehicle.getMake();
 			specificationVM.model = vehicle.getModel();
