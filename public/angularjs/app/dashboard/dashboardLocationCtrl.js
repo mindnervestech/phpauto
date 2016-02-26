@@ -16,9 +16,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
 });
 angular.module('newApp')
   .controller('dashboardLocationCtrl', ['$scope','$routeParams', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route', function ($scope, $routeParams,dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route) {
-	console.log($routeParams.managerId);
-	console.log("Changesssssssssssssss");
-	console.log($routeParams.LocationId);
+	$scope.showSelectLocationDash = $routeParams.LocationId;
 	$scope.locationValue = $routeParams.LocationId;
 	$scope.userKey = $routeParams.managerId;
 	$scope.userRole = "Manager";
@@ -55,7 +53,10 @@ angular.module('newApp')
 			$scope.vinSearchList = data;
 		});
 		//$scope.stockRp = {};
-	
+	$scope.openLocationDasboard = function(item){
+		$scope.showSelectLocationDash = item.id;
+		$location.path('/dashboardLocation/'+item.id+"/"+item.managerId);
+	   }
 	
 	$scope.selectedVinValue = function(selectObj){
 		$scope.item = selectObj.originalObject;
@@ -73,7 +74,6 @@ angular.module('newApp')
 			if($scope.editLeads.parentChildLead.length == 0){
 				
 			}
-			
 			
 			$scope.editLeads.parentChildLead[$scope.editLeads.parentChildLead.length-1].model = $scope.item.model;
 			$scope.editLeads.parentChildLead[$scope.editLeads.parentChildLead.length-1].make = $scope.item.make;
@@ -290,6 +290,7 @@ angular.module('newApp')
 	
 		$http.get('/getUserRole').success(function(data) {
 			$scope.userLocationData('Week','location');
+			$scope.topLocations('Week');
 			$scope.showVehicalBarChart();
 			/*$scope.userRole = data.role;
 			
