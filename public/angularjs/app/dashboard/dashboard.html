@@ -91,7 +91,7 @@ margin-left: 5px;
 									        							         
 									         
 									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 360px;">
-									            <div style="float: left;" ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation">
+									            <div  ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation" ng-class="item.id == showSelectLocationDash ? 'setBorderClass':''">
 									             <a ng-click="openLocationDasboard(item)">   
 									               		<div>							                
 									             
@@ -8074,6 +8074,12 @@ margin-left: 5px;
 .nav-tabs > li > a::before {
 	height: 0px;
 }
+
+.setBorderClass{
+    border-style: solid;
+    border-color: darkturquoise;
+}
+
 .tab-content {
     background-color: #F1F1F1;
     border-top: 0px;

@@ -289,8 +289,8 @@ angular.module('newApp')
 	};
 	
 		$http.get('/getUserRole').success(function(data) {
-			console.log("kjhkjhkhkjhkjhkjhjk");
 			$scope.userLocationData('Week','location');
+			$scope.showVehicalBarChart();
 			/*$scope.userRole = data.role;
 			
 			$scope.getSalesDataValue($scope.locationValue);
@@ -506,6 +506,8 @@ angular.module('newApp')
       $scope.showVehicalBarChart = function(){
     	  $scope.showvehical = 0;
     	  $scope.showBarvehical = 1;
+    	  $scope.locationDataList = [];
+    	 
     	  
     	   $http.get('/getSoldVehicleDetailsOther/'+$routeParams.LocationId+"/"+$routeParams.managerId)
    		.success(function(data) {
@@ -578,7 +580,8 @@ angular.module('newApp')
       $scope.showVehicalFinancialChartByBodyStyle = function(){
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
-    	  	$http.get('/getFinancialVehicleDetailsByBodyStyle').success(function(data) {
+    	  
+    	  	$http.get('/getFinancialVehicleDetailsByBodyStyleOther/'+$routeParams.LocationId+"/"+$routeParams.managerId).success(function(data) {
     	  		 createChart(data);
   			});
     	  
@@ -588,7 +591,7 @@ angular.module('newApp')
       $scope.showVehicalFinancialChart = function(){
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
-    	  	$http.get('/getFinancialVehicleDetails').success(function(data) {
+    	  	$http.get('/getFinancialVehicleDetailsOther/'+$routeParams.LocationId+"/"+$routeParams.managerId).success(function(data) {
     	  		 createChart(data);
   			});
     	  

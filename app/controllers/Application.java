@@ -14461,21 +14461,27 @@ public class Application extends Controller {
 	    	}
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfoAll){
+	    		if(start != null && end !=null){
 	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)){
 	    			requestLeadCount1++;
+	    		}
 	    		}
 	    	}
 	    	
 	    	
 	    	for(ScheduleTest sTest:sListAll){
+	    		if(start != null && end !=null){
 	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end)){
 	    			scheduleLeadCount1++;
+	    		}
 	    		}
 	    	}
 
 	    	for(TradeIn tIn:tradeInsAll){
+	    		if(start != null && end !=null){
 	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end)){
 					tradeInLeadCount1++;
+	    		}
 	    		}
 	    	}
 				
@@ -24534,13 +24540,29 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		return ok(Json.toJson(sAndValues));
 	}
 	
+	
+	public static Result getFinancialVehicleDetailsByBodyStyleOther(Long locationId,Integer managerId){
+		AuthUser user = AuthUser.findById(managerId);
+		List<sendDateAndValue> sAndValues = new ArrayList<>();
+		FinancialVehicleDetails(user,sAndValues);
+		return ok(Json.toJson(sAndValues));
+	}
+	
 	public static Result getFinancialVehicleDetailsByBodyStyle(){
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		AuthUser user = getLocalUser();
+		
+		List<sendDateAndValue> sAndValues = new ArrayList<>();
+		FinancialVehicleDetails(user,sAndValues);
+		return ok(Json.toJson(sAndValues));
+	}
+	
+	public static void FinancialVehicleDetails(AuthUser user, List<sendDateAndValue> sAndValues){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
 		List<Vehicle> vehicle = null;
 		Map<String, Long> mapBodyStyle = new HashMap<String, Long>();
 		//Map<Long, Long> mapdate = new HashMap<Long, Long>();
-		List<sendDateAndValue> sAndValues = new ArrayList<>();
+		
 		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
@@ -24654,16 +24676,29 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			});
 		}
 		
+	}
+	
+	
+	public static Result getFinancialVehicleDetailsOther(Long location,Integer managerId){
+		AuthUser user = AuthUser.findById(managerId);
+		List<sendDateAndValue> sAndValues = new ArrayList<>();
+		setFinancialVehicle(user,sAndValues);
 		return ok(Json.toJson(sAndValues));
 	}
 	
+	
 	public static Result getFinancialVehicleDetails(){
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		AuthUser user = getLocalUser();
+		List<sendDateAndValue> sAndValues = new ArrayList<>();
+		setFinancialVehicle(user,sAndValues);
+		return ok(Json.toJson(sAndValues));
+	}
+	
+	public static void setFinancialVehicle(AuthUser user,List<sendDateAndValue> sAndValues){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
 		List<Vehicle> vehicle = null;
 		Map<String, Long> mapMake = new HashMap<String, Long>();
-		//Map<Long, Long> mapdate = new HashMap<Long, Long>();
-		List<sendDateAndValue> sAndValues = new ArrayList<>();
 		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
@@ -24793,8 +24828,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				
 			});
 		}
-		
-		return ok(Json.toJson(sAndValues));
 	}
 	
 	
@@ -24826,7 +24859,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
 			vehicaleNew = Vehicle.findByNewlyArrived();
-			
 		}else if(user.role.equals("Manager")){
 			vehicle = Vehicle.findByLocationAndSold(user.location.id);
 			vehicaleNew = Vehicle.findByNewArrAndLocation(user.location.id);
