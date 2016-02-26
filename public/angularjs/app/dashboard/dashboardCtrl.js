@@ -2597,9 +2597,7 @@ angular.module('newApp')
 	    					stockRp.vehicleImage = response.vehicleImage;
 	    					stockRp.imgId = response.imgId;
 	    					stockRp.year = response.year;
-	    					stockRp.vin = response.vin;
-	    					
-	    					
+	    					stockRp.vin = response.vin;	    					
 	    				} else {
 	    					$scope.isStockError = true;
 	    				}
@@ -7355,7 +7353,9 @@ angular.module('newApp')
 	$scope.goToLoaction = function() {
 		$location.path('/createLocation');
 	}
-	
+	$scope.goToDeactivateLoaction = function() {
+			$location.path('/deactiveLocations');
+	};
 	$scope.goToUsers = function() {
 		$location.path('/createUser');
 	}

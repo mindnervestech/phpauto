@@ -11155,7 +11155,7 @@ public class Application extends Controller {
     		Integer totalPrice = 0;
     		List<AuthUser> userList = AuthUser.getUserByType();
     		List<LocationVM> vmList = new ArrayList<>();
-    		List<Location> locationList = Location.findAllData();
+    		List<Location> locationList = Location.findAllActiveType();
     		for(Location location : locationList) {
     			totalPrice = 0;
     			LocationVM vm = new LocationVM();
@@ -11202,8 +11202,10 @@ public class Application extends Controller {
     					totalPriceForAllLocation = totalPriceForAllLocation + vehicle.price; 
     				}
     			}
+    			if(totalPrice != 0 && vm.carSoldLocation != 0){
+    				vm.percentOfMoney = (double)(totalPrice / totalPriceForAllLocation) * 100;
+    			}
     			
-    			vm.percentOfMoney = (double)(totalPrice / totalPriceForAllLocation) * 100;
     			
     			List<RequestMoreInfo> rInfoAll = RequestMoreInfo.findByLocationNotCancel(location);
     			List<ScheduleTest> sListAll = ScheduleTest.findByLocationNotCancel(location);
@@ -11266,7 +11268,7 @@ public class Application extends Controller {
     		Integer totalPrice = 0;
     		List<AuthUser> userList = AuthUser.getUserByType();
     		List<LocationVM> vmList = new ArrayList<>();
-    		List<Location> locationList = Location.findAllType();
+    		List<Location> locationList = Location.findAllActiveType();
     		for(Location location : locationList) {
     			totalPrice = 0;
     			LocationVM vm = new LocationVM();
@@ -11296,7 +11298,41 @@ public class Application extends Controller {
     		return ok(Json.toJson(vmList));
     	}
     }
-    
+    public static Result getDeactiveLocationForGM() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		List<AuthUser> userList = AuthUser.getUserByType();
+    		List<LocationVM> vmList = new ArrayList<>();
+    		List<Location> locationList = Location.findAllDeactiveType();
+    		for(Location location : locationList) {
+    			LocationVM vm = new LocationVM();
+    			vm.id = location.id;
+    			vm.locationaddress = location.address;
+    			vm.locationemail = location.email;
+    			vm.locationName = location.name;
+    			vm.locationphone = location.phone;
+    			vm.imageName = location.imageName;
+    			vm.imageUrl = location.imageUrl;
+    			vm.type = location.type;
+    			String roles = "Manager";
+    			AuthUser users = AuthUser.getlocationAndManagerByType(location, roles);
+    			if(users != null){
+	    			vm.managerId = users.id;
+	    			vm.email = users.email;
+	    			vm.firstName = users.firstName;
+	    			vm.lastName = users.lastName;
+	    			vm.phone = users.phone;
+	    			vm.managerFullName = users.firstName+""+users.lastName;
+	    			vm.mImageName = users.imageName;
+	    			vm.mImageUrl = users.imageUrl;
+    			}
+    			
+    				vmList.add(vm);
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
     
     public static Result getMangerAndLocation() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -25861,6 +25897,19 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		Location loc = Location.findById(id);
     		if(loc !=null){
     			loc.setType("deactive");
+    			loc.update();
+    		}
+        	return ok();
+    	}
+    }
+    
+    public static Result activeLocationById(Long id){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Location loc = Location.findById(id);
+    		if(loc !=null){
+    			loc.setType("active");
     			loc.update();
     		}
         	return ok();

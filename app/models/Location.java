@@ -121,8 +121,11 @@ public class Location extends Model {
 	public static List<Location> findAllData() {
 		return find.all();
 	}
-	public static List<Location> findAllType() {
+	public static List<Location> findAllActiveType() {
 		return find.where().eq("type", "active").findList();
+	}
+	public static List<Location> findAllDeactiveType() {
+		return find.where().eq("type", "deactive").findList();
 	}
 	
 	/*

@@ -41,13 +41,15 @@ angular.module('newApp')
 	}
 	
 	$scope.init = function() {
-		$http.get('/getLocationForGM')
-		.success(function(data) {
-			console.log(data);
-		$scope.gridOptions.data = data;
-	});
+			$http.get('/getLocationForGM')
+			.success(function(data) {
+				console.log(data);
+				$scope.gridOptions.data = data;
+			});
+		};
+	$scope.goToDeactivateLoaction = function() {
+			$location.path('/deactiveLocations');
 	};
-	
 	$scope.deactiveLocation = function(row){
 		console.log(row.entity);
 		$('#deactiveLocation').click();
@@ -365,3 +367,77 @@ angular.module('newApp')
 	}
 	
 }]);	
+
+angular.module('newApp')
+.controller('deactiveLocationCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+	console.log("welcome");
+	$scope.gridOptions = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	 		 $scope.gridOptions.enableHorizontalScrollbar = 0;
+	 		 $scope.gridOptions.enableVerticalScrollbar = 2;
+	 		 $scope.gridOptions.columnDefs = [
+			 		                                 { name: 'locationName', displayName: 'Location', width:'18%',cellEditableCondition: false,enableFiltering: false,
+			 		                                	
+			 		                                 },
+			 		                                 { name: 'locationemail', displayName: 'Location Email',enableFiltering: false, width:'18%',cellEditableCondition: false,
+			 		                                	
+			 		                                 },
+			 		                                 { name: 'locationphone', displayName: 'Location Phone',enableFiltering: false, width:'18%',cellEditableCondition: false,
+			 		                                	
+			 		                                 },
+			 		                                 { name: 'managerFullName', displayName: 'Manager Name',enableFiltering: false, width:'18%',cellEditableCondition: false,
+			 		                                	
+			 		                                 },
+			 		                                { name: 'email', displayName: 'Manager Email',enableFiltering: false, width:'18%',cellEditableCondition: false,
+			 		                                 	
+			 		                                },
+			 		                                 { name: 'edit', displayName: '', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+		       		                                 	cellTemplate:'<i class="fa fa-trash" ng-click="grid.appScope.activeLocation(row)" style="margin-top:7px;margin-left:14px;" title="Active Location"></i>', 
+			 		                                 },
+	     		                               ];
+	 		 
+	 		$scope.gotoProfile = function() {
+	 			$location.path('/myprofile');
+	 		};
+	 		
+	 		$scope.goToLoaction = function() {
+	 			$location.path('/createLocation');
+	 		};
+	 		
+	 		$scope.goToDeactivateLoaction = function() {
+	 			$location.path('/deactiveLocations');
+	 		};
+	 		$scope.init = function() {
+	 			$http.get('/getDeactiveLocationForGM')
+	 			.success(function(data) {
+	 				console.log(data);
+	 				$scope.gridOptions.data = data;
+	 			});
+	 		};
+	 		
+	 		$scope.activeLocation = function(row){
+	 			console.log(row.entity);
+	 			$('#deactiveLocation').click();
+	 			$scope.rowDataVal = row;
+	 		};
+	 		
+	 		$scope.activeLocationById = function() {
+	 			console.log($scope.rowDataVal.entity.id);
+	 			$http.get('/activeLocationById/'+$scope.rowDataVal.entity.id)
+	 			.success(function(data) {
+	 				$('#deleteClose').click();
+	 				$.pnotify({
+	 				    title: "Success",
+	 				    type:'success',
+	 				    text: "Location active succesfully!",
+	 				});
+	 				$scope.init();
+	 			});
+	 		};
+
+}]);
