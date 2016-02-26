@@ -1129,7 +1129,10 @@ public class Application extends Controller {
 	    	sendEmailToBrandFollowers(vehicle.make);
 	    	Vehicle vehicleObj2 = Vehicle.findByVinAndStatus(vm.vin);
 	    	List<Site> siteList = vehicleObj2.getSite();
-	    	MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(userObj);
+	    	AuthUser aUser = AuthUser.getlocationAndManagerByType(Location.findById(Long.valueOf(session("USER_LOCATION"))), "Manager");
+	    	MyProfile profile = MyProfile.findByUser(aUser);
+	    	//MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(userObj);
+	    	
 	    	if(!siteList.isEmpty()) {
 		    	for(Site siteObj: siteList) {
 		    		
@@ -3911,7 +3914,11 @@ public class Application extends Controller {
 		
 		AuthUser user = getLocalUser();
 		//AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
-		MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(user);
+		//MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(user);
+		
+		AuthUser aUser = AuthUser.getlocationAndManagerByType(Location.findById(Long.valueOf(session("USER_LOCATION"))), "Manager");
+    	MyProfile profile = MyProfile.findByUser(aUser);
+		
 		AuthUser logoUser = getLocalUser();
 		//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
  	    SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(logoUser);
@@ -4247,7 +4254,10 @@ public class Application extends Controller {
 		    	
 		    	Vehicle vehicleObj2 = Vehicle.findByVinAndStatus(vm.vin);
 		    	List<Site> siteList2 = vehicleObj2.getSite();
-		    	MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(userObj);
+		    	//MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(userObj);
+		    	AuthUser aUser = AuthUser.getlocationAndManagerByType(Location.findById(Long.valueOf(session("USER_LOCATION"))), "Manager");
+		    	MyProfile profile = MyProfile.findByUser(aUser);
+		    	
 		    	if(!siteList2.isEmpty()) {
 			    	for(Site siteObj: siteList2) {
 			    		if(siteObj.getName().equals("CarsGuru")) {
@@ -9340,6 +9350,8 @@ public class Application extends Controller {
     	AuthUser userObj = (AuthUser) getLocalUser();
     	//MyProfile mpObj = MyProfile.findByUser(userObj);
     	MyProfile mpObj = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    	
+    	
     	profileVM vm = new profileVM();
     	vm.address = mpObj.address;
     	vm.myname = mpObj.myname;
@@ -10877,7 +10889,6 @@ public class Application extends Controller {
     	
     	double valAvlPrice= ((double)pricecount/(double)saleCarCount);
     	lDataVM.angSalePrice = (int) valAvlPrice;
-    	
     	
     	
       	if(users.role.equals("Manager") && locOrPer.equals("location")){
