@@ -4167,7 +4167,8 @@ public class Application extends Controller {
     				flag=1;
     		//		sendPriceAlertMail(vehicle.vin);
 	    		}
-	    		
+	    		vehicle.setTypeofVehicle(vm.typeofVehicle);
+	    		System.out.println(vm.typeofVehicle);
 	    		vehicle.setCategory(vm.category);
 	    		vehicle.setTitle(vm.title);
 		    	vehicle.setYear(vm.year);

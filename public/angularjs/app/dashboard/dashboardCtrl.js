@@ -18,7 +18,7 @@ angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route) {
 	console.log(userKey);
 	$scope.userKey = userKey;
-	
+	$scope.vehicles = "All";
 	$scope.userRole;
 	$scope.locationValue = null;
 	$scope.priceLbl = 'true';
