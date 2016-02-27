@@ -1744,6 +1744,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		 AuthUser users = (AuthUser) getLocalUser();
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		
 	    	AuthUser userObj = new AuthUser();
@@ -1751,10 +1752,8 @@ public class Application extends Controller {
 	    	 List<Permission> permissionList = Permission.getAllPermission();
 		     if(vm.mi.equals("true")){
 		    	 
-		    	 AuthUser user = (AuthUser) getLocalUser();
-		    	 
 		    	   Location location = Location.findById(vm.locationId);
-		    	   location.setManager(user);
+		    	   location.setManager(users);
 		    	   location.update();
 		    	   
 		     }else{
@@ -1857,8 +1856,14 @@ public class Application extends Controller {
 		 		   
 		  			Message message = new MimeMessage(session);
 		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  		  if(vm.mi.equals("true")){
 		  			message.setRecipients(Message.RecipientType.TO,
-		  			InternetAddress.parse(userObj.email));
+				  			InternetAddress.parse(users.email));
+		  		  }else{
+		  			message.setRecipients(Message.RecipientType.TO,
+				  			InternetAddress.parse(userObj.email));
+		  		  }
+		  			
 		  			message.setSubject("Your username and password ");	  			
 		  			Multipart multipart = new MimeMultipart();
 	    			BodyPart messageBodyPart = new MimeBodyPart();

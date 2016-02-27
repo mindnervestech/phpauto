@@ -137,12 +137,14 @@ angular.module('newApp')
 		$scope.managerObj.lastName = $scope.user.lastName;
 		$scope.managerObj.email = $scope.user.email;
 		$scope.managerObj.phone = $scope.user.phone;
+		$scope.managerObj.mi = $scope.user.mi;
 		
 		//locationObj 
 		$scope.locationObj.locationName = $scope.user.locationName;
 		$scope.locationObj.locationaddress = $scope.user.locationaddress;
 		$scope.locationObj.locationemail = $scope.user.locationemail;
 		$scope.locationObj.locationphone = $scope.user.locationphone;
+		$scope.locationObj.locationphone = $scope.user.mi;
 		console.log($scope.user);
 		console.log($scope.managerObj);
 		console.log($scope.locationObj);
