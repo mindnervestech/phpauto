@@ -48,8 +48,6 @@ angular.module('newApp')
 	$scope.len = null;
 	$http.get('/getAllVehicles')
 		.success(function(data) {
-			console.log("{{{{{{{{{{}}}}");
-			console.log(data);
 			$scope.vinSearchList = data;
 		});
 		//$scope.stockRp = {};
@@ -80,7 +78,6 @@ angular.module('newApp')
 			$('#vinSearch_value').val($scope.item.vin);
 		}
 	};
-	
 	$http.get('/getUserType')
 	  .success(function(data) {
 	 	$scope.userType = data;
@@ -2309,8 +2306,6 @@ angular.module('newApp')
 	    			
 	    			
 	    		};
-	    		
-	    		
 	    		
 	    		$scope.notchange = 0;
 	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,vehicles) {
@@ -5735,7 +5730,6 @@ angular.module('newApp')
    }
    
    $scope.saveVehicle = function() {
-	   console.log("::::vinData");
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
