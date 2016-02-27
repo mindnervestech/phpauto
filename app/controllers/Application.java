@@ -9920,7 +9920,7 @@ public class Application extends Controller {
 	    		  //userObj.permission = permissionList;
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Website Analytics")) {
+	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard")) {
 	    				   permissionData.add(obj);
 	    			   }
 	    		   }
@@ -11503,6 +11503,8 @@ public class Application extends Controller {
 	    	
 	    	String arr2[] = null;
 	    	
+	    	
+	    	
 	    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
 	    		session("USER_ROLE", vm.userType+"");
 	    	}else{
@@ -11516,7 +11518,18 @@ public class Application extends Controller {
 	    	}
 	    	userObj.deleteManyToManyAssociations("permission");
 	    	List<Permission> permissionList = Permission.getAllPermission();
-	    	   if(vm.userType.equals("General Manager") || vm.userType.equals("Manager")) {
+	    	
+	    	if(vm.userType.equals("General Manager")) {
+	    		  //userObj.permission = permissionList;
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard")) {
+	    				   permissionData.add(obj);
+	    			   }
+	    		   }
+	    		   userObj.permission = permissionData;
+	    	   }
+	    	   if(vm.userType.equals("Manager")) {
 	    		   userObj.permission.addAll(permissionList);
 	    	   }
 	    	   
