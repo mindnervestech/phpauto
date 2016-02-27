@@ -15,7 +15,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardLocationCtrl', ['$scope','$routeParams', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route', function ($scope, $routeParams,dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route) {
+  .controller('dashboardLocationCtrl', ['$scope','$routeParams', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$window', function ($scope, $routeParams,dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$window) {
 	$scope.showSelectLocationDash = $routeParams.LocationId;
 	$scope.locationValue = $routeParams.LocationId;
 	$scope.userKey = $routeParams.managerId;
@@ -64,8 +64,33 @@ angular.module('newApp')
 		//$scope.stockRp = {};
 	$scope.openLocationDasboard = function(item){
 		$scope.showSelectLocationDash = item.id;
+		if($routeParams.gmIsManager == 1){
+			$http.get('/changePermission/'+$routeParams.LocationId+"/"+$routeParams.managerId+"/"+"0")
+			.success(function(data) {
+				console.log($location.absUrl());
+				 window.location.reload();
+			});
+		}else{
+			$http.get('/changePermission/'+item.id+"/"+item.managerId+"/"+item.gmIsManager)
+			.success(function(data) {
+				console.log($location.absUrl());
+				 window.location.reload();
+			});
+		}
+		
 		$location.path('/dashboardLocation/'+item.id+"/"+item.managerId+"/"+item.gmIsManager);
-	   }
+	  }
+	
+	$scope.backTodashBord = function(){
+		
+		if($routeParams.gmIsManager == 1){
+			$http.get('/changePermission/'+$routeParams.LocationId+"/"+$routeParams.managerId+"/"+"0")
+			.success(function(data) {
+				 $window.location.href = '/authenticate';
+			});
+		}
+		
+	}
 	
 	$scope.selectedVinValue = function(selectObj){
 		$scope.item = selectObj.originalObject;

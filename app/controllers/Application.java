@@ -559,6 +559,27 @@ public class Application extends Controller {
     		return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
     	}
     }
+    
+    public static Result changePermission(Long locationId,Integer managerId,String gmIsManager){
+    	AuthUser user = AuthUser.findById(managerId);
+    	user.deleteManyToManyAssociations("permission");
+    	List<Permission> permissionList = Permission.getAllPermission();
+    	 List<Permission> permissionData = new ArrayList<>();
+    	if(gmIsManager.equals("1")) {
+    		  
+    		   user.permission.addAll(permissionList);
+    		   
+    	   }else{
+    		   for(Permission obj: permissionList) {
+				   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard")) {
+					   permissionData.add(obj);
+				   }
+    		   }
+    		   user.permission = permissionData;
+    	   }
+    	user.update();
+    	return ok();
+    }
 	
     public static Result getUserPermissions() {
     	AuthUser user = getLocalUser();

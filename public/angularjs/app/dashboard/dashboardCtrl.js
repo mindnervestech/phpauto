@@ -137,6 +137,13 @@ angular.module('newApp')
 	$scope.openLocationDasboard = function(item){
 		console.log(item);
 		console.log(item.id);
+		if(item.gmIsManager == 1){
+			$http.get('/changePermission/'+item.id+"/"+item.managerId+"/"+item.gmIsManager)
+			.success(function(data) {
+				window.location.reload();
+			});
+		}
+		
 		$scope.showSelectLocationDash = item.id;
 		$location.path('/dashboardLocation/'+item.id+"/"+item.managerId+"/"+item.gmIsManager);
 	   }
