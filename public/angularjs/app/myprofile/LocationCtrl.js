@@ -46,6 +46,12 @@ angular.module('newApp')
 				console.log(data);
 				$scope.gridOptions.data = data;
 			});
+			
+			$http.get('/getLocationValueForGM')
+			.success(function(data) {
+				console.log(data);
+				$scope.gmIsManager = data;
+			});
 		};
 	$scope.goToDeactivateLoaction = function() {
 			$location.path('/deactiveLocations');
@@ -131,6 +137,9 @@ angular.module('newApp')
 	$scope.locationObj = {};
 	$scope.saveImage = function() {
 		$scope.user.userType = "Manager"
+		if($scope.user.mi == undefined){
+			$scope.user.mi = 0;
+		}
 		
 		$scope.managerObj.userType = $scope.user.userType;
 		$scope.managerObj.firstName = $scope.user.firstName;

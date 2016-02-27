@@ -11295,6 +11295,21 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result getLocationValueForGM(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
+    		int flag = 0;
+    		Location location= Location.findManagerType(user);
+    		
+    		if(location != null){
+    			flag = 1;
+    		}
+    		return ok(Json.toJson(flag));
+    	}
+    }
+    
     public static Result getLocationForGM() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
