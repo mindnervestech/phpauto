@@ -218,8 +218,8 @@ public class MyProfile extends Model {
 		return find.all();
 	}
 	
-	public static MyProfile findByLocation(Long location) {
-		return find.where().eq("locations.id", location).findUnique();
+	public static List<MyProfile> findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findList();
 	}
 
 	public String getDealer_id() {

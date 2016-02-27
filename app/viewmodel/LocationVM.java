@@ -19,6 +19,7 @@ public class LocationVM {
 	public String mImageUrl;
 	public Integer salePeopleUserLocation;
 	public Integer totalMoneyBrougthLocation;
+	public Integer gmIsManager;
 	public Integer carSoldLocation;
 	public Double avgSaleLocation;
 	public Double percentOfMoney;

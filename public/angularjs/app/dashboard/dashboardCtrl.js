@@ -138,7 +138,7 @@ angular.module('newApp')
 		console.log(item);
 		console.log(item.id);
 		$scope.showSelectLocationDash = item.id;
-		$location.path('/dashboardLocation/'+item.id+"/"+item.managerId);
+		$location.path('/dashboardLocation/'+item.id+"/"+item.managerId+"/"+item.gmIsManager);
 	   }
 	
 	$scope.imageEnter = function(index){

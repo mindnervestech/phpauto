@@ -191,7 +191,7 @@ var MakeApp = angular
             templateUrl: '/dealer/viewVehicle/viewVehicles.html',
             controller: 'ViewVehiclesCtrl'
         })
-         .when('/dashboardLocation/:LocationId/:managerId', {
+         .when('/dashboardLocation/:LocationId/:managerId/:gmIsManager', {
             templateUrl: '/dealer/dashboard/dashboardLocation.html',
             controller: 'dashboardLocationCtrl'
         })
@@ -217,6 +217,7 @@ var MakeApp = angular
     return {
     	link: function(scope, element, attrs, ngModelCtrl) {
     		var sec = permissions;
+    		
     		var obj = sec[attrs.ngSec];
     		if(typeof  obj === 'undefined') {
     			$(element).remove();

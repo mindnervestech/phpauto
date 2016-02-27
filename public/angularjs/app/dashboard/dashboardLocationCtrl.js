@@ -19,8 +19,17 @@ angular.module('newApp')
 	$scope.showSelectLocationDash = $routeParams.LocationId;
 	$scope.locationValue = $routeParams.LocationId;
 	$scope.userKey = $routeParams.managerId;
+	$scope.gmIsManager = $routeParams.gmIsManager;
 	$scope.userRole = "Manager";
 	$scope.userType = "Manager";
+	
+	$http.get('/getfindGmIsManager')
+	.success(function(data) {
+		if(data != null){
+			$scope.locationValue = data;
+		}
+		
+	});
 	
 	$scope.locationValue = null;
 	$scope.priceLbl = 'true';
@@ -55,7 +64,7 @@ angular.module('newApp')
 		//$scope.stockRp = {};
 	$scope.openLocationDasboard = function(item){
 		$scope.showSelectLocationDash = item.id;
-		$location.path('/dashboardLocation/'+item.id+"/"+item.managerId);
+		$location.path('/dashboardLocation/'+item.id+"/"+item.managerId+"/"+item.gmIsManager);
 	   }
 	
 	$scope.selectedVinValue = function(selectObj){
@@ -2302,7 +2311,7 @@ angular.module('newApp')
 	    		
 	    		$scope.notchange = 0;
 	    		$scope.getVisitedData = function(type,filterBy,search,searchBy) {
-	    			$http.get('/getVisitedDataOther/'+type+'/'+filterBy+'/'+search+'/'+searchBy+"/"+$routeParams.LocationId+"/"+$routeParams.managerId).success(function(response) {
+	    			$http.get('/getVisitedDataOther/'+type+'/'+filterBy+'/'+search+'/'+searchBy+"/"+$routeParams.LocationId+"/"+$routeParams.managerId+"/"+$routeParams.gmIsManager).success(function(response) {
 	    				console.log(response);
 	    				$scope.weekData = response;
 	    				
@@ -2313,12 +2322,18 @@ angular.module('newApp')
 	    					$scope.notchange = 0;
 	    				}
 	    				
-	    				/*if($scope.currentSelectedType==0) 
+	    				if($routeParams.gmIsManager == 1){
+	    					if($scope.currentSelectedType==0) 
 	    					$scope.currentData = response.topVisited;
 	    				else if($scope.currentSelectedType==1)
 	    					$scope.currentData = response.worstVisited;
-	    				else if($scope.currentSelectedType==2)*/
+	    				else if($scope.currentSelectedType==2)
 	    					$scope.currentData = response.allVehical;
+	    				}else{
+	    					$scope.currentData = response.allVehical;
+	    				}
+	    				
+	    					
 	    			});
 	    		};
 	    		

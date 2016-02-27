@@ -254,7 +254,7 @@ margin-left: 5px;
 							
 						
 							
-	<!-- <div class="col-xlg-5 col-lg-5">
+	 <div class="col-xlg-5 col-lg-5" ng-if="gmIsManager == 1">
 	<div class="row"> 
 		<div class="col-md-4" style="width: 193px !important;">
 		                <div class="panel no-bd bd-3 panel-stat" style="height:94px;">
@@ -268,7 +268,7 @@ margin-left: 5px;
         	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>MEETING</button>
         	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button>
 	</div>
-	</div> -->
+	</div> 
 	
 	<!-- <div class="col-md-4 col-sm-6 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager')  && showToDoList">    && showToDoList
         <div class="panel">
@@ -316,7 +316,7 @@ margin-left: 5px;
             </div>
         </div>
     </div> -->
-<!-- 	<div class="col-sm-4" style="position: relative;float: left;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
+	<div class="col-sm-4" style="position: relative;float: left;" ng-show="(gmIsManager == 1 || userType == 'Manager') && showCalendar">
                     <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-certificate"></i></button>
             <div class="col-md-12 cal-report" id="load_cal_or_wheth">
     			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
@@ -386,7 +386,7 @@ margin-left: 5px;
               </div>
             </div>
           </div>
-      </div> -->
+      </div> 
 	
 	<div class="col-xlg-12 col-lg-12" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person' ||userRole == 'Manager'"style="padding-left: 0px;padding-right: 0px">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
@@ -473,9 +473,9 @@ margin-left: 5px;
 													<div class="col-sm-2" style="padding-left: 0px;">
 													<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
 													</div>
-													<!-- <div class="col-sm-2" style="padding-left: 0px;">
-									<a class="btn " ng-click="openCreateNewLeads(item.stockNumber)" style="color: darkturquoise;border: darkturquoise; border-style: solid;">+ Lead </a> 													
-													</div> -->
+													 <div class="col-sm-2" style="padding-left: 0px;" ng-if="gmIsManager == 1">
+															<a class="btn " ng-click="openCreateNewLeads(item.stockNumber)" style="color: darkturquoise;border: darkturquoise; border-style: solid;">+ Lead </a> 													
+													</div> 
 													</div>
 																									
 												</div>
@@ -3506,7 +3506,7 @@ margin-left: 5px;
 </div>
 
 
-<!-- <div class="row" ng-if="userType == 'Sales Person' || userType == 'Manager'">
+ <div class="row" ng-if="gmIsManager == 1 || userType == 'Manager'">
     <div class="col-xlg-12">
         <div class="panel">
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
@@ -3578,7 +3578,7 @@ margin-left: 5px;
   				</div>  
 		</div>
 	</div>
-</div>	 -->
+</div>	 
 <!-- <div class="row">
 	<div class="col-xlg-12">
 		<div class="panel">

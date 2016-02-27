@@ -287,6 +287,11 @@ public class Application extends Controller {
 					
 					if(user.location != null){
 						session("USER_LOCATION", user.location.id+"");
+					}else if(user.location == null){
+						Location location = Location.findManagerType(user);
+						if(location != null){
+							session("USER_LOCATION", location.id+"");
+						}
 					}
 					//return  redirect("/dealer/index.html#/");
 		    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
@@ -310,7 +315,14 @@ public class Application extends Controller {
 						
 						if(user.location != null){
 							session("USER_LOCATION", user.location.id+"");
+						}else if(user.location == null){
+							Location location = Location.findManagerType(user);
+							if(location != null){
+								session("USER_LOCATION", location.id+"");
+							}
 						}
+						
+						
 						//return  redirect("/dealer/index.html#/");
 			    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
 			    		List<Permission> userPermissions = user.getPermission();
@@ -333,6 +345,12 @@ public class Application extends Controller {
 		}
 	}
 	
+	public static Result getfindGmIsManager(){
+		AuthUser user = getLocalUser();
+		Location location = Location.findManagerType(user);
+		return ok(Json.toJson(location.id));
+	}
+	
 	public static Result acceptAgreement() {
 		System.out.println("acceptAgreement");
 		String email = Form.form().bindFromRequest().get("email");
@@ -348,7 +366,14 @@ public class Application extends Controller {
 			
 			if(user.location != null){
 				session("USER_LOCATION", user.location.id+"");
+			}else if(user.location == null){
+				Location location = Location.findManagerType(user);
+				if(location != null){
+					session("USER_LOCATION", location.id+"");
+				}
 			}
+			
+			
 			HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
     		List<Permission> userPermissions = user.getPermission();
     		for(Permission per: userPermissions) {
@@ -1132,9 +1157,9 @@ public class Application extends Controller {
 	    	sendEmailToBrandFollowers(vehicle.make);
 	    	Vehicle vehicleObj2 = Vehicle.findByVinAndStatus(vm.vin);
 	    	List<Site> siteList = vehicleObj2.getSite();
-	    	AuthUser aUser = AuthUser.getlocationAndManagerByType(Location.findById(Long.valueOf(session("USER_LOCATION"))), "Manager");
-	    	MyProfile profile = MyProfile.findByUser(aUser);
-	    	//MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(userObj);
+	    	//AuthUser aUser = AuthUser.getlocationAndManagerByType(Location.findById(Long.valueOf(session("USER_LOCATION"))), "Manager");
+	    	//MyProfile profile = MyProfile.findByUser(aUser);
+	    	List<MyProfile> profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(userObj);
 	    	
 	    	if(!siteList.isEmpty()) {
 		    	for(Site siteObj: siteList) {
@@ -1269,16 +1294,16 @@ public class Application extends Controller {
 		            		row[12] = standardFeatures;
 		            		
 		            		if(profile != null) {
-		            			row[13] = profile.dealer_id;
-		            			row[14] = profile.myname;
-		            			row[15] = profile.address;
-		            			row[16] = profile.city;
-			            		row[17] = profile.state;
-			            		row[18] = profile.zip;
-			            		row[19] = profile.email;
-			            		row[25] = profile.latlong;
-			            		row[27] = profile.phone;
-			            		row[28] = profile.web;
+		            			row[13] = profile.get(0).dealer_id;
+		            			row[14] = profile.get(0).myname;
+		            			row[15] = profile.get(0).address;
+		            			row[16] = profile.get(0).city;
+			            		row[17] = profile.get(0).state;
+			            		row[18] = profile.get(0).zip;
+			            		row[19] = profile.get(0).email;
+			            		row[25] = profile.get(0).latlong;
+			            		row[27] = profile.get(0).phone;
+			            		row[28] = profile.get(0).web;
 		            		} else {
 		            			row[13] = "";
 		            			row[14] = "";
@@ -1386,7 +1411,7 @@ public class Application extends Controller {
 		    	    		}
 		    	    		row[6] = str;
 		    	    		if(profile != null) {
-		    	    			row[7] = profile.address;
+		    	    			row[7] = profile.get(0).address;
 		    	    		} else {
 		    	    			row[7] = "";
 		    	    		}
@@ -1396,11 +1421,11 @@ public class Application extends Controller {
 		    	    		row[11] = "United States";
 		    	    		row[12] = "Dealer";
 		    	    		if(profile != null) {
-		    	    			row[13] = profile.myname;
-		    	    			row[14] = profile.dealer_id;
-			    	    		row[15] = profile.email;
-			    	    		row[16] = profile.phone;
-			    	    		row[17] = profile.web;
+		    	    			row[13] = profile.get(0).myname;
+		    	    			row[14] = profile.get(0).dealer_id;
+			    	    		row[15] = profile.get(0).email;
+			    	    		row[16] = profile.get(0).phone;
+			    	    		row[17] = profile.get(0).web;
 		    	    		} else {
 		    	    			row[13] = "";
 		    	    			row[14] = "";
@@ -1702,27 +1727,44 @@ public class Application extends Controller {
     		
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
-	    	
-	    	userObj.firstName = vm.firstName;
-	    	userObj.lastName = vm.lastName;
-	    	userObj.email = vm.email;
-	    	userObj.phone = vm.phone;
-	    	userObj.role = vm.userType;
-	    	userObj.location = Location.findById(vm.locationId);
-	    	userObj.communicationemail = vm.email;
-	    	userObj.account = "active";
-	    	
-	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	    	Random rnd = new Random();
+	    	 List<Permission> permissionList = Permission.getAllPermission();
+		     if(vm.mi.equals("true")){
+		    	 
+		    	 AuthUser user = (AuthUser) getLocalUser();
+		    	 
+		    	   Location location = Location.findById(vm.locationId);
+		    	   location.setManager(user);
+		    	   location.update();
+		    	   
+		     }else{
+		    	  userObj.firstName = vm.firstName;
+			    	userObj.lastName = vm.lastName;
+			    	userObj.email = vm.email;
+			    	userObj.phone = vm.phone;
+			    	userObj.role = vm.userType;
+			    	userObj.location = Location.findById(vm.locationId);
+			    	userObj.communicationemail = vm.email;
+			    	userObj.account = "active";
+			    	
+			    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			    	Random rnd = new Random();
 
-	    	   StringBuilder sb = new StringBuilder( 6 );
-	    	   for( int i = 0; i < 6; i++ ) 
-	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+			    	   StringBuilder sb = new StringBuilder( 6 );
+			    	   for( int i = 0; i < 6; i++ ) 
+			    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+			    	
+			    	   userObj.password = sb.toString();
+			    	   
+			    	   
+			    	   if(vm.userType.equals("Manager")) {
+			    		   userObj.permission = permissionList;
+			    	   } 
+		     }
 	    	
-	    	   userObj.password = sb.toString();
-	    	   List<Permission> permissionList = Permission.getAllPermission();
+	    	
+	    	
+	    	  
 	    	   if(vm.userType.equals("General Manager")) {
-	    		   //userObj.permission = permissionList;
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
 	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Website Analytics")) {
@@ -1732,9 +1774,6 @@ public class Application extends Controller {
 	    		   userObj.permission = permissionData;
 	    	   }
 	    	   
-	    	   if(vm.userType.equals("Manager")) {
-	    		   userObj.permission = permissionList;
-	    	   }
 	    	   
 	    	   if(vm.userType.equals("Sales Person")) {
 	    		   List<Permission> permissionData = new ArrayList<>();
@@ -1745,9 +1784,14 @@ public class Application extends Controller {
 	    		   }
 	    		   userObj.permission = permissionData;
 	    	   }
-	    	   userObj.save();
+	    	   
+	    	   if(!vm.mi.equals("true")){
+	    		   userObj.save();
+	    	   }
 	    	   
 	    	   MultipartFormData body = request().body().asMultipartFormData();
+	    	   
+	    	   if(!vm.mi.equals("true")){
 	    	   if(body != null) {
 	    		FilePart picture = body.getFile("file0");
 		    	  if (picture != null) {
@@ -1772,7 +1816,8 @@ public class Application extends Controller {
 			  		} 
 		    	  } 
 	    	   } 
-	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
+	    	   }
+	    	   //AuthUser logoUser = AuthUser.findById(userObj.id);
 	    	   //SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(logoUser);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
@@ -9353,25 +9398,25 @@ public class Application extends Controller {
     public static Result getMyProfile() {
     	AuthUser userObj = (AuthUser) getLocalUser();
     	//MyProfile mpObj = MyProfile.findByUser(userObj);
-    	MyProfile mpObj = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    	List<MyProfile> mpObj = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));
     	
     	
     	profileVM vm = new profileVM();
-    	vm.address = mpObj.address;
-    	vm.myname = mpObj.myname;
-    	vm.city = mpObj.city;
-    	vm.country = mpObj.country;
-    	vm.dealer_id = mpObj.dealer_id;
-    	vm.email = mpObj.email;
-    	vm.facebook = mpObj.facebook;
-    	vm.googleplus = mpObj.googleplus;
-    	vm.instagram= mpObj.instagram;
-    	vm.phone = mpObj.phone;
-    	vm.pinterest = mpObj.pinterest;
-    	vm.state = mpObj.state;
-    	vm.twitter = mpObj.twitter;
-    	vm.web = mpObj.web;
-    	vm.zip = mpObj.zip;
+    	vm.address = mpObj.get(0).address;
+    	vm.myname = mpObj.get(0).myname;
+    	vm.city = mpObj.get(0).city;
+    	vm.country = mpObj.get(0).country;
+    	vm.dealer_id = mpObj.get(0).dealer_id;
+    	vm.email = mpObj.get(0).email;
+    	vm.facebook = mpObj.get(0).facebook;
+    	vm.googleplus = mpObj.get(0).googleplus;
+    	vm.instagram= mpObj.get(0).instagram;
+    	vm.phone = mpObj.get(0).phone;
+    	vm.pinterest = mpObj.get(0).pinterest;
+    	vm.state = mpObj.get(0).state;
+    	vm.twitter = mpObj.get(0).twitter;
+    	vm.web = mpObj.get(0).web;
+    	vm.zip = mpObj.get(0).zip;
     	return ok(Json.toJson(vm));
     }
     
@@ -11119,7 +11164,19 @@ public class Application extends Controller {
     			vm.imageName = location.imageName;
     			vm.imageUrl = location.imageUrl;
     			String roles = "Manager";
-    			AuthUser users = AuthUser.getlocationAndManagerByType(location, roles);
+    			AuthUser users = null;
+    			users = AuthUser.getlocationAndManagerByType(location, roles);
+    			if(users == null){
+    				if(location.manager != null){
+    					users = AuthUser.findById(location.manager.id);
+    					if(users != null){
+    						vm.gmIsManager = 1; 
+    					}
+    				}
+    			}else{
+    				vm.gmIsManager = 0; 
+    			}
+    			
     			if(users != null){
 	    			vm.managerId = users.id;
 	    			vm.email = users.email;
@@ -11417,8 +11474,6 @@ public class Application extends Controller {
 	   if(session("USER_KEY") == null || session("USER_KEY") == "") {
    		return ok(home.render(""));
    	} else {
-	    	
-	        		
 	        		Form<LocationVM> form = DynamicForm.form(LocationVM.class).bindFromRequest();
 	        		
 	    	    	AuthUser userObj = new AuthUser();
@@ -11431,12 +11486,12 @@ public class Application extends Controller {
 		    	    	loc.setPhone(vm.locationphone);
 		    	    	loc.update();
 		    	    	
-		    	    	MyProfile mProfile = MyProfile.findByLocation(Long.valueOf(vm.id));
+		    	    	/*List<MyProfile> mProfile = MyProfile.findByLocation(Long.valueOf(vm.id));
 		    	    	mProfile.setAddress(vm.locationemail);
 		    	    	mProfile.setMyname(vm.locationName);
 		    	    	mProfile.setEmail(vm.locationemail);
 		    	    	mProfile.setPhone(vm.locationphone);
-		    	    	mProfile.update();
+		    	    	mProfile.update();*/
 
 		    	    	
 		    	    	 MultipartFormData body = request().body().asMultipartFormData();
@@ -17913,11 +17968,11 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
-    public static Result getVisitedDataOther(String type,String filterBy,String search,String searchBy,Long locationId,Integer managerId) {
+    public static Result getVisitedDataOther(String type,String filterBy,String search,String searchBy,Long locationId,Integer managerId, String gmInManag) {
     	AuthUser user = AuthUser.findById(managerId);
     	Map result = new HashMap(3);
     	
-    	topListings(type,filterBy,search,searchBy,locationId,user,result,"All");
+    	topListings(type,filterBy,search,searchBy,locationId,user,result,"All",gmInManag);
     	return ok(Json.toJson(result));
     }
     
@@ -17932,11 +17987,11 @@ public class Application extends Controller {
     		locationId = Long.valueOf(session("USER_LOCATION"));
     	}
     	
-    	topListings(type,filterBy,search,searchBy,locationId,user,result,vehicles);
+    	topListings(type,filterBy,search,searchBy,locationId,user,result,vehicles,"0");
     	return ok(Json.toJson(result));
     }
     
-    public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result,String vehicles){
+    public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result,String vehicles,String gmInManag){
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
     	
     	String params = null;
@@ -17969,7 +18024,7 @@ public class Application extends Controller {
 				String van[] = arrVin[5].split("\"");
 				System.out.println(van[0]);
 				Vehicle vehicle = null;
-				if(user.role.equals("Sales Person") || user.role.equals("Manager")){
+				if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
 					vehicle = Vehicle.findByVinAndStatusForGM(van[0],Location.findById(locationId));
 				}else{
 					vehicle = Vehicle.findByVinAndStatus(van[0]);
@@ -18000,7 +18055,7 @@ public class Application extends Controller {
     	}
     	
     	List<Vehicle> vlist = null;
-    	if(user.role.equals("Sales Person") || user.role.equals("Manager")){
+    	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
     		vlist = Vehicle.findByNewlyArrivedForGM(Location.findById(locationId));
 		}else{
 			vlist = Vehicle.findByNewlyArrived();
@@ -18009,7 +18064,7 @@ public class Application extends Controller {
     	for (Vehicle vehicle : vlist) {
     		vins1.add(vehicle.vin);
 		}
-    	if(user.role.equals("Sales Person") || user.role.equals("Manager")){
+    	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
 			List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeenSch(user);
 			List<ScheduleTest> sTests = ScheduleTest.findAllAssigned(user);
 			List<TradeIn> tIns = TradeIn.findAllSeenSch(user);
@@ -21073,8 +21128,8 @@ if(vehicles.equals("All")){
 		//AuthUser user = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 		
 		//MyProfile profile = MyProfile.findByUser(user);
-		MyProfile profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));
-		String mapUrl = "http://maps.google.com/?q="+profile.address+","+profile.city+","+profile.zip+","+profile.state+","+profile.country;
+		List<MyProfile> profile = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String mapUrl = "http://maps.google.com/?q="+profile.get(0).address+","+profile.get(0).city+","+profile.get(0).zip+","+profile.get(0).state+","+profile.get(0).country;
 		if(blogList.size() > 0) {
 			AuthUser logoUser = getLocalUser();
 			//AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
@@ -21120,8 +21175,8 @@ if(vehicles.equals("All")){
 	    	        context.put("blogImage", blogList.get(0).getImageUrl());
 	    	        context.put("description", blogList.get(0).getDescription());
 	    	        context.put("mapUrl", mapUrl);
-	    	        context.put("phone", profile.phone);
-	    	        context.put("email", profile.email);
+	    	        context.put("phone", profile.get(0).phone);
+	    	        context.put("email", profile.get(0).email);
 	    	        
 	    	        StringWriter writer = new StringWriter();
 	    	        t.merge( context, writer );
@@ -21583,7 +21638,7 @@ if(vehicles.equals("All")){
 	}
 	
 	public static Result getAllLocations(){
-		List<Location> list = Location.findAllData();
+		List<Location> list = Location.findAllActiveType();
 		return ok(Json.toJson(list));
 	}
 	

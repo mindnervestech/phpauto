@@ -28,6 +28,8 @@ public class Location extends Model {
 	public String imageUrl;
 	public String type;
 	
+	@ManyToOne
+	public AuthUser manager;
 	
 
 	public String getType() {
@@ -127,6 +129,24 @@ public class Location extends Model {
 	public static List<Location> findAllDeactiveType() {
 		return find.where().eq("type", "deactive").findList();
 	}
+
+	public static Location findManagerType(AuthUser user) {
+		return find.where().eq("type", "active").eq("manager", user).findUnique();
+	}
+
+	public AuthUser getManager() {
+		return manager;
+	}
+
+
+	public void setManager(AuthUser manager) {
+		this.manager = manager;
+	}
+
+
+	
+	
+	
 	
 	/*
 	
