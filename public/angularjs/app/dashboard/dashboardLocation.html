@@ -254,9 +254,9 @@ margin-left: 5px;
 							
 						
 							
-	 <div class="col-xlg-5 col-lg-5" ng-if="gmIsManager == 1">
+	 <div class="col-xlg-5 col-lg-5">
 	<div class="row"> 
-		<div class="col-md-4" style="width: 193px !important;">
+		<div class="col-md-4" style="width: 193px !important;" ng-if="gmIsManager == 1">
 		                <div class="panel no-bd bd-3 panel-stat" style="height:94px;">
 		                	<div class="panel-header">
 		                		<b>CURRENTLY ONLINE</b>
@@ -264,9 +264,9 @@ margin-left: 5px;
 		                	<h1 style="text-align: center;">{{onlineVisitorsCount}}</h1>
 		                </div>
 	            </div>
-	            <button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openCreateNewLeadPopup();" ng-if="userRole != 'General Manager'"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>CREATE LEAD</button>
-        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>MEETING</button>
-        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button>
+	            <button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openCreateNewLeadPopup();" ng-if="gmIsManager == 1"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>CREATE LEAD</button>
+        	<button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>MEETING</button>
+        	<button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button>
 	</div>
 	</div> 
 	
