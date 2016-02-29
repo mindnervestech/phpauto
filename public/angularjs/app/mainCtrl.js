@@ -9,6 +9,9 @@
                 Dropzone.autoDiscover = false;
             });
             
+            var array = [];
+           
+            
             $http.get('/getUserInfo').success(function(data,status, headers, config){
             	
             	$scope.name = data.firstName + " " + data.lastName;
@@ -32,6 +35,17 @@
                 $scope.tradeInLength = data.trade;
                 $scope.premiumlength = data.premium;
                 $scope.userType = data.userType;
+                
+                $scope.setFalg = 0;
+                if($scope.userType == "General Manager"){
+                	array = $location.path().split('/');
+                	 if(array[4] == 1){
+                     	$scope.setFalg = 1;
+                     }
+                }else{
+                	$scope.setFalg = 1;
+                }
+               
             })
             
             var promo =  $interval(function(){
