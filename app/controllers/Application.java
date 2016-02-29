@@ -567,13 +567,19 @@ public class Application extends Controller {
     	 List<Permission> permissionData = new ArrayList<>();
     	if(gmIsManager.equals("1")) {
     		  
-    		   user.permission.addAll(permissionList);
+    		 for(Permission obj: permissionList) {
+				   if(!obj.name.equals("Dealer's Profile") && !obj.name.equals("My Locations") && !obj.name.equals("Deactivate Locations")) {
+					   permissionData.add(obj);
+				   }
+  		   }
+  		   user.permission = permissionData;
+    		   //user.permission.addAll(permissionList);
     		   
     	   }else{
     		   
     		   if(user.role.equals("General Manager")){
     			   for(Permission obj: permissionList) {
-    				   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard")) {
+    				   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile") || obj.name.equals("My Locations") || obj.name.equals("Deactivate Locations")) {
     					   permissionData.add(obj);
     				   }
         		   }
@@ -1791,7 +1797,7 @@ public class Application extends Controller {
 	    	   if(vm.userType.equals("General Manager")) {
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Website Analytics")) {
+	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile") || obj.name.equals("My Locations") || obj.name.equals("Deactivate Locations")) {
 	    				   permissionData.add(obj);
 	    			   }
 	    		   }
@@ -9371,7 +9377,7 @@ public class Application extends Controller {
     	
     	
     	if(session("USER_LOCATION") != null){
-    		Location loc = Location.findById(userObj.location.id);
+    		Location loc = Location.findById(Long.parseLong(session("USER_LOCATION")));
         	
         	if(loc != null){
         		loc.setEmail(vm.email);
@@ -9958,7 +9964,7 @@ public class Application extends Controller {
 	    	userObj.communicationemail = vm.email;
 	    	userObj.phone = vm.phone;
 	    	userObj.role = vm.userType;
-	    	userObj.location = users.location;
+	    	userObj.location = Location.findById(Long.parseLong(session("USER_LOCATION")));
 	    	userObj.age = vm.age;
 	    	userObj.commission =vm.commission;
 	    	userObj.contractDur = vm.contractDur;
@@ -9996,7 +10002,7 @@ public class Application extends Controller {
 	    		  //userObj.permission = permissionList;
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard")) {
+	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile") || obj.name.equals("My Locations") || obj.name.equals("Deactivate Locations")) {
 	    				   permissionData.add(obj);
 	    			   }
 	    		   }
@@ -11622,16 +11628,22 @@ public class Application extends Controller {
 	    	
 	    	if(vm.userType.equals("General Manager")) {
 	    		  //userObj.permission = permissionList;
-	    		   List<Permission> permissionData = new ArrayList<>();
+	    		List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard")) {
+	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile") || obj.name.equals("My Locations") || obj.name.equals("Deactivate Locations")) {
 	    				   permissionData.add(obj);
 	    			   }
 	    		   }
 	    		   userObj.permission = permissionData;
 	    	   }
 	    	   if(vm.userType.equals("Manager")) {
-	    		   userObj.permission.addAll(permissionList);
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+					   if(!obj.name.equals("Dealer's Profile") && !obj.name.equals("My Locations") && !obj.name.equals("Deactivate Locations")) {
+						   permissionData.add(obj);
+					   }
+	    		   }
+	    		   userObj.permission = permissionData;
 	    	   }
 	    	   
 	    	   if(vm.userType.equals("Sales Person")) {

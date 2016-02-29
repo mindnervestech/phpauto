@@ -1,12 +1,20 @@
   
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-    	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Manager Profile</button></a></li>
+    	<!-- <li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Manager Profile</button></a></li>
       	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
       	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
       	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactive()">Deactive Users</button></a></li>
       	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">My Locations</button></a></li>
-      	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactivateLoaction()">Deactivate Locations</button></a></li>
+      	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactivateLoaction()">Deactivate Locations</button></a></li> -->
+      	
+      	<li ng-sec = "Manager Profile" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Manager Profile</button></a></li>
+      	<li ng-sec = "Dealer's Profile" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
+      	<li ng-sec = "Users" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
+      	<li ng-sec = "Deactive Users" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactive()">Deactive Users</button></a></li>
+      	<li ng-sec = "My Locations" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">My Locations</button></a></li>
+      	<li ng-sec = "Deactivate Locations" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactivateLoaction()">Deactivate Locations</button></a></li>
+      	
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
@@ -101,7 +109,7 @@
 		<!-- <p>745i,Accord,Sierra</p> -->
 	</div>
 </div>
-<div class="form-group col-sm-12" ng-if="userRole == 'Manager'">
+<div class="form-group col-sm-12" ng-sec = "Manager Profile">
 	<label class="col-sm-2 control-label" style="text-align: right;">Location Photo </label>
                    <p class="col-sm-5">
  	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onLogoFileLocationSelect($files)">
@@ -153,7 +161,7 @@
 <!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
 
 </form>
-   <div ng-if="userRole == 'General Manager' || userRole == null">
+   <div ng-sec = "Dealer's Profile">
 	      <form name="userFrm" ng-submit="saveImage()">
                    <h2 style="float: left;"><b>General Manager Details</b></h2>
 <hr class="ng-scope">
@@ -263,7 +271,7 @@
     
     
     
-    <div ng-if="userRole == 'Manager'" id="myTabContent" class="tab-content">
+    <div ng-sec = "Manager Profile" id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab" ng-init="initManager()">
 	        
 <!-- <h2><b>Location Info</b></h2>
