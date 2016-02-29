@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
@@ -28,7 +29,7 @@ public class Location extends Model {
 	public String imageUrl;
 	public String type;
 	
-	@ManyToOne
+	@OneToOne
 	public AuthUser manager;
 	
 
