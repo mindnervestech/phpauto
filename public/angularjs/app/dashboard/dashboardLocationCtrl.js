@@ -71,7 +71,7 @@ angular.module('newApp')
 				 window.location.reload();
 			});
 		}else{
-			$http.get('/changePermission/'+item.id+"/"+item.managerId+"/"+item.gmIsManager)
+			$http.get('/changePermission/'+item.id+"/"+$routeParams.managerId+"/"+item.gmIsManager)
 			.success(function(data) {
 				console.log($location.absUrl());
 				 window.location.reload();

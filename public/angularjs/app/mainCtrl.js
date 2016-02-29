@@ -37,9 +37,10 @@
                 $scope.userType = data.userType;
                 
                 $scope.setFalg = 0;
+                
                 if($scope.userType == "General Manager"){
                 	array = $location.path().split('/');
-                	 if(array[4] == 1){
+                	 if(array.length == 5){
                      	$scope.setFalg = 1;
                      }
                 }else{

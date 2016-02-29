@@ -457,10 +457,10 @@ margin-left: 5px;
 													<div>
 														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Lead" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.leadsCount}}</span>
 													</div>
-													<div class="col-sm-12">
+													<!-- <div class="col-sm-12">
 														<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkIndex(item,compare)"> <label style="color: darkturquoise;">Compare</label>
-													</div>
-													<div class="col-sm-12" ng-if="userRole == 'Sales Person' || item.flag == 1">
+													</div> -->
+													<!-- <div class="col-sm-12" ng-if="userRole == 'Sales Person' || item.flag == 1">
 														<button type="button" class="btn btn-blue">Compare</button>
 														
 													</div>
@@ -468,7 +468,7 @@ margin-left: 5px;
 													<div class="col-sm-12" ng-if="userRole == 'Manager' && item.flag == 0">
 														<button type="button" class="btn btn-blue">Promote</button>													
 																			
-													</div>
+													</div> -->
 													<div class="col-sm-12">
 													<div class="col-sm-2" style="padding-left: 0px;">
 													<i class="glyphicon glyphicon-stats" ng-click="showSessionAnalytics(item.id,item.vin,'Newly Arrived')"  title="sessions"></i>
@@ -3506,7 +3506,7 @@ margin-left: 5px;
 </div>
 
 
- <div class="row" ng-if="gmIsManager == 1 || userType == 'Manager'">
+ <div class="row" ng-if="gmIsManager == 1">
     <div class="col-xlg-12">
         <div class="panel">
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">

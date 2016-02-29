@@ -570,12 +570,16 @@ public class Application extends Controller {
     		   user.permission.addAll(permissionList);
     		   
     	   }else{
-    		   for(Permission obj: permissionList) {
-				   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard")) {
-					   permissionData.add(obj);
-				   }
+    		   
+    		   if(user.role.equals("General Manager")){
+    			   for(Permission obj: permissionList) {
+    				   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard")) {
+    					   permissionData.add(obj);
+    				   }
+        		   }
+        		   user.permission = permissionData;
     		   }
-    		   user.permission = permissionData;
+    		  
     	   }
     	user.update();
     	return ok();
