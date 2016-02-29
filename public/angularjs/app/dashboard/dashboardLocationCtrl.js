@@ -88,6 +88,8 @@ angular.module('newApp')
 			.success(function(data) {
 				 $window.location.href = '/authenticate';
 			});
+		}else{
+			$window.location.href = '/authenticate';
 		}
 		
 	}
