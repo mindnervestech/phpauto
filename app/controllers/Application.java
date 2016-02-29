@@ -283,7 +283,7 @@ public class Application extends Controller {
 				if(user.getNewUser()== 1){
 
 					session("USER_KEY", user.id+"");
-					session("USER_ROLE", user.role+"");
+					session("USER_ROLE", user.role+""	);
 					
 					if(user.location != null){
 						session("USER_LOCATION", user.location.id+"");
@@ -9435,9 +9435,10 @@ public class Application extends Controller {
     	AuthUser userObj = (AuthUser) getLocalUser();
     	//MyProfile mpObj = MyProfile.findByUser(userObj);
     	List<MyProfile> mpObj = MyProfile.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    	
-    	
     	profileVM vm = new profileVM();
+    	if(mpObj.size() != 0){
+    		
+    	
     	vm.address = mpObj.get(0).address;
     	vm.myname = mpObj.get(0).myname;
     	vm.city = mpObj.get(0).city;
@@ -9453,6 +9454,8 @@ public class Application extends Controller {
     	vm.twitter = mpObj.get(0).twitter;
     	vm.web = mpObj.get(0).web;
     	vm.zip = mpObj.get(0).zip;
+    	
+    	}
     	return ok(Json.toJson(vm));
     }
     
@@ -11409,15 +11412,23 @@ public class Application extends Controller {
 		vm.managerFullName = users.firstName+""+users.lastName;
 		vm.mImageName = users.imageName;
 		vm.mImageUrl = users.imageUrl;
-		Location location = Location.findById(users.location.id);
-		vm.id = location.id;
-		vm.locationaddress = location.address;
-		vm.locationemail = location.email;
-		vm.locationName = location.name;
-		vm.locationphone = location.phone;
-		vm.imageName = location.imageName;
-		vm.imageUrl = location.imageUrl;
-    	
+		
+		if(users.location == null){
+			Location location1 = Location.findManagerType(users);
+			if(location1 != null){
+				session("USER_LOCATION", location1.id+"");
+			}
+		}
+		Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
+		if(location != null){
+			vm.id = location.id;
+			vm.locationaddress = location.address;
+			vm.locationemail = location.email;
+			vm.locationName = location.name;
+			vm.locationphone = location.phone;
+			vm.imageName = location.imageName;
+			vm.imageUrl = location.imageUrl;
+		}
     		return ok(Json.toJson(vm));
     	}
     }

@@ -142,6 +142,12 @@ angular.module('newApp')
 			.success(function(data) {
 				window.location.reload();
 			});
+		}else{
+			$http.get('/changePermission/'+item.id+"/"+item.managerId+"/"+item.gmIsManager)
+			.success(function(data) {
+				console.log($location.absUrl());
+				 window.location.reload();
+			});
 		}
 		
 		$scope.showSelectLocationDash = item.id;
