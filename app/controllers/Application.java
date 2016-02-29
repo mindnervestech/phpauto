@@ -18286,6 +18286,9 @@ if(vehicles.equals("All")){
     		
     		anVm.leadsCount = rInfos.size() + sList.size() + tIns.size();
     		
+    		Location loc = Location.findById(vehicle.locations.id);
+    		anVm.location= loc.name;
+    		
     		anVm.vin = vehicle.getVin();
     		anVm.price = vehicle.getPrice();
     		//anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
@@ -18424,6 +18427,7 @@ if(vehicles.equals("All")){
     
     public static class VehicleAnalyticalVM {
     	public String name;
+    	public String location;
     	public int count;
     	public Long id;
     	public String vin;

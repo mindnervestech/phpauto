@@ -449,6 +449,9 @@ margin-left: 5px;
 														<i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editName(item.vin,$index,item.id)"></i>
 													</div>
 													<div class="col-sm-12">
+													<div   ng-if="userRole == 'General Manager'" >
+													<span  class="col-sm-2" title="location"></span>{{item.location}}
+													</div>
 													<div>
 														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6">${{item.price}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
 													</div>
