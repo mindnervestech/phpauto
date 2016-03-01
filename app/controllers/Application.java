@@ -10927,7 +10927,7 @@ public class Application extends Controller {
     	List<ScheduleTest> sListAll = null;
     	List<TradeIn> tradeInsAll = null;
     	
-    	if(((users.role.equals("Manager") && locOrPer.equals("location")) || mgFlag.equals("1"))){
+    	if((users.role.equals("Manager") && locOrPer.equals("location"))){
     		rInfo = RequestMoreInfo.findAllSeenLocationSch(locationId);
     		sList = ScheduleTest.findAllAssignedLocation(locationId);
     		tradeIns = TradeIn.findAllSeenLocationSch(locationId);
@@ -11008,7 +11008,7 @@ public class Application extends Controller {
     	Integer pricecount = 0;
     	Integer monthPriceCount = 0;
     	int saleCarCount = 0;
-    	if(((users.role.equals("Manager") && locOrPer.equals("location")) || mgFlag.equals("1"))){
+    	if((users.role.equals("Manager") && locOrPer.equals("location"))){
     		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
         	
         	
@@ -11057,7 +11057,7 @@ public class Application extends Controller {
     	lDataVM.angSalePrice = (int) valAvlPrice;
     	
     	
-      	if(((users.role.equals("Manager") && locOrPer.equals("location")) || mgFlag.equals("1"))){
+      	if((users.role.equals("Manager") && locOrPer.equals("location"))){
     	
       		PlanScheduleMonthlyLocation pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(locationId), monthCal);
         	if(pMonthlyLocation != null){

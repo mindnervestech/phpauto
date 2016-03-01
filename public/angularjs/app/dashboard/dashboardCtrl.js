@@ -380,7 +380,7 @@ angular.module('newApp')
 			$http.get('/gmLocationManager/'+locationId)
 			.success(function(data) {
 				
-				$http.get('/getUserLocationInfo/'+data.id+"/"+timeSet+"/"+locOrPer)
+				$http.get('/getUserLocationInfo/'+data.id+"/"+timeSet+"/"+"location")
 				.success(function(data) {
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
