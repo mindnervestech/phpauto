@@ -10079,7 +10079,7 @@ public class Application extends Controller {
 	    		  //userObj.permission = permissionList;
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile") || obj.name.equals("My Locations") || obj.name.equals("Deactivate Locations")) {
+	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
 	    				   permissionData.add(obj);
 	    			   }
 	    		   }
@@ -10489,23 +10489,23 @@ public class Application extends Controller {
     	
     }*/
     
-   public static Result getUserLocationByDateInfoOther(String startDate,String endDate,String locOrPer,Long locationId,Integer managerId){
+  /* public static Result getUserLocationByDateInfoOther(Integer userKey,String startDate,String endDate,String locOrPer,Long locationId,Integer managerId){
 	   AuthUser users = AuthUser.findById(managerId);
 		LocationWiseDataVM lDataVM = new LocationWiseDataVM();
 	   mystatisticsDateWise(startDate,endDate,"location",locationId,users,lDataVM);
 		return ok(Json.toJson(lDataVM));
-   }
+   }*/
    
-   public static Result getUserLocationByDateInfo(String startDate,String endDate,String locOrPer){
-		AuthUser users = (AuthUser) getLocalUser();
+   public static Result getUserLocationByDateInfo(Integer userKey,String startDate,String endDate,String locOrPer){
+		AuthUser users = AuthUser.findById(userKey);
 		LocationWiseDataVM lDataVM = new LocationWiseDataVM();
-		long locationId = 0;
+		/*long locationId = 0;
     	if(session("USER_LOCATION") == null){
     		locationId = 0L;
     	}else{
     		locationId = Long.valueOf(session("USER_LOCATION"));
-    	}
-	   mystatisticsDateWise(startDate,endDate,locOrPer,locationId,users,lDataVM);
+    	}*/
+	   mystatisticsDateWise(startDate,endDate,locOrPer,users.location.id,users,lDataVM);
    		return ok(Json.toJson(lDataVM));
    }
    
@@ -10854,21 +10854,21 @@ public class Application extends Controller {
 	 return ok(Json.toJson(auUser));
 	 
  }
- public static Result getUserLocationInfoOther(String timeSet,String locOrPer,Long LocationId,Integer managerId){
+/* public static Result getUserLocationInfoOther(String timeSet,String locOrPer,Long LocationId,Integer managerId){
 	 AuthUser users = AuthUser.findById(managerId);
 	 LocationWiseDataVM lDataVM = new LocationWiseDataVM();
-	 findStatistics(timeSet,"location",LocationId,users, lDataVM, "1");
+	 findStatistics(timeSet,"location",LocationId,users, lDataVM);
 	 return ok(Json.toJson(lDataVM));
- }
+ }*/
  
  public static Result getUserLocationInfo(Integer userkey,String timeSet,String locOrPer){
 	 AuthUser users = AuthUser.findById(userkey);
 	 LocationWiseDataVM lDataVM = new LocationWiseDataVM();
-	 findStatistics(timeSet,locOrPer,users.location.id,users, lDataVM, "0");
+	 findStatistics(timeSet,locOrPer,users.location.id,users, lDataVM);
  	return ok(Json.toJson(lDataVM));
  }
  
-    public static void findStatistics(String timeSet,String locOrPer,Long locationId,AuthUser users, LocationWiseDataVM lDataVM,String mgFlag){
+    public static void findStatistics(String timeSet,String locOrPer,Long locationId,AuthUser users, LocationWiseDataVM lDataVM){
     	
     	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     	DateFormat onlyMonth = new SimpleDateFormat("MMMM");
@@ -11719,7 +11719,7 @@ public class Application extends Controller {
 	    		  //userObj.permission = permissionList;
 	    		List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile") || obj.name.equals("My Locations") || obj.name.equals("Deactivate Locations")) {
+	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
 	    				   permissionData.add(obj);
 	    			   }
 	    		   }
@@ -11728,7 +11728,7 @@ public class Application extends Controller {
 	    	   if(vm.userType.equals("Manager")) {
 	    		   List<Permission> permissionData = new ArrayList<>();
 	    		   for(Permission obj: permissionList) {
-					   if(!obj.name.equals("Dealer's Profile") && !obj.name.equals("My Locations") && !obj.name.equals("Deactivate Locations")) {
+					   if(!obj.name.equals("Show Location")) {
 						   permissionData.add(obj);
 					   }
 	    		   }
@@ -18114,23 +18114,23 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
-    public static Result getVisitedDataOther(String type,String filterBy,String search,String searchBy,Long locationId,Integer managerId, String gmInManag) {
+   /* public static Result getVisitedDataOther(String type,String filterBy,String search,String searchBy,Long locationId,Integer managerId, String gmInManag) {
     	AuthUser user = AuthUser.findById(managerId);
     	Map result = new HashMap(3);
     	
     	topListings(type,filterBy,search,searchBy,locationId,user,result,"All",gmInManag);
     	return ok(Json.toJson(result));
-    }
+    }*/
     
-    public static Result getVisitedData(String type,String filterBy,String search,String searchBy,String vehicles) {
+    public static Result getVisitedData(Integer userKey,String type,String filterBy,String search,String searchBy,String vehicles) {
     	
     	Map result = new HashMap(3);
-    	AuthUser user = (AuthUser)getLocalUser();
+    	AuthUser user = AuthUser.findById(userKey);
     	long locationId = 0;
-    	if(session("USER_LOCATION") == null){
+    	if(user.location == null){
     		locationId = 0L;
     	}else{
-    		locationId = Long.valueOf(session("USER_LOCATION"));
+    		locationId = user.location.id;
     	}
     	
     	topListings(type,filterBy,search,searchBy,locationId,user,result,vehicles,"0");

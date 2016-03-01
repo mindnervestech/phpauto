@@ -140,7 +140,7 @@ angular.module('newApp')
 		}		
 	};
 	
-	$scope.openLocationDasboard = function(item){
+/*	$scope.openLocationDasboard = function(item){
 		console.log(item);
 		console.log(item.id);
 		if(item.gmIsManager == 1){
@@ -158,7 +158,7 @@ angular.module('newApp')
 		
 		$scope.showSelectLocationDash = item.id;
 		$location.path('/dashboardLocation/'+item.id+"/"+item.managerId+"/"+item.gmIsManager);
-	   }
+	   }*/
 	
 	$scope.imageEnter = function(index){
 		$scope.index=index;
@@ -360,16 +360,33 @@ angular.module('newApp')
 	
 	
 	$scope.findMystatisData = function(startD,endD,locOrPer){
-		$http.get('/getUserLocationByDateInfo/'+startD+'/'+endD+'/'+locOrPer)
-		//$http.get('/getUserLocationByDateInfo/'+startD+"/"+endD)
-		.success(function(data) {
-			$scope.parLocationData = data;
-			$scope.leadsTime.leads = data.leads;
-			$scope.leadsTime.goalSetTime = data.goalTime;
-			$scope.showLeads = data.leads;
-			$scope.stackchart = data.sendData;
-			$scope.callChart($scope.stackchart);
-		});
+		
+		if(locationId != 0){
+			$http.get('/gmLocationManager/'+locationId)
+			.success(function(data) {
+				$http.get('/getUserLocationByDateInfo/'+data.id+"/"+startD+'/'+endD+'/'+locOrPer)
+				.success(function(data) {
+					$scope.parLocationData = data;
+					$scope.leadsTime.leads = data.leads;
+					$scope.leadsTime.goalSetTime = data.goalTime;
+					$scope.showLeads = data.leads;
+					$scope.stackchart = data.sendData;
+					$scope.callChart($scope.stackchart);
+				});
+				
+			});
+		}else{
+			$http.get('/getUserLocationByDateInfo/'+$scope.userKey+"/"+startD+'/'+endD+'/'+locOrPer)
+			.success(function(data) {
+				$scope.parLocationData = data;
+				$scope.leadsTime.leads = data.leads;
+				$scope.leadsTime.goalSetTime = data.goalTime;
+				$scope.showLeads = data.leads;
+				$scope.stackchart = data.sendData;
+				$scope.callChart($scope.stackchart);
+			});
+		}
+		
 	 }
 	$scope.dataLocOrPerWise = "person";
 	$scope.showLeads = null;
@@ -2352,9 +2369,38 @@ angular.module('newApp')
 	    			
 	    		};
 	    		
+	    		
+	    		
 	    		$scope.notchange = 0;
 	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,vehicles) {
-	    			$http.get('/getVisitedData/'+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles).success(function(response) {
+	    			
+	    			if(locationId != 0){
+		    				$http.get('/gmLocationManager/'+locationId)
+		    				.success(function(data) {
+		    						$http.get('/getVisitedData/'+data.id+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles).success(function(response) {
+		    				console.log(response);
+		    				$scope.weekData = response;
+		    				
+		    				if(response.topVisited.length == 0){
+		    					$scope.currentSelectedType = 2;
+		    					$scope.notchange = 1;
+		    				}else{
+		    					$scope.notchange = 0;
+		    				}
+		    				
+		    				if($scope.currentSelectedType==0) 
+		    					$scope.currentData = response.topVisited;
+		    				else if($scope.currentSelectedType==1)
+		    					$scope.currentData = response.worstVisited;
+		    				else if($scope.currentSelectedType==2)
+		    					$scope.currentData = response.allVehical;
+		    			});
+		    					
+		    				});
+	    			}else{
+	    				
+	    				
+	    						$http.get('/getVisitedData/'+$scope.userKey+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles).success(function(response) {
 	    				console.log(response);
 	    				$scope.weekData = response;
 	    				
@@ -2372,6 +2418,11 @@ angular.module('newApp')
 	    				else if($scope.currentSelectedType==2)
 	    					$scope.currentData = response.allVehical;
 	    			});
+	    					
+	    			
+	    			}
+	    			
+	    		
 	    		};
 	    		
 	    		/*$scope.getFromCrm = function(name){
