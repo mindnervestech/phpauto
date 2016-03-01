@@ -913,7 +913,7 @@ margin-left: 5px;
                             </div>
                           </div>
                         </div>
-                        <div class="row" ng-if="userType=='General Manager'">
+                        <div class="row" ng-if="userType=='General Manager' && showGmLocation == 0">
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label class="control-label">Location</label>
@@ -925,12 +925,12 @@ margin-left: 5px;
                               </div>
                             </div>
                           </div>
-                         </div>
+                         </div >
                          <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
-                              <label class="control-label" ng-if="userType =='General Manager'">Manager</label>
-                              <label class="control-label" ng-if="userType =='Manager'">Sales User</label>
+                              <label class="control-label" ng-if="userType =='General Manager' && showGmLocation == 0">Manager</label>
+                              <label class="control-label" ng-if="userType =='Manager' || showGmLocation == 1">Sales User</label>
                               <div class="append-icon">
                               	<select  class="form-control" ng-model="schmeeting.assignedTo" required>
 								   <option ng-selected="true" value="">Select User</option>

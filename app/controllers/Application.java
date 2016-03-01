@@ -13284,6 +13284,24 @@ public class Application extends Controller {
     		return ok(Json.toJson(vmList));
     	}
     }
+    public static Result getSalesUserList(Long managerid){
+    	
+    	AuthUser user = getLocalUser();	
+        List<AuthUser> SalesUserList = AuthUser.findByLocatio(Location.findById(managerid));
+        List<UserVM> vmList = new ArrayList<>();
+        for(AuthUser obj: SalesUserList) {
+        	if(obj.role.equalsIgnoreCase("Sales Person")){
+        		UserVM vm = new UserVM();
+        		vm.firstName = obj.firstName;
+        		vm.id = obj.id;
+        		vmList.add(vm);
+        	}
+     }
+		return ok(Json.toJson(vmList));   	
+    	    	   	   	
+ }
+    
+    
     
     public static Result getSalesUser() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -22494,13 +22512,17 @@ if(vehicles.equals("All")){
 	}
 	
 	public static Result saveMeetingSchedule(){
+		Location loc=null;
 		Form<ScheduleTestVM> form = DynamicForm.form(ScheduleTestVM.class).bindFromRequest();
 		ScheduleTestVM vm = form.get();
 		AuthUser user = getLocalUser();
-		Location loc = Location.findById(Long.parseLong(vm.getLocation())); 
+		if(vm.getLocation()!=null){
+		 loc = Location.findById(Long.parseLong(vm.getLocation()));
+		}
 		AuthUser assi = AuthUser.findById(Integer.parseInt(vm.getAssignedTo()));
 		ScheduleTest moTest = new ScheduleTest();
 		moTest.assignedTo = assi;
+		moTest.name=vm.getAssignedTo();
 		moTest.bestDay = vm.getBestDay();
 		moTest.bestTime = vm.getBestTime();
 		moTest.email = user.getEmail();

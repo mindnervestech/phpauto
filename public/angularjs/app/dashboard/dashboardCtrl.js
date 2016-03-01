@@ -2812,6 +2812,18 @@ angular.module('newApp')
 		    			});
 		    		});
 	    		}
+
+	    		$scope.getGMData1 = function() {
+		    		$http.get('/getSalesUserList/'+locationId)
+		    		.success(function(data){
+		    			console.log("::data");
+		    			$scope.salesPersonList =data;
+		    			
+		    			$scope.user=data;
+		    			console.log($scope.salesPersonList);
+		    			$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
+		    		});
+	    		}
 	    		
 	    		
 	    		$scope.getGMData = function() {
@@ -4421,6 +4433,7 @@ angular.module('newApp')
 			   $scope.manager = {};
 			   $scope.user = {};
 			   $scope.checkManagerLogin();
+			   $scope.getGMData1();
 			   $('#meeting-model').modal();
 		   };
 		   
