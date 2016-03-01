@@ -46,6 +46,12 @@ angular.module('newApp')
 	$scope.leadFlag = 'true';
 	$scope.listingFilter = null;
 	$scope.len = null;
+	$scope.showGmLocation = 0;
+	if(locationId != 0){
+		$scope.showGmLocation = 1;
+		$scope.showSelectLocationDash = locationId;
+		
+	}
 	$http.get('/getAllVehicles')
 		.success(function(data) {
 			$scope.vinSearchList = data;
@@ -84,7 +90,7 @@ angular.module('newApp')
 	 	if($scope.userType == "Manager") {
 	 		$scope.getGMData();
 	 		$scope.getAllSalesPersonRecord($scope.userKey);
-	 		//$scope.getAnalystData();
+	 		$scope.topLocations('Week');
 	 	}
 	 	if($scope.userType == "Sales Person") {
 	 		$scope.getToDoNotification();
@@ -312,6 +318,10 @@ angular.module('newApp')
 				$scope.userLocationData('Week','person');
 				
 			}
+			
+			if(locationId != 0){
+				$scope.userLocationData('Week','person');
+			}
 			$scope.showVehicalBarChart();
 			if($scope.userRole == null){
 				  $location.path('/myprofile');
@@ -324,7 +334,6 @@ angular.module('newApp')
 	$scope.topLocations = function(timeSet){
 		$http.get('/getAllLocation/'+timeSet)
 		.success(function(data) {
-			
 		$scope.locationDataListShow = data;	
 		angular.forEach($scope.locationDataListShow, function(value, key) {
 			if(value.successRate !=null){
@@ -365,7 +374,26 @@ angular.module('newApp')
 	$scope.dataLocOrPerWise = "person";
 	$scope.showLeads = null;
 	$scope.userLocationData = function(timeSet,locOrPer){
-			$http.get('/getUserLocationInfo/'+timeSet+"/"+locOrPer)
+		
+		if(locationId != 0){
+			
+			$http.get('/gmLocationManager/'+locationId)
+			.success(function(data) {
+				
+				$http.get('/getUserLocationInfo/'+data.id+"/"+timeSet+"/"+locOrPer)
+				.success(function(data) {
+					$scope.parLocationData = data;
+					$scope.leadsTime.leads = data.leads;
+					$scope.leadsTime.goalSetTime = data.goalTime;
+					$scope.showLeads = data.leads;
+					$scope.stackchart = data.sendData;
+					$scope.callChart($scope.stackchart);
+				});
+				
+			});
+			 
+		}else{
+			$http.get('/getUserLocationInfo/'+$scope.userKey+"/"+timeSet+"/"+locOrPer)
 			.success(function(data) {
 				$scope.parLocationData = data;
 				$scope.leadsTime.leads = data.leads;
@@ -374,6 +402,10 @@ angular.module('newApp')
 				$scope.stackchart = data.sendData;
 				$scope.callChart($scope.stackchart);
 			});
+		}
+		
+		
+			
 	}
 	
 	$scope.locationOrPersonData = function(wiseData){

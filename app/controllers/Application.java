@@ -272,6 +272,69 @@ public class Application extends Controller {
 			this.events = events;
 		}
 		
+		public static Result locationWise(Long locationId){
+			AuthUser user = AuthUser.getOnlyGM();
+			
+			if(user != null) {
+				System.out.println(user.role);
+
+						session("USER_KEY", user.id+"");
+						session("USER_ROLE", user.role+""	);
+						
+						if(user.location != null){
+							session("USER_LOCATION", user.location.id+"");
+						}else if(user.location == null){
+							Location location = Location.findManagerType(user);
+							if(location != null){
+								session("USER_LOCATION", location.id+"");
+							}
+						}
+			    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+			    		List<Permission> userPermissions = user.getPermission();
+			    		for(Permission per: userPermissions) {
+			    			permission.put(per.name, true);
+			    		}
+			    		
+			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),locationId.toString()));
+			    	
+			} else {
+				return ok(home.render("Invalid Credentials"));
+			}
+			
+			
+		}
+		
+		public static Result gmIsManager(Long locationId) {
+			
+			AuthUser user = AuthUser.getlocationAndManagerOne(Location.findById(locationId));
+			
+			if(user != null) {
+				System.out.println(user.role);
+
+						session("USER_KEY", user.id+"");
+						session("USER_ROLE", user.role+""	);
+						
+						if(user.location != null){
+							session("USER_LOCATION", user.location.id+"");
+						}else if(user.location == null){
+							Location location = Location.findManagerType(user);
+							if(location != null){
+								session("USER_LOCATION", location.id+"");
+							}
+						}
+			    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+			    		List<Permission> userPermissions = user.getPermission();
+			    		for(Permission per: userPermissions) {
+			    			permission.put(per.name, true);
+			    		}
+			    		
+			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)), "0"));
+			    	
+			} else {
+				return ok(home.render("Invalid Credentials"));
+			}
+			
+		}
 	
 	public static Result login() {
 		String email = Form.form().bindFromRequest().get("email");
@@ -300,7 +363,7 @@ public class Application extends Controller {
 		    			permission.put(per.name, true);
 		    		}
 		    		
-		    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+		    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
 		    		//return redirect("/googleConnectionStatus");
 				}else{
 					return ok(home.render(user.getEmail()));
@@ -330,7 +393,7 @@ public class Application extends Controller {
 			    			permission.put(per.name, true);
 			    		}
 			    		
-			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
 			    		//return redirect("/googleConnectionStatus");
 					}else{
 						return ok(home.render(user.getEmail()));
@@ -407,7 +470,7 @@ public class Application extends Controller {
     		//return ok(agreement.render(userName,userDate,userPhone));
     		//return redirect("/googleConnectionStatus");
     		//return ok();
-	        	return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+	        	return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
 		}else {
 			return ok(home.render("Invalid Credentials"));
 		}
@@ -556,7 +619,7 @@ public class Application extends Controller {
     		for(Permission per: userPermissions) {
     			permission.put(per.name, true);
     		}
-    		return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
+    		return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
     	}
     }
     
@@ -1766,6 +1829,17 @@ public class Application extends Controller {
 		    	   location.setManager(users);
 		    	   location.update();
 		    	   
+		    	   
+		    	   userObj.firstName = users.firstName;
+			    	userObj.lastName = users.lastName;
+			    	userObj.email = users.email;
+			    	userObj.phone = users.phone;
+			    	userObj.role = vm.userType;
+			    	userObj.location = Location.findById(vm.locationId);
+			    	userObj.communicationemail = users.email;
+			    	userObj.account = "active";
+			    	
+			    	 userObj.password = "0";
 		     }else{
 		    	  userObj.firstName = vm.firstName;
 			    	userObj.lastName = vm.lastName;
@@ -1786,12 +1860,12 @@ public class Application extends Controller {
 			    	   userObj.password = sb.toString();
 			    	   
 			    	   
-			    	   if(vm.userType.equals("Manager")) {
-			    		   userObj.permission = permissionList;
-			    	   } 
+			    	  
 		     }
 	    	
-	    	
+		     if(vm.userType.equals("Manager")) {
+	    		   userObj.permission = permissionList;
+	    	   } 
 	    	
 	    	  
 	    	   if(vm.userType.equals("General Manager")) {
@@ -1815,9 +1889,9 @@ public class Application extends Controller {
 	    		   userObj.permission = permissionData;
 	    	   }
 	    	   
-	    	   if(!vm.mi.equals("true")){
+	    	  // if(!vm.mi.equals("true")){
 	    		   userObj.save();
-	    	   }
+	    	   //}
 	    	   
 	    	   MultipartFormData body = request().body().asMultipartFormData();
 	    	   
@@ -10775,22 +10849,26 @@ public class Application extends Controller {
     
     
     /*-----------------------------------------*/
- 
+ public static Result gmLocationManager(Long locationId){
+	 AuthUser auUser = AuthUser.getlocationAndManagerOne(Location.findById(locationId));
+	 return ok(Json.toJson(auUser));
+	 
+ }
  public static Result getUserLocationInfoOther(String timeSet,String locOrPer,Long LocationId,Integer managerId){
 	 AuthUser users = AuthUser.findById(managerId);
 	 LocationWiseDataVM lDataVM = new LocationWiseDataVM();
-	 findStatistics(timeSet,"location",LocationId,users, lDataVM);
+	 findStatistics(timeSet,"location",LocationId,users, lDataVM, "1");
 	 return ok(Json.toJson(lDataVM));
  }
  
- public static Result getUserLocationInfo(String timeSet,String locOrPer){
-	 AuthUser users = (AuthUser) getLocalUser();
+ public static Result getUserLocationInfo(Integer userkey,String timeSet,String locOrPer){
+	 AuthUser users = AuthUser.findById(userkey);
 	 LocationWiseDataVM lDataVM = new LocationWiseDataVM();
-	 findStatistics(timeSet,locOrPer,Long.parseLong(session("USER_LOCATION")),users, lDataVM);
+	 findStatistics(timeSet,locOrPer,users.location.id,users, lDataVM, "0");
  	return ok(Json.toJson(lDataVM));
  }
  
-    public static void findStatistics(String timeSet,String locOrPer,Long locationId,AuthUser users, LocationWiseDataVM lDataVM){
+    public static void findStatistics(String timeSet,String locOrPer,Long locationId,AuthUser users, LocationWiseDataVM lDataVM,String mgFlag){
     	
     	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     	DateFormat onlyMonth = new SimpleDateFormat("MMMM");
@@ -10849,7 +10927,7 @@ public class Application extends Controller {
     	List<ScheduleTest> sListAll = null;
     	List<TradeIn> tradeInsAll = null;
     	
-    	if(users.role.equals("Manager") && locOrPer.equals("location")){
+    	if(((users.role.equals("Manager") && locOrPer.equals("location")) || mgFlag.equals("1"))){
     		rInfo = RequestMoreInfo.findAllSeenLocationSch(locationId);
     		sList = ScheduleTest.findAllAssignedLocation(locationId);
     		tradeIns = TradeIn.findAllSeenLocationSch(locationId);
@@ -10930,7 +11008,7 @@ public class Application extends Controller {
     	Integer pricecount = 0;
     	Integer monthPriceCount = 0;
     	int saleCarCount = 0;
-    	if(users.role.equals("Manager") && locOrPer.equals("location")){
+    	if(((users.role.equals("Manager") && locOrPer.equals("location")) || mgFlag.equals("1"))){
     		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
         	
         	
@@ -10979,7 +11057,7 @@ public class Application extends Controller {
     	lDataVM.angSalePrice = (int) valAvlPrice;
     	
     	
-      	if(users.role.equals("Manager") && locOrPer.equals("location")){
+      	if(((users.role.equals("Manager") && locOrPer.equals("location")) || mgFlag.equals("1"))){
     	
       		PlanScheduleMonthlyLocation pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(locationId), monthCal);
         	if(pMonthlyLocation != null){
@@ -11205,16 +11283,16 @@ public class Application extends Controller {
     			String roles = "Manager";
     			AuthUser users = null;
     			users = AuthUser.getlocationAndManagerByType(location, roles);
-    			if(users == null){
     				if(location.manager != null){
     					users = AuthUser.findById(location.manager.id);
     					if(users != null){
     						vm.gmIsManager = 1; 
     					}
+    				}else{
+    					vm.gmIsManager = 0; 
     				}
-    			}else{
-    				vm.gmIsManager = 0; 
-    			}
+    					
+    			
     			
     			if(users != null){
 	    			vm.managerId = users.id;

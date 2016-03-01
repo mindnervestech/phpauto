@@ -1,4 +1,4 @@
-@(permissions: String, userRole:String, userKey:String, events1: String, tasksList: String)
+@(permissions: String, userRole:String, userKey:String, events1: String, tasksList: String, locationId:String)
 <!doctype html>
 <html class="no-js">
     <head>
@@ -675,6 +675,7 @@ var session = document.cookie;
 var permissions = @Html(permissions);
 	var events = @Html(events1);	
 	var taskslist = @Html(tasksList);
+	var locationId = @Html(locationId);
 	var userRole = '@Html(userRole)';
 	var userKey = '@Html(userKey)';
 	console.log(userRole);
