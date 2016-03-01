@@ -410,8 +410,15 @@ public class Application extends Controller {
 	
 	public static Result getfindGmIsManager(){
 		AuthUser user = getLocalUser();
-		Location location = Location.findManagerType(user);
-		return ok(Json.toJson(location.id));
+		Location location = Location.findById(user.location.id);
+		int flag = 0;
+		if(location != null){
+			if(location.manager != null){
+				flag = 1;
+			}
+		}
+		//Location location = Location.findManagerType(user);
+		return ok(Json.toJson(flag));
 	}
 	
 	public static Result acceptAgreement() {

@@ -307,10 +307,17 @@ angular.module('newApp')
 		.success(function(data) {
 		});
 	};
-	
+	$scope.showBackGmButton = 0;
 		$http.get('/getUserRole').success(function(data) {
 			
 			$scope.userRole = data.role;
+			
+			$http.get('/getfindGmIsManager')
+			.success(function(data) {
+				console.log("&YGYGYGGYGYY&7yg77g");
+				$scope.showBackGmButton = data;
+			});
+			
 			
 			$scope.getSalesDataValue($scope.locationValue);
 			if($scope.userRole != "General Manager"){
@@ -3956,7 +3963,12 @@ angular.module('newApp')
 							$scope.locationValue = data.location.id;
 							
 						}else{
-							 $scope.locationValue = 0;
+							if(locationId != 0){
+								$scope.locationValue = locationId;
+							}else{
+								$scope.locationValue = 0;
+							}
+							 
 						}
 						
 						
