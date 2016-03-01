@@ -877,8 +877,8 @@ public class Vehicle extends Model {
 		return find.where().eq("stock", stock).ne("status", "Sold").eq("locations",location).findList();
 	}
 	
-	public static Vehicle findByStockAndNew(String stock) {
-		return find.where().eq("stock", stock).eq("status", "Newly Arrived").findUnique();
+	public static Vehicle findByStockAndNew(String stock,Location location) {
+		return find.where().eq("stock", stock).eq("status", "Newly Arrived").eq("locations",location).findUnique();
 	}
 	
 	public static List<Vehicle> findBySold() {

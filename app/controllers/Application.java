@@ -2320,7 +2320,7 @@ public class Application extends Controller {
 	    	    		info.setCustZipCode(vm.custZipCode);
 	    	    		info.setEnthicity(vm.enthicity);
 	    	    		
-	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    	    		info.setVin(vehicle.getVin());
 	    	    		info.setUser(user);
 	    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -2410,7 +2410,7 @@ public class Application extends Controller {
 	    	    		//test.setScheduleDate(new Date());
 	    	    		test.setScheduleDate(reqDate);
 	    	    		test.setPreferredContact(sInfo.preferredContact);
-	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    	    		test.setVin(vehicle.getVin());
 	    	    		test.setAssignedTo(user);
 	    	    		test.setOnlineOrOfflineLeads(1);
@@ -2519,7 +2519,7 @@ public class Application extends Controller {
 	            		tradeIn.setUser(user);
 	        			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 	            		tradeIn.setVehiclenew(leadVM.vehiclenew);
-	            		Vehicle vehicle = Vehicle.findByStockAndNew(vm.stockNumber);
+	            		Vehicle vehicle = Vehicle.findByStockAndNew(vm.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	            		tradeIn.setVin(vm.vin);
 	            		tradeIn.setAssignedTo(user);
 	            		tradeIn.setOnlineOrOfflineLeads(1);
@@ -19531,7 +19531,7 @@ if(vehicles.equals("All")){
 	    		info.setCustZipCode(leadVM.custZipCode);
 	    		info.setEnthicity(leadVM.enthicity);
 	    		info.setAssignedTo(user);
-	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    		info.setVin(vehicle.getVin());
 	    		info.setUser(user);
 				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -19624,7 +19624,7 @@ if(vehicles.equals("All")){
 	    		test.setContactedFrom(leadVM.contactedFrom);
 	    		test.setScheduleDate(new Date());
 	    		test.setPreferredContact(leadVM.prefferedContact);
-	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    		test.setVin(vehicle.getVin());
 	    		test.setAssignedTo(user);
 	    		test.setPremiumFlag(0);
@@ -19752,7 +19752,7 @@ if(vehicles.equals("All")){
         		tradeIn.setUser(user);
     			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		tradeIn.setVehiclenew(leadVM.vehiclenew);
-        		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber);
+        		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber,Location.findById(Long.valueOf(session("USER_LOCATION"))));
         		tradeIn.setVin(vehicle.getVin());
         		tradeIn.setAssignedTo(user);
         		tradeIn.setPremiumFlag(0);

@@ -228,14 +228,20 @@ angular.module('newApp')
 	
 	$scope.updateImage = function() {
 		$scope.user.userType = "Manager"
-		$scope.managerObj.id = $scope.user.managerId;
-		$scope.managerObj.userType = $scope.user.userType;
-		$scope.managerObj.firstName = $scope.user.firstName;
-		$scope.managerObj.lastName = $scope.user.lastName;
-		$scope.managerObj.email = $scope.user.email;
-		$scope.managerObj.phone = $scope.user.phone;
+			
+			if($scope.managerObj.mi == false){
+				$scope.managerObj.id = $scope.user.managerId;
+				$scope.managerObj.userType = $scope.user.userType;
+				$scope.managerObj.firstName = $scope.user.firstName;
+				$scope.managerObj.lastName = $scope.user.lastName;
+				$scope.managerObj.email = $scope.user.email;
+				$scope.managerObj.phone = $scope.user.phone;
+			}
 		
-		//locationObj 
+		$scope.managerObj.mi = $scope.user.mi;
+		$scope.managerObj.locationId = $scope.user.id;
+		
+		
 		$scope.locationObj.id = $scope.user.id;
 		$scope.locationObj.locationName = $scope.user.locationName;
 		$scope.locationObj.locationaddress = $scope.user.locationaddress;
