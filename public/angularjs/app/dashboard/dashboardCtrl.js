@@ -381,6 +381,7 @@ angular.module('newApp')
 				});
 				
 			});
+			
 		}else{
 			$http.get('/getUserLocationByDateInfo/'+$scope.userKey+"/"+startD+'/'+endD+'/'+locOrPer)
 			.success(function(data) {
@@ -4425,7 +4426,9 @@ angular.module('newApp')
 		   
 		  
 		   $scope.getSalesPersonData = function(){
-			   
+			   if(locationId != 0){
+				   $scope.locationValue = locationId;
+			   }
    			$http.get('/getSalesUserOnly/'+$scope.locationValue)
 	    		.success(function(data){
 	    			console.log(data);
@@ -4535,13 +4538,24 @@ angular.module('newApp')
 		   
 		   
 		   $scope.locationTotal = 0;
-		   $scope.saveLocationPlan = function(month, locationId){
+		   $scope.saveLocationPlan = function(month, locationIds){
 			   var value = 0;
 			   $scope.locationTotal = 0;
 			   $scope.leadsTime.locationList  = $scope.locationList;
 			   value = $scope.leadsTime.totalEarning;
 			   console.log($scope.totalLocationPlanData);
 			  
+			   
+			   if(locationId != 0){
+				   $http.get('/gmLocationManager/'+locationId)
+					.success(function(data) {
+						$scope.leadsTime.userkey = data.id;
+					});
+				}else{
+					$scope.leadsTime.userkey = $scope.userKey;
+				}
+			   
+			   
 			   $scope.leadsTime.month = month;
 			   $http.post("/saveLocationPlan",$scope.leadsTime).success(function(data){
 				   console.log(data);
@@ -4562,19 +4576,14 @@ angular.module('newApp')
 				   $scope.leadsTime.vehiclesSell = "";
 				   $scope.leadsTime.avgCheck = "";
 				   console.log("sccesss");
-				 //  $scope.getLocationPlan();
-				  /* angular.forEach($scope.totalLocationPlanData, function(obj, index){
-					   console.log(obj.totalEarning);
-					   if($scope.leadsTime.month == obj.month){
-						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(value);
-					   }else{
-						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
-					   }
-					   console.log($scope.locationTotal);
-				   });*/
-				  
+				 
 				   if($scope.userType == "General Manager"){
-					   $scope.getLocationData(locationId);
+					   if(locationId != 0){
+						   $scope.getLocationPlan();
+					   }else{
+						   $scope.getLocationData(locationIds);
+					   }
+					   
 				   }else{
 					   $scope.getLocationPlan();
 				   }
@@ -4583,13 +4592,16 @@ angular.module('newApp')
 			   });
 		   }
 		   
-		   $scope.saveLocationTotal = function(total, locationId){
-			   console.log(locationId);
-			   if(locationId == null){
-				   locationId = 0;
+		   $scope.saveLocationTotal = function(total, locationIds){
+			   console.log(locationIds);
+			   if(locationIds == null){
+				   locationIds = 0;
+			   }
+			   if(locationId != 0){
+				   locationIds = locationId;
 			   }
 			   
-			   $http.get("/saveLocationTotal/"+total+"/"+locationId).success(function(data){
+			   $http.get("/saveLocationTotal/"+total+"/"+locationIds).success(function(data){
 				   console.log(data);
 				   $('#plan-model').modal("toggle");
 				   $.pnotify({
@@ -4601,15 +4613,34 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.saveSalesTotal = function(total){
-			   $http.get("/saveSalesTotal/"+total).success(function(data){
-				   console.log(data);
-				   $('#plan-model').modal("toggle");
-				   $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Plan Scheduled successfully",
+			   
+			   if(locationId != 0){
+				   $http.get('/gmLocationManager/'+locationId)
+					.success(function(data) {
+						$http.get("/saveSalesTotal/"+total+"/"+data.id).success(function(data){
+							   console.log(data);
+							   $('#plan-model').modal("toggle");
+							   $.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Plan Scheduled successfully",
+								});
+						   });
 					});
-			   });
+				   
+				   
+			   }else{
+				   $http.get("/saveSalesTotal/"+total+"/"+$scope.userkey).success(function(data){
+					   console.log(data);
+					   $('#plan-model').modal("toggle");
+					   $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Plan Scheduled successfully",
+						});
+				   });
+			   }
+			   
 		   }
 		   
 		   $scope.saleleadsTime = {};
@@ -4797,61 +4828,125 @@ angular.module('newApp')
 			   $scope.checkManagerLogin();
 			   if($scope.userType != "General Manager"){
 				   $scope.getLocationPlan();
+			   }else{
+				   if(locationId != 0){
+					   $scope.getLocationPlan();
+				   }
 			   }
+			   
+			   
 			   $('#plan-model').modal();
 		   };
+		   
 		   
 		   $scope.MonthTotal = {};
 		   $scope.totalLocationPlanData = null;
 		   $scope.getLocationPlan = function(){
 			   $scope.locationTotal = 0;
-			   $http.get("/getlocationsMonthlyPlan").success(function(data){
-				   console.log(data);
-				   $scope.totalLocationPlanData = data;
-				   
-				   
-				   angular.forEach(data, function(obj, index){
+			   
+			   $scope.value = 0;
+			   if(locationId != 0){
+				   $http.get('/gmLocationManager/'+locationId)
+					.success(function(datas) {
+						 $http.get("/getlocationsMonthlyPlan/"+datas.id).success(function(data){
+							   console.log(data);
+							   $scope.totalLocationPlanData = data;
+							   
+							   
+							   angular.forEach(data, function(obj, index){
+								   
+								   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
+								    if(obj.month == "january"){
+								    	$scope.MonthTotal.januaryTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "february"){
+								    	$scope.MonthTotal.februaryTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "march"){
+								    	$scope.MonthTotal.marchTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "april"){
+								    	$scope.MonthTotal.aprilTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "may"){
+								    	$scope.MonthTotal.mayTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "june"){
+								    	$scope.MonthTotal.juneTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "july"){
+								    	$scope.MonthTotal.julyTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "august"){
+								    	$scope.MonthTotal.augustTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "september"){
+								    	$scope.MonthTotal.septemberTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "october"){
+								    	$scope.MonthTotal.octoberTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "november"){
+								    	$scope.MonthTotal.novemberTotalEarning = obj.totalEarning;
+								    }
+								    if(obj.month == "december"){
+								    	$scope.MonthTotal.decemberTotalEarning = obj.totalEarning;
+								    }
+								    
+							   });
+						   });
+					});
+				  
+			   }else{
+				   $http.get("/getlocationsMonthlyPlan/"+$scope.userKey).success(function(data){
+					   console.log(data);
+					   $scope.totalLocationPlanData = data;
 					   
-					   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
-					    if(obj.month == "january"){
-					    	$scope.MonthTotal.januaryTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "february"){
-					    	$scope.MonthTotal.februaryTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "march"){
-					    	$scope.MonthTotal.marchTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "april"){
-					    	$scope.MonthTotal.aprilTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "may"){
-					    	$scope.MonthTotal.mayTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "june"){
-					    	$scope.MonthTotal.juneTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "july"){
-					    	$scope.MonthTotal.julyTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "august"){
-					    	$scope.MonthTotal.augustTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "september"){
-					    	$scope.MonthTotal.septemberTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "october"){
-					    	$scope.MonthTotal.octoberTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "november"){
-					    	$scope.MonthTotal.novemberTotalEarning = obj.totalEarning;
-					    }
-					    if(obj.month == "december"){
-					    	$scope.MonthTotal.decemberTotalEarning = obj.totalEarning;
-					    }
-					    
+					   
+					   angular.forEach(data, function(obj, index){
+						   
+						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
+						    if(obj.month == "january"){
+						    	$scope.MonthTotal.januaryTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "february"){
+						    	$scope.MonthTotal.februaryTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "march"){
+						    	$scope.MonthTotal.marchTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "april"){
+						    	$scope.MonthTotal.aprilTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "may"){
+						    	$scope.MonthTotal.mayTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "june"){
+						    	$scope.MonthTotal.juneTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "july"){
+						    	$scope.MonthTotal.julyTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "august"){
+						    	$scope.MonthTotal.augustTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "september"){
+						    	$scope.MonthTotal.septemberTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "october"){
+						    	$scope.MonthTotal.octoberTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "november"){
+						    	$scope.MonthTotal.novemberTotalEarning = obj.totalEarning;
+						    }
+						    if(obj.month == "december"){
+						    	$scope.MonthTotal.decemberTotalEarning = obj.totalEarning;
+						    }
+						    
+					   });
 				   });
-			   });
+			   }
+			  
 		   }
 		   
 		   $scope.janOpen = 0;

@@ -1056,7 +1056,7 @@ margin-left: 5px;
                 <div class="panel-body bg-white">
                   <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="row" ng-if="userType =='General Manager'">
+                        <div class="row" ng-if="userType =='General Manager' && showGmLocation == 0">
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label class="control-label">Location</label>
@@ -1078,7 +1078,7 @@ margin-left: 5px;
                           
                           
                          </div>
-                         <div class="row" ng-if="userType =='Manager'">
+                         <div class="row" ng-if="userType =='Manager' || showGmLocation == 1">
                           <div class="col-sm-12" ng-if="nextbutton == 0">
                             <div class="form-group">
                               <label class="control-label">Plan Schedule by</label>
@@ -1158,7 +1158,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1220,7 +1220,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1282,7 +1282,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1344,7 +1344,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1405,7 +1405,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1466,7 +1466,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1527,7 +1527,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1588,7 +1588,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1649,7 +1649,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1709,7 +1709,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1769,7 +1769,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>
@@ -1830,7 +1830,7 @@ margin-left: 5px;
                          				<input type="text" name="avgCheck" class="form-control" placeholder="$$$" ng-model="leadsTime.avgCheck">
                          			</div>
                          		</div>
-                         		<div ng-if="userType =='General Manager'">
+                         		<div ng-if="userType =='General Manager' && showGmLocation == 0">
                          		<div class="col-sm-12" >
                          		<hr>
                          			<label>Location List</label>

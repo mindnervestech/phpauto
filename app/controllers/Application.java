@@ -22326,20 +22326,22 @@ if(vehicles.equals("All")){
 		return ok(Json.toJson(sMonthlySalepeoples));
 	}
 	
-	public static Result getlocationsMonthlyPlan(){
-		
-		List<PlanScheduleMonthlyLocation> pLocation = PlanScheduleMonthlyLocation.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	public static Result getlocationsMonthlyPlan(Integer userKey){
+		AuthUser aUser = AuthUser.findById(userKey);
+		List<PlanScheduleMonthlyLocation> pLocation = PlanScheduleMonthlyLocation.findByLocation(aUser.location.id);
 		return ok(Json.toJson(pLocation));
 	}
 	
-	public static Result saveSalesTotal(String total){
-		AuthUser user = getLocalUser();
+	public static Result saveSalesTotal(String total,Integer userkey){
+		
+		AuthUser user = AuthUser.findById(userkey);
+		//AuthUser user = getLocalUser();
 		PlanSalesTotal planLocat = PlanSalesTotal.findByUser(user);
 		if(planLocat == null){
 			PlanSalesTotal pTotal = new PlanSalesTotal();
 			pTotal.setTotal(total);
 			pTotal.setUser(user);
-			pTotal.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+			pTotal.setLocations(Location.findById(user.location.id));
 			pTotal.save();
 		}else{
 			planLocat.setTotal(total);
@@ -22352,8 +22354,9 @@ if(vehicles.equals("All")){
 		
 		Form<LocationMonthPlanVM> form = DynamicForm.form(LocationMonthPlanVM.class).bindFromRequest();
 		LocationMonthPlanVM vm = form.get();
-		AuthUser user = getLocalUser();
-		
+		//AuthUser user = getLocalUser();
+
+		AuthUser user = AuthUser.findById(vm.userkey);
 		
 		if(user.role.equals("General Manager")){
 			
@@ -22381,7 +22384,7 @@ if(vehicles.equals("All")){
 			}
 			
 		}else if(user.role.equals("Manager")){
-			PlanScheduleMonthlyLocation pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(Long.valueOf(session("USER_LOCATION"))),vm.month);
+			PlanScheduleMonthlyLocation pLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(Location.findById(user.location.id),vm.month);
 			
 			if(pLocation == null){
 				PlanScheduleMonthlyLocation planMoth = new PlanScheduleMonthlyLocation();
@@ -22391,7 +22394,7 @@ if(vehicles.equals("All")){
 				planMoth.setTotalEarning(vm.totalEarning);
 				planMoth.setVehiclesSell(vm.vehiclesSell);
 				planMoth.setUser(user);
-				planMoth.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+				planMoth.setLocations(Location.findById(user.location.id));
 				planMoth.save();
 			}else{
 				pLocation.setAvgCheck(vm.avgCheck);

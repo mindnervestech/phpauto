@@ -11,6 +11,7 @@ public class LocationMonthPlanVM {
 	public String avgCheck;
 	public String month;
 	public String location;
+	public Integer userkey;
 	public List<Long> locationList;
 	
 }
