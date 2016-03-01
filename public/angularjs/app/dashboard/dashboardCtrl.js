@@ -314,7 +314,6 @@ angular.module('newApp')
 			
 			$http.get('/getfindGmIsManager')
 			.success(function(data) {
-				console.log("&YGYGYGGYGYY&7yg77g");
 				$scope.showBackGmButton = data;
 			});
 			

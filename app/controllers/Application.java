@@ -1767,16 +1767,40 @@ public class Application extends Controller {
 	    	
 	    	UserVM vm = form.get();
 	    	String roles = "Manager";
-	    	AuthUser userObj = AuthUser.findById(vm.id);
-	    	
-	    	userObj.setFirstName(vm.firstName);
-	    	userObj.setLastName(vm.lastName);
-	    	userObj.setEmail(vm.email);
-	    	userObj.setPhone(vm.phone);
-	    	userObj.setCommunicationemail(vm.email);
-	    	userObj.setAccount("active");
+	    	AuthUser userObj = null;
+	    	if(vm.mi.equals("true")){
+	    		
+	    		AuthUser users = AuthUser.getOnlyGM();
+	    		
+	    		userObj = new AuthUser();
+		    	   userObj.firstName = users.firstName;
+			    	userObj.lastName = users.lastName;
+			    	userObj.email = users.email;
+			    	userObj.phone = users.phone;
+			    	userObj.role = "Manager";
+			    	userObj.location = Location.findById(vm.locationId);
+			    	userObj.communicationemail = users.email;
+			    	userObj.account = "active";
+			    	
+			    	 userObj.password = "0";
+			    	 
+			    	 userObj.save();
+			    	 
+			    	 Location location = Location.findById(vm.locationId);
+			    	 location.setManager(AuthUser.findById(users.id));
+			    	 location.update();
+			    	 
+	    	}else{
+		    	userObj = AuthUser.findById(vm.id);
+		    	
+		    	userObj.setFirstName(vm.firstName);
+		    	userObj.setLastName(vm.lastName);
+		    	userObj.setEmail(vm.email);
+		    	userObj.setPhone(vm.phone);
+		    	userObj.setCommunicationemail(vm.email);
+		    	userObj.setAccount("active");
 	    	//userObj.set = Location.findById(vm.locationId);
-
+	    
 	    	
 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    	Random rnd = new Random();
@@ -1788,6 +1812,8 @@ public class Application extends Controller {
 	    	  // userObj.password = sb.toString();
 	    	
 	    	   userObj.update();
+	    	   
+	    	} 
 	    	   
 	    	   MultipartFormData body = request().body().asMultipartFormData();
 	    	   if(body != null) {
@@ -11631,6 +11657,7 @@ public class Application extends Controller {
 		    	    	loc.setAddress(vm.locationaddress);
 		    	    	loc.setName(vm.locationName);
 		    	    	loc.setPhone(vm.locationphone);
+		    	    			    	    	
 		    	    	loc.update();
 		    	    	
 		    	    	/*List<MyProfile> mProfile = MyProfile.findByLocation(Long.valueOf(vm.id));
