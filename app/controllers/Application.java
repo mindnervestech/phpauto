@@ -1770,10 +1770,15 @@ public class Application extends Controller {
 	    	AuthUser userObj = null;
 	    	if(vm.mi.equals("true")){
 	    		
-	    		AuthUser users = AuthUser.getOnlyGM();
+	    		 AuthUser uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
+		    	 uAuthUser.setAccount("deactive");
+		    	 uAuthUser.update();
 	    		
-	    		userObj = new AuthUser();
-		    	   userObj.firstName = users.firstName;
+	    		
+	    		 AuthUser users = AuthUser.getOnlyGM();
+	    		
+	    		    userObj = new AuthUser();
+		    	    userObj.firstName = users.firstName;
 			    	userObj.lastName = users.lastName;
 			    	userObj.email = users.email;
 			    	userObj.phone = users.phone;
@@ -1784,11 +1789,18 @@ public class Application extends Controller {
 			    	
 			    	 userObj.password = "0";
 			    	 
+			    	 
+			    	 List<Permission> permissionList = Permission.getAllPermission();
+			    	 userObj.permission = permissionList;
+			    	 
 			    	 userObj.save();
 			    	 
 			    	 Location location = Location.findById(vm.locationId);
 			    	 location.setManager(AuthUser.findById(users.id));
 			    	 location.update();
+			    	 
+			    	
+			    	 
 			    	 
 	    	}else{
 		    	userObj = AuthUser.findById(vm.id);
@@ -1873,6 +1885,10 @@ public class Application extends Controller {
 			    	userObj.account = "active";
 			    	
 			    	 userObj.password = "0";
+			    	 
+			    	 if(vm.userType.equals("Manager")) {
+			    		   userObj.permission = permissionList;
+			    	   } 
 		     }else{
 		    	  userObj.firstName = vm.firstName;
 			    	userObj.lastName = vm.lastName;
@@ -1891,14 +1907,18 @@ public class Application extends Controller {
 			    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
 			    	
 			    	   userObj.password = sb.toString();
-			    	   
-			    	   
+			    	   List<Permission> permissionData = new ArrayList<>();
+			    	   if(vm.userType.equals("Manager")) {
+			    		   for(Permission obj: permissionList) {
+			    			   if(!obj.name.equals("Show Location")) {
+			    				   permissionData.add(obj);
+			    			   }
+			    		   }
+			    		   userObj.permission = permissionData;
+			    	   } 
 			    	  
 		     }
 	    	
-		     if(vm.userType.equals("Manager")) {
-	    		   userObj.permission = permissionList;
-	    	   } 
 	    	
 	    	  
 	    	   if(vm.userType.equals("General Manager")) {
