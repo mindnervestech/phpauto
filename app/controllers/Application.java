@@ -1785,6 +1785,7 @@ public class Application extends Controller {
 			    	userObj.role = "Manager";
 			    	userObj.location = Location.findById(vm.locationId);
 			    	userObj.communicationemail = users.email;
+			    	userObj.imageName = users.imageName;
 			    	userObj.imageUrl = users.imageUrl;
 			    	userObj.account = "active";
 			    	
@@ -1883,6 +1884,7 @@ public class Application extends Controller {
 			    	userObj.role = vm.userType;
 			    	userObj.location = Location.findById(vm.locationId);
 			    	userObj.communicationemail = users.email;
+			    	userObj.imageName = users.imageName;
 			    	userObj.imageUrl = users.imageUrl;
 			    	userObj.account = "active";
 			    	
