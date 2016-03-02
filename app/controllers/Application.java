@@ -7112,6 +7112,7 @@ public class Application extends Controller {
 	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
+	    			vm.typeofVehicle=vehicle.typeofVehicle;
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;

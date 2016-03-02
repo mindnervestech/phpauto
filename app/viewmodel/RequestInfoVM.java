@@ -12,6 +12,7 @@ public class RequestInfoVM {
 	public String make;
 	public String year;
 	public String mileage;
+	public String typeofVehicle;
 	public Integer price;
 	public String stock;
 	public String bodyStyle;

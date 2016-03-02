@@ -3348,6 +3348,7 @@ angular.module('newApp')
     		} else {
     			$scope.soldContact.howFoundUs = "";
     		}
+    		$scope.vehicletype=entity.typeofVehicle;
     		$scope.soldContact.make = entity.make;
     		$scope.soldContact.year = entity.year;
     		$scope.soldContact.mileage = entity.mileage;

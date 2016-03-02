@@ -4829,7 +4829,7 @@ margin-left: 5px;
 															<input type="text" class="form-control form-white" ng-model="soldContact.year" required>
 														</div>
 													</div>
-													<div class="form-group col-sm-12">
+													<div class="form-group col-sm-12" ng-if="vehicletype != 'New'" >
 														<label class="col-sm-4 control-label" style="text-align: right;">Mileage</label>
 														<div class="col-sm-7">
 															<input type="text" class="form-control form-white" ng-model="soldContact.mileage" required>
