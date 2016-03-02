@@ -8674,6 +8674,7 @@ public class Application extends Controller {
 	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
+	    			vm.typeofVehicle=vehicle.typeofVehicle;
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
@@ -13459,6 +13460,7 @@ public class Application extends Controller {
 	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
+	    			vm.typeofVehicle=vehicle.typeofVehicle;
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
@@ -14068,6 +14070,7 @@ public class Application extends Controller {
 	    		if(vehicle != null) {
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
+	    			vm.typeofVehicle=vehicle.typeofVehicle;
 	    			vm.stock = vehicle.stock;
 	    			vm.mileage = vehicle.mileage;
 	    			vm.year = vehicle.year;
@@ -14219,6 +14222,7 @@ public class Application extends Controller {
 	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
 	    		vm.vin = info.vin;
 	    		if(vehicle != null) {
+	    			vm.typeofVehicle=vehicle.typeofVehicle;
 	    			vm.model = vehicle.model;
 	    			vm.make = vehicle.make;
 	    			vm.stock = vehicle.stock;
