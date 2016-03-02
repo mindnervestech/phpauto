@@ -8823,6 +8823,8 @@ public class Application extends Controller {
 	    	vm.schedule = ScheduleTest.findAll(Long.valueOf(session("USER_LOCATION")));
 	    	vm.trade = TradeIn.findAll(Long.valueOf(session("USER_LOCATION")));
 	    	vm.req = RequestMoreInfo.findAll(Long.valueOf(session("USER_LOCATION")));
+	    	Location location=Location.findById(user.location.id);
+	    	vm.locationName=location.name;
 	    	List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
 	    	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
 	    	List<TradeIn> tradeIns = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
@@ -8836,6 +8838,14 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result  getLocationName(Long locationId)     
+    {
+    	
+    	Location location=Location.findById(locationId);
+    	
+		return ok(location.getName());
+    	
+    }
     
     public static Result requestInfoMarkRead(String flag,Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

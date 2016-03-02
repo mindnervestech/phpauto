@@ -7,4 +7,6 @@ public class InfoCountVM {
 	public int trade;
 	public int premium;
 	public String userType;
+	public String locationName;
+	
 }

@@ -41,9 +41,20 @@
                 if($scope.userType == "General Manager"){
                 	 if(locationId != 0){
                      	$scope.setFalg = 1;
+                     	$http.get('/getLocationName/'+locationId)
+            			.success(function(data) {
+            				
+            				 $scope.locationName=data.locationName;
+            				 console.log($scope.locationName);
+            				 
+            			});	
+                     	
                      }
                 }else{
                 	$scope.setFalg = 1;
+                	$scope.locationName=data.locationName;
+                	console.log("::locationname");
+                	console.log($scope.locationName);
                 }
                
             })
