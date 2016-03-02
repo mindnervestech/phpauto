@@ -37,8 +37,7 @@
                 $scope.userType = data.userType;
                 
                 $scope.setFalg = 0;
-                console.log("::::locationId");
-                console.log(locationId);
+                
                 if($scope.userType == "General Manager"){
                 	 if(locationId != 0){
                      	$scope.setFalg = 1;
