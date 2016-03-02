@@ -1771,9 +1771,10 @@ public class Application extends Controller {
 	    	if(vm.mi.equals("true")){
 	    		
 	    		 AuthUser uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
-		    	 uAuthUser.setAccount("deactive");
+		    	if(uAuthUser != null){
+	    		 uAuthUser.setAccount("deactive");
 		    	 uAuthUser.update();
-	    		
+		    	}
 	    		 AuthUser users = AuthUser.getOnlyGM();
 	    		
 	    		    userObj = new AuthUser();
