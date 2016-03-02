@@ -7740,7 +7740,7 @@ $scope.locationObj = {};
 		$scope.managerObj.lastName = $scope.managerProfile.lastName;
 		$scope.managerObj.email = $scope.managerProfile.email;
 		$scope.managerObj.phone = $scope.managerProfile.phone;
-		
+		$scope.managerObj.mi = "false";
 		//locationObj 
 		/*$scope.locationObj.id = $scope.managerProfile.id;
 		$scope.locationObj.locationName = $scope.managerProfile.locationName;

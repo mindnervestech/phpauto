@@ -26,6 +26,7 @@ public class LocationVM {
 	public Double successRate;
 	public Double PlanPer;
 	public String type;
+	public String mi;
 	
 	
 	

@@ -1774,7 +1774,6 @@ public class Application extends Controller {
 		    	 uAuthUser.setAccount("deactive");
 		    	 uAuthUser.update();
 	    		
-	    		
 	    		 AuthUser users = AuthUser.getOnlyGM();
 	    		
 	    		    userObj = new AuthUser();
@@ -1805,27 +1804,63 @@ public class Application extends Controller {
 			    	 
 			    	 
 	    	}else{
-		    	userObj = AuthUser.findById(vm.id);
-		    	
-		    	userObj.setFirstName(vm.firstName);
-		    	userObj.setLastName(vm.lastName);
-		    	userObj.setEmail(vm.email);
-		    	userObj.setPhone(vm.phone);
-		    	userObj.setCommunicationemail(vm.email);
-		    	userObj.setAccount("active");
-	    	//userObj.set = Location.findById(vm.locationId);
-	    
-	    	
-	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	    	Random rnd = new Random();
+	    		
+	    		 AuthUser uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
+	    		 if(uAuthUser != null){
+	    			 uAuthUser.setAccount("deactive");
+			    	 uAuthUser.update();
+			    	 
+			    	 List<Permission> permissionList = Permission.getAllPermission();
+			    	 userObj = new AuthUser();
+			    	 userObj.firstName = vm.firstName;
+				    	userObj.lastName = vm.lastName;
+				    	userObj.email = vm.email;
+				    	userObj.phone = vm.phone;
+				    	userObj.role = vm.userType;
+				    	userObj.location = Location.findById(vm.locationId);
+				    	userObj.communicationemail = vm.email;
+				    	userObj.account = "active";
+				    	
+				    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+				    	Random rnd = new Random();
 
-	    	   StringBuilder sb = new StringBuilder( 6 );
-	    	   for( int i = 0; i < 6; i++ ) 
-	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
-	    	
-	    	  // userObj.password = sb.toString();
-	    	
-	    	   userObj.update();
+				    	   StringBuilder sb = new StringBuilder( 6 );
+				    	   for( int i = 0; i < 6; i++ ) 
+				    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+				    	
+				    	   userObj.password = sb.toString();
+				    	   List<Permission> permissionData = new ArrayList<>();
+				    		   for(Permission obj: permissionList) {
+				    			   if(!obj.name.equals("Show Location")) {
+				    				   permissionData.add(obj);
+				    			   }
+				    		   }
+				    		   userObj.permission = permissionData;
+				    	   userObj.save();
+			    	 
+	    		 }else{
+	    			 userObj = AuthUser.findById(vm.id);
+	 		    	
+	 		    	userObj.setFirstName(vm.firstName);
+	 		    	userObj.setLastName(vm.lastName);
+	 		    	userObj.setEmail(vm.email);
+	 		    	userObj.setPhone(vm.phone);
+	 		    	userObj.setCommunicationemail(vm.email);
+	 		    	userObj.setAccount("active");
+	 	    	//userObj.set = Location.findById(vm.locationId);
+	 	    
+	 	    	
+	 	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	 	    	Random rnd = new Random();
+
+	 	    	   StringBuilder sb = new StringBuilder( 6 );
+	 	    	   for( int i = 0; i < 6; i++ ) 
+	 	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+	 	    	
+	 	    	  // userObj.password = sb.toString();
+	 	    	
+	 	    	   userObj.update();
+	    		 }
 	    	   
 	    	} 
 	    	   
@@ -11488,6 +11523,9 @@ public class Application extends Controller {
     			vm.locationphone = location.phone;
     			vm.imageName = location.imageName;
     			vm.imageUrl = location.imageUrl;
+    			if(location.manager != null){
+    				vm.mi = "true";
+    			}
     			vm.type = location.type;
     			String roles = "Manager";
     			AuthUser users = AuthUser.getlocationAndManagerByType(location, roles);
@@ -11692,7 +11730,9 @@ public class Application extends Controller {
 		    	    	loc.setAddress(vm.locationaddress);
 		    	    	loc.setName(vm.locationName);
 		    	    	loc.setPhone(vm.locationphone);
-		    	    			    	    	
+		    	    	if(vm.mi.equals("false")){
+		    	    		loc.setManager(null);
+		    	    	}
 		    	    	loc.update();
 		    	    	
 		    	    	/*List<MyProfile> mProfile = MyProfile.findByLocation(Long.valueOf(vm.id));

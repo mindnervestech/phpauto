@@ -174,9 +174,9 @@
 									<input class="form-control form-white" type="text" ng-model="user.locationaddress"  required>
 								</div>
 						</div>
-						<div class="form-group col-sm-12" ng-if="gmIsManager == 0">
+						<div class="form-group col-sm-12">
 								<div class="col-sm-12">
-									<input type="checkbox" name="vehicle" ng-model="user.mi" value="Mi">I am the manager of this location
+									<input type="checkbox" name="vehicle" ng-model="user.mi" ng-checked="user.mi == 'true'" value="Mi">I am the manager of this location
 								</div>
 						</div>
 						
