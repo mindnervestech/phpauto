@@ -8823,8 +8823,11 @@ public class Application extends Controller {
 	    	vm.schedule = ScheduleTest.findAll(Long.valueOf(session("USER_LOCATION")));
 	    	vm.trade = TradeIn.findAll(Long.valueOf(session("USER_LOCATION")));
 	    	vm.req = RequestMoreInfo.findAll(Long.valueOf(session("USER_LOCATION")));
-	    	Location location=Location.findById(user.location.id);
-	    	vm.locationName=location.name;
+	    	if(user.location != null){
+	    		Location location=Location.findById(user.location.id);
+		    	vm.locationName=location.name;
+	    	}
+	    	
 	    	List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
 	    	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
 	    	List<TradeIn> tradeIns = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
