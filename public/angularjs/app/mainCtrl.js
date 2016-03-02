@@ -42,13 +42,13 @@
                 	 if(locationId != 0){
                      	$scope.setFalg = 1;
                      	$http.get('/getLocationName/'+locationId)
-            			.success(function(data) {
+            			.success(function(data1) {
             				
-            				 $scope.locationName=data.locationName;
+            				 $scope.locationName=data1;
             				 console.log($scope.locationName);
             				 
             			});	
-                     	
+                    
                      }
                 }else{
                 	$scope.setFalg = 1;
