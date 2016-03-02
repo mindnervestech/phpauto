@@ -8843,9 +8843,7 @@ public class Application extends Controller {
     
     public static Result  getLocationName(Long locationId)     
     {
-    	
     	Location location=Location.findById(locationId);
-    	
 		return ok(location.getName());
     	
     }
