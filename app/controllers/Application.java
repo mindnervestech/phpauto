@@ -11419,7 +11419,7 @@ public class Application extends Controller {
     			String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
 				        "August", "September", "October", "November", "December" };
 		    	
-		     	String crMonth = monthName[Calendar.MONTH - 1];
+		     	String crMonth = monthName[Calendar.MONTH];
 		     	
 				PlanScheduleMonthlyLocation  pMonthlyLocation = null;
 				pMonthlyLocation = PlanScheduleMonthlyLocation.findByLocationAndMonth(location, crMonth);

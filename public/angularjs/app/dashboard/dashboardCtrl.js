@@ -343,19 +343,19 @@ angular.module('newApp')
 		$scope.locationDataListShow = data;	
 		angular.forEach($scope.locationDataListShow, function(value, key) {
 			if(value.successRate !=null){
-				value.successRate = value.successRate.toFixed(2);
+				value.successRate = value.successRate.toFixed(1);
 			}else{
 				value.successRate = 0;
 			}
 			
 			if(value.PlanPer !=null){
-				value.PlanPer = value.PlanPer.toFixed(2);
+				value.PlanPer = value.PlanPer.toFixed(0);
 			}else{
 				value.PlanPer = 0;
 			}
 			
 			if(value.avgSaleLocation !=null){
-				value.avgSaleLocation = value.avgSaleLocation.toFixed(2);
+				value.avgSaleLocation = value.avgSaleLocation.toFixed(1);
 			}else{
 				value.avgSaleLocation = 0;
 			}
