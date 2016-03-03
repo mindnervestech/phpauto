@@ -455,7 +455,7 @@ margin-left: 5px;
           </div>
       </div>
 	
-	<div class="col-xlg-12 col-lg-12" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person' ||userRole == 'Manager'"style="padding-left: 0px;padding-right: 0px">
+	<div class="col-sm-12" ng-if="userRole == 'General Manager' ||userRole == 'Sales Person' ||userRole == 'Manager'"style="padding-left: 0px;padding-right: 0px">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 					
 							
@@ -464,13 +464,22 @@ margin-left: 5px;
 					            <div class="col-md-12">			            	
 							        							        	    		
 					             <div class="panel">
-								    	<!-- <h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP LISTINGS</b></h4> --> 
-								    	    	<div class="col-sm-12"style=" margin-top: 20px;" >
-								    	    	<div class="col-sm-4">
-								    	<h4 style="line-height:0.428571;margin-top:3%;float:left;width:61%;"><b style="margin-left:3%;">TOP LISTINGS</b></h4> </div>
-								    	    	<div class="col-sm-6">
+								    	    	<div class="col-sm-12"style=" margin-top: 10px;" >
+								    	    	<div class="col-sm-2">
+								    				<h4><b>TOP LISTINGS</b></h4> 
+								    			</div>
+								    			<div class="col-sm-2">
+								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								     			</div>
+								     			<div class="col-sm-2">
+								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
+								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
+								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
+								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-user" style="color: darkturquoise;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
+								     			</div>		
+								    	    	<div class="col-sm-2">
 								    	    														
-														<div class="col-sm-4">
+														<div class="col-sm-10">
 															<select class="form-control form-white"  ng-model="vehicles" ng-change="vehicleData(vehicles)"  required>
 																<option value="All">All Vehicles</option>
 																<option value="New" >New</option>
@@ -478,45 +487,30 @@ margin-left: 5px;
 															</select>
 														</div>
 															
-													</div>
+												</div>
+												<div class="col-sm-2">
+								     						<h6 class="col-sm-12"><span class="col-sm-12"><a style="cursor:pointer;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" class="col-sm-4"></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" class="col-sm-4"></span></h6>
+								     			</div>
+								     			<div class="col-sm-2">
+								     						<h6 class="col-sm-12"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
+								     			</div>
 								    	    	<div class="col-sm-2" style=" float: right" ng-if="userRole != 'General Manager'">
 												<a class="btn btn-blue" href="#addVehicle" >Add Vehicle</a>
 												</div>	</div>
 										<div class="row">
-											<div class="col-xlg-12 panel" style="height: 360px;margin-left: 5px;position: relative;margin-bottom: 0px;width: 99.2%;padding-left: 0%;padding-right: 0%;">
-												<div>
-								     				<div class="col-sm-12">
-								     					<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
-								     					</div>
-								     					<div class="col-sm-2">
-								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
-								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
-								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
-								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-user" style="color: darkturquoise;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
-								     					</div>
-								     					<div class="col-sm-4"></div>
-								     						
-								     					<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><span class="col-sm-12"><a style="cursor:pointer;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" class="col-sm-4"></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" class="col-sm-4"></span></h6>
-								     					</div>
-								     					<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
-								     					</div>
-								     				
-								        			</div>
-								    			</div>
+											<div class="col-sm-12" style="height: 360px;">
+												
 						       					 <div style="width: 100%;display: flex;overflow-x: scroll;height: 327px;">
-						       					 	  <div style="float: left;" ng-repeat="item in currentData | orderBy: listingFilter " class="col-sm-2">
+						       					 	  <div ng-repeat="item in currentData | orderBy: listingFilter " class="col-sm-2">
 									               
 													<div class="col-sm-12">
-														<div style="float: left;">
+														<div>
 								    						<img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+item.id+'/thumbnail':item.defaultImagePath}}">
 								    					</div>
 								   					</div>      
 												
-													<div style="line-height:1.028571;">
-														<label ng-if="nameLbl=='true' || $index != index" id="namelb" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 150px;" title="{{item.name}}"><b>{{item.name | limitTo: 14}}</b></label>
+													<div>
+														<label ng-if="nameLbl=='true' || $index != index" id="namelb" class="col-sm-12" style="text-align: center;font-size: 19px;" title="{{item.name}}"><b>{{item.name | limitTo: 14}}</b></label>
 														<input ng-if="nameTxt=='true' &&  vin == item.vin" id="editName" type="text" ng-model="item.name" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 180px;" ng-blur="setName(item.name,item.vin)"/>
 														<i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editName(item.vin,$index,item.id)"></i>
 													</div>
@@ -3908,7 +3902,7 @@ margin-left: 5px;
 </div>
 <div class="row">
 	
-	<div class="col-md-12 col-sm-6 portlets">
+	<div class="col-sm-12 portlets">
         <div class="panel m-t-0">
             <div class="panel-header panel-controls">
                 <h3><i class="icon-basket"></i> <strong>Sales</strong> Volume Stats</h3>
