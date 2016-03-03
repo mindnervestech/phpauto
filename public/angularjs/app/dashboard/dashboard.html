@@ -316,19 +316,19 @@ margin-left: 5px;
 								</div>	
 							</div>
 							</div>
-	<div class="col-xlg-5 col-lg-5">
-	<div class="row" style="margin-left: 20px;"> 
+	<div class="col-sm-1">
+	<div class="row"> 
 		<div class="col-md-4" style="width: 193px !important;" ng-if="userRole != 'General Manager'">
-		                <div class="panel no-bd bd-3 panel-stat" style="height:94px;">
+		                <div class="panel no-bd bd-3 panel-stat" style="height:85px;">
 		                	<div class="panel-header">
 		                		<b>CURRENTLY ONLINE</b>
 		                	</div>
 		                	<h1 style="text-align: center;">{{onlineVisitorsCount}}</h1>
 		                </div>
 	            </div>
-	            <button class="btn btn-default" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openCreateNewLeadPopup();" ng-if="userRole != 'General Manager'"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>CREATE LEAD</button>
-        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openNeweeting()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>MEETING</button>
-        	<button class="btn btn-default" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:94px; color: #319DB5;" ng-click="openPlanning()"><p class="row"><span class="glyphicon glyphicon-plus col-md-4 col-md-offset-4" style="font-size: 25px;padding-left: 0px;"></span></p></span>PLAN</button>
+	            <button class="btn btn-default col-sm-12" style="background: #ffffff; height:85px; color: #319DB5;text-align: center;" ng-click="openCreateNewLeadPopup();" ng-if="userRole != 'General Manager'"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>CREATE LEAD</button>
+        	<button class="btn btn-default col-sm-12" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:85px; color: #319DB5;text-align: center;" ng-click="openNeweeting()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>MEETING</button>
+        	<button class="btn btn-default col-sm-12" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:85px; color: #319DB5;text-align: center;" ng-click="openPlanning()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>PLAN</button>
 	</div>
 	</div>
 	
@@ -378,8 +378,8 @@ margin-left: 5px;
             </div>
         </div>
     </div>
-	<div class="col-sm-4" style="position:padding: 0;margin-left: 80px; relative;float: left;" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
-                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-certificate"></i></button>
+	<div class="col-sm-4" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
+                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-cloud"></i></button>
             <div class="col-md-12 cal-report" id="load_cal_or_wheth">
     			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
 			           </div>
