@@ -1837,13 +1837,14 @@ public class Application extends Controller {
 					    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
 					    	
 					    	   userObj.password = sb.toString();
-					    	   List<Permission> permissionData = new ArrayList<>();
+					    	   /*List<Permission> permissionData = new ArrayList<>();
 					    		   for(Permission obj: permissionList) {
-					    			   if(!obj.name.equals("Show Location")) {
+					    			   if(obj.name.equals("Show Location")) {
 					    				   permissionData.add(obj);
 					    			   }
 					    		   }
-					    		   userObj.permission = permissionData;
+					    		   userObj.permission = permissionData;*/
+					    	   userObj.permission = permissionList;
 					    	   userObj.save();
 					    	   
 					    	   Location location = Location.findById(vm.locationId);
