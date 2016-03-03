@@ -255,7 +255,7 @@ margin-left: 5px;
 									     <h4 class="col-sm-12"><b>MY STATISTICS</b></h4>
 									     <div class="col-sm-12" ng-if="userRole == 'Manager'">
 									     <!--  -->
-									     	<a style="cursor: pointer;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;">Location</a>
+									     	<a style="cursor: pointer;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">PERSONAL</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;">LOCATION</a>
 									     </div>
 									    </div> 
 									     <form ng-submit="checkDatewsie(startDate,endDate)">
@@ -274,11 +274,11 @@ margin-left: 5px;
 									     </div>
 									     </form>
 									     <div class="col-sm-4" style="margin-top:3%;">
-									     		<label><a ng-click="userLocationData('Week',dataLocOrPerWise)" style="cursor: pointer;">Week</a> | </label>
-									     		<label><a ng-click="userLocationData('Month',dataLocOrPerWise)" style="cursor: pointer;">Month</a> | </label>
-									     		<label><a ng-click="userLocationData('Quater',dataLocOrPerWise)" style="cursor: pointer;">Quater</a> | </label>
-									     		<label><a ng-click="userLocationData('6 Month',dataLocOrPerWise)" style="cursor: pointer;">6 Month</a> | </label>
-									     		<label><a ng-click="userLocationData('Year',dataLocOrPerWise)" style="cursor: pointer;">Year</a> | </label>
+									     		<label><a ng-click="userLocationData('Week',dataLocOrPerWise)" style="cursor: pointer;">WEEK</a> | </label>
+									     		<label><a ng-click="userLocationData('Month',dataLocOrPerWise)" style="cursor: pointer;">MONTH</a> | </label>
+									     		<label><a ng-click="userLocationData('Quater',dataLocOrPerWise)" style="cursor: pointer;">QUARTER</a> | </label>
+									     		<label><a ng-click="userLocationData('6 Month',dataLocOrPerWise)" style="cursor: pointer;">6 MONTH</a> | </label>
+									     		<label><a ng-click="userLocationData('Year',dataLocOrPerWise)" style="cursor: pointer;">YEAR</a> | </label>
 									     </div>
 									     
 									     </div>
@@ -309,7 +309,7 @@ margin-left: 5px;
 									 	<label class="col-sm-2 control-label" style="margin-left: 20px;">MY GOAL:</label>
 									 	<label class="col-sm-6 control-label" style="font-size: 20px;">{{showLeads}}</label>
 									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads != null">Edit</label></a>
-									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads == null">Add Goal</label></a>
+									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads == null">ADD GOAL</label></a>
 									 </div> 
 									
 									 <!-- <div class="col-xlg-12">
