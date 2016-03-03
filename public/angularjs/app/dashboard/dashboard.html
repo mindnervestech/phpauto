@@ -597,8 +597,8 @@ margin-left: 5px;
 									               <div class="col-sm-8">
 									               		<span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;margin-right: 10px;" ng-click="successRateFilter(successRate)">  </span>
 									    				<span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;margin-right: 10px;" ng-click="currentLeadsFilter(currentLeads)">  </span>
-									    				<span class="glyphicon glyphicon-usd" title="$$$ Amount Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="amountSoldFilter(amountSold)">  </span>
-									    				<span class="fa fa-car" title="Sold Car" style="color: darkturquoise;margin-right: 10px;" ng-click="soldCarFilter(soldCar)">  </span>
+									    				<span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="amountSoldFilter(amountSold)">  </span>
+									    				<span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="soldCarFilter(soldCar)">  </span>
 									    		</div>
 									                <h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a></h6>
 									            </div>
@@ -633,12 +633,12 @@ margin-left: 5px;
 										</div>
 										 
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="$$$ Amount Sold" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>${{item.salesAmount}}</b></label>
 											
 										</div>
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Sold Car" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>{{item.saleCar}}</b></label>
 											
 										</div>
