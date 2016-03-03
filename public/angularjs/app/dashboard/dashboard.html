@@ -76,14 +76,14 @@ margin-left: 5px;
 									    	<h4 style="line-height:0.428571;"><b style="margin-left:3%;">TOP LOCATIONS</b></h4>
 									    </div>
 									    <div class="col-sm-3">
-									    				<span class="glyphicon glyphicon-usd" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingPriceLocation(priceFlagL)">  </span>
-									    				<span class="fa fa-car" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingSoldCarLocation(soldCarFlagL)">  </span>
-									    				<span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingAvgSaleLocation(avgSaleFlagL)">  </span>
-									    				<span class="glyphicon glyphicon-adjust" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingPercentOfMoneyLocation(percentOfMoneyFlagL)">  </span>
-									    				<span class="glyphicon glyphicon-record" style="color: darkturquoise;margin-right: 10px;" ng-click="topListingSuccessRateLocation(successRateFlagL)">  </span>
+									    				<span class="glyphicon glyphicon-usd" style="color: darkturquoise;margin-right: 10px;"title="Total Money Brought" ng-click="topListingPriceLocation(priceFlagL)">  </span>
+									    				<span class="fa fa-car" style="color: darkturquoise;margin-right: 10px;"title="Number of Cars Sold" ng-click="topListingSoldCarLocation(soldCarFlagL)">  </span>
+									    				<span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;margin-right: 10px;"title="Average Sale" ng-click="topListingAvgSaleLocation(avgSaleFlagL)">  </span>
+									    				<span class="glyphicon glyphicon-adjust" style="color: darkturquoise;margin-right: 10px;" title="Percentage Of Money Brought" ng-click="topListingPercentOfMoneyLocation(percentOfMoneyFlagL)">  </span>
+									    				<span class="glyphicon glyphicon-record" style="color: darkturquoise;margin-right: 10px;"title="Success Rate" ng-click="topListingSuccessRateLocation(successRateFlagL)">  </span>
 									    </div>
 									    <div class="col-sm-5">
-									    	<a style="cursor:pointer;" id="weekPerf" ng-click="topLocations('Week')">WEEK</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="topLocations('Month')">MONTH</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Quater')">Quater</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('6 Month')">6 Month</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Year')">YEAR</a>
+									    	<a style="cursor:pointer;" id="weekPerf" ng-click="topLocations('Week')">Weekly</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="topLocations('Month')">Monthly</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Quater')">Quarter</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('6 Month')">6 Months</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Year')">Year</a>
 									    </div>	
 									  </div>
 									    <br>
@@ -118,12 +118,12 @@ margin-left: 5px;
 										</div>
 									
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="Total Money Brougth" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="Total Money Brought" style="color: darkturquoise;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>${{item.totalMoneyBrougthLocation}}</b></label>
 										</div>
 										 
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Cars Sold" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>{{item.carSoldLocation}}</b></label>
 										</div>
 										
@@ -133,12 +133,12 @@ margin-left: 5px;
 										</div>
 										
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-adjust" title="percent Of Money" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-adjust" title="Percentage Of Money Brought" style="color: darkturquoise;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>{{item.percentOfMoney}}%</b></label>
 										</div>
 										
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-record" title="success Rate" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>{{item.successRate}}%</b></label>
 										</div>
 										<!-- <div style="width: 180px;">
