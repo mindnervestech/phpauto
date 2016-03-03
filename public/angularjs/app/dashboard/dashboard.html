@@ -385,7 +385,7 @@ margin-left: 5px;
         </div>
     </div>
 	<div class="col-sm-4" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
-                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-cloud"></i></button>
+                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" style="margin-left: 30px;" type="button" ng-click="changeType()"><i class="glyphicon glyphicon-cloud"></i></button>
             <div class="col-md-12 cal-report" id="load_cal_or_wheth">
     			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
 			           </div>
@@ -396,7 +396,8 @@ margin-left: 5px;
         </div>
        
         <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;">
-        		<strong>Future Appointments</strong>
+        		<strong ng-show="scheduleListData.length > 0">Future Appointments</strong>
+        		<strong ng-show="scheduleListData.length <= 0">No Future Appointments</strong>
                       <div style="background: none repeat scroll 0% 0% rgb(248, 248, 248);border-left: 2px solid rgb(243, 210, 97);padding: 0px 5px; margin-top: 2px;" ng-repeat="sd in scheduleListData">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="fa fa-trash"></i></button>
                       </div>
                   </div>
@@ -569,7 +570,7 @@ margin-left: 5px;
         
 	</div>
 	
-	 <div class="col-xlg-12 col-lg-12" ng-if="userRole == 'General Manager' || userRole == 'Manager'" style=" padding: 0px;">
+	 <div class="col-sm-12" ng-if="userRole == 'General Manager' || userRole == 'Manager'" style=" padding: 0px;">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			   <!--  <ul id="myTabs" class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:12px;" ng-click="salesStats()">Top and Least Sales Representatives</button></a></li>
@@ -636,6 +637,7 @@ margin-left: 5px;
 											<label class="control-label" style="text-align: center;font-size: 17px;"><b>{{item.fullName}}</b></label>
 										
 										</div>
+										<hr style="margin-top: 2px;margin-bottom: 2px;">
 										<div style="width: 180px;">
 											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>{{item.successRate}}%</b></label>
@@ -892,7 +894,7 @@ margin-left: 5px;
             </div>
         </div>
     </div> -->
-    <div class="col-xlg-5 col-lg-5">
+    <div class="col-sm-5">
         <div class="row">
         	<!-- <div class="col-md-4" style="width: 193px !important;">
 		                <div class="panel no-bd bd-3 panel-stat" style="height:94px;">
@@ -3368,7 +3370,7 @@ margin-left: 5px;
 <div class="row" ng-if="userType != 'General Manager'">
 	
 	<div class="col-md-12">
-	<div class="col-xlg-4 col-lg-4" style="padding-left: 0px;">
+	<div class="col-sm-4" style="padding-left: 0px;">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel no-bd bd-3 panel-stat" style="height: 439px;">
@@ -3429,7 +3431,7 @@ margin-left: 5px;
         </div>
         </div>
         
-        <div class="col-xlg-3 col-lg-3">
+        <div class="col-sm-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel no-bd bd-3 panel-stat" style="height: 439px;">
@@ -3449,7 +3451,7 @@ margin-left: 5px;
         </div>
         </div>
         
-        <div class="col-xlg-5 col-lg-5">
+        <div class="col-sm-5">
         <div class="row">
             <div class="col-md-12">
                 <div class="panel bg-dark widget-map">
@@ -3477,7 +3479,7 @@ margin-left: 5px;
 
 <div class="row" ng-if="userType != 'General Manager'">
 	
-	<div class="col-xlg-7 col-lg-7" style="width:50%;">
+	<div class="col-sm-7" style="width:50%;">
 	            
 	            <div class="col-md-6" style="padding-left: 0px;">
 		                <div class="panel no-bd bd-3 panel-stat"">
@@ -3556,7 +3558,7 @@ margin-left: 5px;
 		                </div>
 	            </div>
 	           </div> 
-	           <div class="col-xlg-7 col-lg-7" style="width:50%;">
+	           <div class="col-sm-7" style="width:50%;">
 	            <div class="col-md-6">
 		                <div class="panel no-bd bd-3 panel-stat">
 		                	<div class="panel-header">
@@ -3598,7 +3600,7 @@ margin-left: 5px;
 
 
 <div class="row" ng-if="userType == 'Sales Person' || userType == 'Manager'">
-    <div class="col-xlg-12">
+    <div class="col-sm-12">
         <div class="panel">
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			    <ul id="myTabs" class="nav nav-tabs" role="tablist">
@@ -3698,7 +3700,7 @@ margin-left: 5px;
 	</div>	
 </div>	 -->
 <div class="row" style="display: none;">
-    <div class="col-xlg-4">
+    <div class="col-sm-4">
         <div class="panel">
             <div class="panel-header panel-controls">
                 <h3><i class="icon-graph"></i> <strong>Financial</strong> Stock</h3>
@@ -3790,7 +3792,7 @@ margin-left: 5px;
             </div>
         </div>
     </div>
-    <div class="col-xlg-2">
+    <div class="col-sm-2">
         <div class="row">
             <div class="col-xlg-12 col-lg-4 col-sm-4">
                 <div class="panel">
@@ -3836,7 +3838,7 @@ margin-left: 5px;
             </div>
         </div>
     </div>
-    <div class="col-xlg-6">
+    <div class="col-sm-6">
         <div class="panel">
             <div class="panel-content widget-full widget-stock stock2">
                 <div class="tab_right">
