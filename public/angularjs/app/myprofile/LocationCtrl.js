@@ -229,7 +229,7 @@ angular.module('newApp')
 	$scope.updateImage = function() {
 		$scope.user.userType = "Manager"
 			
-			if($scope.managerObj.mi == false){
+			if($scope.user.mi == false){
 				$scope.managerObj.id = $scope.user.managerId;
 				$scope.managerObj.userType = $scope.user.userType;
 				$scope.managerObj.firstName = $scope.user.firstName;
@@ -247,6 +247,7 @@ angular.module('newApp')
 		$scope.locationObj.locationaddress = $scope.user.locationaddress;
 		$scope.locationObj.locationemail = $scope.user.locationemail;
 		$scope.locationObj.locationphone = $scope.user.locationphone;
+		$scope.locationObj.mi = $scope.user.mi;
 		console.log($scope.user);
 		console.log($scope.managerObj);
 		console.log($scope.locationObj);
@@ -297,11 +298,21 @@ angular.module('newApp')
 			.success(function(data) {
 				
 	            $('#btnClose1').click();
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Manager saved successfully",
-				});
+	            
+	            if(data != "1"){
+	            	$.pnotify({
+					    title: "Error",
+					    type:'Success',
+					    text: "Please Complete all leads Before Deactivet Location...!!",
+					});
+	            }else{
+	            	$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Manager saved successfully",
+					});
+	            }
+	            
 	            $scope.init();
 			});
 	} else {

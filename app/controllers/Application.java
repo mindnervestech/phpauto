@@ -1764,7 +1764,7 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
-	    	
+	    	String flag = "0";
 	    	UserVM vm = form.get();
 	    	String roles = "Manager";
 	    	AuthUser userObj = null;
@@ -1772,8 +1772,8 @@ public class Application extends Controller {
 	    		
 	    		 AuthUser uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
 		    	if(uAuthUser != null){
-	    		 uAuthUser.setAccount("deactive");
-		    	 uAuthUser.update();
+		    		 uAuthUser.setRole("Sales Person");
+			    	 uAuthUser.update();
 		    	}
 	    		 AuthUser users = AuthUser.getOnlyGM();
 	    		
@@ -1791,7 +1791,6 @@ public class Application extends Controller {
 			    	
 			    	 userObj.password = "0";
 			    	 
-			    	 
 			    	 List<Permission> permissionList = Permission.getAllPermission();
 			    	 userObj.permission = permissionList;
 			    	 
@@ -1808,36 +1807,50 @@ public class Application extends Controller {
 	    		
 	    		 AuthUser uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
 	    		 if(uAuthUser != null){
-	    			 uAuthUser.setAccount("deactive");
-			    	 uAuthUser.update();
-			    	 
-			    	 List<Permission> permissionList = Permission.getAllPermission();
-			    	 userObj = new AuthUser();
-			    	 userObj.firstName = vm.firstName;
-				    	userObj.lastName = vm.lastName;
-				    	userObj.email = vm.email;
-				    	userObj.phone = vm.phone;
-				    	userObj.role = vm.userType;
-				    	userObj.location = Location.findById(vm.locationId);
-				    	userObj.communicationemail = vm.email;
-				    	userObj.account = "active";
-				    	
-				    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-				    	Random rnd = new Random();
+	    			 
+	    			 List<RequestMoreInfo> rInfo = RequestMoreInfo.findAllAssignedLeadsToUser1(uAuthUser);
+	    			 List<ScheduleTest> sList = ScheduleTest.findAllAssignedLeadsToUser1(uAuthUser);
+	    			 List<TradeIn> tIns = TradeIn.findAllAssignedLeadsToUser1(uAuthUser);
+	    			 
+	    			 if(rInfo.size() != 0 || sList.size() != 0 || tIns.size() != 0){
+	    				 flag = "1";
+	    			 }else{
+	    				 uAuthUser.setAccount("deactive");
+				    	 uAuthUser.update();
+				    	 
+				    	 List<Permission> permissionList = Permission.getAllPermission();
+				    	 userObj = new AuthUser();
+				    	 userObj.firstName = vm.firstName;
+					    	userObj.lastName = vm.lastName;
+					    	userObj.email = vm.email;
+					    	userObj.phone = vm.phone;
+					    	userObj.role = vm.userType;
+					    	userObj.location = Location.findById(vm.locationId);
+					    	userObj.communicationemail = vm.email;
+					    	userObj.account = "active";
+					    	
+					    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+					    	Random rnd = new Random();
 
-				    	   StringBuilder sb = new StringBuilder( 6 );
-				    	   for( int i = 0; i < 6; i++ ) 
-				    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
-				    	
-				    	   userObj.password = sb.toString();
-				    	   List<Permission> permissionData = new ArrayList<>();
-				    		   for(Permission obj: permissionList) {
-				    			   if(!obj.name.equals("Show Location")) {
-				    				   permissionData.add(obj);
-				    			   }
-				    		   }
-				    		   userObj.permission = permissionData;
-				    	   userObj.save();
+					    	   StringBuilder sb = new StringBuilder( 6 );
+					    	   for( int i = 0; i < 6; i++ ) 
+					    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+					    	
+					    	   userObj.password = sb.toString();
+					    	   List<Permission> permissionData = new ArrayList<>();
+					    		   for(Permission obj: permissionList) {
+					    			   if(!obj.name.equals("Show Location")) {
+					    				   permissionData.add(obj);
+					    			   }
+					    		   }
+					    		   userObj.permission = permissionData;
+					    	   userObj.save();
+					    	   
+					    	   Location location = Location.findById(vm.locationId);
+						       location.setManager(null);
+						   location.update();
+	    			 }
+	    			 
 			    	 
 	    		 }else{
 	    			 userObj = AuthUser.findById(vm.id);
@@ -1866,32 +1879,36 @@ public class Application extends Controller {
 	    	} 
 	    	   
 	    	   MultipartFormData body = request().body().asMultipartFormData();
-	    	   if(body != null) {
-	    		FilePart picture = body.getFile("file0");
-		    	  if (picture != null) {
-		    	    String fileName = picture.getFilename();
-		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"userPhoto");
-		    	    if(!fdir.exists()) {
-		    	    	fdir.mkdir();
-		    	    }
-		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
-		    	    File file = picture.getFile();
-		    	    try {
-		    	    		FileUtils.moveFile(file, new File(filePath));
-		    	    		AuthUser user = AuthUser.findById(userObj.id);
-		    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
-		    	    		user.setImageName(fileName);
-		    	    		user.update();	
-		    	    		
-		    	  } catch (FileNotFoundException e) {
-		  			e.printStackTrace();
-			  		} catch (IOException e) {
-			  			e.printStackTrace();
-			  		} 
-		    	  } 
-	    	   } 
 	    	   
-	    	return ok();
+	    	   if(flag.equals("0")){
+	    		   if(body != null) {
+	   	    		FilePart picture = body.getFile("file0");
+	   		    	  if (picture != null) {
+	   		    	    String fileName = picture.getFilename();
+	   		    	    File fdir = new File(rootDir+File.separator+userObj.id+File.separator+"userPhoto");
+	   		    	    if(!fdir.exists()) {
+	   		    	    	fdir.mkdir();
+	   		    	    }
+	   		    	    String filePath = rootDir+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+	   		    	    File file = picture.getFile();
+	   		    	    try {
+	   		    	    		FileUtils.moveFile(file, new File(filePath));
+	   		    	    		AuthUser user = AuthUser.findById(userObj.id);
+	   		    	    		user.setImageUrl("/"+user.id+"/"+"userPhoto"+"/"+fileName);
+	   		    	    		user.setImageName(fileName);
+	   		    	    		user.update();	
+	   		    	    		
+	   		    	  } catch (FileNotFoundException e) {
+	   		  			e.printStackTrace();
+	   			  		} catch (IOException e) {
+	   			  			e.printStackTrace();
+	   			  		} 
+	   		    	  } 
+	   	    	   } 
+	    	   }
+	    	  
+	    	   
+	    	return ok(Json.toJson(flag));
     	}
     }
     
@@ -11733,9 +11750,7 @@ public class Application extends Controller {
 		    	    	loc.setAddress(vm.locationaddress);
 		    	    	loc.setName(vm.locationName);
 		    	    	loc.setPhone(vm.locationphone);
-		    	    	if(vm.mi.equals("false")){
-		    	    		loc.setManager(null);
-		    	    	}
+		    	    	
 		    	    	loc.update();
 		    	    	
 		    	    	/*List<MyProfile> mProfile = MyProfile.findByLocation(Long.valueOf(vm.id));
