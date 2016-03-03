@@ -84,7 +84,7 @@ margin-left: 5px;
 									    				<span class="glyphicon glyphicon-record" style="color: darkturquoise;margin-right: 10px;"title="Success Rate" ng-click="topListingSuccessRateLocation(successRateFlagL)">  </span>
 									    </div>
 									    <div class="col-sm-5">
-									    	<a style="cursor:pointer;" id="weekPerf" ng-click="topLocations('Week')">Weekly</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="topLocations('Month')">Monthly</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Quater')">Quarter</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('6 Month')">6 Months</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Year')">Year</a>
+									    	<a style="cursor:pointer;" id="weekPerf" ng-click="topLocations('Week')">WEEKLY</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="topLocations('Month')">MONTHLY</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Quater')">QUARTER</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('6 Month')">6 MONTHS</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Year')">YEAR</a>
 									    </div>	
 									  </div>
 									    <br>
@@ -470,13 +470,13 @@ margin-left: 5px;
 								    				<h4><b>TOP LISTINGS</b></h4> 
 								    			</div>
 								    			<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">ALL VEHICLES</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     			</div>
 								     			<div class="col-sm-2">
-								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
-								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
-								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
-								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-user" style="color: darkturquoise;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
+								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
+								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
+								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
+								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
 								    	    	<div class="col-sm-2">
 								    	    														
@@ -490,7 +490,7 @@ margin-left: 5px;
 															
 												</div>
 												<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><span class="col-sm-12"><a style="cursor:pointer;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" class="col-sm-4"></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" class="col-sm-4"></span></h6>
+								     						<h6 class="col-sm-12"><span class="col-sm-12"><a style="cursor:pointer;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">MAKE</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">MODEL</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" class="col-sm-4"></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" class="col-sm-4"></span></h6>
 								     			</div>
 								     			<div class="col-sm-2">
 								     						<h6 class="col-sm-12"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
@@ -586,10 +586,10 @@ margin-left: 5px;
 									    <b style="margin-left:3%;">TOP SALES PEOPLE  </b>
 									    </div>
 									      <div class="col-sm-6">
-									               		<span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;margin-right: 10px;" ng-click="successRateFilter(successRate)">  </span>
-									    				<span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;margin-right: 10px;" ng-click="currentLeadsFilter(currentLeads)">  </span>
-									    				<span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="amountSoldFilter(amountSold)">  </span>
-									    				<span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="soldCarFilter(soldCar)">  </span>
+									               		<span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;font-size: 18px;font:margin-right: 10px;" ng-click="successRateFilter(successRate)">  </span>
+									    				<span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="currentLeadsFilter(currentLeads)">  </span>
+									    				<span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="amountSoldFilter(amountSold)">  </span>
+									    				<span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="soldCarFilter(soldCar)">  </span>
 									    		</div>  
 									  <div class="col-sm-4">
 									  <a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a>
