@@ -167,7 +167,9 @@ margin-left: 5px;
 									                 
 									                 <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
-									                     <img ng-if="$index!=index" class="circleBase typeNew" src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                       <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                     <img ng-if="$index!=index && item.imageUrl == null" class="circleBase typeNew"  src="/assets/images/p1.png">
+									                 	
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
 									                 		<h1 style="color:white;margin-top: 30px;">{{item.PlanPer}}%</h1>
 									                 	</div>
@@ -282,7 +284,8 @@ margin-left: 5px;
 									                 
 									                 <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
-									                     <img ng-if="$index!=index" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									               <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                     <img ng-if="$index!=index && item.imageUrl == null" class="circleBase typeNew"  src="/assets/images/p1.png">
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
 									                 		<h1 style="color:white;margin-top: 30px;">{{item.PlanPer}}%</h1>
 									                 	</div>
@@ -333,7 +336,8 @@ margin-left: 5px;
 									                 
 									                 <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
-									                     <img ng-if="$index!=index" class="circleBase typeNew" src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                   <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                     <img ng-if="$index!=index && item.imageUrl == null" class="circleBase typeNew"  src="/assets/images/p1.png">
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
 									                 		<h1 style="color:white;margin-top: 30px;">{{item.PlanPer}}%</h1>
 									                 	</div>
@@ -413,7 +417,7 @@ margin-left: 5px;
 
 	  </div>  
 	  
-	  <div class="col-sm-1" ng-if="showGmLocation == 1 || showBackGmButton == 1" style="padding: 0px;margin-top: 30px;">
+	  <div class="col-sm-1" ng-if="showGmLocation == 1 || showBackGmButton == 1" style="padding: 0px;margin-top: 45px;">
 								<a class="btn btn-blue" href="/locationWise/0">Back To GM Dashboard</a>
 						</div>
 							
