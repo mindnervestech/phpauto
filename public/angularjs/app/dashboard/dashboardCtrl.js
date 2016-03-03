@@ -327,6 +327,8 @@ angular.module('newApp')
 			
 			if(locationId != 0){
 				$scope.userLocationData('Week','person');
+			}else{
+				 $scope.showSelectLocationDash = $scope.locationValue;
 			}
 			$scope.showVehicalBarChart();
 			if($scope.userRole == null){
@@ -340,6 +342,10 @@ angular.module('newApp')
 	$scope.topLocations = function(timeSet){
 		$http.get('/getAllLocation/'+timeSet)
 		.success(function(data) {
+			
+			if(locationId == 0){
+				$scope.showSelectLocationDash = $scope.locationValue;
+			}
 		$scope.locationDataListShow = data;	
 		angular.forEach($scope.locationDataListShow, function(value, key) {
 			if(value.successRate !=null){
