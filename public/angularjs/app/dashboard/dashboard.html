@@ -4097,11 +4097,13 @@ margin-left: 5px;
 	<div class="col-sm-12 portlets">
         <div class="panel m-t-0">
             <div class="panel-header panel-controls">
-                <h3><i class="icon-basket"></i> <strong>Sales</strong> Volume Stats</h3>
+               <i class="icon-basket"></i> <strong>Sales</strong> Volume Stats
+             <span style="margin-left: 5%;">  <a style="cursor: pointer;" ng-click="showVehicalBarChart()" title="Vehical Sale"><i class="glyphicon glyphicon-signal"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChart()" title="by Car Make"><i class="fa fa-car"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChartByBodyStyle()" title="Body Style"><i class="fa fa-cogs"></i></a><a style="cursor: pointer;" ng-click="showVehicalBarAvgSale()" title="Average Sale"><i class="glyphicon glyphicon-tasks"></i></a></span> 
+                
             </div>
-            <div class="panel-header panel-controls">
+           <!--  <div class="panel-header panel-controls">
                 <h3><a style="cursor: pointer;" ng-click="showVehicalBarChart()" title="Vehical Sale"><i class="glyphicon glyphicon-signal"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChart()" title="by Car Make"><i class="fa fa-car"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChartByBodyStyle()" title="Body Style"><i class="fa fa-cogs"></i></a><a style="cursor: pointer;" ng-click="showVehicalBarAvgSale()" title="Average Sale"><i class="glyphicon glyphicon-tasks"></i></a></h3>
-            </div>
+            </div> -->
             <div ng-if="showBarvehical == 1">
             	<div class="panel-content p-t-0 p-b-0">
                 	<div id="bar-chartVehicle">
