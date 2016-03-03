@@ -92,7 +92,7 @@ margin-left: 5px;
 									        							         
 									         
 									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 360px;">
-									            <div  ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation" ng-class="item.id == showSelectLocationDash ? 'setBorderClass':''">
+									            <div  ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation" ng-class="item.id == showSelectLocationDash ? 'setBorderClass col-sm-3':'col-sm-3'">
 									             <a href="/locationWise/{{item.id}}" ng-if="item.gmIsManager == 0 || item.gmIsManager == null">
 									             
 									              <!-- ng-click="openLocationDasboard(item)" -->   
@@ -108,38 +108,42 @@ margin-left: 5px;
 									                 </div> 
 									            </div>
 									            </div>
-										 <div style="line-height:1.028571;margin-left: 25px;">
+										 <div style="text-align: center;">
 											<label class="control-label" style="text-align: center;font-size: 17px;"><b>{{item.locationName}}</b></label>
 										
 										</div>
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-user" title="Sale People Working" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.salePeopleUserLocation}}</b></label>
+										<hr style="margin-top:2px;margin-bottom: 2px;">
+										<!-- <div>
+											<label class="control-label" style="text-align: center;font-size: 17px;">--------------------</label>
+										</div> -->
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-user" title="Sale People Working" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.salePeopleUserLocation}}</b></label>
 										</div>
 									
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="Total Money Brought" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>${{item.totalMoneyBrougthLocation}}</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-usd" title="Total Money Brought" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>${{item.totalMoneyBrougthLocation}}</b></label>
 										</div>
 										 
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.carSoldLocation}}</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.carSoldLocation}}</b></label>
 										</div>
 										
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-shopping-cart" title="Average Sale" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>${{item.avgSaleLocation}}</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-shopping-cart" title="Average Sale" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>${{item.avgSaleLocation}}</b></label>
 										</div>
 										
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-adjust" title="Percentage Of Money Brought" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.percentOfMoney}}%</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-adjust" title="Percentage Of Money Brought" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.percentOfMoney}}%</b></label>
 										</div>
 										
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.successRate}}%</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.successRate}}%</b></label>
 										</div>
 										<!-- <div style="width: 180px;">
 											<label style="text-align: center;width: 60px;"><span class="fa fa-female" title="Sold Car" style="color: darkturquoise;"></span></label>
@@ -168,38 +172,39 @@ margin-left: 5px;
 									                 </div> 
 									            </div>
 									            </div>
-										 <div style="line-height:1.028571;margin-left: 25px;">
+										 <div style="text-align: center;">
 											<label class="control-label" style="text-align: center;font-size: 17px;"><b>{{item.locationName}}</b></label>
 										
 										</div>
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-user" title="Sale People Working" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.salePeopleUserLocation}}</b></label>
+										<hr style="margin-top:2px;margin-bottom: 2px;">
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-user" title="Sale People Working" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.salePeopleUserLocation}}</b></label>
 										</div>
 									
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="Total Money Brougth" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>${{item.totalMoneyBrougthLocation}}</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-usd" title="Total Money Brougth" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>${{item.totalMoneyBrougthLocation}}</b></label>
 										</div>
 										 
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Cars Sold" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.carSoldLocation}}</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="fa fa-car" title="Cars Sold" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.carSoldLocation}}</b></label>
 										</div>
 										
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-shopping-cart" title="Average Sale" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>${{item.avgSaleLocation}}</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-shopping-cart" title="Average Sale" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>${{item.avgSaleLocation}}</b></label>
 										</div>
 										
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-adjust" title="percent Of Money" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.percentOfMoney}}%</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-adjust" title="percent Of Money" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.percentOfMoney}}%</b></label>
 										</div>
 										
-										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-record" title="success Rate" style="color: darkturquoise;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.successRate}}%</b></label>
+										<div style="text-align: center;">
+											<label style="text-align: center;" class="col-sm-5"><span class="glyphicon glyphicon-record" title="success Rate" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.successRate}}%</b></label>
 										</div>
 										<!-- <div style="width: 180px;">
 											<label style="text-align: center;width: 60px;"><span class="fa fa-female" title="Sold Car" style="color: darkturquoise;"></span></label>
@@ -332,7 +337,7 @@ margin-left: 5px;
 	</div>
 	</div>
 	
-	<div class="col-md-4 col-sm-6 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager')  && showToDoList">    <!-- && showToDoList -->
+	<div class="col-sm-4 portlets" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager')  && showToDoList">    <!-- && showToDoList -->
         <div class="panel">
             <div class="panel-header">
             <a ng-click="showCalendarData()" style="cursor: pointer;float:left;margin-top:13px;margin-left:4px;">Back to calendar</a>
