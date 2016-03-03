@@ -577,22 +577,38 @@ margin-left: 5px;
 			    </ul> -->
 				    <div id="myTabContent" class="tab-content" style="padding:0px;">
 				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
-							<div class="row">
-						            <div class="col-md-12">
+							<div class="row">						            
 						             <div class="panel" style="height: 413px;">
-									    <h4 style="line-height:0.428571;margin-top:3%;width:66%;"><b style="margin-left:3%;">TOP SALES PEOPLE  </b></h4>
+									    
+									    <div class="col-sm-12"style="margin-top: 20px; margin-bottom: 20px;">
+									 <div class="col-sm-2">
+									    <b style="margin-left:3%;">TOP SALES PEOPLE  </b>
+									    </div>
+									      <div class="col-sm-6">
+									               		<span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;margin-right: 10px;" ng-click="successRateFilter(successRate)">  </span>
+									    				<span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;margin-right: 10px;" ng-click="currentLeadsFilter(currentLeads)">  </span>
+									    				<span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="amountSoldFilter(amountSold)">  </span>
+									    				<span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="soldCarFilter(soldCar)">  </span>
+									    		</div>  
+									  <div class="col-sm-4">
+									  <a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a>
+									  </div>
+									  </div>
+									  
+									
+									
 									    
 									   <!--  <select  class="form-control form-white" ng-model="salesPersonUser" ng-change="getPerformanceOfUser()" style="width:29%;margin-left: 4%;margin-top:1%;" >
 									    	<option ng-selected="true" value="">Select user</option>
 						                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
 						                </select> -->
 									    <br>
-									<div class="row" style=" margin-left: 0px; margin-right: 0px;" >
+									<!-- <div class="row" style=" margin-left: 0px; margin-right: 0px;" >
 									<div class="col-xlg-12 panel" style="height: 360px;position: relative;margin-top:1%;padding-left: 0px;padding-right: 0px;">
 									         <div>
 									           <div class="col-sm-12">
-									              <!-- <h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()" ng-class="topPerformers == true ?'underline':''">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()" ng-class="worstPerformers == true ?'underline':''">WORST PERFORMERS</a></h6>
-									              -->
+									              <h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()" ng-class="topPerformers == true ?'underline':''">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()" ng-class="worstPerformers == true ?'underline':''">WORST PERFORMERS</a></h6>
+									             
 									               <div class="col-sm-8">
 									               		<span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;margin-right: 10px;" ng-click="successRateFilter(successRate)">  </span>
 									    				<span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;margin-right: 10px;" ng-click="currentLeadsFilter(currentLeads)">  </span>
@@ -601,7 +617,7 @@ margin-left: 5px;
 									    		</div>
 									                <h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a></h6>
 									            </div>
-									         </div>
+									         </div> -->
 								         
 									         
 									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 341px;">
