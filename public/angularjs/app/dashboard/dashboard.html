@@ -102,7 +102,8 @@ margin-left: 5px;
 									                 
 									                 <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
-									                     <img ng-if="$index!=index" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                     <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                     <img ng-if="$index!=index && item.imageUrl == null" class="circleBase typeNew"  src="/assets/images/p1.png">
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
 									                 		<h1 style="color:white;margin-top: 30px;">{{item.PlanPer}}%</h1>
 									                 	</div>
