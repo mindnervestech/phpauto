@@ -485,10 +485,10 @@ margin-left: 5px;
 								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     					</div>
 								     					<div class="col-sm-2">
-								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;" ng-click="topListingCount('count',countFlag)"></span></h6>
-								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"ng-click="topListingPrice('price',priceFlag)"></span></h6>
-								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
-								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-user" style="color: darkturquoise;"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
+								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
+								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
+								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
+								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-user" style="color: darkturquoise;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     					</div>
 								     					<div class="col-sm-4"></div>
 								     						
@@ -532,7 +532,7 @@ margin-left: 5px;
 														<span class="col-sm-4 glyphicon glyphicon glyphicon-thumbs-up" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.count}}</span>
 													</div> -->
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Lead" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.leadsCount}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.leadsCount}}</span>
 													</div>
 													<!-- <div class="col-sm-12">
 														<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkIndex(item,compare)"> <label style="color: darkturquoise;">Compare</label>
