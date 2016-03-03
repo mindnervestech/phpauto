@@ -61,7 +61,7 @@ margin-left: 5px;
 }
 </style>
 <div>
-<div class="row col-xlg-7 col-lg-7" ng-init="init()" >
+<div class="row col-sm-7" ng-init="init()" ng-if="userRole == 'General Manager' && showGmLocation == 0 && showBackGmButton == 0">
     
     	 <div class="col-xlg-12 col-lg-12" ng-sec = "Show Location" style=" padding: 0px;">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
@@ -236,11 +236,184 @@ margin-left: 5px;
   				</div> 
         
 	</div>
+
+	  </div>  
+	  
+	  
+	  <div class="row col-sm-11" ng-init="init()" ng-if="showGmLocation == 1 || showBackGmButton == 1">
+    
+    	 <div class="col-sm-12" ng-sec = "Show Location" style=" padding: 0px;">
+     	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+			   
+				    <div id="myTabContent" class="tab-content" style="padding:0px;">
+				      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+							<div class="row">
+						            <div class="col-md-12">
+						             <div class="panel" style="height: 413px;">
+						              <div class="col-sm-12">
+						                <div class="col-sm-4">
+									    	<h4><b>TOP LOCATIONS</b></h4>
+									    </div>
+									    
+									    <div class="col-sm-3">
+									    				<span class="glyphicon glyphicon-usd" style="color: darkturquoise;margin-right: 10px;"title="Total Money Brought" ng-click="topListingPriceLocation(priceFlagL)">  </span>
+									    				<span class="fa fa-car" style="color: darkturquoise;margin-right: 10px;"title="Number of Cars Sold" ng-click="topListingSoldCarLocation(soldCarFlagL)">  </span>
+									    				<span class="glyphicon glyphicon-shopping-cart" style="color: darkturquoise;margin-right: 10px;"title="Average Sale" ng-click="topListingAvgSaleLocation(avgSaleFlagL)">  </span>
+									    				<span class="glyphicon glyphicon-adjust" style="color: darkturquoise;margin-right: 10px;" title="Percentage Of Money Brought" ng-click="topListingPercentOfMoneyLocation(percentOfMoneyFlagL)">  </span>
+									    				<span class="glyphicon glyphicon-record" style="color: darkturquoise;margin-right: 10px;"title="Success Rate" ng-click="topListingSuccessRateLocation(successRateFlagL)">  </span>
+									    </div>
+									    <div class="col-sm-5">
+									    	<a style="cursor:pointer;" id="weekPerf" ng-click="topLocations('Week')">WEEKLY</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="topLocations('Month')">MONTHLY</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Quater')">QUARTER</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('6 Month')">6 MONTHS</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="topLocations('Year')">YEAR</a>
+									    </div>	
+									  </div>
+									    <br>
+									<div class="row" style=" margin-left: 0px; margin-right: 0px;" >
+									<div class="col-sm-12 panel" style="height: 360px;position: relative;margin-top:1%;padding-left: 0px;padding-right: 0px;">
+									        							         
+									         
+									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 360px;">
+									            <div  ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation" ng-class="item.id == showSelectLocationDash ? 'setBorderClass col-sm-2':'col-sm-2'">
+									             <a href="/locationWise/{{item.id}}" ng-if="item.gmIsManager == 0 || item.gmIsManager == null">
+									             
+									              <!-- ng-click="openLocationDasboard(item)" -->   
+									               		<div>							                
+									             
+									                 
+									                 <div>
+									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
+									                     <img ng-if="$index!=index" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
+									                 		<h1 style="color:white;margin-top: 30px;">{{item.PlanPer}}%</h1>
+									                 	</div>
+									                 </div> 
+									            </div>
+									            </div>
+										 <div style="text-align: center;">
+											<label class="control-label" style="text-align: center;font-size: 17px;"><b>{{item.locationName}}</b></label>
+										
+										</div>
+										<hr style="margin-top:2px;margin-bottom: 2px;">
+										<!-- <div>
+											<label class="control-label" style="text-align: center;font-size: 17px;">--------------------</label>
+										</div> -->
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-user" title="Sale People Working" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.salePeopleUserLocation}}</b></label>
+										</div>
+									
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-usd" title="Total Money Brought" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>${{item.totalMoneyBrougthLocation}}</b></label>
+										</div>
+										 
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.carSoldLocation}}</b></label>
+										</div>
+										
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-shopping-cart" title="Average Sale" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>${{item.avgSaleLocation}}</b></label>
+										</div>
+										
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-adjust" title="Percentage Of Money Brought" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.percentOfMoney}}%</b></label>
+										</div>
+										
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.successRate}}%</b></label>
+										</div>
+										
+										</a>
+										     <a href="/gmIsManager/{{item.id}}" ng-if="item.gmIsManager == 1">   
+									               		<div>							                
+									                 
+									                 <div>
+									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
+									                     <img ng-if="$index!=index" class="circleBase typeNew" src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
+									                 		<h1 style="color:white;margin-top: 30px;">{{item.PlanPer}}%</h1>
+									                 	</div>
+									                 </div> 
+									            </div>
+									            </div>
+										 <div style="text-align: center;">
+											<label class="control-label" style="text-align: center;font-size: 17px;"><b>{{item.locationName}}</b></label>
+										
+										</div>
+										<hr style="margin-top:2px;margin-bottom: 2px;">
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-user" title="Sale People Working" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.salePeopleUserLocation}}</b></label>
+										</div>
+									
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-usd" title="Total Money Brougth" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>${{item.totalMoneyBrougthLocation}}</b></label>
+										</div>
+										 
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="fa fa-car" title="Cars Sold" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.carSoldLocation}}</b></label>
+										</div>
+										
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-shopping-cart" title="Average Sale" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>${{item.avgSaleLocation}}</b></label>
+										</div>
+										
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-adjust" title="percent Of Money" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.percentOfMoney}}%</b></label>
+										</div>
+										
+										<div style="text-align: center;">
+											<label style="text-align: right;" class="col-sm-5"><span class="glyphicon glyphicon-record" title="success Rate" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;" class="col-sm-7"><b>{{item.successRate}}%</b></label>
+										</div>
+										<!-- <div style="width: 180px;">
+											<label style="text-align: center;width: 60px;"><span class="fa fa-female" title="Sold Car" style="color: darkturquoise;"></span></label>
+											<label style="font-size: 15px;width: 70px;"><b>{{item.saleCar}}</b></label>
+											
+										</div> -->
+										<!-- <div style="width: 180px;">
+												<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkSalePersonIndex(item,compare)" style="margin-left: 18px;" ng-disabled="(compare == null || compare == false) && comparisonperson.length >=2"> <label style="color: darkturquoise;">Compare</label>
+										</div>
+										<div style="width: 180px;" ng-if="item.flag == 1">
+												<button type="button" class="btn btn-blue" ng-click="comparisonSalePerson()">Compare</button>
+										</div> -->
+										<!-- <div>
+											<a style="font-size: 25px;margin-left: 18px;"><span class="glyphicon glyphicon-thumbs-up" style="width: 50px;" ng-click="openComment(item)"></span></a><a style="width: 60px;font-size: 25px;" href="mailto:{{item.email}}"><span class="glyphicon glyphicon-envelope" style="width: 50px;"></span></a>
+										</div> -->
+										</a>
+										
+										</div>
+										
+										<div class="col-sm-4" ng-if="locationDataListShow.length <= 4" style="margin-top: 70px;">
+												<img  src="/assets/images/upcoming location.png" style="width: 380px;">
+												
+										</div>
+										
+									               </div>
+									</div>
+									</div>
+								</div>	
+							</div>
+							</div>
+				      </div>
+				      
+				    </div>
+  				</div> 
+        
+	</div>
     
 
 	  </div>  
-	  <div class="col-xlg-4 col-lg-4" ng-if="showGmLocation == 1 || showBackGmButton == 1">
-								<a class="btn btn-blue" href="/locationWise/0">Back To Main Dashboard</a>
+	  
+	  <div class="col-sm-1" ng-if="showGmLocation == 1 || showBackGmButton == 1" style="padding: 0px;margin-top: 30px;">
+								<a class="btn btn-blue" href="/locationWise/0">Back To GM Dashboard</a>
 						</div>
 							
 	</div>
