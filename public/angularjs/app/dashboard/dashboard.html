@@ -564,7 +564,7 @@ margin-left: 5px;
         </div>
     </div>
 	<div class="col-sm-4" ng-show="(userType == 'Sales Person' || userType == 'General Manager' || userType == 'Manager') && showCalendar">
-                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" style="margin-left: 30px;" type="button" ng-click="changeType()"><i title="show weather" class="glyphicon glyphicon-cloud"></i></button>
+                    <button class="btn btn-sm btn-blue" id="btn-whe-cal-toggle" style="margin-left: 30px;" type="button" ng-click="changeType()"><i title="Show Weather" class="glyphicon glyphicon-cloud"></i></button>
             <div class="col-md-12 cal-report" id="load_cal_or_wheth">
     			    <div class="widget widget_calendar bg-dark"><div class="multidatepicker">
 			           </div>
@@ -822,6 +822,12 @@ margin-left: 5px;
 										
 										</div>
 										<hr style="margin-top: 4px;margin-bottom: 8px;">
+										
+										<div style="width: 180px;" ng-if="item.userStatus == 'deactive'">
+											<label style="font-size: 15px;"><b>No longer working</b></label>
+																					
+										</div>
+										
 										<div style="width: 180px;">
 											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;font-size: 16px;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>{{item.successRate}}%</b></label>

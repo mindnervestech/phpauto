@@ -14761,9 +14761,9 @@ public class Application extends Controller {
 			
 			List<AuthUser> salesUsersList;
 			if(locationValue == 0){
-				salesUsersList = AuthUser.getAllSalesUser();
+				salesUsersList = AuthUser.getAllSalesUserDeactive();
 			}else{
-				salesUsersList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
+				salesUsersList = AuthUser.getAllUserByLocationDeactiveAlso(Location.findById(locationValue));
 			}
 			
 			UserVM[] tempuserList = new UserVM[salesUsersList.size()];
@@ -14802,6 +14802,7 @@ public class Application extends Controller {
 		    	}
 			
 				vm.fullName = sales.firstName+" "+sales.lastName;
+				vm.userStatus = sales.account;
 				vm.id = sales.id;
 				if(sales.imageUrl != null) {
 					if(sales.imageName !=null){
@@ -14885,42 +14886,6 @@ public class Application extends Controller {
     			}
 			}
     		
-    		
-    		/*for(RequestMoreInfo rMoreInfo: rInfo1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,sales);
-    			for(Vehicle vehicle:vehicleVin){
-    			if(vehicle != null){
-    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
-            			saleCarCount++;
-            			pricecount = pricecount + vehicle.price;
-    				}
-    			}
-    		 }
-    		}
-    		
-    		for(ScheduleTest sTest: sList1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,sales);
-    			for(Vehicle vehicle:vehicleVin){
-    			if(vehicle != null){
-    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
-            			saleCarCount++;
-            			pricecount = pricecount + vehicle.price;
-    				}
-    			}
-    		}
-    		}
-    		
-    		for(TradeIn tradeIn: tradeIns1){
-    			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(tradeIn.vin,sales);
-    			for(Vehicle vehicle:vehicleVin){
-    			if(vehicle != null){
-    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
-            			saleCarCount++;
-            			pricecount = pricecount + vehicle.price;
-    				}
-    			}
-    		}
-    		}*/
     		double sucessCount = 0;
     		if(countLeads1 != 0){
     			sucessCount= (double)saleCarCount/(double)countLeads1*100;
