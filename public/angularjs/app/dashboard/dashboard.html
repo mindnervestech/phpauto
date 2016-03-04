@@ -433,7 +433,7 @@ margin-left: 5px;
 									     <h4 class="col-sm-12"><b>MY STATISTICS</b></h4>
 									     <div class="col-sm-12" ng-if="userRole == 'Manager'">
 									     <!--  -->
-									     	<a style="cursor: pointer;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">PERSONAL</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;">LOCATION</a>
+									     	<a style="cursor: pointer;" ng-click="locationOrPersonData('person')" ng-class="dataLocOrPerWise == 'person' ?'underline':''">Personal</a>&nbsp&nbsp<label style="font-size: 21px;">|</label>&nbsp&nbsp<a ng-click="locationOrPersonData('location')" ng-class="dataLocOrPerWise == 'location' ?'underline':''" style="cursor: pointer;">Location</a>
 									     </div>
 									    </div> 
 									     <form ng-submit="checkDatewsie(startDate,endDate)">
@@ -452,11 +452,11 @@ margin-left: 5px;
 									     </div>
 									     </form>
 									     <div class="col-sm-4" style="margin-top:3%;">
-									     		<label><a ng-click="userLocationData('Week',dataLocOrPerWise)" style="cursor: pointer;">WEEK</a> | </label>
-									     		<label><a ng-click="userLocationData('Month',dataLocOrPerWise)" style="cursor: pointer;">MONTH</a> | </label>
-									     		<label><a ng-click="userLocationData('Quater',dataLocOrPerWise)" style="cursor: pointer;">QUARTER</a> | </label>
-									     		<label><a ng-click="userLocationData('6 Month',dataLocOrPerWise)" style="cursor: pointer;">6 MONTH</a> | </label>
-									     		<label><a ng-click="userLocationData('Year',dataLocOrPerWise)" style="cursor: pointer;">YEAR</a> | </label>
+									     		<label><a ng-click="userLocationData('Week',dataLocOrPerWise)" style="cursor: pointer;">Weekly</a> | </label>
+									     		<label><a ng-click="userLocationData('Month',dataLocOrPerWise)" style="cursor: pointer;">Monthly</a> | </label>
+									     		<label><a ng-click="userLocationData('Quater',dataLocOrPerWise)" style="cursor: pointer;">Quarter</a> | </label>
+									     		<label><a ng-click="userLocationData('6 Month',dataLocOrPerWise)" style="cursor: pointer;">6 Month</a> | </label>
+									     		<label><a ng-click="userLocationData('Year',dataLocOrPerWise)" style="cursor: pointer;">Year</a> | </label>
 									     </div>
 									     
 									     </div>
@@ -649,7 +649,7 @@ margin-left: 5px;
 								    				<h4><b>TOP LISTINGS</b></h4> 
 								    			</div>
 								    			<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">ALL VEHICLES</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     			</div>
 								     			<div class="col-sm-2">
 								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
@@ -669,10 +669,10 @@ margin-left: 5px;
 															
 												</div>
 												<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><span class="col-sm-12"><a style="cursor:pointer;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">MAKE</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">MODEL</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" class="col-sm-4"></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" class="col-sm-4"></span></h6>
+								     						<h6 class="col-sm-12"><span class="col-sm-12"><a style="cursor:pointer;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" class="col-sm-4"></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" class="col-sm-4"></span></h6>
 								     			</div>
 								     			<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">MONTH</a></h6>
+								     						<h6 class="col-sm-12"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a></h6>
 								     			</div>
 								    	    	<div class="col-sm-2" style=" float: right" ng-if="userRole != 'General Manager'">
 												<a class="btn btn-blue" href="#addVehicle" >Add Vehicle</a>
@@ -771,7 +771,7 @@ margin-left: 5px;
 									    				<span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="soldCarFilter(soldCar)">  </span>
 									    		</div>  
 									  <div class="col-sm-4">
-									  <a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a>
+									  <a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">Year</a>
 									  </div>
 									  </div>
 									  
