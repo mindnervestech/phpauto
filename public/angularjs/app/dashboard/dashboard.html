@@ -649,7 +649,7 @@ margin-left: 5px;
 								    				<h4><b>TOP LISTINGS</b></h4> 
 								    			</div>
 								    			<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">ALL VEHICLES</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     			</div>
 								     			<div class="col-sm-1" style="padding: 0px;">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
@@ -699,19 +699,19 @@ margin-left: 5px;
 													<span  class="col-sm-2" title="location"></span>{{item.location}}
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6">${{item.price}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
+														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;">${{item.price}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.count}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;"></span><span class="col-sm-8" style="font-size: 15px;">{{item.count}}</span>
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.followerCount}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;"></span><span class="col-sm-8"  style="font-size: 15px;">{{item.followerCount}}</span>
 													</div>
 													<!-- <div>
 														<span class="col-sm-4 glyphicon glyphicon glyphicon-thumbs-up" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.count}}</span>
 													</div> -->
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.leadsCount}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;font-size: 16px;"></span><span class="col-sm-8"  style="font-size: 15px;">{{item.leadsCount}}</span>
 													</div>
 													<!-- <div class="col-sm-12">
 														<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkIndex(item,compare)"> <label style="color: darkturquoise;">Compare</label>
@@ -817,24 +817,24 @@ margin-left: 5px;
 										</div>
 										<hr style="margin-top: 4px;margin-bottom: 8px;">
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;font-size: 16px;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>{{item.successRate}}%</b></label>
 																					
 										</div>
 									
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;font-size: 16px;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>{{item.currentLeads}}</b></label>
 											
 										</div>
 										 
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;font-size: 16px;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>${{item.salesAmount}}</b></label>
 											
 										</div>
 										<div style="width: 180px;">
-											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;"></span></label>
+											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;font-size: 16px;"></span></label>
 											<label style="font-size: 15px;width: 70px;"><b>{{item.saleCar}}</b></label>
 											
 										</div>
