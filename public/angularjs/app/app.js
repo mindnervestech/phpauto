@@ -236,7 +236,7 @@ var MakeApp = angular
 .factory('MyHttpInterceptor', function ($q) {
     return {
         request: function (config) {
-        	if(config.url == '/getInfoCount') {
+        	if(config.url == '/getInfoCount' || config.url =='/getVisitorOnline') {
         		$('#loading').hide();
         	} else {
         		$('#loading').show();

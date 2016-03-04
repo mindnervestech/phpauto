@@ -22605,6 +22605,7 @@ if(vehicles.equals("All")){
 		moTest.email = user.getEmail();
 		moTest.location = vm.getLocation();
 		moTest.name = vm.name;
+		moTest.meetingStatus = "meeting";
 		moTest.phone = user.getPhone();
 		moTest.reason = vm.getReason();
 		moTest.scheduleDate = new Date();

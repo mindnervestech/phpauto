@@ -43,7 +43,7 @@ public class ScheduleTest extends Model {
 	public Boolean isReassigned = true;
 	public String contactedFrom;
 	public String hearedFrom;
-	public String status;
+	public String meetingStatus;
 	public String location;
 	public String google_id;
 	public String custZipCode;
@@ -214,13 +214,13 @@ public class ScheduleTest extends Model {
 		this.locations = locations;
 	}
 
-	public String getStatus() {
-		return status;
+	
+	public String getMeetingStatus() {
+		return meetingStatus;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setMeetingStatus(String meetingStatus) {
+		this.meetingStatus = meetingStatus;
 	}
-
 	public int getOnlineOrOfflineLeads() {
 		return onlineOrOfflineLeads;
 	}
