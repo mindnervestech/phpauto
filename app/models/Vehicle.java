@@ -783,9 +783,15 @@ public class Vehicle extends Model {
 	public static List<Vehicle> findByVins(List<String> vins) {
 		return find.where().in("vin", vins).eq("status", "Newly Arrived").findList();
 	}
+	public static List<Vehicle> findByVinsforSold(List<String> vins) {
+		return find.where().in("vin", vins).findList();
+	}
 	
 	public static List<Vehicle> findByVinsAndTypeVehi(List<String> vins,String typeVehi) {
 		return find.where().in("vin", vins).eq("status", "Newly Arrived").eq("typeofVehicle",typeVehi).findList();
+	}
+	public static List<Vehicle> findByVinsAndTypeVehiforSold(List<String> vins,String typeVehi) {
+		return find.where().in("vin", vins).eq("typeofVehicle",typeVehi).findList();
 	}
 	
 	public static List<Vehicle> findByNotInVins(List<String> vins) {
@@ -889,10 +895,16 @@ public class Vehicle extends Model {
 		return find.where().eq("status", "Newly Arrived").findList();
 	}
 	
+	public static List<Vehicle> findByNewlyArrivedandsold() {
+		return find.where().findList();
+	}
+	
 	public static List<Vehicle> findByNewlyArrivedForGM(Location location) {
 		return find.where().eq("status", "Newly Arrived").eq("locations",location).findList();
 	}
-	
+	public static List<Vehicle> findByNewlyArrivedandsoldForGM(Location location) {
+		return find.where().eq("locations",location).findList();
+	}
 	
 	public static List<Vehicle> findByMakeAndModel(String make,String model) {
 		return find.where().eq("make", make).eq("model", model).findList();

@@ -18351,9 +18351,9 @@ public class Application extends Controller {
     	
     	List<Vehicle> vlist = null;
     	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
-    		vlist = Vehicle.findByNewlyArrivedForGM(Location.findById(locationId));
+    		vlist = Vehicle.findByNewlyArrivedandsoldForGM(Location.findById(locationId));
 		}else{
-			vlist = Vehicle.findByNewlyArrived();
+			vlist = Vehicle.findByNewlyArrivedandsold();
 		}
     	
     	for (Vehicle vehicle : vlist) {
@@ -18500,9 +18500,9 @@ if(vehicles.equals("All")){
     	 
     	 // aVehicles = Vehicle.findByVins(vins1);
     	 if(vehicles.equals("All")){
-    		 aVehicles = Vehicle.findByVins(vins1);
+    		 aVehicles = Vehicle.findByVinsforSold(vins1);
     		}else{
-    			aVehicles= Vehicle.findByVinsAndTypeVehi(vins1,vehicles);
+    			aVehicles= Vehicle.findByVinsAndTypeVehiforSold(vins1,vehicles);
     		}
     	 
     	 
@@ -18538,7 +18538,7 @@ if(vehicles.equals("All")){
     		
     		Location loc = Location.findById(vehicle.locations.id);
     		anVm.location= loc.name;
-    		
+    		anVm.vehicleStatus=vehicle.getStatus();
     		anVm.vin = vehicle.getVin();
     		anVm.price = vehicle.getPrice();
     		//anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
@@ -18677,6 +18677,7 @@ if(vehicles.equals("All")){
     
     public static class VehicleAnalyticalVM {
     	public String name;
+    	public String vehicleStatus;
     	public String location;
     	public int count;
     	public Long id;

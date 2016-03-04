@@ -700,6 +700,10 @@ margin-left: 5px;
 													<div   ng-if="userRole == 'General Manager'" >
 													<span  class="col-sm-2" title="location"></span>{{item.location}}
 													</div>
+													<div style="text-align: center;font-size: 16px;">
+													<span>{{item.vehicleStatus}}</span>
+													</div>
+													
 													<div>
 														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;margin-bottom: 7px;">${{item.price}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
 													</div>
