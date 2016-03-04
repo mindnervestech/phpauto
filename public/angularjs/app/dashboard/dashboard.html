@@ -489,6 +489,7 @@ margin-left: 5px;
 									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads != null">Edit</label></a>
 									 	<a ng-click="openLeadspopUp()"><label class="col-sm-2 control-label" ng-if="showLeads == null">ADD GOAL</label></a>
 									 </div> 
+									 <br><br><br>
 									
 									 <!-- <div class="col-xlg-12">
 									 	<label class="col-sm-2 control-label" style="margin-left: 20px;">MY GOAL:</label>
@@ -503,16 +504,16 @@ margin-left: 5px;
 	<div class="col-sm-1">
 	<div class="row"> 
 		 <div class="col-sm-12"  ng-if="userRole != 'General Manager'">
-		                <div class="panel panel-stat" style="height:90px;border-style: groove;">
+		                <div class="panel panel-stat" style="height:90px;border-style: solid;border-width: 1px;">
 		                	<div style="text-align: center;">
 		                		<b>CURRENTLY ONLINE</b>
 		                	</div>
 		                	<h1 style="text-align: center;">{{onlineVisitorsCount}}</h1>
 		                </div>
 	            </div> 
-	            <button class="btn btn-default col-sm-12" style="background: #ffffff; height:85px; color: #319DB5;text-align: center;padding: 3px;border-style: groove;" ng-click="openCreateNewLeadPopup();" ng-if="userRole != 'General Manager'"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>CREATE LEAD</button>
-        	<button class="btn btn-default col-sm-12" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:85px; color: #319DB5;text-align: center;border-style: groove;" ng-click="openNeweeting()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>MEETING</button>
-        	<button class="btn btn-default col-sm-12" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:85px; color: #319DB5;text-align: center;border-style: groove;" ng-click="openPlanning()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>PLAN</button>
+	            <button class="btn btn-default col-sm-12 panel-stat" style="background: #ffffff; height:85px; color: #319DB5;text-align: center;padding: 3px;border-style: solid;border-width: 1px;" ng-click="openCreateNewLeadPopup();" ng-if="userRole != 'General Manager'"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>CREATE LEAD</button>
+        	<button class="btn btn-default col-sm-12 panel-stat" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:85px; color: #319DB5;text-align: center;border-style: solid;border-width: 1px;" ng-click="openNeweeting()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>MEETING</button>
+        	<button class="btn btn-default col-sm-12 panel-stat" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:85px; color: #319DB5;text-align: center;border-style: solid;border-width: 1px;" ng-click="openPlanning()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>PLAN</button>
 	</div>
 	</div>
 	
@@ -674,7 +675,7 @@ margin-left: 5px;
 								     			<div class="col-sm-2">
 								     						<h6 class="col-sm-12"><a style="cursor:pointer;font-size: 18px;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a></h6>
 								     			</div>
-								    	    	<div class="col-sm-1" style=" float: right" ng-if="userRole != 'General Manager'">
+								    	    	<div class="col-sm-1" ng-if="userRole != 'General Manager'">
 												<a class="btn btn-blue" href="#addVehicle" >Add Vehicle</a>
 												</div>	</div>
 										<div class="row">
@@ -690,7 +691,7 @@ margin-left: 5px;
 								   					</div>      
 												
 													<div>
-														<label ng-if="nameLbl=='true' || $index != index" id="namelb" class="col-sm-11" style="text-align: center;padding: 0px;font-size: 19px;" title="{{item.name}}"><b>{{item.name | limitTo: 14}}</b></label>
+														<label ng-if="nameLbl=='true' || $index != index" id="namelb" class="col-sm-11" style="text-align: center;padding: 0px;font-size: 19px;margin-top: 9px;" title="{{item.name}}"><b>{{item.name | limitTo: 14}}</b></label>
 														<input ng-if="nameTxt=='true' &&  vin == item.vin" id="editName" type="text" ng-model="item.name" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 180px;" ng-blur="setName(item.name,item.vin)"/>
 														<i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil col-sm-1" style="padding: 0px;" ng-click="editName(item.vin,$index,item.id)"></i>
 													</div>
@@ -806,7 +807,7 @@ margin-left: 5px;
 									              <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)">
 									                     <img class="circleBase typeNew" ng-if="$index!=index"  style="width: 116px;"  src="{{item.imageUrl}}">
-									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
+									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;margin-left: 0px;"> 
 									                 		<h1 style="color:white;margin-top: 30px;">{{item.per}}%</h1>
 									                 	</div>
 									                 </div> 
