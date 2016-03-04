@@ -37,7 +37,7 @@
     height: 115px;
     background: darkturquoise;
     border: 3px solid darkturquoise;
-     margin-left: 27px;
+     margin-left: 32px;
 }
 
 .wheth-report div{
@@ -92,8 +92,8 @@ margin-left: 5px;
 									<div class="col-sm-12 panel" style="height: 360px;position: relative;margin-top:1%;padding-left: 0px;padding-right: 0px;">
 									        							         
 									         
-									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 360px;">
-									            <div  ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation" ng-class="item.id == showSelectLocationDash ? 'setBorderClass col-sm-3':'col-sm-3'">
+									          <div style="width: 100%;  float: left;display: -webkit-box;overflow-x: auto;height: 360px;">
+									            <div  ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation" ng-class="item.id == showSelectLocationDash ? 'setBorderClass':''" style="width: 25%;">
 									             <a href="/locationWise/{{item.id}}" ng-if="item.gmIsManager == 0 || item.gmIsManager == null">
 									             
 									              <!-- ng-click="openLocationDasboard(item)" -->   
@@ -274,8 +274,8 @@ margin-left: 5px;
 									<div class="col-sm-12 panel" style="height: 360px;position: relative;margin-top:1%;padding-left: 0px;padding-right: 0px;">
 									        							         
 									         
-									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 360px;">
-									            <div  ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation" ng-class="item.id == showSelectLocationDash ? 'setBorderClass col-sm-2':'col-sm-2'">
+									          <div style="width: 100%;  float: left;display: flex;overflow-x: auto;height: 360px;">
+									            <div  ng-repeat="item in locationDataListShow | orderBy: listingFilterLocation" ng-class="item.id == showSelectLocationDash ? 'setBorderClass':''" style="width: 25%;">
 									             <a href="/locationWise/{{item.id}}" ng-if="item.gmIsManager == 0 || item.gmIsManager == null">
 									             
 									              <!-- ng-click="openLocationDasboard(item)" -->   
@@ -681,7 +681,7 @@ margin-left: 5px;
 										<div class="row">
 											<div class="col-sm-12" style="height: 360px;">
 												
-						       					 <div style="width: 100%;display: flex;overflow-x: scroll;height: 327px;">
+						       					 <div style="width: 100%;display: flex;overflow-x: auto;height: 327px;">
 						       					 	  <div ng-repeat="item in currentData | orderBy: listingFilter " class="col-sm-2">
 									               
 													<div class="col-sm-12">
@@ -802,7 +802,7 @@ margin-left: 5px;
 									         </div> -->
 								         
 									         
-									          <div style="width: 100%;  float: left;display: flex;overflow-x: scroll;height: 341px;">
+									          <div style="width: 100%;  float: left;display: flex;overflow-x: auto;height: 341px;">
 									                <div style="float: left;" ng-repeat="item in userPerformanceList | orderBy: orderItem">
 									               									                
 									              <div>
