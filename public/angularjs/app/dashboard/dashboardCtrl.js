@@ -4162,12 +4162,12 @@ angular.module('newApp')
 		   $scope.changeType = function(){
 			   if($scope.cal_whe_flag){
 				   $scope.cal_whe_flag = false;
-				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i class='fa fa-calendar'></i>";
+				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i title='Show Calender' class='fa fa-calendar'></i>";
 				   $(".cal-report").hide();
 				   $(".wheth-report").show();
 			   } else{
 				   $scope.cal_whe_flag = true;
-				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i class='glyphicon glyphicon-certificate'></i>";
+				   document.getElementById("btn-whe-cal-toggle").innerHTML = "<i title='Show Weather' class='glyphicon glyphicon-cloud'></i>";
 				   $(".wheth-report").hide();
 				   $(".cal-report").show();
 			   }
@@ -4245,7 +4245,7 @@ angular.module('newApp')
 								img = "<i class='wi wi-fog'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fair")){
-								img = "<i class='glyphicon glyphicon-certificate'></i>";  
+								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
 						  document.getElementById("nature-data").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
@@ -4293,7 +4293,7 @@ angular.module('newApp')
 								img = "<i class='wi wi-fog'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fair")){
-								img = "<i class='glyphicon glyphicon-certificate'></i>";  
+								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
 						  document.getElementById("testDriveNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
@@ -4343,7 +4343,7 @@ angular.module('newApp')
 								img = "<i class='wi wi-fog'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fair")){
-								img = "<i class='glyphicon glyphicon-certificate'></i>";  
+								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
 						  document.getElementById("gridCnfDateNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
@@ -4381,7 +4381,7 @@ angular.module('newApp')
 								img = "<i class='wi wi-fog'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fair")){
-								img = "<i class='glyphicon glyphicon-certificate'></i>";  
+								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
 						  document.getElementById("meetingnature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
@@ -4415,7 +4415,7 @@ angular.module('newApp')
 								img = "<i class='wi wi-fog'></i>";  
 						  }
 						  if(angular.equals(value.text,"Fair")){
-								img = "<i class='glyphicon glyphicon-certificate'></i>";  
+								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
 						  document.getElementById("meetingnature1").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
