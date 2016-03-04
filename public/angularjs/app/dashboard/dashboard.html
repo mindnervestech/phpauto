@@ -32,13 +32,13 @@
     height: 115px;
 }
 
-.type {
+ .type {
     width: 115px;
     height: 115px;
     background: darkturquoise;
-    border: 3px solid darkturquoise;
-     margin-left: 32px;
-}
+     border: 3px solid darkturquoise; 
+      margin-left: 60px; 
+} 
 
 .wheth-report div{
 background-color: black !important;
@@ -511,9 +511,9 @@ margin-left: 5px;
 		                	<h1 style="text-align: center;">{{onlineVisitorsCount}}</h1>
 		                </div>
 	            </div> 
-	            <button class="btn btn-default col-sm-12 panel-stat" style="background: #ffffff; height:87px; color: #319DB5;text-align: center;padding: 3px;border-style: solid;border-width: 1px;" ng-click="openCreateNewLeadPopup();" ng-if="userRole != 'General Manager'"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>CREATE LEAD</button>
-        	<button class="btn btn-default col-sm-12 panel-stat" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:87px; color: #319DB5;text-align: center;border-style: solid;border-width: 1px;" ng-click="openNeweeting()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>MEETING</button>
-        	<button class="btn btn-default col-sm-12 panel-stat" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:87px; color: #319DB5;text-align: center;border-style: solid;border-width: 1px;" ng-click="openPlanning()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>PLAN</button>
+	            <button class="btn btn-default col-sm-12 panel-stat" style="background: #ffffff; height:89px; color: #319DB5;text-align: center;padding: 3px;border-style: solid;border-width: 1px;" ng-click="openCreateNewLeadPopup();" ng-if="userRole != 'General Manager'"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>CREATE LEAD</button>
+        	<button class="btn btn-default col-sm-12 panel-stat" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:89px; color: #319DB5;text-align: center;border-style: solid;border-width: 1px;" ng-click="openNeweeting()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>MEETING</button>
+        	<button class="btn btn-default col-sm-12 panel-stat" ng-if="userType == 'General Manager' || userType == 'Manager'" style="background: #ffffff; height:89px; color: #319DB5;text-align: center;border-style: solid;border-width: 1px;" ng-click="openPlanning()"><p class="row" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="font-size: 25px;"></span></p></span>PLAN</button>
 	</div>
 	</div>
 	
@@ -812,8 +812,8 @@ margin-left: 5px;
 									              <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)">
 									                     <img class="circleBase typeNew" ng-if="$index!=index"  style="width: 116px;"  src="{{item.imageUrl}}">
-									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;margin-left: 0px;"> 
-									                 		<h1 style="color:white;margin-top: 30px;">{{item.per}}%</h1>
+									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
+									                 		<h1 style="color:white;margin-top: 30px;text-align: center;">{{item.per}}%</h1>
 									                 	</div>
 									                 </div> 
 									            </div>
