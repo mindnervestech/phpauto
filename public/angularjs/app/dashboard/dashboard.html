@@ -60,8 +60,8 @@ z-index: 1000;
 margin-left: 5px;
 }
 </style>
-<div>
-<div class="row col-sm-7" ng-init="init()" ng-if="userRole == 'General Manager' && showGmLocation == 0 && showBackGmButton == 0">
+<div  ng-init="init()">
+<div class="row col-sm-7" ng-if="userRole == 'General Manager' && showGmLocation == 0 && showBackGmButton == 0">
     
     	 <div class="col-xlg-12 col-lg-12" ng-sec = "Show Location" style=" padding: 0px;">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
