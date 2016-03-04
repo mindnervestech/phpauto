@@ -645,17 +645,17 @@ margin-left: 5px;
 							        							        	    		
 					             <div class="panel">
 								    	    	<div class="col-sm-12"style=" margin-top: 10px;" >
-								    	    	<div class="col-sm-2">
+								    	    	<div class="col-sm-1" style="padding: 0px;">
 								    				<h4><b>TOP LISTINGS</b></h4> 
 								    			</div>
 								    			<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								     						<h6 class="col-sm-12"><a style="cursor: pointer;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-show="currentData.length != 0 && notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">ALL VEHICLES</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     			</div>
-								     			<div class="col-sm-2">
-								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
-								     						<h6 class="col-sm-3"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
-								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
-								        					<h6 class="col-sm-3"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
+								     			<div class="col-sm-1" style="padding: 0px;">
+								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
+								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
+								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
+								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
 								    	    	<div class="col-sm-2">
 								    	    														
@@ -674,7 +674,7 @@ margin-left: 5px;
 								     			<div class="col-sm-2">
 								     						<h6 class="col-sm-12"><a style="cursor:pointer;" id="weekPerf" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a></h6>
 								     			</div>
-								    	    	<div class="col-sm-2" style=" float: right" ng-if="userRole != 'General Manager'">
+								    	    	<div class="col-sm-1" style=" float: right" ng-if="userRole != 'General Manager'">
 												<a class="btn btn-blue" href="#addVehicle" >Add Vehicle</a>
 												</div>	</div>
 										<div class="row">
