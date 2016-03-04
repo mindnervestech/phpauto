@@ -693,26 +693,27 @@ margin-left: 5px;
 													<div>
 														<label ng-if="nameLbl=='true' || $index != index" id="namelb" class="col-sm-11" style="text-align: center;padding: 0px;font-size: 19px;margin-top: 9px;" title="{{item.name}}"><b>{{item.name | limitTo: 14}}</b></label>
 														<input ng-if="nameTxt=='true' &&  vin == item.vin" id="editName" type="text" ng-model="item.name" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 180px;" ng-blur="setName(item.name,item.vin)"/>
-														<i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil col-sm-1" style="padding: 0px;" ng-click="editName(item.vin,$index,item.id)"></i>
+														<i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil col-sm-1" style="padding: 0px;margin-top: 9px;" ng-click="editName(item.vin,$index,item.id)"></i>
 													</div>
+													<div class="col-sm-12" style="border: 0;border-top: 1px solid #eee;margin-top: 3px;margin-bottom: 12px;"></div>
 													<div class="col-sm-12">
 													<div   ng-if="userRole == 'General Manager'" >
 													<span  class="col-sm-2" title="location"></span>{{item.location}}
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;">${{item.price}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
+														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;margin-bottom: 7px;">${{item.price}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;"></span><span class="col-sm-8" style="font-size: 15px;">{{item.count}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;">{{item.count}}</span>
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;"></span><span class="col-sm-8"  style="font-size: 15px;">{{item.followerCount}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;">{{item.followerCount}}</span>
 													</div>
 													<!-- <div>
 														<span class="col-sm-4 glyphicon glyphicon glyphicon-thumbs-up" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.count}}</span>
 													</div> -->
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;font-size: 16px;"></span><span class="col-sm-8"  style="font-size: 15px;">{{item.leadsCount}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;">{{item.leadsCount}}</span>
 													</div>
 													<!-- <div class="col-sm-12">
 														<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkIndex(item,compare)"> <label style="color: darkturquoise;">Compare</label>
