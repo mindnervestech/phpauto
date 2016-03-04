@@ -577,7 +577,7 @@ margin-left: 5px;
         <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;">
         		<strong ng-show="scheduleListData.length > 0">Future Appointments</strong>
         		<strong ng-show="scheduleListData.length <= 0">No Future Appointments</strong>
-                      <div style="background: none repeat scroll 0% 0% rgb(248, 248, 248);border-left: 2px solid rgb(243, 210, 97);padding: 0px 5px; margin-top: 2px;" ng-repeat="sd in scheduleListData">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="fa fa-trash"></i></button>
+                      <div ng-repeat="sd in scheduleListData" ng-class="($index % 2 == 0)?'futureA':'futureB'">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="fa fa-trash"></i></button>
                       </div>
                   </div>
             <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
@@ -812,7 +812,7 @@ margin-left: 5px;
 									              <div>
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)">
 									                     <img class="circleBase typeNew" ng-if="$index!=index"  style="width: 116px;"  src="{{item.imageUrl}}">
-									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
+									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;margin-left: 0px;"> 
 									                 		<h1 style="color:white;margin-top: 30px;text-align: center;">{{item.per}}%</h1>
 									                 	</div>
 									                 </div> 
@@ -8400,6 +8400,20 @@ margin-left: 5px;
 }
 .underline {
 	text-decoration: underline;
+}
+
+.futureA{
+	background: none repeat scroll 0% 0% rgba(216, 247, 46, 0.2);
+	border-left: 2px solid rgb(243, 210, 97);
+	padding: 0px 5px;
+	 margin-top: 2px;
+}
+
+.futureB{
+	background: none repeat scroll 0% 0% rgba(248, 248, 248);
+	border-left: 2px solid rgb(243, 210, 97);
+	padding: 0px 5px;
+	 margin-top: 2px;
 }
 
 .preview {

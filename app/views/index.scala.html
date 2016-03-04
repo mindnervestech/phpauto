@@ -287,7 +287,7 @@
                         <ul class="header-menu nav navbar-nav">
                             <!-- BEGIN USER DROPDOWN -->
                             <li ng-sec = "Customer Requests" class="dropdown" id="language-header">
-                                <a href="#requestMoreInfo">
+                                <a href="#requestMoreInfo" title="Request More Info">
                                 <i class="icon-info" style="color:white;"></i>
                                 <span class="badge badge-primary badge-header" ng-show="requestMoreLength != 0">{{requestMoreLength}}</span>
                                 </a>
@@ -296,7 +296,7 @@
                             <!-- END USER DROPDOWN -->
                             <!-- BEGIN NOTIFICATION DROPDOWN -->
                             <li ng-sec = "Customer Requests" class="dropdown" id="notifications-header">
-                                <a href="#scheduleTest">
+                                <a href="#scheduleTest" title="Schedule Test">
                                 <i class="icon-rounded-pin" style="color:white;"></i>
                                 <span class="badge badge-primary badge-header" ng-show="scheduleTestLength != 0">{{scheduleTestLength}}</span>
                                 </a>
@@ -305,7 +305,7 @@
                             <!-- END NOTIFICATION DROPDOWN -->
                             <!-- BEGIN MESSAGES DROPDOWN -->
                             <li ng-sec = "Customer Requests" class="dropdown" id="messages-header">
-                                <a href="#tradeIn">
+                                <a href="#tradeIn" title="Trade-In Appraisal">
                                 <i class="icon-rounded-air-plane" style="color:white;"></i>
                                 <span class="badge badge-primary badge-header" ng-show="tradeInLength != 0">
                                 {{tradeInLength}}
@@ -314,7 +314,7 @@
                                 
                             </li>
                             <li ng-sec = "Customer Requests" class="dropdown" id="messages-header" ng-if="userType == 'Manager'">
-                                <a href="#premiumpage">
+                                <a href="#premiumpage" title="Premium Leads">
                                 <!-- href="/assets/global/images/favicon.png" -->
                                 <img src="/assets/images/premium1.png" style="width: 24px;"></img>
                                 <span class="badge badge-primary badge-header" ng-show="premiumlength != 0">
