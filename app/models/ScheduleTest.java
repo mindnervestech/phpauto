@@ -306,6 +306,9 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest> findAllAssigned(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("leadStatus", null).ne("vin", "no").eq("isRead",true).orderBy("scheduleDate desc").findList();
 	}
+	public static List<ScheduleTest> findAllAssignedforSold(AuthUser user) {
+		return find.where().add(Expr.or(Expr.eq("leadStatus", null),Expr.eq("leadStatus", "COMPLETE"))).eq("assignedTo", user).ne("vin", "no").eq("isRead",true).orderBy("scheduleDate desc").findList();
+	}
 	
 	public static List<ScheduleTest> findAllAssignedOffine(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("onlineOrOfflineLeads",0).ne("vin", "no").orderBy("scheduleDate desc").findList();

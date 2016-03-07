@@ -281,8 +281,10 @@ public String testDriveStatus;
 	
 	public static List<RequestMoreInfo> findAllSeenSch(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).orderBy("requestDate desc").findList();
+	}	
+	public static List<RequestMoreInfo> findAllSeenSchfoeSold(AuthUser user) {
+		return find.where().add(Expr.or(Expr.eq("status", null),Expr.eq("status", "COMPLETE"))).eq("assignedTo", user).eq("isRead", 1).orderBy("requestDate desc").findList();
 	}
-	
 	public static List<RequestMoreInfo> findAllAssignedOffine(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("onlineOrOfflineLeads",0).orderBy("requestDate desc").findList();
 	}

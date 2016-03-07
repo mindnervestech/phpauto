@@ -18325,9 +18325,9 @@ public class Application extends Controller {
     		vins1.add(vehicle.vin);
 		}
     	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
-			List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeenSch(user);
-			List<ScheduleTest> sTests = ScheduleTest.findAllAssigned(user);
-			List<TradeIn> tIns = TradeIn.findAllSeenSch(user);
+			List<RequestMoreInfo> rMoreInfo = RequestMoreInfo.findAllSeenSchfoeSold(user);
+			List<ScheduleTest> sTests = ScheduleTest.findAllAssignedforSold(user);
+			List<TradeIn> tIns = TradeIn.findAllSeenSchforSold(user);
 			
 			for(RequestMoreInfo rInfo :rMoreInfo){
 				vinUnik.put(rInfo.vin, 1);
@@ -18345,15 +18345,19 @@ public class Application extends Controller {
     	List<Vehicle> topVisited =null;
     	
 if(vehicles.equals("All")){
-	topVisited = Vehicle.findByVins(vins);
+	topVisited = Vehicle.findByVinsforSold(vins);
 }else{
-	topVisited = Vehicle.findByVinsAndTypeVehi(vins,vehicles);
+	topVisited = Vehicle.findByVinsAndTypeVehiforSold(vins,vehicles);
 }
     	
     	
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
     	for(Vehicle vehicle:topVisited) {
     			
+    		if(vehicle.status.equals("Sold")){
+    			if(vehicle.soldUser.id == user.id){
+    				
+    		
 	    		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
 	    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
 	    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
@@ -18376,6 +18380,9 @@ if(vehicles.equals("All")){
 		    		}
 				}
 	    		
+	    		
+	    		
+	    		analyticalVM.vehicleStatus=vehicle.getStatus();
 	    		analyticalVM.price = vehicle.getPrice();
 	    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
 	    		if(vehicleImage!=null) {
@@ -18401,6 +18408,59 @@ if(vehicles.equals("All")){
 	    		}else{
 	    			topVisitedVms.add(analyticalVM);
 	    		}
+    		}
+    		}else{
+	    		VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
+	    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+	    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+	    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+	    		
+	    		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
+	    		
+	    		if(pagesCount.get(vehicle.getVin()) == null){
+	    			analyticalVM.count = 0;
+	    		}else{
+	    			analyticalVM.count = pagesCount.get(vehicle.getVin());
+	    		}
+	    		analyticalVM.stockNumber = vehicle.stock;
+	    		analyticalVM.followerCount = 0;
+	    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), locationId);
+	    		for (PriceAlert priceAlert : pAlert) {
+					PriceAlert alt = PriceAlert.findById(priceAlert.id);
+					if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
+						analyticalVM.followerCount++;
+		    		}
+				}
+	    		
+	    		
+	    		
+	    		analyticalVM.vehicleStatus=vehicle.getStatus();
+	    		analyticalVM.price = vehicle.getPrice();
+	    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
+	    		if(vehicleImage!=null) {
+	    			analyticalVM.id = vehicleImage.getId();
+	    			analyticalVM.isImage = true;
+	    		}
+	    		else {
+	    			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
+	    		}
+	    		analyticalVM.vin = vehicle.getVin();
+	    	//	analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
+	    		analyticalVM.name=vehicle.getTitle();
+	    		if(!searchBy.equals("0") && !search.equals("0")){
+		    		if(searchBy.equals("Model")){
+	    				if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
+	    					topVisitedVms.add(analyticalVM);
+	    				}
+	    			}else if(searchBy.equals("Make")){
+	    				if(vehicle.make.toUpperCase().startsWith(search.toUpperCase())){
+	    					topVisitedVms.add(analyticalVM);
+	    				}
+	    			}
+	    		}else{
+	    			topVisitedVms.add(analyticalVM);
+	    		}
+    		}
     	}
     	List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<>();
     	List<Vehicle> notVisitedVehicle = Vehicle.findByNotInVins(vins);
