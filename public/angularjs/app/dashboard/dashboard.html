@@ -777,35 +777,11 @@ margin-left: 5px;
 									    				<span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;font-size: 18px;margin-right: 10px;" ng-click="soldCarFilter(soldCar)">  </span>
 									    		</div>  
 									  <div class="col-sm-4">
+									  <!-- ng-class="currentSelectedDuration == 1 ?'underline':''" -->
 									  <a style="cursor:pointer;font-size: 18px" id="weekPerf" ng-click="showWeekPerformers()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px" id="monthPerf" ng-click="showMonthPerformers()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px" id="yearPerf" ng-click="showYearPerformers()">Year</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px" id="allPerf" ng-click="showAllTimePerformers()">All Times</a>
 									  </div>
 									  </div>
-									  
-									
-									
-									    
-									   <!--  <select  class="form-control form-white" ng-model="salesPersonUser" ng-change="getPerformanceOfUser()" style="width:29%;margin-left: 4%;margin-top:1%;" >
-									    	<option ng-selected="true" value="">Select user</option>
-						                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.fullName}}</option>
-						                </select> -->
-									    <br>
-									<!-- <div class="row" style=" margin-left: 0px; margin-right: 0px;" >
-									<div class="col-xlg-12 panel" style="height: 360px;position: relative;margin-top:1%;padding-left: 0px;padding-right: 0px;">
-									         <div>
-									           <div class="col-sm-12">
-									              <h6 class="col-sm-4"><a style="cursor: pointer;" id="topPerf" ng-click="showTopPerformers()" ng-class="topPerformers == true ?'underline':''">TOP PERFORMERS</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" id="worstPerf" ng-click="showWorstPerformers()" ng-class="worstPerformers == true ?'underline':''">WORST PERFORMERS</a></h6>
-									             
-									               <div class="col-sm-8">
-									               		<span class="glyphicon glyphicon-record" title="Success Rate" style="color: darkturquoise;margin-right: 10px;" ng-click="successRateFilter(successRate)">  </span>
-									    				<span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;margin-right: 10px;" ng-click="currentLeadsFilter(currentLeads)">  </span>
-									    				<span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="amountSoldFilter(amountSold)">  </span>
-									    				<span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;margin-right: 10px;" ng-click="soldCarFilter(soldCar)">  </span>
-									    		</div>
-									                <h6 class="col-sm-4"><a style="cursor:pointer;" id="weekPerf" ng-click="showWeekPerformers()">WEEK</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="monthPerf" ng-click="showMonthPerformers()">MONTH</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;" id="yearPerf" ng-click="showYearPerformers()">YEAR</a></h6>
-									            </div>
-									         </div> -->
-								         
-									         
+									          <br>
 									          <div style="width: 100%;  float: left;display: flex;overflow-x: auto;height: 360px;">
 									                <div style="float: left;" ng-repeat="item in userPerformanceList | orderBy: orderItem">
 									               									                
