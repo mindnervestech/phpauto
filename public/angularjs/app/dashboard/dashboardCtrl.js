@@ -3934,6 +3934,7 @@ angular.module('newApp')
     	   $scope.showWorstPerformers = function() {
     		   $('#worstPerf').css("text-decoration","underline");
     		   $('#topPerf').css("text-decoration","none");
+    		   $('#allPerf').css("text-decoration","none");
     		   $scope.topPerformers = false;
      		   $scope.worstPerformers = true;
      		   $scope.getPerformanceOfUser();
@@ -3943,29 +3944,48 @@ angular.module('newApp')
     		   $('#weekPerf').css("text-decoration","underline");
     		   $('#monthPerf').css("text-decoration","none");
     		   $('#yearPerf').css("text-decoration","none");
+    		   $('#allPerf').css("text-decoration","none");
     		   $scope.weekPerformance = true;
      		   $scope.monthPerformance = false;
      		   $scope.yearPerformance = false;
+     		  $scope.allTimePerformance = false;
      		   $scope.getPerformanceOfUser();
     	   }
     	   
     	   $scope.showMonthPerformers = function() {
     		   $('#weekPerf').css("text-decoration","none");
+    		   $('#allPerf').css("text-decoration","none");
     		   $('#monthPerf').css("text-decoration","underline");
     		   $('#yearPerf').css("text-decoration","none");
     		   $scope.weekPerformance = false;
      		   $scope.monthPerformance = true;
      		   $scope.yearPerformance = false;
+     		  $scope.allTimePerformance = false;
      		   $scope.getPerformanceOfUser();
     	   }
     	   
 		   $scope.showYearPerformers = function() {
 			   $('#weekPerf').css("text-decoration","none");
     		   $('#monthPerf').css("text-decoration","none");
+    		   $('#allPerf').css("text-decoration","none");
     		   $('#yearPerf').css("text-decoration","underline");
     		   $scope.weekPerformance = false;
      		   $scope.monthPerformance = false;
      		   $scope.yearPerformance = true;
+     		  $scope.allTimePerformance = false;
+     		   $scope.getPerformanceOfUser();
+		   }
+		   
+		   $scope.showAllTimePerformers = function(){
+			   $('#weekPerf').css("text-decoration","none");
+    		   $('#monthPerf').css("text-decoration","none");
+    		   $('#yearPerf').css("text-decoration","none");
+    		   $('#allPerf').css("text-decoration","underline");
+    		   
+    		   $scope.weekPerformance = false;
+     		   $scope.monthPerformance = false;
+     		   $scope.yearPerformance = false;
+     		   $scope.allTimePerformance = true;
      		   $scope.getPerformanceOfUser();
 		   }
 		  
@@ -3993,7 +4013,7 @@ angular.module('newApp')
 						}
 						
 						
-						$http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue)
+						$http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+"/"+ $scope.allTimePerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue)
 				 		.success(function(data) {
 				 			$scope.userPerformanceList = data;
 				 			

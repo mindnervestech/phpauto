@@ -14691,7 +14691,7 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,Integer id,Long locationValue) {
+    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,String allTime,Integer id,Long locationValue) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -14731,6 +14731,19 @@ public class Application extends Controller {
 			
 			if(year.equals("true")) {
 				cal.add(Calendar.DATE, -365);
+				start1 = df.format(cal.getTime());
+    			end1 = df.format(date);
+    			try {
+					start = df.parse(start1);
+					end = df.parse(end1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if(allTime.equals("true")) {
+				cal.add(Calendar.DATE, -1000);
 				start1 = df.format(cal.getTime());
     			end1 = df.format(date);
     			try {
