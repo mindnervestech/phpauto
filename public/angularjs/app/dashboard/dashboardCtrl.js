@@ -2362,14 +2362,26 @@ angular.module('newApp')
 	    		$scope.weekData = {};
 	    		$scope.currentData = [];
 	    		$scope.showWeekVisited = function() {
-	    			$scope.currentSelectedDuration = 0;
+	    			$scope.currentSelectedWeekDuration = 1;
+	    			$scope.currentSelectedAllTimeDuration = 0;
+	    			$scope.currentSelectedMonthDuration = 0;
 	    			$scope.getVisitedData('week','countHigh','0','0','All');
 	    		};
 	    		
 	    		$scope.showMonthVisited = function() {
-	    			$scope.currentSelectedDuration = 1;
+	    			$scope.currentSelectedMonthDuration = 1;
+	    			$scope.currentSelectedAllTimeDuration = 0;
+	    			$scope.currentSelectedWeekDuration = 0;
 	    			$scope.getVisitedData('month','countHigh','0','0','All');
 	    		};
+	    		
+	    		$scope.showAllTimeVisited = function() {
+	    			$scope.currentSelectedAllTimeDuration = 1;
+	    			$scope.currentSelectedMonthDuration = 0;
+	    			$scope.currentSelectedWeekDuration = 0;
+	    			$scope.getVisitedData('allTime','countHigh','0','0','All');
+	    		};
+	    		
 	    		$scope.vehicleData=function(vehicles){
 	    			$scope.all=vehicles; 
 	    			$scope.getVisitedData('month','countHigh','0','0',vehicles); 			
