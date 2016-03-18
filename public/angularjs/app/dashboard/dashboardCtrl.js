@@ -2139,6 +2139,7 @@ angular.module('newApp')
 		    		  $scope.topPerformers = true;
 		    		  $scope.weekPerformance = true;
 		    		  $scope.getPerformanceOfUser();
+		    		  $scope.vehicleData("All");
     		  };  
     		  
     		  $scope.getToDoList = function() {

@@ -37,7 +37,7 @@
     height: 115px;
     background: darkturquoise;
      border: 3px solid darkturquoise; 
-      margin-left: 60px; 
+      margin-left: 25%; 
 } 
 
 .wheth-report div{
@@ -101,11 +101,13 @@ margin-left: 5px;
 									             
 									                 
 									                 <div>
-									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
-									                     <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
-									                     <img ng-if="$index!=index && item.imageUrl == null" class="circleBase typeNew"  src="/assets/images/p1.png">
-									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
+									              	<div ng-mouseenter="imageEnter($index)"  ng-mouseleave="imageLeave($index)" style="padding: 0%;">
+									                     <img ng-if="$index!=index && item.imageUrl != null" class="circleBase type" src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
+									                     <img   ng-if="$index!=index && item.imageUrl == null" class="circleBase type" src="/assets/images/p1.png" >
+									                 	<div ng-if="$index==index" style="text-align: center;" >
+									                 	<div  class="circleBase type" style="text-align: center;" > 
 									                 		<h1 style="color:white;margin-top: 30px;">{{item.PlanPer}}%</h1>
+									                 	</div>
 									                 	</div>
 									                 </div> 
 									            </div>
@@ -243,7 +245,7 @@ margin-left: 5px;
 	  </div>  
 	  
 	  
-	  <div class="row col-sm-11" ng-init="init()" ng-if="showGmLocation == 1 || showBackGmButton == 1">
+	  <div class="row col-sm-11" ng-init="init()" ng-if="showGmLocation == 1 || showBackGmButton == 1" style=" padding-left: 0px;" >
     
     	 <div class="col-sm-12" ng-sec = "Show Location" style=" padding: 0px;">
      	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
@@ -283,11 +285,13 @@ margin-left: 5px;
 									             
 									                 
 									                 <div>
-									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center;">
+									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)" style="text-align: center; padding: 0%;">
 									               <img ng-if="$index!=index && item.imageUrl != null" class="circleBase typeNew"  src="http://glider-autos.com/glivrImg/images/{{item.imageUrl}}">
 									                     <img ng-if="$index!=index && item.imageUrl == null" class="circleBase typeNew"  src="/assets/images/p1.png">
+									                     <div ng-if="$index==index" style="text-align: center;" >
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;"> 
 									                 		<h1 style="color:white;margin-top: 30px;">{{item.PlanPer}}%</h1>
+									                 	</div>
 									                 	</div>
 									                 </div> 
 									            </div>
@@ -418,7 +422,7 @@ margin-left: 5px;
 	  </div>  
 	  
 	  <div class="col-sm-1" ng-if="showGmLocation == 1 || showBackGmButton == 1" style="padding: 0px;margin-top: 45px;">
-								<a class="btn btn-blue" href="/locationWise/0">Back To GM Dashboard</a>
+								<a class="btn btn-blue" href="/locationWise/0" style="font-size: 13px;padding-left: 2px;padding-right: 1px;"   >Back To GM Dashboard</a>
 						</div>
 							
 	</div>
@@ -577,7 +581,7 @@ margin-left: 5px;
         <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;">
         		<strong ng-show="scheduleListData.length > 0">Future Appointments</strong>
         		<strong ng-show="scheduleListData.length <= 0">No Future Appointments</strong>
-                      <div ng-repeat="sd in scheduleListData" ng-class="($index % 2 == 0)?'futureA':'futureB'">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="fa fa-trash"></i></button>
+                      <div ng-repeat="sd in scheduleListData" ng-class="($index % 2 == 0)?'futureA':'futureB'">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="glyphicon glyphicon-trash"></i></button>
                       </div>
                   </div>
             <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
@@ -647,18 +651,18 @@ margin-left: 5px;
 					             <div class="panel">
 								    	    	<div class="col-sm-12"style=" margin-top: 10px;" >
 								    	    	<div class="col-sm-1" style="padding: 0px;">
-								    				<h4><b>TOP LISTINGS</b></h4> 
+								    				<h4><b style="font-size:17px;">TOP LISTINGS</b></h4> 
 								    			</div>
 								    			<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><a style="cursor: pointer;font-size: 18px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 18px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
+								     						<h6 class="col-sm-12"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     			</div>
-								     			<div class="col-sm-1" style="padding: 0px;">
+								     			<div class="col-sm-2" style="padding: 0px;">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
-								    	    	<div class="col-sm-2">
+								    	    	<div class="col-sm-2" style="padding:0px;" >
 								    	    														
 														<div class="col-sm-10">
 															<select class="form-control form-white"  ng-model="vehicles" ng-change="vehicleData(vehicles)"  required>
@@ -669,13 +673,13 @@ margin-left: 5px;
 														</div>
 															
 												</div>
-												<div class="col-sm-2">
-								     						<h6 class="col-sm-12"><span class="col-sm-12"><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" class="col-sm-4"></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" class="col-sm-4"></span></h6>
+												<div class="col-sm-2" style="padding: 0px;" > 
+								     						<h6 class="col-sm-12"><span class="col-sm-12"><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" style="margin-top: 6px;" class="col-sm-6"></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" style="margin-top: 6px;" class="col-sm-6"></span></h6>
 								     			</div>
-								     			<div class="col-sm-2">
+								     			<div class="col-sm-2" style="padding: 0px;" >
 								     						<h6 class="col-sm-12"><a style="cursor:pointer;font-size: 18px;" id="weekPerf" ng-class="currentSelectedWeekDuration == 1 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedMonthDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedAllTimeDuration == 1 ?'underline':''" ng-click="showAllTimeVisited()">All Time</a></h6>
 								     			</div>
-								    	    	<div class="col-sm-1" ng-if="userRole != 'General Manager'">
+								    	    	<div class="col-sm-1" ng-if="userRole != 'General Manager'"  style="padding: 0px;" >
 												<a class="btn btn-blue" href="#addVehicle" >Add Vehicle</a>
 												</div>	</div>
 										<div class="row">
@@ -692,7 +696,7 @@ margin-left: 5px;
 												
 													<div>
 														<label ng-if="nameLbl=='true' || $index != index" id="namelb" class="col-sm-11" style="text-align: center;padding: 0px;font-size: 19px;margin-top: 9px;" title="{{item.name}}"><b>{{item.name | limitTo: 14}}</b></label>
-														<input ng-if="nameTxt=='true' &&  vin == item.vin" id="editName" type="text" ng-model="item.name" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 180px;" ng-blur="setName(item.name,item.vin)"/>
+														<input class="col-sm-11" ng-if="nameTxt=='true' &&  vin == item.vin" id="editName" type="text" ng-model="item.name" style="text-align: center;margin-left: 0%;font-size: 19px;margin-top: 10px;width: 165px;" ng-blur="setName(item.name,item.vin)"/>
 														<i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil col-sm-1" style="padding: 0px;margin-top: 9px;" ng-click="editName(item.vin,$index,item.id)"></i>
 													</div>
 													<div class="col-sm-12" style="border: 0;border-top: 1px solid #eee;margin-top: 3px;margin-bottom: 12px;"></div>
@@ -793,7 +797,7 @@ margin-left: 5px;
 									                 	</div>
 									                 </div> 
 									            </div>
-										 <div style="line-height:1.028571;margin-left: 25px;margin-top: 8px;">
+										 <div style="line-height:1.028571;margin-left: 15px;margin-top: 8px;">
 											<label class="control-label" style="text-align: center;font-size: 17px;"><b>{{item.fullName}}</b></label>
 										
 										</div>
