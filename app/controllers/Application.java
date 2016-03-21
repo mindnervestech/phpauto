@@ -18393,9 +18393,9 @@ public class Application extends Controller {
     	*/
     	List<Vehicle> vlist = null;
     	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
-    		vlist = Vehicle.findByNewlyArrivedandsoldForGM(Location.findById(locationId));
+    		vlist = Vehicle.findByNewlyArrivedForGM(Location.findById(locationId));
 		}else{
-			vlist = Vehicle.findByNewlyArrivedandsold();
+			vlist = Vehicle.findByNewlyArrived();
 		}
     	
     	for (Vehicle vehicle : vlist) {
@@ -18443,11 +18443,11 @@ if(vehicles.equals("All")){
 	topVisited = Vehicle.findByVinsAndTypeVehi(vins,vehicles);
 }
 
-if(vehicles.equals("All")){
+/*if(vehicles.equals("All")){
 	topVisitedSold = Vehicle.findByVinsforSoldUser(user);
 }else{
 	topVisitedSold = Vehicle.findByVinsAndTypeVehiforSoldUser(user,vehicles);
-}
+}*/
 
     	
     	List<VehicleAnalyticalVM> topVisitedVms = new ArrayList<>();
@@ -18504,7 +18504,7 @@ if(vehicles.equals("All")){
     		}
 	}
     	
-    	for(Vehicle vehicle:topVisitedSold) {
+    	/*for(Vehicle vehicle:topVisitedSold) {
     		if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
     			VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
 	    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
@@ -18556,7 +18556,7 @@ if(vehicles.equals("All")){
 	    		}
     		}
 	    		
-    	}
+    	}*/
     	List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<>();
     	List<Vehicle> notVisitedVehicle = Vehicle.findByNotInVins(vins);
     	for(Vehicle vehicle:notVisitedVehicle) {
@@ -18620,9 +18620,9 @@ if(vehicles.equals("All")){
     	 
     	 // aVehicles = Vehicle.findByVins(vins1);
     	 if(vehicles.equals("All")){
-    		 aVehicles = Vehicle.findByVinsforSold(vins1);
+    		 aVehicles = Vehicle.findByVins(vins1);
     		}else{
-    			aVehicles= Vehicle.findByVinsAndTypeVehiforSold(vins1,vehicles);
+    			aVehicles= Vehicle.findByVinsAndTypeVehi(vins1,vehicles);
     		}
     	 
     	 
@@ -20181,7 +20181,7 @@ if(vehicles.equals("All")){
 				vehicleInformation.addCell(year);
 
 				PdfPCell yearValue = new PdfPCell(new Paragraph(
-						tradeIn.getYear(), font2));
+						leadVM.year, font2));
 				yearValue.setBorderColor(BaseColor.WHITE);
 				yearValue.setBorderWidth(1f);
 				vehicleInformation.addCell(yearValue);
@@ -20191,7 +20191,7 @@ if(vehicles.equals("All")){
 				vehicleInformation.addCell(make);
 
 				PdfPCell makeValue = new PdfPCell(new Paragraph(
-						tradeIn.getMake(), font2));
+						leadVM.make, font2));
 				makeValue.setBorderColor(BaseColor.WHITE);
 				makeValue.setBorderWidth(1f);
 				vehicleInformation.addCell(makeValue);
@@ -20201,7 +20201,7 @@ if(vehicles.equals("All")){
 				vehicleInformation.addCell(Model);
 
 				PdfPCell modelValue = new PdfPCell(new Paragraph(
-						tradeIn.getModel(), font2));
+						leadVM.model, font2));
 				modelValue.setBorderColor(BaseColor.WHITE);
 				modelValue.setBorderWidth(1f);
 				vehicleInformation.addCell(modelValue);
@@ -20222,7 +20222,7 @@ if(vehicles.equals("All")){
 				vehicleInformation.addCell(vin);
 
 				PdfPCell vinValue = new PdfPCell(new Paragraph(
-						tradeIn.getVin(), font2));
+						leadVM.vin, font2));
 				vinValue.setBorderColor(BaseColor.WHITE);
 				vinValue.setBorderWidth(1f);
 				vehicleInformation.addCell(vinValue);
@@ -20719,8 +20719,8 @@ if(vehicles.equals("All")){
 				context.put("make", tradeIn.getMake());
 				context.put("model", tradeIn.getModel());
 				context.put("price", "$" + vehicle.getPrice());
-				context.put("vin", vehicle.getVin());
-				context.put("stock", vehicle.getStock());
+				context.put("vin", leadVM.vin);
+				context.put("stock", leadVM.stockNumber);
 				context.put("mileage", vehicle.getMileage());
 				context.put("pdffilePath", findpath);
 
