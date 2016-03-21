@@ -2105,7 +2105,10 @@ angular.module('newApp')
     				$scope.check.endDate=$filter('date')(date, 'dd-MM-yyyy');
     				console.log($scope.check.endDate);
     			  
-    				$scope.visitorsStats($filter('date')(startdate, 'yyyy-MM-dd'),$filter('date')(date, 'yyyy-MM-dd'));
+    				$scope.startDateV = $filter('date')(startdate, 'yyyy-MM-dd');
+    				$scope.endDateV = $filter('date')(date, 'yyyy-MM-dd');
+    				$scope.visitorsStats($scope.startDateV, $scope.endDateV);
+    				
     			  $scope.showVehicalBarChart();
     			  $scope.getPerformanceOfUser();
     			 if($scope.locationValue == null){
