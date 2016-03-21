@@ -5780,7 +5780,7 @@ angular.module('newApp')
 		}	
 			
 		   $scope.checkManagerLogin = function(){
-			   if(angular.equals($scope.userType,"Manager")){
+			   if(angular.equals($scope.userType,"Manager") || angular.equals($scope.userType,"Sales Person")){
 				   $http.get("/getloginuserinfo").success(function(data){
 					  //alert(JSON.stringify(data));
 					  $scope.schmeeting.location = data.location.id;

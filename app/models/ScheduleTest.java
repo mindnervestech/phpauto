@@ -381,7 +381,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<SqlRow> getScheduleDates(AuthUser user) {
-		SqlQuery q = Ebean.createSqlQuery("select distinct schedule_test.confirm_date from schedule_test where schedule_test.assigned_to_id = '"+user.id+"' and schedule_test.confirm_date is not null");
+		SqlQuery q = Ebean.createSqlQuery("select distinct schedule_test.confirm_date from schedule_test where schedule_test.assigned_to_id = '"+user.id+"' or schedule_test.user_id = '"+user.id+"' and schedule_test.confirm_date is not null");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}

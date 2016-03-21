@@ -22711,6 +22711,8 @@ if(vehicles.equals("All")){
 	
 	public static Result saveMeetingSchedule(){
 		Location loc=null;
+		
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		Form<ScheduleTestVM> form = DynamicForm.form(ScheduleTestVM.class).bindFromRequest();
 		ScheduleTestVM vm = form.get();
 		AuthUser user = getLocalUser();
@@ -22734,7 +22736,11 @@ if(vehicles.equals("All")){
 		moTest.isReassigned = false;
 		moTest.is_google_data = false;
 		try {
-			moTest.confirmDate = new SimpleDateFormat("YYYY-MM-dd").parse(vm.getBestDay());
+			/*String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
+			String arrNew[] = arr[3].split(",");
+			checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];*/
+			
+			moTest.confirmDate = df.parse(vm.getBestDay());
 			moTest.confirmTime = new SimpleDateFormat("HH:mm a").parse(vm.getBestTime());
 		} catch (Exception e) {
 			e.printStackTrace();
