@@ -1962,91 +1962,105 @@ angular.module('newApp')
     			 $scope.comparisonSalePerson();
     		 }
     	
-    		  $http.get('/getMonthlyVisitorsStats').success(function(response) {
-    			  var visitorsData = {
-    			            labels: response.months,
-    			            datasets: [
-    			                {
-    			                    label: "New Visitors",
-    			                    fillColor: "rgba(49, 157, 181,0.5)",
-    			                    strokeColor: "rgba(49, 157, 181,0.7)",
-    			                    pointColor: "rgba(49, 157, 181,1)",
-    			                    pointStrokeColor: "#fff",
-    			                    pointHighlightFill: "#fff",
-    			                    pointHighlightStroke: "rgba(49, 157, 181,1)",
-    			                    data: response.onlineVisitor
-    			                },
-    			                {
-    			                    label: "All visitors",
-    			                    fillColor: "rgba(200,200,200,0.5)",
-    			                    strokeColor: "rgba(200,200,200,1)",
-    			                    pointColor: "rgba(200,200,200,1)",
-    			                    pointStrokeColor: "#fff",
-    			                    pointHighlightFill: "#fff",
-    			                    pointHighlightStroke: "rgba(200,200,200,1)",
-    			                    data: response.allVisitor
-    			                }
-    			            ]
-    			        };
-    			        var chartOptions = {
-    			            scaleGridLineColor: "rgba(0,0,0,.05)",
-    			            scaleGridLineWidth: 1,
-    			            bezierCurve: true,
-    			            pointDot: true,
-    			            pointHitDetectionRadius: 20,
-    			            tooltipCornerRadius: 0,
-    			            scaleShowLabels: false,
-    			            tooltipTemplate: "dffdff",
-    			            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>",
-    			            responsive: true,
-    			            showScale: false,
-    			        };
-    			        var ctx = document.getElementById("visitors-chart").getContext("2d");
-    			        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);
-    			        
-    			        var actionsData = {
+    		 $scope.visitorsStats = function(startDate, endDate){
+    			 
+    			 if(startDate == undefined || endDate == undefined){
+    				 startDate =  $("#vstartDate").val();
+        			 endDate = $("#vendDate").val();
+    			 }
+    			
+    			 
+    			  $http.get('/getMonthlyVisitorsStats/'+startDate+"/"+endDate).success(function(response) {
+    				  
+    				  console.log(response);
+    				  
+        			  var visitorsData = {
         			            labels: response.months,
         			            datasets: [
         			                {
-        			                    label: "Actions",
+        			                    label: "New Visitors",
         			                    fillColor: "rgba(49, 157, 181,0.5)",
         			                    strokeColor: "rgba(49, 157, 181,0.7)",
         			                    pointColor: "rgba(49, 157, 181,1)",
         			                    pointStrokeColor: "#fff",
         			                    pointHighlightFill: "#fff",
         			                    pointHighlightStroke: "rgba(49, 157, 181,1)",
-        			                    data: response.actionsList
+        			                    data: response.onlineVisitor
         			                },
         			                {
-        			                    label: "Average actions",
+        			                    label: "All visitors",
         			                    fillColor: "rgba(200,200,200,0.5)",
         			                    strokeColor: "rgba(200,200,200,1)",
         			                    pointColor: "rgba(200,200,200,1)",
         			                    pointStrokeColor: "#fff",
         			                    pointHighlightFill: "#fff",
         			                    pointHighlightStroke: "rgba(200,200,200,1)",
-        			                    data: response.averageActionsList
+        			                    data: response.allVisitor
         			                }
         			            ]
         			        };
-    			        var ctx2 = document.getElementById("actions-chart").getContext("2d");
-    			        var myNewChart2 = new Chart(ctx2).Line(actionsData, chartOptions);
-    			        
-    			        $scope.onlineVisitorsCount = response.onlineVisitors;
-    			        $scope.totalVisitorsCount = response.totalVisitors;
-    			        $scope.actionsCount = response.actions;
-    			        $scope.averageActionsCount = response.averageActions;
-    			        $scope.totalTimeCount = response.totalTime;
-    			        $scope.averageTimeCount = response.averageTime;
-    			        $scope.bounceRateCount = response.bounceRate;
-    			        $scope.goalsCount = response.goals;
-    			        $scope.revenueCount = response.revenue;
-    			        $scope.pagesList = response.pagesList;
-    			        $scope.referersList = response.referersList;
-    			        $scope.searchesList = response.searchesList;
-    			        
-    		  });
-    		  
+        			        var chartOptions = {
+        			            scaleGridLineColor: "rgba(0,0,0,.05)",
+        			            scaleGridLineWidth: 1,
+        			            bezierCurve: true,
+        			            pointDot: true,
+        			            pointHitDetectionRadius: 20,
+        			            tooltipCornerRadius: 0,
+        			            scaleShowLabels: false,
+        			            tooltipTemplate: "dffdff",
+        			            multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>",
+        			            responsive: true,
+        			            showScale: false,
+        			        };
+        			        var ctx = document.getElementById("visitors-chart").getContext("2d");
+        			        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);
+        			        
+        			        var actionsData = {
+            			            labels: response.months,
+            			            datasets: [
+            			                {
+            			                    label: "Actions",
+            			                    fillColor: "rgba(49, 157, 181,0.5)",
+            			                    strokeColor: "rgba(49, 157, 181,0.7)",
+            			                    pointColor: "rgba(49, 157, 181,1)",
+            			                    pointStrokeColor: "#fff",
+            			                    pointHighlightFill: "#fff",
+            			                    pointHighlightStroke: "rgba(49, 157, 181,1)",
+            			                    data: response.actionsList
+            			                },
+            			                {
+            			                    label: "Average actions",
+            			                    fillColor: "rgba(200,200,200,0.5)",
+            			                    strokeColor: "rgba(200,200,200,1)",
+            			                    pointColor: "rgba(200,200,200,1)",
+            			                    pointStrokeColor: "#fff",
+            			                    pointHighlightFill: "#fff",
+            			                    pointHighlightStroke: "rgba(200,200,200,1)",
+            			                    data: response.averageActionsList
+            			                }
+            			            ]
+            			        };
+        			        var ctx2 = document.getElementById("actions-chart").getContext("2d");
+        			        var myNewChart2 = new Chart(ctx2).Line(actionsData, chartOptions);
+        			        
+        			        $scope.onlineVisitorsCount = response.onlineVisitors;
+        			        $scope.totalVisitorsCount = response.totalVisitors;
+        			        $scope.actionsCount = response.actions;
+        			        $scope.averageActionsCount = response.averageActions;
+        			        $scope.totalTimeCount = response.totalTime;
+        			        $scope.averageTimeCount = response.averageTime;
+        			        $scope.bounceRateCount = response.bounceRate;
+        			        $scope.goalsCount = response.goals;
+        			        $scope.revenueCount = response.revenue;
+        			        $scope.pagesList = response.pagesList;
+        			        $scope.referersList = response.referersList;
+        			        $scope.searchesList = response.searchesList;
+        			        
+        		  });
+        		  
+    		 }
+    		 
+    		
     		  setInterval(function(){
     			  $scope.onlineVisitorFind();
     			}, 10000)
@@ -2091,6 +2105,7 @@ angular.module('newApp')
     				$scope.check.endDate=$filter('date')(date, 'dd-MM-yyyy');
     				console.log($scope.check.endDate);
     			  
+    				$scope.visitorsStats($filter('date')(startdate, 'yyyy-MM-dd'),$filter('date')(date, 'yyyy-MM-dd'));
     			  $scope.showVehicalBarChart();
     			  $scope.getPerformanceOfUser();
     			 if($scope.locationValue == null){

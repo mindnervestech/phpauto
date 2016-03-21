@@ -16464,7 +16464,8 @@ public class Application extends Controller {
     	return ok(Json.toJson(onlineVisitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt()));
     }
     
-    public static Result getMonthlyVisitorsStats() {
+    public static Result getMonthlyVisitorsStats(String startDate, String endDate) {
+    	
     	Calendar c = Calendar.getInstance();
     	String[] monthsArr = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     	c.add(Calendar.MONTH, -11);
@@ -16495,10 +16496,10 @@ public class Application extends Controller {
     	Integer dateOfMonth = c.get(Calendar.DAY_OF_MONTH);
     	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&date="+year+"-"+month+"-"+dateOfMonth+"&type=visitors-online&limit=all"));
     	
-    	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue&limit=all"));
-    	JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date=last-30-days&limit=all"));
-    	JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-domains&date=last-30-days&limit=all"));
-    	JsonNode searchesNodeList = Json.parse(callClickAPI("&type=searches-engines&date=last-30-days&limit=all"));
+    	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue&date="+startDate+","+endDate+"&limit=all"));
+    	JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date="+startDate+","+endDate+"&limit=all"));
+    	JsonNode referersNodeList = Json.parse(callClickAPI("&type=links-domains&date="+startDate+","+endDate+"&limit=all"));
+    	JsonNode searchesNodeList = Json.parse(callClickAPI("&type=searches-engines&date="+startDate+","+endDate+"&limit=all"));
     	List<PageVM> pagesList = new ArrayList<>();
     	List<PageVM> referersList = new ArrayList<>();
     	List<PageVM> searchesList = new ArrayList<>();

@@ -3551,18 +3551,23 @@ margin-left: 5px;
 							        							        	    		
 		<div class="panel">
 	<div class="col-md-12"  style="margin-bottom: 2%;">
-	<div class="col-sm-8">
+	<div class="col-sm-6">
 	<h2>VISITORS STATISTICS</h1>	
 	</div>
+			<form ng-submit="visitorsStats(startDateV,endDateV)">
 	           <div Class="col-sm-2">
 				 	<label>Start Date</label>
-					<input data-provide="datepicker" id="startDateValue" name="startDateValue" class="form-control" ng-model="startDate" data-date-format="dd-mm-yyyy" required>
+					<input data-provide="datepicker" id="vstartDate" name="startDateValue" class="form-control" ng-model="startDateV" data-date-format="yyyy-mm-dd" required>
 									     		
 				 </div>
 				<div class="col-sm-2">
 				<label>End Date</label>
-			   <input data-provide="datepicker" id="endDateValue" name="endDateValue" class="form-control" ng-model="endDate" data-date-format="dd-mm-yyyy" required>
+			   <input data-provide="datepicker" id="vendDate" name="endDateValue" class="form-control" ng-model="endDateV" data-date-format="yyyy-mm-dd" required>
 			 </div>
+			 <div class="col-sm-2">
+			 	 <button type="submit" class="btn btn-primary">OK</button>
+			 </div>
+			</form> 
 	
 	</div>				             
 <div class="row" ng-if="userType != 'General Manager'">
