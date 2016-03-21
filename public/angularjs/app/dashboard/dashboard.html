@@ -3811,7 +3811,7 @@ margin-left: 5px;
         <div class="panel">
         	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 			    <ul id="myTabs" class="nav nav-tabs" role="tablist">
-			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:15px;margin-right: 0px; ng-click="showLeadsDrive()">Leads</button><span class="badge badge-header" style="border-radius: 17px / 17px;background-color: red;font-size: 14px;" ng-if="lengthOfAllLead >= 1"><b>{{lengthOfAllLead}}</b></span></a></li>
+			      <li role="presentation" class="active "><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" style="font-size:15px;margin-right: 0px;" ng-click="showLeadsDrive()">Leads</button><span class="badge badge-header" style="border-radius: 17px / 17px;background-color: red;font-size: 14px;" ng-if="lengthOfAllLead >= 1"><b>{{lengthOfAllLead}}</b></span></a></li>
 			      <li role="presentation" class=""><a role="tab" id="test-drive-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size: 15px" ng-click="schedultestDrive()">Test Drives</button></a></li>
 			      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-show="userType == 'General Manager' || userType == 'Manager'" ng-click="canceledLeads()">Canceled Leads</button></a></li>
 			       <li role="presentation" class="" style="float: right;"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="showLeadsArchive()">Archive</button></a></li>
@@ -7243,7 +7243,7 @@ margin-left: 5px;
 																			                	
 								                <div class="modal-footer" style="float: left;">
 								                    <button id="clsPop" type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
-								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed" ng-click="saveTestDrive()">Save</button>
 								                </div>
 								                </form>
 								            </div>
