@@ -2081,6 +2081,16 @@ angular.module('newApp')
     		  $scope.showLeads = false;
     		  
     		  $scope.init = function() {
+    			 $scope.check={};
+    			  var date = new Date();
+    			   var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
+    			   console.log(date);
+    				$scope.check.startDate=$filter('date')(startdate, 'dd-MM-yyyy');
+    				console.log("date::::");
+    				console.log($scope.check.startDate);
+    				$scope.check.endDate=$filter('date')(date, 'dd-MM-yyyy');
+    				console.log($scope.check.endDate);
+    			  
     			  $scope.showVehicalBarChart();
     			  $scope.getPerformanceOfUser();
     			 if($scope.locationValue == null){
