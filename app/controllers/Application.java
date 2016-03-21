@@ -20058,7 +20058,7 @@ if(vehicles.equals("All")){
 				document.addAuthor("Celinio");
 				document.addCreator("Celinio");
 				document.addSubject("iText with Maven");
-				document.addTitle("Fourth tutorial");
+				document.addTitle("Trade-In Appraisal");
 				document.addKeywords("iText, Maven, Java");
 
 				document.open();
@@ -20181,7 +20181,7 @@ if(vehicles.equals("All")){
 				vehicleInformation.addCell(year);
 
 				PdfPCell yearValue = new PdfPCell(new Paragraph(
-						leadVM.year, font2));
+						tradeIn.getYear(), font2));
 				yearValue.setBorderColor(BaseColor.WHITE);
 				yearValue.setBorderWidth(1f);
 				vehicleInformation.addCell(yearValue);
@@ -20191,7 +20191,7 @@ if(vehicles.equals("All")){
 				vehicleInformation.addCell(make);
 
 				PdfPCell makeValue = new PdfPCell(new Paragraph(
-						leadVM.make, font2));
+						tradeIn.getMake(), font2));
 				makeValue.setBorderColor(BaseColor.WHITE);
 				makeValue.setBorderWidth(1f);
 				vehicleInformation.addCell(makeValue);
@@ -20201,7 +20201,7 @@ if(vehicles.equals("All")){
 				vehicleInformation.addCell(Model);
 
 				PdfPCell modelValue = new PdfPCell(new Paragraph(
-						leadVM.model, font2));
+						tradeIn.getModel(), font2));
 				modelValue.setBorderColor(BaseColor.WHITE);
 				modelValue.setBorderWidth(1f);
 				vehicleInformation.addCell(modelValue);
@@ -20222,7 +20222,7 @@ if(vehicles.equals("All")){
 				vehicleInformation.addCell(vin);
 
 				PdfPCell vinValue = new PdfPCell(new Paragraph(
-						leadVM.vin, font2));
+						tradeIn.getVin(), font2));
 				vinValue.setBorderColor(BaseColor.WHITE);
 				vinValue.setBorderWidth(1f);
 				vehicleInformation.addCell(vinValue);
@@ -20719,8 +20719,8 @@ if(vehicles.equals("All")){
 				context.put("make", tradeIn.getMake());
 				context.put("model", tradeIn.getModel());
 				context.put("price", "$" + vehicle.getPrice());
-				context.put("vin", leadVM.vin);
-				context.put("stock", leadVM.stockNumber);
+				context.put("vin", vehicle.getVin());
+				context.put("stock", vehicle.getStock());
 				context.put("mileage", vehicle.getMileage());
 				context.put("pdffilePath", findpath);
 
