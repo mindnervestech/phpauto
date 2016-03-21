@@ -25456,21 +25456,21 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	}
 	
 	
-	public static Result getSoldVehicleDetailsOther(Long locationId,Integer managerId){
+	/*public static Result getSoldVehicleDetailsOther(Long locationId,Integer managerId){
 		AuthUser user = AuthUser.findById(managerId);
 		List<Long[]> lonnn = new ArrayList<>();
 		soldVehicalDetailsSaleVolu(user,lonnn);
 		return ok(Json.toJson(lonnn));
-	}
+	}*/
 	
-	public static Result getSoldVehicleDetails(){
+	public static Result getSoldVehicleDetails(String startD,String endD){
 		AuthUser user = getLocalUser();
 		List<Long[]> lonnn = new ArrayList<>();
-		soldVehicalDetailsSaleVolu(user,lonnn);
+		soldVehicalDetailsSaleVolu(user,lonnn,startD,endD);
 		return ok(Json.toJson(lonnn));
 	}
 	
-	public static void soldVehicalDetailsSaleVolu(AuthUser user,List<Long[]> lonnn){
+	public static void soldVehicalDetailsSaleVolu(AuthUser user,List<Long[]> lonnn,String startD,String endD){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Map<Long, Long> mapdate = new HashMap<Long, Long>();
 		Long pricevalue = 0L;
@@ -25497,19 +25497,40 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				
 				String dateCheck = df.format(c.getTime());
 				Date dateFomat = null;
+				Date startDate = null;
+				Date endDate = null;
 				try {
 					dateFomat = df.parse(dateCheck);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				try {
+					startDate=df.parse(startD);
+					endDate=df.parse(endD);
+					
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
+				System.out.println(dateFomat);
+				System.out.println(":::::::::::::dates");
+				System.out.println(endDate);
+				System.out.println(startDate);
+				
+				//System.out.println(dateFomat);
+				if(dateFomat.after(startDate) && dateFomat.before(endDate) || dateFomat.equals(endDate))
+				{
 				Long objectDate = mapdate.get(dateFomat.getTime() + (1000 * 60 * 60 * 24));
 				if (objectDate == null) {
 					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), pricevalue);
 				}else{
 					mapdate.put(dateFomat.getTime()+ (1000 * 60 * 60 * 24), objectDate + pricevalue);
 				}
+				
+				}
+				
 			}
 			
 			treeMap = new TreeMap<Long, Long>(mapdate);

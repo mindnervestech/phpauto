@@ -578,11 +578,18 @@ angular.module('newApp')
       /*------------------------financial-charts----------------------------------*/
       $scope.showvehical = 0;
       $scope.showBarvehical = 1;
-      $scope.showVehicalBarChart = function(){
+      
+      
+      $scope.showVehicalBarChart = function(volumeStatStartDateId,volumeStatEndDateId){
     	  $scope.showvehical = 0;
     	  $scope.showBarvehical = 1;
+    	  var startD = $('#volumeStatStartDateId').val();
+		   var endD = $('#volumeStatEndDateId').val();
+    	  console.log(":::");
+    	  console.log(startD);
+    	  console.log(endD);
     	  
-    	   $http.get('/getSoldVehicleDetails')
+    	   $http.get('/getSoldVehicleDetails'+"/"+startD+"/"+endD)
    		.success(function(data) {
    		$scope.locationDataList = data;	
        

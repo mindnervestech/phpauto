@@ -4132,8 +4132,12 @@ margin-left: 5px;
         <div class="panel m-t-0">
             <div class="panel-header panel-controls">
                <i class="icon-basket" style="font-size: 18px;"></i> <strong style="font-size: 18px;">Sales</strong><strong style="font-size: 18px;"> Volume Stats</strong> 
-             <span style="margin-left: 5%;">  <a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalBarChart()" title="Vehical Sale"><i class="glyphicon glyphicon-signal"></i></a><a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalFinancialChart()" title="by Car Make"><i class="fa fa-car"></i></a><a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalFinancialChartByBodyStyle()" title="Body Style"><i class="fa fa-cogs"></i></a><a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalBarAvgSale()" title="Average Sale"><i class="glyphicon glyphicon-tasks"></i></a></span> 
-                
+                            <span style="margin-left: 5%;">  <a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalBarChart()" title="Vehical Sale"><i class="glyphicon glyphicon-signal"></i></a><a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalFinancialChart()" title="by Car Make"><i class="fa fa-car"></i></a><a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalFinancialChartByBodyStyle()" title="Body Style"><i class="fa fa-cogs"></i></a><a style="cursor: pointer;font-size: 18px;" ng-click="showVehicalBarAvgSale()" title="Average Sale"><i class="glyphicon glyphicon-tasks"></i></a></span> 
+                <label>Start Date</label>
+					<input data-provide="datepicker" id="volumeStatStartDateId" name="startDateValue"  ng-model="volumeStatStartDate" data-date-format="yyyy-mm-dd" required>
+				<label>End Date</label>
+			   <input data-provide="datepicker"id="volumeStatEndDateId" name="endDateValue"  ng-model="volumeStatEndDate" data-date-format="yyyy-mm-dd" required>
+					<a> <button type="submit"  style="font-size:15px;margin-left: 10px" ng-click="showVehicalBarChart(volumeStatStartDateId,volumeStatEndDateId)">Ok</button> </a>
             </div>
            <!--  <div class="panel-header panel-controls">
                 <h3><a style="cursor: pointer;" ng-click="showVehicalBarChart()" title="Vehical Sale"><i class="glyphicon glyphicon-signal"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChart()" title="by Car Make"><i class="fa fa-car"></i></a><a style="cursor: pointer;" ng-click="showVehicalFinancialChartByBodyStyle()" title="Body Style"><i class="fa fa-cogs"></i></a><a style="cursor: pointer;" ng-click="showVehicalBarAvgSale()" title="Average Sale"><i class="glyphicon glyphicon-tasks"></i></a></h3>
