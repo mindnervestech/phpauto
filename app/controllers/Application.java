@@ -10740,7 +10740,12 @@ public class Application extends Controller {
    	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
    	Location location = Location.findById(locationId);
    
-   	lDataVM.imageUrl = location.getImageUrl();
+   	if(locOrPer.equals("location")){
+   		lDataVM.imageUrl = location.getImageUrl();
+   	}else if(locOrPer.equals("person")){
+   		lDataVM.imageUrl = users.imageUrl;
+   	}
+   	
    	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
    	lDataVM.countSalePerson = countLeads;
    	
@@ -11125,7 +11130,12 @@ public class Application extends Controller {
     	int countLeads = requestLeadCount + scheduleLeadCount + tradeInLeadCount;
     	Location location = Location.findById(locationId);
     	
-    	lDataVM.imageUrl = location.getImageUrl();
+    	if(locOrPer.equals("location")){
+    		lDataVM.imageUrl = location.getImageUrl();
+    	}else if(locOrPer.equals("person")){
+    		lDataVM.imageUrl = users.getImageUrl();
+    	}
+    	
     	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
     	lDataVM.countSalePerson = countLeads;
     	
