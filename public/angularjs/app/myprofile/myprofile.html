@@ -3,15 +3,15 @@
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
     	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Manager Profile</button></a></li>
       	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Dealer's Profile</button></a></li>
-      	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
-      	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactive()">Deactive Users</button></a></li>
+      	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Active</button></a></li>
+      	<li ng-if="userRole != 'General Manager' && userRole != null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactive()">Inactive</button></a></li>
       	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLoaction()">My Locations</button></a></li>
       	<li ng-if="userRole == 'General Manager' || userRole == null" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDeactivateLoaction()">Deactivate Locations</button></a></li>
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 	        
-	        <h1><b>My Profile</b></h1>
+	       <!--  <h1><b>My Profile</b></h1> -->
 <h2><b>Dealership's Info</b></h2>
 <!-- h4><b>Enter your 17 digit vin in the form below and click decode.</b></h4>
  -->
@@ -55,7 +55,7 @@
 	<textarea rows="4" cols="50" style="border-color:red;" ng-model="myprofile.address" class="form-control form-white"></textarea>
 	</div>
 </div>
-<div class="form-group col-sm-12">
+<!-- <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">City</label>
 	<div class="col-sm-5">
 		<input class="form-control form-white" type="text" " ng-model="myprofile.city" >
@@ -78,7 +78,7 @@
 	<div class="col-sm-5">
 		<input class="form-control form-white" type="text" ng-model="myprofile.country" >
 	</div>
-</div>
+</div> -->
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Phone *</label>
 	<div class="col-sm-5">
