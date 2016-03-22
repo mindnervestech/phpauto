@@ -14784,9 +14784,9 @@ public class Application extends Controller {
 			
 			List<AuthUser> salesUsersList;
 			if(locationValue == 0){
-				salesUsersList = AuthUser.getAllSalesUserDeactive();
+				salesUsersList = AuthUser.getAllSalesUser();
 			}else{
-				salesUsersList = AuthUser.getAllUserByLocationDeactiveAlso(Location.findById(locationValue));
+				salesUsersList = AuthUser.getAllUserByLocation(Location.findById(locationValue));
 			}
 			
 			UserVM[] tempuserList = new UserVM[salesUsersList.size()];
