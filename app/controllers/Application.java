@@ -19179,8 +19179,8 @@ if(vehicles.equals("All")){
      	
      	addPriceRang(priceRang);
      	
-     	List<Vehicle> totalVehicleVM = Vehicle.findByLocation(Long.valueOf(session("USER_LOCATION")));
-     	
+     	//List<Vehicle> totalVehicleVM = Vehicle.findByLocation(Long.valueOf(session("USER_LOCATION")));
+     	List<Vehicle> totalVehicleVM = Vehicle.getAllVehicles();
      	for(Vehicle vm:totalVehicleVM ){
      		Integer objectMake = mapByType.get(vm.getBodyStyle());
 			if (objectMake == null) {
@@ -19678,11 +19678,11 @@ if(vehicles.equals("All")){
  		lDataVM.trainingCost = 0;
  	}
  	lDataVM.comission = (lDataVM.totalSalePrice * Integer.parseInt(users.commission)) / 100; 
- 	int sl = lDataVM.salary / lDataVM.allGeneratedLeadCount;
- 	int cl = lDataVM.comission / lDataVM.allGeneratedLeadCount;
- 	lDataVM.leadCost = sl + tcl + cl;
- 	
- 	
+ 	if(lDataVM.allGeneratedLeadCount != 0){
+ 		int sl = lDataVM.salary / lDataVM.allGeneratedLeadCount;
+ 	 	int cl = lDataVM.comission / lDataVM.allGeneratedLeadCount;
+ 	 	lDataVM.leadCost = sl + tcl + cl;
+ 	}
 
      	return ok(Json.toJson(lDataVM));
     }
