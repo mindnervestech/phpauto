@@ -15886,17 +15886,17 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
-    public static Result getVisitorList(Integer value){
+    public static Result getVisitorList(String startDate,String endDate){
     	int year = Calendar.getInstance().get(Calendar.YEAR);
     	String params = null;
     	
-    	if(value == 30){
-    		params = "&type=visitors-list&date=last-30-days&limit=all";
-    	}else if(value == 7){
+    	//if(value == 30){
+    		params = "&type=visitors-list&date="+startDate+","+endDate+"&limit=all";
+    	/*}else if(value == 7){
     		params = "&type=visitors-list&date=last-7-days&limit=all";
     	}else if(value == 1){
     		params = "&type=visitors-list&date="+year+"&limit=all";
-    	}
+    	}*/
     	return ok(Json.parse(callClickAPI(params)));
     }
     
@@ -25514,10 +25514,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					e.printStackTrace();
 				}
 				
-				System.out.println(dateFomat);
-				System.out.println(":::::::::::::dates");
-				System.out.println(endDate);
-				System.out.println(startDate);
+				
 				
 				//System.out.println(dateFomat);
 				if(dateFomat.after(startDate) && dateFomat.before(endDate) || dateFomat.equals(endDate))

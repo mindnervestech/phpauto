@@ -223,7 +223,7 @@ GET    /deleteContactsById/:id  controllers.Application.deleteContactsById(id:Lo
 GET   /saveGroup/:createGroup		controllers.Application.saveGroup(createGroup:String)
 GET   /deleteGroup/:groupId		 controllers.Application.deleteGroup(groupId:Long)
 GET		/checkEmailOfUser/:email		controllers.Application.checkEmailOfUser(email:String)
-GET   /getVisitorList/:value			controllers.Application.getVisitorList(value:Integer)
+GET   /getVisitorList/:startDate/:endDate			controllers.Application.getVisitorList(startDate:String,endDate:String)
 GET   /getHeatMapList/:value			controllers.Application.getHeatMapList(value:Integer)
 GET   /getActionList/:value 			controllers.Application.getActionList(value:Integer)
 GET   /getSearchList/:value 			controllers.Application.getSearchList(value:Integer)

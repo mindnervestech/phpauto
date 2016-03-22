@@ -527,8 +527,9 @@ angular.module('newApp')
 	  var valueCount = 0;
 	  $scope.gridOptions = {};
       $scope.$on('$viewContentLoaded', function () {
-        
-    	  $http.get('/getVisitorList/'+30)
+    	  
+    	  
+    	  $http.get('/getVisitorList/'+$scope.startDateV+"/"+$scope.endDateV)
   		.success(function(data) {
   			$scope.gridOptions.data = data[0].dates[0].items;
   			$scope.visitiorList = data[0].dates[0].items;
@@ -2064,6 +2065,48 @@ angular.module('newApp')
         			        $scope.searchesList = response.searchesList;
         			        
         		  });
+    			  
+    			  $http.get('/getVisitorList/'+startDate+"/"+endDate)
+    		  		.success(function(data) {
+    		  			$scope.gridOptions.data = data[0].dates[0].items;
+    		  			$scope.visitiorList = data[0].dates[0].items;
+    		  			angular.forEach($scope.visitiorList, function(value, key) {
+    		  				$scope.stringArray[value.geolocation] = {
+    		  	    	            "flag" : 0,
+    		  	    				"name" : value.geolocation
+    		  	    	        };
+    		  			});
+    		  			
+    		  			
+    		  			var ab = 0;
+    		  			angular.forEach($scope.visitiorList, function(value, key) {
+    		  				
+    		  					if($scope.stringArray[value.geolocation].name == value.geolocation && $scope.stringArray[value.geolocation].flag == 0){
+    		  						$scope.visitiorListMap[ab] = value;
+    		  						$scope.stringArray[value.geolocation].flag = 1;
+    		  						$scope.stringArray[value.geolocation].value = 1;
+    		  						ab = ab +1;
+    		  					}else{
+    		  						$scope.stringArray[value.geolocation].value = $scope.stringArray[value.geolocation].value + 1;
+    		  					}
+    		  			});
+    		  			
+    		  			
+    		  			
+    		  			angular.forEach($scope.visitiorListMap, function(value, key) {
+    		  				if($scope.stringArray[value.geolocation].name == value.geolocation){
+    		  					value.valueCount = $scope.stringArray[value.geolocation].value;
+    		  				}
+    		  			});
+    		  			
+    		  			dashboardService.init($scope.visitiorListMap);
+    		            pluginsService.init();
+    		            dashboardService.setHeights()
+    		            if ($('.widget-weather').length) {
+    		                widgetWeather();
+    		            }
+    		            handleTodoList();
+    		  		});
         		  
     		 }
     		 
@@ -2137,12 +2180,14 @@ angular.module('newApp')
 							 var dateStr = $scope.scheduleDates[i].confirmDate;
 							 var date = new Date();
 							 var arr = [];
+							 if(dateStr != null){
 							    arr = dateStr.split('-');
 					        	date.setYear(arr[0]);
 					        	var month = arr[1];
 					        	date.setMonth(month-1);
 					        	date.setDate(arr[2]);
 					        	datesArray.push(date);
+							 }	
 						 }
 			    		  $(".multidatepicker").multiDatesPicker({
 			    			  addDates:datesArray,
