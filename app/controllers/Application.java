@@ -18327,24 +18327,22 @@ public class Application extends Controller {
 		}
     	
     	
-    	
-    	
-    	
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
     	
     	String params = null;
     	String checkDate = null;
     	Date thedate = null;
     	//String params1 = "&type=visitors-list&date=last-30-days&limit=all";
-    	/*if(type.equals("week"))
-    		//params = "&type=pages&date=last-7-days&limit=all";
+    	if(type.equals("week")){
     		params = "&type=visitors-list&date=last-7-days&limit=all";
-    	else
-    		//params = "&type=pages&date=last-30-days&limit=all";
+    	}else if(type.equals("month")){
     		params = "&type=visitors-list&date=last-30-days&limit=all";
+    	}else if(type.equals("allTime")){
+    		params = "&type=visitors-list&date="+start1+","+end1+"&limit=all";
+    	}
     	String resultStr = callClickAPI(params);
     	    	
-    	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");*/
+    	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
     	    	
     	List<String> vins = new ArrayList<String>();
     	List<String> vins1 = new ArrayList<String>();
@@ -18355,7 +18353,8 @@ public class Application extends Controller {
     	Map<String,Integer> pagesCount1 = new HashMap<String,Integer>();
     	Map<String,Integer> vinUnik1 = new HashMap<String,Integer>();
     	int i = 1;
-    /*	for(JsonNode item:jsonNode) {
+    	
+    	for(JsonNode item:jsonNode) {
     		String data = item.get("landing_page").toString();
 			String arrVin[] = data.split("/");
 			if(arrVin.length > 5){
@@ -18391,7 +18390,7 @@ public class Application extends Controller {
 				
 			}
     	}
-    	*/
+    	
     	List<Vehicle> vlist = null;
     	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
     		vlist = Vehicle.findByNewlyArrivedForGM(Location.findById(locationId));
@@ -18401,13 +18400,13 @@ public class Application extends Controller {
     	
     	for (Vehicle vehicle : vlist) {
     		if(vehicle.status.equals("Sold")){
-    			if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
+    			//if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
     				vins1.add(vehicle.vin);
-    			}
+    			//}
     		}else{
-    			if((vehicle.postedDate.after(start) && vehicle.postedDate.before(end)) || vehicle.postedDate.equals(end)){
+    			//if((vehicle.postedDate.after(start) && vehicle.postedDate.before(end)) || vehicle.postedDate.equals(end)){
     				vins1.add(vehicle.vin);
-    			}	
+    			//}	
     		}
     		
 		}
@@ -18625,7 +18624,7 @@ if(vehicles.equals("All")){
     		}else{
     			aVehicles= Vehicle.findByVinsAndTypeVehi(vins1,vehicles);
     		}
-    	 
+    	 //if((vehicle.postedDate.after(start) && vehicle.postedDate.before(end)) || vehicle.postedDate.equals(end)){
     	 
     	for(Vehicle vehicle:aVehicles) {
     		VehicleAnalyticalVM anVm = new VehicleAnalyticalVM();
@@ -18654,8 +18653,29 @@ if(vehicles.equals("All")){
         		tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
         		pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), locationId);
     		}
+    		int requCount = 0;
+    		int schedCount = 0;
+    		int tradeCount = 0;
+    		for(RequestMoreInfo rInfo : rInfos){
+    			if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end)){
+    				requCount++;
+    			}
+    		}
     		
-    		anVm.leadsCount = rInfos.size() + sList.size() + tIns.size();
+    		for(ScheduleTest sInfo : sList){
+    			if((sInfo.scheduleDate.after(start) && sInfo.scheduleDate.before(end)) || sInfo.scheduleDate.equals(end)){
+    				schedCount++;
+    			}
+    		}
+    		
+    		for(TradeIn tInfo : tIns){
+    			if((tInfo.tradeDate.after(start) && tInfo.tradeDate.before(end)) || tInfo.tradeDate.equals(end)){
+    				tradeCount++;
+    			}
+    		}
+    		
+    		
+    		anVm.leadsCount = requCount + schedCount + tradeCount;
     		
     		Location loc = Location.findById(vehicle.locations.id);
     		anVm.location= loc.name;
@@ -18664,18 +18684,22 @@ if(vehicles.equals("All")){
     		anVm.price = vehicle.getPrice();
     		//anVm.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		anVm.name=vehicle.getTitle();
+    		
     		if(pagesCount1.get(vehicle.getVin()) !=null){
     			anVm.count =  pagesCount1.get(vehicle.getVin());
     		}else{
     			anVm.count = 0;
     		}
+    		
     		anVm.followerCount = 0;
     		anVm.stockNumber = vehicle.stock;
     		for (PriceAlert priceAlert : pAlert) {
 				PriceAlert alt = PriceAlert.findById(priceAlert.id);
-				if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
-					anVm.followerCount++;
-	    		}
+				if((alt.currDate.after(start) && alt.currDate.before(end)) || alt.currDate.equals(end)){
+					if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
+						anVm.followerCount++;
+		    		}
+				}
 			}
     		if(!searchBy.equals("0") && !search.equals("0")){
     			if(searchBy.equals("Model")){
@@ -18692,11 +18716,11 @@ if(vehicles.equals("All")){
     		}
     	}
     	
-    	if(filterBy.equals("countHigh")){
+    	if(filterBy.equals("countLow")){
     		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountHigh());
     		java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorCountHigh());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorCountHigh());
-    	}else if(filterBy.equals("countLow")){
+    	}else if(filterBy.equals("countHigh")){
     		java.util.Collections.sort(worstVisitedVms,new VehicleVMComparatorCountLow());
         	java.util.Collections.sort(topVisitedVms,new VehicleVMComparatorCountLow());
         	java.util.Collections.sort(allVehical,new VehicleVMComparatorCountLow());
