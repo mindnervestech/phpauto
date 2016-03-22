@@ -2807,6 +2807,7 @@ angular.module('newApp')
 	    			$scope.lead.stockWiseData = $scope.stockWiseData;
 	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
+	    				
 	    				$scope.getVisitedData('week','countHigh','0','0','All');
 	    				$scope.userLocationData('Week','person');
 	    				$scope.getAllSalesPersonRecord($scope.salesPerson);

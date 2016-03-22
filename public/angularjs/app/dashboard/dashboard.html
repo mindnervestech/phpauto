@@ -3836,13 +3836,18 @@ margin-left: 5px;
 			    		</ul>
 				        
 						   <div ng-if="reqMore" ui-grid="gridOptions5" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+						   <div class="watermark" ng-show="!gridOptions5.data.length" >NO LEADS TO DISPLAY</div>
 												</div>
 							<div ng-if="testdrv" ui-grid="gridOptions2" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<div class="watermark" ng-show="!gridOptions2.data.length" >NO LEADS TO DISPLAY</div>
 												</div> 
 							<div ng-if="trdin" ui-grid="gridOptions3" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<div class="watermark"ng-show="!gridOptions3.data.length" >NO LEADS TO DISPLAY</div>
 												</div>
 							<div ng-if="allLeadd" ui-grid="gridOptions7" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-												</div>									
+							<div class="watermark" ng-show="!gridOptions7.data.length" >NO LEADS TO DISPLAY</div>
+											</div>	
+																				
 																			
 				      </div>
 				      
@@ -8451,6 +8456,15 @@ margin-left: 5px;
 	 margin-top: 2px;
 }
 
+.watermark {
+    position: absolute;
+    top : 80px;
+    opacity: 0.25;
+    font-size: 3em;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}
 .preview {
     position: absolute;
     left: 11px;
