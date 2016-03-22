@@ -433,7 +433,7 @@ margin-left: 5px;
 						             <div class="panel">
 						             <div class="col-sm-12">
 						           
-						           <div class="col-sm-3">
+						           <div class="col-sm-4">
 									     <h4 class="col-sm-12"><b>MY STATISTICS</b></h4>
 									     <div class="col-sm-12" ng-if="userRole == 'Manager'">
 									     <!--  -->
@@ -455,7 +455,7 @@ margin-left: 5px;
 									     <!-- 	<a class="glyphicon glyphicon-zoom-in"></a> -->
 									     </div>
 									     </form>
-									     <div class="col-sm-4" style="margin-top:3%;">
+									     <div class="col-sm-2" style="margin-top:3%;margin-left: 3%">
 									     		<!-- <label><a ng-click="userLocationData('Week',dataLocOrPerWise)" style="cursor: pointer;font-size: 18px;">Weekly</a> | </label>
 									     		<label><a ng-click="userLocationData('Month',dataLocOrPerWise)" style="cursor: pointer;font-size: 18px;">Monthly</a> | </label>
 									     		<label><a ng-click="userLocationData('Quater',dataLocOrPerWise)" style="cursor: pointer;font-size: 18px;">Quarter</a> | </label>
@@ -1125,7 +1125,7 @@ margin-left: 5px;
                               <div class="append-icon">
                               	<select  class="form-control" ng-model="schmeeting.assignedTo" required>
 								   <option ng-selected="true" value="">Select User</option>
-						           <option ng-repeat="u in user" value="{{u.id}}">{{u.firstName}}</option>
+						           <option ng-repeat="u in user" value="{{u.id}}">{{u.firstName}} {{u.lastName}}</option>
 						        </select>
                               </div>
                             </div>
