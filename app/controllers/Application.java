@@ -20224,7 +20224,7 @@ if(vehicles.equals("All")){
 				vehicleInformation.addCell(vin);
 
 				PdfPCell vinValue = new PdfPCell(new Paragraph(
-						tradeIn.getVin(), font2));
+						leadVM.vin, font2));
 				vinValue.setBorderColor(BaseColor.WHITE);
 				vinValue.setBorderWidth(1f);
 				vehicleInformation.addCell(vinValue);
