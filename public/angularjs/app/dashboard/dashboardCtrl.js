@@ -584,13 +584,14 @@ angular.module('newApp')
       $scope.showVehicalBarChart = function(volumeStatStartDateId,volumeStatEndDateId){
     	  $scope.showvehical = 0;
     	  $scope.showBarvehical = 1;
-    	  var startD = $('#volumeStatStartDateId').val();
-		   var endD = $('#volumeStatEndDateId').val();
-    	  console.log(":::");
-    	  console.log(startD);
-    	  console.log(endD);
+    	  if(volumeStatStartDateId == undefined || volumeStatEndDateId == undefined ){
+    		  volumeStatStartDateId = $('#volumeStatStartDateId').val();
+    		  volumeStatEndDateId = $('#volumeStatEndDateId').val();
+    	  }
     	  
-    	   $http.get('/getSoldVehicleDetails'+"/"+startD+"/"+endD)
+    	
+    	  
+    	   $http.get('/getSoldVehicleDetails'+"/"+volumeStatStartDateId+"/"+volumeStatEndDateId)
    		.success(function(data) {
    		$scope.locationDataList = data;	
        
