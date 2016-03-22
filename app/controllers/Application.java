@@ -4104,7 +4104,7 @@ public class Application extends Controller {
 		    	/*List<FollowBrand> brandList = FollowBrand.getBrandsByEmail(email);
 		    	for(FollowBrand brandObj: brandList) {*/
 		    		
-		    		List<Vehicle> vehicleList = Vehicle.getVehiclesByMake(row.brand);
+		    		List<Vehicle> vehicleList = Vehicle.getVehiclesByMake(row.brand, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 		    		List<VehicleVM> vehicleVMList = new ArrayList<>();
 		    		
 		    		for(Vehicle vehicle: vehicleList) {
@@ -18814,7 +18814,8 @@ if(vehicles.equals("All")){
     
     public static Result getMakes() {
     	Set<String> makes = new HashSet<String>();
-    	List<Vehicle> vehicles = Vehicle.getAllVehicles();
+    	
+    	List<Vehicle> vehicles = Vehicle.findByLocation(Long.valueOf(session("USER_LOCATION")));
     	for(Vehicle vehicle:vehicles) {
     		makes.add(vehicle.getMake());
     	}
@@ -18825,7 +18826,7 @@ if(vehicles.equals("All")){
     
     public static Result getModels(String make) {
     	Set<String> models = new HashSet<String>();
-    	List<Vehicle> vehicles = Vehicle.getVehiclesByMake(make);
+    	List<Vehicle> vehicles = Vehicle.getVehiclesByMake(make, Location.findById(Long.valueOf(session("USER_LOCATION"))));
     	for(Vehicle vehicle:vehicles) {
     		models.add(vehicle.getModel());
     	}

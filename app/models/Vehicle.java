@@ -883,8 +883,8 @@ public class Vehicle extends Model {
 		return find.where().eq("locations.id", location).eq("bodyStyle", bodyStyle).eq("status", "Sold").findList();
 	}
 	
-	public static List<Vehicle> getVehiclesByMake(String make) {
-		return find.where().eq("make", make).findList();
+	public static List<Vehicle> getVehiclesByMake(String make, Location location) {
+		return find.where().eq("make", make).eq("locations",location).findList();
 		
 	}
 	public static List<Vehicle> findByStock(String stock,Location location) {
