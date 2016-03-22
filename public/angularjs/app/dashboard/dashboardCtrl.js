@@ -574,7 +574,7 @@ angular.module('newApp')
     	  
       });
       
-      
+      $scope.msgShow = 0;
       
       /*------------------------financial-charts----------------------------------*/
       $scope.showvehical = 0;
@@ -594,7 +594,12 @@ angular.module('newApp')
     	   $http.get('/getSoldVehicleDetails'+"/"+volumeStatStartDateId+"/"+volumeStatEndDateId)
    		.success(function(data) {
    		$scope.locationDataList = data;	
-       
+   		console.log(data);
+       if(data.length == 0){
+    	   $scope.msgShow = 1;
+       }else{
+    	   $scope.msgShow = 0;
+       }
    		
          var items = Array($scope.locationDataList);
          var randomData = $scope.locationDataList;
@@ -660,9 +665,21 @@ angular.module('newApp')
       $scope.arrayname = [];
       
       $scope.showVehicalFinancialChartByBodyStyle = function(){
+    	  
+    	  var volumeStatStartDateId = $('#volumeStatStartDateId').val();
+		  var volumeStatEndDateId = $('#volumeStatEndDateId').val();
+		  
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
-    	  	$http.get('/getFinancialVehicleDetailsByBodyStyle').success(function(data) {
+    	  	$http.get('/getFinancialVehicleDetailsByBodyStyle/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+    	  		console.log(data);
+    	  		$scope.msgShow = 1;
+    	  		angular.forEach(data, function(value, key) {
+    	  			if(value.data.length != 0){
+    	  				$scope.msgShow = 0;
+    	  			}
+    	  		});
+    	  		
     	  		 createChart(data);
   			});
     	  
@@ -672,7 +689,24 @@ angular.module('newApp')
       $scope.showVehicalFinancialChart = function(){
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
-    	  	$http.get('/getFinancialVehicleDetails').success(function(data) {
+    	  
+    	  var volumeStatStartDateId = $('#volumeStatStartDateId').val();
+		  var volumeStatEndDateId = $('#volumeStatEndDateId').val();
+    	  
+    	  	$http.get('/getFinancialVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+    	  		console.log(data);
+    	  		$scope.msgShow = 1;
+    	  		angular.forEach(data, function(value, key) {
+    	  			if(value.data.length != 0){
+    	  				$scope.msgShow = 0;
+    	  			}
+    	  		});
+    	  		
+    	  		/*if(data.length == 0){
+    	     	   $scope.msgShow = 1;
+    	        }else{
+    	     	   $scope.msgShow = 0;
+    	        }*/
     	  		 createChart(data);
   			});
     	  
@@ -745,13 +779,20 @@ angular.module('newApp')
       /*----------------Bar-Charts-------------------*/
       $scope.showVehicalBarAvgSale = function(){
     	  
+    	  var volumeStatStartDateId = $('#volumeStatStartDateId').val();
+		  var volumeStatEndDateId = $('#volumeStatEndDateId').val();
+    	  
     	  $scope.showBarvehical = 1;
     	  $scope.showvehical = 0;
     	  
-    	  $http.get('/getSoldVehicleDetailsAvgSale')
+    	  $http.get('/getSoldVehicleDetailsAvgSale/'+volumeStatStartDateId+"/"+volumeStatEndDateId)
   		.success(function(data) {
-  		$scope.locationDataList = data;	
-      
+  			$scope.locationDataList = data;	
+  			if(data.length == 0){
+	     	   $scope.msgShow = 1;
+	        }else{
+	     	   $scope.msgShow = 0;
+	        }
   		
         var items = Array($scope.locationDataList);
         var randomData = $scope.locationDataList;
@@ -815,7 +856,7 @@ angular.module('newApp')
       
       
       
-      $http.get('/getSoldVehicleDetails')
+      /*$http.get('/getSoldVehicleDetails')
 		.success(function(data) {
 		$scope.locationDataList = data;	
     
@@ -877,7 +918,7 @@ angular.module('newApp')
               }
           ]
       });
-  });
+  });*/
       
       /*----------------------*/
 
@@ -1139,7 +1180,7 @@ angular.module('newApp')
       			 		 		                                 },
      			 		 		                                			 		 		                                 
      			 		 		                                { name: 'edit', displayName: '', width:'5%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-     			 		    		                                 cellTemplate:' <a ng-click="grid.appScope.getTradeData(row)" href="/showPdf/{{row.entity.id}}" target="_blank" style="margin-top:7px;margin-left:6px;" >View</a>',
+     			 		    		                                 cellTemplate:' <a ng-click="grid.appScope.getTradeData(row)" href="/showPdf/{{row.entity.id}}" data-title="A new page" target="_blank" style="margin-top:7px;margin-left:6px;" >View</a>',
      			 		    		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      			 		    		                                	 if (row.entity.noteFlag != 1) {
      			 		    		                                         return 'red';
@@ -1366,7 +1407,7 @@ angular.module('newApp')
      	     		     			 		 		                                 
      	     		     			 		 		                                			 		 		                                 
      	     		     			 		 		                                { name: 'edit', displayName: '', width:'4%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-     	     		     			 		    		                                 cellTemplate:' <a ng-click="grid.appScope.getTradeData(row)" ng-show="row.entity.typeOfLead == \'Trade-In Appraisal\'" href="/showPdf/{{row.entity.id}}" target="_blank" style="margin-top:7px;margin-left:6px;" >View</a>',
+     	     		     			 		    		                                 cellTemplate:' <a ng-click="grid.appScope.getTradeData(row)" ng-show="row.entity.typeOfLead == \'Trade-In Appraisal\'" href="/showPdf/{{row.entity.id}}" data-title="A new page" target="_blank" style="margin-top:7px;margin-left:6px;" >View</a>',
      	     		     			 		    		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     		     			 		    		                                 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
      	     		     			 		    		                                         return 'red';
@@ -2159,6 +2200,10 @@ angular.module('newApp')
     				$scope.startDateV = $filter('date')(startdate, 'yyyy-MM-dd');
     				$scope.endDateV = $filter('date')(date, 'yyyy-MM-dd');
     				$scope.visitorsStats($scope.startDateV, $scope.endDateV);
+    				
+    				$scope.volumeStatStartDate = $filter('date')(startdate, 'yyyy-MM-dd');
+    				$scope.volumeStatEndDate = $filter('date')(date, 'yyyy-MM-dd');	
+    				$scope.showVehicalBarChart($scope.volumeStatStartDate, $scope.volumeStatEndDate);
     				
     			  $scope.showVehicalBarChart();
     			  $scope.getPerformanceOfUser();
