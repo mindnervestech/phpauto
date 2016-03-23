@@ -2189,27 +2189,28 @@ angular.module('newApp')
     		  $scope.init = function() {
     			 $scope.check={};
     			  var date = new Date();
-    			   var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
-    			   console.log(date);
-    				$scope.check.startDate=$filter('date')(startdate, 'dd-MM-yyyy');
-    				console.log("date::::");
-    				console.log($scope.check.startDate);
-    				$scope.check.endDate=$filter('date')(date, 'dd-MM-yyyy');
-    				console.log($scope.check.endDate);
     			  
-    				$scope.startDateV = $filter('date')(startdate, 'yyyy-MM-dd');
-    				$scope.endDateV = $filter('date')(date, 'yyyy-MM-dd');
-    				$scope.visitorsStats($scope.startDateV, $scope.endDateV);
-    				
-    				$scope.volumeStatStartDate = $filter('date')(startdate, 'yyyy-MM-dd');
-    				$scope.volumeStatEndDate = $filter('date')(date, 'yyyy-MM-dd');	
-    				$scope.showVehicalBarChart($scope.volumeStatStartDate, $scope.volumeStatEndDate);
-    				
-    			  $scope.showVehicalBarChart();
-    			  $scope.getPerformanceOfUser();
+    			  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
+  				$scope.check.startDate=$filter('date')(startdate, 'dd-MM-yyyy');
+  				console.log("date::::");
+  				console.log($scope.check.startDate);
+  				$scope.check.endDate=$filter('date')(date, 'dd-MM-yyyy');
+  				console.log($scope.check.endDate);
+  			  
+  				$scope.startDateV = $filter('date')(startdate, 'yyyy-MM-dd');
+  				$scope.endDateV = $filter('date')(date, 'yyyy-MM-dd');
+  				$scope.visitorsStats($scope.startDateV, $scope.endDateV);
+  				
+  				$scope.volumeStatStartDate = $filter('date')(startdate, 'yyyy-MM-dd');
+  				$scope.volumeStatEndDate = $filter('date')(date, 'yyyy-MM-dd');	
+  				$scope.showVehicalBarChart($scope.volumeStatStartDate, $scope.volumeStatEndDate);
+  				
+    			 
     			 if($scope.locationValue == null){
     				 $scope.getSalesDataValue(0);
     			 }
+    			 
+    			 
     			 
     			$scope.cal_whe_flag = true;
    			   	$(".wheth-report").hide();
@@ -2236,8 +2237,9 @@ angular.module('newApp')
 							 }	
 						 }
 			    		  $(".multidatepicker").multiDatesPicker({
-			    			  addDates:datesArray,
-			        			  onSelect : function(dateText, inst){
+			    			  		addDates:datesArray,
+			        			  onSelect: function(dateText, inst){
+			        				  console.log("inside select")
 			        				  $scope.showToDoList = true;
 			        				  $scope.showCalendar = false;
 			        				  $scope.selectedDate = dateText;
@@ -2252,7 +2254,10 @@ angular.module('newApp')
 			        				  $scope.getScheduleBySelectedDate($scope.editdate);
 			        			  }
 			    		  });
+			    		  console.log($(".multidatepicker"));
 					});
+		    		  
+		    		 
     		  
 		    		  $http.get('/getUsersToAssign')
 						.success(function(data) {
@@ -2264,6 +2269,9 @@ angular.module('newApp')
 		    		  $('#weekPerf').css("text-decoration","underline");
 		    		  $scope.topPerformers = true;
 		    		  $scope.weekPerformance = true;
+
+	    			  $scope.showVehicalBarChart();
+	    			  $scope.getPerformanceOfUser();
 		    		  $scope.getPerformanceOfUser();
 		    		  $scope.vehicleData("All");
     		  };  
@@ -2774,7 +2782,7 @@ angular.module('newApp')
 	    			//($scope.lead.makeSelect!='' && $scope.lead.modelSelect!='')) ||
 	    			
 	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' ||  
-	    					 $scope.lead.leadType =='' || $scope.lead.contactedFrom==''/*||$scope.lead.enthicity==''||$scope.lead.enthicity==null*/) {
+	    					 $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
 	    				$scope.isInValid = true;
 	    			} else {
 	    				$scope.isInValid = false;

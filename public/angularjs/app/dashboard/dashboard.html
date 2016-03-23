@@ -581,10 +581,10 @@ margin-left: 5px;
     			     <div class="panel widget-weather"></div>
         </div>
        
-        <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;">
+        <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;height: 79px;overflow: auto;">
         		<strong ng-show="scheduleListData.length > 0">Future Appointments</strong>
         		<strong ng-show="scheduleListData.length <= 0">No Future Appointments</strong>
-                      <div ng-repeat="sd in scheduleListData" ng-class="($index % 2 == 0)?'futureA':'futureB'">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime | date:'HH:mm a'}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="glyphicon glyphicon-trash"></i></button>
+                      <div ng-repeat="sd in scheduleListData" ng-class="($index % 2 == 0)?'futureA':'futureB'">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="glyphicon glyphicon-trash"></i></button>
                       </div>
                   </div>
             <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
@@ -659,7 +659,7 @@ margin-left: 5px;
 								    			<div class="col-sm-2">
 								     						<h6 class="col-sm-12"><a style="cursor: pointer;font-size:17px;" id="topPerf" ng-class="currentSelectedType == 0 ?'underline':''" ng-if="notchange == 0" ng-click="showTopVisited()">My Leads</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;font-size: 17px;"ng-if="notchange == 0" ng-class="currentSelectedType == 2 ?'underline':''" ng-click="showAllvehicles()">All Vehicles</a><!-- &nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer;" ng-class="currentSelectedType == 1 ?'underline':''" ng-click="showWorstVisited()">WORST VISITED</a> --></h6>
 								     			</div>
-								     			<div class="col-sm-2" style="padding: 0px;">
+								     			<div class="col-sm-2" style="padding: 0px;width: 11%;">
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-eye-open" style="color: darkturquoise;font-size: 18px;"title="Views" ng-click="topListingCount('count',countFlag)"></span></h6>
 								     						<h6 class="col-sm-1"><span class="glyphicon glyphicon-usd" style="color: darkturquoise;font-size: 18px;"title="Amount" ng-click="topListingPrice('price',priceFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
@@ -677,7 +677,17 @@ margin-left: 5px;
 															
 												</div>
 												<div class="col-sm-2" style="padding: 0px;" > 
-								     						<h6 class="col-sm-12"><span class="col-sm-12"><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a></span><span class="col-sm-12" ng-if="search == 'Make'" ><input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" style="margin-top: 6px;" class="col-sm-6"></span><span class="col-sm-12" ng-if="search == 'Model'"><input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" style="margin-top: 6px;" class="col-sm-6"></span></h6>
+								     						<h6 class="col-sm-12">
+								     								<span class="col-sm-4" ng-if="search == 'Make'" style="padding: 0px;">
+								     									<input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" style="margin-top: 6px;padding: 0px;" class="col-sm-11">
+								     								</span>
+								     								<span class="col-sm-4" ng-if="search == 'Model'" style="padding: 0px;">
+								     									<input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" style="margin-top: 6px;padding: 0px;" class="col-sm-11">
+								     								</span>
+								     								<span class="col-sm-8" style="padding: 0px;">
+								     									<a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a>
+								     								</span>
+								     						</h6>
 								     			</div>
 								     			<div class="col-sm-2" style="padding: 0px;" >
 								     						<h6 class="col-sm-12"><a style="cursor:pointer;font-size: 18px;" id="weekPerf" ng-class="currentSelectedWeekDuration == 1 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedMonthDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedAllTimeDuration == 1 ?'underline':''" ng-click="showAllTimeVisited()">All Time</a></h6>

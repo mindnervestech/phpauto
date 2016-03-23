@@ -359,7 +359,7 @@ public class ScheduleTest extends Model {
 	
 	
 	public static List<ScheduleTest> findAllByUserServiceTest(AuthUser user) {
-		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).ne("confirmDate",null).eq("lead_status", null).orderBy("confirmDate desc").setMaxRows(3).findList();
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).ne("confirmDate",null).eq("lead_status", null).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findByVinAndAssignedUser(AuthUser user,String vin) {

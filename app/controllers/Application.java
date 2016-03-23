@@ -22008,7 +22008,15 @@ if(vehicles.equals("All")){
 	public static Result getScheduleTestData(){
         AuthUser user = getLocalUser();
         List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user);
-        return ok(Json.toJson(list));
+        
+        List<ScheduleTestVM> shList = new ArrayList<ScheduleTestVM>();
+        for(ScheduleTest scTest:list){
+        	ScheduleTestVM sTestVM = new ScheduleTestVM();
+        	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
+        	sTestVM.confirmTime =  new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
+        	shList.add(sTestVM);
+        }
+        return ok(Json.toJson(shList));
     }
 	
 	public static Result getDealerProfile(){
@@ -22786,7 +22794,7 @@ if(vehicles.equals("All")){
 			checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];*/
 			
 			moTest.confirmDate = df.parse(vm.getBestDay());
-			moTest.confirmTime = new SimpleDateFormat("HH:mm a").parse(vm.getBestTime());
+			moTest.confirmTime = new SimpleDateFormat("hh:mm a").parse(vm.getBestTime());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
