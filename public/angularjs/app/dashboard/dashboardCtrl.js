@@ -2854,7 +2854,8 @@ angular.module('newApp')
 	    				else
 	    					$scope.getTradeInData();
 	    			});*/
-	    			window.location.reload();
+	    			$scope.reloadAllLeads();
+	    			//window.location.reload();
 	    			//$scope.requestMore();
 	    			//$scope.getAllLeadIn();
 	    			//$scope.testDrive();
