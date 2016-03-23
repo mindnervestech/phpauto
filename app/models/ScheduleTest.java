@@ -367,7 +367,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findByDateAndAssignedUser(AuthUser user,Date date) {
-		return find.where().eq("assignedTo", user).eq("confirmDate", date).findList();
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).eq("confirmDate", date).findList();
 	}
 	
 	public static List<ScheduleTest> findByConfirmLeads(Long locationId, AuthUser user) {

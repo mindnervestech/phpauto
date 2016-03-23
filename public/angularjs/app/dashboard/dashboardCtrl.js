@@ -2244,7 +2244,10 @@ angular.module('newApp')
 					        	datesArray.push(date);
 							 }	
 						 }
-			    		  $(".multidatepicker").multiDatesPicker({
+						 
+						// set up some code to be executed later, in 5 seconds (5000 milliseconds):
+						  setTimeout(function () {
+							  $(".multidatepicker").multiDatesPicker({
 			    			  		addDates:datesArray,
 			        			  onSelect: function(dateText, inst){
 			        				  console.log("inside select")
@@ -2252,17 +2255,22 @@ angular.module('newApp')
 			        				  $scope.showCalendar = false;
 			        				  $scope.selectedDate = dateText;
 //			        				  var date = new Date();
-									 var arr1 = [];										
+			        				  
+			        				  $scope.editdate = dateText;
+									 /*var arr1 = [];										
 			        				    arr1 = dateText.split('/');
 			        				    if(arr1.length > 2){
 			        				    	$scope.editdate = arr1[2]+"-"+arr1[0]+"-"+arr1[1];
 			        				    }else{
 			        				    	$scope.editdate =arr1[0];
-			        				    }
+			        				    }*/
 			        				  $scope.getScheduleBySelectedDate($scope.editdate);
 			        			  }
 			    		  });
 			    		  console.log($(".multidatepicker"));
+						  }, 5000);
+						  
+			    		  
 					});
 		    		  
 		    		 
