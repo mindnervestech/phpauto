@@ -2198,6 +2198,8 @@ angular.module('newApp')
     			 $scope.check={};
     			  var date = new Date();
     			  
+    			  $scope.getPerformanceOfUser();
+    			  
     			  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
   				$scope.check.startDate=$filter('date')(startdate, 'dd-MM-yyyy');
   				console.log("date::::");
@@ -2217,8 +2219,7 @@ angular.module('newApp')
     			 if($scope.locationValue == null){
     				 $scope.getSalesDataValue(0);
     			 }
-    			 
-    			 
+    			
     			 
     			$scope.cal_whe_flag = true;
    			   	$(".wheth-report").hide();
@@ -2285,10 +2286,8 @@ angular.module('newApp')
 		    		  $('#weekPerf').css("text-decoration","underline");
 		    		  $scope.topPerformers = true;
 		    		  $scope.weekPerformance = true;
-
 	    			  $scope.showVehicalBarChart();
-	    			  $scope.getPerformanceOfUser();
-		    		  $scope.getPerformanceOfUser();
+
 		    		  $scope.vehicleData("All");
     		  };  
     		  
