@@ -81,7 +81,7 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Phone *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white"style="border-color:red;" maxlength="10" minlength="10" ng-model="myprofile.phone" type="text" pattern="\d*" title="Please enter numbers" required   >
+		<input class="form-control form-white"style="border-color:red;" maxlength="10" minlength="10" ng-model="myprofile.phone" type="text" pattern="[0-9]{10}" title="Please enter numbers" required   >
 	</div>
 </div>
 
@@ -180,7 +180,7 @@
 						<div class="form-group col-sm-12">
 							<label class="col-sm-2 control-label" maxlength="10" minlength="10" style="text-align: right;">Phone *</label>
 								<div class="col-sm-6">
-									<input class="form-control form-white" type="text" ng-model="user.phone"  required>
+									<input class="form-control form-white" type="text" ng-model="user.phone" maxlength="10" minlength="10" pattern="[0-9]{10}" title="Please enter numbers" required>
 								</div>
 						</div>
 						
@@ -236,7 +236,7 @@
 						<div class="form-group col-sm-12">
 							<label class="col-sm-3 control-label" style="text-align: right;">Phone *</label>
 								<div class="col-sm-6">
-									<input class="form-control form-white" type="text" ng-model="user.phone"  required>
+									<input class="form-control form-white" type="text" ng-model="user.phone" maxlength="10" minlength="10" pattern="[0-9]{10}" title="Please enter numbers" required>
 								</div>
 						</div>
 						
@@ -318,7 +318,7 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Phone *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" type="text" ng-model="managerProfile.phone" required>
+		<input class="form-control form-white" type="text" ng-model="managerProfile.phone" maxlength="10" minlength="10" pattern="[0-9]{10}" title="Please enter numbers" required>
 	</div>
 </div>
 <div class="form-group col-sm-12">
