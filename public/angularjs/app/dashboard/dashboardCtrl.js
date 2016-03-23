@@ -2014,10 +2014,18 @@ angular.module('newApp')
     	
     		 $scope.visitorsStats = function(startDate, endDate){
     			 
-    			 if(startDate == undefined || endDate == undefined){
+    			
+    			 if($("#vstartDate").val() == "" || $("#vendDate").val() == ""){
+    				 if(startDate == undefined || endDate == undefined){
+        				 startDate =  $("#vstartDate").val();
+            			 endDate = $("#vendDate").val();
+            			 
+        			 }
+    			 }else{
     				 startDate =  $("#vstartDate").val();
         			 endDate = $("#vendDate").val();
     			 }
+    			 
     			
     			 
     			  $http.get('/getMonthlyVisitorsStats/'+startDate+"/"+endDate).success(function(response) {

@@ -16494,7 +16494,7 @@ public class Application extends Controller {
         String year = c.get(Calendar.YEAR)+"";
     	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
     	Integer dateOfMonth = c.get(Calendar.DAY_OF_MONTH);
-    	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&date="+year+"-"+month+"-"+dateOfMonth+"&type=visitors-online&limit=all"));
+    	JsonNode onlineVisitorsNode = Json.parse(callClickAPI("&date="+startDate+","+endDate+"&type=visitors-online&limit=all"));
     	
     	JsonNode visitorsNode = Json.parse(callClickAPI("&type=visitors,actions,actions-average,time-total-pretty,time-average-pretty,bounce-rate,goals,revenue&date="+startDate+","+endDate+"&limit=all"));
     	JsonNode pagesNodeList = Json.parse(callClickAPI("&type=pages&date="+startDate+","+endDate+"&limit=all"));
