@@ -3394,7 +3394,8 @@ angular.module('newApp')
 				    type:'success',
 				    text: "User assigned successfully",
 				});
-				$scope.getAllCanceledLeads();
+				//$scope.getAllCanceledLeads();
+				$route.reload();
 			});
         	
         }
@@ -3614,7 +3615,8 @@ angular.module('newApp')
     				    type:'success',
     				    text: "Status changed successfully",
     				});
-					$scope.getAllSalesPersonRecord($scope.salesPerson);
+					//$scope.getAllSalesPersonRecord($scope.salesPerson);
+					$route.reload();
 					/*for(var i=0;i<$scope.scheduleList.length;i++) {
 	 					if($scope.scheduleStatusCancel.id == $scope.scheduleList[i].id) {
 	 						$scope.scheduleList.splice(i,1);
