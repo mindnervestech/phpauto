@@ -2838,7 +2838,11 @@ angular.module('newApp')
 	    				else
 	    					$scope.getTradeInData();
 	    			});*/
-	    			//$route.reload();
+	    			window.location.reload();
+	    			//$scope.requestMore();
+	    			//$scope.getAllLeadIn();
+	    			//$scope.testDrive();
+	    			//$scope.tradeIn();
 	    		};
 	    		
 	    		$scope.makeLeadEdit = function(){
@@ -3369,6 +3373,7 @@ angular.module('newApp')
         	$scope.cancelId = entity.id;
         	$scope.leadType = entity.typeOfLead;
         	$scope.changedUser = "";
+        	$scope.getSalesDataValue($scope.locationValue);
         	$('#btnAssignUser').click();
         }
         
