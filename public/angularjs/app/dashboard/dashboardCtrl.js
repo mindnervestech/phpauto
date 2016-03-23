@@ -2854,8 +2854,11 @@ angular.module('newApp')
 	    				else
 	    					$scope.getTradeInData();
 	    			});*/
-	    			$scope.reloadAllLeads();
-	    			//window.location.reload();
+	    			//$scope.reloadAllLeads();
+	    			if($scope.lead.leadType != '3'){
+	    				window.location.reload();
+	    			}
+	    			
 	    			//$scope.requestMore();
 	    			//$scope.getAllLeadIn();
 	    			//$scope.testDrive();
@@ -2907,6 +2910,7 @@ angular.module('newApp')
 	    				else {
 	    					$scope.getTradeInData();
 	    					$("#tradeInApp").modal('hide');
+	    					window.location.reload();
 	    				}
 	    				$scope.initialiase();
 	    			});
