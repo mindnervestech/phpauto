@@ -19339,32 +19339,50 @@ if(vehicles.equals("All")){
      	lDataVM.priceRang = bSetVMPriceRang;
      	
      	List<bodyStyleSetVM> bSetVMsPlan = new ArrayList<>();
-      	List<PlanScheduleMonthlySalepeople> pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByListUser(users); 
+      	List<PlanScheduleMonthlySalepeople> pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByListUser(users);
+      	System.out.println(":::::::plancomplete");
+      	System.out.println(pMonthlySalepeople);
+      	
+      	 String[] changVls = { "January", "February", "March", "April", "May", "June", "July",
+  		        "August", "September", "October", "November", "December" };
+     	for(int i=0;i<12;i++){
+     		bodyStyleSetVM nSetVM1 = new bodyStyleSetVM();
+     		nSetVM1.name = changVls[i];
+     		nSetVM1.value=0;
+     		bSetVMsPlan.add(nSetVM1);
+     		
+     	}
+      	 
+      	
         for(PlanScheduleMonthlySalepeople pSalepeople: pMonthlySalepeople){
-        	bodyStyleSetVM nSetVM = new bodyStyleSetVM();
+        	//bodyStyleSetVM nSetVM = new bodyStyleSetVM();
         	Date nowDate = new Date();
+        	for(bodyStyleSetVM nSetVM:bSetVMsPlan){
+        		
         	
         	Calendar calnow = Calendar.getInstance();
         	calnow.setTime(nowDate);
-
+           
             int month = calnow.get(Calendar.MONTH);
-        	
-        	String changVls = WordUtils.capitalize(pSalepeople.month);
-        	for(int i=0;i<12;i++){
-        		if(monthName[i].equals(changVls)){
-        			if(i <= month){
-        				nSetVM.name = changVls;
-        	        	
+            String changVls1 = WordUtils.capitalize(pSalepeople.month);
+        	//for(int i=0;i<12;i++){
+        		
+        		//System.out.println("::::::monthname"+nSetVM.name);
+        		
+        		if(changVls1.equals(nSetVM.name)){
+        		//	if(i <= month){
+        				nSetVM.name = changVls1;
+        				System.out.println("after if condition"+nSetVM.name);
         	        	double val= ((double)pricecount/Double.parseDouble(pSalepeople.totalBrought));
         	        	nSetVM.value = (int) (val*100);
         	        	
-        	        	bSetVMsPlan.add(nSetVM);
-        			}
-        		}
+        	        	//bSetVMsPlan.add(nSetVM);
+        			//}
+        		//}
         	}
-        	
+        		
         }
-        
+       }  
         lDataVM.planComplete = bSetVMsPlan;
         
         List<RequestMoreInfo> offlineRInfo = RequestMoreInfo.findAllAssignedOffine(users);
