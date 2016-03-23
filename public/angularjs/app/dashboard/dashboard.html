@@ -807,7 +807,11 @@ margin-left: 5px;
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)">
 									                     <img class="circleBase typeNew" ng-if="$index!=index"  style="width: 116px;"  src="{{item.imageUrl}}">
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;margin-left: 0px;"> 
-									                 		<h1 style="color:white;margin-top: 30px;text-align: center;">{{item.per}}%</h1>
+									                 		<h1 ng-if="item.per !='0'" style="color:white;margin-top: 30px;text-align: center;">{{item.per}}%</h1>
+															<h3 ng-if="item.per =='0'" style="color:white; margin-top:10px;text-align: center;line-height: 1.5;">
+																No Plan <br> Added<br>
+																<a class="btn" ng-click="openPlanning()" style="border: white; border-style: double;background-color:darkturquoise;">Add</a>
+															</h3>
 									                 	</div>
 									                 </div> 
 									            </div>
@@ -844,7 +848,7 @@ margin-left: 5px;
 											<label style="font-size: 15px;width: 70px;"><b>{{item.saleCar}}</b></label>
 											
 										</div>
-										<div style="width: 180px;">
+										<div style="width: 180px;" ng-if="item.saleCar !=0 || item.salesAmount !=0 || item.currentLeads !=0 || item.successRate !=0">
 												<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkSalePersonIndex(item,compare)" style="margin-left: 18px;" ng-disabled="(compare == null || compare == false) && comparisonperson.length >=2"> <label style="color: darkturquoise;">Compare</label>
 										</div>
 										<div style="width: 180px;" ng-if="item.flag == 1">
@@ -4646,7 +4650,7 @@ margin-left: 5px;
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title">Edit Leads</h4>
+								                    <h4 class="modal-title">Lead's Info</h4>
 								                </div>
 								                <form ng-submit="editleads()">
 								                <div class="modal-body" style="height:661px;overflow-x:auto;">
