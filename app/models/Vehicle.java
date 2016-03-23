@@ -836,6 +836,10 @@ public class Vehicle extends Model {
 		return find.where().eq("status", status).eq("locations.id", location).findList();
 		
 	}
+	public static List<Vehicle> getVehiclesByStatusAndLocationType(String status, Long location, String type) {
+		return find.where().eq("status", status).eq("locations.id", location).eq("typeofVehicle", type).findList();
+		
+	}
 	
 	public static List<Vehicle> getRandom(String vin) {
 		return find.where().ne("vin", vin).findList();
@@ -864,9 +868,13 @@ public class Vehicle extends Model {
 	public static List<Vehicle> findByNewArrAndLocation(Long location) {
 		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").findList();
 	}
+	public static List<Vehicle> findByNewArrAndLocationType(Long location, String type) {
+		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").eq("typeofVehicle", type).findList();
+	}
 	public static List<Vehicle> findByUserAndNew(AuthUser user) {
 		return find.where().eq("user", user).eq("status", "Newly Arrived").findList();
 	}
+	
 	public static List<Vehicle> findByMakeAndSold(String make, AuthUser user) {
 		return find.where().eq("soldUser", user).eq("make", make).eq("status", "Sold").findList();
 	}

@@ -1,11 +1,22 @@
 <div ng-init = viewVehiclesInit();>
     
-    <h2><b>View Vehicles</b></h2>
+    <div class="col-sm-12">
+    	<div class="col-sm-6">
+    		<h2><b>View Vehicles</b></h2>
+    	</div>	
    <!--  <div>
     <div style="margin-left:57%;float:left;"><button class="btn btn-primary" ng-click="exportDataAsCSV()">AutoTrader csv</button></div>
 	<div style="float:left;"><button class="btn btn-primary" ng-click="exportCarfaxCSV()">Carfax csv</button></div>    
 	<div style="margin-left:3%;"><button class="btn btn-primary" ng-click="exportCarGurusCSV()">CarGurus csv</button></div>
     </div> -->
+    <div class="col-sm-6" style="text-align: right;">
+    <select class="form-control form-white" style="width:150px;" ng-model="type" ng-change="vehicleData(type)"  required>
+				<option value="All">All Vehicles</option>
+				<option value="New" >New</option>
+				<option value="Used">Used</option>																
+			</select>
+	</div>	
+</div>		
     <tabset class="nav-tabs2">
                                 <tab>
                                     <tab-heading>

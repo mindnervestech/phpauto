@@ -6406,6 +6406,8 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('ViewVehiclesCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
 	$scope.tempDate = new Date().getTime();
+	$scope.type = "All";
+	$scope.vType;
      $scope.gridOptions = {
     		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     		    paginationPageSize: 150,
@@ -6494,6 +6496,7 @@ angular.module('newApp')
         				});
     			 };
     			 
+    			 
     			 $scope.historyVehicle = function(row){
     				 console.log(row.entity.vin);
     				 $http.get('/getVehicleHistory/'+row.entity.vin)
@@ -6513,6 +6516,36 @@ angular.module('newApp')
     					$('#imgClose').click();
     				};
     				
+    				$scope.vehicleData = function(sts){
+    					if($scope.vType == 'new'){
+    						 $http.get('/getAllVehiclesByType/'+sts)
+		    			 		.success(function(data) {
+		    			 			for(var i=0;i<data.length;i++) {
+		    			 				data[i].price = "$ "+data[i].price;
+		    			 			}
+		    			 			$scope.vType = "new";
+		    			 			$scope.vehiClesList = data;
+		    			 			$scope.gridOptions.data = data;
+		    			 			console.log(data);
+		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
+		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
+		    			 		});
+    					}
+    					if($scope.vType == 'sold'){
+   						 $http.get('/getAllSoldVehiclesByType/'+sts)
+		    			 		.success(function(data) {
+		    			 			for(var i=0;i<data.length;i++) {
+		    			 				data[i].price = "$ "+data[i].price;
+		    			 			}
+		    			 			$scope.vType = "sold";
+		    			 			$scope.vehiClesList = data;
+		    			 			$scope.gridOptions.data = data;
+		    			 			console.log(data);
+		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
+		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
+		    			 		});
+   					}
+    				};
     				$scope.getImages = function(row) {
     					$location.path('/editVehicle/'+row.entity.id+"/"+true);
     				};
@@ -6522,12 +6555,14 @@ angular.module('newApp')
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
-    		    			 			
+    		    			 			$scope.vType = "sold";
+    		    			 			$scope.type = "All";
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions.data = data;
     		    			 			console.log(data);
-    		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-    		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
+    		    			 			console.log($scope.gridOptions.columnDefs[8]);
+    		    			 			$scope.gridOptions.columnDefs[8].displayName='Sold Date';
+    		    			 			$scope.gridOptions.columnDefs[9].displayName='History';
     		    			 		});
     		    			 }	    			 
     		    			 
@@ -6537,7 +6572,8 @@ angular.module('newApp')
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
-    		    			 			
+    		    			 			$scope.vType = "sold";
+    		    			 			$scope.type = "All";
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions.data = data;
     		    			 			console.log(data);
@@ -6560,10 +6596,10 @@ angular.module('newApp')
  			for(var i=0;i<data.length;i++) {
  				data[i].price = "$ "+data[i].price;
  			}
- 			
  			$scope.vehiClesList = data;
  			$scope.gridOptions.data = data;
  			console.log(data);
+ 			$scope.vType = "new";
  		});
    }
    
