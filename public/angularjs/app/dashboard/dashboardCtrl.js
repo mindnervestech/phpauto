@@ -2315,11 +2315,9 @@ angular.module('newApp')
     		  
     		  $scope.comparisonSalePerson = function(){
     			  var i = 0;
-    			  angular.forEach($scope.comparisonperson, function(value, key) {
-    				  i = key;
-    			  });
+    			 
     			  
-    			  if(i == 1){
+    			  if($scope.comparisonperson.length == 2){
     				  if($scope.comparisonperson[0].totalSalePrice > $scope.comparisonperson[1].totalSalePrice){
     					  $scope.totalSalePricePer = (($scope.comparisonperson[0].totalSalePrice - $scope.comparisonperson[1].totalSalePrice) * 100 / $scope.comparisonperson[0].totalSalePrice).toFixed(2);
     					  if($scope.totalSalePricePer == 'NaN'){
@@ -6229,8 +6227,14 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Meeting Scheduled",
 					});
+				   
+				   $http.get("/getscheduletest").success(function(data){
+					   $scope.scheduleListData = data;
+				   });
 				   $scope.schedulmultidatepicker();
+				   
 			   }); 
+			   
 		   };
 		   
 		   $scope.updateScheduleTest = function(){
