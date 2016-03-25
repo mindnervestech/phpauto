@@ -326,14 +326,23 @@ angular.module('newApp')
 			
 			
 			$scope.getSalesDataValue($scope.locationValue);
-			if($scope.userRole != "General Manager"){
+			
+			if($scope.userRole == "Manager"){
+				$scope.userLocationData('Week','location');
+			}else if($scope.userRole != "General Manager"){
 				$scope.locationValue = data.location.id;
 				$scope.userLocationData('Week','person');
 				
 			}
 			
+			
+			
 			if(locationId != 0){
-				$scope.userLocationData('Week','person');
+				if($scope.userRole == "Manager"){
+					$scope.userLocationData('Week','location');
+				}else{
+					$scope.userLocationData('Week','person');
+				}
 			}else{
 				 $scope.showSelectLocationDash = $scope.locationValue;
 			}
@@ -408,7 +417,7 @@ angular.module('newApp')
 		}
 		
 	 }
-	$scope.dataLocOrPerWise = "person";
+	$scope.dataLocOrPerWise = "location";
 	$scope.showLeads = null;
 	$scope.userLocationData = function(timeSet,locOrPer){
 		
@@ -459,8 +468,15 @@ angular.module('newApp')
 			   $scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
 			   $scope.dataLocOrPerWise = $scope.dataLocOrPerWise;
 		   }else{
-			   $scope.userLocationData('Week','person');
-			   $scope.dataLocOrPerWise = "person";
+			   if($scope.userRole == "Manager"){
+					$scope.userLocationData('Week','location');
+					$scope.dataLocOrPerWise = "location";
+			   }else{
+				   $scope.userLocationData('Week','person');
+				   $scope.dataLocOrPerWise = "person";
+			   }
+			   
+			  
 		   }
 		
 		}, 120000)
@@ -475,7 +491,11 @@ angular.module('newApp')
 	$scope.saveLeads = function(){
 		$http.post("/saveLeads",$scope.leadsTime).success(function(data){
 			 $('#Locationwise-model').modal("toggle");
-			 $scope.userLocationData('Week','person');
+			 if($scope.userRole == "Manager"){
+					$scope.userLocationData('Week','location');
+			   }else{
+				   $scope.userLocationData('Week','person');
+			   }
 		});
 		
 	}
