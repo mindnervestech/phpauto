@@ -2224,7 +2224,26 @@ angular.module('newApp')
     			$scope.cal_whe_flag = true;
    			   	$(".wheth-report").hide();
    			   	$scope.checkManagerLogin();
+   			   	
+   			   	$scope.schedulmultidatepicker();
    			   
+    		  
+		    		  $http.get('/getUsersToAssign')
+						.success(function(data) {
+						$scope.usersList = data;
+					});  
+		    		  $scope.getToDoList();
+		    		  $scope.getMonthChart();
+		    		  $('#topPerf').css("text-decoration","underline");
+		    		  $('#weekPerf').css("text-decoration","underline");
+		    		  $scope.topPerformers = true;
+		    		  $scope.weekPerformance = true;
+	    			  $scope.showVehicalBarChart();
+
+		    		  $scope.vehicleData("All");
+    		  };  
+    		  
+    		  $scope.schedulmultidatepicker = function(){
     			  $scope.showToDoList = false;
 				  $scope.showCalendar = true;
 				  
@@ -2273,23 +2292,7 @@ angular.module('newApp')
 						  
 			    		  
 					});
-		    		  
-		    		 
-    		  
-		    		  $http.get('/getUsersToAssign')
-						.success(function(data) {
-						$scope.usersList = data;
-					});  
-		    		  $scope.getToDoList();
-		    		  $scope.getMonthChart();
-		    		  $('#topPerf').css("text-decoration","underline");
-		    		  $('#weekPerf').css("text-decoration","underline");
-		    		  $scope.topPerformers = true;
-		    		  $scope.weekPerformance = true;
-	    			  $scope.showVehicalBarChart();
-
-		    		  $scope.vehicleData("All");
-    		  };  
+    		  }
     		  
     		  $scope.getToDoList = function() {
     			  $http.get('/getToDoList')
@@ -4478,11 +4481,14 @@ angular.module('newApp')
 			   $scope.appointData = serviceData;
 			   $('#futureAppointmentsModal').click();
 			   
+			   
 		   };
 		   $scope.deleteFutureAppointment = function(){
 			   console.log($scope.appointData.id);
 			   $http.get("/deleteAppointById/"+$scope.appointData.id).success(function(data){
 				   console.log("success");
+				   
+				   $scope.schedulmultidatepicker();
 				   $http.get("/getscheduletest").success(function(data){
 					   $scope.scheduleListData = data;
 				   });
@@ -6219,8 +6225,30 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Meeting Scheduled",
 					});
+				   $scope.schedulmultidatepicker();
 			   }); 
 		   };
+		   
+		   $scope.updateScheduleTest = function(){
+			   $scope.data1.confDate = $('#cnfReSchDate').val();
+			   $scope.data1.confTime = $('#timeSchPick').val();
+			   
+			   console.log($scope.data1);
+			   $http.post("/updateScheduleTest",$scope.data1).success(function(data){
+				   $('#colored-header').modal("toggle");
+				   $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Meeting Scheduled Update",
+					});
+				   
+				   $scope.data1.confirmDate = $('#cnfReSchDate').val();
+				   $scope.data1.confirmTime = $('#timeSchPick').val();
+				  
+				   $scope.schedulmultidatepicker();
+			   }); 
+			   
+		   }
   }]);
 
 angular.module('newApp')
