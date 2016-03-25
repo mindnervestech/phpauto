@@ -22957,47 +22957,86 @@ if(vehicles.equals("All")){
 	
 	public static Result saveMeetingSchedule(){
 		Location loc=null;
-		
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		Form<ScheduleTestVM> form = DynamicForm.form(ScheduleTestVM.class).bindFromRequest();
 		ScheduleTestVM vm = form.get();
 		AuthUser user = getLocalUser();
+		List<AuthUser> userList = new ArrayList<>();
 		if(vm.getLocation()!=null){
-		 loc = Location.findById(Long.parseLong(vm.getLocation()));
+			 loc = Location.findById(Long.parseLong(vm.getLocation()));
+			}
+		if(vm.allStaff.equals(false)){
+				AuthUser assi = AuthUser.findById(Integer.parseInt(vm.getAssignedTo()));
+				ScheduleTest moTest = new ScheduleTest();
+				moTest.assignedTo = assi;
+				moTest.name=vm.getAssignedTo();
+				moTest.bestDay = vm.getBestDay();
+				moTest.bestTime = vm.getBestTime();
+				moTest.email = user.getEmail();
+				moTest.location = vm.getLocation();
+				moTest.name = vm.name;
+				moTest.meetingStatus = "meeting";
+				moTest.phone = user.getPhone();
+				moTest.reason = vm.getReason();
+				moTest.scheduleDate = new Date();
+				moTest.user = user;
+				moTest.isReassigned = false;
+				moTest.is_google_data = false;
+				userList.add(assi);
+				try {			
+					moTest.confirmDate = df.parse(vm.getBestDay());
+					moTest.confirmTime = new SimpleDateFormat("hh:mm a").parse(vm.getBestTime());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				moTest.save();
+		}else{
+			List<AuthUser> userList1 = AuthUser.findByLocatioUsers(loc);
+			for (AuthUser assi : userList1) {
+					ScheduleTest moTest = new ScheduleTest();
+					moTest.assignedTo = assi;
+					moTest.name=vm.getAssignedTo();
+					moTest.bestDay = vm.getBestDay();
+					moTest.bestTime = vm.getBestTime();
+					moTest.email = user.getEmail();
+					moTest.location = vm.getLocation();
+					moTest.name = vm.name;
+					moTest.meetingStatus = "meeting";
+					moTest.phone = user.getPhone();
+					moTest.reason = vm.getReason();
+					moTest.scheduleDate = new Date();
+					moTest.user = user;
+					moTest.isReassigned = false;
+					moTest.is_google_data = false;
+					userList.add(assi);
+					try {			
+						moTest.confirmDate = df.parse(vm.getBestDay());
+						moTest.confirmTime = new SimpleDateFormat("hh:mm a").parse(vm.getBestTime());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					moTest.save();
+			}
 		}
-		AuthUser assi = AuthUser.findById(Integer.parseInt(vm.getAssignedTo()));
-		ScheduleTest moTest = new ScheduleTest();
-		moTest.assignedTo = assi;
-		moTest.name=vm.getAssignedTo();
-		moTest.bestDay = vm.getBestDay();
-		moTest.bestTime = vm.getBestTime();
-		moTest.email = user.getEmail();
-		moTest.location = vm.getLocation();
-		moTest.name = vm.name;
-		moTest.meetingStatus = "meeting";
-		moTest.phone = user.getPhone();
-		moTest.reason = vm.getReason();
-		moTest.scheduleDate = new Date();
-		moTest.user = user;
-		moTest.isReassigned = false;
-		moTest.is_google_data = false;
-		try {
-			/*String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
-			String arrNew[] = arr[3].split(",");
-			checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];*/
-			
-			moTest.confirmDate = df.parse(vm.getBestDay());
-			moTest.confirmTime = new SimpleDateFormat("hh:mm a").parse(vm.getBestTime());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		moTest.save();
-		sendMeetingMailToAssignee(vm, user, assi, loc);
-		sendMeetingMailToOrgnizer(vm, user, assi, loc);
+		
+		
+		sendMeetingMailToAssignee(vm, user, userList, loc);
+		sendMeetingMailToOrgnizer(vm, user, userList, loc);
 		return ok();
 	}
 	
-	public static void sendMeetingMailToAssignee(ScheduleTestVM vm, AuthUser user, AuthUser assi, Location loc){
+	public static void sendMeetingMailToAssignee(ScheduleTestVM vm, AuthUser user, List<AuthUser> userList, Location loc){
+		InternetAddress[] usersArray = new InternetAddress[userList.size()];
+		int index = 0;
+		for (AuthUser assi : userList) {
+			try {
+				usersArray[index] = new InternetAddress(assi.getEmail());
+				index++;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -23013,8 +23052,7 @@ if(vehicles.equals("All")){
 		{
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(emailUsername));
-			message.setRecipients(Message.RecipientType.TO,
-			InternetAddress.parse(assi.getEmail()));
+			message.setRecipients(Message.RecipientType.TO,usersArray);
 			message.setSubject("Meeting Scheduled");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
@@ -23045,6 +23083,7 @@ if(vehicles.equals("All")){
 			multipart.addBodyPart(messageBodyPart);
 			message.setContent(multipart);
 			Transport.send(message);
+			System.out.println("email Succ");
 		}
 		catch (Exception e)
 		{
@@ -23052,7 +23091,12 @@ if(vehicles.equals("All")){
 		}
 	}
 	
-	public static void sendMeetingMailToOrgnizer(ScheduleTestVM vm, AuthUser user, AuthUser assi, Location loc){
+	public static void sendMeetingMailToOrgnizer(ScheduleTestVM vm, AuthUser user, List<AuthUser> userList, Location loc){
+		String meetingBy = "";
+		for (AuthUser assi : userList) {
+			meetingBy = meetingBy + assi.getFirstName()+" "+assi.getLastName()+" , ";
+		}
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -23087,7 +23131,7 @@ if(vehicles.equals("All")){
 	        
 	        context.put("title", vm.name);
 	        context.put("location", loc.getName());
-	        context.put("meetingBy", assi.getFirstName()+" "+assi.getLastName());
+	        context.put("meetingBy", meetingBy);
 	        context.put("date", vm.getBestDay());
 	        context.put("time", vm.getBestTime());
 	        context.put("disc", vm.getReason());
@@ -23100,6 +23144,7 @@ if(vehicles.equals("All")){
 			multipart.addBodyPart(messageBodyPart);
 			message.setContent(multipart);
 			Transport.send(message);
+			System.out.println("email Succ");
 		}
 		catch (Exception e)
 		{

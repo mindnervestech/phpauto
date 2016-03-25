@@ -337,6 +337,9 @@ public class AuthUser extends Model implements Identity {
 	public static List<AuthUser> findByLocatio(Location locations) {
 		return find.where().eq("location", locations).eq("account", "active").findList();
 	}
+	public static List<AuthUser> findByLocatioUsers(Location locations) {
+		return find.where().eq("role", "Sales Person").eq("location", locations).eq("account", "active").findList();
+	}
 	public static List<AuthUser> findByLocationDeactive(Location locations) {
 		return find.where().eq("location", locations).eq("account", "deactive").findList();
 	}
@@ -350,7 +353,7 @@ public class AuthUser extends Model implements Identity {
 	}
 	
 	public static List<AuthUser> getAllUserByLocation(Location locations){
-		return find.where().eq("location", locations).eq("role", "Sales Person").eq("account", "active").findList();
+		return find.where().or(Expr.eq("role", "General Manager"), Expr.eq("role", "Sales Person")).eq("location", locations).eq("account", "active").findList();
 	}
 	
 	public static List<AuthUser> getAllUserByLocationDeactiveAlso(Location locations){

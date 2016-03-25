@@ -31,6 +31,11 @@
 	width: 115px;
     height: 115px;
 }
+.gmClass{
+	color:red;
+	border: solid;
+	text-decoration: underline;
+}
 
  .type {
     width: 115px;
@@ -1138,11 +1143,19 @@ margin-left: 5px;
                               <label class="control-label" ng-if="userType =='General Manager' && showGmLocation == 0">Manager</label>
                               <label class="control-label" ng-if="userType =='Manager' || userType =='Sales Person' || showGmLocation == 1">Sales User</label>
                               <div class="append-icon">
-                              	<select  class="form-control" ng-model="schmeeting.assignedTo" required>
+                              	<select id="inUser" class="form-control" ng-model="schmeeting.assignedTo" required>
 								   <option ng-selected="true" value="">Select User</option>
-						           <option ng-repeat="u in user" value="{{u.id}}">{{u.firstName}} {{u.lastName}}</option>
+						           <option ng-repeat="u in user" value="{{u.id}}" ng-class="u.role =='General Manager'?'gmClass':''">{{u.firstName}} {{u.lastName}}</option>
 						        </select>
                               </div>
+                            </div>
+                          </div>
+                         </div>
+						 <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+							<label class="control-label">Invite all staff member</label>
+                              <input style="height: 20px; width: 20px; margin-left: 20px;" type="checkbox" ng-model="txt" name="invite" ng-click="inviteStaff(txt)">
                             </div>
                           </div>
                          </div>

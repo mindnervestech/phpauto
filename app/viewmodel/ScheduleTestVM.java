@@ -23,6 +23,13 @@ public class ScheduleTestVM {
 	public Boolean is_google_data;
 	public String assignedTo;
 	public String Enthicity;
+	public Boolean allStaff;
+	public Boolean getAllStaff() {
+		return allStaff;
+	}
+	public void setAllStaff(Boolean allStaff) {
+		this.allStaff = allStaff;
+	}
 	public String getAssignedTo() {
 		return assignedTo;
 	}

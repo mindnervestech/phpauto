@@ -23,7 +23,7 @@ angular.module('newApp')
 		$scope.locationDays = data;
 		console.log($scope.locationDays);
 	});
-	
+	$scope.txt = false;
 	$scope.userKey = userKey;
 	$scope.vehicles = "All";
 	$scope.userRole;
@@ -6094,7 +6094,16 @@ angular.module('newApp')
 			   }
 			
 		   }
-		   
+		   $scope.inviteStaff = function(txt){
+			   console.log(txt);
+			   if(txt==false){
+				   $('#inUser').attr("disabled", true);
+				   $scope.schmeeting.allStaff = true;
+			   }else if(txt==true){
+				   $('#inUser').attr("disabled", false);
+				   $scope.schmeeting.allStaff = false;
+			   }
+		   };
 		   $scope.checkDateValid = function(){
 			   console.log("//...,.,.,");
 			   console.log($scope.schPlan.scheduleBy);
@@ -6235,6 +6244,7 @@ angular.module('newApp')
 		   $scope.submitnewmeeting = function(){
 			   $scope.schmeeting.bestDay = $('#cnfmeetingdate').val();
 			   $scope.schmeeting.bestTime = $('#cnfmeetingtime').val();
+			   console.log($scope.schmeeting);
 			   $http.post("/savemeeting",$scope.schmeeting).success(function(data){
 				   $('#meeting-model').modal("toggle");
 				   $.pnotify({
