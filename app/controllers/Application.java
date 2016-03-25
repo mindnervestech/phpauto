@@ -22175,6 +22175,9 @@ if(vehicles.equals("All")){
         List<ScheduleTestVM> shList = new ArrayList<ScheduleTestVM>();
         for(ScheduleTest scTest:list){
         	ScheduleTestVM sTestVM = new ScheduleTestVM();
+        	sTestVM.id = scTest.id;
+        	sTestVM.is_google_data = scTest.is_google_data;
+        	sTestVM.google_id = scTest.google_id;
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
         	sTestVM.confirmTime =  new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
         	shList.add(sTestVM);
@@ -22209,7 +22212,7 @@ if(vehicles.equals("All")){
 		try {
 			ScheduleTest test = ScheduleTest.findById(Long.parseLong(id));
 			test.setConfirmDate(df.parse(confDate));
-			test.setConfirmTime(new SimpleDateFormat("HH:mm a").parse(confTime));
+			test.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
 			test.update();
 		} catch (Exception e) {
 			e.printStackTrace();
