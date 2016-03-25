@@ -3004,6 +3004,11 @@ angular.module('newApp')
 	    		$scope.showTextBox = function(search){
 	    			console.log($scope.search);
 	    			console.log($scope.searchBy)
+					if(search=='Make'){
+						$scope.currentSelectedDuration = 0;
+					}if(search=='Model'){
+						$scope.currentSelectedDuration = 1;
+					}
 	    			$scope.search = search;
 	    			
 	    		}
@@ -3014,12 +3019,18 @@ angular.module('newApp')
 	    				$scope.searchBy = searchBy;
 	    				$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All');
 	    			}
+					if(value.length == 0){
+	    				$scope.getVisitedData('week','countHigh','0','0','All');
+	    			}
 	    		}
 	    		$scope.findModel = function(value,searchBy){
 	    			console.log(value.length);
 	    			if(value.length > 1){
 	    				$scope.searchBy = searchBy;
 		    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All');
+	    			}
+					if(value.length == 0){
+	    				$scope.getVisitedData('week','countHigh','0','0','All');
 	    			}
 	    		}
 	    		
@@ -7821,6 +7832,8 @@ angular.module('newApp')
 		console.log(data);
 		$scope.myprofile = data.dealer;
 		$scope.user = data.user;
+		$scope.myprofile.dealer_id = data.user.location.id;
+		console.log($scope.myprofile);
 		$scope.imgGM = "http://glider-autos.com/glivrImg/images"+$scope.user.imageUrl;
 	});
 	
@@ -7830,18 +7843,24 @@ angular.module('newApp')
 	});
 	
 	$scope.saveMyprofile = function() {
-	//	var geocoder = new google.maps.Geocoder(); 
-		var address = $scope.myprofile.address+","+$scope.myprofile.city+","+$scope.myprofile.zip+","+$scope.myprofile.state+","+$scope.myprofile.country;
-	//	geocoder.geocode( { 'address': address}, function(results, status) { 
-		//	if (status == google.maps.GeocoderStatus.OK) 
-		//	{ 
-			//	var latitude = results[0].geometry.location.lat(); 
-			//	var longitude = results[0].geometry.location.lng();
-		//		$scope.myprofile.latlong = latitude+" "+longitude;
+		var geocoder = new google.maps.Geocoder(); 
+		var address = $scope.myprofile.address;
+		geocoder.geocode( { 'address': address}, function(results, status) { 
+			if (status == google.maps.GeocoderStatus.OK) 
+			{ 
+				var latitude = results[0].geometry.location.lat(); 
+				var longitude = results[0].geometry.location.lng();
+				$scope.myprofile.latlong = latitude+","+longitude;
 				$scope.getLatLong();
-		//	} 
-		//});
-		
+			}else{
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Address not found on google map",
+				});
+				$scope.getLatLong();
+			} 
+		});
 		
    }
 	
@@ -7986,11 +8005,7 @@ angular.module('newApp')
 		.success(function(data) {
 			console.log("hihihihi111");
 			console.log(data);
-			
-					
 			$scope.managerProfile = data;
-		
-			
 			$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.managerProfile.imageUrl;
 			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.managerProfile.mImageUrl;
 		});
