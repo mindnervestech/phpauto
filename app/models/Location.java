@@ -28,7 +28,16 @@ public class Location extends Model {
 	public String imageName;
 	public String imageUrl;
 	public String type;
+	public Date createdDate;
 	
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+
 	@OneToOne
 	public AuthUser manager;
 	

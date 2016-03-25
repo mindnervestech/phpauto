@@ -37,6 +37,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -109,6 +110,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.joda.time.Days;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -1700,7 +1702,31 @@ public class Application extends Controller {
 	    	return ok();
     	}	
     }
-    
+    public static Result getLocationDays(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		AuthUser userObj = (AuthUser) getLocalUser();
+    		Location loc= Location.findById(userObj.location.id);
+    		Date date = new Date();
+    		long diff;
+    		long days = 0;
+    		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		String modifiedDate= myFormat.format(new Date());
+    		try {
+    			date = myFormat.parse(modifiedDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    		
+    		if(loc.createdDate !=null){
+    			diff = date.getTime() - loc.createdDate.getTime();
+    			days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    		}
+    	
+    		return ok(Json.toJson(days));
+    	}
+    }
     
     public static Result uploadLocationImageFile(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -1718,6 +1744,7 @@ public class Application extends Controller {
 	    	loc.setName(vm.locationName);
 	    	loc.setPhone(vm.locationphone);
 	    	loc.setType("active");
+	    	loc.setCreatedDate(new Date());
 	    	loc.save();
 	    	
 	    	MyProfile mProfile = new MyProfile();

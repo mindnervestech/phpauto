@@ -17,6 +17,13 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route) {
 	console.log(userKey);
+	
+	$http.get('/getLocationDays')
+	.success(function(data) {
+		$scope.locationDays = data;
+		console.log($scope.locationDays);
+	});
+	
 	$scope.userKey = userKey;
 	$scope.vehicles = "All";
 	$scope.userRole;

@@ -796,7 +796,7 @@ margin-left: 5px;
 									    		</div>  
 									  <div class="col-sm-4">
 									  <!-- ng-class="currentSelectedDuration == 1 ?'underline':''" -->
-									  <a style="cursor:pointer;font-size: 18px" id="weekPerf" ng-click="showWeekPerformers()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px" id="monthPerf" ng-click="showMonthPerformers()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px" id="yearPerf" ng-click="showYearPerformers()">Year</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px" id="allPerf" ng-click="showAllTimePerformers()">All Times</a>
+									  <a ng-if="userRole == 'Manager' && locationDays >= 7" style="cursor:pointer;font-size: 18px" id="weekPerf" ng-click="showWeekPerformers()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-if="userRole == 'Manager' && locationDays > 30" style="cursor:pointer;font-size: 18px" id="monthPerf" ng-click="showMonthPerformers()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-if="userRole == 'Manager' && locationDays >= 365" style="cursor:pointer;font-size: 18px" id="yearPerf" ng-click="showYearPerformers()">Year</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px" id="allPerf" ng-click="showAllTimePerformers()">All Times</a>
 									  </div>
 									  </div>
 									          <br>
