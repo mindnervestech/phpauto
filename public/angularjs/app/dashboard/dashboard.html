@@ -810,7 +810,7 @@ margin-left: 5px;
 									                 		<h1 ng-if="item.per !='0'" style="color:white;margin-top: 30px;text-align: center;">{{item.per}}%</h1>
 															<h3 ng-if="item.per =='0'" style="color:white; margin-top:10px;text-align: center;line-height: 1.5;">
 																No Plan <br> Added<br>
-																<a class="btn" ng-click="openPlanning()" style="border: white; border-style: double;background-color:darkturquoise;">Add</a>
+																<a class="btn" ng-click="openPlanningForSale(item.id)" style="border: white; border-style: double;background-color:darkturquoise;">Add</a>
 															</h3>
 									                 	</div>
 									                 </div> 
@@ -1290,7 +1290,7 @@ margin-left: 5px;
                               <label class="control-label">Plan Schedule by</label>
                               <div class="append-icon">
                               	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getLocationDatass(0)" value="location">Location
-                              	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getSalesPersonData()" value="salePerson">Sale person
+                              	<input id="pln" type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getSalesPersonData()" value="salePerson">Sale person
                               </div>
                             </div>
                           </div>

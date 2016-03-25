@@ -5136,7 +5136,53 @@ angular.module('newApp')
 			   
 			   $('#plan-model').modal();
 		   };
-		   
+		   $scope.openPlanningForSale = function(id){
+			   $scope.schPlan = {};
+			   $scope.nextbutton = 0;
+			   $scope.entity;
+			   console.log(".............");
+			   $scope.checkManagerLogin();
+			   if($scope.userType != "General Manager"){
+				   $scope.getLocationPlan();
+			   }else{
+				   if(locationId != 0){
+					   $scope.getLocationPlan();
+				   }
+			   }
+			   $('#plan-model').modal();
+			   $('#pln').click();
+			   //$scope.getSalesPersonData();
+			   //$scope.getSalesPersonData();
+			   if(locationId != 0){
+				   $scope.locationValue = locationId;
+			   }
+   			$http.get('/getSalesUserOnly/'+$scope.locationValue)
+	    		.success(function(data){
+	    			console.log(data);
+	    			$scope.salesPersonPerf = data;
+	    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
+	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
+						console.log(id+".."+value.id);
+						if(id==value.id){
+							$scope.nextbutton = 1;
+							$scope.schPlan.scheduleBy = 'salePerson';
+							$scope.entity = value;
+							$scope.schedule = $scope.schPlan.scheduleBy;
+							$scope.saleperson = $scope.schPlan.salePerson;
+							console.log($scope.entity);
+							$scope.schPlan = $scope.entity;
+							$scope.findVehicalPlan($scope.entity.id);
+							$scope.schPlan.scheduleBy = $scope.schedule;
+							$scope.schPlan.salePerson = $scope.saleperson;
+							$scope.planIs = "update";
+							
+						}
+	    				value.isSelected = false;
+	    			});
+	    		});
+			   
+			   
+		   };
 		   
 		   $scope.MonthTotal = {};
 		   $scope.totalLocationPlanData = null;
