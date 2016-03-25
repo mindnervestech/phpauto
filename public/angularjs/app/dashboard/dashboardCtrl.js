@@ -2316,8 +2316,16 @@ angular.module('newApp')
     		  $scope.comparisonSalePerson = function(){
     			  var i = 0;
     			 
+    			 
+    			  if($scope.comparisonperson[0] != undefined){
+    				  i++;
+    			  }
     			  
-    			  if($scope.comparisonperson.length == 2){
+    			  if($scope.comparisonperson[1] != undefined){
+    				  i++;
+    			  }
+    			  
+    			  if(i == 2){
     				  if($scope.comparisonperson[0].totalSalePrice > $scope.comparisonperson[1].totalSalePrice){
     					  $scope.totalSalePricePer = (($scope.comparisonperson[0].totalSalePrice - $scope.comparisonperson[1].totalSalePrice) * 100 / $scope.comparisonperson[0].totalSalePrice).toFixed(2);
     					  if($scope.totalSalePricePer == 'NaN'){
