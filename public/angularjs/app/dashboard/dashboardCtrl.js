@@ -2312,7 +2312,7 @@ angular.module('newApp')
     		  
     		  $scope.comparisonSalePerson = function(){
     			  
-    			  if($scope.comparisonperson.length >= 2){
+    			  if($scope.comparisonperson.length == 2){
     				  if($scope.comparisonperson[0].totalSalePrice > $scope.comparisonperson[1].totalSalePrice){
     					  $scope.totalSalePricePer = (($scope.comparisonperson[0].totalSalePrice - $scope.comparisonperson[1].totalSalePrice) * 100 / $scope.comparisonperson[0].totalSalePrice).toFixed(2);
     					  if($scope.totalSalePricePer == 'NaN'){
@@ -2442,9 +2442,16 @@ angular.module('newApp')
     					  }
     				  }
     				  
+    				  $('#btncomparisonSale').click();
+    			  }else{
+    				  $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Select 2 Sale People",
+						});
     			  }
     			
-    			  $('#btncomparisonSale').click();
+    			  
     		  }
     		  
     		  $scope.restoreLead = function(entity){
