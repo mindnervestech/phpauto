@@ -1137,7 +1137,7 @@ margin-left: 5px;
                             </div>
                           </div>
                          </div >
-                         <div class="row">
+                         <!-- <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label class="control-label" ng-if="userType =='General Manager' && showGmLocation == 0">Manager</label>
@@ -1158,7 +1158,7 @@ margin-left: 5px;
                               <input style="height: 20px; width: 20px; margin-left: 20px;" type="checkbox" ng-model="txt" name="invite" ng-click="inviteStaff(txt)">
                             </div>
                           </div>
-                         </div>
+                         </div> -->
                          <div class="row">
                           <div class="col-sm-6">
                             <div class="form-group">
@@ -1172,8 +1172,16 @@ margin-left: 5px;
                             <div class="form-group">
                               <label class="control-label">Time</label>
                               <div class="append-icon">
-                              	<input type="text" name="meetingTime" id="cnfmeetingtime" class="timepicker form-control" placeholder="Choose a time..."  ng-model="schmeeting.bestTime" data-format="am-pm" required>
+								<input data-provide="timepicker" name="meetingTime" id="cnfmeetingtime" class="timepicker form-control" placeholder="Choose a time..."  ng-model="schmeeting.bestTime" data-format="am-pm" ng-blur="Demo()" required>
                               </div>
+                            </div>
+                          </div>
+                         </div>
+						 <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+								<div ui-grid="gridOptions11" style="height:400px;" ui-grid-edit ui-grid-pagination>
+								</div> 
                             </div>
                           </div>
                          </div>

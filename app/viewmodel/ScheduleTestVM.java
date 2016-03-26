@@ -1,5 +1,8 @@
 package viewmodel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScheduleTestVM {
 	public Long id;
 	public String name;
@@ -24,6 +27,13 @@ public class ScheduleTestVM {
 	public String assignedTo;
 	public String Enthicity;
 	public Boolean allStaff;
+	public List<UserVM> usersList = new ArrayList<UserVM>();
+	public List<UserVM> getUsersList() {
+		return usersList;
+	}
+	public void setUsersList(List<UserVM> usersList) {
+		this.usersList = usersList;
+	}
 	public Boolean getAllStaff() {
 		return allStaff;
 	}

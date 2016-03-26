@@ -357,8 +357,83 @@ angular.module('newApp')
 			}
 		});
 		
+		$('#cnfmeetingtime').timepicker().on('hide.timepicker', function (e) {
+			$scope.checked = [];
+			$scope.bestDt = $('#cnfmeetingdate').val();
+			$scope.bestTm = $('#cnfmeetingtime').val();
+			if(($scope.bestDt != null && $scope.bestDt != "")  && ($scope.bestTm !=null && $scope.bestTm !="")){
+				console.log(":::::::::::");
+				console.log($scope.bestTm);
+				console.log($scope.bestDt);
+				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm)
+				.success(function(data) {
+					console.log("success");
+					$scope.gridOptions11.data = data;
+					console.log($scope.gridOptions11.data);
+				});
+			}else{
+				$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Please Select Date and Time",
+					});
+			}
+		});
+		$scope.checked = [];
+		$scope.selectUser = function(row){
+			if(row.entity.isSelect == true){
+				$scope.checked.push(row.entity);
+			}else{
+				$scope.deleteSelectedLead(row.entity);
+			}
+		};
 		
-	
+		$scope.deleteSelectedUser = function(item){
+			angular.forEach($scope.checked, function(obj, index){
+				 if ((item.id == obj.id) && (item.leadType == obj.leadType)) {
+					 $scope.checked.splice(index, 1);
+			       	return;
+			    };
+			  });
+		};
+		
+	$scope.gridOptions11 = {
+	 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		 		    paginationPageSize: 150,
+	 		 		   // enableFiltering: true,
+	 		 		    useExternalFiltering: true,
+	 		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 		 };
+	 		 		 $scope.gridOptions11.enableHorizontalScrollbar = 0;
+	 		 		 $scope.gridOptions11.enableVerticalScrollbar = 2;
+	 		 		 $scope.gridOptions11.columnDefs = [
+															{ name: 'isSelect', displayName: 'Select', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																cellTemplate:'<input type="checkbox" ng-change="grid.appScope.selectUser(row)" ng-model="row.entity.isSelect">',
+															},
+															 { name: 'fullName', displayName: 'Full Name', width:'40%',cellEditableCondition: false,
+																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+																   if (row.entity.isRead === false) {
+																	 return 'red';
+																 }
+																} ,
+															 },
+														   { name: 'role', displayName: 'Role', width:'30%',cellEditableCondition: false,
+																	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+																	   if (row.entity.isRead === false) {
+																		 return 'red';
+																	 }
+																	} ,
+															},
+	 		 		                               
+														   { name: 'userStatus', displayName: 'Available', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+																	   if (row.entity.isRead === false) {
+																		 return 'red';
+																	 }
+																	} 
+															},
+	 		 		                               
+														];
 	
 	$scope.topLocations = function(timeSet){
 		$http.get('/getAllLocation/'+timeSet)
@@ -599,7 +674,12 @@ angular.module('newApp')
             pluginsService.init();
             dashboardService.setHeights()
             if ($('.widget-weather').length) {
-                widgetWeather($scope.userProfile.address);
+				if($scope.userProfile == null){
+					widgetWeather("New York");
+				}else{
+					widgetWeather($scope.userProfile.address);
+				}
+                
             }
             handleTodoList();
   		});
@@ -3085,7 +3165,9 @@ angular.module('newApp')
 		    			
 		    			$scope.user=data;
 		    			console.log($scope.salesPersonList);
-		    			$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
+		    			if($scope.salesPersonList.length > 0){
+		    				$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
+		    			}
 		    		});
 	    		}
 	    		
@@ -6226,24 +6308,33 @@ angular.module('newApp')
 		   };
 		   
 		   $scope.submitnewmeeting = function(){
-			   $scope.schmeeting.bestDay = $('#cnfmeetingdate').val();
-			   $scope.schmeeting.bestTime = $('#cnfmeetingtime').val();
-			   console.log($scope.schmeeting);
-			   $http.post("/savemeeting",$scope.schmeeting).success(function(data){
-				   $('#meeting-model').modal("toggle");
+			   if($scope.checked.length > 0){
+				   console.log($scope.checked);
+				   $scope.schmeeting.usersList = $scope.checked;
+				   $scope.schmeeting.bestDay = $('#cnfmeetingdate').val();
+				   $scope.schmeeting.bestTime = $('#cnfmeetingtime').val();
+				   console.log($scope.schmeeting);
+				   $http.post("/savemeeting",$scope.schmeeting).success(function(data){
+					   $('#meeting-model').modal("toggle");
+					   $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Meeting Scheduled",
+						});
+					   
+					   $http.get("/getscheduletest").success(function(data){
+						   $scope.scheduleListData = data;
+					   });
+					   $scope.schedulmultidatepicker();
+					   
+				   });
+			   }else{
 				   $.pnotify({
 					    title: "Success",
 					    type:'success',
-					    text: "Meeting Scheduled",
+					    text: "Please Select user",
 					});
-				   
-				   $http.get("/getscheduletest").success(function(data){
-					   $scope.scheduleListData = data;
-				   });
-				   $scope.schedulmultidatepicker();
-				   
-			   }); 
-			   
+			   }
 		   };
 		   
 		   $scope.updateScheduleTest = function(){

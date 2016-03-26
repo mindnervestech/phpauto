@@ -20,6 +20,7 @@ public class UserVM {
 	public Long salesAmount;
 	public String password;
 	public String age;
+	public String role;
 	public String commission;
 	public String contractDur;
 	public String experience;
@@ -33,6 +34,7 @@ public class UserVM {
 	public Long saleCar;
 	public  String quota;
 	public String mi;
+	public boolean isSelect;
 	public List<String> permissions;
 	public int per;
 	public Long locationId;

@@ -22954,6 +22954,64 @@ if(vehicles.equals("All")){
 		
 		return ok(Json.toJson(flag));
 	}
+	public static Result getUserForMeeting(String date, String time){
+		
+		List<UserVM> vmList  = new ArrayList<>();
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		try {			
+			Date confirmDate = df.parse(date);
+			Date confirmTime = new SimpleDateFormat("hh:mm a").parse(time);
+			System.out.println(confirmDate);
+			System.out.println(confirmTime);
+			AuthUser user = getLocalUser();
+			
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(confirmTime);
+			calendar.add(Calendar.HOUR, 1);
+			Date maxTime = calendar.getTime();
+			
+			calendar.setTime(confirmTime);
+			calendar.add(Calendar.HOUR, -1);
+			Date minTime = calendar.getTime();
+			System.out.println(minTime);
+			System.out.println(maxTime);
+			Location loc = Location.findById(Long.parseLong(session("USER_LOCATION")));
+			List<AuthUser> userList = AuthUser.findByLocatioUsers(loc);
+			for (AuthUser authUser : userList) {
+				Boolean flag = true;
+				List<ScheduleTest> testList = ScheduleTest.findAllAssigned(authUser);
+				for (ScheduleTest scheduleTest : testList) {
+					if(confirmDate.equals(scheduleTest.confirmDate)){
+						if((confirmTime.after(minTime) || confirmTime.equals(minTime)) && (confirmTime.before(maxTime) || confirmTime.equals(maxTime))){
+							flag = false;
+							break;
+						}
+					}
+				}
+				if(flag){
+					UserVM vm = new UserVM();
+					vm.id = authUser.getId();
+					vm.fullName = authUser.getFirstName()+" "+authUser.getLastName();
+					vm.role = authUser.getRole();
+					vm.userStatus = "Yes";
+					vm.isSelect = false;
+					vmList.add(vm);
+				}else{
+					UserVM vm = new UserVM();
+					vm.id = authUser.getId();
+					vm.fullName = authUser.getFirstName()+" "+authUser.getLastName();
+					vm.role = authUser.getRole();
+					vm.userStatus = "Block";
+					vm.isSelect = false;
+					vmList.add(vm);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ok(Json.toJson(vmList));
+	}
+	
 	
 	public static Result saveMeetingSchedule(){
 		Location loc=null;
@@ -22961,8 +23019,42 @@ if(vehicles.equals("All")){
 		Form<ScheduleTestVM> form = DynamicForm.form(ScheduleTestVM.class).bindFromRequest();
 		ScheduleTestVM vm = form.get();
 		AuthUser user = getLocalUser();
-		List<AuthUser> userList = new ArrayList<>();
 		if(vm.getLocation()!=null){
+			 loc = Location.findById(Long.parseLong(vm.getLocation()));
+			}
+		List<AuthUser> userList = new ArrayList<>();
+		for (UserVM obj : vm.getUsersList()) {
+			AuthUser assi = AuthUser.findById(obj.id);
+			ScheduleTest moTest = new ScheduleTest();
+			moTest.assignedTo = assi;
+			moTest.name=vm.getAssignedTo();
+			moTest.bestDay = vm.getBestDay();
+			moTest.bestTime = vm.getBestTime();
+			moTest.email = user.getEmail();
+			moTest.location = vm.getLocation();
+			moTest.name = vm.name;
+			moTest.meetingStatus = "meeting";
+			moTest.phone = user.getPhone();
+			moTest.reason = vm.getReason();
+			moTest.scheduleDate = new Date();
+			moTest.user = user;
+			moTest.isReassigned = false;
+			moTest.is_google_data = false;
+			userList.add(assi);
+			try {			
+				moTest.confirmDate = df.parse(vm.getBestDay());
+				moTest.confirmTime = new SimpleDateFormat("hh:mm a").parse(vm.getBestTime());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			moTest.save();
+		}
+		
+		
+		
+		
+		
+		/*if(vm.getLocation()!=null){
 			 loc = Location.findById(Long.parseLong(vm.getLocation()));
 			}
 		if(vm.allStaff.equals(false)){
@@ -23017,7 +23109,7 @@ if(vehicles.equals("All")){
 					}
 					moTest.save();
 			}
-		}
+		}*/
 		
 		
 		sendMeetingMailToAssignee(vm, user, userList, loc);

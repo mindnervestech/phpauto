@@ -76,6 +76,14 @@ public class AuthUser extends Model implements Identity {
 	
 	@Id
 	public Integer id;
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String provider;
 	
 	@ManyToOne
