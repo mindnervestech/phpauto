@@ -402,7 +402,7 @@ angular.module('newApp')
 	 		 		    paginationPageSize: 150,
 	 		 		   // enableFiltering: true,
 	 		 		    useExternalFiltering: true,
-	 		 		    rowTemplate: "<div style=\"cursor:pointer;height:200px\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 		 };
 	 		 		 $scope.gridOptions11.enableHorizontalScrollbar = 0;
 	 		 		 $scope.gridOptions11.enableVerticalScrollbar = 2;
