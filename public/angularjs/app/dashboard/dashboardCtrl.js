@@ -7909,6 +7909,7 @@ angular.module('newApp')
 .controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 	$scope.myprofile = {};
 	$scope.userKey = userKey;
+	var placeSearch, autocomplete;
 	$scope.imgGM="/assets/images/profile-pic.jpg ";
 	$http.get('/getUserRole').success(function(data) {
 		$scope.userRole = data.role;
@@ -7926,6 +7927,7 @@ angular.module('newApp')
 	$http.get('/getMyProfile')
 	.success(function(data) {
 		$scope.myprofile = data;
+		$scope.initAutocomplete();
 	});
 	
 	$scope.saveMyprofile = function() {
@@ -7949,6 +7951,61 @@ angular.module('newApp')
 		});
 		
    }
+	
+	var componentForm = {
+			  street_number: 'short_name',
+			  route: 'long_name',
+			  locality: 'long_name',
+			  administrative_area_level_1: 'short_name',
+			  country: 'long_name',
+			  postal_code: 'short_name'
+			};
+	$scope.initAutocomplete = function() {
+		  autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
+		      {types: ['geocode']});
+		  autocomplete.addListener('place_changed', fillInAddress);
+		}
+	
+	function fillInAddress() {
+		  var place = autocomplete.getPlace();
+		  console.log(place.formatted_address);
+		  $scope.myprofile.address = place.formatted_address;
+		  for (var component in componentForm) {
+		    //document.getElementById(component).value = '';
+		    //document.getElementById(component).disabled = false;
+		  }
+		  for (var i = 0; i < place.address_components.length; i++) {
+		    var addressType = place.address_components[i].types[0];
+		    if (componentForm[addressType]) {
+		      var val = place.address_components[i][componentForm[addressType]];
+		      //document.getElementById(addressType).value = val;
+		      console.log(val);
+		    }
+		  }
+		}
+	
+	$scope.geolocate = function() {
+		console.log("in geolocate");
+		  if (navigator.geolocation) {
+		    navigator.geolocation.getCurrentPosition(function(position) {
+		      var geolocation = {
+		        lat: position.coords.latitude,
+		        lng: position.coords.longitude
+		      };
+		      var circle = new google.maps.Circle({
+		        center: geolocation,
+		        radius: position.coords.accuracy
+		      });
+		      autocomplete.setBounds(circle.getBounds());
+		    });
+		  }
+		};
+	
+	
+	
+	
+	
+	
 	
 	$scope.managerP = {};
 	$scope.getLatLong = function() {
