@@ -13431,6 +13431,7 @@ public class Application extends Controller {
 	    		vm.name = test.name;
 	    		vm.email = test.email;
 	    		vm.phone = test.phone;
+	    		vm.meeting = test.meetingStatus;
 	    		if(test.getConfirmDate() != null) {
 	    			vm.confirmDate = df2.format(test.getConfirmDate());
 	    		}
