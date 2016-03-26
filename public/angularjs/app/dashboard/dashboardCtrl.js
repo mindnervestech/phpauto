@@ -23,6 +23,11 @@ angular.module('newApp')
 		$scope.locationDays = data;
 		console.log($scope.locationDays);
 	});
+	$http.get('/getDealerProfile').success(function(data) {
+		console.log(data);
+		$scope.userProfile = data.dealer;
+	});
+	
 	$scope.txt = false;
 	$scope.userKey = userKey;
 	$scope.vehicles = "All";
@@ -594,7 +599,7 @@ angular.module('newApp')
             pluginsService.init();
             dashboardService.setHeights()
             if ($('.widget-weather').length) {
-                widgetWeather();
+                widgetWeather($scope.userProfile.address);
             }
             handleTodoList();
   		});

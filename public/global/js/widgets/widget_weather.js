@@ -2,11 +2,11 @@
 
 $(document).ready(function(){
     if($('.widget-weather').length){
-        widgetWeather();
+        widgetWeather("New York");
     }
 });
 
-function widgetWeather(){
+function widgetWeather(address){
 
     var weatherWidget = '<div class="panel-header background-primary"><h3><i class="icon-30"></i> <strong>Weather</strong> Widget</h3></div><div class="weather panel-content" class="widget-container widget-weather boxed"><div class="weather-highlighted">';
     weatherWidget += '<div class="day-0 weather-item clearfix active"><canvas id="day-0-icon" class="m-t-15" width="64" height="64"></canvas><div class="inner"><strong class="today-temp-low"></strong><span class="weather-currently"></span><span class="today-temp"></span></div></div>';
@@ -35,7 +35,7 @@ function widgetWeather(){
     });
     //************************* WEATHER WIDGET *************************//
     /* We initiate widget with a city (can be changed) */
-    var city = 'New York';
+    var city = address;
     var today_day = '';
     var icon_type_today = icon_type_1 = icon_type_2 = icon_type_3 = icon_type_4 ="partly-cloudy-day";
 
