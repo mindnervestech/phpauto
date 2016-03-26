@@ -16076,12 +16076,13 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
-    public static Result getVisitorList(String startDate,String endDate){
+    public static Result getVisitorList(){
     	int year = Calendar.getInstance().get(Calendar.YEAR);
     	String params = null;
     	
+    	params = "&type=visitors-list&date=last-7-days&limit=all";
     	//if(value == 30){
-    		params = "&type=visitors-list&date="+startDate+","+endDate+"&limit=all";
+    		//params = "&type=visitors-list&date="+startDate+","+endDate+"&limit=all";
     	/*}else if(value == 7){
     		params = "&type=visitors-list&date=last-7-days&limit=all";
     	}else if(value == 1){

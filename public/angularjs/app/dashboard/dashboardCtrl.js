@@ -556,11 +556,9 @@ angular.module('newApp')
       $scope.$on('$viewContentLoaded', function () {
     	  
     	  
-    	  $http.get('/getVisitorList/'+$scope.startDateV+"/"+$scope.endDateV)
+    	  $http.get('/getVisitorList')
   		.success(function(data) {
   			
-  			console.log("//////<><><><><><><><><><");
-  			console.log(data[0].dates[0].items);
   			$scope.gridOptions.data = data[0].dates[0].items;
   			$scope.visitiorList = data[0].dates[0].items;
   			angular.forEach($scope.visitiorList, function(value, key) {
@@ -2146,7 +2144,7 @@ angular.module('newApp')
         			        
         		  });
     			  
-    			  $http.get('/getVisitorList/'+startDate+"/"+endDate)
+    			  /*$http.get('/getVisitorList/'+startDate+"/"+endDate)
     		  		.success(function(data) {
     		  			
     		  			console.log("//////<><><><><><><><><><");
@@ -2190,7 +2188,7 @@ angular.module('newApp')
     		                widgetWeather();
     		            }
     		            handleTodoList();
-    		  		});
+    		  		});*/
         		  
     		 }
     		 
