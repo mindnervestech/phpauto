@@ -558,6 +558,9 @@ angular.module('newApp')
     	  
     	  $http.get('/getVisitorList/'+$scope.startDateV+"/"+$scope.endDateV)
   		.success(function(data) {
+  			
+  			console.log("//////<><><><><><><><><><");
+  			console.log(data[0].dates[0].items);
   			$scope.gridOptions.data = data[0].dates[0].items;
   			$scope.visitiorList = data[0].dates[0].items;
   			angular.forEach($scope.visitiorList, function(value, key) {
@@ -2145,6 +2148,10 @@ angular.module('newApp')
     			  
     			  $http.get('/getVisitorList/'+startDate+"/"+endDate)
     		  		.success(function(data) {
+    		  			
+    		  			console.log("//////<><><><><><><><><><");
+    		  			console.log(data[0].dates[0].items);
+    		  			
     		  			$scope.gridOptions.data = data[0].dates[0].items;
     		  			$scope.visitiorList = data[0].dates[0].items;
     		  			angular.forEach($scope.visitiorList, function(value, key) {
@@ -2355,131 +2362,85 @@ angular.module('newApp')
     			  if(i == 2){
     				  if($scope.comparisonperson[0].totalSalePrice > $scope.comparisonperson[1].totalSalePrice){
     					  $scope.totalSalePricePer = (($scope.comparisonperson[0].totalSalePrice - $scope.comparisonperson[1].totalSalePrice) * 100 / $scope.comparisonperson[0].totalSalePrice).toFixed(2);
-    					  if($scope.totalSalePricePer == 'NaN'){
-    						  $scope.totalSalePricePer='N/A';
-    					  }
-    						  
-    					  
+    					   
     				  }else{
     					  $scope.totalSalePricePer = (($scope.comparisonperson[1].totalSalePrice - $scope.comparisonperson[0].totalSalePrice) * 100 / $scope.comparisonperson[1].totalSalePrice).toFixed(2);
-    					  
-    					  if($scope.totalSalePricePer == 'NaN'){
-    						  $scope.totalSalePricePer='N/A';
-    					  }
+    					
     				  }
     				  
     				  if($scope.comparisonperson[0].totalsaleCar > $scope.comparisonperson[1].totalsaleCar){
     					  $scope.totalsaleCarPer = (($scope.comparisonperson[0].totalsaleCar - $scope.comparisonperson[1].totalsaleCar) * 100 / $scope.comparisonperson[0].totalsaleCar).toFixed(2);
-    					  if($scope.totalsaleCarPer == 'NaN'){
-    						  $scope.totalsaleCarPer='N/A';    					  
-    					  }
+    					 
     				  }else{
-    					  $scope.totalsaleCarPer = (($scope.comparisonperson[1].totalsaleCar - $scope.comparisonperson[0].totalsaleCar) * 100 / $scope.comparisonperson[1].totalsaleCar).toFixed(2);
-    					  if($scope.totalsaleCarPer == 'NaN'){
-    						  $scope.totalsaleCarPer='N/A';
-    					  }    					  
+    					  $scope.totalsaleCarPer = (($scope.comparisonperson[1].totalsaleCar - $scope.comparisonperson[0].totalsaleCar) * 100 / $scope.comparisonperson[1].totalsaleCar).toFixed(2);  					  
     				  }
     				  
     				  if($scope.comparisonperson[0].allGeneratedLeadCount > $scope.comparisonperson[1].allGeneratedLeadCount){
     					  $scope.allGeneratedLeadCountPer = (($scope.comparisonperson[0].allGeneratedLeadCount - $scope.comparisonperson[1].allGeneratedLeadCount) * 100 / $scope.comparisonperson[0].allGeneratedLeadCount).toFixed(2);
-    					  if($scope.allGeneratedLeadCountPer == 'NaN'){
-    						  $scope.allGeneratedLeadCountPer='N/A';
-    					  } 
-    					  
+    					 
     				  }else{
     					  $scope.allGeneratedLeadCountPer = (($scope.comparisonperson[1].allGeneratedLeadCount - $scope.comparisonperson[0].allGeneratedLeadCount) * 100 / $scope.comparisonperson[1].allGeneratedLeadCount).toFixed(2);
-    					  if($scope.allGeneratedLeadCountPer == 'NaN'){
-    						  $scope.allGeneratedLeadCountPer='N/A';
-    					  }
+    					 
     				  }
     				  
     				  if($scope.comparisonperson[0].lostLeadCount > $scope.comparisonperson[1].lostLeadCount){
     					  $scope.lostLeadCountPer = (($scope.comparisonperson[0].lostLeadCount - $scope.comparisonperson[1].lostLeadCount) * 100 / $scope.comparisonperson[0].lostLeadCount).toFixed(2);
-    					  if($scope.lostLeadCountPer == 'NaN'){
-    						  $scope.lostLeadCountPer='N/A';
-    					  }
+    				
     				  }else{
     					  $scope.lostLeadCountPer = (($scope.comparisonperson[1].lostLeadCount - $scope.comparisonperson[0].lostLeadCount) * 100 / $scope.comparisonperson[1].lostLeadCount).toFixed(2);
-    					  if($scope.lostLeadCountPer == 'NaN'){
-    						  $scope.lostLeadCountPer='N/A';
-    					  }
+    					
     				  }
     				  
     				  
     				  if($scope.comparisonperson[0].successRate > $scope.comparisonperson[1].successRate){
     					  $scope.successRatePer = (($scope.comparisonperson[0].successRate - $scope.comparisonperson[1].successRate) * 100 / $scope.comparisonperson[0].successRate).toFixed(2);
-    					  if($scope.successRatePer == 'NaN'){
-    						  $scope.successRatePer='N/A';
-    					  }
+    					 
     				  }else{
     					  $scope.successRatePer = (($scope.comparisonperson[1].successRate - $scope.comparisonperson[0].successRate) * 100 / $scope.comparisonperson[1].successRate).toFixed(2);
-    					  if($scope.successRatePer == 'NaN'){
-    						  $scope.successRatePer='N/A';
-    					  }
-    					  
+    					 
     				  }
     				  
     				  if($scope.comparisonperson[0].likeCount > $scope.comparisonperson[1].likeCount){
     					  $scope.likeCountPer = (($scope.comparisonperson[0].likeCount - $scope.comparisonperson[1].likeCount) * 100 / $scope.comparisonperson[0].likeCount).toFixed(2);
-    					  if($scope.likeCountPer == 'NaN'){
-    						  $scope.likeCountPer='N/A';
-    					  }
+    					 
     				  }else{
     					  $scope.likeCountPer = (($scope.comparisonperson[1].likeCount - $scope.comparisonperson[0].likeCount) * 100 / $scope.comparisonperson[1].likeCount).toFixed(2);
-    					  if($scope.likeCountPer == 'NaN'){
-    						  $scope.likeCountPer='N/A';
-    					  }
+    					 
     				  }
     				  
     				  if($scope.comparisonperson[0].returningClints > $scope.comparisonperson[1].returningClints){
     					  $scope.returningClintsPer = (($scope.comparisonperson[0].returningClints - $scope.comparisonperson[1].returningClints) * 100 / $scope.comparisonperson[0].returningClints).toFixed(2);
-    					  if($scope.returningClintsPer == 'NaN'){
-    						  $scope.returningClintsPer='N/A';
-    					  }
+    					 
     				  }else{
     					  $scope.returningClintsPer = (($scope.comparisonperson[1].returningClints - $scope.comparisonperson[0].returningClints) * 100 / $scope.comparisonperson[1].returningClints).toFixed(2);
-    					  if($scope.returningClintsPer == 'NaN'){
-    						  $scope.returningClintsPer='N/A';
-    					  }
+    					  
     				  }
     				  if(isNaN($scope.returningClintsPer)){
     					  $scope.returningClintsPer = "";
     				  }
     				  
     				  if($scope.comparisonperson[0].callMade > $scope.comparisonperson[1].callMade){
-    					  $scope.callMadePer = (($scope.comparisonperson[0].callMade - $scope.comparisonperson[1].callMade) * 100 / $scope.comparisonperson[0].callMade).toFixed(2);
-    					  if($scope.callMadePer == 'NaN'){
-    						  $scope.callMadePer='N/A';
-    					  }
+    					  $scope.callMadePer = (($scope.comparisonperson[0].callMade - $scope.comparisonperson[1].callMade) * 100 / $scope.comparisonperson[0].callMade).toFixed(0);
+    					  
     				  }else{
-    					  $scope.callMadePer = (($scope.comparisonperson[1].callMade - $scope.comparisonperson[0].callMade) * 100 / $scope.comparisonperson[1].callMade).toFixed(2);
-    					  if($scope.callMadePer == 'NaN'){
-    						  $scope.callMadePer='N/A';
-    					  }
+    					  $scope.callMadePer = (($scope.comparisonperson[1].callMade - $scope.comparisonperson[0].callMade) * 100 / $scope.comparisonperson[1].callMade).toFixed(0);
+    					  
     				  }
     				  
     				  if($scope.comparisonperson[0].mailSent > $scope.comparisonperson[1].mailSent){
-    					  $scope.mailSentPer = (($scope.comparisonperson[0].mailSent - $scope.comparisonperson[1].mailSent) * 100 / $scope.comparisonperson[0].mailSent).toFixed(2);
-    					  if($scope.mailSentPer == 'NaN'){
-    						  $scope.mailSentPer='N/A';
-    					  }
+    					  $scope.mailSentPer = (($scope.comparisonperson[0].mailSent - $scope.comparisonperson[1].mailSent) * 100 / $scope.comparisonperson[0].mailSent).toFixed(0);
+    					 
     				  }else{
-    					  $scope.mailSentPer = (($scope.comparisonperson[1].mailSent - $scope.comparisonperson[0].mailSent) * 100 / $scope.comparisonperson[1].mailSent).toFixed(2);
-    					  if($scope.mailSentPer == 'NaN'){
-    						  $scope.mailSentPer='N/A';
-    					  }
+    					  $scope.mailSentPer = (($scope.comparisonperson[1].mailSent - $scope.comparisonperson[0].mailSent) * 100 / $scope.comparisonperson[1].mailSent).toFixed(0);
+    					 
     				  }
     				  
     				  if($scope.comparisonperson[0].testDriveSched > $scope.comparisonperson[1].testDriveSched){
-    					  $scope.testDriveSchedPer = (($scope.comparisonperson[0].testDriveSched - $scope.comparisonperson[1].testDriveSched) * 100 / $scope.comparisonperson[0].testDriveSched).toFixed(2);
-    					  if($scope.testDriveSchedPer == 'NaN'){
-    						  $scope.testDriveSchedPer='N/A';
-    					  }
+    					  $scope.testDriveSchedPer = (($scope.comparisonperson[0].testDriveSched - $scope.comparisonperson[1].testDriveSched) * 100 / $scope.comparisonperson[0].testDriveSched).toFixed(0);
+    					  
     				  }else{
-    					  $scope.testDriveSchedPer = (($scope.comparisonperson[1].testDriveSched - $scope.comparisonperson[0].testDriveSched) * 100 / $scope.comparisonperson[1].testDriveSched).toFixed(2);
-    					  if($scope.testDriveSchedPer == 'NaN'){
-    						  $scope.testDriveSchedPer='N/A';
-    					  }
+    					  $scope.testDriveSchedPer = (($scope.comparisonperson[1].testDriveSched - $scope.comparisonperson[0].testDriveSched) * 100 / $scope.comparisonperson[1].testDriveSched).toFixed(0);
+    					  
     				  }
     				  
     				  $('#btncomparisonSale').click();

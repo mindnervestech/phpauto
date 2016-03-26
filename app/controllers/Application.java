@@ -19636,34 +19636,32 @@ if(vehicles.equals("All")){
         
         Map<String, Integer> mapOnline = new HashMap<String, Integer>();
         
+        mapOnline.put("Request More Info", 0);
     	for(RequestMoreInfo rMoreInfo:onlineRInfo){
      		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
      			Integer objectMake = mapOnline.get("Request More Info");
-    			if (objectMake == null) {
-    				mapOnline.put("Request More Info", countBodyStyle);
-    			}else{
+    			if (objectMake != null) {
+    				
     				mapOnline.put("Request More Info", countBodyStyle + 1);
     			}
      		}
      	}
      	
+    	mapOnline.put("Schedule Test Drive", 0);
      	for(ScheduleTest sTest:onlineSList){
      		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
      			Integer objectMake = mapOnline.get("Schedule Test Drive");
-    			if (objectMake == null) {
-    				mapOnline.put("Schedule Test Drive", countBodyStyle);
-    			}else{
+    			if (objectMake != null) {
     				mapOnline.put("Schedule Test Drive", countBodyStyle + 1);
     			}
      		}
      	}
 
+     	mapOnline.put("Trade-In Inquires", 0);
      	for(TradeIn tIn:onlineTradeIns){
      		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
      			Integer objectMake = mapOnline.get("Trade-In Inquires");
-    			if (objectMake == null) {
-    				mapOnline.put("Trade-In Inquires", countBodyStyle);
-    			}else{
+    			if (objectMake != null) {
     				mapOnline.put("Trade-In Inquires", countBodyStyle + 1);
     			}
      		}

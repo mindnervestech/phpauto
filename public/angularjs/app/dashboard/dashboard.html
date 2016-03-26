@@ -5600,7 +5600,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{totalSalePricePer}}%</label>
+															   		<label style="color: green;" ng-if="totalSalePricePer != 'NaN'">{{totalSalePricePer}}%</label>
+															   		<label style="color: green;" ng-if="totalSalePricePer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
@@ -5618,7 +5619,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{totalsaleCarPer}}%</label>
+															   		<label style="color: green;" ng-if="totalsaleCarPer != 'NaN'">{{totalsaleCarPer}}%</label>
+															   		<label style="color: green;" ng-if="totalsaleCarPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
@@ -6039,7 +6041,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{allGeneratedLeadCountPer}}%</label>
+															   		<label style="color: green;" ng-if="allGeneratedLeadCountPer != 'NaN'">{{allGeneratedLeadCountPer}}%</label>
+															   		<label style="color: green;" ng-if="allGeneratedLeadCountPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
@@ -6058,7 +6061,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{lostLeadCountPer}}%</label>
+															   		<label style="color: green;" ng-if="lostLeadCountPer != 'NaN'">{{lostLeadCountPer}}%</label>
+															   		<label style="color: green;" ng-if="lostLeadCountPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
@@ -6077,7 +6081,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{successRatePer}}%</label>
+															   		<label style="color: green;" ng-if="successRatePer != 'NaN'">{{successRatePer}}%</label>
+															   		<label style="color: green;" ng-if="successRatePer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
@@ -6096,7 +6101,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;">{{likeCountPer}}%</label>
+															   		<label style="color: green;" ng-if="likeCountPer != 'NaN'">{{likeCountPer}}%</label>
+															   		<label style="color: green;" ng-if="likeCountPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
@@ -6286,10 +6292,10 @@ margin-left: 5px;
 															   <div class="col-sm-5">
 									                 					<div class="col-sm-12" style="padding: 0px;" ng-repeat="online in comparisonperson[0].onLineLead">
 									                 						<div class="col-sm-6" style="float: right;">
-									                 							<div class="col-sm-6" style="padding: 0px;">
+									                 							<div class="col-sm-8" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">{{online.name}}</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div class="col-sm-4" style="text-align: right;padding: 0px;">	
 									                 								<label>{{online.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -6341,7 +6347,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green">{{returningClintsPer}}</label>
+															   		<label style="color:green" ng-if="returningClintsPer != 'NaN'">{{returningClintsPer}}%</label>
+															   		<label style="color:green" ng-if="returningClintsPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
@@ -6358,7 +6365,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green">{{callMadePer}}</label>
+															   		<label style="color:green" ng-if="callMadePer != 'NaN'">{{callMadePer}}%</label>
+															   		<label style="color:green" ng-if="callMadePer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
@@ -6376,7 +6384,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green">{{mailSentPer}}</label>
+															   		<label style="color:green" ng-if="mailSentPer != 'NaN'">{{mailSentPer}}%</label>
+															   		<label style="color:green" ng-if="mailSentPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
@@ -6394,7 +6403,8 @@ margin-left: 5px;
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green">{{testDriveSchedPer}}</label>
+															   		<label style="color:green" ng-if="testDriveSchedPer != 'NaN'">{{testDriveSchedPer}}%</label>
+															   		<label style="color:green" ng-if="testDriveSchedPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
