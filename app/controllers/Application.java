@@ -11541,7 +11541,7 @@ public class Application extends Controller {
     			flag = 1;
         		List<Integer> longV = new ArrayList<>();
         		DateAndValueVM sValue = new DateAndValueVM();
-    			sValue.name = "Record";
+    			sValue.name = "Highest Result";
     			longV.add(pricecountOther);
     			sValue.data = longV;
     			sAndValues.add(sValue);
@@ -11554,7 +11554,7 @@ public class Application extends Controller {
     	if(vList2.size() != 0){
     		List<Integer> longV = new ArrayList<>();
     		DateAndValueVM sValue = new DateAndValueVM();
-			sValue.name = "You";
+			sValue.name = "Your Result";
 			longV.add(monthPriceCount);
 			sValue.data = longV;
 			sAndValues.add(sValue);
