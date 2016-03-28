@@ -2517,7 +2517,7 @@ angular.module('newApp')
     				  i++;
     			  }
     			  
-    			  if(i == 2){
+    			  if($scope.flagvalue == 2){
     				  if($scope.comparisonperson[0].totalSalePrice > $scope.comparisonperson[1].totalSalePrice){
     					  $scope.totalSalePricePer = (($scope.comparisonperson[0].totalSalePrice - $scope.comparisonperson[1].totalSalePrice) * 100 / $scope.comparisonperson[0].totalSalePrice).toFixed(2);
     					   
