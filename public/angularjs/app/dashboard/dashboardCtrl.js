@@ -626,7 +626,7 @@ angular.module('newApp')
 		        },
 		        yAxis: {
 					plotLines:[{
-							value:65000,
+							value:stackchart[stackchart.length-1].data[0].price,
 							color: '#ff0000',
 							width:2,
 							zIndex:4,
@@ -642,6 +642,9 @@ angular.module('newApp')
 		                stacking: ''
 		            }
 		        },
+				credits: {
+							enabled: false
+						},
 		        series: stackchart
 		    });
 	   }
