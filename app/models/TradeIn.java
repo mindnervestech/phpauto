@@ -41,6 +41,7 @@ public class TradeIn extends Model {
 	public String email;
 	public String preferredContact;
 	public Date tradeDate;
+	public Date tradeTime;
 	public String comments;
 	public String year;
 	public String make;
@@ -79,6 +80,7 @@ public class TradeIn extends Model {
 	public int scheduleEmail;
 	public String enthicity;
 	public Date statusDate;
+	public Date statusTime;
 	public Integer premiumFlag;	
 	public String testDriveCompletedComment;
 	public String testDriveCompletedDuration;
@@ -502,8 +504,18 @@ public String testDriveStatus;
 	public void setCustZipCode(String custZipCode) {
 		this.custZipCode = custZipCode;
 	}
-	
-	
+	public Date getTradeTime() {
+		return tradeTime;
+	}
+	public void setTradeTime(Date tradeTime) {
+		this.tradeTime = tradeTime;
+	}
+	public Date getStatusTime() {
+		return statusTime;
+	}
+	public void setStatusTime(Date statusTime) {
+		this.statusTime = statusTime;
+	}
 
 	public static Finder<Long,TradeIn> find = new Finder<>(Long.class,TradeIn.class);
 	

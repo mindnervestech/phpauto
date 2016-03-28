@@ -27,6 +27,7 @@ public class ScheduleTest extends Model {
 	public String bestDay;
 	public String bestTime;
 	public Date scheduleDate;
+	public Date scheduleTime;
 	public String vin;
 	public int isRead;
 	public Date confirmDate;
@@ -51,6 +52,7 @@ public class ScheduleTest extends Model {
 	public int scheduleEmail;
 	public String enthicity;
 	public Date statusDate;
+	public Date statusTime;
 	public String testDriveCompletedComment;
 	public String testDriveCompletedDuration;
 	public int onlineOrOfflineLeads;
@@ -163,6 +165,19 @@ public class ScheduleTest extends Model {
 	}
 	public void setIsRead(int isRead) {
 		this.isRead = isRead;
+	}
+	
+	public Date getScheduleTime() {
+		return scheduleTime;
+	}
+	public void setScheduleTime(Date scheduleTime) {
+		this.scheduleTime = scheduleTime;
+	}
+	public Date getStatusTime() {
+		return statusTime;
+	}
+	public void setStatusTime(Date statusTime) {
+		this.statusTime = statusTime;
 	}
 	public Date getConfirmDate() {
 		return confirmDate;

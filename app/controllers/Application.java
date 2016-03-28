@@ -4085,6 +4085,7 @@ public class Application extends Controller {
 	        			if(tradeIn.status == null){
 	        				tradeIn.setStatus("LOST");
 	        				tradeIn.setStatusDate(currDate);
+	        				tradeIn.setStatusTime(currDate);
 	        				tradeIn.update();
 	        				
 	        				UserNotes uNotes1 = new UserNotes();
@@ -4099,6 +4100,7 @@ public class Application extends Controller {
 	        			}else if(!tradeIn.status.equals("COMPLETE")){
 	        				tradeIn.setStatus("LOST");
 	        				tradeIn.setStatusDate(currDate);
+	        				tradeIn.setStatusTime(currDate);
 	        				tradeIn.update();
 	        				
 	        				UserNotes uNotes1 = new UserNotes();
@@ -4118,6 +4120,7 @@ public class Application extends Controller {
 	        			if(rMoreInfo.status == null){
 	        				rMoreInfo.setStatus("LOST");
 	        				rMoreInfo.setStatusDate(currDate);
+	        				rMoreInfo.setStatusTime(currDate);
 	        				rMoreInfo.update();
 	        				
 	        				UserNotes uNotes1 = new UserNotes();
@@ -4132,6 +4135,7 @@ public class Application extends Controller {
 	        			}else if(!rMoreInfo.status.equals("COMPLETE")){
 	        				rMoreInfo.setStatus("LOST");
 	        				rMoreInfo.setStatusDate(currDate);
+	        				rMoreInfo.setStatusTime(currDate);
 	        				rMoreInfo.update();
 	        				
 	        				UserNotes uNotes1 = new UserNotes();
@@ -4152,6 +4156,7 @@ public class Application extends Controller {
 	        			if(scheduleTest.leadStatus == null){
 	        				scheduleTest.setLeadStatus("LOST");
 	        				scheduleTest.setStatusDate(currDate);
+	        				scheduleTest.setStatusTime(currDate);
 	        				scheduleTest.update();
 	        				
 	        				UserNotes uNotes1 = new UserNotes();
@@ -4166,6 +4171,7 @@ public class Application extends Controller {
 	        			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
 	        				scheduleTest.setLeadStatus("LOST");
 	        				scheduleTest.setStatusDate(currDate);
+	        				scheduleTest.setStatusTime(currDate);
 	        				scheduleTest.update();
 	        				
 	        				UserNotes uNotes1 = new UserNotes();
@@ -12233,6 +12239,7 @@ public class Application extends Controller {
         			if(tradeIn.status == null){
         				tradeIn.setStatus("LOST");
         				tradeIn.setStatusDate(currDate);
+        				tradeIn.setStatusTime(currDate);
         				tradeIn.update();
         				
         				UserNotes uNotes1 = new UserNotes();
@@ -12247,6 +12254,7 @@ public class Application extends Controller {
         			}else if(!tradeIn.status.equals("COMPLETE")){
         				tradeIn.setStatus("LOST");
         				tradeIn.setStatusDate(currDate);
+        				tradeIn.setStatusTime(currDate);
         				tradeIn.update();
         				
         				UserNotes uNotes1 = new UserNotes();
@@ -12273,6 +12281,7 @@ public class Application extends Controller {
         			if(rMoreInfo.status == null){
         				rMoreInfo.setStatus("LOST");
         				rMoreInfo.setStatusDate(currDate);
+        				rMoreInfo.setStatusTime(currDate);
         				rMoreInfo.update();
         				
         				UserNotes uNotes1 = new UserNotes();
@@ -12287,6 +12296,7 @@ public class Application extends Controller {
         			}else if(!rMoreInfo.status.equals("COMPLETE")){
         				rMoreInfo.setStatus("LOST");
         				rMoreInfo.setStatusDate(currDate);
+        				rMoreInfo.setStatusTime(currDate);
         				rMoreInfo.update();
         				
         				UserNotes uNotes1 = new UserNotes();
@@ -12313,6 +12323,7 @@ public class Application extends Controller {
         			if(scheduleTest.leadStatus == null){
         				scheduleTest.setLeadStatus("LOST");
         				scheduleTest.setStatusDate(currDate);
+        				scheduleTest.setStatusTime(currDate);
         				scheduleTest.update();
         				
         				UserNotes uNotes1 = new UserNotes();
@@ -12327,6 +12338,7 @@ public class Application extends Controller {
         			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
         				scheduleTest.setLeadStatus("LOST");
         				scheduleTest.setStatusDate(currDate);
+        				scheduleTest.setStatusTime(currDate);
         				scheduleTest.update();
         				
         				UserNotes uNotes1 = new UserNotes();
@@ -12645,6 +12657,7 @@ public class Application extends Controller {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setLeadStatus("CANCEL");
     			schedule.setStatusDate(currDate);
+    			schedule.setStatusTime(currDate);
     			schedule.setReason(reason);
     			schedule.update();
     			
@@ -12663,6 +12676,7 @@ public class Application extends Controller {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
     			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
+    			info.setStatusTime(currDate);
     			info.setReason(reason);
     			info.update();
     			
@@ -12681,6 +12695,7 @@ public class Application extends Controller {
     			TradeIn info = TradeIn.findById(id);
     			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
+    			info.setStatusTime(currDate);
     			info.setReason(reason);
     			info.update();
     			
@@ -12774,6 +12789,8 @@ public class Application extends Controller {
 		    		info.setCustZipCode(vm.custZipCode);
 		    		info.setEnthicity(vm.enthicity);
 		    		info.setStatusDate(currDate);
+		    		info.setStatusTime(currDate);
+		    		
 		    		info.update();
 		    		
 		    		
@@ -12806,6 +12823,7 @@ public class Application extends Controller {
         		info.setCustZipCode(vm.custZipCode);
         		info.setEnthicity(vm.enthicity);
         		info.setStatusDate(currDate);
+        		info.setStatusTime(currDate);
         		info.update();
         		
         		
@@ -12828,6 +12846,7 @@ public class Application extends Controller {
     			ScheduleTest schedule = ScheduleTest.findById(vm.infoId);
         		schedule.setLeadStatus("COMPLETE");
         		schedule.setStatusDate(currDate);
+        		schedule.setStatusTime(currDate);
         		schedule.setCustZipCode(vm.custZipCode);
         		schedule.setEnthicity(vm.enthicity);
         		schedule.update();
@@ -13026,6 +13045,7 @@ public class Application extends Controller {
 			if(tradeIn.status == null){
 				tradeIn.setStatus("LOST");
 				tradeIn.setStatusDate(currDate);
+				tradeIn.setStatusTime(currDate);
 				tradeIn.update();
 				
 				UserNotes uNotes1 = new UserNotes();
@@ -13041,6 +13061,7 @@ public class Application extends Controller {
 			}else if(!tradeIn.status.equals("COMPLETE")){
 				tradeIn.setStatus("LOST");
 				tradeIn.setStatusDate(currDate);
+				tradeIn.setStatusTime(currDate);
 				tradeIn.update();
 				
 				UserNotes uNotes1 = new UserNotes();
@@ -13067,6 +13088,7 @@ public class Application extends Controller {
 			if(rMoreInfo.status == null){
 				rMoreInfo.setStatus("LOST");
 				rMoreInfo.setStatusDate(currDate);
+				rMoreInfo.setStatusTime(currDate);
 				rMoreInfo.update();
 				
 				UserNotes uNotes1 = new UserNotes();
@@ -13082,6 +13104,7 @@ public class Application extends Controller {
 			}else if(!rMoreInfo.status.equals("COMPLETE")){
 				rMoreInfo.setStatus("LOST");
 				rMoreInfo.setStatusDate(currDate);
+				rMoreInfo.setStatusTime(currDate);
 				rMoreInfo.update();
 				
 				UserNotes uNotes1 = new UserNotes();
@@ -13108,6 +13131,7 @@ public class Application extends Controller {
 			if(scheduleTest.leadStatus == null){
 				scheduleTest.setLeadStatus("LOST");
 				scheduleTest.setStatusDate(currDate);
+				scheduleTest.setStatusTime(currDate);
 				scheduleTest.update();
 				
 				UserNotes uNotes1 = new UserNotes();
@@ -13122,6 +13146,7 @@ public class Application extends Controller {
 			}else if(!scheduleTest.leadStatus.equals("COMPLETE")){
 				scheduleTest.setLeadStatus("LOST");
 				scheduleTest.setStatusDate(currDate);
+				scheduleTest.setStatusTime(currDate);
 				scheduleTest.update();
 				
 				UserNotes uNotes1 = new UserNotes();
@@ -13157,6 +13182,7 @@ public class Application extends Controller {
     		RequestMoreInfo info = RequestMoreInfo.findById(id);
     		info.setStatus("CANCEL");
     		info.setStatusDate(currDate);
+    		info.setStatusTime(currDate);
     		info.setReason(reason);
     		info.update();
     		
@@ -13346,6 +13372,7 @@ public class Application extends Controller {
     		TradeIn info = TradeIn.findById(id);
     		info.setStatus("CANCEL");
     		info.setStatusDate(currDate);
+    		info.setStatusTime(currDate);
     		info.setReason(reason);
     		info.update();
     		
@@ -19249,15 +19276,27 @@ if(vehicles.equals("All")){
      		
      		Long difffoll = 0L;
      		Long countFollo = 0L; 
+     		SimpleDateFormat convdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+     		SimpleDateFormat convdTime = new SimpleDateFormat("hh:mm:ss");
      	for(RequestMoreInfo rMoreInfo:rInfo){
      		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
      			requestLeadCount++;
      			difffoll = 0L;
      			List<UserNotes> uNotes = UserNotes.findRequestMoreAndFirstAdd(rMoreInfo);
      			for(UserNotes uN:uNotes){
-     				System.out.println(uN.createdDate);
-     				difffoll = uN.createdDate.getTime() - rMoreInfo.requestDate.getTime();
-     				difffoll = (difffoll / 1000 /60 /60 /24);
+     				
+     				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
+     				
+     				Date cDate = null;
+     				try {
+						cDate = convdf.parse(CretaeDateTime);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+     				
+     				difffoll = cDate.getTime() - rMoreInfo.requestDate.getTime();
+     				//difffoll = (difffoll / 1000 /60 /60 /24);
      				break;
      			}
      			countFollo = countFollo + difffoll;
@@ -19272,8 +19311,18 @@ if(vehicles.equals("All")){
      			List<UserNotes> uNotes = UserNotes.findScheduleTestAndFirstAdd(sTest);
      			for(UserNotes uN:uNotes){
      				System.out.println(uN.createdDate);
-     				difffoll = uN.createdDate.getTime() - sTest.scheduleDate.getTime();
-     				difffoll = (difffoll / 1000 /60 /60 /24);
+     				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
+     				
+     				Date cDate = null;
+     				try {
+						cDate = convdf.parse(CretaeDateTime);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+     				
+     				difffoll = cDate.getTime() - sTest.scheduleDate.getTime();
+     				//difffoll = (difffoll / 1000 /60 /60 /24);
      				break;
      			}
      			countFollo = countFollo + difffoll;
@@ -19288,8 +19337,19 @@ if(vehicles.equals("All")){
          			List<UserNotes> uNotes = UserNotes.findTradeInAndFirstAdd(tIn);
          			for(UserNotes uN:uNotes){
          				System.out.println(uN.createdDate);
-         				difffoll = uN.createdDate.getTime() - tIn.tradeDate.getTime();
-         				difffoll = (difffoll / 1000 /60 /60 /24);
+         				
+         				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
+         				
+         				Date cDate = null;
+         				try {
+    						cDate = convdf.parse(CretaeDateTime);
+    					} catch (ParseException e) {
+    						// TODO Auto-generated catch block
+    						e.printStackTrace();
+    					}
+         				
+         				difffoll = cDate.getTime() - tIn.tradeDate.getTime();
+         				//difffoll = (difffoll / 1000 /60 /60 /24);
          				break;
          			}
          			countFollo = countFollo + difffoll;
@@ -19354,8 +19414,17 @@ if(vehicles.equals("All")){
 		}
      	
      	if(countFollo != 0 && countLeads != 0){
-     		 Long followUpTime= (long)((double)countFollo / (double) countLeads) * 24;
-     		lDataVM.followUpTime=followUpTime.toString()+":00 Hrs";
+     		Long followUpTime = countFollo / countLeads;
+	     	
+	     	Long seconds = (followUpTime / 1000);
+	     	Long minutes = (followUpTime / (1000 * 60));
+	     	Long hours = (minutes / 60);
+	     	Long displayMin = minutes - (hours * 60);
+	     	
+	     
+	     	lDataVM.followUpTime =hours.toString()+":"+displayMin.toString()+" Hrs";
+     		 /*Long followUpTime= (long)((double)countFollo / (double) countLeads) * 24;
+     		lDataVM.followUpTime=followUpTime.toString()+":00 Hrs";*/
      	}else{
      		lDataVM.followUpTime = "00:00 Hrs";
      	}
@@ -19692,13 +19761,13 @@ if(vehicles.equals("All")){
  			
  			 			
  			Long diff = 0L;
-				if(rMoreInfo.statusDate != null){
-					diff = rMoreInfo.statusDate.getTime() - rMoreInfo.requestDate.getTime();
+				if(rMoreInfo.statusTime != null){
+					diff = rMoreInfo.statusTime.getTime() - rMoreInfo.requestTime.getTime();
 					
-					diff = (diff / 1000 /60 /60 /24);
+					//diff = (diff / 1000 /60 /60 /24);
 				}else{
 					Date nowDate  =new Date();
- 					String datef = df.format(nowDate);
+ 					/*String datef = df.format(nowDate);
  					Date  ndate = null;
  					
  					try {
@@ -19706,10 +19775,10 @@ if(vehicles.equals("All")){
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
+					}*/
  					
- 					diff = ndate.getTime() - rMoreInfo.requestDate.getTime();
- 					diff = (diff / 1000 /60 /60 /24);
+ 					diff = nowDate.getTime() - rMoreInfo.requestTime.getTime();
+ 					//diff = (diff / 1000 /60 /60 /24);
 				}
 				
 				totalLeadDay = totalLeadDay + diff;
@@ -19723,13 +19792,13 @@ if(vehicles.equals("All")){
  		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
  			
  			Long diff = 0L;
-			if(sTest.statusDate != null){
-				diff = sTest.statusDate.getTime() - sTest.scheduleDate.getTime();
+			if(sTest.statusTime != null){
+				diff = sTest.statusTime.getTime() - sTest.scheduleTime.getTime();
 				
-				diff = (diff / 1000 /60 /60 /24);
+			//	diff = (diff / 1000 /60 /60 /24);
 			}else{
 				Date nowDate  =new Date();
-					String datef = df.format(nowDate);
+					/*String datef = df.format(nowDate);
 					Date  ndate = null;
 					
 					try {
@@ -19737,10 +19806,10 @@ if(vehicles.equals("All")){
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 					
-					diff = ndate.getTime() - sTest.scheduleDate.getTime();
-					diff = (diff / 1000 /60 /60 /24);
+					diff = nowDate.getTime() - sTest.scheduleTime.getTime();
+					//diff = (diff / 1000 /60 /60 /24);
 			}
 			
 			totalLeadDay = totalLeadDay + diff;
@@ -19753,13 +19822,13 @@ if(vehicles.equals("All")){
  		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
  			
  			Long diff = 0L;
-			if(tIn.statusDate != null){
-				diff = tIn.statusDate.getTime() - tIn.tradeDate.getTime();
+			if(tIn.statusTime != null){
+				diff = tIn.statusTime.getTime() - tIn.tradeTime.getTime();
 				
-				diff = (diff / 1000 /60 /60 /24);
+			//	diff = (diff / 1000 /60 /60 /24);
 			}else{
 				Date nowDate  =new Date();
-					String datef = df.format(nowDate);
+					/*String datef = df.format(nowDate);
 					Date  ndate = null;
 					
 					try {
@@ -19767,10 +19836,10 @@ if(vehicles.equals("All")){
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 					
-					diff = ndate.getTime() - tIn.tradeDate.getTime();
-					diff = (diff / 1000 /60 /60 /24);
+					diff = nowDate.getTime() - tIn.tradeTime.getTime();
+				//	diff = (diff / 1000 /60 /60 /24);
 			}
 			totalLeadDay = totalLeadDay + diff;
  				tradeInGLeadCount++;
@@ -19781,11 +19850,19 @@ if(vehicles.equals("All")){
      	lDataVM.allGeneratedLeadCount = AllGeneratedLead;
      	
      	
-     	Double AvgLeadLifeCyc = (double)totalLeadDay / (double)AllGeneratedLead;
-     	Long hours= (long)(AvgLeadLifeCyc*24);
-     	//TextField.setText(String.format("%.2f",Double.parseDouble(custom.getValue())));
-     	lDataVM.avgLeadLifeCycle =hours.toString()+":00 Hrs";
-     	
+     	if(totalLeadDay  != 0 || AllGeneratedLead != 0){
+	     	Long AvgLeadLifeCyc = totalLeadDay / AllGeneratedLead;
+	     	
+	     	Long seconds = (AvgLeadLifeCyc / 1000);
+	     	Long minutes = (AvgLeadLifeCyc / (1000 * 60));
+	     	Long hours = (minutes / 60);
+	     	Long displayMin = minutes - (hours * 60);
+	     	
+	     
+	     	lDataVM.avgLeadLifeCycle =hours.toString()+":"+displayMin.toString()+" Hrs";
+     	}else{
+     		lDataVM.avgLeadLifeCycle = "00:00Hrs";
+     	}
      	
      	List<UserNotes> uNotes = UserNotes.findByUserAndcall(users);
      	int callActionCount =  0;
@@ -19962,6 +20039,7 @@ if(vehicles.equals("All")){
     
     public static Result createLead() {
     	AuthUser user = (AuthUser)getLocalUser();
+    	SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     	LeadVM leadVM = DynamicForm.form(LeadVM.class).bindFromRequest().get();
     	String makestr = leadVM.make!=null&&!leadVM.make.isEmpty()?leadVM.make:leadVM.makeSelect;
     	String model = leadVM.model!=null&&!leadVM.model.isEmpty()?leadVM.model:leadVM.modelSelect;
@@ -19992,6 +20070,7 @@ if(vehicles.equals("All")){
 	    		info.setPremiumFlag(0);
 	    		info.setOnlineOrOfflineLeads(0);
 	    		info.setRequestDate(new Date());
+	    		info.setRequestTime(new Date());
 	    		/*	PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		if(pLeads != null){
 	    				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
@@ -20042,7 +20121,7 @@ if(vehicles.equals("All")){
     	} else if(leadVM.leadType.equals("2")){
     		Date confirmDate = null;
     		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-    		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+    	
     		
     		for(VehicleVM vehicleVM:leadVM.stockWiseData){
 	    		ScheduleTest test = new ScheduleTest();
@@ -20073,6 +20152,7 @@ if(vehicles.equals("All")){
 	    		test.setHearedFrom(leadVM.hearedFrom);
 	    		test.setContactedFrom(leadVM.contactedFrom);
 	    		test.setScheduleDate(new Date());
+	    		test.setScheduleTime(new Date());
 	    		test.setPreferredContact(leadVM.prefferedContact);
 	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    		test.setVin(vehicle.getVin());
@@ -20198,6 +20278,7 @@ if(vehicles.equals("All")){
         		tradeIn.setScheduleDate(new Date());
         		tradeIn.setTireRating(leadVM.tireRating);
         		tradeIn.setTradeDate(new Date());
+        		tradeIn.setTradeTime(new Date());
         		tradeIn.setTransmission(leadVM.transmission);
         		tradeIn.setUser(user);
     			tradeIn.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));

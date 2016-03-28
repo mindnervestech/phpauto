@@ -23,6 +23,7 @@ public class RequestMoreInfo extends Model {
 	public String email;
 	public String phone;
 	public Date requestDate;
+	public Date requestTime;
 	public String vin;
 	public int isRead;
 	public String status;
@@ -43,6 +44,7 @@ public class RequestMoreInfo extends Model {
 	public String testDriveCompletedComment;
 	public String testDriveCompletedDuration;
 	public Date statusDate;
+	public Date statusTime;
 	public Integer premiumFlag;
 	public Long parentId;
 	public int onlineOrOfflineLeads;
@@ -88,6 +90,15 @@ public String testDriveStatus;
 	public void setIsReassigned(Boolean isReassigned) {
 		this.isReassigned = isReassigned;
 	}
+	
+
+	public Date getStatusTime() {
+		return statusTime;
+	}
+	public void setStatusTime(Date statusTime) {
+		this.statusTime = statusTime;
+	}
+
 
 	@ManyToOne
 	public AuthUser assignedTo;
@@ -206,6 +217,12 @@ public String testDriveStatus;
 	}
 	
 
+	public Date getRequestTime() {
+		return requestTime;
+	}
+	public void setRequestTime(Date requestTime) {
+		this.requestTime = requestTime;
+	}
 	public int getOnlineOrOfflineLeads() {
 		return onlineOrOfflineLeads;
 	}
