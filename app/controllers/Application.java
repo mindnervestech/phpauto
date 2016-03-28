@@ -11071,7 +11071,7 @@ public class Application extends Controller {
 			pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, month);
 		}
 			
-		if(locOrPer.equals("location")){
+		/*if(locOrPer.equals("location")){
 	    	if(pLocation != null){
 	    		List<Integer> longV = new ArrayList<>();
 				DateAndValueVM sValue = new DateAndValueVM();
@@ -11089,7 +11089,7 @@ public class Application extends Controller {
 				sValue.data = longV;
 				sAndValues.add(sValue);
 	    	}
-		}
+		}*/
 		if(!locOrPer.equals("location")){
    	List<AuthUser> allLoUser = AuthUser.findByLocatio(Location.findById(locationId));
    	int flag = 0;
@@ -11148,7 +11148,7 @@ public class Application extends Controller {
    			flag = 1;
        		List<Integer> longV = new ArrayList<>();
        		DateAndValueVM sValue = new DateAndValueVM();
-   			sValue.name = "Record";
+   			sValue.name = "Highest Result";
    			longV.add(pricecountOther);
    			sValue.data = longV;
    			sAndValues.add(sValue);
@@ -11161,7 +11161,10 @@ public class Application extends Controller {
    	if(vList2.size() != 0){
    		List<Integer> longV = new ArrayList<>();
    		DateAndValueVM sValue = new DateAndValueVM();
-			sValue.name = "You";
+		   	if(locOrPer.equals("location"))
+				sValue.name = "Current earning";
+			else	
+			sValue.name = "Your Result";
 			longV.add(monthPriceCount);
 			sValue.data = longV;
 			sAndValues.add(sValue);
@@ -11464,7 +11467,7 @@ public class Application extends Controller {
 			pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(users, month);
 		}
 			
-		if(locOrPer.equals("location")){
+		/*if(locOrPer.equals("location")){
 	    	if(pLocation != null){
 	    		List<Integer> longV = new ArrayList<>();
 				DateAndValueVM sValue = new DateAndValueVM();
@@ -11482,7 +11485,7 @@ public class Application extends Controller {
 				sValue.data = longV;
 				sAndValues.add(sValue);
 	    	}
-		}
+		}*/
 		if(!locOrPer.equals("location")){
     	List<AuthUser> allLoUser = AuthUser.findByLocatio(Location.findById(locationId));
     	int flag = 0;
@@ -11554,6 +11557,9 @@ public class Application extends Controller {
     	if(vList2.size() != 0){
     		List<Integer> longV = new ArrayList<>();
     		DateAndValueVM sValue = new DateAndValueVM();
+    		if(locOrPer.equals("location"))
+    			sValue.name = "Current earning";
+    		else	
 			sValue.name = "Your Result";
 			longV.add(monthPriceCount);
 			sValue.data = longV;
