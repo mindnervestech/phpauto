@@ -478,10 +478,18 @@ angular.module('newApp')
 					.success(function(data1) {
 						console.log("?????????????????");
 						console.log(data1);
-						data.sendData.push(data1);
-						console.log(data.sendData);
-						$scope.stackchart = data.sendData;
-						$scope.callChart($scope.stackchart);
+						if(data1.data[0].price == null){
+							console.log(data.sendData);
+							$scope.stackchart = data.sendData;
+							$scope.callChart($scope.stackchart);
+							var chart = $('#container').highcharts();
+					        chart.yAxis[0].removePlotLine('plotline-1');
+						}else{
+							data.sendData.push(data1);
+							console.log(data.sendData);
+							$scope.stackchart = data.sendData;
+							$scope.callChart($scope.stackchart);
+						}
 				});
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
@@ -498,10 +506,18 @@ angular.module('newApp')
 					.success(function(data1) {
 						console.log("?????????????????");
 						console.log(data1);
-						data.sendData.push(data1);
-						console.log(data.sendData);
-						$scope.stackchart = data.sendData;
-						$scope.callChart($scope.stackchart);
+						if(data1.data[0].price == null){
+							console.log(data.sendData);
+							$scope.stackchart = data.sendData;
+							$scope.callChart($scope.stackchart);
+							var chart = $('#container').highcharts();
+					        chart.yAxis[0].removePlotLine('plotline-1');
+						}else{
+							data.sendData.push(data1);
+							console.log(data.sendData);
+							$scope.stackchart = data.sendData;
+							$scope.callChart($scope.stackchart);
+						}
 				});
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
@@ -527,10 +543,18 @@ angular.module('newApp')
 					.success(function(data1) {
 						console.log("?????????????????");
 						console.log(data1);
-						data.sendData.push(data1);
-						console.log(data.sendData);
-						$scope.stackchart = data.sendData;
-						$scope.callChart($scope.stackchart);
+						if(data1.data[0].price == null){
+							console.log(data.sendData);
+							$scope.stackchart = data.sendData;
+							$scope.callChart($scope.stackchart);
+							var chart = $('#container').highcharts();
+					        chart.yAxis[0].removePlotLine('plotline-1');
+						}else{
+							data.sendData.push(data1);
+							console.log(data.sendData);
+							$scope.stackchart = data.sendData;
+							$scope.callChart($scope.stackchart);
+						}
 				});
 					console.log(data);
 					$scope.parLocationData = data;
@@ -549,10 +573,19 @@ angular.module('newApp')
 					.success(function(data1) {
 						console.log("?????????????????");
 						console.log(data1);
-						data.sendData.push(data1);
-						console.log(data.sendData);
-						$scope.stackchart = data.sendData;
-						$scope.callChart($scope.stackchart);
+						if(data1.data[0].price == null){
+							console.log(data.sendData);
+							$scope.stackchart = data.sendData;
+							$scope.callChart($scope.stackchart);
+							var chart = $('#container').highcharts();
+					        chart.yAxis[0].removePlotLine('plotline-1');
+						}else{
+							data.sendData.push(data1);
+							console.log(data.sendData);
+							$scope.stackchart = data.sendData;
+							$scope.callChart($scope.stackchart);
+						}
+						
 				});
 				
 				console.log(data);
@@ -625,11 +658,13 @@ angular.module('newApp')
 		            categories: ""
 		        },
 		        yAxis: {
-					plotLines:[{
+		        	categories:'',
+		        		plotLines:[{
 							value:stackchart[stackchart.length-1].data[0].price,
 							color: '#ff0000',
 							width:2,
 							zIndex:4,
+							id: 'plotline-1',
 							label:{text:"Plan : $"+stackchart[stackchart.length-1].data[0].price}
 						}],
 						tooltip: {

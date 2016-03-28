@@ -24879,16 +24879,16 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			if(loc !=null){
 				pvalue.price = Long.parseLong(loc.totalEarning);
 			}else{
-				pvalue.price = 0l;
+				pvalue.price = null;
 			}
 			//pvalue.x = 0l;
-			pvalue.title = "Plan Target";
+			pvalue.title = "";
 			pvalue.text = "Plan "+ pvalue.price;
 			sAndValues.add(pvalue);
 			//sPrice.y = 100000;
 			//sPrice.type = "flags";
 			sPrice.data = sAndValues;
-			sPrice.name = "Plan Target";
+			sPrice.name = "";
 			return ok(Json.toJson(sPrice));
 		}else{
 			AuthUser user = getLocalUser();
@@ -24896,14 +24896,14 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			if(obj !=null){
 				pvalue.price = Long.parseLong(obj.totalBrought);
 			}else{
-				pvalue.price = 0l;
+				pvalue.price = null;
 			}
 			
-			pvalue.title = "Plan Target";
+			pvalue.title = "";
 			pvalue.text = "Plan "+ pvalue.price;
 			sAndValues.add(pvalue);
 			sPrice.data = sAndValues;
-			sPrice.name = "Plan Target";
+			sPrice.name = "";
 			return ok(Json.toJson(sPrice));
 		}	
 	}
