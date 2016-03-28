@@ -2148,7 +2148,6 @@ angular.module('newApp')
     						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
     							 	$scope.comparisonperson.push(response);
     						 });
-    						 $scope.flagvalue = $scope.comparisonperson.length;
     						
     					 }else{
     						 angular.forEach($scope.comparisonperson, function(value, key) {
@@ -2160,6 +2159,16 @@ angular.module('newApp')
     						 item.flag = 0;
     					 }
     					 console.log($scope.comparisonperson);
+    					 $scope.flagvalue = 0;
+    	    			 
+    	    			 
+    	    			  if($scope.comparisonperson[0] != undefined){
+    	    				  $scope.flagvalue++;
+    	    			  }
+    	    			  
+    	    			  if($scope.comparisonperson[1] != undefined){
+    	    				  $scope.flagvalue++;
+    	    			  }
     		 }
     		 
     		 $scope.bestEmpComp = function(){
