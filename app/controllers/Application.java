@@ -23124,6 +23124,7 @@ if(vehicles.equals("All")){
 			moTest.phone = user.getPhone();
 			moTest.reason = vm.getReason();
 			moTest.scheduleDate = new Date();
+			moTest.scheduleTime = new Date();
 			moTest.user = user;
 			moTest.isReassigned = false;
 			moTest.is_google_data = false;

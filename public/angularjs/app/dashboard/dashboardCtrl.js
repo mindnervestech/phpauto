@@ -2148,6 +2148,7 @@ angular.module('newApp')
     						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
     							 	$scope.comparisonperson.push(response);
     						 });
+    						 $scope.flagvalue = $scope.comparisonperson.length;
     						
     					 }else{
     						 angular.forEach($scope.comparisonperson, function(value, key) {
@@ -2597,13 +2598,13 @@ angular.module('newApp')
     				  }
     				  
     				  $('#btncomparisonSale').click();
-    			  }else{
+    			  }/*else{
     				  $.pnotify({
 						    title: "Success",
 						    type:'success',
 						    text: "Select 2 Sale People",
 						});
-    			  }
+    			  }*/
     			
     			  
     		  }
