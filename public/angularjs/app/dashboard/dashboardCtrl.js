@@ -2121,7 +2121,7 @@ angular.module('newApp')
     		 }
     		 
     		 $scope.comparisonperson = [];
-    		 
+    		 $scope.flagvalue = 0;
     		 $scope.checkSalePersonIndex = function(item,values){
     			 
     			 $scope.ComperFlag = 0;
@@ -2148,6 +2148,7 @@ angular.module('newApp')
     						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
     							 	$scope.comparisonperson.push(response);
     						 });
+    						 $scope.flagvalue = $scope.flagvalue +1;
     						
     					 }else{
     						 angular.forEach($scope.comparisonperson, function(value, key) {
@@ -2155,25 +2156,14 @@ angular.module('newApp')
     								 $scope.comparisonperson.splice(key,1);
     							 }
     						 });
-    						 
+    						 $scope.flagvalue = $scope.flagvalue - 1;
     						 item.flag = 0;
     					 }
+    					 
+    					 console.log($scope.flagvalue);
+    				
     					 console.log($scope.comparisonperson);
-    					 var i = 0;
-    	    			 
-    	    			 
-    	    			  if($scope.comparisonperson[0] != undefined){
-    	    				  i++;
-    	    			  }
-    	    			  
-    	    			  if($scope.comparisonperson[1] != undefined){
-    	    				  i++;
-    	    			  }
-    	    			  if(i == 2){
-    	    				  $scope.flagvalue = 2;
-    	    			  }else{
-    	    				  $scope.flagvalue = 0;
-    	    			  }
+    					
     		 }
     		 
     		 $scope.bestEmpComp = function(){
