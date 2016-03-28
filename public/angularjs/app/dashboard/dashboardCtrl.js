@@ -1881,9 +1881,21 @@ angular.module('newApp')
    	  		$scope.pdfFile = "/getPdfPath/"+id;
    	  		$('#openPdffile').click();
    	  	}
+   	        $scope.financeData={};
    	  		$scope.editLeads = {};
    	  	$scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
+   	  			console.log("::::::entity Data");
+   	  		     console.log(entity);
+   	  		  $scope.financeData.downPayment=1000;
+   	  		  $scope.financeData.annualInterestRate=7;
+   	  		  $scope.financeData.numberOfYears=5;
+   	  		  $scope.financeData.price=entity.price;
+   	  		  $scope.financeData.frequencyOfPayments=26;
+   	  		$scope.payments="00";
+   	  		$scope.payment="0.000";
+   	  		  
+   	  		 // $scope.financeData.frequencyOfPayments=
    	  			$scope.stockWiseData = [];
    	  			$scope.editLeads = {};
    	  			//$scope.getAllVehical();
@@ -1952,7 +1964,25 @@ angular.module('newApp')
    	  				
    	  			});
    	  		}
-   	  		
+   	 $scope.calculateFinancialData = function(financeData){
+   	  		console.log("::::::::::::::fin");
+   	  		console.log(financeData);
+   	  	var cost         =financeData.price;
+		var down_payment =financeData.downPayment;
+		var interest     =financeData.annualInterestRate;
+		var loan_years   =financeData.numberOfYears;
+		var frequency_rate    =financeData.frequencyOfPayments;
+		
+		var interest_rate = (interest) / 100;
+		 var rate          = interest_rate / frequency_rate;
+		 $scope.payments      = loan_years * frequency_rate;
+		var difference    = cost - down_payment;
+	
+		$scope.payment = Math.floor((difference*rate)/(1-Math.pow((1+rate),(-1* $scope.payments)))*100)/100;
+		
+		
+   	  	}
+   	  	
    	  		$scope.editleads = function(){
    	  		
    	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;

@@ -476,8 +476,11 @@ margin-left: 5px;
 									 <div class="col-sm-3" ng-if="userRole == 'Manager'">
 									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/{{parLocationData.imageUrl}}">
 										</div>
-										<div class="col-sm-3" ng-if="userRole == 'Sales Person'">
-									       <a ng-click="bestEmpComp(parLocationData)"><img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"></a>
+										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& parLocationData.totalsaleCar == '0'">
+									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"> </a>
+										</div>
+										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& parLocationData.totalsaleCar != '0'">
+									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"> </a>
 										</div>
 										<div class="col-sm-5" style="margin-top: 25px;">
 									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
@@ -4673,11 +4676,13 @@ margin-left: 5px;
 												<div class="col-sm-12">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">Lead's Info</h4>
-													<h4 class="modal-title" style="margin-left: 50%; color:red">Financial Calculator</h4>
+													<h4 class="modal-title" style="margin-left: 50%; color:#c7081b;">Financial Calculator</h4>
 												</div>	
 								                </div>
+								                
 								                <form ng-submit="editleads()">
 								                <div class="modal-body" style="height:661px;overflow-x:auto;">
+								                <div class="financing_calculator">
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-1 control-label" style="text-align: right;">Name</label>
 														<div class="col-sm-5">
@@ -4686,7 +4691,7 @@ margin-left: 5px;
 														<div class="col-sm-6">
 															<label class="col-sm-6 control-label" style="text-align: left;">Cost of Vehicle($)</label>
 															<div class="col-sm-6">
-																<input type="text" value="editLeads.price" class="number cost">
+																<input type="text" ng-model="financeData.price" class="number cost">
 															</div>
 														</div>
 													</div>
@@ -4698,7 +4703,7 @@ margin-left: 5px;
 														<div class="col-sm-6">
 															<label class="col-sm-6 control-label" style="text-align: left;">Down Payment($)</label>
 															<div class="col-sm-6">
-																<input type="text" value="1000" class="number down_payment">
+																<input type="text" ng-model="financeData.downPayment"  class="number down_payment">
 															</div>
 														</div>
 													</div>
@@ -4710,7 +4715,7 @@ margin-left: 5px;
 														<div class="col-sm-6">
 															<label class="col-sm-6 control-label" style="text-align: left;">Annual Interest Rate($)</label>
 															<div class="col-sm-6">
-																<input type="text" value="7" class="number interest">
+																<input type="text" ng-model="financeData.annualInterestRate" class="number interest">
 															</div>
 														</div>
 													</div>
@@ -4723,7 +4728,7 @@ margin-left: 5px;
 														<div class="col-sm-6">
 															<label class="col-sm-6 control-label" style="text-align: left;">Term of Loan in Years:</label>
 															<div class="col-sm-6">
-																<input type="text" value="5" class="number loan_years">
+																<input type="text" ng-model="financeData.numberOfYears" class="number loan_years">
 															</div>
 														</div>
 													</div>
@@ -4742,11 +4747,11 @@ margin-left: 5px;
 														</div>
 														<div class="col-sm-6">
 															<label class="col-sm-6 control-label" style="text-align: left;">Frequency of Payments:($)</label>
-															<div class="col-sm-6">
-																<select class="frequency css-dropdowns" style="display: none;">
-																	<option value="0">Monthly</option>
-																	<option value="1">Bi-Weekly</option>
-																	<option value="2">Weekly</option>
+															<div class="col-sm-6" >
+																<select class="frequency css-dropdowns" ng-model="financeData.frequencyOfPayments" >
+																	<option value="26">Monthly</option>
+																	<option value="52">Bi-Weekly</option>
+																	<option value="12">Weekly</option>
 																</select>
 															</div>
 														</div>
@@ -4760,7 +4765,7 @@ margin-left: 5px;
 														<div class="col-sm-6">
 															<label class="col-sm-6 control-label" style="text-align: left;"></label>
 															<div class="col-sm-6">
-																<a class="btn-inventory pull-right calculate">Calculate My Payment</a>
+																<button type="button" class="btn btn-default btn-embossed  pull-right" ng-click="calculateFinancialData(financeData)" style="background-color: #c7081b;">Calculate My Payment</button>
 															</div>
 														</div>
 													</div>
@@ -4771,7 +4776,7 @@ margin-left: 5px;
 														</div>
 														<div class="col-sm-6">
 															<strong class="col-sm-6" style="text-align: left;">NUMBER OF PAYMENTS:</strong>
-															<strong class="payments col-sm-6">00</strong>
+															<strong class="payments col-sm-6">{{payments}}</strong>
 														</div>
 													</div>
 													<div class="form-group col-sm-12">
@@ -4781,8 +4786,9 @@ margin-left: 5px;
 														</div>
 														<div class="col-sm-6">
 															<strong class="col-sm-6" style="text-align: left;">PAYMENT AMOUNT:</strong>
-															<strong class="payment_amount">$0,000</strong>
+															<strong class="payment_amount" >{{payment}}</strong>
 														</div>
+													</div>
 													</div>
 													<!-- ------------------------------- -->
 													
