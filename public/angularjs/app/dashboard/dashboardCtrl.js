@@ -474,12 +474,19 @@ angular.module('newApp')
 			.success(function(data) {
 				$http.get('/getUserLocationByDateInfo/'+data.id+"/"+startD+'/'+endD+'/'+locOrPer)
 				.success(function(data) {
+					$http.get('/getPlanTarget/'+locOrPer)
+					.success(function(data1) {
+						console.log("?????????????????");
+						console.log(data1);
+						data.sendData.push(data1);
+						console.log(data.sendData);
+						$scope.stackchart = data.sendData;
+						$scope.callChart($scope.stackchart);
+				});
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
 					$scope.leadsTime.goalSetTime = data.goalTime;
-					$scope.showLeads = data.leads;
-					$scope.stackchart = data.sendData;
-					$scope.callChart($scope.stackchart);
+					$scope.showLeads = data.leads;	
 				});
 				
 			});
@@ -487,13 +494,20 @@ angular.module('newApp')
 		}else{
 			$http.get('/getUserLocationByDateInfo/'+$scope.userKey+"/"+startD+'/'+endD+'/'+locOrPer)
 			.success(function(data) {
-				$scope.parLocationData = data;
-				$scope.leadsTime.leads = data.leads;
-				$scope.leadsTime.goalSetTime = data.goalTime;
-				$scope.showLeads = data.leads;
-				$scope.stackchart = data.sendData;
-				$scope.callChart($scope.stackchart);
-			});
+				$http.get('/getPlanTarget/'+locOrPer)
+					.success(function(data1) {
+						console.log("?????????????????");
+						console.log(data1);
+						data.sendData.push(data1);
+						console.log(data.sendData);
+						$scope.stackchart = data.sendData;
+						$scope.callChart($scope.stackchart);
+				});
+					$scope.parLocationData = data;
+					$scope.leadsTime.leads = data.leads;
+					$scope.leadsTime.goalSetTime = data.goalTime;
+					$scope.showLeads = data.leads;	
+				});
 		}
 		
 	 }
@@ -508,25 +522,44 @@ angular.module('newApp')
 				
 				$http.get('/getUserLocationInfo/'+data.id+"/"+timeSet+"/"+"location")
 				.success(function(data) {
+					
+					$http.get('/getPlanTarget/'+locOrPer)
+					.success(function(data1) {
+						console.log("?????????????????");
+						console.log(data1);
+						data.sendData.push(data1);
+						console.log(data.sendData);
+						$scope.stackchart = data.sendData;
+						$scope.callChart($scope.stackchart);
+				});
+					console.log(data);
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
 					$scope.leadsTime.goalSetTime = data.goalTime;
 					$scope.showLeads = data.leads;
-					$scope.stackchart = data.sendData;
-					$scope.callChart($scope.stackchart);
 				});
 				
 			});
 			 
 		}else{
 			$http.get('/getUserLocationInfo/'+$scope.userKey+"/"+timeSet+"/"+locOrPer)
-			.success(function(data) {
+			.success(function(data) {			
+				
+				$http.get('/getPlanTarget/'+locOrPer)
+					.success(function(data1) {
+						console.log("?????????????????");
+						console.log(data1);
+						data.sendData.push(data1);
+						console.log(data.sendData);
+						$scope.stackchart = data.sendData;
+						$scope.callChart($scope.stackchart);
+				});
+				
+				console.log(data);
 				$scope.parLocationData = data;
 				$scope.leadsTime.leads = data.leads;
 				$scope.leadsTime.goalSetTime = data.goalTime;
 				$scope.showLeads = data.leads;
-				$scope.stackchart = data.sendData;
-				$scope.callChart($scope.stackchart);
 			});
 		}
 		
@@ -592,13 +625,17 @@ angular.module('newApp')
 		            categories: ""
 		        },
 		        yAxis: {
-		            title: {
-		                text: ''
-		            }
-		        },
-		        tooltip: {
-		            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>${point.y}</b><br/>',
-		            shared: true
+					plotLines:[{
+							value:65000,
+							color: '#ff0000',
+							width:2,
+							zIndex:4,
+							label:{text:"Plan : $"+stackchart[stackchart.length-1].data[0].price}
+						}],
+						tooltip: {
+								pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>${series.data[0]}</b><br/>',
+								shared: true
+							}
 		        },
 		        plotOptions: {
 		            column: {

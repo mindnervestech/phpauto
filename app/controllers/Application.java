@@ -24774,6 +24774,54 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		return ok(Json.toJson(sAndValues));
 	}
 	
+	public static Result getPlanTarget(String type){
+		
+		String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+		        "August", "September", "October", "November", "December" };
+   	
+		Calendar cal = Calendar.getInstance();  
+    	String monthCal = monthName[cal.get(Calendar.MONTH)];
+    	SetPriceChangeFlag sPrice = new SetPriceChangeFlag();
+	 	List<PriceFormatDate> sAndValues = new ArrayList<>();
+	 	PriceFormatDate pvalue = new PriceFormatDate();
+		
+		if(type.equalsIgnoreCase("location")){
+			Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			PlanScheduleMonthlyLocation loc = PlanScheduleMonthlyLocation.findByLocationAndMonth(location,monthCal);
+			if(loc !=null){
+				pvalue.price = Long.parseLong(loc.totalEarning);
+			}else{
+				pvalue.price = 0l;
+			}
+			//pvalue.x = 0l;
+			pvalue.title = "Plan Target";
+			pvalue.text = "Plan "+ pvalue.price;
+			sAndValues.add(pvalue);
+			//sPrice.y = 100000;
+			//sPrice.type = "flags";
+			sPrice.data = sAndValues;
+			sPrice.name = "Plan Target";
+			return ok(Json.toJson(sPrice));
+		}else{
+			AuthUser user = getLocalUser();
+			PlanScheduleMonthlySalepeople obj = PlanScheduleMonthlySalepeople.findByUserMonth(user, monthCal);
+			if(obj !=null){
+				pvalue.price = Long.parseLong(obj.totalBrought);
+			}else{
+				pvalue.price = 0l;
+			}
+			
+			pvalue.title = "Plan Target";
+			pvalue.text = "Plan "+ pvalue.price;
+			sAndValues.add(pvalue);
+			sPrice.data = sAndValues;
+			sPrice.name = "Plan Target";
+			return ok(Json.toJson(sPrice));
+		}	
+	}
+	
+	
+	
 	 public static Result getCustomerRequestFlag(Long id, String vin,String status, String startDate, String endDate) {
 		 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		 	Map<Long, Long> mapdateFlag = new HashMap<Long, Long>();

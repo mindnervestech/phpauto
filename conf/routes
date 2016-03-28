@@ -47,6 +47,7 @@ POST	/saveFeaturedPosition		controllers.Application.saveFeaturedPosition
 GET		/getUserInfo				controllers.Application.getUserInfo()
 GET		/getHeardAboutUs				controllers.Application.getHeardAboutUs()
 GET    	/addHeard/:name      			controllers.Application.addHeard(name: String)
+GET    	/getPlanTarget/:type      			controllers.Application.getPlanTarget(type: String)
 GET    	/getAllVehicles             controllers.Application.getAllVehicles()
 GET    	/getAllVehiclesByType/:type             controllers.Application.getAllVehiclesByType(type:String)
 GET		/getAllSoldVehicles			controllers.Application.getAllSoldVehicles()
