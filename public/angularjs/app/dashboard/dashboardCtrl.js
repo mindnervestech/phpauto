@@ -2159,15 +2159,20 @@ angular.module('newApp')
     						 item.flag = 0;
     					 }
     					 console.log($scope.comparisonperson);
-    					 $scope.flagvalue = 0;
+    					 var i = 0;
     	    			 
     	    			 
     	    			  if($scope.comparisonperson[0] != undefined){
-    	    				  $scope.flagvalue++;
+    	    				  i++;
     	    			  }
     	    			  
     	    			  if($scope.comparisonperson[1] != undefined){
-    	    				  $scope.flagvalue++;
+    	    				  i++;
+    	    			  }
+    	    			  if(i == 2){
+    	    				  $scope.flagvalue = 2;
+    	    			  }else{
+    	    				  $scope.flagvalue = 0;
     	    			  }
     		 }
     		 
