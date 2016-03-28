@@ -4879,6 +4879,10 @@ angular.module('newApp')
 			   $scope.manager = {};
 			   $scope.user = {};
 			   $scope.checkManagerLogin();
+			  
+			   $('#cnfmeetingdate').val('');
+				$('#cnfmeetingtime').val('');
+			   $scope.gridOptions11.data = [];
 			   $scope.getGMData1();
 			   $('#meeting-model').modal();
 		   };
