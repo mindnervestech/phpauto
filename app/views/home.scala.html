@@ -198,6 +198,7 @@ h1, h2 {
             <div class="row">
             	<p id="messg" style="color:red;display:none;">@message</p>
                 <input type="submit" value="login" ng-click="test()">
+                <a style="font-size: 18px;" class="register" >Register</a>
                 <a href="#" class="remind">Forgot password?</a>
             </div>
         </form>
@@ -214,6 +215,46 @@ h1, h2 {
     <p id="msg1" style="color:green;display:none;"><b>Email send successfully</b></p>
     <input type="submit" value="submit" onclick="forgotPassword()">
 </div>
+
+
+<div class="register-pop popsReg">
+    <a href="#" class="close-button"></a>
+   			 <h2>Register</h2>
+    							<div class="col-md-12">
+								          <input type="radio" name="gender" ng-model="location" value="one" checked> One Location<br>
+  								 		<input type="radio" name="gender" ng-model="location" value="multi"> Multiple Location<br>	
+								</div>
+								 <div class="col-md-12">
+								                		<div class="col-md-2">
+								                			<label>Options</label>
+								                		</div>
+								                		<div class="col-md-8">
+								                			<select class="form-control form-white"  ng-model="options" ng-change="vehicleData(vehicles)"  required>
+																<option value="">Select</option>
+																<option value="Cars" >Cars</option>
+																<option value="Motorcycles">Motorcycles</option>	
+																<option value="Boat">Boat</option>
+																<option value="Airplanes">Airplanes</option>	
+																<option value="DesignerFurniture">Designer Furniture</option>
+																<option value="RealEstate">Real Estate</option>
+																<option value="ServicesProvider">Services Provider</option>
+																<option value="LuxuryProducts">Luxury Products</option>																
+															</select>
+								                		</div>
+								  </div>
+								  <div class="col-md-12">
+								  		<div>
+								  			<label>	Name</label>
+								  		</div>
+								  		
+								  		<input type="text" name="email" id="email_id" placeholder="Email">
+								  </div>
+    
+    <p id="msg" style="color:red;display:none;"><b>Invalid User</b></p>
+    <p id="msg1" style="color:green;display:none;"><b>Email send successfully</b></p>
+    <input type="submit" value="submit" onclick="forgotPassword()">
+</div>
+
 <div class="support-pop pops">
 	<form name="supportForm">
     <a href="#" class="close-button"></a>
@@ -454,6 +495,8 @@ first written above
                 $('html,body').animate({scrollTop:0}, '300', 'swing');
             });
         };
+        
+        add_modal('a.register','register-pop');
         add_modal('a.remind','remind-pop');
         add_modal('a.support','support-pop');
         add_modal('a.agreement','agreement-pop');

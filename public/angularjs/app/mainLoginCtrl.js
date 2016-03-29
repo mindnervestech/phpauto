@@ -41,6 +41,13 @@ angular.module('newApp').controller('mainLoginCtrl',
 	    	   		
 	            });
 	            }
+	            
+	            $scope.openRegister = function(){
+	            	console.log("Checkkkk");
+	            	$('#registerModel').modal();
+	            }
+	            
+	            
 	        }]);
 angular.module('newApp').controller('mainPdfCtrl',
 	    ['$scope','$location','$http','$interval',
