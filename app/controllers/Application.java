@@ -23096,15 +23096,21 @@ if(vehicles.equals("All")){
 			List<AuthUser> userList = AuthUser.findByLocatioUsers(loc);
 			for (AuthUser authUser : userList) {
 				Boolean flag = true;
-				List<ScheduleTest> testList = ScheduleTest.findAllAssigned(authUser);
+				List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser);
 				for (ScheduleTest scheduleTest : testList) {
 					if(confirmDate.equals(scheduleTest.confirmDate)){
-						if((confirmTime.after(minTime) || confirmTime.equals(minTime)) && (confirmTime.before(maxTime) || confirmTime.equals(maxTime))){
+						if(confirmTime.equals(scheduleTest.confirmTime)){
 							flag = false;
 							break;
 						}
 					}
 				}
+				
+				/*if((confirmTime.after(minTime) || confirmTime.equals(minTime)) && (confirmTime.before(maxTime) || confirmTime.equals(maxTime))){
+					flag = false;
+					break;
+				}*/
+				
 				if(flag){
 					UserVM vm = new UserVM();
 					vm.id = authUser.getId();
@@ -23118,7 +23124,7 @@ if(vehicles.equals("All")){
 					vm.id = authUser.getId();
 					vm.fullName = authUser.getFirstName()+" "+authUser.getLastName();
 					vm.role = authUser.getRole();
-					vm.userStatus = "Block";
+					vm.userStatus = "N/A";
 					vm.isSelect = false;
 					vmList.add(vm);
 				}

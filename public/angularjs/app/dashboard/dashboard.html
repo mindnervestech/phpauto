@@ -476,10 +476,10 @@ margin-left: 5px;
 									 <div class="col-sm-3" ng-if="userRole == 'Manager'">
 									       <img class="col-sm-4"style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/{{parLocationData.imageUrl}}">
 										</div>
-										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale == 0">
+										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& parLocationData.totalsaleCar == '0'">
 									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4" ng-style="{opacity : ((currentPage == 0) && '0.4') || '0.5'}" style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"> </a>
 										</div>
-										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& flagForBestSale != 0">
+										<div class="col-sm-3" ng-if="userRole == 'Sales Person'&& parLocationData.totalsaleCar != '0'">
 									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"> </a>
 										</div>
 										<div class="col-sm-5" style="margin-top: 25px;">
