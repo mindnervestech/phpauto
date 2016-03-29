@@ -13580,59 +13580,98 @@ public class Application extends Controller {
     		for(ScheduleTest test : scheduleList) {
     			List<UserVM> listUser = new ArrayList<>();
     			RequestInfoVM vm = new RequestInfoVM();
-    			
-    			if(setGroupid.get(test.groupId) == null){
-    				setGroupid.put(test.groupId, 1);
-    	    		vm.id = test.id;
-    	    		vm.vin = test.vin;
-    	    		//vm.isgoogle = test.google_id;
-    	    		if(test.is_google_data !=null){
-    	    			vm.is_google = test.is_google_data;
-    	    		}	    		
-    	    		Vehicle vehicle = Vehicle.findByVinAndStatus(test.vin);
-    	    		if(vehicle != null) {
-    	    			vm.make = vehicle.make;
-    	    			vm.model = vehicle.model;
-    	    			vm.trim=vehicle.trim;
-    	    			vm.year=vehicle.year;
-    	    			
-    	    		}
-    	    		vm.bestTime=test.bestTime;
-    	    		vm.name = test.name;
-    	    		vm.email = test.email;
-    	    		vm.phone = test.phone;
-    	    		vm.meeting = test.meetingStatus;
-    	    		if(test.getConfirmDate() != null) {
-    	    			vm.confirmDate = df2.format(test.getConfirmDate());
-    	    		}
-    	    		if(test.getConfirmTime() != null) {
-    	    			time.setTime(test.getConfirmTime());
-    	    			String ampm = "";
-    	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
-    	    				ampm = "PM";
-    	    			} else {
-    	    				ampm = "AM";
-    	    			}
-    	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
-    	    		}
-    	    		
-    	    		if(test.groupId != null){
-    	    			List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(test.groupId);
-    	    			for(ScheduleTest users:schedulegroupList){
-    	    				UserVM uVm = new UserVM();
-    	    	    		uVm.firstName = users.assignedTo.getFirstName();
-    	    	    		uVm.lastName = users.assignedTo.getLastName();
-    	    	    		uVm.id = users.assignedTo.id;
-    	    	    	
-    	    	    		listUser.add(uVm);
-    	    			}
-    	    		}
-    	    	
-    	    	
-    	    		
-    	    		vm.userdata = listUser;
-    	    		vmList.add(vm);
+    			if(test.groupId == null){
+    				
+        	    		vm.id = test.id;
+        	    		vm.vin = test.vin;
+        	    		//vm.isgoogle = test.google_id;
+        	    		if(test.is_google_data !=null){
+        	    			vm.is_google = test.is_google_data;
+        	    		}	    		
+        	    		Vehicle vehicle = Vehicle.findByVinAndStatus(test.vin);
+        	    		if(vehicle != null) {
+        	    			vm.make = vehicle.make;
+        	    			vm.model = vehicle.model;
+        	    			vm.trim=vehicle.trim;
+        	    			vm.year=vehicle.year;
+        	    			
+        	    		}
+        	    		vm.bestTime=test.bestTime;
+        	    		vm.name = test.name;
+        	    		vm.email = test.email;
+        	    		vm.phone = test.phone;
+        	    		vm.meeting = test.meetingStatus;
+        	    		if(test.getConfirmDate() != null) {
+        	    			vm.confirmDate = df2.format(test.getConfirmDate());
+        	    		}
+        	    		if(test.getConfirmTime() != null) {
+        	    			time.setTime(test.getConfirmTime());
+        	    			String ampm = "";
+        	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+        	    				ampm = "PM";
+        	    			} else {
+        	    				ampm = "AM";
+        	    			}
+        	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        	    		}
+        	    		
+        	    		
+        	    		vmList.add(vm);
+    			}else{
+    				if(setGroupid.get(test.groupId) == null){
+        				setGroupid.put(test.groupId, 1);
+        	    		vm.id = test.id;
+        	    		vm.vin = test.vin;
+        	    		//vm.isgoogle = test.google_id;
+        	    		if(test.is_google_data !=null){
+        	    			vm.is_google = test.is_google_data;
+        	    		}	    		
+        	    		Vehicle vehicle = Vehicle.findByVinAndStatus(test.vin);
+        	    		if(vehicle != null) {
+        	    			vm.make = vehicle.make;
+        	    			vm.model = vehicle.model;
+        	    			vm.trim=vehicle.trim;
+        	    			vm.year=vehicle.year;
+        	    			
+        	    		}
+        	    		vm.bestTime=test.bestTime;
+        	    		vm.name = test.name;
+        	    		vm.email = test.email;
+        	    		vm.phone = test.phone;
+        	    		vm.meeting = test.meetingStatus;
+        	    		if(test.getConfirmDate() != null) {
+        	    			vm.confirmDate = df2.format(test.getConfirmDate());
+        	    		}
+        	    		if(test.getConfirmTime() != null) {
+        	    			time.setTime(test.getConfirmTime());
+        	    			String ampm = "";
+        	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+        	    				ampm = "PM";
+        	    			} else {
+        	    				ampm = "AM";
+        	    			}
+        	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        	    		}
+        	    		
+        	    		if(test.groupId != null){
+        	    			List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(test.groupId);
+        	    			for(ScheduleTest users:schedulegroupList){
+        	    				UserVM uVm = new UserVM();
+        	    	    		uVm.firstName = users.assignedTo.getFirstName();
+        	    	    		uVm.lastName = users.assignedTo.getLastName();
+        	    	    		uVm.id = users.assignedTo.id;
+        	    	    	
+        	    	    		listUser.add(uVm);
+        	    			}
+        	    		}
+        	    	
+        	    	
+        	    		
+        	    		vm.userdata = listUser;
+        	    		vmList.add(vm);
+        			}
     			}
+    			
 	    		
     		}
     		return ok(Json.toJson(vmList));
@@ -26783,6 +26822,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		AuthUser user = getLocalUser();
 	    	AuthUser userObj = AuthUser.findById(id);
 	    	/*Comments comm = Comments.getByUser(userObj);
 	    	if(comm != null) {
@@ -26794,6 +26834,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		cm.comment = comment;
 	    		cm.likeDate = currDate;
 	    		cm.user = userObj;
+	    		cm.commentUser = user;
+	    		cm.commentFlag = 1;
 	    		cm.save();
 	    	//}
 	    	likeEmail(userObj.email, comment);
@@ -26834,6 +26876,37 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		  			  throw new RuntimeException(e);
 		  		}
 		return ok();
+	}
+	
+	public static Result getcommentLike(){
+		AuthUser user = (AuthUser) getLocalUser();
+		
+		List<UserVM> listU = new ArrayList<>();
+		List<Comments> comments = Comments.getByListUserWithFlag(user);
+		for(Comments comm:comments){
+			UserVM uVm = new UserVM();
+			uVm.firstName = comm.commentUser.getFirstName();
+			uVm.lastName = comm.commentUser.getLastName();
+			uVm.id = comm.commentUser.id;
+			if(comm.commentUser.imageUrl != null) {
+				if(comm.commentUser.imageName !=null){
+					uVm.imageUrl = "http://glider-autos.com/glivrImg/images"+comm.commentUser.imageUrl;
+				}else{
+					uVm.imageUrl = comm.commentUser.imageUrl;
+				}
+				
+			} else {
+				uVm.imageUrl = "/profile-pic.jpg";
+			}
+			
+			listU.add(uVm);
+			
+			comm.setCommentFlag(0);
+			comm.update();
+			
+		}
+		
+		return ok(Json.toJson(listU));
 	}
 	
 	public static Result getAllContactsByLocation(Long id){

@@ -566,7 +566,7 @@ margin-left: 5px;
 									<span class="todo-task">{{schedule.email}}</span>&nbsp;&nbsp;<br>
 									<span class="todo-task">{{schedule.phone}}</span>&nbsp;&nbsp;
                              	</div>
-                             	<div class="col-md-6" style="padding: 0px;" ng-if="schedule.userdata.length != 0">
+                             	<div class="col-md-6" style="padding: 0px;" ng-if="schedule.userdata.length > 0">
                              		<label class="col-md-12">Members</label>
                              		<span class="col-md-4" ng-repeat="users in schedule.userdata">{{users.firstName}} {{users.lastName}} , </span>
                              	</div>

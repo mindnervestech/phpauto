@@ -2417,7 +2417,13 @@ angular.module('newApp')
     		  $scope.yearPerformance = false;
     		  $scope.showLeads = false;
     		  
+    		
     		  $scope.init = function() {
+    			  
+    			  
+    			  $scope.likeMsg();
+    			
+    			  
     			 $scope.check={};
     			  var date = new Date();
     			  
@@ -2465,6 +2471,64 @@ angular.module('newApp')
 
 		    		  $scope.vehicleData("All");
     		  };  
+    		  
+    		  
+
+
+							    		  $scope.likeMsg = function() {
+
+								$http
+										.get('/getcommentLike')
+										.success(
+												function(data) {
+													console.log(data);
+													angular.forEach(data, function(value, key) {
+														var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
+															+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><h2 class="col-md-12" style="color: goldenrod;margin-top: 0px;">Congratulations!</h2><span class="col-md-12" style="margin-left: 22px;"><h3>'+value.firstName+'  '+ value.lastName+' just like your work</h3></span><p class="pull-left" style="margin-left:45%;"><a class="f-12">Close&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>'
+															+ '</div>';
+													var position = 'topRight';
+													if ($('body').hasClass(
+															'rtl'))
+														position = 'topLeft';
+													var n = noty({
+														text : notifContent,
+														type : 'success',
+														layout : position,
+														theme : 'made',
+														animation : {
+															open : 'animated bounceIn',
+															close : 'animated bounceOut'
+														},
+
+														callback : {
+															onShow : function() {
+																$(
+																		'#noty_topRight_layout_container, .noty_container_type_success')
+																		.css(
+																				'right', 110,
+																				'width',
+																				450)
+																				
+																		.css(
+																				'bottom',
+																				10);
+															},
+															onCloseClick : function() {
+																$('html, body')
+																		.animate(
+																				{
+																					scrollTop : 2480
+																				},
+																				'slow');
+															}
+														}
+													});
+													});
+
+									
+												});
+
+							}
     		  
     		  $scope.schedulmultidatepicker = function(){
     			  $scope.showToDoList = false;

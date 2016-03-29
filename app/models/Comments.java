@@ -22,6 +22,9 @@ public class Comments extends Model {
 	public Date likeDate;
 	@ManyToOne
 	public AuthUser user;
+	@ManyToOne
+	public AuthUser commentUser;
+	public Integer commentFlag;
 	public String getComment() {
 		return comment;
 	}
@@ -52,6 +55,22 @@ public class Comments extends Model {
 		this.id = id;
 	}
 
+	public Integer getCommentFlag() {
+		return commentFlag;
+	}
+
+	public void setCommentFlag(Integer commentFlag) {
+		this.commentFlag = commentFlag;
+	}
+
+	public AuthUser getCommentUser() {
+		return commentUser;
+	}
+
+	public void setCommentUser(AuthUser commentUser) {
+		this.commentUser = commentUser;
+	}
+
 	public static Comments getByUser(AuthUser user) {
 		return find.where().eq("user", user).findUnique();
 		//return null;
@@ -59,6 +78,10 @@ public class Comments extends Model {
 	
 	public static List<Comments> getByListUser(AuthUser user) {
 		return find.where().eq("user", user).findList();
+	}
+	
+	public static List<Comments> getByListUserWithFlag(AuthUser user) {
+		return find.where().eq("user", user).eq("commentFlag", 1).findList();
 	}
 	
 	
