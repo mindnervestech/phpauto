@@ -146,6 +146,7 @@ import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
 import viewmodel.PriceFormatDate;
+import viewmodel.RegisterVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
@@ -421,6 +422,73 @@ public class Application extends Controller {
 		}
 		//Location location = Location.findManagerType(user);
 		return ok(Json.toJson(flag));
+	}
+	
+	public static Result registerUser() {
+		Form<RegisterVM> form = DynamicForm.form(RegisterVM.class).bindFromRequest();
+		System.out.println("::::form");
+		System.out.println(form);
+		RegisterVM vm=form.get();
+		AuthUser user=new AuthUser();
+		MyProfile profile=new MyProfile();
+		List<Permission> permissionList = Permission.getAllPermission();
+		 List<Permission> permissionData = new ArrayList<>();
+		if(vm.oneLocation.equalsIgnoreCase("one")){
+	    	 Location location=new Location();
+	    	 location.name=vm.businessName;
+	    	 location.address=vm.businessAddress;
+	    	 location.save();
+	    	 user.location=location;
+	    	 profile.locations=location;
+	    	 user.role="Manager";
+	      }
+		/*Generate passward*/
+		if(vm.oneLocation.equalsIgnoreCase("multi")){
+			user.role="General Manager";
+		}
+		final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	    	Random rnd = new Random();
+
+	    	   StringBuilder sb = new StringBuilder( 6 );
+	    	   for( int i = 0; i < 6; i++ ) 
+	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+		user.password=sb.toString();
+		
+		/*generate permisssioons*/
+		if(user.role.equals("Manager")) {
+ 		   for(Permission obj: permissionList) {
+ 			   if(!obj.name.equals("Show Location")) {
+ 				   permissionData.add(obj);
+ 			   }
+ 		   }
+ 		   user.permission = permissionData;
+ 	   } 
+
+ if(user.role.equals("General Manager")) {
+	   for(Permission obj: permissionList) {
+		   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile")) {
+			   permissionData.add(obj);
+		   }
+	   }
+	   user.permission = permissionData;
+	   
+ }
+		
+		
+		user.firstName=vm.name;
+		user.email=vm.email;
+		user.phone=vm.phone;
+		user.save();
+		profile.address=vm.businessAddress;
+		profile.myname=vm.businessName;
+		profile.email=vm.email;
+		profile.phone=vm.phone;
+		profile.businessOption=vm.options;
+		profile.save();
+       String comment="Successfully registered";
+		sendEmail(user.email,comment);
+		
+		return ok();
 	}
 	
 	public static Result acceptAgreement() {
@@ -5267,7 +5335,40 @@ public class Application extends Controller {
     	}	
     }
     
-    
+    public static Result sendEmail(String email, String comment) {
+
+    	Properties props = new Properties();
+    	props.put("mail.smtp.auth", "true");
+    	props.put("mail.smtp.starttls.enable", "true");
+    	props.put("mail.smtp.host", "smtp.gmail.com");
+    	props.put("mail.smtp.port", "587");
+    	 
+    	Session session = Session.getInstance(props,
+    	 new javax.mail.Authenticator() {
+    	protected PasswordAuthentication getPasswordAuthentication() {
+    	return new PasswordAuthentication(emailUsername, emailPassword);
+    	}
+    	 });
+    	 
+    	try{
+
+    	Message feedback = new MimeMessage(session);
+    	 	feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+    	  feedback.setRecipients(Message.RecipientType.TO,
+    	 	InternetAddress.parse(email));
+    	  feedback.setSubject("Manager like your work");	 	
+    	 	BodyPart messageBodyPart = new MimeBodyPart();	
+    	 	        messageBodyPart.setText("Comment: "+comment);	   
+    	 	        Multipart multipart = new MimeMultipart();	 	   
+    	 	        multipart.addBodyPart(messageBodyPart);	           
+    	 	        feedback.setContent(multipart);
+    	 	    Transport.send(feedback);
+    	   	System.out.println("email send");
+    	      } catch (MessagingException e) {
+    	 	 throw new RuntimeException(e);
+    	 	}
+    	return ok();
+    	}
     public static Result editImage() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));

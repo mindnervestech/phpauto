@@ -6,7 +6,8 @@
 GET     /                           controllers.Application.index()
 
 # Login page
-
+# Register 
+POST     /registerUser           controllers.Application.registerUser()
 # Providers entry points
 GET     /login                      controllers.Application.home()
 GET     /test                      controllers.Application.test()

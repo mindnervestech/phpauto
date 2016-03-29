@@ -28,6 +28,7 @@ public class MyProfile extends Model {
 	public String pinterest;
 	public String instagram;
 	public String googleplus;
+	public String businessOption;
 	
 
 	@Id
@@ -47,6 +48,17 @@ public class MyProfile extends Model {
 	public void setWeb(String web) {
 		this.web = web;
 	}
+	
+
+	public String getBusinessOption() {
+		return businessOption;
+	}
+
+
+	public void setBusinessOption(String businessOption) {
+		this.businessOption = businessOption;
+	}
+
 
 	public String getFacebook() {
 		return facebook;

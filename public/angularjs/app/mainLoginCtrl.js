@@ -47,6 +47,14 @@ angular.module('newApp').controller('mainLoginCtrl',
 	            	$('#registerModel').modal();
 	            }
 	            
+	            $scope.registerUser = function(register){
+	            	console.log("::::::insideRegester");
+	            	console.log(register);
+	            	
+	            	$http.post("/registerUser",register).success(function(data){
+	       		});
+	            }
+	            
 	            
 	        }]);
 angular.module('newApp').controller('mainPdfCtrl',
