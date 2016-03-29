@@ -558,11 +558,21 @@ margin-left: 5px;
                            -->
                            
                         </div>	                              
-                                                   
-                        	<span class="todo-task">{{schedule.make}}&nbsp;&nbsp; {{schedule.year}}&nbsp;&nbsp; {{schedule.model}}  &nbsp;&nbsp;{{schedule.trim}}</span><br>
-							<span class="todo-task">{{schedule.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-							<span class="todo-task">{{schedule.email}}</span>&nbsp;&nbsp;<br>
-							<span class="todo-task">{{schedule.phone}}</span>&nbsp;&nbsp;
+                                  
+                             <div class="col-md-12">
+                             	<div class="col-md-6" style="padding: 0px;">
+                             		<span class="todo-task">{{schedule.make}}&nbsp;&nbsp; {{schedule.year}}&nbsp;&nbsp; {{schedule.model}}  &nbsp;&nbsp;{{schedule.trim}}</span><br>
+									<span class="todo-task">{{schedule.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+									<span class="todo-task">{{schedule.email}}</span>&nbsp;&nbsp;<br>
+									<span class="todo-task">{{schedule.phone}}</span>&nbsp;&nbsp;
+                             	</div>
+                             	<div class="col-md-6" style="padding: 0px;" ng-if="schedule.userdata.length != 0">
+                             		<label class="col-md-12">Members</label>
+                             		<span class="col-md-4" ng-repeat="users in schedule.userdata">{{users.firstName}} {{users.lastName}} , </span>
+                             	</div>
+                             	
+                             </div>                      
+                        	
 							
                     </li>
                     <li ng-repeat="todo in toDoDateList" ng-class="{'': todo.priority == 'Low','low': todo.priority == 'Medium','medium': todo.priority == 'High','high': todo.priority == 'Critical'}">

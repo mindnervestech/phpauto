@@ -46,6 +46,7 @@ public class ScheduleTest extends Model {
 	public String hearedFrom;
 	public String meetingStatus;
 	public String location;
+	public Long groupId;
 	public String google_id;
 	public String custZipCode;
 	public Boolean is_google_data;
@@ -279,6 +280,17 @@ public class ScheduleTest extends Model {
 
 
 
+	public Long getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(Long groupId) {
+		this.groupId = groupId;
+	}
+
+
+
+
+
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
 	
 	public static List<ScheduleTest> findAllReassigned(AuthUser user) {
@@ -295,6 +307,10 @@ public class ScheduleTest extends Model {
 	
 	public static List<ScheduleTest> findAllByDate() {
 		return find.where().eq("assignedTo", null).eq("isRead", 0).ne("vin", "no").orderBy("scheduleDate desc").findList();
+	}
+	
+	public static List<ScheduleTest> findAllGroupMeeting(Long groupId) {
+		return find.where().eq("groupId", groupId).findList();
 	}
 	
 	public static List<ScheduleTest> findAllByLocationDate(Long locationId) {

@@ -13471,44 +13471,68 @@ public class Application extends Controller {
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     		SimpleDateFormat df2 = new SimpleDateFormat("MM/dd/yyyy");
     		Date dateObj = df.parse(date);
+    		Map<Long,Integer> setGroupid = new HashMap<Long,Integer>();
     		List<ScheduleTest> scheduleList = ScheduleTest.findByDateAndAssignedUser(user, dateObj);
     		List<RequestInfoVM> vmList = new ArrayList<>();
+    		
     		Calendar time = Calendar.getInstance();
     		for(ScheduleTest test : scheduleList) {
+    			List<UserVM> listUser = new ArrayList<>();
     			RequestInfoVM vm = new RequestInfoVM();
-	    		vm.id = test.id;
-	    		vm.vin = test.vin;
-	    		//vm.isgoogle = test.google_id;
-	    		if(test.is_google_data !=null){
-	    			vm.is_google = test.is_google_data;
-	    		}	    		
-	    		Vehicle vehicle = Vehicle.findByVinAndStatus(test.vin);
-	    		if(vehicle != null) {
-	    			vm.make = vehicle.make;
-	    			vm.model = vehicle.model;
-	    			vm.trim=vehicle.trim;
-	    			vm.year=vehicle.year;
-	    			
-	    		}
-	    		vm.bestTime=test.bestTime;
-	    		vm.name = test.name;
-	    		vm.email = test.email;
-	    		vm.phone = test.phone;
-	    		vm.meeting = test.meetingStatus;
-	    		if(test.getConfirmDate() != null) {
-	    			vm.confirmDate = df2.format(test.getConfirmDate());
-	    		}
-	    		if(test.getConfirmTime() != null) {
-	    			time.setTime(test.getConfirmTime());
-	    			String ampm = "";
-	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
-	    				ampm = "PM";
-	    			} else {
-	    				ampm = "AM";
-	    			}
-	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
-	    		}
-	    		vmList.add(vm);
+    			
+    			if(setGroupid.get(test.groupId) == null){
+    				setGroupid.put(test.groupId, 1);
+    	    		vm.id = test.id;
+    	    		vm.vin = test.vin;
+    	    		//vm.isgoogle = test.google_id;
+    	    		if(test.is_google_data !=null){
+    	    			vm.is_google = test.is_google_data;
+    	    		}	    		
+    	    		Vehicle vehicle = Vehicle.findByVinAndStatus(test.vin);
+    	    		if(vehicle != null) {
+    	    			vm.make = vehicle.make;
+    	    			vm.model = vehicle.model;
+    	    			vm.trim=vehicle.trim;
+    	    			vm.year=vehicle.year;
+    	    			
+    	    		}
+    	    		vm.bestTime=test.bestTime;
+    	    		vm.name = test.name;
+    	    		vm.email = test.email;
+    	    		vm.phone = test.phone;
+    	    		vm.meeting = test.meetingStatus;
+    	    		if(test.getConfirmDate() != null) {
+    	    			vm.confirmDate = df2.format(test.getConfirmDate());
+    	    		}
+    	    		if(test.getConfirmTime() != null) {
+    	    			time.setTime(test.getConfirmTime());
+    	    			String ampm = "";
+    	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+    	    				ampm = "PM";
+    	    			} else {
+    	    				ampm = "AM";
+    	    			}
+    	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+    	    		}
+    	    		
+    	    		if(test.groupId != null){
+    	    			List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(test.groupId);
+    	    			for(ScheduleTest users:schedulegroupList){
+    	    				UserVM uVm = new UserVM();
+    	    	    		uVm.firstName = users.assignedTo.getFirstName();
+    	    	    		uVm.lastName = users.assignedTo.getLastName();
+    	    	    		uVm.id = users.assignedTo.id;
+    	    	    	
+    	    	    		listUser.add(uVm);
+    	    			}
+    	    		}
+    	    	
+    	    	
+    	    		
+    	    		vm.userdata = listUser;
+    	    		vmList.add(vm);
+    			}
+	    		
     		}
     		return ok(Json.toJson(vmList));
     	}
@@ -22315,16 +22339,27 @@ if(vehicles.equals("All")){
 	public static Result getScheduleTestData(){
         AuthUser user = getLocalUser();
         List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user);
-        
+        Map<Long,Integer> maps = new HashMap<Long, Integer>();
         List<ScheduleTestVM> shList = new ArrayList<ScheduleTestVM>();
         for(ScheduleTest scTest:list){
         	ScheduleTestVM sTestVM = new ScheduleTestVM();
         	sTestVM.id = scTest.id;
         	sTestVM.is_google_data = scTest.is_google_data;
         	sTestVM.google_id = scTest.google_id;
+        	sTestVM.groupId = scTest.groupId;
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
         	sTestVM.confirmTime =  new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
-        	shList.add(sTestVM);
+        	
+        	if(sTestVM.groupId != null){
+        		if(maps.get(sTestVM.groupId) == null){
+					maps.put(sTestVM.groupId, 1);
+					shList.add(sTestVM);
+				}
+        	}else{
+        		shList.add(sTestVM);
+        	}
+	        	
+        	
         }
         return ok(Json.toJson(shList));
     }
@@ -22353,13 +22388,30 @@ if(vehicles.equals("All")){
 		session("sessionVmData", Json.stringify(Json.toJson(vm)));
 		DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 		
-		try {
-			ScheduleTest test = ScheduleTest.findById(Long.parseLong(id));
-			test.setConfirmDate(df.parse(confDate));
-			test.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
-			test.update();
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(form.get("groupId") != null){
+			try {
+				List<ScheduleTest> test = ScheduleTest.findAllGroupMeeting(Long.parseLong(form.get("groupId")));
+				for(ScheduleTest testloop:test){
+					testloop.setConfirmDate(df.parse(confDate));
+					testloop.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
+					testloop.update();
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}else{
+
+			try {
+				ScheduleTest test = ScheduleTest.findById(Long.parseLong(id));
+				test.setConfirmDate(df.parse(confDate));
+				test.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
+				test.update();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 		/*try {
 			if(test.getGoogle_id()!=null){
@@ -23145,6 +23197,16 @@ if(vehicles.equals("All")){
 		if(vm.getLocation()!=null){
 			 loc = Location.findById(Long.parseLong(vm.getLocation()));
 			}
+		
+    	final String AB = "0123456789";
+    	Random rnd = new Random();
+
+    	   StringBuilder sb = new StringBuilder(2);
+    	   for( int i = 0; i < 2; i++ ) 
+    	      sb.append( AB.charAt(rnd.nextInt(AB.length()) ) );
+    	
+    	   System.out.println(sb.toString());
+		
 		List<AuthUser> userList = new ArrayList<>();
 		for (UserVM obj : vm.getUsersList()) {
 			AuthUser assi = AuthUser.findById(obj.id);
@@ -23156,6 +23218,7 @@ if(vehicles.equals("All")){
 			moTest.email = user.getEmail();
 			moTest.location = vm.getLocation();
 			moTest.name = vm.name;
+			moTest.groupId = Long.parseLong(sb.toString());
 			moTest.meetingStatus = "meeting";
 			moTest.phone = user.getPhone();
 			moTest.reason = vm.getReason();

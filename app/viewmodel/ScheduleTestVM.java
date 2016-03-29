@@ -16,6 +16,7 @@ public class ScheduleTestVM {
 	public int isRead;
 	public String confirmDate;
 	public String confirmTime;
+	public Long groupId;
 	public String leadStatus;
 	public String reason;
 	public Boolean isReassigned = true;
