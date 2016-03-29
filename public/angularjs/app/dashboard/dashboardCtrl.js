@@ -474,6 +474,10 @@ angular.module('newApp')
 			.success(function(data) {
 				$http.get('/getUserLocationByDateInfo/'+data.id+"/"+startD+'/'+endD+'/'+locOrPer)
 				.success(function(data) {
+					
+					console.log(":::111111::::::");
+					console.log(data);
+					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					$http.get('/getPlanTarget/'+locOrPer)
 					.success(function(data1) {
 						console.log(data1);
@@ -499,6 +503,8 @@ angular.module('newApp')
 		}else{
 			$http.get('/getUserLocationByDateInfo/'+$scope.userKey+"/"+startD+'/'+endD+'/'+locOrPer)
 			.success(function(data) {
+			
+				$scope.flagForBestSale=data.flagForBestSaleIcon;
 				$http.get('/getPlanTarget/'+locOrPer)
 				.success(function(data1) {
 					console.log(data1);
@@ -532,7 +538,9 @@ angular.module('newApp')
 				
 				$http.get('/getUserLocationInfo/'+data.id+"/"+timeSet+"/"+"location")
 				.success(function(data) {
-					
+					console.log("::::::::");
+					console.log(data);
+					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					$http.get('/getPlanTarget/'+locOrPer)
 					.success(function(data1) {
 						console.log(data1);
@@ -559,7 +567,9 @@ angular.module('newApp')
 		}else{
 			$http.get('/getUserLocationInfo/'+$scope.userKey+"/"+timeSet+"/"+locOrPer)
 			.success(function(data) {			
-				
+				console.log("::::::::nnnnn::::");
+				console.log(data);
+				$scope.flagForBestSale=data.flagForBestSaleIcon;
 				$http.get('/getPlanTarget/'+locOrPer)
 					.success(function(data1) {
 						console.log(data1);

@@ -10858,7 +10858,21 @@ public class Application extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-   	
+	 	List<Vehicle> vehicle1 = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
+		int flag1=0;
+		lDataVM.flagForBestSaleIcon = 0;
+		if(vehicle1 != null){
+	 	for(Vehicle vehicle:vehicle1){
+	 		if(vehicle != null && vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) {
+	 			flag1=1;
+	 			lDataVM.flagForBestSaleIcon=flag1;
+	 			break;
+	 		}
+	 	}
+	 			
+	 		}
+	
+		
    	int requestLeadCount = 0;
    	int scheduleLeadCount = 0;
    	int tradeInLeadCount = 0;
@@ -11211,6 +11225,22 @@ public class Application extends Controller {
     	String monthCal = monthName[cal.get(Calendar.MONTH)];
     	Map<String, Integer> mapCar = new HashMap<String, Integer>();
     	
+    	Location loc = Location.findById(Long.parseLong(session("USER_LOCATION")));
+   	 List<AuthUser> authUser = AuthUser.findByLocatioUsers(loc);
+    	List<Vehicle> vehicle1 = Vehicle.findByLocationAndSold(Long.parseLong(session("USER_LOCATION")));
+   	    int flagForSale=0;	
+   	 lDataVM.flagForBestSaleIcon=flagForSale;
+    	for(Vehicle vehicle:vehicle1){
+    		if(vehicle != null){
+    			flagForSale=1;
+    			lDataVM.flagForBestSaleIcon=flagForSale;
+    			break;
+    		}
+    		else{
+    			flagForSale=0;
+    			lDataVM.flagForBestSaleIcon=flagForSale;
+    		}
+    	}
     	
     	Date timeBack = null;
     	

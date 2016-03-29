@@ -34,8 +34,7 @@ public class LocationWiseDataVM {
     public Integer trainingCost;
     public Integer comission;
     public Integer leadCost;
-    
-    
+    public Integer flagForBestSaleIcon;
     public List<bodyStyleSetVM> byType;
     public List<bodyStyleSetVM> planComplete;
     public List<bodyStyleSetVM> offlineLead;
