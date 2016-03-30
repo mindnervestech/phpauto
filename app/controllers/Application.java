@@ -23285,7 +23285,13 @@ if(vehicles.equals("All")){
 			System.out.println(minTime);
 			System.out.println(maxTime);
 			Location loc = Location.findById(Long.parseLong(session("USER_LOCATION")));
-			List<AuthUser> userList = AuthUser.findByLocatioUsers(loc);
+			List<AuthUser> userList = null;
+			if(user.role.equals("Manager")){
+				userList = AuthUser.findByLocatioUsersNotManager(loc);
+			}else if(user.role.equals("Sales Person")){
+				userList = AuthUser.findByLocatioUsersNotGM(loc, user.id);
+			}
+			
 			for (AuthUser authUser : userList) {
 				Boolean flag = true;
 				List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser);

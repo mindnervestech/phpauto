@@ -348,6 +348,16 @@ public class AuthUser extends Model implements Identity {
 	public static List<AuthUser> findByLocatioUsers(Location locations) {
 		return find.where().eq("role", "Sales Person").eq("location", locations).eq("account", "active").findList();
 	}
+	
+	
+	public static List<AuthUser> findByLocatioUsersNotGM(Location locations, Integer id) {
+		return find.where().ne("role", "General Manager").ne("id", id).eq("location", locations).eq("account", "active").findList();
+	}
+	
+	public static List<AuthUser> findByLocatioUsersNotManager(Location locations) {
+		return find.where().or(Expr.eq("role", "General Manager"), Expr.eq("location", locations)).ne("role", "Manager").eq("account", "active").findList();
+	}
+	
 	public static List<AuthUser> findByLocationDeactive(Location locations) {
 		return find.where().eq("location", locations).eq("account", "deactive").findList();
 	}

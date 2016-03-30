@@ -369,6 +369,14 @@ angular.module('newApp')
 				.success(function(data) {
 					console.log("success");
 					$scope.gridOptions11.data = data;
+					
+					angular.forEach($scope.gridOptions11.data, function(obj, index){
+						if(obj.userStatus == 'N/A'){
+							obj.disabled = false;
+						}else{
+							obj.disabled = true;
+						}
+					});
 					console.log($scope.gridOptions11.data);
 				});
 			}else{
@@ -408,7 +416,7 @@ angular.module('newApp')
 	 		 		 $scope.gridOptions11.enableVerticalScrollbar = 2;
 	 		 		 $scope.gridOptions11.columnDefs = [
 															{ name: 'isSelect', displayName: 'Select', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																cellTemplate:'<input type="checkbox" ng-change="grid.appScope.selectUser(row)" ng-model="row.entity.isSelect">',
+																cellTemplate:'<input type="checkbox" ng-change="grid.appScope.selectUser(row)" ng-model="row.entity.isSelect" ng-show="row.entity.disabled">',
 															},
 															 { name: 'fullName', displayName: 'Full Name', width:'40%',cellEditableCondition: false,
 																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -2420,9 +2428,7 @@ angular.module('newApp')
     		
     		  $scope.init = function() {
     			  
-    			  
     			  $scope.likeMsg();
-    			
     			  
     			 $scope.check={};
     			  var date = new Date();
@@ -2470,12 +2476,93 @@ angular.module('newApp')
 	    			  $scope.showVehicalBarChart();
 
 		    		  $scope.vehicleData("All");
+		    		  $scope.heatMapShow();
     		  };  
     		  
     		  
+    		  $scope.heatMapShow = function(){
+    			  $scope.showHeatMap = 0;
+    				$scope.gridOptions12 = {
+    				 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+    				 		    paginationPageSize: 150,
+    				 		    enableFiltering: true,
+    				 		    useExternalFiltering: true,
+    				 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+    				 		 };
+    				
+    				
+    				 $scope.gridOptions12.enableHorizontalScrollbar = 0;
+    					 $scope.gridOptions12.enableVerticalScrollbar = 2;
+    					 $scope.gridOptions12.columnDefs = [
+    					                                 { name: 'title', displayName: 'Title', width:'32%',cellEditableCondition: false,
+    					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    					                                       if (row.entity.isRead === false) {
+    					                                         return 'red';
+    					                                     }
+    					                                	} ,
+    					                                 },
+    					                                 { name: 'showUrl', displayName: 'ShowUrl', width:'45%',cellEditableCondition: false,
+    					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    					                                       if (row.entity.isRead === false) {
+    					                                         return 'red';
+    					                                     }
+    					                                	} ,
+    					                                 },
+    					                                 { name: 'value_percent', displayName: 'Value Percent', width:'10%',cellEditableCondition: false,
+    					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    					                                       if (row.entity.isRead === false) {
+    					                                         return 'red';
+    					                                     }
+    					                                	} ,
+    					                                 },
+    					                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    			    		                                 cellTemplate:'<a ng-click="grid.appScope.showheatmap(row)"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>', 
+    					                                 
+    					                                 },
+    					                                 ];
+    				
+    					 $scope.gridOptions.onRegisterApi = function(gridApi){
+    						 $scope.gridApi = gridApi;
+    						 
+    				   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+    					          var grid = this.grid;
+    					          $scope.gridOptions12.data = $filter('filter')($scope.heatMapList,{'title':grid.columns[0].filters[0].term,'showUrl':grid.columns[1].filters[0].term,'value_percent':grid.columns[2].filters[0].term},undefined);
+    					        });
+    				   		
+    			 		};
+    			 		
+    			 		
+    					 $http.get('/getHeatMapList/'+30)
+    						.success(function(data) {
+    							//console.log(data[0].dates[0].items);
+    							
+    							$scope.gridOptions12.data = data[0].dates[0].items;
+    							$scope.heatMapList = data[0].dates[0].items;
+    							angular.forEach($scope.gridOptions12.data, function(value, key) {
+    								$scope.array = value.url.split('#');
+    								$scope.gridOptions12.data[key].showUrl = $scope.array[0];
+    								$scope.heatMapList[key].showUrl = $scope.array[0];
+    							});
+    							
+    							console.log($scope.gridOptions.data);
+    							console.log($scope.heatMapList);
+    						$('#sliderBtn').click();
+    					});
+    					 
+    					 
+    					
+    		  }
 
+    		  $scope.showheatmap = function(row){
+					 $scope.showHeatMap = 1;
+					 console.log(row.entity.url);
+					 var data = row.entity.url;
+					 $('#heatMapModal').modal();
+					 $(".container-iframe-sit").attr("src",data);
+					 
+				 }
 
-							    		  $scope.likeMsg = function() {
+			$scope.likeMsg = function() {
 
 								$http
 										.get('/getcommentLike')
