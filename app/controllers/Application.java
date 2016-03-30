@@ -20056,12 +20056,38 @@ if(vehicles.equals("All")){
 	     	Long seconds = (AvgLeadLifeCyc / 1000);
 	     	Long minutes = (AvgLeadLifeCyc / (1000 * 60));
 	     	Long hours = (minutes / 60);
-	     	Long displayMin = minutes - (hours * 60);
+	     	//Long displayMin = minutes - (hours * 60);
+	     	Long min1 = minutes % 60;
+	     	Long days= (hours/24);
+	     	Long hrs=(hours%24);
+/*	     	float min=hours%24;
+	     	int mnts=(int) (min-hrs);*/
+	        String mnts =min1.toString();
+	        String days1 =days.toString();
+	        String hrs1=hrs.toString();
+	     	if(min1.toString().length()<=1)
+	     	{
+	     		mnts="0"+mnts;
+	     	}
 	     	
-	     
-	     	lDataVM.avgLeadLifeCycle =hours.toString()+":"+displayMin.toString()+" Hrs";
+	     	if(days.toString().length()<=1)
+	     	{
+	     		days1="0"+ days1;
+	     	}
+	     	
+	     	if(hrs.toString().length()<=1)
+	     	{
+	     		hrs1="0"+hrs1;
+	     	}
+	     	System.out.println("hrs.toString().length()"+hrs.toString().length());
+	     	System.out.println("days"+days1);
+	     	System.out.println("hrs"+hrs1);
+	     	System.out.println("mnts"+mnts);
+	     	
+	     	//lDataVM.avgLeadLifeCycle =hours.toString()+":"+displayMin.toString()+"Hrs";
+	     	lDataVM.avgLeadLifeCycle=days1+":"+hrs1+":"+mnts+"  Days";
      	}else{
-     		lDataVM.avgLeadLifeCycle = "00:00Hrs";
+     		lDataVM.avgLeadLifeCycle = "00:00:00  Days";
      	}
      	
      	List<UserNotes> uNotes = UserNotes.findByUserAndcall(users);
