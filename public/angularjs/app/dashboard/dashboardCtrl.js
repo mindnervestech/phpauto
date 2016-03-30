@@ -2691,8 +2691,118 @@ angular.module('newApp')
     			  var i = 0;
     			 
     			
+    			  $scope.leadPer = [];
+    			  $scope.leadName={};
     			  
+    			  $scope.offLeadPer = [];
+    			  $scope.offLeadName={};
     			  if($scope.flagvalue == 2){
+    				  
+    				  console.log("####");
+    				  console.log($scope.comparisonperson[0].offlineLead);
+    				  console.log($scope.comparisonperson[1].offlineLead);
+    				  console.log("****");
+    				  console.log($scope.comparisonperson[0].onLineLead);
+    				  console.log($scope.comparisonperson[1].onLineLead);
+    				  
+    				  
+    				  angular.forEach($scope.comparisonperson[0].offlineLead, function(value, key) {
+    					  $scope.offLeadName={};
+    					  
+    					  angular.forEach($scope.comparisonperson[1].offlineLead, function(value1, key1) {
+    						  
+    						  if($scope.comparisonperson[0].offlineLead[key].name == $scope.comparisonperson[1].offlineLead[key1].name){
+    							  console.log(value.name);
+        						  console.log(value1.name);
+        						  
+        						  
+        						  if($scope.comparisonperson[0].offlineLead[key].value > $scope.comparisonperson[1].offlineLead[key1].value){
+        	    					  $scope.offLineLeadPer = (($scope.comparisonperson[0].offlineLead[key].value - $scope.comparisonperson[1].offlineLead[key1].value) * 100 / $scope.comparisonperson[0].offlineLead[key].value).toFixed(2);
+        	    				  }else{
+        	    					  $scope.offLineLeadPer = (($scope.comparisonperson[1].offlineLead[key1].value - $scope.comparisonperson[0].offlineLead[key].value) * 100 / $scope.comparisonperson[1].offlineLead[key1].value).toFixed(2);
+        	    				  }
+        						  
+        						  $scope.offLeadName.name =$scope.comparisonperson[1].offlineLead[key1].name;
+        						  $scope.offLeadName.value = $scope.offLineLeadPer;
+        						  $scope.offLeadPer.push($scope.offLeadName);
+    						  }
+        					  
+        					  
+        	     			});
+    					  
+    					  
+    	     			});
+    				  
+    				  console.log("$$$$$offflinelead array");
+    				  console.log($scope.offLeadPer);
+    				  
+    				  
+    				  
+    				  
+    				  
+    				  
+    				  angular.forEach($scope.comparisonperson[0].onLineLead, function(value, key) {
+    					  $scope.leadName={};
+    					  
+    					  angular.forEach($scope.comparisonperson[1].onLineLead, function(value1, key1) {
+    						  
+    						  if($scope.comparisonperson[0].onLineLead[key].name == $scope.comparisonperson[1].onLineLead[key1].name){
+    							  console.log(value.name);
+        						  console.log(value1.name);
+        						  console.log(";;;;;;");
+        						  console.log($scope.comparisonperson[0].onLineLead[key].value);
+        						  console.log($scope.comparisonperson[1].onLineLead[key1].value);
+        						  if($scope.comparisonperson[0].onLineLead[key].value > $scope.comparisonperson[1].onLineLead[key1].value){
+        	    					  $scope.onLineLeadPer = (($scope.comparisonperson[0].onLineLead[key].value - $scope.comparisonperson[1].onLineLead[key1].value) * 100 / $scope.comparisonperson[0].onLineLead[key].value).toFixed(2);
+        	    				  }else{
+        	    					  console.log("insilde   else");
+        	    					  $scope.onLineLeadPer = (($scope.comparisonperson[1].onLineLead[key1].value - $scope.comparisonperson[0].onLineLead[key].value) * 100 / $scope.comparisonperson[1].onLineLead[key1].value).toFixed(2);
+        	    				  }
+        						  console.log("value of onlinelead"+$scope.onLineLeadPer)
+        						  $scope.leadName.name =$scope.comparisonperson[1].onLineLead[key1].name;
+        						  $scope.leadName.value = $scope.onLineLeadPer;
+        						  $scope.leadPer.push($scope.leadName);
+    						  }
+        					  
+        					  
+        	     			});
+    					  
+    					  
+    	     			});
+    				  console.log("######3Arrayvalue");
+    				  console.log($scope.leadPer);
+    				  
+    				  if($scope.comparisonperson[0].avgLeadLifeCycle > $scope.comparisonperson[1].avgLeadLifeCycle){
+    					  $scope.totalAvgLeadLifeCyclePer = (($scope.comparisonperson[0].avgLeadLifeCycle - $scope.comparisonperson[1].avgLeadLifeCycle) * 100 / $scope.comparisonperson[0].avgLeadLifeCycle).toFixed(2);
+    					  
+    				  }else{
+    					  $scope.totalAvgLeadLifeCyclePer = (($scope.comparisonperson[1].avgLeadLifeCycle - $scope.comparisonperson[0].avgLeadLifeCycle) * 100 / $scope.comparisonperson[1].avgLeadLifeCycle).toFixed(2);
+    					  
+    				  }
+
+    				  if($scope.comparisonperson[0].followUpTime > $scope.comparisonperson[1].followUpTime){
+    					  $scope.totalFollowUpTimePer = (($scope.comparisonperson[0].followUpTime - $scope.comparisonperson[1].followUpTime) * 100 / $scope.comparisonperson[0].followUpTime).toFixed(2);
+    					  
+    				  }else{
+    					  $scope.totalFollowUpTimePer = (($scope.comparisonperson[1].followUpTime - $scope.comparisonperson[0].followUpTime) * 100 / $scope.comparisonperson[1].followUpTime).toFixed(2);
+    				  }
+    				  
+    				  
+    				  if($scope.comparisonperson[0].salary > $scope.comparisonperson[1].salary){
+    					  $scope.totalsalaryPer = (($scope.comparisonperson[0].salary - $scope.comparisonperson[1].salary) * 100 / $scope.comparisonperson[0].salary).toFixed(2);
+    				  }else{
+    					  $scope.totalsalaryPer = (($scope.comparisonperson[1].salary - $scope.comparisonperson[0].salary) * 100 / $scope.comparisonperson[1].salary).toFixed(2);
+    				  }
+    				  
+    				  
+    				  if($scope.comparisonperson[0].leadCost > $scope.comparisonperson[1].leadCost){
+    					  $scope.leadCostPer = (($scope.comparisonperson[0].leadCost - $scope.comparisonperson[1].leadCost) * 100 / $scope.comparisonperson[0].leadCost).toFixed(2);
+    				  }else{
+    					  $scope.leadCostPer = (($scope.comparisonperson[1].leadCost - $scope.comparisonperson[0].leadCost) * 100 / $scope.comparisonperson[1].leadCost).toFixed(2);
+    				  }
+    				  
+    				  
+    				  
     				  if($scope.comparisonperson[0].totalSalePrice > $scope.comparisonperson[1].totalSalePrice){
     					  $scope.totalSalePricePer = (($scope.comparisonperson[0].totalSalePrice - $scope.comparisonperson[1].totalSalePrice) * 100 / $scope.comparisonperson[0].totalSalePrice).toFixed(2);
     					   
