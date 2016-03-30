@@ -22480,15 +22480,59 @@ if(vehicles.equals("All")){
         AuthUser user = getLocalUser();
         List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user);
         Map<Long,Integer> maps = new HashMap<Long, Integer>();
-        List<ScheduleTestVM> shList = new ArrayList<ScheduleTestVM>();
+        List<RequestInfoVM> shList = new ArrayList<RequestInfoVM>();
         for(ScheduleTest scTest:list){
-        	ScheduleTestVM sTestVM = new ScheduleTestVM();
+        	RequestInfoVM sTestVM = new RequestInfoVM();
         	sTestVM.id = scTest.id;
         	sTestVM.is_google_data = scTest.is_google_data;
         	sTestVM.google_id = scTest.google_id;
         	sTestVM.groupId = scTest.groupId;
+        	sTestVM.meetingStatus = scTest.meetingStatus;
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
-        	sTestVM.confirmTime =  new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
+        	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
+        	
+        	if(sTestVM.meetingStatus == null){
+        		Vehicle vehicle = Vehicle.findByVinAndStatus(scTest.vin);
+        		sTestVM.vin = scTest.vin;
+        		if(vehicle != null) {
+        			sTestVM.model = vehicle.model;
+        			sTestVM.make = vehicle.make;
+        			sTestVM.typeofVehicle=vehicle.typeofVehicle;
+        			sTestVM.stock = vehicle.stock;
+        			sTestVM.mileage = vehicle.mileage;
+        			sTestVM.year = vehicle.year;
+        			sTestVM.bodyStyle =vehicle.bodyStyle;
+        			sTestVM.drivetrain = vehicle.drivetrain;
+        			sTestVM.engine = vehicle.engine;
+        			sTestVM.transmission = vehicle.transmission;
+        			sTestVM.price = vehicle.price;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			sTestVM.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			sTestVM.imgId = "/assets/images/no-image.jpg";
+	        		}
+	    		}
+        		
+        		sTestVM.name = scTest.name;
+        		sTestVM.phone = scTest.phone;
+        		sTestVM.email = scTest.email;
+        		sTestVM.custZipCode = scTest.custZipCode;
+        		sTestVM.enthicity = scTest.enthicity;
+        		sTestVM.price = vehicle.price;
+        		sTestVM.typeOfLead = "Schedule Test Drive";
+        		
+	    		if(scTest.isRead == 0) {
+	    			sTestVM.isRead = false;
+	    		}
+	    		
+	    		if(scTest.isRead == 1) {
+	    			sTestVM.isRead = true;
+	    		}
+        	}
+        	
+        	
         	
         	if(sTestVM.groupId != null){
         		if(maps.get(sTestVM.groupId) == null){

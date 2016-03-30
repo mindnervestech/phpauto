@@ -48,9 +48,13 @@ public class RequestInfoVM {
 	public LeadVM leadsValue;
 	public String meeting;
 	public String userRole;
+	public String meetingStatus;
 	public String testDriveCompletedComment;
 	public String testDriveCompletedDuration;
 	public List<RequestInfoVM> parentChildLead;
+	public Boolean is_google_data;
+	public String google_id;
+	public Long groupId;
 	public List<UserVM> userdata;
 	
 	

@@ -4807,7 +4807,15 @@ angular.module('newApp')
 			   $scope.data1.confirmTime = $filter('date')($scope.data1.confirmTime,"HH:mm a");
 			   $('#dataID').val($scope.data1.id);
 			   $('#dataGoogleID').val($scope.data1.google_id);
-			   $('#colored-header').modal();
+			   if($scope.data1.meetingStatus == 'meeting'){
+				   $('#colored-header').modal();
+			   }else{
+				   var str =  $scope.data1.confirmDate.split("-");
+  				 	var cDate = str[2]+"-"+str[0]+"-"+str[1];
+  				 	$scope.data1.confirmDate = cDate;
+				   $scope.scheduleTestDriveForUser($scope.data1,2);
+			   }
+			   
 		   };
 		   $scope.deleteServiceType = function(serviceData){
 			   console.log(serviceData);

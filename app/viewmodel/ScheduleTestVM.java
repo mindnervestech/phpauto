@@ -28,6 +28,7 @@ public class ScheduleTestVM {
 	public String assignedTo;
 	public String Enthicity;
 	public Boolean allStaff;
+	public String meetingStatus;
 	public List<UserVM> usersList = new ArrayList<UserVM>();
 	public List<UserVM> getUsersList() {
 		return usersList;
