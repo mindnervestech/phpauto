@@ -6354,7 +6354,7 @@ margin-left: 5px;
 															   <div class="col-sm-2"   >
 															    <div class="col-sm-12" ng-repeat="offline in offLeadPer" style="text-align: center;" >
 															   		<label style="color:green" ng-if="offline.value != 'NaN' && offline.value != 0 ">{{offline.value}}%</label>
-															   		<label style="color:green" ng-if="offline.value == 'NaN'">N/A</label>
+															   		<label style="color:green" ng-if="offline.value == 'NaN' || offline.value == 0">N/A</label>
 															   		</div>
 															   </div>
 															   
@@ -6409,7 +6409,7 @@ margin-left: 5px;
 															    <div class="col-sm-2"   >
 															    <div class="col-sm-12" ng-repeat="online in leadPer" style="text-align: center;" >
 															   		<label style="color:green" ng-if="online.value != 'NaN'&& online.value != 0">{{online.value}}%</label>
-															   		<label style="color:green" ng-if="online.value == 'NaN'">N/A</label>
+															   		<label style="color:green" ng-if="online.value == 'NaN' || online.value == 0">N/A</label>
 															   		</div>
 															   </div>
 															   
