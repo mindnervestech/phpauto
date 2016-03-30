@@ -19621,12 +19621,21 @@ if(vehicles.equals("All")){
 	     	Long hours = (minutes / 60);
 	     	Long displayMin = minutes - (hours * 60);
 	     	
+	     	String hrs=hours.toString();
+	     	String mnt=displayMin.toString();
+	     	if(hours.toString().length()<=1){
+	     		hrs="0"+hours.toString();
+	     	}
 	     
-	     	lDataVM.followUpTime =hours.toString()+":"+displayMin.toString()+" Hrs";
+	     	if(displayMin.toString().length()<=1){
+	     		mnt="0"+displayMin.toString();
+	     	}
+	     	
+	     	lDataVM.followUpTime =hrs+":"+mnt+" Hrs";
      		 /*Long followUpTime= (long)((double)countFollo / (double) countLeads) * 24;
      		lDataVM.followUpTime=followUpTime.toString()+":00 Hrs";*/
      	}else{
-     		lDataVM.followUpTime = "00:00 Hrs";
+     		lDataVM.followUpTime = "00:00  Hrs";
      	}
      	
      	lDataVM.countSalePerson = countLeads;
