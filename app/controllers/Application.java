@@ -11277,7 +11277,7 @@ public class Application extends Controller {
    		List<Integer> longV = new ArrayList<>();
    		DateAndValueVM sValue = new DateAndValueVM();
 		   	if(locOrPer.equals("location"))
-				sValue.name = "Current earning";
+				sValue.name = "Currently Earned";
 			else	
 			sValue.name = "Your Result";
 			longV.add(monthPriceCount);
@@ -11689,7 +11689,7 @@ public class Application extends Controller {
     		List<Integer> longV = new ArrayList<>();
     		DateAndValueVM sValue = new DateAndValueVM();
     		if(locOrPer.equals("location"))
-    			sValue.name = "Current earning";
+    			sValue.name = "Currently Earned";
     		else	
 			sValue.name = "Your Result";
 			longV.add(monthPriceCount);
