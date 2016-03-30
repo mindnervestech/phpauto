@@ -2484,7 +2484,7 @@ angular.module('newApp')
 													console.log(data);
 													angular.forEach(data, function(value, key) {
 														var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
-															+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><h2 class="col-md-12" style="color: goldenrod;margin-top: 0px;">Congratulations!</h2><span class="col-md-12" style="margin-left: 22px;"><h3>'+value.firstName+'  '+ value.lastName+' just like your work</h3></span><p class="pull-left" style="margin-left:45%;"><a class="f-12">Close&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>'
+															+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h2 style="color: goldenrod;margin-top: 0px;">Congratulations!</h2></div><span class="col-md-12" style="margin-left: 22px;text-align: center;"><h3 style="margin-top: 0px;"><span>'+value.firstName+'  '+ value.lastName+'</span><br><span> just Liked your work!</span><br><span> Great job!</span></h3></span><p class="pull-left" style="margin-left:85%;"><a class="f-12">Close&nbsp;</a></p></div></div>'
 															+ '</div>';
 													var position = 'topRight';
 													if ($('body').hasClass(
@@ -2505,11 +2505,12 @@ angular.module('newApp')
 																$(
 																		'#noty_topRight_layout_container, .noty_container_type_success')
 																		.css(
-																				'right', 110,
-																				'width',
-																				450)
 																				
+																				'width',
+																				410)
+																		.css('margin-left', -82)
 																		.css(
+																				
 																				'bottom',
 																				10);
 															},
@@ -2517,14 +2518,13 @@ angular.module('newApp')
 																$('html, body')
 																		.animate(
 																				{
-																					scrollTop : 2480
+																					scrollTop : 480
 																				},
 																				'slow');
 															}
 														}
 													});
 													});
-
 									
 												});
 
