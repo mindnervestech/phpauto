@@ -27159,6 +27159,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			uVm.firstName = comm.commentUser.getFirstName();
 			uVm.lastName = comm.commentUser.getLastName();
 			uVm.id = comm.commentUser.id;
+			uVm.userComment=comm.comment;
 			if(comm.commentUser.imageUrl != null) {
 				if(comm.commentUser.imageName !=null){
 					uVm.imageUrl = "http://glider-autos.com/glivrImg/images"+comm.commentUser.imageUrl;
@@ -27169,6 +27170,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			} else {
 				uVm.imageUrl = "/profile-pic.jpg";
 			}
+			
 			
 			listU.add(uVm);
 			
