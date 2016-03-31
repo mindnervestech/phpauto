@@ -5690,16 +5690,18 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Total Money Brought</label>
-									                 						<label class="col-sm-6" style="text-align: right;" id="moneyBrougthOne">${{comparisonperson[0].totalSalePrice}}</label>
+									                 						<label class="col-sm-6" style="text-align: right; color: green;" ng-if="comparisonperson[0].totalSalePrice > comparisonperson[1].totalSalePrice" id="moneyBrougthOne">${{comparisonperson[0].totalSalePrice}}</label>
+									                 						<label class="col-sm-6" style="text-align: right; color: red;" ng-if="comparisonperson[0].totalSalePrice < comparisonperson[1].totalSalePrice" id="moneyBrougthOne">${{comparisonperson[0].totalSalePrice}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;" ng-if="totalSalePricePer != 'NaN'">{{totalSalePricePer}}%</label>
-															   		<label style="color: green;" ng-if="totalSalePricePer == 'NaN'">N/A</label>
+															   		<label style="color: gray;" ng-if="totalSalePricePer != 'NaN'">{{totalSalePricePer}}%</label>
+															   		<label style="color: gray;" ng-if="totalSalePricePer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6" id="moneyBrougthsecond">${{comparisonperson[1].totalSalePrice}}</label>
+									                 				        <label class="col-sm-6" style="color: green;" ng-if="comparisonperson[1].totalSalePrice > comparisonperson[0].totalSalePrice" id="moneyBrougthOne">${{comparisonperson[1].totalSalePrice}}</label>
+									                 						<label class="col-sm-6"  style="color: red;" id="moneyBrougthsecond" ng-if="comparisonperson[1].totalSalePrice < comparisonperson[0].totalSalePrice">${{comparisonperson[1].totalSalePrice}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Total Money Brought</label>
 									                 					</div>
 															   </div>
@@ -5709,16 +5711,16 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Car Sold</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].totalsaleCar}}</label>
+									                 						<label  ng-class="comparisonperson[0].totalsaleCar >comparisonperson[1].totalsaleCar ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "   style="text-align: right;">{{comparisonperson[0].totalsaleCar}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;" ng-if="totalsaleCarPer != 'NaN'">{{totalsaleCarPer}}%</label>
-															   		<label style="color: green;" ng-if="totalsaleCarPer == 'NaN'">N/A</label>
+															   		<label style="color: gray;" ng-if="totalsaleCarPer != 'NaN'">{{totalsaleCarPer}}%</label>
+															   		<label style="color: gray;" ng-if="totalsaleCarPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].totalsaleCar}}</label>
+									                 						<label   ng-class="comparisonperson[1].totalsaleCar >comparisonperson[0].totalsaleCar ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' ">{{comparisonperson[1].totalsaleCar}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Car Sold</label>
 									                 					</div>
 															   </div>
@@ -5749,7 +5751,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">{{byt.name}}</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div  ng-class="byt.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{byt.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -5762,7 +5764,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="byt in comparisonperson[1].byType">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{byt.value}}</label>
+									                 								<label ng-class="byt.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{byt.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">{{byt.name}}</label>
@@ -5797,7 +5799,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">0-$10,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div  ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -5810,7 +5812,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '0-$10,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label  ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' "style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">0-$10,000</label>
@@ -5827,7 +5829,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$10,000-$20,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div  ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -5840,7 +5842,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$10,000-$20,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">$10,000-$20,000</label>
@@ -5857,7 +5859,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$20,000-$30,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -5870,7 +5872,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$20,000-$30,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">$20,000-$30,000</label>
@@ -5887,7 +5889,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$30,000-$40,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div  ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -5900,7 +5902,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$30,000-$40,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">$30,000-$40,000</label>
@@ -5917,7 +5919,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$40,000-$50,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -5930,9 +5932,9 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$40,000-$50,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label  ng-class="priceRan.flag==0?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
-									                 							<div class="col-sm-6">	
+									                 							<div class="col-sm-6"  >	
 									                 								<label style="color: darkturquoise;">$40,000-$50,000</label>
 									                 							</div>	
 									                 						</div>
@@ -5947,7 +5949,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$50,000-$60,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -5960,7 +5962,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$50,000-$60,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">$50,000-$60,000</label>
@@ -5977,7 +5979,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$60,000-$70,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -5990,7 +5992,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$60,000-$70,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label  ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">$60,000-$70,000</label>
@@ -6007,7 +6009,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$70,000-$80,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -6020,7 +6022,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$70,000-$80,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">$70,000-$80,000</label>
@@ -6037,7 +6039,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$80,000-$90,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -6050,7 +6052,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$80,000-$90,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">$80,000-$90,000</label>
@@ -6067,7 +6069,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$90,000-$1,00,000</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -6080,7 +6082,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$90,000-$1,00,000'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">$90,000-$1,00,000</label>
@@ -6098,7 +6100,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">$1,00,000 +</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div ng-class="priceRan.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{priceRan.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -6111,7 +6113,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="priceRan in comparisonperson[1].priceRang" ng-if="priceRan.name == '$1,00,000 +'">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{priceRan.value}}</label>
+									                 								<label ng-class="priceRan.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{priceRan.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">$1,00,000 +</label>
@@ -6131,16 +6133,16 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Leads Generated</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].allGeneratedLeadCount}}</label>
+									                 						<label  ng-class="comparisonperson[0].allGeneratedLeadCount > comparisonperson[1].allGeneratedLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">{{comparisonperson[0].allGeneratedLeadCount}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;" ng-if="allGeneratedLeadCountPer != 'NaN'">{{allGeneratedLeadCountPer}}%</label>
-															   		<label style="color: green;" ng-if="allGeneratedLeadCountPer == 'NaN'">N/A</label>
+															   		<label style="color: gray;" ng-if="allGeneratedLeadCountPer != 'NaN'">{{allGeneratedLeadCountPer}}%</label>
+															   		<label style="color: gray;" ng-if="allGeneratedLeadCountPer == 'NaN'">N/A</label>
 															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
+															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].allGeneratedLeadCount}}</label>
+									                 						<label  ng-class="comparisonperson[1].allGeneratedLeadCount > comparisonperson[0].allGeneratedLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].allGeneratedLeadCount}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Leads Generated</label>
 									                 					</div>
 															   </div>
@@ -6151,16 +6153,16 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Lost Leads</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].lostLeadCount}}</label>
+									                 						<label  ng-class="comparisonperson[1].lostLeadCount > comparisonperson[0].lostLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].lostLeadCount}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;" ng-if="lostLeadCountPer != 'NaN'">{{lostLeadCountPer}}%</label>
-															   		<label style="color: green;" ng-if="lostLeadCountPer == 'NaN'">N/A</label>
+															   		<label style="color: gray;" ng-if="lostLeadCountPer != 'NaN'">{{lostLeadCountPer}}%</label>
+															   		<label style="color: gray;" ng-if="lostLeadCountPer == 'NaN'">N/A</label>
 															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
+															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].lostLeadCount}}</label>
+									                 						<label ng-class="comparisonperson[0].lostLeadCount > comparisonperson[1].lostLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].lostLeadCount}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">lost Leads</label>
 									                 					</div>
 															   </div>
@@ -6171,16 +6173,16 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Success Rate</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].successRate}}%</label>
+									                 						<label  ng-class="comparisonperson[0].successRate > comparisonperson[1].successRate ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].successRate}}%</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;" ng-if="successRatePer != 'NaN'">{{successRatePer}}%</label>
-															   		<label style="color: green;" ng-if="successRatePer == 'NaN'">N/A</label>
+															   		<label style="color: gray;" ng-if="successRatePer != 'NaN'">{{successRatePer}}%</label>
+															   		<label style="color: gray;" ng-if="successRatePer == 'NaN'">N/A</label>
 															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
+															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].successRate}}%</label>
+									                 						<label ng-class="comparisonperson[1].successRate > comparisonperson[0].successRate ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >{{comparisonperson[1].successRate}}%</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Success Rate</label>
 									                 					</div>
 															   </div>
@@ -6191,16 +6193,16 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Likes</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].likeCount}}</label>
+									                 						<label ng-class="comparisonperson[0].likeCount > comparisonperson[1].likeCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].likeCount}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color: green;" ng-if="likeCountPer != 'NaN'">{{likeCountPer}}%</label>
-															   		<label style="color: green;" ng-if="likeCountPer == 'NaN'">N/A</label>
+															   		<label style="color: gray;" ng-if="likeCountPer != 'NaN'">{{likeCountPer}}%</label>
+															   		<label style="color: gray;" ng-if="likeCountPer == 'NaN'">N/A</label>
 															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
+															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].likeCount}}</label>
+									                 						<label ng-class="comparisonperson[1].likeCount > comparisonperson[0].likeCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >{{comparisonperson[1].likeCount}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Likes</label>
 									                 					</div>
 															   </div>
@@ -6219,7 +6221,7 @@ margin-left: 5px;
 															   <div class="col-sm-2" style="text-align: center;">
 															   		<label style="color: green;"></label>
 															   </div>
-															   <div class="col-sm-5" style="padding: 0px;">
+															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
 									                 						<label class="col-sm-6"></label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Plans Completion</label>
@@ -6235,7 +6237,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">{{planCom.name}}</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div ng-class="planCom.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label  ng-if="planCom.value != 0" >{{planCom.value}}%</label>
 									                 								<label  ng-if="planCom.value == 0">N/A</label>
 									                 								
@@ -6249,7 +6251,7 @@ margin-left: 5px;
 															   <div class="col-sm-5">
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="planCom in comparisonperson[1].planComplete">
 									                 						<div class="col-sm-8" style="padding: 0px;">
-									                 							<div class="col-sm-6" >
+									                 							<div  ng-class="planCom.flag==0 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >
 									                 								<label  ng-if="planCom.value != 0" style="text-align: right;" >{{planCom.value}}%</label>
 									                 								<label  ng-if="planCom.value == 0"  style="text-align: right;">N/A</label>
 									                 							</div>
@@ -6265,16 +6267,16 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Average Leads Life Cycle</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].avgLeadLifeCycle}}</label>
+									                 						<label   ng-class="comparisonperson[0].avgLeadLifeCycle > comparisonperson[1].avgLeadLifeCycle ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].avgLeadLifeCycle}}</label>
 									                 					</div>
 															   </div>
 															   		<div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green" ng-if="totalAvgLeadLifeCyclePer != 'NaN'">{{totalAvgLeadLifeCyclePer}}%</label>
-															   		<label style="color:green" ng-if="totalAvgLeadLifeCyclePer == 'NaN'">N/A</label>
+															   		<label style="color:gray" ng-if="totalAvgLeadLifeCyclePer != 'NaN'">{{totalAvgLeadLifeCyclePer}}%</label>
+															   		<label style="color:gray" ng-if="totalAvgLeadLifeCyclePer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].avgLeadLifeCycle}}</label>
+									                 						<label  ng-class="comparisonperson[1].avgLeadLifeCycle > comparisonperson[0].avgLeadLifeCycle ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >{{comparisonperson[1].avgLeadLifeCycle}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Average Leads Life Cycle</label>
 									                 					</div>
 															   </div>
@@ -6285,16 +6287,17 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Average follow-up Time</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].followUpTime}}</label>
+									                 						<label  ng-class="comparisonperson[0].followUpTime > comparisonperson[1].followUpTime ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].followUpTime}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green" ng-if="totalFollowUpTimePer != 'NaN'">{{totalFollowUpTimePer}}%</label>
-															   		<label style="color:green" ng-if="totalFollowUpTimePer == 'NaN'">N/A</label>
+															   		<label style="color:gray" ng-if="totalFollowUpTimePer != 'NaN'">{{totalFollowUpTimePer}}%</label>
+															   		<label style="color:gray" ng-if="totalFollowUpTimePer == 'NaN'">N/A</label>
 															   </div>
+															   
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].followUpTime}}</label>
+									                 						<label   ng-class="comparisonperson[1].followUpTime > comparisonperson[0].followUpTime ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >{{comparisonperson[1].followUpTime}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Average follow-up Time</label>
 									                 					</div>
 															   </div>
@@ -6344,7 +6347,7 @@ margin-left: 5px;
 									                 							<div class="col-sm-6" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">{{offline.name}}</label>
 									                 							</div>
-									                 							<div class="col-sm-6" style="text-align: right;padding: 0px;">	
+									                 							<div  ng-class="offline.flag==1 ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;padding: 0px;">	
 									                 								<label>{{offline.value}}</label>
 									                 							</div>	
 									                 						</div>
@@ -6352,8 +6355,8 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-2"   >
 															    <div class="col-sm-12" ng-repeat="offline in offLeadPer" style="text-align: center;" >
-															   		<label style="color:green" ng-if="offline.value != 'NaN' && offline.value != 0 ">{{offline.value}}%</label>
-															   		<label style="color:green" ng-if="offline.value == 'NaN' || offline.value == 0">N/A</label>
+															   		<label style="color:gray" ng-if="offline.value != 'NaN' && offline.value != 0 ">{{offline.value}}%</label>
+															   		<label style="color:gray" ng-if="offline.value == 'NaN' || offline.value == 0">N/A</label>
 															   		</div>
 															   </div>
 															   
@@ -6361,7 +6364,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="offline in comparisonperson[1].offlineLead">
 									                 						<div class="col-sm-8" style="padding: 0px;">
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{offline.value}}</label>
+									                 								<label ng-class="offline.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{offline.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">{{offline.name}}</label>
@@ -6398,8 +6401,9 @@ margin-left: 5px;
 									                 							<div class="col-sm-8" style="padding: 0px;">
 									                 								<label style="color: darkturquoise;">{{online.name}}</label>
 									                 							</div>
-									                 							<div class="col-sm-4" style="text-align: right;padding: 0px;">	
-									                 								<label>{{online.value}}</label>
+									                 							
+									                 							<div  ng-class="online.flag==1 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;padding: 0px;">	
+									                 								<label  >{{online.value}}</label>
 									                 							</div>	
 									                 						</div>
 									                 					</div>
@@ -6407,15 +6411,18 @@ margin-left: 5px;
 															   
 															    <div class="col-sm-2"   >
 															    <div class="col-sm-12" ng-repeat="online in leadPer" style="text-align: center;" >
-															   		<label style="color:green" ng-if="online.value != 'NaN'&& online.value != 0">{{online.value}}%</label>
-															   		<label style="color:green" ng-if="online.value == 'NaN' || online.value == 0">N/A</label>
+															   		<label style="color:gray" ng-if="online.value != 'NaN'&& online.value != 0">{{online.value}}%</label>
+															   		<label style="color:gray" ng-if="online.value == 'NaN' || online.value == 0">N/A</label>
 															   		</div>
 															   </div>
+															   
+															   
 															   <div class="col-sm-5">
 									                 				<div class="col-sm-12" style="padding: 0px;" ng-repeat="online in comparisonperson[1].onLineLead">
 									                 						<div class="col-sm-8" style="padding: 0px;">
+									                 						
 									                 							<div class="col-sm-6" style="padding: 0px;">
-									                 								<label class="col-sm-4" style="text-align: right;">{{online.value}}</label>
+									                 								<label  ng-class="online.flag==0 ?'col-sm-4 txtColourGreen':'col-sm-4 txtColourRed' " style="text-align: right;">{{online.value}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label style="color: darkturquoise;">{{online.name}}</label>
@@ -6450,34 +6457,38 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Returning clients</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].returningClints}}</label>
+									                 						<label  ng-class="comparisonperson[0].returningClints > comparisonperson[1].returningClints ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">{{comparisonperson[0].returningClints}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green" ng-if="returningClintsPer != 'NaN' && returningClintsPer != ''">{{returningClintsPer}}%</label>
-															   		<label style="color:green" ng-if="returningClintsPer == 'NaN' || returningClintsPer == ''">N/A</label>
+															   		<label style="color:gray" ng-if="returningClintsPer != 'NaN' && returningClintsPer != ''">{{returningClintsPer}}%</label>
+															   		<label style="color:gray" ng-if="returningClintsPer == 'NaN' || returningClintsPer == ''">N/A</label>
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].returningClints}}</label>
+									                 						<label  ng-class="comparisonperson[1].returningClints > comparisonperson[0].returningClints ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed'" >{{comparisonperson[1].returningClints}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Returning clients</label>
 									                 					</div>
 															   </div>
 															</div>
+															
+															
+															
+															
 															<div class="col-sm-12">
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Calls Made</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].callMade}}</label>
+									                 						<label ng-class="comparisonperson[0].callMade > comparisonperson[1].callMade ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">{{comparisonperson[0].callMade}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green" ng-if="callMadePer != 'NaN'">{{callMadePer}}%</label>
-															   		<label style="color:green" ng-if="callMadePer == 'NaN'">N/A</label>
+															   		<label style="color:gray" ng-if="callMadePer != 'NaN'">{{callMadePer}}%</label>
+															   		<label style="color:gray" ng-if="callMadePer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].callMade}}</label>
+									                 						<label ng-class="comparisonperson[1].callMade > comparisonperson[0].callMade ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "   >{{comparisonperson[1].callMade}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Calls Made</label>
 									                 					</div>
 															   </div>
@@ -6487,16 +6498,16 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Emails Sent</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].mailSent}}</label>
+									                 						<label ng-class="comparisonperson[0].mailSent > comparisonperson[1].mailSent ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].mailSent}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green" ng-if="mailSentPer != 'NaN'">{{mailSentPer}}%</label>
-															   		<label style="color:green" ng-if="mailSentPer == 'NaN'">N/A</label>
+															   		<label style="color:gray" ng-if="mailSentPer != 'NaN'">{{mailSentPer}}%</label>
+															   		<label style="color:gray" ng-if="mailSentPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].mailSent}}</label>
+									                 						<label  ng-class="comparisonperson[1].mailSent > comparisonperson[0].mailSent ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].mailSent}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Emails Sent</label>
 									                 					</div>
 															   </div>
@@ -6506,16 +6517,16 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Test Drive schedule</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].testDriveSched}}</label>
+									                 						<label ng-class="comparisonperson[0].testDriveSched > comparisonperson[1].testDriveSched ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">{{comparisonperson[0].testDriveSched}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green" ng-if="testDriveSchedPer != 'NaN'">{{testDriveSchedPer}}%</label>
-															   		<label style="color:green" ng-if="testDriveSchedPer == 'NaN'">N/A</label>
+															   		<label style="color:gray" ng-if="testDriveSchedPer != 'NaN'">{{testDriveSchedPer}}%</label>
+															   		<label style="color:gray" ng-if="testDriveSchedPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].testDriveSched}}</label>
+									                 						<label ng-class="comparisonperson[1].testDriveSched > comparisonperson[0].testDriveSched ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].testDriveSched}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Test Drive schedule</label>
 									                 					</div>
 															   </div>
@@ -6525,17 +6536,17 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Salary</label>
-									                 						<label class="col-sm-6" style="text-align: right;">${{comparisonperson[0].salary}}</label>
+									                 						<label ng-class="comparisonperson[0].salary > comparisonperson[1].salary ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">${{comparisonperson[0].salary}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green" ng-if="totalsalaryPer != 'NaN'">{{totalsalaryPer}}%</label>
-															   		<label style="color:green" ng-if="totalsalaryPer == 'NaN'">N/A</label>
+															   		<label style="color:gray" ng-if="totalsalaryPer != 'NaN'">{{totalsalaryPer}}%</label>
+															   		<label style="color:gray" ng-if="totalsalaryPer == 'NaN'">N/A</label>
 															   </div>
 															   
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">${{comparisonperson[1].salary}}</label>
+									                 						<label ng-class="comparisonperson[1].salary > comparisonperson[0].salary ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' ">${{comparisonperson[1].salary}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Salary</label>
 									                 					</div>
 															   </div>
@@ -6545,7 +6556,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Comission</label>
-									                 						<label class="col-sm-6" style="text-align: right;">${{comparisonperson[0].comission}}</label>
+									                 						<label ng-class="comparisonperson[0].comission > comparisonperson[1].comission ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">${{comparisonperson[0].comission}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -6553,7 +6564,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">${{comparisonperson[1].comission}}</label>
+									                 						<label ng-class="comparisonperson[1].comission > comparisonperson[0].comission ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >${{comparisonperson[1].comission}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Comission</label>
 									                 					</div>
 															   </div>
@@ -6563,7 +6574,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Training</label>
-									                 						<label class="col-sm-6" style="text-align: right;">{{comparisonperson[0].training}}</label>
+									                 						<label ng-class="comparisonperson[0].training > comparisonperson[1].training ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].training}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -6571,7 +6582,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">{{comparisonperson[1].training}}</label>
+									                 						<label  ng-class="comparisonperson[1].training > comparisonperson[0].training ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].training}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Training</label>
 									                 					</div>
 															   </div>
@@ -6581,7 +6592,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Training Cost</label>
-									                 						<label class="col-sm-6" style="text-align: right;">${{comparisonperson[0].trainingCost}}</label>
+									                 						<label ng-class="comparisonperson[0].trainingCost > comparisonperson[1].trainingCost ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">${{comparisonperson[0].trainingCost}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -6589,7 +6600,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5">
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">${{comparisonperson[1].trainingCost}}</label>
+									                 						<label ng-class="comparisonperson[1].trainingCost > comparisonperson[0].trainingCost ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >${{comparisonperson[1].trainingCost}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Training Cost</label>
 									                 					</div>
 															   </div>
@@ -6599,16 +6610,16 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Lead Cost</label>
-									                 						<label class="col-sm-6" style="text-align: right;">${{comparisonperson[0].leadCost}}</label>
+									                 						<label ng-class="comparisonperson[1].leadCost > comparisonperson[0].leadCost ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">${{comparisonperson[0].leadCost}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
-															   		<label style="color:green" ng-if="leadCostPer != 'NaN'">{{leadCostPer}}%</label>
-															   		<label style="color:green" ng-if="leadCostPer == 'NaN'">N/A</label>
+															   		<label style="color:gray" ng-if="leadCostPer != 'NaN'">{{leadCostPer}}%</label>
+															   		<label style="color:gray" ng-if="leadCostPer == 'NaN'">N/A</label>
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 						<label class="col-sm-6">${{comparisonperson[1].leadCost}}</label>
+									                 						<label ng-class="comparisonperson[0].leadCost > comparisonperson[1].leadCost ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >${{comparisonperson[1].leadCost}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Lead Cost</label>
 									                 					</div>
 															   </div>
@@ -8642,6 +8653,15 @@ margin-left: 5px;
     border: 1px solid #3d3d3d;
     -webkit-transform: translate3d(0, 0, 0);
 }
+
+.txtColourGreen{
+color:green;
+}
+
+.txtColourRed{
+color:red;
+}
+
 
 .modal-dialog{
 		margin-top: 1%;

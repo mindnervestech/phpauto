@@ -19973,9 +19973,13 @@ if(vehicles.equals("All")){
       	System.out.println(":::::::plancomplete");
       	System.out.println(pMonthlySalepeople);
       	
+      	java.util.Date date= new Date();
+      	Calendar cal11 = Calendar.getInstance();
+      	cal.setTime(date);
+      	int monthValue = cal.get(Calendar.MONTH);
       	 String[] changVls = { "January", "February", "March", "April", "May", "June", "July",
   		        "August", "September", "October", "November", "December" };
-     	for(int i=0;i<12;i++){
+     	for(int i=0;i<monthValue+1;i++){
      		bodyStyleSetVM nSetVM1 = new bodyStyleSetVM();
      		nSetVM1.name = changVls[i];
      		nSetVM1.value=0;

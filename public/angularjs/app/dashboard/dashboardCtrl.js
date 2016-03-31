@@ -2706,10 +2706,77 @@ angular.module('newApp')
     			  $scope.offLeadName={};
     			  if($scope.flagvalue == 2){
     				  
-    				  console.log("####");
+    				  
+    				  
+    				  angular.forEach($scope.comparisonperson[0].byType, function(value, key) {
+    					  $scope.offLeadName={};
+    					  
+    					  angular.forEach($scope.comparisonperson[1].byType, function(value1, key1) {
+        						
+    						  if($scope.comparisonperson[0].byType[key].name == $scope.comparisonperson[1].byType[key1].name){
+    							  
+    							  if($scope.comparisonperson[0].byType[key].value > $scope.comparisonperson[1].byType[key1].value ){
+        							  $scope.comparisonperson[0].byType[key].flag=1;
+        							  console.log(";;;;;;;****insideif");
+        	    				  }else{
+        	    					  console.log("::::::****insideelse");
+        	    					  $scope.comparisonperson[1].byType[key1].flag=0;
+        	    				  }
+    							  
+    						  }
+        					  
+        	     			});
+    	     			});
+    				  
+    				  
+    				  
+    				  
+    				
+    				  angular.forEach($scope.comparisonperson[0].priceRang, function(value, key) {
+    					  $scope.offLeadName={};
+    					  
+    					  angular.forEach($scope.comparisonperson[1].priceRang, function(value1, key1) {
+        						
+    						  if($scope.comparisonperson[0].priceRang[key].name == $scope.comparisonperson[1].priceRang[key1].name){
+    							  
+    							  if($scope.comparisonperson[0].priceRang[key].value > $scope.comparisonperson[1].priceRang[key1].value ){
+        							  $scope.comparisonperson[0].priceRang[key].flag=1;
+        							  console.log(";;;;;;;****insideif");
+        	    				  }else{
+        	    					  console.log("::::::****insideelse");
+        	    					  $scope.comparisonperson[1].priceRang[key1].flag=0;
+        	    				  }
+    							  
+    						  }
+        					  
+        	     			});
+    	     			});
+    				  
+    				  
+    				  
+    				  
+    				  angular.forEach($scope.comparisonperson[0].planComplete, function(value, key) {
+    					  $scope.offLeadName={};
+    					  
+    					  angular.forEach($scope.comparisonperson[1].planComplete, function(value1, key1) {
+        						  
+        						  if($scope.comparisonperson[0].planComplete[key].value > $scope.comparisonperson[1].planComplete[key1].value){
+        							  $scope.comparisonperson[0].planComplete[key].flag=1;
+        							  console.log("#####insideif");
+        	    				  }else{
+        	    					  console.log("****insideelse");
+        	    					  $scope.comparisonperson[1].planComplete[key].flag=0;
+        	    				  }
+        					  
+        	     			});
+    					  
+    					  
+    	     			});
+    				  
+    				  
+    				  
     				  console.log($scope.comparisonperson[0].offlineLead);
     				  console.log($scope.comparisonperson[1].offlineLead);
-    				  console.log("****");
     				  console.log($scope.comparisonperson[0].onLineLead);
     				  console.log($scope.comparisonperson[1].onLineLead);
     				  
@@ -2725,8 +2792,11 @@ angular.module('newApp')
         						  
         						  
         						  if($scope.comparisonperson[0].offlineLead[key].value > $scope.comparisonperson[1].offlineLead[key1].value){
+        							  $scope.comparisonperson[0].offlineLead[key].flag=1;
         	    					  $scope.offLineLeadPer = (($scope.comparisonperson[0].offlineLead[key].value - $scope.comparisonperson[1].offlineLead[key1].value) * 100 / $scope.comparisonperson[0].offlineLead[key].value).toFixed(2);
         	    				  }else{
+        	    					  console.log("****insideelse");
+        	    					  $scope.comparisonperson[1].offlineLead[key1].flag=0;
         	    					  $scope.offLineLeadPer = (($scope.comparisonperson[1].offlineLead[key1].value - $scope.comparisonperson[0].offlineLead[key].value) * 100 / $scope.comparisonperson[1].offlineLead[key1].value).toFixed(2);
         	    				  }
         						  
@@ -2751,7 +2821,7 @@ angular.module('newApp')
     				  
     				  angular.forEach($scope.comparisonperson[0].onLineLead, function(value, key) {
     					  $scope.leadName={};
-    					  
+    					  $scope.onlineLeadFlag;
     					  angular.forEach($scope.comparisonperson[1].onLineLead, function(value1, key1) {
     						  
     						  if($scope.comparisonperson[0].onLineLead[key].name == $scope.comparisonperson[1].onLineLead[key1].name){
@@ -2761,9 +2831,11 @@ angular.module('newApp')
         						  console.log($scope.comparisonperson[0].onLineLead[key].value);
         						  console.log($scope.comparisonperson[1].onLineLead[key1].value);
         						  if($scope.comparisonperson[0].onLineLead[key].value > $scope.comparisonperson[1].onLineLead[key1].value){
+        							  $scope.comparisonperson[0].onLineLead[key].flag=1;
         	    					  $scope.onLineLeadPer = (($scope.comparisonperson[0].onLineLead[key].value - $scope.comparisonperson[1].onLineLead[key1].value) * 100 / $scope.comparisonperson[0].onLineLead[key].value).toFixed(2);
         	    				  }else{
         	    					  console.log("insilde   else");
+        	    					  $scope.comparisonperson[1].onLineLead[key1].flag=0;
         	    					  $scope.onLineLeadPer = (($scope.comparisonperson[1].onLineLead[key1].value - $scope.comparisonperson[0].onLineLead[key].value) * 100 / $scope.comparisonperson[1].onLineLead[key1].value).toFixed(2);
         	    				  }
         						  console.log("value of onlinelead"+$scope.onLineLeadPer)
