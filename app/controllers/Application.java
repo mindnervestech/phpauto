@@ -13581,7 +13581,7 @@ public class Application extends Controller {
     			vmList.add(vm);
     		}
     		
-    		/*List<SqlRow> rowsRequest = RequestMoreInfo.getRequestedDates(user);
+    		List<SqlRow> rowsRequest = RequestMoreInfo.getRequestedDates(user);
     		for(SqlRow row : rowsRequest) {
     			RequestInfoVM vm = new RequestInfoVM();
     			vm.confirmDate = row.getString("confirm_date");
@@ -13593,7 +13593,7 @@ public class Application extends Controller {
     			RequestInfoVM vm = new RequestInfoVM();
     			vm.confirmDate = row.getString("confirm_date");
     			vmList.add(vm);
-    		}*/
+    		}
     		
     		List<SqlRow> toDoRows = ToDo.getToDoDates();
     		for(SqlRow todo : toDoRows) {
@@ -13616,6 +13616,8 @@ public class Application extends Controller {
     		Date dateObj = df.parse(date);
     		Map<Long,Integer> setGroupid = new HashMap<Long,Integer>();
     		List<ScheduleTest> scheduleList = ScheduleTest.findByDateAndAssignedUser(user, dateObj);
+    		List<RequestMoreInfo> requInfos = RequestMoreInfo.findByDateAndAssignedUser(user, dateObj);
+    		List<TradeIn> traIns = TradeIn.findByDateAndAssignedUser(user, dateObj);
     		List<RequestInfoVM> vmList = new ArrayList<>();
     		
     		Calendar time = Calendar.getInstance();
@@ -13716,6 +13718,10 @@ public class Application extends Controller {
     			
 	    		
     		}
+    		
+    		List<ScheduleTest> scheduleList1 = null;
+   		 fillLeadsData(scheduleList1, requInfos, traIns, vmList);
+    		
     		return ok(Json.toJson(vmList));
     	}
     }

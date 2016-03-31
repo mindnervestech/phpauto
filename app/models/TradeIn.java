@@ -625,6 +625,10 @@ public String testDriveStatus;
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
 	}
 	
+	public static List<TradeIn> findByDateAndAssignedUser(AuthUser user,Date date) {
+		return find.where().eq("assignedTo", user).eq("confirmDate", date).findList();
+	}
+	
 	public static List<TradeIn> findAllByUser(AuthUser user) {
 		return find.where().eq("user", user).findList();
 	}

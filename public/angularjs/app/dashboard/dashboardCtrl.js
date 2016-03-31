@@ -2646,6 +2646,7 @@ angular.module('newApp')
 							 }	
 						 }
 						 
+						 
 						// set up some code to be executed later, in 5 seconds (5000 milliseconds):
 						  setTimeout(function () {
 							  $(".multidatepicker").multiDatesPicker({
