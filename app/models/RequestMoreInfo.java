@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
 import com.avaje.ebean.Expression;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -375,6 +378,12 @@ public String testDriveStatus;
 	
 	public static List<RequestMoreInfo> findAllReassigned(AuthUser user) {
 		return find.where().eq("isReassigned", true).eq("assignedTo",user).findList();
+	}
+	
+	public static List<SqlRow> getRequestedDates(AuthUser user) {
+		SqlQuery q = Ebean.createSqlQuery("select distinct request_more_info.confirm_date from request_more_info where (request_more_info.assigned_to_id = '"+user.id+"') and request_more_info.confirm_date is not null");
+		List<SqlRow> rows = q.findList();
+		return rows;
 	}
 	
 	public String getBestDay() {

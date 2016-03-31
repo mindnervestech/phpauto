@@ -417,6 +417,8 @@ public class ScheduleTest extends Model {
 		return rows;
 	}
 	
+	
+	
 	public static List<ScheduleTest> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}

@@ -6919,99 +6919,102 @@ public class Application extends Controller {
     	SimpleDateFormat hourSDF = new SimpleDateFormat("hh:mm a");
     	Calendar time = Calendar.getInstance();
     	
-    	for(ScheduleTest info: listData) {
-    		RequestInfoVM vm = new RequestInfoVM();
-    		vm.id = info.id;
-    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
-    		vm.vin = info.vin;
-    		if(vehicle != null) {
-    			vm.model = vehicle.model;
-    			vm.make = vehicle.make;
-    			vm.stock = vehicle.stock;
-    			vm.year = vehicle.year;
-    			vm.mileage = vehicle.mileage;
-				vm.price = vehicle.price;
-				VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
-        		if(vehicleImage!=null) {
-        			vm.imgId = vehicleImage.getId().toString();
+    	if(listData != null){
+    		for(ScheduleTest info: listData) {
+        		RequestInfoVM vm = new RequestInfoVM();
+        		vm.id = info.id;
+        		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+        		vm.vin = info.vin;
+        		if(vehicle != null) {
+        			vm.model = vehicle.model;
+        			vm.make = vehicle.make;
+        			vm.stock = vehicle.stock;
+        			vm.year = vehicle.year;
+        			vm.mileage = vehicle.mileage;
+    				vm.price = vehicle.price;
+    				VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+            		if(vehicleImage!=null) {
+            			vm.imgId = vehicleImage.getId().toString();
+            		}
+            		else {
+            			vm.imgId = "/assets/images/no-image.jpg";
+            		}
         		}
-        		else {
-        			vm.imgId = "/assets/images/no-image.jpg";
+        		vm.name = info.name;
+        		vm.phone = info.phone;
+        		vm.email = info.email;
+        		if(info.bestDay != null){
+        			String chaArr[] = info.bestDay.split("-");
+        			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
+        			//vm.bestDay = info.bestDay;
         		}
-    		}
-    		vm.name = info.name;
-    		vm.phone = info.phone;
-    		vm.email = info.email;
-    		if(info.bestDay != null){
-    			String chaArr[] = info.bestDay.split("-");
-    			vm.bestDay = chaArr[2]+"-"+chaArr[1]+"-"+chaArr[0];
-    			//vm.bestDay = info.bestDay;
-    		}
-    		if(info.confirmTime != null){
-    			// Date _24HourDt = timedf.parse(info.confirmTime);
-    			vm.bestTime = hourSDF.format(info.confirmTime);
-    		}	
-			vm.howContactedUs = info.contactedFrom;
-    		vm.howFoundUs = info.hearedFrom;
-    		vm.custZipCode = info.custZipCode;
-    		vm.enthicity = info.enthicity;
-    		vm.status =info.leadStatus;
-    		vm.testDriveCompletedComment = info.testDriveCompletedComment;
-    		vm.testDriveCompletedDuration = info.testDriveCompletedDuration;
-    		if(info.statusDate != null){
-    			vm.statusDate = df.format(info.statusDate);
-    		}
-    		vm.typeOfLead = "Schedule Test Drive";
-    		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
-    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
-    		Integer nFlag = 0;
-    		List<NoteVM> list = new ArrayList<>();
-    		for(UserNotes noteObj :notesList) {
-    			NoteVM obj = new NoteVM();
-    			obj.id = noteObj.id;
-    			obj.note = noteObj.note;
-    			obj.action = noteObj.action;
-    			obj.date = df.format(noteObj.createdDate);
-    			obj.time = timedf.format(noteObj.createdTime);
-    			if(noteObj.saveHistory != null){
-    				if(noteObj.saveHistory != null){
-        				if(noteObj.saveHistory.equals(1)){
-            				nFlag = 1;
+        		if(info.confirmTime != null){
+        			// Date _24HourDt = timedf.parse(info.confirmTime);
+        			vm.bestTime = hourSDF.format(info.confirmTime);
+        		}	
+    			vm.howContactedUs = info.contactedFrom;
+        		vm.howFoundUs = info.hearedFrom;
+        		vm.custZipCode = info.custZipCode;
+        		vm.enthicity = info.enthicity;
+        		vm.status =info.leadStatus;
+        		vm.testDriveCompletedComment = info.testDriveCompletedComment;
+        		vm.testDriveCompletedDuration = info.testDriveCompletedDuration;
+        		if(info.statusDate != null){
+        			vm.statusDate = df.format(info.statusDate);
+        		}
+        		vm.typeOfLead = "Schedule Test Drive";
+        		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
+        		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
+        		Integer nFlag = 0;
+        		List<NoteVM> list = new ArrayList<>();
+        		for(UserNotes noteObj :notesList) {
+        			NoteVM obj = new NoteVM();
+        			obj.id = noteObj.id;
+        			obj.note = noteObj.note;
+        			obj.action = noteObj.action;
+        			obj.date = df.format(noteObj.createdDate);
+        			obj.time = timedf.format(noteObj.createdTime);
+        			if(noteObj.saveHistory != null){
+        				if(noteObj.saveHistory != null){
+            				if(noteObj.saveHistory.equals(1)){
+                				nFlag = 1;
+                			}
             			}
         			}
-    			}
-    			list.add(obj);
-    		}
-    		vm.note = list;
-    		vm.noteFlag = nFlag;
-    		if(info.getConfirmDate() != null) {
-    			vm.confirmDate = df.format(info.getConfirmDate());
-    		}
-    		
-    		if(info.getConfirmTime() != null) {
-    			time.setTime(info.getConfirmTime());
-    			String ampm = "";
-    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
-    				ampm = "PM";
-    			} else {
-    				ampm = "AM";
-    			}
-    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
-    		}
-    		if(info.scheduleDate != null){
-    			vm.requestDate = df.format(info.scheduleDate);
-    		}
-    		if(info.isRead == 0) {
-    			vm.isRead = false;
-    		}
-    		
-    		if(info.isRead == 1) {
-    			vm.isRead = true;
-    		}
-    		vm.option = 0;
-    		findSchedulParentChildAndBro(infoVMList, info, df, vm);
-    		//infoVMList.add(vm);
+        			list.add(obj);
+        		}
+        		vm.note = list;
+        		vm.noteFlag = nFlag;
+        		if(info.getConfirmDate() != null) {
+        			vm.confirmDate = df.format(info.getConfirmDate());
+        		}
+        		
+        		if(info.getConfirmTime() != null) {
+        			time.setTime(info.getConfirmTime());
+        			String ampm = "";
+        			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+        				ampm = "PM";
+        			} else {
+        				ampm = "AM";
+        			}
+        			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        		}
+        		if(info.scheduleDate != null){
+        			vm.requestDate = df.format(info.scheduleDate);
+        		}
+        		if(info.isRead == 0) {
+        			vm.isRead = false;
+        		}
+        		
+        		if(info.isRead == 1) {
+        			vm.isRead = true;
+        		}
+        		vm.option = 0;
+        		findSchedulParentChildAndBro(infoVMList, info, df, vm);
+        		//infoVMList.add(vm);
+        	}
     	}
+    	
     	
     	for(TradeIn info: tradeIns) {
     		RequestInfoVM vm = new RequestInfoVM();
@@ -13578,6 +13581,20 @@ public class Application extends Controller {
     			vmList.add(vm);
     		}
     		
+    		/*List<SqlRow> rowsRequest = RequestMoreInfo.getRequestedDates(user);
+    		for(SqlRow row : rowsRequest) {
+    			RequestInfoVM vm = new RequestInfoVM();
+    			vm.confirmDate = row.getString("confirm_date");
+    			vmList.add(vm);
+    		}
+    		
+    		List<SqlRow> rowsTrad = TradeIn.getTradeDates(user);
+    		for(SqlRow row : rowsTrad) {
+    			RequestInfoVM vm = new RequestInfoVM();
+    			vm.confirmDate = row.getString("confirm_date");
+    			vmList.add(vm);
+    		}*/
+    		
     		List<SqlRow> toDoRows = ToDo.getToDoDates();
     		for(SqlRow todo : toDoRows) {
     			RequestInfoVM vm = new RequestInfoVM();
@@ -16352,7 +16369,7 @@ public class Application extends Controller {
     	Long id = 1L;
     	TakeMapClickyData takeData = TakeMapClickyData.getallData(id);
     	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-    	
+    	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
     	
     	Date curr = new Date();
     	String sDate = df.format(curr);
@@ -16401,6 +16418,19 @@ public class Application extends Controller {
 	    			cVisitorsList.setStatsUrl(jsonArray.getJSONObject(i).get("stats_url").toString());
 	    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
 	    			
+	    			String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
+					String arrNew[] = arr[3].split(",");
+					String checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
+					Date thedate = null;
+					try {
+						thedate = df1.parse(checkDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    			
+	    			cVisitorsList.setDateClick(thedate);
+	    			
 	    			cVisitorsList.save();
 	    			
 	    			
@@ -16412,7 +16442,7 @@ public class Application extends Controller {
 			
 			Calendar c = Calendar.getInstance();
 			c.setTime(cDate);
-			c.add(Calendar.DATE, 7);
+			c.add(Calendar.DATE, 6);
 			
 			String dateCheck = df.format(c.getTime());
 			
@@ -22630,6 +22660,10 @@ if(vehicles.equals("All")){
 	public static Result getScheduleTestData(){
         AuthUser user = getLocalUser();
         List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user);
+        
+    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmLeads(Long.valueOf(session("USER_LOCATION")), user);
+    	List<TradeIn> tradeIns = TradeIn.findByConfirmLeads(Long.valueOf(session("USER_LOCATION")), user);
+    	
         Map<Long,Integer> maps = new HashMap<Long, Integer>();
         List<RequestInfoVM> shList = new ArrayList<RequestInfoVM>();
         for(ScheduleTest scTest:list){
@@ -22696,6 +22730,11 @@ if(vehicles.equals("All")){
 	        	
         	
         }
+        List<ScheduleTest> listData = null;
+        fillLeadsData(listData, requestMoreInfos, tradeIns, shList);
+        
+        //public static void fillLeadsData(List<ScheduleTest> listData, List<RequestMoreInfo> requestMoreInfos, List<TradeIn> tradeIns, List<RequestInfoVM> infoVMList){
+        
         return ok(Json.toJson(shList));
     }
 	

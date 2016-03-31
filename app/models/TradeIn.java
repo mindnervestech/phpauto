@@ -8,7 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Expr;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -671,5 +674,9 @@ public String testDriveStatus;
 	public static List<TradeIn> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();
 	}
-	
+	public static List<SqlRow> getTradeDates(AuthUser user) {
+		SqlQuery q = Ebean.createSqlQuery("select distinct trade_in.confirm_date from trade_in where (trade_in.assigned_to_id = '"+user.id+"') and trade_in.confirm_date is not null");
+		List<SqlRow> rows = q.findList();
+		return rows;
+	}
 }

@@ -38,6 +38,7 @@ public class ClickyVisitorsList extends Model {
 	public String hostname;
 	public String organization;
 	public String statsUrl;
+	public Date DateClick;
 	
 	public static Finder<Long,ClickyVisitorsList> find = new Finder<>(Long.class,ClickyVisitorsList.class);
 	
@@ -63,6 +64,18 @@ public class ClickyVisitorsList extends Model {
 
 	public String getActions() {
 		return actions;
+	}
+
+
+
+	public Date getDateClick() {
+		return DateClick;
+	}
+
+
+
+	public void setDateClick(Date dateClick) {
+		DateClick = dateClick;
 	}
 
 
