@@ -16352,11 +16352,24 @@ public class Application extends Controller {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
-    public static Result getVisitorList(){
+    public static Result getVisitorList(String startDate,String endDate){
     	int year = Calendar.getInstance().get(Calendar.YEAR);
     	String params = null;
     	
-    	List<ClickyVisitorsList> cList = ClickyVisitorsList.getAll();
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    	Date sDate = null;
+    	Date eDate = null;
+    	
+    	try {
+			sDate = df.parse(startDate);
+			eDate = df.parse(endDate); 
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	List<ClickyVisitorsList> cList = ClickyVisitorsList.getAll(sDate, eDate);
     	
     	//params = "&type=visitors-list&date=last-7-days&limit=all";
     	//if(value == 30){

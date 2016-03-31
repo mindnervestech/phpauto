@@ -356,8 +356,8 @@ public class ClickyVisitorsList extends Model {
 
 
 
-	public static List<ClickyVisitorsList> getAll() {
-		return find.all();
+	public static List<ClickyVisitorsList> getAll(Date sDate,Date eDate) {
+		return find.where().between("DateClick", sDate, eDate).findList();
 	}
 	
 	

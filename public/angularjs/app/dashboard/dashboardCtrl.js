@@ -714,8 +714,11 @@ angular.module('newApp')
 	  $scope.gridOptions = {};
       $scope.$on('$viewContentLoaded', function () {
     	  
+    	  var startDate =  $("#vstartDate").val();
+		   var endDate = $("#vendDate").val();
     	  
-    	  $http.get('/getVisitorList')
+		   
+    	  $http.get('/getVisitorList/'+$scope.startDateV+"/"+$scope.endDateV)
   		.success(function(data) {
   			
   			$scope.gridOptions.data = data;
@@ -2343,14 +2346,15 @@ angular.module('newApp')
         			        
         		  });
     			  
-    			  /*$http.get('/getVisitorList/'+startDate+"/"+endDate)
+    			  console.log("{}{}{}{}{}HGHGHGH}{}{}{}{");
+    			  console.log($scope.stringArray);
+    			  $scope.stringArray = [];
+    			  $scope.visitiorListMap = [];
+    			  $http.get('/getVisitorList/'+startDate+"/"+endDate)
     		  		.success(function(data) {
     		  			
-    		  			console.log("//////<><><><><><><><><><");
-    		  			console.log(data[0].dates[0].items);
-    		  			
-    		  			$scope.gridOptions.data = data[0].dates[0].items;
-    		  			$scope.visitiorList = data[0].dates[0].items;
+    		  			$scope.gridOptions.data = data;
+    		  			$scope.visitiorList = data;
     		  			angular.forEach($scope.visitiorList, function(value, key) {
     		  				$scope.stringArray[value.geolocation] = {
     		  	    	            "flag" : 0,
@@ -2384,10 +2388,15 @@ angular.module('newApp')
     		            pluginsService.init();
     		            dashboardService.setHeights()
     		            if ($('.widget-weather').length) {
-    		                widgetWeather();
+    						if($scope.userProfile == null){
+    							widgetWeather("New York");
+    						}else{
+    							widgetWeather($scope.userProfile.address);
+    						}
+    		                
     		            }
     		            handleTodoList();
-    		  		});*/
+    		  		});
         		  
     		 }
     		 
