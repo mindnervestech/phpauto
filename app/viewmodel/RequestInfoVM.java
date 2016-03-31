@@ -55,6 +55,7 @@ public class RequestInfoVM {
 	public Boolean is_google_data;
 	public String google_id;
 	public Long groupId;
+	public Integer setFlagSameUser;
 	public List<UserVM> userdata;
 	
 	
