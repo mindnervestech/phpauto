@@ -34,7 +34,27 @@ public class Vehicle extends Model {
 	public String label;
 	public String stock;
 	public String typeofVehicle;
-	
+	public String pdfBrochureName;
+	public String pdfBrochurePath;
+	public String getPdfBrochureName() {
+		return pdfBrochureName;
+	}
+
+	public void setPdfBrochureName(String pdfBrochureName) {
+		this.pdfBrochureName = pdfBrochureName;
+	}
+
+	public String getPdfBrochurePath() {
+		return pdfBrochurePath;
+	}
+
+	public void setPdfBrochurePath(String pdfBrochurePath) {
+		this.pdfBrochurePath = pdfBrochurePath;
+	}
+
+
+
+
 	public String mileage;
 	public Integer cost;
 	public Integer price;

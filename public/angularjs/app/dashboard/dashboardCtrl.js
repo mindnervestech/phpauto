@@ -6739,7 +6739,7 @@ angular.module('newApp')
   }]);
 
 angular.module('newApp')
-.controller('addVehicleCtrl', ['$scope','$http','$location', function ($scope,$http,$location) {
+.controller('addVehicleCtrl', ['$scope','$http','$location','$upload', function ($scope,$http,$location,$upload) {
   
 	$scope.vinErr = false;
    $scope.vehicleInit = function() {
@@ -6759,6 +6759,12 @@ angular.module('newApp')
  	  }
  	  
    };
+   
+   var pdffile;
+		$scope.onLogoFileSelect = function($files) {
+			pdffile = $files;
+		}
+   
    
    $scope.vinData = {};
    $scope.vinData.specification = {};
@@ -6795,7 +6801,25 @@ angular.module('newApp')
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
- 	  $http.post('/saveVehicle',$scope.vinData.specification)
+ 	 if(pdffile != undefined){
+ 		$upload.upload({
+ 	         url : '/saveVehicle',
+ 	         method: 'POST',
+ 	         file:pdffile,
+ 	         data:$scope.vinData.specification
+ 	      }).success(function(data) {
+ 	    	  console.log('success');
+ 	  			$.pnotify({
+ 	  			    title: "Success",
+ 	  			    type:'success',
+ 	  			    text: "Vehicle saved successfully",
+ 	  			});
+ 	  			if($scope.flagVal == true) {
+ 	  		 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
+ 	  		 	  }
+ 	      });
+ 	 }else{
+ 		$http.post('/saveVehicle',$scope.vinData.specification)
 		.success(function(data) {
 			console.log('success');
 		//	$location.path('/');
@@ -6808,9 +6832,7 @@ angular.module('newApp')
 		 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
 		 	  }
 		});
- 	  
- 	  
- 	  
+ 	 } 
    }
    
    $scope.setFlagVal = function() {

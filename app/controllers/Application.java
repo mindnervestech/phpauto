@@ -1229,12 +1229,35 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
 	    	Identity user = getLocalUser();
+	    	AuthUser userObj = (AuthUser)user;
+	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
-	    	AuthUser userObj = (AuthUser)user;
+	    	
 	    	Vehicle vehicleObj = Vehicle.findByVinAndStatus(vm.vin);
 	    	Vehicle vehicle = new Vehicle();
 	    	if(vehicleObj == null) {
+	    		
+	    		if(body != null){
+		    		FilePart picture = body.getFile("file0");
+		    		if (picture != null) {
+		    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+		    			File file = picture.getFile();
+		    			try {
+		    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vm.vin+"-"+userObj.id+File.separator+"PDF_brochure");
+		    	    	    if(!fdir.exists()) {
+		    	    	    	fdir.mkdir();
+		    	    	    }
+		    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vm.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName;
+		    	    	    FileUtils.moveFile(file, new File(filePath));
+		    	    	    vehicle.pdfBrochureName = fileName;
+		    	    	    vehicle.pdfBrochurePath = filePath;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+		    		}
+		    	}
+	    		
 		    	
 	    		vehicle.setTitle(vm.make+" "+vm.model+" "+vm.year);
 		    	vehicle.category = vm.category;
