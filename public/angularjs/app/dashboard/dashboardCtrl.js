@@ -4174,6 +4174,13 @@ angular.module('newApp')
 				entity.bestTime = "";
 				$scope.getAllSalesPersonRecord($scope.salesPerson);
 			});
+    	}
+    	
+    	$scope.cancelSure = function(){
+    		console.log("jjjjj");
+    		$('#scheduleCancelModal').modal("toggle");
+    		$('#cancelBtn').click();
+    		//$('#cancelForeverModal').click();
     		
     	}
     	

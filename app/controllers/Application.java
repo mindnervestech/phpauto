@@ -27171,7 +27171,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				uVm.imageUrl = "/profile-pic.jpg";
 			}
 			
-			
 			listU.add(uVm);
 			
 			comm.setCommentFlag(0);
