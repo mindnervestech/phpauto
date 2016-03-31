@@ -718,8 +718,8 @@ angular.module('newApp')
     	  $http.get('/getVisitorList')
   		.success(function(data) {
   			
-  			$scope.gridOptions.data = data[0].dates[0].items;
-  			$scope.visitiorList = data[0].dates[0].items;
+  			$scope.gridOptions.data = data;
+  			$scope.visitiorList = data;
   			angular.forEach($scope.visitiorList, function(value, key) {
   				$scope.stringArray[value.geolocation] = {
   	    	            "flag" : 0,
@@ -2477,8 +2477,15 @@ angular.module('newApp')
 
 		    		  $scope.vehicleData("All");
 		    		  $scope.heatMapShow();
+		    		  
+		    		  $scope.getClickyVisitorListData();
     		  };  
     		  
+    		  $scope.getClickyVisitorListData = function(){
+    			  $http.get('/getClickyVisitorList').success(function(data) {
+						console.log("Okkkkkmmmm");
+					});
+    		  }
     		  
     		  $scope.heatMapShow = function(){
     			  $scope.showHeatMap = 0;

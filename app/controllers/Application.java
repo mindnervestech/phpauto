@@ -59,6 +59,7 @@ import javax.net.ssl.HttpsURLConnection;
 import models.ActionAdd;
 import models.AuthUser;
 import models.Blog;
+import models.ClickyVisitorsList;
 import models.Comments;
 import models.Contacts;
 import models.FeaturedImage;
@@ -88,6 +89,7 @@ import models.SiteLogo;
 import models.SliderImage;
 import models.SliderImageConfig;
 import models.SoldContact;
+import models.TakeMapClickyData;
 import models.ToDo;
 import models.TradeIn;
 import models.UserNotes;
@@ -16308,7 +16310,9 @@ public class Application extends Controller {
     	int year = Calendar.getInstance().get(Calendar.YEAR);
     	String params = null;
     	
-    	params = "&type=visitors-list&date=last-7-days&limit=all";
+    	List<ClickyVisitorsList> cList = ClickyVisitorsList.getAll();
+    	
+    	//params = "&type=visitors-list&date=last-7-days&limit=all";
     	//if(value == 30){
     		//params = "&type=visitors-list&date="+startDate+","+endDate+"&limit=all";
     	/*}else if(value == 7){
@@ -16316,7 +16320,96 @@ public class Application extends Controller {
     	}else if(value == 1){
     		params = "&type=visitors-list&date="+year+"&limit=all";
     	}*/
-    	return ok(Json.parse(callClickAPI(params)));
+    	//return ok(Json.parse(callClickAPI(params)));
+    	return ok(Json.toJson(cList));
+    }
+    
+    
+    public static Result getClickyVisitorList(){
+    	Long id = 1L;
+    	TakeMapClickyData takeData = TakeMapClickyData.getallData(id);
+    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    	
+    	
+    	Date curr = new Date();
+    	String sDate = df.format(curr);
+    	Date cDate = null;
+		try {
+			cDate = df.parse(sDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	if(takeData.dateStore.equals(cDate)){
+        	String params = null;
+        	
+        	params = "&type=visitors-list&date=last-7-days&limit=all";
+        	
+        	JSONArray jsonArray;
+			try {
+				jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+				for(int i=0;i<jsonArray.length();i++){
+	    			String data = jsonArray.getJSONObject(i).get("time").toString();
+	    			String data1 = jsonArray.getJSONObject(i).get("time_pretty").toString();
+	    			ClickyVisitorsList cVisitorsList = new ClickyVisitorsList();
+	    			cVisitorsList.setTime(jsonArray.getJSONObject(i).get("time").toString());
+	    			cVisitorsList.setTimePretty(jsonArray.getJSONObject(i).get("time_pretty").toString());
+	    			cVisitorsList.setTimeTotal(jsonArray.getJSONObject(i).get("time_total").toString());
+	    			cVisitorsList.setIpAddress(jsonArray.getJSONObject(i).get("ip_address").toString());
+	    			cVisitorsList.setUid(jsonArray.getJSONObject(i).get("uid").toString());
+	    			cVisitorsList.setSessionId(jsonArray.getJSONObject(i).get("session_id").toString());
+	    			cVisitorsList.setActions(jsonArray.getJSONObject(i).get("actions").toString());
+	    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
+	    			cVisitorsList.setLandingPage(jsonArray.getJSONObject(i).get("landing_page").toString());
+	    			cVisitorsList.setWebBrowser(jsonArray.getJSONObject(i).get("web_browser").toString());
+	    			cVisitorsList.setOperatingSystem(jsonArray.getJSONObject(i).get("operating_system").toString());
+	    			cVisitorsList.setScreenResolution(jsonArray.getJSONObject(i).get("screen_resolution").toString());
+	    			cVisitorsList.setJavascript(jsonArray.getJSONObject(i).get("javascript").toString());
+	    			cVisitorsList.setLanguage(jsonArray.getJSONObject(i).get("language").toString());
+	    			//cVisitorsList.setReferrerUrl(jsonArray.getJSONObject(i).get("referrer_url").toString());
+	    			//cVisitorsList.setReferrerType(jsonArray.getJSONObject(i).get("referrer_type").toString());
+	    			//cVisitorsList.setReferrerDomain(jsonArray.getJSONObject(i).get("referrer_domain").toString());
+	    			cVisitorsList.setGeolocation(jsonArray.getJSONObject(i).get("geolocation").toString());
+	    			cVisitorsList.setCountryCode(jsonArray.getJSONObject(i).get("country_code").toString());
+	    			cVisitorsList.setLatitude(jsonArray.getJSONObject(i).get("latitude").toString());
+	    			cVisitorsList.setLongitude(jsonArray.getJSONObject(i).get("longitude").toString());
+	    			cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
+	    			cVisitorsList.setOrganization(jsonArray.getJSONObject(i).get("organization").toString());
+	    			cVisitorsList.setStatsUrl(jsonArray.getJSONObject(i).get("stats_url").toString());
+	    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
+	    			
+	    			cVisitorsList.save();
+	    			
+	    			
+				}	
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			Calendar c = Calendar.getInstance();
+			c.setTime(cDate);
+			c.add(Calendar.DATE, 7);
+			
+			String dateCheck = df.format(c.getTime());
+			
+			Date datenew = null;
+			try {
+				datenew = df.parse(dateCheck);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			takeData.setDateStore(datenew);
+			takeData.update();
+			
+    	}
+    	
+    	
+    	
+    	
+    	return ok();
     }
     
     
