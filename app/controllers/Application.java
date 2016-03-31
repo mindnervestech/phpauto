@@ -16375,6 +16375,7 @@ public class Application extends Controller {
     	Long id = 1L;
     	TakeMapClickyData takeData = TakeMapClickyData.getallData(id);
     	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    	SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
     	
     	Date curr = new Date();
@@ -16386,10 +16387,29 @@ public class Application extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	if(takeData.dateStore.equals(cDate)){
+		
+		
+		Calendar c = Calendar.getInstance();
+		c.setTime(cDate);
+		c.add(Calendar.DATE, -1);
+		
+		String dateCheck = df.format(c.getTime());
+		
+		Date datenew = null;
+		try {
+			datenew = df.parse(dateCheck);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+    	if(takeData.dateStore.equals(datenew)){
+    		
+    		String dateClicky = df2.format(datenew);
         	String params = null;
         	
-        	params = "&type=visitors-list&date=last-7-days&limit=all";
+        	params = "&type=visitors-list&date="+dateClicky+"&limit=all";
+        	//params = "&type=visitors-list&date=last-30-days&limit=all";
         	
         	JSONArray jsonArray;
 			try {
@@ -16446,21 +16466,9 @@ public class Application extends Controller {
 				e.printStackTrace();
 			}
 			
-			Calendar c = Calendar.getInstance();
-			c.setTime(cDate);
-			c.add(Calendar.DATE, 6);
 			
-			String dateCheck = df.format(c.getTime());
 			
-			Date datenew = null;
-			try {
-				datenew = df.parse(dateCheck);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			takeData.setDateStore(datenew);
+			takeData.setDateStore(cDate);
 			takeData.update();
 			
     	}
