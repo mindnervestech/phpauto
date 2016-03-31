@@ -4463,6 +4463,8 @@ margin-left: 5px;
 							<!-- <button id="btnStatusSchedule" data-toggle="modal" data-target="#scheduleStatusModal" style="display: none;"></button> -->
 							<button id="btnCancelSchedule" data-toggle="modal" data-target="#scheduleCancelModal" style="display: none;"></button>
 							<button id="cancelBtn" data-toggle="modal" data-target="#cancelForeverModal" style="display: none;"></button>
+							<button id="cancelBtnTradeIn" data-toggle="modal" data-target="#cancelTradeInLead" style="display: none;"></button>
+							
 							<button id="btnCompleteRequest" data-toggle="modal" data-target="#requestCompleteStatusModal" style="display: none;"></button>
 							<button id="btnCancelRequest" data-toggle="modal" data-target="#requestCancelStatusModal" style="display: none;"></button>
 							<button id="btnCompleteTradeIn" data-toggle="modal" data-target="#tradeInCompleteStatusModal" style="display: none;"></button>
@@ -5511,7 +5513,7 @@ margin-left: 5px;
 								                    <button type="button" class="close" id="tradeInCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h4 class="modal-title">Change vehicle status</h4>
 								                </div>
-								                <form ng-submit="saveCancelTradeInStatus()">
+								                <form ng-submit="CancelTradeInStatus()">
 								                <div class="modal-body">
 								                    <b style="margin-left:3%;">Please explain the reason of canceling this Lead</b><br>
 								                     <div class="form-group col-sm-12">
@@ -5528,6 +5530,31 @@ margin-left: 5px;
 								            </div>
 								        </div>
 								    </div>
+								    
+								    
+								    
+								    <div class="modal fade" id="cancelTradeInLead" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Cancel Lead</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Are you sure to cancel?<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="saveCancelTradeInStatus()">Yes</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    
+								    
+								    
+								    
 								    
 								     <div class="modal fade" id="todoCompleteStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog">

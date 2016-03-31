@@ -4184,6 +4184,15 @@ angular.module('newApp')
     		
     	}
     	
+    	$scope.CancelTradeInStatus = function(){
+    		console.log("jjjjj");
+    		$('#tradeInCancelModal').modal("toggle");
+    		$('#cancelBtnTradeIn').click();
+    		//$('#cancelForeverModal').click();
+    		
+    	}
+    	
+    	
     	$scope.saveScheduleClose = function() {
     		console.log($scope.scheduleStatusCancel);
 	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.typeOfLead+'/'+$scope.reasonToCancel)
@@ -4445,7 +4454,7 @@ angular.module('newApp')
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "Status changed successfully",
+				    text: "Trad in Lead Cancelled successfully",
 				});
 				$scope.getTradeInData();
 			});
