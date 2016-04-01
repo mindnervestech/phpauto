@@ -2639,11 +2639,9 @@ angular.module('newApp')
 				
 				$http.get('/getdecline')
 	    		.success(function(data){
-	    			console.log("jjjjjjjj");
-	    			console.log(data);
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
-	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your intication to "+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" has been decline</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";
+	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your intication to "+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" has been decline</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
 	    				
 	    				var position = 'topRight';
 		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
@@ -2697,19 +2695,20 @@ angular.module('newApp')
 										theme : 'made',
 										buttons: [
 										          {
-										              addClass: 'general-button red', text: 'Accept', onClick: function($noty)
+												        addClass: 'general-button btnText', text: 'Decline', onClick: function($noty)
+												              {
+												            	  $scope.declineDate(value);
+												                 $noty.close();
+												              }
+												          },
+										          {
+										              addClass: 'general-button btnText', text: 'Accept', onClick: function($noty)
 										              {
 										            	  $scope.acceptDate(value);
 										                 $noty.close();
 										              }
-										          },
-												  {
-													        addClass: 'general-button red', text: 'Decline', onClick: function($noty)
-													              {
-													            	  $scope.declineDate(value);
-													                 $noty.close();
-													              }
-													          }],
+										          }
+												 ],
 										animation : {
 											open : 'animated bounceIn',
 											close : 'animated bounceOut'
@@ -2723,7 +2722,7 @@ angular.module('newApp')
 																
 																'width',
 																477)
-														.css('margin-left', -121)
+														.css('margin-left', -135)
 														.css(
 																
 																'bottom',
@@ -2746,6 +2745,8 @@ angular.module('newApp')
 			}
 			
 			
+			$('#button-0').css("background-color","black");
+			$('#button-1').css("background-color","black");
 			
 			$scope.acceptDate = function(value){
 				console.log(value);
@@ -2774,7 +2775,6 @@ angular.module('newApp')
 						});
 						
 					});
-				console.log("kkkkkkkkkkkkkkk");
 			}
 			
     		  

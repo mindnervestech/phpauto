@@ -379,6 +379,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", user).eq("onlineOrOfflineLeads",1).ne("vin", "no").orderBy("scheduleDate desc").findList();
 	}
 	
+	public static List<ScheduleTest> getdecline(AuthUser user) {
+		return find.where().eq("user", user).eq("declineMeeting", 0).orderBy("scheduleDate desc").findList();
+	}
+	
 	public static List<ScheduleTest> findAllLostSch(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("leadStatus", "LOST").findList();
 	}
