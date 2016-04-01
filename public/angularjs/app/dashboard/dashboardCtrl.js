@@ -2759,6 +2759,10 @@ angular.module('newApp')
 						    text: "invitation accepted",
 						});
 						
+						$http.get("/getscheduletest").success(function(data){
+							   $scope.scheduleListData = data;
+						   });
+						
 					});
 				
 			}
