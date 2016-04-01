@@ -625,6 +625,10 @@ public String testDriveStatus;
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
 	}
 	
+	public static List<TradeIn> findByConfirmGraLeads(Long locationId, AuthUser user, Date datec) {
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).eq("locations.id", locationId).eq("assignedTo", user).ge("confirmDate", datec).findList();
+	}
+	
 	public static List<TradeIn> findByDateAndAssignedUser(AuthUser user,Date date) {
 		return find.where().eq("assignedTo", user).eq("confirmDate", date).findList();
 	}

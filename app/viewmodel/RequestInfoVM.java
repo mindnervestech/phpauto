@@ -27,6 +27,7 @@ public class RequestInfoVM {
 	public String bestDay;
 	public String bestTime;
 	public String confirmDate;
+	public Date confirmDateOrderBy;
 	public String confirmTime;
 	public boolean isRead;
 	public boolean is_google;

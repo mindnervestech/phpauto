@@ -313,6 +313,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("groupId", groupId).findList();
 	}
 	
+	public static ScheduleTest findAllGroupUserMeeting(Long groupId,AuthUser user) {
+		return find.where().eq("groupId", groupId).eq("assignedTo", user).findUnique();
+	}
+	
 	public static List<ScheduleTest> findAllByLocationDate(Long locationId) {
 		return find.where().eq("assignedTo", null).eq("locations.id",locationId).ne("vin", "no").eq("isRead", 0).orderBy("scheduleDate desc").findList();
 	}
@@ -389,8 +393,8 @@ public class ScheduleTest extends Model {
 	}
 	
 	
-	public static List<ScheduleTest> findAllByUserServiceTest(AuthUser user) {
-		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).ne("confirmDate",null).eq("lead_status", null).orderBy("confirmDate desc").findList();
+	public static List<ScheduleTest> findAllByUserServiceTest(AuthUser user, Date currDate) {
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findByVinAndAssignedUser(AuthUser user,String vin) {

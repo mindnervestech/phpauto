@@ -6945,7 +6945,7 @@ public class Application extends Controller {
         		}
         		
         		if(info.user != null){
-	        		if(user.id == info.user.id){
+	        		if(user.id.equals(info.user.id)){
 	            		vm.setFlagSameUser = user.id;
 	            	}
         		}
@@ -6996,6 +6996,7 @@ public class Application extends Controller {
         		vm.noteFlag = nFlag;
         		if(info.getConfirmDate() != null) {
         			vm.confirmDate = df.format(info.getConfirmDate());
+        			vm.confirmDateOrderBy = info.getConfirmDate();
         		}
         		
         		if(info.getConfirmTime() != null) {
@@ -7047,7 +7048,7 @@ public class Application extends Controller {
     		}
     		
     		if(info.user != null){
-	    		if(user.id == info.user.id){
+	    		if(user.id.equals(info.user.id)){
 	        		vm.setFlagSameUser = user.id;
 	        	}
     		}
@@ -7095,6 +7096,7 @@ public class Application extends Controller {
     		vm.noteFlag = nFlag;
     		if(info.getConfirmDate() != null) {
     			vm.confirmDate = df.format(info.getConfirmDate());
+    			vm.confirmDateOrderBy = info.getConfirmDate();
     		}
     		
     		if(info.getConfirmTime() != null) {
@@ -7143,7 +7145,7 @@ public class Application extends Controller {
         		}
     		}
     		if(info.user != null){
-	    		if(user.id == info.user.id){
+	    		if(user.id.equals(info.user.id)){
 	        		vm.setFlagSameUser = user.id;
 	        	}
     		}
@@ -7191,6 +7193,7 @@ public class Application extends Controller {
     		vm.noteFlag = nFlag;
     		if(info.getConfirmDate() != null) {
     			vm.confirmDate = df.format(info.getConfirmDate());
+    			vm.confirmDateOrderBy = info.getConfirmDate();
     		}
     		
     		if(info.getConfirmTime() != null) {
@@ -22710,10 +22713,25 @@ if(vehicles.equals("All")){
 	
 	public static Result getScheduleTestData(){
         AuthUser user = getLocalUser();
-        List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user);
         
-    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmLeads(Long.valueOf(session("USER_LOCATION")), user);
-    	List<TradeIn> tradeIns = TradeIn.findByConfirmLeads(Long.valueOf(session("USER_LOCATION")), user);
+        DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+        Date currD = new Date();
+        String cDate = df.format(currD);
+        Date datec = null;
+        try {
+			datec = df.parse(cDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        System.out.println(datec);
+        
+        
+        List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user, datec);
+        
+    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeads(Long.valueOf(session("USER_LOCATION")), user, datec);
+    	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeads(Long.valueOf(session("USER_LOCATION")), user, datec);
     	
         Map<Long,Integer> maps = new HashMap<Long, Integer>();
         List<RequestInfoVM> shList = new ArrayList<RequestInfoVM>();
@@ -22726,9 +22744,9 @@ if(vehicles.equals("All")){
         	sTestVM.meetingStatus = scTest.meetingStatus;
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
         	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
-        
+        	sTestVM.confirmDateOrderBy = scTest.confirmDate;
 		if(scTest.user != null){
-			if(user.id == scTest.user.id){
+			if(user.id.equals(scTest.user.id)){
         		sTestVM.setFlagSameUser = user.id;
         	}
         }	
@@ -23557,6 +23575,10 @@ if(vehicles.equals("All")){
 		List<UserVM> vmList  = new ArrayList<>();
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		try {			
+			Date cuDate = new Date();
+			String cdat = df.format(cuDate);
+			Date cd = df.parse(cdat);
+			
 			Date confirmDate = df.parse(date);
 			Date confirmTime = new SimpleDateFormat("hh:mm a").parse(time);
 			System.out.println(confirmDate);
@@ -23583,7 +23605,7 @@ if(vehicles.equals("All")){
 			
 			for (AuthUser authUser : userList) {
 				Boolean flag = true;
-				List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser);
+				List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser, cd);
 				for (ScheduleTest scheduleTest : testList) {
 					if(confirmDate.equals(scheduleTest.confirmDate)){
 						if(confirmTime.equals(scheduleTest.confirmTime)){
@@ -27585,11 +27607,38 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		return ok(home.render(""));
     	} else {
     		ScheduleTest test = ScheduleTest.findById(id);
+    		AuthUser users = getLocalUser();
+    		
     		if(test !=null){
-    			test.setConfirmDate(null);
-    			test.setConfirmTime(null);
-    			test.setLeadStatus(null);
-    			test.update();
+    			if(test.groupId != null){
+    				if(test.user.id.equals(users.id)){
+    					List<ScheduleTest> grouptest = ScheduleTest.findAllGroupMeeting(test.groupId);
+    					for(ScheduleTest sche:grouptest){
+    						sche.setConfirmDate(null);
+    						sche.setConfirmTime(null);
+    						sche.setLeadStatus(null);
+    						sche.update();
+    					}
+    					
+    				}else{
+    					
+    					ScheduleTest oneGrouptest = ScheduleTest.findAllGroupUserMeeting(test.groupId, users);
+    					if(oneGrouptest != null){
+    						oneGrouptest.setConfirmDate(null);
+        					oneGrouptest.setConfirmTime(null);
+        					oneGrouptest.setLeadStatus(null);
+        					oneGrouptest.update();
+    					}
+    					
+    				}
+    			}else{
+    				test.setConfirmDate(null);
+    				test.setConfirmTime(null);
+    				test.setLeadStatus(null);
+    				test.update();
+    			}
+    			
+    			
     		}
         	return ok();
     	}
