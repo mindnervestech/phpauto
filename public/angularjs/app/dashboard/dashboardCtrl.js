@@ -2439,6 +2439,7 @@ angular.module('newApp')
     			  
     			  $scope.likeMsg();
     			  $scope.invitationMsg();
+    			  $scope.declineMsg();
     			  
     			 $scope.check={};
     			  var date = new Date();
@@ -2634,6 +2635,45 @@ angular.module('newApp')
 
 							}
 			
+			$scope.declineMsg = function(){
+				
+				$http.get('/getdecline')
+	    		.success(function(data){
+	    			console.log("jjjjjjjj");
+	    			console.log(data);
+	    				var notifContent;
+	    				angular.forEach(data, function(value, key) {
+	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your intication to "+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" has been decline</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";
+	    				
+	    				var position = 'topRight';
+		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+		    	        var n = noty({
+		    	            text: notifContent,
+		    	            type: 'success',
+		    	            layout: position,
+		    	            theme: 'made',
+		    	            animation: {
+		    	                open: 'animated bounceIn',
+		    	                close: 'animated bounceOut'
+		    	            },
+		    	            
+		    	            callback: {
+		    	                onShow: function () {
+		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+		    	                },
+		    	                onCloseClick: function () {
+		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+		    	                }
+		    	            }
+		    	        });
+		    	        
+		    	        var element = $('#cnt');
+						$compile(element)($scope);
+	    				});
+	    		});
+				
+				
+			}
 			
 			$scope.invitationMsg = function() {
 
@@ -2664,7 +2704,7 @@ angular.module('newApp')
 										              }
 										          },
 												  {
-													              addClass: 'general-button red', text: 'Decline', onClick: function($noty)
+													        addClass: 'general-button red', text: 'Decline', onClick: function($noty)
 													              {
 													            	  $scope.declineDate(value);
 													                 $noty.close();
@@ -2725,11 +2765,15 @@ angular.module('newApp')
 			$scope.declineDate = function(value){
 				console.log(value);
 				
-				 /*$http.get('/getAcceptAndDecline/'+value.id+"/"+"decline")
+				 $http.get('/getAcceptAndDecline/'+value.id+"/"+"decline")
 					.success(function(data) {
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "invitation Decline",
+						});
 						
-						
-					});*/
+					});
 				console.log("kkkkkkkkkkkkkkk");
 			}
 			

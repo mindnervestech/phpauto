@@ -27075,6 +27075,10 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				stTest.setAcceptMeeting(0);
 				stTest.update();
 			}
+			if(status.equals("decline")){
+				stTest.setDeclineMeeting(0);
+				stTest.update();
+			}
 		}
 		
 		return ok();
@@ -27541,6 +27545,19 @@ public static Result getviniewsChartLeads(Long id, String vin,
         	return ok();
     	}
     }
+    
+    public static Result getdecline(){
+    	
+    	AuthUser users = getLocalUser();
+    	List<ScheduleTest> sche = ScheduleTest.getdecline(users);
+    	for(ScheduleTest sch:sche){
+    		sch.setDeclineMeeting(1);
+    		sch.update();
+    	}
+    	
+    	return ok(Json.toJson(sche));
+    }
+    
     public static Result deleteAppointById(Long id,String typeOfLead){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
@@ -27559,6 +27576,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
         						sche.setConfirmDate(null);
         						sche.setConfirmTime(null);
         						sche.setLeadStatus(null);
+        						sche.setDeclineMeeting(0);
         						sche.update();
         					}
         					
@@ -27569,6 +27587,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
         						oneGrouptest.setConfirmDate(null);
             					oneGrouptest.setConfirmTime(null);
             					oneGrouptest.setLeadStatus(null);
+            					oneGrouptest.setDeclineMeeting(0);
             					oneGrouptest.update();
         					}
         					
@@ -27577,6 +27596,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
         				test.setConfirmDate(null);
         				test.setConfirmTime(null);
         				test.setLeadStatus(null);
+        				test.setDeclineMeeting(0);
         				test.update();
         			}
         			
