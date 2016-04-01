@@ -6919,8 +6919,11 @@ public class Application extends Controller {
     	SimpleDateFormat hourSDF = new SimpleDateFormat("hh:mm a");
     	Calendar time = Calendar.getInstance();
     	
+    	 AuthUser user = getLocalUser();
+    	
     	if(listData != null){
     		for(ScheduleTest info: listData) {
+    			
         		RequestInfoVM vm = new RequestInfoVM();
         		vm.id = info.id;
         		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
@@ -6939,6 +6942,12 @@ public class Application extends Controller {
             		else {
             			vm.imgId = "/assets/images/no-image.jpg";
             		}
+        		}
+        		
+        		if(info.user != null){
+	        		if(user.id == info.user.id){
+	            		vm.setFlagSameUser = user.id;
+	            	}
         		}
         		vm.name = info.name;
         		vm.phone = info.phone;
@@ -7036,6 +7045,12 @@ public class Application extends Controller {
         			vm.imgId = "/assets/images/no-image.jpg";
         		}
     		}
+    		
+    		if(info.user != null){
+	    		if(user.id == info.user.id){
+	        		vm.setFlagSameUser = user.id;
+	        	}
+    		}
     		vm.name = info.firstName;
     		vm.phone = info.phone;
     		vm.email = info.email;
@@ -7126,6 +7141,11 @@ public class Application extends Controller {
         		else {
         			vm.imgId = "/assets/images/no-image.jpg";
         		}
+    		}
+    		if(info.user != null){
+	    		if(user.id == info.user.id){
+	        		vm.setFlagSameUser = user.id;
+	        	}
     		}
     		vm.name = info.name;
     		vm.phone = info.phone;
@@ -22706,7 +22726,12 @@ if(vehicles.equals("All")){
         	sTestVM.meetingStatus = scTest.meetingStatus;
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
         	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
-        	
+        
+		if(scTest.user != null){
+			if(user.id == scTest.user.id){
+        		sTestVM.setFlagSameUser = user.id;
+        	}
+        }	
         	if(sTestVM.meetingStatus == null){
         		Vehicle vehicle = Vehicle.findByVinAndStatus(scTest.vin);
         		sTestVM.vin = scTest.vin;
@@ -22747,7 +22772,6 @@ if(vehicles.equals("All")){
 	    			sTestVM.isRead = true;
 	    		}
         	}
-        	
         	
         	
         	if(sTestVM.groupId != null){
