@@ -2229,6 +2229,7 @@ angular.module('newApp')
  					if(response != $scope.salesPerson){
  						$http.get('/getComperSalePersonData/'+response+"/"+startDate+"/"+endDate).success(function(response) {
  						 	$scope.comparisonperson.push(response);
+ 						 	$scope.flagvalue = 2;
  						 	 $scope.comparisonPassSalePerson($scope.comparisonperson);
  		 				});
  						
