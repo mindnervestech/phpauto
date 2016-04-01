@@ -5051,7 +5051,7 @@ angular.module('newApp')
 		   };
 		   $scope.deleteFutureAppointment = function(){
 			   console.log($scope.appointData.id);
-			   $http.get("/deleteAppointById/"+$scope.appointData.id).success(function(data){
+			   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead).success(function(data){
 				   console.log("success");
 				   
 				   $scope.schedulmultidatepicker();

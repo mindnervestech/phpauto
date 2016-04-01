@@ -22745,6 +22745,7 @@ if(vehicles.equals("All")){
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
         	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
         	sTestVM.confirmDateOrderBy = scTest.confirmDate;
+        	sTestVM.typeOfLead = "Schedule Test Drive";
 		if(scTest.user != null){
 			if(user.id.equals(scTest.user.id)){
         		sTestVM.setFlagSameUser = user.id;
@@ -22780,7 +22781,7 @@ if(vehicles.equals("All")){
         		sTestVM.custZipCode = scTest.custZipCode;
         		sTestVM.enthicity = scTest.enthicity;
         		sTestVM.price = vehicle.price;
-        		sTestVM.typeOfLead = "Schedule Test Drive";
+        		
         		
 	    		if(scTest.isRead == 0) {
 	    			sTestVM.isRead = false;
@@ -27602,44 +27603,70 @@ public static Result getviniewsChartLeads(Long id, String vin,
         	return ok();
     	}
     }
-    public static Result deleteAppointById(Long id){
+    public static Result deleteAppointById(Long id,String typeOfLead){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
-    		ScheduleTest test = ScheduleTest.findById(id);
+    		
     		AuthUser users = getLocalUser();
     		
-    		if(test !=null){
-    			if(test.groupId != null){
-    				if(test.user.id.equals(users.id)){
-    					List<ScheduleTest> grouptest = ScheduleTest.findAllGroupMeeting(test.groupId);
-    					for(ScheduleTest sche:grouptest){
-    						sche.setConfirmDate(null);
-    						sche.setConfirmTime(null);
-    						sche.setLeadStatus(null);
-    						sche.update();
-    					}
-    					
-    				}else{
-    					
-    					ScheduleTest oneGrouptest = ScheduleTest.findAllGroupUserMeeting(test.groupId, users);
-    					if(oneGrouptest != null){
-    						oneGrouptest.setConfirmDate(null);
-        					oneGrouptest.setConfirmTime(null);
-        					oneGrouptest.setLeadStatus(null);
-        					oneGrouptest.update();
-    					}
-    					
-    				}
-    			}else{
-    				test.setConfirmDate(null);
-    				test.setConfirmTime(null);
-    				test.setLeadStatus(null);
-    				test.update();
+    		if(typeOfLead.equals("Schedule Test Drive")){
+    			ScheduleTest test = ScheduleTest.findById(id);
+        		
+        		if(test !=null){
+        			if(test.groupId != null){
+        				if(test.user.id.equals(users.id)){
+        					List<ScheduleTest> grouptest = ScheduleTest.findAllGroupMeeting(test.groupId);
+        					for(ScheduleTest sche:grouptest){
+        						sche.setConfirmDate(null);
+        						sche.setConfirmTime(null);
+        						sche.setLeadStatus(null);
+        						sche.update();
+        					}
+        					
+        				}else{
+        					
+        					ScheduleTest oneGrouptest = ScheduleTest.findAllGroupUserMeeting(test.groupId, users);
+        					if(oneGrouptest != null){
+        						oneGrouptest.setConfirmDate(null);
+            					oneGrouptest.setConfirmTime(null);
+            					oneGrouptest.setLeadStatus(null);
+            					oneGrouptest.update();
+        					}
+        					
+        				}
+        			}else{
+        				test.setConfirmDate(null);
+        				test.setConfirmTime(null);
+        				test.setLeadStatus(null);
+        				test.update();
+        			}
+        			
+        			
+        		}
+    		}else if(typeOfLead.equals("Request More Info")){
+    			
+    			
+    			RequestMoreInfo rInfo = RequestMoreInfo.findById(id);
+    			if(rInfo != null){
+    				rInfo.setConfirmDate(null);
+        			rInfo.setConfirmTime(null);
+        			rInfo.setStatus(null);
+        			rInfo.update();
     			}
     			
     			
+    		}else if(typeOfLead.equals("Trade-In Appraisal")){
+    			TradeIn tIn = TradeIn.findById(id);
+    			if(tIn != null){
+    				tIn.setConfirmDate(null);
+        			tIn.setConfirmTime(null);
+        			tIn.setStatus(null);
+        			tIn.update();
+    			}
+    			
     		}
+    		
         	return ok();
     	}
     }
