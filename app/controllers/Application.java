@@ -19747,89 +19747,7 @@ if(vehicles.equals("All")){
 					monthPriceCount = monthPriceCount + vehicle.price;
 				}
 			}
-     		
-     	/*	for(RequestMoreInfo rMoreInfo: rInfo1){
-     			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(rMoreInfo.vin,users);
-     			for(Vehicle vehicle:vehicleVin){
-     			if(vehicle != null){
-     				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
-             			saleCarCount++;
-             			pricecount = pricecount + vehicle.price;
-             			fillPriceRang(priceRang, vehicle.price);
-             			
-             				if(vehicle.getBodyStyle() != null){
-             					
-             					Integer objectMake = mapByType.get(vehicle.getBodyStyle());
-             					if (objectMake == null) {
-             						mapByType.put(vehicle.getBodyStyle(), countBodyStyle);
-             					}else{
-             						mapByType.put(vehicle.getBodyStyle(), countBodyStyle + 1);
-             					}
-             				}
-             			
-             			
-     				}
-     				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-             			monthPriceCount = monthPriceCount + vehicle.price;
-             		}
-     			}
-     		 }
-     		}
-     		
-     		for(ScheduleTest sTest: sList1){
-     			List<Vehicle> vehicleVin = Vehicle.findByVidAndUserWise(sTest.vin,users);
-     			for(Vehicle vehicle:vehicleVin){
-     			if(vehicle != null){
- 				if(vehicle.status.equals("Sold")){
-     				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
-             			saleCarCount++;
-             			pricecount = pricecount + vehicle.price;
-             			fillPriceRang(priceRang, vehicle.price);
-             			if(vehicle.getBodyStyle() != null){
-         					
-         					Integer objectMake = mapByType.get(vehicle.getBodyStyle());
-         					if (objectMake == null) {
-         						mapByType.put(vehicle.getBodyStyle(), countBodyStyle);
-         					}else{
-         						mapByType.put(vehicle.getBodyStyle(), countBodyStyle + 1);
-         					}
-         				}
-     				}
-     				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-             			monthPriceCount = monthPriceCount + vehicle.price;
-             		}
- 			 }	
-     			}
-     		}
-     		}
-     		
-     		for(TradeIn tradeIn: tradeIns1){
-     			List<Vehicle> vehicleVin = Vehicle.findByVidAndUser(tradeIn.vin);
-     			for(Vehicle vehicle:vehicleVin){
-     			if(vehicle != null){
- 				if(vehicle.status.equals("Sold")){
-     				if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
-             			saleCarCount++;
-             			pricecount = pricecount + vehicle.price;
-             			fillPriceRang(priceRang, vehicle.price);
-             			if(vehicle.getBodyStyle() != null){
-         					
-         					Integer objectMake = mapByType.get(vehicle.getBodyStyle());
-         					if (objectMake == null) {
-         						mapByType.put(vehicle.getBodyStyle(), countBodyStyle);
-         					}else{
-         						mapByType.put(vehicle.getBodyStyle(), countBodyStyle + 1);
-         					}
-         				}
-     				}
-     				if(monthCal.equals(onlyMonth.format(vehicle.soldDate))){
-             			monthPriceCount = monthPriceCount + vehicle.price;
-             		}
- 				}
-     			}
-     		}
-     		}*/
-     		
+   
      		
     		double sucessCount = 0;
     		if(countLeads1 != 0){
@@ -20230,6 +20148,7 @@ if(vehicles.equals("All")){
  	int dayCount = 1;
  	int value1 = 2;
  	Date dts = startD;
+ 	if(!startD.equals(endD)){
  	while(value1 > 1){
 				Calendar c = Calendar.getInstance(); 
 				c.setTime(dts); 
@@ -20249,6 +20168,7 @@ if(vehicles.equals("All")){
 					value1 = 0;
 					break;
 				}
+ 	}
  	}
       
  	lDataVM.salary = (parDataSalary * dayCount);

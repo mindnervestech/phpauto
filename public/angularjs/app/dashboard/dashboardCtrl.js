@@ -2220,6 +2220,7 @@ angular.module('newApp')
  				var startDate = arr[0]+"-"+arr[1]+"-"+"01";
     			 
  				$http.get('/getComperSalePersonData/'+$scope.salesPerson+"/"+startDate+"/"+endDate).success(function(response) {
+ 					console.log(response);
 				 	$scope.comparisonperson.push(response);
  				});
  				
@@ -7074,7 +7075,7 @@ angular.module('newApp')
    
    $scope.saveVehicle = function() {
  	  console.log($scope.vinData);
- 	  $scope.vinData.specification.siteIds = $scope.siteIds;
+ 	  //$scope.vinData.specification.siteIds = $scope.siteIds;
  	  
  	 if(pdffile != undefined){
  		$upload.upload({
