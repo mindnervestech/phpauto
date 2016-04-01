@@ -58,6 +58,7 @@ public class RequestInfoVM {
 	public Long groupId;
 	public Integer setFlagSameUser;
 	public List<UserVM> userdata;
+	public String imageUrl;
 	
 	
 	

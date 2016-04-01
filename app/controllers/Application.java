@@ -23552,6 +23552,9 @@ if(vehicles.equals("All")){
 			moTest.scheduleTime = new Date();
 			moTest.user = user;
 			moTest.isReassigned = false;
+			moTest.sendInvitation = 1;
+			moTest.acceptMeeting = 1;
+			moTest.declineMeeting = 1;
 			moTest.is_google_data = false;
 			userList.add(assi);
 			try {			
@@ -27062,6 +27065,73 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		  			  throw new RuntimeException(e);
 		  		}
 		return ok();
+	}
+	
+	public static Result getAcceptAndDecline(Long id,String status){
+		
+		ScheduleTest stTest = ScheduleTest.findById(id);
+		if(stTest != null){
+			if(status.equals("accept")){
+				stTest.setAcceptMeeting(0);
+				stTest.update();
+			}
+		}
+		
+		return ok();
+		
+	}
+	
+	public static Result getinvitationMsg(){
+		 AuthUser user = getLocalUser();
+	        
+	        DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+	        Date currD = new Date();
+	        String cDate = df.format(currD);
+	        Date datec = null;
+	        try {
+				datec = df.parse(cDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+		List<ScheduleTest> list = ScheduleTest.findAllByInvitationTest(user, datec);
+		
+		List<RequestInfoVM> checkData = new ArrayList<>();
+		for(ScheduleTest sche:list){
+			
+			RequestInfoVM sTestVM = new RequestInfoVM();
+        	
+        	
+			sTestVM.id = sche.id;
+        	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(sche.confirmDate);
+        	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(sche.confirmTime);
+        	sTestVM.confirmDateOrderBy = sche.confirmDate;
+        	sTestVM.typeOfLead = "Schedule Test Drive";
+        	sTestVM.name = sche.name;
+    		sTestVM.phone = sche.phone;
+    		sTestVM.email = sche.email;
+    		
+    		AuthUser user2 = AuthUser.findById(sche.user.id);
+    		if(user2.imageUrl != null) {
+				if(user2.imageName !=null){
+					sTestVM.imageUrl = "http://glider-autos.com/glivrImg/images"+user2.imageUrl;
+				}else{
+					sTestVM.imageUrl = user2.imageUrl;
+				}
+				
+			} else {
+				sTestVM.imageUrl = "/profile-pic.jpg";
+			}
+    		
+    		checkData.add(sTestVM);
+    		
+			sche.setSendInvitation(0);
+			sche.update();
+		}
+		
+		return ok(Json.toJson(checkData));
+		
 	}
 	
 	public static Result getcommentLike(){

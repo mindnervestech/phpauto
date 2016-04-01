@@ -60,6 +60,9 @@ public class ScheduleTest extends Model {
 	public Integer premiumFlag;
 	public Long parentId;
 	public String testDriveStatus;
+	public Integer sendInvitation;
+	public Integer acceptMeeting;
+	public Integer declineMeeting;
 	
 	
 	
@@ -291,6 +294,29 @@ public class ScheduleTest extends Model {
 
 
 
+	public Integer getSendInvitation() {
+		return sendInvitation;
+	}
+	public void setSendInvitation(Integer sendInvitation) {
+		this.sendInvitation = sendInvitation;
+	}
+	public Integer getAcceptMeeting() {
+		return acceptMeeting;
+	}
+	public void setAcceptMeeting(Integer acceptMeeting) {
+		this.acceptMeeting = acceptMeeting;
+	}
+	public Integer getDeclineMeeting() {
+		return declineMeeting;
+	}
+	public void setDeclineMeeting(Integer declineMeeting) {
+		this.declineMeeting = declineMeeting;
+	}
+
+
+
+
+
 	public static Finder<Long,ScheduleTest> find = new Finder<>(Long.class,ScheduleTest.class);
 	
 	public static List<ScheduleTest> findAllReassigned(AuthUser user) {
@@ -394,7 +420,12 @@ public class ScheduleTest extends Model {
 	
 	
 	public static List<ScheduleTest> findAllByUserServiceTest(AuthUser user, Date currDate) {
-		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
+	
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
+	}
+	
+	public static List<ScheduleTest> findAllByInvitationTest(AuthUser user, Date currDate) {
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).ne("confirmDate",null).eq("lead_status", null).eq("sendInvitation", 1).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findByVinAndAssignedUser(AuthUser user,String vin) {

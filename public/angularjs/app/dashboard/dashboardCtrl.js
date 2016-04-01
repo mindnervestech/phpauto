@@ -2438,6 +2438,7 @@ angular.module('newApp')
     		  $scope.init = function() {
     			  
     			  $scope.likeMsg();
+    			  $scope.invitationMsg();
     			  
     			 $scope.check={};
     			  var date = new Date();
@@ -2632,6 +2633,106 @@ angular.module('newApp')
 												});
 
 							}
+			
+			
+			$scope.invitationMsg = function() {
+
+				$http
+						.get('/getinvitationMsg')
+						.success(
+								function(data) {
+									console.log(data);
+									angular.forEach(data, function(value, key) {
+										var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
+											+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">New meeting invitation received</h3></div><span class="col-md-12" style="margin-left: 22px;text-align: center;border-bottom: solid;"><h3><span>'+value.name+'</span><br><span style="color: cornflowerblue;"><b>'+value.confirmDate+'&nbsp;&nbsp;&nbsp;&nbsp;'+value.confirmTime+' </b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
+											+ '</div>';
+									var position = 'topRight';
+									if ($('body').hasClass(
+											'rtl'))
+										position = 'topLeft';
+									var n = noty({
+										text : notifContent,
+										type : 'success',
+										layout : position,
+										theme : 'made',
+										buttons: [
+										          {
+										              addClass: 'general-button red', text: 'Accept', onClick: function($noty)
+										              {
+										            	  $scope.acceptDate(value);
+										                 $noty.close();
+										              }
+										          },
+												  {
+													              addClass: 'general-button red', text: 'Decline', onClick: function($noty)
+													              {
+													            	  $scope.declineDate(value);
+													                 $noty.close();
+													              }
+													          }],
+										animation : {
+											open : 'animated bounceIn',
+											close : 'animated bounceOut'
+										},
+
+										callback : {
+											onShow : function() {
+												$(
+														'#noty_topRight_layout_container, .noty_container_type_success')
+														.css(
+																
+																'width',
+																477)
+														.css('margin-left', -121)
+														.css(
+																
+																'bottom',
+																10);
+											},
+											onCloseClick : function() {
+												$('html, body')
+														.animate(
+																{
+																	scrollTop : 480
+																},
+																'slow');
+											}
+										}
+									});
+									});
+					
+								});
+
+			}
+			
+			
+			
+			$scope.acceptDate = function(value){
+				console.log(value);
+				
+				 $http.get('/getAcceptAndDecline/'+value.id+"/"+"accept")
+					.success(function(data) {
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "invitation accepted",
+						});
+						
+					});
+				
+			}
+			
+			$scope.declineDate = function(value){
+				console.log(value);
+				
+				 /*$http.get('/getAcceptAndDecline/'+value.id+"/"+"decline")
+					.success(function(data) {
+						
+						
+					});*/
+				console.log("kkkkkkkkkkkkkkk");
+			}
+			
     		  
     		  $scope.schedulmultidatepicker = function(){
     			  $scope.showToDoList = false;
