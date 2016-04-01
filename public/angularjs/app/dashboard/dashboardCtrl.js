@@ -4162,18 +4162,28 @@ angular.module('newApp')
     	}
     	
     	$scope.cancelScheduleComfir = function(entity){
-
-    		$http.get('/setScheduleConfirmClose/'+entity.id+'/'+entity.typeOfLead)
+              $scope.entityVar=entity;
+    		$('#btnCancelTestDrive').click();
+    		
+				entity.bestDay = "";
+				entity.bestTime = "";
+				$scope.getAllSalesPersonRecord($scope.salesPerson);
+			
+    		
+    	}
+    	
+    	
+    	$scope.cancelScheduleTestDriveComfir = function(){
+    		
+    		$http.get('/setScheduleConfirmClose/'+$scope.entityVar.id+'/'+$scope.entityVar.typeOfLead)
 			.success(function(data) {
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
 				    text: "Cancel successfully",
 				});
-				entity.bestDay = "";
-				entity.bestTime = "";
-				$scope.getAllSalesPersonRecord($scope.salesPerson);
-			});
+    	});
+    		$route.reload();
     	}
     	
     	$scope.cancelSure = function(){
