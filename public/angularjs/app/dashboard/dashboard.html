@@ -575,9 +575,9 @@ margin-left: 5px;
                              	</div>
                              	<div class="col-md-6" style="padding: 0px;" ng-if="schedule.userdata.length > 0">
                              		<label class="col-md-12">Members</label>
-                             		<span class="col-md-4" ng-repeat="users in schedule.userdata">{{users.firstName}} {{users.lastName}} 
-                             		<span class="col-md-1 glyphicon glyphicon-ok" ng-if="users.meetingFlag == 0" style="color: green;"> , </span>
-                             		<span class="col-md-1 glyphicon glyphicon-remove" ng-if="users.meetingFlag == 1"style="color: red;"> , </span>
+                             		<span class="col-md-6" ng-repeat="users in schedule.userdata" style="padding: 0px;">{{users.firstName}} {{users.lastName}} 
+                             		<span class="glyphicon glyphicon-ok" ng-if="users.meetingFlag == 0" style="color: green;"> , </span>
+                             		<span class="glyphicon glyphicon-remove" ng-if="users.meetingFlag == 1"style="color: red;"> , </span>
                              		
                              		 </span>
                              		

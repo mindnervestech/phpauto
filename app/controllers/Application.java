@@ -23463,7 +23463,7 @@ if(vehicles.equals("All")){
     	Random rnd = new Random();
 
     	   StringBuilder sb = new StringBuilder(2);
-    	   for( int i = 0; i < 2; i++ ) 
+    	   for( int i = 0; i < 5; i++ ) 
     	      sb.append( AB.charAt(rnd.nextInt(AB.length()) ) );
     	
     	   System.out.println(sb.toString());
