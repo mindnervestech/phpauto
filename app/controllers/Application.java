@@ -10961,12 +10961,7 @@ public class Application extends Controller {
     	
     }*/
     
-  /* public static Result getUserLocationByDateInfoOther(Integer userKey,String startDate,String endDate,String locOrPer,Long locationId,Integer managerId){
-	   AuthUser users = AuthUser.findById(managerId);
-		LocationWiseDataVM lDataVM = new LocationWiseDataVM();
-	   mystatisticsDateWise(startDate,endDate,"location",locationId,users,lDataVM);
-		return ok(Json.toJson(lDataVM));
-   }*/
+  
    
    public static Result getUserLocationByDateInfo(Integer userKey,String startDate,String endDate,String locOrPer){
 		AuthUser users = AuthUser.findById(userKey);
@@ -11015,7 +11010,7 @@ public class Application extends Controller {
 		lDataVM.flagForBestSaleIcon = 0;
 		if(vehicle1 != null){
 	 	for(Vehicle vehicle:vehicle1){
-	 		if(vehicle != null && vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) {
+	 		if((vehicle != null && vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(startD) || vehicle.soldDate.equals(endD)) {
 	 			flag1=1;
 	 			lDataVM.flagForBestSaleIcon=flag1;
 	 			break;
@@ -11060,39 +11055,39 @@ public class Application extends Controller {
    	}
    	
    	for(RequestMoreInfo rMoreInfo:rInfo){
-   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
    			requestLeadCount++;
    		}
    	}
    	
    	
    	for(ScheduleTest sTest:sList){
-   		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+   		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
    			scheduleLeadCount++;
    		}
    	}
 
    	for(TradeIn tIn:tradeIns){
-   		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+   		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
    				tradeInLeadCount++;
    		}
    	}
    	
    	for(RequestMoreInfo rMoreInfo:rInfoAll){
-   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
    			requestLeadCount1++;
    		}
    	}
    	
    	
    	for(ScheduleTest sTest:sListAll){
-   	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+   	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
    			scheduleLeadCount1++;
    	}
    	}
 
    	for(TradeIn tIn:tradeInsAll){
-   	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+   	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
 				tradeInLeadCount1++;
    		}
    	}
@@ -11120,7 +11115,7 @@ public class Application extends Controller {
        	
        	for(Vehicle vehList:vList){
        		//	if(vehList.soldDate.after(timeBack)) {
-       		if(vehList.soldDate.after(startD) && vehList.soldDate.before(endD)){
+       		if((vehList.soldDate.after(startD) && vehList.soldDate.before(endD)) || vehList.soldDate.equals(endD) || vehList.soldDate.equals(startD)){
            			saleCarCount++;
            			pricecount = pricecount + vehList.price;
            		}
@@ -11139,7 +11134,7 @@ public class Application extends Controller {
    		
    		List<Vehicle> vList = Vehicle.findBySoldUserAndSold(users);
    		for (Vehicle vehicle : vList) {
-   			if(vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) {
+   			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD) || vehicle.soldDate.equals(startD)) {
        			saleCarCount++;
        			pricecount = pricecount + vehicle.price;
 				}
@@ -11184,7 +11179,7 @@ public class Application extends Controller {
    	int newCar = 0;
    	for(Vehicle vehicle:allVehiList){
    		if(vehicle.status.equals("Sold")){
-   			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD)){
+   			if((vehicle.soldDate.after(startD) && vehicle.soldDate.before(endD)) || vehicle.soldDate.equals(endD) || vehicle.soldDate.equals(startD)){
    				saleCar++;
    			}
    		}//else if(vehicle.status.equals("Newly Arrived")){
@@ -11308,13 +11303,7 @@ public class Application extends Controller {
 	 return ok(Json.toJson(auUser));
 	 
  }
-/* public static Result getUserLocationInfoOther(String timeSet,String locOrPer,Long LocationId,Integer managerId){
-	 AuthUser users = AuthUser.findById(managerId);
-	 LocationWiseDataVM lDataVM = new LocationWiseDataVM();
-	 findStatistics(timeSet,"location",LocationId,users, lDataVM);
-	 return ok(Json.toJson(lDataVM));
- }*/
- 
+
  public static Result getUserLocationInfo(Integer userkey,String timeSet,String locOrPer){
 	 AuthUser users = AuthUser.findById(userkey);
 	 LocationWiseDataVM lDataVM = new LocationWiseDataVM();

@@ -509,6 +509,7 @@ angular.module('newApp')
 			});
 			
 		}else{
+			
 			$http.get('/getUserLocationByDateInfo/'+$scope.userKey+"/"+startD+'/'+endD+'/'+locOrPer)
 			.success(function(data) {
 			
@@ -615,15 +616,27 @@ angular.module('newApp')
 		
 		  var startD = $('#cnfstartDateValue').val();
 		   var endD = $('#cnfendDateValue').val();
+		   
+		  
+		   
 		   if(startD != "" && startD != null && startD != undefined && endD != "" && endD != null && endD != undefined){
-			   $scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
-			   $scope.dataLocOrPerWise = $scope.dataLocOrPerWise;
-		   }else{
 			   if($scope.userRole == "Manager"){
-					$scope.userLocationData('Week','location');
+				   $scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
+					//$scope.userLocationData('Week','location');
 					$scope.dataLocOrPerWise = "location";
 			   }else{
-				   $scope.userLocationData('Week','person');
+				   $scope.findMystatisData(startD,endD,'person');
+				   //$scope.userLocationData('Week','person');
+				   $scope.dataLocOrPerWise = "person";
+			   }
+		   }else{
+			   if($scope.userRole == "Manager"){
+				   $scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
+					//$scope.userLocationData('Week','location');
+					$scope.dataLocOrPerWise = "location";
+			   }else{
+				   $scope.findMystatisData(startD,endD,'person');
+				   //$scope.userLocationData('Week','person');
 				   $scope.dataLocOrPerWise = "person";
 			   }
 			   
