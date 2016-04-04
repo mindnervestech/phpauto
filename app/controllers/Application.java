@@ -12700,8 +12700,8 @@ public class Application extends Controller {
     			schedule.setStatusDate(currDate);
     			schedule.setStatusTime(currDate);
     			schedule.setReason(reason);
-    		//	clientEmail=schedule.email;
-    			clientEmail="nananevase9766@gmail.com";
+    	          clientEmail=schedule.email;
+    			//clientEmail="nananevase9766@gmail.com";
     			schedule.update();
     			
     			
