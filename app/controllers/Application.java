@@ -19660,7 +19660,7 @@ if(vehicles.equals("All")){
     	
     	LocationWiseDataVM lDataVM = new LocationWiseDataVM();
      	
-     	
+     	if(users !=null){
      	if(users.imageUrl != null) {
 			if(users.imageName !=null){
 				lDataVM.imageUrl = "http://glider-autos.com/glivrImg/images"+users.imageUrl;
@@ -19668,7 +19668,9 @@ if(vehicles.equals("All")){
 				lDataVM.imageUrl = users.imageUrl;
 			}
 			
-		} else {
+		} 
+     	}
+     	else {
 			lDataVM.imageUrl = "/profile-pic.jpg";
 		}
      	
