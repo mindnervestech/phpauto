@@ -25946,13 +25946,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	}
 	
 	
-	/*public static Result getFinancialVehicleDetailsByBodyStyleOther(Long locationId,Integer managerId){
-		AuthUser user = AuthUser.findById(managerId);
-		List<sendDateAndValue> sAndValues = new ArrayList<>();
-		FinancialVehicleDetails(user,sAndValues);
-		return ok(Json.toJson(sAndValues));
-	}*/
-	
 	public static Result getFinancialVehicleDetailsByBodyStyle(String startDate,String enddate){
 		AuthUser user = getLocalUser();
 		
@@ -26027,7 +26020,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					
 				for(Vehicle vhVehicle:veList){
 					
-					if(vhVehicle.getSoldDate().after(startDate) && vhVehicle.getSoldDate().before(endDate) || vhVehicle.getSoldDate().equals(endDate))
+					if((vhVehicle.getSoldDate().after(startDate) && vhVehicle.getSoldDate().before(endDate)) || vhVehicle.getSoldDate().equals(endDate) || vhVehicle.getSoldDate().equals(startDate))
 					{
 						Long countCar = 1L;
 						Long objectDate = mapdate.get(vhVehicle.getSoldDate().getTime() + (1000 * 60 * 60 * 24));
@@ -26102,14 +26095,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		}
 		
 	}
-	
-	
-	/*public static Result getFinancialVehicleDetailsOther(Long location,Integer managerId){
-		AuthUser user = AuthUser.findById(managerId);
-		List<sendDateAndValue> sAndValues = new ArrayList<>();
-		setFinancialVehicle(user,sAndValues);
-		return ok(Json.toJson(sAndValues));
-	}*/
 	
 	
 	public static Result getFinancialVehicleDetails(String startD,String endD){
@@ -26190,7 +26175,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						e.printStackTrace();
 					}*/
 					
-					if(vhVehicle.getSoldDate().after(startDate) && vhVehicle.getSoldDate().before(endDate) || vhVehicle.getSoldDate().equals(endDate))
+					if((vhVehicle.getSoldDate().after(startDate) && vhVehicle.getSoldDate().before(endDate)) || vhVehicle.getSoldDate().equals(endDate) || vhVehicle.getSoldDate().equals(startDate))
 					{
 					
 						Long countCar = 1L;
@@ -26278,14 +26263,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		soldSaleVolu(user,lonnn,startD,endD);
 		return ok(Json.toJson(lonnn));
 	}
-	
-	/*public static Result getSoldVehicleDetailsAvgSaleOther(Long locationId,Integer managerId){
-		AuthUser user = AuthUser.findById(managerId);
-		List<Long[]> lonnn = new ArrayList<>();
-		soldSaleVolu(user,lonnn);
-		return ok(Json.toJson(lonnn));
-	}*/
-	
+
 	public static void soldSaleVolu(AuthUser user, List<Long[]> lonnn,String startD,String endD){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -26325,11 +26303,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				}else{
 					pricevalue = 0L;
 				}
-				Calendar c = Calendar.getInstance();
-				c.setTime(vhVehicle.getSoldDate());
-				c.add(Calendar.DATE, -1);
+				//Calendar c = Calendar.getInstance();
+				//c.setTime(vhVehicle.getSoldDate());
+				//c.add(Calendar.DATE, -1);
 				
-				String dateCheck = df.format(c.getTime());
+				String dateCheck = df.format(vhVehicle.getSoldDate());
 				Date dateFomat = null;
 				try {
 					dateFomat = df.parse(dateCheck);
@@ -26338,7 +26316,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					e.printStackTrace();
 				}
 				
-				if(dateFomat.after(startDate) && dateFomat.before(endDate) || dateFomat.equals(endDate))
+				if((dateFomat.after(startDate) && dateFomat.before(endDate)) || dateFomat.equals(endDate) || dateFomat.equals(startDate))
 				{
 					String objectDate = mapdate.get(dateFomat.getTime()+ (1000 * 60 * 60 * 24));
 					if (objectDate == null) {
@@ -26409,11 +26387,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					pricevalue = 0L;
 				}
 				
-				Calendar c = Calendar.getInstance();
-				c.setTime(vhVehicle.getSoldDate());
-				c.add(Calendar.DATE, -1);
+				//Calendar c = Calendar.getInstance();
+				//c.setTime(vhVehicle.getSoldDate());
+				//c.add(Calendar.DATE, -1);
 				
-				String dateCheck = df.format(c.getTime());
+				String dateCheck = df.format(vhVehicle.getSoldDate());
 				Date dateFomat = null;
 				Date startDate = null;
 				Date endDate = null;
@@ -26435,7 +26413,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				
 				
 				//System.out.println(dateFomat);
-				if(dateFomat.after(startDate) && dateFomat.before(endDate) || dateFomat.equals(endDate))
+				if((dateFomat.after(startDate) && dateFomat.before(endDate)) || dateFomat.equals(endDate) || dateFomat.equals(startDate))
 				{
 				Long objectDate = mapdate.get(dateFomat.getTime() + (1000 * 60 * 60 * 24));
 				if (objectDate == null) {
