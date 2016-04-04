@@ -26999,6 +26999,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			if(status.equals("decline")){
 				stTest.setDeclineMeeting(0);
 				stTest.update();
+				
+				String subject = "Decline invitation.";
+				String comments = "Your invitation to "+stTest.assignedTo.firstName+"   "+stTest.assignedTo.lastName+" has been decline";
+				
+				sendEmail(stTest.user.communicationemail, subject, comments);
 			}
 		}
 		
