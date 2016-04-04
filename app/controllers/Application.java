@@ -12700,7 +12700,7 @@ public class Application extends Controller {
     			schedule.setStatusDate(currDate);
     			schedule.setStatusTime(currDate);
     			schedule.setReason(reason);
-    			//clientEmail=schedule.email;
+    		//	clientEmail=schedule.email;
     			clientEmail="nananevase9766@gmail.com";
     			schedule.update();
     			
@@ -12752,6 +12752,12 @@ public class Application extends Controller {
         		uNotes.tradeIn = TradeIn.findById(info.id);
         		uNotes.save();
     		}
+    		String comment1=" ";
+    		String subject = "Test Drive cancelled";
+	    	String comments = "Comment : "+comment1;
+    	  sendEmail(clientEmail,subject,comments);
+    		
+    		
     		return ok();
     	}
     }
