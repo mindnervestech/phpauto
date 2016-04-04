@@ -2034,7 +2034,7 @@ angular.module('newApp')
 	   	  			 	$.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "Lead Update successfully",
+						    text: "Email with updated information has been sent to"+" "+$scope.editLeads.custName,
 						});
 	   	  			$("#editLeads").modal('hide');
 	   	  			$scope.getAllSalesPersonRecord($scope.salesPerson);
