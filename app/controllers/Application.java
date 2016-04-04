@@ -26930,12 +26930,15 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		cm.commentFlag = 1;
 	    		cm.save();
 	    	//}
-	    	likeEmail(userObj.email, comment);
+	    		
+	    	String subject = "Manager like your work";
+	    	String comments = "Comment : "+comment;
+	    	sendEmail(userObj.email, subject, comments);
 	    	return ok();
     	}	
     }
 	
-	public static Result likeEmail(String email, String comment) {
+	public static Result sendEmail(String email, String subject ,String comment) {
 		
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
