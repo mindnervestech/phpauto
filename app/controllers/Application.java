@@ -12691,6 +12691,7 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		String clientEmail=null;
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
     		if(leadtype.equals("Schedule Test Drive")) {
@@ -12699,6 +12700,8 @@ public class Application extends Controller {
     			schedule.setStatusDate(currDate);
     			schedule.setStatusTime(currDate);
     			schedule.setReason(reason);
+    			//clientEmail=schedule.email;
+    			clientEmail="nananevase9766@gmail.com";
     			schedule.update();
     			
     			
