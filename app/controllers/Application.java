@@ -23489,6 +23489,11 @@ if(vehicles.equals("All")){
 				e.printStackTrace();
 			}
 			moTest.save();
+			
+			String subject = "Meeting invitation.";
+			String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getBestDay()+" "+vm.getBestTime()+".";
+			
+			sendEmail(assi.communicationemail, subject, comments);
 		}
 		
 		
@@ -26959,9 +26964,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
 		  			feedback.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(email));
-		  			 feedback.setSubject("Manager like your work");	  			
+		  			 feedback.setSubject(subject);	  			
 		  			 BodyPart messageBodyPart = new MimeBodyPart();	
-		  	         messageBodyPart.setText("Comment: "+comment);	 	    
+		  	         messageBodyPart.setText(comment);	 	    
 		  	         Multipart multipart = new MimeMultipart();	  	    
 		  	         multipart.addBodyPart(messageBodyPart);	            
 		  	         feedback.setContent(multipart);
