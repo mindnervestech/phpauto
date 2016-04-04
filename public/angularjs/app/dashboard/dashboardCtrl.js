@@ -5159,6 +5159,10 @@ angular.module('newApp')
 				.success(function(data) {
 					$('#clsPop').click();
 					if(data == "success"){
+						  $scope.schedulmultidatepicker();
+						   $http.get("/getscheduletest").success(function(data){
+							   $scope.scheduleListData = data;
+						   });
 						$scope.getAllSalesPersonRecord($scope.salesPerson);
 						$('#driveClose').click();
 						$.pnotify({
@@ -5177,6 +5181,8 @@ angular.module('newApp')
 						});
 					}
 				});
+			   
+			 
 		   }
 		   
 		   $scope.changeType = function(){
