@@ -2459,7 +2459,7 @@ angular.module('newApp')
     			 $scope.check={};
     			  var date = new Date();
     			  
-    			  $scope.getPerformanceOfUser();
+    			 
     			  
     			  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
   				$scope.check.startDate=$filter('date')(startdate, 'dd-MM-yyyy');
@@ -2476,7 +2476,13 @@ angular.module('newApp')
   				$scope.volumeStatEndDate = $filter('date')(date, 'yyyy-MM-dd');	
   				$scope.showVehicalBarChart($scope.volumeStatStartDate, $scope.volumeStatEndDate);
   				
-    			 
+  				$scope.startDateForSalesPeople=$filter('date')(startdate, 'dd-MM-yyyy');
+  				$scope.endDateForSalesPeople=$filter('date')(date, 'dd-MM-yyyy');
+  				console.log($scope.startDateForSalesPeople);
+  				console.log($scope.endDateForSalesPeople);
+  			
+  				 $scope.getPerformanceOfUser();
+  				
     			 if($scope.locationValue == null){
     				 $scope.getSalesDataValue(0);
     			 }
@@ -4993,12 +4999,20 @@ angular.module('newApp')
 		   $scope.userPerformanceList = {};
 		   $scope.countNextValue = 0;
 		   $scope.getPerformanceOfUser = function() {
+			    
+			   var startD = $('#startDateValueForSale').val();
+			   var endD = $('#endDateValueForSales').val();
+			   if(startD == undefined && endD == undefined){
+				   
+				   startD=$scope.startDateForSalesPeople;
+				   endD=$scope.endDateForSalesPeople;
+			   }
 			   
 			   if(angular.isUndefined($scope.salesPersonUser) || $scope.salesPersonUser == "") {
 				   $scope.salesPersonUser = 0;
 			   }
-			   if($scope.locationValue == null){
-				   
+			 //  if($scope.locationValue == null){
+				   console.log("!!!!!!!!!!");
 				   $http.get('/getUserRole').success(function(data) {
 						if($scope.userRole != "General Manager"){
 							$scope.locationValue = data.location.id;
@@ -5012,15 +5026,15 @@ angular.module('newApp')
 							 
 						}
 						
-						
-						$http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+"/"+ $scope.allTimePerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue)
+						console.log("@@@@@");
+						$http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+"/"+ $scope.allTimePerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue+'/'+startD+'/'+endD)
 				 		.success(function(data) {
 				 			$scope.userPerformanceList = data;
 				 			
 				 			console.log($scope.userPerformanceList);
 				 		});
 					});
-			   }
+			  // }
 			   
 		   }
 		   

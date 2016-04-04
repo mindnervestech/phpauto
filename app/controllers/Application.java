@@ -15042,19 +15042,33 @@ public class Application extends Controller {
     	}
     }
     
-    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,String allTime,Integer id,Long locationValue) {
+    public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,String allTime,Integer id,Long locationValue,String startD,String endD) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
     		Date date = new Date();
     		Calendar cal = Calendar.getInstance();
     		cal.setTime(date);
-    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
     		String start1 = "";
 			String end1 = "";
+			Date startDate=null;
+			Date endDate=null;
 			Date start = null;
 			Date end = null;
-    		if(week.equals("true")) {
+			
+			try {
+				startDate=df1.parse(startD);
+				endDate=df1.parse(endD);
+				start=startDate;
+				end=endDate;
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+    		/*if(week.equals("true")) {
     			cal.add(Calendar.DATE, -7);
     			start1 = df.format(cal.getTime());
     			end1 = df.format(date);
@@ -15079,7 +15093,7 @@ public class Application extends Controller {
 					e.printStackTrace();
 				}
 			}
-			
+			*/
 			if(year.equals("true")) {
 				cal.add(Calendar.DATE, -365);
 				start1 = df.format(cal.getTime());
@@ -15189,27 +15203,27 @@ public class Application extends Controller {
 	    	
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfo){
-	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)){
+	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end) || rMoreInfo.requestDate.equals(start)){
 	    			requestLeadCount++;
 	    		}
 	    	}
 	    	
 	    	
 	    	for(ScheduleTest sTest:sList){
-	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end)){
+	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
 	    			scheduleLeadCount++;
 	    		}
 	    	}
 
 	    	for(TradeIn tIn:tradeIns){
-	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end)){
+	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start) ){
 	    				tradeInLeadCount++;
 	    		}
 	    	}
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfoAll){
 	    		if(start != null && end !=null){
-	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)){
+	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)||  rMoreInfo.requestDate.equals(start)){
 	    			requestLeadCount1++;
 	    		}
 	    		}
@@ -15218,7 +15232,7 @@ public class Application extends Controller {
 	    	
 	    	for(ScheduleTest sTest:sListAll){
 	    		if(start != null && end !=null){
-	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end)){
+	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
 	    			scheduleLeadCount1++;
 	    		}
 	    		}
@@ -15226,7 +15240,7 @@ public class Application extends Controller {
 
 	    	for(TradeIn tIn:tradeInsAll){
 	    		if(start != null && end !=null){
-	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end)){
+	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start)){
 					tradeInLeadCount1++;
 	    		}
 	    		}
@@ -15243,7 +15257,7 @@ public class Application extends Controller {
     		List<Vehicle> salesVehicleList = Vehicle.findBySoldUserAndSold(sales);
     		for (Vehicle vehicle : salesVehicleList) {
     			if(vehicle != null){
-    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
+    				if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end) || vehicle.soldDate.equals(start)){
             			saleCarCount++;
             			pricecount = pricecount + vehicle.price;
     				}
