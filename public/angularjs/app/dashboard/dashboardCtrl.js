@@ -2777,9 +2777,10 @@ angular.module('newApp')
 						$.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "invitation accepted",
+						    text: "Meeting invitation has been accepted",
 						});
 						
+						$scope.schedulmultidatepicker();
 						$http.get("/getscheduletest").success(function(data){
 							   $scope.scheduleListData = data;
 						   });
@@ -2796,7 +2797,7 @@ angular.module('newApp')
 						$.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "invitation Decline",
+						    text: "Meeting invitation has been declined",
 						});
 						
 					});
@@ -7009,7 +7010,7 @@ angular.module('newApp')
 					   $.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "Meeting Scheduled",
+						    text: "Meeting invitation has been sent",
 						});
 					   
 					   $http.get("/getscheduletest").success(function(data){
