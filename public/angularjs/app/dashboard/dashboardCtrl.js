@@ -5233,7 +5233,7 @@ angular.module('newApp')
 		   $timeout(function(){
 			   $('#cnfReSchDate').on('changeDate', function(e) {
 				   document.getElementById("nature-data").innerHTML = "";
-				   var day = moment(e.date).format('D MMM YYYY');
+				   var day = moment(e.date).format('DD MMM YYYY');
 				   //alert(day);
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
@@ -5282,7 +5282,8 @@ angular.module('newApp')
 				   });
 				   
 				   document.getElementById("testDriveNature").innerHTML = "";
-				   var day = moment(e.date).format('D MMM YYYY');
+				   
+				   var day = moment(e.date).format('DD MMM YYYY');
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
@@ -5332,7 +5333,7 @@ angular.module('newApp')
 				   });
 				   
 				   document.getElementById("gridCnfDateNature").innerHTML = "";
-				   var day = moment(e.date).format('D MMM YYYY');
+				   var day = moment(e.date).format('DD MMM YYYY');
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
@@ -5370,7 +5371,7 @@ angular.module('newApp')
 			   
 			   $('#cnfmeetingdate').on('changeDate', function(e) {
 				   document.getElementById("meetingnature").innerHTML = "";
-				   var day = moment(e.date).format('D MMM YYYY');
+				   var day = moment(e.date).format('DD MMM YYYY');
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
