@@ -4,7 +4,7 @@ import java.util.List;
 
 
 public class UserVM {
-
+	public Integer meetingFlag;
 	public Integer id;
 	public String fullName;
 	public String firstName;

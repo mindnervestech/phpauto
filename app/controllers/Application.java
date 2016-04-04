@@ -13587,6 +13587,7 @@ public class Application extends Controller {
         	    				UserVM uVm = new UserVM();
         	    	    		uVm.firstName = users.assignedTo.getFirstName();
         	    	    		uVm.lastName = users.assignedTo.getLastName();
+        	    	    		uVm.meetingFlag=users.acceptMeeting;
         	    	    		uVm.id = users.assignedTo.id;
         	    	    	
         	    	    		listUser.add(uVm);
