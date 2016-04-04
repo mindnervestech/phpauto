@@ -20080,9 +20080,9 @@ if(vehicles.equals("All")){
 	     	System.out.println("mnts"+mnts);
 	     	
 	     	//lDataVM.avgLeadLifeCycle =hours.toString()+":"+displayMin.toString()+"Hrs";
-	     	lDataVM.avgLeadLifeCycle=hrs1+":"+mnts+"  Days";
+	     	lDataVM.avgLeadLifeCycle=hrs1+":"+mnts+"  Hrs";
      	}else{
-     		lDataVM.avgLeadLifeCycle = "00:00:00  Days";
+     		lDataVM.avgLeadLifeCycle = "00:00:00  Hrs";
      	}
      	
      	List<UserNotes> uNotes = UserNotes.findByUserAndcall(users);

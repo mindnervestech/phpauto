@@ -5151,7 +5151,7 @@ angular.module('newApp')
 						$.pnotify({
 						    title: "Success",
 						    type:'success',
-						    text: "saved successfully",
+						    text: "Test Drive confirmation email has been sent to"+" "+$scope.testDriveData.name+" ",
 						});
 						$scope.testDrive();
 						$("#test-drive-tabSched").click();
