@@ -19192,19 +19192,19 @@ if(vehicles.equals("All")){
     		int schedCount = 0;
     		int tradeCount = 0;
     		for(RequestMoreInfo rInfo : rInfos){
-    			if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end)){
+    			if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
     				requCount++;
     			}
     		}
     		
     		for(ScheduleTest sInfo : sList){
-    			if((sInfo.scheduleDate.after(start) && sInfo.scheduleDate.before(end)) || sInfo.scheduleDate.equals(end)){
+    			if((sInfo.scheduleDate.after(start) && sInfo.scheduleDate.before(end)) || sInfo.scheduleDate.equals(end) || sInfo.scheduleDate.equals(start)){
     				schedCount++;
     			}
     		}
     		
     		for(TradeIn tInfo : tIns){
-    			if((tInfo.tradeDate.after(start) && tInfo.tradeDate.before(end)) || tInfo.tradeDate.equals(end)){
+    			if((tInfo.tradeDate.after(start) && tInfo.tradeDate.before(end)) || tInfo.tradeDate.equals(end) || tInfo.tradeDate.equals(start)){
     				tradeCount++;
     			}
     		}
@@ -19230,7 +19230,7 @@ if(vehicles.equals("All")){
     		anVm.stockNumber = vehicle.stock;
     		for (PriceAlert priceAlert : pAlert) {
 				PriceAlert alt = PriceAlert.findById(priceAlert.id);
-				if((alt.currDate.after(start) && alt.currDate.before(end)) || alt.currDate.equals(end)){
+				if((alt.currDate.after(start) && alt.currDate.before(end)) || alt.currDate.equals(end) || alt.currDate.equals(start)){
 					if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
 						anVm.followerCount++;
 		    		}
@@ -19595,7 +19595,7 @@ if(vehicles.equals("All")){
      		SimpleDateFormat convdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
      		SimpleDateFormat convdTime = new SimpleDateFormat("hh:mm:ss");
      	for(RequestMoreInfo rMoreInfo:rInfo){
-     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
      			requestLeadCount++;
      			difffoll = 0L;
      			List<UserNotes> uNotes = UserNotes.findRequestMoreAndFirstAdd(rMoreInfo);
@@ -19620,7 +19620,7 @@ if(vehicles.equals("All")){
      	}
      	
      	for(ScheduleTest sTest:sList){
-     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
      			scheduleLeadCount++;
      			
      			difffoll = 0L;
@@ -19646,7 +19646,7 @@ if(vehicles.equals("All")){
      	}
 
      	for(TradeIn tIn:tradeIns){
-     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
      				tradeInLeadCount++;
      				
      				difffoll = 0L;
@@ -19673,37 +19673,37 @@ if(vehicles.equals("All")){
      	}
      	
      	for(RequestMoreInfo rMoreInfo:rInfoAll){
-     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
      			requestLeadCount1++;
      		}
      	}
      	
      	for(ScheduleTest sTest:sListAll){
-     	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+     	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
      			scheduleLeadCount1++;
      	}
      	}
 
      	for(TradeIn tIn:tradeInsAll){
-     	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+     	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
  				tradeInLeadCount1++;
      		}
      	}
      	
     	for(RequestMoreInfo rMoreInfo:lostRInfo){
-     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
      			lostRequestLeadCount++;
      		}
      	}
      	
      	for(ScheduleTest sTest:lostSList){
-     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
      			lostScheduleLeadCount++;
      		}
      	}
 
      	for(TradeIn tIn:lostTradeIns){
-     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
      				lostTradeInLeadCount++;
      		}
      	}	
@@ -19902,7 +19902,7 @@ if(vehicles.equals("All")){
         Map<String, Integer> mapOffline = new HashMap<String, Integer>();
         
     	for(RequestMoreInfo rMoreInfo:offlineRInfo){
-     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
      			if(rMoreInfo.contactedFrom != null){
      				Integer objectMake = mapOffline.get(rMoreInfo.contactedFrom);
         			if (objectMake == null) {
@@ -19916,7 +19916,7 @@ if(vehicles.equals("All")){
      	}
      	
      	for(ScheduleTest sTest:offlineSList){
-     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
     			if(sTest.contactedFrom != null){
     				Integer objectMake = mapOffline.get(sTest.contactedFrom);
     				if (objectMake == null) {
@@ -19929,7 +19929,7 @@ if(vehicles.equals("All")){
      	}
 
      	for(TradeIn tIn:offlineTradeIns){
-     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
      			if(tIn.contactedFrom != null){
      				Integer objectMake = mapOffline.get(tIn.contactedFrom);
         			if (objectMake == null) {
@@ -19958,7 +19958,7 @@ if(vehicles.equals("All")){
         
         mapOnline.put("Request More Info", 0);
     	for(RequestMoreInfo rMoreInfo:onlineRInfo){
-     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
      			Integer objectMake = mapOnline.get("Request More Info");
     			if (objectMake != null) {
     				
@@ -19969,7 +19969,7 @@ if(vehicles.equals("All")){
      	
     	mapOnline.put("Schedule Test Drive", 0);
      	for(ScheduleTest sTest:onlineSList){
-     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
      			Integer objectMake = mapOnline.get("Schedule Test Drive");
     			if (objectMake != null) {
     				mapOnline.put("Schedule Test Drive", countBodyStyle + 1);
@@ -19979,7 +19979,7 @@ if(vehicles.equals("All")){
 
      	mapOnline.put("Trade-In Inquires", 0);
      	for(TradeIn tIn:onlineTradeIns){
-     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
      			Integer objectMake = mapOnline.get("Trade-In Inquires");
     			if (objectMake != null) {
     				mapOnline.put("Trade-In Inquires", countBodyStyle + 1);
@@ -20006,7 +20006,7 @@ if(vehicles.equals("All")){
      	Long totalLeadDay = 0L;
  		
  	for(RequestMoreInfo rMoreInfo:rInfoAllG){
- 		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD)){
+ 		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
  			
  			 			
  			Long diff = 0L;
@@ -20038,7 +20038,7 @@ if(vehicles.equals("All")){
  	}
  	
  	for(ScheduleTest sTest:sListAllG){
- 		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD)){
+ 		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
  			
  			Long diff = 0L;
 			if(sTest.statusTime != null){
@@ -20068,7 +20068,7 @@ if(vehicles.equals("All")){
  	}
 
  	for(TradeIn tIn:tradeInsAllG){
- 		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD)){
+ 		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
  			
  			Long diff = 0L;
 			if(tIn.statusTime != null){
@@ -20145,7 +20145,7 @@ if(vehicles.equals("All")){
      	List<UserNotes> uNotes = UserNotes.findByUserAndcall(users);
      	int callActionCount =  0;
      	for(UserNotes sNot:uNotes){
-     		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD)){
+     		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD) || sNot.createdDate.equals(startD)){
      			callActionCount++;
      		}
      	}
@@ -20154,7 +20154,7 @@ if(vehicles.equals("All")){
      	List<UserNotes> uNotesEmail = UserNotes.findByUserAndemail(users);
      	int mailActionCount =  0;
      	for(UserNotes sNot:uNotesEmail){
-     		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD)){
+     		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD) || sNot.createdDate.equals(startD)){
      			mailActionCount++;
      		}
      	}
@@ -20163,7 +20163,7 @@ if(vehicles.equals("All")){
      	List<UserNotes> uNotesTest = UserNotes.findByUserAndSched(users);
      	int testDriveActionCount =  0;
      	for(UserNotes sNot:uNotesTest){
-     		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD)){
+     		if((sNot.createdDate.after(startD) && sNot.createdDate.before(endD)) || sNot.createdDate.equals(endD) || sNot.createdDate.equals(startD)){
      			testDriveActionCount++;
      		}
      	}
@@ -20174,7 +20174,7 @@ if(vehicles.equals("All")){
      	int likeCount = 0;
      	
      	for(Comments comm:comments){
-     		if((comm.likeDate.after(startD) && comm.likeDate.before(endD)) || comm.likeDate.equals(endD)){
+     		if((comm.likeDate.after(startD) && comm.likeDate.before(endD)) || comm.likeDate.equals(endD) || comm.likeDate.equals(startD)){
      			likeCount++;
      		}
      	}
