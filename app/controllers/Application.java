@@ -11087,41 +11087,41 @@ public class Application extends Controller {
    	}
    	
    	for(RequestMoreInfo rMoreInfo:rInfo){
-   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
+   	//	if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
    			requestLeadCount++;
-   		}
+   		//}
    	}
    	
    	
    	for(ScheduleTest sTest:sList){
-   		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
+   		//if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
    			scheduleLeadCount++;
-   		}
+   		//}
    	}
 
    	for(TradeIn tIn:tradeIns){
-   		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
+   		//if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
    				tradeInLeadCount++;
-   		}
+   		//}
    	}
    	
    	for(RequestMoreInfo rMoreInfo:rInfoAll){
-   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
+   		//if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
    			requestLeadCount1++;
-   		}
+   	//	}
    	}
    	
    	
    	for(ScheduleTest sTest:sListAll){
-   	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
+   //	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
    			scheduleLeadCount1++;
-   	}
+   //	}
    	}
 
    	for(TradeIn tIn:tradeInsAll){
-   	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
+   //	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
 				tradeInLeadCount1++;
-   		}
+   	//	}
    	}
    	
    	
@@ -15260,46 +15260,46 @@ public class Application extends Controller {
 	    	
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfo){
-	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end) || rMoreInfo.requestDate.equals(start)){
+	    		//if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end) || rMoreInfo.requestDate.equals(start)){
 	    			requestLeadCount++;
-	    		}
+	    		//}
 	    	}
 	    	
 	    	
 	    	for(ScheduleTest sTest:sList){
-	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
+	    	//	if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
 	    			scheduleLeadCount++;
-	    		}
+	    	//	}
 	    	}
 
 	    	for(TradeIn tIn:tradeIns){
-	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start) ){
+	    		//if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start) ){
 	    				tradeInLeadCount++;
-	    		}
+	    		//}
 	    	}
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfoAll){
 	    		if(start != null && end !=null){
-	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)||  rMoreInfo.requestDate.equals(start)){
+	    		//if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)||  rMoreInfo.requestDate.equals(start)){
 	    			requestLeadCount1++;
-	    		}
+	    		//}
 	    		}
 	    	}
 	    	
 	    	
 	    	for(ScheduleTest sTest:sListAll){
 	    		if(start != null && end !=null){
-	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
+	    		//if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
 	    			scheduleLeadCount1++;
-	    		}
+	    		//}
 	    		}
 	    	}
 
 	    	for(TradeIn tIn:tradeInsAll){
 	    		if(start != null && end !=null){
-	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start)){
+	    		//if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start)){
 					tradeInLeadCount1++;
-	    		}
+	    		//}
 	    		}
 	    	}
 				

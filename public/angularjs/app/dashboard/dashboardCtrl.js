@@ -5071,7 +5071,6 @@ angular.module('newApp')
 							 
 						}
 						
-						console.log("@@@@@");
 						$http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+"/"+ $scope.allTimePerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue+'/'+startD+'/'+endD)
 				 		.success(function(data) {
 				 			$scope.userPerformanceList = data;
