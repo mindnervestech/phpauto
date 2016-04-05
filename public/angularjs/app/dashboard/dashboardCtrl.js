@@ -8014,19 +8014,22 @@ $scope.setAsDefault = function(image,index) {
 		});
 	}
 	$scope.vData = {};
-	
+	$scope.videoData={};
 	$scope.getVirtualTourData = function() {
 		$http.get('/getVirtualTour/'+$scope.vinData.specification.vin)
 		.success(function(data) {
 			$scope.vData.desktopUrl = data.desktopUrl;
 			$scope.vData.mobileUrl = data.mobileUrl;
+			
+			$scope.videoData.desktopUrl = data.desktopUrl;
+			$scope.videoData.mobileUrl = data.mobileUrl;
 		});
 	}
 	
 	$scope.saveVData = function() {
-		console.log($scope.vData);
+		
 		$scope.vData.vin = $scope.vinData.specification.vin;
-		$http.post('/saveVData',$scope.vData)
+		$http.post('/saveVData',$scope.videoData)
 		.success(function(data) {
 			$.pnotify({
 			    title: "Success",
@@ -8035,6 +8038,22 @@ $scope.setAsDefault = function(image,index) {
 			});
 		});
 	}
+	
+	
+	$scope.saveVideoData = function() {
+		
+		$scope.videoData.vin = $scope.vinData.specification.vin;
+		console.log($scope.videoData);
+		$http.post('/saveVideoData',$scope.videoData)
+		.success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Saved successfully",
+			});
+		});
+	}
+	
 	
 	$scope.editImage = function(image) {
 		$location.path('/cropImage/'+image.id);

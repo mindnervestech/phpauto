@@ -708,21 +708,6 @@ margin-left: 5px;
 														</div>
 															
 												</div>
-												<form ng-submit="topVisitedDataDatewise ()">
-									     <div class="col-sm-1">
-									     	<label>Start Date</label>
-									     		<input data-provide="datepicker" id="cnfstartDateValueForListing" name="startDateValueForListing" class="form-control" style="padding: 0px;" ng-model="startDateForListing" data-date-format="dd-mm-yyyy" required>
-									     		
-									     </div>
-									     <div class="col-sm-1">
-									     	<label>End Date</label>
-									     		<input data-provide="datepicker" id="cnfendDateValueForListing" name="endDateValueForListing" style="padding: 0px;" class="form-control" ng-model="endDateForListing" data-date-format="dd-mm-yyyy" required>
-									     </div>
-									     <div class="col-sm-1" style="width: 4%">
-									     <button type="submit" class="btn btn-primary btn-embossed col-sm-12" style="padding: 0px;margin-top: 23px;text-align: center;">OK</button>
-									     <!-- 	<a class="glyphicon glyphicon-zoom-in"></a> -->
-									     </div>
-									     </form>
 												<div class="col-sm-2" style="padding: 0px;" > 
 								     						<h6 class="col-sm-12">
 								     								<span class="col-sm-12" style="padding: 0px;">
@@ -736,6 +721,23 @@ margin-left: 5px;
 								     								</span>
 								     						</h6>
 								     			</div>
+								     			
+												<form ng-submit="topVisitedDataDatewise ()">
+									     <div class="col-sm-1">
+									     	<label>Start Date</label>
+									     		<input data-provide="datepicker" id="cnfstartDateValueForListing" name="startDateValueForListing" class="form-control" style="padding: 0px;" ng-model="startDateForListing" data-date-format="dd-mm-yyyy" required>
+									     		
+									     </div>
+									     <div class="col-sm-1">
+									     	<label>End Date</label>
+									     		<input data-provide="datepicker" id="cnfendDateValueForListing" name="endDateValueForListing" style="padding: 0px;" class="form-control" ng-model="endDateForListing" data-date-format="dd-mm-yyyy" required>
+									     </div>
+									     <div class="col-sm-1" style="width: 4%">
+									     <button type="submit" class="btn btn-primary btn-embossed col-sm-12" style="padding: 0px;margin-top: 10px;text-align: center;">OK</button>
+									     <!-- 	<a class="glyphicon glyphicon-zoom-in"></a> -->
+									     </div>
+									     </form>
+												
 								     			<div class="col-sm-1" style="padding: 0px;" >
 								     						<h6 class="col-sm-12"> <!-- <a style="cursor:pointer;font-size: 18px;" id="weekPerf" ng-class="currentSelectedWeekDuration == 1 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedMonthDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp; --><a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedAllTimeDuration == 1 ?'underline':''" ng-click="showAllTimeVisited()">All Time</a></h6>
 								     			</div>

@@ -96,6 +96,7 @@ import models.UserNotes;
 import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleImage;
+import models.Video;
 import models.VirtualTour;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -165,6 +166,7 @@ import viewmodel.UserLeadVM;
 import viewmodel.UserNoteVM;
 import viewmodel.UserVM;
 import viewmodel.VehicleVM;
+import viewmodel.VideoVM;
 import viewmodel.VirtualTourVM;
 import viewmodel.bodyStyleSetVM;
 import viewmodel.profileVM;
@@ -5359,6 +5361,36 @@ public class Application extends Controller {
 	    	return ok();
     	}	
     }
+    
+    public static Result saveVideoData() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<VideoVM> form = DynamicForm.form(VideoVM.class).bindFromRequest();
+	    	VideoVM vm = form.get();
+	    	Video virtualTour = Video.findByUserAndVin(user, vm.vin);
+	    	
+	    	if(virtualTour == null) {
+	    		Video vt = new Video();
+	    		vt.desktopUrl=vm.desktopUrl;
+		    	vt.mobileUrl = vm.mobileUrl;
+		    	vt.vin = vm.vin;
+		    	vt.user = user;
+		    	vt.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		         vt.save();
+		    	
+	    	} else {
+	    		virtualTour.setDesktopUrl(vm.desktopUrl);
+	    		virtualTour.setMobileUrl(vm.mobileUrl);
+	    		virtualTour.update();
+	    	}
+	    	return ok();
+    	}	
+    }
+    
+    
+    
     
     public static Result sendEmail(String email, String comment) {
 
