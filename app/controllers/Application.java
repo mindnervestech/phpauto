@@ -27500,11 +27500,14 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		AuthUser users = getLocalUser();
     		String clientEmail = null;
     		String comments = null;
+    		String subject = null;
     		if(typeOfLead.equals("Schedule Test Drive")){
     			ScheduleTest test = ScheduleTest.findById(id);
         		
         		if(test !=null){
         			if(test.groupId != null){
+        				
+        				subject ="Meeting has been canceled";
         				if(test.user.id.equals(users.id)){
         					List<ScheduleTest> grouptest = ScheduleTest.findAllGroupMeeting(test.groupId);
         					for(ScheduleTest sche:grouptest){
@@ -27513,6 +27516,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
         						sche.setLeadStatus(null);
         						sche.setDeclineMeeting(0);
         						sche.update();
+        						comments="Meeting has been canceled \n"+sche.confirmDate+"  "+sche.confirmTime+".";
+        						sendEmail(sche.assignedTo.communicationemail,subject,comments);
         					}
         					
         				}else{
@@ -27524,18 +27529,22 @@ public static Result getviniewsChartLeads(Long id, String vin,
             					oneGrouptest.setLeadStatus(null);
             					oneGrouptest.setDeclineMeeting(0);
             					oneGrouptest.update();
+            					
+            					comments="Meeting has been canceled \n"+oneGrouptest.confirmDate+"  "+oneGrouptest.confirmTime+".";
+        						sendEmail(oneGrouptest.user.communicationemail,subject,comments);
         					}
         					
         				}
         				
-        				//comments="Meeting has been canceled";
         			}else{
         				test.setConfirmDate(null);
         				test.setConfirmTime(null);
         				test.setLeadStatus(null);
         				test.setDeclineMeeting(0);
         				test.update();
-        				// comments="Test Drive has been canceled";
+        				subject ="Test Drive has been canceled";
+        				comments="Test Drive has been canceled";
+        				sendEmail(test.email,subject,comments);
         			}
         			
         			
@@ -27549,8 +27558,10 @@ public static Result getviniewsChartLeads(Long id, String vin,
         			rInfo.setConfirmTime(null);
         			rInfo.setStatus(null);
         			rInfo.update();
+        			subject ="Test Drive has been canceled";
+    				comments="Test Drive has been canceled";
+    				sendEmail(rInfo.email,subject,comments);
     			}
-    			//comments="Test Drive has been canceled";
     			
     		}else if(typeOfLead.equals("Trade-In Appraisal")){
     			TradeIn tIn = TradeIn.findById(id);
@@ -27559,11 +27570,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
         			tIn.setConfirmTime(null);
         			tIn.setStatus(null);
         			tIn.update();
+        			subject ="Test Drive has been canceled";
+    				comments="Test Drive has been canceled";
+    				sendEmail(tIn.email,subject,comments);
     			}
-    			//comments="Test Drive has been canceled";
     		}
     		
-    	  //sendEmail(clientEmail,subject,comments);
     		
         	return ok();
     	}
