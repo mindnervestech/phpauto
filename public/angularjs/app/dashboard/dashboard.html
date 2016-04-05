@@ -6306,7 +6306,7 @@ margin-left: 5px;
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Leads Generated</label>
 									                 						<label  ng-if="comparisonperson[0].allGeneratedLeadCount != comparisonperson[1].allGeneratedLeadCount"  ng-class="comparisonperson[0].allGeneratedLeadCount > comparisonperson[1].allGeneratedLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">{{comparisonperson[0].allGeneratedLeadCount}}</label>
-									                 						<label   ng-if="comparisonperson[0].allGeneratedLeadCount == comparisonperson[1].allGeneratedLeadCount"  class="col-sm-6" style="text-align: right; color: gray;">${{comparisonperson[0].allGeneratedLeadCount}}</label>
+									                 						<label   ng-if="comparisonperson[0].allGeneratedLeadCount == comparisonperson[1].allGeneratedLeadCount"  class="col-sm-6" style="text-align: right; color: gray;">{{comparisonperson[0].allGeneratedLeadCount}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -6316,7 +6316,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
 									                 						<label  ng-if="comparisonperson[0].allGeneratedLeadCount != comparisonperson[1].allGeneratedLeadCount" ng-class="comparisonperson[1].allGeneratedLeadCount > comparisonperson[0].allGeneratedLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].allGeneratedLeadCount}}</label>
-									                 						<label   ng-if="comparisonperson[0].allGeneratedLeadCount == comparisonperson[1].allGeneratedLeadCount"  class="col-sm-6" style=" color: gray;">${{comparisonperson[1].allGeneratedLeadCount}}</label>
+									                 						<label   ng-if="comparisonperson[0].allGeneratedLeadCount == comparisonperson[1].allGeneratedLeadCount"  class="col-sm-6" style=" color: gray;">{{comparisonperson[1].allGeneratedLeadCount}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Leads Generated</label>
 									                 					</div>
 															   </div>
@@ -6339,7 +6339,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12">
 									                 				<label  class="col-sm-6" ng-if="comparisonperson[0].lostLeadCount == comparisonperson[1].lostLeadCount " style=" color:gray;">{{comparisonperson[0].lostLeadCount}}</label>
 									                 						<label ng-if="comparisonperson[0].lostLeadCount != comparisonperson[1].lostLeadCount " ng-class="comparisonperson[0].lostLeadCount > comparisonperson[1].lostLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].lostLeadCount}}</label>
-									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">lost Leads</label>
+									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Lost Leads</label>
 									                 					</div>
 															   </div>
 															</div>
@@ -6349,7 +6349,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Success Rate</label>
-									                 						<label  class="col-sm-6" ng-if="comparisonperson[0].successRate == comparisonperson[1].successRate " style=" color:gray; text-align: right;">{{comparisonperson[0].successRate}}</label>
+									                 						<label  class="col-sm-6" ng-if="comparisonperson[0].successRate == comparisonperson[1].successRate " style=" color:gray; text-align: right;">{{comparisonperson[0].successRate}}%</label>
 									                 						<label ng-if="comparisonperson[0].successRate != comparisonperson[1].successRate " ng-class="comparisonperson[0].successRate > comparisonperson[1].successRate ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].successRate}}%</label>
 									                 					</div>
 															   </div>
@@ -6359,7 +6359,7 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 				<label  class="col-sm-6" ng-if="comparisonperson[0].successRate == comparisonperson[1].successRate " style=" color:gray; ">{{comparisonperson[0].successRate}}</label>
+									                 				<label  class="col-sm-6" ng-if="comparisonperson[0].successRate == comparisonperson[1].successRate " style=" color:gray; ">{{comparisonperson[0].successRate}}%</label>
 									                 						<label ng-if="comparisonperson[0].successRate != comparisonperson[1].successRate " ng-class="comparisonperson[1].successRate > comparisonperson[0].successRate ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >{{comparisonperson[1].successRate}}%</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Success Rate</label>
 									                 					</div>
@@ -6725,7 +6725,7 @@ margin-left: 5px;
 															<div class="col-sm-12" style="margin-bottom: 41px;">
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
-									                 						<label class="col-sm-6" style="color: darkturquoise;">Test Drive schedule</label>
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Test Drive scheduled</label>
 									                 						<label ng-if="comparisonperson[0].testDriveSched != comparisonperson[1].testDriveSched " ng-class="comparisonperson[0].testDriveSched > comparisonperson[1].testDriveSched ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">{{comparisonperson[0].testDriveSched}}</label>
 									                 						<label class="col-sm-6" ng-if="comparisonperson[0].testDriveSched == comparisonperson[1].testDriveSched " style=" color:gray; text-align: right;">{{comparisonperson[0].testDriveSched}}</label>
 									                 					</div>
@@ -6738,7 +6738,7 @@ margin-left: 5px;
 									                 				<div class="col-sm-12">
 									                 				<label class="col-sm-6" ng-if="comparisonperson[0].mailSent == comparisonperson[1].testDriveSched " style=" color:gray;">{{comparisonperson[1].testDriveSched}}</label>
 									                 						<label  ng-if="comparisonperson[0].mailSent != comparisonperson[1].testDriveSched " ng-class="comparisonperson[1].testDriveSched > comparisonperson[0].testDriveSched ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].testDriveSched}}</label>
-									                 						<label   class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Test Drive schedule</label>
+									                 						<label   class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Test Drive scheduled</label>
 									                 					</div>
 															   </div>
 															</div>
@@ -7373,7 +7373,7 @@ margin-left: 5px;
 																<div class="col-sm-3">
 																	</div>
 															   <div class="col-sm-8">
-									                 						<label class="col-sm-6" style="color: darkturquoise;">Test Drive schedule</label>
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Test Drive scheduled</label>
 									                 						<label class="col-sm-6">{{comparisonperson[0].testDriveSched}}</label>
 															   </div>
 															   <div class="col-sm-1">
