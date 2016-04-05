@@ -1251,7 +1251,7 @@ public class Application extends Controller {
 		    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vm.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName;
 		    	    	    FileUtils.moveFile(file, new File(filePath));
 		    	    	    vehicle.pdfBrochureName = fileName;
-		    	    	    vehicle.pdfBrochurePath = filePath;
+		    	    	    vehicle.pdfBrochurePath = session("USER_LOCATION")+File.separator+vm.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName;
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -13595,7 +13595,14 @@ public class Application extends Controller {
         	    				UserVM uVm = new UserVM();
         	    	    		uVm.firstName = users.assignedTo.getFirstName();
         	    	    		uVm.lastName = users.assignedTo.getLastName();
-        	    	    		uVm.meetingFlag=users.acceptMeeting;
+        	    	    		/*if(users.acceptMeeting == 1 && users.declineMeeting == 1){
+        	    	    			uVm.meetingFlag = 2;
+        	    	    		}else if(users.acceptMeeting == 1 && users.declineMeeting == 0){
+        	    	    			uVm.meetingFlag = 1;
+        	    	    		}else{
+        	    	    			uVm.meetingFlag = 0;
+        	    	    		}*/
+        	    	    		uVm.meetingFlag = users.meeting;
         	    	    		uVm.id = users.assignedTo.id;
         	    	    	
         	    	    		listUser.add(uVm);
@@ -23534,6 +23541,7 @@ if(vehicles.equals("All")){
 			moTest.sendInvitation = 1;
 			moTest.acceptMeeting = 1;
 			moTest.declineMeeting = 1;
+			moTest.meeting = 1;
 			moTest.is_google_data = false;
 			userList.add(assi);
 			try {			
@@ -27038,10 +27046,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		if(stTest != null){
 			if(status.equals("accept")){
 				stTest.setAcceptMeeting(0);
+				stTest.setMeeting(0);
 				stTest.update();
 			}
 			if(status.equals("decline")){
 				stTest.setDeclineMeeting(0);
+				stTest.setMeeting(2);
 				stTest.update();
 				
 				String subject = "Decline invitation.";

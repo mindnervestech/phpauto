@@ -34,9 +34,21 @@ public class ScheduleTest extends Model {
 	public Date confirmTime;
 	public String leadStatus;
 	public String reason;
+	public Integer meeting;
 	//public Integer noteFlag;
 	@ManyToOne
 	public AuthUser assignedTo;
+	public Integer getMeeting() {
+		return meeting;
+	}
+	public void setMeeting(Integer meeting) {
+		this.meeting = meeting;
+	}
+
+
+
+
+
 	@ManyToOne
 	public AuthUser user;
 	@ManyToOne
