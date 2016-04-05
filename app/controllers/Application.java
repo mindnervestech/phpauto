@@ -12633,12 +12633,13 @@ public class Application extends Controller {
     	} else {
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
+    		String clientEmail = null;
     		if(leadType.equals("Schedule Test Drive")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setConfirmDate(null);
     			schedule.setConfirmTime(null);
     			schedule.update();
-    			
+    			clientEmail = schedule.email;
     			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Test Drive has been canceled");
@@ -12655,7 +12656,7 @@ public class Application extends Controller {
     			info.setConfirmDate(null);
     			info.setConfirmTime(null);
     			info.update();
-    			
+    			clientEmail = info.email;
     			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Test Drive has been canceled");
@@ -12673,6 +12674,8 @@ public class Application extends Controller {
     			info.setConfirmTime(null);
     			info.update();
     			
+    			clientEmail = info.email;
+    			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Test Drive has been canceled");
         		uNotes.setAction("Other");
@@ -12683,6 +12686,10 @@ public class Application extends Controller {
         		uNotes.tradeIn = TradeIn.findById(info.id);
         		uNotes.save();
     		}
+    		
+    		String comments="Test Drive has been canceled";
+    		String subject = "Test Drive cancelled";
+    	  sendEmail(clientEmail,subject,comments);
     		return ok();
     	}
     }
@@ -12722,7 +12729,7 @@ public class Application extends Controller {
     			info.setStatusTime(currDate);
     			info.setReason(reason);
     			info.update();
-    			
+    			clientEmail=info.email;
     			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Client didn't buy vehicle");
@@ -12741,6 +12748,7 @@ public class Application extends Controller {
     			info.setStatusTime(currDate);
     			info.setReason(reason);
     			info.update();
+    			clientEmail=info.email;
     			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Client didn't buy vehicle");
@@ -12752,9 +12760,9 @@ public class Application extends Controller {
         		uNotes.tradeIn = TradeIn.findById(info.id);
         		uNotes.save();
     		}
-    		String comment1=" ";
+    		String comments="Test Drive has been canceled";
     		String subject = "Test Drive cancelled";
-	    	String comments = "Comment : "+comment1;
+
     	  sendEmail(clientEmail,subject,comments);
     		
     		
@@ -27490,7 +27498,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	} else {
     		
     		AuthUser users = getLocalUser();
-    		
+    		String clientEmail = null;
+    		String comments = null;
     		if(typeOfLead.equals("Schedule Test Drive")){
     			ScheduleTest test = ScheduleTest.findById(id);
         		
@@ -27518,12 +27527,15 @@ public static Result getviniewsChartLeads(Long id, String vin,
         					}
         					
         				}
+        				
+        				//comments="Meeting has been canceled";
         			}else{
         				test.setConfirmDate(null);
         				test.setConfirmTime(null);
         				test.setLeadStatus(null);
         				test.setDeclineMeeting(0);
         				test.update();
+        				// comments="Test Drive has been canceled";
         			}
         			
         			
@@ -27538,7 +27550,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
         			rInfo.setStatus(null);
         			rInfo.update();
     			}
-    			
+    			//comments="Test Drive has been canceled";
     			
     		}else if(typeOfLead.equals("Trade-In Appraisal")){
     			TradeIn tIn = TradeIn.findById(id);
@@ -27548,8 +27560,10 @@ public static Result getviniewsChartLeads(Long id, String vin,
         			tIn.setStatus(null);
         			tIn.update();
     			}
-    			
+    			//comments="Test Drive has been canceled";
     		}
+    		
+    	  //sendEmail(clientEmail,subject,comments);
     		
         	return ok();
     	}
