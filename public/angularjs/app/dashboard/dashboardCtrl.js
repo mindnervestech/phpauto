@@ -2476,6 +2476,9 @@ angular.module('newApp')
   				$scope.volumeStatEndDate = $filter('date')(date, 'yyyy-MM-dd');	
   				$scope.showVehicalBarChart($scope.volumeStatStartDate, $scope.volumeStatEndDate);
   				
+  				$scope.startDateForListing = $filter('date')(startdate, 'dd-MM-yyyy');
+  				$scope.endDateForListing = 	$filter('date')(date, 'dd-MM-yyyy');
+  				
   				$scope.startDateForSalesPeople=$filter('date')(startdate, 'dd-MM-yyyy');
   				$scope.endDateForSalesPeople=$filter('date')(date, 'dd-MM-yyyy');
   				console.log($scope.startDateForSalesPeople);
@@ -2507,7 +2510,7 @@ angular.module('newApp')
 		    		  $scope.weekPerformance = true;
 	    			  $scope.showVehicalBarChart();
 
-		    		  $scope.vehicleData("All");
+		    		  $scope.vehicleData("All",$scope.startDateForListing,$scope.endDateForListing);
 		    		  $scope.heatMapShow();
 		    		  
 		    		  $scope.getClickyVisitorListData();
@@ -3305,13 +3308,13 @@ angular.module('newApp')
 	    		$scope.currentSelectedDuration = 0;
 	    		$scope.weekData = {};
 	    		$scope.currentData = [];
-	    		$scope.showWeekVisited = function() {
+	    		/*$scope.showWeekVisited = function() {
 	    			$scope.currentSelectedWeekDuration = 1;
 	    			$scope.currentSelectedAllTimeDuration = 0;
 	    			$scope.currentSelectedMonthDuration = 0;
 	    			$scope.getVisitedData('week','countHigh','0','0','All');
 	    		};
-	    		
+	    		*/
 	    		$scope.showMonthVisited = function() {
 	    			$scope.currentSelectedMonthDuration = 1;
 	    			$scope.currentSelectedAllTimeDuration = 0;
@@ -3320,15 +3323,17 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.showAllTimeVisited = function() {
+	    			var startD = $('#cnfstartDateValueForListing').val();
+		 			   var endD = $('#cnfendDateValueForListing').val();
 	    			$scope.currentSelectedAllTimeDuration = 1;
 	    			$scope.currentSelectedMonthDuration = 0;
 	    			$scope.currentSelectedWeekDuration = 0;
-	    			$scope.getVisitedData('allTime','countHigh','0','0','All');
+	    			$scope.getVisitedData('allTime','countHigh','0','0','All',startD,endD);
 	    		};
 	    		
-	    		$scope.vehicleData=function(vehicles){
+	    		$scope.vehicleData=function(vehicles,startDate,endDate){
 	    			$scope.all=vehicles; 
-	    			$scope.getVisitedData('month','countHigh','0','0',vehicles); 			
+	    			$scope.getVisitedData('datewise','countHigh','0','0',vehicles,startDate,endDate); 			
 	    			
 	    			
 	    			console.log(":::vehicle data");
@@ -3338,15 +3343,26 @@ angular.module('newApp')
 	    			
 	    		};
 	    		
+	    		$scope.topVisitedDataDatewise = function(){
+	    			var startD = $('#cnfstartDateValueForListing').val();
+		 			   var endD = $('#cnfendDateValueForListing').val();
+		    		$scope.getVisitedData('datewise','countHigh','0','0','All',startD,endD);
+	    		}
 	    		
 	    		
 	    		$scope.notchange = 0;
-	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,vehicles) {
+	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,vehicles,startD,endD) {
+	    			
+	    			
+	 			   
+	 			   console.log("%%%%");
+	 			   console.log(startD);
+	 			   console.log(endD);
 	    			
 	    			if(locationId != 0){
 		    				$http.get('/gmLocationManager/'+locationId)
 		    				.success(function(data) {
-		    						$http.get('/getVisitedData/'+data.id+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles).success(function(response) {
+		    						$http.get('/getVisitedData/'+data.id+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(response) {
 		    				console.log(response);
 		    				$scope.weekData = response;
 		    				
@@ -3369,7 +3385,7 @@ angular.module('newApp')
 	    			}else{
 	    				
 	    				
-	    						$http.get('/getVisitedData/'+$scope.userKey+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles).success(function(response) {
+	    						$http.get('/getVisitedData/'+$scope.userKey+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(response) {
 	    				console.log(response);
 	    				$scope.weekData = response;
 	    				
@@ -3632,7 +3648,8 @@ angular.module('newApp')
 	    			$scope.lead.stockWiseData = $scope.stockWiseData;
 	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
-	    				$scope.getVisitedData('week','countHigh','0','0','All');
+	    				//$scope.getVisitedData('week','countHigh','0','0','All');
+	    				$scope.topVisitedDataDatewise();
 	    				$scope.userLocationData('Week','person');
 	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    				if($scope.lead.leadType=='2')  {
@@ -3712,14 +3729,17 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.showTopVisited = function() {
-	    			$scope.getVisitedData('week','countHigh','0','0','All');
+	    			//$scope.getVisitedData('week','countHigh','0','0','All');
+	    			$scope.topVisitedDataDatewise();
 	    			$scope.currentSelectedType = 0;
 	    			$scope.currentData = $scope.weekData.topVisited;
 	    		};
 	    		
 	    		$scope.filterFunction = function(filterBy) {
 	    			console.log(filterBy);
-	    			$scope.getVisitedData('week',filterBy,'0','0','All');
+	    			var startD = $('#cnfstartDateValueForListing').val();
+		 			   var endD = $('#cnfendDateValueForListing').val();
+	    			$scope.getVisitedData('week',filterBy,'0','0','All',startD,endD);
 	    		};
 	    		$scope.search = "";
 	    		$scope.searchBy = "";
@@ -3736,23 +3756,28 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.findMake = function(value,searchBy){
+	    			var startD = $('#cnfstartDateValueForListing').val();
+		 			   var endD = $('#cnfendDateValueForListing').val();
 	    			console.log(value.length);
 	    			if(value.length > 2){
 	    				$scope.searchBy = searchBy;
-	    				$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All');
+	    				
+	    				$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
 	    			}
 					if(value.length == 0){
-	    				$scope.getVisitedData('week','countHigh','0','0','All');
+	    				$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
 	    			}
 	    		}
 	    		$scope.findModel = function(value,searchBy){
+	    			var startD = $('#cnfstartDateValueForListing').val();
+		 			   var endD = $('#cnfendDateValueForListing').val();
 	    			console.log(value.length);
 	    			if(value.length > 1){
 	    				$scope.searchBy = searchBy;
-		    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All');
+		    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
 	    			}
 					if(value.length == 0){
-	    				$scope.getVisitedData('week','countHigh','0','0','All');
+	    				$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
 	    			}
 	    		}
 	    		
@@ -3762,12 +3787,14 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.showAllvehicles = function(){
-	    			$scope.getVisitedData('week','countHigh','0','0','All');
+	    			//$scope.getVisitedData('week','countHigh','0','0','All');
+	    			$scope.topVisitedDataDatewise();
+	    			
 	    			$scope.currentSelectedType = 2;
 	    			$scope.currentData = $scope.weekData.allVehical;
 	    		}
 	    		
-	    		$scope.showWeekVisited();
+	    		//$scope.showWeekVisited();
 	    		$scope.doComplete = function() {
 	    			$(".live-tile").liveTile();
 	    		};

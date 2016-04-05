@@ -18759,7 +18759,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(result));
     }*/
     
-    public static Result getVisitedData(Integer userKey,String type,String filterBy,String search,String searchBy,String vehicles) {
+    public static Result getVisitedData(Integer userKey,String type,String filterBy,String search,String searchBy,String vehicles,String startDate,String endDate) {
     	
     	Map result = new HashMap(3);
     	AuthUser user = AuthUser.findById(userKey);
@@ -18770,23 +18770,41 @@ public class Application extends Controller {
     		locationId = user.location.id;
     	}
     	
-    	topListings(type,filterBy,search,searchBy,locationId,user,result,vehicles,"0");
+    	topListings(type,filterBy,search,searchBy,locationId,user,result,vehicles,"0",startDate,endDate);
     	return ok(Json.toJson(result));
     }
     
-    public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result,String vehicles,String gmInManag){
+    public static void topListings(String type,String filterBy,String search,String searchBy,Long locationId,AuthUser user,Map result,String vehicles,String gmInManag,String startDate,String endDate){
     	
     	
     	
     	Date date = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat df2 = new SimpleDateFormat("dd-MM-yyyy");
 		String start1 = "";
 		String end1 = "";
 		Date start = null;
 		Date end = null;
-		if(type.equals("week")) {
+		Date startDat=null;
+		Date enddat=null;
+		
+		
+		if(type.equals("datewise")) {
+		try {
+			startDat=df2.parse(startDate);
+			enddat=df2.parse(endDate);
+			start=startDat;
+			end=enddat;
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		}
+		
+		System.out.println("%%%%Datttees"+start+"!!!!"+end);
+		/*if(type.equals("week")) {
 			cal.add(Calendar.DATE, -7);
 			start1 = df.format(cal.getTime());
 			end1 = df.format(date);
@@ -18812,7 +18830,7 @@ public class Application extends Controller {
 			}
 		}
 		
-		if(type.equals("allTime")) {
+		else*/ if(type.equals("allTime")) {
 			cal.add(Calendar.DATE, -1000);
 			start1 = df.format(cal.getTime());
 			end1 = df.format(date);
@@ -18831,14 +18849,14 @@ public class Application extends Controller {
     	String params = null;
     	String checkDate = null;
     	Date thedate = null;
-    	//String params1 = "&type=visitors-list&date=last-30-days&limit=all";
+    	/*String params1 = "&type=visitors-list&date=last-30-days&limit=all";
     	if(type.equals("week")){
     		params = "&type=visitors-list&date=last-7-days&limit=all";
-    	}else if(type.equals("month")){
+    	}else if(type.equals("month")){*/
     		params = "&type=visitors-list&date=last-30-days&limit=all";
-    	}else if(type.equals("allTime")){
-    		params = "&type=visitors-list&date="+start1+","+end1+"&limit=all";
-    	}
+    	//}else  if(type.equals("allTime")){
+    		///params = "&type=visitors-list&date="+start1+","+end1+"&limit=all";
+    	//}
     	String resultStr = callClickAPI(params);
     	    	
     	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
@@ -18915,17 +18933,17 @@ public class Application extends Controller {
 			List<TradeIn> tIns = TradeIn.findAllSeenSch(user);
 			
 			for(RequestMoreInfo rInfo :rMoreInfo){
-				if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end)){
+				if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
 					vinUnik.put(rInfo.vin, 1);
 				}
 			}
 			for(ScheduleTest sTest: sTests){
-				if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end)){
+				if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
 					vinUnik.put(sTest.vin, 1);
 				}	
 			}
 			for(TradeIn tradeIn: tIns){
-				if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end)){
+				if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
 					vinUnik.put(tradeIn.vin, 1);
 				}
 			}
@@ -18957,8 +18975,26 @@ if(vehicles.equals("All")){
     		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
     		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
     		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
+    		int req = 0;
+    		int sche = 0;
+    		int trad = 0;
+    		for(RequestMoreInfo rInfo :rInfos){
+				if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
+					req++;
+				}
+			}
+			for(ScheduleTest sTest: sList){
+				if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
+					sche++;
+				}	
+			}
+			for(TradeIn tradeIn: tIns){
+				if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
+					trad++;
+				}
+			}
     		
-    		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
+    		analyticalVM.leadsCount = req + sche + trad;
     		
     		if(pagesCount.get(vehicle.getVin()) == null){
     			analyticalVM.count = 0;

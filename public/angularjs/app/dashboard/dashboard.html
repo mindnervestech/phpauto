@@ -697,9 +697,9 @@ margin-left: 5px;
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-heart" style="color: darkturquoise;font-size: 18px;"title="Follower" ng-click="topListingFollower('followerCount',followerFlag)"></span></h6>
 								        					<h6 class="col-sm-1"><span class="glyphicon glyphicon-user" style="color: darkturquoise;font-size: 18px;"title="Total Leads"ng-click="topListingLead('leadsCount',leadFlag)"></span></h6>
 								     			</div>		
-								    	    	<div class="col-sm-2" style="padding:0px;" >
+								    	    	<div class="col-sm-2" style="padding:0px;width: 10%" >
 								    	    														
-														<div class="col-sm-10">
+														<div class="col-sm-12">
 															<select class="form-control form-white"  ng-model="vehicles" ng-change="vehicleData(vehicles)"  required>
 																<option value="All">All Vehicles</option>
 																<option value="New" >New</option>
@@ -708,6 +708,21 @@ margin-left: 5px;
 														</div>
 															
 												</div>
+												<form ng-submit="topVisitedDataDatewise ()">
+									     <div class="col-sm-1">
+									     	<label>Start Date</label>
+									     		<input data-provide="datepicker" id="cnfstartDateValueForListing" name="startDateValueForListing" class="form-control" style="padding: 0px;" ng-model="startDateForListing" data-date-format="dd-mm-yyyy" required>
+									     		
+									     </div>
+									     <div class="col-sm-1">
+									     	<label>End Date</label>
+									     		<input data-provide="datepicker" id="cnfendDateValueForListing" name="endDateValueForListing" style="padding: 0px;" class="form-control" ng-model="endDateForListing" data-date-format="dd-mm-yyyy" required>
+									     </div>
+									     <div class="col-sm-1" style="width: 4%">
+									     <button type="submit" class="btn btn-primary btn-embossed col-sm-12" style="padding: 0px;margin-top: 23px;text-align: center;">OK</button>
+									     <!-- 	<a class="glyphicon glyphicon-zoom-in"></a> -->
+									     </div>
+									     </form>
 												<div class="col-sm-2" style="padding: 0px;" > 
 								     						<h6 class="col-sm-12">
 								     								<span class="col-sm-12" style="padding: 0px;">
@@ -721,8 +736,8 @@ margin-left: 5px;
 								     								</span>
 								     						</h6>
 								     			</div>
-								     			<div class="col-sm-2" style="padding: 0px;" >
-								     						<h6 class="col-sm-12"><a style="cursor:pointer;font-size: 18px;" id="weekPerf" ng-class="currentSelectedWeekDuration == 1 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedMonthDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedAllTimeDuration == 1 ?'underline':''" ng-click="showAllTimeVisited()">All Time</a></h6>
+								     			<div class="col-sm-1" style="padding: 0px;" >
+								     						<h6 class="col-sm-12"> <!-- <a style="cursor:pointer;font-size: 18px;" id="weekPerf" ng-class="currentSelectedWeekDuration == 1 ?'underline':''" ng-click="showWeekVisited()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedMonthDuration == 1 ?'underline':''" ng-click="showMonthVisited()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp; --><a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedAllTimeDuration == 1 ?'underline':''" ng-click="showAllTimeVisited()">All Time</a></h6>
 								     			</div>
 								    	    	<div class="col-sm-1" ng-if="userRole != 'General Manager'"  style="padding: 0px;" >
 												<a class="btn btn-blue" href="#addVehicle" >Add Vehicle</a>
@@ -843,7 +858,7 @@ margin-left: 5px;
 									     </form> 		
 									  <div class="col-sm-2">
 									  <!-- ng-class="currentSelectedDuration == 1 ?'underline':''" -->
-									  <!-- <a ng-if="userRole == 'Manager' && locationDays >= 7" style="cursor:pointer;font-size: 18px" id="weekPerf" ng-click="showWeekPerformers()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-if="userRole == 'Manager' && locationDays > 30" style="cursor:pointer;font-size: 18px" id="monthPerf" ng-click="showMonthPerformers()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-if="userRole == 'Manager' && locationDays >= 365" style="cursor:pointer;font-size: 18px" id="yearPerf" ng-click="showYearPerformers()">Year</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px" id="allPerf" ng-click="showAllTimePerformers()">All Times</a> -->
+									  <!-- <a ng-if="userRole == 'Manager' && locationDays >= 7" style="cursor:pointer;font-size: 18px" id="weekPerf" ng-click="showWeekPerformers()">Week</a>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-if="userRole == 'Manager' && locationDays > 30" style="cursor:pointer;font-size: 18px" id="monthPerf" ng-click="showMonthPerformers()">Month</a>&nbsp;&nbsp;&nbsp;&nbsp;--><a ng-if="userRole == 'Manager' && locationDays >= 365" style="cursor:pointer;font-size: 18px" id="yearPerf" ng-click="showYearPerformers()">Year</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px" id="allPerf" ng-click="showAllTimePerformers()">All Times</a> 
 									  </div>
 									  </div>
 									          <br>
@@ -5805,7 +5820,7 @@ margin-left: 5px;
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Car Sold</label>
 									                 						<label   ng-if="comparisonperson[0].totalsaleCar != comparisonperson[1].totalsaleCar" ng-class="comparisonperson[0].totalsaleCar >comparisonperson[1].totalsaleCar ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "   style="text-align: right;">{{comparisonperson[0].totalsaleCar}}</label>
-									                 						<label   ng-if="comparisonperson[0].totalsaleCar == comparisonperson[1].totalsaleCar"  class="col-sm-6" style="text-align: right; color: gray;">${{comparisonperson[0].totalsaleCar}}</label>
+									                 						<label   ng-if="comparisonperson[0].totalsaleCar == comparisonperson[1].totalsaleCar"  class="col-sm-6" style="text-align: right; color: gray;">{{comparisonperson[0].totalsaleCar}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -5815,7 +5830,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
 									                 						<label  ng-if="comparisonperson[0].totalsaleCar != comparisonperson[1].totalsaleCar"  ng-class="comparisonperson[1].totalsaleCar >comparisonperson[0].totalsaleCar ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' ">{{comparisonperson[1].totalsaleCar}}</label>
-									                 					    <label   ng-if="comparisonperson[0].totalsaleCar == comparisonperson[1].totalsaleCar"  class="col-sm-6" style=" color: gray;">${{comparisonperson[1].totalsaleCar}}</label>
+									                 					    <label   ng-if="comparisonperson[0].totalsaleCar == comparisonperson[1].totalsaleCar"  class="col-sm-6" style=" color: gray;">{{comparisonperson[1].totalsaleCar}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Car Sold</label>
 									                 					</div>
 															   </div>
