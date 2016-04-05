@@ -323,6 +323,8 @@ angular.module('newApp')
 		$http.get('/getUserRole').success(function(data) {
 			
 			$scope.userRole = data.role;
+			 var startD = $('#cnfstartDateValue').val();
+			   var endD = $('#cnfendDateValue').val();
 			
 			$http.get('/getfindGmIsManager')
 			.success(function(data) {
@@ -333,10 +335,13 @@ angular.module('newApp')
 			$scope.getSalesDataValue($scope.locationValue);
 			
 			if($scope.userRole == "Manager"){
-				$scope.userLocationData('Week','location');
+				//$scope.userLocationData('Week','location');
+				
+				   $scope.findMystatisData(startD,endD,'location');
 			}else if($scope.userRole != "General Manager"){
 				$scope.locationValue = data.location.id;
-				$scope.userLocationData('Week','person');
+				$scope.findMystatisData(startD,endD,'person');
+				//$scope.userLocationData('Week','person');
 				
 			}
 			
@@ -344,9 +349,9 @@ angular.module('newApp')
 			
 			if(locationId != 0){
 				if($scope.userRole == "Manager"){
-					$scope.userLocationData('Week','location');
+					  $scope.findMystatisData(startD,endD,'location');
 				}else{
-					$scope.userLocationData('Week','person');
+					$scope.findMystatisData(startD,endD,'person');
 				}
 			}else{
 				 $scope.showSelectLocationDash = $scope.locationValue;
@@ -538,7 +543,7 @@ angular.module('newApp')
 	 }
 	$scope.dataLocOrPerWise = "location";
 	$scope.showLeads = null;
-	$scope.userLocationData = function(timeSet,locOrPer){
+	/*$scope.userLocationData = function(timeSet,locOrPer){
 		
 		if(locationId != 0){
 			
@@ -604,12 +609,15 @@ angular.module('newApp')
 		
 		
 			
-	}
+	}*/
 	
 	$scope.locationOrPersonData = function(wiseData){
-		
+		 var startD = $('#cnfstartDateValue').val();
+		   var endD = $('#cnfendDateValue').val();
+		   
 		$scope.dataLocOrPerWise = wiseData;
-		$scope.userLocationData('Week',$scope.dataLocOrPerWise);
+		$scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
+		//$scope.userLocationData('Week',$scope.dataLocOrPerWise);
 	}
 	
 	setInterval(function(){
@@ -653,12 +661,18 @@ angular.module('newApp')
 	   };
 	   $scope.leadsTime = {};
 	$scope.saveLeads = function(){
+		
+		 var startD = $('#cnfstartDateValue').val();
+		   var endD = $('#cnfendDateValue').val();
+		   
 		$http.post("/saveLeads",$scope.leadsTime).success(function(data){
 			 $('#Locationwise-model').modal("toggle");
 			 if($scope.userRole == "Manager"){
-					$scope.userLocationData('Week','location');
+					//$scope.userLocationData('Week','location');
+				 $scope.findMystatisData(startD,endD,'location');
 			   }else{
-				   $scope.userLocationData('Week','person');
+				   $scope.findMystatisData(startD,endD,'person');
+				   //$scope.userLocationData('Week','person');
 			   }
 		});
 		
@@ -2462,8 +2476,6 @@ angular.module('newApp')
     			 
     			  
     			  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
-    			  
-    			  
   				$scope.check.startDate=$filter('date')(startdate, 'dd-MM-yyyy');
   				$scope.check.endDate=$filter('date')(startdate, 'dd-MM-yyyy');
   				console.log($scope.check.endDate);
@@ -3644,13 +3656,18 @@ angular.module('newApp')
 	    				}
 	    				
 	    			}
+	    			
+	    			 var startD = $('#cnfstartDateValue').val();
+	    			   var endD = $('#cnfendDateValue').val();
+	    			
 	    			$("#createLeadPopup").modal('hide');
 	    			$scope.lead.stockWiseData = $scope.stockWiseData;
 	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
 	    				//$scope.getVisitedData('week','countHigh','0','0','All');
 	    				$scope.topVisitedDataDatewise();
-	    				$scope.userLocationData('Week','person');
+	    				//$scope.userLocationData('Week','person');
+	    				 $scope.findMystatisData(startD,endD,'person');
 	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    				if($scope.lead.leadType=='2')  {
 	    					$scope.getScheduleTestData();
@@ -8029,7 +8046,7 @@ $scope.setAsDefault = function(image,index) {
 	$scope.saveVData = function() {
 		
 		$scope.vData.vin = $scope.vinData.specification.vin;
-		$http.post('/saveVData',$scope.videoData)
+		$http.post('/saveVData',$scope.vData)
 		.success(function(data) {
 			$.pnotify({
 			    title: "Success",
