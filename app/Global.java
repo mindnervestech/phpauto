@@ -3,6 +3,7 @@ import play.GlobalSettings;
 import play.Logger;
 import play.api.mvc.EssentialFilter;
 import play.filters.gzip.GzipFilter;
+import scheduler.MeetingAndTestDriveScheduler;
 import scheduler.NewsLetter;
 import scheduler.TestDriveScheduler;
 
@@ -19,6 +20,7 @@ public class Global extends GlobalSettings {
 	public void onStart(Application app) {
 		NewsLetter.newsletterSchedulling();
 		TestDriveScheduler.newsletterSchedulling();
+		MeetingAndTestDriveScheduler.meetingSchedulling();
 	}
 	
 	

@@ -13493,22 +13493,26 @@ public class Application extends Controller {
     }
     
     public static Result sendEmailDaily(){
-    	
-    	 AuthUser user = getLocalUser();
+    	 //AuthUser user = getLocalUser();
          
+    	DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy hh:mm a");
          DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
          SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
          Date currD = new Date();
          String cDate = df.format(currD);
          String cTime = parseTime.format(currD);
-         
+         String crD =    df1.format(currD);      
          
          //Date newDate = DateUtils.addHours(info2.confirmTime, 4);
          Date datec = null;
          Date timeSet = null;
+         Date cr=null;
          try {
  			datec = df.parse(cDate);
  			timeSet = parseTime.parse(cTime);
+ 			cr = df1.parse(crD);
+ 			System.out.println(cr);
+ 			System.out.println(currD);
  		} catch (ParseException e) {
  			// TODO Auto-generated catch block
  			e.printStackTrace();
@@ -13516,15 +13520,21 @@ public class Application extends Controller {
          
          System.out.println(datec);
          
+         List<ScheduleTest> list = ScheduleTest.findAllByServiceTest(datec);
          
-         List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user, datec);
-         
-     	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeads(Long.valueOf(session("USER_LOCATION")), user, datec);
-     	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeads(Long.valueOf(session("USER_LOCATION")), user, datec);
+     	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeadsToEmail(datec);
+     	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail(datec);
      	
-         
          for(ScheduleTest scTest:list){
-        	 if(scTest.confirmDate.equals(datec)){
+        	 try {
+        		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
+        		 crD = df1.format(str);
+            	 cr = df1.parse(crD);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+        	 
+        	 /*if(scTest.confirmDate.equals(datec)){
         		 if(scTest.confirmTime.equals(timeSet)){
         			 if(scTest.meetingStatus == null){
         				 String subject = "Schedule test D";
@@ -13537,28 +13547,31 @@ public class Application extends Controller {
         			 }
         			 
         		 }
-        	 }
-        	 
+        	 }*/
          }
          
          for(RequestMoreInfo rInfo:requestMoreInfos){
-        	 if(rInfo.confirmDate.equals(datec)){
+        	 String str = df.format(rInfo.confirmDate) +" "+parseTime.format(rInfo.confirmTime);
+        	 System.out.println(str);
+        	 /*if(rInfo.confirmDate.equals(datec)){
         		 if(rInfo.confirmTime.equals(timeSet)){
         			 String subject = "Request test D";
      		    	 String comments = "test D";
      		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
         		 }
-        	 }	 
+        	 }*/	 
          }
          
          for(TradeIn tInfo:tradeIns){
-        	 if(tInfo.confirmDate.equals(datec)){
+        	 String str = df.format(tInfo.confirmDate) +" "+parseTime.format(tInfo.confirmTime);
+        	 System.out.println(str);
+        	 /*if(tInfo.confirmDate.equals(datec)){
         		 if(tInfo.confirmTime.equals(timeSet)){
         			 String subject = "TradeIn test D";
      		    	 String comments = "test D";
      		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
         		 }
-        	 }	 
+        	 }*/	 
          }
          
          

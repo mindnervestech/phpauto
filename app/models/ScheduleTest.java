@@ -434,6 +434,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", user).findList();
 	}
 	
+	public static List<ScheduleTest> findAllByServiceTest(Date currDate) {
+		
+		return find.where().add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
+	}
 	
 	public static List<ScheduleTest> findAllByUserServiceTest(AuthUser user, Date currDate) {
 	
