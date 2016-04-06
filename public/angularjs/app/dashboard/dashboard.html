@@ -7112,7 +7112,7 @@ margin-left: 5px;
 															  	 				<div class="col-sm-3">
 															  	 				</div>
 									                 							<div class="col-sm-3">
-									                 								<label style="color: darkturquoise;">$90,000-$1,00,000</label>
+									                 								<label style="color: darkturquoise;">$90,000-$100,000</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label>{{priceRan.value}}</label>
@@ -7130,7 +7130,7 @@ margin-left: 5px;
 															  	 				<div class="col-sm-3">
 															  	 				</div>
 									                 							<div class="col-sm-3">
-									                 								<label style="color: darkturquoise;">$1,00,000 +</label>
+									                 								<label style="color: darkturquoise;">$100,000 +</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
 									                 								<label>{{priceRan.value}}</label>
@@ -7175,7 +7175,7 @@ margin-left: 5px;
 																	</div>
 															   <div class="col-sm-8">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Success Rate</label>
-									                 						<label class="col-sm-6">{{comparisonperson[0].successRate}}</label>
+									                 						<label class="col-sm-6">{{comparisonperson[0].successRate}}%</label>
 															   </div>
 															   <div class="col-sm-1">
 																	</div>
@@ -7218,7 +7218,8 @@ margin-left: 5px;
 									                 								<label style="color: darkturquoise;">{{planCom.name}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
-									                 								<label>{{planCom.value}}%</label>
+									                 								<label ng-if="planCom.value != 0 && planCom.value != null "   >{{planCom.value}}%</label>
+									                 								<label ng-if="planCom.value == 0 || planCom.value == null "   >N/A</label>
 									                 							</div>	
 															   </div>
 															   <div class="col-sm-1">
@@ -7288,7 +7289,7 @@ margin-left: 5px;
 									                 								<label style="color: darkturquoise;">{{offline.name}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
-									                 								<label>{{offline.value}}%</label>
+									                 								<label >{{offline.value}}</label>
 									                 							</div>	
 															   </div>
 															   <div class="col-sm-1">
@@ -7320,7 +7321,7 @@ margin-left: 5px;
 									                 								<label style="color: darkturquoise;">{{online.name}}</label>
 									                 							</div>
 									                 							<div class="col-sm-6">	
-									                 								<label>{{online.value}}%</label>
+									                 								<label>{{online.value}}</label>
 									                 							</div>	
 															   </div>
 															   <div class="col-sm-1">
