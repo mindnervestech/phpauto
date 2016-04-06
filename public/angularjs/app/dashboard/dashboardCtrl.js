@@ -5295,9 +5295,73 @@ angular.module('newApp')
 		   
 		   $scope.editServiceType = function(serviceData){
 			   document.getElementById("nature-data").innerHTML = "";
+			   console.log("::::servicedata");
 			   $scope.data1 = serviceData;
 			   $scope.data1.confirmDate = $filter('date')($scope.data1.confirmDate,"MM-dd-yyyy");
 			   $scope.data1.confirmTime = $filter('date')($scope.data1.confirmTime,"HH:mm a");
+			   
+			   
+			   
+			   $http.get('/getUserForMeeting/'+$scope.data1.confirmDate+"/"+$scope.data1.confirmTime)
+				.success(function(data) {
+					console.log("success");
+					$scope.gridOptions11.data = data;
+					console.log($scope.gridOptions11.data);
+					
+					angular.forEach($scope.gridOptions11.data, function(obj, index){
+						//obj.disabled = true;
+						if(obj.userStatus == 'N/A'){
+							obj.disabled = false;
+							
+						}else{
+							obj.disabled = true;
+						}
+						
+					});
+					angular.forEach($scope.gridOptions11.data, function(obj, index){
+						angular.forEach($scope.data1.userdata, function(obj1, index1){
+						
+							console.log(obj.id);
+							console.log(obj1.id);
+						if(obj.id == obj1.id ){
+							console.log("falssssssss");
+							obj.disabled = false;
+							
+						}
+						/*else{
+							console.log("trueooooooooooooo");
+							obj.disabled = true;
+							
+                          if(obj.userStatus == 'N/A'){
+								obj.disabled = false;
+								
+							}else{
+								obj.disabled = true;
+							}
+						}
+						
+						}*/
+					});
+					console.log("data after loop");
+					console.log($scope.gridOptions11.data);
+						
+					});
+				});
+			   
+			  /* $scope.data1.confirmDate1 = $filter('date')($scope.data1.confirmDate,"yyyy-MM-dd");
+			   
+	    			  $http.get('/getScheduleBySelectedDate/'+$scope.data1.confirmDate1)
+						.success(function(data) {
+							
+							console.log(":::::::changesss for griid");
+							console.log(data);
+						//$scope.scheduleList = data;
+					});  */
+			   
+			   
+			   console.log(":::::data for meeting");
+			   console.log($scope.data1);
+			  
 			   $('#dataID').val($scope.data1.id);
 			   $('#dataGoogleID').val($scope.data1.google_id);
 			   if($scope.data1.meetingStatus == 'meeting'){
@@ -7078,6 +7142,8 @@ angular.module('newApp')
 						    text: "Meeting invitation has been sent",
 						});
 					   
+					   
+					   
 					   $http.get("/getscheduletest").success(function(data){
 						   $scope.scheduleListData = data;
 					   });
@@ -7098,6 +7164,8 @@ angular.module('newApp')
 			   $scope.data1.confTime = $('#timeSchPick').val();
 			   
 			   console.log($scope.data1);
+			  $scope.data1.usersList = $scope.checked;
+			  $scope.data1.isRead=0;
 			   $http.post("/updateScheduleTest",$scope.data1).success(function(data){
 				   $('#colored-header').modal("toggle");
 				   $.pnotify({
@@ -7106,8 +7174,17 @@ angular.module('newApp')
 					    text: "Meeting Scheduled Update",
 					});
 				   
+          
+				   
 				   $scope.data1.confirmDate = $('#cnfReSchDate').val();
 				   $scope.data1.confirmTime = $('#timeSchPick').val();
+				   
+				   
+                 $http.get("/getscheduletest").success(function(data){
+					   
+					   $scope.scheduleListData = data;
+				   });
+				   
 				  
 				   $scope.schedulmultidatepicker();
 			   }); 

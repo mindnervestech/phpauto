@@ -634,6 +634,32 @@ margin-left: 5px;
                     <div class="col-md-12 col-sm-12 col-xs-12">
                       <form role="form" class="form-validation" ng-submit="updateScheduleTest()" method="post">  <!-- action="/updateScheduleTest" -->
                         <div class="row">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="control-label">Title</label>
+                              <div class="append-icon">
+								<input class="form-control" ng-model="data1.name" type="text" required>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                         <div class="row" ng-if="userType=='General Manager' && showGmLocation == 0">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="control-label">Location</label>
+                              <div class="append-icon">
+                              	<select  class="form-control" ng-model="data1.location" ng-change="showuser(schmeeting.location)" required>
+								   <option ng-selected="true" value="">Select Location</option>
+						           <option ng-repeat="item in locationdata" value="{{item.id}}">{{item.name}}</option>
+						        </select>
+                              </div>
+                            </div>
+                          </div>
+                         </div >
+                        
+                        
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label class="control-label">Date</label>
@@ -659,6 +685,36 @@ margin-left: 5px;
                             </div>
                           </div>
                         </div>
+                        
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+								<div ui-grid="gridOptions11" style="height:200px; width:550px;" ui-grid-edit ui-grid-pagination>
+								</div> 
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <div id="meetingnature">
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                         <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                            <label class="control-label">Discription</label>
+                              <div class="append-icon">
+                               <textarea class="form-control" ng-model="data1.reason" rows="3" required></textarea>
+                              </div>
+                            </div>
+                          </div>
+                         </div>
+                        
+                        
+                        
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
                   		  <button type="submit" class="btn btn-primary btn-embossed" ng-click="">Save</button>

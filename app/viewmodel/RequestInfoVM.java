@@ -59,6 +59,7 @@ public class RequestInfoVM {
 	public Integer setFlagSameUser;
 	public List<UserVM> userdata;
 	public String imageUrl;
+	public String reason;
 	
 	
 	

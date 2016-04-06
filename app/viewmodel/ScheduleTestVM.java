@@ -4,6 +4,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleTestVM {
+	
+	public String disabled;
+	public String firstName;
+	public String lastName;
+	public String fullName;
+	public String isSelect;
+	public String per;
+	public String role;
+	public String userStatus;
+	public String meetingFlag;
+	public String bodyStyle;
+	public String custZipCode;
+	public String drivetrain;
+	public String engine;
+	public String enthicity;
+	public String howContactedUs;
+	public String howFoundUs;
+	public String imageUrl;
+	public String imgId;
+	public String isgoogle;
+	public String leadType;
+	public String leadsValue;
+	public String make;
+	public String meeting;
+	public String mileage;
+	public String model;
+	public String note;
+	public String noteFlag;
+	public String parentChildLead;
+	public String pdfPath;
+	public String prefferedContact;
+	public String price;
+	public String requestDate;
+	public String salesRep;
+	public String status;
+	public String statusDate;
+	public String stock;
+	public String testDriveCompletedComment;
+	public String testDriveCompletedDuration;
+	public String transmission;
+	public String trim;
+	public String typeofVehicle;
+	public String userRole;
+	
+	
+	
+	
+	
+	
+	
+	
 	public Long id;
 	public String name;
 	public String email;
@@ -13,25 +64,54 @@ public class ScheduleTestVM {
 	public String bestTime;
 	public String scheduleDate;
 	public String vin;
+	public String year;
+	public String confirmDateOrderBy;
 	public int isRead;
+	public String confDate;
+	public String confTime;
 	public String confirmDate;
 	public String confirmTime;
 	public Long groupId;
 	public String leadStatus;
 	public String reason;
+	public String option;
+	public String setFlagSameUser;
+	public String typeOfLead;
 	public Boolean isReassigned = true;
 	public String contactedFrom;
 	public String hearedFrom;
 	public String location;
 	public String google_id;
+	public Boolean is_google;
 	public Boolean is_google_data;
 	public String assignedTo;
 	public String Enthicity;
 	public Boolean allStaff;
 	public String meetingStatus;
+	public List<UserVM> userdata;
 	public List<UserVM> usersList = new ArrayList<UserVM>();
 	public List<UserVM> getUsersList() {
 		return usersList;
+	}
+	public String getConfDate() {
+		return confDate;
+	}
+	public void setConfDate(String confDate) {
+		this.confDate = confDate;
+	}
+	public String getConfTime() {
+		return confTime;
+	}
+	public void setConfTime(String confTime) {
+		this.confTime = confTime;
+	}
+	
+	
+	public List<UserVM> getUserdata() {
+		return userdata;
+	}
+	public void setUserdata(List<UserVM> userdata) {
+		this.userdata = userdata;
 	}
 	public void setUsersList(List<UserVM> usersList) {
 		this.usersList = usersList;

@@ -4,6 +4,9 @@ import java.util.List;
 
 
 public class UserVM {
+	
+	public boolean disabled;
+	public String role;
 	public Integer meetingFlag;
 	public Integer id;
 	public String fullName;

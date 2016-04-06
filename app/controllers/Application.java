@@ -22764,7 +22764,36 @@ if(vehicles.equals("All")){
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
         	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
         	sTestVM.confirmDateOrderBy = scTest.confirmDate;
+        	sTestVM.reason=scTest.reason;
+        	sTestVM.name = scTest.name;
         	sTestVM.typeOfLead = "Schedule Test Drive";
+        	
+        	List<UserVM> listUser = new ArrayList<>();
+        	if(scTest.groupId != null){
+    			List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(scTest.groupId);
+    			for(ScheduleTest users:schedulegroupList){
+    				UserVM uVm = new UserVM();
+    	    		uVm.firstName = users.assignedTo.getFirstName();
+    	    		uVm.lastName = users.assignedTo.getLastName();
+    	    		/*if(users.acceptMeeting == 1 && users.declineMeeting == 1){
+    	    			uVm.meetingFlag = 2;
+    	    		}else if(users.acceptMeeting == 1 && users.declineMeeting == 0){
+    	    			uVm.meetingFlag = 1;
+    	    		}else{
+    	    			uVm.meetingFlag = 0;
+    	    		}*/
+    	    		uVm.meetingFlag = users.meeting;
+    	    		uVm.id = users.assignedTo.id;
+    	    	
+    	    		listUser.add(uVm);
+    			}
+    		}
+    	
+    	
+    		
+        	sTestVM.userdata = listUser;
+        	
+        	
 		if(scTest.user != null){
 			if(user.id.equals(scTest.user.id)){
         		sTestVM.setFlagSameUser = user.id;
@@ -22843,8 +22872,16 @@ if(vehicles.equals("All")){
 	}
 
 	public static Result updateCalender(){
-		DynamicForm form = DynamicForm.form().bindFromRequest();
-		String id = form.get("id");
+		//DynamicForm form = DynamicForm.form().bindFromRequest();
+		Form<ScheduleTestVM> form = DynamicForm.form(ScheduleTestVM.class).bindFromRequest();
+		ScheduleTestVM vm = form.get();
+		AuthUser user = getLocalUser();
+		Long id =vm.id;
+		String confDate = vm.confDate;
+		String confTime = vm.confTime;
+		String googleID = vm.google_id;
+		
+	    /* String id = form.get("id");
 		String confDate = form.get("confDate");
 		String confTime = form.get("confTime");
 		String googleID = form.get("googleID");
@@ -22855,15 +22892,73 @@ if(vehicles.equals("All")){
 		vm.cnfTime = confTime;
 		vm.eventID = googleID;
 		session("sessionVmData", Json.stringify(Json.toJson(vm)));
+		
+		*/
 		DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 		
-		if(form.get("groupId") != null){
+		
+
+		List<AuthUser> userList = new ArrayList<>();
+		for (UserVM obj : vm.getUsersList()) {
+			AuthUser assi = AuthUser.findById(obj.id);
+			ScheduleTest moTest = new ScheduleTest();
+			moTest.assignedTo = assi;
+			moTest.name=vm.getAssignedTo();
+			moTest.bestDay = vm.getBestDay();
+			moTest.bestTime = vm.getBestTime();
+			moTest.email = user.getEmail();
+			moTest.location = vm.getLocation();
+			moTest.name = vm.name;
+			moTest.groupId = vm.groupId;
+			moTest.meetingStatus = "meeting";
+		 	moTest.phone = user.getPhone();
+			moTest.reason = vm.getReason();
+			moTest.scheduleDate = new Date();
+			moTest.scheduleTime = new Date();
+		     moTest.user = user;
+			moTest.isReassigned = false;
+			moTest.sendInvitation = 1;
+			moTest.acceptMeeting = 1;
+			moTest.declineMeeting = 1;
+			moTest.meeting = 1;
+			moTest.is_google_data = false;
+			userList.add(assi);
+			try {			
+				moTest.confirmDate = df.parse(vm.confDate);
+				moTest.confirmTime = new SimpleDateFormat("hh:mm a").parse(vm.confTime);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			moTest.save();
+			
+			String subject = "Meeting invitation.";
+	   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
+	   	    
+			sendEmail(assi.communicationemail, subject, comments);
+		}
+		
+		
+		
+		
+		if(vm.groupId != null){
 			try {
-				List<ScheduleTest> test = ScheduleTest.findAllGroupMeeting(Long.parseLong(form.get("groupId")));
+				
+				
+				List<ScheduleTest> test = ScheduleTest.findAllGroupMeeting(vm.groupId);
 				for(ScheduleTest testloop:test){
+					testloop.setName(vm.name);
+					testloop.setReason(vm.reason);
 					testloop.setConfirmDate(df.parse(confDate));
 					testloop.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
+					testloop.setSendInvitation(1);
 					testloop.update();
+					
+					AuthUser assi = AuthUser.findById(testloop.assignedTo.id);
+					String subject = "Meeting invitation.";
+			   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
+				    sendEmail(assi.communicationemail, subject, comments);
+					
+					
 				}
 				
 			} catch (Exception e) {
@@ -22873,10 +22968,25 @@ if(vehicles.equals("All")){
 		}else{
 
 			try {
-				ScheduleTest test = ScheduleTest.findById(Long.parseLong(id));
+				ScheduleTest test = ScheduleTest.findById(id);
 				test.setConfirmDate(df.parse(confDate));
 				test.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
+				test.setName(vm.name);
+				test.setReason(vm.reason);
+				test.setSendInvitation(1);
+				
 				test.update();
+				
+				AuthUser assi = AuthUser.findById(test.assignedTo.id);
+				String subject = "Meeting invitation.";
+		   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
+				sendEmail(assi.communicationemail, subject, comments);
+				
+				
+				
+				
+				
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -22891,8 +23001,8 @@ if(vehicles.equals("All")){
 		}*/
 		
 		/**/
-		return redirect("/authenticate");
-		//return ok();
+		//return redirect("/authenticate");
+		return ok();
 		}
 	
 	private static String  authorizeUpdate() throws Exception {
