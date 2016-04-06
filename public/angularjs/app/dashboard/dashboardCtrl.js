@@ -2243,10 +2243,11 @@ angular.module('newApp')
     			 
     			 $scope.comparisonperson = [];
     			 var today = new Date()
-     			var endDate = $filter('date')(today,"yyyy-MM-dd");
+     			//var endDate = $filter('date')(today,"yyyy-MM-dd");
  				var arr = [];
      			arr = $filter('date')(today,"yyyy-MM-dd").split('-');
  				var startDate = arr[0]+"-"+arr[1]+"-"+"01";
+ 				var endDate = arr[0]+"-"+arr[1]+"-"+"01";
     			 
  				$http.get('/getComperSalePersonData/'+$scope.salesPerson+"/"+startDate+"/"+endDate).success(function(response) {
  					console.log(response);
