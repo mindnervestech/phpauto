@@ -986,7 +986,16 @@ angular.module('newApp')
                       compare: 'percent'
                   }
               },*/
-              tooltip: {
+              
+              plotOptions: {
+            	    line: {
+            	        marker: {
+            	            enabled: true,
+            	            radius: 7
+            	        }
+            	    }
+            	},
+                tooltip: {
                   pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change})<br/>',
                   valueDecimals: 2
               },

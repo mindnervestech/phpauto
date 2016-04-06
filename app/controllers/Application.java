@@ -11144,7 +11144,6 @@ public class Application extends Controller {
    	if(users.role.equals("Manager") && locOrPer.equals("location")){
    		List<Vehicle> vList = Vehicle.findByLocationAndSold(location.id);
        	
-       	
        	for(Vehicle vehList:vList){
        		//	if(vehList.soldDate.after(timeBack)) {
        		if((vehList.soldDate.after(startD) && vehList.soldDate.before(endD)) || vehList.soldDate.equals(endD) || vehList.soldDate.equals(startD)){
