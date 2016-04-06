@@ -13550,6 +13550,7 @@ public class Application extends Controller {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+        	 
         	 /*if(scTest.confirmDate.equals(datec)){
         		 if(scTest.confirmTime.equals(timeSet)){
         			 if(scTest.meetingStatus == null){
@@ -15414,26 +15415,26 @@ public class Application extends Controller {
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfoAll){
 	    		if(start != null && end !=null){
-	    		//if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)||  rMoreInfo.requestDate.equals(start)){
+	    		if((rMoreInfo.requestDate.after(start) && rMoreInfo.requestDate.before(end)) || rMoreInfo.requestDate.equals(end)||  rMoreInfo.requestDate.equals(start)){
 	    			requestLeadCount1++;
-	    		//}
+	    		}
 	    		}
 	    	}
 	    	
 	    	
 	    	for(ScheduleTest sTest:sListAll){
 	    		if(start != null && end !=null){
-	    		//if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
+	    		if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
 	    			scheduleLeadCount1++;
-	    		//}
+	    		}
 	    		}
 	    	}
 
 	    	for(TradeIn tIn:tradeInsAll){
 	    		if(start != null && end !=null){
-	    		//if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start)){
+	    		if((tIn.tradeDate.after(start) && tIn.tradeDate.before(end)) || tIn.tradeDate.equals(end) || tIn.tradeDate.equals(start)){
 					tradeInLeadCount1++;
-	    		//}
+	    		}
 	    		}
 	    	}
 				

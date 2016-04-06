@@ -488,8 +488,6 @@ angular.module('newApp')
 				$http.get('/getUserLocationByDateInfo/'+data.id+"/"+startD+'/'+endD+'/'+locOrPer)
 				.success(function(data) {
 					
-					console.log(":::111111::::::");
-					console.log(data);
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					$http.get('/getPlanTarget/'+locOrPer)
 					.success(function(data1) {
