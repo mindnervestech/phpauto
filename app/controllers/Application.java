@@ -13492,6 +13492,79 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result sendEmailDaily(){
+    	
+    	 AuthUser user = getLocalUser();
+         
+         DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+         SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+         Date currD = new Date();
+         String cDate = df.format(currD);
+         String cTime = parseTime.format(currD);
+         
+         
+         //Date newDate = DateUtils.addHours(info2.confirmTime, 4);
+         Date datec = null;
+         Date timeSet = null;
+         try {
+ 			datec = df.parse(cDate);
+ 			timeSet = parseTime.parse(cTime);
+ 		} catch (ParseException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		}
+         
+         System.out.println(datec);
+         
+         
+         List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user, datec);
+         
+     	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeads(Long.valueOf(session("USER_LOCATION")), user, datec);
+     	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeads(Long.valueOf(session("USER_LOCATION")), user, datec);
+     	
+         
+         for(ScheduleTest scTest:list){
+        	 if(scTest.confirmDate.equals(datec)){
+        		 if(scTest.confirmTime.equals(timeSet)){
+        			 if(scTest.meetingStatus == null){
+        				 String subject = "Schedule test D";
+         		    	 String comments = "test D";
+         		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
+        			 }else if(scTest.meetingStatus.equals("meeting")){
+        				 String subject = "meeting";
+         		    	 String comments = "meeting set ";
+         		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
+        			 }
+        			 
+        		 }
+        	 }
+        	 
+         }
+         
+         for(RequestMoreInfo rInfo:requestMoreInfos){
+        	 if(rInfo.confirmDate.equals(datec)){
+        		 if(rInfo.confirmTime.equals(timeSet)){
+        			 String subject = "Request test D";
+     		    	 String comments = "test D";
+     		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
+        		 }
+        	 }	 
+         }
+         
+         for(TradeIn tInfo:tradeIns){
+        	 if(tInfo.confirmDate.equals(datec)){
+        		 if(tInfo.confirmTime.equals(timeSet)){
+        			 String subject = "TradeIn test D";
+     		    	 String comments = "test D";
+     		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
+        		 }
+        	 }	 
+         }
+         
+         
+    	return ok();
+    }
+    
     public static Result getScheduleDates() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));

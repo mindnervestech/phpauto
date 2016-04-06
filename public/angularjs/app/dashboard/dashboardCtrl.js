@@ -3973,6 +3973,14 @@ angular.module('newApp')
 		    		});
 	    		};
 	    		
+	    		$scope.sendEmail24Hrs = function(){
+	    			$http.get('/sendEmailDaily')
+		    		.success(function(data){
+		    			
+		    		});
+	    		}
+	    		
+	    		
 	    		$scope.setTodoSeen = function() {
 	    			$http.get('/setTodoSeen')
 		    		.success(function(data){
