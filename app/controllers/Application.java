@@ -13500,6 +13500,8 @@ public class Application extends Controller {
          Date currentDate = null;
          Date aftHrDate = null;
          Date aftDay = null;
+         Date aftHrDate1 = null;
+         Date aftDay1 = null;
          Date infoDate = null;
          Date datec = null;
          String cDate = df.format(currD);
@@ -13510,6 +13512,8 @@ public class Application extends Controller {
         	 datec = df.parse(cDate);
         	 aftHrDate = DateUtils.addHours(currentDate, 1);
         	 aftDay = DateUtils.addHours(currentDate, 24);
+        	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+        	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -13522,35 +13526,32 @@ public class Application extends Controller {
          for(ScheduleTest scTest:list){
         	 try {
         		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
-        		 crD = df1.format(str);
-        		 infoDate = df1.parse(crD);
-        		 
-        		 if(infoDate.equals(aftHrDate)){
+        		 infoDate = df1.parse(str);
+        		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
             		 if(scTest.meetingStatus == null){
-        				 String subject = "Schedule test D";
-         		    	 String comments = "test D";
-         		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
+        				 String subject = "Test drive reminder";
+         		    	 String comments = "You have a test drive scheduled in 1 hour ";
+         		    	 sendEmail(scTest.assignedTo.email, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
-        				 String subject = "meeting";
-         		    	 String comments = "meeting set ";
+        				 String subject = "Meeting reminder";
+         		    	 String comments = "You have a meeting scheduled in 1 hour ";
          		    	 sendEmail(scTest.assignedTo.email, subject, comments);
         			 }
             	 }
-            	 if(infoDate.equals(aftDay)){
+        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
             		 if(scTest.meetingStatus == null){
-        				 String subject = "Schedule test D";
-         		    	 String comments = "test D";
-         		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
+            			 String subject = "Test drive reminder";
+         		    	 String comments = "You have a test drive scheduled in 24 hours ";
+         		    	 sendEmail(scTest.assignedTo.email, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
-        				 String subject = "meeting";
-         		    	 String comments = "meeting set ";
+        				 String subject = "Meeting reminder";
+         		    	 String comments = "You have a meeting scheduled in 24 hours ";
          		    	 sendEmail(scTest.assignedTo.email, subject, comments);
         			 }
             	 }
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-        	 
         	 /*if(scTest.confirmDate.equals(datec)){
         		 if(scTest.confirmTime.equals(timeSet)){
         			 if(scTest.meetingStatus == null){
@@ -13570,17 +13571,15 @@ public class Application extends Controller {
          for(RequestMoreInfo rInfo:requestMoreInfos){
         	 try {
         		 String str = df.format(rInfo.confirmDate) +" "+parseTime.format(rInfo.confirmTime);
-        		 crD = df1.format(str);
-        		 infoDate = df1.parse(crD);
-        		 
-        		 if(infoDate.equals(aftHrDate)){
-        			 String subject = "Request test D";
-     		    	 String comments = "test D";
+        		 infoDate = df1.parse(str);
+        		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
+        			 String subject = "Test drive reminder";
+     		    	 String comments = "You have a test drive scheduled in 1 hour ";
      		    	 sendEmail(rInfo.assignedTo.email, subject, comments);
         		 }
-        		 if(infoDate.equals(aftDay)){
-        			 String subject = "Request test D";
-     		    	 String comments = "test D";
+        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
+        			 String subject = "Test drive reminder";
+     		    	 String comments = "You have a test drive scheduled in 24 hours ";
      		    	 sendEmail(rInfo.assignedTo.email, subject, comments);
         		 }
 			} catch (Exception e) {
@@ -13598,17 +13597,15 @@ public class Application extends Controller {
          for(TradeIn tInfo:tradeIns){
         	 try {
         		 String str = df.format(tInfo.confirmDate) +" "+parseTime.format(tInfo.confirmTime);
-        		 crD = df1.format(str);
-        		 infoDate = df1.parse(crD);
-        		 
-        		 if(infoDate.equals(aftHrDate)){
-        			 String subject = "Request test D";
-     		    	 String comments = "test D";
+        		 infoDate = df1.parse(str);
+        		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
+        			 String subject = "Test drive reminder";
+     		    	 String comments = "You have a test drive scheduled in 1 hour ";
      		    	 sendEmail(tInfo.assignedTo.email, subject, comments);
         		 }
-        		 if(infoDate.equals(aftDay)){
-        			 String subject = "Request test D";
-     		    	 String comments = "test D";
+        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
+        			 String subject = "Test drive reminder";
+     		    	 String comments = "You have a test drive scheduled in 24 hours ";
      		    	 sendEmail(tInfo.assignedTo.email, subject, comments);
         		 }
 			} catch (Exception e) {
