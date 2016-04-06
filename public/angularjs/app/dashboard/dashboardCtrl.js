@@ -2249,12 +2249,22 @@ angular.module('newApp')
     			 $scope.ComperFlag = 1;
     			 
     			 $scope.comparisonperson = [];
-    			 var today = new Date()
-     			//var endDate = $filter('date')(today,"yyyy-MM-dd");
+    			/* var today = new Date()
  				var arr = [];
      			arr = $filter('date')(today,"yyyy-MM-dd").split('-');
  				var startDate = arr[0]+"-"+arr[1]+"-"+"01";
- 				var endDate = arr[0]+"-"+arr[1]+"-"+"01";
+ 				var endDate = arr[0]+"-"+arr[1]+"-"+"01";*/
+    			 var startD = $('#cnfstartDateValue').val();
+  			   var endD = $('#cnfendDateValue').val();
+  			   
+  			   console.log(startD);
+  			 console.log(endD);
+  			 var arr = [];
+  			 var arr1 = [];
+  			   arr = startD.split('-');
+  			 arr1 = endD.split('-');
+  			 var startDate = arr[2]+"-"+arr[1]+"-"+arr[0];
+  			 var endDate = arr1[2]+"-"+arr1[1]+"-"+arr1[0];
     			 
  				$http.get('/getComperSalePersonData/'+$scope.salesPerson+"/"+startDate+"/"+endDate).success(function(response) {
  					console.log(response);
@@ -3981,12 +3991,6 @@ angular.module('newApp')
 		    		});
 	    		};
 	    		
-	    		$scope.sendEmail24Hrs = function(){
-	    			$http.get('/sendEmailDaily')
-		    		.success(function(data){
-		    			
-		    		});
-	    		}
 	    		
 	    		
 	    		$scope.setTodoSeen = function() {

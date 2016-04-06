@@ -13552,6 +13552,7 @@ public class Application extends Controller {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+        	 
         	 /*if(scTest.confirmDate.equals(datec)){
         		 if(scTest.confirmTime.equals(timeSet)){
         			 if(scTest.meetingStatus == null){
