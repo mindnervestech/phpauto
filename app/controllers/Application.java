@@ -26524,7 +26524,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			for (Entry<Long, String> entry : mapdate.entrySet()) {
 				String arr[] = entry.getValue().split(",");
 				//Long avgPic = Long.parseLong(arr[1]);
-				Integer totalDayCar = Integer.parseInt(arr[1]) + vehicaleNew.size();
+				//Integer totalDayCar = Integer.parseInt(arr[1]) + vehicaleNew.size();
+				Integer totalDayCar = Integer.parseInt(arr[1]);
 				Long avgPic = Long.parseLong(arr[0]) / totalDayCar.longValue();
 				Long[] value = {entry.getKey(),avgPic};
 				lonnn.add(value);
