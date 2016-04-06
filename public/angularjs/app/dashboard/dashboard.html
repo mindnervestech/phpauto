@@ -27,6 +27,14 @@
     behavior: url(PIE.htc); /* remove if you don't care about IE8 */
 }
 
+
+.infoOrg{
+	color:orange;
+}
+.infoBlu{
+	color:blue;
+}
+
 .typeNew{
 	width: 115px;
     height: 115px;
@@ -546,28 +554,21 @@ margin-left: 5px;
                 	<h3><strong style="float:left;margin-left:11%;margin-top:3px;margin-top:3px;">Event Info</strong> <P style="margin-left: 72%;">{{selectedDate}}</P></h3>
                 	
             </div>
-            <div class="panel-content" style="height:364px;overflow-y:auto;">
+            <div class="panel-content" style="height:364px;overflow-y:auto;background:none">
                 <ul class="todo-list ui-sortable">
-                    <li ng-repeat="schedule in scheduleList" title="{{schedule.vin}}">
+                    <li ng-repeat="schedule in scheduleList" title="{{schedule.vin}}" style="background:none; border-left:none;">
+					<hr>
                       <i ng-if="schedule.is_google == true	" class="fa fa-google-plus-square" style="font-size: 20px;"></i>  
-                    <span ng-if="schedule.is_google != true && schedule.meeting != 'meeting'"> Test Drive  </span>  
-                    <span ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Meeting  </span>&nbsp;&nbsp;
-                    <span class="todo-task">{{schedule.bestTime}}</span>  <br>  
-                     <span class="todo-task"></span> 
+                      
                     
-                   
-                          <div class="pull-right">
-                        
-                        	<!--
-                            <div class="label label-success" style="cursor: pointer;" ng-click="confirmDateTime(schedule)" data-toggle="modal" data-target="#modal-basic">Reschedule</div>
-                            <div class="label label-success" style="cursor: pointer;" ng-click="soldScheduleStatus(schedule)">Sold</div>
-                            <div class="label label-success" style="cursor: pointer;" ng-click="cancelScheduleStatus(schedule)">Cancel</div>
-                           -->
-                           
-                        </div>	                              
+                      
+                     <span class="todo-task"></span> 
+                    	                              
                                   
-                             <div class="col-md-12">
+                             <div class="col-md-12" ng-class="(schedule.meeting != 'meeting')?'infoBlu col-md-12':'infoOrg col-md-12'">
                              	<div class="col-md-6" style="padding: 0px;">
+									<span ng-if="schedule.is_google != true && schedule.meeting != 'meeting'"> Test Drive {{schedule.bestTime}} </span>
+									<span ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Meeting {{schedule.bestTime}} </span>
                              		<span class="todo-task">{{schedule.make}}&nbsp;&nbsp; {{schedule.year}}&nbsp;&nbsp; {{schedule.model}}  &nbsp;&nbsp;{{schedule.trim}}</span><br>
 									<span class="todo-task">{{schedule.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
 									<span class="todo-task">{{schedule.email}}</span>&nbsp;&nbsp;<br>
@@ -576,16 +577,15 @@ margin-left: 5px;
                              	<div class="col-md-6" style="padding: 0px;" ng-if="schedule.userdata.length > 0">
                              		<label class="col-md-12">Members</label>
                              		<span class="col-md-6" ng-repeat="users in schedule.userdata" style="padding: 0px;">{{users.firstName}} {{users.lastName}} 
-                             		<span class="glyphicon glyphicon-stop" title="Accepted" ng-if="users.meetingFlag == 0" style="color: green;"> , </span>
-                             		<span class="glyphicon glyphicon-stop" title="Decline" ng-if="users.meetingFlag == 2"style="color: red;"> , </span>
-                             		<span class="glyphicon glyphicon-stop" title="Pending" ng-if="users.meetingFlag == 1"style="color: blue;"> , </span>
+                             		<span class="glyphicon glyphicon-stop" title="Accepted" ng-if="users.meetingFlag == 0" style="color: green;"> </span>
+                             		<span class="glyphicon glyphicon-stop" title="Decline" ng-if="users.meetingFlag == 2"style="color: red;"> </span>
+                             		<span class="glyphicon glyphicon-stop" title="Pending" ng-if="users.meetingFlag == 1"style="color: blue;"> </span>
                              		 </span>
                              		
                              		
                              	</div>
-                             	
                              </div>                      
-                        	
+								<hr>
 							
                     </li>
                     <li ng-repeat="todo in toDoDateList" ng-class="{'': todo.priority == 'Low','low': todo.priority == 'Medium','medium': todo.priority == 'High','high': todo.priority == 'Critical'}">
@@ -616,7 +616,7 @@ margin-left: 5px;
         <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;height: 79px;overflow: auto;">
         		<strong ng-show="scheduleListData.length > 0">Future Appointments</strong>
         		<strong ng-show="scheduleListData.length <= 0">No Future Appointments</strong>
-                      <div ng-repeat="sd in scheduleListData |  orderBy: 'confirmDateOrderBy'" ng-class="($index % 2 == 0)?'futureA':'futureB'">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button" ng-if="sd.setFlagSameUser != null"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="glyphicon glyphicon-trash"></i></button>
+                      <div ng-repeat="sd in scheduleListData |  orderBy: 'confirmDateOrderBy'" ng-class="(sd.meetingStatus == 'meeting')?'futureB':'futureA'" title="{{sd.typeOfLead}}">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button" ng-if="sd.setFlagSameUser != null"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="glyphicon glyphicon-trash"></i></button>
                       </div>
                   </div>
             <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
@@ -8847,15 +8847,15 @@ margin-left: 5px;
 }
 
 .futureA{
-	background: none repeat scroll 0% 0% rgba(216, 247, 46, 0.2);
-	border-left: 2px solid rgb(243, 210, 97);
+	background: none repeat scroll 0% 0% rgba(0, 0, 255, 0.2);
+	border-left: 2px solid rgb(0, 0, 255);
 	padding: 0px 5px;
 	 margin-top: 2px;
 }
 
 .futureB{
-	background: none repeat scroll 0% 0% rgba(248, 248, 248);
-	border-left: 2px solid rgb(243, 210, 97);
+	background: none repeat scroll 0% 0% rgba(238, 133, 33,0.2);
+	border-left: 2px solid rgb(238, 133, 33);
 	padding: 0px 5px;
 	 margin-top: 2px;
 }

@@ -22749,6 +22749,8 @@ if(vehicles.equals("All")){
 	    		if(scTest.isRead == 1) {
 	    			sTestVM.isRead = true;
 	    		}
+        	}else{
+        		sTestVM.typeOfLead = "Meeting";
         	}
         	
         	
