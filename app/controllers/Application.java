@@ -27409,7 +27409,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		return ok();
 	}
 	
-	public static Result getAcceptAndDecline(Long id,String status){
+	public static Result getAcceptAndDecline(Long id,String reason,String status){
 		
 		ScheduleTest stTest = ScheduleTest.findById(id);
 		if(stTest != null){
@@ -27421,6 +27421,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			if(status.equals("decline")){
 				stTest.setDeclineMeeting(0);
 				stTest.setMeeting(2);
+				stTest.setDeclineReason(reason);
 				stTest.update();
 				
 				String subject = "Decline invitation.";
@@ -27916,7 +27917,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		String clientEmail = null;
     		String comments = null;
     		String subject = null;
-    		if(typeOfLead.equals("Schedule Test Drive")){
+    		if(typeOfLead.equals("Schedule Test Drive") || typeOfLead.equals("Meeting")){
     			ScheduleTest test = ScheduleTest.findById(id);
         		
         		if(test !=null){

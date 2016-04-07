@@ -2808,8 +2808,9 @@ angular.module('newApp')
 			
 			$scope.acceptDate = function(value){
 				console.log(value);
+				var reason = null;
 				
-				 $http.get('/getAcceptAndDecline/'+value.id+"/"+"accept")
+				 $http.get('/getAcceptAndDecline/'+value.id+"/"+reason+"/"+"accept")
 					.success(function(data) {
 						$.pnotify({
 						    title: "Success",
@@ -2831,7 +2832,7 @@ angular.module('newApp')
 			}
 			
 			$scope.declineMeeting = function(reason){
-				$http.get('/getAcceptAndDecline/'+value.id+"/"+"decline")
+				$http.get('/getAcceptAndDecline/'+value.id+"/"+reason+"/"+"decline")
 				.success(function(data) {
 					$.pnotify({
 					    title: "Success",

@@ -28,6 +28,7 @@ public class ScheduleTest extends Model {
 	public String bestTime;
 	public Date scheduleDate;
 	public Date scheduleTime;
+	public String declineReason;
 	public String vin;
 	public int isRead;
 	public Date confirmDate;
@@ -302,10 +303,12 @@ public class ScheduleTest extends Model {
 		this.groupId = groupId;
 	}
 
-
-
-
-
+	public String getDeclineReason() {
+		return declineReason;
+	}
+	public void setDeclineReason(String declineReason) {
+		this.declineReason = declineReason;
+	}
 	public Integer getSendInvitation() {
 		return sendInvitation;
 	}
