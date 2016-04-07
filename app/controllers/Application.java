@@ -22885,7 +22885,7 @@ if(vehicles.equals("All")){
 		String confTime = vm.confTime;
 		String googleID = vm.google_id;
 		
-	   
+	    /* String id = form.get("id");
 		String confDate = form.get("confDate");
 		String confTime = form.get("confTime");
 		String googleID = form.get("googleID");
@@ -22897,6 +22897,7 @@ if(vehicles.equals("All")){
 		vm.eventID = googleID;
 		session("sessionVmData", Json.stringify(Json.toJson(vm)));
 		
+		*/
 		DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 		
 		
