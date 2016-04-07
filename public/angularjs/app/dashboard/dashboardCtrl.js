@@ -2205,8 +2205,7 @@ angular.module('newApp')
     			 
         			var startDate = $('#comparisonStartDate').val();
         			var endDate = $('#comparisonEndDate').val();
-        			console.log(startDate);
-        			console.log(endDate);
+        		
         			if(startDate == "" || endDate == "" || startDate == undefined || endDate == undefined){
         				var today = new Date()
             			//var priorDate = new Date().setDate(today.getDate()-30)
@@ -2215,8 +2214,8 @@ angular.module('newApp')
             			arr = $filter('date')(today,"yyyy-MM-dd").split('-');
         				startDate = arr[0]+"-"+arr[1]+"-"+"01";
             			$('#comparisonStartDate').val(startDate);
-            			$('#comparisonEndDate').val(startDate);
-            			//$('#comparisonEndDate').val(endDate); 
+            			//$('#comparisonEndDate').val(startDate);
+            			$('#comparisonEndDate').val(endDate); 
         			}
     			 
     			 console.log($scope.userPerformanceList);
