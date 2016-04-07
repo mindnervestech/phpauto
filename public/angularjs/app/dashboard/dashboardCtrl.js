@@ -2497,22 +2497,23 @@ angular.module('newApp')
     			  
     			  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
   				$scope.check.startDate=$filter('date')(startdate, 'dd-MM-yyyy');
-  				$scope.check.endDate=$filter('date')(startdate, 'dd-MM-yyyy');
+  				$scope.check.endDate=$filter('date')(date, 'dd-MM-yyyy');
   				console.log($scope.check.endDate);
   			  
   				$scope.startDateV = $filter('date')(startdate, 'yyyy-MM-dd');
-  				$scope.endDateV = $filter('date')(startdate, 'yyyy-MM-dd');
+  				$scope.endDateV = $filter('date')(date, 'yyyy-MM-dd');
   				$scope.visitorsStats($scope.startDateV, $scope.endDateV);
   				
+  				
   				$scope.volumeStatStartDate = $filter('date')(startdate, 'yyyy-MM-dd');
-  				$scope.volumeStatEndDate = $filter('date')(startdate, 'yyyy-MM-dd');	
+  				$scope.volumeStatEndDate = $filter('date')(date, 'yyyy-MM-dd');	
   				$scope.showVehicalBarChart($scope.volumeStatStartDate, $scope.volumeStatEndDate);
   				
   				$scope.startDateForListing = $filter('date')(startdate, 'dd-MM-yyyy');
-  				$scope.endDateForListing = 	$filter('date')(startdate, 'dd-MM-yyyy');
+  				$scope.endDateForListing = 	$filter('date')(date, 'dd-MM-yyyy');
   				
   				$scope.startDateForSalesPeople=$filter('date')(startdate, 'dd-MM-yyyy');
-  				$scope.endDateForSalesPeople=$filter('date')(startdate, 'dd-MM-yyyy');
+  				$scope.endDateForSalesPeople=$filter('date')(date, 'dd-MM-yyyy');
   				console.log($scope.startDateForSalesPeople);
   				console.log($scope.endDateForSalesPeople);
   			
@@ -6025,7 +6026,48 @@ angular.module('newApp')
 		   $scope.checkDatewsie = function(){
 			   var startD = $('#cnfstartDateValue').val();
 			   var endD = $('#cnfendDateValue').val();
+			   console.log("date after statistics change");
+			   console.log(startD);
+			   console.log(endD);
 			   $scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
+			   
+			   
+			   $scope.startDateForListing = $filter('date')(startD, 'dd-MM-yyyy');
+ 				$scope.endDateForListing = 	$filter('date')(endD, 'dd-MM-yyyy');
+ 				$scope.vehicleData("All",$scope.startDateForListing,$scope.endDateForListing);
+			   
+ 				
+ 				
+ 				$scope.volumeStatStartDate=$filter('date')(startD, 'dd-MM-yyyy');
+ 				$scope.volumeStatEndDate = $filter('date')(endD, 'dd-MM-yyyy');
+ 				 var arr = [];
+ 	  			 var arr1 = [];
+ 	  			   arr = startD.split('-');
+ 	  			 arr1 = endD.split('-');
+ 	  			$scope.volumeStatStartDate = arr[2]+"-"+arr[1]+"-"+arr[0];
+ 	  			$scope.volumeStatEndDate= arr1[2]+"-"+arr1[1]+"-"+arr1[0];
+ 				
+  				
+  				 console.log("date after $scope.volumeStatEndDate");
+  			   console.log($scope.volumeStatStartDate);
+  			   console.log($scope.volumeStatEndDate);
+  				
+  				$scope.showVehicalBarChart($scope.volumeStatStartDate, $scope.volumeStatEndDate);
+ 				
+  				
+  				$scope.startDateForSalesPeople=$filter('date')(startD, 'dd-MM-yyyy');
+  				$scope.endDateForSalesPeople=$filter('date')(endD, 'dd-MM-yyyy');
+  				 $('#startDateValueForSale').val(startD);
+  				$('#endDateValueForSales').val(endD);
+  				
+  				
+  				$scope.getPerformanceOfUser();
+  				
+  				$scope.startDateV = $filter('date')(startD, 'yyyy-MM-dd');
+  				$scope.endDateV = $filter('date')(endD, 'yyyy-MM-dd');
+  				$scope.visitorsStats($scope.startDateV, $scope.endDateV);
+			   
+			  
 		   }
 		   
 		   
