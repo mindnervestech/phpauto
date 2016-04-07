@@ -22751,8 +22751,12 @@ if(vehicles.equals("All")){
         System.out.println(datec);
         
         
-        List<ScheduleTest> list = ScheduleTest.findAllByUserServiceTest(user, datec);
+        List<ScheduleTest> list = ScheduleTest.findAllByUserService(user, datec);
+        List<ScheduleTest> list1 = ScheduleTest.findForUser(user,datec);
         
+        for(ScheduleTest scList:list1){
+        	list.add(scList);
+        }
     	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeads(Long.valueOf(session("USER_LOCATION")), user, datec);
     	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeads(Long.valueOf(session("USER_LOCATION")), user, datec);
     	
