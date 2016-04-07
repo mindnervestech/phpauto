@@ -13540,6 +13540,8 @@ public class Application extends Controller {
      	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail(datec);
      	
          for(ScheduleTest scTest:list){
+        	 
+        	 AuthUser emailUser = AuthUser.findById(scTest.assignedTo.id);
         	 try {
         		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
         		 infoDate = df1.parse(str);
@@ -13547,11 +13549,11 @@ public class Application extends Controller {
             		 if(scTest.meetingStatus == null){
         				 String subject = "Test drive reminder";
          		    	 String comments = "You have a test drive scheduled in 1 hour ";
-         		    	 sendEmail(scTest.assignedTo.email, subject, comments);
+         		    	 sendEmail(emailUser.communicationemail, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
         				 String subject = "Meeting reminder";
          		    	 String comments = "You have a meeting scheduled in 1 hour ";
-         		    	 sendEmail(scTest.assignedTo.email, subject, comments);
+         		    	 sendEmail(emailUser.communicationemail, subject, comments);
         			 }
             	 }
         		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
@@ -13586,18 +13588,19 @@ public class Application extends Controller {
          }
          
          for(RequestMoreInfo rInfo:requestMoreInfos){
+        	 AuthUser emailUser = AuthUser.findById(rInfo.assignedTo.id);
         	 try {
         		 String str = df.format(rInfo.confirmDate) +" "+parseTime.format(rInfo.confirmTime);
         		 infoDate = df1.parse(str);
         		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 1 hour ";
-     		    	 sendEmail(rInfo.assignedTo.email, subject, comments);
+     		    	 sendEmail(emailUser.communicationemail, subject, comments);
         		 }
         		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 24 hours ";
-     		    	 sendEmail(rInfo.assignedTo.email, subject, comments);
+     		    	 sendEmail(emailUser.communicationemail, subject, comments);
         		 }
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -13612,18 +13615,19 @@ public class Application extends Controller {
          }
          
          for(TradeIn tInfo:tradeIns){
+        	 AuthUser emailUser = AuthUser.findById(tInfo.assignedTo.id);
         	 try {
         		 String str = df.format(tInfo.confirmDate) +" "+parseTime.format(tInfo.confirmTime);
         		 infoDate = df1.parse(str);
         		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 1 hour ";
-     		    	 sendEmail(tInfo.assignedTo.email, subject, comments);
+     		    	 sendEmail(emailUser.communicationemail, subject, comments);
         		 }
         		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 24 hours ";
-     		    	 sendEmail(tInfo.assignedTo.email, subject, comments);
+     		    	 sendEmail(emailUser.communicationemail, subject, comments);
         		 }
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -19811,24 +19815,28 @@ if(vehicles.equals("All")){
      	for(RequestMoreInfo rMoreInfo:rInfoAll){
      		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
      			requestLeadCount1++;
-     			
+     			int twoTimes = 0;
      			difffoll = 0L;
      			List<UserNotes> uNotes = UserNotes.findRequestMoreAndFirstAdd(rMoreInfo);
      			for(UserNotes uN:uNotes){
-     				folloLead++;
-     				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
-     				
-     				Date cDate = null;
-     				try {
-						cDate = convdf.parse(CretaeDateTime);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-     				
-     				difffoll = cDate.getTime() - rMoreInfo.requestTime.getTime();
-     				//difffoll = (difffoll / 1000 /60 /60 /24);
-     				break;
+     				if(twoTimes < 2){
+     					twoTimes++;
+	     				if(!uN.note.equals("Lead has been created")){
+	     					folloLead++;
+	         				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
+	         				
+	         				Date cDate = null;
+	         				try {
+	    						cDate = convdf.parse(CretaeDateTime);
+	    					} catch (ParseException e) {
+	    						// TODO Auto-generated catch block
+	    						e.printStackTrace();
+	    					}
+	         				
+	         				difffoll = cDate.getTime() - rMoreInfo.requestTime.getTime();
+	         				break;
+	     				}
+     				}
      			}
      			countFollo = countFollo + difffoll;
      		}
@@ -19837,25 +19845,30 @@ if(vehicles.equals("All")){
      	for(ScheduleTest sTest:sListAll){
      	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
      			scheduleLeadCount1++;
-     			
+     			int twoTimes = 0;
      			difffoll = 0L;
      			List<UserNotes> uNotes = UserNotes.findScheduleTestAndFirstAdd(sTest);
      			for(UserNotes uN:uNotes){
-     				folloLead++;
-     				System.out.println(uN.createdDate);
-     				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
-     				
-     				Date cDate = null;
-     				try {
-						cDate = convdf.parse(CretaeDateTime);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-     				
-     				difffoll = cDate.getTime() - sTest.scheduleTime.getTime();
-     				//difffoll = (difffoll / 1000 /60 /60 /24);
-     				break;
+     				if(twoTimes < 2){
+     					twoTimes++;
+	     				if(!uN.note.equals("Lead has been created")){
+	     					folloLead++;
+	         				System.out.println(uN.createdDate);
+	         				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
+	         				
+	         				Date cDate = null;
+	         				try {
+	    						cDate = convdf.parse(CretaeDateTime);
+	    					} catch (ParseException e) {
+	    						// TODO Auto-generated catch block
+	    						e.printStackTrace();
+	    					}
+	         				
+	         				difffoll = cDate.getTime() - sTest.scheduleTime.getTime();
+	         				//difffoll = (difffoll / 1000 /60 /60 /24);
+	         				break;
+	     				}
+     				}
      			}
      			countFollo = countFollo + difffoll;
      	}
@@ -19864,26 +19877,30 @@ if(vehicles.equals("All")){
      	for(TradeIn tIn:tradeInsAll){
      	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
  				tradeInLeadCount1++;
- 				
+ 				int twoTimes = 0;
  				difffoll = 0L;
      			List<UserNotes> uNotes = UserNotes.findTradeInAndFirstAdd(tIn);
      			for(UserNotes uN:uNotes){
-     				folloLead++;
-     				System.out.println(uN.createdDate);
-     				
-     				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
-     				
-     				Date cDate = null;
-     				try {
-						cDate = convdf.parse(CretaeDateTime);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-     				
-     				difffoll = cDate.getTime() - tIn.tradeTime.getTime();
-     				//difffoll = (difffoll / 1000 /60 /60 /24);
-     				break;
+     				if(twoTimes < 2){
+	     				if(!uN.note.equals("Lead has been created")){
+	     					folloLead++;
+	         				System.out.println(uN.createdDate);
+	         				
+	         				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
+	         				
+	         				Date cDate = null;
+	         				try {
+	    						cDate = convdf.parse(CretaeDateTime);
+	    					} catch (ParseException e) {
+	    						// TODO Auto-generated catch block
+	    						e.printStackTrace();
+	    					}
+	         				
+	         				difffoll = cDate.getTime() - tIn.tradeTime.getTime();
+	         				//difffoll = (difffoll / 1000 /60 /60 /24);
+	         				break;
+	     				}
+     				}
      			}
      			countFollo = countFollo + difffoll;
  				

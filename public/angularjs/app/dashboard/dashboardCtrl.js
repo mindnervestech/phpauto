@@ -2827,17 +2827,19 @@ angular.module('newApp')
 			}
 			
 			$scope.declineDate = function(value){
-				console.log(value);
-				
-				 $http.get('/getAcceptAndDecline/'+value.id+"/"+"decline")
-					.success(function(data) {
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Meeting invitation has been declined",
-						});
-						
+				$('#decline-model').modal();
+			}
+			
+			$scope.declineMeeting = function(reason){
+				$http.get('/getAcceptAndDecline/'+value.id+"/"+"decline")
+				.success(function(data) {
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Meeting invitation has been declined",
 					});
+					
+				});
 			}
 			
     		  
