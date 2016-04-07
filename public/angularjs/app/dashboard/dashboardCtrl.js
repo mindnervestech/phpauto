@@ -4444,8 +4444,14 @@ angular.module('newApp')
     	
     	$scope.cancelSure = function(){
     		console.log("jjjjj");
+    		console.log($scope.scheduleStatusCancel);
     		$('#scheduleCancelModal').modal("toggle");
-    		$('#cancelBtn').click();
+    		if($scope.scheduleStatusCancel.confirmDate == null){
+    			$scope.saveScheduleClose();
+    		}else{
+    			$('#cancelBtn').click();
+    		}
+    	
     		//$('#cancelForeverModal').click();
     		
     	}

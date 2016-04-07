@@ -12732,8 +12732,14 @@ public class Application extends Controller {
     		String clientEmail=null;
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
+    		
+    		String comments="Test Drive has been canceled";
+    		String subject = "Test Drive cancelled";
+    		
     		if(leadtype.equals("Schedule Test Drive")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
+    			
+    			
     			schedule.setLeadStatus("CANCEL");
     			schedule.setStatusDate(currDate);
     			schedule.setStatusTime(currDate);
@@ -12742,6 +12748,9 @@ public class Application extends Controller {
     			//clientEmail="nananevase9766@gmail.com";
     			schedule.update();
     			
+    			if(schedule.confirmDate != null){
+      	    	  sendEmail(clientEmail,subject,comments);
+      			}
     			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Client didn't buy vehicle");
@@ -12755,12 +12764,18 @@ public class Application extends Controller {
         		
     		} else if(leadtype.equals("Request More Info")) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
+    			
+    			
     			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
     			info.setStatusTime(currDate);
     			info.setReason(reason);
     			info.update();
     			clientEmail=info.email;
+    			
+    			if(info.confirmDate != null){
+        	    	  sendEmail(clientEmail,subject,comments);
+        			}
     			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Client didn't buy vehicle");
@@ -12781,6 +12796,10 @@ public class Application extends Controller {
     			info.update();
     			clientEmail=info.email;
     			
+    			if(info.confirmDate != null){
+      	    	  sendEmail(clientEmail,subject,comments);
+      			}
+    			
         		UserNotes uNotes = new UserNotes();
         		uNotes.setNote("Client didn't buy vehicle");
         		uNotes.setAction("Other");
@@ -12791,10 +12810,7 @@ public class Application extends Controller {
         		uNotes.tradeIn = TradeIn.findById(info.id);
         		uNotes.save();
     		}
-    		String comments="Test Drive has been canceled";
-    		String subject = "Test Drive cancelled";
-
-    	  sendEmail(clientEmail,subject,comments);
+    		
     		
     		
     		return ok();
