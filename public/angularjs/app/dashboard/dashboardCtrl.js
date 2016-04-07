@@ -2220,25 +2220,28 @@ angular.module('newApp')
     			 
     			 console.log($scope.userPerformanceList);
     					 if(values == false || values == undefined){
+    						 $scope.flagvalue++;
     						 item.flag = 1;
-    						 
     						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
+    							 console.log(response);
     							 	$scope.comparisonperson.push(response);
-    	    						 $scope.flagvalue = $scope.flagvalue +1;
+    	    						
     						 });
 
     						
     					 }else{
+					 $scope.flagvalue--;
+					  item.flag = 0;
     						 angular.forEach($scope.comparisonperson, function(value, key) {
     							 if(value.id == item.id){
     								 $scope.comparisonperson.splice(key,1);
     							 }
     						 });
-    						 $scope.flagvalue = $scope.flagvalue - 1;
-    						 item.flag = 0;
+    						 
+    						
     					 }
     					 
-    				
+    					 console.log($scope.flagvalue);
     					 console.log($scope.comparisonperson);
     					
     		 }
@@ -2912,7 +2915,6 @@ angular.module('newApp')
     		  $scope.comparisonSalePerson = function(){
     			  var i = 0;
     			 
-    			
     			  $scope.leadPer = [];
     			  $scope.leadName={};
     			  
