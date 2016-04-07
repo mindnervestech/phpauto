@@ -2829,10 +2829,12 @@ angular.module('newApp')
 			
 			$scope.declineDate = function(value){
 				$('#decline-model').modal();
+				$scope.valueId = value;
 			}
 			
 			$scope.declineMeeting = function(reason){
-				$http.get('/getAcceptAndDecline/'+value.id+"/"+reason+"/"+"decline")
+				console.log($scope.valueId.id);
+				$http.get('/getAcceptAndDecline/'+$scope.valueId.id+"/"+reason+"/"+"decline")
 				.success(function(data) {
 					$.pnotify({
 					    title: "Success",

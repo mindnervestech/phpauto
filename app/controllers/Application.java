@@ -13560,11 +13560,11 @@ public class Application extends Controller {
             		 if(scTest.meetingStatus == null){
             			 String subject = "Test drive reminder";
          		    	 String comments = "You have a test drive scheduled in 24 hours ";
-         		    	 sendEmail(scTest.assignedTo.email, subject, comments);
+         		    	 sendEmail(emailUser.communicationemail, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
         				 String subject = "Meeting reminder";
          		    	 String comments = "You have a meeting scheduled in 24 hours ";
-         		    	 sendEmail(scTest.assignedTo.email, subject, comments);
+         		    	 sendEmail(emailUser.communicationemail, subject, comments);
         			 }
             	 }
 			} catch (Exception e) {
@@ -27426,8 +27426,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				
 				String subject = "Decline invitation.";
 				String comments = "Your invitation to "+stTest.assignedTo.firstName+"   "+stTest.assignedTo.lastName+" has been decline";
-				
-				sendEmail(stTest.user.communicationemail, subject, comments);
+				AuthUser userEmail = AuthUser.findById(stTest.user.id);
+				sendEmail(userEmail.communicationemail, subject, comments);
 			}
 		}
 		
