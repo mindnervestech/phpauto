@@ -397,7 +397,7 @@ angular.module('newApp')
 			if(row.entity.isSelect == true){
 				$scope.checked.push(row.entity);
 			}else{
-				$scope.deleteSelectedLead(row.entity);
+				$scope.deleteSelectedUser(row.entity);
 			}
 		};
 		
