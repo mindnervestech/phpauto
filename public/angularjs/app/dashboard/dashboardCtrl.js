@@ -989,7 +989,7 @@ angular.module('newApp')
             	    line: {
             	        marker: {
             	            enabled: true,
-            	            radius: 7
+            	            radius: 4
             	        }
             	    }
             	},

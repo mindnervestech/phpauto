@@ -26563,6 +26563,16 @@ public static Result getviniewsChartLeads(Long id, String vin,
 						
 					}
 				}
+				Date d1 = startDate;
+				Date d2 = endDate;
+				while((d1.before(d2)|| d1.equals(d2))){
+					Long objectDate = mapdate.get(d1.getTime() + (1000 * 60 * 60 * 24));
+					if(objectDate == null){
+						mapdate.put(d1.getTime() + (1000 * 60 * 60 * 24), 0l);
+					}
+					d1 = DateUtils.addHours(d1, 24);
+				}
+				
 				
 				for (Entry<Long, Long> entryValue : mapdate.entrySet()) {
 					List<Long> value = new ArrayList<>();
