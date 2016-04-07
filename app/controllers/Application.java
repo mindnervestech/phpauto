@@ -11072,18 +11072,18 @@ public class Application extends Controller {
    		sList = ScheduleTest.findAllAssignedLocation(locationId);
    		tradeIns = TradeIn.findAllSeenLocationSch(locationId);
    		
-   		rInfoAll = RequestMoreInfo.findByLocationNotCancel(locationId);
-   		sListAll = ScheduleTest.findByLocationNotCancel(locationId);
-   		tradeInsAll = TradeIn.findByLocationNotCancel(locationId);
+   		rInfoAll = RequestMoreInfo.findByLocation(locationId);
+   		sListAll = ScheduleTest.findByLocation(locationId);
+   		tradeInsAll = TradeIn.findByLocation(locationId);
    		
    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
    		rInfo = RequestMoreInfo.findAllSeenSch(users);
    		sList = ScheduleTest.findAllAssigned(users);
    		tradeIns = TradeIn.findAllSeenSch(users);
    		
-   		rInfoAll = RequestMoreInfo.findByAssigUserNotCancel(users);
-   		sListAll = ScheduleTest.findByAssigUserNotCancel(users);
-   		tradeInsAll = TradeIn.findByAssigUserNotCancel(users);
+   		rInfoAll = RequestMoreInfo.findAllByAssignedUser(users);
+   		sListAll = ScheduleTest.findAllByAssignedUser(users);
+   		tradeInsAll = TradeIn.findAllByAssignedUser(users);
    	}
    	
    	for(RequestMoreInfo rMoreInfo:rInfo){
@@ -11415,18 +11415,18 @@ public class Application extends Controller {
     		sList = ScheduleTest.findAllAssignedLocation(locationId);
     		tradeIns = TradeIn.findAllSeenLocationSch(locationId);
     		
-    		rInfoAll = RequestMoreInfo.findByLocationNotCancel(locationId);
-    		sListAll = ScheduleTest.findByLocationNotCancel(locationId);
-    		tradeInsAll = TradeIn.findByLocationNotCancel(locationId);
+    		rInfoAll = RequestMoreInfo.findByLocation(locationId);
+    		sListAll = ScheduleTest.findByLocation(locationId);
+    		tradeInsAll = TradeIn.findByLocation(locationId);
     		
     	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
     		rInfo = RequestMoreInfo.findAllSeenSch(users);
     		sList = ScheduleTest.findAllAssigned(users);
     		tradeIns = TradeIn.findAllSeenSch(users);
     		
-    		rInfoAll = RequestMoreInfo.findByAssigUserNotCancel(users);
-    		sListAll = ScheduleTest.findByAssigUserNotCancel(users);
-    		tradeInsAll = TradeIn.findByAssigUserNotCancel(users);
+    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(users);
+    		sListAll = ScheduleTest.findAllByAssignedUser(users);
+    		tradeInsAll = TradeIn.findAllByAssignedUser(users);
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfo){
@@ -11734,9 +11734,9 @@ public class Application extends Controller {
     			}
     			
     			
-    			List<RequestMoreInfo> rInfoAll = RequestMoreInfo.findByLocationNotCancel(location);
-    			List<ScheduleTest> sListAll = ScheduleTest.findByLocationNotCancel(location);
-    			List<TradeIn> tradeInsAll = TradeIn.findByLocationNotCancel(location);
+    			List<RequestMoreInfo> rInfoAll = RequestMoreInfo.findByLocation(location.id);
+    			List<ScheduleTest> sListAll = ScheduleTest.findByLocation(location.id);
+    			List<TradeIn> tradeInsAll = TradeIn.findByLocation(location.id);
     			
     			int totalLead = 0;
     			
@@ -15387,9 +15387,9 @@ public class Application extends Controller {
 	    		sList = ScheduleTest.findAllAssigned(sales);
 	    		tradeIns = TradeIn.findAllSeenSch(sales);
 	    		
-	    		rInfoAll = RequestMoreInfo.findByAssigUserNotCancel(sales);
-	    		sListAll = ScheduleTest.findByAssigUserNotCancel(sales);
-	    		tradeInsAll = TradeIn.findByAssigUserNotCancel(sales);
+	    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(sales);
+	    		sListAll = ScheduleTest.findAllByAssignedUser(sales);
+	    		tradeInsAll = TradeIn.findAllByAssignedUser(sales);
 	    	
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfo){
@@ -19758,21 +19758,40 @@ if(vehicles.equals("All")){
      		sList = ScheduleTest.findAllAssigned(users);
      		tradeIns = TradeIn.findAllSeenSch(users);
      		
-     		rInfoAll = RequestMoreInfo.findByAssigUserNotCancel(users);
-     		sListAll = ScheduleTest.findByAssigUserNotCancel(users);
-     		tradeInsAll = TradeIn.findByAssigUserNotCancel(users);
+     		rInfoAll = RequestMoreInfo.findAllByAssignedUser(users);
+     		sListAll = ScheduleTest.findAllByAssignedUser(users);
+     		tradeInsAll = TradeIn.findAllByAssignedUser(users);
      		
      		Long difffoll = 0L;
      		Long countFollo = 0L; 
      		SimpleDateFormat convdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-     		SimpleDateFormat convdTime = new SimpleDateFormat("hh:mm:ss");
+     		SimpleDateFormat convdTime = new SimpleDateFormat("HH:mm:ss");
      	for(RequestMoreInfo rMoreInfo:rInfo){
      		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
      			requestLeadCount++;
+     		}
+     	}
+     	
+     	for(ScheduleTest sTest:sList){
+     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
+     			scheduleLeadCount++;
+     		}
+     	}
+
+     	for(TradeIn tIn:tradeIns){
+     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
+     				tradeInLeadCount++;
+     		}
+     	}
+     	int folloLead = 0;
+     	for(RequestMoreInfo rMoreInfo:rInfoAll){
+     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
+     			requestLeadCount1++;
+     			
      			difffoll = 0L;
      			List<UserNotes> uNotes = UserNotes.findRequestMoreAndFirstAdd(rMoreInfo);
      			for(UserNotes uN:uNotes){
-     				
+     				folloLead++;
      				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
      				
      				Date cDate = null;
@@ -19783,7 +19802,7 @@ if(vehicles.equals("All")){
 						e.printStackTrace();
 					}
      				
-     				difffoll = cDate.getTime() - rMoreInfo.requestDate.getTime();
+     				difffoll = cDate.getTime() - rMoreInfo.requestTime.getTime();
      				//difffoll = (difffoll / 1000 /60 /60 /24);
      				break;
      			}
@@ -19791,13 +19810,14 @@ if(vehicles.equals("All")){
      		}
      	}
      	
-     	for(ScheduleTest sTest:sList){
-     		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
-     			scheduleLeadCount++;
+     	for(ScheduleTest sTest:sListAll){
+     	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
+     			scheduleLeadCount1++;
      			
      			difffoll = 0L;
      			List<UserNotes> uNotes = UserNotes.findScheduleTestAndFirstAdd(sTest);
      			for(UserNotes uN:uNotes){
+     				folloLead++;
      				System.out.println(uN.createdDate);
      				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
      				
@@ -19809,56 +19829,40 @@ if(vehicles.equals("All")){
 						e.printStackTrace();
 					}
      				
-     				difffoll = cDate.getTime() - sTest.scheduleDate.getTime();
+     				difffoll = cDate.getTime() - sTest.scheduleTime.getTime();
      				//difffoll = (difffoll / 1000 /60 /60 /24);
      				break;
      			}
      			countFollo = countFollo + difffoll;
-     		}
-     	}
-
-     	for(TradeIn tIn:tradeIns){
-     		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
-     				tradeInLeadCount++;
-     				
-     				difffoll = 0L;
-         			List<UserNotes> uNotes = UserNotes.findTradeInAndFirstAdd(tIn);
-         			for(UserNotes uN:uNotes){
-         				System.out.println(uN.createdDate);
-         				
-         				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
-         				
-         				Date cDate = null;
-         				try {
-    						cDate = convdf.parse(CretaeDateTime);
-    					} catch (ParseException e) {
-    						// TODO Auto-generated catch block
-    						e.printStackTrace();
-    					}
-         				
-         				difffoll = cDate.getTime() - tIn.tradeDate.getTime();
-         				//difffoll = (difffoll / 1000 /60 /60 /24);
-         				break;
-         			}
-         			countFollo = countFollo + difffoll;
-     		}
-     	}
-     	
-     	for(RequestMoreInfo rMoreInfo:rInfoAll){
-     		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
-     			requestLeadCount1++;
-     		}
-     	}
-     	
-     	for(ScheduleTest sTest:sListAll){
-     	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
-     			scheduleLeadCount1++;
      	}
      	}
 
      	for(TradeIn tIn:tradeInsAll){
      	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
  				tradeInLeadCount1++;
+ 				
+ 				difffoll = 0L;
+     			List<UserNotes> uNotes = UserNotes.findTradeInAndFirstAdd(tIn);
+     			for(UserNotes uN:uNotes){
+     				folloLead++;
+     				System.out.println(uN.createdDate);
+     				
+     				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
+     				
+     				Date cDate = null;
+     				try {
+						cDate = convdf.parse(CretaeDateTime);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+     				
+     				difffoll = cDate.getTime() - tIn.tradeTime.getTime();
+     				//difffoll = (difffoll / 1000 /60 /60 /24);
+     				break;
+     			}
+     			countFollo = countFollo + difffoll;
+ 				
      		}
      	}
      	
@@ -19903,8 +19907,8 @@ if(vehicles.equals("All")){
 			lDataVM.imageUrl = "/profile-pic.jpg";
 		}
      	
-     	if(countFollo != 0 && countLeads != 0){
-     		Long followUpTime = countFollo / countLeads;
+     	if(countFollo != 0 && folloLead != 0){
+     		Long followUpTime = countFollo / folloLead;
 	     	
 	     	Long seconds = (followUpTime / 1000);
 	     	Long minutes = (followUpTime / (1000 * 60));
@@ -22881,7 +22885,7 @@ if(vehicles.equals("All")){
 		String confTime = vm.confTime;
 		String googleID = vm.google_id;
 		
-	    /* String id = form.get("id");
+	   
 		String confDate = form.get("confDate");
 		String confTime = form.get("confTime");
 		String googleID = form.get("googleID");
@@ -22893,7 +22897,6 @@ if(vehicles.equals("All")){
 		vm.eventID = googleID;
 		session("sessionVmData", Json.stringify(Json.toJson(vm)));
 		
-		*/
 		DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 		
 		

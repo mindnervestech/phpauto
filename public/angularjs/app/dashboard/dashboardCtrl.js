@@ -994,7 +994,7 @@ angular.module('newApp')
             	    }
             	},
                 tooltip: {
-                  pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change})<br/>',
+                  pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
                   valueDecimals: 2
               },
 
@@ -2503,7 +2503,6 @@ angular.module('newApp')
   				$scope.startDateV = $filter('date')(startdate, 'yyyy-MM-dd');
   				$scope.endDateV = $filter('date')(date, 'yyyy-MM-dd');
   				$scope.visitorsStats($scope.startDateV, $scope.endDateV);
-  				
   				
   				$scope.volumeStatStartDate = $filter('date')(startdate, 'yyyy-MM-dd');
   				$scope.volumeStatEndDate = $filter('date')(date, 'yyyy-MM-dd');	
@@ -5296,7 +5295,6 @@ angular.module('newApp')
 		   
 		   $scope.editServiceType = function(serviceData){
 			   document.getElementById("nature-data").innerHTML = "";
-			   console.log("::::servicedata");
 			   $scope.data1 = serviceData;
 			   $scope.data1.confirmDate = $filter('date')($scope.data1.confirmDate,"MM-dd-yyyy");
 			   $scope.data1.confirmTime = $filter('date')($scope.data1.confirmTime,"HH:mm a");
@@ -6026,9 +6024,6 @@ angular.module('newApp')
 		   $scope.checkDatewsie = function(){
 			   var startD = $('#cnfstartDateValue').val();
 			   var endD = $('#cnfendDateValue').val();
-			   console.log("date after statistics change");
-			   console.log(startD);
-			   console.log(endD);
 			   $scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
 			   
 			   
@@ -7184,8 +7179,6 @@ angular.module('newApp')
 						    text: "Meeting invitation has been sent",
 						});
 					   
-					   
-					   
 					   $http.get("/getscheduletest").success(function(data){
 						   $scope.scheduleListData = data;
 					   });
@@ -7215,8 +7208,6 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Meeting Scheduled Update",
 					});
-				   
-          
 				   
 				   $scope.data1.confirmDate = $('#cnfReSchDate').val();
 				   $scope.data1.confirmTime = $('#timeSchPick').val();
