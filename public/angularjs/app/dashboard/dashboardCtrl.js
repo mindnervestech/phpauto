@@ -6060,6 +6060,20 @@ angular.module('newApp')
   				
   				$scope.startDateV = $filter('date')(startD, 'yyyy-MM-dd');
   				$scope.endDateV = $filter('date')(endD, 'yyyy-MM-dd');
+  				
+  				 var arr = [];
+ 	  			 var arr1 = [];
+ 	  			   arr = startD.split('-');
+ 	  			 arr1 = endD.split('-');
+ 	  			$scope.startDateV = arr[2]+"-"+arr[1]+"-"+arr[0];
+ 	  			$scope.endDateV= arr1[2]+"-"+arr1[1]+"-"+arr1[0];
+  				
+ 	  			
+ 	  			 $("#vstartDate").val($scope.startDateV);
+   			 $("#vendDate").val($scope.endDateV);
+  				console.log("dates for visitor stats");
+  				console.log($scope.startDateV);
+  				console.log($scope.endDateV);
   				$scope.visitorsStats($scope.startDateV, $scope.endDateV);
 			   
 			  
