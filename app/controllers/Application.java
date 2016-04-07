@@ -27927,18 +27927,21 @@ public static Result getviniewsChartLeads(Long id, String vin,
         				if(test.user.id.equals(users.id)){
         					List<ScheduleTest> grouptest = ScheduleTest.findAllGroupMeeting(test.groupId);
         					for(ScheduleTest sche:grouptest){
+        						
+        						AuthUser userEmail = AuthUser.findById(sche.user.id);
         						sche.setConfirmDate(null);
         						sche.setConfirmTime(null);
         						sche.setLeadStatus(null);
         						sche.setDeclineMeeting(0);
         						sche.update();
         						comments="Meeting has been canceled \n"+sche.confirmDate+"  "+sche.confirmTime+".";
-        						sendEmail(sche.assignedTo.communicationemail,subject,comments);
+        						sendEmail(userEmail.communicationemail,subject,comments);
         					}
         					
         				}else{
         					
         					ScheduleTest oneGrouptest = ScheduleTest.findAllGroupUserMeeting(test.groupId, users);
+        					AuthUser userEmail = AuthUser.findById(oneGrouptest.user.id);
         					if(oneGrouptest != null){
         						oneGrouptest.setConfirmDate(null);
             					oneGrouptest.setConfirmTime(null);
@@ -27947,12 +27950,13 @@ public static Result getviniewsChartLeads(Long id, String vin,
             					oneGrouptest.update();
             					
             					comments="Meeting has been canceled \n"+oneGrouptest.confirmDate+"  "+oneGrouptest.confirmTime+".";
-        						sendEmail(oneGrouptest.user.communicationemail,subject,comments);
+        						sendEmail(userEmail.communicationemail,subject,comments);
         					}
         					
         				}
         				
         			}else{
+        				
         				test.setConfirmDate(null);
         				test.setConfirmTime(null);
         				test.setLeadStatus(null);
