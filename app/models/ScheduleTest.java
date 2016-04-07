@@ -489,6 +489,10 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}
+	public static List<ScheduleTest> findAllCancelLeadsForUser(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("lead_status", "CANCEL").findList();
+	}
+	
 	
 	public static List<ScheduleTest> findByLocationNotCancel(Long location) {
 		return find.where().eq("locations.id", location).ne("leadStatus", "CANCEL").findList();

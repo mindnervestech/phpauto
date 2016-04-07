@@ -6378,6 +6378,27 @@ margin-left: 5px;
 															   </div>
 															</div>
 															
+															<div class="col-sm-12">
+															   <div class="col-sm-5" style="padding: 0px;">
+									                 					<div class="col-sm-12">
+									                 						<label class="col-sm-6" style="color: darkturquoise;">Cancelled Leads</label>
+									                 						<label  class="col-sm-6" ng-if="comparisonperson[0].cancelLeadCount == comparisonperson[1].cancelLeadCount " style=" color:gray; text-align: right;">{{comparisonperson[0].cancelLeadCount}}</label>
+									                 						<label ng-if="comparisonperson[0].cancelLeadCount != comparisonperson[1].cancelLeadCount " ng-class="comparisonperson[0].cancelLeadCount > comparisonperson[1].cancelLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].cancelLeadCount}}</label>
+									                 					</div>
+															   </div>
+															   <div class="col-sm-2" style="text-align: center;">
+															   		<label> </label>
+															   </div>
+															   <div class="col-sm-5" >
+									                 				<div class="col-sm-12">
+									                 				<label  class="col-sm-6" ng-if="comparisonperson[0].cancelLeadCount == comparisonperson[1].cancelLeadCount " style=" color:gray;">{{comparisonperson[0].cancelLeadCount}}</label>
+									                 						<label ng-if="comparisonperson[0].cancelLeadCount != comparisonperson[1].cancelLeadCount " ng-class="comparisonperson[1].cancelLeadCount > comparisonperson[0].cancelLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].cancelLeadCount}}</label>
+									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Cancelled Leads</label>
+									                 					</div>
+															   </div>
+															</div>
+															
+															
 															
 															<div class="col-sm-12">
 															   <div class="col-sm-5" style="padding: 0px;">

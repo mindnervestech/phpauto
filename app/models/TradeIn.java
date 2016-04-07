@@ -656,6 +656,9 @@ public String testDriveStatus;
 		return find.where().eq("assignedTo", user).eq("status", null).eq("testDriveStatus", "TestDriveCompleted").findList();
 	}
 	
+	public static List<TradeIn> findAllCancelLeadsForUser(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("status", "CANCEL").findList();
+	}
 	
 	public static List<TradeIn>  findByVinAndLocation(String vin,Location location) {
 		return find.where().eq("vin", vin).eq("status", null).eq("locations", location).findList();

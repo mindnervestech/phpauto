@@ -341,6 +341,10 @@ public String testDriveStatus;
 		return find.where().eq("user", user).findList();
 	}
 	
+	public static List<RequestMoreInfo> findAllCancelLeadByUser(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("status", "CANCEL").findList();
+	}
+	
 	public static List<RequestMoreInfo> findAllByAssignedUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).findList();
 	}

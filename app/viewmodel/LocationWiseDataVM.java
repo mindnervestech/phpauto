@@ -3,7 +3,9 @@ package viewmodel;
 import java.util.List;
 
 public class LocationWiseDataVM {
-
+   
+	
+	public Integer cancelLeadCount;
 	public Integer id;
 	public String locationName;
 	public String SalePersonName;

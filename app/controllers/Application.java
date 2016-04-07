@@ -19748,6 +19748,10 @@ if(vehicles.equals("All")){
      	int scheduleLeadCount = 0;
      	int tradeInLeadCount = 0;
      	
+     	int cancelRequestLeadCount = 0;
+     	int cancelScheduleLeadCount = 0;
+     	int cancelTradeInLeadCount = 0;
+     	
      	int lostRequestLeadCount = 0;
      	int lostScheduleLeadCount = 0;
      	int lostTradeInLeadCount = 0;
@@ -19765,6 +19769,10 @@ if(vehicles.equals("All")){
     	List<RequestMoreInfo> lostRInfo = null;
      	List<ScheduleTest> lostSList = null;
      	List<TradeIn> lostTradeIns = null;
+     	
+     	List<RequestMoreInfo> reCancelInfo = null;
+     	List<ScheduleTest> scCancelInfo = null;
+     	List<TradeIn> trCancelInfo = null;
      	
 	     	lostRInfo = RequestMoreInfo.findAllLostSch(users);
 	     	lostSList = ScheduleTest.findAllLostSch(users);
@@ -20014,6 +20022,38 @@ if(vehicles.equals("All")){
      	
      	double valAvlPrice= ((double)pricecount/(double)saleCarCount);
      	lDataVM.angSalePrice = (int) valAvlPrice;
+     	
+     	
+     	reCancelInfo=RequestMoreInfo.findAllCancelLeadByUser(users);
+  	   scCancelInfo=ScheduleTest.findAllCancelLeadsForUser(users);
+  		trCancelInfo=TradeIn.findAllCancelLeadsForUser(users);
+  		
+  		
+  		for(RequestMoreInfo rMoreInfo:reCancelInfo){
+      		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
+      			cancelRequestLeadCount++;
+      		}
+      	}
+      	
+      	for(ScheduleTest sTest:scCancelInfo){
+      		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
+      			cancelScheduleLeadCount++;
+      		}
+      	}
+
+      	for(TradeIn tIn:trCancelInfo){
+      		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
+      			cancelTradeInLeadCount++;
+      		}
+      	}
+  		
+     	lDataVM.cancelLeadCount=cancelRequestLeadCount + cancelScheduleLeadCount + cancelTradeInLeadCount;
+     	
+     	
+     	
+     	
+     	
+     	
      	
      	List<bodyStyleSetVM> bSetVMs = new ArrayList<>();
      	
