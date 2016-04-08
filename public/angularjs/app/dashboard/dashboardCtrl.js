@@ -15,7 +15,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q) {
 	console.log(userKey);
 	
 	$http.get('/getLocationDays')
@@ -4351,39 +4351,43 @@ angular.module('newApp')
 		};
 	
 	
-		
+		$scope.changeSalesPerson = function(){
+			var id = $('#salesPersonUserId').val();
+			console.log(id);
+			$scope.salesPerson = id;
+			console.log($scope.salesPerson);
+			$scope.getAllSalesPersonRecord(id);
+			$scope.getAllLeadIn();
+			$('#home-tab').click();
+		};
 	
-		$scope.getAllSalesPersonRecord = function(id){
-		       console.log(id);
-		       console.log($scope.userType);
-		       $scope.getAllListLeadDate = [];
-		       var countUnReadLead = 0;
-		       $scope.salesPerson = id;
-		       	if($scope.salesPerson == undefined){
-		       		$scope.salesPerson = 0;
-		       		id = 0;
-		       	}
-		       	
-		       	
-		       
-		       	$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
-				.success(function(data) {
-				$scope.gridOptions2.data = data;
-				$scope.AllScheduleTestAssignedList = data;
-					if($scope.userType == "Sales Person"){
-						angular.forEach($scope.gridOptions2.data,function(value,key){
-			        		$scope.getAllListLeadDate.push(value);
-			        		if(value.noteFlag == 0 && value.confirmDate == null){
-			        			countUnReadLead++;
-			        		}
-			        	});
-						$scope.lengthOfAllLead = countUnReadLead;
-					}
-					
-				
-			    });
- 
-    		$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
+		$scope.getScheduleData = function(id){
+			var deferred = $q.defer();
+			$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
+			.success(function(data) {
+			$scope.gridOptions2.data = data;
+			$scope.AllScheduleTestAssignedList = data;
+			
+			console.log($scope.gridOptions2.data);
+				if($scope.userType == "Sales Person"){
+					angular.forEach($scope.gridOptions2.data,function(value,key){
+		        		$scope.getAllListLeadDate.push(value);
+		        		if(value.noteFlag == 0 && value.confirmDate == null){
+		        			countUnReadLead++;
+		        		}
+		        	});
+					$scope.lengthOfAllLead = countUnReadLead;
+					deferred.resolve("success");
+				}else{
+					deferred.resolve("error");
+				}
+		    });
+			return deferred.promise;
+		};
+		
+		$scope.getRequestData = function(id){
+			var deferred = $q.defer();
+			$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
 			.success(function(data) {
 			$scope.gridOptions5.data = data;
 			$scope.AllRequestInfoSeenList = data;
@@ -4394,11 +4398,19 @@ angular.module('newApp')
 	        			countUnReadLead++;
 	        		}
 	        	});
-				$scope.lengthOfAllLead = countUnReadLead;
+					$scope.lengthOfAllLead = countUnReadLead;
+					deferred.resolve("success");
+			}else{
+				deferred.resolve("error");
 			}
-		    });
-
-  
+		   });
+			return deferred.promise;
+		};
+		
+		
+		$scope.getTradeInData = function(id){
+			
+			var deferred = $q.defer();
 			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
 				.success(function(data) {
 					console.log(data);
@@ -4412,64 +4424,115 @@ angular.module('newApp')
 			        		}
 			        	});
 						$scope.lengthOfAllLead = countUnReadLead;
-					}
-				});
-			 
-			 
-			 $scope.getAllCanceledLeads();
-			 
-			 $http.get('/getAllSalesPersonLostAndComp/'+id)
-				.success(function(data) {
-			 		$scope.gridOptions6.data = data;
-			 		$scope.AllTradeInSeenList = data;
-			 });
-			 
-			 $http.get('/getTestDirConfirById/'+id)
-				.success(function(data) {
-					console.log(data);
-					$scope.gridOptions9.data = data;
-					angular.forEach($scope.gridOptions9.data,function(value,key){
-						 value.check = false;
-					 });
-					$scope.setWether($scope.gridOptions9.data);
-					$scope.allTestDirConfir = data;
-				
-				});
-			 
-			 $http.get('/getAllCompletedLeadsbyId/'+id)
-				.success(function(data) {
-					console.log(data);
-					$scope.gridOptions10.data = data;
-					$scope.completedL = data;
-				});
-			 
-			 
-			 if($scope.userType == "Manager"){
-				 angular.forEach($scope.gridOptions5.data,function(value,key){
-		        		$scope.getAllListLeadDate.push(value);
-		        		if(value.noteFlag == 0 && value.confirmDate == null){
-		        			countUnReadLead++;
-		        		}
-		        	});
-				 angular.forEach($scope.gridOptions2.data,function(value,key){
-		        		$scope.getAllListLeadDate.push(value);
-		        		if(value.noteFlag == 0 && value.confirmDate == null){
-		        			countUnReadLead++;
-		        		}
-		        	});
-				 angular.forEach($scope.gridOptions3.data,function(value,key){
-		        		$scope.getAllListLeadDate.push(value);
-		        		if(value.noteFlag == 0 && value.confirmDate == null){
-		        			countUnReadLead++;
-		        		}
-		        	});
-				 
-				 $scope.lengthOfAllLead = countUnReadLead;
-			 }
-	    	
-	        	$scope.gridOptions7.data = $scope.getAllListLeadDate;
-	        	
+						deferred.resolve("success");
+				}else{
+					deferred.resolve("error");
+				}
+			   });
+				return deferred.promise;
+		};
+		
+		$scope.addData = function(){
+			var deferred = $q.defer();
+			var countUnReadLead = 0;
+			$scope.getAllListLeadDate = [];
+			if($scope.userType == "Manager"){
+  				 angular.forEach($scope.gridOptions2.data,function(value,key){
+  		        		$scope.getAllListLeadDate.push(value);
+  		        		if(value.noteFlag == 0 && value.confirmDate == null){
+  		        			countUnReadLead++;
+  		        		}
+  		        	});
+  				 angular.forEach($scope.gridOptions5.data,function(value,key){
+  		        		$scope.getAllListLeadDate.push(value);
+  		        		if(value.noteFlag == 0 && value.confirmDate == null){
+  		        			countUnReadLead++;
+  		        		}
+  		        	});
+  				 angular.forEach($scope.gridOptions3.data,function(value,key){
+  		        		$scope.getAllListLeadDate.push(value);
+  		        		if(value.noteFlag == 0 && value.confirmDate == null){
+  		        			countUnReadLead++;
+  		        		}
+  		        	});
+  				 
+  				 $scope.lengthOfAllLead = countUnReadLead;
+  				 deferred.resolve("success");
+  			 }else{
+  				deferred.resolve("error");
+  			 }
 			
+			
+			return deferred.promise;
+		};
+		
+		$scope.getAllSalesPersonRecord = function(id){
+				
+		       console.log(id);
+		       console.log($scope.userType);
+		       $scope.getAllListLeadDate = [];
+		       $scope.salesPerson = id;
+		       	if($scope.salesPerson == undefined){
+		       		$scope.salesPerson = 0;
+		       		id = 0;
+		       	}
+		       	//debugger;
+		       	$scope.getScheduleData(id).then(
+		       			function(success){
+		       				$scope.getRequestData(id).then(
+		    		       			function(success){
+		    		       				$scope.getTradeInData(id).then(
+		    		    		       			function(success){
+		    		    		       				$scope.addData().then(
+		    		    		    		       			function(success){
+		    		    		    		       				$scope.gridOptions7.data = $scope.getAllListLeadDate;
+		    		    				           	        	console.log($scope.gridOptions7.data);
+		    		    				           	        	console.log($scope.getAllListLeadDate);
+		    		    				           	        	
+		    		    				           	        	$scope.getAllCanceledLeads();
+		    		    						       			 $http.get('/getAllSalesPersonLostAndComp/'+id)
+		    		    						       				.success(function(data) {
+		    		    						       			 		$scope.gridOptions6.data = data;
+		    		    						       			 		$scope.AllTradeInSeenList = data;
+		    		    						       			 });
+		    		    						       			 
+		    		    						       			 $http.get('/getTestDirConfirById/'+id)
+		    		    						       				.success(function(data) {
+		    		    						       					console.log(data);
+		    		    						       					$scope.gridOptions9.data = data;
+		    		    						       					angular.forEach($scope.gridOptions9.data,function(value,key){
+		    		    						       						 value.check = false;
+		    		    						       					 });
+		    		    						       					$scope.setWether($scope.gridOptions9.data);
+		    		    						       					$scope.allTestDirConfir = data;
+		    		    						       				
+		    		    						       				});
+		    		    						       			 
+		    		    						       			 $http.get('/getAllCompletedLeadsbyId/'+id)
+		    		    						       				.success(function(data) {
+		    		    						       					console.log(data);
+		    		    						       					$scope.gridOptions10.data = data;
+		    		    						       					$scope.completedL = data;
+		    		    						       				});
+		    		    		    		       			},function(error){
+		    		    		    		       				
+		    		    		    		       			}
+		    		    		    		       	);
+		    		    		       			},function(error){
+		    		    		       				
+		    		    		       			}
+		    		    		       	);
+		    		       				
+		    		       			},function(error){
+		    		       				
+		    		       			}
+		    		       	);
+		       				
+		       			},function(error){
+		       				
+		       			}
+		       	);
+		       	
 	}
 		
 		
@@ -7316,7 +7379,6 @@ angular.module('newApp')
 			   
 			   console.log($scope.data1);
 			  $scope.data1.usersList = $scope.checked;
-			  console.log($scope.data1);
 			  $scope.data1.isRead=0;
 			   $http.post("/updateScheduleTest",$scope.data1).success(function(data){
 				   $('#colored-header').modal("toggle");

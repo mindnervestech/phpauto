@@ -4011,7 +4011,7 @@ margin-left: 5px;
 			       <li role="presentation" class="" style="float: right;"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" style="font-size:15px;" ng-click="showLeadsArchive()">Archive</button></a></li>
 			    	<h3><b style="margin-left:4%;float: left;margin-bottom:5px;" ng-show="userType == 'General Manager'" >Choose Sales Person</b></h3>
 			    	<h2><b style="margin-left:10%;" ng-show="userType == 'Sales Person'">My Leads</b></h2>
-			    	<select  class="form-control form-white" ng-show="userType == 'General Manager' || userType == 'Manager'" id="salesPersonUserId" ng-model="salesPerson" ng-change="getAllSalesPersonRecord(salesPerson)" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
+			    	<select  class="form-control form-white" ng-show="userType == 'General Manager' || userType == 'Manager'" id="salesPersonUserId" ng-change="changeSalesPerson()" ng-model="salesPerson1" style="width:20%;margin-left: 30px;margin-bottom: 9px;" >
                                     <option ng-repeat="item in salesPersonList" ng-selected="$index==0" value="{{item.id}}"  >{{item.fullName}}</option>
                                     
                                 </select>
