@@ -267,6 +267,10 @@ public String testDriveStatus;
 		return find.where().eq("locations.id", location).findList();
 	}
 	
+	public static List<RequestMoreInfo> findByLocationNotOpenLead(Long location) {
+		return find.where().eq("locations.id", location).ne("status", null).findList();
+	}
+	
 	public static List<RequestMoreInfo> findByLocationNotCancel(Long location) {
 		return find.where().eq("locations.id", location).ne("status", "CANCEL").findList();
 	}
@@ -347,6 +351,10 @@ public String testDriveStatus;
 	
 	public static List<RequestMoreInfo> findAllByAssignedUser(AuthUser user) {
 		return find.where().eq("assignedTo", user).findList();
+	}
+	
+	public static List<RequestMoreInfo> findAllByNotOpenLead(AuthUser user) {
+		return find.where().eq("assignedTo", user).ne("status", null).findList();
 	}
 	
 	public static List<RequestMoreInfo> findByAssigUserNotCancel(AuthUser user) {

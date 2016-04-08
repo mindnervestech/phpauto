@@ -574,6 +574,14 @@ public String testDriveStatus;
 		return find.where().eq("assignedTo", user).findList();
 	}
 	
+	public static List<TradeIn> findAllByNotOpenLead(AuthUser user) {
+		return find.where().eq("assignedTo", user).ne("status", null).findList();
+	}
+	
+	public static List<TradeIn> findByLocationNotOpenLead(Long location) {
+		return find.where().eq("locations.id", location).ne("status", null).findList();
+	}
+	
 	public static List<TradeIn> findByAssigUserNotCancel(AuthUser user) {
 		return find.where().eq("assignedTo", user).ne("status", "CANCEL").findList();
 	}

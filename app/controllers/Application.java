@@ -11072,18 +11072,18 @@ public class Application extends Controller {
    		sList = ScheduleTest.findAllAssignedLocation(locationId);
    		tradeIns = TradeIn.findAllSeenLocationSch(locationId);
    		
-   		rInfoAll = RequestMoreInfo.findByLocation(locationId);
-   		sListAll = ScheduleTest.findByLocation(locationId);
-   		tradeInsAll = TradeIn.findByLocation(locationId);
+   		rInfoAll = RequestMoreInfo.findByLocationNotOpenLead(locationId);
+   		sListAll = ScheduleTest.findByLocationNotOpenLead(locationId);
+   		tradeInsAll = TradeIn.findByLocationNotOpenLead(locationId);
    		
    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
    		rInfo = RequestMoreInfo.findAllSeenSch(users);
    		sList = ScheduleTest.findAllAssigned(users);
    		tradeIns = TradeIn.findAllSeenSch(users);
    		
-   		rInfoAll = RequestMoreInfo.findAllByAssignedUser(users);
-   		sListAll = ScheduleTest.findAllByAssignedUser(users);
-   		tradeInsAll = TradeIn.findAllByAssignedUser(users);
+   		rInfoAll = RequestMoreInfo.findAllByNotOpenLead(users);
+   		sListAll = ScheduleTest.findAllByNotOpenLead(users);
+   		tradeInsAll = TradeIn.findAllByNotOpenLead(users);
    	}
    	
    	for(RequestMoreInfo rMoreInfo:rInfo){
@@ -11424,9 +11424,9 @@ public class Application extends Controller {
     		sList = ScheduleTest.findAllAssigned(users);
     		tradeIns = TradeIn.findAllSeenSch(users);
     		
-    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(users);
-    		sListAll = ScheduleTest.findAllByAssignedUser(users);
-    		tradeInsAll = TradeIn.findAllByAssignedUser(users);
+    		rInfoAll = RequestMoreInfo.findAllByNotOpenLead(users);
+    		sListAll = ScheduleTest.findAllByNotOpenLead(users);
+    		tradeInsAll = TradeIn.findAllByNotOpenLead(users);
     	}
     	
     	for(RequestMoreInfo rMoreInfo:rInfo){
@@ -15407,9 +15407,9 @@ public class Application extends Controller {
 	    		sList = ScheduleTest.findAllAssigned(sales);
 	    		tradeIns = TradeIn.findAllSeenSch(sales);
 	    		
-	    		rInfoAll = RequestMoreInfo.findAllByAssignedUser(sales);
-	    		sListAll = ScheduleTest.findAllByAssignedUser(sales);
-	    		tradeInsAll = TradeIn.findAllByAssignedUser(sales);
+	    		rInfoAll = RequestMoreInfo.findAllByNotOpenLead(sales);
+	    		sListAll = ScheduleTest.findAllByNotOpenLead(sales);
+	    		tradeInsAll = TradeIn.findAllByNotOpenLead(sales);
 	    	
 	    	
 	    	for(RequestMoreInfo rMoreInfo:rInfo){
@@ -19786,9 +19786,9 @@ if(vehicles.equals("All")){
      		sList = ScheduleTest.findAllAssigned(users);
      		tradeIns = TradeIn.findAllSeenSch(users);
      		
-     		rInfoAll = RequestMoreInfo.findAllByAssignedUser(users);
-     		sListAll = ScheduleTest.findAllByAssignedUser(users);
-     		tradeInsAll = TradeIn.findAllByAssignedUser(users);
+     		rInfoAll = RequestMoreInfo.findAllByNotOpenLead(users);
+     		sListAll = ScheduleTest.findAllByNotOpenLead(users);
+     		tradeInsAll = TradeIn.findAllByNotOpenLead(users);
      		
      		Long difffoll = 0L;
      		Long countFollo = 0L; 
