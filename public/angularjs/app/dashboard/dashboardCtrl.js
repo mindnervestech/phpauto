@@ -940,6 +940,10 @@ angular.module('newApp')
     	  stockChart1 = 1;
     	  
     	  stockChart = $('#financial-chart').highcharts({
+    		  title: {
+  	            text: '',
+  	            x: -20 //center
+  	        },
               chart: {
                   height: 300,
                   borderColor: '#C9625F',
@@ -999,7 +1003,12 @@ angular.module('newApp')
             	    }
             	},
                 
-
+            	legend: {
+    	            layout: 'vertical',
+    	            align: 'right',
+    	            verticalAlign: 'middle',
+    	            borderWidth: 0
+    	        },
               series: initdata
           });
       };
