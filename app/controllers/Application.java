@@ -28083,12 +28083,13 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	AuthUser users = getLocalUser();
     	List<ScheduleTest> sche = ScheduleTest.getdecline(users);
     	for(ScheduleTest sch:sche){
-    		sch.setDeclineMeeting(1);
+    		sch.setDeclineMeeting(0);
     		sch.update();
     	}
     	
     	return ok(Json.toJson(sche));
     }
+    
     
     public static Result deleteAppointById(Long id,String typeOfLead){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

@@ -351,7 +351,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllGroupMeeting(Long groupId) {
-		return find.where().eq("groupId", groupId).findList();
+		return find.where().eq("groupId", groupId).ne("acceptMeeting", 0).eq("declineMeeting", 1).findList();
 	}
 	
 	public static ScheduleTest findAllGroupUserMeeting(Long groupId,AuthUser user) {
@@ -395,7 +395,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> getdecline(AuthUser user) {
-		return find.where().eq("user", user).eq("declineMeeting", 0).orderBy("scheduleDate desc").findList();
+		return find.where().eq("user", user).eq("declineMeeting", 2).orderBy("scheduleDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllLostSch(AuthUser user) {
