@@ -13545,18 +13545,21 @@ public class Application extends Controller {
          for(ScheduleTest scTest:list){
         	 
         	 AuthUser emailUser = AuthUser.findById(scTest.assignedTo.id);
-        	 System.out.println("----------------");
-        	 System.out.println(scTest.id);
-        	 System.out.println(parseTime.format(scTest.confirmTime));
-        	 System.out.println(infoDate);
-        	 System.out.println(aftHrDate);
-        	 System.out.println(aftHrDate1);
-        	 System.out.println(emailUser.email);
-        	 System.out.println("-11---------------");
+        	 
         	 
         	 try {
         		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
         		 infoDate = df1.parse(str);
+        		 
+        		 System.out.println("----------------");
+            	 System.out.println(scTest.id);
+            	 System.out.println(parseTime.format(scTest.confirmTime));
+            	 System.out.println(infoDate);
+            	 System.out.println(aftHrDate);
+            	 System.out.println(aftHrDate1);
+            	 System.out.println(emailUser.email);
+            	 System.out.println("-11---------------");
+            	 
         		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
             		 if(scTest.meetingStatus == null){
         				 String subject = "Test drive reminder";
