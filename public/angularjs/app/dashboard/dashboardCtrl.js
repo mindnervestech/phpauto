@@ -2894,11 +2894,7 @@ angular.module('newApp')
 							 var dateStr = $scope.scheduleDates[i].confirmDate;
 							 var date = new Date();
 							 var arr = [];
-							 console.log(dateStr);
-							 if(dateStr == "2016-04-08"){
-								 console.log("chedddddddd");
-							 }
-							 
+							
 							 if(dateStr != null){
 							    arr = dateStr.split('-');
 					        	date.setYear(arr[0]);
@@ -2908,9 +2904,6 @@ angular.module('newApp')
 					        	//datesArray.push(date);
 							 }	
 						 }
-						 
-						 console.log("JJJJJJJJJJ------");
-						 console.log(datesArray);
 						 
 						// set up some code to be executed later, in 5 seconds (5000 milliseconds):
 						  setTimeout(function () {

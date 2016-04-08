@@ -27595,7 +27595,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			if(status.equals("decline")){
 				
 				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+		    	SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
 		    	String date1=df.format(stTest.confirmDate);
 				String time1=time.format(stTest.confirmTime);
 				stTest.setDeclineMeeting(0);
@@ -27603,8 +27603,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				stTest.setDeclineReason(reason);
 				stTest.update();
 				AuthUser userEmail = AuthUser.findById(stTest.user.id);
-				String subject = userEmail.firstName+"   "+userEmail.lastName+" declined your invitation.";
-				String comments = "Your invitation to "+userEmail.firstName+" "+userEmail.lastName+" has been declined \n Reason : "+reason+"\n "+date1+" "+time1+" "+stTest.name;
+				AuthUser assigEmail = AuthUser.findById(stTest.assignedTo.id);
+				String subject = assigEmail.firstName+"  "+assigEmail.lastName+" declined your invitation.";
+				String comments = "Your invitation to "+assigEmail.firstName+" "+assigEmail.lastName+" has been declined \n Reason : "+reason+"\n "+date1+" "+time1+" "+stTest.name;
 				
 		    	
 				
@@ -28089,7 +28090,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	
     	return ok(Json.toJson(sche));
     }
-    
     
     public static Result deleteAppointById(Long id,String typeOfLead){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
