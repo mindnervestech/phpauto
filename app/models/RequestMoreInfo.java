@@ -391,7 +391,7 @@ public String testDriveStatus;
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).eq("locations.id", locationId).ge("confirmDate", cDate).eq("assignedTo", user).findList();
 	}
 	public static List<RequestMoreInfo> findByDateAndAssignedUser(AuthUser user,Date date) {
-		return find.where().eq("assignedTo", user).eq("confirmDate", date).findList();
+		return find.where().eq("assignedTo", user).eq("confirmDate", date).eq("status", null).findList();
 	}
 	
 	public static List<RequestMoreInfo> findByVinAndAssignedUser(String vin,AuthUser user) {
@@ -402,7 +402,7 @@ public String testDriveStatus;
 		return find.where().eq("isReassigned", true).eq("assignedTo",user).findList();
 	}
 	
-	public static List<SqlRow> getRequestedDates(AuthUser user) {
+	public static List<SqlRow> getRequestedDates(AuthUser user, String cD) {
 		SqlQuery q = Ebean.createSqlQuery("select distinct request_more_info.confirm_date from request_more_info where (request_more_info.assigned_to_id = '"+user.id+"') and request_more_info.confirm_date is not null");
 		List<SqlRow> rows = q.findList();
 		return rows;

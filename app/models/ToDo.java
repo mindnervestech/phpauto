@@ -114,8 +114,8 @@ public class ToDo extends Model {
 		return find.where().eq("status", "Assigned").eq("assignedTo", user).eq("seen", null).findList();
 	}
 	
-	public static List<SqlRow> getToDoDates() {
-		SqlQuery q = Ebean.createSqlQuery("select to_do.due_date from to_do where to_do.`status` = 'Assigned'");
+	public static List<SqlRow> getToDoDates(String cD) {
+		SqlQuery q = Ebean.createSqlQuery("select to_do.due_date from to_do where to_do.`status` = 'Assigned' and to_do.due_date >= '"+cD+"'");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}

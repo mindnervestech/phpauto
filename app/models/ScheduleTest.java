@@ -473,7 +473,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findByDateAndAssignedUser(AuthUser user,Date date) {
-		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).eq("confirmDate", date).findList();
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).eq("confirmDate", date).eq("lead_status", null).findList();
 	}
 	
 	public static List<ScheduleTest> findByConfirmLeads(Long locationId, AuthUser user) {
@@ -486,8 +486,8 @@ public class ScheduleTest extends Model {
 		//return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
 	}
 	
-	public static List<SqlRow> getScheduleDates(AuthUser user) {
-		SqlQuery q = Ebean.createSqlQuery("select distinct schedule_test.confirm_date from schedule_test where (schedule_test.assigned_to_id = '"+user.id+"' or schedule_test.user_id = '"+user.id+"') and accept_meeting <> 1 and schedule_test.confirm_date is not null");
+	public static List<SqlRow> getScheduleDates(AuthUser user, String cd) {
+		SqlQuery q = Ebean.createSqlQuery("select distinct schedule_test.confirm_date from schedule_test where (schedule_test.assigned_to_id = '"+user.id+"' or schedule_test.user_id = '"+user.id+"') and schedule_test.confirm_date >= '"+cd+"' and accept_meeting <> 1 and schedule_test.confirm_date is not null");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}

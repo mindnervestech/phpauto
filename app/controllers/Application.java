@@ -13510,7 +13510,6 @@ public class Application extends Controller {
     
     public static Result sendEmailDaily(){
     	 //AuthUser user = getLocalUser();
-    	System.out.println("::in send email daily");
     	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy hh:mm a");
          DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
          SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
@@ -13651,8 +13650,19 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    		Date curr = new Date();
+    		String cDate = df.format(curr);
+    		Date cD = null;
+    		try {
+				cD = df.parse(cDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
     		AuthUser user = getLocalUser();
-    		List<SqlRow> rows = ScheduleTest.getScheduleDates(user);
+    		List<SqlRow> rows = ScheduleTest.getScheduleDates(user, cDate);
     		List<RequestInfoVM> vmList = new ArrayList<>();
     		for(SqlRow row : rows) {
     			RequestInfoVM vm = new RequestInfoVM();
@@ -13660,21 +13670,21 @@ public class Application extends Controller {
     			vmList.add(vm);
     		}
     		
-    		List<SqlRow> rowsRequest = RequestMoreInfo.getRequestedDates(user);
+    		List<SqlRow> rowsRequest = RequestMoreInfo.getRequestedDates(user, cDate);
     		for(SqlRow row : rowsRequest) {
     			RequestInfoVM vm = new RequestInfoVM();
     			vm.confirmDate = row.getString("confirm_date");
     			vmList.add(vm);
     		}
     		
-    		List<SqlRow> rowsTrad = TradeIn.getTradeDates(user);
+    		List<SqlRow> rowsTrad = TradeIn.getTradeDates(user, cDate);
     		for(SqlRow row : rowsTrad) {
     			RequestInfoVM vm = new RequestInfoVM();
     			vm.confirmDate = row.getString("confirm_date");
     			vmList.add(vm);
     		}
     		
-    		List<SqlRow> toDoRows = ToDo.getToDoDates();
+    		List<SqlRow> toDoRows = ToDo.getToDoDates(cDate);
     		for(SqlRow todo : toDoRows) {
     			RequestInfoVM vm = new RequestInfoVM();
     			vm.confirmDate = todo.getString("due_date");
@@ -27555,8 +27565,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     }
 	
 	public static Result sendEmail(String email, String subject ,String comment) {
-		     
-		      System.out.println(":::in email");
+		
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");

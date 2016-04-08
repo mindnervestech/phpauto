@@ -642,7 +642,7 @@ public String testDriveStatus;
 	}
 	
 	public static List<TradeIn> findByDateAndAssignedUser(AuthUser user,Date date) {
-		return find.where().eq("assignedTo", user).eq("confirmDate", date).findList();
+		return find.where().eq("assignedTo", user).eq("confirmDate", date).eq("status", null).findList();
 	}
 	
 	public static List<TradeIn> findAllByUser(AuthUser user) {
@@ -697,8 +697,8 @@ public String testDriveStatus;
 	public static List<TradeIn> findByScheduler() {
 		return find.where().eq("schedule_email", 0).findList();
 	}
-	public static List<SqlRow> getTradeDates(AuthUser user) {
-		SqlQuery q = Ebean.createSqlQuery("select distinct trade_in.confirm_date from trade_in where (trade_in.assigned_to_id = '"+user.id+"') and trade_in.confirm_date is not null");
+	public static List<SqlRow> getTradeDates(AuthUser user, String cD) {
+		SqlQuery q = Ebean.createSqlQuery("select distinct trade_in.confirm_date from trade_in where (trade_in.assigned_to_id = '"+user.id+"') and trade_in.confirm_date >= '"+cD+"' and trade_in.confirm_date is not null");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}
