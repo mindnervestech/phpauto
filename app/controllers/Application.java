@@ -27593,13 +27593,21 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				stTest.update();
 			}
 			if(status.equals("decline")){
+				
+				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+		    	String date1=df.format(stTest.confirmDate);
+				String time1=time.format(stTest.confirmTime);
 				stTest.setDeclineMeeting(0);
 				stTest.setMeeting(2);
 				stTest.setDeclineReason(reason);
 				stTest.update();
 				AuthUser userEmail = AuthUser.findById(stTest.user.id);
 				String subject = userEmail.firstName+"   "+userEmail.lastName+" declined your invitation.";
-				String comments = "Your invitation to "+userEmail.firstName+" "+userEmail.lastName+" has been declined \n Reason : "+reason+"\n "+stTest.confirmDate+" "+stTest.confirmTime+" "+stTest.name;
+				String comments = "Your invitation to "+userEmail.firstName+" "+userEmail.lastName+" has been declined \n Reason : "+reason+"\n "+date1+" "+time1+" "+stTest.name;
+				
+		    	
+				
 				
 				sendEmail(userEmail.communicationemail, subject, comments);
 			}
