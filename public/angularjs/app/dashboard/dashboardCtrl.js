@@ -900,7 +900,7 @@ angular.module('newApp')
     	  			}
     	  		});
     	  		
-    	  		 createChart(data);
+    	  		 createChart1(data);
   			});
     	  
     	  
@@ -915,8 +915,10 @@ angular.module('newApp')
     	  
     	  	$http.get('/getFinancialVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
     	  		console.log(data);
+    	  		console.log(data.data);
+    	  		console.log(data.dates);
     	  		$scope.msgShow = 1;
-    	  		angular.forEach(data, function(value, key) {
+    	  		angular.forEach(data.data, function(value, key) {
     	  			if(value.data.length != 0){
     	  				$scope.msgShow = 0;
     	  			}
@@ -936,10 +938,10 @@ angular.module('newApp')
       var seriesCounter = 0;
       var stockChart; 
       var stockChart1; 
-      function createChart(initdata) {
+      function createChart1(initdata) {
     	  stockChart1 = 1;
     	  
-    	  stockChart = $('#financial-chart').highcharts('StockChart', {
+    	  stockChart = $('#financial-chart').highcharts({
               chart: {
                   height: 300,
                   borderColor: '#C9625F',
@@ -965,6 +967,7 @@ angular.module('newApp')
               xAxis: {
                   lineColor: '#e1e1e1',
                   tickColor: '#EFEFEF',
+                  
               },
               yAxis: {
                   gridLineColor: '#e1e1e1',
@@ -977,13 +980,17 @@ angular.module('newApp')
                       value: 0,
                       width: 2,
                       color: 'silver'
-                  }]
+                  }],
+                  tooltip: {
+                      pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+                      valueDecimals: 0
+                  }
               },
-              /*plotOptions: {
+              plotOptions: {
                   series: {
                       compare: 'percent'
                   }
-              },*/
+              },
               
               plotOptions: {
             	    line: {
@@ -993,15 +1000,48 @@ angular.module('newApp')
             	        }
             	    }
             	},
-                tooltip: {
-                  pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
-                  valueDecimals: 2
-              },
+                
 
               series: initdata
           });
-      }; 
+      };
      
+      
+      function createChart(initdata) {
+    	  console.log(initdata);
+    	  stockChart1 = 1;
+    	  
+    	  stockChart = $('#financial-chart').highcharts({
+    		  title: {
+    	            text: '',
+    	            x: -20 //center
+    	        },
+    	        xAxis: {
+    	            categories: initdata.dates
+    	        },
+    	        yAxis: {
+    	            title: {
+    	                text: ''
+    	            },
+    	            plotLines: [{
+    	                value: 0,
+    	                width: 1,
+    	                color: '#808080'
+    	            }],
+    	            min : 0
+    	        },
+    	        tooltip: {
+    	            valueSuffix: ''
+    	        },
+    	        legend: {
+    	            layout: 'vertical',
+    	            align: 'right',
+    	            verticalAlign: 'middle',
+    	            borderWidth: 0
+    	        },
+    	        series: initdata.data
+          });
+      };
       
       /*-------------------------------------------------------------*/
       
