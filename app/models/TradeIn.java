@@ -634,7 +634,7 @@ public String testDriveStatus;
 	}
 	
 	public static List<TradeIn> findByConfirmGraLeadsToEmail(Date datec) {
-		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).ge("confirmDate", datec).findList();
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).findList();
 	}
 	
 	public static List<TradeIn> findByConfirmGraLeads(Long locationId, AuthUser user, Date datec) {

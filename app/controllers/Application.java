@@ -13535,7 +13535,7 @@ public class Application extends Controller {
 			e.printStackTrace();
 		}
          //Date newDate = DateUtils.addHours(info2.confirmTime, 4);
-         List<ScheduleTest> list = ScheduleTest.findAllByServiceTest(datec);
+         List<ScheduleTest> list = ScheduleTest.findAllByServiceTestEmail(datec);
          
      	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeadsToEmail(datec);
      	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail(datec);
