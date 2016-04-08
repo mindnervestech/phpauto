@@ -2901,7 +2901,7 @@ angular.module('newApp')
 					        	var month = arr[1];
 					        	date.setMonth(month-1);
 					        	date.setDate(arr[2]);
-					        	//datesArray.push(date);
+					        	datesArray.push(date);
 							 }	
 						 }
 						 
