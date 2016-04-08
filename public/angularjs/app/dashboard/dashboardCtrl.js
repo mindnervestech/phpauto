@@ -915,8 +915,6 @@ angular.module('newApp')
     	  
     	  	$http.get('/getFinancialVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
     	  		console.log(data);
-    	  		console.log(data.data);
-    	  		console.log(data.dates);
     	  		$scope.msgShow = 1;
     	  		angular.forEach(data.data, function(value, key) {
     	  			if(value.data.length != 0){
@@ -2875,8 +2873,10 @@ angular.module('newApp')
 			
 			$scope.declineMeeting = function(reason){
 				console.log($scope.valueId.id);
+				
 				$http.get('/getAcceptAndDecline/'+$scope.valueId.id+"/"+reason+"/"+"decline")
 				.success(function(data) {
+					 $('#decline-model').modal("toggle");
 					$.pnotify({
 					    title: "Success",
 					    type:'success',

@@ -27597,10 +27597,10 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				stTest.setMeeting(2);
 				stTest.setDeclineReason(reason);
 				stTest.update();
-				
-				String subject = "Decline invitation.";
-				String comments = "Your invitation to "+stTest.assignedTo.firstName+"   "+stTest.assignedTo.lastName+" has been decline";
 				AuthUser userEmail = AuthUser.findById(stTest.user.id);
+				String subject = userEmail.firstName+"   "+userEmail.lastName+" decline your invitation.";
+				String comments = "Your invitation to "+userEmail.firstName+"   "+userEmail.lastName+" has been decline \n Reason : "+reason;
+				
 				sendEmail(userEmail.communicationemail, subject, comments);
 			}
 		}
