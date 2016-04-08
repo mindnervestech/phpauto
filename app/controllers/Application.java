@@ -13524,6 +13524,8 @@ public class Application extends Controller {
          String cDate = df.format(currD);
          String cTime = parseTime.format(currD);
          String crD =    df1.format(currD);
+         
+         System.out.println("----^^^^^^^^^^^^^^^------------");
          try {
         	 currentDate = df1.parse(crD);
         	 datec = df.parse(cDate);
@@ -13543,6 +13545,8 @@ public class Application extends Controller {
          for(ScheduleTest scTest:list){
         	 
         	 AuthUser emailUser = AuthUser.findById(scTest.assignedTo.id);
+        	 System.out.println("----------------");
+        	 System.out.println(parseTime.format(scTest.confirmTime));
         	 try {
         		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
         		 infoDate = df1.parse(str);
@@ -13552,6 +13556,8 @@ public class Application extends Controller {
          		    	 String comments = "You have a test drive scheduled in 1 hour ";
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
+        				 
+        				 System.out.println("----^^^^^^^^^^^^^^^-111-----------");
         				 String subject = "Meeting reminder";
          		    	 String comments = "You have a meeting scheduled in 1 hour ";
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
@@ -13563,6 +13569,8 @@ public class Application extends Controller {
          		    	 String comments = "You have a test drive scheduled in 24 hours ";
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
+        				 
+        				 System.out.println("----^^^^^^^^^^^^^^^-111-----6666666------");
         				 String subject = "Meeting reminder";
          		    	 String comments = "You have a meeting scheduled in 24 hours ";
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
