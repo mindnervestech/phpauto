@@ -13510,6 +13510,7 @@ public class Application extends Controller {
     
     public static Result sendEmailDaily(){
     	 //AuthUser user = getLocalUser();
+    	System.out.println("::in send email daily");
     	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy hh:mm a");
          DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
          SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
@@ -22984,8 +22985,66 @@ if(vehicles.equals("All")){
 		
 		*/
 		DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+
+		SimpleDateFormat time= new SimpleDateFormat("hh:mm a");
 		
 		
+		if(vm.groupId != null){
+			try {
+				
+				
+				List<ScheduleTest> test = ScheduleTest.findAllGroupMeeting(vm.groupId);
+				
+				for(ScheduleTest testloop:test){
+					AuthUser assi = AuthUser.findById(testloop.assignedTo.id);
+					testloop.setName(vm.name);
+					testloop.setReason(vm.reason);
+					
+					
+					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
+            	         
+            	     testloop.setSendInvitation(1);
+            	     String subject = "Meeting invitation.";
+ 			   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
+ 				    sendEmail(assi.communicationemail, subject, comments);
+            	   
+			       }
+					testloop.setConfirmDate(df.parse(confDate));
+					testloop.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
+					
+					testloop.update();
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}else{
+
+			try {
+				
+				ScheduleTest test = ScheduleTest.findById(id);
+				AuthUser assi = AuthUser.findById(test.assignedTo.id);
+				test.setConfirmDate(df.parse(confDate));
+				test.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
+				test.setName(vm.name);
+				test.setReason(vm.reason);
+				if(!test.getConfirmDate().equals(df.parse(confDate)) || ! test.getConfirmTime().equals(time.parse(confTime))){
+       	         
+					test.setSendInvitation(1);
+					String subject = "Meeting invitation.";
+			   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
+					sendEmail(assi.communicationemail, subject, comments);
+           	   
+			       }
+				test.update();
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 
 		List<AuthUser> userList = new ArrayList<>();
 		for (UserVM obj : vm.getUsersList()) {
@@ -23028,59 +23087,6 @@ if(vehicles.equals("All")){
 		
 		
 		
-		
-		if(vm.groupId != null){
-			try {
-				
-				
-				List<ScheduleTest> test = ScheduleTest.findAllGroupMeeting(vm.groupId);
-				for(ScheduleTest testloop:test){
-					testloop.setName(vm.name);
-					testloop.setReason(vm.reason);
-					testloop.setConfirmDate(df.parse(confDate));
-					testloop.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
-					testloop.setSendInvitation(1);
-					testloop.update();
-					
-					AuthUser assi = AuthUser.findById(testloop.assignedTo.id);
-					String subject = "Meeting invitation.";
-			   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
-				    sendEmail(assi.communicationemail, subject, comments);
-					
-					
-				}
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}else{
-
-			try {
-				ScheduleTest test = ScheduleTest.findById(id);
-				test.setConfirmDate(df.parse(confDate));
-				test.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
-				test.setName(vm.name);
-				test.setReason(vm.reason);
-				test.setSendInvitation(1);
-				
-				test.update();
-				
-				AuthUser assi = AuthUser.findById(test.assignedTo.id);
-				String subject = "Meeting invitation.";
-		   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
-				sendEmail(assi.communicationemail, subject, comments);
-				
-				
-				
-				
-				
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		/*try {
 			if(test.getGoogle_id()!=null){
 				return redirect(authorizeUpdate());
@@ -27549,7 +27555,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
     }
 	
 	public static Result sendEmail(String email, String subject ,String comment) {
-		
+		     
+		      System.out.println(":::in email");
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
