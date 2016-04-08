@@ -2444,8 +2444,6 @@ angular.module('newApp')
         			        
         		  });
     			  
-    			  console.log("{}{}{}{}{}HGHGHGH}{}{}{}{");
-    			  console.log($scope.stringArray);
     			  $scope.stringArray = [];
     			  $scope.visitiorListMap = [];
     			  $http.get('/getVisitorList/'+startDate+"/"+endDate)
@@ -2547,7 +2545,6 @@ angular.module('newApp')
     			  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
   				$scope.check.startDate=$filter('date')(startdate, 'dd-MM-yyyy');
   				$scope.check.endDate=$filter('date')(date, 'dd-MM-yyyy');
-  				console.log($scope.check.endDate);
   			  
   				$scope.startDateV = $filter('date')(startdate, 'yyyy-MM-dd');
   				$scope.endDateV = $filter('date')(date, 'yyyy-MM-dd');
@@ -2562,8 +2559,6 @@ angular.module('newApp')
   				
   				$scope.startDateForSalesPeople=$filter('date')(startdate, 'dd-MM-yyyy');
   				$scope.endDateForSalesPeople=$filter('date')(date, 'dd-MM-yyyy');
-  				console.log($scope.startDateForSalesPeople);
-  				console.log($scope.endDateForSalesPeople);
   			
   				 $scope.getPerformanceOfUser();
   				
@@ -2599,7 +2594,6 @@ angular.module('newApp')
     		  
     		  $scope.getClickyVisitorListData = function(){
     			  $http.get('/getClickyVisitorList').success(function(data) {
-						console.log("Okkkkkmmmm");
 					});
     		  }
     		  
@@ -2657,7 +2651,6 @@ angular.module('newApp')
     			 		
     					 $http.get('/getHeatMapList/'+30)
     						.success(function(data) {
-    							//console.log(data[0].dates[0].items);
     							
     							$scope.gridOptions12.data = data[0].dates[0].items;
     							$scope.heatMapList = data[0].dates[0].items;
@@ -2667,8 +2660,6 @@ angular.module('newApp')
     								$scope.heatMapList[key].showUrl = $scope.array[0];
     							});
     							
-    							console.log($scope.gridOptions.data);
-    							console.log($scope.heatMapList);
     						$('#sliderBtn').click();
     					});
     					 
@@ -2678,7 +2669,6 @@ angular.module('newApp')
 
     		  $scope.showheatmap = function(row){
 					 $scope.showHeatMap = 1;
-					 console.log(row.entity.url);
 					 var data = row.entity.url;
 					 $('#heatMapModal').modal();
 					 $(".container-iframe-sit").attr("src",data);
@@ -2691,7 +2681,6 @@ angular.module('newApp')
 										.get('/getcommentLike')
 										.success(
 												function(data) {
-													console.log(data);
 													angular.forEach(data, function(value, key) {
 														var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
 															+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h2 style="color: goldenrod;margin-top: 0px;">Congratulations!</h2></div><span class="col-md-12" style="margin-left: 22px;text-align: center;"><h3 style="margin-top: 0px;"><span>'+value.firstName+'  '+ value.lastName+'</span><br><span> just Liked your work!</span><br><span>'+value.userComment+'</span></h3></span><p class="pull-left" style="margin-left:85%;"><a class="f-12">Close&nbsp;</a></p></div></div>'
@@ -2785,7 +2774,6 @@ angular.module('newApp')
 						.get('/getinvitationMsg')
 						.success(
 								function(data) {
-									console.log(data);
 									angular.forEach(data, function(value, key) {
 										var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
 											+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">New meeting invitation received</h3></div><span class="col-md-12" style="margin-left: 22px;text-align: center;border-bottom: solid;"><h3><span>'+value.name+'</span><br><span style="color: cornflowerblue;"><b>'+value.confirmDate+'&nbsp;&nbsp;&nbsp;&nbsp;'+value.confirmTime+' </b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
@@ -2855,7 +2843,6 @@ angular.module('newApp')
 			$('#button-1').css("background-color","black");
 			
 			$scope.acceptDate = function(value){
-				console.log(value);
 				var reason = null;
 				
 				 $http.get('/getAcceptAndDecline/'+value.id+"/"+reason+"/"+"accept")
@@ -2881,7 +2868,6 @@ angular.module('newApp')
 			}
 			
 			$scope.declineMeeting = function(reason){
-				console.log($scope.valueId.id);
 				
 				$http.get('/getAcceptAndDecline/'+$scope.valueId.id+"/"+reason+"/"+"decline")
 				.success(function(data) {
@@ -2908,16 +2894,23 @@ angular.module('newApp')
 							 var dateStr = $scope.scheduleDates[i].confirmDate;
 							 var date = new Date();
 							 var arr = [];
+							 console.log(dateStr);
+							 if(dateStr == "2016-04-08"){
+								 console.log("chedddddddd");
+							 }
+							 
 							 if(dateStr != null){
 							    arr = dateStr.split('-');
 					        	date.setYear(arr[0]);
 					        	var month = arr[1];
 					        	date.setMonth(month-1);
 					        	date.setDate(arr[2]);
-					        	datesArray.push(date);
+					        	//datesArray.push(date);
 							 }	
 						 }
 						 
+						 console.log("JJJJJJJJJJ------");
+						 console.log(datesArray);
 						 
 						// set up some code to be executed later, in 5 seconds (5000 milliseconds):
 						  setTimeout(function () {
@@ -7276,6 +7269,7 @@ angular.module('newApp')
 			   
 			   console.log($scope.data1);
 			  $scope.data1.usersList = $scope.checked;
+			  console.log($scope.data1);
 			  $scope.data1.isRead=0;
 			   $http.post("/updateScheduleTest",$scope.data1).success(function(data){
 				   $('#colored-header').modal("toggle");
