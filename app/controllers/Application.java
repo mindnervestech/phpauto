@@ -13684,12 +13684,12 @@ public class Application extends Controller {
     			vmList.add(vm);
     		}
     		
-    		List<SqlRow> toDoRows = ToDo.getToDoDates(cDate);
+    		/*List<SqlRow> toDoRows = ToDo.getToDoDates(cDate);
     		for(SqlRow todo : toDoRows) {
     			RequestInfoVM vm = new RequestInfoVM();
     			vm.confirmDate = todo.getString("due_date");
     			vmList.add(vm);
-    		}
+    		}*/
     		
     		return ok(Json.toJson(vmList));
     	}
