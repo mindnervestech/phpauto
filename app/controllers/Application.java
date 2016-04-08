@@ -13510,6 +13510,7 @@ public class Application extends Controller {
     
     public static Result sendEmailDaily(){
     	 //AuthUser user = getLocalUser();
+    	System.out.println("::in send email daily");
     	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy hh:mm a");
          DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
          SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
@@ -27549,7 +27550,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
     }
 	
 	public static Result sendEmail(String email, String subject ,String comment) {
-		
+		     
+		      System.out.println(":::in email");
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
@@ -27598,7 +27600,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		    	SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
 		    	String date1=df.format(stTest.confirmDate);
 				String time1=time.format(stTest.confirmTime);
-				stTest.setDeclineMeeting(0);
+				
+				
+				
+				
+					stTest.setDeclineMeeting(2);
 				stTest.setMeeting(2);
 				stTest.setDeclineReason(reason);
 				stTest.update();
