@@ -27598,8 +27598,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				stTest.setDeclineReason(reason);
 				stTest.update();
 				AuthUser userEmail = AuthUser.findById(stTest.user.id);
-				String subject = userEmail.firstName+"   "+userEmail.lastName+" decline your invitation.";
-				String comments = "Your invitation to "+userEmail.firstName+"   "+userEmail.lastName+" has been decline \n Reason : "+reason;
+				String subject = userEmail.firstName+"   "+userEmail.lastName+" declined your invitation.";
+				String comments = "Your invitation to "+userEmail.firstName+" "+userEmail.lastName+" has been declined \n Reason : "+reason+"\n "+stTest.confirmDate+" "+stTest.confirmTime+" "+stTest.name;
 				
 				sendEmail(userEmail.communicationemail, subject, comments);
 			}
