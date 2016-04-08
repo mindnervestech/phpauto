@@ -567,8 +567,8 @@ margin-left: 5px;
                                   
                              <div class="col-md-12" ng-class="(schedule.meeting != 'meeting')?'infoBlu col-md-12':'infoOrg col-md-12'">
                              	<div class="col-md-6" style="padding: 0px;">
-									<span ng-if="schedule.is_google != true && schedule.meeting != 'meeting'"> Test Drive {{schedule.bestTime}} </span>
-									<span ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Meeting {{schedule.bestTime}} </span>
+									<span ng-if="schedule.is_google != true && schedule.meeting != 'meeting'"> Test Drive {{schedule.confirmTime}} </span>
+									<span ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Meeting {{schedule.confirmTime}} </span>
                              		<span class="todo-task">{{schedule.make}}&nbsp;&nbsp; {{schedule.year}}&nbsp;&nbsp; {{schedule.model}}  &nbsp;&nbsp;{{schedule.trim}}</span><br>
 									<span class="todo-task">{{schedule.name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
 									<span class="todo-task">{{schedule.email}}</span>&nbsp;&nbsp;<br>

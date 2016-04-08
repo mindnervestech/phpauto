@@ -2927,7 +2927,7 @@ angular.module('newApp')
 			        				  $scope.getScheduleBySelectedDate($scope.editdate);
 			        			  }
 			    		  });
-			    		  console.log($(".multidatepicker"));
+			    		//  console.log($(".multidatepicker"));
 						  }, 5000);
 						  
 			    		  
@@ -2944,7 +2944,8 @@ angular.module('newApp')
     		  $scope.showCalendarData = function() {
     			  $scope.showToDoList = false;
 				  $scope.showCalendar = true;
-				  $scope.init();
+				  $scope.schedulmultidatepicker();
+				  //$scope.init();
     		  }
     		  
     		  $scope.deleteForeverLead = function(entity) {
