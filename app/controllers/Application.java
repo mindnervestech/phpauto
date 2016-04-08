@@ -27572,6 +27572,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		 		props.put("mail.smtp.host", "smtp.gmail.com");
 		 		props.put("mail.smtp.port", "587");
 		  
+		 		
+		 		System.out.println(email);
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
