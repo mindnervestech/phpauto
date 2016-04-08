@@ -22870,7 +22870,7 @@ if(vehicles.equals("All")){
         	
         	List<UserVM> listUser = new ArrayList<>();
         	if(scTest.groupId != null){
-    			List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(scTest.groupId);
+    			List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeetingCheckMeeting(scTest.groupId);
     			for(ScheduleTest users:schedulegroupList){
     				UserVM uVm = new UserVM();
     	    		uVm.firstName = users.assignedTo.getFirstName();

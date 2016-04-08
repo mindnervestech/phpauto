@@ -351,6 +351,10 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> findAllGroupMeeting(Long groupId) {
+		return find.where().eq("groupId", groupId).findList();
+	}
+	
+	public static List<ScheduleTest> findAllGroupMeetingCheckMeeting(Long groupId) {
 		return find.where().eq("groupId", groupId).ne("acceptMeeting", 0).eq("declineMeeting", 1).findList();
 	}
 	
