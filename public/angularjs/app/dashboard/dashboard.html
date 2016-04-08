@@ -6422,7 +6422,7 @@ margin-left: 5px;
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Cancelled Leads</label>
 									                 						<label  class="col-sm-6" ng-if="comparisonperson[0].cancelLeadCount == comparisonperson[1].cancelLeadCount " style=" color:gray; text-align: right;">{{comparisonperson[0].cancelLeadCount}}</label>
-									                 						<label ng-if="comparisonperson[0].cancelLeadCount != comparisonperson[1].cancelLeadCount " ng-class="comparisonperson[0].cancelLeadCount > comparisonperson[1].cancelLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].cancelLeadCount}}</label>
+									                 						<label ng-if="comparisonperson[0].cancelLeadCount != comparisonperson[1].cancelLeadCount " ng-class="comparisonperson[1].cancelLeadCount > comparisonperson[0].cancelLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].cancelLeadCount}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -6431,7 +6431,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
 									                 				<label  class="col-sm-6" ng-if="comparisonperson[0].cancelLeadCount == comparisonperson[1].cancelLeadCount " style=" color:gray;">{{comparisonperson[0].cancelLeadCount}}</label>
-									                 						<label ng-if="comparisonperson[0].cancelLeadCount != comparisonperson[1].cancelLeadCount " ng-class="comparisonperson[1].cancelLeadCount > comparisonperson[0].cancelLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].cancelLeadCount}}</label>
+									                 						<label ng-if="comparisonperson[0].cancelLeadCount != comparisonperson[1].cancelLeadCount " ng-class="comparisonperson[0].cancelLeadCount > comparisonperson[1].cancelLeadCount ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >{{comparisonperson[1].cancelLeadCount}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Cancelled Leads</label>
 									                 					</div>
 															   </div>
@@ -6574,7 +6574,7 @@ margin-left: 5px;
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Average Leads Life Cycle</label>
 									                 						<label class="col-sm-6" ng-if="comparisonperson[0].avgLeadLifeCycle == comparisonperson[1].avgLeadLifeCycle " style=" color:gray; text-align: right;">{{comparisonperson[0].avgLeadLifeCycle}}</label>
-									                 						<label  ng-if="comparisonperson[0].avgLeadLifeCycle != comparisonperson[1].avgLeadLifeCycle "  ng-class="comparisonperson[0].avgLeadLifeCycle > comparisonperson[1].avgLeadLifeCycle ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].avgLeadLifeCycle}}</label>
+									                 						<label  ng-if="comparisonperson[0].avgLeadLifeCycle != comparisonperson[1].avgLeadLifeCycle "  ng-class="comparisonperson[1].avgLeadLifeCycle > comparisonperson[0].avgLeadLifeCycle ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].avgLeadLifeCycle}}</label>
 									                 					</div>
 															   </div>
 															   		<div class="col-sm-2" style="text-align: center;">
@@ -6584,7 +6584,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
 									                 				 <label class="col-sm-6" ng-if="comparisonperson[0].avgLeadLifeCycle == comparisonperson[1].avgLeadLifeCycle " style=" color:gray; ">{{comparisonperson[0].avgLeadLifeCycle}}</label>
-									                 						<label   ng-if="comparisonperson[0].avgLeadLifeCycle != comparisonperson[1].avgLeadLifeCycle " ng-class="comparisonperson[1].avgLeadLifeCycle > comparisonperson[0].avgLeadLifeCycle ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >{{comparisonperson[1].avgLeadLifeCycle}}</label>
+									                 						<label   ng-if="comparisonperson[0].avgLeadLifeCycle != comparisonperson[1].avgLeadLifeCycle " ng-class="comparisonperson[0].avgLeadLifeCycle > comparisonperson[1].avgLeadLifeCycle ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >{{comparisonperson[1].avgLeadLifeCycle}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Average Leads Life Cycle</label>
 									                 					</div>
 															   </div>
@@ -6596,7 +6596,7 @@ margin-left: 5px;
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Average follow-up Time</label>
 									                 							<label class="col-sm-6" ng-if="comparisonperson[0].followUpTime == comparisonperson[1].followUpTime " style=" color:gray; text-align: right;">{{comparisonperson[0].followUpTime}}</label>
-									                 						<label ng-if="comparisonperson[0].followUpTime != comparisonperson[1].followUpTime "  ng-class="comparisonperson[0].followUpTime > comparisonperson[1].followUpTime ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].followUpTime}}</label>
+									                 						<label ng-if="comparisonperson[0].followUpTime != comparisonperson[1].followUpTime "  ng-class="comparisonperson[1].followUpTime > comparisonperson[0].followUpTime ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  style="text-align: right;">{{comparisonperson[0].followUpTime}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -6607,7 +6607,7 @@ margin-left: 5px;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
 									                 				         	<label class="col-sm-6" ng-if="comparisonperson[0].followUpTime == comparisonperson[1].followUpTime " style=" color:gray; ">{{comparisonperson[0].followUpTime}}</label>
-									                 						<label ng-if="comparisonperson[0].followUpTime != comparisonperson[1].followUpTime "  ng-class="comparisonperson[1].followUpTime > comparisonperson[0].followUpTime ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >{{comparisonperson[1].followUpTime}}</label>
+									                 						<label ng-if="comparisonperson[0].followUpTime != comparisonperson[1].followUpTime "  ng-class="comparisonperson[0].followUpTime > comparisonperson[1].followUpTime ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >{{comparisonperson[1].followUpTime}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Average follow-up Time</label>
 									                 					</div>
 															   </div>
@@ -6668,8 +6668,8 @@ margin-left: 5px;
 															   </div>
 															   <div class="col-sm-2"   >
 															    <div class="col-sm-12" ng-repeat="offline in offLeadPer" style="text-align: center;" >
-															   		<label style="color:gray" ng-if="offline.value != 'NaN' && offline.value != 0 ">{{offline.value}}%</label>
-															   		<label style="color:gray" ng-if="offline.value == 'NaN' || offline.value == 0">N/A</label>
+															   		<label style="color:gray" ng-if="offline.value != 'NaN' && offline.value != 0 && offline.value !=null">{{offline.value}}%</label>
+															   		<label style="color:gray" ng-if="offline.value == 'NaN' || offline.value == 0  || offline.value ==null">N/A</label>
 															   		</div>
 															   </div>
 															   

@@ -20150,6 +20150,13 @@ if(vehicles.equals("All")){
         
         Map<String, Integer> mapOffline = new HashMap<String, Integer>();
         
+        
+        
+        mapOffline.put("Phone", 0);
+        mapOffline.put("Walk In", 0);
+        mapOffline.put("Email", 0);
+        mapOffline.put("Facebook", 0);
+        mapOffline.put("Online", 0);
     	for(RequestMoreInfo rMoreInfo:offlineRInfo){
      		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
      			if(rMoreInfo.contactedFrom != null){

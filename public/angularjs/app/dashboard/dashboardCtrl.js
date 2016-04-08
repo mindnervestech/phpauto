@@ -421,7 +421,7 @@ angular.module('newApp')
 	 		 		 $scope.gridOptions11.enableVerticalScrollbar = 2;
 	 		 		 $scope.gridOptions11.columnDefs = [
 															{ name: 'isSelect', displayName: 'Select', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																cellTemplate:'<input type="checkbox" ng-change="grid.appScope.selectUser(row)" ng-model="row.entity.isSelect" ng-show="row.entity.disabled">',
+																cellTemplate:'<input type="checkbox" ng-change="grid.appScope.selectUser(row)" ng-model="row.entity.isSelect" ng-show="row.entity.disabled" > <label  ng-if="row.entity.disabled == false"> Invited </label>',
 															},
 															 { name: 'fullName', displayName: 'Full Name', width:'40%',cellEditableCondition: false,
 																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
