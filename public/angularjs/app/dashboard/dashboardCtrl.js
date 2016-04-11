@@ -7565,6 +7565,12 @@ angular.module('newApp')
  		.success(function(data) {
  			$scope.siteList = data;
  		});
+ 	 $http.get('/getDealerProfile').success(function(data) {
+ 		console.log(data);
+ 		/*$scope.myprofile = data.dealer;
+ 		$scope.user = data.user;*/
+ 		$scope.vinData.specification.location = data.dealer.address;
+ 	});
    }
    
    $scope.siteIds = [];
@@ -7617,25 +7623,34 @@ angular.module('newApp')
    
    $scope.saveVehicle = function() {
  	  console.log($scope.vinData);
- 	  //$scope.vinData.specification.siteIds = $scope.siteIds;
+ 	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
  	 if(pdffile != undefined){
- 		$upload.upload({
- 	         url : '/saveVehicle',
- 	         method: 'POST',
- 	         file:pdffile,
- 	         data:$scope.vinData.specification
- 	      }).success(function(data) {
- 	    	  console.log('success');
- 	  			$.pnotify({
- 	  			    title: "Success",
- 	  			    type:'success',
- 	  			    text: "Vehicle saved successfully",
- 	  			});
- 	  			if($scope.flagVal == true) {
- 	  		 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
- 	  		 	  }
- 	      });
+ 		$http.post('/saveVehicle',$scope.vinData.specification)
+		.success(function(data) {
+			console.log('success');
+		//	$location.path('/');
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Vehicle saved successfully",
+			});
+			$upload.upload({
+	 	         url : '/saveVehiclePdf/'+data,
+	 	         method: 'POST',
+	 	         file:pdffile,
+	 	      }).success(function(data) {
+	 	    	  console.log('success');
+	 	  			$.pnotify({
+	 	  			    title: "Success",
+	 	  			    type:'success',
+	 	  			    text: "Vehicle saved successfully",
+	 	  			});
+	 	  			if($scope.flagVal == true) {
+	 	  		 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
+	 	  		 	  }
+	 	      });
+		});
  	 }else{
  		$http.post('/saveVehicle',$scope.vinData.specification)
 		.success(function(data) {
@@ -8352,28 +8367,69 @@ angular.module('newApp')
 	 	  
 	   };
 	
+	   var pdfFile;
+		$scope.onPdfFileSelect = function($files) {
+			pdfFile = $files;
+		}
+	   
+	   
 	$scope.updateVehicle = function() {
-		$http.post('/updateVehicleById',$scope.vinData.specification)
-		.success(function(data) {
-			console.log('success');
-			$scope.isUpdated = true;
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Vehicle updated successfuly",
-			});
-			$http.get('/getPriceHistory/'+data.vin)
+		console.log($scope.vinData.specification);
+		if(pdfFile != undefined){
+			$http.post('/updateVehicleById',$scope.vinData.specification)
 			.success(function(data) {
-				console.log("success");
-				console.log(data);
-				$scope.priceHistory = data;
-				angular.forEach($scope.priceHistory, function(value, key) {
-					console.log(value);
-					value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
+				console.log('success');
+				$scope.isUpdated = true;
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Vehicle updated successfuly",
 				});
 				
+				$scope.vinData.specification.siteIds = null;
+				$upload.upload({
+		 	         url : '/updateVehicleByIdPdf/'+$scope.vinData.specification.id,
+		 	         method: 'POST',
+		 	         file:pdfFile,
+		 	      }).success(function(data) {
+		 	    	  console.log('success');
+		 	  			
+		 	  			$http.get('/getPriceHistory/'+data.vin)
+						.success(function(data) {
+							console.log("success");
+							console.log(data);
+							$scope.priceHistory = data;
+							angular.forEach($scope.priceHistory, function(value, key) {
+								console.log(value);
+								value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
+							});
+							
+						});
+		 	      });
 			});
-		});
+	 	 }else{
+	 		$http.post('/updateVehicleById',$scope.vinData.specification)
+			.success(function(data) {
+				console.log('success');
+				$scope.isUpdated = true;
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Vehicle updated successfuly",
+				});
+				$http.get('/getPriceHistory/'+data.vin)
+				.success(function(data) {
+					console.log("success");
+					console.log(data);
+					$scope.priceHistory = data;
+					angular.forEach($scope.priceHistory, function(value, key) {
+						console.log(value);
+						value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
+					});
+					
+				});
+			});
+	 	 }
 	}
 	
 	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {

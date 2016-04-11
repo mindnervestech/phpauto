@@ -1226,13 +1226,46 @@ public class Application extends Controller {
     	return ok(Json.toJson(userObj));
     }
     
+    public static Result saveVehiclePdf(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Identity user = getLocalUser();
+	    	AuthUser userObj = (AuthUser)user;
+    		MultipartFormData body = request().body().asMultipartFormData();
+    		Vehicle vehicle = Vehicle.findById(id);
+    		if(vehicle != null) {
+    			if(body != null){
+		    		FilePart picture = body.getFile("file0");
+		    		if (picture != null) {
+		    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+		    			File file = picture.getFile();
+		    			try {
+		    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure");
+		    	    	    if(!fdir.exists()) {
+		    	    	    	fdir.mkdir();
+		    	    	    }
+		    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName;
+		    	    	    FileUtils.moveFile(file, new File(filePath));
+		    	    	    vehicle.setPdfBrochureName(fileName);
+		    	    	    vehicle.setPdfBrochurePath(session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName);
+		    	    	    vehicle.update();
+		    			} catch (Exception e) {
+							e.printStackTrace();
+						}
+		    		}
+		    	}
+    		}
+    	}
+    	return ok();
+    }
+    
     public static Result saveVehicle() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
 	    	Identity user = getLocalUser();
 	    	AuthUser userObj = (AuthUser)user;
-	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	Form<SpecificationVM> form = DynamicForm.form(SpecificationVM.class).bindFromRequest();
 	    	SpecificationVM vm = form.get();
 	    	
@@ -1240,7 +1273,7 @@ public class Application extends Controller {
 	    	Vehicle vehicle = new Vehicle();
 	    	if(vehicleObj == null) {
 	    		
-	    		if(body != null){
+	    		/*if(body != null){
 		    		FilePart picture = body.getFile("file0");
 		    		if (picture != null) {
 		    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
@@ -1258,7 +1291,7 @@ public class Application extends Controller {
 							e.printStackTrace();
 						}
 		    		}
-		    	}
+		    	}*/
 	    		
 		    	
 	    		vehicle.setTitle(vm.make+" "+vm.model+" "+vm.year);
@@ -1794,7 +1827,7 @@ public class Application extends Controller {
 		    	}
 	    	}
 	    	
-	    	return ok();
+	    	return ok(Json.toJson(vehicle.id));
     	}	
     }
     public static Result getLocationDays(){
@@ -4689,6 +4722,41 @@ public class Application extends Controller {
     	}	
     } 
     
+    public static Result updateVehicleByIdPdf(Long id) throws SocketException, IOException{
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		
+    		AuthUser userObj = (AuthUser) getLocalUser();
+	    	MultipartFormData body = request().body().asMultipartFormData();
+	    	Vehicle vehicle = Vehicle.findById(id);
+	    	if(vehicle != null) {
+	    		
+	    		if(body != null){
+		    		FilePart picture = body.getFile("file0");
+		    		if (picture != null) {
+		    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+		    			File file = picture.getFile();
+		    			try {
+		    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure");
+		    	    	    if(!fdir.exists()) {
+		    	    	    	fdir.mkdir();
+		    	    	    }
+		    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName;
+		    	    	    FileUtils.moveFile(file, new File(filePath));
+		    	    	    vehicle.setPdfBrochureName(fileName);
+		    	    	    vehicle.setPdfBrochurePath(session("USER_LOCATION")+File.separator+vehicle.vin+"-"+userObj.id+File.separator+"PDF_brochure"+fileName);
+		    	    	    vehicle.update();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+		    		}
+		    	}
+	    	}	
+    		
+    		return ok();
+    	}
+    }
     
     public static Result updateVehicleById() throws SocketException, IOException{
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
