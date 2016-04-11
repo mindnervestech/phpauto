@@ -2504,7 +2504,7 @@ margin-left: 5px;
                          	<div class="col-sm-12" ng-if="februaryOpen == 1">
                          	<hr>
                          	  	<form role="form" ng-submit="saveSalePersonPlan('february')">
-                         		<div>
+                         		<div>**{{saleMonthTotal.februaryFlag}}
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>$$$Amount<span style="color:red;">*</span></label>
                          			</div>
@@ -2858,7 +2858,7 @@ margin-left: 5px;
                           <div class="col-sm-6">
                           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          			<label>SEPTEMBER</label>
-                         		</div>
+                         		</div>***{{saleMonthTotal.septemberFlag}}
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          			<input type="text" name="september" class="form-control col-sm-6" ng-click="septembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.septemberTotalEarning)" ng-model="saleMonthTotal.septemberTotalEarning">
                          		</div>
