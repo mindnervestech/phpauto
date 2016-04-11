@@ -13556,8 +13556,8 @@ public class Application extends Controller {
             	 datec = df.parse(cDate);
             	 aftHrDate = DateUtils.addHours(currentDate, 1);
             	 aftDay = DateUtils.addHours(currentDate, 24);
-            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 30);
-            	 aftDay1 = DateUtils.addMinutes(aftDay, 30);
+            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+            	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
