@@ -13515,6 +13515,9 @@ public class Application extends Controller {
     public static Result sendEmailDaily(){
     	 //AuthUser user = getLocalUser();
     	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
+    	 DateFormat df2 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
+    	 //DateFormat df2 = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+    	 
          DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
          SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
          Date currD = new Date();
@@ -13525,7 +13528,7 @@ public class Application extends Controller {
          Date aftDay1 = null;
          Date infoDate = null;
          Date datec = null;
-        
+         //https://maps.googleapis.com/maps/api/timezone/json?location=37.7870882,-122.39112790000001&timestamp=1331161200&key=AIzaSyAZDXHvlpRPy2R_LWP4iCoxN_UBDdMg6o4
          //Date newDate = DateUtils.addHours(info2.confirmTime, 4);
          List<ScheduleTest> list = ScheduleTest.findAllByServiceTestEmail();
          
@@ -13536,31 +13539,23 @@ public class Application extends Controller {
         	 
         	 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
         	 Location location = Location.findById(aUser.location.id);
-        	 TimeZone timeZone1 = TimeZone.getTimeZone(location.time_zone);
-        	 Calendar calendar = new GregorianCalendar();
-        	 calendar.setTimeZone(timeZone1);
-        	 long timeLA = calendar.getTimeInMillis();
+        	
+        	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+             String IST = df2.format(currD);
+            
+             Date istTimes = null;
+			try {
+				istTimes = df1.parse(IST);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
         	 
-        	 
-        	 /*--------------------*/
-        	 
-        	 
-        	 Date startTime = new Date(); // current date time
-        	 TimeZone pstTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
-        	 DateFormat formatter = DateFormat.getDateInstance(); // just date, you might want something else
-        	 formatter.setTimeZone(pstTimeZone);
-        	 String formattedDate = formatter.format(startTime);
-        	 
-        	 /*--------------*/
-        	 
-        	// Calendar calendar1 = Calendar.getInstance();
-        	// calendar1.setTimeInMillis(timeLA);
-        	 
-        	 String cDate = df.format(calendar.getTime());
-             String cTime = parseTime.format(calendar.getTime());
-             String crD =    df1.format(calendar.getTime());
+        	 String cDate = df.format(istTimes);
+             String cTime = parseTime.format(istTimes);
+             String crD =    df1.format(istTimes);
     		 
-             System.out.println("----^^^^^^^^^^^^^^^------------");
              try {
             	 currentDate = df1.parse(crD);
             	 datec = df.parse(cDate);
@@ -13584,8 +13579,6 @@ public class Application extends Controller {
         		 System.out.println("----------------");
             	 System.out.println(scTest.id);
             	 System.out.println(df1.format(currD));
-            	 System.out.println(formattedDate);
-            	 System.out.println(df1.format(calendar.getTime()));
             	 System.out.println(parseTime.format(scTest.confirmTime));
             	 System.out.println(infoDate);
             	 System.out.println(aftHrDate);
@@ -13623,24 +13616,44 @@ public class Application extends Controller {
 				e.printStackTrace();
 			}
         	 
-        	 /*if(scTest.confirmDate.equals(datec)){
-        		 if(scTest.confirmTime.equals(timeSet)){
-        			 if(scTest.meetingStatus == null){
-        				 String subject = "Schedule test D";
-         		    	 String comments = "test D";
-         		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
-        			 }else if(scTest.meetingStatus.equals("meeting")){
-        				 String subject = "meeting";
-         		    	 String comments = "meeting set ";
-         		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
-        			 }
-        			 
-        		 }
-        	 }*/
+        	 
          }
          
          for(RequestMoreInfo rInfo:requestMoreInfos){
         	 AuthUser emailUser = AuthUser.findById(rInfo.assignedTo.id);
+        	 
+        	 Location location = Location.findById(emailUser.location.id);
+        	
+        	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+             String IST = df2.format(currD);
+            
+             Date istTimes = null;
+			try {
+				istTimes = df1.parse(IST);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        	 
+        	 String cDate = df.format(istTimes);
+             String cTime = parseTime.format(istTimes);
+             String crD =    df1.format(istTimes);
+    		 
+             try {
+            	 currentDate = df1.parse(crD);
+            	 datec = df.parse(cDate);
+            	 aftHrDate = DateUtils.addHours(currentDate, 1);
+            	 aftDay = DateUtils.addHours(currentDate, 24);
+            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+            	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+        	 
+        	 
+        	 
+        	 
         	 try {
         		 String str = df.format(rInfo.confirmDate) +" "+parseTime.format(rInfo.confirmTime);
         		 infoDate = df1.parse(str);
@@ -13667,7 +13680,39 @@ public class Application extends Controller {
          }
          
          for(TradeIn tInfo:tradeIns){
+        	 
         	 AuthUser emailUser = AuthUser.findById(tInfo.assignedTo.id);
+        	 
+        	 Location location = Location.findById(emailUser.location.id);
+        	
+        	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+             String IST = df2.format(currD);
+            
+             Date istTimes = null;
+			try {
+				istTimes = df1.parse(IST);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        	 
+        	 String cDate = df.format(istTimes);
+             String cTime = parseTime.format(istTimes);
+             String crD =    df1.format(istTimes);
+    		 
+             try {
+            	 currentDate = df1.parse(crD);
+            	 datec = df.parse(cDate);
+            	 aftHrDate = DateUtils.addHours(currentDate, 1);
+            	 aftDay = DateUtils.addHours(currentDate, 24);
+            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+            	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+        	 
+        	 
         	 try {
         		 String str = df.format(tInfo.confirmDate) +" "+parseTime.format(tInfo.confirmTime);
         		 infoDate = df1.parse(str);
