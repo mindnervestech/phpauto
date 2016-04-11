@@ -117,11 +117,13 @@ import org.json.JSONException;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
+import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import scala.concurrent.duration.Duration;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
@@ -171,6 +173,7 @@ import viewmodel.sendDateAndValue;
 import views.html.agreement;
 import views.html.home;
 import views.html.index;
+import akka.actor.ActorSystem;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Ebean;
@@ -13553,8 +13556,8 @@ public class Application extends Controller {
             	 datec = df.parse(cDate);
             	 aftHrDate = DateUtils.addHours(currentDate, 1);
             	 aftDay = DateUtils.addHours(currentDate, 24);
-            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
-            	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 30);
+            	 aftDay1 = DateUtils.addMinutes(aftDay, 30);
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
@@ -27652,8 +27655,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	}	
     }
 	
-	public static Result sendEmail(String email, String subject ,String comment) {
-		
+	public static Result sendEmail(final String email, final String subject ,final String comment) {
+		ActorSystem newsLetter = Akka.system();
+		newsLetter.scheduler().scheduleOnce(Duration.create(0, TimeUnit.MILLISECONDS), 
+				new Runnable() {
+			public void run() {
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
