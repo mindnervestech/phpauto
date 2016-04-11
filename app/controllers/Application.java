@@ -13541,12 +13541,12 @@ public class Application extends Controller {
         	 calendar.setTimeZone(timeZone1);
         	 long timeLA = calendar.getTimeInMillis();
         	 
-        	 Calendar calendar1 = Calendar.getInstance();
-        	 calendar1.setTimeInMillis(timeLA);
+        	// Calendar calendar1 = Calendar.getInstance();
+        	// calendar1.setTimeInMillis(timeLA);
         	 
-        	 String cDate = df.format(calendar1.getTime());
-             String cTime = parseTime.format(calendar1.getTime());
-             String crD =    df1.format(calendar1.getTime());
+        	 String cDate = df.format(calendar.getTime());
+             String cTime = parseTime.format(calendar.getTime());
+             String crD =    df1.format(calendar.getTime());
     		 
              System.out.println("----^^^^^^^^^^^^^^^------------");
              try {
