@@ -1460,13 +1460,27 @@ margin-left: 5px;
                           
                          </div>
                          <div class="row" ng-if="userType =='Manager' || showGmLocation == 1">
+						  <label class="col-sm-12">Plan Schedule by</label>
                           <div class="col-sm-12" ng-if="nextbutton == 0">
                             <div class="form-group">
-                              <label class="control-label">Plan Schedule by</label>
-                              <div class="append-icon">
+                             <div class="row">
+							  <div class="image col-sm-6" ng-click="getLocation(0)">
+							  <img  style="margin-top: 7px;width: 450px;height: 400PX;"  
+								src="../../../assets/global/images/PLAN - location image.jpg">  <h2 style="font-size: 30px" >Location </h2>
+								</img>
+								
+							  </div>
+							  
+							  <div class="image col-sm-6" ng-click="getSalePersonData()" id="pln">
+							  <img  style="margin-top: 7px;width: 450px;height: 400PX;"  src="../../../assets/global/images/PLAN---Sales-Person-image (1).jpg"  > <h2  style="font-size: 30px" > Salesperson</h2>
+							 </img>
+							  </div>
+							  </div>
+                            
+							  <!--<div class="append-icon">
                               	<input type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getLocationDatass(0)" value="location">Location
-                              	<input id="pln" type="radio" name="plan" ng-model="schPlan.scheduleBy" ng-click="getSalesPersonData()" value="salePerson">Sale person
-                              </div>
+                              	<input id="pln" type="radio" name="plan" value="salePerson" ng-model="schPlan.scheduleBy" ng-click="getSalePersonData()" value="salePerson">Sale person
+                              </div>-->
                             </div>
                           </div>
                             <!-- <div class="col-sm-12" ng-if="schPlan.scheduleBy == 'location' && nextbutton == 0 && showGrid == 1">
@@ -9031,5 +9045,22 @@ color:red;
 	/* .ui-datepicker table{
 		font-size: 5.9em !important;
 	} */
+	
+	.image { 
+   position: relative; 
+   
+}
+
+h2 {
+   position: absolute;
+   top: 350px;
+   left: 40px;
+ 
+   margin: 0 auto;
+   width: 300px;
+   height: 50px;
+   color: white
+}
+	
 	
 </style>	

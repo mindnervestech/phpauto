@@ -6063,14 +6063,23 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.getSalePersonData = function(salesId){
-			   
+			   console.log(":::::::::");
 			   $scope.salesIdPlan = "salePerson";
-			   console.log(salesId);
+			   $scope.schPlan.scheduleBy = "salePerson"
+			   //console.log(salesId);
+			   
+			  // $('#pln').click();
 			   $http.get("/getsalesPlan/"+salesId).success(function(data){
 				   console.log(data);
 				   $scope.showGrid = 1;
 				   $scope.gridOptionsValue.data = data;
 			   });
+		   
+		   }
+		   
+		   $scope.getLocation = function(){
+			   console.log("@@@@@@");
+			   $scope.schPlan.scheduleBy = "location";
 			   
 		   }
 		   
