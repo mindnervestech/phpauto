@@ -13571,6 +13571,8 @@ public class Application extends Controller {
 
         		 System.out.println("----------------");
             	 System.out.println(scTest.id);
+            	 System.out.println(df.format(currD));
+            	 System.out.println(df1.format(calendar1.getTime()));
             	 System.out.println(parseTime.format(scTest.confirmTime));
             	 System.out.println(infoDate);
             	 System.out.println(aftHrDate);
