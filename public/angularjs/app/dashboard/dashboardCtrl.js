@@ -6140,46 +6140,189 @@ angular.module('newApp')
 				   console.log(data);
 				   console.log("<><><>,,>,.,,");
 				   $scope.totalLocationPlanData = data;
+				   var d = new Date();
+				   var n = d.getMonth()+1;
+				   console.log("current month number:::::"+n);
 				   
 				   angular.forEach(data, function(obj, index){
 					   
+					   
+					   
 					   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
+					   
+					   
 					    if(obj.month == "january"){
+					    	$scope.monthValue=1;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.januaryFlag=true;
+					    	}
+					    	
 					    	$scope.saleMonthTotal.januaryTotalEarning = obj.totalBrought;
 					    }
+					    else{
+					    	$scope.monthValue=1;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.januaryFlag=true;
+					    	}
+					    	
+					    }
 					    if(obj.month == "february"){
+					    	$scope.monthValue=2;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.februaryFlag=true;
+					    	}
 					    	$scope.saleMonthTotal.februaryTotalEarning = obj.totalBrought;
 					    }
+					    else{
+					    	$scope.monthValue=2;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.februaryFlag=true;
+					    	}
+					    }
 					    if(obj.month == "march"){
+					    	$scope.monthValue=3;
+					    	if($scope.monthValue < n){
+					    		
+					    		$scope.saleMonthTotal.marchFlag=true;
+					    	}
+						    	
 					    	$scope.saleMonthTotal.marchTotalEarning = obj.totalBrought;
 					    }
+					    else{
+					    	$scope.monthValue=3;
+					    	if($scope.monthValue < n){
+					    		
+					    		$scope.saleMonthTotal.marchFlag=true;
+					    	}
+					    }
 					    if(obj.month == "april"){
+					    	$scope.monthValue=4;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.aprilFlag=true;
+					    	}
+						    	
 					    	$scope.saleMonthTotal.aprilTotalEarning = obj.totalBrought;
 					    }
+					    else{
+					    	$scope.monthValue=4;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.aprilFlag=true;
+					    	}
+					    	
+					    }
 					    if(obj.month == "may"){
+					    	$scope.monthValue=5;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.mayFlag=true;
+					    	}
+						    	
 					    	$scope.saleMonthTotal.mayTotalEarning = obj.totalBrought;
 					    }
+						else{
+							$scope.monthValue=5;
+					    	if($scope.monthValue < n){
+								$scope.saleMonthTotal.mayFlag=true;
+					    	}
+					    		
+						}
 					    if(obj.month == "june"){
+					    	$scope.monthValue=6;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.juneFlag=1;
+					    	}
+						    	
 					    	$scope.saleMonthTotal.juneTotalEarning = obj.totalBrought;
 					    }
+						else{
+							$scope.monthValue=6;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.juneFlag=true;
+					    	}
+						}
 					    if(obj.month == "july"){
+					    	$scope.monthValue=7;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.julyFlag=true;
+					    	}
+						    	
 					    	$scope.saleMonthTotal.julyTotalEarning = obj.totalBrought;
 					    }
+						else{
+							$scope.monthValue=7;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.julyFlag=true;
+					    	}
+						}
 					    if(obj.month == "august"){
+					    	$scope.monthValue=8;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.augustFlag=1;
+					    	}
+						    	
 					    	$scope.saleMonthTotal.augustTotalEarning = obj.totalBrought;
 					    }
+						else{
+							$scope.monthValue=8;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.augustFlag=true;
+					    	}
+						}
 					    if(obj.month == "september"){
+					    	$scope.monthValue=9;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.septemberFlag=true;
+					    	}
+						    	
 					    	$scope.saleMonthTotal.septemberTotalEarning = obj.totalBrought;
 					    }
+						else{
+							$scope.monthValue=9;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.septemberFlag=true;
+					    	}
+						}
 					    if(obj.month == "october"){
+					    	$scope.monthValue=10;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.octoberFlag=true;
+					    	}
+						    	
 					    	$scope.saleMonthTotal.octoberTotalEarning = obj.totalBrought;
 					    }
+						else{
+							$scope.monthValue=10;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.octoberFlag=true;
+					    	}
+							
+						}
 					    if(obj.month == "november"){
+					    	$scope.monthValue=11;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.novemberFlag=true;
+					    	}
+						    	
 					    	$scope.saleMonthTotal.novemberTotalEarning = obj.totalBrought;
 					    }
+						else{
+							$scope.monthValue=11;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.novemberFlag=true;
+					    	}
+						}
 					    if(obj.month == "december"){
+					    	$scope.monthValue=12;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.decemberFlag=true;
+					    	}
 					    	$scope.saleMonthTotal.decemberTotalEarning = obj.totalBrought;
 					    }
+						else{
+							$scope.monthValue=12;
+					    	if($scope.monthValue < n){
+					    		$scope.saleMonthTotal.decemberFlag=true;
+					    	}
+						}
 					    
 				   });
 			   });
