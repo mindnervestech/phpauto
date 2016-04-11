@@ -384,7 +384,7 @@ public String testDriveStatus;
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
 	}
 	
-	public static List<RequestMoreInfo> findByConfirmGraLeadsToEmail(Date cDate) {
+	public static List<RequestMoreInfo> findByConfirmGraLeadsToEmail() {
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).findList();
 	}
 	public static List<RequestMoreInfo> findByConfirmGraLeads(Long locationId, AuthUser user, Date cDate) {

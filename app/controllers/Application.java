@@ -13525,32 +13525,18 @@ public class Application extends Controller {
          Date aftDay1 = null;
          Date infoDate = null;
          Date datec = null;
-         String cDate = df.format(currD);
-         String cTime = parseTime.format(currD);
-         String crD =    df1.format(currD);
-		 
-         System.out.println("----^^^^^^^^^^^^^^^------------");
-         try {
-        	 currentDate = df1.parse(crD);
-        	 datec = df.parse(cDate);
-        	 aftHrDate = DateUtils.addHours(currentDate, 1);
-        	 aftDay = DateUtils.addHours(currentDate, 24);
-        	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
-        	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        
          //Date newDate = DateUtils.addHours(info2.confirmTime, 4);
-         List<ScheduleTest> list = ScheduleTest.findAllByServiceTestEmail(datec);
+         List<ScheduleTest> list = ScheduleTest.findAllByServiceTestEmail();
          
-     	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeadsToEmail(datec);
-     	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail(datec);
+     	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeadsToEmail();
+     	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail();
      	
          for(ScheduleTest scTest:list){
+        	 
         	 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
         	 Location location = Location.findById(aUser.location.id);
         	 TimeZone timeZone1 = TimeZone.getTimeZone(location.name);
-        	 //DateTime dateTimeCal = DateTime.now( DateTimeZone.forID(location.name));
         	 Calendar calendar = new GregorianCalendar();
         	 calendar.setTimeZone(timeZone1);
         	 long timeLA = calendar.getTimeInMillis();
@@ -13558,18 +13544,35 @@ public class Application extends Controller {
         	 Calendar calendar1 = Calendar.getInstance();
         	 calendar1.setTimeInMillis(timeLA);
         	 
+        	 String cDate = df.format(calendar1.getTime());
+             String cTime = parseTime.format(calendar1.getTime());
+             String crD =    df1.format(calendar1.getTime());
+    		 
+             System.out.println("----^^^^^^^^^^^^^^^------------");
+             try {
+            	 currentDate = df1.parse(crD);
+            	 datec = df.parse(cDate);
+            	 aftHrDate = DateUtils.addHours(currentDate, 1);
+            	 aftDay = DateUtils.addHours(currentDate, 24);
+            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+            	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+        	 
+        	
+        	 
         	 AuthUser emailUser = AuthUser.findById(scTest.assignedTo.id);
         	 
         	 
         	 try {
         		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
         		 infoDate = df1.parse(str);
-        		 
+
         		 System.out.println("----------------");
             	 System.out.println(scTest.id);
             	 System.out.println(parseTime.format(scTest.confirmTime));
             	 System.out.println(infoDate);
-            	 System.out.println(df1.format(calendar1.getTime()));
             	 System.out.println(aftHrDate);
             	 System.out.println(aftHrDate1);
             	 System.out.println(emailUser.email);
@@ -23106,7 +23109,7 @@ if(vehicles.equals("All")){
 			moTest.reason = vm.getReason();
 			moTest.scheduleDate = new Date();
 			moTest.scheduleTime = new Date();
-		     moTest.user = user;
+		    moTest.user = user;
 			moTest.isReassigned = false;
 			moTest.sendInvitation = 1;
 			moTest.acceptMeeting = 1;

@@ -633,7 +633,7 @@ public String testDriveStatus;
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
 	}
 	
-	public static List<TradeIn> findByConfirmGraLeadsToEmail(Date datec) {
+	public static List<TradeIn> findByConfirmGraLeadsToEmail() {
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).findList();
 	}
 	
