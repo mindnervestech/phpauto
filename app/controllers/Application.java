@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
@@ -113,6 +115,8 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13510,7 +13514,7 @@ public class Application extends Controller {
     
     public static Result sendEmailDaily(){
     	 //AuthUser user = getLocalUser();
-    	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy hh:mm a");
+    	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
          DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
          SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
          Date currD = new Date();
@@ -13524,7 +13528,7 @@ public class Application extends Controller {
          String cDate = df.format(currD);
          String cTime = parseTime.format(currD);
          String crD =    df1.format(currD);
-         
+		 
          System.out.println("----^^^^^^^^^^^^^^^------------");
          try {
         	 currentDate = df1.parse(crD);
@@ -13543,6 +13547,16 @@ public class Application extends Controller {
      	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail(datec);
      	
          for(ScheduleTest scTest:list){
+        	 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
+        	 Location location = Location.findById(aUser.location.id);
+        	 TimeZone timeZone1 = TimeZone.getTimeZone(location.name);
+        	 //DateTime dateTimeCal = DateTime.now( DateTimeZone.forID(location.name));
+        	 Calendar calendar = new GregorianCalendar();
+        	 calendar.setTimeZone(timeZone1);
+        	 long timeLA = calendar.getTimeInMillis();
+        	 
+        	 Calendar calendar1 = Calendar.getInstance();
+        	 calendar1.setTimeInMillis(timeLA);
         	 
         	 AuthUser emailUser = AuthUser.findById(scTest.assignedTo.id);
         	 
@@ -13555,6 +13569,7 @@ public class Application extends Controller {
             	 System.out.println(scTest.id);
             	 System.out.println(parseTime.format(scTest.confirmTime));
             	 System.out.println(infoDate);
+            	 System.out.println(df1.format(calendar1.getTime()));
             	 System.out.println(aftHrDate);
             	 System.out.println(aftHrDate1);
             	 System.out.println(emailUser.email);
