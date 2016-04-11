@@ -29,6 +29,7 @@ public class Location extends Model {
 	public String imageUrl;
 	public String type;
 	public Date createdDate;
+	public String time_zone;
 	
 	public Date getCreatedDate() {
 		return createdDate;
@@ -111,6 +112,12 @@ public class Location extends Model {
 	}
 
 
+	public String getTime_zone() {
+		return time_zone;
+	}
+	public void setTime_zone(String time_zone) {
+		this.time_zone = time_zone;
+	}
 	public String getImageUrl() {
 		return imageUrl;
 	}
