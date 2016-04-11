@@ -13536,10 +13536,22 @@ public class Application extends Controller {
         	 
         	 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
         	 Location location = Location.findById(aUser.location.id);
-        	 TimeZone timeZone1 = TimeZone.getTimeZone(location.name);
+        	 TimeZone timeZone1 = TimeZone.getTimeZone(location.time_zone);
         	 Calendar calendar = new GregorianCalendar();
         	 calendar.setTimeZone(timeZone1);
         	 long timeLA = calendar.getTimeInMillis();
+        	 
+        	 
+        	 /*--------------------*/
+        	 
+        	 
+        	 Date startTime = new Date(); // current date time
+        	 TimeZone pstTimeZone = TimeZone.getTimeZone("America/Los_Angeles");
+        	 DateFormat formatter = DateFormat.getDateInstance(); // just date, you might want something else
+        	 formatter.setTimeZone(pstTimeZone);
+        	 String formattedDate = formatter.format(startTime);
+        	 
+        	 /*--------------*/
         	 
         	// Calendar calendar1 = Calendar.getInstance();
         	// calendar1.setTimeInMillis(timeLA);
@@ -13572,6 +13584,7 @@ public class Application extends Controller {
         		 System.out.println("----------------");
             	 System.out.println(scTest.id);
             	 System.out.println(df1.format(currD));
+            	 System.out.println(formattedDate);
             	 System.out.println(df1.format(calendar.getTime()));
             	 System.out.println(parseTime.format(scTest.confirmTime));
             	 System.out.println(infoDate);
