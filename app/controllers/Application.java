@@ -94,6 +94,7 @@ import models.UserNotes;
 import models.Vehicle;
 import models.VehicleAudio;
 import models.VehicleImage;
+import models.VehicleImageConfig;
 import models.Video;
 import models.VirtualTour;
 import net.coobird.thumbnailator.Thumbnails;
@@ -2269,9 +2270,10 @@ public class Application extends Controller {
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
 	    	    File file = picture.getFile();
+	    	    
 	    	    try {
 	    	    BufferedImage originalImage = ImageIO.read(file);
-	    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
+	    	    Thumbnails.of(originalImage).size(originalImage.getWidth(), originalImage.getHeight()).toFile(thumbFile);
 	    	    File _f = new File(filePath);
 				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 				
@@ -2354,26 +2356,7 @@ public class Application extends Controller {
     }
     
 	
-    public static Result getImageDataById(Long id) throws IOException {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
-    	} else {
-	    	VehicleImage image = VehicleImage.findById(id);
-	    	File file = new File(rootDir+image.path);
-	    	
-	    	BufferedImage originalImage = ImageIO.read(file);
-	    	
-	    	ImageVM vm = new ImageVM();
-			vm.id = image.id;
-			vm.imgName = image.imgName;
-			vm.defaultImage = image.defaultImage;
-			vm.row = originalImage.getHeight();
-			vm.col = originalImage.getWidth();
-			vm.path = image.path;
-			vm.vin = image.vin;
-	    	return ok(Json.toJson(vm));
-    	}	
-    }
+   
 	
     
     public static Result deleteImage(Long id) {
@@ -5518,6 +5501,8 @@ public class Application extends Controller {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
+    		
+    		AuthUser user = (AuthUser) getLocalUser();
 	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
 	    	EditImageVM vm = form.get();
 	    	
@@ -5529,7 +5514,10 @@ public class Application extends Controller {
 	    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
 	    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
 	    	
-	    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	VehicleImageConfig config = VehicleImageConfig.findByUser(user);
+	    	//Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	    	//Thumbnails.of(croppedImage).size(210, 140).toFile(thumbFile);
+	    	Thumbnails.of(croppedImage).height(140).width(210).toFile(thumbFile);
 	    	
 	    	return ok();
     	}	
@@ -5971,6 +5959,32 @@ public class Application extends Controller {
     	}	
     }
     
+    public static Result getImageDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		
+    		AuthUser user = (AuthUser) getLocalUser();
+	    	VehicleImage image = VehicleImage.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.imgName;
+			vm.defaultImage = image.defaultImage;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.vin = image.vin;
+			VehicleImageConfig config = VehicleImageConfig.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+    
     
     public static Result editSliderImage() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -6129,6 +6143,34 @@ public class Application extends Controller {
 	    	return ok();
     	}	
     }
+    
+    
+    
+    public static Result saveVehicleConfig(Integer width,Integer height) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	VehicleImageConfig config = VehicleImageConfig.findByUser(user);
+	    	
+	    	if(config != null) {
+	    		config.setCropHeight(height);
+	    		config.setCropWidth(width);
+	    		config.update();
+	    	} else {
+	           config = new VehicleImageConfig();
+	           config.setCropHeight(height);
+	           config.setCropWidth(width);
+	           config.user = user;
+	           config.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	           config.save();
+	        }
+	
+	    	return ok();
+    	}	
+    }
+    
+    
     
     public static Result saveFeaturedConfig(Integer width,Integer height) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -13881,6 +13923,7 @@ public class Application extends Controller {
         				 String subject = "Test drive reminder";
          		    	 String comments = "You have a test drive scheduled in 1 hour ";
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
+         		    	sendEmail(scTest.email, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
         				 
         				 System.out.println("----^^^^^^^^^^^^^^^-111-----------");
@@ -13894,9 +13937,8 @@ public class Application extends Controller {
             			 String subject = "Test drive reminder";
          		    	 String comments = "You have a test drive scheduled in 24 hours ";
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
+         		    	sendEmail(scTest.email, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
-        				 
-        				 System.out.println("----^^^^^^^^^^^^^^^-111-----6666666------");
         				 String subject = "Meeting reminder";
          		    	 String comments = "You have a meeting scheduled in 24 hours ";
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
@@ -13951,11 +13993,13 @@ public class Application extends Controller {
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 1 hour ";
      		    	 sendEmail(emailUser.communicationemail, subject, comments);
+     		    	sendEmail(rInfo.email, subject, comments);
         		 }
         		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 24 hours ";
      		    	 sendEmail(emailUser.communicationemail, subject, comments);
+     		    	sendEmail(rInfo.email, subject, comments);
         		 }
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -14010,11 +14054,13 @@ public class Application extends Controller {
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 1 hour ";
      		    	 sendEmail(emailUser.communicationemail, subject, comments);
+     		    	sendEmail(tInfo.email, subject, comments);
         		 }
         		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 24 hours ";
      		    	 sendEmail(emailUser.communicationemail, subject, comments);
+     		    	sendEmail(tInfo.email, subject, comments);
         		 }
 			} catch (Exception e) {
 				e.printStackTrace();

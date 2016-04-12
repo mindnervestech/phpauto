@@ -35,6 +35,24 @@
 	<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
 </form>
 
+<h1 style="margin-top:5%;">Vehicle's Defailt Image</h1>
+
+<form ng-submit="saveVehicleSize()">
+	<div class="form-group col-sm-12" style="margin-top:5%;margin-left:-10%;">
+		<label class="col-sm-2 control-label" style="text-align: right;">Height *</label>
+			<div class="col-sm-3">
+				<input class="form-control form-white" ng-model="vehSize.height" min="0" type="number" required>
+			</div>
+	</div>
+	<div class="form-group col-sm-12" style="margin-left:-10%;">
+		<label class="col-sm-2 control-label" style="text-align: right;">Width *</label>
+			<div class="col-sm-3">
+				<input class="form-control form-white" ng-model="vehSize.width" min="0" type="number" required>
+			</div>
+	</div>
+	<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
+</form>
+
 <h1 style="margin-top:5%;">Newsletter Date</h1>
 <form ng-submit="saveDayOfMonth()">
 <div class="form-group col-sm-12" style="margin-left:-6%;margin-top:4%;">

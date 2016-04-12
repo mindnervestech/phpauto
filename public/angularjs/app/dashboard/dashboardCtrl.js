@@ -3462,7 +3462,6 @@ angular.module('newApp')
 	    		var promos =  $interval(function() {
   			 		$scope.reminderPopup();
 	    		},900000);
-	    		//900000
 	    		
 	    		$scope.reminderPopup = function(){
 	    			
@@ -8745,24 +8744,30 @@ angular.module('newApp')
 	$scope.imgId = "/getImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
-		 $http.get('/getImageById/'+$routeParams.id)
-			.success(function(data) {
-				imageW = data.col;
-				imageH = data.row;
-				$scope.image = data;
-				    $('#target').Jcrop({
-				        onSelect: showCoords,
-				        onChange: showCoords,
-				        setSelect:   [ 200, 200, 100, 100 ],
-				        trueSize: [data.col,data.row],
-				        aspectRatio: data.col/data.row
-				    },function(){
-				    	var bounds = this.getBounds();
-				        boundx = bounds[0];
-				        boundy = bounds[1];
-				        //$('#preview')
-				    });
-			});
+		$http.get('/getImageById/'+$routeParams.id)
+		.success(function(data) {
+			imageW = data.col;
+			imageH = data.row;
+			
+			$('#set-height').val(data.height);
+			$('#set-width').val(data.width);
+			$scope.image = data;
+			    $('#target').Jcrop({
+			        onSelect: showCoords,
+			        onChange: showCoords,
+			        setSelect:   [ 0, 0, data.width, data.height ],
+			        minSize:[data.width,data.height],
+			        allowSelect: false,
+			        trueSize: [data.col,data.row],
+			        aspectRatio: data.width/data.height
+			    },function(){
+			    	var bounds = this.getBounds();
+			        boundx = bounds[0];
+			        boundy = bounds[1];
+			        //$('#preview')
+			    });
+		});
+		 
 		 
 	}
 		 function showCoords(c)
@@ -9399,6 +9404,20 @@ angular.module('newApp')
 			    title: "Success",
 			    type:'success',
 			    text: "Featured config saved successfully",
+			});
+		});
+	}
+	
+	$scope.saveVehicleSize = function() {
+		console.log($scope.vehSize);
+		console.log('success');
+		$http.get('/saveVehicleConfig/'+$scope.vehSize.width+'/'+$scope.vehSize.height)
+		.success(function(data) {
+			
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Vehicle config saved successfully",
 			});
 		});
 	}
