@@ -87,4 +87,5 @@ public class SpecificationVM {
 	public Long imgId;
 	public boolean sold;
 	public String soldDate;
+	public String fileName;
 }

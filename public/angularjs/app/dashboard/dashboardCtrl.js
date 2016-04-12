@@ -8256,7 +8256,7 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload', function ($filter,$scope,$http,$location,$routeParams,$upload) {
+.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
 	
 	$scope.gridsterOpts = {
 		    columns: 6, // the width of the grid, in columns
@@ -8418,6 +8418,18 @@ angular.module('newApp')
 			pdfFile = $files;
 		}
 	   
+		$scope.removePdf = function(){
+			console.log($routeParams.id);
+			$http.get('/removeVehiclePdf/'+$routeParams.id)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Pdf remove successfuly",
+				});
+				$route.reload();
+			});
+		};
 	   
 	$scope.updateVehicle = function() {
 		console.log($scope.vinData.specification);
@@ -8449,7 +8461,7 @@ angular.module('newApp')
 								console.log(value);
 								value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
 							});
-							
+							$route.reload();
 						});
 		 	      });
 			});

@@ -35,9 +35,11 @@
 
 										<div class="form-group col-sm-12">
 											<label class="col-sm-2 control-label" style="text-align: right">Upload PDF brochure *</label>
-											<div class="col-sm-5">
+											<div class="col-sm-2">
 													<input type="file" name="logoFile" ng-file-select="onPdfFileSelect($files)" accept="application/msword,application/pdf"/>
 											</div>
+											<label class="col-sm-2 control-label" ng-if="vinData.specification.fileName != null" style="text-align: left">{{vinData.specification.fileName}}</label>
+											<i class="col-sm-1 glyphicon glyphicon-remove-circle" ng-if="vinData.specification.fileName != null" style="text-align: right;cursor: pointer;" title="Remove Pdf"ng-click="removePdf(vinData.specification.id)"> </i>
 										</div>
 										
 										<div class="form-group col-sm-12">
@@ -546,16 +548,16 @@
                                     </tab-heading>
                                     <form ng-submit="saveVData()">
                                     	<div class="form-group col-sm-12">
-										<label class="col-sm-2 control-label" style="text-align: right;">Desktop *</label>
+										<label class="col-sm-2 control-label" style="text-align: right;">Desktop </label>
 											<div class="col-sm-5">
-												<textarea class="form-control form-white" type="text" ng-model="vData.desktopUrl" rows="5" required></textarea>
+												<textarea class="form-control form-white" type="text" ng-model="vData.desktopUrl" rows="5"></textarea>
 											</div>
 											<p>width="1170px" height="500px"</p>
 										</div>
 										<div class="form-group col-sm-12">
-										<label class="col-sm-2 control-label" style="text-align: right;">Mobile *</label>
+										<label class="col-sm-2 control-label" style="text-align: right;">Mobile </label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" type="text" ng-model="vData.mobileUrl" required>
+												<input class="form-control form-white" type="text" ng-model="vData.mobileUrl">
 											</div>
 										</div>
 										<button type="submit" class="btn btn-primary" style="margin-left:25%;margin-top:5%;">Save</button>
@@ -568,16 +570,16 @@
                                     </tab-heading>
                                     <form ng-submit="saveVideoData()">
                                     	<div class="form-group col-sm-12">
-										<label class="col-sm-2 control-label" style="text-align: right;">Desktop *</label>
+										<label class="col-sm-2 control-label" style="text-align: right;">Desktop </label>
 											<div class="col-sm-5">
-												<textarea class="form-control form-white" type="text" ng-model="videoData.desktopUrl" rows="5" required></textarea>
+												<textarea class="form-control form-white" type="text" ng-model="videoData.desktopUrl" rows="5"></textarea>
 											</div>
 											<p>width="1170px" height="500px"</p>
 										</div>
 										<div class="form-group col-sm-12">
-										<label class="col-sm-2 control-label" style="text-align: right;">Mobile *</label>
+										<label class="col-sm-2 control-label" style="text-align: right;">Mobile </label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" type="text" ng-model="videoData.mobileUrl" required>
+												<input class="form-control form-white" type="text" ng-model="videoData.mobileUrl">
 											</div>
 										</div>
 										<button type="submit" class="btn btn-primary" style="margin-left:25%;margin-top:5%;">Save</button>

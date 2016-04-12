@@ -4320,6 +4320,26 @@ public class Application extends Controller {
     	}	
     }
     
+    public static Result removeVehiclePdf(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		Vehicle vehicle = Vehicle.findById(id);
+    		if(vehicle.getPdfBrochurePath() != null){
+    			String filePath = rootDir+File.separator+vehicle.getPdfBrochurePath();
+        		File file = new File(filePath);
+        		try {
+        			file.delete();
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+        		vehicle.setPdfBrochureName(null);
+        		vehicle.setPdfBrochurePath(null);
+        		vehicle.update();
+    		}
+    		return ok();
+    	}
+    }
     
     public static Result getVehicleById(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -4400,7 +4420,7 @@ public class Application extends Controller {
 			specificationVM.remoteTrunkRelease = vehicle.getRemoteTrunkRelease();
 			specificationVM.steeringWheel = vehicle.getSteeringWheel();
 			specificationVM.steeringWheelControls = vehicle.getSteeringWheelControls();
-			
+			specificationVM.fileName = vehicle.getPdfBrochureName();
 			specificationVM.standardSeating = vehicle.getStandardSeating();
 			
 			specificationVM.mileage = vehicle.getMileage();
