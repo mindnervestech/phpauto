@@ -14219,8 +14219,13 @@ public class Application extends Controller {
         	    		}
         	    		
         	    		if(test.groupId != null){
+        	    			
         	    			List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(test.groupId);
+        	    			
         	    			for(ScheduleTest users:schedulegroupList){
+        	    				AuthUser usAuthUser = AuthUser.findById(users.user.id);
+            	    			vm.hostName = usAuthUser.firstName+" "+usAuthUser.lastName;
+        	    				
         	    				UserVM uVm = new UserVM();
         	    	    		uVm.firstName = users.assignedTo.getFirstName();
         	    	    		uVm.lastName = users.assignedTo.getLastName();
@@ -23446,8 +23451,8 @@ if(vehicles.equals("All")){
 					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
             	         
             	     testloop.setSendInvitation(1);
-            	     String subject = "Meeting invitation.";
- 			   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
+            	     String subject = "Meeting's information has been changed.";
+ 			   	    String comments = "Meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
  				    sendEmail(assi.communicationemail, subject, comments);
             	   
 			       }
@@ -28571,6 +28576,18 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		sch.setDeclineMeeting(0);
     		sch.update();
     	}
+    	
+    	return ok(Json.toJson(sche));
+    }
+    
+    public static Result getaccepted(){
+    	
+    	AuthUser users = getLocalUser();
+    	List<ScheduleTest> sche = ScheduleTest.getaccepted(users);
+    	/*for(ScheduleTest sch:sche){
+    		sch.setDeclineMeeting(0);
+    		sch.update();
+    	}*/
     	
     	return ok(Json.toJson(sche));
     }

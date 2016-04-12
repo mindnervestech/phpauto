@@ -2535,7 +2535,8 @@ angular.module('newApp')
     			  
     			  $scope.likeMsg();
     			  $scope.invitationMsg();
-    			  $scope.declineMsg();
+    			  $scope.decline();
+    			  $scope.acceptMsg();
     			  
     			 $scope.check={};
     			  var date = new Date();
@@ -2776,7 +2777,47 @@ angular.module('newApp')
 
 							}
 			
-			$scope.declineMsg = function(){
+			
+			
+			$scope.acceptMsg = function(){
+
+				
+				/*$http.get('/getaccepted')
+	    		.success(function(data){
+	    			
+	    			console.log(data);
+	    				var notifContent;
+	    				angular.forEach(data, function(value, key) {
+	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" accepted your invitation to "+value.name+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    				
+	    				var position = 'topRight';
+		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+		    	        var n = noty({
+		    	            text: notifContent,
+		    	            type: 'success',
+		    	            layout: position,
+		    	            theme: 'made',
+		    	            animation: {
+		    	                open: 'animated bounceIn',
+		    	                close: 'animated bounceOut'
+		    	            },
+		    	            
+		    	            callback: {
+		    	                onShow: function () {
+		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+		    	                },
+		    	                onCloseClick: function () {
+		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+		    	                }
+		    	            }
+		    	        });
+		    	        
+		    	        var element = $('#cnt');
+						$compile(element)($scope);
+	    				});
+	    		});*/
+			}
+			$scope.decline = function(){
 				
 				$http.get('/getdecline')
 	    		.success(function(data){
@@ -2814,6 +2855,7 @@ angular.module('newApp')
 				
 				
 			}
+			
 			
 			$scope.invitationMsg = function() {
 

@@ -402,6 +402,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("user", user).eq("declineMeeting", 2).orderBy("scheduleDate desc").findList();
 	}
 	
+	public static List<ScheduleTest> getaccepted(AuthUser user) {
+		return find.where().eq("user", user).eq("acceptMeeting", 0).orderBy("scheduleDate desc").findList();
+	}
+	
 	public static List<ScheduleTest> findAllLostSch(AuthUser user) {
 		return find.where().eq("assignedTo", user).eq("leadStatus", "LOST").findList();
 	}

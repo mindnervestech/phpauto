@@ -21,6 +21,7 @@ public class RequestInfoVM {
 	public String drivetrain;
 	public String imgId;
 	public String name;
+	public String hostName;
 	public String email;
 	public String phone;
 	public String requestDate;
