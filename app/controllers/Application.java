@@ -24027,6 +24027,31 @@ if(vehicles.equals("All")){
 		return ok(Json.toJson(sMonthlySalepeoples));
 	}
 	
+	
+	public static Result getPlanByMonthAndUserForLocation(Integer saleId,String month){
+		int flagForPlan=0;
+	   PlanScheduleMonthlyLocation sMonthlySalepeoples = PlanScheduleMonthlyLocation.findByUserMonth(AuthUser.findById(saleId),month);
+		if(sMonthlySalepeoples == null){
+			flagForPlan=1;
+			
+			 return ok(Json.toJson(flagForPlan));
+		}
+	   return ok(Json.toJson(sMonthlySalepeoples));
+	}
+	
+	
+	
+	public static Result getPlanByMonthAndUser(Integer saleId,String month){
+		int flagForPlan=0;
+	   PlanScheduleMonthlySalepeople sMonthlySalepeoples = PlanScheduleMonthlySalepeople.findByUserMonth(AuthUser.findById(saleId),month);
+		if(sMonthlySalepeoples == null){
+			flagForPlan=1;
+			
+			 return ok(Json.toJson(flagForPlan));
+		}
+	   return ok(Json.toJson(sMonthlySalepeoples));
+	}
+	
 	public static Result getlocationsMonthlyPlan(Integer userKey){
 		AuthUser aUser = AuthUser.findById(userKey);
 		List<PlanScheduleMonthlyLocation> pLocation = PlanScheduleMonthlyLocation.findByLocation(aUser.location.id);

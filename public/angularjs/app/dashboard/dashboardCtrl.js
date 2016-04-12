@@ -2597,6 +2597,53 @@ angular.module('newApp')
 					});
     		  }
     		  
+    		  
+    		  var d = new Date();
+    		  var month = new Array();
+    		  month[0] = "January";
+    		  month[1] = "February";
+    		  month[2] = "March";
+    		  month[3] = "April";
+    		  month[4] = "May";
+    		  month[5] = "June";
+    		  month[6] = "July";
+    		  month[7] = "August";
+    		  month[8] = "September";
+    		  month[9] = "October";
+    		  month[10] = "November";
+    		  month[11] = "December";
+    		  var monthNam = month[d.getMonth()];
+    		  
+    		  console.log("::::::oninit");
+    		  console.log($scope.userKey);
+    		  console.log(monthNam);
+    		  $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+monthNam)
+				.success(function(data) {
+					console.log("######");
+					console.log(data);
+					if(data == 1){
+						$scope.flagForPlan = 1;
+						
+						
+					}
+    		  
+				});
+    		  
+    		  $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+monthNam)
+				.success(function(data) {
+					console.log("dataof::getPlanByMonthAndUser");
+					console.log(data);
+					if(data == 1){
+						$scope.flagForPlanForLocation = 1;
+						
+						
+					}
+					
+					
+				});
+    		  
+    		  
+    		  
     		  $scope.heatMapShow = function(){
     			  $scope.showHeatMap = 0;
     				$scope.gridOptions12 = {
@@ -5955,6 +6002,41 @@ angular.module('newApp')
 		   }
 		   
 		   
+		   
+		   $scope.planForsalePerson = function(){
+			   console.log(";;;;USERKEY"+$scope.userKey);
+			   console.log("@@@@currentmont"+$scope.parLocationData.monthCurr);
+			   
+			   $('#salepersonPlanModel').modal();
+			  // $scope.findVehicalPlan($scope.userKey);
+			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
+				.success(function(data) {
+					console.log("dataof::getPlanByMonthAndUser");
+					console.log(data);
+					$scope.saleMonthTotalPer=data;
+				});
+			   
+		   }
+		  
+		   
+		   $scope. planForLocationManager = function(){
+			   console.log(";;;;USERKEY"+$scope.userKey);
+			   console.log("@@@@currentmont"+$scope.parLocationData.monthCurr);
+			   
+			   $('#locationPlanModel').modal();
+			  // $scope.findVehicalPlan($scope.userKey);
+			   $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
+				.success(function(data) {
+					console.log("dataof::getPlanByMonthAndUser");
+					console.log(data);
+					$scope.locationTotalPer=data;
+				});
+			   
+		   }
+		   
+		   
+		   
+		   
 		   $scope.locationTotal = 0;
 		   $scope.saveLocationPlan = function(month, locationIds){
 			   var value = 0;
@@ -6031,7 +6113,7 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.saveSalesTotal = function(total){
-			   
+			   $scope.userkey=$scope.userKeyforSalestotal;
 			   if(locationId != 0){
 				   $http.get('/gmLocationManager/'+locationId)
 					.success(function(data) {
@@ -6191,6 +6273,8 @@ angular.module('newApp')
 			   $scope.salePerpleTotal = 0;
 			   $scope.saleMonthTotal = {};
 			   $scope.salePerId = saleId;
+			   $scope.userKeyforSalestotal=saleId;
+			   console.log(":::::::::"+saleId);
 			   $http.get("/getSaleMonthlyPlan/"+saleId).success(function(data){
 				   console.log(data);
 				   console.log("<><><>,,>,.,,");

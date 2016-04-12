@@ -129,6 +129,8 @@ GET		/getAllLocation/:timeSet				controllers.Application.getAllLocation(timeSet:
 GET		/getUserForMeeting/:date/:time				controllers.Application.getUserForMeeting(date:String,time:String)
 GET     /getUserLocationInfo/:userKey/:timeSet/:locOrPer   	controllers.Application.getUserLocationInfo(userKey:Integer,timeSet:String,locOrPer:String)
 GET    /gmLocationManager/:locationId  	controllers.Application.gmLocationManager(locationId:Long)
+GET       /getPlanByMonthAndUser/:userId/:month    controllers.Application.getPlanByMonthAndUser(userId:Integer,month:String)
+GET       /getPlanByMonthAndUserForLocation/:userId/:month    controllers.Application.getPlanByMonthAndUserForLocation(userId:Integer,month:String)
 #GET     /getUserLocationInfoOther/:timeSet/:locOrPer/:locationId/:managerId   	controllers.Application.getUserLocationInfoOther(timeSet:String,locOrPer:String, locationId:Long, managerId:Integer)
 GET     /getUserLocationByDateInfo/:userKey/:startDate/:endDate/:locOrPer  	 controllers.Application.getUserLocationByDateInfo(userKey:Integer,startDate:String,endDate:String,locOrPer:String)
 #GET     /getUserLocationByDateInfoOther/:startDate/:endDate/:locOrPer/:locationId/:managerId  	 controllers.Application.getUserLocationByDateInfoOther(startDate:String,endDate:String,locOrPer:String, locationId:Long, managerId:Integer)

@@ -482,8 +482,12 @@ margin-left: 5px;
 									     		<label><a ng-click="userLocationData('6 Month',dataLocOrPerWise)" style="cursor: pointer;font-size: 18px;">6 Month</a> | </label>
 									     		<label><a ng-click="userLocationData('Year',dataLocOrPerWise)" style="cursor: pointer;font-size: 18px;">Year</a> | </label> -->
 									     		
-									     		<label><p style="cursor: pointer;font-size: 22px;">PLAN</p>  </label>
-									     		
+									     		<label ng-if="userRole == 'Sales Person'"  ><p style="cursor: pointer;font-size: 22px;"  ng-click="planForsalePerson()" ng-if="flagForPlan != 1" >PLAN</p>  </label>
+									     		<label ng-if="userRole == 'Sales Person'"  ><p style="font-size: 22px;"  ng-if="flagForPlan == 1"  >PLAN</p>  </label>
+									     		<label ng-if="userRole == 'Manager'"> <p style="cursor: pointer;font-size: 22px;" ng-click="planForLocationManager()" ng-if="flagForPlanForLocation != 1" >PLAN </p> </label>
+									            <label ng-if="userRole == 'Manager'"> <p style="font-size: 22px;"  ng-if="flagForPlanForLocation == 1" >PLAN </p> </label>
+									     
+									     
 									     </div>
 									     
 									     </div>
@@ -1421,6 +1425,222 @@ margin-left: 5px;
                 </div>
               </div>
             </div>
+          
+            <div class="modal fade" id="salepersonPlanModel" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                  <h4 class="modal-title"><strong>Schedule Plan</strong></h4>
+                </div>
+                <div class="modal-body">
+                <div class="row">
+                <div class="panel panel-default no-bd">
+                <div class="panel-body bg-white">
+                  <div class="row">
+          <div class="col-sm-6">
+                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<label>{{parLocationData.monthCurr}}</label>
+                         		</div>
+                         		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         			<input type="text" name="august" class="form-control col-sm-6" placeholder="$$$"  ng-model="saleMonthTotalPer.totalBrought">
+                         		</div>
+                         	<hr>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>$$$Amount<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" ng-disabled="true"  class="form-control" placeholder="$$$" ng-model="saleMonthTotalPer.totalBrought" required>
+                         			</div>
+                         			</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Vehicles to sell<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" ng-disabled="true"   class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.vehicalesToSell" required>
+                         			</div>	
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Leads to Generate<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text" ng-disabled="true" class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.leadsToGenerate" required>
+                         			</div>
+                         		</div>
+                         		<div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<label>Test Drives<span style="color:red;">*</span></label>
+                         			</div>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+                         				<input type="text"  ng-disabled="true"  class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.testDrives" required>
+                         			</div>
+                         		</div>
+                         		<hr>
+                         		</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Calls</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text" class="form-control" ng-model="saleMonthTotalPer.cell">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Emails</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="email"  class="form-control" ng-model="saleMonthTotalPer.emails">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Success Rate</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text"  class="form-control" ng-model="saleMonthTotalPer.successRate">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>% Out of all sales</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text"  class="form-control" ng-model="saleleadsTime.outofSale">
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>New Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text"  class="form-control" ng-model="saleMonthTotalPer.newCustomers" required>
+	                         			</div>
+                         			</div>
+                         			<div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<label>Returning Customers</label>
+	                         			</div>
+	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	                         				<input type="text"  class="form-control" ng-model="saleMonthTotalPer.returningCustomers" required>
+	                         			</div>
+                         			</div>
+                         			
+                         		</div>
+                         	<!-- 	<div class="col-sm-12">
+                         		<hr>
+                         			<label>Salepeople</label>
+                         		</div>
+                         		<div>
+                         			 <label ng-repeat="salePer in salesPersonPerf" ng-if="schPlan.salePerson != salePer.id" class="col-sm-12" style="padding:0px;">
+				 						 <input type="checkbox" name="selectsale"  ng-click="salesClicked($event,salePer,salePer.isSelected)"
+				 						   	ng-model="salePer.isSelected">					
+   					 						{{salePer.fullName}}</label>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 0">
+                         			<a ng-click="showOtherIngos()">Add fields</a>
+                         		</div>
+                         		<div class="col-sm-12" ng-if="showOtherIngo == 1">
+                         			<a ng-click="showOtherIngos()">Hide fields</a>
+                         		</div>
+                         	 -->
+                          </div>
+                          
+                       </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                         </div>
+                       
+                  </div>
+                </div>
+              </div>
+                </div>
+                </div>
+              </div>
+            </div>
+           
+          
+          
+          
+          <div class="modal fade" id="locationPlanModel" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                  <h4 class="modal-title"><strong>Schedule Plan</strong></h4>
+                </div>
+                <div class="modal-body">
+                <div class="row">
+                <div class="panel panel-default no-bd">
+                <div class="panel-body bg-white">
+                  <div class="row">
+                  
+               <div>
+	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+         				<label>{{parLocationData.monthCurr}}</label>
+	    			</div>
+	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.totalEarning">
+	       			</div>
+       			</div>
+       			
+       			<div>
+	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+         				<label>Total Earning</label>
+	    			</div>
+	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.totalEarning">
+	       			</div>
+       			</div>
+       			
+       			<div>
+	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+         				<label>Minimum Earning</label>
+	    			</div>
+	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.minEarning">
+	       			</div>
+       			</div>
+       			
+       			<div>
+	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+         				<label>Vehicle to Sell</label>
+	    			</div>
+	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.vehiclesSell">
+	       			</div>
+       			</div>
+       			
+       			<div>
+	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+         				<label>Average Check</label>
+	    			</div>
+	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.avgCheck">
+	       			</div>
+       			</div>
+       			
+                       </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                         </div>
+                       
+                  </div>
+                </div>
+              </div>
+                </div>
+                </div>
+              </div>
+            </div>
+           
+          
+          
+          
+          
+          
           
           
           
