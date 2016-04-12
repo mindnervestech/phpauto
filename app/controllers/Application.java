@@ -23446,7 +23446,7 @@ if(vehicles.equals("All")){
 					AuthUser assi = AuthUser.findById(testloop.assignedTo.id);
 					testloop.setName(vm.name);
 					testloop.setReason(vm.reason);
-					
+					testloop.setDeclineUpdate(1);
 					
 					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
             	         
@@ -24465,7 +24465,7 @@ if(vehicles.equals("All")){
 		
 		
 		sendMeetingMailToAssignee(vm, user, userList, loc);
-		sendMeetingMailToOrgnizer(vm, user, userList, loc);
+		//sendMeetingMailToOrgnizer(vm, user, userList, loc);
 		return ok();
 	}
 	
@@ -28073,7 +28073,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		ScheduleTest stTest = ScheduleTest.findById(id);
 		if(stTest != null){
 			if(status.equals("accept")){
-				stTest.setAcceptMeeting(0);
+				stTest.setAcceptMeeting(2);
 				stTest.setMeeting(0);
 				stTest.update();
 			}
@@ -28580,14 +28580,26 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	return ok(Json.toJson(sche));
     }
     
+    public static Result getUpdateMeeting(){
+    	
+    	AuthUser users = getLocalUser();
+    	List<ScheduleTest> sche = ScheduleTest.getUpdateMeeting(users);
+    	for(ScheduleTest sch:sche){
+    		sch.setDeclineUpdate(0);
+    		sch.update();
+    	}
+    	
+    	return ok(Json.toJson(sche));
+    }
+    
     public static Result getaccepted(){
     	
     	AuthUser users = getLocalUser();
     	List<ScheduleTest> sche = ScheduleTest.getaccepted(users);
-    	/*for(ScheduleTest sch:sche){
-    		sch.setDeclineMeeting(0);
+    	for(ScheduleTest sch:sche){
+    		sch.setAcceptMeeting(0);
     		sch.update();
-    	}*/
+    	}
     	
     	return ok(Json.toJson(sche));
     }

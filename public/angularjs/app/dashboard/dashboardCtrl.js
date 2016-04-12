@@ -2537,6 +2537,7 @@ angular.module('newApp')
     			  $scope.invitationMsg();
     			  $scope.decline();
     			  $scope.acceptMsg();
+    			  $scope.updateMeeting();
     			  
     			 $scope.check={};
     			  var date = new Date();
@@ -2778,11 +2779,50 @@ angular.module('newApp')
 							}
 			
 			
+			$scope.updateMeeting = function(){
+
+				
+				$http.get('/getUpdateMeeting')
+	    		.success(function(data){
+	    			console.log(")()()()()()");
+	    			console.log(data);
+	    				var notifContent;
+	    				angular.forEach(data, function(value, key) {
+	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>Meeting information has been updated</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    				
+	    				var position = 'topRight';
+		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+		    	        var n = noty({
+		    	            text: notifContent,
+		    	            type: 'success',
+		    	            layout: position,
+		    	            theme: 'made',
+		    	            animation: {
+		    	                open: 'animated bounceIn',
+		    	                close: 'animated bounceOut'
+		    	            },
+		    	            
+		    	            callback: {
+		    	                onShow: function () {
+		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('margin-left', -30).css('bottom', 10);
+		    	                },
+		    	                onCloseClick: function () {
+		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+		    	                }
+		    	            }
+		    	        });
+		    	        
+		    	        var element = $('#cnt');
+						$compile(element)($scope);
+	    				});
+	    		});
+			}
+			
 			
 			$scope.acceptMsg = function(){
 
 				
-				/*$http.get('/getaccepted')
+				$http.get('/getaccepted')
 	    		.success(function(data){
 	    			
 	    			console.log(data);
@@ -2804,7 +2844,7 @@ angular.module('newApp')
 		    	            
 		    	            callback: {
 		    	                onShow: function () {
-		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('margin-left', -30).css('bottom', 10);
 		    	                },
 		    	                onCloseClick: function () {
 		    	                	$('html, body').animate({scrollTop:480}, 'slow');
@@ -2815,7 +2855,7 @@ angular.module('newApp')
 		    	        var element = $('#cnt');
 						$compile(element)($scope);
 	    				});
-	    		});*/
+	    		});
 			}
 			$scope.decline = function(){
 				

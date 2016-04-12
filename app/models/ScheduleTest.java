@@ -76,6 +76,7 @@ public class ScheduleTest extends Model {
 	public Integer sendInvitation;
 	public Integer acceptMeeting;
 	public Integer declineMeeting;
+	public Integer declineUpdate;
 	
 	
 	
@@ -116,6 +117,12 @@ public class ScheduleTest extends Model {
 	}
 	public void setIsReassigned(Boolean isReassigned) {
 		this.isReassigned = isReassigned;
+	}
+	public Integer getDeclineUpdate() {
+		return declineUpdate;
+	}
+	public void setDeclineUpdate(Integer declineUpdate) {
+		this.declineUpdate = declineUpdate;
 	}
 	public Long getId() {
 		return id;
@@ -403,7 +410,11 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<ScheduleTest> getaccepted(AuthUser user) {
-		return find.where().eq("user", user).eq("acceptMeeting", 0).orderBy("scheduleDate desc").findList();
+		return find.where().eq("user", user).eq("acceptMeeting", 2).orderBy("scheduleDate desc").findList();
+	}
+	
+	public static List<ScheduleTest> getUpdateMeeting(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("declineUpdate", 1).orderBy("scheduleDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllLostSch(AuthUser user) {
