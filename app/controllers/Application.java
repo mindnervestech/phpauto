@@ -9901,6 +9901,213 @@ public class Application extends Controller {
     	}
     }
     
+    public static Result getReminderPopup(){
+   	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
+   	 DateFormat df2 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
+   	 AuthUser user = (AuthUser) getLocalUser();
+        DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+        Date currD = new Date();
+        Date currentDate = null;
+        Date aftHrDate = null;
+        Date aftDay = null;
+        Date aftHrDate1 = null;
+        Date aftDay1 = null;
+        Date infoDate = null;
+        Date datec = null;
+        
+        Date lessDay = DateUtils.addDays(currD, -1);
+        
+        List<NoteVM> actionVM = new ArrayList<NoteVM>();
+        
+        List<ScheduleTest> list = ScheduleTest.findAllByServiceTestPopup(user,lessDay);
+        
+    	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeadsToPopUp(user,lessDay);
+    	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToPopup(user,lessDay);
+    	
+    	for(ScheduleTest scTest:list){
+       	 
+        	NoteVM acti = new NoteVM();
+       	 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
+       	 Location location = Location.findById(aUser.location.id);
+       	
+       	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+            String IST = df2.format(currD);
+           
+            Date istTimes = null;
+			try {
+				istTimes = df1.parse(IST);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+       	
+       	 
+       	 String cDate = df.format(istTimes);
+            String cTime = parseTime.format(istTimes);
+            String crD =    df1.format(istTimes);
+   		 
+            try {
+           	 currentDate = df1.parse(crD);
+           	 datec = df.parse(cDate);
+           	 aftHrDate = DateUtils.addHours(currentDate, 1);
+           	 aftDay = DateUtils.addHours(currentDate, 24);
+           	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+           	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+   		} catch (Exception e) {
+   			e.printStackTrace();
+   		}
+       	 
+       	
+       	 
+       	 try {
+       		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
+       		 infoDate = df1.parse(str);
+
+       		 System.out.println("----------------");
+           	 System.out.println(scTest.id);
+           	 System.out.println(df1.format(currD));
+           	 System.out.println(parseTime.format(scTest.confirmTime));
+           	 System.out.println(infoDate);
+           	 System.out.println(aftHrDate);
+           	 System.out.println(aftHrDate1);
+           	 System.out.println("-11---------------");
+           	 
+       		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
+           		 if(scTest.meetingStatus == null){
+           			acti.action = "Test drive reminder";
+           			acti.note = "You have a test drive scheduled in 1 hour ";
+       			 }else if(scTest.meetingStatus.equals("meeting")){
+       				acti.action = "Meeting reminder";
+       				acti.note = "You have a meeting scheduled in 1 hour ";
+       			 }
+           		 actionVM.add(acti);
+           	 }
+       		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
+           		 if(scTest.meetingStatus == null){
+           			acti.action =  "Test drive reminder";
+           			acti.note = "You have a test drive scheduled in 24 hours ";
+       			 }else if(scTest.meetingStatus.equals("meeting")){
+       				acti.action = "Meeting reminder";
+       				acti.note =  "You have a meeting scheduled in 24 hours ";
+       			 }
+           		 actionVM.add(acti);
+           	 }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+       	 
+       	
+        }
+        
+        for(RequestMoreInfo rInfo:requestMoreInfos){
+        	
+        	NoteVM acti = new NoteVM();
+       	 AuthUser emailUser = AuthUser.findById(rInfo.assignedTo.id);
+       	 
+       	 Location location = Location.findById(emailUser.location.id);
+       	
+       	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+            String IST = df2.format(currD);
+           
+            Date istTimes = null;
+			try {
+				istTimes = df1.parse(IST);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+       	
+       	 
+       	 String cDate = df.format(istTimes);
+            String cTime = parseTime.format(istTimes);
+            String crD =    df1.format(istTimes);
+   		 
+            try {
+           	 currentDate = df1.parse(crD);
+           	 datec = df.parse(cDate);
+           	 aftHrDate = DateUtils.addHours(currentDate, 1);
+           	 aftDay = DateUtils.addHours(currentDate, 24);
+           	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+           	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+   		} catch (Exception e) {
+   			e.printStackTrace();
+   		}
+       	 
+       	 
+       	 try {
+       		 String str = df.format(rInfo.confirmDate) +" "+parseTime.format(rInfo.confirmTime);
+       		 infoDate = df1.parse(str);
+       		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
+       			acti.action = "Test drive reminder";
+       			acti.note = "You have a test drive scheduled in 1 hour ";
+       		 actionVM.add(acti);
+       		 }
+       		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
+       			acti.action =  "Test drive reminder";
+       			acti.note = "You have a test drive scheduled in 24 hours ";
+       		 actionVM.add(acti);
+       		 }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        }
+        
+        for(TradeIn tInfo:tradeIns){
+        	NoteVM acti = new NoteVM();
+       	 AuthUser emailUser = AuthUser.findById(tInfo.assignedTo.id);
+       	 
+       	 Location location = Location.findById(emailUser.location.id);
+       	
+       	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+            String IST = df2.format(currD);
+           
+            Date istTimes = null;
+			try {
+				istTimes = df1.parse(IST);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+       	
+       	 
+       	 String cDate = df.format(istTimes);
+            String cTime = parseTime.format(istTimes);
+            String crD =    df1.format(istTimes);
+   		 
+            try {
+           	 currentDate = df1.parse(crD);
+           	 datec = df.parse(cDate);
+           	 aftHrDate = DateUtils.addHours(currentDate, 1);
+           	 aftDay = DateUtils.addHours(currentDate, 24);
+           	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+           	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+   		} catch (Exception e) {
+   			e.printStackTrace();
+   		}
+       	 
+       	 
+       	 try {
+       		 String str = df.format(tInfo.confirmDate) +" "+parseTime.format(tInfo.confirmTime);
+       		 infoDate = df1.parse(str);
+       		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
+        			acti.action = "Test drive reminder";
+           			acti.note = "You have a test drive scheduled in 1 hour ";
+           		 actionVM.add(acti);
+       		 }
+       		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
+       			acti.action =  "Test drive reminder";
+       			acti.note = "You have a test drive scheduled in 24 hours ";
+       		 actionVM.add(acti);
+       		 }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        }
+        
+        
+   	return ok(Json.toJson(actionVM));
+    }
     
     public static Result getBlogById(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

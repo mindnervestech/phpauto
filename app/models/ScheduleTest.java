@@ -446,6 +446,11 @@ public class ScheduleTest extends Model {
 		return find.where().add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).orderBy("confirmDate desc").findList();
 	}
 	
+	public static List<ScheduleTest> findAllByServiceTestPopup(AuthUser user,Date currDate) {
+		
+		return find.where().add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("assignedTo", user).ge("confirmDate", currDate).eq("lead_status", null).orderBy("confirmDate desc").findList();
+	}
+	
 	public static List<ScheduleTest> findAllByServiceTest(Date currDate) {
 		
 		return find.where().add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
