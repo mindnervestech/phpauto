@@ -4587,6 +4587,24 @@ public class Application extends Controller {
 		        context.put("brakes", vehicle.brakes);
 		        context.put("horsePower", vehicle.horsePower);
 		        context.put("email", profile.email);
+		        String s="Sachin Tendulkar";  
+		        System.out.println(s.substring(6));//Tendulkar  
+		        System.out.println(s.substring(0,6));//Sachin  
+		        
+		        String firstThreeDigit=profile.phone;
+		        firstThreeDigit=firstThreeDigit.substring(0, 3);
+		        String secondThreeDigit=profile.phone;
+		        secondThreeDigit=secondThreeDigit.substring(3, 6);
+		        String thirdThreeDigit=profile.phone;
+		        thirdThreeDigit=thirdThreeDigit.substring(6, 10);
+		        System.out.println("phone digits");
+		        System.out.println(firstThreeDigit);
+		        System.out.println(secondThreeDigit);
+		        System.out.println(thirdThreeDigit);
+		        context.put("firstThreeDigit", firstThreeDigit);
+		        context.put("secondThreeDigit", secondThreeDigit);
+		        context.put("thirdThreeDigit", secondThreeDigit);
+		        
 		        context.put("phone", profile.phone);
 		        if(sameBodyStyle != null) {
 		        	if(sameBodyStyle.price != null) {
