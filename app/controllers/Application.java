@@ -4603,7 +4603,7 @@ public class Application extends Controller {
 		        System.out.println(thirdThreeDigit);
 		        context.put("firstThreeDigit", firstThreeDigit);
 		        context.put("secondThreeDigit", secondThreeDigit);
-		        context.put("thirdThreeDigit", secondThreeDigit);
+		        context.put("thirdThreeDigit", thirdThreeDigit);
 		        
 		        context.put("phone", profile.phone);
 		        if(sameBodyStyle != null) {
