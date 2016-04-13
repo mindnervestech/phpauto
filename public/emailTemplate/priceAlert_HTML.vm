@@ -917,7 +917,7 @@ a{text-decoration: none !important;}
                                     <!-- start button -->
                                     <table width="auto" border="0" align="left" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
                                       <tbody><tr>
-                                        <td width="auto" align="center" valign="middle" height="32" style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; border-radius: 1px; word-break: break-word; line-height: 21px; background-color: rgb(199, 0, 0); background-clip: padding-box;"><span style="font-size: inherit; line-height: 21px;" href="http://glider-autos.com/glivr/vehicleDetails/$makeVin"  >MORE DETAILS</span></td>
+                                        <td width="auto" align="center" valign="middle" height="32" style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; border-radius: 1px; word-break: break-word; line-height: 21px; background-color: rgb(199, 0, 0); background-clip: padding-box;"><span style="font-size: inherit; line-height: 21px;"><a href="http://glider-autos.com/glivr/vehicleDetails/$makeVin">MORE DETAILS</a></span></td>
                                       </tr>
                                     </tbody></table>
                                     <!-- end button -->
