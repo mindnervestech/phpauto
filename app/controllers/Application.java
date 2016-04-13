@@ -27986,6 +27986,150 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		}
 		return ok("false");
 	}
+	public static Result getTrimList(String model){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		List<Vehicle> list = Vehicle.findByMake(model);
+    		Map<String, Vehicle> mapMake = new HashMap<>();
+    		List<VehicleVM> trimList = new ArrayList<>();
+    		for (Vehicle vehicle : list) {
+    			if(vehicle.getTrim() != null){
+    				Vehicle objectMake = mapMake.get(vehicle.getTrim());
+    				mapMake.put(vehicle.getTrim(), vehicle);
+    			}
+			}
+    		for (Entry<String, Vehicle> value : mapMake.entrySet()) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.trim = value.getKey();
+    			trimList.add(vm);
+    		}
+    		return ok(Json.toJson(trimList));
+    	}
+	}	
+	
+	public static Result getModelList(String make){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		List<Vehicle> list = Vehicle.findByMake(make);
+    		Map<String, Vehicle> mapMake = new HashMap<>();
+    		List<VehicleVM> modelList = new ArrayList<>();
+    		for (Vehicle vehicle : list) {
+    			if(vehicle.getModel() != null){
+    				Vehicle objectMake = mapMake.get(vehicle.getModel());
+    				mapMake.put(vehicle.getModel(), vehicle);
+    			}
+			}
+    		for (Entry<String, Vehicle> value : mapMake.entrySet()) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.model = value.getKey();
+    			modelList.add(vm);
+    		}
+    		return ok(Json.toJson(modelList));
+    	}
+	}
+	
+	public static Result getMakeList(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+    		List<VehicleVM> makeList = new ArrayList<>();
+    		List<VehicleVM> labelList = new ArrayList<>();
+    		List<VehicleVM> madeInList = new ArrayList<>();
+    		List<VehicleVM> exteriorColoList = new ArrayList<>();
+    		List<VehicleVM> stereoList = new ArrayList<>();
+    		List<VehicleVM> driveTypeList = new ArrayList<>();
+    		List<VehicleVM> fuelTypeList = new ArrayList<>();
+    		
+    		List<Vehicle> list = Vehicle.getMakeList();
+    		
+    		Map<String, Vehicle> mapMake = new HashMap<>();
+    		Map<String, Vehicle> mapLabel = new HashMap<>();
+    		Map<String, Vehicle> mapMadeIn = new HashMap<>();
+    		Map<String, Vehicle> mapExteriorColor = new HashMap<>();
+    		Map<String, Vehicle> mapStereo = new HashMap<>();
+    		Map<String, Vehicle> mapDriveType = new HashMap<>();
+    		Map<String, Vehicle> mapFuelType = new HashMap<>();
+    		
+    		Map<String, Object> mapList = new HashMap<>();
+    		mapList.put("make", makeList);
+    		mapList.put("label", labelList);
+    		mapList.put("madeIn", madeInList);
+    		mapList.put("stereo", stereoList);
+    		mapList.put("driveType", driveTypeList);
+    		mapList.put("fuelType", fuelTypeList);
+    		mapList.put("exteriorColor", exteriorColoList);
+    		
+    		for (Vehicle vehicle : list) {
+    			if(vehicle.getMake() != null){
+    				Vehicle objectMake = mapMake.get(vehicle.getMake());
+    					mapMake.put(vehicle.getMake(), vehicle);
+    			}
+    			if(vehicle.getLabel() != null){
+    				Vehicle objectMake = mapLabel.get(vehicle.getLabel());
+    				mapLabel.put(vehicle.getLabel(), vehicle);
+    			}
+    			if(vehicle.getMadeIn() != null){
+    				Vehicle objectMake = mapLabel.get(vehicle.getMadeIn());
+    				mapMadeIn.put(vehicle.getMadeIn(), vehicle);
+    			}
+    			if(vehicle.getStereo() != null){
+    				Vehicle objectMake = mapLabel.get(vehicle.getStereo());
+    				mapStereo.put(vehicle.getStereo(), vehicle);
+    			}
+    			if(vehicle.getDrivetrain() != null){
+    				Vehicle objectMake = mapLabel.get(vehicle.getDrivetrain());
+    				mapDriveType.put(vehicle.getDrivetrain(), vehicle);
+    			}
+    			if(vehicle.getFuelType() != null){
+    				Vehicle objectMake = mapLabel.get(vehicle.getFuelType());
+    				mapFuelType.put(vehicle.getFuelType(), vehicle);
+    			}
+    			if(vehicle.getExteriorColor() != null){
+    				Vehicle objectMake = mapLabel.get(vehicle.getExteriorColor());
+    				mapExteriorColor.put(vehicle.getExteriorColor(), vehicle);
+    			}
+			}
+    		
+    		for (Entry<String, Vehicle> value : mapMadeIn.entrySet()) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.madeIn = value.getKey();
+    			madeInList.add(vm);
+    		}
+    		for (Entry<String, Vehicle> value : mapStereo.entrySet()) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.stereo = value.getKey();
+    			stereoList.add(vm);
+    		}
+    		for (Entry<String, Vehicle> value : mapDriveType.entrySet()) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.drivetrain = value.getKey();
+    			driveTypeList.add(vm);
+    		}
+    		for (Entry<String, Vehicle> value : mapFuelType.entrySet()) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.fuelType = value.getKey();
+    			fuelTypeList.add(vm);
+    		}
+    		for (Entry<String, Vehicle> value : mapExteriorColor.entrySet()) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.extColor = value.getKey();
+    			exteriorColoList.add(vm);
+    		}
+    		for (Entry<String, Vehicle> value : mapMake.entrySet()) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.make = value.getKey();
+    			makeList.add(vm);
+    		}
+    		for (Entry<String, Vehicle> value : mapLabel.entrySet()) {
+    			VehicleVM vm = new VehicleVM();
+    			vm.label = value.getKey();
+    			labelList.add(vm);
+    		}
+    		return ok(Json.toJson(mapList));
+    	}
+	}
 	
 	public static Result updateVehiclePrice(String vin , String price){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

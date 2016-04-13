@@ -18,7 +18,54 @@ public class VehicleVM {
 	public String transmission;
 	public String vehicleImage;
 	public String year;
-	
+	public String trim;
+	public String label;
+	public String madeIn;
+	public String extColor;
+	public String stereo;
+	public String fuelType;
+	public String getDrivetrain() {
+		return drivetrain;
+	}
+	public void setDrivetrain(String drivetrain) {
+		this.drivetrain = drivetrain;
+	}
+	public String getMadeIn() {
+		return madeIn;
+	}
+	public void setMadeIn(String madeIn) {
+		this.madeIn = madeIn;
+	}
+	public String getExtColor() {
+		return extColor;
+	}
+	public void setExtColor(String extColor) {
+		this.extColor = extColor;
+	}
+	public String getStereo() {
+		return stereo;
+	}
+	public void setStereo(String stereo) {
+		this.stereo = stereo;
+	}
+	public String getFuelType() {
+		return fuelType;
+	}
+	public void setFuelType(String fuelType) {
+		this.fuelType = fuelType;
+	}
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	public String getTrim() {
+		return trim;
+	}
+	public void setTrim(String trim) {
+		this.trim = trim;
+	}
 	public String getVin() {
 		return vin;
 	}

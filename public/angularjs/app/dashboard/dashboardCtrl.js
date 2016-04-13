@@ -7998,7 +7998,70 @@ angular.module('newApp')
  		$scope.vinData.specification.location = data.dealer.address;
  	});
    }
+   $scope.makeList = [];
+   $scope.modelList = [];
+   $scope.trimList = [];
+   $scope.labelList = [];
+   $scope.madeInList = [];
+   $scope.stereoList = [];
+   $scope.driveTypeList = [];
+   $scope.fuelTypeList = [];
+   $scope.exteriorColorList = [];
    
+   $http.get('/getMakeList').success(function(data) {
+	   console.log(data);
+		$scope.labelList = data.label;
+		$scope.makeList = data.make;
+		$scope.madeInList = data.madeIn;
+		$scope.stereoList = data.stereo;
+		$scope.driveTypeList = data.driveType;
+		$scope.fuelTypeList = data.fuelType;
+		$scope.exteriorColorList = data.exteriorColor;
+		   
+		console.log($scope.makeList);
+	});
+   $scope.selectedMake = function (selectObj) {
+	   console.log($('#makeSearch_value').val());
+	   console.log(selectObj);
+		if(selectObj != undefined){
+			$scope.vinData.specification.make = selectObj.title;
+			$http.get('/getModelList/'+selectObj.title)
+			.success(function(data) {
+				$scope.modelList = data;
+				console.log($scope.modelList);
+			});
+			console.log($scope.vinData.specification);
+		}
+	};
+	$scope.selectedModel = function (selectObj) {
+		   console.log($('#modelSearch_value').val());
+		   console.log(selectObj);
+			if(selectObj != undefined){
+				$scope.vinData.specification.model = selectObj.title;
+				$http.get('/getTrimList/'+selectObj.title)
+				.success(function(data) {
+					$scope.trimList = data;
+					console.log($scope.trimList);
+				});
+				console.log($scope.vinData.specification);
+			}
+	};
+	$scope.selectedTrim = function (selectObj) {
+		   console.log($('#trimSearch_value').val());
+		   console.log(selectObj);
+			if(selectObj != undefined){
+				$scope.vinData.specification.trim_level = selectObj.title;
+				console.log($scope.vinData.specification);
+			}
+	};  
+	$scope.selectedLabel = function (selectObj) {
+		   console.log($('#labelSearch_value').val());
+		   console.log(selectObj);
+			if(selectObj != undefined){
+				$scope.vinData.specification.label = selectObj.title;
+				console.log($scope.vinData.specification);
+			}
+	};	
    $scope.siteIds = [];
    $scope.setSiteId = function(id,flag) {
  	  if(flag == true) {
@@ -8048,50 +8111,71 @@ angular.module('newApp')
    }
    
    $scope.saveVehicle = function() {
+	   $scope.vinData.specification.model = $('#modelSearch_value').val();
+	   $scope.vinData.specification.make = $('#makeSearch_value').val();
+	   $scope.vinData.specification.trim_level = $('#trimSearch_value').val();
+	   $scope.vinData.specification.label = $('#labelSearch_value').val();
+	   
+	   $scope.vinData.specification.made_in = $('#madeInSearch_value').val();
+	   $scope.vinData.specification.extColor = $('#extColorSearch_value').val();
+	   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
+	   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
+	   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
+	   
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
- 	 if(pdffile != undefined){
- 		$http.post('/saveVehicle',$scope.vinData.specification)
-		.success(function(data) {
-			console.log('success');
-		//	$location.path('/');
-			$.pnotify({
-			    title: "Success",
+ 	  if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ") && ($scope.vinData.specification.trim_level != null && $scope.vinData.specification.trim_level != "") && ($scope.vinData.specification.label != null && $scope.vinData.specification.label != "")){
+ 		  console.log("success...");
+ 		  if(pdffile != undefined){
+ 	 		$http.post('/saveVehicle',$scope.vinData.specification)
+ 			.success(function(data) {
+ 				console.log('success');
+ 			//	$location.path('/');
+ 				$.pnotify({
+ 				    title: "Success",
+ 				    type:'success',
+ 				    text: "Vehicle saved successfully",
+ 				});
+ 				$upload.upload({
+ 		 	         url : '/saveVehiclePdf/'+data,
+ 		 	         method: 'POST',
+ 		 	         file:pdffile,
+ 		 	      }).success(function(data) {
+ 		 	    	  console.log('success');
+ 		 	  			$.pnotify({
+ 		 	  			    title: "Success",
+ 		 	  			    type:'success',
+ 		 	  			    text: "Vehicle saved successfully",
+ 		 	  			});
+ 		 	  			if($scope.flagVal == true) {
+ 		 	  		 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
+ 		 	  		 	  }
+ 		 	      });
+ 			});
+ 	 	 }else{
+ 	 		$http.post('/saveVehicle',$scope.vinData.specification)
+ 			.success(function(data) {
+ 				console.log('success');
+ 			//	$location.path('/');
+ 				$.pnotify({
+ 				    title: "Success",
+ 				    type:'success',
+ 				    text: "Vehicle saved successfully",
+ 				});
+ 				if($scope.flagVal == true) {
+ 			 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
+ 			 	  }
+ 			});
+ 	 	 }
+ 	  }else{
+ 		 $.pnotify({
+			    title: "Error",
 			    type:'success',
-			    text: "Vehicle saved successfully",
+			    text: "Please select all fields",
 			});
-			$upload.upload({
-	 	         url : '/saveVehiclePdf/'+data,
-	 	         method: 'POST',
-	 	         file:pdffile,
-	 	      }).success(function(data) {
-	 	    	  console.log('success');
-	 	  			$.pnotify({
-	 	  			    title: "Success",
-	 	  			    type:'success',
-	 	  			    text: "Vehicle saved successfully",
-	 	  			});
-	 	  			if($scope.flagVal == true) {
-	 	  		 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
-	 	  		 	  }
-	 	      });
-		});
- 	 }else{
- 		$http.post('/saveVehicle',$scope.vinData.specification)
-		.success(function(data) {
-			console.log('success');
-		//	$location.path('/');
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Vehicle saved successfully",
-			});
-			if($scope.flagVal == true) {
-		 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
-		 	  }
-		});
- 	 } 
+ 	  }
+ 	  
    }
    
    $scope.setFlagVal = function() {

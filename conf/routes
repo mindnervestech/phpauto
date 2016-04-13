@@ -47,6 +47,9 @@ POST    /editLeads				controllers.Application.editLeads
 POST	/saveSliderPosition		controllers.Application.saveSliderPosition
 POST	/saveFeaturedPosition		controllers.Application.saveFeaturedPosition
 GET		/getUserInfo				controllers.Application.getUserInfo()
+GET		/getMakeList				controllers.Application.getMakeList()
+GET		/getModelList/:make				controllers.Application.getModelList(make: String)
+GET		/getTrimList/:model				controllers.Application.getTrimList(model: String)
 GET     /getcommentLike				controllers.Application.getcommentLike()
 GET		/getHeardAboutUs				controllers.Application.getHeardAboutUs()
 GET    	/addHeard/:name      			controllers.Application.addHeard(name: String)
