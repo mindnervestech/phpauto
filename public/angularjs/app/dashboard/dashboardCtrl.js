@@ -2907,7 +2907,7 @@ angular.module('newApp')
 	    			
 	    			if(data == 1){
 	    				
-	    				  var d = new Date();
+	    				/*  var d = new Date();
 	    	    		  var month = new Array();
 	    	    		  month[0] = "January";
 	    	    		  month[1] = "February";
@@ -2939,7 +2939,7 @@ angular.module('newApp')
 	    							$scope.flagForPlanForLocation = 1;
 	    						}
 	    					});
-	    				
+	    				*/
 	    				
 	    				
 	    				
@@ -3027,8 +3027,6 @@ angular.module('newApp')
 				$http.get('/getdeleteMeeting')
 	    		.success(function(data){
 
-	    			console.log("JKJKJKJKJKJKJKJKJKJK");
-	    			console.log(data);
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
 	    					if(value.declineUser == 'Host'){
@@ -5940,8 +5938,8 @@ angular.module('newApp')
 			   console.log($scope.appointData.id);
 			   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead+"/"+reason).success(function(data){
 				   console.log("success");
-				   $('#deleteMeeting-model').modal("toggle");
 				   $scope.schedulmultidatepicker();
+				   $('#deleteMeeting-model').modal("toggle");
 				   $http.get("/getscheduletest").success(function(data){
 					   $scope.scheduleListData = data;
 				   });

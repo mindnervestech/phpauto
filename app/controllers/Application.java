@@ -28639,7 +28639,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			e.printStackTrace();
 		}
 		Date maxTime = null;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 8; i++) {
 			maxTime = dates;
 			Calendar calendar = Calendar.getInstance();
 			System.out.println(df.format(maxTime));
@@ -28698,21 +28698,23 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	    		sLVm.declineUser = sch.declineUser;
     	    		list.add(sLVm);
     			}
-    		}else{
+    		}else if(sch.declineUser.equals("this person")){
     			
-    			sch.setDeleteMsgFlag(0);
-        		sch.update();
-    			
-    			ScheduleTestVM sLVm = new ScheduleTestVM();
-	    		sLVm.name = sch.name;
-	    		sLVm.reason = sch.reason;
-	    		sLVm.confirmDate = df.format(sch.confirmDate);
-	    		sLVm.confirmTime = parseTime.format(sch.confirmTime);
-	    		AuthUser usersData = AuthUser.findById(sch.assignedTo.id);
-	    		sLVm.firstName = usersData.firstName;
-	    		sLVm.lastName = usersData.lastName;
-	    		sLVm.declineUser = sch.declineUser;
-	    		list.add(sLVm);
+    			if(!users.id.equals(sch.assignedTo.id)){
+    				sch.setDeleteMsgFlag(0);
+            		sch.update();
+        			
+        			ScheduleTestVM sLVm = new ScheduleTestVM();
+    	    		sLVm.name = sch.name;
+    	    		sLVm.reason = sch.reason;
+    	    		sLVm.confirmDate = df.format(sch.confirmDate);
+    	    		sLVm.confirmTime = parseTime.format(sch.confirmTime);
+    	    		AuthUser usersData = AuthUser.findById(sch.assignedTo.id);
+    	    		sLVm.firstName = usersData.firstName;
+    	    		sLVm.lastName = usersData.lastName;
+    	    		sLVm.declineUser = sch.declineUser;
+    	    		list.add(sLVm);
+    			}
     		}
     		
     	}
