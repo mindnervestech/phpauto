@@ -28687,7 +28687,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
         						
         						AuthUser userNames = AuthUser.findById(sche.assignedTo.id);
         						
-        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+sche.name+" \n"+sche.confirmDate+"  "+sche.confirmTime+".";
+        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+sche.name+" \n"+sche.confirmDate+"  "+sche.confirmTime+"\n"+sche.reason+".";
         						sendEmail(userEmail.communicationemail,subject,comments);
         					}
         					
@@ -28707,7 +28707,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
             					
             					AuthUser userNames = AuthUser.findById(oneGrouptest.assignedTo.id);
         						
-        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+oneGrouptest.name+" \n"+oneGrouptest.confirmDate+"  "+oneGrouptest.confirmTime+".";
+        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+oneGrouptest.name+" \n"+oneGrouptest.confirmDate+"  "+oneGrouptest.confirmTime+"\n"+oneGrouptest.reason+".";
             					
         						sendEmail(userEmail.communicationemail,subject,comments);
         					}
