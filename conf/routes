@@ -251,6 +251,7 @@ GET   /getContentList/:value			controllers.Application.getContentList(value:Inte
 GET	  /getStatusList/:value		controllers.Application.getStatusList(value:String)
 GET   /getAcceptAndDecline/:id/:reason/:status	controllers.Application.getAcceptAndDecline(id:Long,reason:String,status:String)
 GET  /getdecline		controllers.Application.getdecline()
+GET  /getdeleteMeeting 			controllers.Application.getdeleteMeeting()
 GET  /getaccepted		controllers.Application.getaccepted()
 GET   /getAllvehicleStatusList		controllers.Application.getAllvehicleStatusList()
 GET   /getDemographics/:value		controllers.Application.getDemographics(value:String)
@@ -302,4 +303,4 @@ GET    /updateVehicleName/:vin/:name 			controllers.Application.updateVehicleNam
 GET		/updateUserComment/:id/:comment			controllers.Application.updateUserComment(id:Integer,comment:String)
 GET 	/removeAllContactsData					controllers.Application.removeAllContactsData()
 GET		/getAllLeadsByUser/:id			controllers.Application.getAllLeadsByUser(id:Integer)
-GET		/deleteAppointById/:id/:typeOfLead			controllers.Application.deleteAppointById(id:Long,typeOfLead:String)
+GET		/deleteAppointById/:id/:typeOfLead/:reason			controllers.Application.deleteAppointById(id:Long,typeOfLead:String,reason:String)

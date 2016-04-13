@@ -47,9 +47,7 @@ public class ScheduleTestVM {
 	public String trim;
 	public String typeofVehicle;
 	public String userRole;
-	
-	
-	
+	public String declineUser;
 	
 	
 	

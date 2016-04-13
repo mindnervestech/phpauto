@@ -2537,6 +2537,7 @@ angular.module('newApp')
     			  $scope.invitationMsg();
     			  $scope.decline();
     			  $scope.acceptMsg();
+    			  $scope.deleteMeeting();
     			  $scope.updateMeeting();
     			  
     			 $scope.check={};
@@ -2864,7 +2865,7 @@ angular.module('newApp')
 
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
-	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your invitation to "+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" has been declined</span><br><span> Reason: "+value.declineReason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your invitation to "+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" has been declined</span><br><span> Reason: "+value.reason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
 	    				
 	    				var position = 'topRight';
 		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
@@ -2890,6 +2891,78 @@ angular.module('newApp')
 		    	        
 		    	        var element = $('#cnt');
 						$compile(element)($scope);
+	    				});
+	    		});
+				
+				
+			}
+			
+			
+			$scope.deleteMeeting = function(){
+				
+				$http.get('/getdeleteMeeting')
+	    		.success(function(data){
+
+	    			console.log("JKJKJKJKJKJKJKJKJKJK");
+	    			console.log(data);
+	    				var notifContent;
+	    				angular.forEach(data, function(value, key) {
+	    					if(value.declineUser == 'Host'){
+	    						notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.name+" has been cancelled</span><br></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    	    				
+	    	    				var position = 'topRight';
+	    		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+	    		    	        var n = noty({
+	    		    	            text: notifContent,
+	    		    	            type: 'success',
+	    		    	            layout: position,
+	    		    	            theme: 'made',
+	    		    	            animation: {
+	    		    	                open: 'animated bounceIn',
+	    		    	                close: 'animated bounceOut'
+	    		    	            },
+	    		    	            
+	    		    	            callback: {
+	    		    	                onShow: function () {
+	    		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+	    		    	                },
+	    		    	                onCloseClick: function () {
+	    		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+	    		    	                }
+	    		    	            }
+	    		    	        });
+	    		    	        
+	    		    	        var element = $('#cnt');
+	    						$compile(element)($scope);
+	    					}else if(value.declineUser == 'this person'){
+	    						notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> "+value.firstName+"&nbsp;&nbsp;"+value.lastName+" can't go to the "+value.name+"</span><br><span>"+value.confirmDate+"&nbsp;&nbsp"+value.confirmTime+"</span><br><span>"+value.reason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    	    				
+	    	    				var position = 'topRight';
+	    		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+	    		    	        var n = noty({
+	    		    	            text: notifContent,
+	    		    	            type: 'success',
+	    		    	            layout: position,
+	    		    	            theme: 'made',
+	    		    	            animation: {
+	    		    	                open: 'animated bounceIn',
+	    		    	                close: 'animated bounceOut'
+	    		    	            },
+	    		    	            
+	    		    	            callback: {
+	    		    	                onShow: function () {
+	    		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+	    		    	                },
+	    		    	                onCloseClick: function () {
+	    		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+	    		    	                }
+	    		    	            }
+	    		    	        });
+	    		    	        
+	    		    	        var element = $('#cnt');
+	    						$compile(element)($scope);
+	    					}
+	    				
 	    				});
 	    		});
 				
@@ -5720,16 +5793,36 @@ angular.module('newApp')
 			   
 		   };
 		   $scope.deleteFutureAppointment = function(){
+			   
+			   
+			   console.log($scope.appointData.meetingStatus);
+			   if($scope.appointData.meetingStatus != "meeting"){
+				   var resone = "changes";
+				   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead+"/"+resone).success(function(data){
+					   console.log("success");
+					   
+					   $scope.schedulmultidatepicker();
+					   $http.get("/getscheduletest").success(function(data){
+						   $scope.scheduleListData = data;
+					   });
+				   }); 
+			   }else{
+				   $('#deleteMeeting-model').modal();
+			   }
+			   
+		   };
+		   
+		   $scope.deleteFutureAppointmentReason = function(reason){
 			   console.log($scope.appointData.id);
-			   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead).success(function(data){
+			   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead+"/"+reason).success(function(data){
 				   console.log("success");
-				   
+				   $('#deleteMeeting-model').modal("toggle");
 				   $scope.schedulmultidatepicker();
 				   $http.get("/getscheduletest").success(function(data){
 					   $scope.scheduleListData = data;
 				   });
 			   });
-		   };
+		   }
 
 		   $timeout(function(){
 			   $('#cnfReSchDate').on('changeDate', function(e) {

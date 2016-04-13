@@ -35,6 +35,7 @@ public class ScheduleTest extends Model {
 	public Date confirmTime;
 	public String leadStatus;
 	public String reason;
+	public String declineUser;
 	public Integer meeting;
 	//public Integer noteFlag;
 	@ManyToOne
@@ -77,6 +78,7 @@ public class ScheduleTest extends Model {
 	public Integer acceptMeeting;
 	public Integer declineMeeting;
 	public Integer declineUpdate;
+	public Integer deleteMsgFlag;
 	
 	
 	
@@ -234,6 +236,12 @@ public class ScheduleTest extends Model {
 		this.reason = reason;
 	}
 	
+	public Integer getDeleteMsgFlag() {
+		return deleteMsgFlag;
+	}
+	public void setDeleteMsgFlag(Integer deleteMsgFlag) {
+		this.deleteMsgFlag = deleteMsgFlag;
+	}
 	public Integer getPremiumFlag() {
 		return premiumFlag;
 	}
@@ -299,10 +307,12 @@ public class ScheduleTest extends Model {
 		this.parentId = parentId;
 	}
 
-
-
-
-
+	public String getDeclineUser() {
+		return declineUser;
+	}
+	public void setDeclineUser(String declineUser) {
+		this.declineUser = declineUser;
+	}
 	public Long getGroupId() {
 		return groupId;
 	}
@@ -409,6 +419,10 @@ public class ScheduleTest extends Model {
 		return find.where().eq("user", user).eq("declineMeeting", 2).orderBy("scheduleDate desc").findList();
 	}
 	
+	public static List<ScheduleTest> getdeleteMsg(AuthUser user) {
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).eq("deleteMsgFlag", 1).orderBy("scheduleDate desc").findList();
+	}
+	
 	public static List<ScheduleTest> getaccepted(AuthUser user) {
 		return find.where().eq("user", user).eq("acceptMeeting", 2).orderBy("scheduleDate desc").findList();
 	}
@@ -458,27 +472,27 @@ public class ScheduleTest extends Model {
 	
 	public static List<ScheduleTest> findAllByServiceTestEmail() {
 		
-		return find.where().add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).orderBy("confirmDate desc").findList();
+		return find.where().ne("acceptMeeting", 1).ne("confirmDate",null).eq("lead_status", null).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllByServiceTestPopup(AuthUser user,Date currDate) {
 		
-		return find.where().add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("assignedTo", user).ge("confirmDate", currDate).eq("lead_status", null).orderBy("confirmDate desc").findList();
+		return find.where().ne("acceptMeeting", 1).ne("confirmDate",null).eq("assignedTo", user).ge("confirmDate", currDate).eq("lead_status", null).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllByServiceTest(Date currDate) {
 		
-		return find.where().add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
+		return find.where().ne("acceptMeeting", 1).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllByUserServiceTest(AuthUser user, Date currDate) {
 	
-		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).ne("acceptMeeting", 1).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllByUserService(AuthUser user, Date currDate) {
 		
-		return find.where().eq("assignedTo", user).add(Expr.or(Expr.eq("acceptMeeting", 0),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
+		return find.where().eq("assignedTo", user).ne("acceptMeeting", 1).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findForUser(AuthUser user,Date currDate) {

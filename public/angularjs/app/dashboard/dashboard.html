@@ -1378,6 +1378,45 @@ margin-left: 5px;
             </div>
           </div>
           
+          <div class="modal fade" id="deleteMeeting-model" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-dark">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                  <h4 class="modal-title"><strong>Decline reason</strong></h4>
+                </div>
+                <div class="modal-body">
+                <div class="row">
+                <div class="panel panel-default no-bd">
+                <div class="panel-body bg-white">
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <form role="form" class="form-validation" ng-submit="deleteFutureAppointmentReason(reason)">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label class="control-label">Reason</label>
+                              <div class="append-icon">
+								<input class="form-control" ng-model="reason" type="text" required>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                         <div class="modal-footer">
+                          <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                  		  <button type="submit" class="btn btn-primary btn-embossed">Decline</button>
+                         </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div class="modal fade" id="Locationwise-model" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">

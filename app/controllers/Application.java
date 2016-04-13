@@ -28580,6 +28580,57 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	return ok(Json.toJson(sche));
     }
     
+    
+    public static Result getdeleteMeeting(){
+    	
+    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+    	AuthUser users = getLocalUser();
+    	List<ScheduleTest> sche = ScheduleTest.getdeleteMsg(users);
+    	
+    	
+    	List<ScheduleTestVM> list = new ArrayList<ScheduleTestVM>();
+    	for(ScheduleTest sch:sche){
+    		if(sch.declineUser.equals("Host")){
+    			if(!users.id.equals(sch.user.id)){
+    				
+    				sch.setDeleteMsgFlag(0);
+    	    		sch.update();
+    				
+    				ScheduleTestVM sLVm = new ScheduleTestVM();
+    	    		sLVm.name = sch.name;
+    	    		sLVm.reason = sch.reason;
+    	    		sLVm.confirmDate = df.format(sch.confirmDate);
+    	    		sLVm.confirmTime = parseTime.format(sch.confirmTime);
+    	    		AuthUser usersData = AuthUser.findById(sch.assignedTo.id);
+    	    		sLVm.firstName = usersData.firstName;
+    	    		sLVm.lastName = usersData.lastName;
+    	    		sLVm.declineUser = sch.declineUser;
+    	    		list.add(sLVm);
+    			}
+    		}else{
+    			
+    			sch.setDeleteMsgFlag(0);
+        		sch.update();
+    			
+    			ScheduleTestVM sLVm = new ScheduleTestVM();
+	    		sLVm.name = sch.name;
+	    		sLVm.reason = sch.reason;
+	    		sLVm.confirmDate = df.format(sch.confirmDate);
+	    		sLVm.confirmTime = parseTime.format(sch.confirmTime);
+	    		AuthUser usersData = AuthUser.findById(sch.assignedTo.id);
+	    		sLVm.firstName = usersData.firstName;
+	    		sLVm.lastName = usersData.lastName;
+	    		sLVm.declineUser = sch.declineUser;
+	    		list.add(sLVm);
+    		}
+    		
+    	}
+    	
+    	
+    	return ok(Json.toJson(list));
+    }
+    
     public static Result getUpdateMeeting(){
     	
     	AuthUser users = getLocalUser();
@@ -28604,7 +28655,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	return ok(Json.toJson(sche));
     }
     
-    public static Result deleteAppointById(Long id,String typeOfLead){
+    public static Result deleteAppointById(Long id,String typeOfLead,String reason){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
@@ -28625,12 +28676,18 @@ public static Result getviniewsChartLeads(Long id, String vin,
         					for(ScheduleTest sche:grouptest){
         						
         						AuthUser userEmail = AuthUser.findById(sche.user.id);
-        						sche.setConfirmDate(null);
-        						sche.setConfirmTime(null);
+        						//sche.setConfirmDate(null);
+        						//sche.setConfirmTime(null);
         						sche.setLeadStatus(null);
-        						sche.setDeclineMeeting(0);
+        						sche.setDeclineMeeting(2);
+        						sche.setDeleteMsgFlag(1);
+        						sche.setReason(reason);
+        						sche.setDeclineUser("Host");
         						sche.update();
-        						comments="Meeting has been canceled \n"+sche.confirmDate+"  "+sche.confirmTime+".";
+        						
+        						AuthUser userNames = AuthUser.findById(sche.assignedTo.id);
+        						
+        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+sche.name+" \n"+sche.confirmDate+"  "+sche.confirmTime+".";
         						sendEmail(userEmail.communicationemail,subject,comments);
         					}
         					
@@ -28639,13 +28696,19 @@ public static Result getviniewsChartLeads(Long id, String vin,
         					ScheduleTest oneGrouptest = ScheduleTest.findAllGroupUserMeeting(test.groupId, users);
         					AuthUser userEmail = AuthUser.findById(oneGrouptest.user.id);
         					if(oneGrouptest != null){
-        						oneGrouptest.setConfirmDate(null);
-            					oneGrouptest.setConfirmTime(null);
+        						//oneGrouptest.setConfirmDate(null);
+            					//oneGrouptest.setConfirmTime(null);
             					oneGrouptest.setLeadStatus(null);
-            					oneGrouptest.setDeclineMeeting(0);
+            					oneGrouptest.setDeclineMeeting(2);
+            					oneGrouptest.setDeleteMsgFlag(1);
+            					oneGrouptest.setReason(reason);
+            					oneGrouptest.setDeclineUser("this person");
             					oneGrouptest.update();
             					
-            					comments="Meeting has been canceled \n"+oneGrouptest.confirmDate+"  "+oneGrouptest.confirmTime+".";
+            					AuthUser userNames = AuthUser.findById(oneGrouptest.assignedTo.id);
+        						
+        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+oneGrouptest.name+" \n"+oneGrouptest.confirmDate+"  "+oneGrouptest.confirmTime+".";
+            					
         						sendEmail(userEmail.communicationemail,subject,comments);
         					}
         					
