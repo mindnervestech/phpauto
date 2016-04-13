@@ -4566,7 +4566,7 @@ public class Application extends Controller {
 				ve.init();
 			
 				
-		        Template t = ve.getTemplate("/public/emailTemplate/priceAlert_HTML.vm"); 
+		        Template t = ve.getTemplate("/public/emailTemplate/priceAlertTemplate.vm"); 
 		        VelocityContext context = new VelocityContext();
 		        
 		        context.put("hostnameUrl", imageUrlPath);
@@ -4579,18 +4579,46 @@ public class Application extends Controller {
 		        context.put("newPrice", "$"+vehicle.price);
 		        context.put("bodyStyle", vehicle.bodyStyle);
 		        context.put("mileage", vehicle.mileage);
-		        context.put("doors", vehicle.doors);
-		        context.put("seats", vehicle.standardSeating);
-		        context.put("driveTrain", vehicle.drivetrain);
-		        context.put("engine", vehicle.engine);
-		        context.put("transmission", vehicle.transmission);
-		        context.put("brakes", vehicle.brakes);
-		        context.put("horsePower", vehicle.horsePower);
-		        context.put("email", profile.email);
-		        String s="Sachin Tendulkar";  
-		        System.out.println(s.substring(6));//Tendulkar  
-		        System.out.println(s.substring(0,6));//Sachin  
 		        
+		        if(vehicle.doors != null) {
+		        	context.put("doors", vehicle.doors);
+		        	} else {
+		        		context.put("doors", "");
+		        	}
+		        context.put("seats", vehicle.standardSeating);
+		        if(vehicle.drivetrain != null) {
+		        	context.put("driveTrain", vehicle.drivetrain);
+		        	} else {
+		        		context.put("driveTrain", "");
+		        	}
+		        
+		        if(vehicle.engine != null) {
+		        	context.put("engine", vehicle.engine);
+		        	} else {
+		        		context.put("engine", "");
+		        	}
+		        
+		        
+		        if(vehicle.transmission != null) {
+		        	 context.put("transmission", vehicle.transmission);
+		        	} else {
+		        		 context.put("transmission", "");
+		        	}
+		        
+		        if(vehicle.brakes != null) {
+		        	context.put("brakes", vehicle.brakes);
+		        	} else {
+		        		context.put("brakes", "");
+		        	}
+		        
+		        
+		        if(vehicle.horsePower != null) {
+		        	context.put("horsePower", vehicle.horsePower);
+		        	} else {
+		        		context.put("horsePower", "");
+		        	}
+		        
+		        context.put("email", profile.email);
 		        String firstThreeDigit=profile.phone;
 		        firstThreeDigit=firstThreeDigit.substring(0, 3);
 		        String secondThreeDigit=profile.phone;
