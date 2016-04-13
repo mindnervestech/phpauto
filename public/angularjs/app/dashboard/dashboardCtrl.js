@@ -2538,6 +2538,7 @@ angular.module('newApp')
     			  $scope.decline();
     			  $scope.acceptMsg();
     			  $scope.deleteMeeting();
+    			  $scope.PlanOnMonday();
     			  $scope.updateMeeting();
     			  
     			 $scope.check={};
@@ -2860,6 +2861,8 @@ angular.module('newApp')
 			}
 			$scope.decline = function(){
 				
+				
+				
 				$http.get('/getdecline')
 	    		.success(function(data){
 
@@ -2895,6 +2898,127 @@ angular.module('newApp')
 	    		});
 				
 				
+			}
+			
+			$scope.PlanOnMonday = function(){
+				$http.get('/getPlanMonday')
+	    		.success(function(data){
+	    			
+	    			
+	    			if(data == 1){
+	    				
+	    				  var d = new Date();
+	    	    		  var month = new Array();
+	    	    		  month[0] = "January";
+	    	    		  month[1] = "February";
+	    	    		  month[2] = "March";
+	    	    		  month[3] = "April";
+	    	    		  month[4] = "May";
+	    	    		  month[5] = "June";
+	    	    		  month[6] = "July";
+	    	    		  month[7] = "August";
+	    	    		  month[8] = "September";
+	    	    		  month[9] = "October";
+	    	    		  month[10] = "November";
+	    	    		  month[11] = "December";
+	    	    		  var monthNam = month[d.getMonth()];
+	    	    		  
+	    	    		  console.log("::::::oninit");
+	    	    		  console.log($scope.userKey);
+	    	    		  console.log(monthNam);
+	    	    		  $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+monthNam)
+	    					.success(function(data) {
+	    						if(data == 1){
+	    							$scope.flagForPlan = 1;
+	    						}
+	    					});
+	    	    		  
+	    	    		  $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+monthNam)
+	    					.success(function(data) {
+	    						if(data == 1){
+	    							$scope.flagForPlanForLocation = 1;
+	    						}
+	    					});
+	    				
+	    				
+	    				
+	    				
+	    				
+	    				
+	    				
+	    				
+	    				var notifContent;
+	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>Sales Plan for this month has been added</span><br></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'></p></div></div>";
+	    				
+					var position = 'topRight';
+					if ($('body').hasClass(
+							'rtl'))
+						position = 'topLeft';
+					var n = noty({
+						text : notifContent,
+						type : 'success',
+						layout : position,
+						theme : 'made',
+						buttons: [
+									{
+									    addClass: 'general-button btnText', text: 'Close', onClick: function($noty)
+									    {
+									       $noty.close();
+									    }
+									},  
+						          {
+								        addClass: 'general-button btnText', text: 'See sales Plan', onClick: function($noty)
+								              {
+								        	console.log($scope.userRole);
+								        	console.log($scope.flagForPlan);
+								        	console.log($scope.flagForPlanForLocation);
+								        	if($scope.flagForPlanForLocation != 1 && $scope.userRole == "Manager"){
+								        		console.log("changee");
+								        		$scope.planForLocationManager();
+								        	}
+								        	if($scope. flagForPlan != 1 && $scope.userRole == "Sales Person"){
+								        		console.log("changee1111");
+								        		$scope.planForsalePerson();
+								        	}
+								            	  
+								                 $noty.close();
+								              }
+								          }
+								            
+						          
+								 ],
+						animation : {
+							open : 'animated bounceIn',
+							close : 'animated bounceOut'
+						},
+
+						callback : {
+							onShow : function() {
+								$(
+										'#noty_topRight_layout_container, .noty_container_type_success')
+										.css(
+												
+												'width',
+												477)
+										.css('margin-left', -130)
+										.css(
+												
+												'bottom',
+												10);
+							},
+							onCloseClick : function() {
+								$('html, body')
+										.animate(
+												{
+													scrollTop : 480
+												},
+												'slow');
+							}
+						}
+					});
+	    			}
+	    				
+	    		});
 			}
 			
 			
@@ -7841,7 +7965,7 @@ angular.module('newApp')
 				   $.pnotify({
 					    title: "Success",
 					    type:'success',
-					    text: "Meeting Scheduled Update",
+					    text: "Meeting's infomation has been updated",
 					});
 				   
 				   $scope.data1.confirmDate = $('#cnfReSchDate').val();

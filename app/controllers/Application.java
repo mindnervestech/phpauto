@@ -28568,8 +28568,52 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	}
     }
     
+    public static Result getPlanMonday(){
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		Date date = new Date();
+		
+		int flag = 0;
+
+		String cDate = df.format(date);
+		Date cuD = null;
+		try {
+			cuD = df.parse(cDate);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Calendar c = Calendar.getInstance();
+		System.out.println("Current Month is : " + (c.get(Calendar.MONTH) + 1));
+		String DateString = 01 + "-" + (c.get(Calendar.MONTH) + 1) + "-"+ c.get(Calendar.YEAR);
+		Date dates = null;
+		try {
+			dates = df.parse(DateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Date maxTime = null;
+		for (int i = 0; i < 10; i++) {
+			maxTime = dates;
+			Calendar calendar = Calendar.getInstance();
+			System.out.println(df.format(maxTime));
+			calendar.setTime(maxTime);
+			calendar.add(Calendar.DATE, 1);
+			dates = calendar.getTime();
+			System.out.println(calendar.get(Calendar.DAY_OF_WEEK));
+			if (calendar.get(Calendar.DAY_OF_WEEK) == 2) {
+				if (cuD.equals(dates)) {
+					flag = 1;
+				}
+			}
+
+		}
+    
+		return ok(Json.toJson(flag));
+    }
+    
     public static Result getdecline(){
-    	
+    
     	AuthUser users = getLocalUser();
     	List<ScheduleTest> sche = ScheduleTest.getdecline(users);
     	for(ScheduleTest sch:sche){
