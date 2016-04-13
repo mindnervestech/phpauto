@@ -506,7 +506,7 @@ a{text-decoration: none !important;}
             <!--[if gte mso 9]>				<v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:800px; height:253px; background-repeat:no-repeat;">				<v:fill type="frame" color="#ecebeb" src="http://mailbuild.rookiewebstudio.com/customers/fyG9M92m/user_upload/20151019125916_bg1.jpg" ></v:fill>				<v:textbox style="mso-fit-text-to-shape:true; v-padding-auto:true;" inset="0,0,0,0" >				<![endif]--><table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width" syle="background-color:#ffffff min-width:600px;" style="width: 600px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
               <tbody><tr>
                 <td valign="top" class="image-100-percent" style="width: 600px;" width="600">
-                  <img src="$hostnameUrl/email_images/20150816235721_lambo.jpg" width="600" alt="" style="max-width: 600px; display: block !important;">
+                  <img src="$hostnameUrl$defaultImage" width="600" alt="" style="max-width: 600px; display: block !important;">
                 </td>
               </tr>
             </tbody></table><!--[if gte mso 9]>				</v:textbox>				</v:rect>				<![endif]-->
@@ -748,7 +748,7 @@ a{text-decoration: none !important;}
                           <tr>
                             <td width="170" valign="top" align="left" class="image-170px" style="width: 170px;">
                               
-                                <img src="$hostnameUrl/email_images/20150817005817_8.jpg" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameMakeDefault"_8.jpg" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -769,7 +769,7 @@ a{text-decoration: none !important;}
                                 </tr>
                                 <!--end space height -->
                                 <tr>
-                                  <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="color: rgb(128, 128, 128); font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: 300; font-size: inherit; line-height: 26px;">PRICE:</span> <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$150,000</span></span></td>
+                                  <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="color: rgb(128, 128, 128); font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: 300; font-size: inherit; line-height: 26px;">PRICE:</span> <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$bodyStylePrice</span></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>
@@ -781,7 +781,7 @@ a{text-decoration: none !important;}
                                     <!-- start button -->
                                     <table width="auto" border="0" align="left" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
                                       <tbody><tr>
-                                        <td width="auto" align="center" valign="middle" height="32" style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; border-radius: 1px; word-break: break-word; line-height: 21px; background-color: rgb(199, 0, 0); background-clip: padding-box;"><span style="font-size: inherit; line-height: 21px;">MORE DETAILS</span></td>
+                                        <td width="auto" align="center" valign="middle" height="32" style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; border-radius: 1px; word-break: break-word; line-height: 21px; background-color: rgb(199, 0, 0); background-clip: padding-box;"><span style="font-size: inherit; line-height: 21px;" href="http://glider-autos.com/glivr/vehicleDetails/$bodyStyleVin">MORE DETAILS</span></td>
                                       </tr>
                                     </tbody></table>
                                     <!-- end button -->
@@ -816,7 +816,7 @@ a{text-decoration: none !important;}
                           <tr>
                             <td width="170" valign="top" align="left" class="image-170px" style="width: 170px;">
                               
-                                <img src="$hostnameUrl/email_images/20150817001412_bentley.jpg" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameEngineDefault" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -837,7 +837,7 @@ a{text-decoration: none !important;}
                                 </tr>
                                 <!--end space height -->
                                 <tr>
-                                  <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="color: rgb(128, 128, 128); font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: 300; font-size: inherit; line-height: 26px;">PRICE:</span> <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$150,000</span></span></td>
+                                  <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="color: rgb(128, 128, 128); font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: 300; font-size: inherit; line-height: 26px;">PRICE:</span> <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$enginePrice</span></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>
@@ -849,7 +849,7 @@ a{text-decoration: none !important;}
                                     <!-- start button -->
                                     <table width="auto" border="0" align="left" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
                                       <tbody><tr>
-                                        <td width="auto" align="center" valign="middle" height="32" style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; border-radius: 1px; word-break: break-word; line-height: 21px; background-color: rgb(199, 0, 0); background-clip: padding-box;"><span style="font-size: inherit; line-height: 21px;">MORE DETAILS</span></td>
+                                        <td width="auto" align="center" valign="middle" height="32" style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; border-radius: 1px; word-break: break-word; line-height: 21px; background-color: rgb(199, 0, 0); background-clip: padding-box;"><span style="font-size: inherit; line-height: 21px;" href="http://glider-autos.com/glivr/vehicleDetails/$engineVin" >MORE DETAILS</span></td>
                                       </tr>
                                     </tbody></table>
                                     <!-- end button -->
@@ -884,7 +884,7 @@ a{text-decoration: none !important;}
                           <tr>
                             <td width="170" valign="top" align="left" class="image-170px" style="width: 170px;">
                               
-                                <img src="$hostnameUrl/email_images/20150817010704_lam.jpg" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameMakeDefault" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -905,7 +905,7 @@ a{text-decoration: none !important;}
                                 </tr>
                                 <!--end space height -->
                                 <tr>
-                                  <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="color: rgb(128, 128, 128); font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: 300; font-size: inherit; line-height: 26px;">PRICE:</span> <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$150,000</span></span></td>
+                                  <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="color: rgb(128, 128, 128); font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: 300; font-size: inherit; line-height: 26px;">PRICE:</span> <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$makePrice</span></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>
@@ -917,7 +917,7 @@ a{text-decoration: none !important;}
                                     <!-- start button -->
                                     <table width="auto" border="0" align="left" cellpadding="0" cellspacing="0" style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
                                       <tbody><tr>
-                                        <td width="auto" align="center" valign="middle" height="32" style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; border-radius: 1px; word-break: break-word; line-height: 21px; background-color: rgb(199, 0, 0); background-clip: padding-box;"><span style="font-size: inherit; line-height: 21px;">MORE DETAILS</span></td>
+                                        <td width="auto" align="center" valign="middle" height="32" style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; text-align: center; color: rgb(255, 255, 255); font-weight: 300; padding-left: 18px; padding-right: 18px; border-radius: 1px; word-break: break-word; line-height: 21px; background-color: rgb(199, 0, 0); background-clip: padding-box;"><span style="font-size: inherit; line-height: 21px;" href="http://glider-autos.com/glivr/vehicleDetails/$makeVin"  >MORE DETAILS</span></td>
                                       </tr>
                                     </tbody></table>
                                     <!-- end button -->

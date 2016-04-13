@@ -4566,7 +4566,7 @@ public class Application extends Controller {
 				ve.init();
 			
 				
-		        Template t = ve.getTemplate("/public/emailTemplate/priceAlertTemplate.vm"); 
+		        Template t = ve.getTemplate("/public/emailTemplate/priceAlert_HTML.vm"); 
 		        VelocityContext context = new VelocityContext();
 		        
 		        context.put("hostnameUrl", imageUrlPath);
