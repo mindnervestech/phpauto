@@ -8795,6 +8795,17 @@ angular.module('newApp')
 			 console.log(data);
 			 $scope.vinData = data;
 			 
+			   $('#modelSearch_value').val($scope.vinData.specification.model);
+			   $('#makeSearch_value').val($scope.vinData.specification.make);
+			   $('#trimSearch_value').val($scope.vinData.specification.trim_level);
+			   $('#labelSearch_value').val($scope.vinData.specification.label);
+			   
+			   $('#madeInSearch_value').val($scope.vinData.specification.made_in);
+			   $('#extColorSearch_value').val($scope.vinData.specification.extColor);
+			   $('#stereoSearch_value').val($scope.vinData.specification.stereo);
+			   $('#driveTypeSearch_value').val($scope.vinData.specification.drivetrain);
+			   $('#fuelTypeSearch_value').val($scope.vinData.specification.fuelType);
+			 
 			 $http.get('/getPriceHistory/'+data.vin)
 				.success(function(data) {
 					console.log("success");
@@ -8828,6 +8839,72 @@ angular.module('newApp')
 		
 		
 	}
+	
+	$scope.makeList = [];
+	   $scope.modelList = [];
+	   $scope.trimList = [];
+	   $scope.labelList = [];
+	   $scope.madeInList = [];
+	   $scope.stereoList = [];
+	   $scope.driveTypeList = [];
+	   $scope.fuelTypeList = [];
+	   $scope.exteriorColorList = [];
+	   
+	   $http.get('/getMakeList').success(function(data) {
+		   console.log(data);
+			$scope.labelList = data.label;
+			$scope.makeList = data.make;
+			$scope.madeInList = data.madeIn;
+			$scope.stereoList = data.stereo;
+			$scope.driveTypeList = data.driveType;
+			$scope.fuelTypeList = data.fuelType;
+			$scope.exteriorColorList = data.exteriorColor;
+			   
+			console.log($scope.makeList);
+		});
+	   $scope.selectedMake = function (selectObj) {
+		   console.log($('#makeSearch_value').val());
+		   console.log(selectObj);
+			if(selectObj != undefined){
+				$scope.vinData.specification.make = selectObj.title;
+				$http.get('/getModelList/'+selectObj.title)
+				.success(function(data) {
+					$scope.modelList = data;
+					console.log($scope.modelList);
+				});
+				console.log($scope.vinData.specification);
+			}
+		};
+		$scope.selectedModel = function (selectObj) {
+			   console.log($('#modelSearch_value').val());
+			   console.log(selectObj);
+				if(selectObj != undefined){
+					$scope.vinData.specification.model = selectObj.title;
+					$http.get('/getTrimList/'+selectObj.title)
+					.success(function(data) {
+						$scope.trimList = data;
+						console.log($scope.trimList);
+					});
+					console.log($scope.vinData.specification);
+				}
+		};
+		$scope.selectedTrim = function (selectObj) {
+			   console.log($('#trimSearch_value').val());
+			   console.log(selectObj);
+				if(selectObj != undefined){
+					$scope.vinData.specification.trim_level = selectObj.title;
+					console.log($scope.vinData.specification);
+				}
+		};  
+		$scope.selectedLabel = function (selectObj) {
+			   console.log($('#labelSearch_value').val());
+			   console.log(selectObj);
+				if(selectObj != undefined){
+					$scope.vinData.specification.label = selectObj.title;
+					console.log($scope.vinData.specification);
+				}
+		};
+	
 	
 	var myDropzone;
 	$scope.setDropZone = function() {
@@ -8896,27 +8973,62 @@ angular.module('newApp')
 		};
 	   
 	$scope.updateVehicle = function() {
-		console.log($scope.vinData.specification);
-		if(pdfFile != undefined){
-			$http.post('/updateVehicleById',$scope.vinData.specification)
-			.success(function(data) {
-				console.log('success');
-				$scope.isUpdated = true;
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Vehicle updated successfuly",
-				});
-				
-				$scope.vinData.specification.siteIds = null;
-				$upload.upload({
-		 	         url : '/updateVehicleByIdPdf/'+$scope.vinData.specification.id,
-		 	         method: 'POST',
-		 	         file:pdfFile,
-		 	      }).success(function(data) {
-		 	    	  console.log('success');
-		 	  			
-		 	  			$http.get('/getPriceHistory/'+data.vin)
+		$scope.vinData.specification.model = $('#modelSearch_value').val();
+		   $scope.vinData.specification.make = $('#makeSearch_value').val();
+		   $scope.vinData.specification.trim_level = $('#trimSearch_value').val();
+		   $scope.vinData.specification.label = $('#labelSearch_value').val();
+		   
+		   $scope.vinData.specification.made_in = $('#madeInSearch_value').val();
+		   $scope.vinData.specification.extColor = $('#extColorSearch_value').val();
+		   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
+		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
+		   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
+		
+		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ") && ($scope.vinData.specification.trim_level != null && $scope.vinData.specification.trim_level != "") && ($scope.vinData.specification.label != null && $scope.vinData.specification.label != "")){
+			   console.log($scope.vinData.specification);
+				if(pdfFile != undefined){
+					$http.post('/updateVehicleById',$scope.vinData.specification)
+					.success(function(data) {
+						console.log('success');
+						$scope.isUpdated = true;
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Vehicle updated successfuly",
+						});
+						
+						$scope.vinData.specification.siteIds = null;
+						$upload.upload({
+				 	         url : '/updateVehicleByIdPdf/'+$scope.vinData.specification.id,
+				 	         method: 'POST',
+				 	         file:pdfFile,
+				 	      }).success(function(data) {
+				 	    	  console.log('success');
+				 	  			
+				 	  			$http.get('/getPriceHistory/'+data.vin)
+								.success(function(data) {
+									console.log("success");
+									console.log(data);
+									$scope.priceHistory = data;
+									angular.forEach($scope.priceHistory, function(value, key) {
+										console.log(value);
+										value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
+									});
+									$route.reload();
+								});
+				 	      });
+					});
+			 	 }else{
+			 		$http.post('/updateVehicleById',$scope.vinData.specification)
+					.success(function(data) {
+						console.log('success');
+						$scope.isUpdated = true;
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Vehicle updated successfuly",
+						});
+						$http.get('/getPriceHistory/'+data.vin)
 						.success(function(data) {
 							console.log("success");
 							console.log(data);
@@ -8925,33 +9037,17 @@ angular.module('newApp')
 								console.log(value);
 								value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
 							});
-							$route.reload();
+							
 						});
-		 	      });
-			});
-	 	 }else{
-	 		$http.post('/updateVehicleById',$scope.vinData.specification)
-			.success(function(data) {
-				console.log('success');
-				$scope.isUpdated = true;
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Vehicle updated successfuly",
-				});
-				$http.get('/getPriceHistory/'+data.vin)
-				.success(function(data) {
-					console.log("success");
-					console.log(data);
-					$scope.priceHistory = data;
-					angular.forEach($scope.priceHistory, function(value, key) {
-						console.log(value);
-						value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
 					});
-					
+			 	 }
+		   }else{
+			   $.pnotify({
+				    title: "Success",
+				    type:'Error',
+				    text: "Please select all fields",
 				});
-			});
-	 	 }
+		   }
 	}
 	
 	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {

@@ -14,7 +14,7 @@
 										<label class="col-sm-2 control-label" style="text-align: right;">Category *</label>
 											<div class="col-sm-5">
 												<!-- <input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.category" placeholder="Cars and Trucks" required> -->
-												<select placeholder="Cars and Trucks" class="form-control form-white" ng-model="vinData.specification.category" required>
+												<select placeholder="Cars and Trucks" class="form-control form-white" ng-model="vinData.specification.category" style="border-color:red;" required>
 			  											<option value="">Select</option>
 														<option value="Car">Car</option>
 														<option value="Truck">Truck</option>
@@ -67,14 +67,36 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Make *</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.make" type="text" required>
+												<angucomplete-alt id="makeSearch"
+														placeholder="Make"
+														pause="10"
+														selected-object="selectedMake"
+														local-data="makeList"
+														search-fields="make"
+														title-field="make"
+														minlength="2"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txtClr">
+												</angucomplete-alt>
+												<!-- <input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.make" type="text" required>-->
 											</div>
 										</div>
 										
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Model *</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.model" type="text" required>
+														<angucomplete-alt id="modelSearch"
+																placeholder="Model"
+																pause="10"
+																selected-object="selectedModel"
+																local-data="modelList"
+																search-fields="model"
+																title-field="model"
+																minlength="1"
+																focus-In="focusIn($index)"
+																input-class="form-control form-control-small txtClr">
+														</angucomplete-alt>
+												<!--<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.model" type="text" required>-->
 												<p>745i,Accord,Sierra</p>
 											</div>
 										</div>
@@ -82,7 +104,18 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Trim *</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.trim_level" type="text" required>
+												<angucomplete-alt id="trimSearch"
+														placeholder="Trim"
+														pause="10"
+														selected-object="selectedTrim"
+														local-data="trimList"
+														search-fields="trim"
+														title-field="trim"
+														minlength="1"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txtClr">
+												</angucomplete-alt>
+												<!--<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.trim_level" type="text" required> -->
 												<p>EX,LX,DX</p>
 											</div>
 										</div>
@@ -90,7 +123,18 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Label *</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.label" placeholder="Runs Great,Clean History" required>
+												<angucomplete-alt id="labelSearch"
+														placeholder="Label"
+														pause="10"
+														selected-object="selectedLabel"
+														local-data="labelList"
+														search-fields="label"
+														title-field="label"
+														minlength="1"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txtClr">
+												</angucomplete-alt>
+												<!--<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.label" placeholder="Runs Great,Clean History" required>-->
 											</div>
 										</div>
 										
@@ -155,7 +199,18 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Made In</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" ng-model="vinData.specification.made_in" type="text">
+												<angucomplete-alt id="madeInSearch"
+														placeholder="MadeIn"
+														pause="10"
+														selected-object="selectedMadeIn"
+														local-data="madeInList"
+														search-fields="madeIn"
+														title-field="madeIn"
+														minlength="1"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txt">
+												</angucomplete-alt>
+												<!-- <input class="form-control form-white" ng-model="vinData.specification.made_in" type="text">-->
 											</div>
 										</div>
 										
@@ -169,7 +224,18 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Exterior Color</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" ng-model="vinData.specification.extColor" type="text">
+												<angucomplete-alt id="extColorSearch"
+														placeholder="ExteriorColor"
+														pause="10"
+														selected-object="selectedExtColor"
+														local-data="exteriorColorList"
+														search-fields="extColor"
+														title-field="extColor"
+														minlength="1"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txt">
+												</angucomplete-alt>
+												<!--<input class="form-control form-white" ng-model="vinData.specification.extColor" type="text"> -->
 											</div>
 										</div>
 										
@@ -189,7 +255,18 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Stereo</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" ng-model="vinData.specification.stereo" type="text">
+												<angucomplete-alt id="stereoSearch"
+														placeholder="Stereo"
+														pause="10"
+														selected-object="selectedStereo"
+														local-data="stereoList"
+														search-fields="stereo"
+														title-field="stereo"
+														minlength="1"
+														focus-In="focusIn($index)"
+														input-class="form-control form-control-small txt">
+												</angucomplete-alt>
+												<!--<input class="form-control form-white" ng-model="vinData.specification.stereo" type="text"> -->
 											</div>
 										</div>
 										<div class="form-group col-sm-12">
@@ -203,7 +280,7 @@
 										<label class="col-sm-2 control-label" style="text-align: right;">Body Style</label>
 											<div class="col-sm-5">
 												<!-- <input class="form-control form-white" ng-model="vinData.specification.style" type="text"> -->
-												<select placeholder="Body Style" class="form-control form-white" ng-model="vinData.specification.style" required>
+												<select placeholder="Body Style" class="form-control form-white" ng-model="vinData.specification.style" style="border-color:red;" required>
 												   <option value="">Select</option>
 												   <option value="Sedan">Sedan</option>
 												   <option value="Coupe">Coupe</option>
@@ -233,11 +310,33 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Drive Type</label>
 	<div class="col-sm-4">
-		<input class="form-control form-white" ng-model="vinData.specification.drivetrain" type="text">
+		<angucomplete-alt id="driveTypeSearch"
+				placeholder="Drive Type"
+				pause="10"
+				selected-object="selectedDriveType"
+				local-data="driveTypeList"
+				search-fields="drivetrain"
+				title-field="drivetrain"
+				minlength="1"
+				focus-In="focusIn($index)"
+				input-class="form-control form-control-small txt">
+		</angucomplete-alt>
+		<!--<input class="form-control form-white" ng-model="vinData.specification.drivetrain" type="text"> -->
 	</div>
 	<label class="col-sm-2 control-label" style="text-align: right;">Fuel Type</label>
 	<div class="col-sm-4">
-		<input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text">
+		<angucomplete-alt id="fuelTypeSearch"
+				placeholder="Fuel Type"
+				pause="10"
+				selected-object="selectedFuelType"
+				local-data="fuelTypeList"
+				search-fields="fuelType"
+				title-field="fuelType"
+				minlength="1"
+				focus-In="focusIn($index)"
+				input-class="form-control form-control-small txt">
+		</angucomplete-alt>
+		<!-- <input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text">-->
 	</div>
 </div>
 <div class="form-group col-sm-12">
@@ -688,4 +787,13 @@ opacity:1;
 .imageGroup:hover .myImage{
 opacity:0.2;
 }
-</style>    
+</style>   
+<style>
+.txtClr{
+    background: white;
+    border-color: red;
+}
+.txt{
+    background: white;
+}
+</style> 
