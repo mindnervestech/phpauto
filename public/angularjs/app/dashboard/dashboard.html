@@ -2535,7 +2535,7 @@ margin-left: 5px;
                          			<label>JANUARY</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="january" class="form-control col-sm-6" ng-click="janrOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.januaryTotalEarning)" ng-model="saleMonthTotal.januaryTotalEarning">
+                         			<input type="text" name="january" class="form-control col-sm-6" ng-disabled="saleMonthTotal.januaryFlag"  ng-click="janrOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.januaryTotalEarning)" ng-model="saleMonthTotal.januaryTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="janOpen == 1">
                          	<hr>
@@ -2655,7 +2655,7 @@ margin-left: 5px;
                          			<label>JULY</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="july" class="form-control col-sm-6" ng-click="julysOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.julyTotalEarning)" ng-model="saleMonthTotal.julyTotalEarning">
+                         			<input type="text" ng-disabled="saleMonthTotal.julyFlag" name="july" class="form-control col-sm-6" ng-click="julysOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.julyTotalEarning)" ng-model="saleMonthTotal.julyTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="julyOpen == 1">
                          	<hr>
@@ -2774,7 +2774,7 @@ margin-left: 5px;
                          			<label>FEBRUARY</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="february" class="form-control col-sm-6" ng-click="februarysOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.februaryTotalEarning)" ng-model="saleMonthTotal.februaryTotalEarning">
+                         			<input type="text" ng-disabled="saleMonthTotal.februaryFlag" name="february" class="form-control col-sm-6" ng-click="februarysOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.februaryTotalEarning)" ng-model="saleMonthTotal.februaryTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="februaryOpen == 1">
                          	<hr>
@@ -2894,7 +2894,7 @@ margin-left: 5px;
                          			<label>AUGUST</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="august" class="form-control col-sm-6" ng-click="augustsOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.augustTotalEarning)" ng-model="saleMonthTotal.augustTotalEarning">
+                         			<input type="text"  ng-disabled="saleMonthTotal.augustFlag" name="august" class="form-control col-sm-6" ng-click="augustsOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.augustTotalEarning)" ng-model="saleMonthTotal.augustTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="augustOpen == 1">
                          	<hr>
@@ -3013,7 +3013,7 @@ margin-left: 5px;
                          			<label>MARCH</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="march" class="form-control col-sm-6" ng-click="marchsOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.marchTotalEarning)" ng-model="saleMonthTotal.marchTotalEarning">
+                         			<input type="text" ng-disabled="saleMonthTotal.marchFlag" name="march" class="form-control col-sm-6" ng-click="marchsOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.marchTotalEarning)" ng-model="saleMonthTotal.marchTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="marchOpen == 1">
                          	<hr>
@@ -3135,7 +3135,7 @@ margin-left: 5px;
                          			<label>SEPTEMBER</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="september" class="form-control col-sm-6" ng-click="septembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.septemberTotalEarning)" ng-model="saleMonthTotal.septemberTotalEarning">
+                         			<input type="text" ng-disabled="saleMonthTotal.septemberFlag" name="september" class="form-control col-sm-6" ng-click="septembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.septemberTotalEarning)" ng-model="saleMonthTotal.septemberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="septemberOpen == 1">
                          	<hr>
@@ -3377,7 +3377,7 @@ margin-left: 5px;
                          			<label>OCTOBER</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="october" class="form-control col-sm-6" ng-click="octobersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.octoberTotalEarning)" ng-model="saleMonthTotal.octoberTotalEarning">
+                         			<input type="text"  ng-disabled="saleMonthTotal.octoberFlag" name="october" class="form-control col-sm-6" ng-click="octobersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.octoberTotalEarning)" ng-model="saleMonthTotal.octoberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="octoberOpen == 1">
                          	<hr>
@@ -3496,7 +3496,7 @@ margin-left: 5px;
                          			<label>MAY</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="may" class="form-control col-sm-6" ng-click="maysOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.mayTotalEarning)" ng-model="saleMonthTotal.mayTotalEarning">
+                         			<input type="text" ng-disabled="saleMonthTotal.mayFlag" name="may" class="form-control col-sm-6" ng-click="maysOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.mayTotalEarning)" ng-model="saleMonthTotal.mayTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="mayOpen == 1">
                          	<hr>
@@ -3614,7 +3614,7 @@ margin-left: 5px;
                          			<label>NOVEMBER</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="november" class="form-control col-sm-6" ng-click="novembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.novemberTotalEarning)" ng-model="saleMonthTotal.novemberTotalEarning">
+                         			<input type="text" ng-disabled="saleMonthTotal.novemberFlag" name="november" class="form-control col-sm-6" ng-click="novembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.novemberTotalEarning)" ng-model="saleMonthTotal.novemberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="novemberOpen == 1">
                          	<hr>
@@ -3732,7 +3732,7 @@ margin-left: 5px;
                          			<label>JUNE</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="june" class="form-control col-sm-6" ng-click="junesOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.juneTotalEarning)" ng-model="saleMonthTotal.juneTotalEarning">
+                         			<input type="text" ng-disabled="saleMonthTotal.juneFlag" name="june" class="form-control col-sm-6" ng-click="junesOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.juneTotalEarning)" ng-model="saleMonthTotal.juneTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="juneOpen == 1">
                          	<hr>
@@ -3851,7 +3851,7 @@ margin-left: 5px;
                          			<label>DECEMBER</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         			<input type="text" name="december" class="form-control col-sm-6" ng-click="decembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.decemberTotalEarning)" ng-model="saleMonthTotal.decemberTotalEarning">
+                         			<input type="text" ng-disabled="saleMonthTotal.decemberFlag"  name="december" class="form-control col-sm-6" ng-click="decembersOpen()" placeholder="$$$" ng-change="copyValueSale(saleMonthTotal.decemberTotalEarning)" ng-model="saleMonthTotal.decemberTotalEarning">
                          		</div>
                          	<div class="col-sm-12" ng-if="decemberOpen == 1">
                          	<hr>
@@ -3861,7 +3861,7 @@ margin-left: 5px;
                          				<label>$$$ Amount<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text"ng-disabled="saleMonthTotal.decemberFlag"  name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
+                         				<input type="text" ng-disabled="saleMonthTotal.decemberFlag"  name="totalBrought" class="form-control" placeholder="$$$" ng-model="saleleadsTime.totalBrought" required>
                          			</div>
                          			</div>
                          		<div>
