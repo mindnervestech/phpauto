@@ -4477,7 +4477,7 @@ public class Application extends Controller {
 						ve.init();
 					
 						
-				        Template t = ve.getTemplate("/public/emailTemplate/brandfollowers_HTML.vm"); 
+				        Template t = ve.getTemplate("/public/emailTemplate/brandFollowersTemplate.vm"); 
 				        VelocityContext context = new VelocityContext();
 				        
 				        context.put("hostnameUrl", imageUrlPath);
@@ -4585,14 +4585,7 @@ public class Application extends Controller {
 		        	} else {
 		        		context.put("doors", "");
 		        	}
-		        
-		        
-		        if(vehicle.standardSeating != null) {
-		        	context.put("seats", vehicle.standardSeating);
-		        	} else {
-		        		context.put("seats", "" );
-		        	}
-		        
+		        context.put("seats", vehicle.standardSeating);
 		        if(vehicle.drivetrain != null) {
 		        	context.put("driveTrain", vehicle.drivetrain);
 		        	} else {
@@ -23503,7 +23496,7 @@ if(vehicles.equals("All")){
 					
 					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
             	         
-            	     testloop.setSendInvitation(1);
+            	    // testloop.setSendInvitation(1);
             	     String subject = "Meeting's information has been changed.";
  			   	    String comments = "Meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
  				    sendEmail(assi.communicationemail, subject, comments);
@@ -28922,7 +28915,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
         						//sche.setConfirmDate(null);
         						//sche.setConfirmTime(null);
         						sche.setLeadStatus(null);
-        						sche.setDeclineMeeting(2);
+        						//sche.setDeclineMeeting(2);
+        						sche.setMeeting(2);
         						sche.setDeleteMsgFlag(1);
         						sche.setReason(reason);
         						sche.setDeclineUser("Host");
@@ -28942,8 +28936,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
         						//oneGrouptest.setConfirmDate(null);
             					//oneGrouptest.setConfirmTime(null);
             					oneGrouptest.setLeadStatus(null);
-            					oneGrouptest.setDeclineMeeting(2);
+            					//oneGrouptest.setDeclineMeeting(2);
             					oneGrouptest.setDeleteMsgFlag(1);
+            					oneGrouptest.setMeeting(2);
             					oneGrouptest.setReason(reason);
             					oneGrouptest.setDeclineUser("this person");
             					oneGrouptest.update();
