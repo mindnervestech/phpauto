@@ -10852,7 +10852,7 @@ public class Application extends Controller {
 			ve.init();
 		
 			
-	        Template t = ve.getTemplate("/public/emailTemplate/confirmationTemplate.vm"); 
+	        Template t = ve.getTemplate("/public/emailTemplate/testDriveconfirmatioin.vm"); 
 	        VelocityContext context = new VelocityContext();
 	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
 	       
