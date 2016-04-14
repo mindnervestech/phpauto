@@ -6489,15 +6489,20 @@ angular.module('newApp')
 		   $scope.getSalePersonData = function(salesId){
 			   console.log(":::::::::");
 			   $scope.salesIdPlan = "salePerson";
-			   $scope.schPlan.scheduleBy = "salePerson"
+			   //$scope.schPlan.scheduleBy = "salePerson"
 			   //console.log(salesId);
 			   
 			  // $('#pln').click();
-			   $http.get("/getsalesPlan/"+salesId).success(function(data){
+				   
+				   console.log("***$scope.locationValueForPlan"+$scope.locationValueForPlan);
+			   $scope.getSalesDataValue($scope.locationValueForPlan) ;
+			   $scope.schPlan.scheduleBy = "salePerson"
+			   
+			  /* $http.get("/getsalesPlan/"+salesId).success(function(data){
 				   console.log(data);
 				   $scope.showGrid = 1;
 				   $scope.gridOptionsValue.data = data;
-			   });
+			   });*/
 		   
 		   }
 		   
@@ -7767,6 +7772,7 @@ angular.module('newApp')
 				   $http.get("/getloginuserinfo").success(function(data){
 					  //alert(JSON.stringify(data));
 					  $scope.schmeeting.location = data.location.id;
+					  $scope.locationValueForPlan=data.location.id;
 					  $http.get("/getuser/"+$scope.schmeeting.location).success(function(data){
 						   $scope.user = data;
 					   });
