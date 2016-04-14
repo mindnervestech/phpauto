@@ -2359,6 +2359,19 @@ angular.module('newApp')
     			  $http.get('/getMonthlyVisitorsStats/'+startDate+"/"+endDate).success(function(response) {
     				  
     				  console.log(response);
+  			        $scope.onlineVisitorsCount = response.onlineVisitors;
+			        $scope.totalVisitorsCount = response.totalVisitors;
+			        $scope.actionsCount = response.actions;
+			        $scope.averageActionsCount = response.averageActions;
+			        $scope.totalTimeCount = response.totalTime;
+			        $scope.averageTimeCount = response.averageTime;
+			        $scope.bounceRateCount = response.bounceRate;
+			        $scope.goalsCount = response.goals;
+			        $scope.revenueCount = response.revenue;
+			        $scope.pagesList = response.pagesList;
+			        $scope.referersList = response.referersList;
+			        $scope.searchesList = response.searchesList;
+
     				  
         			  var visitorsData = {
         			            labels: response.months,
@@ -2429,18 +2442,7 @@ angular.module('newApp')
         			        var ctx2 = document.getElementById("actions-chart").getContext("2d");
         			        var myNewChart2 = new Chart(ctx2).Line(actionsData, chartOptions);
         			        
-        			        $scope.onlineVisitorsCount = response.onlineVisitors;
-        			        $scope.totalVisitorsCount = response.totalVisitors;
-        			        $scope.actionsCount = response.actions;
-        			        $scope.averageActionsCount = response.averageActions;
-        			        $scope.totalTimeCount = response.totalTime;
-        			        $scope.averageTimeCount = response.averageTime;
-        			        $scope.bounceRateCount = response.bounceRate;
-        			        $scope.goalsCount = response.goals;
-        			        $scope.revenueCount = response.revenue;
-        			        $scope.pagesList = response.pagesList;
-        			        $scope.referersList = response.referersList;
-        			        $scope.searchesList = response.searchesList;
+        			        
         			        
         		  });
     			  
