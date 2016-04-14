@@ -3750,34 +3750,79 @@ angular.module('newApp')
 		  				  
 		  				var notifContent;
 	    				angular.forEach(data, function(value, key) {
-	    						    					
-	    					
-	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.action+"</span><br><span>\n "+value.note+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
-	    				
-	    				var position = 'topRight';
-		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
-		    	        var n = noty({
-		    	            text: notifContent,
-		    	            type: 'success',
-		    	            layout: position,
-		    	            theme: 'made',
-		    	            animation: {
-		    	                open: 'animated bounceIn',
-		    	                close: 'animated bounceOut'
-		    	            },
-		    	            
-		    	            callback: {
-		    	                onShow: function () {
-		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
-		    	                },
-		    	                onCloseClick: function () {
-		    	                	$('html, body').animate({scrollTop:480}, 'slow');
-		    	                }
-		    	            }
-		    	        });
-		    	        
-		    	        var element = $('#cnt');
-						$compile(element)($scope);
+	    					if(value.action == "Test drive reminder"){
+	    						notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.action+"</span><br><span>\n "+value.notes+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    	    				
+	    	    				var position = 'topRight';
+	    		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+	    		    	        var n = noty({
+	    		    	            text: notifContent,
+	    		    	            type: 'success',
+	    		    	            layout: position,
+	    		    	            theme: 'made',
+	    		    	            buttons: [
+	    										{
+	    										    addClass: 'general-button btnText', text: 'Cancel Test Drive', onClick: function($noty)
+	    										    {
+	    										    	$scope.cancelScheduleStatus(value);
+	    										       $noty.close();
+	    										    }
+	    										},  
+	    							          {
+	    									        addClass: 'general-button btnText', text: 'Edit Test Drive', onClick: function($noty)
+	    									              {
+	    									        	$scope.editVinData(value);
+	    									                 $noty.close();
+	    									              }
+	    									          }
+	    									            
+	    							          
+	    									 ],
+	    		    	            animation: {
+	    		    	                open: 'animated bounceIn',
+	    		    	                close: 'animated bounceOut'
+	    		    	            },
+	    		    	            
+	    		    	            callback: {
+	    		    	                onShow: function () {
+	    		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+	    		    	                },
+	    		    	                onCloseClick: function () {
+	    		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+	    		    	                }
+	    		    	            }
+	    		    	        });
+	    		    	        
+	    		    	        var element = $('#cnt');
+	    						$compile(element)($scope);
+	    					}else{
+	    						notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.action+"</span><br><span>\n "+value.notes+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    	    				
+	    	    				var position = 'topRight';
+	    		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+	    		    	        var n = noty({
+	    		    	            text: notifContent,
+	    		    	            type: 'success',
+	    		    	            layout: position,
+	    		    	            theme: 'made',
+	    		    	            animation: {
+	    		    	                open: 'animated bounceIn',
+	    		    	                close: 'animated bounceOut'
+	    		    	            },
+	    		    	            
+	    		    	            callback: {
+	    		    	                onShow: function () {
+	    		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+	    		    	                },
+	    		    	                onCloseClick: function () {
+	    		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+	    		    	                }
+	    		    	            }
+	    		    	        });
+	    		    	        
+	    		    	        var element = $('#cnt');
+	    						$compile(element)($scope);
+	    					} 					
 	    				});
 		  				  
 		  				  
@@ -6044,9 +6089,6 @@ angular.module('newApp')
 						  console.log("wathervalue");
 						  console.log($scope.wetherValue);
 						  document.getElementById("testDriveNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
-						  
-						 
-						  
 					  }
 				   });
 			   });

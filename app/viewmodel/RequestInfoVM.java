@@ -35,6 +35,8 @@ public class RequestInfoVM {
 	public List<NoteVM> note;
 	public Integer noteFlag;
 	public String status;
+	public String notes;
+	public String action;
 	public String statusDate;
 	public String salesRep;
 	public String prefferedContact;

@@ -10016,6 +10016,8 @@ public class Application extends Controller {
     }
     
     public static Result getReminderPopup(){
+    	
+    	SimpleDateFormat dfs = new SimpleDateFormat("yyyy-MM-dd");
    	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
    	 DateFormat df2 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
    	 AuthUser user = (AuthUser) getLocalUser();
@@ -10032,16 +10034,20 @@ public class Application extends Controller {
         
         Date lessDay = DateUtils.addDays(currD, -1);
         
-        List<NoteVM> actionVM = new ArrayList<NoteVM>();
+     //   List<NoteVM> actionVM = new ArrayList<NoteVM>();
+        
+        List<RequestInfoVM> actionVM= new ArrayList<RequestInfoVM>();
         
         List<ScheduleTest> list = ScheduleTest.findAllByServiceTestPopup(user,lessDay);
         
     	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeadsToPopUp(user,lessDay);
     	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToPopup(user,lessDay);
     	
+    	//fillLeadsData(list, requestMoreInfos, tradeIns, infoVMList);
+    	
     	for(ScheduleTest scTest:list){
        	 
-        	NoteVM acti = new NoteVM();
+    		RequestInfoVM acti = new RequestInfoVM();
        	 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
        	 Location location = Location.findById(aUser.location.id);
        	
@@ -10078,33 +10084,79 @@ public class Application extends Controller {
        		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
        		 infoDate = df1.parse(str);
 
-       		 System.out.println("----------------");
-           	 System.out.println(scTest.id);
-           	 System.out.println(df1.format(currD));
-           	 System.out.println(parseTime.format(scTest.confirmTime));
-           	 System.out.println(infoDate);
-           	 System.out.println(aftHrDate);
-           	 System.out.println(aftHrDate1);
-           	 System.out.println("-11---------------");
-           	 
+       		            	 
        		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
            		 if(scTest.meetingStatus == null){
            			acti.action = "Test drive reminder";
-           			acti.note = "You have a test drive scheduled in 1 hour ";
+           			acti.notes = "You have a test drive scheduled in 1 hour ";
        			 }else if(scTest.meetingStatus.equals("meeting")){
        				acti.action = "Meeting reminder";
-       				acti.note = "You have a meeting scheduled in 1 hour ";
+       				acti.notes = "You have a meeting scheduled in 1 hour ";
        			 }
+           		 
+           		acti.id = scTest.id;
+        		Vehicle vehicle = Vehicle.findByVinAndStatus(scTest.vin);
+        		acti.vin = scTest.vin;
+        		if(vehicle != null) {
+        			acti.model = vehicle.model;
+        			acti.make = vehicle.make;
+        			acti.stock = vehicle.stock;
+        			acti.year = vehicle.year;
+        			acti.mileage = vehicle.mileage;
+        			acti.price = vehicle.price;
+        		}
+        		
+        		acti.name = scTest.name;
+        		acti.phone = scTest.phone;
+        		acti.email = scTest.email;
+        			
+        		acti.howContactedUs = scTest.contactedFrom;
+        		acti.howFoundUs = scTest.hearedFrom;
+        		acti.custZipCode = scTest.custZipCode;
+        		acti.enthicity = scTest.enthicity;
+        		acti.status =scTest.leadStatus;
+        		
+        		acti.typeOfLead = "Schedule Test Drive";
+        		findSchedulParentChildAndBro(actionVM, scTest, dfs, acti);
+        		
+           		 
+           		 
            		 actionVM.add(acti);
            	 }
        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
            		 if(scTest.meetingStatus == null){
            			acti.action =  "Test drive reminder";
-           			acti.note = "You have a test drive scheduled in 24 hours ";
+           			acti.notes = "You have a test drive scheduled in 24 hours ";
        			 }else if(scTest.meetingStatus.equals("meeting")){
        				acti.action = "Meeting reminder";
-       				acti.note =  "You have a meeting scheduled in 24 hours ";
+       				acti.notes =  "You have a meeting scheduled in 24 hours ";
        			 }
+           		 
+           		 
+           		acti.id = scTest.id;
+        		Vehicle vehicle1 = Vehicle.findByVinAndStatus(scTest.vin);
+        		acti.vin = scTest.vin;
+        		if(vehicle1 != null) {
+        			acti.model = vehicle1.model;
+        			acti.make = vehicle1.make;
+        			acti.stock = vehicle1.stock;
+        			acti.year = vehicle1.year;
+        			acti.mileage = vehicle1.mileage;
+        			acti.price = vehicle1.price;
+        		}
+        		
+        		acti.name = scTest.name;
+        		acti.phone = scTest.phone;
+        		acti.email = scTest.email;
+        			
+        		acti.howContactedUs = scTest.contactedFrom;
+        		acti.howFoundUs = scTest.hearedFrom;
+        		acti.custZipCode = scTest.custZipCode;
+        		acti.enthicity = scTest.enthicity;
+        		acti.status =scTest.leadStatus;
+        		
+        		acti.typeOfLead = "Schedule Test Drive";
+        		findSchedulParentChildAndBro(actionVM, scTest, dfs, acti);
            		 actionVM.add(acti);
            	 }
 			} catch (Exception e) {
@@ -10116,7 +10168,7 @@ public class Application extends Controller {
         
         for(RequestMoreInfo rInfo:requestMoreInfos){
         	
-        	NoteVM acti = new NoteVM();
+        	RequestInfoVM acti = new RequestInfoVM();
        	 AuthUser emailUser = AuthUser.findById(rInfo.assignedTo.id);
        	 
        	 Location location = Location.findById(emailUser.location.id);
@@ -10154,12 +10206,63 @@ public class Application extends Controller {
        		 infoDate = df1.parse(str);
        		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
        			acti.action = "Test drive reminder";
-       			acti.note = "You have a test drive scheduled in 1 hour ";
+       			acti.notes = "You have a test drive scheduled in 1 hour ";
+       			
+       			acti.id = rInfo.id;
+        		Vehicle vehicle = Vehicle.findByVinAndStatus(rInfo.vin);
+        		acti.vin = rInfo.vin;
+        		if(vehicle != null) {
+        			acti.model = vehicle.model;
+        			acti.make = vehicle.make;
+        			acti.stock = vehicle.stock;
+        			acti.year = vehicle.year;
+        			acti.mileage = vehicle.mileage;
+        			acti.price = vehicle.price;
+        		}
+        		
+        		acti.name = rInfo.name;
+        		acti.phone = rInfo.phone;
+        		acti.email = rInfo.email;
+        			
+        		acti.howContactedUs = rInfo.contactedFrom;
+        		acti.howFoundUs = rInfo.hearedFrom;
+        		acti.custZipCode = rInfo.custZipCode;
+        		acti.enthicity = rInfo.enthicity;
+        		acti.status =rInfo.leadStatus;
+        		
+        		acti.typeOfLead = "Request More Info";
+        		findRequestParentChildAndBro(actionVM, rInfo, dfs, acti);
        		 actionVM.add(acti);
        		 }
        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
        			acti.action =  "Test drive reminder";
-       			acti.note = "You have a test drive scheduled in 24 hours ";
+       			acti.notes = "You have a test drive scheduled in 24 hours ";
+       			
+       			
+       			acti.id = rInfo.id;
+        		Vehicle vehicle = Vehicle.findByVinAndStatus(rInfo.vin);
+        		acti.vin = rInfo.vin;
+        		if(vehicle != null) {
+        			acti.model = vehicle.model;
+        			acti.make = vehicle.make;
+        			acti.stock = vehicle.stock;
+        			acti.year = vehicle.year;
+        			acti.mileage = vehicle.mileage;
+        			acti.price = vehicle.price;
+        		}
+        		
+        		acti.name = rInfo.name;
+        		acti.phone = rInfo.phone;
+        		acti.email = rInfo.email;
+        			
+        		acti.howContactedUs = rInfo.contactedFrom;
+        		acti.howFoundUs = rInfo.hearedFrom;
+        		acti.custZipCode = rInfo.custZipCode;
+        		acti.enthicity = rInfo.enthicity;
+        		acti.status =rInfo.leadStatus;
+        		
+        		acti.typeOfLead = "Request More Info";
+        		findRequestParentChildAndBro(actionVM, rInfo, dfs, acti);
        		 actionVM.add(acti);
        		 }
 			} catch (Exception e) {
@@ -10168,7 +10271,7 @@ public class Application extends Controller {
         }
         
         for(TradeIn tInfo:tradeIns){
-        	NoteVM acti = new NoteVM();
+        	RequestInfoVM acti = new RequestInfoVM();
        	 AuthUser emailUser = AuthUser.findById(tInfo.assignedTo.id);
        	 
        	 Location location = Location.findById(emailUser.location.id);
@@ -10206,12 +10309,63 @@ public class Application extends Controller {
        		 infoDate = df1.parse(str);
        		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
         			acti.action = "Test drive reminder";
-           			acti.note = "You have a test drive scheduled in 1 hour ";
+           			acti.notes = "You have a test drive scheduled in 1 hour ";
+           			
+           			acti.id = tInfo.id;
+            		Vehicle vehicle = Vehicle.findByVinAndStatus(tInfo.vin);
+            		acti.vin = tInfo.vin;
+            		if(vehicle != null) {
+            			acti.model = vehicle.model;
+            			acti.make = vehicle.make;
+            			acti.stock = vehicle.stock;
+            			acti.year = vehicle.year;
+            			acti.mileage = vehicle.mileage;
+            			acti.price = vehicle.price;
+            		}
+            		
+            		acti.name = tInfo.firstName;
+            		acti.phone = tInfo.phone;
+            		acti.email = tInfo.email;
+            			
+            		acti.howContactedUs = tInfo.contactedFrom;
+            		acti.howFoundUs = tInfo.hearedFrom;
+            		acti.custZipCode = tInfo.custZipCode;
+            		acti.enthicity = tInfo.enthicity;
+            		acti.status =tInfo.leadStatus;
+            		
+            		acti.typeOfLead = "Trade-In Appraisal";
+            		findTreadParentChildAndBro(actionVM, tInfo, dfs, acti);
            		 actionVM.add(acti);
        		 }
        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
        			acti.action =  "Test drive reminder";
-       			acti.note = "You have a test drive scheduled in 24 hours ";
+       			acti.notes = "You have a test drive scheduled in 24 hours ";
+       			
+       			
+       			acti.id = tInfo.id;
+        		Vehicle vehicle = Vehicle.findByVinAndStatus(tInfo.vin);
+        		acti.vin = tInfo.vin;
+        		if(vehicle != null) {
+        			acti.model = vehicle.model;
+        			acti.make = vehicle.make;
+        			acti.stock = vehicle.stock;
+        			acti.year = vehicle.year;
+        			acti.mileage = vehicle.mileage;
+        			acti.price = vehicle.price;
+        		}
+        		
+        		acti.name = tInfo.firstName;
+        		acti.phone = tInfo.phone;
+        		acti.email = tInfo.email;
+        			
+        		acti.howContactedUs = tInfo.contactedFrom;
+        		acti.howFoundUs = tInfo.hearedFrom;
+        		acti.custZipCode = tInfo.custZipCode;
+        		acti.enthicity = tInfo.enthicity;
+        		acti.status =tInfo.leadStatus;
+        		
+        		acti.typeOfLead = "Trade-In Appraisal";
+        		findTreadParentChildAndBro(actionVM, tInfo, dfs, acti);
        		 actionVM.add(acti);
        		 }
 			} catch (Exception e) {
