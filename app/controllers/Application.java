@@ -11050,8 +11050,8 @@ public class Application extends Controller {
 	        String arr1[] = weather.split("&");
 	        String nature=arr1[0];
 	        String temp=arr1[1];
-	        context.put("nature",  map.get("nature"));
-	        context.put("temp",  map.get("temp"));
+	        context.put("nature",nature);
+	        context.put("temp", temp);
 	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
 	        	context.put("defaultImage", image.path);
