@@ -17054,6 +17054,12 @@ public class Application extends Controller {
     	return ok();
     }
     
+    public static Result getHeatMapListDale(String startD,String endD){
+    	
+    	String params = null;
+    	params = "&type=pages&heatmap_url=1&date="+startD+","+endD+"&limit=all";
+    	return ok(Json.parse(callClickAPI(params)));
+    }
     
     public static Result getHeatMapList(Integer value){
     	int year = Calendar.getInstance().get(Calendar.YEAR);

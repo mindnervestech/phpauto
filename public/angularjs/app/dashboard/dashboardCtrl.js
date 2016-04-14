@@ -2354,6 +2354,7 @@ angular.module('newApp')
         			 endDate = $("#vendDate").val();
     			 }
     			 
+    			 $scope.heatMapShow(startDate,endDate);
     			
     			 
     			  $http.get('/getMonthlyVisitorsStats/'+startDate+"/"+endDate).success(function(response) {
@@ -2593,7 +2594,7 @@ angular.module('newApp')
 	    			  $scope.showVehicalBarChart();
 
 		    		  $scope.vehicleData("All",$scope.startDateForListing,$scope.endDateForListing);
-		    		  $scope.heatMapShow();
+		    		  $scope.heatMapShow($scope.startDateV,$scope.endDateV);
 		    		  
 		    		  $scope.getClickyVisitorListData();
     		  };  
@@ -2650,7 +2651,7 @@ angular.module('newApp')
     		  
     		  
     		  
-    		  $scope.heatMapShow = function(){
+    		  $scope.heatMapShow = function(startD,endD){
     			  $scope.showHeatMap = 0;
     				$scope.gridOptions12 = {
     				 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -2702,7 +2703,7 @@ angular.module('newApp')
     			 		};
     			 		
     			 		
-    					 $http.get('/getHeatMapList/'+30)
+    					 $http.get('/getHeatMapListDale/'+startD+"/"+endD)
     						.success(function(data) {
     							
     							$scope.gridOptions12.data = data[0].dates[0].items;
@@ -4738,7 +4739,7 @@ angular.module('newApp')
 			.success(function(data) {
 			$scope.gridOptions2.data = data;
 			$scope.AllScheduleTestAssignedList = data;
-			
+			var countUnReadLead = 0;
 			console.log($scope.gridOptions2.data);
 				if($scope.userType == "Sales Person"){
 					angular.forEach($scope.gridOptions2.data,function(value,key){
@@ -4760,6 +4761,7 @@ angular.module('newApp')
 			var deferred = $q.defer();
 			$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
 			.success(function(data) {
+				var countUnReadLead = 0;
 			$scope.gridOptions5.data = data;
 			$scope.AllRequestInfoSeenList = data;
 			if($scope.userType == "Sales Person"){
@@ -4785,6 +4787,7 @@ angular.module('newApp')
 			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
 				.success(function(data) {
 					console.log(data);
+					var countUnReadLead = 0;
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
 			 		if($scope.userType == "Sales Person"){
@@ -4807,7 +4810,7 @@ angular.module('newApp')
 			var deferred = $q.defer();
 			var countUnReadLead = 0;
 			$scope.getAllListLeadDate = [];
-			if($scope.userType == "Manager"){
+			if($scope.userType == "Manager" || $scope.userType == "Sales Person"){
   				 angular.forEach($scope.gridOptions2.data,function(value,key){
   		        		$scope.getAllListLeadDate.push(value);
   		        		if(value.noteFlag == 0 && value.confirmDate == null){
