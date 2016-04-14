@@ -28,7 +28,7 @@ public class ClickyDataScheduler {
 		
 	    c1 = newsLetter.scheduler().schedule(
 			Duration.create(0, TimeUnit.MILLISECONDS),
-			Duration.create(1, TimeUnit.MINUTES), new Runnable() {
+			Duration.create(1, TimeUnit.DAYS), new Runnable() {
 				public void run() {
 				    	   System.out.println("Get Clicky Data");
 				        controllers.Application.getClickyVisitorList();
