@@ -8783,6 +8783,16 @@ angular.module('newApp')
 	$scope.imageList = [];
 	$scope.isUpdated = false;
 	$scope.vinData;
+	$scope.makeList = [];
+	$scope.modelList = [];
+	$scope.trimList = [];
+	$scope.labelList = [];
+	$scope.madeInList = [];
+	$scope.stereoList = [];
+	$scope.driveTypeList = [];
+	$scope.fuelTypeList = [];
+	$scope.exteriorColorList = [];
+	
 	$scope.init = function() {
 		$scope.isUpdated = false;
 		$http.get('/getAllSites')
@@ -8806,6 +8816,18 @@ angular.module('newApp')
 			   $('#driveTypeSearch_value').val($scope.vinData.specification.drivetrain);
 			   $('#fuelTypeSearch_value').val($scope.vinData.specification.fuelType);
 			 
+			   $http.get('/getModelList/'+$scope.vinData.specification.make)
+				.success(function(data) {
+					$scope.modelList = data;
+					console.log($scope.modelList);
+				});
+			   
+			   $http.get('/getTrimList/'+$scope.vinData.specification.model)
+				.success(function(data) {
+					$scope.trimList = data;
+					console.log($scope.trimList);
+				});
+			   
 			 $http.get('/getPriceHistory/'+data.vin)
 				.success(function(data) {
 					console.log("success");
@@ -8840,15 +8862,6 @@ angular.module('newApp')
 		
 	}
 	
-	$scope.makeList = [];
-	   $scope.modelList = [];
-	   $scope.trimList = [];
-	   $scope.labelList = [];
-	   $scope.madeInList = [];
-	   $scope.stereoList = [];
-	   $scope.driveTypeList = [];
-	   $scope.fuelTypeList = [];
-	   $scope.exteriorColorList = [];
 	   
 	   $http.get('/getMakeList').success(function(data) {
 		   console.log(data);

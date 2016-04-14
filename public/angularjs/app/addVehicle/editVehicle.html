@@ -74,7 +74,7 @@
 														local-data="makeList"
 														search-fields="make"
 														title-field="make"
-														minlength="2"
+														minlength="1"
 														focus-In="focusIn($index)"
 														input-class="form-control form-control-small txtClr">
 												</angucomplete-alt>
@@ -92,7 +92,7 @@
 																local-data="modelList"
 																search-fields="model"
 																title-field="model"
-																minlength="1"
+																minlength="0"
 																focus-In="focusIn($index)"
 																input-class="form-control form-control-small txtClr">
 														</angucomplete-alt>
@@ -111,7 +111,7 @@
 														local-data="trimList"
 														search-fields="trim"
 														title-field="trim"
-														minlength="1"
+														minlength="0"
 														focus-In="focusIn($index)"
 														input-class="form-control form-control-small txtClr">
 												</angucomplete-alt>
@@ -130,7 +130,7 @@
 														local-data="labelList"
 														search-fields="label"
 														title-field="label"
-														minlength="1"
+														minlength="0"
 														focus-In="focusIn($index)"
 														input-class="form-control form-control-small txtClr">
 												</angucomplete-alt>
@@ -206,7 +206,7 @@
 														local-data="madeInList"
 														search-fields="madeIn"
 														title-field="madeIn"
-														minlength="1"
+														minlength="0"
 														focus-In="focusIn($index)"
 														input-class="form-control form-control-small txt">
 												</angucomplete-alt>
@@ -231,7 +231,7 @@
 														local-data="exteriorColorList"
 														search-fields="extColor"
 														title-field="extColor"
-														minlength="1"
+														minlength="0"
 														focus-In="focusIn($index)"
 														input-class="form-control form-control-small txt">
 												</angucomplete-alt>
@@ -262,7 +262,7 @@
 														local-data="stereoList"
 														search-fields="stereo"
 														title-field="stereo"
-														minlength="1"
+														minlength="0"
 														focus-In="focusIn($index)"
 														input-class="form-control form-control-small txt">
 												</angucomplete-alt>
@@ -294,7 +294,7 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Location</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" ng-model="vinData.specification.location" type="text">
+												<input class="form-control form-white" ng-model="vinData.specification.location" style="border-color:red;" type="text">
 											</div>
 											<p>Please add location for vehicle</p>
 										</div>
@@ -317,7 +317,7 @@
 				local-data="driveTypeList"
 				search-fields="drivetrain"
 				title-field="drivetrain"
-				minlength="1"
+				minlength="0"
 				focus-In="focusIn($index)"
 				input-class="form-control form-control-small txt">
 		</angucomplete-alt>
@@ -332,7 +332,7 @@
 				local-data="fuelTypeList"
 				search-fields="fuelType"
 				title-field="fuelType"
-				minlength="1"
+				minlength="0"
 				focus-In="focusIn($index)"
 				input-class="form-control form-control-small txt">
 		</angucomplete-alt>
