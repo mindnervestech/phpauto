@@ -4477,7 +4477,7 @@ public class Application extends Controller {
 						ve.init();
 					
 						
-				        Template t = ve.getTemplate("/public/emailTemplate/brandFollowersTemplate.vm"); 
+				        Template t = ve.getTemplate("/public/emailTemplate/brandfollowers_HTML.vm"); 
 				        VelocityContext context = new VelocityContext();
 				        
 				        context.put("hostnameUrl", imageUrlPath);
@@ -4585,7 +4585,14 @@ public class Application extends Controller {
 		        	} else {
 		        		context.put("doors", "");
 		        	}
-		        context.put("seats", vehicle.standardSeating);
+		        
+		        
+		        if(vehicle.standardSeating != null) {
+		        	context.put("seats", vehicle.standardSeating);
+		        	} else {
+		        		context.put("seats", "" );
+		        	}
+		        
 		        if(vehicle.drivetrain != null) {
 		        	context.put("driveTrain", vehicle.drivetrain);
 		        	} else {
