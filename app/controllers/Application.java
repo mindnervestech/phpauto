@@ -11006,7 +11006,7 @@ public class Application extends Controller {
 			ve.init();
 		
 			
-	        Template t = ve.getTemplate("/public/emailTemplate/testDriveconfirmatioin.vm"); 
+	        Template t = ve.getTemplate("/public/emailTemplate/testDriveInfoChanged_HTML.vm"); 
 	        VelocityContext context = new VelocityContext();
 	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
 	       
