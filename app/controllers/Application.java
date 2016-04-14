@@ -87,7 +87,6 @@ import models.SiteLogo;
 import models.SliderImage;
 import models.SliderImageConfig;
 import models.SoldContact;
-import models.TakeMapClickyData;
 import models.ToDo;
 import models.TradeIn;
 import models.UserNotes;
@@ -16980,42 +16979,15 @@ public class Application extends Controller {
     
     public static Result getClickyVisitorList(){
     	Long id = 1L;
-    	TakeMapClickyData takeData = TakeMapClickyData.getallData(id);
-    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-    	SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
     	
     	Date curr = new Date();
     	String sDate = df.format(curr);
-    	Date cDate = null;
-		try {
-			cDate = df.parse(sDate);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		Calendar c = Calendar.getInstance();
-		c.setTime(cDate);
-		c.add(Calendar.DATE, -1);
-		
-		String dateCheck = df.format(c.getTime());
-		
-		Date datenew = null;
-		try {
-			datenew = df.parse(dateCheck);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-    	if(takeData.dateStore.equals(datenew)){
-    		
-    		String dateClicky = df2.format(datenew);
+    	
         	String params = null;
         	
-        	params = "&type=visitors-list&date="+dateClicky+"&limit=all";
+        	params = "&type=visitors-list&date="+sDate+"&limit=all";
         	//params = "&type=visitors-list&date=last-30-days&limit=all";
         	
         	JSONArray jsonArray;
@@ -17074,11 +17046,7 @@ public class Application extends Controller {
 			}
 			
 			
-			
-			takeData.setDateStore(cDate);
-			takeData.update();
-			
-    	}
+	
     	
     	
     	
