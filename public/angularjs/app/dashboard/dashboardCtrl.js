@@ -5766,7 +5766,12 @@ angular.module('newApp')
 			   
 			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
 			   $scope.testDriveData.bestTime = $('#bestTime').val();
-			   
+			   //$scope.testDriveData.weather=
+			   var aaa = $('#testDriveNature').val();
+			   console.log($scope.wetherValue);
+			   $scope.testDriveData.weatherValue=$scope.wetherValue;
+			   /*console.log("WWWWWWWWWWWWEEEEEEEETTTTTT");
+			   console.log($scope.testDriveData.weather);*/
 			   	angular.forEach($scope.testDriveData.parentChildLead,function(value,key){
 			   			value.bestDay = $('#testDriveDate'+key).val();
 			   			value.bestTime =  $('#bestTime'+key).val();
@@ -6035,7 +6040,13 @@ angular.module('newApp')
 						  if(angular.equals(value.text,"Fair")){
 								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
+						  $scope.wetherValue = value.text+"&"+value.low+"&deg;";
+						  console.log("wathervalue");
+						  console.log($scope.wetherValue);
 						  document.getElementById("testDriveNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
+						  
+						 
+						  
 					  }
 				   });
 			   });

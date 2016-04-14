@@ -4584,7 +4584,14 @@ public class Application extends Controller {
 		        	} else {
 		        		context.put("doors", "");
 		        	}
-		        context.put("seats", vehicle.standardSeating);
+		        
+		        
+		        if(vehicle.standardSeating != null) {
+		        	context.put("seats", vehicle.standardSeating);
+		        	} else {
+		        		context.put("seats", "" );
+		        	}
+		        
 		        if(vehicle.drivetrain != null) {
 		        	context.put("driveTrain", vehicle.drivetrain);
 		        	} else {
@@ -10885,6 +10892,12 @@ public class Application extends Controller {
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
 	        context.put("phone",  map.get("uphone"));
+	        String weather= map.get("wetherValue").toString();
+	        String arr1[] = weather.split("&");
+	        String nature=arr1[0];
+	        String temp=arr1[1];
+	        context.put("nature",  map.get("nature"));
+	        context.put("temp",  map.get("temp"));
 	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
 	        	context.put("defaultImage", image.path);
@@ -16256,6 +16269,7 @@ public class Application extends Controller {
                 	map.put("confirmDate", vm.bestDay);
                 	map.put("confirmTime", vm.bestTime);
                 	map.put("vin", vm.vin);
+                	map.put("vin", vm.weatherValue);
                 	map.put("uname", user.firstName+" "+user.lastName);
                 	map.put("uphone", user.phone);
                 	map.put("uemail", user.email);

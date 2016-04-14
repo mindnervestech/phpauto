@@ -61,7 +61,7 @@ public class RequestInfoVM {
 	public List<UserVM> userdata;
 	public String imageUrl;
 	public String reason;
-	
+	public String weatherValue;
 	
 	
 	
