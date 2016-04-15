@@ -11047,7 +11047,7 @@ private static void cancelTestDriveMail(Map map) {
 			message.setFrom(new InternetAddress(emailUsername));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(map.get("email").toString()));
-			message.setSubject("TEST DRIVE CONFIRMATION");
+			message.setSubject("TEST DRIVE CANCELLED");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart = new MimeBodyPart();
@@ -11111,9 +11111,10 @@ private static void cancelTestDriveMail(Map map) {
 	        System.out.println(firstThreeDigit);
 	        System.out.println(secondThreeDigit);
 	        System.out.println(thirdThreeDigit);
-	        context.put("firstThreeDigit", firstThreeDigit);
-	        context.put("secondThreeDigit", secondThreeDigit);
-	        context.put("thirdThreeDigit", thirdThreeDigit);
+	        String phn = "("+firstThreeDigit+")"+secondThreeDigit+"-"+thirdThreeDigit;
+	        context.put("phon", phn);
+	     //   context.put("secondThreeDigit", secondThreeDigit);
+	    //    context.put("thirdThreeDigit", thirdThreeDigit);
 	        
 	        /*String weather= map.get("CnfDateNature").toString();
 	        String arr1[] = weather.split("&");
