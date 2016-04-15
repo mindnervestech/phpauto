@@ -24920,9 +24920,9 @@ if(vehicles.equals("All")){
 			String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getBestDay()+" "+vm.getBestTime()+".";
 			
 			//sendEmail(assi.communicationemail, subject, comments);
-			sendMeetingMailToAssignee(vm, user, userList);
+			//sendMeetingMailToAssignee(vm, user, userList);
 		}
-		
+		sendMeetingMailToAssignee(vm, user, userList);
 		
 		
 		
