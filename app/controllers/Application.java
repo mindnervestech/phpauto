@@ -11060,7 +11060,7 @@ private static void cancelTestDriveMail(Map map) {
 			ve.init();
 		
 			
-	        Template t = ve.getTemplate("/public/emailTemplate/testDriveCancelled_HTML.html"); 
+	        Template t = ve.getTemplate("/public/emailTemplate/testDriveCancelled_HTML.vm"); 
 	        VelocityContext context = new VelocityContext();
 	        /*String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
 	       
