@@ -11021,6 +11021,136 @@ public class Application extends Controller {
 		/*------------------------------------*/
     }
     
+private static void cancelTestDriveMail(Map map) {
+    	
+    	AuthUser logoUser = getLocalUser();
+    //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+    	try
+		{
+    		/*InternetAddress[] usersArray = new InternetAddress[2];
+    		int index = 0;
+    		usersArray[0] = new InternetAddress(map.get("email").toString());
+    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
+    		
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(map.get("email").toString()));
+			message.setSubject("TEST DRIVE CONFIRMATION");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+		
+			
+	        Template t = ve.getTemplate("/public/emailTemplate/testDriveCancelled_HTML.html"); 
+	        VelocityContext context = new VelocityContext();
+	        /*String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+	       
+	        int dayOfmonth=1;
+	        int month=0;
+	        try {
+	        	String arr[] = map.get("confirmDate").toString().split("-");
+		        if(arr.length >=2){
+		        	dayOfmonth = Integer.parseInt(arr[2]);
+			        month = Integer.parseInt(arr[1]);
+		        }else{
+		        	Calendar cal = Calendar.getInstance();
+			         cal.setTime((Date)map.get("confirmDate"));
+			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+			         month = cal.get(Calendar.MONTH)+1;
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        
+	        String monthName = months[month-1];*/
+	        context.put("hostnameUrl", imageUrlPath);
+	        context.put("siteLogo", logo.logoImagePath);
+	        /*context.put("dayOfmonth", dayOfmonth);
+	        context.put("monthName", monthName);
+	        context.put("confirmTime", map.get("confirmTime"));*/
+	        
+	        Vehicle vehicle = Vehicle.findByVinAndStatus(map.get("vin").toString());
+	        context.put("year", vehicle.year);
+	        context.put("make", vehicle.make);
+	        context.put("model", vehicle.model);
+	        context.put("price", "$"+vehicle.price);
+	        context.put("stock", vehicle.stock);
+	        context.put("vin", vehicle.vin);
+	        context.put("make", vehicle.make);
+	        context.put("mileage", vehicle.mileage);
+	        context.put("name", map.get("uname"));
+	        context.put("email", map.get("uemail"));
+	       // context.put("phone",  map.get("uphone"));
+	        String phoneNum=map.get("uphone").toString();
+	        String firstThreeDigit=phoneNum;
+	        firstThreeDigit=firstThreeDigit.substring(0, 3);
+	        String secondThreeDigit=phoneNum;
+	        secondThreeDigit=secondThreeDigit.substring(3, 6);
+	        String thirdThreeDigit=phoneNum;
+	        thirdThreeDigit=thirdThreeDigit.substring(6, 10);
+	        System.out.println("phone digits");
+	        System.out.println(firstThreeDigit);
+	        System.out.println(secondThreeDigit);
+	        System.out.println(thirdThreeDigit);
+	        context.put("firstThreeDigit", firstThreeDigit);
+	        context.put("secondThreeDigit", secondThreeDigit);
+	        context.put("thirdThreeDigit", thirdThreeDigit);
+	        
+	        /*String weather= map.get("CnfDateNature").toString();
+	        String arr1[] = weather.split("&");
+	        String nature=arr1[0];
+	        String temp=arr1[1];
+	        context.put("nature",nature);
+	        context.put("temp", temp);*/
+	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        if(image!=null) {
+	        	context.put("defaultImage", image.path);
+	        } else {
+	        	context.put("defaultImage", "");
+	        }
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString(); 
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
    private static void sendMailForReschedule(Map map) {
     	
     	AuthUser logoUser = getLocalUser();
@@ -13444,6 +13574,9 @@ public class Application extends Controller {
     		return ok(home.render(""));
     	} else {
     		String clientEmail=null;
+    		String clientPhone=null;
+    		String clientName=null;
+    		String vin=null;
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
     		
@@ -13452,7 +13585,7 @@ public class Application extends Controller {
     		
     		if(leadtype.equals("Schedule Test Drive")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
-    			
+    			vin=schedule.vin;
     			
     			schedule.setLeadStatus("CANCEL");
     			schedule.setStatusDate(currDate);
@@ -13460,10 +13593,17 @@ public class Application extends Controller {
     			schedule.setReason(reason);
     	          clientEmail=schedule.email;
     			//clientEmail="nananevase9766@gmail.com";
+    	          
     			schedule.update();
     			
     			if(schedule.confirmDate != null){
-      	    	  sendEmail(clientEmail,subject,comments);
+    				Map map = new HashMap();
+		    		map.put("email",clientEmail);
+		    		map.put("vin", vin);
+		    		map.put("uname", user.firstName+" "+user.lastName);
+		    		map.put("uphone", user.phone);
+		    		map.put("uemail", user.email);
+    				cancelTestDriveMail(map);
       			}
     			
         		UserNotes uNotes = new UserNotes();
