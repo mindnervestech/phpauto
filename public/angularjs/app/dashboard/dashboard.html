@@ -9183,6 +9183,7 @@ margin-left: 5px;
 								        </div>
 								    </div>	   
 <div style="display:none;" id="futureAppointmentsModal" data-toggle="modal" data-target="#futureAppointments"></div>
+
 <div class="modal fade" id="futureAppointments" tabindex="-1" role="dialog" aria-hidden="true">
        <div class="modal-dialog">
            <div class="modal-content">
@@ -9196,13 +9197,33 @@ margin-left: 5px;
                <div class="modal-body" ng-if="appointData.meetingStatus == null">
                   Are you sure you want to cancel test drive with {{appointData.name}}<br>
                </div>
+               
                <div class="modal-footer">
                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteFutureAppointment()">Yes</button>
                </div>
            </div>
        </div>
+   </div>
+   <div style="display:none;" id="futureAppointmentsModalDelete" data-toggle="modal" data-target="#futureAppointmentsDelete"></div>	
+   <div class="modal fade" id="futureAppointmentsDelete" tabindex="-1" role="dialog" aria-hidden="true">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                   <h4 class="modal-title"><strong>Delete Future Appointment</strong></h4>
+               </div>
+                <div class="modal-body">
+                  Please confirm that you want to cancel this meeting?<br>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                   <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteFutureAppointmentReason('changes')">Yes</button>
+               </div>
+           </div>
+       </div>
    </div>	
+   
    
    						
 <style>

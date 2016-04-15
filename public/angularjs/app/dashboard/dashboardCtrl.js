@@ -5973,13 +5973,19 @@ angular.module('newApp')
 		   $scope.deleteServiceType = function(serviceData){
 			   console.log(serviceData);
 			   $scope.appointData = serviceData;
-			   $('#futureAppointmentsModal').click();
+			   
+			   if($scope.appointData.setFlagSameUser != null){
+				   $('#futureAppointmentsModalDelete').click();
+		   		}else{
+		   		 $('#futureAppointmentsModal').click();
+		   		}
+			  
 			   
 			   
 		   };
 		   $scope.deleteFutureAppointment = function(){
 			   
-			   
+			   console.log($scope.appointData);
 			   console.log($scope.appointData.meetingStatus);
 			   if($scope.appointData.meetingStatus != "meeting"){
 				   var resone = "changes";
@@ -5992,7 +5998,12 @@ angular.module('newApp')
 					   });
 				   }); 
 			   }else{
-				   $('#deleteMeeting-model').modal();
+				   
+				  // if($scope.appointData.setFlagSameUser != null)
+			   		//}else{
+			   		 $('#deleteMeeting-model').modal();
+			   		//}
+				  
 			   }
 			   
 		   };
@@ -6002,7 +6013,8 @@ angular.module('newApp')
 			   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead+"/"+reason).success(function(data){
 				   console.log("success");
 				   $scope.schedulmultidatepicker();
-				   $('#deleteMeeting-model').modal("toggle");
+				   $('#deleteMeeting-model').modal('hide');
+				   //$('#deleteMeeting-model').modal("toggle");
 				   $http.get("/getscheduletest").success(function(data){
 					   $scope.scheduleListData = data;
 				   });
