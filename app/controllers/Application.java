@@ -28517,9 +28517,24 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		ScheduleTest stTest = ScheduleTest.findById(id);
 		if(stTest != null){
 			if(status.equals("accept")){
+				
+				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		    	SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+		    	String date1=df.format(stTest.confirmDate);
+				String time1=time.format(stTest.confirmTime);
+				
 				stTest.setAcceptMeeting(2);
 				stTest.setMeeting(0);
 				stTest.update();
+				AuthUser userEmail = AuthUser.findById(stTest.user.id);
+				AuthUser assigEmail = AuthUser.findById(stTest.assignedTo.id);
+				String subject = assigEmail.firstName+"  "+assigEmail.lastName+" declined your invitation.";
+				String comments = "Your invitation to "+assigEmail.firstName+" "+assigEmail.lastName+" has been accepted \n "+date1+" "+time1+" "+stTest.name;
+				
+		    	
+				
+				
+				sendEmail(userEmail.communicationemail, subject, comments);
 			}
 			if(status.equals("decline")){
 				
