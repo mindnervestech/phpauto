@@ -29371,6 +29371,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
         				
         				subject ="Meeting has been canceled";
         				if(test.user.id.equals(users.id)){
+        					String uEmail = null;
         					List<ScheduleTest> grouptest = ScheduleTest.findAllGroupMeeting(test.groupId);
         					for(ScheduleTest sche:grouptest){
         						
@@ -29384,13 +29385,15 @@ public static Result getviniewsChartLeads(Long id, String vin,
         						sche.setReason(reason);
         						sche.setDeclineUser("Host");
         						sche.update();
+        						uEmail = userEmail.communicationemail;
         						
         						AuthUser userNames = AuthUser.findById(sche.assignedTo.id);
         						
         						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+sche.name+" \n"+sche.confirmDate+"  "+sche.confirmTime+"\n"+sche.reason+".";
-        						sendEmail(userEmail.communicationemail,subject,comments);
+        						
+        						sendEmail(userNames.communicationemail,subject,comments);
         					}
-        					
+        					sendEmail(uEmail,subject,comments);
         				}else{
         					
         					ScheduleTest oneGrouptest = ScheduleTest.findAllGroupUserMeeting(test.groupId, users);
@@ -29407,10 +29410,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
             					oneGrouptest.update();
             					
             					AuthUser userNames = AuthUser.findById(oneGrouptest.assignedTo.id);
-        						
         						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+oneGrouptest.name+" \n"+oneGrouptest.confirmDate+"  "+oneGrouptest.confirmTime+"\n"+oneGrouptest.reason+".";
-            					
         						sendEmail(userEmail.communicationemail,subject,comments);
+        						sendEmail(userNames.communicationemail,subject,comments);
         					}
         					
         				}
