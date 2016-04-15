@@ -17507,7 +17507,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			cVisitorsList.setCountryCode(jsonArray.getJSONObject(i).get("country_code").toString());
 	    			cVisitorsList.setLatitude(jsonArray.getJSONObject(i).get("latitude").toString());
 	    			cVisitorsList.setLongitude(jsonArray.getJSONObject(i).get("longitude").toString());
-	    			cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
+	    			//cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
 	    			cVisitorsList.setOrganization(jsonArray.getJSONObject(i).get("organization").toString());
 	    			cVisitorsList.setStatsUrl(jsonArray.getJSONObject(i).get("stats_url").toString());
 	    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());

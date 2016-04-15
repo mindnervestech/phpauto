@@ -6523,7 +6523,7 @@ angular.module('newApp')
 		   $scope.saveSalePersonPlan = function(month){
 			   $scope.salePerpleTotal = 0;
 			  var value= 0;
-			  
+			  $scope.salesList.push($scope.salePerId);
 			  value = $scope.saleleadsTime.totalBrought;
 			   $scope.saleleadsTime.salesList = $scope.salesList;
 			   $scope.saleleadsTime.month = month;
