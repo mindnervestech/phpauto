@@ -28528,7 +28528,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				stTest.update();
 				AuthUser userEmail = AuthUser.findById(stTest.user.id);
 				AuthUser assigEmail = AuthUser.findById(stTest.assignedTo.id);
-				String subject = assigEmail.firstName+"  "+assigEmail.lastName+" declined your invitation.";
+				String subject = assigEmail.firstName+"  "+assigEmail.lastName+" accepted your invitation.";
 				String comments = "Your invitation to "+assigEmail.firstName+" "+assigEmail.lastName+" has been accepted \n "+date1+" "+time1+" "+stTest.name;
 				
 		    	
@@ -28549,6 +28549,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					stTest.setDeclineMeeting(2);
 				stTest.setMeeting(2);
 				stTest.setDeclineReason(reason);
+				stTest.setReason(reason);
 				stTest.update();
 				AuthUser userEmail = AuthUser.findById(stTest.user.id);
 				AuthUser assigEmail = AuthUser.findById(stTest.assignedTo.id);
