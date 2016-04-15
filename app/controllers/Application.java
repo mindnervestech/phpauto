@@ -24922,7 +24922,7 @@ if(vehicles.equals("All")){
 			//sendEmail(assi.communicationemail, subject, comments);
 			//sendMeetingMailToAssignee(vm, user, userList);
 		}
-		sendMeetingMailToAssignee(vm, user, userList);
+		  sendMeetingMailToAssignee(vm, user, userList);
 		
 		
 		
@@ -24995,6 +24995,7 @@ if(vehicles.equals("All")){
 		int index = 0;
 		for (AuthUser assi : userList) {
 			try {
+				
 				usersArray[index] = new InternetAddress(assi.getEmail());
 				index++;
 			} catch (Exception e) {
@@ -25017,7 +25018,8 @@ if(vehicles.equals("All")){
 		{
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(emailUsername));
-			message.setRecipients(Message.RecipientType.TO,usersArray);
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("nananevase9766@gmail.com"));
+			/*usersArray*/
 			message.setSubject("Meeting Scheduled");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
