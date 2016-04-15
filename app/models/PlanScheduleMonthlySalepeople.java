@@ -24,6 +24,7 @@ public class PlanScheduleMonthlySalepeople extends Model {
 	public String leadsToGenerate;
 	public String emails;
 	public String cell;
+	public Integer flagMsg;
 	public String successRate;
 	
 	@ManyToOne
@@ -96,6 +97,16 @@ public class PlanScheduleMonthlySalepeople extends Model {
 
 	public void setNewCustomers(String newCustomers) {
 		this.newCustomers = newCustomers;
+	}
+
+	
+	
+	public Integer getFlagMsg() {
+		return flagMsg;
+	}
+
+	public void setFlagMsg(Integer flagMsg) {
+		this.flagMsg = flagMsg;
 	}
 
 	public String getLeadsToGenerate() {
@@ -179,5 +190,9 @@ public class PlanScheduleMonthlySalepeople extends Model {
 	
 	public static List<PlanScheduleMonthlySalepeople> findByAllLocationAndMonth(Location location,String month) {
 		return find.where().eq("locations", location).eq("month", month).findList();
+	}
+	
+	public static List<PlanScheduleMonthlySalepeople> findByAllMsgPlan(AuthUser user) {
+		return find.where().eq("flagMsg", 1).eq("user", user).findList();
 	}
 }

@@ -14435,6 +14435,7 @@ private static void cancelTestDriveMail(Map map) {
         	
         	 
         	 AuthUser emailUser = AuthUser.findById(scTest.assignedTo.id);
+        	 AuthUser userD = AuthUser.findById(scTest.user.id);
         	 
         	 
         	 try {
@@ -14445,11 +14446,11 @@ private static void cancelTestDriveMail(Map map) {
             	 System.out.println(scTest.id);
             	 System.out.println(df1.format(currD));
             	 System.out.println(parseTime.format(scTest.confirmTime));
-            	 System.out.println(infoDate);
-            	 System.out.println(aftHrDate);
-            	 System.out.println(aftHrDate);
-            	 System.out.println(aftDay);
-            	 System.out.println(aftDay1);
+            	 System.out.println(infoDate); //db date
+            	 System.out.println(aftHrDate); //+hour  dt
+            	 System.out.println(aftHrDate1);
+            	 System.out.println(aftDay); // +24hrs
+            	 System.out.println(aftDay1); //+15mins ahead
             	 System.out.println(emailUser.email);
             	 System.out.println("-11---------------");
             	 
@@ -14465,9 +14466,10 @@ private static void cancelTestDriveMail(Map map) {
         				 String subject = "Meeting reminder";
          		    	 String comments = "You have a meeting scheduled in 1 hour \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
+         		    	sendEmail(userD.communicationemail, subject, comments);
         			 }
             	 }
-        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
+        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
             		 if(scTest.meetingStatus == null){
             			 String subject = "Test drive reminder";
          		    	 String comments = "You have a test drive scheduled in 24 hours ";
@@ -14477,6 +14479,7 @@ private static void cancelTestDriveMail(Map map) {
         				 String subject = "Meeting reminder";
          		    	 String comments = "You have a meeting scheduled in 24 hours \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
+         		    	sendEmail(userD.communicationemail, subject, comments);
         			 }
             	 }
 			} catch (Exception e) {
@@ -14530,7 +14533,7 @@ private static void cancelTestDriveMail(Map map) {
      		    	 sendEmail(emailUser.communicationemail, subject, comments);
      		    	sendEmail(rInfo.email, subject, comments);
         		 }
-        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
+        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 24 hours ";
      		    	 sendEmail(emailUser.communicationemail, subject, comments);
@@ -14591,7 +14594,7 @@ private static void cancelTestDriveMail(Map map) {
      		    	 sendEmail(emailUser.communicationemail, subject, comments);
      		    	sendEmail(tInfo.email, subject, comments);
         		 }
-        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay)))){
+        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 24 hours ";
      		    	 sendEmail(emailUser.communicationemail, subject, comments);
@@ -24541,6 +24544,7 @@ if(vehicles.equals("All")){
 				planMoth.setReturningCustomers(vm.returningCustomers);
 				planMoth.setSuccessRate(vm.successRate);
 				planMoth.setTestDrives(vm.testDrives);
+				planMoth.setFlagMsg(1);
 				planMoth.setTotalBrought(vm.totalBrought);
 				planMoth.setVehicalesToSell(vm.vehicalesToSell);
 				planMoth.setUser(uAuthUser);
@@ -24555,6 +24559,7 @@ if(vehicles.equals("All")){
 				pSalePer.setOutofSale(vm.outofSale);
 				pSalePer.setReturningCustomers(vm.returningCustomers);
 				pSalePer.setSuccessRate(vm.successRate);
+				pSalePer.setFlagMsg(1);
 				pSalePer.setTestDrives(vm.testDrives);
 				pSalePer.setTotalBrought(vm.totalBrought);
 				pSalePer.setVehicalesToSell(vm.vehicalesToSell);
@@ -24562,7 +24567,7 @@ if(vehicles.equals("All")){
 			}
 			
 			 	String subject = "Plan has been Assigned";
-		    	 String comments = "plan for May has been assigning";
+		    	 String comments = "plan for "+vm.month+" has been assigned";
 		    	 sendEmail(uAuthUser.communicationemail, subject, comments);
 		}
 		
@@ -29297,6 +29302,18 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	}
     	
     	return ok(Json.toJson(sche));
+    }
+    
+    public static Result getPlanMsg(){
+    	AuthUser users = getLocalUser();
+    	List<PlanScheduleMonthlySalepeople> salepeople = PlanScheduleMonthlySalepeople.findByAllMsgPlan(users);
+    	for(PlanScheduleMonthlySalepeople sales:salepeople){
+    		sales.setFlagMsg(0);
+    		sales.update();
+    		
+    	}
+    	
+    	return ok(Json.toJson(salepeople));
     }
     
     
