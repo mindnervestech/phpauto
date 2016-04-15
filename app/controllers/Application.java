@@ -14461,7 +14461,7 @@ private static void cancelTestDriveMail(Map map) {
         				 
         				 System.out.println("----^^^^^^^^^^^^^^^-111-----------");
         				 String subject = "Meeting reminder";
-         		    	 String comments = "You have a meeting scheduled in 1 hour ";
+         		    	 String comments = "You have a meeting scheduled in 1 hour \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
         			 }
             	 }
@@ -14473,7 +14473,7 @@ private static void cancelTestDriveMail(Map map) {
          		    	sendEmail(scTest.email, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
         				 String subject = "Meeting reminder";
-         		    	 String comments = "You have a meeting scheduled in 24 hours ";
+         		    	 String comments = "You have a meeting scheduled in 24 hours \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
         			 }
             	 }
@@ -29375,6 +29375,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		return ok(home.render(""));
     	} else {
     		
+    		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
     		AuthUser users = getLocalUser();
     		String clientEmail = null;
     		String comments = null;
@@ -29405,7 +29407,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
         						
         						AuthUser userNames = AuthUser.findById(sche.assignedTo.id);
         						
-        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+sche.name+" \n"+sche.confirmDate+"  "+sche.confirmTime+"\n"+sche.reason+".";
+        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+sche.name+" \n"+df.format(sche.confirmDate)+"  "+parseTime.format(sche.confirmTime)+"\n"+sche.reason+".";
         						
         						sendEmail(userNames.communicationemail,subject,comments);
         					}
@@ -29427,7 +29429,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
             					oneGrouptest.update();
             					
             					AuthUser userNames = AuthUser.findById(oneGrouptest.assignedTo.id);
-        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+oneGrouptest.name+" \n"+oneGrouptest.confirmDate+"  "+oneGrouptest.confirmTime+"\n"+oneGrouptest.reason+".";
+        						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+oneGrouptest.name+" \n"+df.format(oneGrouptest.confirmDate)+"  "+parseTime.format(oneGrouptest.confirmTime)+"\n"+oneGrouptest.reason+".";
         						sendEmail(userEmail.communicationemail,subject,comments);
         						sendEmail(userNames.communicationemail,subject,comments);
         					}
