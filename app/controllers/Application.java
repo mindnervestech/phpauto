@@ -24764,7 +24764,7 @@ if(vehicles.equals("All")){
 		}*/
 		
 		
-		sendMeetingMailToAssignee(vm, user, userList, loc);
+		//sendMeetingMailToAssignee(vm, user, userList, loc);
 		//sendMeetingMailToOrgnizer(vm, user, userList, loc);
 		return ok();
 	}
