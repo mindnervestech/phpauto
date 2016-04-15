@@ -24908,7 +24908,8 @@ if(vehicles.equals("All")){
 			String subject = "Meeting invitation.";
 			String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getBestDay()+" "+vm.getBestTime()+".";
 			
-			sendEmail(assi.communicationemail, subject, comments);
+			//sendEmail(assi.communicationemail, subject, comments);
+			sendMeetingMailToAssignee(vm, user, userList);
 		}
 		
 		
@@ -24978,7 +24979,7 @@ if(vehicles.equals("All")){
 		return ok();
 	}
 	
-	public static void sendMeetingMailToAssignee(ScheduleTestVM vm, AuthUser user, List<AuthUser> userList, Location loc){
+	public static void sendMeetingMailToAssignee(ScheduleTestVM vm, AuthUser user, List<AuthUser> userList){
 		InternetAddress[] usersArray = new InternetAddress[userList.size()];
 		int index = 0;
 		for (AuthUser assi : userList) {
@@ -25022,7 +25023,7 @@ if(vehicles.equals("All")){
 	        VelocityContext context = new VelocityContext();
 	        
 	        context.put("title", vm.name);
-	        context.put("location", loc.getName());
+	       // context.put("location", loc.getName());
 	        context.put("meetingBy", user.getFirstName()+" "+user.getLastName());
 	        context.put("date", vm.getBestDay());
 	        context.put("time", vm.getBestTime());
