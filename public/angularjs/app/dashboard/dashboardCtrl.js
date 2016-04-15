@@ -2543,6 +2543,7 @@ angular.module('newApp')
     			  $scope.deleteMeeting();
     			  $scope.PlanOnMonday();
     			  $scope.updateMeeting();
+    			  $scope.planMsg();
     			  
     			 $scope.check={};
     			  var date = new Date();
@@ -2783,6 +2784,46 @@ angular.module('newApp')
 
 							}
 			
+			
+
+			
+			
+			$scope.planMsg = function(){
+				
+				$http.get('/getPlanMsg')
+	    		.success(function(data){
+	    				var notifContent;
+	    				angular.forEach(data, function(value, key) {
+	    					
+	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>plan for "+value.month+" has been assigned</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    				
+	    				var position = 'topRight';
+		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+		    	        var n = noty({
+		    	            text: notifContent,
+		    	            type: 'success',
+		    	            layout: position,
+		    	            theme: 'made',
+		    	            animation: {
+		    	                open: 'animated bounceIn',
+		    	                close: 'animated bounceOut'
+		    	            },
+		    	            
+		    	            callback: {
+		    	                onShow: function () {
+		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('margin-left', -30).css('bottom', 10);
+		    	                },
+		    	                onCloseClick: function () {
+		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+		    	                }
+		    	            }
+		    	        });
+		    	        
+		    	        var element = $('#cnt');
+						$compile(element)($scope);
+	    				});
+	    		});
+			}
 			
 			$scope.updateMeeting = function(){
 
@@ -6523,7 +6564,7 @@ angular.module('newApp')
 		   $scope.saveSalePersonPlan = function(month){
 			   $scope.salePerpleTotal = 0;
 			  var value= 0;
-			  
+			  $scope.salesList.push($scope.salePerId);
 			  value = $scope.saleleadsTime.totalBrought;
 			   $scope.saleleadsTime.salesList = $scope.salesList;
 			   $scope.saleleadsTime.month = month;
