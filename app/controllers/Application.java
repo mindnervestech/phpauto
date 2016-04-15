@@ -29397,8 +29397,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
         				}else{
         					
         					ScheduleTest oneGrouptest = ScheduleTest.findAllGroupUserMeeting(test.groupId, users);
-        					AuthUser userEmail = AuthUser.findById(oneGrouptest.user.id);
+        					
         					if(oneGrouptest != null){
+        						AuthUser userEmail = AuthUser.findById(oneGrouptest.user.id);
         						//oneGrouptest.setConfirmDate(null);
             					//oneGrouptest.setConfirmTime(null);
             					oneGrouptest.setLeadStatus(null);
