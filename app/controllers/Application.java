@@ -14447,7 +14447,9 @@ private static void cancelTestDriveMail(Map map) {
             	 System.out.println(parseTime.format(scTest.confirmTime));
             	 System.out.println(infoDate);
             	 System.out.println(aftHrDate);
-            	 System.out.println(aftHrDate1);
+            	 System.out.println(aftHrDate);
+            	 System.out.println(aftDay);
+            	 System.out.println(aftDay1);
             	 System.out.println(emailUser.email);
             	 System.out.println("-11---------------");
             	 
@@ -24558,6 +24560,10 @@ if(vehicles.equals("All")){
 				pSalePer.setVehicalesToSell(vm.vehicalesToSell);
 				pSalePer.update();
 			}
+			
+			 	String subject = "Plan has been Assigned";
+		    	 String comments = "plan for May has been assigning";
+		    	 sendEmail(uAuthUser.communicationemail, subject, comments);
 		}
 		
 		
