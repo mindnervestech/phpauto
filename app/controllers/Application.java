@@ -13576,7 +13576,7 @@ private static void cancelTestDriveMail(Map map) {
     		String clientEmail=null;
     		String clientPhone=null;
     		String clientName=null;
-    		String vin=null;
+    		
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
     		
@@ -13585,7 +13585,7 @@ private static void cancelTestDriveMail(Map map) {
     		
     		if(leadtype.equals("Schedule Test Drive")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
-    			vin=schedule.vin;
+    			String vin =schedule.vin;
     			
     			schedule.setLeadStatus("CANCEL");
     			schedule.setStatusDate(currDate);
@@ -13619,7 +13619,7 @@ private static void cancelTestDriveMail(Map map) {
     		} else if(leadtype.equals("Request More Info")) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
     			
-    			
+    			String vin=info.vin;
     			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
     			info.setStatusTime(currDate);
@@ -13628,7 +13628,14 @@ private static void cancelTestDriveMail(Map map) {
     			clientEmail=info.email;
     			
     			if(info.confirmDate != null){
-        	    	  sendEmail(clientEmail,subject,comments);
+    				Map map = new HashMap();
+		    		map.put("email",clientEmail);
+		    		map.put("vin", vin);
+		    		map.put("uname", user.firstName+" "+user.lastName);
+		    		map.put("uphone", user.phone);
+		    		map.put("uemail", user.email);
+    				cancelTestDriveMail(map);
+        	    	  //sendEmail(clientEmail,subject,comments);
         			}
     			
         		UserNotes uNotes = new UserNotes();
@@ -13643,6 +13650,7 @@ private static void cancelTestDriveMail(Map map) {
         		
     		} else if(leadtype.equals("Trade-In Appraisal")) {
     			TradeIn info = TradeIn.findById(id);
+    			String vin=info.vin;
     			info.setStatus("CANCEL");
     			info.setStatusDate(currDate);
     			info.setStatusTime(currDate);
@@ -13651,7 +13659,14 @@ private static void cancelTestDriveMail(Map map) {
     			clientEmail=info.email;
     			
     			if(info.confirmDate != null){
-      	    	  sendEmail(clientEmail,subject,comments);
+    				Map map = new HashMap();
+		    		map.put("email",clientEmail);
+		    		map.put("vin", vin);
+		    		map.put("uname", user.firstName+" "+user.lastName);
+		    		map.put("uphone", user.phone);
+		    		map.put("uemail", user.email);
+    				cancelTestDriveMail(map);
+      	    	  //sendEmail(clientEmail,subject,comments);
       			}
     			
         		UserNotes uNotes = new UserNotes();
