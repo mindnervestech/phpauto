@@ -10823,6 +10823,7 @@ public class Application extends Controller {
 		    		map.put("email",vm.email);
 		    		map.put("confirmDate", confirmDate);
 		    		map.put("confirmTime", vm.confirmTime);
+		    		map.put("CnfDateNature",vm.cnfDateNature);
 		    		map.put("vin", vin);
 		    		map.put("uname", user.firstName+" "+user.lastName);
 		    		map.put("uphone", user.phone);
@@ -11046,7 +11047,7 @@ public class Application extends Controller {
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
 	        context.put("phone",  map.get("uphone"));
-	        String weather= map.get("weatherValue").toString();
+	        String weather= map.get("CnfDateNature").toString();
 	        String arr1[] = weather.split("&");
 	        String nature=arr1[0];
 	        String temp=arr1[1];

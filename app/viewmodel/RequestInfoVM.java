@@ -64,7 +64,7 @@ public class RequestInfoVM {
 	public String imageUrl;
 	public String reason;
 	public String weatherValue;
-	
+	public String cnfDateNature;
 	
 	
 	

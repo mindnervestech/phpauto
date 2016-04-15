@@ -5335,6 +5335,9 @@ angular.module('newApp')
     	  $scope.saveConfirmData = function() {
     		  $scope.scheduleTestData.confirmDate = $("#cnfDate").val();
     		  $scope.scheduleTestData.confirmTime = $("#timePick").val();
+    		  $scope.scheduleTestData.cnfDateNature=$scope.cnfDateNature;
+    		  console.log("%%%%%%%%");
+    		  console.log($scope.scheduleTestData.cnfDateNature);
     		  console.log($scope.scheduleTestData);
     		  $http.post('/saveConfirmData',$scope.scheduleTestData)
     	 		.success(function(data) {
@@ -6138,6 +6141,8 @@ angular.module('newApp')
 						  if(angular.equals(value.text,"Fair")){
 								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
+						  $scope.cnfDateNature=value.text+"&"+value.low+"&deg;";
+						  console.log("***WEATHER"+$scope.cnfDateNature);
 						  document.getElementById("gridCnfDateNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
 				   });
