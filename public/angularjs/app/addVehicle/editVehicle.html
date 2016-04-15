@@ -52,7 +52,7 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">VIN</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.vin" placeholder="VIN Number" required>
+												<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.vin" placeholder="VIN Number" minlength="17" required>
 											</div>
 											<div class="col-sm-6" style="margin-left:17%;">
 												<p>A valid vin is 17 digits and cannot contain the letters I,O or Q</p>
@@ -113,7 +113,7 @@
 														title-field="trim"
 														minlength="0"
 														focus-In="focusIn($index)"
-														input-class="form-control form-control-small txtClr">
+														input-class="form-control form-control-small txt">
 												</angucomplete-alt>
 												<!--<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.trim_level" type="text" required> -->
 												<p>EX,LX,DX</p>
@@ -132,7 +132,7 @@
 														title-field="label"
 														minlength="0"
 														focus-In="focusIn($index)"
-														input-class="form-control form-control-small txtClr">
+														input-class="form-control form-control-small txt">
 												</angucomplete-alt>
 												<!--<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.label" placeholder="Runs Great,Clean History" required>-->
 											</div>

@@ -8194,7 +8194,7 @@ angular.module('newApp')
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
- 	  if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ") && ($scope.vinData.specification.trim_level != null && $scope.vinData.specification.trim_level != "") && ($scope.vinData.specification.label != null && $scope.vinData.specification.label != "")){
+ 	  if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
  		  console.log("success...");
  		  if(pdffile != undefined){
  	 		$http.post('/saveVehicle',$scope.vinData.specification)
@@ -8903,7 +8903,6 @@ angular.module('newApp')
 					console.log(data);
 					$scope.priceHistory = data;
 					angular.forEach($scope.priceHistory, function(value, key) {
-						console.log(value);
 						value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
 					});
 					
@@ -9066,7 +9065,7 @@ angular.module('newApp')
 		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
 		   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
 		
-		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ") && ($scope.vinData.specification.trim_level != null && $scope.vinData.specification.trim_level != "") && ($scope.vinData.specification.label != null && $scope.vinData.specification.label != "")){
+		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
 			   console.log($scope.vinData.specification);
 				if(pdfFile != undefined){
 					$http.post('/updateVehicleById',$scope.vinData.specification)
@@ -9251,19 +9250,25 @@ $scope.setAsDefault = function(image,index) {
 	$scope.vData = {};
 	$scope.videoData={};
 	$scope.getVirtualTourData = function() {
-		$http.get('/getVirtualTour/'+$scope.vinData.specification.vin)
+		$http.get('/getVirtualTour/'+$scope.vinData.specification.id)
 		.success(function(data) {
-			$scope.vData.desktopUrl = data.desktopUrl;
+			
+			$scope.vData = data.virtualTour;
+			$scope.videoData = data.video;
+			console.log($scope.videoData);
+			console.log($scope.vData);
+			/*$scope.vData.desktopUrl = data.desktopUrl;
 			$scope.vData.mobileUrl = data.mobileUrl;
 			
 			$scope.videoData.desktopUrl = data.desktopUrl;
-			$scope.videoData.mobileUrl = data.mobileUrl;
+			$scope.videoData.mobileUrl = data.mobileUrl;*/
 		});
 	}
 	
 	$scope.saveVData = function() {
 		
 		$scope.vData.vin = $scope.vinData.specification.vin;
+		$scope.vData.vehicleId = $scope.vinData.specification.id;
 		$http.post('/saveVData',$scope.vData)
 		.success(function(data) {
 			$.pnotify({
@@ -9278,7 +9283,9 @@ $scope.setAsDefault = function(image,index) {
 	$scope.saveVideoData = function() {
 		
 		$scope.videoData.vin = $scope.vinData.specification.vin;
+		$scope.videoData.vehicleId = $scope.vinData.specification.id;
 		console.log($scope.videoData);
+		console.log($scope.vinData.specification);
 		$http.post('/saveVideoData',$scope.videoData)
 		.success(function(data) {
 			$.pnotify({

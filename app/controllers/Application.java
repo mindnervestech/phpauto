@@ -5444,18 +5444,31 @@ public class Application extends Controller {
     }
     
     
-    public static Result getVirtualTour(String vin) {
+    public static Result getVirtualTour(Long vid) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
-	    	VirtualTour virtualTour = VirtualTour.findByUserAndVin(user, vin);
-	    	VirtualTourVM vm = new VirtualTourVM();
-	    	if(virtualTour != null) {
-	    		vm.desktopUrl = virtualTour.desktopUrl;
-	    		vm.mobileUrl = virtualTour.mobileUrl;
+	    	Vehicle vehicle = Vehicle.findById(vid);
+	    	VirtualTourVM vtVM = new VirtualTourVM();
+	    	VideoVM vVM = new VideoVM();
+	    	Map<String, Object> map = new HashMap<String, Object>();
+	    	map.put("video", vVM);
+	    	map.put("virtualTour", vtVM);
+	    	
+	    	if(vehicle != null){
+	    		VirtualTour virtualTour = VirtualTour.findByUserAndVin(user, vehicle.vin);
+	    		Video video = Video.findByUserAndVin(user, vehicle.vin);
+		    	if(virtualTour != null) {
+		    		vtVM.desktopUrl = virtualTour.desktopUrl;
+		    		vtVM.mobileUrl = virtualTour.mobileUrl;
+		    	}
+		    	if(video != null) {
+		    		vVM.desktopUrl = video.desktopUrl;
+		    		vVM.mobileUrl = video.mobileUrl;
+		    	}
 	    	}
-	    	return ok(Json.toJson(vm));
+	    	return ok(Json.toJson(map));
     	}	
     }
     
@@ -5467,19 +5480,40 @@ public class Application extends Controller {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Form<VirtualTourVM> form = DynamicForm.form(VirtualTourVM.class).bindFromRequest();
 	    	VirtualTourVM vm = form.get();
-	    	VirtualTour virtualTour = VirtualTour.findByUserAndVin(user, vm.vin);
-	    	if(virtualTour == null) {
-		    	VirtualTour vt = new VirtualTour();
-		    	vt.desktopUrl = vm.desktopUrl;
-		    	vt.mobileUrl = vm.mobileUrl;
-		    	vt.vin = vm.vin;
-		    	vt.user = user;
-		    	vt.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-		    	vt.save();
-	    	} else {
-	    		virtualTour.setDesktopUrl(vm.desktopUrl);
-	    		virtualTour.setMobileUrl(vm.mobileUrl);
-	    		virtualTour.update();
+	    	Vehicle vehicle = Vehicle.findById(vm.vehicleId);
+	    	if(vehicle != null){
+	    		VirtualTour virtualTour = VirtualTour.findByUserAndVin(user, vehicle.vin);
+		    	if(virtualTour == null) {
+			    	VirtualTour vt = new VirtualTour();
+			    	if(vm.desktopUrl == null || vm.desktopUrl == ""){
+		    			vt.desktopUrl = null;
+		    		}else{
+		    			vt.desktopUrl = vm.desktopUrl;
+		    		}
+		    		if(vm.mobileUrl == null || vm.mobileUrl == ""){
+		    			vt.mobileUrl = null;
+		    		}else{
+		    			vt.mobileUrl = vm.mobileUrl;
+		    		}
+			    	vt.vin = vehicle.vin;
+			    	vt.user = user;
+			    	vt.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			    	vt.save();
+		    	} else {
+		    		/*virtualTour.setDesktopUrl(vm.desktopUrl);
+		    		virtualTour.setMobileUrl(vm.mobileUrl);*/
+		    		if(vm.desktopUrl == null || vm.desktopUrl == ""){
+		    			virtualTour.setDesktopUrl(null);
+		    		}else{
+		    			virtualTour.setDesktopUrl(vm.desktopUrl);
+		    		}
+		    		if(vm.mobileUrl == null || vm.mobileUrl == ""){
+		    			virtualTour.setMobileUrl(null);
+		    		}else{
+		    			virtualTour.setMobileUrl(vm.mobileUrl);
+		    		}
+		    		virtualTour.update();
+		    	}
 	    	}
 	    	return ok();
     	}	
@@ -5492,21 +5526,40 @@ public class Application extends Controller {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Form<VideoVM> form = DynamicForm.form(VideoVM.class).bindFromRequest();
 	    	VideoVM vm = form.get();
-	    	Video virtualTour = Video.findByUserAndVin(user, vm.vin);
-	    	
-	    	if(virtualTour == null) {
-	    		Video vt = new Video();
-	    		vt.desktopUrl=vm.desktopUrl;
-		    	vt.mobileUrl = vm.mobileUrl;
-		    	vt.vin = vm.vin;
-		    	vt.user = user;
-		    	vt.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-		         vt.save();
+	    	Vehicle vehicle = Vehicle.findById(vm.vehicleId);
+	    	if(vehicle != null){
+	    		Video virtualTour = Video.findByUserAndVin(user, vehicle.vin);
 		    	
-	    	} else {
-	    		virtualTour.setDesktopUrl(vm.desktopUrl);
-	    		virtualTour.setMobileUrl(vm.mobileUrl);
-	    		virtualTour.update();
+		    	if(virtualTour == null) {
+		    		Video vt = new Video();
+		    		if(vm.desktopUrl == null || vm.desktopUrl == ""){
+		    			vt.desktopUrl = null;
+		    		}else{
+		    			vt.desktopUrl = vm.desktopUrl;
+		    		}
+		    		if(vm.mobileUrl == null || vm.mobileUrl == ""){
+		    			vt.mobileUrl = null;
+		    		}else{
+		    			vt.mobileUrl = vm.mobileUrl;
+		    		}
+			    	vt.vin = vehicle.vin;
+			    	vt.user = user;
+			    	vt.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			        vt.save();
+			    	
+		    	} else {
+		    		if(vm.desktopUrl == null || vm.desktopUrl == ""){
+		    			virtualTour.setDesktopUrl(null);
+		    		}else{
+		    			virtualTour.setDesktopUrl(vm.desktopUrl);
+		    		}
+		    		if(vm.mobileUrl == null || vm.mobileUrl == ""){
+		    			virtualTour.setMobileUrl(null);
+		    		}else{
+		    			virtualTour.setMobileUrl(vm.mobileUrl);
+		    		}
+		    		virtualTour.update();
+		    	}
 	    	}
 	    	return ok();
     	}	
