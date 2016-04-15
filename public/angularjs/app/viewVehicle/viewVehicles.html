@@ -28,10 +28,19 @@
                                     <tab-heading>
                                         <button type="button" id="soldBtn" class="btn btn-blue" ng-click="soldTab()">Sold</button>
                                     </tab-heading>
-                               </tab>     
-     </tabset>         
-     <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-cellNav>
-	</div>                 
+                               </tab>   
+                               <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="draftTab()">Drafts</button>
+                                    </tab-heading>
+                               </tab>    
+     </tabset>
+     <div  ng-if="doPublic == 0"><div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-cellNav>
+	</div></div>         
+       <div ng-if="doPublic == 1"><div  ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-cellNav>
+	</div></div>
+	    
+	             
 </div>   
 
 <button id="btnStatusSchedule" data-toggle="modal" data-target="#vehicalStatusModal" style="display: none;"></button>

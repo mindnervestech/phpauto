@@ -84,6 +84,7 @@ public class Vehicle extends Model {
 	public String standardSeating;
 	public String optionalSeating;
 	public String status;
+	public String publicStatus;
 	public String fuelType;
 	public String fuelTank;
 	public String headlights;
@@ -356,6 +357,14 @@ public class Vehicle extends Model {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getPublicStatus() {
+		return publicStatus;
+	}
+
+	public void setPublicStatus(String publicStatus) {
+		this.publicStatus = publicStatus;
 	}
 
 	public List<Site> getSite() {
@@ -856,6 +865,12 @@ public class Vehicle extends Model {
 		return find.where().eq("status", status).eq("locations.id", location).findList();
 		
 	}
+	
+	public static List<Vehicle> getVehiclesByDraftStatusAndLocation(Long location) {
+		return find.where().eq("publicStatus", "draft").eq("locations.id", location).findList();
+		
+	}
+	
 	public static List<Vehicle> getVehiclesByStatusAndLocationType(String status, Long location, String type) {
 		return find.where().eq("status", status).eq("locations.id", location).eq("typeofVehicle", type).findList();
 		
@@ -888,6 +903,11 @@ public class Vehicle extends Model {
 	public static List<Vehicle> findByNewArrAndLocation(Long location) {
 		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").findList();
 	}
+	
+	public static List<Vehicle> findByNewArrAndLocationNoDraft(Long location) {
+		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").eq("publicStatus", "public").findList();
+	}
+	
 	public static List<Vehicle> findByNewArrAndLocationType(Long location, String type) {
 		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").eq("typeofVehicle", type).findList();
 	}
