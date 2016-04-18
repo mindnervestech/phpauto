@@ -19,6 +19,7 @@ GET    /authenticate     			controllers.Application.index()
 GET		/logout						controllers.Application.logout()
 GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized
 GET 	/getAgreement/:userName/:userDate/:userPhone		controllers.Application.getAgreement(userName:String, userDate:String, userPhone:String)
+GET   /getRegistrList 			controllers.RegistrationController.getRegistrList()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /dealerjs/*file               controllers.Assets.at(path="/public/angularjs", file)

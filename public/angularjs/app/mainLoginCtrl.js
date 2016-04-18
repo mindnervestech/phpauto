@@ -52,6 +52,11 @@ angular.module('newApp').controller('mainLoginCtrl',
 	            	console.log(register);
 	            	
 	            	$http.post("/registerUser",register).success(function(data){
+	            		$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "registration successfully",
+						});
 	       		});
 	            }
 	            

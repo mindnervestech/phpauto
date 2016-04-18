@@ -191,6 +191,12 @@ var MakeApp = angular
             templateUrl: '/dealer/viewVehicle/viewVehicles.html',
             controller: 'ViewVehiclesCtrl'
         })
+        
+        .when('/viewRegistration', {
+            templateUrl: '/dealer/viewRegistration/viewRegistration.html',
+            controller: 'ViewRegistrationCtrl'
+        })
+        
          .when('/dashboardLocation/:LocationId/:managerId/:gmIsManager', {
             templateUrl: '/dealer/dashboard/dashboardLocation.html',
             controller: 'dashboardLocationCtrl'

@@ -350,7 +350,17 @@ public class Application extends Controller {
 		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).eq("account", "active").findUnique();
 		if(user != null) {
 			System.out.println(user.role);
-			if(user.role.equalsIgnoreCase("General Manager")){
+			if(user.role.equalsIgnoreCase("Admin")){
+				session("USER_KEY", user.id+"");
+				session("USER_ROLE", user.role+"");
+				HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+	    		List<Permission> userPermissions = user.getPermission();
+	    		for(Permission per: userPermissions) {
+	    			permission.put(per.name, true);
+	    		}
+	    		
+	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+			}else if(user.role.equalsIgnoreCase("General Manager")){
 				if(user.getNewUser()== 1){
 
 					session("USER_KEY", user.id+"");

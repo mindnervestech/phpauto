@@ -112,10 +112,10 @@ public class Registration extends Model {
 	}
 
 	public static Registration findByUser(AuthUser user) {
-		return find.where().eq("user", user).findUnique();
+		return find.where().eq("status", "pending").findUnique();
 	}
 
-	public static List<Registration> findAllData() {
+	public static List<Registration> getPending() {
 		return find.all();
 	}
 	
