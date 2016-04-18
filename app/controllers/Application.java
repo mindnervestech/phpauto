@@ -25068,6 +25068,12 @@ if(vehicles.equals("All")){
 			}
 		}
 		
+		for(AuthUser assi : userList){
+			
+			
+		}
+		
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -25097,12 +25103,49 @@ if(vehicles.equals("All")){
 			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 			ve.init();
 			
-			Template t = ve.getTemplate("/public/emailTemplate/meetingemailtoassign.vm"); 
+			Template t = ve.getTemplate("/public/emailTemplate/internalMeetingInvitation_HTML.html"); 
 	        VelocityContext context = new VelocityContext();
 	        
 	        context.put("title", vm.name);
 	       // context.put("location", loc.getName());
 	        context.put("meetingBy", user.getFirstName()+" "+user.getLastName());
+	        
+	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+		       
+	        int dayOfmonth=1;
+	        int month=0;
+	        try {
+	        	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+	        	String dateInString = vm.getBestDay();
+	        	String arr[] = dateInString.toString().split("-");
+		        if(arr.length >=2){
+		        	dayOfmonth = Integer.parseInt(arr[0]);
+			        month = Integer.parseInt(arr[1]);
+		        }else{
+		        	Date date = formatter.parse(dateInString);
+		        	Calendar cal = Calendar.getInstance();
+			         cal.setTime((Date)date);
+			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+			         month = cal.get(Calendar.MONTH)+1;
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        
+	        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+	String dateInString = vm.getBestDay();
+
+	
+	        
+	        
+	        String monthName = months[month-1];
+	        context.put("hostnameUrl", imageUrlPath);
+	       // context.put("siteLogo", logo.logoImagePath);
+	        context.put("dayOfmonth", dayOfmonth);
+	        context.put("monthName", monthName);
+	        //context.put("confirmTime", map.get("confirmTime"));
+	        
+	        
 	        context.put("date", vm.getBestDay());
 	        context.put("time", vm.getBestTime());
 	        context.put("disc", vm.getReason());
