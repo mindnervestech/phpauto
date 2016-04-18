@@ -29743,7 +29743,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    //    context.put("userList",list);
 	        
 	       // context.put("date", vm.getBestDay());
-	        context.put("time", confirmTime);
+	        
+	        SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm:aa");
+	        String time = localDateFormat.format(confirmTime);
+	        
+	        context.put("time", time);
 	        //context.put("disc", vm.getReason());
 	       
 	        StringWriter writer = new StringWriter();
