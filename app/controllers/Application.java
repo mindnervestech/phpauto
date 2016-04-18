@@ -29572,7 +29572,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
         						
         						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+sche.name+" \n"+df.format(sche.confirmDate)+"  "+parseTime.format(sche.confirmTime)+"\n"+sche.reason+".";
         						
-        						sendEmail(userNames.communicationemail,subject,comments);
+        						meetingCancelMail(userNames.communicationemail,sche.confirmDate,sche.confirmTime);
         					}
         					sendEmail(uEmail,subject,comments);
         				}else{
@@ -29644,6 +29644,127 @@ public static Result getviniewsChartLeads(Long id, String vin,
         	return ok();
     	}
     }
+    
+    
+    public static void meetingCancelMail(String communicationMail,Date confirmDate,Date confirmTime){
+		/*InternetAddress[] usersArray = new InternetAddress[userList.size()];
+		int index = 0;
+		for (AuthUser assi : userList) {
+			try {
+				
+				usersArray[index] = new InternetAddress(assi.getCommunicationemail());
+				index++;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}*/
+		/*List<UserVM> list = new ArrayList<>() ;
+		for(AuthUser assi : userList){
+			
+			UserVM vm1=new UserVM();
+			vm1.fullName=assi.firstName+" "+assi.lastName;
+			list.add(vm1);
+			
+			
+			
+		}
+		*/
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+		
+		try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(communicationMail));
+			/*usersArray*/
+			message.setSubject("Meeting Scheduled");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+			
+			Template t = ve.getTemplate("/public/emailTemplate/internalMeetingCANCELED_HTML.html"); 
+	        VelocityContext context = new VelocityContext();
+	        
+	        //context.put("title", vm.name);
+	       // context.put("location", loc.getName());
+	       // context.put("meetingBy", user.getFirstName()+" "+user.getLastName());
+	        
+	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+		       
+	        int dayOfmonth=1;
+	        int month=0;
+	        try {
+	        	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+	        	String dateInString = formatter.format(confirmDate);
+	        	String arr[] = dateInString.toString().split("-");
+		        if(arr.length >=2){
+		        	dayOfmonth = Integer.parseInt(arr[0]);
+			        month = Integer.parseInt(arr[1]);
+		        }else{
+		        	Date date =confirmDate;
+		        	Calendar cal = Calendar.getInstance();
+			         cal.setTime((Date)date);
+			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+			         month = cal.get(Calendar.MONTH)+1;
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        
+	        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//	String dateInString = vm.getBestDay();
+
+	
+	        
+	        
+	        String monthName = months[month-1];
+	        context.put("hostnameUrl", imageUrlPath);
+	       // context.put("siteLogo", logo.logoImagePath);
+	        context.put("dayOfmonth", dayOfmonth);
+	        context.put("monthName", monthName);
+	        //context.put("confirmTime", map.get("confirmTime"));
+	    //    context.put("userList",list);
+	        
+	       // context.put("date", vm.getBestDay());
+	        context.put("time", confirmTime);
+	        //context.put("disc", vm.getReason());
+	       
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString();
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			System.out.println("email Succ");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+    
+    
+    
     
     public static Result deactiveLocationById(Long id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
