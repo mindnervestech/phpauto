@@ -24025,6 +24025,7 @@ if(vehicles.equals("All")){
 		//DynamicForm form = DynamicForm.form().bindFromRequest();
 		Form<ScheduleTestVM> form = DynamicForm.form(ScheduleTestVM.class).bindFromRequest();
 		ScheduleTestVM vm = form.get();
+		List<AuthUser> list=new ArrayList<>();
 		AuthUser user = getLocalUser();
 		Long id =vm.id;
 		String confDate = vm.confDate;
@@ -24060,13 +24061,13 @@ if(vehicles.equals("All")){
 					testloop.setName(vm.name);
 					testloop.setReason(vm.reason);
 					testloop.setDeclineUpdate(1);
-					
+					list.add(assi);
 					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
             	         
             	    // testloop.setSendInvitation(1);
             	     String subject = "Meeting's information has been changed.";
  			   	    String comments = "Meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
- 				    sendEmail(assi.communicationemail, subject, comments);
+ 				    //sendEmail(assi.communicationemail, subject, comments);
             	   
 			       }
 					testloop.setConfirmDate(df.parse(confDate));
@@ -24089,12 +24090,13 @@ if(vehicles.equals("All")){
 				test.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
 				test.setName(vm.name);
 				test.setReason(vm.reason);
+				list.add(assi);
 				if(!test.getConfirmDate().equals(df.parse(confDate)) || ! test.getConfirmTime().equals(time.parse(confTime))){
        	         
 					test.setSendInvitation(1);
 					String subject = "Meeting invitation.";
 			   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
-					sendEmail(assi.communicationemail, subject, comments);
+					//sendEmail(assi.communicationemail, subject, comments);
            	   
 			       }
 				test.update();
@@ -24111,6 +24113,7 @@ if(vehicles.equals("All")){
 			AuthUser assi = AuthUser.findById(obj.id);
 			ScheduleTest moTest = new ScheduleTest();
 			moTest.assignedTo = assi;
+			list.add(assi);
 			moTest.name=vm.getAssignedTo();
 			moTest.bestDay = vm.getBestDay();
 			moTest.bestTime = vm.getBestTime();
@@ -24142,9 +24145,9 @@ if(vehicles.equals("All")){
 			String subject = "Meeting invitation.";
 	   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
 	   	    
-			sendEmail(assi.communicationemail, subject, comments);
+	   	 //sendMeetingMailInfoChange(vm, user, userList);
 		}
-		
+		sendMeetingMailInfoChange(vm, user, list);
 		
 		
 		/*try {
@@ -24159,6 +24162,145 @@ if(vehicles.equals("All")){
 		//return redirect("/authenticate");
 		return ok();
 		}
+	
+
+	public static void sendMeetingMailInfoChange(ScheduleTestVM vm, AuthUser user, List<AuthUser> userList){
+		InternetAddress[] usersArray = new InternetAddress[userList.size()];
+		int index = 0;
+		for (AuthUser assi : userList) {
+			try {
+				
+				usersArray[index] = new InternetAddress(assi.getCommunicationemail());
+				index++;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		List<UserVM> list = new ArrayList<>() ;
+		for(AuthUser assi : userList){
+			
+			UserVM vm1=new UserVM();
+			vm1.fullName=assi.firstName+" "+assi.lastName;
+			list.add(vm1);
+			
+			
+			
+		}
+		
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+		
+		try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,usersArray);
+			/*usersArray*/
+			message.setSubject("Meeting Info changed");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+			
+			Template t = ve.getTemplate("/public/emailTemplate/InternalMeetingInfoChanged_HTML.html"); 
+	        VelocityContext context = new VelocityContext();
+	        
+	        context.put("title", vm.name);
+	       // context.put("location", loc.getName());
+	        context.put("meetingBy", user.getFirstName()+" "+user.getLastName());
+	        
+	        DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+
+			SimpleDateFormat time= new SimpleDateFormat("hh:mm a");
+	        
+	        if(!vm.confirmDate.equals(vm.confDate)){
+      	         
+				vm.confirmDate=vm.confDate;
+				
+       	   
+		       }
+	        
+	        if( ! vm.confirmTime.equals(vm.confTime)){
+     	         
+				vm.confirmTime=vm.confTime;
+				
+       	   
+		       }
+	        
+	        
+	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+		       
+	        int dayOfmonth=1;
+	        int month=0;
+	        try {
+	        	SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+	        	String dateInString = vm.confirmDate;
+	        	String arr[] = dateInString.toString().split("-");
+		        if(arr.length >=2){
+		        	dayOfmonth = Integer.parseInt(arr[1]);
+			        month = Integer.parseInt(arr[0]);
+		        }else{
+		        	Date date = formatter.parse(dateInString);
+		        	Calendar cal = Calendar.getInstance();
+			         cal.setTime((Date)date);
+			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+			         month = cal.get(Calendar.MONTH)+1;
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        
+	        String monthName = months[month-1];
+	        context.put("hostnameUrl", imageUrlPath);
+	       // context.put("siteLogo", logo.logoImagePath);
+	        context.put("dayOfmonth", dayOfmonth);
+	        context.put("monthName", monthName);
+	        //context.put("confirmTime", map.get("confirmTime"));
+	        context.put("userList",list);
+	        
+	        
+	       /* SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm:aa");
+	        String confirmTime = localDateFormat.format(vm.confirmTime);
+	        */
+	        context.put("time",vm.confirmTime);
+	        context.put("date", vm.getBestDay());
+	       // context.put("time", vm.getBestTime());
+	        context.put("disc", vm.getReason());
+	       
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString();
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			System.out.println("email Succ");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+		
+	
+	
 	
 	private static String  authorizeUpdate() throws Exception {
 		AuthorizationCodeRequestUrl authorizationUrl;
@@ -29697,7 +29839,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			message.setFrom(new InternetAddress(emailUsername));
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(communicationMail));
 			/*usersArray*/
-			message.setSubject("Meeting Scheduled");
+			message.setSubject("Meeting Cancelled");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart = new MimeBodyPart();
