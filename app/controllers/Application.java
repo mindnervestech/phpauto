@@ -25061,7 +25061,7 @@ if(vehicles.equals("All")){
 		for (AuthUser assi : userList) {
 			try {
 				
-				usersArray[index] = new InternetAddress(assi.getEmail());
+				usersArray[index] = new InternetAddress(assi.getCommunicationemail());
 				index++;
 			} catch (Exception e) {
 				e.printStackTrace();
