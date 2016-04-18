@@ -9741,6 +9741,10 @@ angular.module('newApp')
 			$('#set-height').val(data.height);
 			$('#set-width').val(data.width);
 			$scope.image = data;
+			$('#target').css({
+				width: Math.round(727) + 'px',
+				height: Math.round(727*(imageH/imageW)) + 'px'
+			});
 			    $('#target').Jcrop({
 			        onSelect: showCoords,
 			        onChange: showCoords,
