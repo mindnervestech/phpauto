@@ -25067,8 +25067,13 @@ if(vehicles.equals("All")){
 				e.printStackTrace();
 			}
 		}
-		
+		List<UserVM> list = new ArrayList<>() ;
 		for(AuthUser assi : userList){
+			
+			UserVM vm1=new UserVM();
+			vm1.fullName=assi.firstName+" "+assi.lastName;
+			list.add(vm1);
+			
 			
 			
 		}
@@ -25144,7 +25149,7 @@ if(vehicles.equals("All")){
 	        context.put("dayOfmonth", dayOfmonth);
 	        context.put("monthName", monthName);
 	        //context.put("confirmTime", map.get("confirmTime"));
-	        context.put("userList",userList);
+	        context.put("userList",list);
 	        
 	        context.put("date", vm.getBestDay());
 	        context.put("time", vm.getBestTime());
