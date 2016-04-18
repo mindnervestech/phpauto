@@ -25094,7 +25094,7 @@ if(vehicles.equals("All")){
 		{
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(emailUsername));
-			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse("nananevase9766@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,usersArray);
 			/*usersArray*/
 			message.setSubject("Meeting Scheduled");
 			Multipart multipart = new MimeMultipart();
