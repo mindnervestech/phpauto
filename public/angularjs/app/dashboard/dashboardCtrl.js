@@ -8951,17 +8951,18 @@ angular.module('newApp')
     		    				 $scope.doPublic = 0;
     		    				 $http.get('/getAllVehicles')
     		    			 		.success(function(data) {
+    		    			 			console.log(data);
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
     		    			 			
-    		    			 			$scope.vType = "sold";
-    		    			 			$scope.type = "All";
+    		    			 			$scope.vType = "new";
+    		    			 			//$scope.type = "All";
     		    			 			//$scope.gridOptions1.data = [];
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions.data = data;
-    		    			 			console.log(data);
-    		    			 			console.log($scope.gridOptions.columnDefs[8]);
+    		    			 			//console.log(data);
+    		    			 			//console.log($scope.gridOptions.columnDefs[8]);
     		    			 			$scope.gridOptions.columnDefs[8].displayName='Sold Date';
     		    			 			$scope.gridOptions.columnDefs[9].displayName='History';
     		    			 		});
@@ -9015,8 +9016,7 @@ angular.module('newApp')
    $scope.vehiClesList = [];
   
    $scope.viewVehiclesInit = function() {
-	   
- 	  $http.get('/getAllVehicles')
+ 	/*  $http.get('/getAllVehicles')
  		.success(function(data) {
  			for(var i=0;i<data.length;i++) {
  				data[i].price = "$ "+data[i].price;
@@ -9025,7 +9025,9 @@ angular.module('newApp')
  			$scope.gridOptions.data = data;
  			console.log(data);
  			$scope.vType = "new";
- 		});
+ 		});*/
+	   $scope.newlyArrivedTab();
+	   
    }
    
    $scope.deleteVehicle = function(row){

@@ -78,6 +78,7 @@ import models.PlanScheduleMonthlySalepeople;
 import models.PremiumLeads;
 import models.PriceAlert;
 import models.PriceChange;
+import models.Registration;
 import models.RequestMoreInfo;
 import models.SalesPlanSchedule;
 import models.ScheduleTest;
@@ -433,8 +434,37 @@ public class Application extends Controller {
 		System.out.println("::::form");
 		System.out.println(form);
 		RegisterVM vm=form.get();
-		AuthUser user=new AuthUser();
-		MyProfile profile=new MyProfile();
+		//AuthUser user=new AuthUser();
+		
+		Registration regi = new Registration();
+		
+		final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    	Random rnd = new Random();
+
+    	   StringBuilder sb = new StringBuilder( 6 );
+    	   for( int i = 0; i < 6; i++ ) 
+    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+    	   regi.password=sb.toString();
+		
+    	 
+    	   regi.status = "pending";
+    	   regi.name=vm.name;
+    	   regi.email=vm.email;
+    	   regi.phone=vm.phone;
+    	   regi.businessAdd = vm.businessAddress;
+    	   regi.businessName =vm.businessName;
+    	   regi.location =vm.oneLocation;
+    	   regi.options = vm.options;
+    	   
+    	   regi.save();
+   		
+    	   String subject= "Successfully registered";
+          String comments="Successfully registered";
+   		//sendEmail(user.email,comment);
+    	 sendEmail(vm.email,subject,comments);
+    	   
+		
+	/*	MyProfile profile=new MyProfile();
 		List<Permission> permissionList = Permission.getAllPermission();
 		 List<Permission> permissionData = new ArrayList<>();
 		if(vm.oneLocation.equalsIgnoreCase("one")){
@@ -445,21 +475,15 @@ public class Application extends Controller {
 	    	 user.location=location;
 	    	 profile.locations=location;
 	    	 user.role="Manager";
-	      }
+	      }*/
 		/*Generate passward*/
-		if(vm.oneLocation.equalsIgnoreCase("multi")){
+/*		if(vm.oneLocation.equalsIgnoreCase("multi")){
 			user.role="General Manager";
-		}
-		final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	    	Random rnd = new Random();
-
-	    	   StringBuilder sb = new StringBuilder( 6 );
-	    	   for( int i = 0; i < 6; i++ ) 
-	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
-		user.password=sb.toString();
+		}*/
+		
 		
 		/*generate permisssioons*/
-		if(user.role.equals("Manager")) {
+		/*if(user.role.equals("Manager")) {
  		   for(Permission obj: permissionList) {
  			   if(!obj.name.equals("Show Location")) {
  				   permissionData.add(obj);
@@ -467,8 +491,8 @@ public class Application extends Controller {
  		   }
  		   user.permission = permissionData;
  	   } 
-
- if(user.role.equals("General Manager")) {
+*/
+/* if(user.role.equals("General Manager")) {
 	   for(Permission obj: permissionList) {
 		   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile")) {
 			   permissionData.add(obj);
@@ -476,9 +500,9 @@ public class Application extends Controller {
 	   }
 	   user.permission = permissionData;
 	   
- }
+ }*/
 		
-		
+		/*
 		user.firstName=vm.name;
 		user.email=vm.email;
 		user.phone=vm.phone;
@@ -490,7 +514,7 @@ public class Application extends Controller {
 		profile.businessOption=vm.options;
 		profile.save();
        String comment="Successfully registered";
-		sendEmail(user.email,comment);
+		sendEmail(user.email,comment);*/
 		
 		return ok();
 	}
@@ -5633,7 +5657,7 @@ public class Application extends Controller {
     
     
     
-    public static Result sendEmail(String email, String comment) {
+  /*  public static Result sendEmail(String email, String comment) {
 
     	Properties props = new Properties();
     	props.put("mail.smtp.auth", "true");
@@ -5666,7 +5690,7 @@ public class Application extends Controller {
     	 	 throw new RuntimeException(e);
     	 	}
     	return ok();
-    	}
+    	}*/
     public static Result editImage() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render(""));

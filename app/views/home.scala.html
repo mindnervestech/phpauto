@@ -218,6 +218,7 @@ h1, h2 {
 
 
 <div class="register-pop popsReg">
+<form ng-submit="registerUser(register)">
     <a href="#" class="close-button"></a>
    			 <h2>Register</h2>
     							<div class="col-md-12" style="margin-bottom: 8px;margin-top: 8px;">
@@ -250,16 +251,16 @@ h1, h2 {
 								  			<label style="margin-top: 20%">	Name</label>
 								  		</div>
 								  		<div class="col-md-6">
-								  		<input type="text" name="name"   ng-model="register.name" id="userName" placeholder="Name">
+								  		<input type="text" name="name" class="form-control"   ng-model="register.name" id="userName" placeholder="Name" required/>
 								         </div>
 								  </div>
 								  <div class="col-md-12">
 								 		  <div class="col-md-2"></div>
-								 		 <div class="col-md-2" style="text-align: left;">
-				            				<label style="margin-top: 20%">Email</label>
+								 		 <div class="col-md-3" style="text-align: left;">
+				            				<label style="margin-top: 8px">Email</label>
 						     			</div>
 	                  					<div class="col-md-6" >
-                 							<input type="text" ng-model="register.email" placeholder="EMAIL" required/>
+                 							<input type="email"  class="form-control" ng-model="register.email" style="width: 300px;" placeholder="EMAIL" required/>
 			               				</div>	
                                   </div>
                                   <div class="col-md-12">
@@ -268,7 +269,7 @@ h1, h2 {
 								  			<label style="margin-top: 20%" class="control-label" >	Phone</label>
 								  		</div>
 								     <div class="col-md-6" >
-		         				<input type="text" ng-model="register.phone" placeholder="PHONE NUMBER" required/> 
+		         				<input type="text" ng-model="register.phone" class="form-control" placeholder="PHONE NUMBER" required/> 
 								      	</div>
 								    </div>     
 								   <div class="col-md-12">
@@ -277,7 +278,7 @@ h1, h2 {
 								  			<label style="margin-top: 20%">	Business Name</label>
 								  		</div>
 								     <div class="col-md-6" >
-		         				<input type="text" ng-model="register.businessName" placeholder="Business Name" required/> 
+		         				<input type="text" ng-model="register.businessName" class="form-control" placeholder="Business Name" required/> 
 								      	</div>
 								    </div>    
 								    <div class="col-md-12">
@@ -286,16 +287,17 @@ h1, h2 {
 								  			<label style="margin-top: 20%">	Business Adress</label>
 								  		</div>
 								     <div class="col-md-6" >
-		         				<input type="text" ng-model="register.businessAddress"placeholder="Business Adress" required/>
+		         				<input type="text" class="form-control" ng-model="register.businessAddress"placeholder="Business Adress" required/>
 								      	</div>
 								    </div>                      		
 								                    		
     <p id="msg" style="color:red;display:none;"><b>Invalid User</b></p>
     <p id="msg1" style="color:green;display:none;"><b>Email send successfully</b></p>
     <div class="col-md-12">
-    <input type="submit" value="submit" ng-click="registerUser(register)">
+    <input type="submit" value="submit">
     <label style="color: #006bb6;margin-left: 5px">Login</label>
 </div>
+</form>
 </div>
 <div class="support-pop pops">
 	<form name="supportForm">
