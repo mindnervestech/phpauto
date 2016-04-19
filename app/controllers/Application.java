@@ -14188,8 +14188,12 @@ private static void cancelTestDriveMail(Map map) {
     
     public static void lostLeadsFunction(String vin, Date currDate){
     	List<String> emailList = new ArrayList<>();
+    	List<String> vinList = new ArrayList<>();
+    	List<RequestInfoVM>vinAndEmailList =new ArrayList<>();
+    	
     	List<TradeIn> tIn = TradeIn.findByVinAndLocation(vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
 		for(TradeIn tradeIn:tIn){
+			
 			if(tradeIn.status == null){
 				tradeIn.setStatus("LOST");
 				tradeIn.setStatusDate(currDate);
