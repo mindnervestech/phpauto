@@ -29056,6 +29056,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				message.setFrom(new InternetAddress(emailUsername));
 				message.setRecipients(Message.RecipientType.TO,
 						InternetAddress.parse(vm.email.toString()));
+				System.out.println(vm.email.toString());
 				message.setSubject("VEHICLE SOLD CONFIRMATION");
 				Multipart multipart = new MimeMultipart();
 				BodyPart messageBodyPart = new MimeBodyPart();
