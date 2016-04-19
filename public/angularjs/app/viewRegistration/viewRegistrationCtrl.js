@@ -14,23 +14,47 @@ angular.module('newApp')
 		 $scope.gridOptions.enableVerticalScrollbar = 2;
 		 $scope.gridOptions.columnDefs = [
 		                                 { name: 'name', displayName: 'Name', width:'15%',cellEditableCondition: false,
-		                                	
+		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			                                       if (row.entity.sendDemoFlag == 0) {
+			                                         return 'red';
+			                                     }
+			                                	} ,
 		                                 },
 		                                 { name: 'email', displayName: 'Email', width:'20%',cellEditableCondition: false,
-		                                	
+		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			                                       if (row.entity.sendDemoFlag == 0) {
+			                                         return 'red';
+			                                     }
+			                                	} ,
 		                                 },
 		                                 { name: 'businessName', displayName: 'Business Name', width:'15%',cellEditableCondition: false,
-		                                	
+		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			                                       if (row.entity.sendDemoFlag == 0) {
+			                                         return 'red';
+			                                     }
+			                                	} ,
 		                                 },
 		                                 { name: 'businessAdd', displayName: 'Business Addree', width:'25%',cellEditableCondition: false,
-		                                	
+		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			                                       if (row.entity.sendDemoFlag == 0) {
+			                                         return 'red';
+			                                     }
+			                                	} ,
 		                                 },
 		                                 { name: 'options', displayName: 'Options', width:'15%',cellEditableCondition: false,
-	                                	 
+		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			                                       if (row.entity.sendDemoFlag == 0) {
+			                                         return 'red';
+			                                     }
+			                                	} ,
 		                                 },
 		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
     		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;', 
-		                                 
+    		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			                                       if (row.entity.sendDemoFlag == 0) {
+			                                         return 'red';
+			                                     }
+			                                	} ,
 		                                 },
 		                                    ];
 	

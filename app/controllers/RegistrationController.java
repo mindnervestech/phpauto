@@ -172,7 +172,8 @@ public class RegistrationController extends Controller {
     	  calendar.setTime(curDate);
     	  calendar.add(Calendar.DATE, +3);
     	  regi.setExpiryDate(calendar.getTime());
-			
+    	  regi.setSendDemoFlag(1);
+    	  
 		  regi.update();
 		  
 		  String subject = "Demo site credentials";
