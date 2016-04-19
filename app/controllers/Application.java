@@ -14224,16 +14224,21 @@ private static void cancelTestDriveMail(Map map) {
 	    		uNotes1.save();
 			}
 			if(tradeIn.assignedTo !=null){
+				RequestInfoVM vm=new RequestInfoVM();
+				vm.vin=tradeIn.vin;
 				AuthUser userObj = AuthUser.findById(tradeIn.assignedTo.id);
 				if(userObj !=null){
-					emailList.add(userObj.email);
+					//emailList.add(userObj.email);
+					vm.email=userObj.email;
 				}
+				vinAndEmailList.add(vm);
 			}
 		}
 		
 		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
 		for(RequestMoreInfo rMoreInfo:rInfos){
 			if(rMoreInfo.status == null){
+				
 				rMoreInfo.setStatus("LOST");
 				rMoreInfo.setStatusDate(currDate);
 				rMoreInfo.setStatusTime(currDate);
@@ -14266,10 +14271,16 @@ private static void cancelTestDriveMail(Map map) {
 	    		uNotes1.save();
 			}
 			if(rMoreInfo.assignedTo !=null){
+				
+				RequestInfoVM vm1=new RequestInfoVM();
+				vm1.vin=rMoreInfo.vin;
 				AuthUser userObj = AuthUser.findById(rMoreInfo.assignedTo.id);
 				if(userObj !=null){
-					emailList.add(userObj.email);
+				//	emailList.add(userObj.email);
+					vm1.email=userObj.email;
+					
 				}
+				vinAndEmailList.add(vm1);
 			}
 		}
 		
@@ -14310,14 +14321,20 @@ private static void cancelTestDriveMail(Map map) {
 			}
 			if(scheduleTest.assignedTo !=null){
 				AuthUser userObj = AuthUser.findById(scheduleTest.assignedTo.id);
+				RequestInfoVM vm2=new RequestInfoVM();
+				vm2.vin=scheduleTest.vin;
 				if(userObj !=null){
-					emailList.add(userObj.email);
+					//emailList.add(userObj.email);
+					vm2.email=userObj.communicationemail;
+					
 				}
+				vinAndEmailList.add(vm2);
 			}
 		}
 		
-		if(emailList.size()>0){
-			vehicleSoldEmail(emailList);
+		if(vinAndEmailList.size()>0){
+			//vehicleSoldEmail(emailList);
+			vehicleSoldMail(vinAndEmailList);
 		}
     }
     
@@ -29007,6 +29024,125 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		}
 		return ok();
 	}
+	
+	 private static void vehicleSoldMail(List<RequestInfoVM> vinAndMailList) {
+	    	
+	         for(RequestInfoVM vm:vinAndMailList){
+	    	AuthUser logoUser = getLocalUser();
+	    //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+	    	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
+			Properties props = new Properties();
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.starttls.enable", "true");
+			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(emailUsername, emailPassword);
+				}
+			});
+	    	try
+			{
+	    		/*InternetAddress[] usersArray = new InternetAddress[2];
+	    		int index = 0;
+	    		usersArray[0] = new InternetAddress(map.get("email").toString());
+	    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
+	    		
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(emailUsername));
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse(vm.email.toString()));
+				message.setSubject("VEHICLE SOLD CONFIRMATION");
+				Multipart multipart = new MimeMultipart();
+				BodyPart messageBodyPart = new MimeBodyPart();
+				messageBodyPart = new MimeBodyPart();
+				
+				VelocityEngine ve = new VelocityEngine();
+				ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+				ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+				ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+				ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+				ve.init();
+			
+				
+		        Template t = ve.getTemplate("/public/emailTemplate/vehiclehasbeenSOLD.html"); 
+		        VelocityContext context = new VelocityContext();
+		        /*String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+		       
+		        int dayOfmonth=1;
+		        int month=0;
+		        try {
+		        	String arr[] = map.get("confirmDate").toString().split("-");
+			        if(arr.length >=2){
+			        	dayOfmonth = Integer.parseInt(arr[2]);
+				        month = Integer.parseInt(arr[1]);
+			        }else{
+			        	Calendar cal = Calendar.getInstance();
+				         cal.setTime((Date)map.get("confirmDate"));
+				         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+				         month = cal.get(Calendar.MONTH)+1;
+			        }
+				} catch (Exception e) {
+					e.printStackTrace();
+				}*/
+		        
+		       // String monthName = months[month-1];
+		        context.put("hostnameUrl", imageUrlPath);
+		        context.put("siteLogo", logo.logoImagePath);
+		       /*context.put("dayOfmonth", dayOfmonth);
+		       context.put("monthName", monthName);
+		        context.put("confirmTime", map.get("confirmTime"));*/
+		        
+		        Vehicle vehicle = Vehicle.findByVin(vm.vin.toString());
+		        context.put("year", vehicle.year);
+		        context.put("make", vehicle.make);
+		        context.put("model", vehicle.model);
+		        context.put("price", "$"+vehicle.price);
+		        context.put("stock", vehicle.stock);
+		        context.put("vin", vehicle.vin);
+		        context.put("mileage", vehicle.mileage);
+		        /*context.put("name", map.get("uname"));
+		        context.put("email", map.get("uemail"));
+		        context.put("phone",  map.get("uphone"));
+		        String weather= map.get("weatherValue").toString();
+		        String arr1[] = weather.split("&");
+		        String nature=arr1[0];
+		        String temp=arr1[1];
+		        context.put("nature",nature);
+		        context.put("temp", temp);*/
+		        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+		        if(image!=null) {
+		        	context.put("defaultImage", image.path);
+		        } else {
+		        	context.put("defaultImage", "");
+		        }
+		        StringWriter writer = new StringWriter();
+		        t.merge( context, writer );
+		        String content = writer.toString(); 
+				
+				messageBodyPart.setContent(content, "text/html");
+				multipart.addBodyPart(messageBodyPart);
+				message.setContent(multipart);
+				Transport.send(message);
+				
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+	       }
+	    	
+	 
+	    }
+	    
+	    
+	
+	
+	
+	
+	
+	
+	
 	
 	public static Result getDataFromCrm(){
 		AuthUser userObj = (AuthUser) getLocalUser();
