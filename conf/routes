@@ -7,7 +7,7 @@ GET     /                           controllers.Application.index()
 
 # Login page
 # Register 
-POST     /registerUser           controllers.Application.registerUser()
+POST     /registerUser           controllers.RegistrationController.registerUser()
 # Providers entry points
 GET     /login                      controllers.Application.home()
 GET     /test                      controllers.Application.test()
@@ -20,6 +20,12 @@ GET		/logout						controllers.Application.logout()
 GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized
 GET 	/getAgreement/:userName/:userDate/:userPhone		controllers.Application.getAgreement(userName:String, userDate:String, userPhone:String)
 GET   /getRegistrList 			controllers.RegistrationController.getRegistrList()
+GET   /getActiveRegistrList			controllers.RegistrationController.getActiveRegistrList()
+#GET   /getSetActiveUser/:userId		controllers.RegistrationController.getSetActiveUser(userId:Long)
+#GET   /getSetdeActiveUser/:userId		controllers.RegistrationController.getSetdeActiveUser(userId:Long)
+GET   /getRemoveUser/:userId		controllers.RegistrationController.getRemoveUser(userId:Long)
+GET   /getSendDemoLink/:userId		controllers.RegistrationController.getSendDemoLink(userId:Long)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /dealerjs/*file               controllers.Assets.at(path="/public/angularjs", file)

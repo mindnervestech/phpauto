@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -23,14 +24,25 @@ public class Registration extends Model {
 	public String phone;
 	public String businessName;
 	public String businessAdd;
-	public String password;
+	public String tokanNo;
 	public String status;
+	public Date registrationDate;
+	public Date startDate;
+	public Date expiryDate;
 	
 	
 	
 	public static Finder<Long,Registration> find = new Finder<>(Long.class,Registration.class);
 	
 	
+	public Date getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -47,12 +59,14 @@ public class Registration extends Model {
 		this.location = location;
 	}
 
-	public String getPassword() {
-		return password;
+	
+
+	public String getTokanNo() {
+		return tokanNo;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setTokanNo(String tokanNo) {
+		this.tokanNo = tokanNo;
 	}
 
 	public String getStatus() {
@@ -87,6 +101,22 @@ public class Registration extends Model {
 		this.email = email;
 	}
 
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
 	public String getPhone() {
 		return phone;
 	}
@@ -111,12 +141,17 @@ public class Registration extends Model {
 		this.businessAdd = businessAdd;
 	}
 
-	public static Registration findByUser(AuthUser user) {
-		return find.where().eq("status", "pending").findUnique();
+	
+	public static Registration findById(Long id) {
+		return find.byId(id);
 	}
 
 	public static List<Registration> getPending() {
-		return find.all();
+		return find.where().eq("status", "pending").findList();
+	}
+	
+	public static Registration getTokanNo(String tokanNo) {
+		return find.where().eq("tokanNo", tokanNo).findUnique();
 	}
 	
 	public static List<Registration> findByLocation(Long location) {

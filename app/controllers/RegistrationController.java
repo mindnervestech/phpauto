@@ -1,46 +1,12 @@
 package controllers;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.net.HttpURLConnection;
-import java.net.SocketException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.imageio.ImageIO;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -52,177 +18,31 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.net.ssl.HttpsURLConnection;
 
-import models.ActionAdd;
 import models.AuthUser;
-import models.Blog;
-import models.ClickyVisitorsList;
-import models.Comments;
-import models.Contacts;
-import models.FeaturedImage;
-import models.FeaturedImageConfig;
-import models.FollowBrand;
-import models.GroupTable;
-import models.HeardAboutUs;
-import models.LeadsDateWise;
-import models.Location;
-import models.MyProfile;
-import models.NewsletterDate;
-import models.Permission;
-import models.PlanLocationTotal;
-import models.PlanSalesTotal;
-import models.PlanSchedule;
-import models.PlanScheduleMonthlyLocation;
-import models.PlanScheduleMonthlySalepeople;
-import models.PremiumLeads;
-import models.PriceAlert;
-import models.PriceChange;
 import models.Registration;
-import models.RequestMoreInfo;
-import models.SalesPlanSchedule;
-import models.ScheduleTest;
-import models.Site;
-import models.SiteContent;
-import models.SiteLogo;
-import models.SliderImage;
-import models.SliderImageConfig;
-import models.SoldContact;
-import models.ToDo;
-import models.TradeIn;
-import models.UserNotes;
-import models.Vehicle;
-import models.VehicleAudio;
-import models.VehicleImage;
-import models.VehicleImageConfig;
-import models.Video;
-import models.VirtualTour;
-import net.coobird.thumbnailator.Thumbnails;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.WordUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import scala.concurrent.duration.Duration;
-import scheduler.NewsLetter;
-import securesocial.core.Identity;
-import securesocial.core.java.SecureSocial;
-import viewmodel.AssignToVM;
-import viewmodel.AudioVM;
-import viewmodel.BarChartVM;
-import viewmodel.BlogVM;
-import viewmodel.ContactsVM;
-import viewmodel.DateAndValueVM;
-import viewmodel.EditImageVM;
-import viewmodel.HeardAboutUsVm;
-import viewmodel.ImageVM;
-import viewmodel.InfoCountVM;
-import viewmodel.LeadDateWiseVM;
-import viewmodel.LeadVM;
-import viewmodel.LocationMonthPlanVM;
-import viewmodel.LocationVM;
-import viewmodel.LocationWiseDataVM;
-import viewmodel.NoteVM;
-import viewmodel.PageVM;
-import viewmodel.PinVM;
-import viewmodel.PlanScheduleVM;
-import viewmodel.PriceChangeVM;
-import viewmodel.PriceFormatDate;
 import viewmodel.RegisterVM;
-import viewmodel.RequestInfoVM;
-import viewmodel.SalepeopleMonthPlanVM;
-import viewmodel.ScheduleTestVM;
-import viewmodel.SetPriceChangeFlag;
-import viewmodel.SiteContentVM;
-import viewmodel.SiteLogoVM;
-import viewmodel.SiteVM;
-import viewmodel.SoldContactVM;
-import viewmodel.SpecificationVM;
-import viewmodel.ToDoVM;
-import viewmodel.TradeInVM;
-import viewmodel.UserLeadVM;
-import viewmodel.UserNoteVM;
-import viewmodel.UserVM;
-import viewmodel.VehicleVM;
-import viewmodel.VideoVM;
-import viewmodel.VirtualTourVM;
-import viewmodel.bodyStyleSetVM;
-import viewmodel.profileVM;
-import viewmodel.sendDataVM;
-import viewmodel.sendDateAndValue;
-import views.html.agreement;
 import views.html.home;
-import views.html.index;
 import akka.actor.ActorSystem;
-import au.com.bytecode.opencsv.CSVWriter;
-
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.SqlRow;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
-import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets.Details;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.oauth2.Oauth2;
-import com.google.api.services.oauth2.Oauth2Scopes;
-import com.google.api.services.tasks.TasksScopes;
-import com.google.api.services.tasks.model.Task;
-import com.google.api.services.tasks.model.TaskList;
-import com.google.api.services.tasks.model.TaskLists;
-import com.google.api.services.tasks.model.Tasks;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Font.FontFamily;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.mnt.dataone.Equipment;
-import com.mnt.dataone.InstalledEquipment;
-import com.mnt.dataone.Option;
-import com.mnt.dataone.OptionalEquipment;
-import com.mnt.dataone.ResponseData;
-import com.mnt.dataone.Specification;
-import com.mnt.dataone.Specification_;
-import com.mnt.dataone.Value;
 
 public class RegistrationController extends Controller {
   
 	final static String rootDir = Play.application().configuration()
 			.getString("image.storage.path");
+	
 	final static String pdfRootDir = Play.application().configuration()
 			.getString("pdfRootDir");
+	
+	final static String userRegistration = Play.application().configuration()
+			.getString("userRegistration");
 	
 	final static String imageUrlPath = Play.application().configuration()
 			.getString("image.url.path");
@@ -240,18 +60,263 @@ public class RegistrationController extends Controller {
 			.getString("mail.password");
 			
 	
+	
+	public static Result registerUser() {
+		Form<RegisterVM> form = DynamicForm.form(RegisterVM.class).bindFromRequest();
+		RegisterVM vm=form.get();
+		//AuthUser user=new AuthUser();
+		Date date = new Date();
+		
+		Registration regi = new Registration();
+		    	 
+    	   regi.status = "pending";
+    	   regi.name=vm.name;
+    	   regi.email=vm.email;
+    	   regi.phone=vm.phone;
+    	   regi.businessAdd = vm.businessAddress;
+    	   regi.businessName =vm.businessName;
+    	   regi.location =vm.oneLocation;
+    	   regi.options = vm.options;
+    	   regi.registrationDate = date;
+    	   
+    	   regi.save();
+   		
+    	   String subject= "Successfully registered";
+          String comments="Successfully registered";
+   		//sendEmail(user.email,comment);
+    	 sendEmail(vm.email,subject,comments);
+    	   
+		
+	/*	MyProfile profile=new MyProfile();
+		List<Permission> permissionList = Permission.getAllPermission();
+		 List<Permission> permissionData = new ArrayList<>();
+		if(vm.oneLocation.equalsIgnoreCase("one")){
+	    	 Location location=new Location();
+	    	 location.name=vm.businessName;
+	    	 location.address=vm.businessAddress;
+	    	 location.save();
+	    	 user.location=location;
+	    	 profile.locations=location;
+	    	 user.role="Manager";
+	      }*/
+		/*Generate passward*/
+/*		if(vm.oneLocation.equalsIgnoreCase("multi")){
+			user.role="General Manager";
+		}*/
+		
+		
+		/*generate permisssioons*/
+		/*if(user.role.equals("Manager")) {
+ 		   for(Permission obj: permissionList) {
+ 			   if(!obj.name.equals("Show Location")) {
+ 				   permissionData.add(obj);
+ 			   }
+ 		   }
+ 		   user.permission = permissionData;
+ 	   } 
+*/
+/* if(user.role.equals("General Manager")) {
+	   for(Permission obj: permissionList) {
+		   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile")) {
+			   permissionData.add(obj);
+		   }
+	   }
+	   user.permission = permissionData;
+	   
+ }*/
+		
+		/*
+		user.firstName=vm.name;
+		user.email=vm.email;
+		user.phone=vm.phone;
+		user.save();
+		profile.address=vm.businessAddress;
+		profile.myname=vm.businessName;
+		profile.email=vm.email;
+		profile.phone=vm.phone;
+		profile.businessOption=vm.options;
+		profile.save();
+       String comment="Successfully registered";
+		sendEmail(user.email,comment);*/
+		
+		return ok();
+	}
+	
 	public static Result getRegistrList() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
-	    	
 	    	List<Registration> regi = Registration.getPending();
-	    	
 	    	
 	    	return ok(Json.toJson(regi));
     	}	
     }
+	
+	public static Result getSendDemoLink(Long userId){
+		
+		Registration regi = Registration.findById(userId);
+		
+		final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    	Random rnd = new Random();
+
+    	   StringBuilder sb = new StringBuilder( 10 );
+    	   for( int i = 0; i < 10; i++ ) 
+    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+    	   	  regi.setTokanNo(sb.toString());
+    	   	  
+    	  Date curDate = new Date(); 
+    	  Calendar calendar = Calendar.getInstance();
+    	  
+    	  regi.setStartDate(curDate);
+    	  calendar.setTime(curDate);
+    	  calendar.add(Calendar.DATE, +3);
+    	  regi.setExpiryDate(calendar.getTime());
+			
+		  regi.update();
+		  
+		  String subject = "Demo site credentials";
+		  String comments = "user tokan No "+sb.toString()+"site URL \n http://www.glider-autos.com:7071/login \n http://www.glider-autos.com/glivr-test/ \n\n General Manager\n userName := mindnervesdemo@gmail.com \n password := 123456 \n\n Manager \n userName := art@gliderllc.com \n password := 123456 \n\n Sales Person \n  userName := felocipto@gmail.com \n password := YNMAG7";
+			
+			sendEmail(regi.email,subject,comments);
+		
+		return ok();
+	}
+	
+	public static Result getActiveRegistrList() {
+		
+		List<AuthUser> regi = AuthUser.getOnlyActiveUser();
+    	
+    	return ok(Json.toJson(regi));
+	}
+	
+	public static Result getRemoveUser(Long userId) {
+		
+		Registration regi = Registration.findById(userId);
+    	
+    	regi.setStatus("Deactive");
+    	regi.update();
+    	
+		return ok();
+	}
+	
+	/*public static Result getSetActiveUser(Long userId) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render(""));
+    	} else {
+	    	AuthUser user = new AuthUser();
+	    	
+	    	Registration regi = Registration.findById(userId);
+	    	
+	    	regi.setStatus("Active");
+	    	regi.update();
+	    	
+
+	    	MyProfile profile=new MyProfile();
+	    	List<Permission> permissionList = Permission.getAllPermission();
+	    	List<Permission> permissionData = new ArrayList<>();
+	    	if(regi.location.equalsIgnoreCase("one")){
+	    	    	 Location location=new Location();
+	    	    	 location.name=regi.businessName;
+	    	    	 location.address=regi.businessAdd;
+	    	    	 location.save();
+	    	    	 user.location=location;
+	    	    	 profile.locations=location;
+	    	    	 user.role="Manager";
+	    	}
+	    		Generate passward
+	    		if(regi.location.equalsIgnoreCase("multi")){
+	    			user.role="General Manager";
+	    		}
+	    		
+	    		
+	    		generate permisssioons
+	    		if(user.role.equals("Manager")) {
+	     		   for(Permission obj: permissionList) {
+	     			   if(!obj.name.equals("Show Location") && !obj.name.equals("Registration")) {
+	     				   permissionData.add(obj);
+	     			   }
+	     		   }
+	     		   user.permission = permissionData;
+	     	   } 
+	    
+	     if(user.role.equals("General Manager")) {
+	    	   for(Permission obj: permissionList) {
+	    		   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile")) {
+	    			   permissionData.add(obj);
+	    		   }
+	    	   }
+	    	   user.permission = permissionData;
+	    	   
+	     }
+	    		
+	    		
+	     		user.registId = regi.id;
+	    		user.firstName=regi.name;
+	    		user.email=regi.email;
+	    		user.communicationemail = regi.email; 
+	    		user.phone=regi.phone;
+	    		user.account = "active";
+	    		user.save();
+	    		profile.address=regi.businessAdd;
+	    		profile.myname=regi.businessName;
+	    		profile.email=regi.email;
+	    		profile.phone=regi.phone;
+	    		profile.businessOption=regi.options;
+	    		profile.save();
+	    		String subject = "confirmation mail";
+	           String comment="your registration is confirmed \n Unser Name:"+regi.email+"\n Password:"+regi.password+".";
+	    		sendEmail(user.email,subject,comment);
+	    	
+	    	
+	    	
+	    	
+	    	return ok(Json.toJson(regi));
+    	}	
+    }*/
+	
+	public static Result sendEmail(final String email, final String subject ,final String comment) {
+		ActorSystem newsLetter = Akka.system();
+		newsLetter.scheduler().scheduleOnce(Duration.create(0, TimeUnit.MILLISECONDS), 
+				new Runnable() {
+			public void run() {
+				Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		  
+		 		
+		 		System.out.println(email);
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 			
+		 			Message feedback = new MimeMessage(session);
+		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			feedback.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(email));
+		  			 feedback.setSubject(subject);	  			
+		  			 BodyPart messageBodyPart = new MimeBodyPart();	
+		  	         messageBodyPart.setText(comment);	 	    
+		  	         Multipart multipart = new MimeMultipart();	  	    
+		  	         multipart.addBodyPart(messageBodyPart);	            
+		  	         feedback.setContent(multipart);
+		  		     Transport.send(feedback);
+	    			System.out.println("email send");
+		       		} catch (MessagingException e) {
+		  			  throw new RuntimeException(e);
+		  		}
+			}}, newsLetter.dispatcher());
+				
+		return ok();
+	}
+	
 	
 	 public static AuthUser getLocalUser() {
 	    	String id = session("USER_KEY");

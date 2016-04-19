@@ -1,4 +1,4 @@
-@(message: String)
+@(message: String, userRegistration:String)
 <html>
 <head>
 <title>GLIDER Enterprise</title>
@@ -193,8 +193,9 @@ h1, h2 {
     	<h1 class="animated fadeIn">Welcome<br/>to<br/><span class="highlight">glider enterprise</span></h1>
         <form action="authenticate" method="POST">
             <h2>Sign in</h2>
-            <input type="text" name="email" id="userEmail" placeholder="Email" ng-model="userEmail" required>
-            <input type="password" name="password" id="userPass" placeholder="Password" ng-model="userPass" required>
+            <input ng-if="'@userRegistration' == 'false'" type="text" name="email" id="userEmail" placeholder="Email" ng-model="userEmail" required>
+            <input ng-if="'@userRegistration' == 'false'" type="password" name="password" id="userPass" placeholder="Password" ng-model="userPass" required>
+            <input ng-if="'@userRegistration' == 'true'" class="form-control" type="tokan" name="tokan" id="tokan" placeholder="tokan No" ng-model="tokan" required>
             <div class="row">
             	<p id="messg" style="color:red;display:none;">@message</p>
                 <input type="submit" value="login" ng-click="test()">

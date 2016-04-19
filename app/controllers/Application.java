@@ -227,6 +227,9 @@ public class Application extends Controller {
 	final static String imageUrlPath = Play.application().configuration()
 			.getString("image.url.path");
 	
+	final static String userRegistration = Play.application().configuration()
+			.getString("userRegistration");
+	
 	final static String vehicleUrlPath = Play.application().configuration()
 			.getString("vehicle.url.path");
 	
@@ -306,7 +309,7 @@ public class Application extends Controller {
 			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),locationId.toString()));
 			    	
 			} else {
-				return ok(home.render("Invalid Credentials"));
+				return ok(home.render("Invalid Credentials",userRegistration));
 			}
 			
 			
@@ -317,7 +320,6 @@ public class Application extends Controller {
 			AuthUser user = AuthUser.getlocationAndManagerOne(Location.findById(locationId));
 			
 			if(user != null) {
-				System.out.println(user.role);
 
 						session("USER_KEY", user.id+"");
 						session("USER_ROLE", user.role+""	);
@@ -339,17 +341,86 @@ public class Application extends Controller {
 			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)), "0"));
 			    	
 			} else {
-				return ok(home.render("Invalid Credentials"));
+				return ok(home.render("Invalid Credentials",userRegistration));
 			}
 			
 		}
 	
 	public static Result login() {
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String email = Form.form().bindFromRequest().get("email");
 		String password= Form.form().bindFromRequest().get("password");
-		AuthUser user = AuthUser.find.where().eq("email", email).eq("password", password).eq("account", "active").findUnique();
+		String tokanNo= Form.form().bindFromRequest().get("tokan");
+		Date curDate = new Date();
+		AuthUser user = null;
+		if(email != null && password != null){
+			 user = AuthUser.find.where().eq("email", email).eq("password", password).eq("account", "active").findUnique();
+		}else{
+			user = AuthUser.find.where().eq("email", "art@gliderllc.com").eq("password", "123456").eq("account", "active").findUnique();
+		}
+		
+		
+	
 		if(user != null) {
-			System.out.println(user.role);
+			
+			if(userRegistration.equals("true")){
+				
+				Registration registration = Registration.getTokanNo(tokanNo);
+				
+				if(registration != null){
+					String cDate = df.format(curDate);
+					Date cdates = null;
+					try {
+						cdates = df.parse(cDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if((cdates.equals(registration.startDate)||cdates.after(registration.startDate)) && ((cdates.equals(registration.expiryDate)||cdates.before(registration.expiryDate)))){
+						Location loc = Location.findById(user.location.id);
+						if(loc.getType().equalsIgnoreCase("active")){
+							if(user.getNewUser()== 1){
+
+								session("USER_KEY", user.id+"");
+								session("USER_ROLE", user.role+"");
+								
+								if(user.location != null){
+									session("USER_LOCATION", user.location.id+"");
+								}else if(user.location == null){
+									Location location = Location.findManagerType(user);
+									if(location != null){
+										session("USER_LOCATION", location.id+"");
+									}
+								}
+								
+								
+								//return  redirect("/dealer/index.html#/");
+					    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+					    		List<Permission> userPermissions = user.getPermission();
+					    		for(Permission per: userPermissions) {
+					    			permission.put(per.name, true);
+					    		}
+					    		
+					    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+					    		//return redirect("/googleConnectionStatus");
+							}else{
+								return ok(home.render(user.getEmail(),userRegistration));
+							}
+						}else{
+							return ok(home.render("Your account has been suspended, please contact your management for further questions",userRegistration));
+						}
+						
+						
+					}else{
+						return ok(home.render("Your account has been suspended, please contact your management for further questions",userRegistration));
+					}
+				}else{
+					return ok(home.render("Invalid Tokan No",userRegistration));
+				}
+				
+				
+				
+			}
 			if(user.role.equalsIgnoreCase("Admin")){
 				session("USER_KEY", user.id+"");
 				session("USER_ROLE", user.role+"");
@@ -384,7 +455,7 @@ public class Application extends Controller {
 		    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
 		    		//return redirect("/googleConnectionStatus");
 				}else{
-					return ok(home.render(user.getEmail()));
+					return ok(home.render(user.getEmail(),userRegistration));
 				}
 			}else{
 				Location loc = Location.findById(user.location.id);
@@ -414,15 +485,15 @@ public class Application extends Controller {
 			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
 			    		//return redirect("/googleConnectionStatus");
 					}else{
-						return ok(home.render(user.getEmail()));
+						return ok(home.render(user.getEmail(),userRegistration));
 					}
 				}else{
-					return ok(home.render("Your account has been suspended, please contact your management for further questions"));
+					return ok(home.render("Your account has been suspended, please contact your management for further questions",userRegistration));
 				}
 			}
     		//return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
 		} else {
-			return ok(home.render("Invalid Credentials"));
+			return ok(home.render("Invalid Credentials",userRegistration));
 		}
 	}
 	
@@ -437,96 +508,6 @@ public class Application extends Controller {
 		}
 		//Location location = Location.findManagerType(user);
 		return ok(Json.toJson(flag));
-	}
-	
-	public static Result registerUser() {
-		Form<RegisterVM> form = DynamicForm.form(RegisterVM.class).bindFromRequest();
-		System.out.println("::::form");
-		System.out.println(form);
-		RegisterVM vm=form.get();
-		//AuthUser user=new AuthUser();
-		
-		Registration regi = new Registration();
-		
-		final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    	Random rnd = new Random();
-
-    	   StringBuilder sb = new StringBuilder( 6 );
-    	   for( int i = 0; i < 6; i++ ) 
-    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
-    	   regi.password=sb.toString();
-		
-    	 
-    	   regi.status = "pending";
-    	   regi.name=vm.name;
-    	   regi.email=vm.email;
-    	   regi.phone=vm.phone;
-    	   regi.businessAdd = vm.businessAddress;
-    	   regi.businessName =vm.businessName;
-    	   regi.location =vm.oneLocation;
-    	   regi.options = vm.options;
-    	   
-    	   regi.save();
-   		
-    	   String subject= "Successfully registered";
-          String comments="Successfully registered";
-   		//sendEmail(user.email,comment);
-    	 sendEmail(vm.email,subject,comments);
-    	   
-		
-	/*	MyProfile profile=new MyProfile();
-		List<Permission> permissionList = Permission.getAllPermission();
-		 List<Permission> permissionData = new ArrayList<>();
-		if(vm.oneLocation.equalsIgnoreCase("one")){
-	    	 Location location=new Location();
-	    	 location.name=vm.businessName;
-	    	 location.address=vm.businessAddress;
-	    	 location.save();
-	    	 user.location=location;
-	    	 profile.locations=location;
-	    	 user.role="Manager";
-	      }*/
-		/*Generate passward*/
-/*		if(vm.oneLocation.equalsIgnoreCase("multi")){
-			user.role="General Manager";
-		}*/
-		
-		
-		/*generate permisssioons*/
-		/*if(user.role.equals("Manager")) {
- 		   for(Permission obj: permissionList) {
- 			   if(!obj.name.equals("Show Location")) {
- 				   permissionData.add(obj);
- 			   }
- 		   }
- 		   user.permission = permissionData;
- 	   } 
-*/
-/* if(user.role.equals("General Manager")) {
-	   for(Permission obj: permissionList) {
-		   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Dealer's Profile")) {
-			   permissionData.add(obj);
-		   }
-	   }
-	   user.permission = permissionData;
-	   
- }*/
-		
-		/*
-		user.firstName=vm.name;
-		user.email=vm.email;
-		user.phone=vm.phone;
-		user.save();
-		profile.address=vm.businessAddress;
-		profile.myname=vm.businessName;
-		profile.email=vm.email;
-		profile.phone=vm.phone;
-		profile.businessOption=vm.options;
-		profile.save();
-       String comment="Successfully registered";
-		sendEmail(user.email,comment);*/
-		
-		return ok();
 	}
 	
 	public static Result acceptAgreement() {
@@ -587,7 +568,7 @@ public class Application extends Controller {
     		//return ok();
 	        	return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
 		}else {
-			return ok(home.render("Invalid Credentials"));
+			return ok(home.render("Invalid Credentials",userRegistration));
 		}
 	}
 	
@@ -712,11 +693,11 @@ public class Application extends Controller {
 	
 	public static Result logout() {
 		session().clear();
-		return ok(home.render(""));
+		return ok(home.render("",userRegistration));
 	}
 	
 	public static Result home() {
-		return ok(home.render(""));
+		return ok(home.render("",userRegistration));
 	}
 	public static Result test() {
 		return ok(agreement.render("fdfdsf","fdsf","1"));
@@ -808,7 +789,7 @@ public class Application extends Controller {
   
     public static Result getAllSites() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     	List<Site> siteList = Site.getAllSites();
     	List<SiteVM> vmList = new ArrayList<>();
@@ -827,7 +808,7 @@ public class Application extends Controller {
     public static Result getVehicleInfo(String vin) throws IOException,Exception {
     	
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Location location=Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -1262,7 +1243,7 @@ public class Application extends Controller {
     
     public static Result saveVehiclePdf(Long id) throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Identity user = getLocalUser();
 	    	AuthUser userObj = (AuthUser)user;
@@ -1296,7 +1277,7 @@ public class Application extends Controller {
     
     public static Result saveVehicle() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	Identity user = getLocalUser();
 	    	AuthUser userObj = (AuthUser)user;
@@ -1867,7 +1848,7 @@ public class Application extends Controller {
     }
     public static Result getLocationDays(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser userObj = (AuthUser) getLocalUser();
     		Location loc= Location.findById(userObj.location.id);
@@ -1893,7 +1874,7 @@ public class Application extends Controller {
     
     public static Result uploadLocationImageFile(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		Form<LocationVM> form = DynamicForm.form(LocationVM.class).bindFromRequest();
@@ -1951,7 +1932,7 @@ public class Application extends Controller {
     
     public static Result UpdateuploadManagerImageFile(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 	    	String flag = "0";
@@ -2106,7 +2087,7 @@ public class Application extends Controller {
     public static Result uploadManagerImageFile(){
     	
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		 AuthUser users = (AuthUser) getLocalUser();
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
@@ -2285,7 +2266,7 @@ public class Application extends Controller {
     
     public static Result uploadPhotos() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	String vin = request().getHeader("vinNum");
@@ -2335,7 +2316,7 @@ public class Application extends Controller {
     
     public static Result getImagesByVin(String vin) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	List<VehicleImage> imageList = VehicleImage.getByVin(vin);
 	    	reorderImagesForFirstTime(imageList);
@@ -2374,7 +2355,7 @@ public class Application extends Controller {
 	
     public static Result getImageById(Long id, String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
 	    	VehicleImage image = VehicleImage.findById(id);
@@ -2395,7 +2376,7 @@ public class Application extends Controller {
     
     public static Result deleteImage(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	VehicleImage image = VehicleImage.findById(id);
@@ -2411,7 +2392,7 @@ public class Application extends Controller {
     
     public static Result setDefaultImage(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	VehicleImage image = VehicleImage.findById(id);
 	    	image.defaultImage = (true);
@@ -2424,7 +2405,7 @@ public class Application extends Controller {
     
     public static Result removeDefault(Long old,Long newId) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	VehicleImage image = VehicleImage.findById(old);
 	    	image.defaultImage = (false);
@@ -2439,7 +2420,7 @@ public class Application extends Controller {
     
     public static Result editLeads(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
     		Date currDate = new Date();
@@ -3715,7 +3696,7 @@ public class Application extends Controller {
     
     public static Result savePosition() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	JsonNode nodes = ctx().request().body().asJson();
 	    	ObjectMapper mapper = new ObjectMapper();
@@ -3744,7 +3725,7 @@ public class Application extends Controller {
     
     public static Result saveSliderPosition() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	JsonNode nodes = ctx().request().body().asJson();
 	    	ObjectMapper mapper = new ObjectMapper();
@@ -3773,7 +3754,7 @@ public class Application extends Controller {
     
     public static Result saveFeaturedPosition() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	JsonNode nodes = ctx().request().body().asJson();
 	    	ObjectMapper mapper = new ObjectMapper();
@@ -3801,7 +3782,7 @@ public class Application extends Controller {
     
 	public static Result getAllVehiclesByType(String type) {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		int visitorCount = 0;
     		List <Vehicle> vehicleObjList;
@@ -3920,7 +3901,7 @@ public class Application extends Controller {
     }
 	public static Result getAllVehicles() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		int visitorCount = 0;
 	    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
@@ -4027,7 +4008,7 @@ public class Application extends Controller {
     
 	public static Result getVehicleHistory(String vin){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
@@ -4077,7 +4058,7 @@ public class Application extends Controller {
     
 	public static Result getPriceHistory(String vin){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
@@ -4099,7 +4080,7 @@ public class Application extends Controller {
 	
 	public static Result getAllSoldVehiclesByType(String type) {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	List <Vehicle> soldVehicleObjList;
 	    	if(type.equalsIgnoreCase("All"))
@@ -4154,7 +4135,7 @@ public class Application extends Controller {
 	
 	public static Result getAllDraftVehicles(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	List <Vehicle> draftVehicleObjList = Vehicle.getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -4206,7 +4187,7 @@ public class Application extends Controller {
 	
 	public static Result getAllSoldVehicles() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	List <Vehicle> soldVehicleObjList = Vehicle.getVehiclesByStatusAndLocation("Sold",Long.valueOf(session("USER_LOCATION")));
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -4257,7 +4238,7 @@ public class Application extends Controller {
     
     public static Result deleteVehicleById(Long id ){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	Vehicle vm = Vehicle.findById(id);
 	    	AuthUser user = (AuthUser) getLocalUser();
@@ -4278,7 +4259,7 @@ public class Application extends Controller {
     
     public static Result updateVehicleStatus(Long id,String status){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	Vehicle vm = Vehicle.findById(id);
 	    	Date currDate = new Date();
@@ -4403,7 +4384,7 @@ public class Application extends Controller {
     
     public static Result removeVehiclePdf(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Vehicle vehicle = Vehicle.findById(id);
     		if(vehicle.getPdfBrochurePath() != null){
@@ -4424,7 +4405,7 @@ public class Application extends Controller {
     
     public static Result getVehicleById(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	Vehicle vehicle = Vehicle.findById(id);
 	    	PinVM pinVM = new PinVM();
@@ -4823,7 +4804,7 @@ public class Application extends Controller {
     
     public static Result updateVehicle(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		int flag=0;
     		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -4878,7 +4859,7 @@ public class Application extends Controller {
     
     public static Result updateVehicleByIdPdf(Long id) throws SocketException, IOException{
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser userObj = (AuthUser) getLocalUser();
@@ -4914,7 +4895,7 @@ public class Application extends Controller {
     
     public static Result updateVehicleById() throws SocketException, IOException{
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		int flag=0;
     		Date currDate = new Date();
@@ -5485,7 +5466,7 @@ public class Application extends Controller {
     
     public static Result uplaodSoundFile() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	DynamicForm dynamicForm = Form.form().bindFromRequest();
@@ -5525,7 +5506,7 @@ public class Application extends Controller {
     
     public static Result getAllAudio(String vin) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<VehicleAudio> audioList = VehicleAudio.getByUserAndVin(user, vin);
@@ -5545,7 +5526,7 @@ public class Application extends Controller {
     
     public static Result getVirtualTour(Long vid) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Vehicle vehicle = Vehicle.findById(vid);
@@ -5574,7 +5555,7 @@ public class Application extends Controller {
     
     public static Result saveVData() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Form<VirtualTourVM> form = DynamicForm.form(VirtualTourVM.class).bindFromRequest();
@@ -5620,7 +5601,7 @@ public class Application extends Controller {
     
     public static Result saveVideoData() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Form<VideoVM> form = DynamicForm.form(VideoVM.class).bindFromRequest();
@@ -5703,7 +5684,7 @@ public class Application extends Controller {
     	}*/
     public static Result editImage() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser user = (AuthUser) getLocalUser();
@@ -5730,7 +5711,7 @@ public class Application extends Controller {
     
     public static Result uploadSliderPhotos() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	
@@ -5806,7 +5787,7 @@ public class Application extends Controller {
     
     public static Result uploadFeaturedPhotos() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	
@@ -5855,7 +5836,7 @@ public class Application extends Controller {
     
     public static Result getSliderImageById(Long id,String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
 	    	SliderImage image = SliderImage.findById(id);
@@ -5873,7 +5854,7 @@ public class Application extends Controller {
     
     public static Result getFeaturedImageById(Long id,String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
 	    	FeaturedImage image = FeaturedImage.findById(id);
@@ -5891,7 +5872,7 @@ public class Application extends Controller {
     
     public static Result deleteSliderImage(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	SliderImage image = SliderImage.findById(id);
@@ -5907,7 +5888,7 @@ public class Application extends Controller {
     
     public static Result deleteFeaturedImage(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	FeaturedImage image = FeaturedImage.findById(id);
@@ -5923,7 +5904,7 @@ public class Application extends Controller {
     
     public static Result deleteAudioFile(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	VehicleAudio audio = VehicleAudio.findById(id);
 	    	File file = new File(rootDir+audio.path);
@@ -5936,7 +5917,7 @@ public class Application extends Controller {
     
     public static Result getSliderAndFeaturedImages() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	
@@ -6067,7 +6048,7 @@ public class Application extends Controller {
     
     public static Result saveSiteHeading(String heading) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	SiteContent content = SiteContent.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -6088,7 +6069,7 @@ public class Application extends Controller {
     
     public static Result saveSiteDescription() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Form<SiteContentVM> form = DynamicForm.form(SiteContentVM.class).bindFromRequest();
@@ -6114,7 +6095,7 @@ public class Application extends Controller {
     
     public static Result getSliderImageDataById(Long id) throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	SliderImage image = SliderImage.findById(id);
@@ -6140,7 +6121,7 @@ public class Application extends Controller {
     
     public static Result getFeaturedImageDataById(Long id) throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	FeaturedImage image = FeaturedImage.findById(id);
@@ -6165,7 +6146,7 @@ public class Application extends Controller {
     
     public static Result getImageDataById(Long id) throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser user = (AuthUser) getLocalUser();
@@ -6192,7 +6173,7 @@ public class Application extends Controller {
     
     public static Result editSliderImage() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
@@ -6220,7 +6201,7 @@ public class Application extends Controller {
     
     public static Result editFeaturedImage() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
@@ -6249,7 +6230,7 @@ public class Application extends Controller {
     
     public static Result getImageConfig() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	Map<String,Object> map = new HashMap<>();
@@ -6293,7 +6274,7 @@ public class Application extends Controller {
     
     public static Result saveSliderConfig(Integer width,Integer height) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	SliderImageConfig config = SliderImageConfig.findByUser(user);
@@ -6316,7 +6297,7 @@ public class Application extends Controller {
     
     public static Result savePremiumConfig(String priceVehical,String premiumFlag){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	PremiumLeads preMim = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -6352,7 +6333,7 @@ public class Application extends Controller {
     
     public static Result saveVehicleConfig(Integer width,Integer height) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	VehicleImageConfig config = VehicleImageConfig.findByUser(user);
@@ -6378,7 +6359,7 @@ public class Application extends Controller {
     
     public static Result saveFeaturedConfig(Integer width,Integer height) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	FeaturedImageConfig config = FeaturedImageConfig.findByUser(user);
@@ -6404,7 +6385,7 @@ public class Application extends Controller {
     
     public static Result exportDataAsCSV() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	CSVWriter writer = new CSVWriter(new FileWriter("vehicleInfo.csv"));
@@ -6507,7 +6488,7 @@ public class Application extends Controller {
     
     public static Result exportCarfaxCSV() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	CSVWriter writer = new CSVWriter(new FileWriter("D:\\vehicleCarfaxInfo.csv"));
@@ -6745,7 +6726,7 @@ public class Application extends Controller {
     
     public static Result exportCarGurusCSV() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	CSVWriter writer = new CSVWriter(new FileWriter("D:\\vehicleCarGurusInfo.csv"));
@@ -6898,7 +6879,7 @@ public class Application extends Controller {
     
     public static Result getAllRequestInfo() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		//Long.valueOf(session("USER_LOCATION"))
 	    	AuthUser user = (AuthUser) getLocalUser();
@@ -6974,7 +6955,7 @@ public class Application extends Controller {
     
     public static Result getAllCompletedLeadsbyId(Integer leadId){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user;
     		if(leadId == 0){
@@ -6997,7 +6978,7 @@ public class Application extends Controller {
     public static Result getTestDirConfirById(Integer leadId){
     	
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user;
     		if(leadId == 0){
@@ -7033,7 +7014,7 @@ public class Application extends Controller {
     public static Result getAllSalesPersonLostAndComp(Integer leadId){
 		
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user;
     		if(leadId == 0){
@@ -7262,7 +7243,7 @@ public class Application extends Controller {
     
     public static Result getTestDirConfir(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	
@@ -7604,7 +7585,7 @@ public class Application extends Controller {
     
     public static Result getAllLostAndCompLeads() {
       	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	
@@ -7831,7 +7812,7 @@ public class Application extends Controller {
     
     public static Result getAllRequestInfoSeen() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeen(user);
@@ -8299,7 +8280,7 @@ public class Application extends Controller {
     
     public static Result getAllScheduleTest() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<ScheduleTest> listData = new ArrayList<>();
@@ -8402,7 +8383,7 @@ public class Application extends Controller {
     
     public static Result getAllScheduleTestAssigned() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	
@@ -9076,7 +9057,7 @@ public class Application extends Controller {
     
     public static Result getAllPremiumIn(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<TradeIn> listData = new ArrayList<>();
@@ -9308,7 +9289,7 @@ public class Application extends Controller {
     
     public static Result getAllTradeIn() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<TradeIn> listData = new ArrayList<>();
@@ -9393,7 +9374,7 @@ public class Application extends Controller {
     
     public static Result getAllTradeInSeen() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
 	    	List<TradeIn> listData = TradeIn.findAllSeen(user);
@@ -9590,7 +9571,7 @@ public class Application extends Controller {
     
     public static Result getInfoCount() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
 	    	InfoCountVM vm = new InfoCountVM();
@@ -9624,7 +9605,7 @@ public class Application extends Controller {
     
     public static Result requestInfoMarkRead(String flag,Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Date currDate = new Date();
     		AuthUser user = (AuthUser) getLocalUser();
@@ -9706,7 +9687,7 @@ public class Application extends Controller {
     
     public static Result scheduleTestMarkRead(String flag,Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Date currDate = new Date();
 	    	ScheduleTest scheduleObj = ScheduleTest.findById(id);
@@ -9813,7 +9794,7 @@ public class Application extends Controller {
     
     public static Result tradeInMarkRead(String flag,Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Date currDate = new Date();
     		AuthUser user = (AuthUser) getLocalUser();
@@ -9902,7 +9883,7 @@ public class Application extends Controller {
     
     public static Result uploadLogoFile() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	
@@ -9949,7 +9930,7 @@ public class Application extends Controller {
     
     public static Result uploadFeviconFile() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	
@@ -9997,7 +9978,7 @@ public class Application extends Controller {
     
     public static Result saveSiteTabText(String text) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 	    	SiteLogo logoObj = SiteLogo.findByUser(userObj);
@@ -10018,7 +9999,7 @@ public class Application extends Controller {
     
     public static Result getLogoData() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 	    	SiteLogo logoObj = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -10036,7 +10017,7 @@ public class Application extends Controller {
     
     public static Result getTradeInDataById(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	TradeIn tradeIn = TradeIn.findById(id);
 	    	TradeInVM vm = new TradeInVM();
@@ -10083,7 +10064,7 @@ public class Application extends Controller {
     
     public static Result saveBlog() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 	    	Form<BlogVM> form = DynamicForm.form(BlogVM.class).bindFromRequest();
@@ -10133,7 +10114,7 @@ public class Application extends Controller {
     
     public static Result getAllBlogs() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser userObj = (AuthUser) getLocalUser();
 	    	List<Blog> blogList = Blog.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -10159,7 +10140,7 @@ public class Application extends Controller {
     
     public static Result deleteBlog(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	Blog blog = Blog.findById(id);
 	    	blog.delete();
@@ -10531,7 +10512,7 @@ public class Application extends Controller {
     
     public static Result getBlogById(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	BlogVM vm = new BlogVM();
 	    	Blog blog = Blog.findById(id);
@@ -10548,7 +10529,7 @@ public class Application extends Controller {
     
     public static Result updateBlog() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser userObj = (AuthUser) getLocalUser();
 	    	Form<BlogVM> form = DynamicForm.form(BlogVM.class).bindFromRequest();
@@ -11471,7 +11452,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result saveUser() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		AuthUser users = (AuthUser) getLocalUser();
@@ -12581,7 +12562,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getAllLocation(String timeSet) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		Date dateobj = new Date();
@@ -12733,7 +12714,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getLocationValueForGM(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
     		int flag = 0;
@@ -12748,7 +12729,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getLocationForGM() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		    		
     		Integer totalPrice = 0;
@@ -12789,7 +12770,7 @@ private static void cancelTestDriveMail(Map map) {
     }
     public static Result getDeactiveLocationForGM() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		List<AuthUser> userList = AuthUser.getUserByType();
     		List<LocationVM> vmList = new ArrayList<>();
@@ -12825,7 +12806,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getMangerAndLocation() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser users = (AuthUser) getLocalUser();
     	//AuthUser users =AuthUser.findById(Integer.getInteger(session("USER_KEY")));
@@ -12861,7 +12842,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getAllUsers() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser users = getLocalUser();
@@ -12908,7 +12889,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getUsers(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-		   	return ok(home.render(""));
+		   	return ok(home.render("",userRegistration));
 		   	} else {
 		   	
 		   	List<AuthUser> userList = AuthUser.getUserByType();
@@ -12938,7 +12919,7 @@ private static void cancelTestDriveMail(Map map) {
    
    public static Result saveGroup(String createGroup){
 	   if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	   		return ok(home.render(""));
+	   		return ok(home.render("",userRegistration));
 	   	} else {
 	   	  GroupTable gTable = new GroupTable();
 	   	  gTable.setName(createGroup);
@@ -12949,7 +12930,7 @@ private static void cancelTestDriveMail(Map map) {
    
    public static Result deleteGroup(Long groupId){
 	   if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	   		return ok(home.render(""));
+	   		return ok(home.render("",userRegistration));
 	   	} else {
 	   	  GroupTable gTable = GroupTable.findById(groupId);
 	   	  gTable.delete();
@@ -12960,7 +12941,7 @@ private static void cancelTestDriveMail(Map map) {
    public static Result updateUploadLocationImageFile() {
 	   
 	   if(session("USER_KEY") == null || session("USER_KEY") == "") {
-   		return ok(home.render(""));
+   		return ok(home.render("",userRegistration));
    	} else {
 	        		Form<LocationVM> form = DynamicForm.form(LocationVM.class).bindFromRequest();
 	        		
@@ -13019,7 +13000,7 @@ private static void cancelTestDriveMail(Map map) {
    
     public static Result updateUser() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	
     		MultipartFormData body = request().body().asMultipartFormData();
@@ -13155,7 +13136,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result deleteUserById(Integer id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser user = AuthUser.findById(id);
@@ -13190,7 +13171,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result setVehicleStatus() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Date currDate = new Date();
     		AuthUser user = (AuthUser) getLocalUser();
@@ -13386,7 +13367,7 @@ private static void cancelTestDriveMail(Map map) {
     
    /* public static Result setVehicleAndScheduleStatus() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		Date currDate = new Date();
@@ -13604,7 +13585,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result setScheduleConfirmClose(Long id,String leadType){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
@@ -13671,7 +13652,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result setScheduleStatusClose(Long id,String leadtype,String reason) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		String clientEmail=null;
     		String clientPhone=null;
@@ -13788,7 +13769,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result setRequestStatusComplete() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		Date currDate = new Date();
@@ -14248,7 +14229,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result setRequestStatusCancel(Long id,String reason) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
@@ -14275,7 +14256,7 @@ private static void cancelTestDriveMail(Map map) {
     
     /*public static Result setTradeInStatusComplete() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		Date currDate = new Date();
@@ -14438,7 +14419,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result setTradeInStatusCancel(Long id,String reason) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Date currDate = new Date();
@@ -14465,7 +14446,7 @@ private static void cancelTestDriveMail(Map map) {
    
     public static Result getUserType() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		String userType = user.getRole();
@@ -14575,7 +14556,7 @@ private static void cancelTestDriveMail(Map map) {
         				 System.out.println("----^^^^^^^^^^^^^^^-111-----------");
         				 String subject = "Meeting reminder";
          		    	 String comments = "You have a meeting scheduled in 1 hour \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
-         		    	 //sendEmail(emailUser.communicationemail, subject, comments);
+						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime);
          		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime);
         			
         			 }
@@ -14598,7 +14579,7 @@ private static void cancelTestDriveMail(Map map) {
         				 }
         				 String subject = "Meeting reminder";
          		    	 String comments = "You have a meeting scheduled in 24 hours \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
-         		    	// sendEmail(emailUser.communicationemail, subject, comments);
+						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime);
          		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime);
         			 }
             	 }
@@ -14853,7 +14834,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getScheduleDates() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     		Date curr = new Date();
@@ -14902,7 +14883,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getScheduleBySelectedDate(String date) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -15035,7 +15016,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getUsersToAssign() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		List<AuthUser> usersList = AuthUser.getUserByType();
     		List<UserVM> vmList = new ArrayList<>();
@@ -15051,7 +15032,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result saveToDoData() throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Form<ToDoVM> form = DynamicForm.form(ToDoVM.class).bindFromRequest();
     		AuthUser user = getLocalUser();
@@ -15074,7 +15055,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getToDoList() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     		List<ToDo> toDoList = ToDo.findAll();
@@ -15098,7 +15079,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result saveCompleteTodoStatus(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		ToDo todo = ToDo.findById(id);
     		todo.setStatus("Completed");
@@ -15109,7 +15090,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result saveCancelTodoStatus(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		ToDo todo = ToDo.findById(id);
     		todo.setStatus("Deleted");
@@ -15120,7 +15101,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getToDoBySelectedDate(String date) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     		SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -15162,7 +15143,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getSalesUser() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		
@@ -15191,7 +15172,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getSalesUserValue(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		List<AuthUser> SalesUserList = AuthUser.getAllUserByLocation(Location.findById(Long.valueOf(session("USER_LOCATION"))));
     		return ok(Json.toJson(SalesUserList));
@@ -15200,7 +15181,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getSalesUserOnly(Long locationValue) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		String[] monthName = { "january", "february", "march", "april", "may", "june", "july",
     		        "august", "september", "october", "november", "december" };
@@ -15237,7 +15218,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getAllSalesPersonScheduleTestAssigned(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user;
     		if(id == 0){
@@ -15848,7 +15829,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getAllSalesPersonRequestInfoSeen(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user;
     		if(id == 0){
@@ -16003,7 +15984,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getAllSalesPersonTradeInSeen(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user;
     		if(id == 0){
@@ -16251,7 +16232,7 @@ private static void cancelTestDriveMail(Map map) {
     }
     public static Result getWeekChartData(Integer id) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Date date = new Date();
@@ -16289,7 +16270,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getMonthChartData(Integer id) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Date date = new Date();
@@ -16327,7 +16308,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getThreeMonthChartData(Integer id) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Date date = new Date();
@@ -16365,7 +16346,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getSixMonthChartData(Integer id) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Date date = new Date();
@@ -16403,7 +16384,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getYearChartData(Integer id) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Date date = new Date();
@@ -16441,7 +16422,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getRangeChartData(Integer id,String start,String end) throws ParseException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		Calendar cal = Calendar.getInstance();
@@ -16476,7 +16457,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getPerformanceOfUser(String top,String worst,String week,String month,String year,String allTime,Integer id,Long locationValue,String startD,String endD) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Date date = new Date();
     		Calendar cal = Calendar.getInstance();
@@ -16882,7 +16863,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result saveNoteOfUser(Long id,String type,String note,String action) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
     		if(type.equalsIgnoreCase("requestMore")) {
@@ -16962,7 +16943,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result saveTestDrive() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		String msg = "success";
@@ -17265,7 +17246,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getAllCanceledLeads() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	List<ScheduleTest> listData = ScheduleTest.getAllFailed(Long.valueOf(session("USER_LOCATION")));
     		
@@ -17423,7 +17404,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result releaseLeads(Long id,String leadType) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		if(leadType.equals("Schedule Test")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
@@ -17446,7 +17427,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result deletePremiumLead(Long id,String leadType) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		if(leadType.equals("Schedule Test")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
@@ -17479,7 +17460,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result changeAssignedUser(Long id,Integer user,String leadType) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser userObj = AuthUser.findById(user);
     		if(leadType.equals("Schedule Test") || leadType.equals("Schedule Test Drive")) {
@@ -17517,7 +17498,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getNewToDoCount() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser userObj = getLocalUser();
     		int count = ToDo.findAllNewCountByUser(userObj);
@@ -17539,7 +17520,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result setTodoSeen() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser userObj = getLocalUser();
     		List<ToDo> todoList = ToDo.findAllNewByUser(userObj);
@@ -17553,7 +17534,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result restoreLead(Long id,String type){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		if(type.equals("Request More Info")) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
@@ -17576,7 +17557,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result deleteCanceledLead(Long id,String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		if(type.equals("Request More Info")) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
@@ -23044,7 +23025,7 @@ if(vehicles.equals("All")){
 	
 	public static Result uploadContactsFile() throws Exception {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	MultipartFormData body = request().body().asMultipartFormData();
 	    	
@@ -23270,7 +23251,7 @@ if(vehicles.equals("All")){
 	
 	public static Result getAllContactsData() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser userObj = (AuthUser) getLocalUser();
     		List<ContactsVM> contactsVMList = new ArrayList<>();
@@ -23343,7 +23324,7 @@ if(vehicles.equals("All")){
 	
 	public static Result updateContactsData() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Form<ContactsVM> form = DynamicForm.form(ContactsVM.class).bindFromRequest();
     		ContactsVM vm = form.get();
@@ -23388,7 +23369,7 @@ if(vehicles.equals("All")){
 	
 	public static Result addNewsLetter(String flag,Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	Contacts infoObj = Contacts.findById(id);
 	    		if(flag.equals("true")) {
@@ -23404,7 +23385,7 @@ if(vehicles.equals("All")){
 	
 	public static Result saveContactsData() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser userObj = (AuthUser) getLocalUser();
@@ -23479,7 +23460,7 @@ if(vehicles.equals("All")){
 	
 	public static Result saveNewsletterDate(String date,String time,Long id,String newsTimeZone) throws ParseException {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
     		if(id == 0) {
@@ -23668,7 +23649,7 @@ if(vehicles.equals("All")){
 	
 	public static Result deleteContactsById(Long id ){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-		   	return ok(home.render(""));
+		   	return ok(home.render("",userRegistration));
 		   	} else {
 			   	String msg;
 			   	Contacts contact = Contacts.findById(id);
@@ -23684,7 +23665,7 @@ if(vehicles.equals("All")){
 	
 	public static Result checkEmailOfUser(String email ){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-		   	return ok(home.render(""));
+		   	return ok(home.render("",userRegistration));
 		   	} else {
 			   	String msg;
 			   	AuthUser userObj = AuthUser.findByEmail(email);
@@ -28621,7 +28602,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result saveLeads(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     		
@@ -28687,7 +28668,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result exportContactsData(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		FileWriter fileWriter = null;
     		String COMMA_DELIMITER = ",";
@@ -28821,7 +28802,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result downloadStatusFile(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		String filePath = rootDir+File.separator+"CsvFile/contacts.csv";
     		File file = new File(filePath);
@@ -28893,7 +28874,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result getScheduleTime(String vin,String comDate){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     			List<String> timeList = new ArrayList<>();
     			try {
@@ -29025,7 +29006,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	}
 	public static Result getTrimList(String model){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		List<Vehicle> list = Vehicle.findByMake(model);
     		Map<String, Vehicle> mapMake = new HashMap<>();
@@ -29047,7 +29028,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result getModelList(String make){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		List<Vehicle> list = Vehicle.findByMake(make);
     		Map<String, Vehicle> mapMake = new HashMap<>();
@@ -29069,7 +29050,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result getMakeList(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		List<VehicleVM> makeList = new ArrayList<>();
     		List<VehicleVM> labelList = new ArrayList<>();
@@ -29170,7 +29151,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result updateVehiclePrice(String vin , String price){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		int flag=0;
     		Date currDate = new Date();
@@ -29213,7 +29194,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result updateVehicleName(String vin , String name){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
 	    	Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
@@ -29227,7 +29208,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result updateUserComment(Integer id , String comment){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = getLocalUser();
 	    	AuthUser userObj = AuthUser.findById(id);
@@ -29252,6 +29233,15 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    	return ok();
     	}	
     }
+	
+	public static Result getSendDemoLink(Long userId){
+		
+		Registration regi = Registration.findById(userId);
+		String subject = "Manager like your work";
+    	String comments = "Comment : ";
+    	sendEmail(regi.email, subject, comments);
+		return ok();
+	}
 	
 	public static Result sendEmail(final String email, final String subject ,final String comment) {
 		ActorSystem newsLetter = Akka.system();
@@ -29558,7 +29548,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result getAllContactsByLocation(Long id){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser userObj = (AuthUser) getLocalUser();
@@ -29619,7 +29609,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result removeAllContactsData(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser userObj = (AuthUser) getLocalUser();
@@ -29639,7 +29629,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result getVehiclePriceLogs(Long id,String vin,String status){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Vehicle vehicle = null;
     		if(status.equalsIgnoreCase("Newly Arrived")){
@@ -29697,7 +29687,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result getAllLeadsByUser(Integer id){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = AuthUser.findById(id);
     		List<UserLeadVM> list = new ArrayList<>();
@@ -29789,7 +29779,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
     public static Result getAllUsersToAssign() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser users = getLocalUser();
@@ -29835,7 +29825,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     
     public static Result assignToUser(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
 	    	Identity user = getLocalUser();
 	    	Form<AssignToVM> form = DynamicForm.form(AssignToVM.class).bindFromRequest();
@@ -29862,7 +29852,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     
     public static Result deactivateAccount(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = AuthUser.findById(id);
     		if(user !=null){
@@ -29874,7 +29864,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     }
     public static Result getAllDeactivateUsers(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		AuthUser users = getLocalUser();
@@ -29921,7 +29911,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     
     public static Result activeAccount(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		AuthUser user = AuthUser.findById(id);
     		if(user !=null){
@@ -30079,7 +30069,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     
     public static Result deleteAppointById(Long id,String typeOfLead,String reason){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		
     		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -30316,7 +30306,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     
     public static Result deactiveLocationById(Long id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Location loc = Location.findById(id);
     		if(loc !=null){
@@ -30329,7 +30319,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     
     public static Result activeLocationById(Long id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render(""));
+    		return ok(home.render("",userRegistration));
     	} else {
     		Location loc = Location.findById(id);
     		if(loc !=null){

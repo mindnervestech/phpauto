@@ -29,7 +29,7 @@ angular.module('newApp')
 	                                	 
 		                                 },
 		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.activeUsers(row)"  title="Active"></i> &nbsp;', 
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;', 
 		                                 
 		                                 },
 		                                    ];
@@ -39,27 +39,129 @@ angular.module('newApp')
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		          $scope.gridOptions.data = $filter('filter')($scope.visitiorList,{'geolocation':grid.columns[0].filters[0].term,'ip_address':grid.columns[1].filters[0].term,'referrer_domain':grid.columns[2].filters[0].term,'total_visits':grid.columns[3].filters[0].term,'web_browser':grid.columns[4].filters[0].term},undefined);
+		          $scope.gridOptions.data = $filter('filter')($scope.pendingList,{'name':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'businessName':grid.columns[2].filters[0].term,'businessAdd':grid.columns[3].filters[0].term,'options':grid.columns[4].filters[0].term},undefined);
 		        });
 	   		
   		};
   		
+  		/*$scope.gridOptions1 = {
+  		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+  		 		    paginationPageSize: 150,
+  		 		    enableFiltering: true,
+  		 		    useExternalFiltering: true,
+  		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+  		 		 };
+  		
+  		
+  		 $scope.gridOptions1.enableHorizontalScrollbar = 0;
+  			 $scope.gridOptions1.enableVerticalScrollbar = 2;
+  			 $scope.gridOptions1.columnDefs = [
+  			                                 { name: 'name', displayName: 'Name', width:'15%',cellEditableCondition: false,
+  			                                	
+  			                                 },
+  			                                 { name: 'email', displayName: 'Email', width:'20%',cellEditableCondition: false,
+  			                                	
+  			                                 },
+  			                                 { name: 'businessName', displayName: 'Business Name', width:'15%',cellEditableCondition: false,
+  			                                	
+  			                                 },
+  			                                 { name: 'businessAdd', displayName: 'Business Addree', width:'25%',cellEditableCondition: false,
+  			                                	
+  			                                 },
+  			                                 { name: 'options', displayName: 'Options', width:'15%',cellEditableCondition: false,
+  		                                	 
+  			                                 },
+  			                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+  	    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.deactiveUsers(row)"  title="suspend"></i> &nbsp;', 
+  			                                 
+  			                                 },
+  			                                    ];
+  		
+  			 $scope.gridOptions1.onRegisterApi = function(gridApi){
+  				 $scope.gridApi = gridApi;
+  				 
+  		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+  			          var grid = this.grid;
+  			          $scope.gridOptions1.data = $filter('filter')($scope.activeList,{'name':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'businessName':grid.columns[2].filters[0].term,'businessAdd':grid.columns[3].filters[0].term,'options':grid.columns[4].filters[0].term},undefined);
+  			        });
+  		   		
+  	  		};*/
   		
 		 
 		 $scope.pendingUser = function(){
+			 $scope.doShow = 0;
 			 $http.get('/getRegistrList')
 				.success(function(data) {
-					console.log(data);
-					console.log("///////////kkkkkkkkkkkkkkk");
 				$scope.gridOptions.data = data;
-				//$('#sliderBtn').click();
+				$scope.pendingList = data;
 			});
 		 }
 		 
-		 $scope.activeUsers = function(){
-			 console.log("jjjjjjj");
-		 }
+		 /*$scope.activeUsers = function(row){
+			 console.log(row.entity);
+			 $http.get('/getSetActiveUser/'+row.entity.id)
+				.success(function(data) {
+					 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "user Active",
+						});
+				$scope.gridOptions.data = data;
+				$scope.pendingUser();
+			});
+		 }*/
+		 
+		 /*$scope.deactiveUsers = function(row){
+			 console.log(row.entity);
+			 $http.get('/getSetdeActiveUser/'+row.entity.id)
+				.success(function(data) {
+					 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "user Active",
+						});
+				$scope.gridOptions.data = data;
+				$scope.pendingUser();
+			});
+		 }*/
+		 
+		 
+		/* $scope.viewActive = function(){
+			 $scope.doShow = 1;
+			 $http.get('/getActiveRegistrList')
+				.success(function(data) {
+					console.log(data);
+				$scope.gridOptions1.data = data;
+				$scope.activeList = data;
+			});
+		 }*/
 		
+		 $scope.removeUser = function(row){
+			 $http.get('/getRemoveUser/'+row.entity.id)
+				.success(function(data) {
+					 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Remove User",
+						});
+				$scope.gridOptions.data = data;
+				$scope.pendingUser();
+			});
+		 }
+		 
+		 $scope.sendDemoUrl = function(row){
+			 $http.get('/getSendDemoLink/'+row.entity.id)
+				.success(function(data) {
+					 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Demo Link send",
+						});
+				$scope.gridOptions.data = data;
+				$scope.pendingUser();
+			});
+		 }
+		 
 		 $scope.viewRegiInit = function(){
 			 $scope.pendingUser();
 		 }

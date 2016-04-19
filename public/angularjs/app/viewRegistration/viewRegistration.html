@@ -10,25 +10,25 @@
     <tabset class="nav-tabs2">
                                 <tab>
                                     <tab-heading>
-                                        <button type="button" class="btn btn-blue" ng-click="pendingUser()">Pending</button>
+                                        <button type="button" class="btn btn-blue" ng-click="pendingUser()">Send Demo Link</button>
                                     </tab-heading>
 								    
     							</tab>
-    							<tab>
+    							<!-- <tab>
                                     <tab-heading>
-                                        <button type="button" id="soldBtn" class="btn btn-blue" ng-click="soldTab()">Active</button>
+                                        <button type="button" id="soldBtn" class="btn btn-blue" ng-click="viewActive()">Active</button>
                                     </tab-heading>
                                </tab>   
                                <tab>
                                     <tab-heading>
                                         <button type="button" class="btn btn-blue" ng-click="draftTab()">Drafts</button>
                                     </tab-heading>
-                               </tab>    
+                               </tab>  -->   
      </tabset>
-     <div><div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-cellNav>
-	</div></div>         
-       <!-- <div ng-if="doPublic == 1"><div  ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination ui-grid-cellNav>
-	</div></div> -->
+    	 <div ng-if="doShow == 0" ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div>        
+        <!-- <div ng-if="doShow == 1" ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div> -->
 	    
 	             
 </div>   

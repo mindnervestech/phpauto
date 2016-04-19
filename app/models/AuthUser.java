@@ -88,7 +88,7 @@ public class AuthUser extends Model implements Identity {
 	
 	@ManyToOne
 	public Location location;
-
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	public List<Permission> permission;
 	
@@ -226,7 +226,9 @@ public class AuthUser extends Model implements Identity {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 
+	
 	public String getAge() {
 		return age;
 	}
@@ -347,6 +349,10 @@ public class AuthUser extends Model implements Identity {
 	}
 	public static List<AuthUser> findByLocatioUsers(Location locations) {
 		return find.where().eq("role", "Sales Person").eq("location", locations).eq("account", "active").findList();
+	}
+	
+	public static List<AuthUser> getOnlyActiveUser() {
+		return find.where().eq("account", "active").findList();
 	}
 	
 	
