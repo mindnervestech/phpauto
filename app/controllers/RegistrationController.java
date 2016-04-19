@@ -176,7 +176,7 @@ public class RegistrationController extends Controller {
 		  regi.update();
 		  
 		  String subject = "Demo site credentials";
-		  String comments = "user tokan No "+sb.toString()+"site URL \n http://www.glider-autos.com:7071/login \n http://www.glider-autos.com/glivr-test/ \n\n General Manager\n userName := mindnervesdemo@gmail.com \n password := 123456 \n\n Manager \n userName := art@gliderllc.com \n password := 123456 \n\n Sales Person \n  userName := felocipto@gmail.com \n password := YNMAG7";
+		  String comments = "User token No "+sb.toString()+"\n\n Site URL \n http://www.glider-autos.com:7071/login \n http://www.glider-autos.com/glivr-test/";
 			
 			sendEmail(regi.email,subject,comments);
 		

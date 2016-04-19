@@ -17,6 +17,8 @@ GET   /locationWise/:locationId      			controllers.Application.locationWise(loc
 POST    /acceptAgreement     			controllers.Application.acceptAgreement()
 GET    /authenticate     			controllers.Application.index()
 GET		/logout						controllers.Application.logout()
+GET    /gmLogin							controllers.Application.gmLogin()
+GET    /salePLogin						controllers.Application.salePLogin()
 GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized
 GET 	/getAgreement/:userName/:userDate/:userPhone		controllers.Application.getAgreement(userName:String, userDate:String, userPhone:String)
 GET   /getRegistrList 			controllers.RegistrationController.getRegistrList()
