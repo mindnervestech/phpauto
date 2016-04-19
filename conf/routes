@@ -7,7 +7,7 @@ GET     /                           controllers.Application.index()
 
 # Login page
 # Register 
-POST     /registerUser           controllers.RegistrationController.registerUser()
+
 # Providers entry points
 GET     /login                      controllers.Application.home()
 GET     /adminLogin                      controllers.Application.adminHome()
@@ -29,6 +29,8 @@ GET   /getActiveRegistrList			controllers.RegistrationController.getActiveRegist
 #GET   /getSetdeActiveUser/:userId		controllers.RegistrationController.getSetdeActiveUser(userId:Long)
 GET   /getRemoveUser/:userId		controllers.RegistrationController.getRemoveUser(userId:Long)
 GET   /getSendDemoLink/:userId		controllers.RegistrationController.getSendDemoLink(userId:Long)
+POST     /registerUser           controllers.RegistrationController.registerUser()
+POST    /updateRegisterUser	      controllers.RegistrationController.updateRegisterUser()
 
 
 # Map static resources from the /public folder to the /assets URL path

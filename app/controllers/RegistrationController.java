@@ -78,6 +78,7 @@ public class RegistrationController extends Controller {
     	   regi.location =vm.oneLocation;
     	   regi.options = vm.options;
     	   regi.registrationDate = date;
+    	   regi.sendDemoFlag = 0;
     	   
     	   regi.save();
    		
@@ -142,6 +143,34 @@ public class RegistrationController extends Controller {
 		return ok();
 	}
 	
+
+	public static Result updateRegisterUser() {
+		Form<RegisterVM> form = DynamicForm.form(RegisterVM.class).bindFromRequest();
+		RegisterVM vm=form.get();
+		Date date = new Date();
+		
+		Registration regi = Registration.findById(vm.id);
+		    	 
+    	   regi.setName(vm.name);
+    	   regi.setEmail(vm.email);
+    	   regi.setPhone(vm.phone);
+    	   regi.setBusinessAdd(vm.businessAddress);
+    	   regi.setBusinessName(vm.businessName);
+    	   regi.setLocation(vm.oneLocation);
+    	   regi.setOptions(vm.options);
+    	   regi.setRegistrationDate(date);
+    	   //regi.sendDemoFlag = 0;
+    	   
+    	   regi.update();
+   		
+    	   //String subject= "Successfully registered";
+          //String comments="Successfully registered";
+    	 //sendEmail(vm.email,subject,comments);
+    	   
+		
+		return ok();
+	}	
+	
 	public static Result getRegistrList() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -177,7 +206,7 @@ public class RegistrationController extends Controller {
 		  regi.update();
 		  
 		  String subject = "Demo site credentials";
-		  String comments = "User token No := "+sb.toString()+"\n\n Site URL \n http://www.glider-autos.com:7071/login \n http://www.glider-autos.com/glivr-test/";
+		  String comments = "User Demo Key := "+sb.toString()+"\n\n Site URL \n http://www.glider-autos.com:7071/login \n http://www.glider-autos.com/glivr-test/";
 			
 			sendEmail(regi.email,subject,comments);
 		

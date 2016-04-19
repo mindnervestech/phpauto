@@ -49,7 +49,7 @@ angular.module('newApp')
 			                                	} ,
 		                                 },
 		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;', 
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>', 
     		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
@@ -186,8 +186,29 @@ angular.module('newApp')
 			});
 		 }
 		 
+		 $scope.register = {};
+		 $scope.EditUser = function(row){
+			 $('#editPopup').click();
+			 console.log(row.entity)
+			 $scope.register = row.entity;
+			 $scope.register.oneLocation = row.entity.location;
+			 $scope.register.businessAddress = row.entity.businessAdd;
+		 }
+		 
 		 $scope.viewRegiInit = function(){
 			 $scope.pendingUser();
+		 }
+		 
+		 $scope.UpdateRegisterUser = function(){
+			 console.log($scope.register);
+			 $http.post("/updateRegisterUser",$scope.register).success(function(data){
+         		$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Update successfully",
+					});
+         		$("#editPopup").modal('hide');
+    		});
 		 }
 		 
 	/*
@@ -197,7 +218,7 @@ angular.module('newApp')
 					console.log(data[0].dates[0].items);
 				$scope.gridOptions.data = data[0].dates[0].items;
 				$scope.visitiorList = data[0].dates[0].items;
-				$('#sliderBtn').click();
+				$('#editPopup').click();
 			});
 		 }*/
 	

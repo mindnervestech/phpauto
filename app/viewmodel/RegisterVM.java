@@ -1,6 +1,8 @@
 package viewmodel;
 
 public class RegisterVM {
+	
+	public Long id;
 	public String options;
 	public String oneLocation;
 	public String name;

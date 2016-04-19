@@ -195,7 +195,7 @@ h1, h2 {
             <h2>Sign in</h2>
             <input ng-if="'@userRegistration' == 'false'" type="text" name="email" id="userEmail" placeholder="Email" ng-model="userEmail" required>
             <input ng-if="'@userRegistration' == 'false'" type="password" name="password" id="userPass" placeholder="Password" ng-model="userPass" required>
-            <input ng-if="'@userRegistration' == 'true'" class="form-control" type="tokan" name="tokan" id="tokan" placeholder="tokan No" ng-model="tokan" required>
+            <input ng-if="'@userRegistration' == 'true'" class="form-control" type="tokan" name="tokan" id="tokan" placeholder="please Enter Demo Key" ng-model="tokan" required>
             <div class="row">
             	<p id="messg" style="color:red;display:none;">@message</p>
                 <input type="submit" value="login" ng-click="test()">
