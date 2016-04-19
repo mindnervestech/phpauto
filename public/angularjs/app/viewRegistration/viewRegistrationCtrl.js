@@ -207,7 +207,7 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Update successfully",
 					});
-         		$("#editPopup").modal('hide');
+         		$("#editPopups").modal('hide');
     		});
 		 }
 		 

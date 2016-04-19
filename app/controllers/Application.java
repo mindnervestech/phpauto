@@ -372,9 +372,6 @@ public class Application extends Controller {
 						e.printStackTrace();
 					}
 					if((cdates.equals(registration.startDate)||cdates.after(registration.startDate)) && ((cdates.equals(registration.expiryDate)||cdates.before(registration.expiryDate)))){
-						Location loc = Location.findById(user1.location.id);
-						if(loc.getType().equalsIgnoreCase("active")){
-							if(user1.getNewUser()== 1){
 
 								session("USER_KEY", user1.id+"");
 								session("USER_ROLE", user1.role+"");
@@ -398,19 +395,13 @@ public class Application extends Controller {
 					    		
 					    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 					    		//return redirect("/googleConnectionStatus");
-							}else{
-								return ok(home.render(user1.getEmail(),userRegistration));
-							}
-						}else{
-							return ok(home.render("Your account has been suspended, please contact your management for further questions",userRegistration));
-						}
 						
 						
 					}else{
 						return ok(home.render("Your account has been suspended, please contact your management for further questions",userRegistration));
 					}
 				}else{
-					return ok(home.render("Invalid Tokan No",userRegistration));
+					return ok(home.render("Invalid Credentials",userRegistration));
 				}
 				
 				
