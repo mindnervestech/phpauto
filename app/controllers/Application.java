@@ -363,7 +363,7 @@ public class Application extends Controller {
 	
 		if(user != null) {
 			
-			if(userRegistration.equals("true")){
+			/*if(userRegistration.equals("true")){
 				
 				Registration registration = Registration.getTokanNo(tokanNo);
 				
@@ -420,7 +420,7 @@ public class Application extends Controller {
 				
 				
 				
-			}
+			}*/
 			if(user.role.equalsIgnoreCase("Admin")){
 				session("USER_KEY", user.id+"");
 				session("USER_ROLE", user.role+"");
