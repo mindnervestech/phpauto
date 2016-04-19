@@ -287,7 +287,6 @@ public class Application extends Controller {
 			AuthUser user = AuthUser.getOnlyGM();
 			
 			if(user != null) {
-				System.out.println(user.role);
 
 						session("USER_KEY", user.id+"");
 						session("USER_ROLE", user.role+""	);
@@ -306,7 +305,7 @@ public class Application extends Controller {
 			    			permission.put(per.name, true);
 			    		}
 			    		
-			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),locationId.toString()));
+			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),locationId.toString(),userRegistration));
 			    	
 			} else {
 				return ok(home.render("Invalid Credentials",userRegistration));
@@ -338,7 +337,7 @@ public class Application extends Controller {
 			    			permission.put(per.name, true);
 			    		}
 			    		
-			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)), "0"));
+			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)), "0",userRegistration));
 			    	
 			} else {
 				return ok(home.render("Invalid Credentials",userRegistration));
@@ -401,7 +400,7 @@ public class Application extends Controller {
 					    			permission.put(per.name, true);
 					    		}
 					    		
-					    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+					    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 					    		//return redirect("/googleConnectionStatus");
 							}else{
 								return ok(home.render(user.getEmail(),userRegistration));
@@ -430,7 +429,7 @@ public class Application extends Controller {
 	    			permission.put(per.name, true);
 	    		}
 	    		
-	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 			}else if(user.role.equalsIgnoreCase("General Manager")){
 				if(user.getNewUser()== 1){
 
@@ -452,7 +451,7 @@ public class Application extends Controller {
 		    			permission.put(per.name, true);
 		    		}
 		    		
-		    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+		    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 		    		//return redirect("/googleConnectionStatus");
 				}else{
 					return ok(home.render(user.getEmail(),userRegistration));
@@ -482,7 +481,7 @@ public class Application extends Controller {
 			    			permission.put(per.name, true);
 			    		}
 			    		
-			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 			    		//return redirect("/googleConnectionStatus");
 					}else{
 						return ok(home.render(user.getEmail(),userRegistration));
@@ -511,7 +510,6 @@ public class Application extends Controller {
 	}
 	
 	public static Result acceptAgreement() {
-		System.out.println("acceptAgreement");
 		String email = Form.form().bindFromRequest().get("email");
 		String userName = Form.form().bindFromRequest().get("name");
 		String userDate = Form.form().bindFromRequest().get("date");
@@ -566,7 +564,7 @@ public class Application extends Controller {
     		//return ok(agreement.render(userName,userDate,userPhone));
     		//return redirect("/googleConnectionStatus");
     		//return ok();
-	        	return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+	        	return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 		}else {
 			return ok(home.render("Invalid Credentials",userRegistration));
 		}
@@ -715,7 +713,7 @@ public class Application extends Controller {
 	    			permission.put(per.name, true);
 	    		}
 	    		
-	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 			}else{
 				return ok(home.render(user.getEmail(),userRegistration));
 			}
@@ -750,7 +748,7 @@ public class Application extends Controller {
 			    			permission.put(per.name, true);
 			    		}
 			    		
-			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+			    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 					}else{
 							return ok(home.render(user.getEmail(),userRegistration));
 						}
@@ -786,7 +784,7 @@ public class Application extends Controller {
     		for(Permission per: userPermissions) {
     			permission.put(per.name, true);
     		}
-    		return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0"));
+    		return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
     	}
     }
     
@@ -4782,10 +4780,6 @@ public class Application extends Controller {
 		        secondThreeDigit=secondThreeDigit.substring(3, 6);
 		        String thirdThreeDigit=profile.phone;
 		        thirdThreeDigit=thirdThreeDigit.substring(6, 10);
-		        System.out.println("phone digits");
-		        System.out.println(firstThreeDigit);
-		        System.out.println(secondThreeDigit);
-		        System.out.println(thirdThreeDigit);
 		        context.put("firstThreeDigit", firstThreeDigit);
 		        context.put("secondThreeDigit", secondThreeDigit);
 		        context.put("thirdThreeDigit", thirdThreeDigit);
@@ -4996,10 +4990,8 @@ public class Application extends Controller {
     				change.vin = vm.vin;
     				change.save();
     				flag=1;
-    		//		sendPriceAlertMail(vehicle.vin);
 	    		}
 	    		vehicle.setTypeofVehicle(vm.typeofVehicle);
-	    		System.out.println(vm.typeofVehicle);
 	    		vehicle.setCategory(vm.category);
 	    		vehicle.setTitle(vm.title);
 		    	vehicle.setYear(vm.year);
@@ -6382,7 +6374,6 @@ public class Application extends Controller {
 	    		preMim.update();
 	    	}else{
 	    		PremiumLeads pLeads = new PremiumLeads();
-	    		System.out.println(premiumFlag);
 	    		pLeads.setPremium_amount(priceVehical);
 	    		if(premiumFlag.equals("false")){
 	    			pLeads.setPremium_flag(0);
@@ -11258,10 +11249,6 @@ private static void cancelTestDriveMail(Map map) {
 	        secondThreeDigit=secondThreeDigit.substring(3, 6);
 	        String thirdThreeDigit=phoneNum;
 	        thirdThreeDigit=thirdThreeDigit.substring(6, 10);
-	        System.out.println("phone digits");
-	        System.out.println(firstThreeDigit);
-	        System.out.println(secondThreeDigit);
-	        System.out.println(thirdThreeDigit);
 	        String phn = "("+firstThreeDigit+")"+secondThreeDigit+"-"+thirdThreeDigit;
 	        context.put("phon", phn);
 	     //   context.put("secondThreeDigit", secondThreeDigit);
@@ -20245,7 +20232,6 @@ private static void cancelTestDriveMail(Map map) {
 		}
 		}
 		
-		System.out.println("%%%%Datttees"+start+"!!!!"+end);
 		/*if(type.equals("week")) {
 			cal.add(Calendar.DATE, -7);
 			start1 = df.format(cal.getTime());
@@ -20318,7 +20304,6 @@ private static void cancelTestDriveMail(Map map) {
 			String arrVin[] = data.split("/");
 			if(arrVin.length > 5){
 				String van[] = arrVin[5].split("\"");
-				System.out.println(van[0]);
 				Vehicle vehicle = null;
 				if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
 					vehicle = Vehicle.findByVinAndStatusForGM(van[0],Location.findById(locationId));
@@ -21103,7 +21088,6 @@ if(vehicles.equals("All")){
      					twoTimes++;
 	     				if(!uN.note.equals("Lead has been created")){
 	     					folloLead++;
-	         				System.out.println(uN.createdDate);
 	         				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
 	         				
 	         				Date cDate = null;
@@ -21134,7 +21118,6 @@ if(vehicles.equals("All")){
      				if(twoTimes < 2){
 	     				if(!uN.note.equals("Lead has been created")){
 	     					folloLead++;
-	         				System.out.println(uN.createdDate);
 	         				
 	         				String CretaeDateTime = df1.format(uN.createdDate)+" "+convdTime.format(uN.createdTime);
 	         				
@@ -21345,8 +21328,6 @@ if(vehicles.equals("All")){
      	
      	List<bodyStyleSetVM> bSetVMsPlan = new ArrayList<>();
       	List<PlanScheduleMonthlySalepeople> pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByListUser(users);
-      	System.out.println(":::::::plancomplete");
-      	System.out.println(pMonthlySalepeople);
       	
       	java.util.Date date= new Date();
       	Calendar cal11 = Calendar.getInstance();
@@ -21376,12 +21357,10 @@ if(vehicles.equals("All")){
             String changVls1 = WordUtils.capitalize(pSalepeople.month);
         	//for(int i=0;i<12;i++){
         		
-        		//System.out.println("::::::monthname"+nSetVM.name);
         		
         		if(changVls1.equals(nSetVM.name)){
         		//	if(i <= month){
         				nSetVM.name = changVls1;
-        				System.out.println("after if condition"+nSetVM.name);
         	        	double val= ((double)pricecount/Double.parseDouble(pSalepeople.totalBrought));
         	        	nSetVM.value = (int) (val*100);
         	        	
@@ -21637,10 +21616,6 @@ if(vehicles.equals("All")){
 	     	{
 	     		hrs1="0"+hrs1;
 	     	}
-	     	System.out.println("hrs.toString().length()"+hrs.toString().length());
-	     	//System.out.println("days"+days1);
-	     	System.out.println("hrs"+hrs1);
-	     	System.out.println("mnts"+mnts);
 	     	
 	     	//lDataVM.avgLeadLifeCycle =hours.toString()+":"+displayMin.toString()+"Hrs";
 	     	lDataVM.avgLeadLifeCycle=hrs1+":"+mnts+"  Hrs";
@@ -23903,7 +23878,6 @@ if(vehicles.equals("All")){
 			for(Permission per: userPermissions) {
 				permission.put(per.name, true);
 			}*/
-		//	return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList))));
 			return redirect("/authenticate");
 	}
 	
@@ -24077,8 +24051,6 @@ if(vehicles.equals("All")){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-        System.out.println(datec);
         
         
         List<ScheduleTest> list = ScheduleTest.findAllByUserService(user, datec);
@@ -24255,7 +24227,7 @@ if(vehicles.equals("All")){
             	    // testloop.setSendInvitation(1);
             	     String subject = "Meeting's information has been changed.";
  			   	    String comments = "Meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
- 				    //sendEmail(assi.communicationemail, subject, comments);
+ 				    sendEmail(assi.communicationemail, subject, comments);
             	   
 			       }
 					testloop.setConfirmDate(df.parse(confDate));
@@ -24284,7 +24256,7 @@ if(vehicles.equals("All")){
 					test.setSendInvitation(1);
 					String subject = "Meeting invitation.";
 			   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
-					//sendEmail(assi.communicationemail, subject, comments);
+					sendEmail(assi.communicationemail, subject, comments);
            	   
 			       }
 				test.update();
@@ -25364,8 +25336,6 @@ private static void salesPersonPlanMail(Map map) {
 			
 			Date confirmDate = df.parse(date);
 			Date confirmTime = new SimpleDateFormat("hh:mm a").parse(time);
-			System.out.println(confirmDate);
-			System.out.println(confirmTime);
 			AuthUser user = getLocalUser();
 			
 			Calendar calendar = Calendar.getInstance();
@@ -25376,8 +25346,6 @@ private static void salesPersonPlanMail(Map map) {
 			calendar.setTime(confirmTime);
 			calendar.add(Calendar.HOUR, -1);
 			Date minTime = calendar.getTime();
-			System.out.println(minTime);
-			System.out.println(maxTime);
 			Location loc = Location.findById(Long.parseLong(session("USER_LOCATION")));
 			List<AuthUser> userList = null;
 			if(user.role.equals("Manager")){
@@ -25445,7 +25413,6 @@ private static void salesPersonPlanMail(Map map) {
     	   for( int i = 0; i < 5; i++ ) 
     	      sb.append( AB.charAt(rnd.nextInt(AB.length()) ) );
     	
-    	   System.out.println(sb.toString());
 		
 		List<AuthUser> userList = new ArrayList<>();
 		for (UserVM obj : vm.getUsersList()) {
@@ -25662,7 +25629,6 @@ private static void salesPersonPlanMail(Map map) {
 			multipart.addBodyPart(messageBodyPart);
 			message.setContent(multipart);
 			Transport.send(message);
-			System.out.println("email Succ");
 		}
 		catch (Exception e)
 		{
@@ -28062,7 +28028,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			
 			
 			
-			//System.out.println(dateFomat);
 			
 			sValue.name = entry.getKey();
 			if(veList != null){
@@ -28636,9 +28601,6 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					e.printStackTrace();
 				}
 				
-				
-				
-				//System.out.println(dateFomat);
 				if((dateFomat.after(startDate) && dateFomat.before(endDate)) || dateFomat.equals(endDate) || dateFomat.equals(startDate))
 				{
 				Long objectDate = mapdate.get(dateFomat.getTime() + (1000 * 60 * 60 * 24));
@@ -30021,11 +29983,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		for (int i = 0; i < 8; i++) {
 			maxTime = dates;
 			Calendar calendar = Calendar.getInstance();
-			System.out.println(df.format(maxTime));
 			calendar.setTime(maxTime);
 			calendar.add(Calendar.DATE, 1);
 			dates = calendar.getTime();
-			System.out.println(calendar.get(Calendar.DAY_OF_WEEK));
 			if (calendar.get(Calendar.DAY_OF_WEEK) == 2) {
 				if (cuD.equals(dates)) {
 					flag = 1;

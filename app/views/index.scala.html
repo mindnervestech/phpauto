@@ -1,4 +1,4 @@
-@(permissions: String, userRole:String, userKey:String, events1: String, tasksList: String, locationId:String)
+@(permissions: String, userRole:String, userKey:String, events1: String, tasksList: String, locationId:String, userRegistration:String)
 <!doctype html>
 <html class="no-js">
     <head>
@@ -350,10 +350,10 @@
                                     <li>
                                         <a href="/logout"><i class="icon-logout"></i><span>Logout</span></a>
                                     </li>
-                                     <li>
+                                     <li ng-if="'@userRegistration' == 'true'">
                                         <a href="/gmLogin"><i class="icon-logout"></i><span>General Manager Login</span></a>
                                     </li>
-                                     <li>
+                                     <li ng-if="'@userRegistration' == 'true'">
                                         <a href="/salePLogin"><i class="icon-logout"></i><span>Sales Person Login</span></a>
                                     </li>
                                 </ul>
