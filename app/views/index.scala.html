@@ -76,6 +76,46 @@
                             <img src="{{userimage}}" class="img-responsive img-circle" alt="friend 8">
                         </div>
                         <h4>{{name}}</h4>
+                       
+                    </div>
+                  <!--   <div class="sidebar-top big-img" ng-if="'@userRegistration' == 'true'">
+                    <li class="dropdown" id="user-header">
+                                <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <div class="user-image">
+                          				  <img src="{{userimage}}" class="img-responsive img-circle" alt="friend 8">
+                       			 </div>
+                               
+                                <h4>{{name}}</h4>
+                                </a>
+                                <ul class="dropdown-menu">
+                                  
+                                     <li>
+                                        <a href="/gmLogin"><i class="icon-logout"></i><span>General Manager Login</span></a>
+                                    </li>
+                                     <li>
+                                        <a href="/salePLogin"><i class="icon-logout"></i><span>Sales Person Login</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="/mgLogin"><i class="icon-logout"></i><span>Manager Login</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                    </div> -->
+                        <div class="menu-title" ng-if="'@userRegistration' == 'true'" style="color: white;">
+                        Roles
+                        <div class="pull-right menu-settings">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" data-delay="300">
+                            <i class="icon-settings"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/gmLogin">General Manager Login</a></li>
+                                <li><a href="/salePLogin">Sales Person Login</a></li>
+                                <li><a href="/mgLogin">Manager Login</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                        
+                        
                         <!-- <div class="dropdown user-login">
                             <button class="btn btn-xs dropdown-toggle btn-rounded" type="button" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" data-delay="300">
                             <i class="online"></i><span>Available</span> <i class="fa fa-angle-down"></i>
@@ -94,7 +134,6 @@
                                 </li>
                             </ul>
                         </div> -->
-                    </div>
                     <!-- <div class="menu-title">
                         Navigation
                         <div class="pull-right menu-settings">
@@ -350,12 +389,7 @@
                                     <li>
                                         <a href="/logout"><i class="icon-logout"></i><span>Logout</span></a>
                                     </li>
-                                     <li ng-if="'@userRegistration' == 'true'">
-                                        <a href="/gmLogin"><i class="icon-logout"></i><span>General Manager Login</span></a>
-                                    </li>
-                                     <li ng-if="'@userRegistration' == 'true'">
-                                        <a href="/salePLogin"><i class="icon-logout"></i><span>Sales Person Login</span></a>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                             <!-- END USER DROPDOWN -->

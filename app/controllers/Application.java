@@ -688,6 +688,42 @@ public class Application extends Controller {
 		return ok();
 	}
 	
+	public static Result mgLogin(){
+		AuthUser user = AuthUser.find.where().eq("email", "art@gliderllc.com").eq("password", "123456").eq("account", "active").findUnique();
+		
+		Location loc = Location.findById(user.location.id);
+		if(loc.getType().equalsIgnoreCase("active")){
+			if(user.getNewUser()== 1){
+
+				session("USER_KEY", user.id+"");
+				session("USER_ROLE", user.role+"");
+				
+				if(user.location != null){
+					session("USER_LOCATION", user.location.id+"");
+				}else if(user.location == null){
+					Location location = Location.findManagerType(user);
+					if(location != null){
+						session("USER_LOCATION", location.id+"");
+					}
+				}
+				
+				
+				//return  redirect("/dealer/index.html#/");
+	    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+	    		List<Permission> userPermissions = user.getPermission();
+	    		for(Permission per: userPermissions) {
+	    			permission.put(per.name, true);
+	    		}
+	    		
+	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
+	    		//return redirect("/googleConnectionStatus");
+			}else{
+				return ok(home.render(user.getEmail(),userRegistration));
+			}
+		}else{
+			return ok(home.render("Your account has been suspended, please contact your management for further questions",userRegistration));
+		}
+	}
 	
 	public static Result salePLogin(){
 		AuthUser user = AuthUser.find.where().eq("email", "felocipto@gmail.com").eq("password", "YNMAG7").eq("account", "active").findUnique();
