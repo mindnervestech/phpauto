@@ -15,6 +15,7 @@ public class SalepeopleMonthPlanVM {
 	public String leadsToGenerate;
 	public String emails;
 	public String cell;
+	public String call;
 	public String successRate;
 	public List<Integer> salesList;
 	public String location;

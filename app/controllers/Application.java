@@ -24943,9 +24943,41 @@ if(vehicles.equals("All")){
 				pSalePer.update();
 			}
 			
-			 	String subject = "Plan has been Assigned";
+			Map map = new HashMap();
+    		map.put("email",uAuthUser.communicationemail);
+    		map.put("amount", vm.totalBrought);
+    		map.put("vehicleTosell", vm.vehicalesToSell);
+    		map.put("leadGenerated",vm.leadsToGenerate);
+    		map.put("testDrives",vm.testDrives);
+    		if(vm.call != null){
+    		map.put("callsMake", vm.call);
+    		}
+    		else{
+    			map.put("callsMake", "");
+    		}
+    		if(vm.successRate !=null){
+    			map.put("successRate", vm.successRate+"%");
+    		}else{
+    			map.put("successRate", "");
+    		}
+    		if(vm.emails !=null){
+    		map.put("emailSend", vm.emails);
+    		}else{
+    			map.put("emailSend", "");
+    		}
+    		
+    		if(vm.newCustomers !=null){
+    		map.put("customers", vm.newCustomers);
+    		}else{
+    			map.put("customers", "");
+    		}
+    		map.put("uname",user.firstName+" "+user.lastName);
+    		map.put("uphone", user.phone);
+    		map.put("uemail", user.email);
+    		salesPersonPlanMail(map);
+			 	/*String subject = "Plan has been Assigned";
 		    	 String comments = "plan for "+vm.month+" has been assigned";
-		    	 sendEmail(uAuthUser.communicationemail, subject, comments);
+		    	 sendEmail(uAuthUser.communicationemail, subject, comments);*/
 		}
 		
 		
@@ -24964,6 +24996,108 @@ if(vehicles.equals("All")){
 		
 		return ok();
 	}
+	
+private static void salesPersonPlanMail(Map map) {
+    	
+    	AuthUser logoUser = getLocalUser();
+    //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+    	try
+		{
+    		/*InternetAddress[] usersArray = new InternetAddress[2];
+    		int index = 0;
+    		usersArray[0] = new InternetAddress(map.get("email").toString());
+    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
+    		
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(map.get("email").toString()));
+			message.setSubject("TEST DRIVE CONFIRMATION");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+		
+			
+	        Template t = ve.getTemplate("/public/emailTemplate/planAssigned_HTML.html"); 
+	        VelocityContext context = new VelocityContext();
+	        /*String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+	       
+	        int dayOfmonth=1;
+	        int month=0;
+	        try {
+	        	String arr[] = map.get("confirmDate").toString().split("-");
+		        if(arr.length >=2){
+		        	dayOfmonth = Integer.parseInt(arr[2]);
+			        month = Integer.parseInt(arr[1]);
+		        }else{
+		        	Calendar cal = Calendar.getInstance();
+			         cal.setTime((Date)map.get("confirmDate"));
+			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+			         month = cal.get(Calendar.MONTH)+1;
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}*/
+	        
+	        //String monthName = months[month-1];
+	        context.put("hostnameUrl", imageUrlPath);
+	        context.put("siteLogo", logo.logoImagePath);
+	      //  context.put("dayOfmonth", dayOfmonth);
+	      //  context.put("monthName", monthName);
+	        context.put("amount", map.get("amount"));
+	        context.put("vehicleTosell", map.get("vehicleTosell"));
+	        context.put("leadGenerated", map.get("leadGenerated"));
+	        context.put("callsMake", map.get("callsMake"));
+	        context.put("successRate", map.get("successRate"));
+	        context.put("emailSend", map.get("emailSend"));
+	        context.put("customers", map.get("customers"));
+	        context.put("name", map.get("uname"));
+	        context.put("email", map.get("uemail"));
+	        context.put("phone",  map.get("uphone"));
+	        /*String weather= map.get("CnfDateNature").toString();
+	        String arr1[] = weather.split("&");
+	        String nature=arr1[0];
+	        String temp=arr1[1];
+	        context.put("nature",nature);
+	        context.put("temp", temp);*/
+	       
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString(); 
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+    }
+    
+    
+	
+	
 	
 	public static Result getSalePerson(String month){
 		List<PlanScheduleMonthlySalepeople> sMonthlySalepeoples = PlanScheduleMonthlySalepeople.findByListByMonth(month);
