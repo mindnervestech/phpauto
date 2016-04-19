@@ -10,6 +10,7 @@ GET     /                           controllers.Application.index()
 POST     /registerUser           controllers.RegistrationController.registerUser()
 # Providers entry points
 GET     /login                      controllers.Application.home()
+GET     /adminLogin                      controllers.Application.adminHome()
 GET     /test                      controllers.Application.test()
 POST    /authenticate     			controllers.Application.login()
 GET   /gmIsManager/:locationId       			controllers.Application.gmIsManager(locationId:Long)

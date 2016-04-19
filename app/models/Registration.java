@@ -29,6 +29,7 @@ public class Registration extends Model {
 	public Date registrationDate;
 	public Date startDate;
 	public Date expiryDate;
+	public Integer sendDemoFlag;
 	
 	
 	
@@ -140,8 +141,15 @@ public class Registration extends Model {
 	public void setBusinessAdd(String businessAdd) {
 		this.businessAdd = businessAdd;
 	}
-
 	
+	public Integer getSendDemoFlag() {
+		return sendDemoFlag;
+	}
+
+	public void setSendDemoFlag(Integer sendDemoFlag) {
+		this.sendDemoFlag = sendDemoFlag;
+	}
+
 	public static Registration findById(Long id) {
 		return find.byId(id);
 	}

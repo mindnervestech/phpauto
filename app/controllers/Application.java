@@ -173,6 +173,7 @@ import viewmodel.sendDataVM;
 import viewmodel.sendDateAndValue;
 import views.html.agreement;
 import views.html.home;
+import views.html.homeSA;
 import views.html.index;
 import akka.actor.ActorSystem;
 import au.com.bytecode.opencsv.CSVWriter;
@@ -355,12 +356,7 @@ public class Application extends Controller {
 		if(email != null && password != null){
 			 user = AuthUser.find.where().eq("email", email).eq("password", password).eq("account", "active").findUnique();
 		}else{
-			user = AuthUser.find.where().eq("email", "art@gliderllc.com").eq("password", "123456").eq("account", "active").findUnique();
-		}
-		
-		
-	
-		if(user != null) {
+			AuthUser user1 = AuthUser.find.where().eq("email", "art@gliderllc.com").eq("password", "123456").eq("account", "active").findUnique();
 			
 			if(userRegistration.equals("true")){
 				
@@ -376,17 +372,17 @@ public class Application extends Controller {
 						e.printStackTrace();
 					}
 					if((cdates.equals(registration.startDate)||cdates.after(registration.startDate)) && ((cdates.equals(registration.expiryDate)||cdates.before(registration.expiryDate)))){
-						Location loc = Location.findById(user.location.id);
+						Location loc = Location.findById(user1.location.id);
 						if(loc.getType().equalsIgnoreCase("active")){
-							if(user.getNewUser()== 1){
+							if(user1.getNewUser()== 1){
 
-								session("USER_KEY", user.id+"");
-								session("USER_ROLE", user.role+"");
+								session("USER_KEY", user1.id+"");
+								session("USER_ROLE", user1.role+"");
 								
-								if(user.location != null){
-									session("USER_LOCATION", user.location.id+"");
-								}else if(user.location == null){
-									Location location = Location.findManagerType(user);
+								if(user1.location != null){
+									session("USER_LOCATION", user1.location.id+"");
+								}else if(user1.location == null){
+									Location location = Location.findManagerType(user1);
 									if(location != null){
 										session("USER_LOCATION", location.id+"");
 									}
@@ -395,7 +391,7 @@ public class Application extends Controller {
 								
 								//return  redirect("/dealer/index.html#/");
 					    		HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
-					    		List<Permission> userPermissions = user.getPermission();
+					    		List<Permission> userPermissions = user1.getPermission();
 					    		for(Permission per: userPermissions) {
 					    			permission.put(per.name, true);
 					    		}
@@ -403,7 +399,7 @@ public class Application extends Controller {
 					    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 					    		//return redirect("/googleConnectionStatus");
 							}else{
-								return ok(home.render(user.getEmail(),userRegistration));
+								return ok(home.render(user1.getEmail(),userRegistration));
 							}
 						}else{
 							return ok(home.render("Your account has been suspended, please contact your management for further questions",userRegistration));
@@ -420,6 +416,12 @@ public class Application extends Controller {
 				
 				
 			}
+		}
+		
+		
+	
+		if(user != null) {
+		
 			if(user.role.equalsIgnoreCase("Admin")){
 				session("USER_KEY", user.id+"");
 				session("USER_ROLE", user.role+"");
@@ -803,6 +805,9 @@ public class Application extends Controller {
 	
 	public static Result home() {
 		return ok(home.render("",userRegistration));
+	}
+	public static Result adminHome() {
+		return ok(homeSA.render("",userRegistration));
 	}
 	public static Result test() {
 		return ok(agreement.render("fdfdsf","fdsf","1"));
@@ -14193,7 +14198,6 @@ private static void cancelTestDriveMail(Map map) {
     	
     	List<TradeIn> tIn = TradeIn.findByVinAndLocation(vin, Location.findById(Long.parseLong(session("USER_LOCATION"))));
 		for(TradeIn tradeIn:tIn){
-			
 			if(tradeIn.status == null){
 				tradeIn.setStatus("LOST");
 				tradeIn.setStatusDate(currDate);
