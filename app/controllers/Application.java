@@ -24129,7 +24129,7 @@ if(vehicles.equals("All")){
         	sTestVM.reason=scTest.reason;
         	sTestVM.name = scTest.name;
         	sTestVM.typeOfLead = "Schedule Test Drive";
-        	
+        	int flag = 0;
         	List<UserVM> listUser = new ArrayList<>();
         	if(scTest.groupId != null){
     			List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeetingCheckMeeting(scTest.groupId);
@@ -24146,13 +24146,16 @@ if(vehicles.equals("All")){
     	    		}*/
     	    		uVm.meetingFlag = users.meeting;
     	    		uVm.id = users.assignedTo.id;
-    	    	
+    	    		if(users.declineMeeting == 1){
+    	    			flag = 1;
+    	    		}
+    	    		
     	    		listUser.add(uVm);
     			}
     		}
     	
     	
-    		
+    		sTestVM.noteFlag = flag;
         	sTestVM.userdata = listUser;
         	
         	
@@ -24272,14 +24275,15 @@ if(vehicles.equals("All")){
 					AuthUser assi = AuthUser.findById(testloop.assignedTo.id);
 					testloop.setName(vm.name);
 					testloop.setReason(vm.reason);
-					testloop.setDeclineUpdate(1);
+					
 					
 					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
 						list.add(assi);
+						testloop.setDeclineUpdate(1);
             	    // testloop.setSendInvitation(1);
-            	     String subject = "Meeting's information has been changed.";
- 			   	    String comments = "Meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
- 				    sendEmail(assi.communicationemail, subject, comments);
+						String subject = "Meeting's information has been changed.";
+ 			   	    	String comments = "Meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
+ 			   	    	sendEmail(assi.communicationemail, subject, comments);
             	   
 			       }
 					testloop.setConfirmDate(df.parse(confDate));
