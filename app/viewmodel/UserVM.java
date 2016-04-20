@@ -36,6 +36,7 @@ public class UserVM {
 	public String trainingHours;
 	public Long saleCar;
 	public  String quota;
+	public Integer planFlag;
 	public String mi;
 	public boolean isSelect;
 	public List<String> permissions;

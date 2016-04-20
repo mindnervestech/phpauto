@@ -16739,9 +16739,12 @@ private static void cancelTestDriveMail(Map map) {
 		     	
 				PlanScheduleMonthlySalepeople  pMonthlySalepeople = null;
 				pMonthlySalepeople = PlanScheduleMonthlySalepeople.findByUserMonth(sales, crMonth);
-				
+				vm.planFlag = 0; 
 				if(pMonthlySalepeople != null){
 					total = Integer.parseInt(pMonthlySalepeople.totalBrought);
+		    	}else{
+		    		
+						vm.planFlag = 1; 
 		    	}
 			
 				vm.fullName = sales.firstName+" "+sales.lastName;
@@ -16835,11 +16838,12 @@ private static void cancelTestDriveMail(Map map) {
     		}else{
     			 sucessCount = 0;
     		}
-    		
 			if(pricecount > 0 && total > 0){
 				per = (int) ((pricecount*100)/total);
 				vm.per = per;
 			}
+			
+			
     		vm.successRate = (int) sucessCount;
     		vm.salesAmount = pricecount;
     		vm.currentLeads = Long.parseLong(String.valueOf(countLeads));

@@ -934,8 +934,8 @@ margin-left: 5px;
 									              	<div ng-mouseenter="imageEnter($index)" ng-mouseleave="imageLeave($index)">
 									                     <img class="circleBase typeNew" ng-if="$index!=index"  style="width: 116px;"  src="{{item.imageUrl}}">
 									                 	<div ng-if="$index==index" class="circleBase type" style="text-align: center;margin-left: 0px;"> 
-									                 		<h1 ng-if="item.per !='0'" style="color:white;margin-top: 30px;text-align: center;">{{item.per}}%</h1>
-															<h3 ng-if="item.per =='0'" style="color:white; margin-top:10px;text-align: center;line-height: 1.5;">
+									                 		<h1 ng-if="item.planFlag == 0" style="color:white;margin-top: 30px;text-align: center;">{{item.per}}%</h1>
+															<h3 ng-if="item.planFlag == 1" style="color:white; margin-top:10px;text-align: center;line-height: 1.5;">
 																No Plan <br> Added<br>
 																<a class="btn" ng-click="openPlanningForSale(item.id)" style="border: white; border-style: double;background-color:darkturquoise;">Add</a>
 															</h3>
