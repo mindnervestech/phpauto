@@ -14703,12 +14703,11 @@ private static void cancelTestDriveMail(Map map) {
         					 
         				 }
         				 
-        				 
         				 System.out.println("----^^^^^^^^^^^^^^^-111-----------");
-        				 String subject = "Meeting reminder";
+        				 String subject = "IN ONE HOUR";
          		    	 String comments = "You have a meeting scheduled in 1 hour \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
-						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime);
-         		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime);
+						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
+         		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
         			
         			 }
             	 }
@@ -14728,10 +14727,10 @@ private static void cancelTestDriveMail(Map map) {
         					 listForUser.add(user);
         					 
         				 }
-        				 String subject = "Meeting reminder";
+        				 String subject = "IN 24 HOURS";
          		    	 String comments = "You have a meeting scheduled in 24 hours \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
-						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime);
-         		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime);
+						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
+         		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
         			 }
             	 }
 			} catch (Exception e) {
@@ -14869,7 +14868,7 @@ private static void cancelTestDriveMail(Map map) {
     }
     
 
-	public static void meetingReminder(List<AuthUser> listForUser,String communicationEmail, Date confirmDate,Date confirmTime){
+	public static void meetingReminder(List<AuthUser> listForUser,String communicationEmail, Date confirmDate,Date confirmTime,String subject){
 		/*InternetAddress[] usersArray = new InternetAddress[userList.size()];
 		int index = 0;
 		for (AuthUser assi : userList) {
@@ -14910,7 +14909,7 @@ private static void cancelTestDriveMail(Map map) {
 			message.setFrom(new InternetAddress(emailUsername));
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(communicationEmail));
 			/*usersArray*/
-			message.setSubject("Meeting Scheduled");
+			message.setSubject(subject);
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart = new MimeBodyPart();
