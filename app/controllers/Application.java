@@ -25591,9 +25591,6 @@ private static void salesPersonPlanMail(Map map) {
 			UserVM vm1=new UserVM();
 			vm1.fullName=assi.firstName+" "+assi.lastName;
 			list.add(vm1);
-			
-			
-			
 		}
 		
 		
@@ -25614,7 +25611,7 @@ private static void salesPersonPlanMail(Map map) {
 			message.setFrom(new InternetAddress(emailUsername));
 			message.setRecipients(Message.RecipientType.TO,usersArray);
 			/*usersArray*/
-			message.setSubject("Meeting Scheduled");
+			message.setSubject("Meeting Invitation");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart = new MimeBodyPart();
