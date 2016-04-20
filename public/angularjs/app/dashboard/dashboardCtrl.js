@@ -8980,8 +8980,6 @@ angular.module('newApp')
     			 };
     			 
     			 $scope.hideVehicle = function(row){
-    				 console.log("chhhhh");
-    				 console.log(row.entity);
     				 $http.get('/getGoTodraft/'+row.entity.id)
  						.success(function(data) {
  							
