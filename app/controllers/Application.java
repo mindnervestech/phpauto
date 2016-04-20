@@ -4106,6 +4106,17 @@ public class Application extends Controller {
 	    	return ok(Json.toJson(NewVMs));
     	}	
     }
+	
+	public static Result getGoTodraft(Long id){
+		
+		Vehicle vehicle= Vehicle.findById(id);
+		if(vehicle != null){
+			vehicle.setPublicStatus("draft");
+			vehicle.update();
+		}
+		return ok();
+		
+	}
     
 	public static Result getVehicleHistory(String vin){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -4325,8 +4336,11 @@ public class Application extends Controller {
 		    	vehicle.status  =  vm.status;
 		    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
 		    	vehicle.sold = true;
-		    	vehicle.imagePath = vehicleImg.thumbPath;
-		    	vehicle.imgId = vehicleImg.id;
+		    	if(vehicleImg != null){
+		    		vehicle.imagePath = vehicleImg.thumbPath;
+			    	vehicle.imgId = vehicleImg.id;
+		    	}
+		    	
 		    	vehicle.testDrive = df.format(vm.soldDate);
 		    	vehicle.title = vm.title;
 		    	soldVMs.add(vehicle);
