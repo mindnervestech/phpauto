@@ -637,8 +637,8 @@ public String testDriveStatus;
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("assignedTo", user).findList();
 	}
 	
-	public static List<TradeIn> findByConfirmGraLeadsToEmail() {
-		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).findList();
+	public static List<TradeIn> findByConfirmGraLeadsToEmail(Date lessDate) {
+		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).ge("confirmDate", lessDate).findList();
 	}
 	
 	public static List<TradeIn> findByConfirmGraLeadsToPopup(AuthUser user,Date curDate) {

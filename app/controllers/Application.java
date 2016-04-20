@@ -14624,12 +14624,14 @@ private static void cancelTestDriveMail(Map map) {
          Date aftDay1 = null;
          Date infoDate = null;
          Date datec = null;
+         
+         
+         Date lessDay = DateUtils.addDays(currD, -1);
          //https://maps.googleapis.com/maps/api/timezone/json?location=37.7870882,-122.39112790000001&timestamp=1331161200&key=AIzaSyAZDXHvlpRPy2R_LWP4iCoxN_UBDdMg6o4
          //Date newDate = DateUtils.addHours(info2.confirmTime, 4);
-         List<ScheduleTest> list = ScheduleTest.findAllByServiceTestEmail();
-         
-     	List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeadsToEmail();
-     	List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail();
+         List<ScheduleTest> list = ScheduleTest.findAllByServiceTestEmail(lessDay);
+         List<RequestMoreInfo> requestMoreInfos = RequestMoreInfo.findByConfirmGraLeadsToEmail(lessDay);
+     	 List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail(lessDay);
      	
          for(ScheduleTest scTest:list){
         	 List<AuthUser> listForUser=null;
@@ -14692,6 +14694,7 @@ private static void cancelTestDriveMail(Map map) {
          		    	 String comments = "You have a test drive scheduled in 1 hour ";
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
          		    	sendEmail(scTest.email, subject, comments);
+         		    	
         			 }else if(scTest.meetingStatus.equals("meeting")){
         				 
         				 listForUser=new ArrayList<>();

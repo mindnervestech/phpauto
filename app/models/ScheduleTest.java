@@ -470,9 +470,9 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", user).findList();
 	}
 	
-	public static List<ScheduleTest> findAllByServiceTestEmail() {
+	public static List<ScheduleTest> findAllByServiceTestEmail(Date lessDate) {
 		
-		return find.where().ne("acceptMeeting", 1).ne("confirmDate",null).eq("lead_status", null).orderBy("confirmDate desc").findList();
+		return find.where().add(Expr.or(Expr.ne("acceptMeeting", 1),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", lessDate).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllByServiceTestPopup(AuthUser user,Date currDate) {
