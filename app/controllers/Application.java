@@ -12165,29 +12165,28 @@ private static void cancelTestDriveMail(Map map) {
    		rInfoTest = RequestMoreInfo.testDriveForSalePerson(users);
    		sListTest = ScheduleTest.testDriveForSalePerson(users);
    		tradeInsTest = TradeIn.testDriveForSalePerson(users);
-   		
-   		
-   	}
-   	
-	for(RequestMoreInfo rMoreInfo:rInfoTest){
-   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
-   			requestLeadCountTest++;
-   		}
-   	}
-   	
-   	
-   	for(ScheduleTest sTest:sListTest){
-   	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
-   			scheduleLeadCountTest++;
-   	}
-   	}
+   		for(RequestMoreInfo rMoreInfo:rInfoTest){
+   	   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
+   	   			requestLeadCountTest++;
+   	   		}
+   	   	}
+   	   	
+   	   	
+   	   	for(ScheduleTest sTest:sListTest){
+   	   	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
+   	   			scheduleLeadCountTest++;
+   	   	}
+   	   	}
 
-   	for(TradeIn tIn:tradeInsTest){
-   	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
-				tradeInLeadCountTest++;
-   		}
+   	   	for(TradeIn tIn:tradeInsTest){
+   	   	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
+   					tradeInLeadCountTest++;
+   	   		}
+   	   	}
+   		
    	}
    	
+
    	int countTestDrives = requestLeadCountTest + scheduleLeadCountTest + tradeInLeadCountTest;
    	
    	lDataVM.countTestDrives=countTestDrives;
@@ -12365,7 +12364,7 @@ private static void cancelTestDriveMail(Map map) {
    }
    	
    	List<Vehicle> vList2 = Vehicle.findByLocationAndSold(locationId);
-   	
+   		
    	if(vList2.size() != 0){
    		List<Integer> longV = new ArrayList<>();
    		DateAndValueVM sValue = new DateAndValueVM();
