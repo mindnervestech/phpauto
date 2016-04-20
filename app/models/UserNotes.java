@@ -121,6 +121,10 @@ public class UserNotes extends Model {
 		return find.where().eq("requestMoreInfo", info).findList();
 	}
 	
+	public static List<UserNotes> findRequestMoreList(RequestMoreInfo info) {
+		return find.where().eq("requestMoreInfo", info).findList();
+	}
+	
 	public static List<UserNotes> findRequestMoreAndFirstAdd(RequestMoreInfo info) {
 		return find.where().eq("requestMoreInfo", info).eq("saveHistory",1).orderBy("createdDate asc").findList();
 	}

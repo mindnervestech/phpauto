@@ -12075,12 +12075,20 @@ private static void cancelTestDriveMail(Map map) {
    	int scheduleLeadCount1 = 0;
    	int tradeInLeadCount1 = 0;
    	
+   	int requestLeadCountTest = 0;
+   	int scheduleLeadCountTest = 0;
+   	int tradeInLeadCountTest = 0;
+   	
    	List<RequestMoreInfo> rInfo = null;
    	List<ScheduleTest> sList = null;
    	List<TradeIn> tradeIns = null;
    	List<RequestMoreInfo> rInfoAll = null;
    	List<ScheduleTest> sListAll = null;
    	List<TradeIn> tradeInsAll = null;
+   	
+   	List<RequestMoreInfo> rInfoTest = null;
+   	List<ScheduleTest> sListTest = null;
+   	List<TradeIn> tradeInsTest = null;
    	
    	if(users.role.equals("Manager") && locOrPer.equals("location")){
    		rInfo = RequestMoreInfo.findAllSeenLocationSch(locationId);
@@ -12152,6 +12160,39 @@ private static void cancelTestDriveMail(Map map) {
    	
    	//List<AuthUser> uAuthUser = AuthUser.getlocationAndRoleByType(location, "Sales Person");
    	lDataVM.countSalePerson = countLeads;
+   	
+   	if(users.role.equals("Sales Person") || locOrPer.equals("person")){
+   		rInfoTest = RequestMoreInfo.testDriveForSalePerson(users);
+   		sListTest = ScheduleTest.testDriveForSalePerson(users);
+   		tradeInsTest = TradeIn.testDriveForSalePerson(users);
+   		
+   		
+   	}
+   	
+	for(RequestMoreInfo rMoreInfo:rInfoTest){
+   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
+   			requestLeadCountTest++;
+   		}
+   	}
+   	
+   	
+   	for(ScheduleTest sTest:sListTest){
+   	if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
+   			scheduleLeadCountTest++;
+   	}
+   	}
+
+   	for(TradeIn tIn:tradeInsTest){
+   	if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
+				tradeInLeadCountTest++;
+   		}
+   	}
+   	
+   	int countTestDrives = requestLeadCountTest + scheduleLeadCountTest + tradeInLeadCountTest;
+   	
+   	lDataVM.countTestDrives=countTestDrives;
+   	
+   	
    	
    	Integer monthPriceCount = 0;
    	Integer pricecount = 0;
@@ -25054,7 +25095,7 @@ if(vehicles.equals("All")){
     		map.put("uname",user.firstName+" "+user.lastName);
     		map.put("uphone", user.phone);
     		map.put("uemail", user.email);
-    		map.put("month", vm.month);
+    		map.put("month", vm.month.toString().toUpperCase());
     		salesPersonPlanMail(map);
 			 	/*String subject = "Plan has been Assigned";
 		    	 String comments = "plan for "+vm.month+" has been assigned";
@@ -25145,7 +25186,7 @@ private static void salesPersonPlanMail(Map map) {
 	      //  context.put("monthName", monthName);
 	        context.put("amount", map.get("amount"));
 	        context.put("month", map.get("month"));
-	        
+	        System.out.println(">>>>>>>>>>>>>>>>>"+map.get("month"));
 	        context.put("vehicleTosell", map.get("vehicleTosell"));
 	        context.put("leadGenerated", map.get("leadGenerated"));
 	        context.put("callsMake", map.get("callsMake"));

@@ -503,6 +503,7 @@ angular.module('newApp')
 						}
 						
 				});
+					$scope.countTestDrives=data.countTestDrives;
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
 					$scope.leadsTime.goalSetTime = data.goalTime;
@@ -531,6 +532,9 @@ angular.module('newApp')
 					}
 					
 			});
+				
+				
+				   $scope.countTestDrives=data.countTestDrives;
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
 					$scope.leadsTime.goalSetTime = data.goalTime;

@@ -1473,27 +1473,29 @@ margin-left: 5px;
               <div class="modal-content">
                 <div class="modal-header bg-dark">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-                  <h4 class="modal-title"><strong>Schedule Plan</strong></h4>
+                  <h4 class="modal-title"><strong>{{parLocationData.monthCurr}}'s Plan</strong></h4>
                 </div>
                 <div class="modal-body">
                 <div class="row">
                 <div class="panel panel-default no-bd">
                 <div class="panel-body bg-white">
                   <div class="row">
-          <div class="col-sm-6">
-                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+          <div class="col-sm-6" style="border-right: 1px solid;">
+                          		<!-- <div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          			<label>{{parLocationData.monthCurr}}</label>
                          		</div>
                          		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          			<input type="text" name="august" class="form-control col-sm-6" placeholder="$$$"  ng-model="saleMonthTotalPer.totalBrought">
-                         		</div>
+                         		</div> -->
+                         		
                          	<hr>
+                         	<div style="margin-bottom: 30px" > </div>
                          		<div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          				<label>$$$ Amount<span style="color:red;">*</span></label>
                          			</div>
-                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="true"  class="form-control" placeholder="$$$" ng-model="saleMonthTotalPer.totalBrought" required>
+                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;" >
+                         				<input type="text" ng-disabled="true"  class="form-control" placeholder="$$$" ng-model="saleMonthTotalPer.totalBrought" ng-class=" saleMonthTotalPer.totalBrought>parLocationData.totalSalePrice  ?' txtColourGreen':' txtColourRed' " required>
                          			</div>
                          			</div>
                          		<div>
@@ -1501,7 +1503,7 @@ margin-left: 5px;
                          				<label>Vehicles to Sell<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="true"   class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.vehicalesToSell" required>
+                         				<input type="text" ng-disabled="true"   class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.vehicalesToSell" ng-class=" saleMonthTotalPer.vehicalesToSell>parLocationData.totalsaleCar  ?' txtColourGreen':' txtColourRed' "    required>
                          			</div>	
                          		</div>
                          		<div>
@@ -1509,7 +1511,7 @@ margin-left: 5px;
                          				<label>Leads to Generate<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text" ng-disabled="true" class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.leadsToGenerate" required>
+                         				<input type="text" ng-disabled="true" class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.leadsToGenerate" ng-class=" saleMonthTotalPer.leadsToGenerate>parLocationData.countSalePerson  ?' txtColourGreen':' txtColourRed' "    required>
                          			</div>
                          		</div>
                          		<div>
@@ -1517,12 +1519,11 @@ margin-left: 5px;
                          				<label>Test Drives<span style="color:red;">*</span></label>
                          			</div>
                          			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-                         				<input type="text"  ng-disabled="true"  class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.testDrives" required>
+                         				<input type="text"  ng-disabled="true"  class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.testDrives"    ng-class=" saleMonthTotalPer.testDrives >countTestDrives  ?' txtColourGreen':' txtColourRed' " required>
                          			</div>
                          		</div>
                          		<hr>
-                         		
-                         			<div>
+                         			<div ng-if="saleMonthTotalPer.cell != null"  >
 	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
 	                         				<label>Calls</label>
 	                         			</div>
@@ -1530,7 +1531,7 @@ margin-left: 5px;
 	                         				<input type="text" class="form-control" ng-model="saleMonthTotalPer.cell">
 	                         			</div>
                          			</div>
-                         			<div>
+                         			<div  ng-if="saleMonthTotalPer.emails !=null" >
 	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
 	                         				<label>Emails</label>
 	                         			</div>
@@ -1538,7 +1539,7 @@ margin-left: 5px;
 	                         				<input type="email"  class="form-control" ng-model="saleMonthTotalPer.emails">
 	                         			</div>
                          			</div>
-                         			<div>
+                         			<div ng-if="saleMonthTotalPer.successRate !=null">
 	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
 	                         				<label>Success Rate</label>
 	                         			</div>
@@ -1546,7 +1547,7 @@ margin-left: 5px;
 	                         				<input type="text"  class="form-control" ng-model="saleMonthTotalPer.successRate">
 	                         			</div>
                          			</div>
-                         			<div>
+                         			<div ng-if="saleleadsTime.outofSale !=null" >
 	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
 	                         				<label>% Out of all sales</label>
 	                         			</div>
@@ -1554,7 +1555,7 @@ margin-left: 5px;
 	                         				<input type="text"  class="form-control" ng-model="saleleadsTime.outofSale">
 	                         			</div>
                          			</div>
-                         			<div>
+                         			<div ng-if="saleMonthTotalPer.newCustomers !=null">
 	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
 	                         				<label>New Customers</label>
 	                         			</div>
@@ -1562,7 +1563,7 @@ margin-left: 5px;
 	                         				<input type="text"  class="form-control" ng-model="saleMonthTotalPer.newCustomers" required>
 	                         			</div>
                          			</div>
-                         			<div>
+                         			<div ng-if="saleMonthTotalPer.returningCustomers !=null">
 	                         			<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
 	                         				<label>Returning Customers</label>
 	                         			</div>
@@ -1572,6 +1573,49 @@ margin-left: 5px;
                          			</div>
                          			
                          		</div>
+                         		
+                         		
+                         		
+                         		
+                         		 <div class="col-sm-6">
+                         		 <hr>
+                         	
+                         	<div style="text-align: center;">YOUR DATA</div>
+                         		<div class="col-sm-12">
+                         			<div class="col-sm-3" style="padding: 0px;margin-top: 8px;">
+                         			</div>
+                         			<div style="padding: 0px;margin-top: 10px; text-align: center;" ng-class="parLocationData.totalSalePrice >saleMonthTotalPer.totalBrought ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >
+                         			{{parLocationData.totalSalePrice}}
+                         				<!-- <input type="text" ng-disabled="true"  class="form-control" placeholder="$$$" ng-model="saleMonthTotalPer.totalBrought" required> -->
+                         			</div>
+                         			</div>
+                         		<div class="col-sm-12" >
+                         			<div class="col-sm-3" style="padding: 0px;margin-top: 10px;text-align: center;">
+                         			</div>
+                         			<div  style="padding: 0px;margin-top: 20px;text-align: center;"  ng-class="parLocationData.totalsaleCar>saleMonthTotalPer.vehicalesToSell   ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "   >
+                         			{{parLocationData.totalsaleCar}}
+                         				<!-- <input type="text" ng-disabled="true"   class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.vehicalesToSell" required> -->
+                         			</div>	
+                         		</div>
+                         		<div class="col-sm-12" >
+                         			<div class="col-sm-3" style="padding: 0px;margin-top: 8px;">
+                         			</div>
+                         			<div  style="padding: 0px;margin-top: 20px;text-align: center;"ng-class="parLocationData.countSalePerson> saleMonthTotalPer.leadsToGenerate  ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >
+                         			{{parLocationData.countSalePerson}}
+                         				<!-- <input type="text" ng-disabled="true" class="form-control" placeholder="Amount" ng-model="parLocationData.countSalePerson" required> -->
+                         			</div>
+                         		</div>
+                         		<div  class="col-sm-12">
+                         			<div class="col-sm-3" style="padding: 0px;margin-top: 8px;">
+                         			</div>
+                         			<div style="padding: 0px;margin-top: 25px;text-align: center;"    ng-class="countTestDrives > saleMonthTotalPer.testDrives  ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >
+                         			{{countTestDrives}}
+                         				<!-- <input type="text"  ng-disabled="true"  class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.testDrives" required> -->
+                         			</div>
+                         		</div>
+                         		</div>
+                         		
+                         		
                          	<!-- 	<div class="col-sm-12">
                          		<hr>
                          			<label>Salepeople</label>

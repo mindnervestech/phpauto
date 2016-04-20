@@ -15,6 +15,7 @@ public class LocationWiseDataVM {
 	public String imageName;
 	public String imageUrl;
     public Integer countSalePerson;
+    public Integer countTestDrives;
     public Integer totalSalePrice;
     public Integer totalsaleCar;
     public Integer successRate;
