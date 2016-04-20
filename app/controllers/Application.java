@@ -25050,6 +25050,7 @@ if(vehicles.equals("All")){
     		map.put("uname",user.firstName+" "+user.lastName);
     		map.put("uphone", user.phone);
     		map.put("uemail", user.email);
+    		map.put("month", vm.month);
     		salesPersonPlanMail(map);
 			 	/*String subject = "Plan has been Assigned";
 		    	 String comments = "plan for "+vm.month+" has been assigned";
@@ -25099,7 +25100,7 @@ private static void salesPersonPlanMail(Map map) {
 			message.setFrom(new InternetAddress(emailUsername));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(map.get("email").toString()));
-			message.setSubject("TEST DRIVE CONFIRMATION");
+			message.setSubject("This month's plan has been added");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart = new MimeBodyPart();
@@ -25139,6 +25140,8 @@ private static void salesPersonPlanMail(Map map) {
 	      //  context.put("dayOfmonth", dayOfmonth);
 	      //  context.put("monthName", monthName);
 	        context.put("amount", map.get("amount"));
+	        context.put("month", map.get("month"));
+	        
 	        context.put("vehicleTosell", map.get("vehicleTosell"));
 	        context.put("leadGenerated", map.get("leadGenerated"));
 	        context.put("callsMake", map.get("callsMake"));
