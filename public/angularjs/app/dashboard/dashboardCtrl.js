@@ -8982,8 +8982,10 @@ angular.module('newApp')
     			 $scope.hideVehicle = function(row){
     				 $http.get('/getGoTodraft/'+row.entity.id)
  						.success(function(data) {
- 							
+ 							$scope.hideText = "Vehicle has been hidden from the website and moved to Drafts list";
+ 							$scope.hideTitle = "Vehicle moved to drafts";
  							$scope.newlyArrivedTab();
+ 							$('#hideVehicle').click();
  							$.pnotify({
  							    title: "Success",
  							    type:'success',
@@ -9158,6 +9160,9 @@ angular.module('newApp')
    
    $scope.updateVehicleStatusPublic = function(row){
 	   $http.get('/addPublicCar/'+row.entity.id).success(function(data){
+		   	$scope.hideText = "Vehicle has been published";
+		   	$scope.hideTitle = "Vehicle has been published";
+			$('#hideVehicle').click();
 			   $.pnotify({
 				    title: "Success",
 				    type:'success',
