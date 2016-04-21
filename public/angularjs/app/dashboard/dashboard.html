@@ -482,9 +482,9 @@ margin-left: 5px;
 									     		<label><a ng-click="userLocationData('6 Month',dataLocOrPerWise)" style="cursor: pointer;font-size: 18px;">6 Month</a> | </label>
 									     		<label><a ng-click="userLocationData('Year',dataLocOrPerWise)" style="cursor: pointer;font-size: 18px;">Year</a> | </label> -->
 									     		
-									     		<label ng-if="userRole == 'Sales Person'"  ><p style="cursor: pointer;font-size: 22px;"  ng-click="planForsalePerson()" ng-if="flagForPlan != 1" >PLAN</p>  </label>
+									     		<label ng-if="userRole == 'Sales Person'"  ><p style="cursor: pointer;font-size: 22px;color: blue;"  ng-click="planForsalePerson()" ng-if="flagForPlan != 1" >PLAN</p>  </label>
 									     		<label ng-if="userRole == 'Sales Person'"  ><p style="font-size: 22px;"  ng-if="flagForPlan == 1"  >PLAN</p>  </label>
-									     		<label ng-if="userRole == 'Manager'"> <p style="cursor: pointer;font-size: 22px;" ng-click="planForLocationManager()" ng-if="flagForPlanForLocation != 1" >PLAN </p> </label>
+									     		<label ng-if="userRole == 'Manager'"> <p style="cursor: pointer;font-size: 22px;color: blue;" ng-click="planForLocationManager()" ng-if="flagForPlanForLocation != 1" >PLAN </p> </label>
 									            <label ng-if="userRole == 'Manager'"> <p style="font-size: 22px;"  ng-if="flagForPlanForLocation == 1" >PLAN </p> </label>
 									     
 									     
