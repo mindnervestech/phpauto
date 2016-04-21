@@ -25177,7 +25177,7 @@ private static void salesPersonPlanMail(Map map) {
 			ve.init();
 		
 			
-	        Template t = ve.getTemplate("/public/emailTemplate/planAssigned_HTML.html"); 
+	        Template t = ve.getTemplate("/public/emailTemplate/planAssigned_HTML.vm"); 
 	        VelocityContext context = new VelocityContext();
 	        /*String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
 	       
