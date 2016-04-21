@@ -14730,7 +14730,7 @@ private static void cancelTestDriveMail(Map map) {
         		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
             		 if(scTest.meetingStatus == null){
             			 String subject = "Test drive reminder";
-         		    	 String comments = "You have a test drive scheduled in 24 hours ";
+         		    	 String comments = "You have a test drive scheduled in 24 hours \n Date" +infoDate ;
          		    	 sendEmail(emailUser.communicationemail, subject, comments);
          		    	sendEmail(scTest.email, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
