@@ -24343,8 +24343,7 @@ if(vehicles.equals("All")){
             	    // testloop.setSendInvitation(1);
 						String subject = "Meeting's information has been changed.";
  			   	    	String comments = "Meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
- 			   	    	sendEmail(assi.communicationemail, subject, comments);
-            	   
+ 			   	    	//sendEmail(assi.communicationemail, subject, comments);
 			       }
 					testloop.setConfirmDate(df.parse(confDate));
 					testloop.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
@@ -24372,8 +24371,7 @@ if(vehicles.equals("All")){
 					test.setSendInvitation(1);
 					String subject = "Meeting invitation.";
 			   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
-					sendEmail(assi.communicationemail, subject, comments);
-           	   
+					//sendEmail(assi.communicationemail, subject, comments);
 			       }
 				test.update();
 				

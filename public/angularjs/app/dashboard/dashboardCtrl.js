@@ -393,6 +393,31 @@ angular.module('newApp')
 			}
 		});
 		$scope.checked = [];
+		$scope.userRow;
+		$scope.selectUserPop = function(row){
+			if(row.entity.isSelect == true){
+				angular.forEach($scope.gridOptions11.data, function(obj, index){
+					if(obj.$$hashKey == row.entity.$$hashKey){
+						obj.isSelect = false;
+					}
+				});
+				$scope.userRow = row;
+				$scope.message = row.entity.fullName + " has a meeting during this time. Do you still want to send invitation ?";
+				$('#meetingUsr').click();
+			}else{
+				$scope.deleteSelectedUser(row.entity);
+			}
+		};
+		
+		$scope.addUserMeeting = function(){
+				angular.forEach($scope.gridOptions11.data, function(obj, index){
+					if(obj.$$hashKey == $scope.userRow.entity.$$hashKey){
+						obj.isSelect = true;
+					}
+				});
+			$scope.checked.push($scope.userRow.entity);
+		};
+		
 		$scope.selectUser = function(row){
 			if(row.entity.isSelect == true){
 				$scope.checked.push(row.entity);
@@ -421,7 +446,7 @@ angular.module('newApp')
 	 		 		 $scope.gridOptions11.enableVerticalScrollbar = 2;
 	 		 		 $scope.gridOptions11.columnDefs = [
 															{ name: 'isSelect', displayName: 'Select', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																cellTemplate:'<input type="checkbox" ng-change="grid.appScope.selectUser(row)" ng-model="row.entity.isSelect" ng-show="row.entity.disabled" > <label  ng-if="row.entity.disabled == false"> Invited </label>',
+																cellTemplate:'<input type="checkbox" ng-change="grid.appScope.selectUser(row)" ng-model="row.entity.isSelect" ng-show="row.entity.disabled" > <input type="checkbox" ng-change="grid.appScope.selectUserPop(row)" ng-model="row.entity.isSelect" ng-if="row.entity.disabled == false">',
 															},
 															 { name: 'fullName', displayName: 'Full Name', width:'40%',cellEditableCondition: false,
 																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
