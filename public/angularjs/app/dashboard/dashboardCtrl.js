@@ -6499,19 +6499,18 @@ angular.module('newApp')
 		  
 		   $scope.planForsalePersonForMonth = function(month){
 			   console.log(";;;;USERKEY"+$scope.userKey);
-			   $scope.parLocationData.monthCurr=month;
 			   console.log("@@@@currentmont"+$scope.parLocationData.monthCurr);
 			   
-			   $('#salepersonPlanModel').modal();
+			   $('#salepersonPlanModelForMonth').modal();
 			  // $scope.findVehicalPlan($scope.userKey);
-			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
+			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+month)
 				.success(function(data) {
 					if(data != null){
 						$scope.monthFlagForSale=1;
 					}
 					console.log("dataof::getPlanByMonthAndUser");
 					console.log(data);
-					$scope.saleMonthTotalPer=data;
+					$scope.saleMonthTotalPerForMonth=data;
 				});
 			   
 		   }
