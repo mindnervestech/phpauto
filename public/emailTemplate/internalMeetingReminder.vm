@@ -401,7 +401,7 @@ a{text-decoration: none !important;}
                               <table align="left" border="0" cellspacing="0" cellpadding="0" class="container2" width="auto" style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
                                 <tbody><tr>
                                   <td align="center" valign="top" style="width: 100px;" width="100">
-                                    <a href="#" style="font-size: inherit; border-style: none; text-decoration: none !important;" border="0"><img src="images/20150815032140_glider_logo_cloud.png" width="100" style="max-width: 100px; display: block;" alt="" border="0" hspace="0" vspace="0"></a>
+                                    <a href="#" style="font-size: inherit; border-style: none; text-decoration: none !important;" border="0"><img src="$hostnameUrl/email_images/20150815032140_glider_logo_cloud.png" width="100" style="max-width: 100px; display: block;" alt="" border="0" hspace="0" vspace="0"></a>
                                   </td>
                                 </tr>
                                 <!-- start space -->
