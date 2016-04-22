@@ -12290,9 +12290,10 @@ private static void cancelTestDriveMail(Map map) {
        
    	//List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION"))));
    	List<LeadsDateWise> lDateWises = LeadsDateWise.getAllVehicles(users);
+   	
    	for(LeadsDateWise lWise:lDateWises){
-   		
-   		if(lWise.goalSetTime.equals("1 week")){
+   		if(lWise.goalSetTime !=null){
+   		if(lWise.goalSetTime.equals("1 week") ){
    			cal.setTime(lWise.leadsDate);  
    			cal.add(Calendar.DATE, 7);
    			Date m =  cal.getTime(); 
@@ -12302,7 +12303,7 @@ private static void cancelTestDriveMail(Map map) {
    				
    			}
    			
-   		}else if(lWise.goalSetTime.equals("1 month")){
+   		}else if(lWise.goalSetTime.equals("1 month") && lWise.goalSetTime !=null){
    			cal.setTime(lWise.leadsDate);  
    			cal.add(Calendar.DATE, 30);
    			Date m =  cal.getTime(); 
@@ -12310,6 +12311,8 @@ private static void cancelTestDriveMail(Map map) {
    				lDataVM.leads = lWise.leads;
    				lDataVM.goalTime =lWise.goalSetTime;
    			}
+   		}
+   		
    		}
    		
    	}

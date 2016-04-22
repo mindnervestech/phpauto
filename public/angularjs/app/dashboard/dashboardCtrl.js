@@ -4571,7 +4571,7 @@ angular.module('newApp')
 		    					"<span style='color:#319DB5;font-weight:bold;'>PRIORITY: </span>" +
 		    					"<span class='"+(($scope.notification.priority=='Low'?'':$scope.notification.priority == 'Medium'?'text-low': $scope.notification.priority =='High' ?'text-medium':'text-high'))+"'>"+$scope.notification.priority+"</span></span>" +
 		    					"<span class='col-md-4 col-md-offset-1' style='padding:0;'>" +
-		    					"<a class='f-12' style='float:right;'>Go to todos&nbsp;<i class='glyphicon glyphicon-download'></i></a></span></p></div></div>";
+		    					"</span></p></div></div>";  /*<a class='f-12' style='float:right;'>Go to todos&nbsp;<i class='glyphicon glyphicon-download'></i></a>*/
 		    				} else {
 		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">'+$scope.toDoCount+' New Todos Assigned</h4><p class="pull-left" style="margin-left:65%;"></p></div></div>'; /*<a class="f-12">Go to todos&nbsp;<i class="glyphicon glyphicon-download"></i></a>*/
 		    				}
@@ -6572,7 +6572,31 @@ angular.module('newApp')
 				   $scope.leadsTime.vehiclesSell = "";
 				   $scope.leadsTime.avgCheck = "";
 				   console.log("sccesss");
-				 
+				  // $scope.saveLeads();/*to show data on Graph*/
+				   
+				   
+				   if($scope.userRole == "Manager"){
+					   console.log("insidemanager");
+					   var startD = $('#cnfstartDateValue').val();
+					   var endD = $('#cnfendDateValue').val();
+					   
+					   $scope.findMystatisData(startD,endD,'location');
+					  /* if(locationId != 0){
+						   
+						   $scope.findMystatisData(startD,endD,'location');
+					   }else{
+						   console.log("inside salesperson");
+						   var startD = $('#cnfstartDateValue').val();
+						   var endD = $('#cnfendDateValue').val();
+						   $scope.findMystatisData(startD,endD,'person');
+					   }*/
+					   
+				   }
+				   
+				   
+				   
+				   
+				   
 				   if($scope.userType == "General Manager"){
 					   if(locationId != 0){
 						   $scope.getLocationPlan();
@@ -7528,6 +7552,10 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   
+		   $scope.janClose = function(){
+			   $scope.janOpen = 0;
+		   }
+		   
 		   $scope.julysOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -7579,6 +7607,10 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   
+		   
+		   $scope.julyClose = function(){
+			   $scope.julyOpen = 0;
+		   }
 		   $scope.februarysOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -7636,6 +7668,13 @@ angular.module('newApp')
 			   $scope.marchOpen = 0;
 			   $scope.augustOpen = 0;
 		   }
+		   
+		  
+		   $scope.februaryClose = function(){
+			   $scope.februaryOpen = 0;
+		   }
+		   
+		   
 		   $scope.augustsOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -7687,6 +7726,17 @@ angular.module('newApp')
 			   $scope.septemberOpen = 0;
 			   $scope.marchOpen = 0;
 		   }
+		   
+		   $scope.augustClose = function(){
+			   $scope.augustOpen = 0;
+		   }
+		   
+		   
+		   $scope.marchClose = function(){
+			   $scope.marchOpen = 0;
+		   }
+		   
+		   
 		   $scope.marchsOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -7738,6 +7788,11 @@ angular.module('newApp')
 			   $scope.septemberOpen = 0;
 			   $scope.augustOpen = 0;
 		   }
+		   
+		   $scope.septemberClose = function(){
+			   $scope.septemberOpen = 0; 
+		   }
+		   
 		   $scope.septembersOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -7788,6 +7843,11 @@ angular.module('newApp')
 			   $scope.marchOpen = 0;
 			   $scope.augustOpen = 0;
 		   }
+		   
+		   $scope.aprilClose = function(){
+			   $scope.aprilOpen = 0;
+		   }
+		   
 		   $scope.aprilsOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -7840,6 +7900,12 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   
+		   
+		   $scope.octoberClose = function(){
+			   $scope.octoberOpen = 0;
+		   }
+		   
+		   
 		   $scope.octobersOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -7891,6 +7957,11 @@ angular.module('newApp')
 			   $scope.marchOpen = 0;
 			   $scope.augustOpen = 0;
 		   }
+		   
+		   $scope.mayClose = function(){
+			   $scope.mayOpen = 0;
+		   }
+		   
 		   $scope.maysOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -7941,6 +8012,11 @@ angular.module('newApp')
 			   $scope.marchOpen = 0;
 			   $scope.augustOpen = 0;
 		   }
+		   
+		   $scope.novemberClose = function(){
+			   $scope.novemberOpen = 0;
+		   }
+		   
 		   $scope.novembersOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -7991,6 +8067,12 @@ angular.module('newApp')
 			   $scope.marchOpen = 0;
 			   $scope.augustOpen = 0;
 		   }
+		   
+		   $scope.juneClose = function(){
+			   $scope.juneOpen = 0;
+		   }
+		   
+		   
 		   $scope.junesOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
@@ -8040,6 +8122,13 @@ angular.module('newApp')
 			   $scope.marchOpen = 0;
 			   $scope.augustOpen = 0;
 		   }
+		   
+		   
+		   $scope.decemberClose = function(){
+			   $scope.decemberOpen = 0;
+		   }
+		   
+		   
 		   $scope.decembersOpen = function(){
 			   $scope.showOtherIngo = 0;
 			   $scope.leadsTime = {};
