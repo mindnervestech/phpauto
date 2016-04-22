@@ -8617,9 +8617,13 @@ angular.module('newApp')
  		 	  			    type:'success',
  		 	  			    text: "Vehicle saved successfully",
  		 	  			});
- 		 	  			if($scope.flagVal == true) {
- 		 	  		 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
- 		 	  		 	  }
+ 		 	  			/*if($scope.flagVal == true) {
+// 		 	  		 		$location.path('/addPhoto/'+$scope.vinData.specification.vin);
+ 		 	  				$location.path('/editVehicle/'+data+"/"+true);
+ 		 	  		 	}else{
+ 		 	  		 		$location.path('/editVehicle/'+data+"/"+false); 		 	  		 		
+ 		 	  		 	}*/
+ 		 	  		$location.path('/editVehicle/'+data+"/"+true);
  		 	      });
  			});
  	 	 }else{
@@ -8632,9 +8636,13 @@ angular.module('newApp')
  				    type:'success',
  				    text: "Vehicle saved successfully",
  				});
- 				if($scope.flagVal == true) {
- 			 		 $location.path('/addPhoto/'+$scope.vinData.specification.vin);
- 			 	  }
+ 				/*if($scope.flagVal == true) {
+// 			 		$location.path('/addPhoto/'+$scope.vinData.specification.vin);
+ 			 		$location.path('/editVehicle/'+data+"/"+true);
+ 			 	}else{
+ 			 		$location.path('/editVehicle/'+data+"/"+false); 			 		
+ 			 	}*/
+ 				$location.path('/editVehicle/'+data+"/"+true);
  			});
  	 	 }
  	  }else{
@@ -9391,6 +9399,19 @@ angular.module('newApp')
 
 angular.module('newApp')
 .controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
+	
+	//for publish vehicle 
+	$scope.publishVehicle = function(id){
+		   console.log("car id for publish");
+		   console.log(id);
+		   $http.get('/addPublicCar/'+id).success(function(data){
+				   $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Vehicle published SuccessFully",
+					});
+		   });
+	   }
 	
 	$scope.gridsterOpts = {
 		    columns: 6, // the width of the grid, in columns

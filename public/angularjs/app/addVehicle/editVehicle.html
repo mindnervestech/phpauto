@@ -573,6 +573,7 @@
 										</div>
 										<p style="color:green;margin-left:19%;" ng-show="isUpdated"><b>Vehicle updated successfully!</b></p>
 										<button type="submit" class="btn btn-primary" style="margin-left:11%;margin-left:19%;">Update!</button>
+										<button type="button" style="margin-top: 48px;" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
 										</form>
                                 </tab>
                                 <tab>
@@ -605,7 +606,7 @@
 				                            </div>
 				                        </form>
 										 <button class="btn btn-primary" ng-click="uploadFiles()" style="margin-left:44%;margin-top:3%;">Upload</button> 
-				                        
+				                        <button type="button" style="margin-top: 48px;" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
 				                        <div class="modal fade modal-image" id="modal-image" tabindex="-1" role="dialog" aria-hidden="true">
 									        <div class="modal-dialog">
 									            <div class="modal-content">
@@ -638,6 +639,7 @@
                                     	<input type="file" name="soundFile" accept="audio/*" ng-file-select="onFileSelect($files)" required>
                                     	<input type="hidden" name="vinNum" ng-model="vinData.specification.vin">
                                     	 <button type="submit" class="btn btn-primary" style="margin-left:5%;margin-top:5%;">Upload</button>
+                                    	 <button type="button" style="margin-top: 48px;" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
                                     </form>
                                     
                                 </tab>
@@ -660,6 +662,7 @@
 											</div>
 										</div>
 										<button type="submit" class="btn btn-primary" style="margin-left:25%;margin-top:5%;">Save</button>
+										<button type="button" style="margin-top: 78px;" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
                                     </form>
                                 </tab>
                                 
@@ -682,6 +685,7 @@
 											</div>
 										</div>
 										<button type="submit" class="btn btn-primary" style="margin-left:25%;margin-top:5%;">Save</button>
+										<button type="button" style="margin-top: 78px;" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
                                     </form>
                                 </tab>
                                 
