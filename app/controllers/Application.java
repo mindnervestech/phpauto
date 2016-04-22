@@ -14652,7 +14652,7 @@ private static void cancelTestDriveMail(Map map) {
      	
          for(ScheduleTest scTest:list){
         	 List<AuthUser> listForUser=null;
-        	 
+        	 List<AuthUser> listForUser1=null;
         	 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
         	 Location location = Location.findById(aUser.location.id);
         	
@@ -14715,10 +14715,16 @@ private static void cancelTestDriveMail(Map map) {
         			 }else if(scTest.meetingStatus.equals("meeting")){
         				 
         				 listForUser=new ArrayList<>();
+        				 List<Integer>userIds = new ArrayList<>();
         				 List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(scTest.groupId);
         				 for(ScheduleTest scList:schedulegroupList){
         					 
         					 AuthUser user = AuthUser.findById(scList.user.id);
+        					 if(userIds.contains(user.id)){
+        						 continue;
+        					 }else{
+        						 userIds.add(user.id);
+        					 }
         					 listForUser.add(user);
         					 
         				 }
@@ -14739,18 +14745,25 @@ private static void cancelTestDriveMail(Map map) {
          		    	sendEmail(scTest.email, subject, comments);
         			 }else if(scTest.meetingStatus.equals("meeting")){
         				 
-        				 listForUser=new ArrayList<>();
+        				 listForUser1=new ArrayList<>();
+        				 List<Integer>userIds = new ArrayList<>();
         				 List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(scTest.groupId);
                           for(ScheduleTest scList:schedulegroupList){
         					 
         					 AuthUser user = AuthUser.findById(scList.user.id);
-        					 listForUser.add(user);
+        					 
+        					 if(userIds.contains(user.id)){
+        						 continue;
+        					 }else{
+        						 userIds.add(user.id);
+        					 }
+        					 listForUser1.add(user);
         					 
         				 }
         				 String subject = "IN 24 HOURS";
          		    	 String comments = "You have a meeting scheduled in 24 hours \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
-						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
-         		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
+						meetingReminderAfterDay(listForUser1,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
+         		    	meetingReminderAfterDay(listForUser1,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
         			 }
             	 }
 			} catch (Exception e) {
@@ -14941,7 +14954,7 @@ private static void cancelTestDriveMail(Map map) {
 			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 			ve.init();
 			
-			Template t = ve.getTemplate("/public/emailTemplate/internalMeetingReminder.html"); 
+			Template t = ve.getTemplate("/public/emailTemplate/internalMeetingReminder.vm"); 
 	        VelocityContext context = new VelocityContext();
 	        
 	      //  context.put("title", vm.name);
@@ -15001,6 +15014,119 @@ private static void cancelTestDriveMail(Map map) {
 	    
     
     
+	public static void meetingReminderAfterDay(List<AuthUser> listForUser,String communicationEmail, Date confirmDate,Date confirmTime,String subject){
+		/*InternetAddress[] usersArray = new InternetAddress[userList.size()];
+		int index = 0;
+		for (AuthUser assi : userList) {
+			try {
+				
+				usersArray[index] = new InternetAddress(assi.getCommunicationemail());
+				index++;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}*/
+		List<UserVM> list = new ArrayList<>() ;
+		for(AuthUser assi : listForUser){
+			
+			UserVM vm1=new UserVM();
+			vm1.fullName=assi.firstName+" "+assi.lastName;
+			list.add(vm1);
+			
+			
+			
+		}
+		
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+		
+		try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(communicationEmail));
+			/*usersArray*/
+			message.setSubject(subject);
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+			
+			Template t = ve.getTemplate("/public/emailTemplate/internalMeetingReminderAfterDay.vm"); 
+	        VelocityContext context = new VelocityContext();
+	        
+	      //  context.put("title", vm.name);
+	       // context.put("location", loc.getName());
+	       // context.put("meetingBy", user.getFirstName()+" "+user.getLastName());
+	        
+	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+		       
+	        int dayOfmonth=1;
+	        int month=0;
+	        try {
+	        	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+	        	String dateInString = formatter.format(confirmDate);
+	        	String arr[] = dateInString.toString().split("-");
+		        if(arr.length >=2){
+		        	dayOfmonth = Integer.parseInt(arr[0]);
+			        month = Integer.parseInt(arr[1]);
+		        }else{
+		        	Date date = formatter.parse(dateInString);
+		        	Calendar cal = Calendar.getInstance();
+			         cal.setTime((Date)date);
+			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+			         month = cal.get(Calendar.MONTH)+1;
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        String monthName = months[month-1];
+	        context.put("hostnameUrl", imageUrlPath);
+	       // context.put("siteLogo", logo.logoImagePath);
+	        context.put("dayOfmonth", dayOfmonth);
+	        context.put("monthName", monthName);
+	        //context.put("confirmTime", map.get("confirmTime"));
+	        context.put("userList",list);
+	        
+	        SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm:aa");
+	        String time = localDateFormat.format(confirmTime);
+	        
+	        context.put("time",time);
+	       // context.put("disc", vm.getReason());
+	       
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString();
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			System.out.println("email Succ");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	    
+	
+	
     
     public static Result getScheduleDates() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
