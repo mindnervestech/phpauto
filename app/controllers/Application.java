@@ -7455,14 +7455,15 @@ public class Application extends Controller {
         		}
         		
         		if(info.getConfirmTime() != null) {
-        			time.setTime(info.getConfirmTime());
+        			/*time.setTime(info.getConfirmTime());
         			String ampm = "";
         			if(time.get(Calendar.AM_PM) == Calendar.PM) {
         				ampm = "PM";
         			} else {
         				ampm = "AM";
         			}
-        			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;*/
+        			vm.confirmTime = hourSDF.format(info.getConfirmTime());
         		}
         		if(info.scheduleDate != null){
         			vm.requestDate = df.format(info.scheduleDate);
