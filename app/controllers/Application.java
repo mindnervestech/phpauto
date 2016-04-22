@@ -9823,7 +9823,7 @@ public class Application extends Controller {
 			
 			ToDo todo = new ToDo();
 			Vehicle vobj = Vehicle.findByVinAndStatus(scheduleObj.vin);
-			todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
+			todo.task = "Follow upwith the client about test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
 			todo.assignedTo = user;
 			todo.assignedBy = user;
 			todo.priority = "High";
@@ -11154,7 +11154,7 @@ public class Application extends Controller {
     	ToDo todo = new ToDo();
 		Vehicle vobj = Vehicle.findByVinAndStatus(vin);
 		if(vobj != null){
-			todo.task = "Confirm Schedule Test Drive for "+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
+			todo.task = "Follow upwith the client about test Drive for"+vobj.make+" "+vobj.model+" ("+vobj.vin+")";
 			todo.assignedTo = user;
 			todo.assignedBy = user;
 			todo.priority = "High";

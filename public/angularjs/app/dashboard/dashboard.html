@@ -79,6 +79,14 @@ margin-left: 5px;
 	float: right !important;
 	margin-right: 9px;
 }
+.customLeft{
+float: right !important; 
+ background-color: transparent !important;
+	color: #319DB5 !important;
+	margin-right: 9px;
+	margin-top: 10px
+
+}
 </style>
 <div  ng-init="init()">
 <div class="row col-sm-7" ng-if="userRole == 'General Manager' && showGmLocation == 0 && showBackGmButton == 0">
@@ -482,9 +490,9 @@ margin-left: 5px;
 									     		<label><a ng-click="userLocationData('6 Month',dataLocOrPerWise)" style="cursor: pointer;font-size: 18px;">6 Month</a> | </label>
 									     		<label><a ng-click="userLocationData('Year',dataLocOrPerWise)" style="cursor: pointer;font-size: 18px;">Year</a> | </label> -->
 									     		
-									     		<label ng-if="userRole == 'Sales Person'"  ><p style="cursor: pointer;font-size: 22px;color: blue;"  ng-click="planForsalePerson()" ng-if="flagForPlan != 1" >PLAN</p>  </label>
+									     		<label ng-if="userRole == 'Sales Person'"  ><p style="cursor: pointer;font-size: 22px;color: #008FC0;"  ng-click="planForsalePerson()" ng-if="flagForPlan != 1" >PLAN</p>  </label>
 									     		<label ng-if="userRole == 'Sales Person'"  ><p style="font-size: 22px;"  ng-if="flagForPlan == 1"  >PLAN</p>  </label>
-									     		<label ng-if="userRole == 'Manager'"> <p style="cursor: pointer;font-size: 22px;color: blue;" ng-click="planForLocationManager()" ng-if="flagForPlanForLocation != 1" >PLAN </p> </label>
+									     		<label ng-if="userRole == 'Manager'"> <p style="cursor: pointer;font-size: 22px;color: #008FC0;" ng-click="planForLocationManager()" ng-if="flagForPlanForLocation != 1" >PLAN </p> </label>
 									            <label ng-if="userRole == 'Manager'"> <p style="font-size: 22px;"  ng-if="flagForPlanForLocation == 1" >PLAN </p> </label>
 									     
 									     
@@ -1480,7 +1488,7 @@ margin-left: 5px;
                 <div class="panel panel-default no-bd">
                 <div class="panel-body bg-white">
                   <div class="row">
-          <div class="col-sm-6" style="border-right: 1px solid;">
+          <div class="col-sm-6" >    <!-- style="border-right: 1px solid;" -->
                           		<!-- <div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
                          			<label>{{parLocationData.monthCurr}}</label>
                          		</div>
@@ -1577,7 +1585,7 @@ margin-left: 5px;
                          		
                          		
                          		
-                         		 <div class="col-sm-6">
+                         		 <div class="col-sm-6" ng-if="monthFlagForSale !=1">
                          		 <hr>
                          	
                          	<div style="text-align: center;">YOUR DATA</div>

@@ -2814,7 +2814,7 @@ angular.module('newApp')
 							}
 			
 			
-
+			 
 			
 			
 			$scope.planMsg = function(){
@@ -2823,30 +2823,62 @@ angular.module('newApp')
 	    		.success(function(data){
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
+	    					var month=value.month;
+	    					if(month !=null){
+	    						month = month.toLowerCase();
+	    						month=month.substring(0,1).toUpperCase()+month.substring(1);
+	    					}
 	    					
-	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>plan for "+value.month+" has been assigned</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    					console.log(">>>>>>>>>>>"+month);
+	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> "+month+"'s plan has been assigned</span></p></div></div>";
 	    				
 	    				var position = 'topRight';
-		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+		    	        if ($('body').hasClass('rtl'))
+		    	        	position = 'topLeft';
 		    	        var n = noty({
-		    	            text: notifContent,
-		    	            type: 'success',
-		    	            layout: position,
-		    	            theme: 'made',
-		    	            animation: {
-		    	                open: 'animated bounceIn',
-		    	                close: 'animated bounceOut'
-		    	            },
-		    	            
-		    	            callback: {
-		    	                onShow: function () {
-		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('margin-left', -30).css('bottom', 10);
-		    	                },
-		    	                onCloseClick: function () {
-		    	                	$('html, body').animate({scrollTop:480}, 'slow');
-		    	                }
-		    	            }
-		    	        });
+							text : notifContent,
+							type : 'success',
+							layout : position,
+							theme : 'made',
+							buttons: [
+							          {
+							              addClass: 'general-button customLeft', text: 'See', onClick: function($noty)
+							              {
+							            	  
+							            	  $scope.planForsalePersonForMonth(value.month);
+							                 $noty.close();
+							              }
+							          }
+									 ],
+							animation : {
+								open : 'animated bounceIn',
+								close : 'animated bounceOut'
+							},
+
+							callback : {
+								onShow : function() {
+									$(
+											'#noty_topRight_layout_container, .noty_container_type_success')
+											.css(
+													
+													'width',
+													477)
+											.css('margin-left', -135)
+											.css(
+													
+													'bottom',
+													10);
+								},
+								onCloseClick : function() {
+									$('html, body')
+											.animate(
+													{
+														scrollTop : 480
+													},
+													'slow');
+								}
+							}
+						});
 		    	        
 		    	        var element = $('#cnt');
 						$compile(element)($scope);
@@ -4541,7 +4573,7 @@ angular.module('newApp')
 		    					"<span class='col-md-4 col-md-offset-1' style='padding:0;'>" +
 		    					"<a class='f-12' style='float:right;'>Go to todos&nbsp;<i class='glyphicon glyphicon-download'></i></a></span></p></div></div>";
 		    				} else {
-		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">'+$scope.toDoCount+' New Todos Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">Go to todos&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
+		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">'+$scope.toDoCount+' New Todos Assigned</h4><p class="pull-left" style="margin-left:65%;"></p></div></div>'; /*<a class="f-12">Go to todos&nbsp;<i class="glyphicon glyphicon-download"></i></a>*/
 		    				}
 		    				var position = 'topRight';
 			    	        if ($('body').hasClass('rtl')) position = 'topLeft';
@@ -6460,10 +6492,29 @@ angular.module('newApp')
 					console.log("dataof::getPlanByMonthAndUser");
 					console.log(data);
 					$scope.saleMonthTotalPer=data;
+					$scope.monthFlagForSale=0;
 				});
 			   
 		   }
 		  
+		   $scope.planForsalePersonForMonth = function(month){
+			   console.log(";;;;USERKEY"+$scope.userKey);
+			   $scope.parLocationData.monthCurr=month;
+			   console.log("@@@@currentmont"+$scope.parLocationData.monthCurr);
+			   
+			   $('#salepersonPlanModel').modal();
+			  // $scope.findVehicalPlan($scope.userKey);
+			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
+				.success(function(data) {
+					if(data != null){
+						$scope.monthFlagForSale=1;
+					}
+					console.log("dataof::getPlanByMonthAndUser");
+					console.log(data);
+					$scope.saleMonthTotalPer=data;
+				});
+			   
+		   }
 		   
 		   $scope. planForLocationManager = function(){
 			   console.log(";;;;USERKEY"+$scope.userKey);
