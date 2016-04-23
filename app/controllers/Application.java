@@ -14760,7 +14760,7 @@ private static void cancelTestDriveMail(Map map) {
         					 listForUser1.add(user);
         					 
         				 }
-        				 String subject = "IN 24 HOURS";
+        				 String subject = "You have a meeting scheduled in 24 hours";
          		    	 String comments = "You have a meeting scheduled in 24 hours \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
 						meetingReminderAfterDay(listForUser1,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
          		    	meetingReminderAfterDay(listForUser1,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
