@@ -532,7 +532,9 @@ public class ScheduleTest extends Model {
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}
-	
+	public static List<ScheduleTest> getScheduleDatesCal(AuthUser user, Date cd) {
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).ne("confirmTime", null).ge("confirmDate", cd).ne("confirmDate", null).findList();
+	}
 	
 	
 	public static List<ScheduleTest> findByLocation(Long location) {

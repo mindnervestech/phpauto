@@ -9585,7 +9585,17 @@ angular.module('newApp')
 		.success(function(data) {
 			 console.log(data);
 			 $scope.vinData = data;
-			 
+			//for publish button flag
+			 console.log('before calling');
+				$http.get('/isCarPublic/'+$scope.vinData.specification.id).success(function(data){
+					console.log("data"+data);
+					if(data == 'true'){
+						$scope.isPublished = true;						
+					}else{
+						$scope.isPublished = false;
+					}
+				});
+			 console.log('after calling');
 			   $('#modelSearch_value').val($scope.vinData.specification.model);
 			   $('#makeSearch_value').val($scope.vinData.specification.make);
 			   $('#trimSearch_value').val($scope.vinData.specification.trim_level);

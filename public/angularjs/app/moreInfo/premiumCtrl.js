@@ -68,20 +68,28 @@ angular.module('newApp')
   		                                	} ,
  		                                 },
  		                               
-		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'7%',cellEditableCondition: false,
+		                                 { name: 'price', displayName: 'Price',enableFiltering: false, width:'6%',cellEditableCondition: false,
 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	    		                                       if (row.entity.isRead === false) {
 	    		                                         return 'red';
 	    		                                     }
 	   		                                	} ,
 	   		                                 },
-	   		                               { name: 'leadType', displayName: 'Type of Request',enableFiltering: false, width:'12%',cellEditableCondition: false,
+	   		                               { name: 'leadType', displayName: 'Type of Request',enableFiltering: false, width:'9%',cellEditableCondition: false,
 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	    		                                       if (row.entity.isRead === false) {
 	    		                                         return 'red';
 	    		                                     }
 	   		                                	} ,
 	   		                                 },
+	   		                              { name: 'claim', displayName: 'Claim',enableFiltering: false, width:'3%',cellEditableCondition: false,
+	   		                                	cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity)" data-checkbox="icheckbox_flat-blue" title="Claim this lead" style="margin-left:18%;"></div>',
+	   		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		    		                                       if (row.entity.isRead === false) {
+		    		                                         return 'red';
+		    		                                     }
+		   		                                	} ,
+		   		                                 },
 		                                 { name: 'btn', displayName: 'Assign',enableFiltering: false, width:'17%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
  		                                	 cellTemplate:'<button type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">ASSIGN</button><button type="button" ng-click="grid.appScope.releaseLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">RELEASE</button><button type="button" ng-click="grid.appScope.deleteLead(row.entity)" class="btn btn-sm btn-primary" style="margin-top:2%;margin-left:3%;">REMOVE</button>', 
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -104,6 +112,27 @@ angular.module('newApp')
 	   		
 		};
  		 
+//		setting claim
+		$scope.setAsRead = function(flag,row) {  
+			console.log(flag);
+			console.log(row);
+			if(flag){
+				
+				console.log(userKey);
+				console.log(row.leadType);
+		        	$http.get('/changeAssignedUser/'+row.id+'/'+userKey+'/'+row.leadType)
+					.success(function(data) {
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Claimed Successfully",
+						});
+						 $scope.getAllPremiumData();
+					});
+			}
+			
+		  }
+		
 		$http.get('/getSalesUserValue')
 		.success(function(data){
 			console.log(data);
@@ -200,7 +229,7 @@ angular.module('newApp')
 	 
 	  
 	  $scope.assignCanceledLead = function(entity) {
-		  console.log(entity);
+		console.log(entity);
       	$scope.leadlId = entity.id;
       	$scope.leadType = entity.leadType;
       	$scope.changedUser = "";

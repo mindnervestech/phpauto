@@ -4000,6 +4000,16 @@ public class Application extends Controller {
     	}
     	return ok();
     }
+    
+    public static Result isCarPublic(Long id){
+    	
+    	Vehicle vehicle= Vehicle.findById(id);
+    	if(vehicle != null && vehicle.getPublicStatus().equals("public")){
+    		return ok(Json.toJson(false));
+    	}else{
+    		return ok(Json.toJson(true));    		
+    	}
+    }
 	public static Result getAllVehicles() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -12291,7 +12301,6 @@ private static void cancelTestDriveMail(Map map) {
        
    	//List<LeadsDateWise> lDateWises = LeadsDateWise.findByLocation(Location.findById(Long.parseLong(session("USER_LOCATION"))));
    	List<LeadsDateWise> lDateWises = LeadsDateWise.getAllVehicles(users);
-   	
    	for(LeadsDateWise lWise:lDateWises){
    		if(lWise.goalSetTime !=null){
    		if(lWise.goalSetTime.equals("1 week") ){
