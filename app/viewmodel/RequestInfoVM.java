@@ -65,9 +65,5 @@ public class RequestInfoVM {
 	public String reason;
 	public String weatherValue;
 	public String cnfDateNature;
-	
-	
-	
-	
-	
+	public Integer premiumFlag;
 }

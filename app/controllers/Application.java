@@ -17911,6 +17911,9 @@ private static void cancelTestDriveMail(Map map) {
     			infoVM.leadType = "Schedule Test";
     			infoVM.model = vehicle.getModel();
     			infoVM.name = vehicle.getYear();
+    			infoVM.trim = vehicle.getTrim();
+    			infoVM.price = vehicle.getPrice();
+    			infoVM.premiumFlag = tests.get(0).premiumFlag;
     			map.put("data", infoVM);
     		} else if(infos.size()==1) {
     			RequestInfoVM infoVM = new RequestInfoVM();
@@ -17922,6 +17925,9 @@ private static void cancelTestDriveMail(Map map) {
     				infoVM.leadType = "Request More Info";
     			infoVM.model = vehicle.getModel();
     			infoVM.name = vehicle.getYear();
+    			infoVM.trim = vehicle.getTrim();
+    			infoVM.price = vehicle.getPrice();
+    			infoVM.premiumFlag = infos.get(0).premiumFlag;
     			map.put("data", infoVM);
     		} else {
     			RequestInfoVM infoVM = new RequestInfoVM();
@@ -17933,6 +17939,9 @@ private static void cancelTestDriveMail(Map map) {
     				infoVM.leadType = "Trade In";
     			infoVM.model = vehicle.getModel();
     			infoVM.name = vehicle.getYear();
+    			infoVM.trim = vehicle.getTrim();
+    			infoVM.price = vehicle.getPrice();
+    			infoVM.premiumFlag = tradeIns.get(0).premiumFlag;
     			map.put("data", infoVM);
     		}
     	}
