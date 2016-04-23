@@ -4664,7 +4664,7 @@ angular.module('newApp')
         	$scope.allLeadd = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
-    		$scope.schedulTestDir();
+//    		$scope.schedulTestDir();
     	}
     	
     	$scope.requestMore = function() {
@@ -4704,7 +4704,6 @@ angular.module('newApp')
         	$scope.cancelleads = false;
         	$scope.allLeadd = true;
         	$scope.getAllLeadsValue();
-        	
     	}
     	
     	$scope.getScheduless = function(){
@@ -4769,7 +4768,6 @@ angular.module('newApp')
 			.success(function(data) {
 				console.log(data);
 				$scope.gridOptions9.data = data;
-				
 				 angular.forEach($scope.gridOptions9.data,function(value,key){
 					 value.check = false;
 				 });
@@ -4888,8 +4886,8 @@ angular.module('newApp')
 			$scope.salesPerson = id;
 			console.log($scope.salesPerson);
 			$scope.getAllSalesPersonRecord(id);
-			$scope.getAllLeadIn();
-			$('#home-tab').click();
+//			$scope.getAllLeadIn();
+//			$('#home-tab').click();
 		};
 	
 		$scope.getScheduleData = function(id){
@@ -5000,7 +4998,6 @@ angular.module('newApp')
 		};
 		
 		$scope.getAllSalesPersonRecord = function(id){
-				
 		       console.log(id);
 		       console.log($scope.userType);
 		       $scope.getAllListLeadDate = [];
