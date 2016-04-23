@@ -10885,6 +10885,7 @@ public class Application extends Controller {
     	boolean flag = false;
     	String vin = null;
     	Date confirmDate = null;
+    	RequestInfoVM listOfString=new RequestInfoVM();
     	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
 		Date time = null;
@@ -11068,7 +11069,8 @@ public class Application extends Controller {
 						
 					}
 				}
-				
+			
+				String userName=null;
 				if(flag) {
 		    		Map map = new HashMap();
 		    		map.put("email",vm.email);
@@ -11077,6 +11079,8 @@ public class Application extends Controller {
 		    		map.put("confirmTime", vm.confirmTime);
 		    		map.put("CnfDateNature",vm.cnfDateNature);
 		    		map.put("vin", vin);
+		    		userName=user.firstName+" "+user.lastName;
+		    		listOfString.name=userName;
 		    		map.put("uname", user.firstName+" "+user.lastName);
 		    		map.put("uphone", user.phone);
 		    		map.put("uemail", user.email);
@@ -11157,7 +11161,8 @@ public class Application extends Controller {
     		makeToDo(vm.vin);
     		sendMail(map);
     	}*/
-    	return ok(msg);
+		listOfString.mesg=msg; 
+    	return ok(Json.toJson(listOfString));
     }
     
     private static void makeToDo(String vin) {

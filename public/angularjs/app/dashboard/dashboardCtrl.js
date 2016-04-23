@@ -4559,7 +4559,8 @@ angular.module('newApp')
 	    			$http.get('/getNewToDoCount')
 		    		.success(function(data){
 		    			$scope.toDoCount = data.count;
-		    			if($scope.toDoCount != '0') {
+		    			console.log("****flag for popup"+$scope.flagForPopUp);
+		    			if($scope.toDoCount != '0'&& $scope.flagForPopUp !=1) {
 		    				var notifContent;
 		    				$scope.notification = data.data;
 		    				console.log($scope.notification);
@@ -5452,13 +5453,15 @@ angular.module('newApp')
     		  console.log($scope.scheduleTestData);
     		  $http.post('/saveConfirmData',$scope.scheduleTestData)
     	 		.success(function(data) {
-    	 			
-    	 			if(data == "success"){
+    	 			console.log("successdata");
+    	 			console.log(data);
+    	 			$scope.flagForPopUp=1;
+    	 			if(data.mesg == "success"){
     	 				console.log('success');
         	 			$.pnotify({
         				    title: "Success",
         				    type:'success',
-        				    text: "Saved successfully",
+        				    text: "Information is saved and email has been sent to"+" "+data.name,
         				});
         	 			$('#modalClose').click();
         	 			$scope.getAllSalesPersonRecord($scope.salesPerson);

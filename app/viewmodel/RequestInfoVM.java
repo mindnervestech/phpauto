@@ -15,6 +15,7 @@ public class RequestInfoVM {
 	public String typeofVehicle;
 	public Integer price;
 	public String stock;
+	public String mesg;
 	public String bodyStyle;
 	public String engine;
 	public String transmission;
