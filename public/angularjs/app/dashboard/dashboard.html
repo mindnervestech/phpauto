@@ -1804,60 +1804,97 @@ float: right !important;
               <div class="modal-content">
                 <div class="modal-header bg-dark">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-                  <h4 class="modal-title"><strong>Schedule Plan</strong></h4>
+                  <h4 class="modal-title"><strong>{{parLocationData.monthCurr}}'s Plan</strong></h4>
                 </div>
                 <div class="modal-body">
                 <div class="row">
                 <div class="panel panel-default no-bd">
-                <div class="panel-body bg-white">
-                  <div class="row">
-                  
-               <div>
+                <div class="panel-body bg-white col-sm-12">
+                  <div class="row col-sm-6">
+                  <div class="col-sm-12" style="margin-bottom: 17px;" ></div>
+              <!--  <div class="col-sm-12" >
 	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
          				<label>{{parLocationData.monthCurr}}</label>
 	    			</div>
 	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
 	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.totalEarning">
 	       			</div>
-       			</div>
+       			</div> -->
        			
-       			<div>
+       			<div class="col-sm-12">
 	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
          				<label>Total Earning</label>
 	    			</div>
 	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.totalEarning">
+	   				<input type="text" ng-disabled="true"  class="form-control"ng-class="locationTotalPer.totalEarning>parLocationData.totalSalePrice  ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " ng-model="locationTotalPer.totalEarning">
 	       			</div>
        			</div>
        			
-       			<div>
+       			<div class="col-sm-12">
 	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
          				<label>Minimum Earning</label>
 	    			</div>
 	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.minEarning">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-class="locationTotalPer.minEarning >parLocationData.totalSalePrice ?'txtColourGreen':'txtColourRed' " ng-model="locationTotalPer.minEarning">
 	       			</div>
        			</div>
        			
-       			<div>
+       			<div class="col-sm-12">
 	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
          				<label>Vehicle to Sell</label>
 	    			</div>
 	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.vehiclesSell">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-class=" locationTotalPer.vehiclesSell > parLocationData.totalsaleCar ?'txtColourGreen':'txtColourRed' " ng-model="locationTotalPer.vehiclesSell">
 	       			</div>
        			</div>
        			
-       			<div>
+       			<div class="col-sm-12">
 	       		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
          				<label>Average Check</label>
 	    			</div>
 	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
-	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.avgCheck">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-class=" locationTotalPer.avgCheck >parLocationData.angSalePrice  ?'txtColourGreen':'txtColourRed' "  ng-model="locationTotalPer.avgCheck">
 	       			</div>
        			</div>
        			
                        </div>
+                       
+                       
+                       
+                        <div class="row col-sm-6">
+                        <div class="col-sm-6" style="text-align: center;">YOUR DATA</div>
+                  <div class="col-sm-12">
+	           		<!-- <div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-model="locationTotalPer.totalEarning">
+	       			
+       			</div> --> 
+	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-class="parLocationData.totalSalePrice >locationTotalPer.totalEarning ?'txtColourGreen':'txtColourRed' " ng-model="parLocationData.totalSalePrice">
+	       			</div>
+       			</div>
+       			<div class="col-sm-12">
+	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-class="parLocationData.totalSalePrice >locationTotalPer.minEarning ?'txtColourGreen':'txtColourRed' " ng-model="parLocationData.totalSalePrice">
+	       			</div>
+       			</div>
+       			
+       			<div class="col-sm-12" >
+	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-class="parLocationData.totalsaleCar >locationTotalPer.totalsaleCar ?'txtColourGreen':'txtColourRed' "  ng-model="parLocationData.totalsaleCar">
+	       			</div>
+	       			</div>
+       			
+       			<div class="col-sm-12" >
+	           		<div class="col-sm-6" style="padding: 0px;margin-top: 8px;">
+	   				<input type="text" ng-disabled="true"  class="form-control" ng-class=" parLocationData.angSalePrice >locationTotalPer.avgCheck ?'txtColourGreen':'txtColourRed' "  ng-model="parLocationData.angSalePrice">
+	       			</div>
+       			</div>
+                       </div>
+            
+                       
+                       
+                       
+                       
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
                          </div>
