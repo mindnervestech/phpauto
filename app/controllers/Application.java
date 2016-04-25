@@ -29876,6 +29876,7 @@ private static void managerLikeWork(String email,String subject,String comments)
 	        Template t = ve.getTemplate("/public/emailTemplate/managerLikesyourWork_HTML.html"); 
 	        VelocityContext context = new VelocityContext();
 	        context.put("comments",comments);
+	        context.put("hostnameUrl", imageUrlPath);
 	        StringWriter writer = new StringWriter();
 	        t.merge( context, writer );
 	        String content = writer.toString(); 
