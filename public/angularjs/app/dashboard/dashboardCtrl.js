@@ -2898,7 +2898,7 @@ angular.module('newApp')
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
 	    				
-	    					console.log($filter('date')(value.confirmTime * 1000,"hh:mm a");
+	    					//console.log($filter('date')(value.confirmTime * 1000,"hh:mm a");
 	    					console.log(">>>>>>>>>>>>>");
 	    					value.confirmDate = $filter('date')(value.confirmDate,"MM-dd-yyyy");
 	    					value.confirmTime = $filter('date')(value.confirmTime,"hh:mm a");
