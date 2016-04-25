@@ -29831,15 +29831,23 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		cm.commentFlag = 1;
 	    		cm.save();
 	    	//}
-	    		
-	    	String subject = "Manager like your work";
+	    		String subject=null;
+	    		int flag=0;
+	    		if(user.role.equals("General Manager")){
+	    			subject = "General Manager like your work";
+	    			flag=1;
+	    		}
+	    		else{
+	    			subject = "Manager like your work";
+	    			flag=0;
+	    		}
 	    	String comments = "Comment : "+comment;
-	    	managerLikeWork(userObj.communicationemail, subject, comments);
+	    	managerLikeWork(userObj.communicationemail, subject, comments,flag);
 	    	return ok();
     	}	
     }
 	
-private static void managerLikeWork(String email,String subject,String comments) {
+private static void managerLikeWork(String email,String subject,String comments,Integer flag) {
     	
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
@@ -29873,9 +29881,10 @@ private static void managerLikeWork(String email,String subject,String comments)
 			ve.init();
 		
 			
-	        Template t = ve.getTemplate("/public/emailTemplate/managerLikesyourWork_HTML.html"); 
+	        Template t = ve.getTemplate("/public/emailTemplate/managerLikesyourWork_HTML.vm"); 
 	        VelocityContext context = new VelocityContext();
 	        context.put("comments",comments);
+	        context.put("flag",flag);
 	        context.put("hostnameUrl", imageUrlPath);
 	        StringWriter writer = new StringWriter();
 	        t.merge( context, writer );
