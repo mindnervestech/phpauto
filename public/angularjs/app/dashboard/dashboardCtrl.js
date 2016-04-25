@@ -105,7 +105,7 @@ angular.module('newApp')
 	 		$scope.topLocations('Week');
 	 	}
 	 	if($scope.userType == "Sales Person") {
-	 		$scope.getToDoNotification();
+	 		//$scope.getToDoNotification();
 	 		$scope.getAssignedLeads();
 	 		$scope.getAllSalesPersonRecord($scope.userKey);
 	 	}
@@ -3837,7 +3837,7 @@ angular.module('newApp')
 	  			 		//$scope.getAnalystData();
 	  			 	}
 	  			 	if($scope.userType == "Sales Person") {
-	  			 		$scope.getToDoNotification();
+	  			 		//$scope.getToDoNotification();
 //	  			 		$scope.getAssignedLeads();  // $http.get('/getUserType') is calling two times
 	  			 	}
 	  			});

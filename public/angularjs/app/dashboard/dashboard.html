@@ -569,11 +569,7 @@ float: right !important;
             <div class="panel-content" style="height:364px;overflow-y:auto;background:none">
                 <ul class="todo-list ui-sortable">
                     <li ng-repeat="schedule in scheduleList" title="{{schedule.vin}}" style="background:none; border-left:none;">
-					<hr>
                       <i ng-if="schedule.is_google == true	" class="fa fa-google-plus-square" style="font-size: 20px;"></i>  
-                      
-                    
-                      
                      <span class="todo-task"></span> 
                     	    <div class="col-md-12" ng-class="(schedule.meeting != 'meeting')?'infoBlu col-md-12':'infoOrg col-md-12'">
 							 <hr>
