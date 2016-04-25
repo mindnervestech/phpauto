@@ -30718,12 +30718,19 @@ private static void managerLikeWork(String email,String subject,String comments,
     	
     	AuthUser users = getLocalUser();
     	List<ScheduleTest> sche = ScheduleTest.getUpdateMeeting(users);
+    	List<ScheduleTestVM> list = new ArrayList<>();
     	for(ScheduleTest sch:sche){
+    		ScheduleTestVM vm = new ScheduleTestVM();
+    		vm.confirmTime = new SimpleDateFormat("hh:mm a").format(sch.confirmTime);
+    		vm.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(sch.confirmDate);
+    		vm.name = sch.name;
+    		vm.reason = sch.reason;
+    		list.add(vm);
     		sch.setDeclineUpdate(0);
     		sch.update();
     	}
     	
-    	return ok(Json.toJson(sche));
+    	return ok(Json.toJson(list));
     }
     
     public static Result getaccepted(){
