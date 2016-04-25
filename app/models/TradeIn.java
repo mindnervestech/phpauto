@@ -545,7 +545,9 @@ public String testDriveStatus;
 	public static List<TradeIn> findAllCanceled(Long locationId) {
 		return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).eq("locations.id", locationId).findList();
 	}
-	
+	public static List<TradeIn> findAllCanceledByUser(Long locationId, AuthUser user) {
+		return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).eq("locations.id", locationId).eq("assignedTo", user).findList();
+	}
 	public static List<TradeIn> findAllData() {
 		return find.all();
 	}

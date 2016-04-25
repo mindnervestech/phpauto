@@ -4734,7 +4734,7 @@ angular.module('newApp')
         	$scope.trdin = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = true;
-        	$scope.getAllCanceledLeads();
+//        	$scope.getAllCanceledLeads();
         }
         $scope.showLeadsArchive = function(){
         	$scope.schedTest = false;
@@ -5020,7 +5020,16 @@ angular.module('newApp')
 		    		    				           	        	console.log($scope.gridOptions7.data);
 		    		    				           	        	console.log($scope.getAllListLeadDate);
 		    		    				           	        	
-		    		    				           	        	$scope.getAllCanceledLeads();
+		    		    				           	        	//$scope.getAllCanceledLeads();
+		    		    				           	        	//added by vinayak 23-Apr-2016
+		    		    				           	        	$http.get('/getAllCanceledLeads/'+id)
+		    		    				           				.success(function(data) {
+		    		    				           					console.log(id);
+		    		    				           					console.log(data);
+		    		    				           					$scope.gridOptions4.data = data;
+		    		    				           					$scope.canceledLead = data;
+		    		    				           				});
+		    		    				           	        	
 		    		    						       			 $http.get('/getAllSalesPersonLostAndComp/'+id)
 		    		    						       				.success(function(data) {
 		    		    						       			 		$scope.gridOptions6.data = data;
@@ -6031,6 +6040,7 @@ angular.module('newApp')
 						if(obj.id == obj1.id ){
 							console.log("falssssssss");
 							obj.disabled = false;
+							obj.isSelect = true;
 							
 						}
 						/*else{

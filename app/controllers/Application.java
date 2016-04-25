@@ -17716,6 +17716,171 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
+    //added by Vinayak Mane on 23-Apr-2016
+    public static Result getAllCanceledLeadsById(Integer leadId) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		AuthUser user;
+    		if(leadId == 0){
+    			user = getLocalUser();
+    		}else{
+    			user = AuthUser.findById(leadId);
+    		}
+	    	List<ScheduleTest> listData = ScheduleTest.getAllFailedById(Long.valueOf(session("USER_LOCATION")), user);
+    		
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	    	for(ScheduleTest info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.status = info.reason;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}	
+	    		if(info.assignedTo != null) {
+	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
+	    		}
+	    		if(info.scheduleDate != null){
+	    			vm.requestDate = df.format(info.scheduleDate);
+	    		}
+	    		
+	    		/*List<UserNotes> notesList = UserNotes.findScheduleTestByUser(info, info.assignedTo);*/
+	    		List<UserNotes> notesList = UserNotes.findScheduleTest(info);
+	    		Integer nFlag = 0;
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
+	    			}
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
+	    		vm.typeOfLead = "Schedule Test";
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	List<RequestMoreInfo> requestData = RequestMoreInfo.findAllCancelByUser(Long.valueOf(session("USER_LOCATION")),user);
+	    	for(RequestMoreInfo info: requestData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.status = info.reason;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}
+	    		if(info.assignedTo != null) {
+	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
+	    		}
+	    		
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
+	    		Integer nFlag = 0;
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
+	    			}
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
+	    		vm.typeOfLead = "Request More Info";
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	List<TradeIn> tradeInData = TradeIn.findAllCanceledByUser(Long.valueOf(session("USER_LOCATION")),user);
+	    	for(TradeIn info: tradeInData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    		}
+	    		if(info.lastName != null){
+	    			vm.name = info.firstName+" "+info.lastName;
+	    		}else{
+	    			vm.name = info.firstName;
+	    		}
+
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.status = info.reason;
+	    		if(info.statusDate != null){
+	    			vm.statusDate = df.format(info.statusDate);
+	    		}
+	    		if(info.assignedTo != null) {
+	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
+	    		}
+	    		
+	    		//List<UserNotes> notesList = UserNotes.findTradeInByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findTradeIn(info);
+	    		Integer nFlag = 0;
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
+	    			}
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
+	    		vm.typeOfLead = "Trade In";
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}
+    }
+    
     public static Result releaseLeads(Long id,String leadType) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -24454,12 +24619,13 @@ if(vehicles.equals("All")){
 		Form<ScheduleTestVM> form = DynamicForm.form(ScheduleTestVM.class).bindFromRequest();
 		ScheduleTestVM vm = form.get();
 		List<AuthUser> list=new ArrayList<>();
+		List<AuthUser> newlist=new ArrayList<>();
 		AuthUser user = getLocalUser();
 		Long id =vm.id;
 		String confDate = vm.confDate;
 		String confTime = vm.confTime;
 		String googleID = vm.google_id;
-		
+		boolean infoChange = false;
 	    /* String id = form.get("id");
 		String confDate = form.get("confDate");
 		String confTime = form.get("confTime");
@@ -24476,20 +24642,33 @@ if(vehicles.equals("All")){
 		DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
 
 		SimpleDateFormat time= new SimpleDateFormat("hh:mm a");
-		
+		List<UserVM> newUser = new ArrayList<>();
 		
 		if(vm.groupId != null){
 			try {
-				
+				for (UserVM obj : vm.getUsersList()) {
+					boolean flg = true;
+					List<ScheduleTest> test = ScheduleTest.findAllGroupMeeting(vm.groupId);
+					for (ScheduleTest st : test) {
+						AuthUser assiTest = AuthUser.findById(st.assignedTo.id);
+						if(assiTest.id == obj.id){
+							flg = false;
+							break;
+						}
+					}
+					if(flg){
+						newUser.add(obj);
+					}
+				}
 				
 				List<ScheduleTest> test = ScheduleTest.findAllGroupMeeting(vm.groupId);
-				
 				for(ScheduleTest testloop:test){
+					if(! testloop.getName().equals(vm.name) || ! testloop.getReason().equals(vm.reason) || ! testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
+						infoChange = true;
+					}
 					AuthUser assi = AuthUser.findById(testloop.assignedTo.id);
 					testloop.setName(vm.name);
 					testloop.setReason(vm.reason);
-					
-					
 					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
 						list.add(assi);
 						testloop.setDeclineUpdate(1);
@@ -24507,7 +24686,6 @@ if(vehicles.equals("All")){
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 		}else{
 
 			try {
@@ -24518,7 +24696,9 @@ if(vehicles.equals("All")){
 				test.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
 				test.setName(vm.name);
 				test.setReason(vm.reason);
-				
+				if(! test.getName().equals(vm.name) || ! test.getReason().equals(vm.reason) || ! test.getConfirmDate().equals(df.parse(confDate)) || ! test.getConfirmTime().equals(time.parse(confTime))){
+					infoChange = true;
+				}
 				if(!test.getConfirmDate().equals(df.parse(confDate)) || ! test.getConfirmTime().equals(time.parse(confTime))){
 					list.add(assi);
 					test.setSendInvitation(1);
@@ -24536,11 +24716,11 @@ if(vehicles.equals("All")){
 		}
 
 		List<AuthUser> userList = new ArrayList<>();
-		for (UserVM obj : vm.getUsersList()) {
+		for (UserVM obj : newUser) {
 			AuthUser assi = AuthUser.findById(obj.id);
 			ScheduleTest moTest = new ScheduleTest();
 			moTest.assignedTo = assi;
-			list.add(assi);
+			newlist.add(assi);
 			moTest.name=vm.getAssignedTo();
 			moTest.bestDay = vm.getBestDay();
 			moTest.bestTime = vm.getBestTime();
@@ -24574,7 +24754,12 @@ if(vehicles.equals("All")){
 	   	    
 	   	 //sendMeetingMailInfoChange(vm, user, userList);
 		}
-		sendMeetingMailInfoChange(vm, user, list);
+		if(newUser.size() > 0){
+			sendMeetingMailInfoChange(vm, user, newlist);
+		}
+		if(infoChange){
+			sendMeetingMailInfoChange(vm, user, list);
+		}
 		
 		
 		/*try {

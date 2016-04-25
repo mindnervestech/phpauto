@@ -221,6 +221,7 @@ GET    /getSalePerson/:month			controllers.Application.getSalePerson(month:Strin
 GET     /getSaleMonthlyPlan/:saleId				controllers.Application.getSaleMonthlyPlan(saleId:Integer)
 GET     /saveLocationTotal/:total/:locationId  					controllers.Application.saveLocationTotal(total:String,locationId:Long)
 GET		/getAllCanceledLeads			controllers.Application.getAllCanceledLeads()
+GET		/getAllCanceledLeads/:id			controllers.Application.getAllCanceledLeadsById(id:Integer)
 GET		/getSalesUserOnly/:locationValue				controllers.Application.getSalesUserOnly(locationValue:Long)
 GET     /getSalesUserValue				controllers.Application.getSalesUserValue()
 GET		/changeAssignedUser/:id/:userId/:lead		controllers.Application.changeAssignedUser(id:Long,userId:Integer,lead:String)

@@ -510,8 +510,11 @@ public class ScheduleTest extends Model {
 		return find.where().eq("assignedTo", user).eq("vin", vin).findList();
 	}
 	
-	public static List<ScheduleTest> findByDateAndAssignedUser(AuthUser user,Date date) {
+	/*public static List<ScheduleTest> findByDateAndAssignedUser(AuthUser user,Date date) {
 		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).eq("declineUser", null).eq("confirmDate", date).ne("acceptMeeting", 1).eq("lead_status", null).findList();
+	}*/
+	public static List<ScheduleTest> findByDateAndAssignedUser(AuthUser user,Date date) {
+		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).eq("declineUser", null).eq("confirmDate", date).eq("lead_status", null).findList();
 	}
 	
 	public static List<ScheduleTest> findByConfirmLeads(Long locationId, AuthUser user) {
@@ -522,13 +525,16 @@ public class ScheduleTest extends Model {
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("assignedTo", user).findList();
 	}
 	public static List<ScheduleTest> getAllFailed(Long locationId) {
-		return find.where().add(Expr.or(Expr.eq("lead_status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).eq("locations.id", locationId).findList();
-		
+		return find.where().add(Expr.or(Expr.eq("lead_status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).eq("locations.id", locationId).findList();		
 		//return find.where().add(Expr.or(Expr.eq("status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).findList();
 	}
 	
+	public static List<ScheduleTest> getAllFailedById(Long locationId, AuthUser user) {
+		return find.where().add(Expr.or(Expr.eq("lead_status", "CANCEL"),Expr.eq("lead_status", "FAILED"))).eq("locations.id", locationId).eq("assignedTo", user).findList();
+	}
+	
 	public static List<SqlRow> getScheduleDates(AuthUser user, String cd) {
-		SqlQuery q = Ebean.createSqlQuery("select distinct schedule_test.confirm_date from schedule_test where (schedule_test.assigned_to_id = '"+user.id+"' or schedule_test.user_id = '"+user.id+"') and schedule_test.confirm_date >= '"+cd+"' and accept_meeting <> 1 and schedule_test.delete_msg_flag is null");
+		SqlQuery q = Ebean.createSqlQuery("select distinct schedule_test.confirm_date from schedule_test where (schedule_test.assigned_to_id = '"+user.id+"' or schedule_test.user_id = '"+user.id+"') and schedule_test.confirm_date >= '"+cd+"' and schedule_test.delete_msg_flag is null");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}
