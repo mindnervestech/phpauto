@@ -29834,10 +29834,68 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		
 	    	String subject = "Manager like your work";
 	    	String comments = "Comment : "+comment;
-	    	sendEmail(userObj.email, subject, comments);
+	    	managerLikeWork(userObj.communicationemail, subject, comments);
 	    	return ok();
     	}	
     }
+	
+private static void managerLikeWork(String email,String subject,String comments) {
+    	
+    	AuthUser logoUser = getLocalUser();
+    //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+    	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+    	try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(email));
+			message.setSubject(subject);
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+		
+			
+	        Template t = ve.getTemplate("/public/emailTemplate/managerLikesyourWork_HTML.html"); 
+	        VelocityContext context = new VelocityContext();
+	        context.put("comments",comments);
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString(); 
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+    }
+    
+
+	
+	
+	
 	
 	public static Result getSendDemoLink(Long userId){
 		
