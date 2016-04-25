@@ -101,6 +101,7 @@ angular.module('newApp')
 	 	$scope.userType = data;
 	 	if($scope.userType == "Manager") {
 	 		$scope.getGMData();
+	 		$scope.getToDoNotification();
 	 		$scope.getAllSalesPersonRecord($scope.userKey);
 	 		$scope.topLocations('Week');
 	 	}
