@@ -6017,7 +6017,7 @@ angular.module('newApp')
 			   document.getElementById("nature-data").innerHTML = "";
 			   $scope.data1 = serviceData;
 			   $scope.data1.confirmDate = $filter('date')($scope.data1.confirmDate,"MM-dd-yyyy");
-			   $scope.data1.confirmTime = $filter('date')($scope.data1.confirmTime,"HH:mm a");
+			   $scope.data1.confirmTime = $filter('date')($scope.data1.confirmTime,"hh:mm a");
 			   
 			   
 			   
