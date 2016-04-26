@@ -29926,7 +29926,7 @@ private static void managerLikeWork(String email,String subject,String comments,
 		return ok();
 	}
 	
-	public static Result sendEmail(String email, String subject ,String comment) {
+	/*public static Result sendEmail(String email, String subject ,String comment) {
 		
 		final String username = "mindnervesdemo@gmail.com";
 		final String password = "mntadmin";
@@ -29958,7 +29958,7 @@ private static void managerLikeWork(String email,String subject,String comments,
 		     } catch (MessagingException e) {
 		    	 e.printStackTrace();
 		    } 
-				/*System.out.println("in send Email");
+				System.out.println("in send Email");
 				Properties props = new Properties();
 				props.put("mail.smtp.auth", "true");
 				props.put("mail.smtp.host", "smtp.gmail.com");
@@ -29989,12 +29989,12 @@ private static void managerLikeWork(String email,String subject,String comments,
 	    			System.out.println("email send");
 		       		} catch (MessagingException e) {
 		  			  e.printStackTrace();
-		  		}*/
+		  		}
 				
 		return ok();
-	}
+	}*/
 	
-	/*public static Result sendEmail(final String email, final String subject ,final String comment) {
+	public static Result sendEmail(final String email, final String subject ,final String comment) {
 		ActorSystem newsLetter = Akka.system();
 		newsLetter.scheduler().scheduleOnce(Duration.create(0, TimeUnit.MILLISECONDS), 
 				new Runnable() {
@@ -30010,17 +30010,6 @@ private static void managerLikeWork(String email,String subject,String comments,
 						return new PasswordAuthentication(emailUsername, emailPassword);
 					}
 				});
-				Properties props = new Properties();
-		 		props.put("mail.smtp.auth", "true");
-		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port", "587");
-		 		Session session = Session.getInstance(props,
-		 		  new javax.mail.Authenticator() {
-		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
-		 			}
-		 		  });
 		  
 		 		try{
 		 			
@@ -30042,7 +30031,7 @@ private static void managerLikeWork(String email,String subject,String comments,
 			}}, newsLetter.dispatcher());
 				
 		return ok();
-	}*/
+	}
 	
 	public static Result getAcceptAndDecline(Long id,String reason,String status){
 		
