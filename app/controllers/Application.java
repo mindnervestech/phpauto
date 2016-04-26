@@ -17903,7 +17903,8 @@ private static void cancelTestDriveMail(Map map) {
     			String confirmDate=schedule.bestDay;
     			String confirmTime=schedule.bestTime;
     			String pref=schedule.preferredContact;
-    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref,leadType);
+    			String pdffilePath=null;
+    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref,leadType,pdffilePath);
     		}
 			if(leadType.equals("Request More Info")) {
 			    RequestMoreInfo info = RequestMoreInfo.findById(id);
@@ -17911,23 +17912,31 @@ private static void cancelTestDriveMail(Map map) {
 			    info.update();
 			    
                 String vin=info.vin;
-    			
+    			String pdffilePath=null;
     			Location loc=info.locations;
     			String confirmDate=info.bestDay;
     			String confirmTime=info.bestTime;
     			String pref=info.preferredContact;
-    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref,leadType);
+    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref,leadType,pdffilePath);
 			}
 			if(leadType.equals("Trade In")) {
 				TradeIn tradeIn = TradeIn.findById(id);
 				tradeIn.setPremiumFlag(0);
 				tradeIn.update();
+				String pdffilePath=tradeIn.pdfPath;
+				String vin=tradeIn.vin;
+    			Location loc=tradeIn.locations;
+    			String confirmDate=tradeIn.bestDay;
+    			String confirmTime=tradeIn.bestTime;
+    			String pref=tradeIn.preferredContact;
+    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref,leadType,pdffilePath);
+			
 			}
     		return ok();
     	}
     }
     
-    public static void scheduleTestReleaseMail(String vin,Location loc,String confirmDate,String confirmTime,String preferred,String leadType){
+    public static void scheduleTestReleaseMail(String vin,Location loc,String confirmDate,String confirmTime,String preferred,String leadType,String pdffilePath){
     	AuthUser locUser=getLocalUser();
     	List <AuthUser> userList=AuthUser.findByLocatio(loc);
 		InternetAddress[] usersArray = new InternetAddress[userList.size()];
@@ -17975,10 +17984,11 @@ private static void cancelTestDriveMail(Map map) {
 			message.addRecipients(Message.RecipientType.BCC,usersArray);
 			if(leadType.equals("Request More Info")){
 				message.setSubject("Request More Info");
+			}else if(leadType.equals("Trade In")){
+				message.setSubject("Trade In");
 			}else{
 				message.setSubject("Schedule Test Drive");
 			}
-			message.setSubject("Schedule Test Drive");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart = new MimeBodyPart();
@@ -17994,7 +18004,11 @@ private static void cancelTestDriveMail(Map map) {
 			if(leadType.equals("Request More Info")){
 				 t = ve.getTemplate("/public/emailTemplate/requestMoreInfo_HTML.vm");
 				
-			}else{
+			}else if(leadType.equals("Trade In")){
+				t = ve.getTemplate("/public/emailTemplate/tRADEINAPPRAISAL_HTML.vm");
+				
+			}
+			else{
 				 t = ve.getTemplate("/public/emailTemplate/ScheduleTestDrive_HTML.vm");
 			}
 			 
@@ -18038,22 +18052,12 @@ private static void cancelTestDriveMail(Map map) {
 
 	
 	        
-	        
+	        if(pdffilePath != null){
+	        	context.put("pdffilePath", pdffilePath);
+	        }
 	        
 	        context.put("hostnameimg", imageUrlPath);
-	       // context.put("siteLogo", logo.logoImagePath);
-	       
-	        //context.put("confirmTime", map.get("confirmTime"));
-	    //    context.put("userList",list);
-	        
-	       // context.put("date", vm.getBestDay());
-	        
-	        
 	        context.put("hostnameUrl", imageUrlPath);
-	        /*context.put("siteLogo", logo.logoImagePath);
-	        context.put("confirmTime", map.get("confirmTime"));
-	        
-	        */
          if(vehicle.mileage!= null){
 	        	
 	        	context.put("mileage",vehicle.mileage);
