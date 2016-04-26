@@ -18075,9 +18075,23 @@ private static void cancelTestDriveMail(Map map) {
 	        context.put("vin", vehicle.vin);
 	        context.put("make", vehicle.make);
 	        context.put("typeofVehicle", vehicle.typeofVehicle);
-	        context.put("name", locUser.fullName());
+	        
+	        if(leadType.equals("Trade In")){
+	        	 context.put("first_name", locUser.firstName);
+	        	 context.put("last_name", locUser.lastName);
+		        
+	        }else{
+	        	 context.put("name", locUser.fullName());
+	        }
+	       
 	        context.put("email",locUser.email);
-	        context.put("phone",  locUser.phone);
+	        if(leadType.equals("Trade In")){
+	        	context.put("work_phone",  locUser.phone);
+		        
+	        }else{
+	        	context.put("phone",  locUser.phone);
+		        
+	        }
 	        
 	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
 	        if(image!=null) {
