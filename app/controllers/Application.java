@@ -29934,6 +29934,8 @@ private static void managerLikeWork(String email,String subject,String comments,
 				props.put("mail.smtp.port", "587");
 				props.put("mail.smtp.starttls.enable", "true");
 				System.out.println(email);
+				System.out.println(emailUsername);
+				System.out.println(emailPassword);
 				Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(emailUsername, emailPassword);
