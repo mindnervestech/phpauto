@@ -472,7 +472,7 @@ public class ScheduleTest extends Model {
 	
 	public static List<ScheduleTest> findAllByServiceTestEmail(Date lessDate) {
 		
-		return find.where().add(Expr.or(Expr.ne("acceptMeeting", 1),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("lead_status", null).ge("confirmDate", lessDate).orderBy("confirmDate desc").findList();
+		return find.where().add(Expr.or(Expr.ne("acceptMeeting", 1),Expr.eq("acceptMeeting", null))).ne("confirmDate",null).eq("deleteMsgFlag", null).eq("lead_status", null).ge("confirmDate", lessDate).orderBy("confirmDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> findAllByServiceTestPopup(AuthUser user,Date currDate) {
