@@ -14707,7 +14707,7 @@ private static void cancelTestDriveMail(Map map) {
             		 AuthUser userD = AuthUser.findById(scTest.user.id);
                 	 try {
                 		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
-                		 infoDate = df1.parse(str);
+                		 infoDate = df2.parse(str);
                     	 System.out.println(df1.format(currD));
                     	 System.out.println(parseTime.format(scTest.confirmTime));
                     	 System.out.println(infoDate); //db date
@@ -14751,6 +14751,10 @@ private static void cancelTestDriveMail(Map map) {
                 			
                 			 }
                     	 }
+                		 System.out.println("checking schedular condition.");
+                		 //infoDate - dbtime
+                		 //aftDay - next day
+                		 //aftDay1 - next day 15mins...
                 		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
                     		 if(scTest.meetingStatus == null){
                     			 String subject = "Test drive reminder";
