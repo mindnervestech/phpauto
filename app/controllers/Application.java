@@ -29939,22 +29939,11 @@ private static void managerLikeWork(String email,String subject,String comments,
 						return new PasswordAuthentication(emailUsername, emailPassword);
 					}
 				});
-				/*Properties props = new Properties();
-		 		props.put("mail.smtp.auth", "true");
-		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port", "587");
-		 		Session session = Session.getInstance(props,
-		 		  new javax.mail.Authenticator() {
-		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
-		 			}
-		 		  });*/
 		  
 		 		try{
 		 			
 		 			Message feedback = new MimeMessage(session);
-		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			feedback.setFrom(new InternetAddress(emailUsername));
 		  			feedback.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(email));
 		  			 feedback.setSubject(subject);	  			
@@ -29966,7 +29955,7 @@ private static void managerLikeWork(String email,String subject,String comments,
 		  		     Transport.send(feedback);
 	    			System.out.println("email send");
 		       		} catch (MessagingException e) {
-		  			  throw new RuntimeException(e);
+		  			  e.printStackTrace();
 		  		}
 				
 		return ok();
