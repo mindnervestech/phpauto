@@ -4550,6 +4550,15 @@ angular.module('newApp')
 			    	                	$('html, body').animate({scrollTop:1660}, 'slow'); // changed from 480 to 1660 for show myleads grid
 			    	                	$scope.testDrive();
 			    	                	$('#test-drive-tabSched').click();
+			    	                	if($scope.leadNotification.premiumFlag == 0 && $scope.leadNotification.premiumFlag != null){
+			    	                		console.log($scope.gridOptions2.data);
+			    	                		for(var i=0;i<$scope.gridOptions2.data.length;i++){
+			    	                			if($scope.gridOptions2.data[i].id == $scope.leadNotification.id){
+			    	                				$scope.editVinData($scope.gridOptions2.data[i]);
+			    	                				break;
+			    	                			}
+			    	                		}
+			    	                	}
 			    	                }
 			    	            }
 			    	        });

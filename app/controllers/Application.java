@@ -18078,6 +18078,7 @@ private static void cancelTestDriveMail(Map map) {
     		if(tests.size()==1) {
     			RequestInfoVM infoVM = new RequestInfoVM();
     			Vehicle vehicle = Vehicle.findByVinAndStatus(tests.get(0).vin);
+    			infoVM.id = tests.get(0).id;
     			infoVM.make = vehicle.getMake();
     			infoVM.leadType = "Schedule Test";
     			infoVM.model = vehicle.getModel();
@@ -18089,6 +18090,7 @@ private static void cancelTestDriveMail(Map map) {
     		} else if(infos.size()==1) {
     			RequestInfoVM infoVM = new RequestInfoVM();
     			Vehicle vehicle = Vehicle.findByVinAndStatus(infos.get(0).vin);
+    			infoVM.id = infos.get(0).id;
     			infoVM.make = vehicle.getMake();
     			if(infos.get(0).isScheduled) 
     				infoVM.leadType = "Schedule Test";
@@ -18103,6 +18105,7 @@ private static void cancelTestDriveMail(Map map) {
     		} else {
     			RequestInfoVM infoVM = new RequestInfoVM();
     			Vehicle vehicle = Vehicle.findByVinAndStatus(tradeIns.get(0).vin);
+    			infoVM.id = tradeIns.get(0).id;
     			infoVM.make = vehicle.getMake();
     			if(tradeIns.get(0).isScheduled) 
     				infoVM.leadType = "Schedule Test";
