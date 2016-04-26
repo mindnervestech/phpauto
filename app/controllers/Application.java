@@ -29926,11 +29926,8 @@ private static void managerLikeWork(String email,String subject,String comments,
 		return ok();
 	}
 	
-	public static Result sendEmail(final String email, final String subject ,final String comment) {
-		ActorSystem newsLetter = Akka.system();
-		newsLetter.scheduler().scheduleOnce(Duration.create(0, TimeUnit.MILLISECONDS), 
-				new Runnable() {
-			public void run() {
+	public static Result sendEmail(String email, String subject ,String comment) {
+				System.out.println("in send Email");
 				Properties props = new Properties();
 				props.put("mail.smtp.auth", "true");
 				props.put("mail.smtp.host", "smtp.gmail.com");
@@ -29971,10 +29968,59 @@ private static void managerLikeWork(String email,String subject,String comments,
 		       		} catch (MessagingException e) {
 		  			  throw new RuntimeException(e);
 		  		}
-			}}, newsLetter.dispatcher());
 				
 		return ok();
 	}
+	
+	/*public static Result sendEmail(final String email, final String subject ,final String comment) {
+		ActorSystem newsLetter = Akka.system();
+		newsLetter.scheduler().scheduleOnce(Duration.create(0, TimeUnit.MILLISECONDS), 
+				new Runnable() {
+			public void run() {
+				Properties props = new Properties();
+				props.put("mail.smtp.auth", "true");
+				props.put("mail.smtp.host", "smtp.gmail.com");
+				props.put("mail.smtp.port", "587");
+				props.put("mail.smtp.starttls.enable", "true");
+				System.out.println(email);
+				Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(emailUsername, emailPassword);
+					}
+				});
+				Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 			
+		 			Message feedback = new MimeMessage(session);
+		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			feedback.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(email));
+		  			 feedback.setSubject(subject);	  			
+		  			 BodyPart messageBodyPart = new MimeBodyPart();	
+		  	         messageBodyPart.setText(comment);	 	    
+		  	         Multipart multipart = new MimeMultipart();	  	    
+		  	         multipart.addBodyPart(messageBodyPart);	            
+		  	         feedback.setContent(multipart);
+		  		     Transport.send(feedback);
+	    			System.out.println("email send");
+		       		} catch (MessagingException e) {
+		  			  throw new RuntimeException(e);
+		  		}
+			}}, newsLetter.dispatcher());
+				
+		return ok();
+	}*/
 	
 	public static Result getAcceptAndDecline(Long id,String reason,String status){
 		
