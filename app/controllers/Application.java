@@ -14671,7 +14671,10 @@ private static void cancelTestDriveMail(Map map) {
         	 List<AuthUser> listForUser1=null;
         	 if(scTest.user != null && scTest.assignedTo != null){
         		 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
-            	 Location location = Location.findById(aUser.location.id);
+        		 Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		 if(aUser.location != null){
+        			 location = Location.findById(aUser.location.id);
+        		 }
             	
             	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
                  String IST = df2.format(currD);
@@ -14782,6 +14785,7 @@ private static void cancelTestDriveMail(Map map) {
         			}
             	 }
         	 }
+        	 
          }
          
          for(RequestMoreInfo rInfo:requestMoreInfos){
