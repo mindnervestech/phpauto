@@ -14665,6 +14665,8 @@ private static void cancelTestDriveMail(Map map) {
      	 List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail(lessDay);
      	
          for(ScheduleTest scTest:list){
+        	 System.out.println("----------------");
+        	 System.out.println(scTest.id);
         	 List<AuthUser> listForUser=null;
         	 List<AuthUser> listForUser1=null;
         	 if(scTest.user != null && scTest.assignedTo != null){
@@ -14697,18 +14699,12 @@ private static void cancelTestDriveMail(Map map) {
         		} catch (Exception e) {
         			e.printStackTrace();
         		}
-            	 
-            	
-            	 
             	 AuthUser emailUser = AuthUser.findById(scTest.assignedTo.id);
             	 if(scTest.user != null){
             		 AuthUser userD = AuthUser.findById(scTest.user.id);
                 	 try {
                 		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
                 		 infoDate = df1.parse(str);
-
-                		 System.out.println("----------------");
-                    	 System.out.println(scTest.id);
                     	 System.out.println(df1.format(currD));
                     	 System.out.println(parseTime.format(scTest.confirmTime));
                     	 System.out.println(infoDate); //db date
@@ -14717,6 +14713,7 @@ private static void cancelTestDriveMail(Map map) {
                     	 System.out.println(aftDay); // +24hrs
                     	 System.out.println(aftDay1); //+15mins ahead
                     	 System.out.println(emailUser.email);
+                    	 System.out.println("meetingStatus : "+scTest.meetingStatus);
                     	 System.out.println("-11---------------");
                     	 
                 		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
