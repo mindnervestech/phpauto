@@ -24967,11 +24967,13 @@ if(vehicles.equals("All")){
 			
 			String subject = "Meeting invitation.";
 	   	    String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
-	   	    
 	   	 //sendMeetingMailInfoChange(vm, user, userList);
 		}
 		if(newUser.size() > 0){
-			sendMeetingMailInfoChange(vm, user, newlist);
+			String[] dt = vm.confirmDate.split("-");
+			vm.bestDay = dt[1]+"-"+dt[0]+"-"+dt[2];
+			vm.bestTime = vm.confirmTime;
+			sendMeetingMailToAssignee(vm, user, userList);
 		}
 		if(infoChange){
 			sendMeetingMailInfoChange(vm, user, list);
@@ -25996,6 +25998,45 @@ private static void salesPersonPlanMail(Map map) {
 		
 		return ok(Json.toJson(flag));
 	}
+	
+	public static Result getUserAppointment(String date, String time){
+		AuthUser authUser = getLocalUser();
+		List<ScheduleTest> list = new ArrayList<>();
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		try {
+			Date cuDate = new Date();
+			String cdat = df.format(cuDate);
+			Date cd = df.parse(cdat);
+			
+			Date confirmDate = df.parse(date);
+			Date confirmTime = new SimpleDateFormat("hh:mm a").parse(time);
+			AuthUser user = getLocalUser();
+			
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(confirmTime);
+			calendar.add(Calendar.HOUR, 1);
+			Date maxTime = calendar.getTime();
+			
+			calendar.setTime(confirmTime);
+			calendar.add(Calendar.HOUR, -1);
+			Date minTime = calendar.getTime();
+			
+			List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser, cd);
+			for (ScheduleTest scheduleTest : testList) {
+				if(confirmDate.equals(scheduleTest.confirmDate)){
+					if(confirmTime.equals(scheduleTest.confirmTime)){
+						list.add(scheduleTest);
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		
+		return ok(Json.toJson(list));
+	}
 	public static Result getUserForMeeting(String date, String time){
 		
 		List<UserVM> vmList  = new ArrayList<>();
@@ -26272,11 +26313,7 @@ private static void salesPersonPlanMail(Map map) {
 			}
 	        
 	        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-	String dateInString = vm.getBestDay();
-
-	
-	        
-	        
+	        String dateInString = vm.getBestDay();
 	        String monthName = months[month-1];
 	        context.put("hostnameUrl", imageUrlPath);
 	       // context.put("siteLogo", logo.logoImagePath);

@@ -371,6 +371,30 @@ angular.module('newApp')
 				console.log(":::::::::::");
 				console.log($scope.bestTm);
 				console.log($scope.bestDt);
+				$http.get('/getUserAppointment/'+$scope.bestDt+"/"+$scope.bestTm)
+				.success(function(data) {
+					console.log(data);
+					console.log(data.length);
+					if(data.length > 0){
+						if(data[0].meetingStatus != null){
+							$scope.appoTitle = data[0].name +"(Meeting)";
+						}else{
+							$scope.appoTitle = data[0].name +"(Test Drive)";
+						}
+						$scope.personName = "";
+						$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
+						$scope.dateTime1 = $filter('date')(data[0].confirmTime,"HH:mm a");
+						console.log($scope.dateTime);
+						console.log($scope.dateTime1);
+						console.log($scope.personName);
+						console.log($scope.appoTitle);
+						$('#userAppointment').click();
+						angular.forEach(data, function(obj, index){
+							var name = obj.assignedTo.firstName +" "+obj.assignedTo.lastName+", ";
+							$scope.personName = $scope.personName + name;
+						});
+					}
+				});
 				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm)
 				.success(function(data) {
 					console.log("success");

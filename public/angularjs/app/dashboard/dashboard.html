@@ -9494,6 +9494,35 @@ float: right !important;
             </div>
         </div>
     </div>
+	
+	<div style="display:none;" id="userAppointment" data-toggle="modal" data-target="#modal-meetingAppo"></div>
+	<div class="modal fade" id="modal-meetingAppo" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>You have appointment scheduled during this period of time.</strong></h4>
+                </div>
+                <div class="modal-body">
+					<div class="col-sm-12">
+						<div class="col-sm-6"><span>Appointment Name : </span></div>
+						<div class="col-sm-6"><span ng-bind="appoTitle"></span></div>
+					</div>
+                	<div class="col-sm-12">
+						<div class="col-sm-6"><span>Person's Name : </span></div>
+						<div class="col-sm-6"><span ng-bind="personName"></span></div>
+					</div>
+					<div class="col-sm-12">
+						<div class="col-sm-6"><span>Date and Time : </span></div>
+						<div class="col-sm-6"><span>{{dateTime}} {{dateTime1}}</span></div>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Colse</button>
+                </div>
+            </div>
+        </div>
+    </div>
    						
 <style>
 
