@@ -14671,7 +14671,7 @@ private static void cancelTestDriveMail(Map map) {
         	 List<AuthUser> listForUser1=null;
         	 if(scTest.user != null && scTest.assignedTo != null){
         		 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
-        		 Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        		 Location location = Location.findById(16l);
         		 if(aUser.location != null){
         			 location = Location.findById(aUser.location.id);
         		 }
