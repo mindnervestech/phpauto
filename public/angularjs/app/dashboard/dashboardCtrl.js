@@ -10133,7 +10133,7 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Saved successfully",
 				});
-				$location.path('/viewVehicles');
+				$location.path('/viewVehicles/'+$scope.coords.imageId+"/"+true);
 			});
 		}    
 		 
