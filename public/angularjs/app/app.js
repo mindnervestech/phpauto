@@ -167,7 +167,7 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/uploadPhoto.html',
             controller: 'PhotoUploadCtrl'
         })
-        .when('/cropImage/:id', {
+        .when('/cropImage/:id/:vid', {
             templateUrl: '/dealer/addPhotos/cropImage.html',
             controller: 'ImageCropCtrl'
         })

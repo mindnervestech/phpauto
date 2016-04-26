@@ -10053,7 +10053,7 @@ $scope.setAsDefault = function(image,index) {
 	
 	
 	$scope.editImage = function(image) {
-		$location.path('/cropImage/'+image.id);
+		$location.path('/cropImage/'+image.id+'/'+$routeParams.id);
 	}
 	
 }]);	
@@ -10133,7 +10133,7 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Saved successfully",
 				});
-				$location.path('/viewVehicles/'+$scope.coords.imageId+"/"+true);
+				$location.path('/editVehicle/'+$routeParams.vid+'/'+true);
 			});
 		}    
 		 
