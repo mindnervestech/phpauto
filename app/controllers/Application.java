@@ -17903,12 +17903,20 @@ private static void cancelTestDriveMail(Map map) {
     			String confirmDate=schedule.bestDay;
     			String confirmTime=schedule.bestTime;
     			String pref=schedule.preferredContact;
-    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref);
+    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref,leadType);
     		}
 			if(leadType.equals("Request More Info")) {
 			    RequestMoreInfo info = RequestMoreInfo.findById(id);
 			    info.setPremiumFlag(0);
 			    info.update();
+			    
+                String vin=info.vin;
+    			
+    			Location loc=info.locations;
+    			String confirmDate=info.bestDay;
+    			String confirmTime=info.bestTime;
+    			String pref=info.preferredContact;
+    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref,leadType);
 			}
 			if(leadType.equals("Trade In")) {
 				TradeIn tradeIn = TradeIn.findById(id);
@@ -17919,7 +17927,7 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
-    public static void scheduleTestReleaseMail(String vin,Location loc,String confirmDate,String confirmTime,String preferred){
+    public static void scheduleTestReleaseMail(String vin,Location loc,String confirmDate,String confirmTime,String preferred,String leadType){
     	AuthUser locUser=getLocalUser();
     	List <AuthUser> userList=AuthUser.findByLocatio(loc);
 		InternetAddress[] usersArray = new InternetAddress[userList.size()];
@@ -17965,7 +17973,11 @@ private static void cancelTestDriveMail(Map map) {
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(email));
 			message.addRecipients(Message.RecipientType.BCC,usersArray);
-			
+			if(leadType.equals("Request More Info")){
+				message.setSubject("Request More Info");
+			}else{
+				message.setSubject("Schedule Test Drive");
+			}
 			message.setSubject("Schedule Test Drive");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
@@ -17977,8 +17989,15 @@ private static void cancelTestDriveMail(Map map) {
 			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
 			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 			ve.init();
+			Template t=null;
 			
-			Template t = ve.getTemplate("/public/emailTemplate/ScheduleTestDrive_HTML.vm"); 
+			if(leadType.equals("Request More Info")){
+				 t = ve.getTemplate("/public/emailTemplate/requestMoreInfo_HTML.vm");
+				
+			}else{
+				 t = ve.getTemplate("/public/emailTemplate/ScheduleTestDrive_HTML.vm");
+			}
+			 
 	        VelocityContext context = new VelocityContext();
 	        
 	        //context.put("title", vm.name);
@@ -17989,6 +18008,7 @@ private static void cancelTestDriveMail(Map map) {
 		       
 	        int dayOfmonth=1;
 	        int month=0;
+	        if(confirmDate != null){
 	        try {
 	        	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 	        	String dateInString = confirmDate;
@@ -18006,26 +18026,29 @@ private static void cancelTestDriveMail(Map map) {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+	        String monthName = months[month-1];
+	        context.put("part1Date",  dayOfmonth);
+	        context.put("part2Date",  monthName);
+	        SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm:aa");
+	        String time = confirmTime;
 	        
+	        context.put("bestTime", time);
+	        }
 //	String dateInString = vm.getBestDay();
 
 	
 	        
 	        
-	        String monthName = months[month-1];
+	        
 	        context.put("hostnameimg", imageUrlPath);
 	       // context.put("siteLogo", logo.logoImagePath);
-	        context.put("part1Date",  dayOfmonth);
-	        context.put("part2Date",  monthName);
+	       
 	        //context.put("confirmTime", map.get("confirmTime"));
 	    //    context.put("userList",list);
 	        
 	       // context.put("date", vm.getBestDay());
 	        
-	        SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm:aa");
-	        String time = confirmTime;
 	        
-	        context.put("bestTime", time);
 	        context.put("hostnameUrl", imageUrlPath);
 	        /*context.put("siteLogo", logo.logoImagePath);
 	        context.put("confirmTime", map.get("confirmTime"));
