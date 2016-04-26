@@ -193,7 +193,7 @@ angular.module('newApp')
 					$.pnotify({
 					    title: "Success",
 					    type:'success',
-					    text: "Release successfully",
+					    text: "Premium lead has been successfully released for everyone to claim ",
 					});
 					 $scope.getAllPremiumData();
 				});

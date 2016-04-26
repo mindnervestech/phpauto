@@ -18012,7 +18012,7 @@ private static void cancelTestDriveMail(Map map) {
 	        
 	        
 	        String monthName = months[month-1];
-	        context.put("hostnameUrl", imageUrlPath);
+	        context.put("hostnameimg", imageUrlPath);
 	       // context.put("siteLogo", logo.logoImagePath);
 	        context.put("part1Date",  dayOfmonth);
 	        context.put("part2Date",  monthName);
