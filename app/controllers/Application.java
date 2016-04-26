@@ -14665,126 +14665,123 @@ private static void cancelTestDriveMail(Map map) {
      	 List<TradeIn> tradeIns = TradeIn.findByConfirmGraLeadsToEmail(lessDay);
      	
          for(ScheduleTest scTest:list){
+        	 System.out.println("----------------");
+        	 System.out.println(scTest.id);
         	 List<AuthUser> listForUser=null;
         	 List<AuthUser> listForUser1=null;
-        	 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
-        	 Location location = Location.findById(aUser.location.id);
-        	
-        	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
-             String IST = df2.format(currD);
-            
-             Date istTimes = null;
-			try {
-				istTimes = df1.parse(IST);
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        	
-        	 
-        	 String cDate = df.format(istTimes);
-             String cTime = parseTime.format(istTimes);
-             String crD =    df1.format(istTimes);
-    		 
-             try {
-            	 currentDate = df1.parse(crD);
-            	 datec = df.parse(cDate);
-            	 aftHrDate = DateUtils.addHours(currentDate, 1);
-            	 aftDay = DateUtils.addHours(currentDate, 24);
-            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
-            	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
-    		} catch (Exception e) {
-    			e.printStackTrace();
-    		}
-        	 
-        	
-        	 
-        	 AuthUser emailUser = AuthUser.findById(scTest.assignedTo.id);
-        	 AuthUser userD = AuthUser.findById(scTest.user.id);
-        	 
-        	 
-        	 try {
-        		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
-        		 infoDate = df1.parse(str);
-
-        		 System.out.println("----------------");
-            	 System.out.println(scTest.id);
-            	 System.out.println(df1.format(currD));
-            	 System.out.println(parseTime.format(scTest.confirmTime));
-            	 System.out.println(infoDate); //db date
-            	 System.out.println(aftHrDate); //+hour  dt
-            	 System.out.println(aftHrDate1);
-            	 System.out.println(aftDay); // +24hrs
-            	 System.out.println(aftDay1); //+15mins ahead
-            	 System.out.println(emailUser.email);
-            	 System.out.println("-11---------------");
+        	 if(scTest.user != null && scTest.assignedTo != null){
+        		 AuthUser aUser = AuthUser.findById(scTest.assignedTo.id);
+            	 Location location = Location.findById(aUser.location.id);
+            	
+            	 df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+                 String IST = df2.format(currD);
+                
+                 Date istTimes = null;
+    			try {
+    				istTimes = df1.parse(IST);
+    			} catch (ParseException e1) {
+    				// TODO Auto-generated catch block
+    				e1.printStackTrace();
+    			}
+            	
             	 
-        		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
-            		 if(scTest.meetingStatus == null){
-        				 String subject = "Test drive reminder";
-         		    	 String comments = "You have a test drive scheduled in 1 hour ";
-         		    	 sendEmail(emailUser.communicationemail, subject, comments);
-         		    	sendEmail(scTest.email, subject, comments);
-         		    	
-        			 }else if(scTest.meetingStatus.equals("meeting")){
-        				 
-        				 listForUser=new ArrayList<>();
-        				 List<Integer>userIds = new ArrayList<>();
-        				 List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(scTest.groupId);
-        				 for(ScheduleTest scList:schedulegroupList){
-        					 
-        					 AuthUser user = AuthUser.findById(scList.user.id);
-        					 if(userIds.contains(user.id)){
-        						 continue;
-        					 }else{
-        						 userIds.add(user.id);
-        					 }
-        					 listForUser.add(user);
-        					 
-        				 }
-        				 
-        				 System.out.println("----^^^^^^^^^^^^^^^-111-----------");
-        				 String subject = "IN ONE HOUR";
-         		    	 String comments = "You have a meeting scheduled in 1 hour \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
-						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
-         		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
-        			
-        			 }
+            	 String cDate = df.format(istTimes);
+                 String cTime = parseTime.format(istTimes);
+                 String crD =    df1.format(istTimes);
+        		 
+                 try {
+                	 currentDate = df1.parse(crD);
+                	 datec = df.parse(cDate);
+                	 aftHrDate = DateUtils.addHours(currentDate, 1);
+                	 aftDay = DateUtils.addHours(currentDate, 24);
+                	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+                	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+        		} catch (Exception e) {
+        			e.printStackTrace();
+        		}
+            	 AuthUser emailUser = AuthUser.findById(scTest.assignedTo.id);
+            	 if(scTest.user != null){
+            		 AuthUser userD = AuthUser.findById(scTest.user.id);
+                	 try {
+                		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
+                		 infoDate = df1.parse(str);
+                    	 System.out.println(df1.format(currD));
+                    	 System.out.println(parseTime.format(scTest.confirmTime));
+                    	 System.out.println(infoDate); //db date
+                    	 System.out.println(aftHrDate); //+hour  dt
+                    	 System.out.println(aftHrDate1);
+                    	 System.out.println(aftDay); // +24hrs
+                    	 System.out.println(aftDay1); //+15mins ahead
+                    	 System.out.println(emailUser.email);
+                    	 System.out.println("meetingStatus : "+scTest.meetingStatus);
+                    	 System.out.println("-11---------------");
+                    	 
+                		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
+                    		 if(scTest.meetingStatus == null){
+                				 String subject = "Test drive reminder";
+                 		    	 String comments = "You have a test drive scheduled in 1 hour ";
+                 		    	 sendEmail(emailUser.communicationemail, subject, comments);
+                 		    	sendEmail(scTest.email, subject, comments);
+                 		    	
+                			 }else if(scTest.meetingStatus.equals("meeting")){
+                				 
+                				 listForUser=new ArrayList<>();
+                				 List<Integer>userIds = new ArrayList<>();
+                				 List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(scTest.groupId);
+                				 for(ScheduleTest scList:schedulegroupList){
+                					 
+                					 AuthUser user = AuthUser.findById(scList.user.id);
+                					 if(userIds.contains(user.id)){
+                						 continue;
+                					 }else{
+                						 userIds.add(user.id);
+                					 }
+                					 listForUser.add(user);
+                					 
+                				 }
+                				 
+                				 System.out.println("----^^^^^^^^^^^^^^^-111-----------");
+                				 String subject = "IN ONE HOUR";
+                 		    	 String comments = "You have a meeting scheduled in 1 hour \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
+        						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
+                 		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
+                			
+                			 }
+                    	 }
+                		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
+                    		 if(scTest.meetingStatus == null){
+                    			 String subject = "Test drive reminder";
+                 		    	 String comments = "You have a test drive scheduled in 24 hours \n Date" +infoDate ;
+                 		    	 sendEmail(emailUser.communicationemail, subject, comments);
+                 		    	sendEmail(scTest.email, subject, comments);
+                			 }else if(scTest.meetingStatus.equals("meeting")){
+                				 
+                				 listForUser1=new ArrayList<>();
+                				 List<Integer>userIds = new ArrayList<>();
+                				 List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(scTest.groupId);
+                                  for(ScheduleTest scList:schedulegroupList){
+                					 
+                					 AuthUser user = AuthUser.findById(scList.user.id);
+                					 
+                					 if(userIds.contains(user.id)){
+                						 continue;
+                					 }else{
+                						 userIds.add(user.id);
+                					 }
+                					 listForUser1.add(user);
+                					 
+                				 }
+                				 String subject = "You have a meeting scheduled in 24 hours";
+                 		    	 String comments = "You have a meeting scheduled in 24 hours \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
+        						meetingReminderAfterDay(listForUser1,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
+                 		    	meetingReminderAfterDay(listForUser1,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
+                			 }
+                    	 }
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
             	 }
-        		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
-            		 if(scTest.meetingStatus == null){
-            			 String subject = "Test drive reminder";
-         		    	 String comments = "You have a test drive scheduled in 24 hours \n Date" +infoDate ;
-         		    	 sendEmail(emailUser.communicationemail, subject, comments);
-         		    	sendEmail(scTest.email, subject, comments);
-        			 }else if(scTest.meetingStatus.equals("meeting")){
-        				 
-        				 listForUser1=new ArrayList<>();
-        				 List<Integer>userIds = new ArrayList<>();
-        				 List<ScheduleTest> schedulegroupList = ScheduleTest.findAllGroupMeeting(scTest.groupId);
-                          for(ScheduleTest scList:schedulegroupList){
-        					 
-        					 AuthUser user = AuthUser.findById(scList.user.id);
-        					 
-        					 if(userIds.contains(user.id)){
-        						 continue;
-        					 }else{
-        						 userIds.add(user.id);
-        					 }
-        					 listForUser1.add(user);
-        					 
-        				 }
-        				 String subject = "You have a meeting scheduled in 24 hours";
-         		    	 String comments = "You have a meeting scheduled in 24 hours \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
-						meetingReminderAfterDay(listForUser1,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
-         		    	meetingReminderAfterDay(listForUser1,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
-        			 }
-            	 }
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-        	 
-        	 
+        	 }
          }
          
          for(RequestMoreInfo rInfo:requestMoreInfos){
@@ -30718,12 +30715,19 @@ private static void managerLikeWork(String email,String subject,String comments,
     	
     	AuthUser users = getLocalUser();
     	List<ScheduleTest> sche = ScheduleTest.getUpdateMeeting(users);
+    	List<ScheduleTestVM> list = new ArrayList<>();
     	for(ScheduleTest sch:sche){
+    		ScheduleTestVM vm = new ScheduleTestVM();
+    		vm.confirmTime = new SimpleDateFormat("hh:mm a").format(sch.confirmTime);
+    		vm.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(sch.confirmDate);
+    		vm.name = sch.name;
+    		vm.reason = sch.reason;
+    		list.add(vm);
     		sch.setDeclineUpdate(0);
     		sch.update();
     	}
     	
-    	return ok(Json.toJson(sche));
+    	return ok(Json.toJson(list));
     }
     
     public static Result getaccepted(){

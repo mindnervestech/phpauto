@@ -2900,9 +2900,10 @@ angular.module('newApp')
 	    				
 	    					//console.log($filter('date')(value.confirmTime * 1000,"hh:mm a");
 	    					console.log(">>>>>>>>>>>>>");
-	    					value.confirmDate = $filter('date')(value.confirmDate,"MM-dd-yyyy");
-	    					value.confirmTime = $filter('date')(value.confirmTime,"hh:mm a");
-	    					   
+	    					//value.confirmDate = $filter('date')(value.confirmDate,"MM-dd-yyyy");
+	    					//value.confirmTime = $filter('date')(value.confirmTime,"hh:mm a");
+	    					var t = $filter('date')(value.confirmTime,"hh:mm a");
+	    					console.log(t);
 	    					console.log(value.confirmTime);
 	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.name+" information has been changed</span><br><span>"+value.confirmDate+"   "+value.confirmTime+"</span><br><span>"+value.reason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
 	    				

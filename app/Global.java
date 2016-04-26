@@ -21,6 +21,7 @@ public class Global extends GlobalSettings {
 	public void onStart(Application app) {
 		NewsLetter.newsletterSchedulling();
 		TestDriveScheduler.newsletterSchedulling();
+		System.err.println("Testing..");
 		MeetingAndTestDriveScheduler.meetingSchedulling();
 		ClickyDataScheduler.clickySchedulling();
 	}

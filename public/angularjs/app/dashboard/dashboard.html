@@ -578,10 +578,10 @@ float: right !important;
 									<span ng-if="schedule.is_google == true || schedule.meeting == 'meeting'" style="padding: 0px;" class="col-md-12">Meeting {{schedule.confirmTime}} </span>
                              		<span class="todo-task"> {{schedule.make}}&nbsp;&nbsp; {{schedule.year}}&nbsp;&nbsp; {{schedule.model}}  &nbsp;&nbsp;{{schedule.trim}}</span><br>
 									<span class="todo-task col-md-12" style="padding: 0px;overflow: hidden;"> {{schedule.name}}</span><br>
-									<span class="todo-task col-md-12" style="padding: 0px;margin-left: 28px;" ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Host's Info</span><br>
-                             		<span class="todo-task col-md-12" style="padding: 0px;">Host's Name: {{schedule.hostName}}</span><br>
-									<span class="todo-task col-md-12" style="padding: 0px;">Host's Email: {{schedule.email}}</span><br>
-									<span class="todo-task col-md-12" style="padding: 0px;">Host's Phone: {{schedule.phone}}</span>
+									<span class="todo-task col-md-12" style="padding: 0px;margin-left: 28px;overflow: hidden;" ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Host's Info</span><br>
+                             		<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Host's Name: {{schedule.hostName}}</span><br>
+									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Host's Email: {{schedule.email}}</span><br>
+									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Host's Phone: {{schedule.phone}}</span>
                              	</div>
                              	<div class="col-md-6" style="padding: 0px;" ng-if="schedule.userdata.length > 0">
                              		<label class="col-md-12">Members</label>
@@ -9569,7 +9569,7 @@ float: right !important;
 	 margin-top: 2px;
 }
 .futureRedDec{
-	background: none repeat scroll 0% 0% #D9B;
+	background: none repeat scroll 0% 0% #fba69d;
 	border-left: 2px solid red;
 	padding: 0px 5px;
 	 margin-top: 2px;
