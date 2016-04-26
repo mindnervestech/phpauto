@@ -17895,7 +17895,14 @@ private static void cancelTestDriveMail(Map map) {
     		if(leadType.equals("Schedule Test")) {
     			ScheduleTest schedule = ScheduleTest.findById(id);
     			schedule.setPremiumFlag(0);
+    			
     			schedule.update();
+    			String vin=schedule.vin;
+    			
+    			Location loc=schedule.locations;
+    			String confirmDate=schedule.bestDay;
+    			String confirmTime=schedule.bestTime;
+    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime);
     		}
 			if(leadType.equals("Request More Info")) {
 			    RequestMoreInfo info = RequestMoreInfo.findById(id);
@@ -17910,6 +17917,163 @@ private static void cancelTestDriveMail(Map map) {
     		return ok();
     	}
     }
+    
+    public static void scheduleTestReleaseMail(String vin,Location loc,String confirmDate,String confirmTime){
+    	AuthUser locUser=getLocalUser();
+    	List <AuthUser> userList=AuthUser.findByLocatio(loc);
+		InternetAddress[] usersArray = new InternetAddress[userList.size()];
+		int index = 0;
+		for (AuthUser assi : userList) {
+			try {
+				
+				usersArray[index] = new InternetAddress(assi.getCommunicationemail());
+				index++;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		MyProfile  user1=MyProfile.findByUser(locUser);
+		String email=user1.email;
+		/*List<UserVM> list = new ArrayList<>() ;
+		for(AuthUser assi : userList){
+			
+			UserVM vm1=new UserVM();
+			vm1.fullName=assi.firstName+" "+assi.lastName;
+			list.add(vm1);
+			
+			
+			
+		}
+		*/
+		
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+		
+		try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(email));
+			message.addRecipients(Message.RecipientType.BCC,usersArray);
+			
+			message.setSubject("Schedule Test Drive");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+			
+			Template t = ve.getTemplate("/public/emailTemplate/ScheduleTestDrive_HTML.vm"); 
+	        VelocityContext context = new VelocityContext();
+	        
+	        //context.put("title", vm.name);
+	       // context.put("location", loc.getName());
+	       // context.put("meetingBy", user.getFirstName()+" "+user.getLastName());
+	        Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+		       
+	        int dayOfmonth=1;
+	        int month=0;
+	        try {
+	        	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+	        	String dateInString = confirmDate;
+	        	String arr[] = dateInString.toString().split("-");
+		        if(arr.length >=2){
+		        	dayOfmonth = Integer.parseInt(arr[0]);
+			        month = Integer.parseInt(arr[1]);
+		        }else{
+		        	Date date =formatter.parse(confirmDate);
+		        	Calendar cal = Calendar.getInstance();
+			         cal.setTime((Date)date);
+			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+			         month = cal.get(Calendar.MONTH)+1;
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        
+//	String dateInString = vm.getBestDay();
+
+	
+	        
+	        
+	        String monthName = months[month-1];
+	        context.put("hostnameUrl", imageUrlPath);
+	       // context.put("siteLogo", logo.logoImagePath);
+	        context.put("part1Date",  dayOfmonth);
+	        context.put("part2Date",  monthName);
+	        //context.put("confirmTime", map.get("confirmTime"));
+	    //    context.put("userList",list);
+	        
+	       // context.put("date", vm.getBestDay());
+	        
+	        SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm:aa");
+	        String time = confirmTime;
+	        
+	        context.put("bestTime", time);
+	        context.put("hostnameUrl", imageUrlPath);
+	        /*context.put("siteLogo", logo.logoImagePath);
+	        context.put("confirmTime", map.get("confirmTime"));
+	        
+	        */
+         if(vehicle.mileage!= null){
+	        	
+	        	context.put("mileage",vehicle.mileage);
+	        	 
+	        }
+	        else{
+	        	context.put("mileage","");
+	        }
+	       
+	        context.put("year", vehicle.year);
+	        context.put("make", vehicle.make);
+	        context.put("model", vehicle.model);
+	        context.put("price", "$"+vehicle.price);
+	        context.put("stock", vehicle.stock);
+	        context.put("vin", vehicle.vin);
+	        context.put("make", vehicle.make);
+	        context.put("typeofVehicle", vehicle.typeofVehicle);
+	        context.put("name", locUser.fullName());
+	        context.put("email",locUser.email);
+	        context.put("phone",  locUser.phone);
+	        
+	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        if(image!=null) {
+	        	context.put("path", image.path);
+	        } else {
+	        	context.put("path", "");
+	        }
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString(); 
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+
+    
     
     public static Result deletePremiumLead(Long id,String leadType) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
