@@ -17902,7 +17902,8 @@ private static void cancelTestDriveMail(Map map) {
     			Location loc=schedule.locations;
     			String confirmDate=schedule.bestDay;
     			String confirmTime=schedule.bestTime;
-    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime);
+    			String pref=schedule.preferredContact;
+    			scheduleTestReleaseMail(vin,loc,confirmDate,confirmTime,pref);
     		}
 			if(leadType.equals("Request More Info")) {
 			    RequestMoreInfo info = RequestMoreInfo.findById(id);
@@ -17918,7 +17919,7 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
-    public static void scheduleTestReleaseMail(String vin,Location loc,String confirmDate,String confirmTime){
+    public static void scheduleTestReleaseMail(String vin,Location loc,String confirmDate,String confirmTime,String preferred){
     	AuthUser locUser=getLocalUser();
     	List <AuthUser> userList=AuthUser.findByLocatio(loc);
 		InternetAddress[] usersArray = new InternetAddress[userList.size()];
@@ -18038,7 +18039,7 @@ private static void cancelTestDriveMail(Map map) {
 	        else{
 	        	context.put("mileage","");
 	        }
-	       
+         context.put("preferred",  preferred.toUpperCase());
 	        context.put("year", vehicle.year);
 	        context.put("make", vehicle.make);
 	        context.put("model", vehicle.model);
