@@ -29928,8 +29928,8 @@ private static void managerLikeWork(String email,String subject,String comments,
 	
 	public static Result sendEmail(String email, String subject ,String comment) {
 		
-		final String username = "mindnervesdemo@gmail.com";
-		final String password = "mntadmin";
+		final String username = emailUsername;
+		final String password = emailPassword;
 		
 		Properties props = new Properties();  
 		props.put("mail.smtp.auth", "true");
