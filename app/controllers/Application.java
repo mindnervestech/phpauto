@@ -14646,7 +14646,7 @@ private static void cancelTestDriveMail(Map map) {
     	 //DateFormat df2 = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
     	 
          DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
-         SimpleDateFormat parseTime = new SimpleDateFormat("HH:mm:ss");
+         SimpleDateFormat parseTime = new SimpleDateFormat("HH:mm a");
          Date currD = new Date();
          Date currentDate = null;
          Date aftHrDate = null;
