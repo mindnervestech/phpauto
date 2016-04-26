@@ -14706,7 +14706,9 @@ private static void cancelTestDriveMail(Map map) {
             	 if(scTest.user != null){
             		 AuthUser userD = AuthUser.findById(scTest.user.id);
                 	 try {
+                		 System.out.println("scTest.confirmDate " + scTest.confirmDate);
                 		 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
+                		 System.out.println("format confirm time " + str);
                 		 infoDate = df2.parse(str);
                     	 System.out.println(df1.format(currD));
                     	 System.out.println(parseTime.format(scTest.confirmTime));
@@ -14718,7 +14720,7 @@ private static void cancelTestDriveMail(Map map) {
                     	 System.out.println(emailUser.email);
                     	 System.out.println("meetingStatus : "+scTest.meetingStatus);
                     	 System.out.println("-11---------------");
-                    	 
+                    	 System.out.println(scTest.email);
                 		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
                     		 if(scTest.meetingStatus == null){
                 				 String subject = "Test drive reminder";
