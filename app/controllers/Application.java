@@ -14724,7 +14724,7 @@ private static void cancelTestDriveMail(Map map) {
                 		 if((infoDate.equals(aftHrDate)||infoDate.after(aftHrDate)) && ((infoDate.equals(aftHrDate1)||infoDate.before(aftHrDate1)))){
                     		 if(scTest.meetingStatus == null){
                 				 String subject = "Test drive reminder";
-                 		    	 String comments = "You have a test drive scheduled in 1 hour ";
+                 		    	 String comments = "You have a test drive scheduled in 1 hour \n"+str+" "+scTest.name;
                  		    	 sendEmail(emailUser.communicationemail, subject, comments);
                  		    	sendEmail(scTest.email, subject, comments);
                  		    	
@@ -14747,7 +14747,7 @@ private static void cancelTestDriveMail(Map map) {
                 				 
                 				 System.out.println("----^^^^^^^^^^^^^^^-111-----------");
                 				 String subject = "IN ONE HOUR";
-                 		    	 String comments = "You have a meeting scheduled in 1 hour \n"+df.format(scTest.confirmDate)+"   "+parseTime.format(scTest.confirmTime)+" "+scTest.name;
+                 		    	 String comments = "You have a meeting scheduled in 1 hour \n"+str+" "+scTest.name;
         						meetingReminder(listForUser,emailUser.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
                  		    	meetingReminder(listForUser,userD.communicationemail, scTest.confirmDate, scTest.confirmTime, subject);
                 			
