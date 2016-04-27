@@ -10903,6 +10903,8 @@ public class Application extends Controller {
 						scheduleTest.setConfirmTime(time);
 						scheduleTest.setEmail(vm.email);
 						vin = scheduleTest.vin;
+						listOfString.name=scheduleTest.name;
+						
 						
 						List<ScheduleTest> list = ScheduleTest.findByVin(vm.vin);
 	    				for (ScheduleTest info2 : list) {
@@ -11080,11 +11082,10 @@ public class Application extends Controller {
 		    		map.put("CnfDateNature",vm.cnfDateNature);
 		    		map.put("vin", vin);
 		    		userName=user.firstName+" "+user.lastName;
-		    		listOfString.name=userName;
 		    		map.put("uname", user.firstName+" "+user.lastName);
 		    		map.put("uphone", user.phone);
 		    		map.put("uemail", user.email);
-		    		makeToDo(vm.vin);
+		    	//	makeToDo(vm.vin);
 		    		sendMailForReschedule(map);
 		    	}
 		} catch (Exception e) {
@@ -11378,7 +11379,7 @@ private static void cancelTestDriveMail(Map map) {
 			message.setFrom(new InternetAddress(emailUsername));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(map.get("email").toString()));
-			message.setSubject("TEST DRIVE CONFIRMATION");
+			message.setSubject("Test Drive's Information has been changed");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart = new MimeBodyPart();
