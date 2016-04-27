@@ -16,9 +16,9 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
 });
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q) {
-	console.log(userKey);
-	var ele = document.getElementById('loadingmanual');	
- 	$(ele).hide();
+	//console.log(userKey);
+	  var ele = document.getElementById('loadingmanual');	
+   	$(ele).hide();
 	$http.get('/getLocationDays')
 	.success(function(data) {
 		$scope.locationDays = data;
@@ -9573,7 +9573,7 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route','$rootScope','usSpinnerService', function ($filter,$scope,$http,$location,$routeParams,$upload,$route,$rootScope,usSpinnerService) {
+.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
       console.log("inside vehicle ctrl");
       /*var target = document.getElementById('spinner');
 		$(target).hide();*/
