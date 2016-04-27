@@ -9577,6 +9577,7 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Vehicle published SuccessFully",
 					});
+				   $location.path('/viewVehicles');
 		   });
 	   }
 	
