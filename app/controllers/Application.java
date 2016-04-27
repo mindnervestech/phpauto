@@ -11301,7 +11301,14 @@ private static void cancelTestDriveMail(Map map) {
 	        context.put("stock", vehicle.stock);
 	        context.put("vin", vehicle.vin);
 	        context.put("make", vehicle.make);
-	        context.put("mileage", vehicle.mileage);
+            if(vehicle.mileage!= null){
+	        	
+	        	context.put("mileage",vehicle.mileage);
+	        	 
+	        }
+	        else{
+	        	context.put("mileage","");
+	        }
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
 	       // context.put("phone",  map.get("uphone"));
@@ -11428,7 +11435,15 @@ private static void cancelTestDriveMail(Map map) {
 	        context.put("stock", vehicle.stock);
 	        context.put("vin", vehicle.vin);
 	        context.put("make", vehicle.make);
-	        context.put("mileage", vehicle.mileage);
+              if(vehicle.mileage!= null){
+	        	
+	        	context.put("mileage",vehicle.mileage);
+	        	 
+	        }
+	        else{
+	        	context.put("mileage","");
+	        }
+             context.put("typeofVehicle", vehicle.typeofVehicle);
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
 	        context.put("phone",  map.get("uphone"));
@@ -11539,7 +11554,15 @@ private static void cancelTestDriveMail(Map map) {
 	        context.put("stock", vehicle.stock);
 	        context.put("vin", vehicle.vin);
 	        context.put("make", vehicle.make);
-	        context.put("mileage", vehicle.mileage);
+             if(vehicle.mileage!= null){
+	        	
+	        	context.put("mileage",vehicle.mileage);
+	        	 
+	        }
+	        else{
+	        	context.put("mileage","");
+	        }
+             context.put("typeofVehicle", vehicle.typeofVehicle);
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
 	        context.put("phone",  map.get("uphone"));

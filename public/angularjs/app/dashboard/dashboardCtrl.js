@@ -8619,7 +8619,7 @@ angular.module('newApp')
   }]);
 
 angular.module('newApp')
-.controller('addVehicleCtrl', ['$scope','$http','$location','$upload', function ($scope,$http,$location,$upload) {
+.controller('addVehicleCtrl', ['$scope','$http','$location','$upload','$rootScope', function ($scope,$http,$location,$upload,$rootScope) {
   
 	$scope.vinErr = false;
    $scope.vehicleInit = function() {
@@ -8764,6 +8764,11 @@ angular.module('newApp')
  	  if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
  		  console.log("success...");
  		  if(pdffile != undefined){
+ 			  console.log("inside if");
+ 			 var target = document.getElementById('spinner');
+ 			$rootScope.spinner = new Spinner().spin(target);
+ 			console.log("asasdhgsad");
+ 			console.log($rootScope.spinner);
  	 		$http.post('/saveVehicle',$scope.vinData.specification)
  			.success(function(data) {
  				console.log('success');
@@ -8794,6 +8799,11 @@ angular.module('newApp')
  		 	      });
  			});
  	 	 }else{
+ 	 		 console.log("inside elase");
+ 	 		var target = document.getElementById('spinner');
+ 			$rootScope.spinner = new Spinner().spin(target);
+ 			console.log("asasdhgsad");
+ 			console.log($rootScope.spinner);
  	 		$http.post('/saveVehicle',$scope.vinData.specification)
  			.success(function(data) {
  				console.log('success');
@@ -9565,8 +9575,10 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
-	
+.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route','$rootScope', function ($filter,$scope,$http,$location,$routeParams,$upload,$route,$rootScope) {
+      console.log("inside vehicle ctrl");
+	 $rootScope.spinner.stop();
+	console.log("VVVVVVVVVVVV"+$rootScope.spinner);
 	//for publish vehicle 
 	$scope.publishVehicle = function(id){
 		   console.log("car id for publish");
