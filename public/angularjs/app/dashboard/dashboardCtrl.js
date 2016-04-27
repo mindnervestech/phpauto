@@ -8764,10 +8764,7 @@ angular.module('newApp')
  	  
  	  if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
  		  console.log("success...");
- 		  //usSpinnerService.spin('spinner-1');
- 		  console.log($rootScope.spinner); 		 
- 		 /*var target = document.getElementById('spinner');
-			$(target).show();*/
+ 		  
  		 var ele = document.getElementById('loadingmanual');	
      	$(ele).show();
  		  if(pdffile != undefined){
