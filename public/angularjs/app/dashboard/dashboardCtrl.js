@@ -17,7 +17,8 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q) {
 	console.log(userKey);
-	
+	var ele = document.getElementById('loadingmanual');	
+ 	$(ele).hide();
 	$http.get('/getLocationDays')
 	.success(function(data) {
 		$scope.locationDays = data;
@@ -8763,7 +8764,15 @@ angular.module('newApp')
  	  
  	  if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
  		  console.log("success...");
+ 		  //usSpinnerService.spin('spinner-1');
+ 		  console.log($rootScope.spinner); 		 
+ 		 /*var target = document.getElementById('spinner');
+			$(target).show();*/
+ 		 var ele = document.getElementById('loadingmanual');	
+     	$(ele).show();
  		  if(pdffile != undefined){
+ 			  console.log("inside if");
+ 			console.log("asasdhgsad");
  	 		$http.post('/saveVehicle',$scope.vinData.specification)
  			.success(function(data) {
  				console.log('success');
@@ -8773,6 +8782,8 @@ angular.module('newApp')
  				    type:'success',
  				    text: "Vehicle saved successfully",
  				});
+ 				
+ 				$scope.dataBeforePdf=data;
  				$upload.upload({
  		 	         url : '/saveVehiclePdf/'+data,
  		 	         method: 'POST',
@@ -8790,7 +8801,7 @@ angular.module('newApp')
  		 	  		 	}else{
  		 	  		 		$location.path('/editVehicle/'+data+"/"+false); 		 	  		 		
  		 	  		 	}*/
- 		 	  		$location.path('/editVehicle/'+data+"/"+true);
+ 		 	  		$location.path('/editVehicle/'+$scope.dataBeforePdf+"/"+true);
  		 	      });
  			});
  	 	 }else{
@@ -9565,9 +9576,13 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
-	
-	//for publish vehicle 
+.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route','$rootScope','usSpinnerService', function ($filter,$scope,$http,$location,$routeParams,$upload,$route,$rootScope,usSpinnerService) {
+      console.log("inside vehicle ctrl");
+      /*var target = document.getElementById('spinner');
+		$(target).hide();*/
+	//for publish vehicle
+      var ele = document.getElementById('loadingmanual');	
+  	$(ele).hide();
 	$scope.publishVehicle = function(id){
 		   console.log("car id for publish");
 		   console.log(id);

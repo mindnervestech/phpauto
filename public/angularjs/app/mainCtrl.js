@@ -1,6 +1,8 @@
 ﻿angular.module('newApp').controller('mainCtrl',
     ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval',
         function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval) {
+    	var ele = document.getElementById('loadingmanual');	
+    	$(ele).hide();
             $(document).ready(function () {
                 applicationService.init();
                 quickViewService.init();
