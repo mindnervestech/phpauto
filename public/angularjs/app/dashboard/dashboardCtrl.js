@@ -4572,15 +4572,36 @@ angular.module('newApp')
 			    	                },
 			    	                onCloseClick: function () {
 			    	                	$('html, body').animate({scrollTop:1660}, 'slow'); // changed from 480 to 1660 for show myleads grid
-			    	                	$scope.testDrive();
-			    	                	$('#test-drive-tabSched').click();
+			    	                	
 			    	                	if($scope.leadNotification.premiumFlag == 0 && $scope.leadNotification.premiumFlag != null){
-			    	                		console.log($scope.gridOptions2.data);
-			    	                		for(var i=0;i<$scope.gridOptions2.data.length;i++){
-			    	                			if($scope.gridOptions2.data[i].id == $scope.leadNotification.id){
-			    	                				$scope.editVinData($scope.gridOptions2.data[i]);
-			    	                				break;
-			    	                			}
+			    	                		if($scope.leadNotification.leadType == 'Schedule Test'){
+			    	                			$scope.testDrive();
+					    	                	$('#test-drive-tabSched').click();
+			    	                			console.log($scope.gridOptions2.data);
+				    	                		for(var i=0;i<$scope.gridOptions2.data.length;i++){
+				    	                			if($scope.gridOptions2.data[i].id == $scope.leadNotification.id){
+				    	                				$scope.editVinData($scope.gridOptions2.data[i]);
+				    	                				break;
+				    	                			}
+				    	                		}
+			    	                		}else if($scope.leadNotification.leadType == 'Request More Info'){
+			    	                			$scope.requestMore()
+			    	                			$('#tab').click();
+			    	                			for(var i=0;i<$scope.gridOptions5.data.length;i++){
+				    	                			if($scope.gridOptions5.data[i].id == $scope.leadNotification.id){
+				    	                				$scope.editVinData($scope.gridOptions5.data[i]);
+				    	                				break;
+				    	                			}
+				    	                		}
+			    	                		}else{
+			    	                			$scope.tradeIn();
+			    	                			$('#profile-tab').click();
+			    	                			for(var i=0;i<$scope.gridOptions3.data.length;i++){
+				    	                			if($scope.gridOptions3.data[i].id == $scope.leadNotification.id){
+				    	                				$scope.editVinData($scope.gridOptions3.data[i]);
+				    	                				break;
+				    	                			}
+				    	                		}
 			    	                		}
 			    	                	}
 			    	                }
@@ -5115,7 +5136,6 @@ angular.module('newApp')
 		       	);
 		       	
 	}
-		
 		
 		
     	$scope.soldScheduleStatus = function(entity) {
