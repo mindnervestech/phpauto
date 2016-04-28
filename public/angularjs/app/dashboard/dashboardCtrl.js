@@ -8783,7 +8783,18 @@ angular.module('newApp')
  	  }
  	  
    };
-   
+   $scope.selectedFuelType = function (selectObj) {
+		if(selectObj != undefined){
+			$scope.vinData.specification.fuelType = selectObj.title;
+		}
+   };
+   $scope.fuelFocusOut = function(){
+	   console.log("fuelFocusOut");
+	   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
+   }
+   $scope.fuelTypeChange = function(){
+	   $('#fuelTypeSearch_value').val($scope.vinData.specification.fuelType);
+   }
    var pdffile;
 		$scope.onLogoFileSelect = function($files) {
 			pdffile = $files;
@@ -9896,7 +9907,18 @@ angular.module('newApp')
 					console.log($scope.vinData.specification);
 				}
 		};
-	
+		$scope.selectedFuelType = function (selectObj) {
+			if(selectObj != undefined){
+				$scope.vinData.specification.fuelType = selectObj.title;
+			}
+	   };
+	   $scope.fuelFocusOut = function(){
+		   console.log("fuelFocusOut");
+		   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
+	   }
+	   $scope.fuelTypeChange = function(){
+		   $('#fuelTypeSearch_value').val($scope.vinData.specification.fuelType);
+	   }
 	
 	var myDropzone;
 	$scope.setDropZone = function() {

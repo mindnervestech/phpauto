@@ -1450,7 +1450,7 @@ public class Application extends Controller {
 		    	vehicle.width = vm.width;
 		    	vehicle.acceleration = vm.acceleration;
 		    	vehicle.standardSeating = vm.standardSeating;
-		    	vehicle.engineType = vm.engineType;
+		    	vehicle.engineType = vm.engine;
 		    	vehicle.cylinders = vm.cylinders;
 		    	vehicle.displacement = vm.displacement;
 		    	vehicle.camType = vm.camType;
@@ -5083,7 +5083,7 @@ public class Application extends Controller {
 		    	vehicle.setWidth(vm.width);
 		    	vehicle.setAcceleration(vm.acceleration);
 		    	vehicle.setStandardSeating(vm.standardSeating);
-		    	vehicle.setEngineType(vm.engineType);
+		    	vehicle.setEngineType(vm.engine);
 		    	vehicle.setCylinders(vm.cylinders);
 		    	vehicle.setDisplacement(vm.displacement);
 		    	vehicle.setCamType(vm.camType);

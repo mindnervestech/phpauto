@@ -313,6 +313,7 @@
 				title-field="fuelType"
 				minlength="1"
 				focus-In="focusIn($index)"
+				focus-Out="fuelFocusOut()"
 				input-class="form-control form-control-small txt">
 		</angucomplete-alt>
 	</div>
@@ -371,7 +372,7 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Engine Type</label>
 	<div class="col-sm-4">
-		<input class="form-control form-white" ng-model="vinData.specification.engineType" type="text">
+		<input class="form-control form-white" ng-model="vinData.specification.engine" type="text">
 	</div>
 	<label class="col-sm-2 control-label" style="text-align: right;">Cylinders</label>
 	<div class="col-sm-4">
@@ -395,7 +396,7 @@
 	</div>
 	<label class="col-sm-2 control-label" style="text-align: right;">Fuel Type</label>
 	<div class="col-sm-4">
-		<input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text">
+		<input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text" ng-blur="fuelTypeChange()">
 	</div>
 </div>
 <div class="form-group col-sm-12">
