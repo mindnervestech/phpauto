@@ -11085,6 +11085,7 @@ public class Application extends Controller {
 		    		map.put("uname", user.firstName+" "+user.lastName);
 		    		map.put("uphone", user.phone);
 		    		map.put("uemail", user.email);
+		    		map.put("clientName", listOfString.name);
 		    	//	makeToDo(vm.vin);
 		    		sendMailForReschedule(map);
 		    	}
@@ -11309,6 +11310,14 @@ private static void cancelTestDriveMail(Map map) {
 	        else{
 	        	context.put("mileage","");
 	        }
+            if( map.get("clientName")!= null){
+  	        	
+          	  context.put("clientName", map.get("clientName"));
+	        	 
+	        }
+	        else{
+	        	 context.put("clientName","");
+	        }
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
 	       // context.put("phone",  map.get("uphone"));
@@ -11443,6 +11452,14 @@ private static void cancelTestDriveMail(Map map) {
 	        else{
 	        	context.put("mileage","");
 	        }
+              if( map.get("clientName")!= null){
+  	        	
+            	  context.put("clientName", map.get("clientName"));
+  	        	 
+  	        }
+  	        else{
+  	        	 context.put("clientName","");
+  	        }
              context.put("typeofVehicle", vehicle.typeofVehicle);
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
@@ -11563,6 +11580,14 @@ private static void cancelTestDriveMail(Map map) {
 	        	context.put("mileage","");
 	        }
              context.put("typeofVehicle", vehicle.typeofVehicle);
+             if( map.get("clientName")!= null){
+   	        	
+           	  context.put("clientName", map.get("clientName"));
+ 	        	 
+ 	        }
+ 	        else{
+ 	        	 context.put("clientName","");
+ 	        }
 	        context.put("name", map.get("uname"));
 	        context.put("email", map.get("uemail"));
 	        context.put("phone",  map.get("uphone"));
@@ -13870,6 +13895,7 @@ private static void cancelTestDriveMail(Map map) {
 		    		map.put("uname", user.firstName+" "+user.lastName);
 		    		map.put("uphone", user.phone);
 		    		map.put("uemail", user.email);
+		    		map.put("clientName",schedule.name);
     				cancelTestDriveMail(map);
       			}
     			
@@ -13901,6 +13927,7 @@ private static void cancelTestDriveMail(Map map) {
 		    		map.put("uname", user.firstName+" "+user.lastName);
 		    		map.put("uphone", user.phone);
 		    		map.put("uemail", user.email);
+		    		map.put("clintName", info.name);
     				cancelTestDriveMail(map);
         	    	  //sendEmail(clientEmail,subject,comments);
         			}
@@ -17314,6 +17341,7 @@ private static void cancelTestDriveMail(Map map) {
                 	map.put("uname", user.firstName+" "+user.lastName);
                 	map.put("uphone", user.phone);
                 	map.put("uemail", user.email);
+                	map.put("clientName",vm.name);
                 	//makeToDo(vm.vin);
                 	sendMail(map);
         		}
@@ -17334,6 +17362,7 @@ private static void cancelTestDriveMail(Map map) {
         		            	map.put("uname", user.firstName+" "+user.lastName);
         		            	map.put("uphone", user.phone);
         		            	map.put("uemail", user.email);
+        		            	map.put("clientName",vm.name);
         		            	//makeToDo(vm.vin);
         		            	sendMail(map);
         		    		}
