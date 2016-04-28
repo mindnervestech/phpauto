@@ -13825,6 +13825,7 @@ private static void cancelTestDriveMail(Map map) {
 	    		map.put("uname", user.firstName+" "+user.lastName);
 	    		map.put("uphone", user.phone);
 	    		map.put("uemail", user.email);
+	    		map.put("clientName",schedule.name);
 				cancelTestDriveMail(map);
         		
         		
@@ -13900,6 +13901,18 @@ private static void cancelTestDriveMail(Map map) {
     			schedule.setReason(reason);
     	          clientEmail=schedule.email;
     			//clientEmail="nananevase9766@gmail.com";
+    	          /* for template mail */
+    	         if(schedule.confirmDate == null){
+          		Map map = new HashMap();
+  	    		map.put("email",clientEmail);
+  	    		map.put("vin", schedule.vin);
+  	    		map.put("uname", user.firstName+" "+user.lastName);
+  	    		map.put("uphone", user.phone);
+  	    		map.put("uemail", user.email);
+  	    		map.put("clientName", schedule.name);
+  				cancelTestDriveMail(map);
+    	          
+    	         }
     	          
     			schedule.update();
     			
