@@ -13818,6 +13818,17 @@ private static void cancelTestDriveMail(Map map) {
         		uNotes.scheduleTest = ScheduleTest.findById(schedule.id);
         		uNotes.save();
         		
+        		/* for template mail */
+        		Map map = new HashMap();
+	    		map.put("email",clientEmail);
+	    		map.put("vin", schedule.vin);
+	    		map.put("uname", user.firstName+" "+user.lastName);
+	    		map.put("uphone", user.phone);
+	    		map.put("uemail", user.email);
+				cancelTestDriveMail(map);
+        		
+        		
+        		
     		} else if(leadType.equals("Request More Info")) {
     			RequestMoreInfo info = RequestMoreInfo.findById(id);
     			info.setConfirmDate(null);
@@ -13834,6 +13845,9 @@ private static void cancelTestDriveMail(Map map) {
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
         		uNotes.save();
+        		String comments="Test Drive has been canceled";
+        		String subject = "Test Drive cancelled";
+        	  sendEmail(clientEmail,subject,comments);
         		
     		} else if(leadType.equals("Trade-In Appraisal")) {
     			TradeIn info = TradeIn.findById(id);
@@ -13852,11 +13866,12 @@ private static void cancelTestDriveMail(Map map) {
         		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
         		uNotes.tradeIn = TradeIn.findById(info.id);
         		uNotes.save();
+        		String comments="Test Drive has been canceled";
+        		String subject = "Test Drive cancelled";
+        	  sendEmail(clientEmail,subject,comments);
     		}
     		
-    		String comments="Test Drive has been canceled";
-    		String subject = "Test Drive cancelled";
-    	  sendEmail(clientEmail,subject,comments);
+    		
     		return ok();
     	}
     }
