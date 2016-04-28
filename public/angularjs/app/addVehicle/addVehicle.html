@@ -139,7 +139,7 @@
 <div class="form-group col-sm-12">
 <label class="col-sm-2 control-label" style="text-align: right;">Stock *</label>
 	<div class="col-sm-5">
-		<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.stock" type="text" required>
+		<input class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.stock" type="text" ng-blur="checkStock(vinData.specification.stock)" required>
 	</div>
 </div>
 

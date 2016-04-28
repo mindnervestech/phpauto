@@ -242,6 +242,7 @@ GET     /changePermission/:locatioId/:managerId/:gmIsManager		controllers.Applic
 GET		/getMakes						controllers.Application.getMakes()
 GET		/getModels/:make				controllers.Application.getModels(make:String)
 GET		/getStockDetails/:stockNumber	controllers.Application.getStockDetails(stockNumber:String)
+GET		/checkStockNumber/:stockNumber	controllers.Application.checkStockNumber(stockNumber:String)
 POST	/createLead						controllers.Application.createLead()
 GET		/getMonthlyVisitorsStats/:startDate/:endDate		controllers.Application.getMonthlyVisitorsStats(startDate:String, endDate:String)
 GET     /getVisitorOnline		controllers.Application.getVisitorOnline()

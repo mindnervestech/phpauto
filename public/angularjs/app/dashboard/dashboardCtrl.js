@@ -8789,7 +8789,32 @@ angular.module('newApp')
 			pdffile = $files;
 		}
    
-   
+   $scope.checkStock = function(stock){
+	   console.log("Stock Number");
+	   console.log(stock);
+	   if(stock == undefined){
+		   $.pnotify({
+			    title: "Error",
+			    type:'success',
+			    text: "Please Enter Unique Stock Number",
+			});
+	   }else{
+		   $http.get('/checkStockNumber/'+stock)
+			.success(function(data) {
+				console.log(data);
+				if(data != 0){
+					console.log("if");
+					$.pnotify({
+					    title: "Error",
+					    type:'success',
+					    text: "Please Enter Unique Stock Number",
+					});
+					$scope.vinData.specification.stock = null;
+				}
+			});
+	   }
+   }
+		
    $scope.vinData = {};
    $scope.vinData.specification = {};
    $scope.vinData.specification.typeofVehicle = "New";

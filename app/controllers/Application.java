@@ -21518,6 +21518,15 @@ if(vehicles.equals("All")){
     	return ok(Json.toJson(models));
     }
     
+    public static Result checkStockNumber(String stockNumber) {
+    	List<Vehicle> vehicles = Vehicle.findByStock(stockNumber,Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    	if(vehicles.size() > 0){
+        	return ok(Json.toJson(vehicles.size()));
+    	}else{
+        	return ok(Json.toJson(vehicles.size()));
+    	}
+    }
+    
     public static Result getStockDetails(String stockNumber) {
     	List<Vehicle> vehicles = Vehicle.findByStock(stockNumber,Location.findById(Long.valueOf(session("USER_LOCATION"))));
     	Map map = new HashMap();
