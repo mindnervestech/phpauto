@@ -5433,7 +5433,10 @@ float: right !important;
 															</div>
 														</div>
 													</div>
-													
+													<div class="form-group col-sm-6">
+														<label ng-if="editLeads.prefferedContact != null" class="col-sm-12 control-label">Method of Contact : {{editLeads.prefferedContact}}</label>
+														<label ng-if="editLeads.prefferedContact == null" class="col-sm-12 control-label">Method of Contact : Not Selected</label>
+													</div>
 													<div class="form-group col-sm-12">
 														<label class="col-sm-1 control-label" style="text-align: right;">Zip Code</label>
 														<div class="col-sm-5">
@@ -5684,6 +5687,7 @@ float: right !important;
 												</div>									               													
 								                </div>
 								                <div class="modal-footer">
+													<a class="btn btn-primary btn-embossed" href="mailto:{{editLeads.custEmail}}">Send Email</a>
 								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
 								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
 								                </div>
