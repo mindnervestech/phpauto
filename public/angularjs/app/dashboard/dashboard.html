@@ -622,8 +622,14 @@ float: right !important;
         <div class="col-md-12 wheth-report-status" style="margin-bottom: 10px;height: 79px;overflow: auto;">
         		<strong ng-show="scheduleListData.length > 0">Future Appointments</strong>   <!-- (sd.meetingStatus == 'meeting')?'futureB':'futureA' -->
         		<strong ng-show="scheduleListData.length <= 0">No Future Appointments</strong>   
-                      <div ng-repeat="sd in scheduleListData |  orderBy: 'confirmDateOrderBy'" ng-class="(sd.meetingStatus == 'meeting')? (sd.noteFlag == 0) ? 'futureRedDec':'futureB': (sd.noteFlag == 0) ? 'futureRed':'futureA'" title="{{sd.typeOfLead}}">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button" ng-if="sd.setFlagSameUser != null"  ng-click="editServiceType(sd)"><i class="fa fa-pencil"></i></button><button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)"><i class="glyphicon glyphicon-trash"></i></button>
-                      
+                      <div ng-repeat="sd in scheduleListData |  orderBy: 'confirmDateOrderBy'" ng-class="(sd.meetingStatus == 'meeting')? (sd.noteFlag == 0) ? 'futureRedDec':'futureB': (sd.noteFlag == 0) ? 'futureRed':'futureA'" title="{{sd.typeOfLead}}">
+						  {{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}&nbsp;&nbsp;&nbsp;{{sd.confirmEndTime}}
+						  <button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button" ng-if="sd.setFlagSameUser != null"  ng-click="editServiceType(sd)">
+							<i class="fa fa-pencil"></i>
+						  </button>
+						  <button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)">
+							<i class="glyphicon glyphicon-trash"></i>
+						  </button>
                       </div>
                   </div>
             <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
@@ -667,7 +673,7 @@ float: right !important;
                          </div >
                         
                         
-                          <div class="col-sm-6">
+                          <div class="col-sm-4">
                             <div class="form-group">
                               <label class="control-label">Date</label>
                               <div class="append-icon">
@@ -677,11 +683,19 @@ float: right !important;
                               </div>
                             </div>
                           </div>
-                          <div class="col-sm-6">
+                          <div class="col-sm-4">
                             <div class="form-group">
-                              <label class="control-label">Time</label>
+                              <label class="control-label">Start Time</label>
                               <div class="append-icon">
                                 <input type="text" name="confTime" ng-model="data1.confirmTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="timeSchPick" required>
+                              </div>
+                            </div>
+                          </div>
+						  <div class="col-sm-4">
+                            <div class="form-group">
+                              <label class="control-label">End Time</label>
+                              <div class="append-icon">
+                                <input type="text" name="confEndTime" ng-model="data1.confirmEndTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="timeSchPickEnd" required>
                               </div>
                             </div>
                           </div>
@@ -1282,7 +1296,7 @@ float: right !important;
                           </div>
                          </div> -->
                          <div class="row">
-                          <div class="col-sm-6">
+                          <div class="col-sm-4">
                             <div class="form-group">
                               <label class="control-label">Date</label>
                               <div class="append-icon">
@@ -1290,11 +1304,19 @@ float: right !important;
                               </div>
                             </div>
                           </div>
-                          <div class="col-sm-6">
+                          <div class="col-sm-4">
                             <div class="form-group">
-                              <label class="control-label">Time</label>
+                              <label class="control-label">Start Time</label>
                               <div class="append-icon">
-								<input data-provide="timepicker" name="meetingTime" id="cnfmeetingtime" class="timepicker form-control" placeholder="Choose a time..."  ng-model="schmeeting.bestTime" data-format="am-pm" ng-blur="Demo()" required>
+								<input data-provide="timepicker" name="meetingTime" id="cnfmeetingtime" class="timepicker form-control" placeholder="Choose a start time..."  ng-model="schmeeting.bestTime" data-format="am-pm" required>
+                              </div>
+                            </div>
+                          </div>
+						  <div class="col-sm-4">
+                            <div class="form-group">
+                              <label class="control-label">End Time</label>
+                              <div class="append-icon">
+								<input data-provide="timepicker" name="meetingTimeEnd" id="cnfmeetingtimeEnd" class="timepicker form-control" placeholder="Choose a end time..."  ng-model="schmeeting.endTime" data-format="am-pm" required>
                               </div>
                             </div>
                           </div>
@@ -9514,7 +9536,7 @@ float: right !important;
 					</div>
 					<div class="col-sm-12">
 						<div class="col-sm-6"><span>Date and Time : </span></div>
-						<div class="col-sm-6"><span>{{dateTime}} {{dateTime1}}</span></div>
+						<div class="col-sm-6"><span>{{dateTime}} {{dateTime1}} {{dateEndTime}}</span></div>
 					</div>
                 </div>
                 <div class="modal-footer">

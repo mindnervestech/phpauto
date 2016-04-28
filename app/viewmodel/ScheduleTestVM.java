@@ -60,7 +60,14 @@ public class ScheduleTestVM {
 	public String phone;
 	public String bestDay;
 	public String bestTime;
+	public String bestEndTime;
 	public String scheduleDate;
+	public String getBestEndTime() {
+		return bestEndTime;
+	}
+	public void setBestEndTime(String bestEndTime) {
+		this.bestEndTime = bestEndTime;
+	}
 	public String vin;
 	public String year;
 	public String confirmDateOrderBy;

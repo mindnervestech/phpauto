@@ -33,6 +33,18 @@ public class ScheduleTest extends Model {
 	public int isRead;
 	public Date confirmDate;
 	public Date confirmTime;
+	public Date confirmEndTime;
+	public Date getConfirmEndTime() {
+		return confirmEndTime;
+	}
+	public void setConfirmEndTime(Date confirmEndTime) {
+		this.confirmEndTime = confirmEndTime;
+	}
+
+
+
+
+
 	public String leadStatus;
 	public String reason;
 	public String declineUser;

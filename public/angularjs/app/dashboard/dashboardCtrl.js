@@ -368,11 +368,13 @@ angular.module('newApp')
 			$scope.checked = [];
 			$scope.bestDt = $('#cnfmeetingdate').val();
 			$scope.bestTm = $('#cnfmeetingtime').val();
-			if(($scope.bestDt != null && $scope.bestDt != "")  && ($scope.bestTm !=null && $scope.bestTm !="")){
+			$scope.bestEndTm = $('#cnfmeetingtimeEnd').val();
+			if(($scope.bestDt != null && $scope.bestDt != "")  && ($scope.bestTm !=null && $scope.bestTm !="") && ($scope.bestEndTm !=null && $scope.bestEndTm !="")){
 				console.log(":::::::::::");
 				console.log($scope.bestTm);
+				console.log($scope.bestEndTm);
 				console.log($scope.bestDt);
-				$http.get('/getUserAppointment/'+$scope.bestDt+"/"+$scope.bestTm)
+				$http.get('/getUserAppointment/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
 				.success(function(data) {
 					console.log(data);
 					console.log(data.length);
@@ -385,6 +387,11 @@ angular.module('newApp')
 						$scope.personName = "";
 						$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
 						$scope.dateTime1 = $filter('date')(data[0].confirmTime,"HH:mm a");
+						if(data[0].confirmEndTime != null){
+							$scope.dateEndTime =$filter('date')(data[0].confirmEndTime,"HH:mm a");
+						}else{
+							$scope.dateEndTime =$filter('date')(data[0].confirmTime,"HH:mm a");
+						}
 						console.log($scope.dateTime);
 						console.log($scope.dateTime1);
 						console.log($scope.personName);
@@ -396,7 +403,69 @@ angular.module('newApp')
 						});
 					}
 				});
-				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm)
+				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
+				.success(function(data) {
+					console.log("success");
+					$scope.gridOptions11.data = data;
+					
+					angular.forEach($scope.gridOptions11.data, function(obj, index){
+						if(obj.userStatus == 'N/A'){
+							obj.disabled = false;
+						}else{
+							obj.disabled = true;
+						}
+					});
+					console.log($scope.gridOptions11.data);
+				});
+			}else{
+				$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Please Select Date and Time",
+					});
+			}
+		});
+		
+		$('#cnfmeetingtimeEnd').timepicker().on('hide.timepicker', function (e) {
+			$scope.checked = [];
+			$scope.bestDt = $('#cnfmeetingdate').val();
+			$scope.bestTm = $('#cnfmeetingtime').val();
+			$scope.bestEndTm = $('#cnfmeetingtimeEnd').val();
+			if(($scope.bestDt != null && $scope.bestDt != "")  && ($scope.bestTm !=null && $scope.bestTm !="") && ($scope.bestEndTm !=null && $scope.bestEndTm !="")){
+				console.log(":::::::::::");
+				console.log($scope.bestTm);
+				console.log($scope.bestEndTm);
+				console.log($scope.bestDt);
+				$http.get('/getUserAppointment/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
+				.success(function(data) {
+					console.log(data);
+					console.log(data.length);
+					if(data.length > 0){
+						if(data[0].meetingStatus != null){
+							$scope.appoTitle = data[0].name +"(Meeting)";
+						}else{
+							$scope.appoTitle = data[0].name +"(Test Drive)";
+						}
+						$scope.personName = "";
+						$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
+						$scope.dateTime1 = $filter('date')(data[0].confirmTime,"HH:mm a");
+						if(data[0].confirmEndTime != null){
+							$scope.dateEndTime =$filter('date')(data[0].confirmEndTime,"HH:mm a");
+						}else{
+							$scope.dateEndTime =$filter('date')(data[0].confirmTime,"HH:mm a");
+						}
+						console.log($scope.dateTime);
+						console.log($scope.dateTime1);
+						console.log($scope.personName);
+						console.log($scope.appoTitle);
+						$('#userAppointment').click();
+						angular.forEach(data, function(obj, index){
+							var name = obj.assignedTo.firstName +" "+obj.assignedTo.lastName+", ";
+							$scope.personName = $scope.personName + name;
+						});
+					}
+				});
+				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
 				.success(function(data) {
 					console.log("success");
 					$scope.gridOptions11.data = data;
@@ -481,7 +550,7 @@ angular.module('newApp')
 																 }
 																} ,
 															 },
-														   { name: 'role', displayName: 'Role', width:'30%',cellEditableCondition: false,
+														   { name: 'role', displayName: 'Role', width:'25%',cellEditableCondition: false,
 																	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																	   if (row.entity.isRead === false) {
 																		 return 'red';
@@ -489,7 +558,7 @@ angular.module('newApp')
 																	} ,
 															},
 	 		 		                               
-														   { name: 'userStatus', displayName: 'Available', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+														   { name: 'userStatus', displayName: 'Availability', width:'20%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																	   if (row.entity.isRead === false) {
 																		 return 'red';
@@ -6075,10 +6144,11 @@ angular.module('newApp')
 			   $scope.data1 = serviceData;
 			   $scope.data1.confirmDate = $filter('date')($scope.data1.confirmDate,"MM-dd-yyyy");
 			   $scope.data1.confirmTime = $filter('date')($scope.data1.confirmTime,"hh:mm a");
-			   
-			   
-			   
-			   $http.get('/getUserForMeeting/'+$scope.data1.confirmDate+"/"+$scope.data1.confirmTime)
+			   $scope.data1.confirmEndTime = $filter('date')($scope.data1.confirmEndTime,"hh:mm a");
+			   console.log($scope.data1.confirmEndTime);
+			   console.log($scope.data1.confirmTime);
+			   console.log($scope.data1.confirmDate);
+			   $http.get('/getUserForMeeting/'+$scope.data1.confirmDate+"/"+$scope.data1.confirmTime+"/"+$scope.data1.confirmEndTime)
 				.success(function(data) {
 					console.log("success");
 					$scope.gridOptions11.data = data;
@@ -6441,6 +6511,7 @@ angular.module('newApp')
 			  
 			   $('#cnfmeetingdate').val('');
 				$('#cnfmeetingtime').val('');
+				$('#cnfmeetingtimeEnd').val('');
 			   $scope.gridOptions11.data = [];
 			   $scope.getGMData1();
 			   $('#meeting-model').modal();
@@ -8564,6 +8635,7 @@ angular.module('newApp')
 				   $scope.schmeeting.usersList = $scope.checked;
 				   $scope.schmeeting.bestDay = $('#cnfmeetingdate').val();
 				   $scope.schmeeting.bestTime = $('#cnfmeetingtime').val();
+				   $scope.schmeeting.bestEndTime = $('#cnfmeetingtimeEnd').val();
 				   console.log($scope.schmeeting);
 				   $http.post("/savemeeting",$scope.schmeeting).success(function(data){
 					   $('#meeting-model').modal("toggle");
@@ -8591,6 +8663,7 @@ angular.module('newApp')
 		   $scope.updateScheduleTest = function(){
 			   $scope.data1.confDate = $('#cnfReSchDate').val();
 			   $scope.data1.confTime = $('#timeSchPick').val();
+			   $scope.data1.confEndTime = $('#timeSchPickEnd').val();
 			   
 			   console.log($scope.data1);
 			  $scope.data1.usersList = $scope.checked;
@@ -8605,6 +8678,7 @@ angular.module('newApp')
 				   
 				   $scope.data1.confirmDate = $('#cnfReSchDate').val();
 				   $scope.data1.confirmTime = $('#timeSchPick').val();
+				   $scope.data1.confirmEndTime = $('#timeSchPickEnd').val();
 				   
 				   
                  $http.get("/getscheduletest").success(function(data){

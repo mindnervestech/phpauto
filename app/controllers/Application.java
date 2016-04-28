@@ -24743,6 +24743,12 @@ if(vehicles.equals("All")){
         	sTestVM.meetingStatus = scTest.meetingStatus;
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
         	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
+        	if(scTest.confirmEndTime != null){
+        		sTestVM.confirmEndTime =new SimpleDateFormat("hh:mm a").format(scTest.confirmEndTime);
+        	}else{
+        		sTestVM.confirmEndTime =new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
+        	}
+        	
         	sTestVM.confirmDateOrderBy = scTest.confirmDate;
         	sTestVM.reason=scTest.reason;
         	sTestVM.name = scTest.name;
@@ -26023,7 +26029,7 @@ private static void salesPersonPlanMail(Map map) {
 		return ok(Json.toJson(flag));
 	}
 	
-	public static Result getUserAppointment(String date, String time){
+	public static Result getUserAppointment(String date, String time, String endTime){
 		AuthUser authUser = getLocalUser();
 		List<ScheduleTest> list = new ArrayList<>();
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -26034,22 +26040,20 @@ private static void salesPersonPlanMail(Map map) {
 			
 			Date confirmDate = df.parse(date);
 			Date confirmTime = new SimpleDateFormat("hh:mm a").parse(time);
+			Date confirmEndTime = new SimpleDateFormat("hh:mm a").parse(endTime);
 			AuthUser user = getLocalUser();
-			
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(confirmTime);
-			calendar.add(Calendar.HOUR, 1);
-			Date maxTime = calendar.getTime();
-			
-			calendar.setTime(confirmTime);
-			calendar.add(Calendar.HOUR, -1);
-			Date minTime = calendar.getTime();
 			
 			List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser, cd);
 			for (ScheduleTest scheduleTest : testList) {
 				if(confirmDate.equals(scheduleTest.confirmDate)){
-					if(confirmTime.equals(scheduleTest.confirmTime)){
-						list.add(scheduleTest);
+					if((confirmTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.before(confirmEndTime)) || (confirmTime.after(scheduleTest.confirmTime) && confirmTime.before(scheduleTest.confirmEndTime))){
+						if(scheduleTest.confirmEndTime != null){
+							if((confirmTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.before(confirmEndTime)) || (confirmEndTime.after(scheduleTest.confirmTime) && confirmEndTime.before(scheduleTest.confirmEndTime))){
+								list.add(scheduleTest);
+							}
+						}else{
+							list.add(scheduleTest);
+						}
 					}
 				}
 			}
@@ -26061,7 +26065,7 @@ private static void salesPersonPlanMail(Map map) {
 		
 		return ok(Json.toJson(list));
 	}
-	public static Result getUserForMeeting(String date, String time){
+	public static Result getUserForMeeting(String date, String time, String endTime){
 		
 		List<UserVM> vmList  = new ArrayList<>();
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -26072,6 +26076,7 @@ private static void salesPersonPlanMail(Map map) {
 			
 			Date confirmDate = df.parse(date);
 			Date confirmTime = new SimpleDateFormat("hh:mm a").parse(time);
+			Date confirmEndTime = new SimpleDateFormat("hh:mm a").parse(endTime);
 			AuthUser user = getLocalUser();
 			
 			Calendar calendar = Calendar.getInstance();
@@ -26095,9 +26100,16 @@ private static void salesPersonPlanMail(Map map) {
 				List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser, cd);
 				for (ScheduleTest scheduleTest : testList) {
 					if(confirmDate.equals(scheduleTest.confirmDate)){
-						if(confirmTime.equals(scheduleTest.confirmTime)){
-							flag = false;
-							break;
+						if((confirmTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.before(confirmEndTime)) || (confirmTime.after(scheduleTest.confirmTime) && confirmTime.before(scheduleTest.confirmEndTime))){
+							if(scheduleTest.confirmEndTime != null){
+								if((confirmTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.before(confirmEndTime)) || (confirmEndTime.after(scheduleTest.confirmTime) && confirmEndTime.before(scheduleTest.confirmEndTime))){
+									flag = false;
+									break;
+								}
+							}else{
+								flag = false;
+								break;
+							}
 						}
 					}
 				}
@@ -26178,13 +26190,14 @@ private static void salesPersonPlanMail(Map map) {
 			try {			
 				moTest.confirmDate = df.parse(vm.getBestDay());
 				moTest.confirmTime = new SimpleDateFormat("hh:mm a").parse(vm.getBestTime());
+				moTest.confirmEndTime = new SimpleDateFormat("hh:mm a").parse(vm.getBestEndTime());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			moTest.save();
 			
 			String subject = "Meeting invitation.";
-			String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getBestDay()+" "+vm.getBestTime()+".";
+			String comments = "New meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getBestDay()+" "+vm.getBestTime()+"-"+vm.getBestEndTime();
 			
 			//sendEmail(assi.communicationemail, subject, comments);
 			//sendMeetingMailToAssignee(vm, user, userList);
