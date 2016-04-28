@@ -68,6 +68,7 @@ angular.module('newApp')
   		                                	} ,
  		                                 },
  		                                { name: 'price', displayName: 'Price',enableFiltering: false, width:'5%',cellEditableCondition: false,
+ 		                                	cellTemplate:'<div>{{row.entity.price | number:0}}</div>',
 	   		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	    		                                       if (row.entity.isRead === false) {
 	    		                                         return 'red';

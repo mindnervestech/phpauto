@@ -8868,7 +8868,12 @@ angular.module('newApp')
 	   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
 	   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
 	   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
-	   
+		   $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
+		   $scope.vinData.specification.cost = $scope.vinData.specification.cost.split(',').join('');
+		  
+	  console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"+$scope.vinData.specification.price);
+	  console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"+$scope.vinData.specification.cost);
+	  
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
@@ -9998,6 +10003,12 @@ angular.module('newApp')
 		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
 		   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
 		
+		   $scope.vinData.specification.cost = $scope.vinData.specification.cost.split(',').join('');
+		   $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
+		   
+		   console.log($scope.vinData.specification.cost);
+		   console.log($scope.vinData.specification.price);
+		   
 		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
 			   console.log($scope.vinData.specification);
 				if(pdfFile != undefined){

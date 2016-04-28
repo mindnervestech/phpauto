@@ -510,14 +510,14 @@ float: right !important;
 									       <a ng-click="bestEmpComp(parLocationData)"> <img class="col-sm-4"  style="width: 120px;margin-left: 20px;margin-top: 25px;" src="http://glider-autos.com/glivrImg/images/LocationImg/best.png"> </a>
 										</div>
 										<div class="col-sm-5" style="margin-top: 25px;">
-									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label>
-									       	<span class="glyphicon glyphicon-adjust col-sm-2" ng-if="parLocationData.AngSale != null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale != null" class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale}}%</label>
+									       	<span class="glyphicon glyphicon-user col-sm-2" style="color: darkturquoise;" title="Total leads"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson | number:0}}</label>
+									       	<span class="glyphicon glyphicon-adjust col-sm-2" ng-if="parLocationData.AngSale != null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale != null" class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.AngSale | number:0}}%</label>
 									       	<span class="glyphicon glyphicon-adjust col-sm-2" ng-if="parLocationData.AngSale == null" style="color: darkturquoise;" title="Plan completed"></span><label ng-if="parLocationData.AngSale == null"class="col-sm-4 control-label" style="text-align: center;">N/A</label>
-									       	<span class="glyphicon glyphicon-usd col-sm-2" style="color: darkturquoise;" title="Sold Car Price"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.totalSalePrice}}</label>
-									       	<span class="glyphicon glyphicon-record col-sm-2" style="color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate}}%</label>
-									       	<span class="fa fa-car col-sm-2" style="color: darkturquoise;" title="Total Car Sold"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.totalsaleCar}}</label>
+									       	<span class="glyphicon glyphicon-usd col-sm-2" style="color: darkturquoise;" title="Sold Car Price"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.totalSalePrice | number:0}}</label>
+									       	<span class="glyphicon glyphicon-record col-sm-2" style="color: darkturquoise;" title="Success Rate"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.successRate | number:0}}%</label>
+									       	<span class="fa fa-car col-sm-2" style="color: darkturquoise;" title="Total Car Sold"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.totalsaleCar | number:0}}</label>
 									       	<!-- <span class="glyphicon glyphicon-user col-sm-1" style="color: darkturquoise;"></span><label class="col-sm-4 control-label" style="text-align: center;">{{parLocationData.countSalePerson}}</label> -->
-									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.angSalePrice}}</label>
+									       	<span class="glyphicon glyphicon-shopping-cart col-sm-2" style="color: darkturquoise;" title="Average Sale"></span><label class="col-sm-4 control-label" style="text-align: center;">${{parLocationData.angSalePrice | number:0}}</label>
 										</div>
 										<div class="col-sm-4">
 											<p style="text-align: center;font-size: 22px;">{{parLocationData.monthCurr}}</p>
@@ -848,19 +848,19 @@ float: right !important;
 													</div>
 													
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;margin-bottom: 7px;">${{item.price}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
+														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;margin-bottom: 7px;">${{item.price | number:0}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;">{{item.count}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;">{{item.count | number:0}}</span>
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;">{{item.followerCount}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;">{{item.followerCount | number:0}}</span>
 													</div>
 													<!-- <div>
 														<span class="col-sm-4 glyphicon glyphicon glyphicon-thumbs-up" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.count}}</span>
 													</div> -->
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;">{{item.leadsCount}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;">{{item.leadsCount | number:0}}</span>
 													</div>
 													<!-- <div class="col-sm-12">
 														<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkIndex(item,compare)"> <label style="color: darkturquoise;">Compare</label>
@@ -975,18 +975,18 @@ float: right !important;
 									
 										<div style="width: 180px;">
 											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-user" title="Current Leads" style="color: darkturquoise;font-size: 16px;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.currentLeads}}</b></label>
+											<label style="font-size: 15px;width: 70px;"><b>{{item.currentLeads | number:0}}</b></label>
 											
 										</div>
 										 
 										<div style="width: 180px;">
 											<label style="text-align: center;width: 60px;"><span class="glyphicon glyphicon-usd" title="Total Amount Sold" style="color: darkturquoise;font-size: 16px;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>${{item.salesAmount}}</b></label>
+											<label style="font-size: 15px;width: 70px;"><b>${{item.salesAmount | number:0}}</b></label>
 											
 										</div>
 										<div style="width: 180px;">
 											<label style="text-align: center;width: 60px;"><span class="fa fa-car" title="Number of Cars Sold" style="color: darkturquoise;font-size: 16px;"></span></label>
-											<label style="font-size: 15px;width: 70px;"><b>{{item.saleCar}}</b></label>
+											<label style="font-size: 15px;width: 70px;"><b>{{item.saleCar | number:0}}</b></label>
 											
 										</div>
 										<div style="width: 180px;" ng-if="(item.saleCar !=0 || item.salesAmount !=0 || item.currentLeads !=0 || item.successRate !=0) && userPerformanceList.length > 1">
@@ -1607,7 +1607,7 @@ float: right !important;
                          			<div class="col-sm-3" style="padding: 0px;margin-top: 8px;">
                          			</div>
                          			<div style="padding: 0px;margin-top: 10px; text-align: center;" ng-class="parLocationData.totalSalePrice >saleMonthTotalPer.totalBrought ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >
-                         			{{parLocationData.totalSalePrice}}
+                         			{{parLocationData.totalSalePrice | number:0}}
                          				<!-- <input type="text" ng-disabled="true"  class="form-control" placeholder="$$$" ng-model="saleMonthTotalPer.totalBrought" required> -->
                          			</div>
                          			</div>
@@ -1615,7 +1615,7 @@ float: right !important;
                          			<div class="col-sm-3" style="padding: 0px;margin-top: 10px;text-align: center;">
                          			</div>
                          			<div  style="padding: 0px;margin-top: 20px;text-align: center;"  ng-class="parLocationData.totalsaleCar>saleMonthTotalPer.vehicalesToSell   ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "   >
-                         			{{parLocationData.totalsaleCar}}
+                         			{{parLocationData.totalsaleCar | number:0}}
                          				<!-- <input type="text" ng-disabled="true"   class="form-control" placeholder="Amount" ng-model="saleMonthTotalPer.vehicalesToSell" required> -->
                          			</div>	
                          		</div>
@@ -1623,7 +1623,7 @@ float: right !important;
                          			<div class="col-sm-3" style="padding: 0px;margin-top: 8px;">
                          			</div>
                          			<div  style="padding: 0px;margin-top: 20px;text-align: center;"ng-class="parLocationData.countSalePerson> saleMonthTotalPer.leadsToGenerate  ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  >
-                         			{{parLocationData.countSalePerson}}
+                         			{{parLocationData.countSalePerson | number:0}}
                          				<!-- <input type="text" ng-disabled="true" class="form-control" placeholder="Amount" ng-model="parLocationData.countSalePerson" required> -->
                          			</div>
                          		</div>
@@ -6456,8 +6456,8 @@ float: right !important;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Total Money Brought</label>
-									                 						<label ng-if="comparisonperson[0].totalSalePrice != comparisonperson[1].totalSalePrice" ng-class="comparisonperson[0].totalSalePrice >comparisonperson[1].totalSalePrice ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  id="moneyBrougthOne" style="text-align: right;" >${{comparisonperson[0].totalSalePrice}}</label>
-									                 						<label   ng-if="comparisonperson[0].totalSalePrice == comparisonperson[1].totalSalePrice"  id="moneyBrougthOne" class="col-sm-6" style="text-align: right; color: gray;">${{comparisonperson[0].totalSalePrice}}</label>
+									                 						<label ng-if="comparisonperson[0].totalSalePrice != comparisonperson[1].totalSalePrice" ng-class="comparisonperson[0].totalSalePrice >comparisonperson[1].totalSalePrice ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  id="moneyBrougthOne" style="text-align: right;" >${{comparisonperson[0].totalSalePrice | number:0 }}</label>
+									                 						<label   ng-if="comparisonperson[0].totalSalePrice == comparisonperson[1].totalSalePrice"  id="moneyBrougthOne" class="col-sm-6" style="text-align: right; color: gray;">${{comparisonperson[0].totalSalePrice | number:0}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -6466,8 +6466,8 @@ float: right !important;
 															   </div>
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 				<div class="col-sm-12">
-										                 						<label  ng-if="comparisonperson[0].totalSalePrice != comparisonperson[1].totalSalePrice" ng-class="comparisonperson[1].totalSalePrice >comparisonperson[0].totalSalePrice ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  id="moneyBrougthOne">${{comparisonperson[1].totalSalePrice}}</label>
-									                 						<label   ng-if="comparisonperson[0].totalSalePrice == comparisonperson[1].totalSalePrice"  id="moneyBrougthOne" class="col-sm-6" style="color: gray;">${{comparisonperson[1].totalSalePrice}}</label>
+										                 						<label  ng-if="comparisonperson[0].totalSalePrice != comparisonperson[1].totalSalePrice" ng-class="comparisonperson[1].totalSalePrice >comparisonperson[0].totalSalePrice ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' "  id="moneyBrougthOne">${{comparisonperson[1].totalSalePrice | number:0}}</label>
+									                 						<label   ng-if="comparisonperson[0].totalSalePrice == comparisonperson[1].totalSalePrice"  id="moneyBrougthOne" class="col-sm-6" style="color: gray;">${{comparisonperson[1].totalSalePrice | number:0}}</label>
 									                 					</div>
 															   </div>
 															</div>
@@ -7423,8 +7423,8 @@ float: right !important;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Salary</label>
-									                 						<label  class="col-sm-6"  ng-if="comparisonperson[0].salary != comparisonperson[1].salary " style=" color:gray;text-align: right;"> <!-- ng-class="comparisonperson[0].salary > comparisonperson[1].salary ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;"> -->${{comparisonperson[0].salary}}</label>
-									                 						<label class="col-sm-6" ng-if="comparisonperson[0].salary == comparisonperson[1].salary " style=" color:gray; text-align: right;">{{comparisonperson[0].salary}}</label>
+									                 						<label  class="col-sm-6"  ng-if="comparisonperson[0].salary != comparisonperson[1].salary " style=" color:gray;text-align: right;"> <!-- ng-class="comparisonperson[0].salary > comparisonperson[1].salary ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;"> -->${{comparisonperson[0].salary | number:0}}</label>
+									                 						<label class="col-sm-6" ng-if="comparisonperson[0].salary == comparisonperson[1].salary " style=" color:gray; text-align: right;">{{comparisonperson[0].salary | number:0}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -7434,8 +7434,8 @@ float: right !important;
 															   
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 				       <label class="col-sm-6" ng-if="comparisonperson[0].salary == comparisonperson[1].salary" style=" color:gray;">{{comparisonperson[1].salary}}</label>
-									                 						<label class="col-sm-6"  ng-if="comparisonperson[0].salary != comparisonperson[1].salary" style=" color:gray;" > <!-- ng-class="comparisonperson[1].salary > comparisonperson[0].salary ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " --> ${{comparisonperson[1].salary}}</label>
+									                 				       <label class="col-sm-6" ng-if="comparisonperson[0].salary == comparisonperson[1].salary" style=" color:gray;">{{comparisonperson[1].salary | number:0}}</label>
+									                 						<label class="col-sm-6"  ng-if="comparisonperson[0].salary != comparisonperson[1].salary" style=" color:gray;" > <!-- ng-class="comparisonperson[1].salary > comparisonperson[0].salary ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " --> ${{comparisonperson[1].salary | number:0}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Salary</label>
 									                 					</div>
 															   </div>
@@ -7445,8 +7445,8 @@ float: right !important;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Comission</label>
-									                 						<label class="col-sm-6" ng-if="comparisonperson[0].comission == comparisonperson[1].comission" style="text-align:right; color:gray;">{{comparisonperson[0].comission}}</label>
-									                 						<label class="col-sm-6" ng-if="comparisonperson[0].comission != comparisonperson[1].comission" style=" color:gray;text-align: right;" >  <!-- ng-class="comparisonperson[0].comission > comparisonperson[1].comission ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;"> -->${{comparisonperson[0].comission}}</label>
+									                 						<label class="col-sm-6" ng-if="comparisonperson[0].comission == comparisonperson[1].comission" style="text-align:right; color:gray;">{{comparisonperson[0].comission | number:0}}</label>
+									                 						<label class="col-sm-6" ng-if="comparisonperson[0].comission != comparisonperson[1].comission" style=" color:gray;text-align: right;" >  <!-- ng-class="comparisonperson[0].comission > comparisonperson[1].comission ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;"> -->${{comparisonperson[0].comission | number:0}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -7454,8 +7454,8 @@ float: right !important;
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 				       <label class="col-sm-6" ng-if="comparisonperson[0].comission == comparisonperson[1].comission" style=" color:gray;">{{comparisonperson[1].comission}}</label>
-									                 						<label class="col-sm-6" ng-if="comparisonperson[0].comission != comparisonperson[1].comission" style=" color:gray;"  ><!-- ng-class="comparisonperson[1].comission > comparisonperson[0].comission ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " > -->${{comparisonperson[1].comission}}</label>
+									                 				       <label class="col-sm-6" ng-if="comparisonperson[0].comission == comparisonperson[1].comission" style=" color:gray;">{{comparisonperson[1].comission | number:0}}</label>
+									                 						<label class="col-sm-6" ng-if="comparisonperson[0].comission != comparisonperson[1].comission" style=" color:gray;"  ><!-- ng-class="comparisonperson[1].comission > comparisonperson[0].comission ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " > -->${{comparisonperson[1].comission | number:0}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Comission</label>
 									                 					</div>
 															   </div>
@@ -7505,8 +7505,8 @@ float: right !important;
 															   <div class="col-sm-5" style="padding: 0px;">
 									                 					<div class="col-sm-12">
 									                 						<label class="col-sm-6" style="color: darkturquoise;">Lead Cost</label>
-									                 						 <label class="col-sm-6" ng-if="comparisonperson[0].leadCost == comparisonperson[1].leadCost" style="text-align:right; color:gray;">{{comparisonperson[1].leadCost}}</label>
-									                 						<label ng-if="comparisonperson[0].leadCost != comparisonperson[1].leadCost" ng-class="comparisonperson[1].leadCost > comparisonperson[0].leadCost ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">${{comparisonperson[0].leadCost}}</label>
+									                 						 <label class="col-sm-6" ng-if="comparisonperson[0].leadCost == comparisonperson[1].leadCost" style="text-align:right; color:gray;">{{comparisonperson[1].leadCost | number:0}}</label>
+									                 						<label ng-if="comparisonperson[0].leadCost != comparisonperson[1].leadCost" ng-class="comparisonperson[1].leadCost > comparisonperson[0].leadCost ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " style="text-align: right;">${{comparisonperson[0].leadCost | number:0}}</label>
 									                 					</div>
 															   </div>
 															   <div class="col-sm-2" style="text-align: center;">
@@ -7515,8 +7515,8 @@ float: right !important;
 															   </div>
 															   <div class="col-sm-5" >
 									                 				<div class="col-sm-12">
-									                 				         <label class="col-sm-6" ng-if="comparisonperson[0].leadCost == comparisonperson[1].leadCost" style=" color:gray;">{{comparisonperson[1].leadCost}}</label>
-									                 						<label ng-if="comparisonperson[0].leadCost != comparisonperson[1].leadCost" ng-class="comparisonperson[0].leadCost > comparisonperson[1].leadCost ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >${{comparisonperson[1].leadCost}}</label>
+									                 				         <label class="col-sm-6" ng-if="comparisonperson[0].leadCost == comparisonperson[1].leadCost" style=" color:gray;">{{comparisonperson[1].leadCost | number:0}}</label>
+									                 						<label ng-if="comparisonperson[0].leadCost != comparisonperson[1].leadCost" ng-class="comparisonperson[0].leadCost > comparisonperson[1].leadCost ?'col-sm-6 txtColourGreen':'col-sm-6 txtColourRed' " >${{comparisonperson[1].leadCost | number:0}}</label>
 									                 						<label class="col-sm-6" style="color: darkturquoise;padding: 0px;text-align: right;">Lead Cost</label>
 									                 					</div>
 															   </div>
