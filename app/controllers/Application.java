@@ -24817,7 +24817,6 @@ if(vehicles.equals("All")){
         		sTestVM.email = scTest.email;
         		sTestVM.custZipCode = scTest.custZipCode;
         		sTestVM.enthicity = scTest.enthicity;
-        		sTestVM.price = vehicle.price;
         		
         		
 	    		if(scTest.isRead == 0) {
