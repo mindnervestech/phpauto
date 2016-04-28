@@ -31131,7 +31131,7 @@ private static void managerLikeWork(String email,String subject,String comments,
         					for(ScheduleTest sche:grouptest){
         						
         						AuthUser userEmail = AuthUser.findById(sche.user.id);
-        						//sche.setConfirmDate(null);
+        						/*//sche.setConfirmDate(null);
         						//sche.setConfirmTime(null);
         						sche.setLeadStatus(null);
         						//sche.setDeclineMeeting(2);
@@ -31139,7 +31139,7 @@ private static void managerLikeWork(String email,String subject,String comments,
         						sche.setDeleteMsgFlag(1);
         						sche.setReason(reason);
         						sche.setDeclineUser("Host");
-        						sche.update();
+        						sche.update();*/
         						uEmail = userEmail.communicationemail;
         						
         						AuthUser userNames = AuthUser.findById(sche.assignedTo.id);
@@ -31147,6 +31147,7 @@ private static void managerLikeWork(String email,String subject,String comments,
         						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+sche.name+" \n"+df.format(sche.confirmDate)+"  "+parseTime.format(sche.confirmTime)+"\n"+sche.reason+".";
         						
         						meetingCancelMail(userNames.communicationemail,sche.confirmDate,sche.confirmTime);
+        						sche.delete();
         					}
         					sendEmail(uEmail,subject,comments);
         				}else{
@@ -31155,7 +31156,7 @@ private static void managerLikeWork(String email,String subject,String comments,
         					
         					if(oneGrouptest != null){
         						AuthUser userEmail = AuthUser.findById(oneGrouptest.user.id);
-        						//oneGrouptest.setConfirmDate(null);
+        						/*//oneGrouptest.setConfirmDate(null);
             					//oneGrouptest.setConfirmTime(null);
             					oneGrouptest.setLeadStatus(null);
             					//oneGrouptest.setDeclineMeeting(2);
@@ -31163,12 +31164,13 @@ private static void managerLikeWork(String email,String subject,String comments,
             					oneGrouptest.setMeeting(2);
             					oneGrouptest.setReason(reason);
             					oneGrouptest.setDeclineUser("this person");
-            					oneGrouptest.update();
+            					oneGrouptest.update();*/
             					
             					AuthUser userNames = AuthUser.findById(oneGrouptest.assignedTo.id);
         						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+oneGrouptest.name+" \n"+df.format(oneGrouptest.confirmDate)+"  "+parseTime.format(oneGrouptest.confirmTime)+"\n"+oneGrouptest.reason+".";
         						sendEmail(userEmail.communicationemail,subject,comments);
         						sendEmail(userNames.communicationemail,subject,comments);
+        						oneGrouptest.delete();
         					}
         					
         				}
@@ -31183,6 +31185,7 @@ private static void managerLikeWork(String email,String subject,String comments,
         				subject ="Test Drive has been canceled";
         				comments="Test Drive has been canceled";
         				sendEmail(test.email,subject,comments);
+        				//test.delete();
         			}
         			
         			
