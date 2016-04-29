@@ -450,7 +450,7 @@ angular.module('newApp')
 							$scope.appoTitle = data[0].name +"(Test Drive)";
 						}
 						$scope.personName = "";
-						$scope.dateTime = data[0].confirmDate;
+						$scope.dateTime = data[0].confDate;
 						$scope.dateTime1 = data[0].confirmTime;
 						$scope.dateEndTime = data[0].confirmEndTime;
 						/*$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
