@@ -118,13 +118,11 @@ import org.json.JSONException;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
-import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import scala.concurrent.duration.Duration;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
@@ -149,7 +147,6 @@ import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
 import viewmodel.PriceFormatDate;
-import viewmodel.RegisterVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
@@ -175,7 +172,6 @@ import views.html.agreement;
 import views.html.home;
 import views.html.homeSA;
 import views.html.index;
-import akka.actor.ActorSystem;
 import au.com.bytecode.opencsv.CSVWriter;
 
 import com.avaje.ebean.Ebean;
@@ -15320,24 +15316,26 @@ private static void cancelTestDriveMail(Map map) {
         	    			vm.confirmDate = df2.format(test.getConfirmDate());
         	    		}
         	    		if(test.getConfirmTime() != null) {
-        	    			time.setTime(test.getConfirmTime());
+        	    			/*time.setTime(test.getConfirmTime());
         	    			String ampm = "";
         	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
         	    				ampm = "PM";
         	    			} else {
         	    				ampm = "AM";
         	    			}
-        	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;*/
+        	    			vm.confirmTime = new SimpleDateFormat("hh:mm a").format(test.getConfirmTime());
         	    		}
         	    		if(test.getConfirmEndTime() != null) {
-        	    			time.setTime(test.getConfirmEndTime());
+        	    			/*time.setTime(test.getConfirmEndTime());
         	    			String ampm = "";
         	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
         	    				ampm = "PM";
         	    			} else {
         	    				ampm = "AM";
         	    			}
-        	    			vm.confirmEndTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        	    			vm.confirmEndTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;*/
+        	    			vm.confirmEndTime = new SimpleDateFormat("hh:mm a").format(test.getConfirmEndTime());
         	    		}
         	    		
         	    		
@@ -15368,24 +15366,26 @@ private static void cancelTestDriveMail(Map map) {
         	    			vm.confirmDate = df2.format(test.getConfirmDate());
         	    		}
         	    		if(test.getConfirmTime() != null) {
-        	    			time.setTime(test.getConfirmTime());
+        	    			/*time.setTime(test.getConfirmTime());
         	    			String ampm = "";
         	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
         	    				ampm = "PM";
         	    			} else {
         	    				ampm = "AM";
         	    			}
-        	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;*/
+        	    			vm.confirmTime = new SimpleDateFormat("hh:mm a").format(test.getConfirmTime());
         	    		}
         	    		if(test.getConfirmEndTime() != null) {
-        	    			time.setTime(test.getConfirmEndTime());
+        	    			/*time.setTime(test.getConfirmEndTime());
         	    			String ampm = "";
         	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
         	    				ampm = "PM";
         	    			} else {
         	    				ampm = "AM";
         	    			}
-        	    			vm.confirmEndTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        	    			vm.confirmEndTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;*/
+        	    			vm.confirmEndTime = new SimpleDateFormat("hh:mm a").format(test.getConfirmEndTime());
         	    		}
         	    		
         	    		if(test.groupId != null){
@@ -26132,6 +26132,38 @@ private static void salesPersonPlanMail(Map map) {
 			AuthUser user = getLocalUser();
 			
 			List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser, cd);
+			List<RequestMoreInfo> requestInfo = RequestMoreInfo.findAllByUserServiceTest(authUser, confirmDate);
+			List<TradeIn> tradeIn = TradeIn.findAllByUserServiceTest(authUser, confirmDate);
+			for (TradeIn scheduleTest : tradeIn) {
+				if(confirmDate.equals(scheduleTest.confirmDate)){
+					System.out.println(scheduleTest.id);
+					if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && (scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime))){
+						ScheduleTestVM vm = new ScheduleTestVM();
+						vm.meetingStatus = null;
+						vm.name = scheduleTest.firstName;
+						vm.confDate = new SimpleDateFormat("dd-MM-yyyy").format(scheduleTest.confirmDate);
+						vm.confirmTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
+						AuthUser ass = AuthUser.findById(scheduleTest.assignedTo.getId());
+						vm.fullName = ass.firstName +" "+ass.lastName;
+						list.add(vm);
+					}
+				}
+			}
+			for (RequestMoreInfo scheduleTest : requestInfo) {
+				if(confirmDate.equals(scheduleTest.confirmDate)){
+					System.out.println(scheduleTest.id);
+					if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && (scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime))){
+						ScheduleTestVM vm = new ScheduleTestVM();
+						vm.meetingStatus = null;
+						vm.name = scheduleTest.name;
+						vm.confDate = new SimpleDateFormat("dd-MM-yyyy").format(scheduleTest.confirmDate);
+						vm.confirmTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
+						AuthUser ass = AuthUser.findById(scheduleTest.assignedTo.getId());
+						vm.fullName = ass.firstName +" "+ass.lastName;
+						list.add(vm);
+					}
+				}
+			}
 			for (ScheduleTest scheduleTest : testList) {
 				if(scheduleTest.meetingStatus != null){
 					if(confirmDate.equals(scheduleTest.confirmDate)){

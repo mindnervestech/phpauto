@@ -409,7 +409,9 @@ public String testDriveStatus;
 	public static List<RequestMoreInfo> findByDateAndAssignedUser(AuthUser user,Date date) {
 		return find.where().eq("assignedTo", user).eq("confirmDate", date).eq("status", null).findList();
 	}
-	
+	public static List<RequestMoreInfo> findAllByUserServiceTest(AuthUser user,Date date) {
+		return find.where().eq("assignedTo", user).eq("confirmDate", date).ne("confirmTime", null).eq("status", null).findList();
+	}
 	public static List<RequestMoreInfo> findByVinAndAssignedUser(String vin,AuthUser user) {
 		return find.where().eq("vin", vin).eq("user", user).findList();
 	}

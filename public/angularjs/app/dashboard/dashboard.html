@@ -574,8 +574,8 @@ float: right !important;
                     	    <div class="col-md-12" ng-class="(schedule.meeting != 'meeting')?'infoBlu col-md-12':'infoOrg col-md-12'">
 							 <hr>
                              	<div class="col-md-6" style="padding: 0px;">
-									<span ng-if="schedule.is_google != true && schedule.meeting != 'meeting'" style="padding: 0px;" class="col-md-12"> Test Drive {{schedule.confirmTime}} </span>
-									<span ng-if="schedule.is_google == true || schedule.meeting == 'meeting'" style="padding: 0px;" class="col-md-12">Meeting {{schedule.confirmTime}}- {{schedule.confirmEndTime}} </span>
+									<span ng-if="schedule.is_google != true && schedule.meeting != 'meeting'" style="padding: 0px;" class="col-md-12"><label>Test Drive </label>{{schedule.confirmTime}} </span>
+									<span ng-if="schedule.is_google == true || schedule.meeting == 'meeting'" style="padding: 0px;" class="col-md-12"><label>Meeting</label> {{schedule.confirmTime}}- {{schedule.confirmEndTime}} </span>
                              		<span class="todo-task"> {{schedule.make}}&nbsp;&nbsp; {{schedule.year}}&nbsp;&nbsp; {{schedule.model}}  &nbsp;&nbsp;{{schedule.trim}}</span><br>
 									<span class="todo-task col-md-12" style="padding: 0px;overflow: hidden;"> {{schedule.name}}</span><br>
 									<label class="col-md-12" style="padding: 0px;margin-left: 28px;overflow: hidden;" ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Host's Info</label><br>

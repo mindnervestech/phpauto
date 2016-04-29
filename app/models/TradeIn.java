@@ -712,4 +712,8 @@ public String testDriveStatus;
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}
+	public static List<TradeIn> findAllByUserServiceTest(AuthUser user,
+			Date date) {
+		return find.where().eq("assignedTo", user).eq("confirmDate", date).ne("confirmTime", null).eq("status", null).findList();
+	}
 }
