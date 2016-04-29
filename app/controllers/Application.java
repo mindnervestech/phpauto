@@ -26164,7 +26164,7 @@ private static void salesPersonPlanMail(Map map) {
 				else{
 					if(confirmDate.equals(scheduleTest.confirmDate)){
 						System.out.println(scheduleTest.id);
-						if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime)){
+						if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && (scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime))){
 							ScheduleTestVM vm = new ScheduleTestVM();
 							vm.meetingStatus = scheduleTest.meetingStatus;
 							vm.name = scheduleTest.name;
@@ -26252,7 +26252,7 @@ private static void salesPersonPlanMail(Map map) {
 					else{
 						if(confirmDate.equals(scheduleTest.confirmDate)){
 							System.out.println(scheduleTest.id);
-							if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime)){
+							if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && (scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime))){
 								flag = false;
 								break;
 							}
