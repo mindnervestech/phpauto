@@ -26144,7 +26144,8 @@ private static void salesPersonPlanMail(Map map) {
 									vm.confDate = new SimpleDateFormat("dd-MM-yyyy").format(scheduleTest.confirmDate);
 									vm.confirmTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
 									vm.confirmEndTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmEndTime);
-									vm.fullName = scheduleTest.assignedTo.firstName +" "+scheduleTest.assignedTo.lastName;
+									AuthUser ass = AuthUser.findById(scheduleTest.assignedTo.getId());
+									vm.fullName = ass.firstName +" "+ass.lastName;
 									list.add(vm);
 								}
 							}else{
@@ -26153,7 +26154,8 @@ private static void salesPersonPlanMail(Map map) {
 								vm.name = scheduleTest.name;
 								vm.confDate = new SimpleDateFormat("dd-MM-yyyy").format(scheduleTest.confirmDate);
 								vm.confirmTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
-								vm.fullName = scheduleTest.assignedTo.firstName +" "+scheduleTest.assignedTo.lastName;
+								AuthUser ass = AuthUser.findById(scheduleTest.assignedTo.getId());
+								vm.fullName = ass.firstName +" "+ass.lastName;
 								list.add(vm);
 							}
 						}
@@ -26168,7 +26170,8 @@ private static void salesPersonPlanMail(Map map) {
 							vm.name = scheduleTest.name;
 							vm.confDate = new SimpleDateFormat("dd-MM-yyyy").format(scheduleTest.confirmDate);
 							vm.confirmTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
-							vm.fullName = scheduleTest.assignedTo.firstName +" "+scheduleTest.assignedTo.lastName;
+							AuthUser ass = AuthUser.findById(scheduleTest.assignedTo.getId());
+							vm.fullName = ass.firstName +" "+ass.lastName;
 							list.add(vm);
 						}
 					}
