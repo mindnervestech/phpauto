@@ -26237,31 +26237,34 @@ private static void salesPersonPlanMail(Map map) {
 				for (ScheduleTest scheduleTest : testList) {
 					if(scheduleTest.meetingStatus != null){
 						if(confirmDate.equals(scheduleTest.confirmDate)){
-							if((confirmTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.before(confirmEndTime)) || (confirmTime.after(scheduleTest.confirmTime) && confirmTime.before(scheduleTest.confirmEndTime))){
-								if(scheduleTest.confirmEndTime != null){
-									if((confirmTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.before(confirmEndTime)) || (confirmEndTime.after(scheduleTest.confirmTime) && confirmEndTime.before(scheduleTest.confirmEndTime))){
+							if(scheduleTest.confirmTime != null){
+								if((confirmTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.before(confirmEndTime)) || (confirmTime.after(scheduleTest.confirmTime) && confirmTime.before(scheduleTest.confirmEndTime))){
+									if(scheduleTest.confirmEndTime != null){
+										if((confirmTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.before(confirmEndTime)) || (confirmEndTime.after(scheduleTest.confirmTime) && confirmEndTime.before(scheduleTest.confirmEndTime))){
+											type = "Meeting";
+											schTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime)+"-"+new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmEndTime);
+											flag = false;
+											break;
+										}
+									}else{
 										type = "Meeting";
-										schTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime)+"-"+new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmEndTime);
+										schTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
 										flag = false;
 										break;
 									}
-								}else{
-									type = "Meeting";
-									schTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
-									flag = false;
-									break;
 								}
 							}
 						}
 					}
 					else{
 						if(confirmDate.equals(scheduleTest.confirmDate)){
-							System.out.println(scheduleTest.id);
-							if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && (scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime))){
-								type = "Test Drive";
-								schTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
-								flag = false;
-								break;
+							if(scheduleTest.confirmTime != null){
+								if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && (scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime))){
+									type = "Test Drive";
+									schTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
+									flag = false;
+									break;
+								}
 							}
 						}
 					}

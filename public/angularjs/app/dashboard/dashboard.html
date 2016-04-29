@@ -623,13 +623,23 @@ float: right !important;
         		<strong ng-show="scheduleListData.length > 0">Future Appointments</strong>   <!-- (sd.meetingStatus == 'meeting')?'futureB':'futureA' -->
         		<strong ng-show="scheduleListData.length <= 0">No Future Appointments</strong>   
                       <div ng-repeat="sd in scheduleListData |  orderBy: 'confirmDateOrderBy'" ng-class="(sd.meetingStatus == 'meeting')? (sd.noteFlag == 0) ? 'futureRedDec':'futureB': (sd.noteFlag == 0) ? 'futureRed':'futureA'" title="{{sd.typeOfLead}}">
-						  {{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}&nbsp;&nbsp;&nbsp;{{sd.confirmEndTime}}
-						  <button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button" ng-if="sd.setFlagSameUser != null"  ng-click="editServiceType(sd)">
-							<i class="fa fa-pencil"></i>
-						  </button>
-						  <button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)">
-							<i class="glyphicon glyphicon-trash"></i>
-						  </button>
+						  <p ng-if="sd.meetingStatus == 'meeting'">{{sd.name}}&nbsp;&nbsp;&nbsp; Meeting<br>{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}&nbsp;&nbsp;&nbsp;{{sd.confirmEndTime}}
+							<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button" ng-if="sd.setFlagSameUser != null"  ng-click="editServiceType(sd)">
+								<i class="fa fa-pencil"></i>
+							</button>
+							<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)">
+								<i class="glyphicon glyphicon-trash"></i>
+							</button>
+						  </p>
+						  <p ng-if="sd.meetingStatus != 'meeting'">{{sd.name}}&nbsp;&nbsp;&nbsp;{{sd.make}}&nbsp;&nbsp;{{s.model}}&nbsp;&nbsp;{{sd.year}}<br>{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}
+							<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button" ng-if="sd.setFlagSameUser != null"  ng-click="editServiceType(sd)">
+								<i class="fa fa-pencil"></i>
+							</button>
+							<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button"  ng-click="deleteServiceType(sd)">
+								<i class="glyphicon glyphicon-trash"></i>
+							</button>
+						  </p>
+						  
                       </div>
                   </div>
             <div class="modal fade" id="colored-header" tabindex="-1" role="dialog" aria-hidden="true">
