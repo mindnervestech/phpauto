@@ -810,7 +810,7 @@ public class Vehicle extends Model {
 	}
 	
 	public static List<Vehicle> findByVins(List<String> vins) {
-		return find.where().in("vin", vins).eq("status", "Newly Arrived").findList();
+		return find.where().in("vin", vins).eq("status", "Newly Arrived").eq("publicStatus","public").findList();
 	}
 	public static List<Vehicle> findByVinsforSold(List<String> vins) {
 		return find.where().in("vin", vins).findList();
@@ -821,7 +821,7 @@ public class Vehicle extends Model {
 	}
 	
 	public static List<Vehicle> findByVinsAndTypeVehi(List<String> vins,String typeVehi) {
-		return find.where().in("vin", vins).eq("status", "Newly Arrived").eq("typeofVehicle",typeVehi).findList();
+		return find.where().in("vin", vins).eq("status", "Newly Arrived").eq("publicStatus","public").eq("typeofVehicle",typeVehi).findList();
 	}
 	public static List<Vehicle> findByVinsAndTypeVehiforSold(List<String> vins,String typeVehi) {
 		return find.where().in("vin", vins).eq("typeofVehicle",typeVehi).findList();
