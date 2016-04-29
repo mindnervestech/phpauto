@@ -575,10 +575,10 @@ float: right !important;
 							 <hr>
                              	<div class="col-md-6" style="padding: 0px;">
 									<span ng-if="schedule.is_google != true && schedule.meeting != 'meeting'" style="padding: 0px;" class="col-md-12"> Test Drive {{schedule.confirmTime}} </span>
-									<span ng-if="schedule.is_google == true || schedule.meeting == 'meeting'" style="padding: 0px;" class="col-md-12">Meeting {{schedule.confirmTime}} </span>
+									<span ng-if="schedule.is_google == true || schedule.meeting == 'meeting'" style="padding: 0px;" class="col-md-12">Meeting {{schedule.confirmTime}}- {{schedule.confirmEndTime}} </span>
                              		<span class="todo-task"> {{schedule.make}}&nbsp;&nbsp; {{schedule.year}}&nbsp;&nbsp; {{schedule.model}}  &nbsp;&nbsp;{{schedule.trim}}</span><br>
 									<span class="todo-task col-md-12" style="padding: 0px;overflow: hidden;"> {{schedule.name}}</span><br>
-									<span class="todo-task col-md-12" style="padding: 0px;margin-left: 28px;overflow: hidden;" ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Host's Info</span><br>
+									<label class="col-md-12" style="padding: 0px;margin-left: 28px;overflow: hidden;" ng-if="schedule.is_google == true || schedule.meeting == 'meeting'">Host's Info</label><br>
                              		<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Host's Name: {{schedule.hostName}}</span><br>
 									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Host's Email: {{schedule.email}}</span><br>
 									<span class="todo-task col-md-12" style="padding: 0px; overflow: hidden;">Host's Phone: {{schedule.phone}}</span>

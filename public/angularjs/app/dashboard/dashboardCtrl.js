@@ -385,20 +385,23 @@ angular.module('newApp')
 							$scope.appoTitle = data[0].name +"(Test Drive)";
 						}
 						$scope.personName = "";
-						$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
+						$scope.dateTime = data[0].confirmDate;
+						$scope.dateTime1 = data[0].confirmTime;
+						$scope.dateEndTime = data[0].confirmEndTime;
+						/*$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
 						$scope.dateTime1 = $filter('date')(data[0].confirmTime,"HH:mm a");
 						if(data[0].confirmEndTime != null){
 							$scope.dateEndTime =$filter('date')(data[0].confirmEndTime,"HH:mm a");
 						}else{
 							$scope.dateEndTime =$filter('date')(data[0].confirmTime,"HH:mm a");
-						}
+						}*/
 						console.log($scope.dateTime);
 						console.log($scope.dateTime1);
 						console.log($scope.personName);
 						console.log($scope.appoTitle);
 						$('#userAppointment').click();
 						angular.forEach(data, function(obj, index){
-							var name = obj.assignedTo.firstName +" "+obj.assignedTo.lastName+", ";
+							var name = obj.fullName+", ";
 							$scope.personName = $scope.personName + name;
 						});
 					}
@@ -447,21 +450,26 @@ angular.module('newApp')
 							$scope.appoTitle = data[0].name +"(Test Drive)";
 						}
 						$scope.personName = "";
-						$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
+						$scope.dateTime = data[0].confirmDate;
+						$scope.dateTime1 = data[0].confirmTime;
+						$scope.dateEndTime = data[0].confirmEndTime;
+						/*$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
 						$scope.dateTime1 = $filter('date')(data[0].confirmTime,"HH:mm a");
 						if(data[0].confirmEndTime != null){
 							$scope.dateEndTime =$filter('date')(data[0].confirmEndTime,"HH:mm a");
 						}else{
 							$scope.dateEndTime =$filter('date')(data[0].confirmTime,"HH:mm a");
-						}
+						}*/
 						console.log($scope.dateTime);
 						console.log($scope.dateTime1);
 						console.log($scope.personName);
 						console.log($scope.appoTitle);
 						$('#userAppointment').click();
 						angular.forEach(data, function(obj, index){
-							var name = obj.assignedTo.firstName +" "+obj.assignedTo.lastName+", ";
-							$scope.personName = $scope.personName + name;
+							if(obj.fullName != null){
+								var name = obj.fullName+", ";
+								$scope.personName = $scope.personName + name;
+							}
 						});
 					}
 				});

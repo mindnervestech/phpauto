@@ -75,7 +75,14 @@ public class ScheduleTestVM {
 	public String confDate;
 	public String confTime;
 	public String confirmDate;
+	public String getConfirmEndTime() {
+		return confirmEndTime;
+	}
+	public void setConfirmEndTime(String confirmEndTime) {
+		this.confirmEndTime = confirmEndTime;
+	}
 	public String confirmTime;
+	public String confirmEndTime;
 	public Long groupId;
 	public String leadStatus;
 	public String reason;

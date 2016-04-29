@@ -15329,6 +15329,16 @@ private static void cancelTestDriveMail(Map map) {
         	    			}
         	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
         	    		}
+        	    		if(test.getConfirmEndTime() != null) {
+        	    			time.setTime(test.getConfirmEndTime());
+        	    			String ampm = "";
+        	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+        	    				ampm = "PM";
+        	    			} else {
+        	    				ampm = "AM";
+        	    			}
+        	    			vm.confirmEndTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        	    		}
         	    		
         	    		
         	    		vmList.add(vm);
@@ -15366,6 +15376,16 @@ private static void cancelTestDriveMail(Map map) {
         	    				ampm = "AM";
         	    			}
         	    			vm.confirmTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+        	    		}
+        	    		if(test.getConfirmEndTime() != null) {
+        	    			time.setTime(test.getConfirmEndTime());
+        	    			String ampm = "";
+        	    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+        	    				ampm = "PM";
+        	    			} else {
+        	    				ampm = "AM";
+        	    			}
+        	    			vm.confirmEndTime = time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
         	    		}
         	    		
         	    		if(test.groupId != null){
@@ -24809,12 +24829,15 @@ if(vehicles.equals("All")){
         	sTestVM.meetingStatus = scTest.meetingStatus;
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
         	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
-        	if(scTest.confirmEndTime != null){
-        		sTestVM.confirmEndTime =new SimpleDateFormat("hh:mm a").format(scTest.confirmEndTime);
-        	}else{
-        		sTestVM.confirmEndTime =new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
+        	if(sTestVM.meetingStatus != null){
+        		if(sTestVM.meetingStatus.equalsIgnoreCase("meeting")){
+            		if(scTest.confirmEndTime != null){
+                		sTestVM.confirmEndTime =new SimpleDateFormat("hh:mm a").format(scTest.confirmEndTime);
+                	}else{
+                		sTestVM.confirmEndTime =new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
+                	}
+            	}
         	}
-        	
         	sTestVM.confirmDateOrderBy = scTest.confirmDate;
         	sTestVM.reason=scTest.reason;
         	sTestVM.name = scTest.name;
@@ -26096,7 +26119,7 @@ private static void salesPersonPlanMail(Map map) {
 	
 	public static Result getUserAppointment(String date, String time, String endTime){
 		AuthUser authUser = getLocalUser();
-		List<ScheduleTest> list = new ArrayList<>();
+		List<ScheduleTestVM> list = new ArrayList<>();
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		try {
 			Date cuDate = new Date();
@@ -26110,14 +26133,43 @@ private static void salesPersonPlanMail(Map map) {
 			
 			List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser, cd);
 			for (ScheduleTest scheduleTest : testList) {
-				if(confirmDate.equals(scheduleTest.confirmDate)){
-					if((confirmTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.before(confirmEndTime)) || (confirmTime.after(scheduleTest.confirmTime) && confirmTime.before(scheduleTest.confirmEndTime))){
-						if(scheduleTest.confirmEndTime != null){
-							if((confirmTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.before(confirmEndTime)) || (confirmEndTime.after(scheduleTest.confirmTime) && confirmEndTime.before(scheduleTest.confirmEndTime))){
-								list.add(scheduleTest);
+				if(scheduleTest.meetingStatus != null){
+					if(confirmDate.equals(scheduleTest.confirmDate)){
+						if((confirmTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.before(confirmEndTime)) || (confirmTime.after(scheduleTest.confirmTime) && confirmTime.before(scheduleTest.confirmEndTime))){
+							if(scheduleTest.confirmEndTime != null){
+								if((confirmTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.before(confirmEndTime)) || (confirmEndTime.after(scheduleTest.confirmTime) && confirmEndTime.before(scheduleTest.confirmEndTime))){
+									ScheduleTestVM vm = new ScheduleTestVM();
+									vm.meetingStatus = scheduleTest.meetingStatus;
+									vm.name = scheduleTest.name;
+									vm.confDate = new SimpleDateFormat("dd-MM-yyyy").format(scheduleTest.confirmDate);
+									vm.confirmTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
+									vm.confirmEndTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmEndTime);
+									vm.fullName = scheduleTest.assignedTo.firstName +" "+scheduleTest.assignedTo.lastName;
+									list.add(vm);
+								}
+							}else{
+								ScheduleTestVM vm = new ScheduleTestVM();
+								vm.meetingStatus = scheduleTest.meetingStatus;
+								vm.name = scheduleTest.name;
+								vm.confDate = new SimpleDateFormat("dd-MM-yyyy").format(scheduleTest.confirmDate);
+								vm.confirmTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
+								vm.fullName = scheduleTest.assignedTo.firstName +" "+scheduleTest.assignedTo.lastName;
+								list.add(vm);
 							}
-						}else{
-							list.add(scheduleTest);
+						}
+					}
+				}
+				else{
+					if(confirmDate.equals(scheduleTest.confirmDate)){
+						System.out.println(scheduleTest.id);
+						if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime)){
+							ScheduleTestVM vm = new ScheduleTestVM();
+							vm.meetingStatus = scheduleTest.meetingStatus;
+							vm.name = scheduleTest.name;
+							vm.confDate = new SimpleDateFormat("dd-MM-yyyy").format(scheduleTest.confirmDate);
+							vm.confirmTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
+							vm.fullName = scheduleTest.assignedTo.firstName +" "+scheduleTest.assignedTo.lastName;
+							list.add(vm);
 						}
 					}
 				}
@@ -26163,7 +26215,7 @@ private static void salesPersonPlanMail(Map map) {
 			for (AuthUser authUser : userList) {
 				Boolean flag = true;
 				List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser, cd);
-				for (ScheduleTest scheduleTest : testList) {
+				/*for (ScheduleTest scheduleTest : testList) {
 					if(confirmDate.equals(scheduleTest.confirmDate)){
 						if((confirmTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.before(confirmEndTime)) || (confirmTime.after(scheduleTest.confirmTime) && confirmTime.before(scheduleTest.confirmEndTime))){
 							if(scheduleTest.confirmEndTime != null){
@@ -26172,6 +26224,32 @@ private static void salesPersonPlanMail(Map map) {
 									break;
 								}
 							}else{
+								flag = false;
+								break;
+							}
+						}
+					}
+				}*/
+				for (ScheduleTest scheduleTest : testList) {
+					if(scheduleTest.meetingStatus != null){
+						if(confirmDate.equals(scheduleTest.confirmDate)){
+							if((confirmTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.before(confirmEndTime)) || (confirmTime.after(scheduleTest.confirmTime) && confirmTime.before(scheduleTest.confirmEndTime))){
+								if(scheduleTest.confirmEndTime != null){
+									if((confirmTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.before(confirmEndTime)) || (confirmEndTime.after(scheduleTest.confirmTime) && confirmEndTime.before(scheduleTest.confirmEndTime))){
+										flag = false;
+										break;
+									}
+								}else{
+									flag = false;
+									break;
+								}
+							}
+						}
+					}
+					else{
+						if(confirmDate.equals(scheduleTest.confirmDate)){
+							System.out.println(scheduleTest.id);
+							if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime)){
 								flag = false;
 								break;
 							}
