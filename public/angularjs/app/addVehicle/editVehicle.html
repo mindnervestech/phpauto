@@ -20,6 +20,7 @@
 														<option value="Truck">Truck</option>
 														<option value="Motorcylce">Motorcylce</option>
 														<option value="Boat">Boat</option>
+														<option value="Supercar">Supercar</option>
 												</select>
 											</div>
 										</div>										
@@ -165,14 +166,14 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Cost </label>
 											<div class="col-sm-5">
-												<input  style="border-color:red;" field="vinData.specification.cost" type="number" min="0" placeholder="$" currency-input required>
+												<input  class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.cost"required>    <!-- type="number" min="0" placeholder="$" currency-input ng-change="changeCost()" --> 
 												<p>Not Required,Numbers only,Internal Use Only,Not Displayed to Customer</p>
 											</div>
 										</div>
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">Price *</label>
 											<div class="col-sm-5">
-												<input  style="border-color:red;" field="vinData.specification.price" type="number" min="0" placeholder="$" currency-input required>
+												<input  class="form-control form-white" style="border-color:red;" ng-model="vinData.specification.price"   required>  <!-- currency-input type="number" min="0" placeholder="$" ng-change="changePrice()" -->
 												<p>Numbers only,Enter 0 to display "Call"</p>
 											</div>
 										</div>
@@ -283,11 +284,15 @@
 												<select placeholder="Body Style" class="form-control form-white" ng-model="vinData.specification.style" style="border-color:red;" required>
 												   <option value="">Select</option>
 												   <option value="Sedan">Sedan</option>
-												   <option value="Coupe">Coupe</option>
-												   <option value="SUV">SUV</option>
-												   <option value="Van">Van</option>
-												   <option value="Minivan">Minivan</option>
-												</select>
+												<option value="Coupe">Coupe</option>
+												<option value="SUV">SUV</option>
+												<option value="RV">RV</option>
+												<option value="Hachback">Hatchback</option>
+												<option value="2Hachback">2dr Hachback</option>
+												 <option value="4Hachback">4dr Hachback</option>
+												  <option value="Convertible">Convertible</option>
+				
+			   								</select>
 											</div>
 										</div>
 										
@@ -324,8 +329,17 @@
 		<!--<input class="form-control form-white" ng-model="vinData.specification.drivetrain" type="text"> -->
 	</div>
 	<label class="col-sm-2 control-label" style="text-align: right;">Fuel Type</label>
-	<div class="col-sm-4">
-		<angucomplete-alt id="fuelTypeSearch"
+	    <div class="col-sm-4">
+		<!-- <input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text">-->
+		<select placeholder="Fuel Type" class="form-control form-white" ng-model="vinData.specification.fuelType" required>
+			   <option value="">Select</option>
+			   <option value="Eco-Friendly">Eco-Friendly</option>
+			   <option value="Electric">Electric</option>
+			   <option value="Gas">Gas</option>
+			   <option value="Flexible-Fuel">Flexible-Fuel</option>
+			   <option value="Hybrid">Hybrid</option>
+		</select>
+		<!-- <angucomplete-alt id="fuelTypeSearch"
 				placeholder="Fuel Type"
 				pause="10"
 				selected-object="selectedFuelType"
@@ -336,7 +350,7 @@
 				focus-In="focusIn($index)"
 				focus-Out="fuelFocusOut()"
 				input-class="form-control form-control-small txt">
-		</angucomplete-alt>
+		</angucomplete-alt> -->
 		<!-- <input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text">-->
 	</div>
 </div>
@@ -418,7 +432,7 @@
 	</div>
 	<label class="col-sm-2 control-label" style="text-align: right;">Fuel Type</label>
 	<div class="col-sm-4">
-		<input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text" ng-blur="fuelTypeChange()">
+		<input class="form-control form-white" ng-model="vinData.specification.fuelType" type="text" >  <!-- ng-blur="fuelTypeChange()" -->
 	</div>
 </div>
 <div class="form-group col-sm-12">

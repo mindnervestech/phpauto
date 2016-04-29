@@ -8901,12 +8901,11 @@ angular.module('newApp')
 	   $scope.vinData.specification.extColor = $('#extColorSearch_value').val();
 	   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
 	   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
-	   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
+	  /* $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();*/
 		   $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
 		   $scope.vinData.specification.cost = $scope.vinData.specification.cost.split(',').join('');
 		  
-	  console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"+$scope.vinData.specification.price);
-	  console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"+$scope.vinData.specification.cost);
+	
 	  
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
@@ -9844,7 +9843,7 @@ angular.module('newApp')
 			   $('#extColorSearch_value').val($scope.vinData.specification.extColor);
 			   $('#stereoSearch_value').val($scope.vinData.specification.stereo);
 			   $('#driveTypeSearch_value').val($scope.vinData.specification.drivetrain);
-			   $('#fuelTypeSearch_value').val($scope.vinData.specification.fuelType);
+			 /*  $('#fuelTypeSearch_value').val($scope.vinData.specification.fuelType);*/
 			 
 			   $http.get('/getModelList/'+$scope.vinData.specification.make)
 				.success(function(data) {
@@ -10035,11 +10034,7 @@ angular.module('newApp')
 		   $scope.vinData.specification.extColor = $('#extColorSearch_value').val();
 		   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
 		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
-		   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
-		
-		   $scope.vinData.specification.cost = $scope.vinData.specification.cost.split(',').join('');
-		   $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
-		   
+		   /*$scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();*/
 		   console.log($scope.vinData.specification.cost);
 		   console.log($scope.vinData.specification.price);
 		   
