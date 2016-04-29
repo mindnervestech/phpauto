@@ -8260,7 +8260,7 @@ float: right !important;
 								                    		<tr>
 								                    			<td>Existing Appointments</td>
 								                    		</tr>
-								                    			<tr ng-repeat="noteStatus in timeList">
+								                    			<tr ng-repeat="noteStatus in timeList track by $index">
 								                    				<td>{{noteStatus}}</td>
 								                    			</tr>
 								                    		</table>	

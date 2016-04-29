@@ -29799,12 +29799,14 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	} else {
     			List<String> timeList = new ArrayList<>();
     			try {
+    				AuthUser user = getLocalUser();
     				DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
     				SimpleDateFormat time = new SimpleDateFormat("h:mm:a");
         			Date d = df1.parse(comDate);
         			List<RequestMoreInfo> moreInfo = RequestMoreInfo.findByVinDate(vin,d);
         			List<ScheduleTest> schedule = ScheduleTest.findByVinDate(vin,d);
         			List<TradeIn> traidInfo = TradeIn.findByVinDate(vin,d);
+        			List<ScheduleTest> schList = ScheduleTest.findByUserDate(user,d);
         			for (TradeIn info : traidInfo) {
         				timeList.add(time.format(info.confirmTime));
 					}
@@ -29814,6 +29816,18 @@ public static Result getviniewsChartLeads(Long id, String vin,
         			for (ScheduleTest info : schedule) {
         				timeList.add(time.format(info.confirmTime));
 					}
+        			
+        			for (ScheduleTest info : schList) {
+        				if(info.meetingStatus != null){
+        					if(info.confirmEndTime != null)
+        						timeList.add(time.format(info.confirmTime)+"-"+time.format(info.confirmEndTime));
+        					else
+        						timeList.add(time.format(info.confirmTime));
+        				}
+        				else{
+        					timeList.add(time.format(info.confirmTime));
+        				}
+        			}
         			
 				} catch (Exception e) {
 					e.printStackTrace();

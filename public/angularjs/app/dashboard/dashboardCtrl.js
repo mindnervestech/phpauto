@@ -5588,7 +5588,11 @@ angular.module('newApp')
 				   console.log("success");
 				   console.log(data);
 				   $scope.cnTimeList = data;
-				   $scope.timeList = data;
+				 //$scope.timeList = data;
+				   $scope.timeList = [];
+				   $.each(data, function(i, el){
+				       if($.inArray(el, $scope.timeList) === -1) $scope.timeList.push(el);
+				   })
 			   });
     	  }
     	  
@@ -6328,7 +6332,11 @@ angular.module('newApp')
 				   $http.get("/getScheduleTime/"+$scope.testDriveData.vin+'/'+sDate).success(function(data){
 					   console.log("success");
 					   console.log(data);
-					   $scope.timeList = data;
+					 //$scope.timeList = data;
+					   $scope.timeList = [];
+					   $.each(data, function(i, el){
+					       if($.inArray(el, $scope.timeList) === -1) $scope.timeList.push(el);
+					   })
 				   });
 				   
 				   document.getElementById("testDriveNature").innerHTML = "";
@@ -6382,7 +6390,11 @@ angular.module('newApp')
 					   console.log("success");
 					   console.log(data);
 					   $scope.cnTimeList = data;
-					   $scope.timeList = data;
+					 //$scope.timeList = data;
+					   $scope.timeList = [];
+					   $.each(data, function(i, el){
+					       if($.inArray(el, $scope.timeList) === -1) $scope.timeList.push(el);
+					   })
 				   });
 				   
 				   document.getElementById("gridCnfDateNature").innerHTML = "";
