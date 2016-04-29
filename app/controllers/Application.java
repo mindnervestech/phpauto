@@ -26198,7 +26198,8 @@ private static void salesPersonPlanMail(Map map) {
 			Date confirmTime = new SimpleDateFormat("hh:mm a").parse(time);
 			Date confirmEndTime = new SimpleDateFormat("hh:mm a").parse(endTime);
 			AuthUser user = getLocalUser();
-			
+			String type = null;
+			String schTime = null;
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(confirmTime);
 			calendar.add(Calendar.HOUR, 1);
@@ -26214,7 +26215,7 @@ private static void salesPersonPlanMail(Map map) {
 			}else if(user.role.equals("Sales Person")){
 				userList = AuthUser.findByLocatioUsersNotGM(loc, user.id);
 			}
-			
+			System.out.println(userList.size());
 			for (AuthUser authUser : userList) {
 				Boolean flag = true;
 				List<ScheduleTest> testList = ScheduleTest.findAllByUserServiceTest(authUser, cd);
@@ -26239,10 +26240,14 @@ private static void salesPersonPlanMail(Map map) {
 							if((confirmTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmTime)||scheduleTest.confirmTime.before(confirmEndTime)) || (confirmTime.after(scheduleTest.confirmTime) && confirmTime.before(scheduleTest.confirmEndTime))){
 								if(scheduleTest.confirmEndTime != null){
 									if((confirmTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.after(confirmTime)) && (confirmEndTime.equals(scheduleTest.confirmEndTime)||scheduleTest.confirmEndTime.before(confirmEndTime)) || (confirmEndTime.after(scheduleTest.confirmTime) && confirmEndTime.before(scheduleTest.confirmEndTime))){
+										type = "Meeting";
+										schTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime)+"-"+new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmEndTime);
 										flag = false;
 										break;
 									}
 								}else{
+									type = "Meeting";
+									schTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
 									flag = false;
 									break;
 								}
@@ -26253,6 +26258,8 @@ private static void salesPersonPlanMail(Map map) {
 						if(confirmDate.equals(scheduleTest.confirmDate)){
 							System.out.println(scheduleTest.id);
 							if((scheduleTest.confirmTime.equals(confirmTime) || scheduleTest.confirmTime.after(confirmTime)) && (scheduleTest.confirmTime.equals(confirmEndTime) || scheduleTest.confirmTime.before(confirmEndTime))){
+								type = "Test Drive";
+								schTime = new SimpleDateFormat("hh:mm a").format(scheduleTest.confirmTime);
 								flag = false;
 								break;
 							}
@@ -26264,12 +26271,14 @@ private static void salesPersonPlanMail(Map map) {
 					flag = false;
 					break;
 				}*/
-				
+				System.out.println(authUser.id);
 				if(flag){
 					UserVM vm = new UserVM();
 					vm.id = authUser.getId();
 					vm.fullName = authUser.getFirstName()+" "+authUser.getLastName();
 					vm.role = authUser.getRole();
+					vm.type = null;
+					vm.time = null;
 					vm.userStatus = "Yes";
 					vm.isSelect = false;
 					vmList.add(vm);
@@ -26278,6 +26287,8 @@ private static void salesPersonPlanMail(Map map) {
 					vm.id = authUser.getId();
 					vm.fullName = authUser.getFirstName()+" "+authUser.getLastName();
 					vm.role = authUser.getRole();
+					vm.type = type;
+					vm.time = schTime;
 					vm.userStatus = "N/A";
 					vm.isSelect = false;
 					vmList.add(vm);

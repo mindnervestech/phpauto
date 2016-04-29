@@ -548,17 +548,17 @@ angular.module('newApp')
 	 		 		 $scope.gridOptions11.enableHorizontalScrollbar = 0;
 	 		 		 $scope.gridOptions11.enableVerticalScrollbar = 2;
 	 		 		 $scope.gridOptions11.columnDefs = [
-															{ name: 'isSelect', displayName: 'Select', width:'15%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+															{ name: 'isSelect', displayName: 'Select', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 																cellTemplate:'<input type="checkbox" ng-change="grid.appScope.selectUser(row)" ng-model="row.entity.isSelect" ng-show="row.entity.disabled" > <input type="checkbox" ng-change="grid.appScope.selectUserPop(row)" ng-model="row.entity.isSelect" ng-if="row.entity.disabled == false">',
 															},
-															 { name: 'fullName', displayName: 'Full Name', width:'40%',cellEditableCondition: false,
+															 { name: 'fullName', displayName: 'Full Name', width:'30%',cellEditableCondition: false,
 																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																   if (row.entity.isRead === false) {
 																	 return 'red';
 																 }
 																} ,
 															 },
-														   { name: 'role', displayName: 'Role', width:'25%',cellEditableCondition: false,
+														   { name: 'role', displayName: 'Role', width:'20%',cellEditableCondition: false,
 																	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																	   if (row.entity.isRead === false) {
 																		 return 'red';
@@ -566,7 +566,21 @@ angular.module('newApp')
 																	} ,
 															},
 	 		 		                               
-														   { name: 'userStatus', displayName: 'Availability', width:'20%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+														   { name: 'userStatus', displayName: 'Availability', width:'16%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+																	   if (row.entity.isRead === false) {
+																		 return 'red';
+																	 }
+																	} 
+															},
+															{ name: 'type', displayName: 'Type', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+																	   if (row.entity.isRead === false) {
+																		 return 'red';
+																	 }
+																	} 
+															},
+															{ name: 'time', displayName: 'Time', width:'14%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																	   if (row.entity.isRead === false) {
 																		 return 'red';
