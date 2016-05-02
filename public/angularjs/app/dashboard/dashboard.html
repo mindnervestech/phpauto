@@ -623,7 +623,7 @@ float: right !important;
         		<strong ng-show="scheduleListData.length > 0">Future Appointments</strong>   <!-- (sd.meetingStatus == 'meeting')?'futureB':'futureA' -->
         		<strong ng-show="scheduleListData.length <= 0">No Future Appointments</strong>   
                       <div ng-repeat="sd in scheduleListData |  orderBy: 'confirmDateOrderBy'" ng-class="(sd.meetingStatus == 'meeting')? (sd.noteFlag == 0) ? 'futureRedDec':'futureB': (sd.noteFlag == 0) ? 'futureRed':'futureA'" title="{{sd.typeOfLead}}">
-						  <p ng-if="sd.meetingStatus == 'meeting'">[&nbsp;{{sd.name}}&nbsp;]&nbsp;&nbsp;&nbsp; Meeting<br>{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}&nbsp;&nbsp;&nbsp;{{sd.confirmEndTime}}
+						  <p ng-if="sd.meetingStatus == 'meeting'">&nbsp;{{sd.name}}&nbsp;&nbsp;&nbsp; Meeting<br>{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}&nbsp;&nbsp;&nbsp;{{sd.confirmEndTime}}
 							<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button" ng-if="sd.setFlagSameUser != null"  ng-click="editServiceType(sd)">
 								<i class="fa fa-pencil"></i>
 							</button>
@@ -631,7 +631,7 @@ float: right !important;
 								<i class="glyphicon glyphicon-trash"></i>
 							</button>
 						  </p>
-						  <p ng-if="sd.meetingStatus != 'meeting'">Test Drive of &nbsp;[&nbsp;&nbsp;{{sd.make}}&nbsp;&nbsp;{{s.model}}&nbsp;&nbsp;{{sd.year}}&nbsp;&nbsp;][&nbsp;{{sd.name}}&nbsp;]<br>{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}
+						  <p ng-if="sd.meetingStatus != 'meeting'">Test Drive of &nbsp;{{sd.make}}&nbsp;&nbsp;{{s.model}}&nbsp;&nbsp;{{sd.year}}&nbsp;&nbsp;{{sd.name}}<br>{{sd.confirmDate | date:'MM-dd-yyyy'}}&nbsp;&nbsp;&nbsp;{{sd.confirmTime}}
 							<button class="btn btn-sm btn-info" style="padding: 0px 4px !important; margin-bottom: 0px !important; float: right;" type="button" ng-if="sd.setFlagSameUser != null"  ng-click="editServiceType(sd)">
 								<i class="fa fa-pencil"></i>
 							</button>

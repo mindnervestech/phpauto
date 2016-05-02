@@ -566,21 +566,14 @@ angular.module('newApp')
 																	} ,
 															},
 	 		 		                               
-														   { name: 'userStatus', displayName: 'Availability', width:'16%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+														   { name: 'userStatus', displayName: 'Availability', width:'20%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																	   if (row.entity.isRead === false) {
 																		 return 'red';
 																	 }
 																	} 
 															},
-															{ name: 'type', displayName: 'Type', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-																	   if (row.entity.isRead === false) {
-																		 return 'red';
-																	 }
-																	} 
-															},
-															{ name: 'time', displayName: 'Time', width:'14%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+															{ name: 'time', displayName: 'Time', width:'20%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 																cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																	   if (row.entity.isRead === false) {
 																		 return 'red';
@@ -5011,7 +5004,6 @@ angular.module('newApp')
     	$scope.getScheduleTestData = function() {
 	    		$http.get('/getAllScheduleTestAssigned')
 				.success(function(data) {
-					console.log(data);
 					$scope.gridOptions2.data = data;
 					$scope.AllScheduleTestAssignedList = data;
 			});
@@ -5028,7 +5020,6 @@ angular.module('newApp')
 		$scope.getTradeInData = function() {
 			 $http.get('/getAllTradeInSeen')
 				.success(function(data) {
-					console.log(data);
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
 			 });
@@ -5037,9 +5028,7 @@ angular.module('newApp')
 	
 		$scope.changeSalesPerson = function(){
 			var id = $('#salesPersonUserId').val();
-			console.log(id);
 			$scope.salesPerson = id;
-			console.log($scope.salesPerson);
 			$scope.getAllSalesPersonRecord(id);
 //			$scope.getAllLeadIn();
 //			$('#home-tab').click();
@@ -5052,7 +5041,6 @@ angular.module('newApp')
 			$scope.gridOptions2.data = data;
 			$scope.AllScheduleTestAssignedList = data;
 			var countUnReadLead = 0;
-			console.log($scope.gridOptions2.data);
 				if($scope.userType == "Sales Person"){
 					angular.forEach($scope.gridOptions2.data,function(value,key){
 		        		$scope.getAllListLeadDate.push(value);
@@ -5098,7 +5086,6 @@ angular.module('newApp')
 			var deferred = $q.defer();
 			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
 				.success(function(data) {
-					console.log(data);
 					var countUnReadLead = 0;
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
@@ -5171,15 +5158,11 @@ angular.module('newApp')
 		    		    		       				$scope.addData().then(
 		    		    		    		       			function(success){
 		    		    		    		       				$scope.gridOptions7.data = $scope.getAllListLeadDate;
-		    		    				           	        	console.log($scope.gridOptions7.data);
-		    		    				           	        	console.log($scope.getAllListLeadDate);
 		    		    				           	        	
 		    		    				           	        	//$scope.getAllCanceledLeads();
 		    		    				           	        	//added by vinayak 23-Apr-2016
 		    		    				           	        	$http.get('/getAllCanceledLeads/'+id)
 		    		    				           				.success(function(data) {
-		    		    				           					console.log(id);
-		    		    				           					console.log(data);
 		    		    				           					$scope.gridOptions4.data = data;
 		    		    				           					$scope.canceledLead = data;
 		    		    				           				});
@@ -5192,7 +5175,6 @@ angular.module('newApp')
 		    		    						       			 
 		    		    						       			 $http.get('/getTestDirConfirById/'+id)
 		    		    						       				.success(function(data) {
-		    		    						       					console.log(data);
 		    		    						       					$scope.gridOptions9.data = data;
 		    		    						       					angular.forEach($scope.gridOptions9.data,function(value,key){
 		    		    						       						 value.check = false;
@@ -5204,7 +5186,6 @@ angular.module('newApp')
 		    		    						       			 
 		    		    						       			 $http.get('/getAllCompletedLeadsbyId/'+id)
 		    		    						       				.success(function(data) {
-		    		    						       					console.log(data);
 		    		    						       					$scope.gridOptions10.data = data;
 		    		    						       					$scope.completedL = data;
 		    		    						       				});
