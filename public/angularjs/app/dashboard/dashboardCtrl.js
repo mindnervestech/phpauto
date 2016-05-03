@@ -629,12 +629,16 @@ angular.module('newApp')
 						console.log(data1);
 						data.sendData[0].plan = data1.data[0].price;
 						//data.sendData.push(data1);
-						console.log(data.sendData);
 						$scope.stackchart = data.sendData;
 						if($scope.stackchart[0].data[0] == 0){
 							$scope.stackchart[0].plan = 0;
-							$scope.stackchart[0].price = data1.data[0].price;
 						}
+						if(data1.data[0].price != null){
+							$scope.stackchart[0].price = data1.data[0].price;
+						}else{
+							$scope.stackchart[0].price = 0;
+						}
+						console.log($scope.stackchart);
 						$scope.callChart($scope.stackchart);
 						if(data1.data[0].price == null){
 							var chart = $('#container').highcharts();
@@ -666,8 +670,13 @@ angular.module('newApp')
 					$scope.stackchart = data.sendData;
 					if($scope.stackchart[0].data[0] == 0){
 						$scope.stackchart[0].plan = 0;
-						$scope.stackchart[0].price = data1.data[0].price;
 					}
+					if(data1.data[0].price != null){
+						$scope.stackchart[0].price = data1.data[0].price;
+					}else{
+						$scope.stackchart[0].price = 0;
+					}
+					console.log($scope.stackchart);
 					$scope.callChart($scope.stackchart);
 					if(data1.data[0].price == null){
 						var chart = $('#container').highcharts();
