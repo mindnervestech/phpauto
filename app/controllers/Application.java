@@ -24828,6 +24828,8 @@ if(vehicles.equals("All")){
         	sTestVM.groupId = scTest.groupId;
         	sTestVM.meetingStatus = scTest.meetingStatus;
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
+        	String dateForTest=new SimpleDateFormat("MM-dd-yyyy").format(currD);
+        	String timeForTest=new SimpleDateFormat("hh:mm a").format(currD);
         	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
         	if(sTestVM.meetingStatus != null){
         		if(sTestVM.meetingStatus.equalsIgnoreCase("meeting")){
@@ -24923,11 +24925,33 @@ if(vehicles.equals("All")){
         	if(sTestVM.groupId != null){
         		if(maps.get(sTestVM.groupId) == null){
 					maps.put(sTestVM.groupId, 1);
-					shList.add(sTestVM);
+					int result=sTestVM.confirmDate.compareToIgnoreCase(dateForTest);
+					int result1= sTestVM.confirmEndTime.compareToIgnoreCase(timeForTest);
+					if(result == 0 && result1 > 0 ) 
+						shList.add(sTestVM);
+					    else if(result > 0 )  
+					    	shList.add(sTestVM);
+					    else {
+					    	
+					    }
+					/*
+					shList.add(sTestVM);*/
 				}
         	}else{
-        		shList.add(sTestVM);
-        	}
+        		
+        		int result=sTestVM.confirmDate.compareToIgnoreCase(dateForTest);
+				int result1= sTestVM.confirmTime.compareToIgnoreCase(timeForTest);
+				if(result == 0 && result1 > 0 ) 
+					shList.add(sTestVM);
+				    else if(result > 0 )  
+				    	shList.add(sTestVM);
+				    else {
+				    	
+				    }
+				/*
+          		shList.add(sTestVM);
+        	*/
+				}
 	        	
         	
         }
