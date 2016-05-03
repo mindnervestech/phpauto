@@ -631,6 +631,10 @@ angular.module('newApp')
 						//data.sendData.push(data1);
 						console.log(data.sendData);
 						$scope.stackchart = data.sendData;
+						if($scope.stackchart[0].data[0] == 0){
+							$scope.stackchart[0].plan = 0;
+							$scope.stackchart[0].price = data1.data[0].price;
+						}
 						$scope.callChart($scope.stackchart);
 						if(data1.data[0].price == null){
 							var chart = $('#container').highcharts();
@@ -660,6 +664,10 @@ angular.module('newApp')
 					//data.sendData.push(data1);
 					console.log(data.sendData);
 					$scope.stackchart = data.sendData;
+					if($scope.stackchart[0].data[0] == 0){
+						$scope.stackchart[0].plan = 0;
+						$scope.stackchart[0].price = data1.data[0].price;
+					}
 					$scope.callChart($scope.stackchart);
 					if(data1.data[0].price == null){
 						var chart = $('#container').highcharts();
@@ -833,7 +841,7 @@ angular.module('newApp')
 							width:2,
 							zIndex:4,
 							id: 'plotline-1',
-							label:{text:"Plan : $"+stackchart[0].plan}
+							label:{text:"Plan : $"+stackchart[0].price}
 						}],
 						tooltip: {
 								pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>${series.data[0]}</b><br/>',
