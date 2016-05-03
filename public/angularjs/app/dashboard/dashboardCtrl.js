@@ -3130,7 +3130,7 @@ angular.module('newApp')
 	    			
 	    			
 	    			if(data == 1){
-	    				
+	    				$scope.callForLocalCheck();
 	    				/*  var d = new Date();
 	    	    		  var month = new Array();
 	    	    		  month[0] = "January";
@@ -3164,15 +3164,10 @@ angular.module('newApp')
 	    						}
 	    					});
 	    				*/
-	    				
-	    				
-	    				
-	    				
-	    				
-	    				
-	    				
 	    				var notifContent;
+	    				if(aValue != true){
 	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>Sales Plan for this month has been added</span><br></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'></p></div></div>";
+	    				}
 	    				
 					var position = 'topRight';
 					if ($('body').hasClass(
@@ -3200,11 +3195,11 @@ angular.module('newApp')
 								        		console.log("changee");
 								        		$scope.planForLocationManager();
 								        	}
-								        	if($scope. flagForPlan != 1 && $scope.userRole == "Sales Person"){
+								        	if($scope.flagForPlan != 1 && $scope.userRole == "Sales Person"){
 								        		console.log("changee1111");
 								        		$scope.planForsalePerson();
 								        	}
-								            	  
+								        	localStorage.setItem('flagForNoty', 'true'); 
 								                 $noty.close();
 								              }
 								          }
@@ -3241,6 +3236,11 @@ angular.module('newApp')
 						}
 					});
 	    			}
+	    			else{
+	    				
+	    				localStorage.setItem('flagForNoty', 'false'); 
+	    			}
+	    			
 	    				
 	    		});
 			}
@@ -6644,6 +6644,21 @@ angular.module('newApp')
 			   $scope.saleleadsTime.totalBrought = monthValue;
 		   }
 		   
+		   
+		   
+		   $scope.callForLocalCheck = function(){
+			   var aValue;
+			    aValue = localStorage.getItem('flagForNoty');
+			   console.log("::::::"+aValue);
+			  /*if(aValue == true){
+				  
+				  
+			  }
+			  else{
+				  
+			  }
+			   */
+		   }
 		   
 		   
 		   $scope.planForsalePerson = function(){
