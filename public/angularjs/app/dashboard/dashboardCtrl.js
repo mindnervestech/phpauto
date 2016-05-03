@@ -966,8 +966,8 @@ angular.module('newApp')
     	  }
     	  
     	
-    	  
-    	   $http.get('/getSoldVehicleDetails'+"/"+volumeStatStartDateId+"/"+volumeStatEndDateId)
+    	  console.log(".........");
+    	   $http.get('/getSoldVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId)
    		.success(function(data) {
    		$scope.locationDataList = data;	
    		console.log(data);
@@ -1143,14 +1143,11 @@ angular.module('newApp')
                       pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
                       valueDecimals: 0
                   }
-              },
+              },              
               plotOptions: {
-                  series: {
-                      compare: 'percent'
-                  }
-              },
-              
-              plotOptions: {
+	            	  series: {
+	                      compare: 'percent'
+	                  },
             	    line: {
             	        marker: {
             	            enabled: true,
@@ -2597,9 +2594,10 @@ angular.module('newApp')
             			                }
             			            ]
             			        };
-        			        var ctx2 = document.getElementById("actions-chart").getContext("2d");
-        			        var myNewChart2 = new Chart(ctx2).Line(actionsData, chartOptions);
-        			        
+        			        if(document.getElementById("actions-chart") !=null){
+        			        	var ctx2 = document.getElementById("actions-chart").getContext("2d");
+            			        var myNewChart2 = new Chart(ctx2).Line(actionsData, chartOptions);
+        			        }
         			        
         			        
         		  });
