@@ -31268,6 +31268,7 @@ private static void managerLikeWork(String email,String subject,String comments,
     	for(ScheduleTest sch:sche){
     		ScheduleTestVM vm = new ScheduleTestVM();
     		vm.confirmTime = new SimpleDateFormat("hh:mm a").format(sch.confirmTime);
+    		vm.confirmEndTime = new SimpleDateFormat("hh:mm a").format(sch.confirmEndTime);
     		vm.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(sch.confirmDate);
     		vm.name = sch.name;
     		vm.reason = sch.reason;
