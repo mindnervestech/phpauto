@@ -3140,7 +3140,19 @@ angular.module('newApp')
 				
 				
 			}
-			
+			 $scope.callForLocalCheck = function(){
+				   $scope.aValue;
+				   $scope.aValue = localStorage.getItem('flagForNoty');
+				   console.log("::::::"+$scope.aValue);
+				  /*if(aValue == true){
+					  
+					  
+				  }
+				  else{
+					  
+				  }
+				   */
+			   }
 			$scope.PlanOnMonday = function(){
 				$http.get('/getPlanMonday')
 	    		.success(function(data){
@@ -3181,11 +3193,11 @@ angular.module('newApp')
 	    						}
 	    					});
 	    				*/
-	    				var notifContent;
-	    				if(aValue != true){
-	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>Sales Plan for this month has been added</span><br></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'></p></div></div>";
-	    				}
+	    				console.log(">>>>>aValue"+$scope.aValue);
 	    				
+	    				if($scope.aValue == false){
+	    					var notifContent;
+	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>Sales Plan for this month has been added</span><br></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'></p></div></div>";
 					var position = 'topRight';
 					if ($('body').hasClass(
 							'rtl'))
@@ -3252,6 +3264,7 @@ angular.module('newApp')
 							}
 						}
 					});
+	    			}
 	    			}
 	    			else{
 	    				
@@ -6663,19 +6676,7 @@ angular.module('newApp')
 		   
 		   
 		   
-		   $scope.callForLocalCheck = function(){
-			   var aValue;
-			    aValue = localStorage.getItem('flagForNoty');
-			   console.log("::::::"+aValue);
-			  /*if(aValue == true){
-				  
-				  
-			  }
-			  else{
-				  
-			  }
-			   */
-		   }
+		  
 		   
 		   
 		   $scope.planForsalePerson = function(){
