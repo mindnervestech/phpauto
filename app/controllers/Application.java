@@ -24958,6 +24958,7 @@ if(vehicles.equals("All")){
 		Long id =vm.id;
 		String confDate = vm.confDate;
 		String confTime = vm.confTime;
+		String confEndTime = vm.confirmEndTime;
 		String googleID = vm.google_id;
 		boolean infoChange = false;
 	    /* String id = form.get("id");
@@ -24997,23 +24998,24 @@ if(vehicles.equals("All")){
 				
 				List<ScheduleTest> test = ScheduleTest.findAllGroupMeeting(vm.groupId);
 				for(ScheduleTest testloop:test){
-					if(! testloop.getName().equals(vm.name) || ! testloop.getReason().equals(vm.reason) || ! testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
+					if(! testloop.getName().equals(vm.name) || ! testloop.getReason().equals(vm.reason) || ! testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))|| ! testloop.getConfirmEndTime().equals(time.parse(confEndTime))){
 						infoChange = true;
 					}
 					AuthUser assi = AuthUser.findById(testloop.assignedTo.id);
 					testloop.setName(vm.name);
 					testloop.setReason(vm.reason);
-					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))){
+					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))|| ! testloop.getConfirmEndTime().equals(time.parse(confEndTime))){
 						list.add(assi);
 						testloop.setDeclineUpdate(1);
             	    // testloop.setSendInvitation(1);
 						String subject = "Meeting's information has been changed.";
  			   	    	String comments = "Meeting invitation received \n "+user.firstName+" "+user.lastName+"\n"+vm.getConfDate()+" "+vm.getConfirmTime()+".";
  			   	    	//sendEmail(assi.communicationemail, subject, comments);
-			       }
-					testloop.setConfirmDate(df.parse(confDate));
+ 			   	    testloop.setConfirmDate(df.parse(confDate));
 					testloop.setConfirmTime(new SimpleDateFormat("hh:mm a").parse(confTime));
-					
+					if(confEndTime!=null)
+					testloop.setConfirmEndTime(new SimpleDateFormat("hh:mm a").parse(confEndTime));
+			       }
 					testloop.update();
 				}
 				
@@ -25078,6 +25080,8 @@ if(vehicles.equals("All")){
 			try {			
 				moTest.confirmDate = df.parse(vm.confDate);
 				moTest.confirmTime = new SimpleDateFormat("hh:mm a").parse(vm.confTime);
+				if(vm.confirmEndTime != null)
+				moTest.confirmEndTime = new SimpleDateFormat("hh:mm a").parse(vm.confirmEndTime);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -25091,6 +25095,7 @@ if(vehicles.equals("All")){
 			String[] dt = vm.confirmDate.split("-");
 			vm.bestDay = dt[1]+"-"+dt[0]+"-"+dt[2];
 			vm.bestTime = vm.confirmTime;
+			vm.bestEndTime = vm.confirmEndTime;
 			sendMeetingMailToAssignee(vm, user, userList);
 		}
 		if(infoChange){
@@ -25226,6 +25231,7 @@ if(vehicles.equals("All")){
 	        String confirmTime = localDateFormat.format(vm.confirmTime);
 	        */
 	        context.put("time",vm.confirmTime);
+	        context.put("endTime",vm.confirmEndTime);
 	        context.put("date", vm.getBestDay());
 	       // context.put("time", vm.getBestTime());
 	        context.put("disc", vm.getReason());

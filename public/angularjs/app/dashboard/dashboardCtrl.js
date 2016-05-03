@@ -8678,7 +8678,7 @@ angular.module('newApp')
 		   $scope.updateScheduleTest = function(){
 			   $scope.data1.confDate = $('#cnfReSchDate').val();
 			   $scope.data1.confTime = $('#timeSchPick').val();
-			   $scope.data1.confEndTime = $('#timeSchPickEnd').val();
+			   $scope.data1.confirmEndTime = $('#timeSchPickEnd').val();
 			   
 			   console.log($scope.data1);
 			  $scope.data1.usersList = $scope.checked;
