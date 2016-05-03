@@ -858,19 +858,19 @@ float: right !important;
 													</div>
 													
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;margin-bottom: 7px;">${{item.price | number:0}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
+														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;margin-bottom: 7px;padding: 0px">${{item.price | number:0}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i style="margin-left: 11px" ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;">{{item.count | number:0}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.count | number:0}}</span>
 													</div>
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;">{{item.followerCount | number:0}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-heart" title="Follower" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.followerCount | number:0}}</span>
 													</div>
 													<!-- <div>
 														<span class="col-sm-4 glyphicon glyphicon glyphicon-thumbs-up" title="Amount" style="color: darkturquoise;"></span><span class="col-sm-8">{{item.count}}</span>
 													</div> -->
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;">{{item.leadsCount | number:0}}</span>
+														<span class="col-sm-4 glyphicon glyphicon-user" title="Total Leads" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8"  style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.leadsCount | number:0}}</span>
 													</div>
 													<!-- <div class="col-sm-12">
 														<input type="checkbox" name="Compare" ng-model="compare" ng-click="checkIndex(item,compare)"> <label style="color: darkturquoise;">Compare</label>
@@ -4909,13 +4909,13 @@ float: right !important;
             </div> -->
             <div ng-if="showBarvehical == 1">
             	<div class="panel-content p-t-0 p-b-0">
-            		<h2 class="watermark" ng-show="msgShow == 1"><b>No Sales have been made</b></h2>
+            		<h2 style="color: black;" class="watermark" ng-if="msgShow == 1"><b>No Sales have been made</b></h2>
                 	<div id="bar-chartVehicle">
                 	</div>
             	</div>
             </div>
             <div ng-if="showvehical == 1">
-            <h2 class="watermark" ng-show="msgShow == 1"><b>No Sales have been made</b></h2>
+            <h2 style="color: black;" class="watermark" ng-if="msgShow == 1"><b>No Sales have been made</b></h2>
              	<div id="financial-chart" style="height:240px"></div>
             </div>
             <div>
