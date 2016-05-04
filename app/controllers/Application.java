@@ -12185,22 +12185,22 @@ private static void cancelTestDriveMail(Map map) {
    	}
    	
    	for(RequestMoreInfo rMoreInfo:rInfo){
-   	//	if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
+   		if((rMoreInfo.requestDate.after(startD) && rMoreInfo.requestDate.before(endD)) || rMoreInfo.requestDate.equals(endD) || rMoreInfo.requestDate.equals(startD)){
    			requestLeadCount++;
-   		//}
+   		}
    	}
    	
    	
    	for(ScheduleTest sTest:sList){
-   		//if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
+   		if((sTest.scheduleDate.after(startD) && sTest.scheduleDate.before(endD)) || sTest.scheduleDate.equals(endD) || sTest.scheduleDate.equals(startD)){
    			scheduleLeadCount++;
-   		//}
+   		}
    	}
 
    	for(TradeIn tIn:tradeIns){
-   		//if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
+   		if((tIn.tradeDate.after(startD) && tIn.tradeDate.before(endD)) || tIn.tradeDate.equals(endD) || tIn.tradeDate.equals(startD)){
    				tradeInLeadCount++;
-   		//}
+   		}
    	}
    	
    	for(RequestMoreInfo rMoreInfo:rInfoAll){
