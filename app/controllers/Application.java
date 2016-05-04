@@ -24799,6 +24799,8 @@ if(vehicles.equals("All")){
         
         DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
         Date currD = new Date();
+        System.out.println("current time");
+        System.out.println(currD);
         String cDate = df.format(currD);
         Date datec = null;
         try {
