@@ -12284,9 +12284,13 @@ private static void cancelTestDriveMail(Map map) {
        			monthPriceCount = monthPriceCount + vehList.price;
        		}
        	}
+       	if(countLeads1 != 0 ){
+       		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
+           	lDataVM.successRate = (int) sucessCount;
+       	}else{
+       		lDataVM.successRate = 0;
+       	}
        	
-       	double sucessCount= (double)saleCarCount/(double)countLeads1*100;
-       	lDataVM.successRate = (int) sucessCount;
    	}else if(users.role.equals("Sales Person") || locOrPer.equals("person")){
    		
    		List<RequestMoreInfo> rInfo1 = RequestMoreInfo.findAllSeenComplete(users);
@@ -12303,9 +12307,13 @@ private static void cancelTestDriveMail(Map map) {
 					monthPriceCount = monthPriceCount + vehicle.price;
 				}
 			}
+   		if(countLeads1 != 0){
+   			double sucessCount= (double)saleCarCount/(double)countLeads1*100;
+   	   		lDataVM.successRate = (int) sucessCount;
+   		}else{
+   	   		lDataVM.successRate = 0;
+   		}
    		
-   		double sucessCount= (double)saleCarCount/(double)countLeads1*100;
-   		lDataVM.successRate = (int) sucessCount;
    		
    	}
    	
@@ -21713,8 +21721,11 @@ if(vehicles.equals("All")){
      	Date dateobj = new Date();
      	Calendar cal1 = Calendar.getInstance();
      	//AuthUser users = (AuthUser) getLocalUser();
-     	
-     	AuthUser users = AuthUser.findById(id);
+     	AuthUser users;
+     	users = AuthUser.findById(id);
+     	if(users == null){
+     		users = (AuthUser) getLocalUser();
+     	}
      	
      	String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
  		        "August", "September", "October", "November", "December" };
