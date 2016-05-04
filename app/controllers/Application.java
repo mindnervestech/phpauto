@@ -24927,6 +24927,9 @@ if(vehicles.equals("All")){
 					maps.put(sTestVM.groupId, 1);
 					int result=sTestVM.confirmDate.compareToIgnoreCase(dateForTest);
 					int result1= sTestVM.confirmEndTime.compareToIgnoreCase(timeForTest);
+					System.out.println("meeting date and time");
+					System.out.println(dateForTest);
+					System.out.println(timeForTest);
 					if(result == 0 && result1 > 0 ) 
 						shList.add(sTestVM);
 					    else if(result > 0 )  
@@ -24938,7 +24941,8 @@ if(vehicles.equals("All")){
 					shList.add(sTestVM);*/
 				}
         	}else{
-        		
+        		System.out.println("testdrive date and time");
+				System.out.println(timeForTest);
         		int result=sTestVM.confirmDate.compareToIgnoreCase(dateForTest);
 				int result1= sTestVM.confirmTime.compareToIgnoreCase(timeForTest);
 				if(result == 0 && result1 > 0 ) 
