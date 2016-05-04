@@ -24833,7 +24833,38 @@ if(vehicles.equals("All")){
     	
         Map<Long,Integer> maps = new HashMap<Long, Integer>();
         List<RequestInfoVM> shList = new ArrayList<RequestInfoVM>();
+        
+
+    	 Date currD1 = new Date();
+    	 Date currentDate = null;
+    	 Date infoDate = null;
+    	 DateFormat df2 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
+    	 SimpleDateFormat parseTime = new SimpleDateFormat("HH:mm a");
+   		 Location location = Location.findById(16l);
+   		 if(user.location != null){
+   			 location = Location.findById(user.location.id);
+   		 }
+   		 //df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+         String IST = df2.format(currD1);
+         Date istTimes = null;
+         try {
+				istTimes = df2.parse(IST);
+				String crD =    df2.format(istTimes);
+	 			currentDate = df2.parse(crD);
+	 			System.out.println("current Date :  "+currentDate);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
+         
         for(ScheduleTest scTest:list){
+ 			try {
+ 	 			 String str = df.format(scTest.confirmDate) +" "+parseTime.format(scTest.confirmTime);
+ 		   		 infoDate = df2.parse(str);
+ 		   		 System.out.println(scTest.id);
+ 		   		 System.out.println("InfoDate : "+infoDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
         	RequestInfoVM sTestVM = new RequestInfoVM();
         	sTestVM.id = scTest.id;
         	sTestVM.is_google_data = scTest.is_google_data;
@@ -24841,8 +24872,6 @@ if(vehicles.equals("All")){
         	sTestVM.groupId = scTest.groupId;
         	sTestVM.meetingStatus = scTest.meetingStatus;
         	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(scTest.confirmDate);
-        	String dateForTest=new SimpleDateFormat("MM-dd-yyyy").format(currD);
-        	String timeForTest=new SimpleDateFormat("hh:mm a").format(currD);
         	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(scTest.confirmTime);
         	if(sTestVM.meetingStatus != null){
         		if(sTestVM.meetingStatus.equalsIgnoreCase("meeting")){
@@ -24934,47 +24963,16 @@ if(vehicles.equals("All")){
         		sTestVM.typeOfLead = "Meeting";
         	}
         	
-        	
-        	if(sTestVM.groupId != null){
-        		if(maps.get(sTestVM.groupId) == null){
-					maps.put(sTestVM.groupId, 1);
-					int result=sTestVM.confirmDate.compareToIgnoreCase(dateForTest);
-					int result1= sTestVM.confirmEndTime.compareToIgnoreCase(timeForTest);
-					System.out.println("meeting date and time");
-					System.out.println(dateForTest);
-					System.out.println(timeForTest);
-					System.out.println("Database time"+" ");
-					System.out.println(sTestVM.confirmEndTime);
-					System.out.println("Database date"+" "+sTestVM.confirmDate);
-					System.out.println(sTestVM.confirmDate);
-					if(result == 0 && result1 > 0 ) 
-						shList.add(sTestVM);
-					    else if(result > 0 )  
-					    	shList.add(sTestVM);
-					    else {
-					    	
-					    }
-					/*
-					shList.add(sTestVM);*/
-				}
-        	}else{
-        		System.out.println("testdrive date and time");
-				System.out.println(timeForTest);
-        		int result=sTestVM.confirmDate.compareToIgnoreCase(dateForTest);
-				int result1= sTestVM.confirmTime.compareToIgnoreCase(timeForTest);
-				if(result == 0 && result1 > 0 ) 
-					shList.add(sTestVM);
-				    else if(result > 0 )  
-				    	shList.add(sTestVM);
-				    else {
-				    	
-				    }
-				/*
-          		shList.add(sTestVM);
-        	*/
-				}
-	        	
-        	
+        	if(infoDate.after(currentDate)){
+        		if(sTestVM.groupId != null){
+            		if(maps.get(sTestVM.groupId) == null){
+    					maps.put(sTestVM.groupId, 1);
+    					shList.add(sTestVM);
+    				}
+            	}else{
+            		shList.add(sTestVM);
+            	}
+        	}
         }
         List<ScheduleTest> listData = null;
         fillLeadsData(listData, requestMoreInfos, tradeIns, shList);
