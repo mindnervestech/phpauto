@@ -24838,19 +24838,20 @@ if(vehicles.equals("All")){
     	 Date currD1 = new Date();
     	 Date currentDate = null;
     	 Date infoDate = null;
+    	 DateFormat df1 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
     	 DateFormat df2 = new SimpleDateFormat("MM-dd-yyyy HH:mm a");
     	 SimpleDateFormat parseTime = new SimpleDateFormat("HH:mm a");
    		 Location location = Location.findById(16l);
    		 if(user.location != null){
    			 location = Location.findById(user.location.id);
    		 }
-   		 //df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+   		 df1.setTimeZone(TimeZone.getTimeZone(location.time_zone));
          String IST = df2.format(currD1);
          Date istTimes = null;
          try {
 				istTimes = df2.parse(IST);
 				String crD =    df2.format(istTimes);
-	 			currentDate = df2.parse(crD);
+	 			currentDate = df1.parse(crD);
 	 			System.out.println("current Date :  "+currentDate);
 			} catch (ParseException e1) {
 				e1.printStackTrace();
