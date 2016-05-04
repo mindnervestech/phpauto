@@ -858,7 +858,7 @@ float: right !important;
 													</div>
 													
 													<div>
-														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;margin-bottom: 7px;padding: 0px">${{item.price | number:0}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:80px;" ng-blur="setLable(item.price,item.vin)"/><i style="margin-left: 5px" ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
+														<span class="col-sm-4 glyphicon glyphicon-usd" title="Amount" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span  ng-if="priceLbl=='true' || $index != index" id="pricelb"class="col-sm-6" style="font-size: 15px;margin-bottom: 7px;padding: 0px">${{item.price | number:0}}</span><input ng-if="priceTxt=='true' &&  vin == item.vin" id="editPrice" type="text" ng-model="item.price" style="width:60px;" ng-blur="setLable(item.price,item.vin)"/><i style="margin-left: 7px" ng-if="userPer == 'true'" class="glyphicon glyphicon-pencil" ng-click="editPrice(item.vin,$index,item.id)"></i>
 													</div>
 													<div>
 														<span class="col-sm-4 glyphicon glyphicon-eye-open" title="Views" style="color: darkturquoise;font-size: 16px;margin-bottom: 7px;"></span><span class="col-sm-8" style="font-size: 15px;margin-bottom: 7px;padding: 0px">{{item.count | number:0}}</span>
