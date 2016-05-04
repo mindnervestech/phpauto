@@ -622,7 +622,8 @@ angular.module('newApp')
 			.success(function(data) {
 				$http.get('/getUserLocationByDateInfo/'+data.id+"/"+startD+'/'+endD+'/'+locOrPer)
 				.success(function(data) {
-					
+					console.log("dddd");
+				    console.log(data);
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					$http.get('/getPlanTarget/'+locOrPer)
 					.success(function(data1) {
@@ -659,7 +660,8 @@ angular.module('newApp')
 			
 			$http.get('/getUserLocationByDateInfo/'+$scope.userKey+"/"+startD+'/'+endD+'/'+locOrPer)
 			.success(function(data) {
-			
+				console.log("eeeeee");
+			    console.log(data);
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
 				$http.get('/getPlanTarget/'+locOrPer)
 				.success(function(data1) {
@@ -685,7 +687,8 @@ angular.module('newApp')
 					
 			});
 				
-				
+				console.log("LLLLLLLLL");
+				console.log(data);
 				   $scope.countTestDrives=data.countTestDrives;
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
