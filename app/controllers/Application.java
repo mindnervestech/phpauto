@@ -24932,6 +24932,10 @@ if(vehicles.equals("All")){
 					System.out.println("meeting date and time");
 					System.out.println(dateForTest);
 					System.out.println(timeForTest);
+					System.out.println("Database time"+" ");
+					System.out.println(sTestVM.confirmEndTime);
+					System.out.println("Database date"+" "+sTestVM.confirmDate);
+					System.out.println(sTestVM.confirmDate);
 					if(result == 0 && result1 > 0 ) 
 						shList.add(sTestVM);
 					    else if(result > 0 )  
