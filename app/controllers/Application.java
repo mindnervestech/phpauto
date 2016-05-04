@@ -24846,12 +24846,12 @@ if(vehicles.equals("All")){
    			 location = Location.findById(user.location.id);
    		 }
    		 df1.setTimeZone(TimeZone.getTimeZone(location.time_zone));
-         String IST = df2.format(currD1);
+         String IST = df1.format(currD1);
          Date istTimes = null;
          try {
 				istTimes = df2.parse(IST);
 				String crD =    df2.format(istTimes);
-	 			currentDate = df1.parse(crD);
+	 			currentDate = df2.parse(crD);
 	 			System.out.println("current Date :  "+currentDate);
 			} catch (ParseException e1) {
 				e1.printStackTrace();
