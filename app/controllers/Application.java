@@ -14989,8 +14989,8 @@ private static void cancelTestDriveMail(Map map) {
      		    	 String comments = "You have a test drive scheduled in 24 hours ";
      		    	sendEmailAfterDay(emailUser.communicationemail, subject, comments,tInfo.vin,tInfo.confirmDate,tInfo.confirmTime,tInfo.user,tInfo.firstName+" "+tInfo.lastName);
      		    	sendEmailAfterDay(tInfo.email, subject, comments,tInfo.vin,tInfo.confirmDate,tInfo.confirmTime,tInfo.user,tInfo.firstName+" "+tInfo.lastName);
-     		    	 sendEmail(emailUser.communicationemail, subject, comments);
-     		    	sendEmail(tInfo.email, subject, comments);
+     		    	// sendEmail(emailUser.communicationemail, subject, comments);
+     		    	//sendEmail(tInfo.email, subject, comments);
         		 }
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -30548,7 +30548,6 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		final String password = emailPassword;
 		
 		
-		SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -30582,7 +30581,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 			ve.init();
 		
-		    Template t = ve.getTemplate("/public/emailTemplate/testDriveReminder48hours_HTML.html"); 
+		    Template t = ve.getTemplate("/public/emailTemplate/testDriveReminder48hours_HTML.vm"); 
 	        VelocityContext context = new VelocityContext();
 	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
 	       
@@ -30607,12 +30606,11 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 	        
 	        String monthName = months[month-1];
 	        context.put("hostnameUrl", imageUrlPath);
-	        context.put("siteLogo", logo.logoImagePath);
 	        context.put("dayOfmonth", dayOfmonth);
 	        context.put("monthName", monthName);
 	        context.put("confirmTime",confirmTime);
 	        
-	        Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+	        Vehicle vehicle = Vehicle.findByVin(vin.toString());
 	        context.put("year", vehicle.year);
 	        context.put("make", vehicle.make);
 	        context.put("model", vehicle.model);
