@@ -14844,8 +14844,8 @@ private static void cancelTestDriveMail(Map map) {
                     		 if(scTest.meetingStatus == null){
                     			 String subject = "Test drive reminder";
                  		    	 String comments = "You have a test drive scheduled in 24 hours \n Date" +infoDate ;
-                 		    	 sendEmail(emailUser.communicationemail, subject, comments);
-                 		    	sendEmail(scTest.email, subject, comments);
+                 		    	 sendEmailAfterDay(emailUser.communicationemail, subject, comments,scTest.vin,scTest.confirmDate,scTest.confirmTime,scTest.user,scTest.name);
+                 		    	sendEmailAfterDay(scTest.email, subject, comments,scTest.vin,scTest.confirmDate,scTest.confirmTime,scTest.user,scTest.name);
                 			 }else if(scTest.meetingStatus.equals("meeting")){
                 				 
                 				 listForUser1=new ArrayList<>();
@@ -14924,8 +14924,10 @@ private static void cancelTestDriveMail(Map map) {
         		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 24 hours ";
-     		    	 sendEmail(emailUser.communicationemail, subject, comments);
-     		    	sendEmail(rInfo.email, subject, comments);
+     		    	// sendEmail(emailUser.communicationemail, subject, comments);
+     		    	sendEmailAfterDay(emailUser.communicationemail, subject, comments,rInfo.vin,rInfo.confirmDate,rInfo.confirmTime,rInfo.user,rInfo.name);
+     		    	sendEmailAfterDay(rInfo.email, subject, comments,rInfo.vin,rInfo.confirmDate,rInfo.confirmTime,rInfo.user,rInfo.name);
+     		    	//sendEmail(rInfo.email, subject, comments);
         		 }
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -14985,6 +14987,8 @@ private static void cancelTestDriveMail(Map map) {
         		 if((infoDate.equals(aftDay)||infoDate.after(aftDay)) && ((infoDate.equals(aftDay1)||infoDate.before(aftDay1)))){
         			 String subject = "Test drive reminder";
      		    	 String comments = "You have a test drive scheduled in 24 hours ";
+     		    	sendEmailAfterDay(emailUser.communicationemail, subject, comments,tInfo.vin,tInfo.confirmDate,tInfo.confirmTime,tInfo.user,tInfo.firstName+" "+tInfo.lastName);
+     		    	sendEmailAfterDay(tInfo.email, subject, comments,tInfo.vin,tInfo.confirmDate,tInfo.confirmTime,tInfo.user,tInfo.firstName+" "+tInfo.lastName);
      		    	 sendEmail(emailUser.communicationemail, subject, comments);
      		    	sendEmail(tInfo.email, subject, comments);
         		 }
@@ -30538,6 +30542,134 @@ private static void managerLikeWork(String email,String subject,String comments,
 				
 		return ok();
 	}
+	
+public static Result sendEmailAfterDay(String email, String subject ,String comment,String vin,Date confirmDate,Date confirmTime,AuthUser user,String clientName) {
+		final String username = emailUsername;
+		final String password = emailPassword;
+		
+		
+		SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+    	try
+		{
+    		/*InternetAddress[] usersArray = new InternetAddress[2];
+    		int index = 0;
+    		usersArray[0] = new InternetAddress(map.get("email").toString());
+    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());
+    		*/
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(email));
+			message.setSubject(subject);
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+		
+		    Template t = ve.getTemplate("/public/emailTemplate/testDriveReminder48hours_HTML.html"); 
+	        VelocityContext context = new VelocityContext();
+	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+	       
+	        int dayOfmonth=1;
+	        int month=0;
+	        try {
+	        	SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+ 	        	String dateInString = formatter.format(confirmDate); /*confirmDate*/
+	        	String arr[] = dateInString.toString().split("-");
+		        if(arr.length >=2){
+		        	dayOfmonth = Integer.parseInt(arr[0]);
+			        month = Integer.parseInt(arr[1]);
+		        }else{
+		        	Calendar cal = Calendar.getInstance();
+			         cal.setTime(confirmDate);
+			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+			         month = cal.get(Calendar.MONTH)+1;
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        
+	        String monthName = months[month-1];
+	        context.put("hostnameUrl", imageUrlPath);
+	        context.put("siteLogo", logo.logoImagePath);
+	        context.put("dayOfmonth", dayOfmonth);
+	        context.put("monthName", monthName);
+	        context.put("confirmTime",confirmTime);
+	        
+	        Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+	        context.put("year", vehicle.year);
+	        context.put("make", vehicle.make);
+	        context.put("model", vehicle.model);
+	        context.put("price", "$"+vehicle.price);
+	        context.put("stock", vehicle.stock);
+	        context.put("vin", vehicle.vin);
+	        context.put("make", vehicle.make);
+             if(vehicle.mileage!= null){
+	        	
+	        	context.put("mileage",vehicle.mileage);
+	        	 
+	        }
+	        else{
+	        	context.put("mileage","");
+	        }
+             if(clientName != null){
+    	        	
+              	  context.put("clientName", clientName);
+    	        	 
+    	        }
+    	        else{
+    	        	 context.put("clientName","");
+    	        }
+            context.put("typeofVehicle", vehicle.typeofVehicle);
+	        context.put("name",user.firstName+" "+user.lastName);
+	        context.put("email", user.email);
+	        context.put("phone", user.phone);
+	        /*String weather= map.get("weatherValue").toString();
+	        String arr1[] = weather.split("&");
+	        String nature=arr1[0];
+	        String temp=arr1[1];
+	        context.put("nature",nature);
+	        context.put("temp", temp);*/
+	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        if(image!=null) {
+	        	context.put("defaultImage", image.path);
+	        } else {
+	        	context.put("defaultImage", "");
+	        }
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString(); 
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+    
+		return ok();
+	}
+	
 	
 	/*public static Result sendEmail(final String email, final String subject ,final String comment) {
 		ActorSystem newsLetter = Akka.system();
