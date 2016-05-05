@@ -901,7 +901,7 @@ public class Vehicle extends Model {
 	}
 	
 	public static List<Vehicle> findByNewArrAndLocation(Long location) {
-		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").findList();
+		return find.where().eq("locations.id", location).eq("publicStatus", "public").eq("status", "Newly Arrived").findList();
 	}
 	
 	public static List<Vehicle> findByNewArrAndLocationNoDraft(Long location) {
@@ -909,7 +909,7 @@ public class Vehicle extends Model {
 	}
 	
 	public static List<Vehicle> findByNewArrAndLocationType(Long location, String type) {
-		return find.where().eq("locations.id", location).eq("status", "Newly Arrived").eq("typeofVehicle", type).findList();
+		return find.where().eq("locations.id", location).eq("publicStatus", "public").eq("status", "Newly Arrived").eq("typeofVehicle", type).findList();
 	}
 	public static List<Vehicle> findByUserAndNew(AuthUser user) {
 		return find.where().eq("user", user).eq("status", "Newly Arrived").findList();

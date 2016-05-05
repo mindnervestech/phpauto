@@ -2038,7 +2038,11 @@ public class Application extends Controller {
 	    	AuthUser userObj = null;
 	    	if(vm.mi.equals("true")){
 	    		
-	    		 AuthUser uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
+	    		AuthUser uAuthUser = null;
+	    		if(vm.locationId != null){
+	    			uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
+	    		}
+	    		 //AuthUser uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
 		    	if(uAuthUser != null){
 		    		 uAuthUser.setRole("Sales Person");
 			    	 uAuthUser.update();
@@ -2072,10 +2076,13 @@ public class Application extends Controller {
 			    	 
 			    	 
 	    	}else{
+	    		AuthUser uAuthUser = null;
+	    		if(vm.locationId != null){
+	    			uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
+	    		}
+	    		 //AuthUser uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
 	    		
-	    		 AuthUser uAuthUser = AuthUser.getlocationAndManagerOne(Location.findById(vm.locationId));
 	    		 if(uAuthUser != null){
-	    			 
 	    			 List<RequestMoreInfo> rInfo = RequestMoreInfo.findAllAssignedLeadsToUser1(uAuthUser);
 	    			 List<ScheduleTest> sList = ScheduleTest.findAllAssignedLeadsToUser1(uAuthUser);
 	    			 List<TradeIn> tIns = TradeIn.findAllAssignedLeadsToUser1(uAuthUser);
