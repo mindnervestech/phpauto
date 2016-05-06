@@ -546,7 +546,7 @@ public class ScheduleTest extends Model {
 	}
 	
 	public static List<SqlRow> getScheduleDates(AuthUser user, String cd) {
-		SqlQuery q = Ebean.createSqlQuery("select distinct schedule_test.confirm_date from schedule_test where (schedule_test.assigned_to_id = '"+user.id+"' or schedule_test.user_id = '"+user.id+"') and schedule_test.confirm_date >= '"+cd+"' and schedule_test.delete_msg_flag is null");
+		SqlQuery q = Ebean.createSqlQuery("select distinct schedule_test.confirm_date ,schedule_test.id  from schedule_test where (schedule_test.assigned_to_id = '"+user.id+"' or schedule_test.user_id = '"+user.id+"') and schedule_test.confirm_date >= '"+cd+"' and schedule_test.delete_msg_flag is null and schedule_test.lead_status is null");
 		List<SqlRow> rows = q.findList();
 		return rows;
 	}
