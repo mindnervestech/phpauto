@@ -383,8 +383,8 @@ public String testDriveStatus;
 		return find.where().eq("assignedTo", user).eq("status", null).eq("testDriveStatus", "TestDriveCompleted").findList();
 	}
 	
-	public static List<RequestMoreInfo> findAllNullStatusLeads() {
-		return find.where().eq("status", null).findList();
+	public static List<RequestMoreInfo> findAllNullStatusLeads(Date timeForThreeDays) {
+		return find.where().eq("status", null).ge("requestTime", timeForThreeDays).findList();
 	}
 	
 	public static List<RequestMoreInfo> findByConfirmLeads(Long locationId, AuthUser user) {

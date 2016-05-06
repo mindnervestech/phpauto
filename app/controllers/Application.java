@@ -15008,14 +15008,354 @@ private static void cancelTestDriveMail(Map map) {
      		    	 String comments = "test D";
      		    	 sendEmail("yogeshpatil424@gmail.com", subject, comments);
         		 }
-        	 }*/	 
+        	 }	 */
          }
          
          
+         
+        
+        	/*_------------------------------------------------------------------------------------------------------------------*/
+            // AuthUser user=getLocalUser();
+         
+         Date date1=new Date();
+         DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+         String date2 = format1.format(date1);
+         Date dat=null;
+         try {
+        	 dat = format1.parse(date2);
+ 		} catch (ParseException e1) {
+ 			// TODO Auto-generated catch block
+ 			e1.printStackTrace();
+ 		}
+         Date beforeThreeDays = DateUtils.addDays(dat, -3);
+         List <RequestMoreInfo> requestInfos=RequestMoreInfo.findAllNullStatusLeads(beforeThreeDays);
+         if(requestInfos != null){
+         for(RequestMoreInfo info:requestInfos){
+        	 
+        	 DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        	 
+        	 AuthUser emailUser = AuthUser.findById(info.assignedTo.id);
+        	 if(emailUser.location != null){
+        	 Location location = Location.findById(emailUser.location.id);
+             
+             df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+             String IST = df2.format(currD);
+            
+             Date istTimes = null;
+    		try {
+    			istTimes = df1.parse(IST);
+    		} catch (ParseException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+             String cDate = df.format(istTimes);
+             String cTime = parseTime.format(istTimes);
+             String crD =    df1.format(istTimes);
+             try {
+            	 currentDate = df1.parse(crD);
+            	 datec = df.parse(cDate);
+            	 aftHrDate = DateUtils.addHours(currentDate, 1);
+            	 aftDay = DateUtils.addHours(currentDate, -24);
+            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+            	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+        		 Date sourceDate1 = info.requestTime;
+        		 //sourceDate = DateUtils.addHours(sourceDate, 24);
+        		 System.out.println("source date"+sourceDate1);
+        		 
+        		// if((sourceDate.equals(aftHrDate)||sourceDate.after(aftHrDate)) && ((sourceDate.equals(aftHrDate1)||sourceDate.before(aftHrDate1)))){
+        		 if((sourceDate1.equals(aftDay)||sourceDate1.after(aftDay)) && ((sourceDate1.equals(aftDay1)||sourceDate1.before(aftDay1)))){
+        			 //List<UserNotes> note=UserNotes.findRequestMoreList(info);
+        			// if(note != null){
+        			 //if(!(note.size()>2)){
+        				 AuthUser auser=AuthUser.findById(info.assignedTo.id);
+        				sendEmailForNotFollowed(info.vin,auser);
+        				 
+        		// }
+        		//	 }
+        	 }
+        	 
+         } 
+         }
+         }
+        
+         List <ScheduleTest> test1=ScheduleTest.findAllNullStatusLeads(beforeThreeDays);
+         for(ScheduleTest test:test1){
+        	
+        	 DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        	 if(test.assignedTo.id != null){
+        	 AuthUser emailUser = AuthUser.findById(test.assignedTo.id);
+        	 Location location=null;
+        	 if(emailUser !=null){
+        		 if(emailUser.location != null){
+        	 location = Location.findById(emailUser.location.id);
+        		 }
+             if(location != null){
+             df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+             String IST = df2.format(currD);
+            
+             Date istTimes = null;
+    		try {
+    			istTimes = df1.parse(IST);
+    		} catch (ParseException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+             String cDate = df.format(istTimes);
+             String cTime = parseTime.format(istTimes);
+             String crD =    df1.format(istTimes);
+             try {
+            	 currentDate = df1.parse(crD);
+            	 datec = df.parse(cDate);
+            	 aftHrDate = DateUtils.addHours(currentDate, 1);
+            	 aftDay = DateUtils.addHours(currentDate, -24);
+            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+            	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+        		 Date sourceDate = test.scheduleTime;
+        		// sourceDate = DateUtils.addHours(sourceDate, 24);
+        		 System.out.println("source date"+sourceDate);
+        		 System.out.println("aftDay"+aftDay);
+        		 System.out.println("aftDay1"+aftDay1);
+        		 
+        		 if((sourceDate.equals(aftDay)||sourceDate.after(aftDay)) && ((sourceDate.equals(aftDay1)||sourceDate.before(aftDay1)))){
+        			/*List<UserNotes> note=UserNotes.scheduleList(test);
+        			 if(note != null){
+        			 if(!(note.size()>2)){
+        				 
+        				 AuthUser auser=AuthUser.findById(test.assignedTo.id);
+        				 sendEmailForNotFollowed(test.vin,auser);
+        		 }*/
+        			 if(test.meetingStatus == null){
+        			 AuthUser auser=AuthUser.findById(test.assignedTo.id);
+    				 sendEmailForNotFollowed(test.vin,auser);
+        			 }
+        	  
+        	 }
+        	 }
+        	 }
+        	 }
+         }
+         
+         
+         
+         List <TradeIn> tradeIns1=TradeIn.findAllNullStatusLeads(beforeThreeDays);
+         if(tradeIns1 !=null){
+         for(TradeIn trade:tradeIns1){
+        	 
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        	 
+        	 AuthUser emailUser = AuthUser.findById(trade.assignedTo.id);
+        	 if(emailUser.location !=null){
+        	 Location location = Location.findById(emailUser.location.id);
+             
+             df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+             String IST = df2.format(currD);
+            
+             Date istTimes = null;
+    		try {
+    			istTimes = df1.parse(IST);
+    		} catch (ParseException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+             String cDate = df.format(istTimes);
+             String cTime = parseTime.format(istTimes);
+             String crD =    df1.format(istTimes);
+             try {
+            	 currentDate = df1.parse(crD);
+            	 datec = df.parse(cDate);
+            	 aftHrDate = DateUtils.addHours(currentDate, 1);
+            	 aftDay = DateUtils.addHours(currentDate, -24);
+            	 aftHrDate1 = DateUtils.addMinutes(aftHrDate, 15);
+            	 aftDay1 = DateUtils.addMinutes(aftDay, 15);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+        		 Date sourceDate = trade.tradeTime;
+        		 //sourceDate = DateUtils.addHours(sourceDate, 24);
+        		 System.out.println("source date"+sourceDate);
+        		 
+        		 if((sourceDate.equals(aftDay)||sourceDate.after(aftDay)) && ((sourceDate.equals(aftDay1)||sourceDate.before(aftDay1)))){
+        			// List<UserNotes> note=UserNotes.tradeInList(trade);
+        			// if(note !=null){
+        			// if(!(note.size()>2)){
+        				 
+        				 AuthUser auser=AuthUser.findById(trade.assignedTo.id);
+        				 sendEmailForNotFollowed(trade.vin,auser);
+        		// }
+        		// }	 
+        	 }
+         }
+         }
+         }
+         
+    
     	return ok();
-    }
+    
+}
+    
     
 
+
+    private static void sendEmailForNotFollowed(String vin,AuthUser user) {
+     	
+     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+     //	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
+ 		Properties props = new Properties();
+ 		props.put("mail.smtp.auth", "true");
+ 		props.put("mail.smtp.host", "smtp.gmail.com");
+ 		props.put("mail.smtp.port", "587");
+ 		props.put("mail.smtp.starttls.enable", "true");
+ 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+ 			protected PasswordAuthentication getPasswordAuthentication() {
+ 				return new PasswordAuthentication(emailUsername, emailPassword);
+ 			}
+ 		});
+     	try
+ 		{
+     		/*InternetAddress[] usersArray = new InternetAddress[2];
+     		int index = 0;
+     		usersArray[0] = new InternetAddress(map.get("email").toString());
+     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
+     		
+ 			Message message = new MimeMessage(session);
+ 			message.setFrom(new InternetAddress(emailUsername));
+ 			//message.setRecipients(Message.RecipientType.TO,
+ 			//		InternetAddress.parse(map.get("email").toString()));
+ 			if(user.role.equalsIgnoreCase("Manager")){
+ 				message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(user.communicationemail));
+ 			}
+ 			else if(user.role.equalsIgnoreCase("Sales Person")){
+ 				message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(user.communicationemail));
+ 				
+ 				AuthUser user1=AuthUser.getlocationAndManagerOne(user.location);
+ 				message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(user1.communicationemail));
+ 			}
+ 			
+ 			
+ 			message.setSubject("LEAD NOT FOLLOWED");
+ 			Multipart multipart = new MimeMultipart();
+ 			BodyPart messageBodyPart = new MimeBodyPart();
+ 			messageBodyPart = new MimeBodyPart();
+ 			
+ 			VelocityEngine ve = new VelocityEngine();
+ 			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+ 			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+ 			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+ 			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+ 			ve.init();
+ 		
+ 			
+ 	        Template t = ve.getTemplate("/public/emailTemplate/leadNotFollowedUp_HTML.html"); 
+ 	        VelocityContext context = new VelocityContext();
+ 	        
+ 	       Vehicle vehicle = Vehicle.findByVinAndStatus(vin.toString());
+	        context.put("year", vehicle.year);
+	        context.put("make", vehicle.make);
+	        context.put("model", vehicle.model);
+	        context.put("price", "$"+vehicle.price);
+	        context.put("stock", vehicle.stock);
+	        context.put("vin", vehicle.vin);
+	        context.put("make", vehicle.make);
+	        context.put("mileage", vehicle.mileage);
+ 	        
+	        
+	        if(user.role.equalsIgnoreCase("Manager")){
+	        	context.put("name", user.fullName());
+ 	 	        context.put("email", user.email);
+ 	 	        context.put("phone", user.phone);
+	        	
+ 			}
+ 			else if(user.role.equalsIgnoreCase("Sales Person")){
+ 				context.put("name", user.fullName());
+ 	 	        context.put("email", user.email);
+ 	 	        context.put("phone", user.phone);
+ 				
+ 			}
+	        
+	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+ 	        if(image!=null) {
+ 	        	context.put("defaultImage", image.path);
+ 	        } else {
+ 	        	context.put("defaultImage", "");
+ 	        }
+	        
+ 	        /*
+ 	        String months[] = {"JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"};
+ 	       
+ 	        int dayOfmonth=1;
+ 	        int month=0;
+ 	        try {
+ 	        	String arr[] = map.get("confirmDate").toString().split("-");
+ 		        if(arr.length >=2){
+ 		        	dayOfmonth = Integer.parseInt(arr[2]);
+ 			        month = Integer.parseInt(arr[1]);
+ 		        }else{
+ 		        	Calendar cal = Calendar.getInstance();
+ 			         cal.setTime((Date)map.get("confirmDate"));
+ 			         dayOfmonth = cal.get(Calendar.DAY_OF_MONTH);
+ 			         month = cal.get(Calendar.MONTH)+1;
+ 		        }
+ 			} catch (Exception e) {
+ 				e.printStackTrace();
+ 			}
+ 	        
+ 	        String monthName = months[month-1];
+ 	        context.put("hostnameUrl", imageUrlPath);
+ 	        context.put("siteLogo", logo.logoImagePath);
+ 	        context.put("dayOfmonth", dayOfmonth);
+ 	        context.put("monthName", monthName);
+ 	        context.put("confirmTime", map.get("confirmTime"));
+ 	        
+ 	        Vehicle vehicle = Vehicle.findByVinAndStatus(map.get("vin").toString());
+ 	        context.put("year", vehicle.year);
+ 	        context.put("make", vehicle.make);
+ 	        context.put("model", vehicle.model);
+ 	        context.put("price", "$"+vehicle.price);
+ 	        context.put("stock", vehicle.stock);
+ 	        context.put("vin", vehicle.vin);
+ 	        context.put("make", vehicle.make);
+ 	        context.put("mileage", vehicle.mileage);
+ 	        context.put("name", map.get("uname"));
+ 	        context.put("email", map.get("uemail"));
+ 	        context.put("phone",  map.get("uphone"));
+ 	        String weather= map.get("CnfDateNature").toString();
+ 	        String arr1[] = weather.split("&");
+ 	        String nature=arr1[0];
+ 	        String temp=arr1[1];
+ 	        context.put("nature",nature);
+ 	        context.put("temp", temp);
+ 	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+ 	        if(image!=null) {
+ 	        	context.put("defaultImage", image.path);
+ 	        } else {
+ 	        	context.put("defaultImage", "");
+ 	        }*/
+ 	        StringWriter writer = new StringWriter();
+ 	        t.merge( context, writer );
+ 	        String content = writer.toString(); 
+ 			
+ 			messageBodyPart.setContent(content, "text/html");
+ 			multipart.addBodyPart(messageBodyPart);
+ 			message.setContent(multipart);
+ 			Transport.send(message);
+ 			
+ 		}
+ 		catch (Exception e)
+ 		{
+ 			e.printStackTrace();
+ 		}
+     }
+     
+     
+    
+    
+    
 	public static void meetingReminder(List<AuthUser> listForUser,String communicationEmail, Date confirmDate,Date confirmTime,String subject){
 		/*InternetAddress[] usersArray = new InternetAddress[userList.size()];
 		int index = 0;
@@ -30615,8 +30955,11 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 	        context.put("hostnameUrl", imageUrlPath);
 	        context.put("dayOfmonth", dayOfmonth);
 	        context.put("monthName", monthName);
-	        context.put("confirmTime",confirmTime);
 	        
+	        
+	        SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+			String time1=time.format(confirmTime);
+			context.put("confirmTime",time1);
 	        Vehicle vehicle = Vehicle.findByVin(vin.toString());
 	        context.put("year", vehicle.year);
 	        context.put("make", vehicle.make);
