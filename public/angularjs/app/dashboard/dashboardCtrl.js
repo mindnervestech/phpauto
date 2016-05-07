@@ -7969,7 +7969,14 @@ angular.module('newApp')
 	  /* $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();*/
 		   $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
 		   $scope.vinData.specification.cost = $scope.vinData.specification.cost.split(',').join('');
-	  
+		   var comingSoonDate = {};
+	console.log("LLLLLLLLLL"+$scope.vinData.specification.commingSoonVehicle);
+	  if($scope.vinData.specification.commingSoonVehicle = true){
+		  $scope.vinData.specification.comingSoonDate = $('#comingsoonDate').val();
+		  
+	  }
+	  console.log($scope.vinData.specification.comingSoonDate);
+ 	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
  	  if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
@@ -8773,6 +8780,12 @@ angular.module('newApp')
 		$http.get('/getVehicleById/'+$routeParams.id)
 		.success(function(data) {
 			 $scope.vinData = data;
+			 $('#comingsoonDateEdit').val(data.specification.comingSoonDate);
+			 if(data.specification.comingSoonFlag ==1){
+				 $scope.master=true;
+			 }
+			//for publish button flag
+			 console.log('before calling');
 				$http.get('/isCarPublic/'+$scope.vinData.specification.id).success(function(data){
 					if(data == 'true'){
 						$scope.isPublished = true;						
@@ -8953,6 +8966,11 @@ angular.module('newApp')
 		   $scope.vinData.specification.extColor = $('#extColorSearch_value').val();
 		   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
 		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
+		   
+		   if($scope.vinData.specification.commingSoonVehicle = true){
+				  $scope.vinData.specification.comingSoonDate = $('#comingsoonDateEdit').val();
+				  
+			  }
 		   
 		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
 				if(pdfFile != undefined){

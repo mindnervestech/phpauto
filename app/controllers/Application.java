@@ -1338,6 +1338,83 @@ public class Application extends Controller {
     	return ok(Json.toJson(userObj));
     }
     
+    public static void sendComingSoonEmail(){
+    	List<PriceAlert> price=PriceAlert.getAllRecord();
+    	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+    	for(PriceAlert alert:price){
+    		
+    		Vehicle vehicle=Vehicle.findByVinAndComingSoonDate(alert.vin);
+    		if(vehicle != null){
+    			if(vehicle.locations != null){
+    			Date date=new Date();
+    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    			
+        			Location location = Location.findById(vehicle.locations.id);
+        			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+    			try {
+    				String date1=df2.format(date);
+    				System.out.println(">>>>>>>>>>");
+    				System.out.println(date1);
+    				System.out.println(vehicle.comingSoonDate);
+    				System.out.println(formatter.parse(date1));
+    				
+    				if(vehicle.comingSoonDate.equals(formatter.parse(date1))){
+    					
+    					vehicle.setComingSoonFlag(0);
+    					vehicle.update();
+	    	    		String subject=vehicle.make+" "+vehicle.model+" "+"has Arrived";
+	    	    		String comment="Hi"+" "+alert.name+" "+vehicle.make+" "+vehicle.model+" "+"has Arrived";
+    					sendEmailForComingSoonVehicle(alert.email,subject,comment);
+    				}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			
+    		}
+    		}
+    		
+    	}
+    	
+    }
+public static Result sendEmailForComingSoonVehicle(String email,String subject,String comment) {
+		
+		final String username = emailUsername;
+		final String password = emailPassword;
+		
+		Properties props = new Properties();  
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		System.out.println(email);
+		System.out.println(username);
+		System.out.println(password);
+		
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+		    try {  
+		     MimeMessage message = new MimeMessage(session);  
+		     message.setFrom(new InternetAddress(username));  
+		     message.addRecipient(Message.RecipientType.TO,new InternetAddress(email));  
+		     message.setSubject(subject);  
+		     message.setText(comment);  
+		     Transport.send(message);  
+		  
+		     System.out.println("message sent successfully...");  
+		   
+		     } catch (MessagingException e) {
+		    	 e.printStackTrace();
+		    }
+				
+		return ok();
+	}
+    
+    
+    
     public static Result saveVehiclePdf(Long id) throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -1404,7 +1481,18 @@ public class Application extends Controller {
 						}
 		    		}
 		    	}*/
-	    		
+	    		int comingSoonFlag=0;
+	    		if(vm.comingSoonDate != ""){
+	    			vehicle.comingSoonFlag=1;
+	    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	    			try {
+						vehicle.comingSoonDate=formatter.parse(vm.comingSoonDate);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    			
+	    		}
 		    	
 	    		vehicle.setTitle(vm.make+" "+vm.model+" "+vm.year);
 		    	vehicle.category = vm.category;
@@ -4613,6 +4701,12 @@ public class Application extends Controller {
 			specificationVM.fileName = vehicle.getPdfBrochureName();
 			specificationVM.standardSeating = vehicle.getStandardSeating();
 			
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			if(vehicle.getComingSoonFlag() != null && vehicle.getComingSoonFlag() == 1){
+			String dat=df.format(vehicle.getComingSoonDate());
+			specificationVM.comingSoonDate=dat;
+			specificationVM.comingSoonFlag=vehicle.comingSoonFlag;
+			}
 			specificationVM.mileage = vehicle.getMileage();
 			List<Long> siteIds = new ArrayList<>();
 			for(Site site: vehicle.getSite()) {
@@ -5050,6 +5144,22 @@ public class Application extends Controller {
     				change.save();
     				flag=1;
 	    		}
+	    		
+	    		int comingSoonFlag=0;
+	    		if(vm.comingSoonDate != ""){
+	    			vehicle.setComingSoonFlag(1);
+	    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	    			try {
+						vehicle.setComingSoonDate(formatter.parse(vm.comingSoonDate));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    			
+	    		}
+		    	
+		    	
+	    		
 	    		vehicle.setTypeofVehicle(vm.typeofVehicle);
 	    		vehicle.setCategory(vm.category);
 	    		vehicle.setTitle(vm.title);
@@ -15344,6 +15454,7 @@ private static void cancelTestDriveMail(Map map) {
  			multipart.addBodyPart(messageBodyPart);
  			message.setContent(multipart);
  			Transport.send(message);
+ 			System.out.println("email sent not followed");
  			
  		}
  		catch (Exception e)
@@ -30772,11 +30883,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		String subject=null;
 	    		int flag=0;
 	    		if(user.role.equals("General Manager")){
-	    			subject = "General Manager like your work";
+	    			subject = "General Manager likes your work";
 	    			flag=1;
 	    		}
 	    		else{
-	    			subject = "Manager like your work";
+	    			subject = "Manager likes your work";
 	    			flag=0;
 	    		}
 	    	String comments = "Comment : "+comment;

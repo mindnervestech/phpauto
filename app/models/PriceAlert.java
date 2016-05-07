@@ -18,6 +18,7 @@ public class PriceAlert extends Model {
 	@Id
 	public Long id;
 	public String email;
+	public String name;
 	public String vin;
 	public String sendEmail;
 	public Integer oldPrice;
@@ -28,6 +29,12 @@ public class PriceAlert extends Model {
 	@ManyToOne
 	public Location locations;
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -87,6 +94,10 @@ public class PriceAlert extends Model {
 	
 	public static List<PriceAlert> getEmailsByStatus(AuthUser user) {
 		return find.where().eq("user", user).eq("sendEmail","Y").findList();
+	}
+	
+	public static List<PriceAlert> getAllRecord() {
+		return find.all();
 	}
 	
 	public static List<PriceAlert> getEmailsByStatusVin(String vin) {

@@ -120,7 +120,13 @@ public class Vehicle extends Model {
 	public String steeringWheelControls;
 	public Date postedDate;
 	public Date soldDate;
+	public Date comingSoonDate;
+	public Integer comingSoonFlag;
 	
+	
+
+
+
 	@ManyToMany
 	public List<Site> site;
 	
@@ -149,6 +155,22 @@ public class Vehicle extends Model {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Integer getComingSoonFlag() {
+		return comingSoonFlag;
+	}
+
+	public void setComingSoonFlag(Integer comingSoonFlag) {
+		this.comingSoonFlag = comingSoonFlag;
+	}
+
+	public Date getComingSoonDate() {
+		return comingSoonDate;
+	}
+
+	public void setComingSoonDate(Date comingSoonDate) {
+		this.comingSoonDate = comingSoonDate;
 	}
 
 	public String getCategory() {
@@ -797,6 +819,10 @@ public class Vehicle extends Model {
 		return find.where().eq("vin", vid).eq("status", "Newly Arrived").findUnique();
 	}
 	
+	public static Vehicle findByVinAndComingSoonDate(String vin) {
+		return find.where().eq("vin", vin).eq("comingSoonFlag",1).findUnique();
+	}
+	
 	public static Vehicle findByVinAndStatusForGM(String vid,Location location) {
 		return find.where().eq("vin", vid).eq("status", "Newly Arrived").eq("locations", location).findUnique();
 	}
@@ -806,7 +832,7 @@ public class Vehicle extends Model {
 	}
 	
 	public static Vehicle findByVin(String vin) {
-		return find.where().eq("vin", vin).findUnique();
+		return find.where().eq("vin", vin).eq("status", "Newly Arrived").eq("publicStatus","public").findUnique();
 	}
 	
 	public static List<Vehicle> findByVins(List<String> vins) {

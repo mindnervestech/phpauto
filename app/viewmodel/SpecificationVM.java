@@ -88,4 +88,6 @@ public class SpecificationVM {
 	public boolean sold;
 	public String soldDate;
 	public String fileName;
+	public String comingSoonDate;
+	public int comingSoonFlag; 
 }
