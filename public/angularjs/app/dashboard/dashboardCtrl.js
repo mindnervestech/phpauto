@@ -16,16 +16,13 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
 });
 angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q) {
-	//console.log(userKey);
 	  var ele = document.getElementById('loadingmanual');	
    	$(ele).hide();
 	$http.get('/getLocationDays')
 	.success(function(data) {
 		$scope.locationDays = data;
-		console.log($scope.locationDays);
 	});
 	$http.get('/getDealerProfile').success(function(data) {
-		console.log(data);
 		$scope.userProfile = data.dealer;
 	});
 	
@@ -75,9 +72,6 @@ angular.module('newApp')
 	$scope.selectedVin = function (selectObj) {
 		if(typeof selectObj.originalObject != 'undefined'){
 			$scope.item = selectObj.originalObject;
-			console.log($scope.item);
-			console.log($scope.stockWiseData.length);
-			console.log($scope.stockWiseData);
 			if($scope.len !=null){
 				$scope.stockWiseData[$scope.len].model = $scope.item.model;
 				$scope.stockWiseData[$scope.len].make = $scope.item.make;
@@ -92,8 +86,6 @@ angular.module('newApp')
 				$scope.stockWiseData[$scope.len].imgId = $scope.item.imgId;
 				$scope.stockWiseData[$scope.len].searchStr = $scope.item.vin;
 			}
-				
-			console.log($scope.stockWiseData[$scope.len]);	
 			$('#vinSearch_value').val($scope.item.vin);
 		}
 	};
@@ -153,27 +145,7 @@ angular.module('newApp')
 			$scope.leadFlag = 'true';
 		}		
 	};
-	
-/*	$scope.openLocationDasboard = function(item){
-		console.log(item);
-		console.log(item.id);
-		if(item.gmIsManager == 1){
-			$http.get('/changePermission/'+item.id+"/"+item.managerId+"/"+item.gmIsManager)
-			.success(function(data) {
-				window.location.reload();
-			});
-		}else{
-			$http.get('/changePermission/'+item.id+"/"+item.managerId+"/"+item.gmIsManager)
-			.success(function(data) {
-				console.log($location.absUrl());
-				 window.location.reload();
-			});
-		}
-		
-		$scope.showSelectLocationDash = item.id;
-		$location.path('/dashboardLocation/'+item.id+"/"+item.managerId+"/"+item.gmIsManager);
-	   }*/
-	
+
 	$scope.imageEnter = function(index){
 		$scope.index=index;
 	};
@@ -370,14 +342,8 @@ angular.module('newApp')
 			$scope.bestTm = $('#cnfmeetingtime').val();
 			$scope.bestEndTm = $('#cnfmeetingtimeEnd').val();
 			if(($scope.bestDt != null && $scope.bestDt != "")  && ($scope.bestTm !=null && $scope.bestTm !="") && ($scope.bestEndTm !=null && $scope.bestEndTm !="")){
-				console.log(":::::::::::");
-				console.log($scope.bestTm);
-				console.log($scope.bestEndTm);
-				console.log($scope.bestDt);
 				$http.get('/getUserAppointment/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
 				.success(function(data) {
-					console.log(data);
-					console.log(data.length);
 					if(data.length > 0){
 						if(data[0].meetingStatus != null){
 							$scope.appoTitle = data[0].name +"(Meeting)";
@@ -388,17 +354,7 @@ angular.module('newApp')
 						$scope.dateTime = data[0].confirmDate;
 						$scope.dateTime1 = data[0].confirmTime;
 						$scope.dateEndTime = data[0].confirmEndTime;
-						/*$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
-						$scope.dateTime1 = $filter('date')(data[0].confirmTime,"HH:mm a");
-						if(data[0].confirmEndTime != null){
-							$scope.dateEndTime =$filter('date')(data[0].confirmEndTime,"HH:mm a");
-						}else{
-							$scope.dateEndTime =$filter('date')(data[0].confirmTime,"HH:mm a");
-						}*/
-						console.log($scope.dateTime);
-						console.log($scope.dateTime1);
-						console.log($scope.personName);
-						console.log($scope.appoTitle);
+						
 						$('#userAppointment').click();
 						angular.forEach(data, function(obj, index){
 							var name = obj.fullName+", ";
@@ -408,9 +364,7 @@ angular.module('newApp')
 				});
 				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
 				.success(function(data) {
-					console.log("success");
 					$scope.gridOptions11.data = data;
-					
 					angular.forEach($scope.gridOptions11.data, function(obj, index){
 						if(obj.userStatus == 'N/A'){
 							obj.disabled = false;
@@ -418,7 +372,6 @@ angular.module('newApp')
 							obj.disabled = true;
 						}
 					});
-					console.log($scope.gridOptions11.data);
 				});
 			}else{
 				$.pnotify({
@@ -435,14 +388,8 @@ angular.module('newApp')
 			$scope.bestTm = $('#cnfmeetingtime').val();
 			$scope.bestEndTm = $('#cnfmeetingtimeEnd').val();
 			if(($scope.bestDt != null && $scope.bestDt != "")  && ($scope.bestTm !=null && $scope.bestTm !="") && ($scope.bestEndTm !=null && $scope.bestEndTm !="")){
-				console.log(":::::::::::");
-				console.log($scope.bestTm);
-				console.log($scope.bestEndTm);
-				console.log($scope.bestDt);
 				$http.get('/getUserAppointment/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
 				.success(function(data) {
-					console.log(data);
-					console.log(data.length);
 					if(data.length > 0){
 						if(data[0].meetingStatus != null){
 							$scope.appoTitle = data[0].name +"(Meeting)";
@@ -453,17 +400,6 @@ angular.module('newApp')
 						$scope.dateTime = data[0].confDate;
 						$scope.dateTime1 = data[0].confirmTime;
 						$scope.dateEndTime = data[0].confirmEndTime;
-						/*$scope.dateTime = $filter('date')(data[0].confirmDate,"dd-MM-yyyy");
-						$scope.dateTime1 = $filter('date')(data[0].confirmTime,"HH:mm a");
-						if(data[0].confirmEndTime != null){
-							$scope.dateEndTime =$filter('date')(data[0].confirmEndTime,"HH:mm a");
-						}else{
-							$scope.dateEndTime =$filter('date')(data[0].confirmTime,"HH:mm a");
-						}*/
-						console.log($scope.dateTime);
-						console.log($scope.dateTime1);
-						console.log($scope.personName);
-						console.log($scope.appoTitle);
 						$('#userAppointment').click();
 						angular.forEach(data, function(obj, index){
 							if(obj.fullName != null){
@@ -475,9 +411,7 @@ angular.module('newApp')
 				});
 				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
 				.success(function(data) {
-					console.log("success");
 					$scope.gridOptions11.data = data;
-					
 					angular.forEach($scope.gridOptions11.data, function(obj, index){
 						if(obj.userStatus == 'N/A'){
 							obj.disabled = false;
@@ -485,7 +419,6 @@ angular.module('newApp')
 							obj.disabled = true;
 						}
 					});
-					console.log($scope.gridOptions11.data);
 				});
 			}else{
 				$.pnotify({
@@ -622,14 +555,10 @@ angular.module('newApp')
 			.success(function(data) {
 				$http.get('/getUserLocationByDateInfo/'+data.id+"/"+startD+'/'+endD+'/'+locOrPer)
 				.success(function(data) {
-					console.log("dddd");
-				    console.log(data);
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
 					$http.get('/getPlanTarget/'+locOrPer)
 					.success(function(data1) {
-						console.log(data1);
 						data.sendData[0].plan = data1.data[0].price;
-						//data.sendData.push(data1);
 						$scope.stackchart = data.sendData;
 						if($scope.stackchart[0].data[0] == 0){
 							$scope.stackchart[0].plan = 0;
@@ -639,7 +568,6 @@ angular.module('newApp')
 						}else{
 							$scope.stackchart[0].price = 0;
 						}
-						console.log($scope.stackchart);
 						$scope.callChart($scope.stackchart);
 						if(data1.data[0].price == null){
 							var chart = $('#container').highcharts();
@@ -660,15 +588,10 @@ angular.module('newApp')
 			
 			$http.get('/getUserLocationByDateInfo/'+$scope.userKey+"/"+startD+'/'+endD+'/'+locOrPer)
 			.success(function(data) {
-				console.log("eeeeee");
-			    console.log(data);
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
 				$http.get('/getPlanTarget/'+locOrPer)
 				.success(function(data1) {
-					console.log(data1);
 					data.sendData[0].plan = data1.data[0].price;
-					//data.sendData.push(data1);
-					console.log(data.sendData);
 					$scope.stackchart = data.sendData;
 					if($scope.stackchart[0].data[0] == 0){
 						$scope.stackchart[0].plan = 0;
@@ -678,7 +601,6 @@ angular.module('newApp')
 					}else{
 						$scope.stackchart[0].price = 0;
 					}
-					console.log($scope.stackchart);
 					$scope.callChart($scope.stackchart);
 					if(data1.data[0].price == null){
 						var chart = $('#container').highcharts();
@@ -687,8 +609,6 @@ angular.module('newApp')
 					
 			});
 				
-				console.log("LLLLLLLLL");
-				console.log(data);
 				   $scope.countTestDrives=data.countTestDrives;
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
@@ -700,81 +620,11 @@ angular.module('newApp')
 	 }
 	$scope.dataLocOrPerWise = "location";
 	$scope.showLeads = null;
-	/*$scope.userLocationData = function(timeSet,locOrPer){
-		
-		if(locationId != 0){
-			
-			$http.get('/gmLocationManager/'+locationId)
-			.success(function(data) {
-				
-				$http.get('/getUserLocationInfo/'+data.id+"/"+timeSet+"/"+"location")
-				.success(function(data) {
-					console.log("::::::::");
-					console.log(data);
-					$scope.flagForBestSale=data.flagForBestSaleIcon;
-					$http.get('/getPlanTarget/'+locOrPer)
-					.success(function(data1) {
-						console.log(data1);
-						data.sendData[0].plan = data1.data[0].price;
-						//data.sendData.push(data1);
-						console.log(data.sendData);
-						$scope.stackchart = data.sendData;
-						$scope.callChart($scope.stackchart);
-						if(data1.data[0].price == null){
-							var chart = $('#container').highcharts();
-					        chart.yAxis[0].removePlotLine('plotline-1');
-						}
-						
-				});
-					console.log(data);
-					$scope.parLocationData = data;
-					$scope.leadsTime.leads = data.leads;
-					$scope.leadsTime.goalSetTime = data.goalTime;
-					$scope.showLeads = data.leads;
-				});
-				
-			});
-			 
-		}else{
-			$http.get('/getUserLocationInfo/'+$scope.userKey+"/"+timeSet+"/"+locOrPer)
-			.success(function(data) {			
-				console.log("::::::::nnnnn::::");
-				console.log(data);
-				$scope.flagForBestSale=data.flagForBestSaleIcon;
-				$http.get('/getPlanTarget/'+locOrPer)
-					.success(function(data1) {
-						console.log(data1);
-						data.sendData[0].plan = data1.data[0].price;
-						//data.sendData.push(data1);
-						console.log(data.sendData);
-						$scope.stackchart = data.sendData;
-						$scope.callChart($scope.stackchart);
-						if(data1.data[0].price == null){
-							var chart = $('#container').highcharts();
-					        chart.yAxis[0].removePlotLine('plotline-1');
-						}
-						
-				});
-				
-				console.log(data);
-				$scope.parLocationData = data;
-				$scope.leadsTime.leads = data.leads;
-				$scope.leadsTime.goalSetTime = data.goalTime;
-				$scope.showLeads = data.leads;
-			});
-		}
-		
-		
-			
-	}*/
-	
 	$scope.locationOrPersonData = function(wiseData){
 		 var startD = $('#cnfstartDateValue').val();
 		   var endD = $('#cnfendDateValue').val();
-		   
 		$scope.dataLocOrPerWise = wiseData;
 		$scope.findMystatisData(startD,endD,$scope.dataLocOrPerWise);
-		//$scope.userLocationData('Week',$scope.dataLocOrPerWise);
 	}
 	
 	setInterval(function(){
@@ -959,7 +809,6 @@ angular.module('newApp')
       $scope.showvehical = 0;
       $scope.showBarvehical = 1;
       
-      
       $scope.showVehicalBarChart = function(volumeStatStartDateId,volumeStatEndDateId){
     	  $scope.showvehical = 0;
     	  $scope.showBarvehical = 1;
@@ -967,13 +816,9 @@ angular.module('newApp')
     		  volumeStatStartDateId = $('#volumeStatStartDateId').val();
     		  volumeStatEndDateId = $('#volumeStatEndDateId').val();
     	  }
-    	  
-    	
-    	  console.log(".........");
-    	   $http.get('/getSoldVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId)
+    	$http.get('/getSoldVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId)
    		.success(function(data) {
    		$scope.locationDataList = data;	
-   		console.log(data);
        if(data.length == 0){
     	   $scope.msgShow = 1;
        }else{
@@ -1051,7 +896,6 @@ angular.module('newApp')
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
     	  	$http.get('/getFinancialVehicleDetailsByBodyStyle/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
-    	  		console.log(data);
     	  		$scope.msgShow = 1;
     	  		angular.forEach(data, function(value, key) {
     	  			if(value.data.length != 0){
@@ -1073,7 +917,6 @@ angular.module('newApp')
 		  var volumeStatEndDateId = $('#volumeStatEndDateId').val();
     	  
     	  	$http.get('/getFinancialVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
-    	  		console.log(data);
     	  		$scope.msgShow = 1;
     	  		angular.forEach(data.data, function(value, key) {
     	  			if(value.data.length != 0){
@@ -1171,7 +1014,6 @@ angular.module('newApp')
      
       
       function createChart(initdata) {
-    	  console.log(initdata);
     	  stockChart1 = 1;
     	  
     	  stockChart = $('#financial-chart').highcharts({
@@ -2164,8 +2006,6 @@ angular.module('newApp')
    	  		$scope.editLeads = {};
    	  	$scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
-   	  			console.log("::::::entity Data");
-   	  		     console.log(entity);
    	  		  $scope.financeData.downPayment=1000;
    	  		  $scope.financeData.annualInterestRate=7;
    	  		  $scope.financeData.numberOfYears=5;
@@ -2202,7 +2042,6 @@ angular.module('newApp')
    	  			$scope.editLeads.vin = entity.vin;
 				$('#vinSearch_value').val(entity.vin);
 				$('#vinSearch').val(entity.vin);
-				console.log($('#vinSearch_value').val());
    	  			$scope.editLeads.stockNumber = entity.stock;
 		   	  	$scope.editLeads.model = entity.model;
 		   	  	$scope.editLeads.make = entity.make;
@@ -2244,8 +2083,6 @@ angular.module('newApp')
    	  			});
    	  		}
    	 $scope.calculateFinancialData = function(financeData){
-   	  		console.log("::::::::::::::fin");
-   	  		console.log(financeData);
    	  	var cost         =financeData.price;
 		var down_payment =financeData.downPayment;
 		var interest     =financeData.annualInterestRate;
@@ -2256,16 +2093,12 @@ angular.module('newApp')
 		 var rate          = interest_rate / frequency_rate;
 		 $scope.payments      = loan_years * frequency_rate;
 		var difference    = cost - down_payment;
-	
 		$scope.payment = Math.floor((difference*rate)/(1-Math.pow((1+rate),(-1* $scope.payments)))*100)/100;
-		
-		
-   	  	}
+   	 }
    	  	
    	  		$scope.editleads = function(){
    	  		
    	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
-   	  			console.log($scope.editLeads);
 	   	  		 $http.post('/editLeads',$scope.editLeads).success(function(data) {
 	   	  			 
 	   	  			 	$.pnotify({
@@ -2354,7 +2187,6 @@ angular.module('newApp')
     		   }
     		  $scope.flags = {};
     		 $scope.checkIndex = function(item,values){
-    			 console.log(values);
     			 angular.forEach($scope.currentData, function(value, key) {
     				 if(value.id == item.id){
     					 if(values == false || values == undefined){
@@ -2365,8 +2197,6 @@ angular.module('newApp')
     					 
     				 }
     			 });
-    			/*$scope.flags["flag"+index] = 1;
-    			console.log($scope["flag"+index]);*/
     		 }
     		 
     		 $scope.comparisonTwoData = function(){
@@ -2389,11 +2219,9 @@ angular.module('newApp')
      			angular.forEach($scope.comparisonperson, function(value, key) {
      				$scope.arrId.push(value.id);
      			});
-     			console.log($scope.arrId);
      			$scope.comparisonperson = [];
      			
      			angular.forEach($scope.arrId, function(value, key) {
-     				console.log(value);
      				$http.get('/getComperSalePersonData/'+value+"/"+startDate+"/"+endDate).success(function(response) {
 					 	$scope.comparisonperson.push(response);
 				 });
@@ -2422,12 +2250,10 @@ angular.module('newApp')
             			$('#comparisonEndDate').val(endDate); 
         			}
     			 
-    			 console.log($scope.userPerformanceList);
     					 if(values == false || values == undefined){
     						 $scope.flagvalue++;
     						 item.flag = 1;
     						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
-    							 console.log(response);
     							 	$scope.comparisonperson.push(response);
     	    						
     						 });
@@ -2445,8 +2271,6 @@ angular.module('newApp')
     						
     					 }
     					 
-    					 console.log($scope.flagvalue);
-    					 console.log($scope.comparisonperson);
     					
     		 }
     		 
@@ -2463,8 +2287,6 @@ angular.module('newApp')
     			 var startD = $('#cnfstartDateValue').val();
   			   var endD = $('#cnfendDateValue').val();
   			   
-  			   console.log(startD);
-  			 console.log(endD);
   			 var arr = [];
   			 var arr1 = [];
   			   arr = startD.split('-');
@@ -2473,19 +2295,16 @@ angular.module('newApp')
   			 var endDate = arr1[2]+"-"+arr1[1]+"-"+arr1[0];
     			 
  				$http.get('/getComperSalePersonData/'+$scope.salesPerson+"/"+startDate+"/"+endDate).success(function(response) {
- 					console.log(response);
 				 	$scope.comparisonperson.push(response);
  				});
  				
  				$http.get('/getDateRangSalePerson/'+startDate+"/"+endDate).success(function(response) {
- 					console.log(response);
  					if(response != $scope.salesPerson){
  						$http.get('/getComperSalePersonData/'+response+"/"+startDate+"/"+endDate).success(function(response) {
  						 	$scope.comparisonperson.push(response);
  						 	$scope.flagvalue = 2;
  						 	 $scope.comparisonPassSalePerson($scope.comparisonperson);
  		 				});
- 						
  					}else{
  						$('#btncomparisonBest').click();
  					}
@@ -2516,7 +2335,6 @@ angular.module('newApp')
     			 
     			  $http.get('/getMonthlyVisitorsStats/'+startDate+"/"+endDate).success(function(response) {
     				  
-    				  console.log(response);
   			        $scope.onlineVisitorsCount = response.onlineVisitors;
 			        $scope.totalVisitorsCount = response.totalVisitors;
 			        $scope.actionsCount = response.actions;
@@ -2779,37 +2597,19 @@ angular.module('newApp')
     		  month[10] = "November";
     		  month[11] = "December";
     		  var monthNam = month[d.getMonth()];
-    		  
-    		  console.log("::::::oninit");
-    		  console.log($scope.userKey);
-    		  console.log(monthNam);
     		  $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+monthNam)
 				.success(function(data) {
-					console.log("######");
-					console.log(data);
 					if(data == 1){
 						$scope.flagForPlan = 1;
-						
-						
 					}
-    		  
 				});
     		  
     		  $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+monthNam)
 				.success(function(data) {
-					console.log("dataof::getPlanByMonthAndUser");
-					console.log(data);
 					if(data == 1){
 						$scope.flagForPlanForLocation = 1;
-						
-						
 					}
-					
-					
 				});
-    		  
-    		  
-    		  
     		  $scope.heatMapShow = function(startD,endD){
     			  $scope.showHeatMap = 0;
     				$scope.gridOptions12 = {
@@ -2958,7 +2758,6 @@ angular.module('newApp')
 	    						month=month.substring(0,1).toUpperCase()+month.substring(1);
 	    					}
 	    					
-	    					console.log(">>>>>>>>>>>"+month);
 	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> "+month+"'s plan has been assigned</span></p></div></div>";
 	    				
 	    				var position = 'topRight';
@@ -3017,21 +2816,11 @@ angular.module('newApp')
 			
 			$scope.updateMeeting = function(){
 
-				
 				$http.get('/getUpdateMeeting')
 	    		.success(function(data){
-	    			console.log(")()()()()()");
-	    			console.log(data);
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
-	    				
-	    					//console.log($filter('date')(value.confirmTime * 1000,"hh:mm a");
-	    					console.log(">>>>>>>>>>>>>");
-	    					//value.confirmDate = $filter('date')(value.confirmDate,"MM-dd-yyyy");
-	    					//value.confirmTime = $filter('date')(value.confirmTime,"hh:mm a");
-	    					var t = $filter('date')(value.confirmTime,"hh:mm a");
-	    					console.log(t);
-	    					console.log(value.confirmTime);
+	    				var t = $filter('date')(value.confirmTime,"hh:mm a");
 	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.name+" information has been changed</span><br><span>"+value.confirmDate+"   "+value.confirmTime+" - "+value.confirmEndTime+"</span><br><span>"+value.reason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
 	    				
 	    				var position = 'topRight';
@@ -3069,7 +2858,6 @@ angular.module('newApp')
 				$http.get('/getaccepted')
 	    		.success(function(data){
 	    			
-	    			console.log(data);
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
 	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" accepted your invitation to "+value.name+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
@@ -3144,58 +2932,12 @@ angular.module('newApp')
 			 $scope.callForLocalCheck = function(){
 				   $scope.aValue;
 				   $scope.aValue = localStorage.getItem('flagForNoty');
-				   console.log("::::::"+$scope.aValue);
-				  /*if(aValue == true){
-					  
-					  
-				  }
-				  else{
-					  
-				  }
-				   */
 			   }
 			$scope.PlanOnMonday = function(){
 				$http.get('/getPlanMonday')
 	    		.success(function(data){
-	    			
-	    			
 	    			if(data == 1){
 	    				$scope.callForLocalCheck();
-	    				/*  var d = new Date();
-	    	    		  var month = new Array();
-	    	    		  month[0] = "January";
-	    	    		  month[1] = "February";
-	    	    		  month[2] = "March";
-	    	    		  month[3] = "April";
-	    	    		  month[4] = "May";
-	    	    		  month[5] = "June";
-	    	    		  month[6] = "July";
-	    	    		  month[7] = "August";
-	    	    		  month[8] = "September";
-	    	    		  month[9] = "October";
-	    	    		  month[10] = "November";
-	    	    		  month[11] = "December";
-	    	    		  var monthNam = month[d.getMonth()];
-	    	    		  
-	    	    		  console.log("::::::oninit");
-	    	    		  console.log($scope.userKey);
-	    	    		  console.log(monthNam);
-	    	    		  $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+monthNam)
-	    					.success(function(data) {
-	    						if(data == 1){
-	    							$scope.flagForPlan = 1;
-	    						}
-	    					});
-	    	    		  
-	    	    		  $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+monthNam)
-	    					.success(function(data) {
-	    						if(data == 1){
-	    							$scope.flagForPlanForLocation = 1;
-	    						}
-	    					});
-	    				*/
-	    				console.log(">>>>>aValue"+$scope.aValue);
-	    				
 	    				if($scope.aValue == false){
 	    					var notifContent;
 	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>Sales Plan for this month has been added</span><br></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'></p></div></div>";
@@ -3218,15 +2960,10 @@ angular.module('newApp')
 						          {
 								        addClass: 'general-button btnText', text: 'See sales Plan', onClick: function($noty)
 								              {
-								        	console.log($scope.userRole);
-								        	console.log($scope.flagForPlan);
-								        	console.log($scope.flagForPlanForLocation);
 								        	if($scope.flagForPlanForLocation != 1 && $scope.userRole == "Manager"){
-								        		console.log("changee");
 								        		$scope.planForLocationManager();
 								        	}
 								        	if($scope.flagForPlan != 1 && $scope.userRole == "Sales Person"){
-								        		console.log("changee1111");
 								        		$scope.planForsalePerson();
 								        	}
 								        	localStorage.setItem('flagForNoty', 'true'); 
@@ -3489,27 +3226,15 @@ angular.module('newApp')
 							  $(".multidatepicker").multiDatesPicker({
 			    			  		addDates:datesArray,
 			        			  onSelect: function(dateText, inst){
-			        				  console.log("inside select")
 			        				  $scope.showToDoList = true;
 			        				  $scope.showCalendar = false;
 			        				  $scope.selectedDate = dateText;
-//			        				  var date = new Date();
-			        				  
 			        				  $scope.editdate = dateText;
-									 /*var arr1 = [];										
-			        				    arr1 = dateText.split('/');
-			        				    if(arr1.length > 2){
-			        				    	$scope.editdate = arr1[2]+"-"+arr1[0]+"-"+arr1[1];
-			        				    }else{
-			        				    	$scope.editdate =arr1[0];
-			        				    }*/
 			        				  $scope.getScheduleBySelectedDate($scope.editdate);
 			        			  }
 			    		  });
-			    		//  console.log($(".multidatepicker"));
-						  }, 5000);
+						}, 5000);
 						  
-			    		  
 					});
     		  }
     		  
@@ -3554,16 +3279,11 @@ angular.module('newApp')
     							  
     							  if($scope.comparisonperson[0].byType[key].value > $scope.comparisonperson[1].byType[key1].value ){
         							  $scope.comparisonperson[0].byType[key].flag=1;
-        							  console.log(";;;;;;;****insideif");
         	    				  }else if ($scope.comparisonperson[0].byType[key].value == $scope.comparisonperson[1].byType[key1].value) {
-        	    					  
         	    					  $scope.comparisonperson[1].byType[key1].flag=2;
         	    					  $scope.comparisonperson[0].byType[key].flag=2;
-        	    					  
 								}
-    							  
     							  else{
-        	    					  console.log("::::::****insideelse");
         	    					  $scope.comparisonperson[1].byType[key1].flag=0;
         	    				  }
     							  
@@ -3585,26 +3305,17 @@ angular.module('newApp')
     							  
     							  if($scope.comparisonperson[0].priceRang[key].value > $scope.comparisonperson[1].priceRang[key1].value ){
         							  $scope.comparisonperson[0].priceRang[key].flag=1;
-        							  console.log(";;;;;;;****insideif");
         	    				  }else if ($scope.comparisonperson[0].priceRang[key].value == $scope.comparisonperson[1].priceRang[key1].value) {
         	    					  $scope.comparisonperson[0].priceRang[key].flag=2;
         	    					  $scope.comparisonperson[1].priceRang[key1].flag=2;
         	    					  
 								}
-    							  
     							  else{
-        	    					  console.log("::::::****insideelse");
         	    					  $scope.comparisonperson[1].priceRang[key1].flag=0;
         	    				  }
-    							  
     						  }
-        					  
         	     			});
     	     			});
-    				  
-    				  
-    				  
-    				  
     				  angular.forEach($scope.comparisonperson[0].planComplete, function(value, key) {
     					  $scope.offLeadName={};
     					  
@@ -3614,29 +3325,16 @@ angular.module('newApp')
         						  
         						  if($scope.comparisonperson[0].planComplete[key].value > $scope.comparisonperson[1].planComplete[key1].value){
         							  $scope.comparisonperson[0].planComplete[key].flag=1;
-        							  console.log("#####insideif");
         	    				  }else if($scope.comparisonperson[0].planComplete[key].value == $scope.comparisonperson[1].planComplete[key1].value){
         	    					  $scope.comparisonperson[1].planComplete[key1].flag=2;
         	    					  $scope.comparisonperson[0].planComplete[key].flag=2;
         	    				  }
         						  else{
-        	    					  console.log("****insideelse");
         	    					  $scope.comparisonperson[1].planComplete[key].flag=0;
         	    				  }
     						  }
-        					  
         	     			});
-    					  
-    					  
     	     			});
-    				  
-    				  
-    				  
-    				  console.log($scope.comparisonperson[0].offlineLead);
-    				  console.log($scope.comparisonperson[1].offlineLead);
-    				  console.log($scope.comparisonperson[0].onLineLead);
-    				  console.log($scope.comparisonperson[1].onLineLead);
-    				  
     				  
     				  angular.forEach($scope.comparisonperson[0].offlineLead, function(value, key) {
     					  $scope.offLeadName={};
@@ -3677,11 +3375,6 @@ angular.module('newApp')
     					  angular.forEach($scope.comparisonperson[1].onLineLead, function(value1, key1) {
     						  
     						  if($scope.comparisonperson[0].onLineLead[key].name == $scope.comparisonperson[1].onLineLead[key1].name){
-    							  console.log(value.name);
-        						  console.log(value1.name);
-        						  console.log(";;;;;;");
-        						  console.log($scope.comparisonperson[0].onLineLead[key].value);
-        						  console.log($scope.comparisonperson[1].onLineLead[key1].value);
         						  if($scope.comparisonperson[0].onLineLead[key].value > $scope.comparisonperson[1].onLineLead[key1].value){
         							  $scope.comparisonperson[0].onLineLead[key].flag=1;
         	    					  $scope.onLineLeadPer = (($scope.comparisonperson[0].onLineLead[key].value - $scope.comparisonperson[1].onLineLead[key1].value) * 100 / $scope.comparisonperson[0].onLineLead[key].value).toFixed(2);
@@ -3689,27 +3382,17 @@ angular.module('newApp')
         	    					  $scope.comparisonperson[1].onLineLead[key1].flag=2;
         	    					  $scope.comparisonperson[0].onLineLead[key].flag=2;
         	    					  $scope.onLineLeadPer = (($scope.comparisonperson[0].onLineLead[key].value - $scope.comparisonperson[1].onLineLead[key1].value) * 100 / $scope.comparisonperson[0].onLineLead[key].value).toFixed(2);  
-        	    					  
         	    				  }
-        						  
         						  else{
-        	    					  console.log("insilde   else");
         	    					  $scope.comparisonperson[1].onLineLead[key1].flag=0;
         	    					  $scope.onLineLeadPer = (($scope.comparisonperson[1].onLineLead[key1].value - $scope.comparisonperson[0].onLineLead[key].value) * 100 / $scope.comparisonperson[1].onLineLead[key1].value).toFixed(2);
         	    				  }
-        						  console.log("value of onlinelead"+$scope.onLineLeadPer)
         						  $scope.leadName.name =$scope.comparisonperson[1].onLineLead[key1].name;
         						  $scope.leadName.value = $scope.onLineLeadPer;
         						  $scope.leadPer.push($scope.leadName);
     						  }
-        					  
-        					  
         	     			});
-    					  
-    					  
     	     			});
-    				  console.log("######3Arrayvalue");
-    				  console.log($scope.leadPer);
     				  
     				  if($scope.comparisonperson[0].avgLeadLifeCycle > $scope.comparisonperson[1].avgLeadLifeCycle){
     					  $scope.totalAvgLeadLifeCyclePer = (($scope.comparisonperson[0].avgLeadLifeCycle - $scope.comparisonperson[1].avgLeadLifeCycle) * 100 / $scope.comparisonperson[0].avgLeadLifeCycle).toFixed(2);
@@ -3871,24 +3554,12 @@ angular.module('newApp')
     				  }
     				  else{
     					  $scope.testDriveSchedPer = (($scope.comparisonperson[1].testDriveSched - $scope.comparisonperson[0].testDriveSched) * 100 / $scope.comparisonperson[1].testDriveSched).toFixed(0);
-    					  
     				  }
-    				  
     				  $('#btncomparisonSale').click();
-    			  }/*else{
-    				  $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Select 2 Sale People",
-						});
-    			  }*/
-    			
-    			  
+    			  }
     		  }
     		  
     		  $scope.restoreLead = function(entity){
-    			  
-    			  console.log(entity);
     			  $http.get('/restoreLead/'+entity.id+'/'+entity.leadType)
 					.success(function(data) {
 						$.pnotify({
@@ -3901,8 +3572,6 @@ angular.module('newApp')
     		  }
     		  
     		  $scope.deleteMyLead = function() {
-    			  console.log($scope.leadId);
-    			  console.log($scope.leadType);
     			  $http.get('/deleteCanceledLead/'+$scope.leadId+'/'+$scope.leadType)
 					.success(function(data) {
 						$.pnotify({
@@ -3917,8 +3586,6 @@ angular.module('newApp')
     		  $scope.getScheduleBySelectedDate = function(date) {
     			  $http.get('/getScheduleBySelectedDate/'+date)
 					.success(function(data) {
-						console.log("changesss");
-						console.log(data);
 					$scope.scheduleList = data;
 				});  
     			  
@@ -4085,7 +3752,6 @@ angular.module('newApp')
 	    		$scope.newUsers = [];
 	    		$scope.bounceRate = [];
 	    		$http.get('/getVisitorStats').success(function(response) {
-	    			console.log(response);
 	    			$scope.visitors[0] = {'title':'Visit Today','value':response[0].dates[0].items[0].value};
 		    		$scope.visitors[1] = {'title':'Visit Yesterday','value':response[0].dates[1].items[0].value};
 		    		$scope.newUsers[0] = Math.round($scope.visitors[0].value==0?0:(response[1].dates[0].items[0].value/$scope.visitors[0].value)*100);
@@ -4095,9 +3761,6 @@ angular.module('newApp')
 	    		});
 	    		
 	    		$scope.showSessionAnalytics = function(id,vin,status){
-	    			console.log(id);
-	    			console.log(vin);
-	    			console.log(status);
 	    			$location.path('/sessionsAnalytics/'+id+"/"+vin+"/"+status);
 	    		};
 	    		
@@ -4105,13 +3768,6 @@ angular.module('newApp')
 	    		$scope.currentSelectedDuration = 0;
 	    		$scope.weekData = {};
 	    		$scope.currentData = [];
-	    		/*$scope.showWeekVisited = function() {
-	    			$scope.currentSelectedWeekDuration = 1;
-	    			$scope.currentSelectedAllTimeDuration = 0;
-	    			$scope.currentSelectedMonthDuration = 0;
-	    			$scope.getVisitedData('week','countHigh','0','0','All');
-	    		};
-	    		*/
 	    		$scope.showMonthVisited = function() {
 	    			$scope.currentSelectedMonthDuration = 1;
 	    			$scope.currentSelectedAllTimeDuration = 0;
@@ -4131,36 +3787,20 @@ angular.module('newApp')
 	    		$scope.vehicleData=function(vehicles,startDate,endDate){
 	    			$scope.all=vehicles; 
 	    			$scope.getVisitedData('datewise','countHigh','0','0',vehicles,startDate,endDate); 			
-	    			
-	    			
-	    			console.log(":::vehicle data");
-	    			console.log(vehicles);
-	    			
-	    			
-	    			
 	    		};
 	    		
 	    		$scope.topVisitedDataDatewise = function(){
 	    			var startD = $('#cnfstartDateValueForListing').val();
-		 			   var endD = $('#cnfendDateValueForListing').val();
+		 			var endD = $('#cnfendDateValueForListing').val();
 		    		$scope.getVisitedData('datewise','countHigh','0','0','All',startD,endD);
 	    		}
 	    		
-	    		
 	    		$scope.notchange = 0;
 	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,vehicles,startD,endD) {
-	    			
-	    			
-	 			   
-	 			   console.log("%%%%");
-	 			   console.log(startD);
-	 			   console.log(endD);
-	    			
 	    			if(locationId != 0){
 		    				$http.get('/gmLocationManager/'+locationId)
 		    				.success(function(data) {
 		    						$http.get('/getVisitedData/'+data.id+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(response) {
-		    				console.log(response);
 		    				$scope.weekData = response;
 		    				
 		    				if(response.topVisited.length == 0){
@@ -4180,10 +3820,7 @@ angular.module('newApp')
 		    					
 		    				});
 	    			}else{
-	    				
-	    				
-	    						$http.get('/getVisitedData/'+$scope.userKey+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(response) {
-	    				console.log(response);
+	    				$http.get('/getVisitedData/'+$scope.userKey+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(response) {
 	    				$scope.weekData = response;
 	    				
 	    				if(response.topVisited.length == 0){
@@ -4201,27 +3838,8 @@ angular.module('newApp')
 	    					$scope.currentData = response.allVehical;
 	    			});
 	    					
-	    			
 	    			}
-	    			
-	    		
 	    		};
-	    		
-	    		/*$scope.getFromCrm = function(name){
-	    			if(name !=null || name!=''){
-	    				$http.get('/getDataFromCrm/'+name).success(function(data){
-		    				$scope.crmData = data;
-		    			 });
-	    			}
-	    		};*/
-	    		/*$scope.dataFromCrm = function(item){
-	    			$scope.item = JSON.parse(item);
-	    			$scope.lead.custName = $scope.item.firstName +" "+ $scope.item.lastName;
-	    			$scope.lead.custNumber = $scope.item.phone;
-	    			$scope.lead.custEmail = $scope.item.email;
-	    			$scope.lead.custZipCode = $scope.item.zip;
-	    			console.log($scope.item);
-	    		};*/
 	    		
 	    		$scope.selectedObj = function (selectObj) {
 	    			if(selectObj.originalObject != undefined){
@@ -4234,7 +3852,6 @@ angular.module('newApp')
 	    		};
 	    			$http.get('/getHeardAboutUs').success(function(response) {
 	    				$scope.heardAboutUs = response;
-	    				console.log($scope.heardAboutUs);
 	    			});
 	    			$scope.othertxt=null;
 	    		$scope.openCreateNewLeadPopup = function() {
@@ -4245,13 +3862,9 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.openCreateNewLeads = function(item) {
-	    			console.log(item);
 	    			$scope.stockWiseData = [];
 	    			$http.get('/getStockDetails/'+item).success(function(response) {
-	    				
-	    				console.log(response);
 	    				if(response.isData) {
-
 	    					 $scope.stockWiseData.push({
 	    							model:response.model,
 	    							make:response.make,
@@ -4265,10 +3878,8 @@ angular.module('newApp')
 	    							vin:response.vin,
 	    							imgId:response.imgId,
 	    						});
-	    					
 	    				} 
 	    			});
-	    			//$scope.getStockDetails(item);
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
 	    		};
@@ -4318,26 +3929,18 @@ angular.module('newApp')
 	    		};
 	    		$scope.removeLead = function(index){
 	    			$scope.stockWiseData.splice(index, 1);
-	    			console.log($scope.stockWiseData);
 	    		}
 	    		
 	    		$scope.initialiase();
 	    		$scope.isInValid = false;
 	    		$scope.isStockError = false;
 	    		$scope.focusIn = function(itm){
-					console.log(itm);
 					$scope.len = itm;
 	    		};
 	    		$scope.createLead = function() {
-	    			
-	    			
 	    			if($scope.lead.custName == ''){
 	    				$scope.lead.custName = $('#ex1_value').val();
 	    			}
-	    			console.log($scope.lead.custName);
-	    			//!(($scope.lead.make!='' && $scope.lead.model!='') ||
-	    			//($scope.lead.makeSelect!='' && $scope.lead.modelSelect!='')) ||
-	    			
 	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' ||  
 	    					 $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
 	    				$scope.isInValid = true;
@@ -4363,71 +3966,21 @@ angular.module('newApp')
 		    				$("#tradeInApp").modal();
 		    			}
 	    			}
-	    			
-	    			//$scope.makeLead();
-	    			/*console.log($('#ex1_value').val());
-	    			$scope.lead.custName = $('#ex1_value').val();
-	    			console.log($scope.lead);
-	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' || !(($scope.lead.make!='' && $scope.lead.model!='') || 
-	    					($scope.lead.makeSelect!='' && $scope.lead.modelSelect!='')) || $scope.lead.leadType =='' || $scope.lead.contactedFrom==''||$scope.lead.enthicity==''||$scope.lead.enthicity==null) {
-	    				$scope.isInValid = true;
-	    			} else {
-	    				$scope.isInValid = false;
-	    				if($scope.lead.leadType=='1') {
-	    					$scope.makeLead();
-		    			} else if($scope.lead.leadType=='2') {
-		    				$scope.lead.bestDay = $("#leadBestDay").val();
-			    			$scope.lead.bestTime = $("#leadBestTime").val();
-			    			if($("input[name=leadPreffered]:checked").val())
-			    				$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
-			    			
-			    			if(!$scope.lead.bestDay || $scope.lead.bestDay == '' ||!$scope.lead.bestTime || $scope.lead.bestTime=='' || !$scope.lead.prefferedContact ||$scope.lead.prefferedContact=='') {
-			    				$scope.isInValid = true;
-			    			} else {
-			    				$scope.makeLead();
-			    			}
-		    			} else {
-		    				$("#createLeadPopup").modal('hide');
-		    				$("#tradeInApp").modal();
-		    			}
-	    			}*/
-	    			
-	    			
-	    			console.log($scope.lead);
-	    			/*$http.post('/createLead',$scope.lead).success(function(response) {
-	    				$("#createLeadPopup").modal('hide');
-	    				if($scope.lead.leadType=='2') 
-	    					$scope.getScheduleTestData();
-	    				else if($scope.lead.leadType=='1')
-	    					$scope.getRequestMoreData();
-	    				else
-	    					$scope.getTradeInData();
-	    			});*/
-	    			//$scope.reloadAllLeads();
 	    			if($scope.lead.leadType != '3'){
 	    				window.location.reload();
 	    			}
-	    			
-	    			//$scope.requestMore();
-	    			//$scope.getAllLeadIn();
-	    			//$scope.testDrive();
-	    			//$scope.tradeIn();
 	    		};
 	    		
 	    		$scope.makeLeadEdit = function(){
 	    				$scope.lead.leadType = '3';
-	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
 	    					$("#tradeInAppEdit").modal('hide');
-	    				
 	    			});
 	    		}
 	    		
 	    		$scope.makeLead = function() {
 	    			$scope.othertxt = $('#othertxt').val();
-	    			console.log($scope.othertxt);
 	    			if($scope.lead.hearedFrom == "Other"){
-	    				console.log($scope.othertxt);
 	    				if($scope.othertxt == null || $scope.othertxt == undefined){
 	    					$scope.lead.hearedFrom = "Other";
 	    				}else{
@@ -4435,7 +3988,6 @@ angular.module('newApp')
 	    					$http.get('/addHeard/'+$scope.lead.hearedFrom).success(function(response) {
 	    						$http.get('/getHeardAboutUs').success(function(response) {
 	    		    				$scope.heardAboutUs = response;
-	    		    				console.log($scope.heardAboutUs);
 	    		    			});
 	    					});
 	    				}
@@ -4447,7 +3999,6 @@ angular.module('newApp')
 	    			
 	    			$("#createLeadPopup").modal('hide');
 	    			$scope.lead.stockWiseData = $scope.stockWiseData;
-	    			console.log($scope.lead);
 	    			$http.post('/createLead',$scope.lead).success(function(response) {
 	    				//$scope.getVisitedData('week','countHigh','0','0','All');
 	    				$scope.topVisitedDataDatewise();
@@ -4486,13 +4037,8 @@ angular.module('newApp')
 	    		$scope.stockWiseData = [];
 	    		$scope.stockWiseData.push({});
 	    		$scope.getStockDetails = function(stockRp) {
-	    			console.log(stockRp.stockNumber);
-	    		
 	    			$scope.isStockError = false;
 	    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
-	    				
-	    				
-	    				console.log(response);
 	    				if(response.isData) {
 	    					$scope.isStockError = false;
 	    					stockRp.make = response.make;
@@ -4506,8 +4052,6 @@ angular.module('newApp')
 	    					stockRp.imgId = response.imgId;
 	    					stockRp.year = response.year;
 	    					stockRp.vin = response.vin;
-	    					
-	    					
 	    				} else {
 	    					$scope.isStockError = true;
 	    				}
@@ -4516,38 +4060,30 @@ angular.module('newApp')
 	    		
 	    		$scope.pushRecord = function(){
 	    			$scope.stockWiseData.push({});
-	    			
 	    		}
 	    		
 	    		$scope.makes = [];
 	    		$scope.models = [];
 	    		$scope.getMakes = function() {
 	    			$http.get('/getMakes').success(function(response) {
-	    				console.log(response);
 	    				$scope.makes = response.makes;
-	    	    		
-	    	    		
 	    			});
 	    		};
 	    		
 	    		$scope.showTopVisited = function() {
-	    			//$scope.getVisitedData('week','countHigh','0','0','All');
 	    			$scope.topVisitedDataDatewise();
 	    			$scope.currentSelectedType = 0;
 	    			$scope.currentData = $scope.weekData.topVisited;
 	    		};
 	    		
 	    		$scope.filterFunction = function(filterBy) {
-	    			console.log(filterBy);
 	    			var startD = $('#cnfstartDateValueForListing').val();
-		 			   var endD = $('#cnfendDateValueForListing').val();
+		 			var endD = $('#cnfendDateValueForListing').val();
 	    			$scope.getVisitedData('week',filterBy,'0','0','All',startD,endD);
 	    		};
 	    		$scope.search = "";
 	    		$scope.searchBy = "";
 	    		$scope.showTextBox = function(search){
-	    			console.log($scope.search);
-	    			console.log($scope.searchBy)
 					if(search=='Make'){
 						$scope.currentSelectedDuration = 0;
 					}if(search=='Model'){
@@ -4560,10 +4096,8 @@ angular.module('newApp')
 	    		$scope.findMake = function(value,searchBy){
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
-	    			console.log(value.length);
 	    			if(value.length > 2){
 	    				$scope.searchBy = searchBy;
-	    				
 	    				$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
 	    			}
 					if(value.length == 0){
@@ -4573,7 +4107,6 @@ angular.module('newApp')
 	    		$scope.findModel = function(value,searchBy){
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
-	    			console.log(value.length);
 	    			if(value.length > 1){
 	    				$scope.searchBy = searchBy;
 		    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
@@ -4603,7 +4136,6 @@ angular.module('newApp')
 	    		
 	    		$scope.getAnalystData = function() {
 	    			$http.get('/getAnalystData').success(function(response) {
-		    			console.log(response);
 	    			});
 	    		};
 	    		
@@ -4615,7 +4147,6 @@ angular.module('newApp')
 	    			$scope.locationValue = locationValue;
 	    			$http.get('/getSalesUserOnly/'+locationValue)
 		    		.success(function(data){
-		    			console.log(data);
 		    			$scope.salesPersonPerf = data;
 		    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 		    			angular.forEach($scope.salesPersonPerf, function(value, key) {
@@ -4627,22 +4158,17 @@ angular.module('newApp')
 	    		$scope.getGMData1 = function() {
 		    		$http.get('/getSalesUserList/'+locationId)
 		    		.success(function(data){
-		    			console.log("::data");
 		    			$scope.salesPersonList =data;
-		    			
 		    			$scope.user=data;
-		    			console.log($scope.salesPersonList);
 		    			if($scope.salesPersonList.length > 0){
 		    				$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
 		    			}
 		    		});
 	    		}
 	    		
-	    		
 	    		$scope.getGMData = function() {
 		    		$http.get('/getSalesUser')
 		    		.success(function(data){
-		    			console.log(data);
 		    			$scope.salesPersonList =data;
 		    			$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
 		    		});
@@ -4655,19 +4181,15 @@ angular.module('newApp')
 		    			if($scope.leadCount != '0') {
 		    				var notifContent;
 		    				$scope.leadNotification = data.data;
-		    				console.log($scope.leadNotification);
 		    				if($scope.leadCount==1 ) {
 		    					if($scope.leadNotification.premiumFlag == 0 && $scope.leadNotification.premiumFlag != null){
-		    						console.log("premium lead");
 		    						if($scope.userType != "Manager"){
 		    							notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><h4 class='alert-title f-14' id='cnt'>Premium lead has been assigned to you.</h4><p class='row' style='margin-left:0;'><span style='color: #319DB5;font-weight: bold;'>INFO: </span><span>"+$scope.leadNotification.name+" "+$scope.leadNotification.make+" "+$scope.leadNotification.model+" "+$scope.leadNotification.trim+"</span></p><p class='row' style='margin-left:0;'><span style='color: #319DB5;font-weight: bold;'>Price: </span><span>"+$scope.leadNotification.price+"</span></p><p class='row' style='margin-left:0;'><span style='color: #319DB5;font-weight: bold;'>TYPE: </span><span>"+$scope.leadNotification.leadType+"</span></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>See the Leads&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";		    							
 		    						}
 		    					}else{
-		    						console.log("normal lead");
 		    						notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><h4 class='alert-title f-14' id='cnt'>1 New Lead Assigned</h4><p class='row' style='margin-left:0;'><span style='color: #319DB5;font-weight: bold;'>INFO: </span><span>"+$scope.leadNotification.make+" "+$scope.leadNotification.model+" "+$scope.leadNotification.name+"</span></p><p class='row' style='margin-left:0;'><span style='color: #319DB5;font-weight: bold;'>TYPE: </span><span>"+$scope.leadNotification.leadType+"</span></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>See the Leads&nbsp;<i class='glyphicon glyphicon-download'></i></a></p></div></div>";		    						
 		    					}
 		    				} else {
-		    					console.log("more count");
 		    					notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div><div class="media-body width-100p"><h4 class="alert-title f-14" id="cnt">'+$scope.leadCount+' New Leads Assigned</h4><p class="pull-left" style="margin-left:65%;"><a class="f-12">See the Leads&nbsp;<i class="glyphicon glyphicon-download"></i></a></p></div></div>';
 		    				}
 		    				var position = 'topRight';
@@ -4693,7 +4215,6 @@ angular.module('newApp')
 			    	                		if($scope.leadNotification.leadType == 'Schedule Test'){
 			    	                			$scope.testDrive();
 					    	                	$('#test-drive-tabSched').click();
-			    	                			console.log($scope.gridOptions2.data);
 				    	                		for(var i=0;i<$scope.gridOptions2.data.length;i++){
 				    	                			if($scope.gridOptions2.data[i].id == $scope.leadNotification.id){
 				    	                				$scope.editVinData($scope.gridOptions2.data[i]);
@@ -4737,11 +4258,9 @@ angular.module('newApp')
 	    			$http.get('/getNewToDoCount')
 		    		.success(function(data){
 		    			$scope.toDoCount = data.count;
-		    			console.log("****flag for popup"+$scope.flagForPopUp);
 		    			if($scope.toDoCount != '0'&& $scope.flagForPopUp !=1) {
 		    				var notifContent;
 		    				$scope.notification = data.data;
-		    				console.log($scope.notification);
 		    				if($scope.toDoCount==1) {
 		    					notifContent = "<div class='alert alert-dark media fade in bd-0 "+($scope.notification.priority=='Low'?"":$scope.notification.priority == 'Medium'?"pri-low": $scope.notification.priority =='High' ?"pri-medium":"pri-high")+"' id='message-alert'>"+
 		    					"<div class='media-left'></div>"+
@@ -4928,24 +4447,11 @@ angular.module('newApp')
         $scope.getAllListLeadDate = [];
         $scope.getAllLeadsValue = function(){
         	$scope.getAllSalesPersonRecord($scope.salesPerson);
-        	/*$scope.getAllListLeadDate = [];
-        	angular.forEach($scope.gridOptions2.data,function(value,key){
-        		$scope.getAllListLeadDate.push(value);
-        	});
-        	angular.forEach($scope.gridOptions5.data,function(value,key){
-        		$scope.getAllListLeadDate.push(value);
-        	});
-        	angular.forEach($scope.gridOptions3.data,function(value,key){
-        		$scope.getAllListLeadDate.push(value);
-        	});
-        	console.log($scope.gridOptions7.data);
-        	$scope.gridOptions7.data = $scope.getAllListLeadDate;*/
         }
         
         $scope.schedulTestDir = function(){
         	$http.get('/getTestDirConfir')
 			.success(function(data) {
-				console.log(data);
 				$scope.gridOptions9.data = data;
 				 angular.forEach($scope.gridOptions9.data,function(value,key){
 					 value.check = false;
@@ -4959,7 +4465,6 @@ angular.module('newApp')
 			  
 			   angular.forEach(gridValue,function(value1,key1){
 				   var day = moment(value1.confirmDate).format('D MMM YYYY');
-				   console.log(day);
 				   var img= "";
 			   angular.forEach($scope.whDataArr,function(value,key){
 				  if(angular.equals(day, value.date)){
@@ -4972,9 +4477,7 @@ angular.module('newApp')
         $scope.getCompletedData = function(){
         	$http.get('/getAllCompletedLeads')
 			.success(function(data) {
-				console.log(data);
 				$scope.gridOptions10.data = data;
-				
 				$scope.completedL = data;
 			});
         }
@@ -4982,9 +4485,7 @@ angular.module('newApp')
         $scope.getAllLostAndComLeads = function(){
         	$http.get('/getAllLostAndCompLeads')
 			.success(function(data) {
-				console.log(data);
 				$scope.gridOptions6.data = data;
-				
 			});
         }
         
@@ -4998,18 +4499,13 @@ angular.module('newApp')
         
         $scope.gridOptions4.onRegisterApi = function(gridApi){
 				 $scope.gridApi = gridApi;
-				 
 		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 			          var grid = this.grid;
 			          $scope.gridOptions4.data = $filter('filter')($scope.canceledLead,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'leadType':grid.columns[7].filters[0].term,'status':grid.columns[8].filters[0].term,'statusDate':grid.columns[9].filters[0].term},undefined);
 			        });
-		   		
 	  		};
 	  		
-	  		
-        
         $scope.assignCanceledLead = function(entity) {
-        	console.log(entity);
         	$scope.cancelId = entity.id;
         	$scope.leadType = entity.typeOfLead;
         	$scope.changedUser = "";
@@ -5171,8 +4667,6 @@ angular.module('newApp')
 		};
 		
 		$scope.getAllSalesPersonRecord = function(id){
-		       console.log(id);
-		       console.log($scope.userType);
 		       $scope.getAllListLeadDate = [];
 		       $scope.salesPerson = id;
 		       	if($scope.salesPerson == undefined){
@@ -5243,7 +4737,6 @@ angular.module('newApp')
 		
 		
     	$scope.soldScheduleStatus = function(entity) {
-    		console.log(entity);
     		$scope.scheduleStatusVal = entity;
     		$scope.soldContact = {};
     		$scope.soldContact.infoId = entity.id;
@@ -5306,30 +4799,20 @@ angular.module('newApp')
     	}
     	
     	$scope.cancelSure = function(){
-    		console.log("jjjjj");
-    		console.log($scope.scheduleStatusCancel);
     		$('#scheduleCancelModal').modal("toggle");
     		if($scope.scheduleStatusCancel.confirmDate == null){
     			$scope.saveScheduleClose();
     		}else{
     			$('#cancelBtn').click();
     		}
-    	
-    		//$('#cancelForeverModal').click();
-    		
     	}
     	
     	$scope.CancelTradeInStatus = function(){
-    		console.log("jjjjj");
     		$('#tradeInCancelModal').modal("toggle");
     		$('#cancelBtnTradeIn').click();
-    		//$('#cancelForeverModal').click();
-    		
     	}
     	
-    	
     	$scope.saveScheduleClose = function() {
-    		console.log($scope.scheduleStatusCancel);
 	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.typeOfLead+'/'+$scope.reasonToCancel)
 				.success(function(data) {
 					$scope.getScheduleTestData();
@@ -5379,41 +4862,6 @@ angular.module('newApp')
     		$scope.soldContact.price = entity.price;
     		$('#btnCompleteRequest').click();
     	};
-    	
-    	
-    	
-    	/*$scope.saveScheduleStatus = function() {
-    		
-    		$http.post('/setVehicleAndScheduleStatus',$scope.soldContact)
-			.success(function(data) {
-				$('#scheduleStatusModal').modal('hide');
-				$scope.getAllSalesPersonRecord($scope.salesPerson);
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Vehicle status changed successfully",
-				});
-				for(var i=0;i<$scope.scheduleList.length;i++) {
- 					if($scope.scheduleStatusVal.id == $scope.scheduleList[i].id) {
- 						$scope.scheduleList.splice(i,1);
- 					}
- 				}
-		});
-	}*/
-    	/*$scope.saveRequestStatus = function() {
-    		
-    		console.log($scope.soldContact);
-    		$http.post('/setRequestStatusComplete',$scope.soldContact)
-			.success(function(data) {
-				$('#requestCompleteStatusModal').modal('hide');
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
-				$scope.getAllSalesPersonRecord($scope.salesPerson);
-			});
-    	};		*/
     	
     	$scope.cancelRequestStatus = function(entity) {
     		$scope.requestStatusCancel = entity;
@@ -5465,11 +4913,9 @@ angular.module('newApp')
     	
     	$scope.saveRequestStatus = function() {
     		
-    		//console.log($scope.soldContact);
     		$('#soldBtn').attr("disabled", true);
     		$http.post('/setRequestStatusComplete',$scope.soldContact)
 			.success(function(data) {
-				console.log(data);
 				$route.reload();
 				if(data=='contact error'){
 					$.pnotify({
@@ -5489,21 +4935,6 @@ angular.module('newApp')
 				$scope.showVehicalBarChart();
 			});
     	};		
-    	
-    	/*$scope.saveCompleteTradeInStatus = function() {
-    		$http.post('/setTradeInStatusComplete',$scope.soldContact)
-			.success(function(data) {
-			
-				$('#tradeInCompleteStatusModal').modal('hide');
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
-				$scope.getAllSalesPersonRecord($scope.salesPerson);
-			});
-    	}*/
-    	
     	
     	$scope.cancelLead = function(leads,index){
     		if(leads.typeOfLead == "Schedule Test Drive"){
@@ -5553,9 +4984,6 @@ angular.module('newApp')
     	}
     	
     	$scope.cancelLeadSched = function(leads,index){
-    		
-    		console.log(leads);
-    		
     		if(leads.typeOfLead == "Schedule Test Drive"){
     			leads.option = 0;
     		}else if(leads.typeOfLead == "Request More Info"){
@@ -5571,7 +4999,6 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Status changed successfully",
 				});
-				
 			});
     		$scope.testDriveData.parentChildLead.splice(index, 1);
     	}
@@ -5606,15 +5033,9 @@ angular.module('newApp')
     		  $scope.scheduleTestData.confirmTime = entity.confirmTime;
     		  $scope.scheduleTestData.option = entity.option;
     		  $scope.scheduleTestData.vin = entity.vin;
-    		  console.log("...........");
 			   var sDate = entity.confirmDate;
-			   console.log(entity.vin);
-			   console.log(sDate);
 			   $http.get("/getScheduleTime/"+entity.vin+'/'+sDate).success(function(data){
-				   console.log("success");
-				   console.log(data);
 				   $scope.cnTimeList = data;
-				 //$scope.timeList = data;
 				   $scope.timeList = [];
 				   $.each(data, function(i, el){
 				       if($.inArray(el, $scope.timeList) === -1) $scope.timeList.push(el);
@@ -5626,16 +5047,10 @@ angular.module('newApp')
     		  $scope.scheduleTestData.confirmDate = $("#cnfDate").val();
     		  $scope.scheduleTestData.confirmTime = $("#timePick").val();
     		  $scope.scheduleTestData.cnfDateNature=$scope.cnfDateNature;
-    		  console.log("%%%%%%%%");
-    		  console.log($scope.scheduleTestData.cnfDateNature);
-    		  console.log($scope.scheduleTestData);
     		  $http.post('/saveConfirmData',$scope.scheduleTestData)
     	 		.success(function(data) {
-    	 			console.log("successdata");
-    	 			console.log(data);
     	 			$scope.flagForPopUp=1;
     	 			if(data.mesg == "success"){
-    	 				console.log('success');
         	 			$.pnotify({
         				    title: "Success",
         				    type:'success',
@@ -5660,7 +5075,6 @@ angular.module('newApp')
     		  $scope.todoData.dueDate = $("#cnftodoDate").val();
     		  $http.post('/saveToDoData',$scope.todoData)
     	 		.success(function(data) {
-    	 			console.log('success');
     	 			$.pnotify({
     				    title: "Success",
     				    type:'success',
@@ -5671,7 +5085,6 @@ angular.module('newApp')
     	 			$scope.init();
     	 			$scope.todoData = {};
     	 		});
-    		  
     	  }
     	  
     	  $scope.toDoStatusComplete = function(id) {
@@ -5771,7 +5184,6 @@ angular.module('newApp')
     		   }
     		   $http.get('/getWeekChartData/'+userId)
     	 		.success(function(data) {
-    	 			console.log(data);
     	 			$scope.data = data.map(function(series) {
     	 	    	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
     	 	    	                     return series;
@@ -5788,7 +5200,6 @@ angular.module('newApp')
     		   }
     		   $http.get('/getMonthChartData/'+userId)
 	   	 		.success(function(data) {
-	   	 			console.log(data);
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -5805,7 +5216,6 @@ angular.module('newApp')
     		   }
     		   $http.get('/getThreeMonthChartData/'+userId)
 	   	 		.success(function(data) {
-	   	 			console.log(data);
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -5822,7 +5232,6 @@ angular.module('newApp')
     		   }
     		   $http.get('/getSixMonthChartData/'+userId)
 	   	 		.success(function(data) {
-	   	 			console.log(data);
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -5839,7 +5248,6 @@ angular.module('newApp')
     		   }
     		   $http.get('/getYearChartData/'+userId)
 	   	 		.success(function(data) {
-	   	 			console.log(data);
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -5848,9 +5256,6 @@ angular.module('newApp')
     	   }
     	   
     	   $scope.getRangeData = function() {
-    		   console.log($('#startDate').val());
-    		   console.log($('#endDate').val());
-    		   console.log($scope.graphUserId);
     		   var userId;
     		   var startDate = $('#startDate').val();
     		   var endDate = $('#endDate').val();
@@ -5866,7 +5271,6 @@ angular.module('newApp')
     		   }
     		   $http.get('/getRangeChartData/'+userId+'/'+startDate+'/'+endDate)
 	   	 		.success(function(data) {
-	   	 			console.log(data);
 	   	 			$scope.data = data.map(function(series) {
 	                     series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
  	                     return series;
@@ -5957,38 +5361,28 @@ angular.module('newApp')
 			   if(angular.isUndefined($scope.salesPersonUser) || $scope.salesPersonUser == "") {
 				   $scope.salesPersonUser = 0;
 			   }
-			 //  if($scope.locationValue == null){
-				   console.log("!!!!!!!!!!");
 				   $http.get('/getUserRole').success(function(data) {
 						if($scope.userRole != "General Manager"){
 							$scope.locationValue = data.location.id;
-							
 						}else{
 							if(locationId != 0){
 								$scope.locationValue = locationId;
 							}else{
 								$scope.locationValue = 0;
 							}
-							 
 						}
 						
 						$http.get('/getPerformanceOfUser/'+$scope.topPerformers+'/'+$scope.worstPerformers+'/'+$scope.weekPerformance+'/'+$scope.monthPerformance+'/'+$scope.yearPerformance+"/"+ $scope.allTimePerformance+'/'+$scope.salesPersonUser+'/'+$scope.locationValue+'/'+startD+'/'+endD)
 				 		.success(function(data) {
 				 			$scope.userPerformanceList = data;
-				 			
-				 			console.log($scope.userPerformanceList);
 				 		});
 					});
-			  // }
-			   
 		   }
 		   
 		   
 		   $scope.addNoteToRequestUser = function(entity,type) {
 			   $scope.userNoteId = entity.id;
-			   console.log(entity);
 			   $scope.action = "";
-			   console.log($scope.action);
 			   if(entity.typeOfLead == "Schedule Test" || entity.typeOfLead == "Schedule Test Drive") {
 				   $scope.typeOfNote = 'scheduleTest';
 			   } else if(entity.typeOfLead == "Request More Info") {
@@ -6006,7 +5400,6 @@ angular.module('newApp')
 		   }
 		   $scope.showOtherText = 0;
 		   $scope.selectOther = function(action){
-			   console.log(action);
 			   if(action == "Other"){
 				   $scope.showOtherText = 1;
 			   }else{
@@ -6059,8 +5452,6 @@ angular.module('newApp')
 		   }
 		   $scope.testDriveData = {};
 		   $scope.scheduleTestDriveForUser = function(entity,option) {
-			   console.log(entity);
-			   
 			   $scope.stockWiseData = [];
 			   $scope.cnTimeList = [];
 	    	   	   $scope.timeList = [];
@@ -6097,28 +5488,20 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.getScheduleTime = function(){
-			   console.log("..........");
-			   console.log();
-			   console.log(testDriveData.bestDay);
 		   }
 		   
 		   $scope.saveTestDrive = function() {
 			   
 			   $scope.testDriveData.bestDay = $('#testDriveDate').val();
 			   $scope.testDriveData.bestTime = $('#bestTime').val();
-			   //$scope.testDriveData.weather=
 			   var aaa = $('#testDriveNature').val();
-			   console.log($scope.wetherValue);
 			   $scope.testDriveData.weatherValue=$scope.wetherValue;
-			   /*console.log("WWWWWWWWWWWWEEEEEEEETTTTTT");
-			   console.log($scope.testDriveData.weather);*/
 			   	angular.forEach($scope.testDriveData.parentChildLead,function(value,key){
 			   			value.bestDay = $('#testDriveDate'+key).val();
 			   			value.bestTime =  $('#bestTime'+key).val();
 			   	});  
 			   
 			   $scope.testDriveData.prefferedContact = $("input:radio[name=preffered]:checked").val();
-			   console.log($scope.testDriveData);
 			   $http.post('/saveTestDrive',$scope.testDriveData)
 				.success(function(data) {
 					$('#clsPop').click();
@@ -6136,7 +5519,6 @@ angular.module('newApp')
 						});
 						$scope.testDrive();
 						$("#test-drive-tabSched").click();
-						//$scope.testDrive();
 					}else{
 						$.pnotify({
 						    title: "Error",
@@ -6183,69 +5565,26 @@ angular.module('newApp')
 			   $scope.data1.confirmDate = $filter('date')($scope.data1.confirmDate,"MM-dd-yyyy");
 			   $scope.data1.confirmTime = $filter('date')($scope.data1.confirmTime,"hh:mm a");
 			   $scope.data1.confirmEndTime = $filter('date')($scope.data1.confirmEndTime,"hh:mm a");
-			   console.log($scope.data1.confirmEndTime);
-			   console.log($scope.data1.confirmTime);
-			   console.log($scope.data1.confirmDate);
 			   $http.get('/getUserForMeeting/'+$scope.data1.confirmDate+"/"+$scope.data1.confirmTime+"/"+$scope.data1.confirmEndTime)
 				.success(function(data) {
-					console.log("success");
 					$scope.gridOptions11.data = data;
-					console.log($scope.gridOptions11.data);
-					
 					angular.forEach($scope.gridOptions11.data, function(obj, index){
-						//obj.disabled = true;
 						if(obj.userStatus == 'N/A'){
 							obj.disabled = false;
-							
 						}else{
 							obj.disabled = true;
 						}
-						
 					});
 					angular.forEach($scope.gridOptions11.data, function(obj, index){
 						angular.forEach($scope.data1.userdata, function(obj1, index1){
-						
-							console.log(obj.id);
-							console.log(obj1.id);
 						if(obj.id == obj1.id ){
-							console.log("falssssssss");
 							obj.disabled = false;
 							obj.isSelect = true;
 							
 						}
-						/*else{
-							console.log("trueooooooooooooo");
-							obj.disabled = true;
-							
-                          if(obj.userStatus == 'N/A'){
-								obj.disabled = false;
-								
-							}else{
-								obj.disabled = true;
-							}
-						}
-						
-						}*/
 					});
-					console.log("data after loop");
-					console.log($scope.gridOptions11.data);
-						
 					});
 				});
-			   
-			  /* $scope.data1.confirmDate1 = $filter('date')($scope.data1.confirmDate,"yyyy-MM-dd");
-			   
-	    			  $http.get('/getScheduleBySelectedDate/'+$scope.data1.confirmDate1)
-						.success(function(data) {
-							
-							console.log(":::::::changesss for griid");
-							console.log(data);
-						//$scope.scheduleList = data;
-					});  */
-			   
-			   
-			   console.log(":::::data for meeting");
-			   console.log($scope.data1);
 			  
 			   $('#dataID').val($scope.data1.id);
 			   $('#dataGoogleID').val($scope.data1.google_id);
@@ -6260,50 +5599,31 @@ angular.module('newApp')
 			   
 		   };
 		   $scope.deleteServiceType = function(serviceData){
-			   console.log(serviceData);
 			   $scope.appointData = serviceData;
-			   
 			   if($scope.appointData.setFlagSameUser != null){
 				   $('#futureAppointmentsModalDelete').click();
 		   		}else{
 		   		 $('#futureAppointmentsModal').click();
 		   		}
-			  
-			   
-			   
 		   };
 		   $scope.deleteFutureAppointment = function(){
-			   
-			   console.log($scope.appointData);
-			   console.log($scope.appointData.meetingStatus);
 			   if($scope.appointData.meetingStatus != "meeting"){
 				   var resone = "changes";
 				   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead+"/"+resone).success(function(data){
-					   console.log("success");
-					   
 					   $scope.schedulmultidatepicker();
 					   $http.get("/getscheduletest").success(function(data){
 						   $scope.scheduleListData = data;
 					   });
 				   }); 
 			   }else{
-				   
-				  // if($scope.appointData.setFlagSameUser != null)
-			   		//}else{
 			   		 $('#deleteMeeting-model').modal();
-			   		//}
-				  
 			   }
-			   
 		   };
 		   
 		   $scope.deleteFutureAppointmentReason = function(reason){
-			   console.log($scope.appointData.id);
 			   $http.get("/deleteAppointById/"+$scope.appointData.id+"/"+$scope.appointData.typeOfLead+"/"+reason).success(function(data){
-				   console.log("success");
 				   $scope.schedulmultidatepicker();
 				   $('#deleteMeeting-model').modal('hide');
-				   //$('#deleteMeeting-model').modal("toggle");
 				   $http.get("/getscheduletest").success(function(data){
 					   $scope.scheduleListData = data;
 				   });
@@ -6314,7 +5634,6 @@ angular.module('newApp')
 			   $('#cnfReSchDate').on('changeDate', function(e) {
 				   document.getElementById("nature-data").innerHTML = "";
 				   var day = moment(e.date).format('DD MMM YYYY');
-				   //alert(day);
 				   var img= "";
 				   angular.forEach($scope.whDataArr,function(value,key){
 					  if(angular.equals(day, value.date)){
@@ -6352,13 +5671,7 @@ angular.module('newApp')
 			   
 			   $('#testDriveDate').on('changeDate', function(e) {
 				   var sDate = $('#testDriveDate').val();
-				   console.log($scope.testDriveData.vin);
-				   console.log(sDate);
-				   console.log("...........");
 				   $http.get("/getScheduleTime/"+$scope.testDriveData.vin+'/'+sDate).success(function(data){
-					   console.log("success");
-					   console.log(data);
-					 //$scope.timeList = data;
 					   $scope.timeList = [];
 					   $.each(data, function(i, el){
 					       if($.inArray(el, $scope.timeList) === -1) $scope.timeList.push(el);
@@ -6399,24 +5712,15 @@ angular.module('newApp')
 								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
 						  $scope.wetherValue = value.text+"&"+value.low+"&deg;";
-						  console.log("wathervalue");
-						  console.log($scope.wetherValue);
 						  document.getElementById("testDriveNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
 				   });
 			   });
 			   
 			   $('#cnfDate').on('changeDate', function(e) {
-				   
-				   console.log("...........");
 				   var sDate = $('#cnfDate').val();
-				   console.log($scope.scheduleTestData.vin);
-				   console.log(sDate);
 				   $http.get("/getScheduleTime/"+$scope.scheduleTestData.vin+'/'+sDate).success(function(data){
-					   console.log("success");
-					   console.log(data);
 					   $scope.cnTimeList = data;
-					 //$scope.timeList = data;
 					   $scope.timeList = [];
 					   $.each(data, function(i, el){
 					       if($.inArray(el, $scope.timeList) === -1) $scope.timeList.push(el);
@@ -6456,7 +5760,6 @@ angular.module('newApp')
 								img = "<i class='glyphicon glyphicon-cloud' title='Show Weather'></i>";  
 						  }
 						  $scope.cnfDateNature=value.text+"&"+value.low+"&deg;";
-						  console.log("***WEATHER"+$scope.cnfDateNature);
 						  document.getElementById("gridCnfDateNature").innerHTML = img+"&nbsp;&nbsp;&nbsp;"+value.text+"&nbsp;&nbsp;&nbsp;"+value.low+"&deg;";
 					  }
 				   });
@@ -6570,7 +5873,6 @@ angular.module('newApp')
 			   }
    			$http.get('/getSalesUserOnly/'+$scope.locationValue)
 	    		.success(function(data){
-	    			console.log(data);
 	    			$scope.salesPersonPerf = data;
 	    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
@@ -6583,10 +5885,8 @@ angular.module('newApp')
 		   $scope.showGrid = 0;
 		   
 		   $scope.getLocationData = function(locationId){
-			   console.log(locationId);
 			   $scope.locationTotal = 0;
 			    $scope.locationList = [];
-			   
 			   angular.forEach($scope.locationdata, function(value, key){
 				   if(value.id == locationId){
 					   value.isSelected = true;
@@ -6644,28 +5944,7 @@ angular.module('newApp')
 					    }
 					    
 				   });
-				   
-				   
-				   /*	   
-				   
-				   console.log(data);
-				   $scope.showGrid = 1;
-				   $scope.gridOptionsValue.data = data;
-				   console.log($scope.gridOptionsValue);
-				   console.log($scope.locationdata);
-				   angular.forEach($scope.locationdata, function(obj, index){
-					   angular.forEach($scope.schPlan.locationList, function(obj1, index1){
-						   console.log(obj.id);
-						   if(obj.id == obj1){
-							   obj.isSelecxzted = true;
-						   }else{
-							   obj.isSelected = false;
-						   }
-					   });
-					   
-				   });*/
 			   });
-			   
 		   }
 		   $scope.copyValue = function(monthValue){
 			   $scope.leadsTime.totalEarning = monthValue;
@@ -6681,15 +5960,9 @@ angular.module('newApp')
 		   
 		   
 		   $scope.planForsalePerson = function(){
-			   console.log(";;;;USERKEY"+$scope.userKey);
-			   console.log("@@@@currentmont"+$scope.parLocationData.monthCurr);
-			   
 			   $('#salepersonPlanModel').modal();
-			  // $scope.findVehicalPlan($scope.userKey);
 			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
 				.success(function(data) {
-					console.log("dataof::getPlanByMonthAndUser");
-					console.log(data);
 					$scope.saleMonthTotalPer=data;
 					$scope.monthFlagForSale=0;
 				});
@@ -6697,40 +5970,23 @@ angular.module('newApp')
 		   }
 		  
 		   $scope.planForsalePersonForMonth = function(month){
-			   console.log(";;;;USERKEY"+$scope.userKey);
-			   console.log("@@@@currentmont"+$scope.parLocationData.monthCurr);
-			   
 			   $('#salepersonPlanModelForMonth').modal();
-			  // $scope.findVehicalPlan($scope.userKey);
 			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+month)
 				.success(function(data) {
 					if(data != null){
 						$scope.monthFlagForSale=1;
 					}
-					console.log("dataof::getPlanByMonthAndUser");
-					console.log(data);
 					$scope.saleMonthTotalPerForMonth=data;
 				});
-			   
 		   }
 		   
 		   $scope. planForLocationManager = function(){
-			   console.log(";;;;USERKEY"+$scope.userKey);
-			   console.log("@@@@currentmont"+$scope.parLocationData.monthCurr);
-			   
 			   $('#locationPlanModel').modal();
-			  // $scope.findVehicalPlan($scope.userKey);
 			   $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
 				.success(function(data) {
-					console.log("dataof::getPlanByMonthAndUser");
-					console.log(data);
 					$scope.locationTotalPer=data;
 				});
-			   
 		   }
-		   
-		   
-		   
 		   
 		   $scope.locationTotal = 0;
 		   $scope.saveLocationPlan = function(month, locationIds){
@@ -6738,8 +5994,6 @@ angular.module('newApp')
 			   $scope.locationTotal = 0;
 			   $scope.leadsTime.locationList  = $scope.locationList;
 			   value = $scope.leadsTime.totalEarning;
-			   console.log($scope.totalLocationPlanData);
-			  
 			   
 			   if(locationId != 0){
 				   $http.get('/gmLocationManager/'+locationId)
@@ -6750,10 +6004,8 @@ angular.module('newApp')
 					$scope.leadsTime.userkey = $scope.userKey;
 				}
 			   
-			   
 			   $scope.leadsTime.month = month;
 			   $http.post("/saveLocationPlan",$scope.leadsTime).success(function(data){
-				   console.log(data);
 				   $scope.janOpen = 0;
 				   $scope.julyOpen = 0;
 				   $scope.februaryOpen = 0;
@@ -6770,31 +6022,12 @@ angular.module('newApp')
 				   $scope.leadsTime.minEarning = "";
 				   $scope.leadsTime.vehiclesSell = "";
 				   $scope.leadsTime.avgCheck = "";
-				   console.log("sccesss");
-				  // $scope.saveLeads();/*to show data on Graph*/
-				   
 				   
 				   if($scope.userRole == "Manager"){
-					   console.log("insidemanager");
 					   var startD = $('#cnfstartDateValue').val();
 					   var endD = $('#cnfendDateValue').val();
-					   
 					   $scope.findMystatisData(startD,endD,'location');
-					  /* if(locationId != 0){
-						   
-						   $scope.findMystatisData(startD,endD,'location');
-					   }else{
-						   console.log("inside salesperson");
-						   var startD = $('#cnfstartDateValue').val();
-						   var endD = $('#cnfendDateValue').val();
-						   $scope.findMystatisData(startD,endD,'person');
-					   }*/
-					   
 				   }
-				   
-				   
-				   
-				   
 				   
 				   if($scope.userType == "General Manager"){
 					   if(locationId != 0){
@@ -6806,13 +6039,10 @@ angular.module('newApp')
 				   }else{
 					   $scope.getLocationPlan();
 				   }
-				   
-				  
 			   });
 		   }
 		   
 		   $scope.saveLocationTotal = function(total, locationIds){
-			   console.log(locationIds);
 			   if(locationIds == null){
 				   locationIds = 0;
 			   }
@@ -6821,7 +6051,6 @@ angular.module('newApp')
 			   }
 			   
 			   $http.get("/saveLocationTotal/"+total+"/"+locationIds).success(function(data){
-				   console.log(data);
 				   $('#plan-model').modal("toggle");
 				   $.pnotify({
 					    title: "Success",
@@ -6837,7 +6066,6 @@ angular.module('newApp')
 				   $http.get('/gmLocationManager/'+locationId)
 					.success(function(data) {
 						$http.get("/saveSalesTotal/"+total+"/"+data.id).success(function(data){
-							   console.log(data);
 							   $('#plan-model').modal("toggle");
 							   $.pnotify({
 								    title: "Success",
@@ -6850,7 +6078,6 @@ angular.module('newApp')
 				   
 			   }else{
 				   $http.get("/saveSalesTotal/"+total+"/"+$scope.userkey).success(function(data){
-					   console.log(data);
 					   $('#plan-model').modal("toggle");
 					   $.pnotify({
 						    title: "Success",
@@ -6870,10 +6097,7 @@ angular.module('newApp')
 			  value = $scope.saleleadsTime.totalBrought;
 			   $scope.saleleadsTime.salesList = $scope.salesList;
 			   $scope.saleleadsTime.month = month;
-			   console.log($scope.saleleadsTime);
-			   console.log($scope.totalLocationPlanData);
 			   $http.post("/saveSalePlan",$scope.saleleadsTime).success(function(data){
-				   console.log(data);
 				   $scope.janOpen = 0;
 				   $scope.julyOpen = 0;
 				   $scope.februaryOpen = 0;
@@ -6890,55 +6114,23 @@ angular.module('newApp')
 				   $scope.saleleadsTime.minEarning = "";
 				   $scope.saleleadsTime.vehiclesSell = "";
 				   $scope.saleleadsTime.avgCheck = "";
-				   console.log("sccesss");
-				   /*angular.forEach($scope.totalLocationPlanData, function(obj, index){
-					   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
-				   });*/
-				   
 				   $scope.findVehicalPlan($scope.salePerId);
-				   /*angular.forEach($scope.totalLocationPlanData, function(obj, index){
-					   if($scope.saleleadsTime.month == obj.month){
-						   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(value);
-					   }else{
-						   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
-					   }
-					   console.log(obj.totalBrought);
-					   console.log($scope.salePerpleTotal);
-				   });*/
-				  
 			   });
 		   }
 		   
 		   $scope.getSalePersonData = function(salesId){
-			   console.log(":::::::::");
 			   $scope.salesIdPlan = "salePerson";
-			   //$scope.schPlan.scheduleBy = "salePerson"
-			   //console.log(salesId);
-			   
-			  // $('#pln').click();
-				   
-				   console.log("***$scope.locationValueForPlan"+$scope.locationValueForPlan);
 			   $scope.getSalesDataValue($scope.locationValueForPlan) ;
 			   $scope.schPlan.scheduleBy = "salePerson"
-			   
-			  /* $http.get("/getsalesPlan/"+salesId).success(function(data){
-				   console.log(data);
-				   $scope.showGrid = 1;
-				   $scope.gridOptionsValue.data = data;
-			   });*/
-		   
 		   }
 		   
 		   $scope.getLocation = function(){
-			   console.log("@@@@@@");
 			   $scope.schPlan.scheduleBy = "location";
-			   
 		   }
 		   
 		   $scope.gridOptionsValue = {
 	 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		 		    paginationPageSize: 150,
-	 		 		   // enableFiltering: true,
 	 		 		    useExternalFiltering: true,
 	 		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 		 };
@@ -6967,28 +6159,17 @@ angular.module('newApp')
 	 		 		                               
 	 		     		                                 ];
 		   
-	 		 		//&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Remove Contact" ng-click="grid.appScope.deleteContactsDetail(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>
 		   
 	 		 		 $scope.salePerId = 0;
 		   $scope.editPlanDetail = function(row) {
 			 $scope.schedule = $scope.schPlan.scheduleBy;
 			 $scope.saleperson = $scope.schPlan.salePerson;
-			  console.log(row.entity);
 			  $scope.schPlan = row.entity;
 			  $scope.findVehicalPlan(row.entity.id);
 			  $scope.schPlan.scheduleBy = $scope.schedule;
 			  $scope.schPlan.salePerson = $scope.saleperson;
 			  $scope.planIs = "update";
-			/*   angular.forEach($scope.salesPersonPerf, function(obj, index){
-				   angular.forEach($scope.schPlan.salesList, function(obj1, index1){
-					   console.log(obj1);
-					   if(obj.id == obj1){
-						   obj.isSelected = true;
-						  
-					   }
-				   });
-				   
-			   });*/
+			
 			   $scope.nextbutton = 1;
 		   } 
 		   $scope.saleMonthTotal = {};
@@ -6998,22 +6179,12 @@ angular.module('newApp')
 			   $scope.saleMonthTotal = {};
 			   $scope.salePerId = saleId;
 			   $scope.userKeyforSalestotal=saleId;
-			   console.log(":::::::::"+saleId);
 			   $http.get("/getSaleMonthlyPlan/"+saleId).success(function(data){
-				   console.log(data);
-				   console.log("<><><>,,>,.,,");
 				   $scope.totalLocationPlanData = data;
 				   var d = new Date();
 				   var n = d.getMonth()+1;
-				   console.log("current month number:::::"+n);
-				   
 				   angular.forEach(data, function(obj, index){
-					   
-					   
-					   
 					   $scope.salePerpleTotal = parseInt($scope.salePerpleTotal) + parseInt(obj.totalBrought);
-					   
-					   
 					    if(obj.month == "january"){
 					    	$scope.monthValue=1;
 					    	if($scope.monthValue < n){
@@ -7212,23 +6383,12 @@ angular.module('newApp')
  	  			 arr1 = endD.split('-');
  	  			$scope.volumeStatStartDate = arr[2]+"-"+arr[1]+"-"+arr[0];
  	  			$scope.volumeStatEndDate= arr1[2]+"-"+arr1[1]+"-"+arr1[0];
- 				
-  				
-  				 console.log("date after $scope.volumeStatEndDate");
-  			   console.log($scope.volumeStatStartDate);
-  			   console.log($scope.volumeStatEndDate);
-  				
   				$scope.showVehicalBarChart($scope.volumeStatStartDate, $scope.volumeStatEndDate);
- 				
-  				
   				$scope.startDateForSalesPeople=$filter('date')(startD, 'dd-MM-yyyy');
   				$scope.endDateForSalesPeople=$filter('date')(endD, 'dd-MM-yyyy');
   				 $('#startDateValueForSale').val(startD);
   				$('#endDateValueForSales').val(endD);
-  				
-  				
   				$scope.getPerformanceOfUser();
-  				
   				$scope.startDateV = $filter('date')(startD, 'yyyy-MM-dd');
   				$scope.endDateV = $filter('date')(endD, 'yyyy-MM-dd');
   				
@@ -7239,22 +6399,15 @@ angular.module('newApp')
  	  			$scope.startDateV = arr[2]+"-"+arr[1]+"-"+arr[0];
  	  			$scope.endDateV= arr1[2]+"-"+arr1[1]+"-"+arr1[0];
   				
- 	  			
  	  			 $("#vstartDate").val($scope.startDateV);
-   			 $("#vendDate").val($scope.endDateV);
-  				console.log("dates for visitor stats");
-  				console.log($scope.startDateV);
-  				console.log($scope.endDateV);
+   			    $("#vendDate").val($scope.endDateV);
   				$scope.visitorsStats($scope.startDateV, $scope.endDateV);
-			   
-			  
 		   }
 		   
 		   
 		   $scope.openPlanning = function(){
 			   $scope.schPlan = {};
 			   $scope.nextbutton = 0;
-			   console.log(".............");
 			   $scope.checkManagerLogin();
 			   if($scope.userType != "General Manager"){
 				   $scope.getLocationPlan();
@@ -7263,15 +6416,12 @@ angular.module('newApp')
 					   $scope.getLocationPlan();
 				   }
 			   }
-			   
-			   
 			   $('#plan-model').modal();
 		   };
 		   $scope.openPlanningForSale = function(id){
 			   $scope.schPlan = {};
 			   $scope.nextbutton = 0;
 			   $scope.entity;
-			   console.log(".............");
 			   $scope.checkManagerLogin();
 			   if($scope.userType != "General Manager"){
 				   $scope.getLocationPlan();
@@ -7282,25 +6432,20 @@ angular.module('newApp')
 			   }
 			   $('#plan-model').modal();
 			   $('#pln').click();
-			   //$scope.getSalesPersonData();
-			   //$scope.getSalesPersonData();
 			   if(locationId != 0){
 				   $scope.locationValue = locationId;
 			   }
    			$http.get('/getSalesUserOnly/'+$scope.locationValue)
 	    		.success(function(data){
-	    			console.log(data);
 	    			$scope.salesPersonPerf = data;
 	    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
-						console.log(id+".."+value.id);
 						if(id==value.id){
 							$scope.nextbutton = 1;
 							$scope.schPlan.scheduleBy = 'salePerson';
 							$scope.entity = value;
 							$scope.schedule = $scope.schPlan.scheduleBy;
 							$scope.saleperson = $scope.schPlan.salePerson;
-							console.log($scope.entity);
 							$scope.schPlan = $scope.entity;
 							$scope.findVehicalPlan($scope.entity.id);
 							$scope.schPlan.scheduleBy = $scope.schedule;
@@ -7323,23 +6468,16 @@ angular.module('newApp')
 			   $scope.value = 0;
 			   var d = new Date();
 			   var n = d.getMonth()+1;
-			   console.log("current month number:::::"+n);
 			   if(locationId != 0){
 				   $http.get('/gmLocationManager/'+locationId)
 					.success(function(datas) {
 						 $http.get("/getlocationsMonthlyPlan/"+datas.id).success(function(data){
-							   console.log(data);
 							   $scope.totalLocationPlanData = data;
 							   var d = new Date();
 							   var n = d.getMonth()+1;
-							   console.log("current month number:::::"+n);
-							   
-							   
 							   angular.forEach(data, function(obj, index){
-								   
 								   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
 								    if(obj.month == "january"){
-								    	
 								    	$scope.monthValue=1;
 								    	if($scope.monthValue < n){
 								    		$scope.saleMonthTotal.januaryFlag=true;
@@ -7516,12 +6654,8 @@ angular.module('newApp')
 				  
 			   }else{
 				   $http.get("/getlocationsMonthlyPlan/"+$scope.userKey).success(function(data){
-					   console.log(data);
 					   $scope.totalLocationPlanData = data;
-					   
-					   
 					   angular.forEach(data, function(obj, index){
-						   
 						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
 						    if(obj.month == "january"){
 						    	$scope.monthValue=1;
@@ -7844,11 +6978,6 @@ angular.module('newApp')
 					   });
 				   });
 				   
-				   
-			   console.log($scope.salesList);
-			   console.log($scope.saleleadsTime);
-			   
-			   
 			   if($scope.februaryOpen == 0){
 				   $scope.februaryOpen = 1;   
 			   }else{
@@ -7868,11 +6997,9 @@ angular.module('newApp')
 			   $scope.augustOpen = 0;
 		   }
 		   
-		  
 		   $scope.februaryClose = function(){
 			   $scope.februaryOpen = 0;
 		   }
-		   
 		   
 		   $scope.augustsOpen = function(){
 			   $scope.showOtherIngo = 0;
@@ -8381,13 +7508,11 @@ angular.module('newApp')
 		   
 		   $scope.showOtherIngo = 0;
 		   $scope.showOtherIngos = function(){
-			   console.log($scope.showOtherIngo);
 			   if($scope.showOtherIngo == 0){
 				   $scope.showOtherIngo = 1;
 			   }else{
 				   $scope.showOtherIngo = 0;
 			   }
-			   
 		   }
 		   
 		   $scope.nextbutton = 0;
@@ -8398,43 +7523,17 @@ angular.module('newApp')
 		   
 		   $http.get("/getlocations").success(function(data){
 			   $scope.locationdata = data;
-			   
 			   angular.forEach($scope.locationdata, function(obj, index){
 				   obj.isSelected = false;
 			   });
 		   });
 		   $scope.locationList = [];
 		   $scope.locationClicked = function(e, locationPer,value){
-			/*   console.log(locationPer);
-			   console.log(value);
-			   var startD = $('#cnfstartdate').val();
-			   var endD = $('#cnfenddate').val();
-			   $http.get("/isValidCheckbok/"+locationPer.id+'/'+startD+'/'+endD).success(function(data){
-				   console.log(data);
-				   if(data == 1){
-					   angular.forEach($scope.locationdata, function(obj, index){
-						  if(obj.id == locationPer.id){
-							  obj.isSelected = false;  
-						  }
-					   });
-					   $.pnotify({
-							  title: "Error",
-							    type:'success',
-						    text: "Plan already exists",
-						});
-				   }else{*/
 					   if(value == false){
 							$scope.locationList.push(locationPer.id);
 						}else{
 							$scope.deleteItem(locationPer);
 						}
-				  // }
-				   
-			   //});
-			   
-				
-				
-				console.log($scope.locationList);
 			}
 			$scope.deleteItem = function(locationPer){
 				angular.forEach($scope.locationList, function(obj, index){
@@ -8445,16 +7544,12 @@ angular.module('newApp')
 				  });
 			}
 		   
-			
 			   $scope.salesClicked = function(e, salesPer,value){
-					console.log(salesPer);
-					console.log(value);
 					if(value == false){
 						$scope.salesList.push(salesPer.id);
 					}else{
 						$scope.deleteSalesItem(salesPer);
 					}
-					console.log($scope.salesList);
 				}
 				$scope.deleteSalesItem = function(salesPer){
 					angular.forEach($scope.salesList, function(obj, index){
@@ -8475,8 +7570,6 @@ angular.module('newApp')
 				   $scope.schPlan.scheduleBy = "location"; 
 			   }
 			  
-			console.log($scope.schPlan);
-			console.log($scope.planIs);
 			if($scope.planIs == "save"){
 				$http.post("/savePlan",$scope.schPlan).success(function(data){
 					if(data == 1){
@@ -8532,7 +7625,6 @@ angular.module('newApp')
 			
 		   }
 		   $scope.inviteStaff = function(txt){
-			   console.log(txt);
 			   if(txt==false){
 				   $('#inUser').attr("disabled", true);
 				   $scope.schmeeting.allStaff = true;
@@ -8542,11 +7634,7 @@ angular.module('newApp')
 			   }
 		   };
 		   $scope.checkDateValid = function(){
-			   console.log("//...,.,.,");
-			   console.log($scope.schPlan.scheduleBy);
-			   console.log($scope.schPlan.location);
 			   var startD = $('#cnfstartdate').val();
-			  // $scope.schPlan.endDate = $('#cnfenddate').val();
 			   if($scope.schPlan.scheduleBy != "salePerson"){
 				   $scope.schPlan.scheduleBy = "location"; 
 			   }
@@ -8557,7 +7645,6 @@ angular.module('newApp')
 			   if($scope.schPlan.scheduleBy == "location"){
 				   
 				   $http.get("/isValidDatecheck/"+$scope.schPlan.location+'/'+startD+'/'+$scope.schPlan.scheduleBy).success(function(data){
-					console.log(data);
 					   if(data == 1){
 						   if($scope.planIs != "update"){
 							   $('#cnfstartdate').val("");
@@ -8573,10 +7660,7 @@ angular.module('newApp')
 				   
 			   }
 			   if($scope.schPlan.scheduleBy == "salePerson"){
-				   console.log($scope.schPlan.salePerson);
-				   
 				   $http.get("/isValidDatecheck/"+$scope.schPlan.salePerson+'/'+startD+'/'+$scope.schPlan.scheduleBy).success(function(data){
-						console.log(data);
 						   if(data == 1){
 							   if($scope.planIs != "update"){
 								   $('#cnfstartdate').val("");
@@ -8598,9 +7682,7 @@ angular.module('newApp')
 			   }
 			   if($scope.schPlan.scheduleBy == "location"){
 				   
-				   
 				   $http.get("/isValidDatecheck/"+$scope.schPlan.location+'/'+endD+'/'+$scope.schPlan.scheduleBy).success(function(data){
-					console.log(data);
 					   if(data == 1){
 						   if($scope.planIs != "update"){
 							   $('#cnfstartdate').val("");
@@ -8615,7 +7697,6 @@ angular.module('newApp')
 			   }
 			   if($scope.schPlan.scheduleBy == "salePerson"){
 				   $http.get("/isValidDatecheck/"+$scope.schPlan.salePerson+'/'+endD+'/'+$scope.schPlan.scheduleBy).success(function(data){
-						console.log(data);
 						   if(data == 1){
 							   if($scope.planIs != "update"){
 								   $('#cnfstartdate').val("");
@@ -8633,7 +7714,6 @@ angular.module('newApp')
 		   $scope.allloction = false;
 		   $scope.allloctionSale = false;
 		   $scope.checkLocation = function(checkAll){
-			   console.log(checkAll);
 			   
 			   var startD = $('#cnfstartdate').val();
 			   var endD = $('#cnfenddate').val();
@@ -8653,11 +7733,9 @@ angular.module('newApp')
 					   obj.isSelected = false;
 				   });
 			   }
-			   console.log($scope.locationList);
 		   }
 		   $scope.salesList = [];
 		   $scope.checkSale = function(checkAll){
-			   console.log(checkAll);
 			   $scope.salesList = [];
 			   if(checkAll == false){
 				   angular.forEach($scope.salesPersonPerf, function(obj, index){
@@ -8669,7 +7747,6 @@ angular.module('newApp')
 					   obj.isSelected = false;
 				   });
 			   }
-			   console.log($scope.salesList);
 		   }
 		   
 		   $scope.showuser = function(location){
@@ -8680,12 +7757,10 @@ angular.module('newApp')
 		   
 		   $scope.submitnewmeeting = function(){
 			   if($scope.checked.length > 0){
-				   console.log($scope.checked);
 				   $scope.schmeeting.usersList = $scope.checked;
 				   $scope.schmeeting.bestDay = $('#cnfmeetingdate').val();
 				   $scope.schmeeting.bestTime = $('#cnfmeetingtime').val();
 				   $scope.schmeeting.bestEndTime = $('#cnfmeetingtimeEnd').val();
-				   console.log($scope.schmeeting);
 				   $http.post("/savemeeting",$scope.schmeeting).success(function(data){
 					   $('#meeting-model').modal("toggle");
 					   $.pnotify({
@@ -8714,7 +7789,6 @@ angular.module('newApp')
 			   $scope.data1.confTime = $('#timeSchPick').val();
 			   $scope.data1.confirmEndTime = $('#timeSchPickEnd').val();
 			   
-			   console.log($scope.data1);
 			  $scope.data1.usersList = $scope.checked;
 			  $scope.data1.isRead=0;
 			   $http.post("/updateScheduleTest",$scope.data1).success(function(data){
@@ -8752,9 +7826,7 @@ angular.module('newApp')
  			$scope.siteList = data;
  		});
  	 $http.get('/getDealerProfile').success(function(data) {
- 		console.log(data);
- 		/*$scope.myprofile = data.dealer;
- 		$scope.user = data.user;*/
+ 		
  		$scope.vinData.specification.location = data.dealer.address;
  	});
    }
@@ -8769,7 +7841,6 @@ angular.module('newApp')
    $scope.exteriorColorList = [];
    
    $http.get('/getMakeList').success(function(data) {
-	   console.log(data);
 		$scope.labelList = data.label;
 		$scope.makeList = data.make;
 		$scope.madeInList = data.madeIn;
@@ -8777,49 +7848,33 @@ angular.module('newApp')
 		$scope.driveTypeList = data.driveType;
 		$scope.fuelTypeList = data.fuelType;
 		$scope.exteriorColorList = data.exteriorColor;
-		   
-		console.log($scope.makeList);
 	});
    $scope.selectedMake = function (selectObj) {
-	   console.log($('#makeSearch_value').val());
-	   console.log(selectObj);
 		if(selectObj != undefined){
 			$scope.vinData.specification.make = selectObj.title;
 			$http.get('/getModelList/'+selectObj.title)
 			.success(function(data) {
 				$scope.modelList = data;
-				console.log($scope.modelList);
 			});
-			console.log($scope.vinData.specification);
 		}
 	};
 	$scope.selectedModel = function (selectObj) {
-		   console.log($('#modelSearch_value').val());
-		   console.log(selectObj);
 			if(selectObj != undefined){
 				$scope.vinData.specification.model = selectObj.title;
 				$http.get('/getTrimList/'+selectObj.title)
 				.success(function(data) {
 					$scope.trimList = data;
-					console.log($scope.trimList);
 				});
-				console.log($scope.vinData.specification);
 			}
 	};
 	$scope.selectedTrim = function (selectObj) {
-		   console.log($('#trimSearch_value').val());
-		   console.log(selectObj);
 			if(selectObj != undefined){
 				$scope.vinData.specification.trim_level = selectObj.title;
-				console.log($scope.vinData.specification);
 			}
 	};  
 	$scope.selectedLabel = function (selectObj) {
-		   console.log($('#labelSearch_value').val());
-		   console.log(selectObj);
 			if(selectObj != undefined){
 				$scope.vinData.specification.label = selectObj.title;
-				console.log($scope.vinData.specification);
 			}
 	};	
    $scope.siteIds = [];
@@ -8838,7 +7893,6 @@ angular.module('newApp')
 		}
    };
    $scope.fuelFocusOut = function(){
-	   console.log("fuelFocusOut");
 	   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
    }
    $scope.fuelTypeChange = function(){
@@ -8850,8 +7904,6 @@ angular.module('newApp')
 		}
    
    $scope.checkStock = function(stock){
-	   console.log("Stock Number");
-	   console.log(stock);
 	   if(stock == undefined){
 		   $.pnotify({
 			    title: "Error",
@@ -8861,9 +7913,7 @@ angular.module('newApp')
 	   }else{
 		   $http.get('/checkStockNumber/'+stock)
 			.success(function(data) {
-				console.log(data);
 				if(data != 0){
-					console.log("if");
 					$.pnotify({
 					    title: "Error",
 					    type:'success',
@@ -8919,24 +7969,15 @@ angular.module('newApp')
 	  /* $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();*/
 		   $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
 		   $scope.vinData.specification.cost = $scope.vinData.specification.cost.split(',').join('');
-		  
-	
 	  
- 	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
  	  if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
- 		  console.log("success...");
- 		  
  		 var ele = document.getElementById('loadingmanual');	
      	$(ele).show();
  		  if(pdffile != undefined){
- 			  console.log("inside if");
- 			console.log("asasdhgsad");
  	 		$http.post('/saveVehicle',$scope.vinData.specification)
  			.success(function(data) {
- 				console.log('success');
- 			//	$location.path('/');
  				$.pnotify({
  				    title: "Success",
  				    type:'success',
@@ -8949,37 +7990,22 @@ angular.module('newApp')
  		 	         method: 'POST',
  		 	         file:pdffile,
  		 	      }).success(function(data) {
- 		 	    	  console.log('success');
  		 	  			$.pnotify({
  		 	  			    title: "Success",
  		 	  			    type:'success',
  		 	  			    text: "Vehicle saved successfully",
  		 	  			});
- 		 	  			/*if($scope.flagVal == true) {
-// 		 	  		 		$location.path('/addPhoto/'+$scope.vinData.specification.vin);
- 		 	  				$location.path('/editVehicle/'+data+"/"+true);
- 		 	  		 	}else{
- 		 	  		 		$location.path('/editVehicle/'+data+"/"+false); 		 	  		 		
- 		 	  		 	}*/
  		 	  		$location.path('/editVehicle/'+$scope.dataBeforePdf+"/"+true);
  		 	      });
  			});
  	 	 }else{
  	 		$http.post('/saveVehicle',$scope.vinData.specification)
  			.success(function(data) {
- 				console.log('success');
- 			//	$location.path('/');
  				$.pnotify({
  				    title: "Success",
  				    type:'success',
  				    text: "Vehicle saved successfully",
  				});
- 				/*if($scope.flagVal == true) {
-// 			 		$location.path('/addPhoto/'+$scope.vinData.specification.vin);
- 			 		$location.path('/editVehicle/'+data+"/"+true);
- 			 	}else{
- 			 		$location.path('/editVehicle/'+data+"/"+false); 			 		
- 			 	}*/
  				$location.path('/editVehicle/'+data+"/"+true);
  			});
  	 	 }
@@ -9007,7 +8033,6 @@ angular.module('newApp')
 
 angular.module('newApp')
 .controller('PhotoUploadCtrl', ['$scope','$routeParams','$location', function ($scope,$routeParams,$location) {
-	console.log($routeParams.num);
    var myDropzone = new Dropzone("#dropzoneFrm",{
 	   parallelUploads: 30,
 	   headers: { "vinNum": $routeParams.num },
@@ -9097,7 +8122,6 @@ angular.module('newApp')
 		 $timeout(function(){
 			$http.get('/getImagesByVin/'+$routeParams.num)
 			.success(function(data) {
-				console.log(data);
 				$scope.imageList = data;
 			});
 		 }, 3000);
@@ -9131,7 +8155,6 @@ angular.module('newApp')
 		if(i == $scope.imageList.length) {
 			$http.get('/setDefaultImage/'+image.id)
 			.success(function(data) {
-				console.log('success');
 			});
 			
 			image.defaultImage = true;
@@ -9145,7 +8168,6 @@ angular.module('newApp')
 	$scope.deleteImage = function(img) {
 		$http.get('/deleteImage/'+img.id)
 		.success(function(data) {
-			console.log('success');
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
 		
@@ -9224,8 +8246,6 @@ angular.module('newApp')
     			 $http.post('/updateVehicle',$scope.rowData)
     			 .success(function(data) {
     				 	$scope.rowData.price = "$ "+$scope.rowData.price;
-    					console.log('success');
-    				
     				});
     			 });
     			 
@@ -9289,7 +8309,6 @@ angular.module('newApp')
     		    			 $http.post('/updateVehicle',$scope.rowData)
     		    			 .success(function(data) {
     		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
-    		    					console.log('success');
     		    				
     		    				});
     		    			 });
@@ -9301,7 +8320,6 @@ angular.module('newApp')
     		    			 
     		    			 };	 
     			 
-    		    	
     		    			 $scope.gridOptions2 = {
     		    		    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
     		    		    		    paginationPageSize: 150,
@@ -9354,8 +8372,6 @@ angular.module('newApp')
     		    		    			 $http.post('/updateVehicle',$scope.rowData)
     		    		    			 .success(function(data) {
     		    		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
-    		    		    					console.log('success');
-    		    		    				
     		    		    				});
     		    		    			 });
     		    		    			 
@@ -9366,35 +8382,23 @@ angular.module('newApp')
     		    		    			 
     		    		    			 };
 
-    		    			 
     			 
     			 $scope.updateVehicleBody = function(row){
     				 $scope.rowData = row.entity;
-    				 console.log($scope.rowData);
     				 if($scope.rowData.price !=null && $scope.rowData.price != undefined){
-    					 //$scope.$apply();
     					 var str = $scope.rowData.price.split(" ");
         				 $scope.rowData.price = str[1];
     				 }
-    				 
-    				 console.log($scope.rowData.bodyStyle);
     				 $http.post('/updateVehicle',$scope.rowData)
         			 .success(function(data) {
-        					console.log('success');
         					$scope.rowData.price = "$ "+$scope.rowData.price;
-        					/*$scope.vehiClesList = [];
-    			 			$scope.gridOptions.data = [];
-        					//$scope.soldTab();
-        					$scope.newlyArrivedTab();*/
         				});
     			 };
     			 
     			 
     			 $scope.historyVehicle = function(row){
-    				 console.log(row.entity.vin);
     				 $http.get('/getVehicleHistory/'+row.entity.vin)
     					.success(function(data) {
-    						console.log(data);
     						$scope.vehicleHistory = data;
     						$('#vehicleHistory').click();
     					});
@@ -9418,7 +8422,6 @@ angular.module('newApp')
     			 }
     			 
     			 $scope.mouse = function(row) {
-    					console.log(row.entity.imgId);
     					$('#thumb_image').attr("src", "/getImage/"+row.entity.imgId+"/thumbnail?date="+$scope.tempDate );
     					$('#thumb_image').show();
     					$('#imagePopup').modal();
@@ -9438,7 +8441,6 @@ angular.module('newApp')
 		    			 			$scope.vType = "new";
 		    			 			$scope.vehiClesList = data;
 		    			 			$scope.gridOptions.data = data;
-		    			 			console.log(data);
 		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
 		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
 		    			 		});
@@ -9453,7 +8455,6 @@ angular.module('newApp')
 		    			 			$scope.vType = "sold";
 		    			 			$scope.vehiClesList = data;
 		    			 			$scope.gridOptions2.data = data;
-		    			 			console.log(data);
 		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
 		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
 		    			 		});
@@ -9470,18 +8471,13 @@ angular.module('newApp')
     		    				 $scope.doPublic = 0;
     		    				 $http.get('/getAllVehicles')
     		    			 		.success(function(data) {
-    		    			 			console.log(data);
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
     		    			 			
     		    			 			$scope.vType = "new";
-    		    			 			//$scope.type = "All";
-    		    			 			//$scope.gridOptions1.data = [];
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions.data = data;
-    		    			 			//console.log(data);
-    		    			 			//console.log($scope.gridOptions.columnDefs[8]);
     		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
     		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
     		    			 		});
@@ -9498,11 +8494,8 @@ angular.module('newApp')
     		    			 			
     		    			 			$scope.vType = "sold";
     		    			 			$scope.type = "All";
-    		    			 			//$scope.gridOptions1.data = [];
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions2.data = data;
-    		    			 			console.log(data);
-    		    			 			console.log($scope.gridOptions.columnDefs[8]);
     		    			 			$scope.gridOptions.columnDefs[8].displayName='Sold Date';
     		    			 			$scope.gridOptions.columnDefs[9].displayName='History';
     		    			 		});
@@ -9518,11 +8511,8 @@ angular.module('newApp')
     		    			 			$scope.doPublic = 1;
     		    			 			$scope.vType = "sold";
     		    			 			$scope.type = "All";
-    		    			 			//$scope.gridOptions.data = [];
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions1.data = data;
-    		    			 			console.log(data);
-    		    			 			console.log($scope.gridOptions1.columnDefs[8]);
     		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
     		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
     		    			 			
@@ -9537,18 +8527,7 @@ angular.module('newApp')
    $scope.vehiClesList = [];
   
    $scope.viewVehiclesInit = function() {
- 	/*  $http.get('/getAllVehicles')
- 		.success(function(data) {
- 			for(var i=0;i<data.length;i++) {
- 				data[i].price = "$ "+data[i].price;
- 			}
- 			$scope.vehiClesList = data;
- 			$scope.gridOptions.data = data;
- 			console.log(data);
- 			$scope.vType = "new";
- 		});*/
 	   $scope.newlyArrivedTab();
-	   
    }
    
    $scope.deleteVehicle = function(row){
@@ -9557,13 +8536,8 @@ angular.module('newApp')
    }
    
    $scope.showSessionData = function(row){
-	   console.log(row.entity);
 	   $location.path('/sessionsAnalytics/'+row.entity.id+"/"+row.entity.vin+"/"+row.entity.status);
    }
-   
-   /*$scope.showAllVehicalSessionData = function(row){
-	   $location.path('/allVehicleSessions');
-   }*/
    
    $scope.deleteVehicleRow = function() {
 	   $http.get('/deleteVehicleById/'+$scope.rowDataVal.entity.id)
@@ -9593,18 +8567,14 @@ angular.module('newApp')
 	   });
    }
    $scope.updateVehicleStatus = function(row){
-	   console.log(row);
 	   $scope.statusVal = "";
-	   
 	   if(row.entity.status == 'Newly Arrived') {
 		   $('#btnStatusSchedule').click();
 		   $scope.soldContact.statusVal = "Sold";
 	   }
 	   if(row.entity.status == 'Sold') {
-		   
 		   $http.get('/addSameNewCar/'+row.entity.id).success(function(data){
 			   if(data=='success'){
-				   console.log('success');
 				   $scope.soldContact.statusVal = "Newly Arrived";
 				   $.pnotify({
 					    title: "Success",
@@ -9612,7 +8582,6 @@ angular.module('newApp')
 					    text: "Vehicle has been added to Inventory",
 					});
 			   }else{
-				   console.log('error');
 				   $.pnotify({
 					    title: "Error",
 					    type:'success',
@@ -9632,32 +8601,9 @@ angular.module('newApp')
 	   $scope.soldContact.id = row.entity.id;
 	   var str = row.entity.price.split(" ");
 	   $scope.soldContact.price = str[1];
-	   
-	/*   $http.get('/updateVehicleStatus/'+row.entity.id+'/'+$scope.statusVal)
-		.success(function(data) {
-			if(row.entity.status == 'Newly Arrived') {
-				 $scope.viewVehiclesInit();
-				 $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Vehicle status marked sold",
-					});
-			} 
-			if(row.entity.status == 'Sold') {
-				$scope.soldTab();
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Vehicle status marked Newly Arrived",
-				});
-			}
-			
-		});*/
    }
    
 	$scope.saveVehicalStatus = function() {
-		console.log($scope.soldContact);
-		
 		$http.post('/setVehicleStatus',$scope.soldContact)
 		.success(function(data) {
 			$('#vehicalStatusModal').modal('hide');
@@ -9698,12 +8644,10 @@ angular.module('newApp')
    };
 
    $scope.update = function(tableData){
-     console.log(tableData);
        $scope.editingData[tableData.id] = false;
        $scope.viewField = false;
        $http.post('/updateVehicle',tableData)
 		.success(function(data) {
-			console.log('success');
 		});
    };
    
@@ -9715,21 +8659,18 @@ angular.module('newApp')
    $scope.exportDataAsCSV = function() {
 	   $http.get('/exportDataAsCSV')
 		.success(function(data) {
-			 console.log('success');
 		});
    }
    
    $scope.exportCarfaxCSV = function() {
 	   $http.get('/exportCarfaxCSV')
 		.success(function(data) {
-			 console.log('success');
 		});
    }
    
    $scope.exportCarGurusCSV = function() {
 	   $http.get('/exportCarGurusCSV')
 		.success(function(data) {
-			 console.log('success');
 		});
    }
    
@@ -9737,15 +8678,10 @@ angular.module('newApp')
 
 angular.module('newApp')
 .controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
-      console.log("inside vehicle ctrl");
-      /*var target = document.getElementById('spinner');
-		$(target).hide();*/
-	//for publish vehicle
+      
       var ele = document.getElementById('loadingmanual');	
   	$(ele).hide();
 	$scope.publishVehicle = function(id){
-		   console.log("car id for publish");
-		   console.log(id);
 		   $http.get('/addPublicCar/'+id).success(function(data){
 				   $.pnotify({
 					    title: "Success",
@@ -9836,19 +8772,14 @@ angular.module('newApp')
 		
 		$http.get('/getVehicleById/'+$routeParams.id)
 		.success(function(data) {
-			 console.log(data);
 			 $scope.vinData = data;
-			//for publish button flag
-			 console.log('before calling');
 				$http.get('/isCarPublic/'+$scope.vinData.specification.id).success(function(data){
-					console.log("data"+data);
 					if(data == 'true'){
 						$scope.isPublished = true;						
 					}else{
 						$scope.isPublished = false;
 					}
 				});
-			 console.log('after calling');
 			   $('#modelSearch_value').val($scope.vinData.specification.model);
 			   $('#makeSearch_value').val($scope.vinData.specification.make);
 			   $('#trimSearch_value').val($scope.vinData.specification.trim_level);
@@ -9858,24 +8789,19 @@ angular.module('newApp')
 			   $('#extColorSearch_value').val($scope.vinData.specification.extColor);
 			   $('#stereoSearch_value').val($scope.vinData.specification.stereo);
 			   $('#driveTypeSearch_value').val($scope.vinData.specification.drivetrain);
-			 /*  $('#fuelTypeSearch_value').val($scope.vinData.specification.fuelType);*/
 			 
 			   $http.get('/getModelList/'+$scope.vinData.specification.make)
 				.success(function(data) {
 					$scope.modelList = data;
-					console.log($scope.modelList);
 				});
 			   
 			   $http.get('/getTrimList/'+$scope.vinData.specification.model)
 				.success(function(data) {
 					$scope.trimList = data;
-					console.log($scope.trimList);
 				});
 			   
 			 $http.get('/getPriceHistory/'+data.vin)
 				.success(function(data) {
-					console.log("success");
-					console.log(data);
 					$scope.priceHistory = data;
 					angular.forEach($scope.priceHistory, function(value, key) {
 						value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
@@ -9894,10 +8820,8 @@ angular.module('newApp')
 				}
 				$scope.setDropZone();
 				
-				console.log($routeParams.temp);
 				if($routeParams.temp == 'true'){
 					$('#vImg').click();
-					console.log("cilck img");
 					$scope.getImages();
 				}
 		});
@@ -9907,7 +8831,6 @@ angular.module('newApp')
 	
 	   
 	   $http.get('/getMakeList').success(function(data) {
-		   console.log(data);
 			$scope.labelList = data.label;
 			$scope.makeList = data.make;
 			$scope.madeInList = data.madeIn;
@@ -9915,49 +8838,33 @@ angular.module('newApp')
 			$scope.driveTypeList = data.driveType;
 			$scope.fuelTypeList = data.fuelType;
 			$scope.exteriorColorList = data.exteriorColor;
-			   
-			console.log($scope.makeList);
 		});
 	   $scope.selectedMake = function (selectObj) {
-		   console.log($('#makeSearch_value').val());
-		   console.log(selectObj);
 			if(selectObj != undefined){
 				$scope.vinData.specification.make = selectObj.title;
 				$http.get('/getModelList/'+selectObj.title)
 				.success(function(data) {
 					$scope.modelList = data;
-					console.log($scope.modelList);
 				});
-				console.log($scope.vinData.specification);
 			}
 		};
 		$scope.selectedModel = function (selectObj) {
-			   console.log($('#modelSearch_value').val());
-			   console.log(selectObj);
 				if(selectObj != undefined){
 					$scope.vinData.specification.model = selectObj.title;
 					$http.get('/getTrimList/'+selectObj.title)
 					.success(function(data) {
 						$scope.trimList = data;
-						console.log($scope.trimList);
 					});
-					console.log($scope.vinData.specification);
 				}
 		};
 		$scope.selectedTrim = function (selectObj) {
-			   console.log($('#trimSearch_value').val());
-			   console.log(selectObj);
 				if(selectObj != undefined){
 					$scope.vinData.specification.trim_level = selectObj.title;
-					console.log($scope.vinData.specification);
 				}
 		};  
 		$scope.selectedLabel = function (selectObj) {
-			   console.log($('#labelSearch_value').val());
-			   console.log(selectObj);
 				if(selectObj != undefined){
 					$scope.vinData.specification.label = selectObj.title;
-					console.log($scope.vinData.specification);
 				}
 		};
 		$scope.selectedFuelType = function (selectObj) {
@@ -9966,7 +8873,6 @@ angular.module('newApp')
 			}
 	   };
 	   $scope.fuelFocusOut = function(){
-		   console.log("fuelFocusOut");
 		   $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();
 	   }
 	   $scope.fuelTypeChange = function(){
@@ -10006,7 +8912,6 @@ angular.module('newApp')
 		$scope.isUpdated = false;
 		$http.get('/getImagesByVin/'+$scope.vinData.specification.vin)
 		.success(function(data) {
-			console.log(data);
 			$scope.imageList = data;
 		});
 	}
@@ -10027,7 +8932,6 @@ angular.module('newApp')
 		}
 	   
 		$scope.removePdf = function(){
-			console.log($routeParams.id);
 			$http.get('/removeVehiclePdf/'+$routeParams.id)
 			.success(function(data) {
 				$.pnotify({
@@ -10049,16 +8953,11 @@ angular.module('newApp')
 		   $scope.vinData.specification.extColor = $('#extColorSearch_value').val();
 		   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
 		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
-		   /*$scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();*/
-		   console.log($scope.vinData.specification.cost);
-		   console.log($scope.vinData.specification.price);
 		   
 		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
-			   console.log($scope.vinData.specification);
 				if(pdfFile != undefined){
 					$http.post('/updateVehicleById',$scope.vinData.specification)
 					.success(function(data) {
-						console.log('success');
 						$scope.isUpdated = true;
 						$.pnotify({
 						    title: "Success",
@@ -10072,15 +8971,10 @@ angular.module('newApp')
 				 	         method: 'POST',
 				 	         file:pdfFile,
 				 	      }).success(function(data) {
-				 	    	  console.log('success');
-				 	  			
 				 	  			$http.get('/getPriceHistory/'+data.vin)
 								.success(function(data) {
-									console.log("success");
-									console.log(data);
 									$scope.priceHistory = data;
 									angular.forEach($scope.priceHistory, function(value, key) {
-										console.log(value);
 										value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
 									});
 									$route.reload();
@@ -10090,7 +8984,6 @@ angular.module('newApp')
 			 	 }else{
 			 		$http.post('/updateVehicleById',$scope.vinData.specification)
 					.success(function(data) {
-						console.log('success');
 						$scope.isUpdated = true;
 						$.pnotify({
 						    title: "Success",
@@ -10099,11 +8992,8 @@ angular.module('newApp')
 						});
 						$http.get('/getPriceHistory/'+data.vin)
 						.success(function(data) {
-							console.log("success");
-							console.log(data);
 							$scope.priceHistory = data;
 							angular.forEach($scope.priceHistory, function(value, key) {
-								console.log(value);
 								value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
 							});
 							
@@ -10147,7 +9037,6 @@ $scope.setAsDefault = function(image,index) {
 		if(i == $scope.imageList.length) {
 			$http.get('/setDefaultImage/'+image.id)
 			.success(function(data) {
-				console.log('success');
 			});
 			
 			image.defaultImage = true;
@@ -10161,7 +9050,6 @@ $scope.setAsDefault = function(image,index) {
 	$scope.deleteImage = function(img) {
 		$http.get('/deleteImage/'+img.id)
 		.success(function(data) {
-			console.log('success');
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
 		
@@ -10207,7 +9095,6 @@ $scope.setAsDefault = function(image,index) {
             file:file,
             data:{"vinNum":$scope.vinData.specification.vin}
         }).success(function(data, status, headers, config) {
-            console.log('success');
             $scope.getAllAudio();
             $.pnotify({
 			    title: "Success",
@@ -10243,13 +9130,6 @@ $scope.setAsDefault = function(image,index) {
 			
 			$scope.vData = data.virtualTour;
 			$scope.videoData = data.video;
-			console.log($scope.videoData);
-			console.log($scope.vData);
-			/*$scope.vData.desktopUrl = data.desktopUrl;
-			$scope.vData.mobileUrl = data.mobileUrl;
-			
-			$scope.videoData.desktopUrl = data.desktopUrl;
-			$scope.videoData.mobileUrl = data.mobileUrl;*/
 		});
 	}
 	
@@ -10272,8 +9152,6 @@ $scope.setAsDefault = function(image,index) {
 		
 		$scope.videoData.vin = $scope.vinData.specification.vin;
 		$scope.videoData.vehicleId = $scope.vinData.specification.id;
-		console.log($scope.videoData);
-		console.log($scope.vinData.specification);
 		$http.post('/saveVideoData',$scope.videoData)
 		.success(function(data) {
 			$.pnotify({
@@ -10330,7 +9208,6 @@ angular.module('newApp')
 	}
 		 function showCoords(c)
 		    {
-			 	console.log(c);
 			    var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
@@ -10356,11 +9233,8 @@ angular.module('newApp')
 		 
 		$scope.saveImage = function() {
 			$scope.coords.imageId = $routeParams.id;
-			console.log($scope.coords);
-			
 			$http.post('/editImage',$scope.coords)
 			.success(function(data) {
-				console.log('success');
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -10369,8 +9243,6 @@ angular.module('newApp')
 				$location.path('/editVehicle/'+$routeParams.vid+'/'+true);
 			});
 		}    
-		 
-		
 }]);	
 
 angular.module('newApp')
@@ -10508,7 +9380,6 @@ angular.module('newApp')
 		
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
-				console.log(data);
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
@@ -10650,18 +9521,14 @@ angular.module('newApp')
 	   }
 	 
 	   $scope.saveSiteHeading = function(siteHeading) {
-		   console.log(siteHeading);
 		   $http.get('/saveSiteHeading/'+siteHeading)
 			.success(function(data) {
-				
 			});
 	   }
 	   
 	   $scope.saveSiteDescription = function() {
-		   console.log($scope.siteDescription);
 		   $http.post('/saveSiteDescription',$scope.siteDescription)
 	   		.success(function(data) {
-	   			console.log('success');
 	   		});
 	   }
 	  
@@ -10690,7 +9557,6 @@ angular.module('newApp')
 	            method: 'post',
 	            file:logofile,
 	        }).success(function(data, status, headers, config) {
-	            console.log('success');
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -10706,7 +9572,6 @@ angular.module('newApp')
 	            method: 'post',
 	            file:feviconfile,
 	        }).success(function(data, status, headers, config) {
-	            console.log('success');
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -10755,7 +9620,6 @@ angular.module('newApp')
 	$scope.init = function() {
 		 $http.get('/getSliderImageDataById/'+$routeParams.id)
 			.success(function(data) {
-				console.log(data);
 				imageW = data.width;
 				imageH = data.height;
 				$('#set-height').val(data.height);
@@ -10784,7 +9648,6 @@ angular.module('newApp')
 	}
 		 function showCoords(c)
 		    {
-			 console.log(c);
 			    var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
@@ -10816,11 +9679,9 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
-			console.log($scope.coords);
 			
 			$http.post('/editSliderImage',$scope.coords)
 			.success(function(data) {
-				console.log('success');
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -10873,7 +9734,6 @@ angular.module('newApp')
 	}
 		 function showCoords(c)
 		    {
-			 console.log(c);
 			 	var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
@@ -10903,11 +9763,9 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
-			console.log($scope.coords);
 			
 			$http.post('/editFeaturedImage',$scope.coords)
 			.success(function(data) {
-				console.log('success');
 				$location.path('/homePage');
 				$scope.$apply();
 			});
@@ -10922,8 +9780,6 @@ angular.module('newApp')
 	$scope.init = function() {
 		$http.get('/getImageConfig')
 		.success(function(data) {
-			console.log("989898989898989898");
-			console.log(data);
 			$scope.slider = data.slider;
 			$scope.featured = data.featured;
 			$scope.newsletterDay = data.NewsletterDate;
@@ -10933,7 +9789,6 @@ angular.module('newApp')
 		
 			$scope.premium.priceVehical = parseInt(data.premiumLeads.premium_amount);
 			
-			console.log($scope.premium.priceVehical);
 			if(data.premiumLeads.premium_flag == 1){
 				$scope.premium.premiumFlag = true;
 			}else{
@@ -10945,7 +9800,6 @@ angular.module('newApp')
 	$scope.saveSlider = function() {
 		$http.get('/saveSliderConfig/'+$scope.slider.width+'/'+$scope.slider.height)
 		.success(function(data) {
-			console.log('success');
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
@@ -10957,7 +9811,6 @@ angular.module('newApp')
 	$scope.saveFeatured = function() {
 		$http.get('/saveFeaturedConfig/'+$scope.featured.width+'/'+$scope.featured.height)
 		.success(function(data) {
-			console.log('success');
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
@@ -10967,11 +9820,8 @@ angular.module('newApp')
 	}
 	
 	$scope.saveVehicleSize = function() {
-		console.log($scope.vehSize);
-		console.log('success');
 		$http.get('/saveVehicleConfig/'+$scope.vehSize.width+'/'+$scope.vehSize.height)
 		.success(function(data) {
-			
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
@@ -10980,16 +9830,12 @@ angular.module('newApp')
 		});
 	}
 	
-	
 	$scope.savePremium = function() {
-		console.log($scope.premium.priceVehical);
-		console.log($scope.premium.premiumFlag);
 		if($scope.premium.premiumFlag == undefined || $scope.premium.premiumFlag == null){
 			$scope.premium.premiumFlag = "0";
 		}
 		$http.get('/savePremiumConfig/'+$scope.premium.priceVehical+'/'+$scope.premium.premiumFlag)
 		.success(function(data) {
-			console.log('success');
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
@@ -10999,11 +9845,9 @@ angular.module('newApp')
 	}
 	
 	$scope.saveDayOfMonth = function() {
-		console.log($scope.newsletterDay);
 		$scope.newsletterTime = $('#newsTime').val();
 		$http.get('/saveNewsletterDate/'+$scope.newsletterDay+'/'+$scope.newsletterTime+'/'+$scope.newsletterId+'/'+$scope.newsletterTimeZone)
 		.success(function(data) {
-			console.log('success');
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
@@ -11025,11 +9869,9 @@ angular.module('newApp')
 	});
 
 	$http.get('/getDealerProfile').success(function(data) {
-		console.log(data);
 		$scope.myprofile = data.dealer;
 		$scope.user = data.user;
 		$scope.myprofile.dealer_id = data.user.location.id;
-		console.log($scope.myprofile);
 		$scope.imgGM = "http://glider-autos.com/glivrImg/images"+$scope.user.imageUrl;
 	});
 	
@@ -11077,7 +9919,6 @@ angular.module('newApp')
 	
 	function fillInAddress() {
 		  var place = autocomplete.getPlace();
-		  console.log(place.formatted_address);
 		  $scope.myprofile.address = place.formatted_address;
 		  for (var component in componentForm) {
 		    //document.getElementById(component).value = '';
@@ -11088,13 +9929,11 @@ angular.module('newApp')
 		    if (componentForm[addressType]) {
 		      var val = place.address_components[i][componentForm[addressType]];
 		      //document.getElementById(addressType).value = val;
-		      console.log(val);
 		    }
 		  }
 		}
 	
 	$scope.geolocate = function() {
-		console.log("in geolocate");
 		  if (navigator.geolocation) {
 		    navigator.geolocation.getCurrentPosition(function(position) {
 		      var geolocation = {
@@ -11118,21 +9957,7 @@ angular.module('newApp')
 	
 	$scope.managerP = {};
 	$scope.getLatLong = function() {
-		
-		
-		console.log($scope.managerProfile);
-		/*$http.post('/myprofile',$scope.myprofile)
-		.success(function(data) {
-			console.log('success');
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "profile saved successfully",
-			});
-		});*/
-		
-		
-		
+	
 		if(angular.isUndefined(logofile1)) {
 			
 			$http.post('/myprofile',$scope.myprofile)
@@ -11152,9 +9977,6 @@ angular.module('newApp')
 	            file:logofile1,
 	            data:$scope.myprofile
 	        }).success(function(data, status, headers, config) {
-	            console.log('success');
-	            console.log(data);
-	            
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
@@ -11198,7 +10020,6 @@ angular.module('newApp')
 						fileReader.onload = function (e) {
 							$timeout(function () {
 								$scope.img = e.target.result;
-								console.log(e.target.result);
 							});
 							
 						}
@@ -11232,7 +10053,6 @@ angular.module('newApp')
 		            file:logofile,
 		            data:$scope.user
 		        }).success(function(data, status, headers, config) {
-		            console.log('success');
 		            $("#file").val('');
 		            $('#GM').click();
 		            $('#btnClose').click();
@@ -11255,8 +10075,6 @@ angular.module('newApp')
 	$scope.initManager = function() {
 		$http.get('/getMangerAndLocation')
 		.success(function(data) {
-			console.log("hihihihi111");
-			console.log(data);
 			$scope.managerProfile = data;
 			$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.managerProfile.imageUrl;
 			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.managerProfile.mImageUrl;
@@ -11276,7 +10094,6 @@ angular.module('newApp')
 					fileReader.onload = function (e) {
 						$timeout(function () {
 							$scope.imgGM = e.target.result;
-							console.log(e.target.result);
 						});
 						
 					}
@@ -11296,7 +10113,6 @@ angular.module('newApp')
 					fileReader.onload = function (e) {
 						$timeout(function () {
 							$scope.imgLocation = e.target.result;
-							console.log(e.target.result);
 						});
 						
 					}
@@ -11311,7 +10127,6 @@ $scope.locationObj = {};
 	
 	$scope.updateManagerProfile = function() {
 		$scope.managerProfile.userType = "Manager"
-		console.log($scope.managerProfile);
 		$scope.managerObj.id = $scope.managerProfile.managerId;
 		$scope.managerObj.userType = $scope.managerProfile.userType;
 		$scope.managerObj.firstName = $scope.managerProfile.firstName;
@@ -11319,15 +10134,6 @@ $scope.locationObj = {};
 		$scope.managerObj.email = $scope.managerProfile.email;
 		$scope.managerObj.phone = $scope.managerProfile.phone;
 		$scope.managerObj.mi = "false";
-		//locationObj 
-		/*$scope.locationObj.id = $scope.managerProfile.id;
-		$scope.locationObj.locationName = $scope.managerProfile.locationName;
-		$scope.locationObj.locationaddress = $scope.managerProfile.locationaddress;
-		$scope.locationObj.locationemail = $scope.managerProfile.locationemail;
-		$scope.locationObj.locationphone = $scope.managerProfile.locationphone;*/
-		console.log($scope.user);
-		console.log($scope.managerObj);
-	//	console.log($scope.locationObj);
 			
 	if(angular.isUndefined(logofile)) {
 			
@@ -11348,14 +10154,11 @@ $scope.locationObj = {};
 	            file:logofile,
 	            data:$scope.managerObj
 	        }).success(function(data, status, headers, config) {
-	            console.log('success');
-	           
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
 				    text: "Manager saved successfully",
 				});
-	            
 	        });
 	}
 	   }
