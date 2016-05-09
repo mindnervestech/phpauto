@@ -9402,6 +9402,7 @@ angular.module('newApp')
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
 				$scope.siteHeading = data.contentVM[0].heading;
+				$scope.testiMonial = data.testiMonialVM[0];
 				$scope.siteDescription.descHeading = data.contentVM[0].descHeading;
 				$scope.siteDescription.description = data.contentVM[0].description;
 			});
@@ -9544,6 +9545,14 @@ angular.module('newApp')
 			});
 	   }
 	   
+	   $scope.saveSiteTestimonials = function(){
+		   $http.post('/saveSitetestiMonial',$scope.testiMonial)
+	   		.success(function(data) {
+	   			console.log('success');
+	   		});
+		   
+	   }
+	   
 	   $scope.saveSiteDescription = function() {
 		   $http.post('/saveSiteDescription',$scope.siteDescription)
 	   		.success(function(data) {
@@ -9625,6 +9634,9 @@ angular.module('newApp')
 	   }
 	   $scope.goToLogo = function() {
 		   $location.path('/siteLogo');
+	   }
+	   $scope.goToTestiMonials = function() {
+		   $location.path('/siteTestiMonials');
 	   }
 	   
 }]);
