@@ -30883,11 +30883,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		String subject=null;
 	    		int flag=0;
 	    		if(user.role.equals("General Manager")){
-	    			subject = "General Manager likes your work";
+	    			subject = "General Manager likes your work!";
 	    			flag=1;
 	    		}
 	    		else{
-	    			subject = "Manager likes your work";
+	    			subject = "Manager likes your work!";
 	    			flag=0;
 	    		}
 	    	String comments = "Comment : "+comment;
