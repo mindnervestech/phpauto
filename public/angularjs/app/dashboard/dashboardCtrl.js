@@ -9403,6 +9403,7 @@ angular.module('newApp')
 				$scope.configList = data.configList;
 				$scope.siteHeading = data.contentVM[0].heading;
 				$scope.testiMonial = data.testiMonialVM[0];
+				$scope.aboutUs = data.siteAboutUs[0];
 				$scope.siteDescription.descHeading = data.contentVM[0].descHeading;
 				$scope.siteDescription.description = data.contentVM[0].description;
 			});
@@ -9549,8 +9550,25 @@ angular.module('newApp')
 		   $http.post('/saveSitetestiMonial',$scope.testiMonial)
 	   		.success(function(data) {
 	   			console.log('success');
+	   			$.pnotify({
+ 				    title: "Success",
+ 				    type:'success',
+ 				    text: "Testimonails have been successfully saved",
+ 				});
 	   		});
 		   
+	   }
+	   
+	   $scope.saveSiteAboutUs = function(){
+		   $http.post('/saveSiteAboutUs',$scope.aboutUs)
+	   		.success(function(data) {
+	   			console.log('success');
+				$.pnotify({
+ 				    title: "Success",
+ 				    type:'success',
+ 				    text: "AboutUs have been successfully saved",
+ 				});
+	   		});
 	   }
 	   
 	   $scope.saveSiteDescription = function() {
@@ -9638,6 +9656,10 @@ angular.module('newApp')
 	   $scope.goToTestiMonials = function() {
 		   $location.path('/siteTestiMonials');
 	   }
+	   $scope.goToAboutUs = function(){
+		   $location.path('/siteAboutUs');
+	   }
+	   
 	   
 }]);
 

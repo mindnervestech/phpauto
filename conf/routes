@@ -117,6 +117,7 @@ GET		/saveSiteHeading/:heading	controllers.Application.saveSiteHeading(heading:S
 GET    /saveCompletedLeads/:duration/:comment/:id/:typeOfLead    controllers.Application.saveCompletedLeads(duration:String,comment:String,id:String,typeOfLead:String)
 POST	/saveSiteDescription		controllers.Application.saveSiteDescription()
 POST   /saveSitetestiMonial		 controllers.Application.saveSitetestiMonial()
+POST   /saveSiteAboutUs			 controllers.Application.saveSiteAboutUs()
 GET		/getAllRequestInfo			controllers.Application.getAllRequestInfo()
 GET 	/getAllScheduleTest			controllers.Application.getAllScheduleTest()
 GET		/getAllTradeIn				controllers.Application.getAllTradeIn()

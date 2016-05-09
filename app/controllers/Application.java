@@ -83,6 +83,7 @@ import models.RequestMoreInfo;
 import models.SalesPlanSchedule;
 import models.ScheduleTest;
 import models.Site;
+import models.SiteAboutUs;
 import models.SiteContent;
 import models.SiteLogo;
 import models.SiteTestimonials;
@@ -152,6 +153,7 @@ import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
 import viewmodel.SetPriceChangeFlag;
+import viewmodel.SiteAboutUsVM;
 import viewmodel.SiteContentVM;
 import viewmodel.SiteLogoVM;
 import viewmodel.SiteTestimonialVM;
@@ -179,6 +181,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlRow;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.gargoylesoftware.htmlunit.protocol.about.AboutURLConnection;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -6242,6 +6245,15 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	siteContentList.add(contentVM);
 	    	map.put("contentVM", siteContentList);
 	    	
+	    	List<SiteAboutUsVM> siteAboutList=new ArrayList<>();
+	    	SiteAboutUs sAboutUs = SiteAboutUs.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	SiteAboutUsVM sUs = new SiteAboutUsVM();
+	    	sUs.mainTitle = sAboutUs.mainTitle;
+	    	sUs.textData = sAboutUs.text;
+	    	siteAboutList.add(sUs);
+	    	map.put("siteAboutUs", siteAboutList);
+	    	
+	    	
 	    	int i = 1;
 	    	List<SiteTestimonialVM> siteList = new ArrayList<>();
  	    	List<SiteTestimonials> siteTestimonials = SiteTestimonials.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -6352,6 +6364,33 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     }
     
+    public static Result saveSiteAboutUs(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<SiteAboutUsVM> form = DynamicForm.form(SiteAboutUsVM.class).bindFromRequest();
+	    	SiteAboutUsVM vm = form.get();
+	    	
+	    	SiteAboutUs sAboutUs = SiteAboutUs.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	if(sAboutUs == null){
+	    		SiteAboutUs siAboutUs = new SiteAboutUs();
+		    	siAboutUs.mainTitle = vm.mainTitle;
+		    	siAboutUs.text = vm.textData;
+		    	siAboutUs.user = user;
+		    	siAboutUs.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	siAboutUs.save();
+	    	}else{
+	    		sAboutUs.setMainTitle(vm.mainTitle);
+	    		sAboutUs.setText(vm.textData);
+	    		sAboutUs.update();
+	    	}
+	    	
+	    	
+	    	
+	    	return ok();
+    	}	
+    }
     
     public static Result saveSitetestiMonial() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
