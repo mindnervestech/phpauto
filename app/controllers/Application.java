@@ -85,6 +85,7 @@ import models.ScheduleTest;
 import models.Site;
 import models.SiteContent;
 import models.SiteLogo;
+import models.SiteTestimonials;
 import models.SliderImage;
 import models.SliderImageConfig;
 import models.SoldContact;
@@ -153,6 +154,7 @@ import viewmodel.ScheduleTestVM;
 import viewmodel.SetPriceChangeFlag;
 import viewmodel.SiteContentVM;
 import viewmodel.SiteLogoVM;
+import viewmodel.SiteTestimonialVM;
 import viewmodel.SiteVM;
 import viewmodel.SoldContactVM;
 import viewmodel.SpecificationVM;
@@ -6240,6 +6242,58 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	siteContentList.add(contentVM);
 	    	map.put("contentVM", siteContentList);
 	    	
+	    	int i = 1;
+	    	List<SiteTestimonialVM> siteList = new ArrayList<>();
+ 	    	List<SiteTestimonials> siteTestimonials = SiteTestimonials.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	SiteTestimonialVM sitVm = new SiteTestimonialVM();
+	    	for(SiteTestimonials st:siteTestimonials){
+	    		if(i == 1){
+	    			sitVm.testiMonial1 = st.testimonial;
+	    			sitVm.signature1 = st.signature;
+	    		}
+	    		if(i == 2){
+	    			sitVm.testiMonial2 = st.testimonial;
+	    			sitVm.signature2 = st.signature;
+	    		}
+	    		if(i == 3){
+	    			sitVm.testiMonial3 = st.testimonial;
+	    			sitVm.signature3 = st.signature;
+	    		}
+	    		if(i == 4){
+	    			sitVm.testiMonial4 = st.testimonial;
+	    			sitVm.signature4 = st.signature;
+	    		}
+	    		if(i == 5){
+	    			sitVm.testiMonial5 = st.testimonial;
+	    			sitVm.signature5 = st.signature;
+	    		}
+	    		if(i == 6){
+	    			sitVm.testiMonial6 = st.testimonial;
+	    			sitVm.signature6 = st.signature;
+	    		}
+	    		if(i == 7){
+	    			sitVm.testiMonial7 = st.testimonial;
+	    			sitVm.signature7 = st.signature;
+	    		}
+	    		if(i == 8){
+	    			sitVm.testiMonial8 = st.testimonial;
+	    			sitVm.signature8 = st.signature;
+	    		}
+	    		if(i == 9){
+	    			sitVm.testiMonial9 = st.testimonial;
+	    			sitVm.signature9 = st.signature;
+	    		}
+	    		if(i == 10){
+	    			sitVm.testiMonial10 = st.testimonial;
+	    			sitVm.signature10 = st.signature;
+	    		}
+	    		
+	    		i++;
+	    	}
+	    	siteList.add(sitVm);
+	    	
+	    	map.put("testiMonialVM", siteList);
+	    	
 	    	return ok(Json.toJson(map));
     	}	
     }
@@ -6298,6 +6352,119 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     }
     
+    
+    public static Result saveSitetestiMonial() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	
+	    	Form<SiteTestimonialVM> form = DynamicForm.form(SiteTestimonialVM.class).bindFromRequest();
+	    	SiteTestimonialVM vm = form.get();
+	    	
+	    	
+	    	List<SiteTestimonials> siteTestDeletes = SiteTestimonials.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	for(SiteTestimonials st:siteTestDeletes){
+	    		 st.delete();
+	    	}
+	    	
+	    		SiteTestimonials siTestimonials1 = new SiteTestimonials();
+	    		siTestimonials1.testimonial = vm.testiMonial1;
+	    		siTestimonials1.signature = vm.signature1;
+	    		siTestimonials1.user = user;
+	    		siTestimonials1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		siTestimonials1.save();
+	    		
+	    		if(vm.testiMonial2 != null){
+	    			SiteTestimonials siTestimonials2 = new SiteTestimonials();
+		    		siTestimonials2.testimonial = vm.testiMonial2;
+		    		siTestimonials2.signature = vm.signature2;
+		    		siTestimonials2.user = user;
+		    		siTestimonials2.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		siTestimonials2.save();
+	    		}
+	    		
+	    		if(vm.testiMonial3 != null){
+	    			SiteTestimonials siTestimonials3 = new SiteTestimonials();
+		    		siTestimonials3.testimonial = vm.testiMonial3;
+		    		siTestimonials3.signature = vm.signature3;
+		    		siTestimonials3.user = user;
+		    		siTestimonials3.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		siTestimonials3.save();
+	    		}
+	    		
+	    		if(vm.testiMonial4 != null){
+	    			SiteTestimonials siTestimonials4 = new SiteTestimonials();
+		    		siTestimonials4.testimonial = vm.testiMonial4;
+		    		siTestimonials4.signature = vm.signature4;
+		    		siTestimonials4.user = user;
+		    		siTestimonials4.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		siTestimonials4.save();
+	    		}
+	    		
+	    		if(vm.testiMonial5 != null){
+	    			SiteTestimonials siTestimonials5 = new SiteTestimonials();
+		    		siTestimonials5.testimonial = vm.testiMonial5;
+		    		siTestimonials5.signature = vm.signature5;
+		    		siTestimonials5.user = user;
+		    		siTestimonials5.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		siTestimonials5.save();
+	    		}
+	    		
+	    		
+	    		if(vm.testiMonial6 != null){
+	    			SiteTestimonials siTestimonials6 = new SiteTestimonials();
+		    		siTestimonials6.testimonial = vm.testiMonial6;
+		    		siTestimonials6.signature = vm.signature6;
+		    		siTestimonials6.user = user;
+		    		siTestimonials6.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		siTestimonials6.save();
+	    		}
+	    		
+	    		
+	    		if(vm.testiMonial7 != null){
+	    			SiteTestimonials siTestimonials7 = new SiteTestimonials();
+		    		siTestimonials7.testimonial = vm.testiMonial7;
+		    		siTestimonials7.signature = vm.signature7;
+		    		siTestimonials7.user = user;
+		    		siTestimonials7.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		siTestimonials7.save();
+	    		}
+	    		
+	    		
+	    		if(vm.testiMonial8 != null){
+	    			SiteTestimonials siTestimonials8 = new SiteTestimonials();
+		    		siTestimonials8.testimonial = vm.testiMonial8;
+		    		siTestimonials8.signature = vm.signature8;
+		    		siTestimonials8.user = user;
+		    		siTestimonials8.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		siTestimonials8.save();
+	    		}
+	    		
+	    		if(vm.testiMonial9 != null){
+	    			SiteTestimonials siTestimonials9 = new SiteTestimonials();
+		    		siTestimonials9.testimonial = vm.testiMonial9;
+		    		siTestimonials9.signature = vm.signature9;
+		    		siTestimonials9.user = user;
+		    		siTestimonials9.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		siTestimonials9.save();
+	    		}
+	    		
+	    		
+	    		if(vm.testiMonial10 != null){
+	    			SiteTestimonials siTestimonials10 = new SiteTestimonials();
+		    		siTestimonials10.testimonial = vm.testiMonial10;
+		    		siTestimonials10.signature = vm.signature10;
+		    		siTestimonials10.user = user;
+		    		siTestimonials10.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    		siTestimonials10.save();
+	    		}
+	    		
+	    		
+	    	
+    	}
+	    	return ok();
+    	}	
     
     public static Result saveSiteDescription() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

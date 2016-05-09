@@ -87,6 +87,11 @@ var MakeApp = angular
             templateUrl: '/dealer/homePage/siteLogo.html',
             controller: 'HomePageCtrl'
         })
+        .when('/siteTestiMonials', {
+            templateUrl: '/dealer/homePage/siteTestimonials.html',
+            controller: 'HomePageCtrl'
+        })
+        
          .when('/configuration', {
             templateUrl: '/dealer/config/configuration.html',
             controller: 'ConfigPageCtrl'
