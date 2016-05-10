@@ -17,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,6 +66,7 @@ import models.FeaturedImageConfig;
 import models.FollowBrand;
 import models.GroupTable;
 import models.HeardAboutUs;
+import models.HoursOfOperation;
 import models.LeadsDateWise;
 import models.Location;
 import models.MyProfile;
@@ -136,6 +138,7 @@ import viewmodel.ContactsVM;
 import viewmodel.DateAndValueVM;
 import viewmodel.EditImageVM;
 import viewmodel.HeardAboutUsVm;
+import viewmodel.HoursOperation;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
 import viewmodel.LeadDateWiseVM;
@@ -31101,6 +31104,698 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    	return ok();
     	}	
     }
+	
+	
+	
+	public static Result saveSalesHoursForService(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		
+    		MultipartFormData body = request().body().asMultipartFormData();
+	    	Form<HoursOperation> form = DynamicForm.form(HoursOperation.class).bindFromRequest();
+	    	HoursOperation vm = form.get();
+    		AuthUser user = getLocalUser();
+	    	Date currDate = new Date();
+	    	
+	    	
+	    		HoursOfOperation operation=HoursOfOperation.findByDayForService("Sunday");
+	    		if(operation == null){
+	    			if(vm.sunOpen == null || vm.sunOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Sunday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.sunOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.sunCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.sunOpen == null || vm.sunOpen == false){
+	    				
+	    				try {
+							operation.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.sunOpenTime));
+	    				operation.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.sunCloseTime));
+	    				operation.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation.update();
+	    			}else{
+	    				operation.setDayFlag(1);
+	    				operation.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    		HoursOfOperation operation1=HoursOfOperation.findByDayForService("Monday");
+	    		if(operation1 == null){
+	    			if(vm.monOpen == null || vm.monOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Monday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.monOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.monCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.monOpen == null || vm.monOpen == false){
+	    				
+	    				try {
+							operation1.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.monOpenTime));
+	    				operation1.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.monCloseTime));
+	    				operation1.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation1.update();
+	    			}else{
+	    				operation1.setDayFlag(1);
+	    				operation1.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    		HoursOfOperation operation2=HoursOfOperation.findByDayForService("Tuesday");
+	    		if(operation2 == null){
+	    			if(vm.tueOpen == null || vm.tueOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Tuesday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.tueOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.tueCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.tueOpen == null || vm.tueOpen == false){
+	    				
+	    				try {
+							operation2.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.tueOpenTime));
+	    				operation2.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.tueCloseTime));
+	    				operation2.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation2.update();
+	    			}else{
+	    				operation2.setDayFlag(1);
+	    				operation2.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		HoursOfOperation operation3=HoursOfOperation.findByDayForService("Wednesday");
+	    		if(operation3 == null){
+	    			if(vm.wedOpen == null || vm.wedOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Wednesday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.wedOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.wedCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.wedOpen == null || vm.wedOpen == false){
+	    				
+	    				try {
+							operation3.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.wedOpenTime));
+	    				operation3.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.wedCloseTime));
+	    				operation3.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation3.update();
+	    			}else{
+	    				operation3.setDayFlag(1);
+	    				operation3.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		HoursOfOperation operation4=HoursOfOperation.findByDayForService("Thursday");
+	    		if(operation4 == null){
+	    			if(vm.thuOpen == null || vm.thuOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Thursday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.thuOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.thuCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.thuOpen == null || vm.thuOpen == false){
+	    				
+	    				try {
+							operation4.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.thuOpenTime));
+	    				operation4.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.thuCloseTime));
+	    				operation4.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation4.update();
+	    			}else{
+	    				operation4.setDayFlag(1);
+	    				operation4.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    		HoursOfOperation operation5=HoursOfOperation.findByDayForService("Friday");
+	    		if(operation5 == null){
+	    			if(vm.friOpen == null || vm.friOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Friday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.friOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.friCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.friOpen == null || vm.friOpen == false){
+	    				
+	    				try {
+							operation5.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.friOpenTime));
+	    				operation5.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.friCloseTime));
+	    				operation5.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation5.update();
+	    			}else{
+	    				operation5.setDayFlag(1);
+	    				operation5.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		HoursOfOperation operation6=HoursOfOperation.findByDayForService("Saturday");
+	    		if(operation6 == null){
+	    			if(vm.satOpen == null || vm.satOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Saturday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.satOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.satCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.satOpen == null  ||vm.satOpen == false ){
+	    				
+	    				try {
+							operation6.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.satOpenTime));
+	    				operation6.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.satCloseTime));
+	    				operation6.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation6.update();
+	    			}else{
+	    				operation6.setDayFlag(1);
+	    				operation6.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    	    		
+	    	
+	    	return ok();
+    	}	
+	}
+	
+	
+
+	public static Result saveHours(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		
+    		MultipartFormData body = request().body().asMultipartFormData();
+	    	Form<HoursOperation> form = DynamicForm.form(HoursOperation.class).bindFromRequest();
+	    	HoursOperation vm = form.get();
+    		AuthUser user = getLocalUser();
+	    	Date currDate = new Date();
+	    	
+	    	
+	    		HoursOfOperation operation=HoursOfOperation.findByDay("Sunday");
+	    		if(operation == null){
+	    			if(vm.sunOpen == null || vm.sunOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Sunday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.sunOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.sunCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			op.typeOfOperation=vm.typeOfOperation;
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.sunOpen == null || vm.sunOpen == false){
+	    				
+	    				try {
+							operation.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.sunOpenTime));
+	    				operation.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.sunCloseTime));
+	    				operation.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation.update();
+	    			}else{
+	    				operation.setDayFlag(1);
+	    				operation.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    		HoursOfOperation operation1=HoursOfOperation.findByDay("Monday");
+	    		if(operation1 == null){
+	    			if(vm.monOpen == null || vm.monOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Monday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.monOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.monCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.monOpen == null || vm.monOpen == false){
+	    				
+	    				try {
+							operation1.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.monOpenTime));
+	    				operation1.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.monCloseTime));
+	    				operation1.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation1.update();
+	    			}else{
+	    				operation1.setDayFlag(1);
+	    				operation1.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    		HoursOfOperation operation2=HoursOfOperation.findByDay("Tuesday");
+	    		if(operation2 == null){
+	    			if(vm.tueOpen == null || vm.tueOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Tuesday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.tueOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.tueCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.tueOpen == null || vm.tueOpen == false){
+	    				
+	    				try {
+							operation2.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.tueOpenTime));
+	    				operation2.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.tueCloseTime));
+	    				operation2.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation2.update();
+	    			}else{
+	    				operation2.setDayFlag(1);
+	    				operation2.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		HoursOfOperation operation3=HoursOfOperation.findByDay("Wednesday");
+	    		if(operation3 == null){
+	    			if(vm.wedOpen == null || vm.wedOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Wednesday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.wedOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.wedCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.wedOpen == null || vm.wedOpen == false){
+	    				
+	    				try {
+							operation3.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.wedOpenTime));
+	    				operation3.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.wedCloseTime));
+	    				operation3.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation3.update();
+	    			}else{
+	    				operation3.setDayFlag(1);
+	    				operation3.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		HoursOfOperation operation4=HoursOfOperation.findByDay("Thursday");
+	    		if(operation4 == null){
+	    			if(vm.thuOpen == null || vm.thuOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Thursday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.thuOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.thuCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;  	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.thuOpen == null || vm.thuOpen == false){
+	    				
+	    				try {
+							operation4.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.thuOpenTime));
+	    				operation4.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.thuCloseTime));
+	    				operation4.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation4.update();
+	    			}else{
+	    				operation4.setDayFlag(1);
+	    				operation4.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    		HoursOfOperation operation5=HoursOfOperation.findByDay("Friday");
+	    		if(operation5 == null){
+	    			if(vm.friOpen == null || vm.friOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Friday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.friOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.friCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;  	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.friOpen == null || vm.friOpen == false){
+	    				
+	    				try {
+							operation5.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.friOpenTime));
+	    				operation5.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.friCloseTime));
+	    				operation5.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation5.update();
+	    			}else{
+	    				operation5.setDayFlag(1);
+	    				operation5.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		HoursOfOperation operation6=HoursOfOperation.findByDay("Saturday");
+	    		if(operation6 == null){
+	    			if(vm.satOpen == null || vm.satOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Saturday";
+	    		try {
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.satOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.satCloseTime);
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.satOpen == null  ||vm.satOpen == false ){
+	    				
+	    				try {
+							operation6.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.satOpenTime));
+	    				operation6.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.satCloseTime));
+	    				operation6.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation6.update();
+	    			}else{
+	    				operation6.setDayFlag(1);
+	    				operation6.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    	    		
+	    	
+	    	return ok();
+    	}	
+	}
 	
 private static void managerLikeWork(String email,String subject,String comments,Integer flag) {
     	

@@ -10059,6 +10059,83 @@ angular.module('newApp')
 		
 	}
 	
+	$scope.gotoHoursOfOperation = function() {
+		
+		$location.path('/hoursOfOperations');
+	}; 	
+	
+	$scope.operation={};
+	$scope.saveSalesHours = function() {
+		$scope.operation.typeOfOperation='sales';
+		console.log(">>>>>>>>>>>> <<<<<<<<<<<<<<<")
+		$scope.operation.sunOpenTime = $('#sunOpen').val();
+		$scope.operation.sunCloseTime= $('#sunClose').val();
+		$scope.operation.monOpenTime = $('#monOpen').val();
+		$scope.operation.monCloseTime= $('#monClose').val();   
+		$scope.operation.tueOpenTime = $('#tueOpen').val();
+		$scope.operation.tueCloseTime= $('#tueClose').val();   
+		$scope.operation.wedOpenTime = $('#wedOpen').val();
+		$scope.operation.wedCloseTime= $('#wedClose').val();
+		$scope.operation.thuOpenTime = $('#thuOpen').val();
+		$scope.operation.thuCloseTime= $('#thuClose').val();
+		$scope.operation.friOpenTime = $('#friOpen').val();
+		$scope.operation.friCloseTime= $('#friClose').val();
+		$scope.operation.satOpenTime = $('#satOpen').val();
+		$scope.operation.satCloseTime= $('#satClose').val();
+		   console.log($scope.operation);
+		   
+		   $http.post('/saveHours',$scope.operation)
+			.success(function(data) {
+				/*$('#GM').click();
+	            $('#btnClose').click();
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});*/
+	            //$scope.init();
+			});
+		 
+	}; 	
+	
+	
+
+	$scope.operation1={};
+	$scope.saveSalesHoursForService = function() {
+		console.log(">>>>>>>>>>>> <<<<<<<<<<<<<<<")
+		$scope.operation1.typeOfOperation='service';
+		$scope.operation1.sunOpenTime = $('#sunOpen1').val();
+		$scope.operation1.sunCloseTime= $('#sunClose1').val();
+		$scope.operation1.monOpenTime = $('#monOpen1').val();
+		$scope.operation1.monCloseTime= $('#monClose1').val();   
+		$scope.operation1.tueOpenTime = $('#tueOpen1').val();
+		$scope.operation1.tueCloseTime= $('#tueClose1').val();   
+		$scope.operation1.wedOpenTime = $('#wedOpen1').val();
+		$scope.operation1.wedCloseTime= $('#wedClose1').val();
+		$scope.operation1.thuOpenTime = $('#thuOpen1').val();
+		$scope.operation1.thuCloseTime= $('#thuClose1').val();
+		$scope.operation1.friOpenTime = $('#friOpen1').val();
+		$scope.operation1.friCloseTime= $('#friClose1').val();
+		$scope.operation1.satOpenTime = $('#satOpen1').val();
+		$scope.operation1.satCloseTime= $('#satClose1').val();
+		   console.log($scope.operation1);
+		   
+		   $http.post('/saveSalesHoursForService',$scope.operation1)
+			.success(function(data) {
+				/*$('#GM').click();
+	            $('#btnClose').click();
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "User saved successfully",
+				});*/
+	            //$scope.init();
+			});
+		 
+	}; 	
+	
+	
+	
 
 	 var logofile;
 		$scope.onLogoFileSelect = function ($files) {

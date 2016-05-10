@@ -47,6 +47,12 @@ var MakeApp = angular
             templateUrl: '/dealer/myprofile/myprofile.html',
             controller: 'myprofileCtrl'
         })
+        
+        .when('/hoursOfOperations', {
+            templateUrl: '/dealer/myprofile/hoursOfOperation.html',
+            controller: 'myprofileCtrl'
+        })
+        
         .when('/createUser', {
             templateUrl: '/dealer/myprofile/createUser.html',
             controller: 'createUserCtrl'

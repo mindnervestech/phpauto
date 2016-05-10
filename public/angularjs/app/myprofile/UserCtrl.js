@@ -150,6 +150,12 @@ angular.module('newApp')
 		console.log("....");
 		$location.path('/deactiveUsers');
 	};
+	$scope.gotoHoursOfOperation = function() {
+			console.log(">>>>>>>>>>>>")
+			
+			$location.path('/hoursOfOperations');
+		};
+	
 	$scope.userId = null;
 	$scope.checked = [];
 	$scope.usersList = null;

@@ -1,0 +1,365 @@
+  <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+  <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoProfile()">Information</button></a></li>
+       	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToUsers()">Users</button></a></li>
+      	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Hours of Operations </button></a></li>
+       	
+  </ul>
+   
+	  <h2><b>What are our Hour's of Operations</b></h2>
+	  <div class="col-sm-12">
+	  <div class="col-sm-6">
+	  <form ng-submit="saveSalesHours()">
+	  <div class="col-sm-12">
+	  
+	  <h2><b>Sales Department</b></h2>
+	  </div>
+	  <div class="col-sm-12" style="margin-bottom: 10px">
+	  <div class="col-sm-2" >
+	  <h2><a>Day</a></h2>
+	  </div>
+	  <div class="col-sm-2" >
+	 <h2> <a>Close</a></h2>
+	  </div>
+	  <div class="col-sm-4" >
+	 <h2> <a>Open Time</a></h2>
+	  </div>
+	  <div class="col-sm-4" >
+	<h2>  <a>Close Time</a></h2>
+	  </div>
+	  
+	  
+	  </div>
+	  
+	  
+	  <div class="col-sm-12">
+	  <div class="col-sm-2" >
+	  <a>Sun</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="sunday" style="width: 20px;" ng-model="operation.sunOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text" name="openTimeTime" ng-model="operation.sunOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="sunOpen" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text" name="confTime" ng-model="operation.sunCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="sunClose" >
+	 </div>
+	  </div>
+	  
+	  
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Mon</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="monday" style="width: 20px;" ng-model="operation.monOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.monOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="monOpen" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.monCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="monClose" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  
+	  
+	  <div class="col-sm-12"style="margin-top: 10px">
+	<div class="col-sm-2" >
+	  <a>Tue</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="tueday" style="width: 20px;" ng-model="operation.tueOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.tueOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="tueOpen" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.tueCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="tueClose" >
+	 </div>
+	  </div>	  
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  <div class="col-sm-2" >
+	  <a>Wed</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="wednesday" style="width: 20px;" ng-model="operation.wedOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.wedOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="wedOpen" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.wedCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="wedClose" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  
+	  <div class="col-sm-12" style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Thu</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="thursday" style="width: 20px;" ng-model="operation.thuOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.thuOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="thuOpen" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.thuCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="thuClose" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Fri</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="friday" style="width: 20px;" ng-model="operation.friOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.friOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="friOpen" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.friCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="friClose" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Sat</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="saturday" style="width: 20px;" ng-model="operation.satOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.satOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="satOpen" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation.satCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="satClose" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  <div class="col-sm-6">
+          <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+      </div>
+	  </form>
+	  </div>
+	  
+	  
+	  
+	   
+	  <div class="col-sm-6">
+	  <form ng-submit="saveSalesHoursForService()">
+	  <div class="col-sm-6">
+	  <h2><b>Service Department</b></h2>
+	  </div>
+	    <div class="col-sm-12" style="margin-bottom: 10px">
+	  <div class="col-sm-2" >
+	  <h2><a>Day</a></h2>
+	  </div>
+	  <div class="col-sm-2" >
+	 <h2> <a>Close</a></h2>
+	  </div>
+	  <div class="col-sm-4" >
+	 <h2> <a>Open Time</a></h2>
+	  </div>
+	  <div class="col-sm-4" >
+	<h2>  <a>Close Time</a></h2>
+	  </div>
+	  
+	  
+	  </div>
+	  
+	  
+	  <div class="col-sm-12">
+	  <div class="col-sm-2" >
+	  <a>Sun</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="sunday" style="width: 20px;" ng-model="operation.sunOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text" name="openTimeTime" ng-model="operation1.sunOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="sunOpen1" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text" name="confTime" ng-model="operation1.sunCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="sunClose1" >
+	 </div>
+	  </div>
+	  
+	  
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Mon</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="monday" style="width: 20px;" ng-model="operation1.monOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.monOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="monOpen1" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.monCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="monClose1" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  
+	  
+	  <div class="col-sm-12"style="margin-top: 10px">
+	<div class="col-sm-2" >
+	  <a>Tue</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="tueday" style="width: 20px;" ng-model="operation1.tueOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.tueOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="tueOpen1" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.tueCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="tueClose1" >
+	 </div>
+	  </div>	  
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  <div class="col-sm-2" >
+	  <a>Wed</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="wednesday" style="width: 20px;" ng-model="operation1.wedOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.wedOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="wedOpen1" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.wedCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="wedClose1" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  
+	  <div class="col-sm-12" style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Thu</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="thursday" style="width: 20px;" ng-model="operation1.thuOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.thuOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="thuOpen1" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.thuCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="thuClose1" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Fri</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="friday" style="width: 20px;" ng-model="operation1.friOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.friOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="friOpen1" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.friCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="friClose1" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  
+	  <div class="col-sm-12"style="margin-top: 10px">
+	  
+	  <div class="col-sm-2" >
+	  <a>Sat</a>
+	  </div>
+	  <div class="col-sm-1">
+			<span><input type="checkbox"  name="day" value="saturday" style="width: 20px;" ng-model="operation1.satOpen"/></span>
+	    </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.satOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" id="satOpen1" >
+	  </div>
+	  </div>
+	  <div class="col-sm-4" >
+	  <div>
+      <input type="text"  ng-model="operation1.satCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." data-format="am-pm" id="satClose1" >
+	 </div>
+	  </div>
+	  
+	  </div>
+	  <div class="col-sm-6">
+          <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+      </div>
+	  </form>
+	  
+	  
+	  
+	  
+	  </div>
+	   
+  </div>
+  </div>
+  
