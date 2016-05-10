@@ -31545,6 +31545,64 @@ public static Result getviniewsChartLeads(Long id, String vin,
     	}	
 	}
 	
+	public static Result checkForService(int checkForServiceValue){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		
+    		System.out.println(">>>>>>>>>>>>>>>>>>>"+checkForServiceValue);
+    		List<HoursOfOperation>list=HoursOfOperation.findByTypeForServices();
+    		
+    		
+    		for (HoursOfOperation op : list) {
+    			if(checkForServiceValue == 0){
+    			op.setCheckValue(0);
+    			
+    			op.update();
+    			}
+    			else{
+    				op.setCheckValue(1);
+        			
+        			op.update();
+    			}
+    		}
+    		
+    		
+    	}
+		
+		return ok();
+	}
+	
+	
+	public static Result checkForServiceForPart(int checkForServiceValue){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		
+    		System.out.println(">>>>>>>>>>>>>>>>>>>"+checkForServiceValue);
+    		List<HoursOfOperation>list=HoursOfOperation.findByTypeForParts();
+    		
+    		
+    		for (HoursOfOperation op : list) {
+    			if(checkForServiceValue == 0){
+    			op.setCheckValue(0);
+    			
+    			op.update();
+    			}
+    			else{
+    				op.setCheckValue(1);
+        			
+        			op.update();
+    			}
+    		}
+    		
+    		
+    	}
+		
+		return ok();
+	}
+	
+	
 	
 	
 	public static Result getSaleHourData(){
@@ -31552,7 +31610,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		return ok(home.render("",userRegistration));
     	} else {
     		List<HoursOfOperation>list=HoursOfOperation.findByType();
-    		DateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
+    		DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
     		List <HoursOperation> alist=new ArrayList<>();
     		HoursOperation vm=new HoursOperation();
     		for (HoursOfOperation op : list) {
@@ -31679,7 +31737,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		return ok(home.render("",userRegistration));
     	} else {
     		List<HoursOfOperation>list=HoursOfOperation.findByTypeForServices();
-    		DateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
+    		DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
     		List <HoursOperation> alist=new ArrayList<>();
     		HoursOperation vm=new HoursOperation();
     		for (HoursOfOperation op : list) {
@@ -31805,7 +31863,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		return ok(home.render("",userRegistration));
     	} else {
     		List<HoursOfOperation>list=HoursOfOperation.findByTypeForParts();
-    		DateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
+    		DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
     		List <HoursOperation> alist=new ArrayList<>();
     		HoursOperation vm=new HoursOperation();
     		for (HoursOfOperation op : list) {

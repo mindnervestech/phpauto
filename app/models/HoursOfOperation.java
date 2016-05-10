@@ -42,8 +42,17 @@ public class HoursOfOperation extends Model {
 	public String day;
 	public Integer dayFlag;
 	public String typeOfOperation;
+	public int checkValue;
 	
 	
+	
+	
+	public int getCheckValue() {
+		return checkValue;
+	}
+	public void setCheckValue(int checkValue) {
+		this.checkValue = checkValue;
+	}
 	public String getTypeOfOperation() {
 		return typeOfOperation;
 	}

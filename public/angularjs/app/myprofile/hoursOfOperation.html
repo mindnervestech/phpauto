@@ -186,7 +186,7 @@
 	   
 	  <div class="col-sm-6">
 	   <div class="col-sm-6">
-	   <h2> <span><input type="checkbox"  name="day" value="sunday" style="width: 20px;" ng-model="operation1.serviceCheck"/></span>  <b>Service Department</b></h2>
+	   <h2> <span><input type="checkbox"  name="day" value="sunday" style="width: 20px;" ng-click="checkForService()" ng-model="operation1.serviceCheck"/></span>  <b>Service Department</b></h2>
 	  </div>
 	  <div ng-show="operation1.serviceCheck">
 	  <form ng-submit="saveSalesHoursForService()">
@@ -368,7 +368,7 @@
   
   <div class="col-sm-6">
 	   <div class="col-sm-6">
-	   <h2> <span><input type="checkbox"  name="day" value="sunday" style="width: 20px;" ng-model="operation2.serviceCheck"/></span>  <b>Parts Department</b></h2>
+	   <h2> <span><input type="checkbox"  name="day" value="sunday" style="width: 20px;"  ng-click="checkForServiceForPart()"ng-model="operation2.serviceCheck"/></span>  <b>Parts Department</b></h2>
 	  </div>
 	  <div ng-show="operation2.serviceCheck">
 	  <form ng-submit="saveSalesHoursForParts()">
