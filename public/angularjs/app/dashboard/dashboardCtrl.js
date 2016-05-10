@@ -10036,6 +10036,15 @@ angular.module('newApp')
 			
 		});
 		
+		$http.get('/getSaleHourDataForParts')
+		.success(function(data) {
+			console.log("?????????????????????");
+			console.log(data[0]);
+			$scope.operation2=data[0];
+			//$('#sunOpen').val($scope.operation.sunOpenTime);
+			
+		});
+		
 		
 		
 		
@@ -10150,6 +10159,45 @@ angular.module('newApp')
 		
 		$location.path('/hoursOfOperations');
 	}; 	
+	
+	
+	$scope.operation2={};
+	$scope.saveSalesHoursForParts = function() {
+		$scope.operation2.typeOfOperation='parts';
+		console.log(">>>>>>>>>>>> <<<<<<<<<<<<<<<")
+		$scope.operation2.sunOpenTime = $('#sunOpen2').val();
+		$scope.operation2.sunCloseTime= $('#sunClose2').val();
+		$scope.operation2.monOpenTime = $('#monOpen2').val();
+		$scope.operation2.monCloseTime= $('#monClose2').val();   
+		$scope.operation2.tueOpenTime = $('#tueOpen2').val();
+		$scope.operation2.tueCloseTime= $('#tueClose2').val();   
+		$scope.operation2.wedOpenTime = $('#wedOpen2').val();
+		$scope.operation2.wedCloseTime= $('#wedClose2').val();
+		$scope.operation2.thuOpenTime = $('#thuOpen2').val();
+		$scope.operation2.thuCloseTime= $('#thuClose2').val();
+		$scope.operation2.friOpenTime = $('#friOpen2').val();
+		$scope.operation2.friCloseTime= $('#friClose2').val();
+		$scope.operation2.satOpenTime = $('#satOpen2').val();
+		$scope.operation2.satCloseTime= $('#satClose2').val();
+		   console.log($scope.operation2);
+		   
+		   $http.post('/saveSalesHoursForParts',$scope.operation2)
+			.success(function(data) {
+				
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: " saved successfully",
+				});
+	            //$scope.init();
+			});
+		 
+	}; 	
+	
+	
+	
+	
+	
 	
 	$scope.operation={};
 	$scope.saveSalesHours = function() {

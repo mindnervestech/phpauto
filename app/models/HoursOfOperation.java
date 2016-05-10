@@ -93,11 +93,22 @@ public class HoursOfOperation extends Model {
 		return find.where().eq("day", day).eq("typeOfOperation", "sales").findUnique();
 	}
 	
+	public static HoursOfOperation findByDayForParts(String day) {
+		return find.where().eq("day", day).eq("typeOfOperation", "parts").findUnique();
+	}
+	
 	public static List<HoursOfOperation> findByType() {
 		return find.where().eq("typeOfOperation", "sales").findList();
 	}
 	
+	public static List<HoursOfOperation> findByTypeForServices() {
+		return find.where().eq("typeOfOperation", "service").findList();
+	}
 	
+	
+	public static List<HoursOfOperation> findByTypeForParts() {
+		return find.where().eq("typeOfOperation", "parts").findList();
+	}
 	
 	public static HoursOfOperation findByDayForService(String day) {
 		return find.where().eq("day", day).eq("typeOfOperation", "service").findUnique();

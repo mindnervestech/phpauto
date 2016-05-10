@@ -31204,9 +31204,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Sunday";
 	    		try {
+	    			if(vm.sunOpenTime != "" ||  vm.sunCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.sunOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.sunCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31251,9 +31253,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Monday";
 	    		try {
+	    			if(vm.monOpenTime != "" ||  vm.monCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.monOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.monCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31298,9 +31302,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Tuesday";
 	    		try {
+	    			if(vm.tueOpenTime != "" ||  vm.tueCloseTime != ""){
+	    			
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.tueOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.tueCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31344,9 +31351,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Wednesday";
 	    		try {
+	    			if(vm.wedOpenTime != "" ||  vm.wedCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.wedOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.wedCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31390,9 +31399,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Thursday";
 	    		try {
+	    			if(vm.thuOpenTime != "" ||  vm.thuCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.thuOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.thuCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31437,9 +31448,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Friday";
 	    		try {
+	    			if(vm.friOpenTime != "" ||  vm.friCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.friOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.friCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31483,9 +31496,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Saturday";
 	    		try {
+	    			if(vm.satOpenTime != "" ||  vm.satCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.satOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.satCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31545,8 +31560,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     			String day=(String)op.getDay();
     			if(day != null){
     				if(day.equalsIgnoreCase("Sunday")){
+    					if(op.getOpenTime() != null){
     					vm.sunOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.sunCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.sunFlag=op.getDayFlag();
     					if(vm.sunFlag == 1){
     						vm.sunOpen=true;
@@ -31557,8 +31576,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					System.out.println(vm.sunFlag);
     				}
     				if(day.equalsIgnoreCase("Monday")){
+    					if(op.getOpenTime() != null){
     					vm.monOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.monCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.monFlag=op.getDayFlag();
     					if(vm.monFlag == 1){
     						vm.monOpen=true;
@@ -31568,8 +31591,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     				}
     				
     				if(day.equalsIgnoreCase("Tuesday")){
+    					if(op.getOpenTime() != null){
     					vm.tueOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.tueCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.tueFlag=op.getDayFlag();
     					
     					if(vm.tueFlag == 1){
@@ -31578,8 +31605,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					
     				}
     				if(day.equalsIgnoreCase("Wednesday")){
+    					if(op.getOpenTime() != null){
     					vm.wedOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.wedCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.wedFlag=op.getDayFlag();
     					if(vm.wedFlag == 1){
     						vm.wedOpen=true;
@@ -31587,8 +31618,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					
     				}
     				if(day.equalsIgnoreCase("Thursday")){
+    					if(op.getOpenTime() != null){
     					vm.thuOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.thuCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.thuFlag=op.getDayFlag();
     					if(vm.thuFlag == 1){
     						vm.thuOpen=true;
@@ -31598,8 +31633,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     				}
     				
     				if(day.equalsIgnoreCase("Friday")){
+    					if(op.getOpenTime() != null){
     					vm.friOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.friCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.friFlag=op.getDayFlag();
     					if(vm.friFlag == 1){
     						vm.friOpen=true;
@@ -31609,8 +31648,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     				}
     				
     				if(day.equalsIgnoreCase("Saturday")){
+    					if(op.getOpenTime() != null){
     					vm.satOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.satCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.satFlag=op.getDayFlag();
     					if(vm.satFlag == 1){
     						vm.satOpen=true;
@@ -31635,7 +31678,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		List<HoursOfOperation>list=HoursOfOperation.findByType();
+    		List<HoursOfOperation>list=HoursOfOperation.findByTypeForServices();
     		DateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
     		List <HoursOperation> alist=new ArrayList<>();
     		HoursOperation vm=new HoursOperation();
@@ -31644,8 +31687,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     			String day=(String)op.getDay();
     			if(day != null){
     				if(day.equalsIgnoreCase("Sunday")){
+    					if(op.getOpenTime() != null){
     					vm.sunOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.sunCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.sunFlag=op.getDayFlag();
     					if(vm.sunFlag == 1){
     						vm.sunOpen=true;
@@ -31656,8 +31703,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					System.out.println(vm.sunFlag);
     				}
     				if(day.equalsIgnoreCase("Monday")){
+    					if(op.getOpenTime() != null){
     					vm.monOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.monCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.monFlag=op.getDayFlag();
     					if(vm.monFlag == 1){
     						vm.monOpen=true;
@@ -31667,8 +31718,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     				}
     				
     				if(day.equalsIgnoreCase("Tuesday")){
+    					if(op.getOpenTime() != null){
     					vm.tueOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.tueCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.tueFlag=op.getDayFlag();
     					
     					if(vm.tueFlag == 1){
@@ -31677,8 +31732,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					
     				}
     				if(day.equalsIgnoreCase("Wednesday")){
+    					if(op.getOpenTime() != null){
     					vm.wedOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.wedCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.wedFlag=op.getDayFlag();
     					if(vm.wedFlag == 1){
     						vm.wedOpen=true;
@@ -31686,8 +31745,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					
     				}
     				if(day.equalsIgnoreCase("Thursday")){
+    					if(op.getOpenTime() != null){
     					vm.thuOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.thuCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.thuFlag=op.getDayFlag();
     					if(vm.thuFlag == 1){
     						vm.thuOpen=true;
@@ -31697,8 +31760,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     				}
     				
     				if(day.equalsIgnoreCase("Friday")){
+    					if(op.getOpenTime() != null){
     					vm.friOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.friCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.friFlag=op.getDayFlag();
     					if(vm.friFlag == 1){
     						vm.friOpen=true;
@@ -31708,8 +31775,12 @@ public static Result getviniewsChartLeads(Long id, String vin,
     				}
     				
     				if(day.equalsIgnoreCase("Saturday")){
+    					if(op.getOpenTime() != null){
     					vm.satOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
     					vm.satCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
     					vm.satFlag=op.getDayFlag();
     					if(vm.satFlag == 1){
     						vm.satOpen=true;
@@ -31728,6 +31799,137 @@ public static Result getviniewsChartLeads(Long id, String vin,
     		return ok(Json.toJson(alist));
     	}
 	}	
+	
+	public static Result getSaleHourDataForParts(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<HoursOfOperation>list=HoursOfOperation.findByTypeForParts();
+    		DateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
+    		List <HoursOperation> alist=new ArrayList<>();
+    		HoursOperation vm=new HoursOperation();
+    		for (HoursOfOperation op : list) {
+    			
+    			String day=(String)op.getDay();
+    			if(day != null){
+    				if(day.equalsIgnoreCase("Sunday")){
+    					if(op.getOpenTime() != null){
+    					vm.sunOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.sunCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.sunFlag=op.getDayFlag();
+    					if(vm.sunFlag == 1){
+    						vm.sunOpen=true;
+    					}
+    					System.out.println(">>>>");
+    					System.out.println(vm.satOpenTime);
+    					System.out.println(vm.satCloseTime);
+    					System.out.println(vm.sunFlag);
+    				}
+    				if(day.equalsIgnoreCase("Monday")){
+    					if(op.getOpenTime() != null){
+    					vm.monOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.monCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.monFlag=op.getDayFlag();
+    					if(vm.monFlag == 1){
+    						vm.monOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Tuesday")){
+    					if(op.getOpenTime() != null){
+    					vm.tueOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.tueCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					
+    					vm.tueFlag=op.getDayFlag();
+    					
+    					if(vm.tueFlag == 1){
+    						vm.tueOpen=true;
+    					}
+    					
+    				}
+    				if(day.equalsIgnoreCase("Wednesday")){
+    					if(op.getOpenTime() != null){
+    					vm.wedOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.wedCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					
+    					vm.wedFlag=op.getDayFlag();
+    					if(vm.wedFlag == 1){
+    						vm.wedOpen=true;
+    					}
+    					
+    				}
+    				if(day.equalsIgnoreCase("Thursday")){
+    					if(op.getOpenTime() != null){
+    					vm.thuOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.thuCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.thuFlag=op.getDayFlag();
+    					if(vm.thuFlag == 1){
+    						vm.thuOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Friday")){
+    					if(op.getOpenTime() != null){
+    					vm.friOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.friCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.friFlag=op.getDayFlag();
+    					if(vm.friFlag == 1){
+    						vm.friOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Saturday")){
+    					if(op.getOpenTime() != null){
+    					vm.satOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.satCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.satFlag=op.getDayFlag();
+    					if(vm.satFlag == 1){
+    						vm.satOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				
+    			}
+    			
+    			
+			}
+    		
+    		alist.add(vm);
+    		return ok(Json.toJson(alist));
+    	}
+	}	
+	
+	
+	
 	
 	
 	
@@ -31753,9 +31955,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Sunday";
 	    		try {
+	    			if(vm.sunOpenTime != "" ||  vm.sunCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.sunOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.sunCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31800,9 +32004,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Monday";
 	    		try {
+	    			if(vm.monOpenTime != "" ||  vm.monCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.monOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.monCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31847,9 +32053,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Tuesday";
 	    		try {
+	    			if(vm.tueOpenTime != "" ||  vm.tueCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.tueOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.tueCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31893,9 +32101,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Wednesday";
 	    		try {
+	    			if(vm.wedOpenTime != "" ||  vm.wedCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.wedOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.wedCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31939,9 +32149,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Thursday";
 	    		try {
+	    			if(vm.thuOpenTime != "" ||  vm.thuCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.thuOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.thuCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -31986,9 +32198,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Friday";
 	    		try {
+	    			if(vm.friOpenTime != "" ||  vm.friCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.friOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.friCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -32032,9 +32246,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		HoursOfOperation op=new HoursOfOperation();
 	    	 op.day="Saturday";
 	    		try {
+	    			if(vm.satOpenTime != "" ||  vm.satCloseTime != ""){
 					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.satOpenTime);
 				
 	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.satCloseTime);
+	    			}
 	    		op.dayFlag=0;
 	    		} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -32078,6 +32294,371 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    	return ok();
     	}	
 	}
+	
+	public static Result saveSalesHoursForParts(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		
+    		MultipartFormData body = request().body().asMultipartFormData();
+	    	Form<HoursOperation> form = DynamicForm.form(HoursOperation.class).bindFromRequest();
+	    	HoursOperation vm = form.get();
+    		AuthUser user = getLocalUser();
+	    	Date currDate = new Date();
+	    	
+	    	
+	    		HoursOfOperation operation=HoursOfOperation.findByDayForParts("Sunday");
+	    		if(operation == null){
+	    			if(vm.sunOpen == null || vm.sunOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Sunday";
+	    		try {
+	    			if(vm.sunOpenTime!= "" ||vm.sunCloseTime!= ""){
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.sunOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.sunCloseTime);
+	    		
+	    			}
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			op.typeOfOperation=vm.typeOfOperation;
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.sunOpen == null || vm.sunOpen == false){
+	    				
+	    				try {
+							operation.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.sunOpenTime));
+	    				operation.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.sunCloseTime));
+	    				operation.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation.update();
+	    			}else{
+	    				operation.setDayFlag(1);
+	    				operation.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    		HoursOfOperation operation1=HoursOfOperation.findByDayForParts("Monday");
+	    		if(operation1 == null){
+	    			if(vm.monOpen == null || vm.monOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Monday";
+	    		try {
+	    			
+	    			if(vm.monOpenTime != "" || vm.monCloseTime != ""){
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.monOpenTime);
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.monCloseTime);
+	    		}
+	    		op.dayFlag = 0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace(); 
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.monOpen == null || vm.monOpen == false){
+	    				
+	    				try {
+							operation1.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.monOpenTime));
+	    				operation1.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.monCloseTime));
+	    				operation1.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation1.update();
+	    			}else{
+	    				operation1.setDayFlag(1);
+	    				operation1.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    		HoursOfOperation operation2=HoursOfOperation.findByDayForParts("Tuesday");
+	    		if(operation2 == null){
+	    			if(vm.tueOpen == null || vm.tueOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Tuesday";
+	    		try {
+	    			if(vm.tueOpenTime != "" ||   vm.tueCloseTime!= ""){
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.tueOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.tueCloseTime);
+	    			}
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.tueOpen == null || vm.tueOpen == false){
+	    				
+	    				try {
+							operation2.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.tueOpenTime));
+	    				operation2.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.tueCloseTime));
+	    				operation2.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation2.update();
+	    			}else{
+	    				operation2.setDayFlag(1);
+	    				operation2.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		HoursOfOperation operation3=HoursOfOperation.findByDayForParts("Wednesday");
+	    		if(operation3 == null){
+	    			if(vm.wedOpen == null || vm.wedOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Wednesday";
+	    		try {
+	    			
+	    			if(vm.wedOpenTime != ""  || vm.wedCloseTime!= ""){
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.wedOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.wedCloseTime);
+	    			}
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.wedOpen == null || vm.wedOpen == false){
+	    				
+	    				try {
+							operation3.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.wedOpenTime));
+	    				operation3.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.wedCloseTime));
+	    				operation3.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation3.update();
+	    			}else{
+	    				operation3.setDayFlag(1);
+	    				operation3.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		HoursOfOperation operation4=HoursOfOperation.findByDayForParts("Thursday");
+	    		if(operation4 == null){
+	    			if(vm.thuOpen == null || vm.thuOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Thursday";
+	    		try {
+	    			
+	    			if(vm.thuOpenTime != "" ||  vm.thuCloseTime != ""){
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.thuOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.thuCloseTime);
+	    			}
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;  	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.thuOpen == null || vm.thuOpen == false){
+	    				
+	    				try {
+							operation4.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.thuOpenTime));
+	    				operation4.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.thuCloseTime));
+	    				operation4.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation4.update();
+	    			}else{
+	    				operation4.setDayFlag(1);
+	    				operation4.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    		HoursOfOperation operation5=HoursOfOperation.findByDayForParts("Friday");
+	    		if(operation5 == null){
+	    			if(vm.friOpen == null || vm.friOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Friday";
+	    		try {
+	    			if(vm.friOpenTime != "" ||  vm.friCloseTime != ""){
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.friOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.friCloseTime);
+	    			}
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;  	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.friOpen == null || vm.friOpen == false){
+	    				
+	    				try {
+							operation5.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.friOpenTime));
+	    				operation5.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.friCloseTime));
+	    				operation5.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation5.update();
+	    			}else{
+	    				operation5.setDayFlag(1);
+	    				operation5.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		HoursOfOperation operation6=HoursOfOperation.findByDayForParts("Saturday");
+	    		if(operation6 == null){
+	    			if(vm.satOpen == null || vm.satOpen == false){
+	    		HoursOfOperation op=new HoursOfOperation();
+	    	 op.day="Saturday";
+	    		try {
+	    			
+	    			if(vm.satOpenTime != "" ||  vm.satCloseTime != ""){
+					op.openTime =  new SimpleDateFormat("hh:mm a").parse(vm.satOpenTime);
+				
+	    		op.closeTime = new SimpleDateFormat("hh:mm a").parse(vm.satCloseTime);
+	    			}
+	    		op.dayFlag=0;
+	    		} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		op.typeOfOperation=vm.typeOfOperation;	
+	    	op.save();
+	    	}else{
+	    		HoursOfOperation op=new HoursOfOperation();
+	    		op.dayFlag=1;
+	    		op.typeOfOperation=vm.typeOfOperation;
+	    		op.save();
+	    	}
+	    		
+	    	}
+	    		else{
+	    			if(vm.satOpen == null  ||vm.satOpen == false ){
+	    				
+	    				try {
+							operation6.setOpenTime( new SimpleDateFormat("hh:mm a").parse(vm.satOpenTime));
+	    				operation6.setCloseTime(new SimpleDateFormat("hh:mm a").parse(vm.satCloseTime));
+	    				operation6.setDayFlag(0);
+	    				} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    				
+	    				operation6.update();
+	    			}else{
+	    				operation6.setDayFlag(1);
+	    				operation6.update();
+	    			}
+	    			
+	    			
+	    			
+	    		}
+	    	
+	    		
+	    	    		
+	    	
+	    	return ok();
+    	}	
+	}
+	
+	
+	
 	
 private static void managerLikeWork(String email,String subject,String comments,Integer flag) {
     	
