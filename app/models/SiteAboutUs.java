@@ -15,6 +15,8 @@ public class SiteAboutUs extends Model {
 	public Long id;
 	public String mainTitle;
 	public String text;
+	public String text1;
+	public String imageurl;
 	
 	
 	@ManyToOne
@@ -30,7 +32,22 @@ public class SiteAboutUs extends Model {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
+	public String getText1() {
+		return text1;
+	}
+
+	public void setText1(String text1) {
+		this.text1 = text1;
+	}
+
+	public String getImageurl() {
+		return imageurl;
+	}
+
+	public void setImageurl(String imageurl) {
+		this.imageurl = imageurl;
+	}
 
 	public String getMainTitle() {
 		return mainTitle;

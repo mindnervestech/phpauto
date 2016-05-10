@@ -28,6 +28,21 @@
 				</div>
 				
 			</div>
+			<div class="form-group col-sm-12">
+           	    <label class="col-sm-2" style="text-align: right;">Text1</label>
+				<div class="col-sm-7">
+					<textarea class="form-control form-white" type="text" ng-model="aboutUs.textData1" placeholder="" rows="12" required></textarea>
+				</div>
+				
+			</div>
+		
+			<div class="form-group col-sm-12">
+				<label class="col-sm-2 control-label" style="text-align: right;">AboutUs Images </label>
+                   <p class="col-sm-5">
+ 	               <input class="form-control" type="file" id="file" style="width: 42%;" accept="image/*" ng-file-select="onAboutUsImgSelect($files)">
+                   <span id="preview" style="margin-top: 20px;width: 108px;"><img style="width: 100px;margin-left: 142px;margin-top: 20px;" src={{aboutUs.imageurl}}></span>
+                  </p>
+			</div>
 			
 			
 			<button type="submit" class="btn btn-primary" style="margin-top:3%;margin-left:20%;">Save</button>

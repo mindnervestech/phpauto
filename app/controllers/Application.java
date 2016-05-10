@@ -6253,7 +6253,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	SiteAboutUsVM sUs = new SiteAboutUsVM();
 	    	sUs.mainTitle = sAboutUs.mainTitle;
 	    	sUs.textData = sAboutUs.text;
+	    	sUs.textData1 = sAboutUs.text1;
+	    	sUs.imageurl = rootDir+sAboutUs.imageurl;
 	    	siteAboutList.add(sUs);
+	    	
 	    	map.put("siteAboutUs", siteAboutList);
 	    	
 	    	
@@ -6377,19 +6380,93 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	
 	    	SiteAboutUs sAboutUs = SiteAboutUs.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	if(sAboutUs == null){
+	    		
+	    		String urls = null;
+	    		 MultipartFormData body = request().body().asMultipartFormData();
+	    		 	if(body != null) {
+	          		FilePart picture = body.getFile("file0");
+	        	    	  if (picture != null) {
+	        	    	    String fileName = picture.getFilename();
+	        	    	    urls = fileName;
+	        	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"aboutUs");
+	        	    	    if(!fdir.exists()) {
+	        	    	    	fdir.mkdir();
+	        	    	    }
+	        	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+fileName;
+	        	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+rootDir+File.separator+session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+"thumbnail_"+fileName;
+	        	    	    File thumbFile = new File(thumbnailPath);
+	        	    	    File file = picture.getFile();
+	        	    	    try {
+	        	    	    BufferedImage originalImage = ImageIO.read(file);
+	        	    	    Thumbnails.of(originalImage).size(350, 240).toFile(thumbFile);
+	        	    	    File _f = new File(filePath);
+	        				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+	        	    	    }catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	        	    	  
+	        	    	  } 
+	          	   }
+	    		 	
+	    		 
+	    		
 	    		SiteAboutUs siAboutUs = new SiteAboutUs();
 		    	siAboutUs.mainTitle = vm.mainTitle;
 		    	siAboutUs.text = vm.textData;
+		    	siAboutUs.text1 = vm.textData1;
+		    	siAboutUs.imageurl = session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+urls;
 		    	siAboutUs.user = user;
+		    	
+		    	
 		    	siAboutUs.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	siAboutUs.save();
+		    	
+		    	
 	    	}else{
+	    			String urls = null;
+	    			MultipartFormData body = request().body().asMultipartFormData();
+	    		 	if(body != null) {
+	          	   File file1 = new File(rootDir+sAboutUs.imageurl);
+	          	   file1.delete();
+	          		FilePart picture = body.getFile("file0");
+	        	    	  if (picture != null) {
+	        	    	    String fileName = picture.getFilename();
+	        	    	    urls = fileName;
+	        	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"aboutUs");
+	        	    	    if(!fdir.exists()) {
+	        	    	    	fdir.mkdir();
+	        	    	    }
+	        	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+fileName;
+	        	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+"thumbnail_"+fileName;
+	        	    	    File thumbFile = new File(thumbnailPath);
+	        	    	    File file = picture.getFile();
+	        	    	    try {
+	        	    	    BufferedImage originalImage = ImageIO.read(file);
+	        	    	    Thumbnails.of(originalImage).size(345, 230).toFile(thumbFile);
+	        	    	    File _f = new File(filePath);
+	        				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+	        	    	    }catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	        	    	   /* try {
+	        	    	    	FileUtils.moveFile(file, new File(filePath));
+	        	    	    		
+	        	    	  } catch (FileNotFoundException e) {
+	        	  			e.printStackTrace();
+	        		  		} catch (IOException e) {
+	        		  			e.printStackTrace();
+	        		  		} */
+	        	    	  } 
+	          	   }
+	    		
 	    		sAboutUs.setMainTitle(vm.mainTitle);
 	    		sAboutUs.setText(vm.textData);
+	    		sAboutUs.setText1(vm.textData1);
+	    		sAboutUs.setImageurl(session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+urls);
 	    		sAboutUs.update();
 	    	}
-	    	
-	    	
 	    	
 	    	return ok();
     	}	

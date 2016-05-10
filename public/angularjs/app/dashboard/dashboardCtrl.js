@@ -9558,8 +9558,52 @@ angular.module('newApp')
 	   		});
 		   
 	   }
+	   var aboutUsfile;
+	   $scope.onAboutUsImgSelect = function ($files) {
+			aboutUsfile = $files;
+			
+		}	
+		
+		
+		
+	$scope.saveSiteAboutUs = function() {
+		
+	
+	
+		if(angular.isUndefined(aboutUsfile)) {
+		
+			$http.post('/saveSiteAboutUs',$scope.aboutUs)
+			.success(function(data) {
+
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "AboutUs have been successfully saved",
+				});
+	            
+			});
+		} else {
+			$scope.aboutUs.id = 0;
+		
+		   $upload.upload({
+	            url : '/saveSiteAboutUs',
+	            method: 'post',
+	            file:aboutUsfile,
+	            data:$scope.aboutUs
+	        }).success(function(data, status, headers, config) {
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "AboutUs have been successfully saved",
+				});
+	            
+	        });
+		}
+		
+	}
+		
 	   
-	   $scope.saveSiteAboutUs = function(){
+	   /*$scope.saveSiteAboutUs = function(){
 		   $http.post('/saveSiteAboutUs',$scope.aboutUs)
 	   		.success(function(data) {
 	   			console.log('success');
@@ -9569,7 +9613,7 @@ angular.module('newApp')
  				    text: "AboutUs have been successfully saved",
  				});
 	   		});
-	   }
+	   }*/
 	   
 	   $scope.saveSiteDescription = function() {
 		   $http.post('/saveSiteDescription',$scope.siteDescription)
