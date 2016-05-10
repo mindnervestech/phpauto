@@ -6,6 +6,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import java.util.List;
+
+
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 @Entity
@@ -89,6 +92,12 @@ public class HoursOfOperation extends Model {
 	public static HoursOfOperation findByDay(String day) {
 		return find.where().eq("day", day).eq("typeOfOperation", "sales").findUnique();
 	}
+	
+	public static List<HoursOfOperation> findByType() {
+		return find.where().eq("typeOfOperation", "sales").findList();
+	}
+	
+	
 	
 	public static HoursOfOperation findByDayForService(String day) {
 		return find.where().eq("day", day).eq("typeOfOperation", "service").findUnique();

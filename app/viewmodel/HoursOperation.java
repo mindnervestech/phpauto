@@ -23,6 +23,13 @@ public class HoursOperation {
 	public Boolean wedOpen;
 	public Boolean thuOpen;
 	public Boolean satOpen;
+	public int sunFlag;
+	public int monFlag;
+	public int tueFlag;
+	public int wedFlag;
+	public int thuFlag;
+	public int friFlag;
+	public int satFlag;
 	
 	public String getTypeOfOperation() {
 		return typeOfOperation;

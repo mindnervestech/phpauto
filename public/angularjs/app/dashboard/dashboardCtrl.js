@@ -9954,6 +9954,33 @@ angular.module('newApp')
 		});
 		
    }
+	$scope.init =function(){
+	
+		$http.get('/getSaleHourData')
+		.success(function(data) {
+			console.log("?????????????????????");
+			console.log(data[0]);
+			$scope.operation=data[0];
+			//$('#sunOpen').val($scope.operation.sunOpenTime);
+			
+		});
+		
+		
+		
+		$http.get('/getSaleHourDataForService')
+		.success(function(data) {
+			console.log("?????????????????????");
+			console.log(data[0]);
+			$scope.operation1=data[0];
+			//$('#sunOpen').val($scope.operation.sunOpenTime);
+			
+		});
+		
+		
+		
+		
+	}
+	
 	
 	var componentForm = {
 			  street_number: 'short_name',
@@ -10086,13 +10113,12 @@ angular.module('newApp')
 		   
 		   $http.post('/saveHours',$scope.operation)
 			.success(function(data) {
-				/*$('#GM').click();
-	            $('#btnClose').click();
+				
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "User saved successfully",
-				});*/
+				    text: " saved successfully",
+				});
 	            //$scope.init();
 			});
 		 
@@ -10122,13 +10148,12 @@ angular.module('newApp')
 		   
 		   $http.post('/saveSalesHoursForService',$scope.operation1)
 			.success(function(data) {
-				/*$('#GM').click();
-	            $('#btnClose').click();
+				
 	            $.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "User saved successfully",
-				});*/
+				    text: "saved successfully",
+				});
 	            //$scope.init();
 			});
 		 

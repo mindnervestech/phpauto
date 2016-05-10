@@ -31452,6 +31452,209 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	}
 	
 	
+	
+	public static Result getSaleHourData(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<HoursOfOperation>list=HoursOfOperation.findByType();
+    		DateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
+    		List <HoursOperation> alist=new ArrayList<>();
+    		HoursOperation vm=new HoursOperation();
+    		for (HoursOfOperation op : list) {
+    			
+    			String day=(String)op.getDay();
+    			if(day != null){
+    				if(day.equalsIgnoreCase("Sunday")){
+    					vm.sunOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.sunCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.sunFlag=op.getDayFlag();
+    					if(vm.sunFlag == 1){
+    						vm.sunOpen=true;
+    					}
+    					System.out.println(">>>>");
+    					System.out.println(vm.satOpenTime);
+    					System.out.println(vm.satCloseTime);
+    					System.out.println(vm.sunFlag);
+    				}
+    				if(day.equalsIgnoreCase("Monday")){
+    					vm.monOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.monCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.monFlag=op.getDayFlag();
+    					if(vm.monFlag == 1){
+    						vm.monOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Tuesday")){
+    					vm.tueOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.tueCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.tueFlag=op.getDayFlag();
+    					
+    					if(vm.tueFlag == 1){
+    						vm.tueOpen=true;
+    					}
+    					
+    				}
+    				if(day.equalsIgnoreCase("Wednesday")){
+    					vm.wedOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.wedCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.wedFlag=op.getDayFlag();
+    					if(vm.wedFlag == 1){
+    						vm.wedOpen=true;
+    					}
+    					
+    				}
+    				if(day.equalsIgnoreCase("Thursday")){
+    					vm.thuOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.thuCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.thuFlag=op.getDayFlag();
+    					if(vm.thuFlag == 1){
+    						vm.thuOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Friday")){
+    					vm.friOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.friCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.friFlag=op.getDayFlag();
+    					if(vm.friFlag == 1){
+    						vm.friOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Saturday")){
+    					vm.satOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.satCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.satFlag=op.getDayFlag();
+    					if(vm.satFlag == 1){
+    						vm.satOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				
+    			}
+    			
+    			
+			}
+    		
+    		alist.add(vm);
+    		return ok(Json.toJson(alist));
+    	}
+	}	
+	
+	
+	public static Result getSaleHourDataForService(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<HoursOfOperation>list=HoursOfOperation.findByType();
+    		DateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
+    		List <HoursOperation> alist=new ArrayList<>();
+    		HoursOperation vm=new HoursOperation();
+    		for (HoursOfOperation op : list) {
+    			
+    			String day=(String)op.getDay();
+    			if(day != null){
+    				if(day.equalsIgnoreCase("Sunday")){
+    					vm.sunOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.sunCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.sunFlag=op.getDayFlag();
+    					if(vm.sunFlag == 1){
+    						vm.sunOpen=true;
+    					}
+    					System.out.println(">>>>");
+    					System.out.println(vm.satOpenTime);
+    					System.out.println(vm.satCloseTime);
+    					System.out.println(vm.sunFlag);
+    				}
+    				if(day.equalsIgnoreCase("Monday")){
+    					vm.monOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.monCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.monFlag=op.getDayFlag();
+    					if(vm.monFlag == 1){
+    						vm.monOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Tuesday")){
+    					vm.tueOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.tueCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.tueFlag=op.getDayFlag();
+    					
+    					if(vm.tueFlag == 1){
+    						vm.tueOpen=true;
+    					}
+    					
+    				}
+    				if(day.equalsIgnoreCase("Wednesday")){
+    					vm.wedOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.wedCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.wedFlag=op.getDayFlag();
+    					if(vm.wedFlag == 1){
+    						vm.wedOpen=true;
+    					}
+    					
+    				}
+    				if(day.equalsIgnoreCase("Thursday")){
+    					vm.thuOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.thuCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.thuFlag=op.getDayFlag();
+    					if(vm.thuFlag == 1){
+    						vm.thuOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Friday")){
+    					vm.friOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.friCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.friFlag=op.getDayFlag();
+    					if(vm.friFlag == 1){
+    						vm.friOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Saturday")){
+    					vm.satOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					vm.satCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					vm.satFlag=op.getDayFlag();
+    					if(vm.satFlag == 1){
+    						vm.satOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				
+    			}
+    			
+    			
+			}
+    		
+    		alist.add(vm);
+    		return ok(Json.toJson(alist));
+    	}
+	}	
+	
+	
+	
+	
+	
+	
 
 	public static Result saveHours(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
