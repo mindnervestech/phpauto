@@ -6416,6 +6416,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	siAboutUs.text = vm.textData;
 		    	siAboutUs.text1 = vm.textData1;
 		    	siAboutUs.imageurl = session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+urls;
+		    	siAboutUs.themImageurl = session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+"thumbnail_"+urls;
 		    	siAboutUs.user = user;
 		    	
 		    	
@@ -6465,6 +6466,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		sAboutUs.setText(vm.textData);
 	    		sAboutUs.setText1(vm.textData1);
 	    		sAboutUs.setImageurl(session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+urls);
+	    		sAboutUs.setThemImageurl(session("USER_LOCATION")+File.separator+"aboutUs"+File.separator+"thumbnail_"+urls);
 	    		sAboutUs.update();
 	    	}
 	    	

@@ -17,6 +17,7 @@ public class SiteAboutUs extends Model {
 	public String text;
 	public String text1;
 	public String imageurl;
+	public String themImageurl;
 	
 	
 	@ManyToOne
@@ -81,6 +82,16 @@ public class SiteAboutUs extends Model {
 		this.user = user;
 	}
 	
+	
+	public String getThemImageurl() {
+		return themImageurl;
+	}
+
+	public void setThemImageurl(String themImageurl) {
+		this.themImageurl = themImageurl;
+	}
+
+
 	public static Finder<Long,SiteAboutUs> find = new Finder<>(Long.class,SiteAboutUs.class);
 	
 	public static SiteAboutUs findById(Long id) {
