@@ -10233,7 +10233,40 @@ angular.module('newApp')
 	}; 	
 	
 	
-
+	$scope.checkForService = function() {
+		$scope.checkForServiceValue=0;
+		$scope.operation1.typeOfOperation='service';
+		console.log($scope.operation1.serviceCheck);
+		if($scope.operation1.serviceCheck == false || $scope.operation1.serviceCheck == undefined ){
+			$scope.checkForServiceValue=1;
+		}
+		else{
+			$scope.checkForServiceValue=0;
+		}
+		$http.get('/checkForService/'+$scope.checkForServiceValue)
+		.success(function(data) {
+			
+		});
+		
+	}
+	
+	$scope.checkForServiceForPart = function() {
+		$scope.checkForServiceValue=0;
+		$scope.operation1.typeOfOperation='parts';
+		console.log($scope.operation2.serviceCheck);
+		if($scope.operation2.serviceCheck == false || $scope.operation2.serviceCheck == undefined ){
+			$scope.checkForServiceValue=1;
+		}
+		else{
+			$scope.checkForServiceValue=0;
+		}
+		$http.get('/checkForServiceForPart/'+$scope.checkForServiceValue)
+		.success(function(data) {
+			
+		});
+		
+	}
+	
 	$scope.operation1={};
 	$scope.saveSalesHoursForService = function() {
 		console.log(">>>>>>>>>>>> <<<<<<<<<<<<<<<")
