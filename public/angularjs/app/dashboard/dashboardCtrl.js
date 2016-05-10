@@ -8955,6 +8955,18 @@ angular.module('newApp')
 				$route.reload();
 			});
 		};
+		
+		$scope.dataShow = function(check){
+			console.log(check);
+			if(check == undefined){
+				$('#comingsoonDateEdit').val('');
+			}
+			
+			if(check == true){
+				$('#comingsoonDateEdit').val('');
+			}
+			//$('#comingsoonDateEdit').val();
+		}	
 	   
 	$scope.updateVehicle = function() {
 		$scope.vinData.specification.model = $('#modelSearch_value').val();
@@ -8967,10 +8979,14 @@ angular.module('newApp')
 		   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
 		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
 		   
-		   if($scope.vinData.specification.commingSoonVehicle = true){
+		   if($scope.vinData.specification.commingSoonVehicle == true){
+			   	$scope.vinData.specification.comingSoonFlag = 1;
 				  $scope.vinData.specification.comingSoonDate = $('#comingsoonDateEdit').val();
 				  
+			  }else{
+				  $scope.vinData.specification.comingSoonFlag = 0;
 			  }
+		   console.log($scope.vinData.specification);
 		   
 		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
 				if(pdfFile != undefined){

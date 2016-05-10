@@ -5235,7 +5235,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	vehicle.setRemoteTrunkRelease(vm.remoteTrunkRelease);
 		    	vehicle.setSteeringWheel(vm.steeringWheel);
 		    	vehicle.setSteeringWheelControls(vm.steeringWheelControls);
-				
+				vehicle.setComingSoonFlag(vm.comingSoonFlag);
 		    	vehicle.setStandardSeating(vm.standardSeating);
 				
 		    	vehicle.setMileage(vm.mileage);
