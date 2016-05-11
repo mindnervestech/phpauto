@@ -1,8 +1,10 @@
 package controllers;
 
+import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -19,8 +21,17 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+
 import models.AuthUser;
 import models.Registration;
+import models.SiteLogo;
+import models.Vehicle;
+import models.VehicleImage;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -207,9 +218,9 @@ public class RegistrationController extends Controller {
 		  
 		  String subject = "Demo site credentials";
 		  String comments = "User Demo Key := "+sb.toString()+"\n\n Site URL \n http://www.glider-autos.com:7071/login \n http://www.glider-autos.com/glivr-test/";
-			
-			sendEmail(regi.email,subject,comments);
-		
+			String demoKeyValue=sb.toString();
+			//sendEmail(regi.email,subject,comments);
+		sendDemoLinkMail(regi.email,demoKeyValue);
 		return ok();
 	}
 	
@@ -346,6 +357,72 @@ public class RegistrationController extends Controller {
 				
 		return ok();
 	}
+	
+	
+	 private static void sendDemoLinkMail(String email,String demoKey) {
+	    	
+	    	AuthUser logoUser = getLocalUser();
+	    //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
+			Properties props = new Properties();
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.starttls.enable", "true");
+			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(emailUsername, emailPassword);
+				}
+			});
+	    	try
+			{
+	    		/*InternetAddress[] usersArray = new InternetAddress[2];
+	    		int index = 0;
+	    		usersArray[0] = new InternetAddress(map.get("email").toString());
+	    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
+	    		
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(emailUsername));
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse(email.toString()));
+				message.setSubject("Demo site credentials");
+				Multipart multipart = new MimeMultipart();
+				BodyPart messageBodyPart = new MimeBodyPart();
+				messageBodyPart = new MimeBodyPart();
+				
+				VelocityEngine ve = new VelocityEngine();
+				ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+				ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+				ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+				ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+				ve.init();
+			
+				
+		        Template t = ve.getTemplate("/public/emailTemplate/demoVersionLinks_html.html"); 
+		        VelocityContext context = new VelocityContext();
+		         context.put("demoKey",demoKey);
+		         context.put("hostnameUrl", imageUrlPath);
+		        StringWriter writer = new StringWriter();
+		        t.merge( context, writer );
+		        String content = writer.toString(); 
+				
+				messageBodyPart.setContent(content, "text/html");
+				multipart.addBodyPart(messageBodyPart);
+				message.setContent(multipart);
+				Transport.send(message);
+				
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+	    }
+	    
+	    
+	
+	
+	
+	
+	
 	
 	
 	 public static AuthUser getLocalUser() {
