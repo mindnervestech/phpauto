@@ -2939,7 +2939,10 @@ angular.module('newApp')
 					$http.get('/sendComingSoonPOpUp').success(function(data){
 						angular.forEach(data, function(value, key) {
 							var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
-								+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">New meeting invitation received</h3></div><span class="col-md-12" style="margin-left: 22px;text-align: center;border-bottom: solid;"><h3><span>'+value.make+'</span><br><span style="color: cornflowerblue;"><b>'+value.year+'&nbsp;&nbsp;&nbsp;&nbsp;'+value.year+' </b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
+								+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">Notify</h3></div><span class="col-md-12" style="margin-left: 22px;border-bottom: solid;"><h3><span>Year:</span><span>'+value.year+'</span><br><span><span>Make :</span>'+value.make+'</b></span><br><span><span>Model :</span>'+value.model+'</b></span><br><span><span>Price :</span>'+value.price+'</b></span>'
+								+'<br><span><span>Vin :</span>'+value.vin+'</b></span>'
+								+'<br><span><span>Scheduled Arrival Date :</span>'+value.comingSoonDate+'</b></span>'
+								+'<br><span><span>subscribers :</span>'+value.subscribers+'</b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
 								+ '</div>';
 						var position = 'topRight';
 						if ($('body').hasClass(
@@ -2952,16 +2955,25 @@ angular.module('newApp')
 							theme : 'made',
 							buttons: [
 							          {
-									        addClass: 'general-button btnText', text: 'Decline', onClick: function($noty)
+									        addClass: 'general-button btnText', text: 'Change Arrival Date', onClick: function($noty)
 									              {
-									            	  $scope.declineDate(value);
+									            	  $scope.changeArrivalDate(value);
+		
 									                 $noty.close();
 									              }
 									          },
 							          {
-							              addClass: 'general-button btnText', text: 'Accept', onClick: function($noty)
+							              addClass: 'general-button btnText', text: 'Make it live  & Notify All', onClick: function($noty)
 							              {
-							            	  $scope.acceptDate(value);
+							            	  $scope.makeIt(value);
+							                 $noty.close();
+							              }
+							          },
+							          {
+							              addClass: 'general-button btnText', text: 'Add Price', onClick: function($noty)
+							              {
+							            	 // $scope.acceptDate(value);
+							            	  $scope.addPrice(value);
 							                 $noty.close();
 							              }
 							          }
@@ -3261,6 +3273,84 @@ angular.module('newApp')
 					
 				});
 			}
+			
+			$scope.makeIt = function(value){
+				if(value.price == 0){
+					$scope.priceDetail = value;
+					$('#addPriceOther').modal();
+				}else{
+					$scope.addMakeIt();
+				}
+			}
+
+			$scope.addByPriceMakeIt = function(price){
+				 console.log($scope.priceDetail);
+				 console.log(price);
+				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price)
+					.success(function(data) {
+						 $('#addPriceOther').modal("toggle");
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Price Add successfully",
+						});
+						
+						$scope.addMakeIt();
+						
+					});
+				 
+			 }
+			
+			$scope.addMakeIt = function(){
+				$http.get('/sendComingSoonEmail')
+				.success(function(data) {
+					console.log("ggggg");
+					
+				});
+			}
+			
+			$scope.changeArrivalDate = function(value){
+          	  $('#changeDate').modal();
+          	  $scope.priceDetail = value;
+      	  	}
+			
+			$scope.addChangeArrival = function(){
+				console.log($('#arrDate').val());
+				var aDate = $('#arrDate').val();
+				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
+				.success(function(data) {
+					 $('#changeDate').modal("toggle");
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Arrival date Change successfully",
+					});
+					
+				});
+			}
+
+			 $scope.addPrice = function(value){
+				$('#addPrice').modal();
+      		  	$scope.priceDetail = value;
+      	  	}
+			 
+			 
+			 
+			 $scope.addPriceInVeh = function(price){
+				 console.log($scope.priceDetail);
+				 console.log(price);
+				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price)
+					.success(function(data) {
+						 $('#addPrice').modal("toggle");
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Price Add successfully",
+						});
+						
+					});
+				 
+			 }
 			
     		  
     		  $scope.schedulmultidatepicker = function(){
@@ -8049,7 +8139,6 @@ angular.module('newApp')
  	  var saveFlag = 0;
  	  
  	 if($scope.vinData.specification.commingSoonVehicle == true){
- 		  console.log("tureuuuuuuuuuuuuuu");
  		  if($scope.vinData.specification.price != null && $scope.vinData.specification.price != ''){
  			  $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
  		  }else{
@@ -8057,7 +8146,6 @@ angular.module('newApp')
  		  }
  		 saveFlag = 1;
  	  }else{
- 		 console.log("undiiiiiiiiiiiiii");
  		  console.log($scope.vinData.specification.price);
  		  if($scope.vinData.specification.price == null || $scope.vinData.specification.price == '' || $scope.vinData.specification.price == undefined){
  			 $.pnotify({

@@ -1346,6 +1346,29 @@ public class Application extends Controller {
     	return ok(Json.toJson(userObj));
     }
     
+    public static Result getAddPrice(Long id,Integer price){
+    	Vehicle vehicle = Vehicle.findById(id);
+    	if(vehicle != null){
+    		vehicle.setPrice(price);
+    		vehicle.update();
+    	}
+    	return ok();
+    }
+    
+    public static Result setArrivelDate(Long id,String aDate){
+    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    	Vehicle vehicle = Vehicle.findById(id);
+    	if(vehicle != null){
+    		try {
+				vehicle.setComingSoonDate(df.parse(aDate));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		vehicle.update();
+    	}
+    	return ok();
+    }
     
     public static Result sendComingSoonPOpUp(){
     	List<PriceAlert> price=PriceAlert.getAllRecordPopUp();
@@ -1362,33 +1385,31 @@ public class Application extends Controller {
         			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
     			try {
     				
-    				/*Calendar c = Calendar.getInstance(); 
-    				c.setTime(date); 
-    				c.add(Calendar.DATE, -1);
-    				date = c.getTime();*/
-    				
+    				    				
     				String date1=df2.format(date);
-    				System.out.println(">>>>>>>>>>");
-    				System.out.println(date1);
-    				System.out.println(vehicle.comingSoonDate);
-    				System.out.println(formatter.parse(date1));
-    				
-    				
     				
     				if(vehicle.comingSoonDate.equals(formatter.parse(date1))){
     					RequestInfoVM rVm = new RequestInfoVM();
+    					rVm.id = vehicle.id;
     					rVm.vin = vehicle.vin;
     					rVm.make =  vehicle.make;
     					rVm.model = vehicle.model;
     					rVm.year = vehicle.year;
+    					rVm.price = vehicle.price;
+    					int vCount = 0;
+    					List<PriceAlert> vehCount = PriceAlert.getByVin(vehicle.vin);
+    					for(PriceAlert pAlert:vehCount){
+    						vCount++;
+    					}
+    					rVm.subscribers = vCount;
+    					
+    					rVm.comingSoonDate = formatter.format(vehicle.comingSoonDate);
     					VehicleImage vehicleImg = VehicleImage.getDefaultImage(vehicle.vin);
     					if(vehicleImg != null) {
     						rVm.imageUrl = "http://glider-autos.com/glivrImg/images"+vehicleImg.thumbPath;
     					}else {
     						rVm.imageUrl = "/profile-pic.jpg";
     					}
-	
-    					
     					
     					rList.add(rVm);
     				}
@@ -1403,7 +1424,7 @@ public class Application extends Controller {
     	return ok(Json.toJson(rList));
     }
     
-    public static void sendComingSoonEmail(){
+    public  static Result sendComingSoonEmail(){
     	List<PriceAlert> price=PriceAlert.getAllRecord();
     	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
     	for(PriceAlert alert:price){
@@ -1424,7 +1445,8 @@ public class Application extends Controller {
     				System.out.println(formatter.parse(date1));
     				
     				if(vehicle.comingSoonDate.equals(formatter.parse(date1))){
-    					
+    					alert.setPopupFlag(0);
+    					alert.update();
     					vehicle.setComingSoonFlag(0);
     					vehicle.update();
 	    	    		String subject=vehicle.make+" "+vehicle.model+" "+"has Arrived";
@@ -1440,7 +1462,7 @@ public class Application extends Controller {
     		}
     		
     	}
-    	
+    	return ok();
     }
 public static Result sendEmailForComingSoonVehicle(String email,String subject,String comment) {
 		

@@ -86,6 +86,13 @@ public class PriceAlert extends Model {
 		this.locations = locations;
 	}
 
+	public Integer getPopupFlag() {
+		return popupFlag;
+	}
+	public void setPopupFlag(Integer popupFlag) {
+		this.popupFlag = popupFlag;
+	}
+
 
 	public static Finder<Long,PriceAlert> find = new Finder<>(Long.class,PriceAlert.class);
 	

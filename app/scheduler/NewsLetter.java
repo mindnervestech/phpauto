@@ -30,13 +30,13 @@ public class NewsLetter {
 			Duration.create(0, TimeUnit.MILLISECONDS),
 			Duration.create(1, TimeUnit.DAYS), new Runnable() {
 				public void run() {
-					try{
+					/*try{
 						controllers.Application.sendComingSoonEmail();
 						
 					}
 					catch(Exception e) {
 						e.printStackTrace();
-					}
+					}*/
 					
 					Date date = new Date();
 					Calendar cal = Calendar.getInstance();
