@@ -8045,70 +8045,82 @@ angular.module('newApp')
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
+ 	  
+ 	  var saveFlag = 0;
+ 	  
  	 if($scope.vinData.specification.commingSoonVehicle == true){
  		  console.log("tureuuuuuuuuuuuuuu");
  		  if($scope.vinData.specification.price != null && $scope.vinData.specification.price != ''){
  			  $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
+ 		  }else{
+ 			 $scope.vinData.specification.price = 0;
  		  }
- 		 
+ 		 saveFlag = 1;
  	  }else{
- 		  if($scope.vinData.specification.price == null && $scope.vinData.specification.price == ''){
+ 		 console.log("undiiiiiiiiiiiiii");
+ 		  console.log($scope.vinData.specification.price);
+ 		  if($scope.vinData.specification.price == null || $scope.vinData.specification.price == '' || $scope.vinData.specification.price == undefined){
  			 $.pnotify({
  			    title: "Error",
  			    type:'success',
  			    text: "Price fields required",
  			});
+ 			saveFlag = 0;
  		  }else{
  			 $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
+ 		     saveFlag = 1;
  		  }
  		 
  	  }
  	  
+ 	 if(saveFlag == 1){
+ 		if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
+ 	 		 var ele = document.getElementById('loadingmanual');	
+ 	     	$(ele).show();
+ 	 		  if(pdffile != undefined){
+ 	 	 		$http.post('/saveVehicle',$scope.vinData.specification)
+ 	 			.success(function(data) {
+ 	 				$.pnotify({
+ 	 				    title: "Success",
+ 	 				    type:'success',
+ 	 				    text: "Vehicle saved successfully",
+ 	 				});
+ 	 				
+ 	 				$scope.dataBeforePdf=data;
+ 	 				$upload.upload({
+ 	 		 	         url : '/saveVehiclePdf/'+data,
+ 	 		 	         method: 'POST',
+ 	 		 	         file:pdffile,
+ 	 		 	      }).success(function(data) {
+ 	 		 	  			$.pnotify({
+ 	 		 	  			    title: "Success",
+ 	 		 	  			    type:'success',
+ 	 		 	  			    text: "Vehicle saved successfully",
+ 	 		 	  			});
+ 	 		 	  		$location.path('/editVehicle/'+$scope.dataBeforePdf+"/"+true);
+ 	 		 	      });
+ 	 			});
+ 	 	 	 }else{
+ 	 	 		$http.post('/saveVehicle',$scope.vinData.specification)
+ 	 			.success(function(data) {
+ 	 				$.pnotify({
+ 	 				    title: "Success",
+ 	 				    type:'success',
+ 	 				    text: "Vehicle saved successfully",
+ 	 				});
+ 	 				$location.path('/editVehicle/'+data+"/"+true);
+ 	 			});
+ 	 	 	 }
+ 	 	  }else{
+ 	 		 $.pnotify({
+ 				    title: "Error",
+ 				    type:'success',
+ 				    text: "Please select all fields",
+ 				});
+ 	 	  }
+ 	 }
  	  
- 	 /* if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
- 		 var ele = document.getElementById('loadingmanual');	
-     	$(ele).show();
- 		  if(pdffile != undefined){
- 	 		$http.post('/saveVehicle',$scope.vinData.specification)
- 			.success(function(data) {
- 				$.pnotify({
- 				    title: "Success",
- 				    type:'success',
- 				    text: "Vehicle saved successfully",
- 				});
- 				
- 				$scope.dataBeforePdf=data;
- 				$upload.upload({
- 		 	         url : '/saveVehiclePdf/'+data,
- 		 	         method: 'POST',
- 		 	         file:pdffile,
- 		 	      }).success(function(data) {
- 		 	  			$.pnotify({
- 		 	  			    title: "Success",
- 		 	  			    type:'success',
- 		 	  			    text: "Vehicle saved successfully",
- 		 	  			});
- 		 	  		$location.path('/editVehicle/'+$scope.dataBeforePdf+"/"+true);
- 		 	      });
- 			});
- 	 	 }else{
- 	 		$http.post('/saveVehicle',$scope.vinData.specification)
- 			.success(function(data) {
- 				$.pnotify({
- 				    title: "Success",
- 				    type:'success',
- 				    text: "Vehicle saved successfully",
- 				});
- 				$location.path('/editVehicle/'+data+"/"+true);
- 			});
- 	 	 }
- 	  }else{
- 		 $.pnotify({
-			    title: "Error",
-			    type:'success',
-			    text: "Please select all fields",
-			});
- 	  }*/
+ 	 /* */
  	  
    }
    

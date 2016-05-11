@@ -1362,10 +1362,10 @@ public class Application extends Controller {
         			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
     			try {
     				
-    				Calendar c = Calendar.getInstance(); 
+    				/*Calendar c = Calendar.getInstance(); 
     				c.setTime(date); 
     				c.add(Calendar.DATE, -1);
-    				date = c.getTime();
+    				date = c.getTime();*/
     				
     				String date1=df2.format(date);
     				System.out.println(">>>>>>>>>>");
