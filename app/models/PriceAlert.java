@@ -22,6 +22,7 @@ public class PriceAlert extends Model {
 	public String vin;
 	public String sendEmail;
 	public Integer oldPrice;
+	public Integer popupFlag;
 	public Date currDate;
 	@ManyToOne
 	public AuthUser user;
@@ -98,6 +99,10 @@ public class PriceAlert extends Model {
 	
 	public static List<PriceAlert> getAllRecord() {
 		return find.all();
+	}
+	
+	public static List<PriceAlert> getAllRecordPopUp() {
+		return find.where().eq("popupFlag", 1).findList();
 	}
 	
 	public static List<PriceAlert> getEmailsByStatusVin(String vin) {

@@ -2520,6 +2520,7 @@ angular.module('newApp')
     			  $scope.PlanOnMonday();
     			  $scope.updateMeeting();
     			  $scope.planMsg();
+    			  $scope.priceAlertMsg();
     			  
     			 $scope.check={};
     			  var date = new Date();
@@ -2933,6 +2934,70 @@ angular.module('newApp')
 				   $scope.aValue;
 				   $scope.aValue = localStorage.getItem('flagForNoty');
 			   }
+			 
+			 $scope.priceAlertMsg = function(){
+					$http.get('/sendComingSoonPOpUp').success(function(data){
+						angular.forEach(data, function(value, key) {
+							var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
+								+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">New meeting invitation received</h3></div><span class="col-md-12" style="margin-left: 22px;text-align: center;border-bottom: solid;"><h3><span>'+value.make+'</span><br><span style="color: cornflowerblue;"><b>'+value.year+'&nbsp;&nbsp;&nbsp;&nbsp;'+value.year+' </b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
+								+ '</div>';
+						var position = 'topRight';
+						if ($('body').hasClass(
+								'rtl'))
+							position = 'topLeft';
+						var n = noty({
+							text : notifContent,
+							type : 'success',
+							layout : position,
+							theme : 'made',
+							buttons: [
+							          {
+									        addClass: 'general-button btnText', text: 'Decline', onClick: function($noty)
+									              {
+									            	  $scope.declineDate(value);
+									                 $noty.close();
+									              }
+									          },
+							          {
+							              addClass: 'general-button btnText', text: 'Accept', onClick: function($noty)
+							              {
+							            	  $scope.acceptDate(value);
+							                 $noty.close();
+							              }
+							          }
+									 ],
+							animation : {
+								open : 'animated bounceIn',
+								close : 'animated bounceOut'
+							},
+
+							callback : {
+								onShow : function() {
+									$(
+											'#noty_topRight_layout_container, .noty_container_type_success')
+											.css(
+													
+													'width',
+													477)
+											.css('margin-left', -135)
+											.css(
+													
+													'bottom',
+													10);
+								},
+								onCloseClick : function() {
+									$('html, body')
+											.animate(
+													{
+														scrollTop : 480
+													},
+													'slow');
+								}
+							}
+						});
+						});
+		    		});
+			 }		
 			$scope.PlanOnMonday = function(){
 				$http.get('/getPlanMonday')
 	    		.success(function(data){
@@ -2940,8 +3005,8 @@ angular.module('newApp')
 	    				$scope.callForLocalCheck();
 	    				if($scope.aValue == false){
 	    					var notifContent;
-	    				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>Sales Plan for this month has been added</span><br></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'></p></div></div>";
-					var position = 'topRight';
+	    					notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>Sales Plan for this month has been added</span><br></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'></p></div></div>";
+	    					var position = 'topRight';
 					if ($('body').hasClass(
 							'rtl'))
 						position = 'topLeft';
@@ -7956,6 +8021,7 @@ angular.module('newApp')
 	   }
    }
    
+   
    $scope.saveVehicle = function() {
 	   $scope.vinData.specification.model = $('#modelSearch_value').val();
 	   $scope.vinData.specification.make = $('#makeSearch_value').val();
@@ -7967,11 +8033,11 @@ angular.module('newApp')
 	   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
 	   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
 	  /* $scope.vinData.specification.fuelType = $('#fuelTypeSearch_value').val();*/
-		   $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
+		   
 		   $scope.vinData.specification.cost = $scope.vinData.specification.cost.split(',').join('');
 		   var comingSoonDate = {};
 	console.log("LLLLLLLLLL"+$scope.vinData.specification.commingSoonVehicle);
-	  if($scope.vinData.specification.commingSoonVehicle = true){
+	  if($scope.vinData.specification.commingSoonVehicle == true){
 		  $scope.vinData.specification.comingSoonDate = $('#comingsoonDate').val();
 		  
 	  }
@@ -7979,7 +8045,27 @@ angular.module('newApp')
  	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
- 	  if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
+ 	 if($scope.vinData.specification.commingSoonVehicle == true){
+ 		  console.log("tureuuuuuuuuuuuuuu");
+ 		  if($scope.vinData.specification.price != null && $scope.vinData.specification.price != ''){
+ 			  $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
+ 		  }
+ 		 
+ 	  }else{
+ 		  if($scope.vinData.specification.price == null && $scope.vinData.specification.price == ''){
+ 			 $.pnotify({
+ 			    title: "Error",
+ 			    type:'success',
+ 			    text: "Price fields required",
+ 			});
+ 		  }else{
+ 			 $scope.vinData.specification.price = $scope.vinData.specification.price.split(',').join('');
+ 		  }
+ 		 
+ 	  }
+ 	  
+ 	  
+ 	 /* if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
  		 var ele = document.getElementById('loadingmanual');	
      	$(ele).show();
  		  if(pdffile != undefined){
@@ -8022,7 +8108,7 @@ angular.module('newApp')
 			    type:'success',
 			    text: "Please select all fields",
 			});
- 	  }
+ 	  }*/
  	  
    }
    

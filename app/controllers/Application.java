@@ -1346,6 +1346,63 @@ public class Application extends Controller {
     	return ok(Json.toJson(userObj));
     }
     
+    
+    public static Result sendComingSoonPOpUp(){
+    	List<PriceAlert> price=PriceAlert.getAllRecordPopUp();
+    	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+    	List<RequestInfoVM> rList = new ArrayList<>();
+    	for(PriceAlert alert:price){
+    		Vehicle vehicle=Vehicle.findByVinAndComingSoonDate(alert.vin);
+    		if(vehicle != null){
+    			if(vehicle.locations != null){
+    			Date date=new Date();
+    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    			
+        			Location location = Location.findById(vehicle.locations.id);
+        			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+    			try {
+    				
+    				Calendar c = Calendar.getInstance(); 
+    				c.setTime(date); 
+    				c.add(Calendar.DATE, -1);
+    				date = c.getTime();
+    				
+    				String date1=df2.format(date);
+    				System.out.println(">>>>>>>>>>");
+    				System.out.println(date1);
+    				System.out.println(vehicle.comingSoonDate);
+    				System.out.println(formatter.parse(date1));
+    				
+    				
+    				
+    				if(vehicle.comingSoonDate.equals(formatter.parse(date1))){
+    					RequestInfoVM rVm = new RequestInfoVM();
+    					rVm.vin = vehicle.vin;
+    					rVm.make =  vehicle.make;
+    					rVm.model = vehicle.model;
+    					rVm.year = vehicle.year;
+    					VehicleImage vehicleImg = VehicleImage.getDefaultImage(vehicle.vin);
+    					if(vehicleImg != null) {
+    						rVm.imageUrl = "http://glider-autos.com/glivrImg/images"+vehicleImg.thumbPath;
+    					}else {
+    						rVm.imageUrl = "/profile-pic.jpg";
+    					}
+	
+    					
+    					
+    					rList.add(rVm);
+    				}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			
+    		}
+    		}
+    	}
+    	return ok(Json.toJson(rList));
+    }
+    
     public static void sendComingSoonEmail(){
     	List<PriceAlert> price=PriceAlert.getAllRecord();
     	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
