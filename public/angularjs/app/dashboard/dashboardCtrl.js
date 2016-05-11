@@ -2939,10 +2939,10 @@ angular.module('newApp')
 					$http.get('/sendComingSoonPOpUp').success(function(data){
 						angular.forEach(data, function(value, key) {
 							var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
-								+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">Notify</h3></div><span class="col-md-12" style="margin-left: 22px;border-bottom: solid;"><h3><span>Year:</span><span>'+value.year+'</span><br><span><span>Make :</span>'+value.make+'</b></span><br><span><span>Model :</span>'+value.model+'</b></span><br><span><span>Price :</span>'+value.price+'</b></span>'
-								+'<br><span><span>Vin :</span>'+value.vin+'</b></span>'
-								+'<br><span><span>Scheduled Arrival Date :</span>'+value.comingSoonDate+'</b></span>'
-								+'<br><span><span>subscribers :</span>'+value.subscribers+'</b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
+								+ '<div class="media-body width-100p col-md-12" style="padding: 0px;border-bottom: solid;margin-bottom: 7px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 165px;margin-top: 55px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;color: cornsilk;"><b>Notify</b></h3></div><span class="col-md-12" style="margin-left: 22px;"><h3><span><b>Year    : </b></span><span>'+value.year+'</span><br><span><span><b>Make   : </b></span>'+value.make+'</b></span><br><span><span><b>Model  : </b></span>'+value.model+'</b></span><br><span><span><b>Price     : </b></span>'+value.price+'</b></span>'
+								+'<br><span><span><b>Vin    :  </b></span>'+value.vin+'</b></span>'
+								+'<br><span><span><b>Scheduled Arrival Date : </b></span>'+value.comingSoonDate+'</b></span>'
+								+'<br><span><span><b>subscribers : </b></span>'+value.subscribers+'</b></span></h3></span><p class="pull-left" style="margin-left:85%;"></p></div></div>'
 								+ '</div>';
 						var position = 'topRight';
 						if ($('body').hasClass(
@@ -2990,8 +2990,8 @@ angular.module('newApp')
 											.css(
 													
 													'width',
-													477)
-											.css('margin-left', -135)
+													555)
+											.css('margin-left', -207)
 											.css(
 													
 													'bottom',
