@@ -32032,6 +32032,10 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					if(vm.sunFlag == 1){
     						vm.sunOpen=true;
     					}
+    					vm.checkForSunday=op.getCheckValue();
+    					if(vm.checkForSunday == 1){
+    						vm.serviceCheck=true;
+    					}
     					System.out.println(">>>>");
     					System.out.println(vm.satOpenTime);
     					System.out.println(vm.satCloseTime);
@@ -32047,6 +32051,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					vm.monFlag=op.getDayFlag();
     					if(vm.monFlag == 1){
     						vm.monOpen=true;
+    					}
+    					
+    					vm.checkForMonday=op.getCheckValue();
+    					if(vm.checkForSunday == 1){
+    						vm.serviceCheck=true;
     					}
     					
     					
@@ -32158,6 +32167,10 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					if(vm.sunFlag == 1){
     						vm.sunOpen=true;
     					}
+    					vm.checkForSunday=op.getCheckValue();
+    					if(vm.checkForSunday == 1){
+    						vm.serviceCheck=true;
+    					}
     					System.out.println(">>>>");
     					System.out.println(vm.satOpenTime);
     					System.out.println(vm.satCloseTime);
@@ -32173,6 +32186,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
     					vm.monFlag=op.getDayFlag();
     					if(vm.monFlag == 1){
     						vm.monOpen=true;
+    					}
+    					
+    					vm.checkForMonday=op.getCheckValue();
+    					if(vm.checkForMonday == 1){
+    						vm.serviceCheck=true;
     					}
     					
     					
