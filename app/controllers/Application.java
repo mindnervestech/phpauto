@@ -12333,6 +12333,11 @@ private static void cancelTestDriveMail(Map map) {
 	    	userObj.trainingHours = vm.trainingHours;
 	    	userObj.quota = vm.quota;
 	    	userObj.imageUrl = vm.imageUrl;
+	    	if(vm.premiumFlag.equals("true")){
+	    		userObj.premiumFlag = "1";
+	    	}else{
+	    		userObj.premiumFlag = "0";
+	    	}
 	    	String arr2[] = null;
 	    	 if(body != null) {
 	    		 String abcd= vm.permissions.get(0);

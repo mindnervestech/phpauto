@@ -10410,7 +10410,6 @@ angular.module('newApp')
 	$scope.operation={};
 	$scope.saveSalesHours = function() {
 		$scope.operation.typeOfOperation='sales';
-		console.log(">>>>>>>>>>>> <<<<<<<<<<<<<<<")
 		$scope.operation.sunOpenTime = $('#sunOpen').val();
 		$scope.operation.sunCloseTime= $('#sunClose').val();
 		$scope.operation.monOpenTime = $('#monOpen').val();
