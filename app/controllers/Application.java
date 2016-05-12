@@ -1549,7 +1549,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        context.put("make", vehicle.make);
 	        context.put("model", vehicle.model);
 	       // context.put("oldPrice", "$"+alert.oldPrice);
-	        context.put("newPrice", "$"+vehicle.price);
+	        
+	        if(vehicle.price != null) {
+	        	context.put("newPrice", "$"+vehicle.price);
+	        	} else {
+	        		context.put("newPrice", "");
+	        	}
 	        context.put("bodyStyle", vehicle.bodyStyle);
 	        context.put("mileage", vehicle.mileage);
 	        

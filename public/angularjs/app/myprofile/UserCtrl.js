@@ -267,10 +267,23 @@ angular.module('newApp')
 			  });
 		});
 	};
+	$scope.showOtherFild = 0;
 	
 	$scope.selectOption = function(){
 		var type = $('#userType').val();
 		console.log(type);
+		
+		if(type == "Sales Person"){
+			$scope.showOtherFild = 1;
+		}
+		
+		if(type == "Photographer"){
+		
+			$scope.showOtherFild = 2;
+		}
+		
+		
+		
 		if(type == "Sales Person"){
 			//console.log("in if");
 			angular.forEach($scope.permissionList, function(obj, index){
@@ -303,7 +316,7 @@ angular.module('newApp')
 	
 	$scope.contract = function(type){
 		$scope.contactVal= type;
-		if(type=="Employee"){
+		if(type=="Employee" || type=="One Time Order"){
 			$("#number").attr("disabled", true);
 			$("#duration").attr("disabled", true);
 			$("#number1").attr("disabled", true);
@@ -474,7 +487,14 @@ angular.module('newApp')
 	$scope.saveImage = function() {
 		
 		$scope.user.permissions = $scope.permission;
+		
+		if($scope.user.premiumFlag == undefined){
+			$scope.user.premiumFlag = false;
+		}
+		
 		if($scope.contactVal=="Employee"){
+			$scope.user.contractDur = $scope.contactVal;
+		}else if($scope.contactVal=="One Time Order"){
 			$scope.user.contractDur = $scope.contactVal;
 		}else{
 			if($scope.num==null){
@@ -530,7 +550,55 @@ angular.module('newApp')
 		        });
 			}
 		}
+		
+		
+		/*$scope.operation.typeOfOperation='sales';
+		$scope.operation.sunOpenTime = $('#sunOpen').val();
+		$scope.operation.sunCloseTime= $('#sunClose').val();
+		$scope.operation.monOpenTime = $('#monOpen').val();
+		$scope.operation.monCloseTime= $('#monClose').val();   
+		$scope.operation.tueOpenTime = $('#tueOpen').val();
+		$scope.operation.tueCloseTime= $('#tueClose').val();   
+		$scope.operation.wedOpenTime = $('#wedOpen').val();
+		$scope.operation.wedCloseTime= $('#wedClose').val();
+		$scope.operation.thuOpenTime = $('#thuOpen').val();
+		$scope.operation.thuCloseTime= $('#thuClose').val();
+		$scope.operation.friOpenTime = $('#friOpen').val();
+		$scope.operation.friCloseTime= $('#friClose').val();
+		$scope.operation.satOpenTime = $('#satOpen').val();
+		$scope.operation.satCloseTime= $('#satClose').val();
+		   console.log($scope.operation);
+		   
+		   $http.post('/saveHours',$scope.operation)
+			.success(function(data) {
+				
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: " saved successfully",
+				});
+	            //$scope.init();
+			});*/
+		
 	   }
+	
+	$scope.openClick = function(){
+		$('#sunOpen').timepicker();
+		$('#sunClose').timepicker();
+		$('#monOpen').timepicker();
+		$('#monClose').timepicker();
+		$('#tueOpen').timepicker();
+		$('#tueClose').timepicker();
+		$('#wedOpen').timepicker();
+		$('#wedClose').timepicker();
+		$('#thuOpen').timepicker();
+		$('#thuClose').timepicker();
+		$('#friOpen').timepicker();
+		$('#friClose').timepicker();
+		$('#satOpen').timepicker();
+		$('#satClose').timepicker();
+		
+	}
 	
 	$scope.updateImage = function() {
 		$scope.userData.permissions = $scope.permission;
