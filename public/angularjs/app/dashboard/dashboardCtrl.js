@@ -10075,11 +10075,16 @@ angular.module('newApp')
 }]);	
 
 angular.module('newApp')
-.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('ConfigPageCtrl', ['$scope','$http','$location','$filter','$upload','$routeParams', function ($scope,$http,$location,$filter,$upload,$routeParams) {
 	$scope.premium = {};
+	
+	
+	
 	$scope.init = function() {
 		$http.get('/getImageConfig')
 		.success(function(data) {
+			console.log("<<>>");
+			
 			$scope.slider = data.slider;
 			$scope.featured = data.featured;
 			$scope.newsletterDay = data.NewsletterDate;
@@ -10095,9 +10100,7 @@ angular.module('newApp')
 				$scope.premium.premiumFlag = false;
 			}
 		});
-	}
-	$scope.showTable = 0;
-	$scope.showToUser = function(){
+			$scope.showToUser = function(){
 		$scope.showTable = 1;
 		console.log(locationId);
 		$http.get('/getAllUsers').success(function(data){
@@ -10110,7 +10113,196 @@ angular.module('newApp')
 		});
 	}
 	
-	$scope.permiumAss = function(saleP){
+		
+		
+		
+		
+		$http.get('/getCustomerPdfData')
+			.success(function(data) {
+				/*$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Slider config saved successfully",
+				});*/
+				console.log("Customer pdfData");
+				console.log(data);
+				$scope.customerPdfList=data;
+				
+			});	
+		
+			$http.get('/getInternalPdfData')
+			.success(function(data) {
+				/*$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Slider config saved successfully",
+				});*/
+				console.log("Internal pdf dat");
+				console.log(data);
+				$scope.internalPdfList=data;
+			});	
+			
+			$http.get('/getAllSites')
+	 		.success(function(data) {
+	 			$scope.siteList = data;
+	 			
+	 			console.log("sitelist");
+	 			console.log($scope.siteList);
+	 		});
+		
+		
+	}
+	
+	
+	$scope.documentationSetting = function() {
+		console.log("inside documentationSetting");
+		$location.path('/documentation');
+		
+	}
+	
+	
+	$scope.autoPortal = function() {
+		console.log("inside autoPortal");
+		$location.path('/autoPortal');
+		
+	}
+	
+	$scope.newsLetterSetting = function() {
+		console.log("inside newsLetter");
+		$location.path('/newsLetter');
+		
+	}
+	
+	
+	
+	$scope.graphicInfo = function() {
+		console.log("inside graphic");
+		$location.path('/configuration');
+		
+	}
+	$scope.premiumLeadsInfo= function() {
+		console.log("inside premiumLeads");
+		$location.path('/premiumLeads');
+		
+	}
+	$scope.autoPort={};
+	$scope.saveAutoPortal= function(auto,siteName) {
+		console.log("inside saveAutoPortal");
+		console.log(siteName);
+		auto.sitename=siteName;
+		$scope.autoPort=auto;
+		//$scope.autoPort.siteName=siteName;
+		console.log($scope.autoPort);
+		$http.post('/saveAutoPortal',$scope.autoPort)
+		.success(function(data) {
+
+            $.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Location saved successfully",
+			});
+            
+		});
+	}
+	
+	
+	 var logofile;
+		$scope.onFileSelect = function ($files) {
+			logofile = $files;
+			console.log("??????????");
+			console.log(logofile);
+			$upload.upload({
+		 	         url : '/saveInternalPdf',
+		 	         method: 'POST',
+		 	         file:logofile,
+		 	      }).success(function(data) {
+		 	  			$.pnotify({
+		 	  			    title: "Success",
+		 	  			    type:'success',
+		 	  			    text: "pdf saved successfully",
+		 	  			});
+			
+		 	  			$http.get('/getInternalPdfData')
+		 	  			.success(function(data) {
+		 	  				/*$.pnotify({
+		 	  				    title: "Success",
+		 	  				    type:'success',
+		 	  				    text: "Slider config saved successfully",
+		 	  				});*/
+		 	  				console.log("Internal pdf dat");
+		 	  				console.log(data);
+		 	  				$scope.internalPdfList=data;
+		 	  			});		
+		 	  			
+			
+		});	
+		}
+		
+		var logofile1;
+		$scope.onCustomerFileSelect = function ($files) {
+			logofile1 = $files;
+			console.log("??????????");
+			console.log(logofile);
+			$upload.upload({
+		 	         url : '/saveCustomerPdf',
+		 	         method: 'POST',
+		 	         file:logofile1,
+		 	      }).success(function(data) {
+		 	  			$.pnotify({
+		 	  			    title: "Success",
+		 	  			    type:'success',
+		 	  			    text: "pdf saved successfully",
+		 	  			});
+			
+		 	  			$http.get('/getCustomerPdfData')
+		 	  			.success(function(data) {
+		 	  				/*$.pnotify({
+		 	  				    title: "Success",
+		 	  				    type:'success',
+		 	  				    text: "Slider config saved successfully",
+		 	  				});*/
+		 	  				console.log("Customer pdfData");
+		 	  				console.log(data);
+		 	  				
+		 	  			});		
+		 	  			
+			
+		});	
+		}
+		
+		$scope.deletePdf = function(id) {
+			
+			console.log("inside delete pdf");
+			console.log(id);
+			$http.get('/deletePdfById/'+id)
+	  			.success(function(data) {
+	  				/*$.pnotify({
+	  				    title: "Success",
+	  				    type:'success',
+	  				    text: "Slider config saved successfully",
+	  				});*/
+			
+	  			});
+		}
+		
+		
+
+		$scope.deleteInternalPdf = function(id) {
+			
+			console.log("inside delete pdf");
+			console.log(id);
+			$http.get('/deleteInternalPdf/'+id)
+	  			.success(function(data) {
+	  				/*$.pnotify({
+	  				    title: "Success",
+	  				    type:'success',
+	  				    text: "Slider config saved successfully",
+	  				});*/
+			
+	  			});
+		}
+		
+		$scope.permiumAss = function(saleP){
 		console.log(saleP);
 		$http.get('/setPermiumFlag/'+saleP.id).success(function(data){
 			console.log("Yesssss");

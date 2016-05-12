@@ -1,0 +1,107 @@
+						<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+						  <ul id="myTabs" class="nav nav-tabs" role="tablist">
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
+						       	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email Tab </button></a></li>
+						      	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation  </button></a></li>
+						       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
+						  </ul>
+   
+	    
+					  </div>
+					 <div class="col-sm-12">
+					 
+					 <div  class="col-sm-6">
+					 <h1>Internal</h1>
+					  <hr style="border:1px solid">
+					 <div class="form-group col-sm-12" style="margin-top: 15px">
+						<label class="col-sm-3 control-label" style="text-align: right">Upload PDF File *</label>
+						<div class="col-sm-5">
+								<input type="file" name="logoFile" ng-file-select="onFileSelect($files)" accept="application/msword,application/pdf"/>
+						</div>
+					</div>
+
+					<div class="col-sm-8" style="margin-top: 20px;margin-left: 25px;">
+								<table  style="border: 1px solid; width:80%" >
+					    		<tr style="border: 1px solid;">
+					    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">PDF Name</td>
+					    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+					    		  </tr>
+					    			<tr ng-repeat="item in internalPdfList" style="border: 1px solid;">
+					    				<td style="padding: 5px;border: 1px solid;" >{{item.internalPdfName}}</td>
+					    				<td style="border: 1px solid;text-align: center;" ng-click="deleteInternalPdf(item.internalPdfId)"><a class="glyphicon glyphicon-trash"></a></td>
+					    			</tr>
+					    		</table>
+							</div>
+					 </div>
+					 
+					 <div  class="col-sm-6">
+					 <h1>Customers</h1>
+					  <hr style="border:1px solid">
+					 <div class="form-group col-sm-12" style="margin-top: 15px">
+						<label class="col-sm-3 control-label" style="text-align: right">Upload PDF File *</label>
+						<div class="col-sm-5">
+								<input type="file" name="logoFile" ng-file-select="onCustomerFileSelect($files)" accept="application/msword,application/pdf"/>
+						</div>
+					</div>
+
+<!-- <div class="col-sm-8">
+			<table>
+    		<tr>
+    			<td>Pdf Name</td>
+    			 <td></td>
+    		</tr>
+    			<tr ng-repeat="item in customerPdfList">
+    				<td>{{item.customerPdfName}}</td>
+    				<td ng-click="deletePdf(item.customerPdfId)"><a class="glyphicon glyphicon-trash"></a></td>
+    			</tr>
+    		</table>
+		</div>
+ -->
+
+					<div class="col-sm-8"  style="margin-top: 20px;margin-left: 25px;">
+								<table  style="border: 1px solid; width:80%" >
+					    		<tr style="border: 1px solid;">
+					    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">PDF Name</td>
+					    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+					    		  </tr>
+					    			<tr ng-repeat="item in customerPdfList" style="border: 1px solid;">
+					    				<td style="padding: 5px;border: 1px solid;" >{{item.customerPdfName}}</td>
+					    				<td style="border: 1px solid;text-align: center;" ng-click="deletePdf(item.customerPdfId)"><a class="glyphicon glyphicon-trash"></a></td>
+					    			</tr>
+					    		</table>
+							</div>
+
+
+						 
+						 </div>
+						 
+						 </div>
+						  
+  
+    
+    
+<style>
+.ImageBorder
+{
+        border: 5px solid #0099FF;
+}
+.noClass{
+	
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+</style>	
+   

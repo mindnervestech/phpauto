@@ -57,16 +57,19 @@ import javax.net.ssl.HttpsURLConnection;
 
 import models.ActionAdd;
 import models.AuthUser;
+import models.AutoPortal;
 import models.Blog;
 import models.ClickyVisitorsList;
 import models.Comments;
 import models.Contacts;
+import models.CustomerPdf;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.FollowBrand;
 import models.GroupTable;
 import models.HeardAboutUs;
 import models.HoursOfOperation;
+import models.InternalPdf;
 import models.LeadsDateWise;
 import models.Location;
 import models.MyProfile;
@@ -132,10 +135,12 @@ import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
 import viewmodel.AssignToVM;
 import viewmodel.AudioVM;
+import viewmodel.AutoPortalVM;
 import viewmodel.BarChartVM;
 import viewmodel.BlogVM;
 import viewmodel.ContactsVM;
 import viewmodel.DateAndValueVM;
+import viewmodel.DocumentationVM;
 import viewmodel.EditImageVM;
 import viewmodel.HeardAboutUsVm;
 import viewmodel.HoursOperation;
@@ -1732,6 +1737,496 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     	return ok();
     }
+    
+    
+    public static Result saveInternalPdf() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Identity user = getLocalUser();
+	    	AuthUser userObj = (AuthUser)user;
+    		MultipartFormData body = request().body().asMultipartFormData();
+    	    InternalPdf pdf=new InternalPdf();
+    			if(body != null){
+		    		FilePart picture = body.getFile("file0");
+		    		if (picture != null) {
+		    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+		    			File file = picture.getFile();
+		    			try {
+		    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Internal_Pdf");
+		    	    	    if(!fdir.exists()) {
+		    	    	    	fdir.mkdir();
+		    	    	    }
+		    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Internal_Pdf"+File.separator+fileName;
+		    	    	    FileUtils.moveFile(file, new File(filePath));
+		    	    	    pdf.pdf_name=fileName;
+		    	    	    pdf.pdf_path=session("USER_LOCATION")+File.separator+"Internal_Pdf"+File.separator+fileName;
+		    	    	    pdf.save();
+		    			} catch (Exception e) {
+							e.printStackTrace();
+						}
+		    		}
+    		}
+    	}
+    	return ok();
+    }
+    
+    public static Result saveAutoPortal() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	
+    		Form<AutoPortalVM> form = DynamicForm.form(AutoPortalVM.class).bindFromRequest();
+    		AutoPortalVM vm = form.get();
+	    	
+    		AutoPortal por=AutoPortal.findByType("AutoTrader.com");
+    		if(por == null ){
+    			if(vm.sitename.equalsIgnoreCase("AutoTrader.com")){
+    		AutoPortal portal=new AutoPortal();
+	    	portal.login=vm.login;
+	    	portal.passward=vm.passward;
+	    	portal.port=vm.port;
+	    	portal.path=vm.path;
+    		portal.sitename=vm.sitename;
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("AutoTrader.com")){
+    			por.setLogin(vm.login);
+    			por.setPassward(vm.passward);
+    			por.setPort(vm.port);
+    			por.setPath(vm.path);
+    			por.update();
+    			}
+    		}
+    		
+    		AutoPortal por1=AutoPortal.findByType("Cars.com");
+    		if(por1 == null){
+    			if(vm.sitename.equalsIgnoreCase("Cars.com")){
+    		AutoPortal portal=new AutoPortal();
+	    	portal.login=vm.login;
+	    	portal.passward=vm.passward;
+	    	portal.port=vm.port;
+	    	portal.path=vm.path;
+    		portal.sitename=vm.sitename;
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("Cars.com")){
+    			por1.setLogin(vm.login);
+    			por1.setPassward(vm.passward);
+    			por1.setPort(vm.port);
+    			por1.setPath(vm.path);
+    			por1.update();
+    			}
+    		}
+    		
+
+    		AutoPortal por2=AutoPortal.findByType("CarsGuru");
+    		if(por2 == null){
+    			if(vm.sitename.equalsIgnoreCase("CarsGuru")){
+    		AutoPortal portal=new AutoPortal();
+	    	portal.login=vm.login;
+	    	portal.passward=vm.passward;
+	    	portal.port=vm.port;
+	    	portal.path=vm.path;
+    		portal.sitename=vm.sitename;
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("CarsGuru")){
+    			por2.setLogin(vm.login);
+    			por2.setPassward(vm.passward);
+    			por2.setPort(vm.port);
+    			por2.setPath(vm.path);
+    			por2.update();
+    			}
+    		}
+    		
+    		AutoPortal por3=AutoPortal.findByType("TrueCar");
+    		if(por3 == null){
+    			if(vm.sitename.equalsIgnoreCase("TrueCar")){
+    		AutoPortal portal=new AutoPortal();
+	    	portal.login=vm.login;
+	    	portal.passward=vm.passward;
+	    	portal.port=vm.port;
+	    	portal.path=vm.path;
+    		portal.sitename=vm.sitename;
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("TrueCar")){
+    			por3.setLogin(vm.login);
+    			por3.setPassward(vm.passward);
+    			por3.setPort(vm.port);
+    			por3.setPath(vm.path);
+    			por3.update();
+    			}
+    		}
+    		
+    		
+    		AutoPortal por4=AutoPortal.findByType("Carfax");
+    		if(por4 == null){
+    			if(vm.sitename.equalsIgnoreCase("Carfax")){
+    		AutoPortal portal=new AutoPortal();
+	    	portal.login=vm.login;
+	    	portal.passward=vm.passward;
+	    	portal.port=vm.port;
+	    	portal.path=vm.path;
+    		portal.sitename=vm.sitename;
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("Carfax")){
+    			por4.setLogin(vm.login);
+    			por4.setPassward(vm.passward);
+    			por4.setPort(vm.port);
+    			por4.setPath(vm.path);
+    			por4.update();
+    			}
+    		}
+    		
+    		
+    		
+    		AutoPortal por5=AutoPortal.findByType("Craigslist");
+    		if(por5== null){
+    			if(vm.sitename.equalsIgnoreCase("Craigslist")){
+    		AutoPortal portal=new AutoPortal();
+	    	portal.login=vm.login;
+	    	portal.passward=vm.passward;
+	    	portal.port=vm.port;
+	    	portal.path=vm.path;
+    		portal.sitename=vm.sitename;
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("Craigslist")){
+    			por5.setLogin(vm.login);
+    			por5.setPassward(vm.passward);
+    			por5.setPort(vm.port);
+    			por5.setPath(vm.path);
+    			por5.update();
+    			}
+    		}
+    		
+    		
+    		AutoPortal por6=AutoPortal.findByType("Ebay");
+    		if(por6 == null){
+    			if(vm.sitename.equalsIgnoreCase("Ebay")){
+    		AutoPortal portal=new AutoPortal();
+	    	portal.login=vm.login;
+	    	portal.passward=vm.passward;
+	    	portal.port=vm.port;
+	    	portal.path=vm.path;
+    		portal.sitename=vm.sitename;
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("Ebay")){
+    			por6.setLogin(vm.login);
+    			por6.setPassward(vm.passward);
+    			por6.setPort(vm.port);
+    			por6.setPath(vm.path);
+    			por6.update();
+    			}
+    		}
+    		
+    		AutoPortal por7=AutoPortal.findByType("Kelly");
+    		if(por7 == null){
+    			if(vm.sitename.equalsIgnoreCase("Kelly")){
+    		AutoPortal portal=new AutoPortal();
+	    	portal.login=vm.login;
+	    	portal.passward=vm.passward;
+	    	portal.port=vm.port;
+	    	portal.path=vm.path;
+    		portal.sitename=vm.sitename;
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("Kelly")){
+    			por7.setLogin(vm.login);
+    			por7.setPassward(vm.passward);
+    			por7.setPort(vm.port);
+    			por7.setPath(vm.path);
+    			por7.update();
+    			}
+    		}
+	    	return ok();
+    	}
+    }
+    
+    public static Result getAutoPortalData(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<HoursOfOperation>list=HoursOfOperation.findByTypeForServices();
+    		DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+    		List <HoursOperation> alist=new ArrayList<>();
+    		HoursOperation vm=new HoursOperation();
+    		for (HoursOfOperation op : list) {
+    			
+    			String day=(String)op.getDay();
+    			if(day != null){
+    				if(day.equalsIgnoreCase("Sunday")){
+    					if(op.getOpenTime() != null){
+    					vm.sunOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.sunCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.sunFlag=op.getDayFlag();
+    					if(vm.sunFlag == 1){
+    						vm.sunOpen=true;
+    					}
+    					vm.checkForSunday=op.getCheckValue();
+    					if(vm.checkForSunday == 1){
+    						vm.serviceCheck=true;
+    					}
+    					System.out.println(">>>>");
+    					System.out.println(vm.satOpenTime);
+    					System.out.println(vm.satCloseTime);
+    					System.out.println(vm.sunFlag);
+    				}
+    				if(day.equalsIgnoreCase("Monday")){
+    					if(op.getOpenTime() != null){
+    					vm.monOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.monCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.monFlag=op.getDayFlag();
+    					if(vm.monFlag == 1){
+    						vm.monOpen=true;
+    					}
+    					
+    					vm.checkForMonday=op.getCheckValue();
+    					if(vm.checkForSunday == 1){
+    						vm.serviceCheck=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Tuesday")){
+    					if(op.getOpenTime() != null){
+    					vm.tueOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.tueCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.tueFlag=op.getDayFlag();
+    					
+    					if(vm.tueFlag == 1){
+    						vm.tueOpen=true;
+    					}
+    					
+    				}
+    				if(day.equalsIgnoreCase("Wednesday")){
+    					if(op.getOpenTime() != null){
+    					vm.wedOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.wedCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.wedFlag=op.getDayFlag();
+    					if(vm.wedFlag == 1){
+    						vm.wedOpen=true;
+    					}
+    					
+    				}
+    				if(day.equalsIgnoreCase("Thursday")){
+    					if(op.getOpenTime() != null){
+    					vm.thuOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.thuCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.thuFlag=op.getDayFlag();
+    					if(vm.thuFlag == 1){
+    						vm.thuOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Friday")){
+    					if(op.getOpenTime() != null){
+    					vm.friOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.friCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.friFlag=op.getDayFlag();
+    					if(vm.friFlag == 1){
+    						vm.friOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				if(day.equalsIgnoreCase("Saturday")){
+    					if(op.getOpenTime() != null){
+    					vm.satOpenTime=dateFormat.format((Date)op.getOpenTime());
+    					}
+    					if(op.getCloseTime() != null){
+    					vm.satCloseTime=dateFormat.format((Date)op.getCloseTime());
+    					}
+    					vm.satFlag=op.getDayFlag();
+    					if(vm.satFlag == 1){
+    						vm.satOpen=true;
+    					}
+    					
+    					
+    				}
+    				
+    				
+    			}
+    			
+    			
+			}
+    		
+    		alist.add(vm);
+    		return ok(Json.toJson(alist));
+    	}
+	}	
+	
+    
+    
+    
+    
+    
+    
+    
+    
+    public static Result saveCustomerPdf() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Identity user = getLocalUser();
+	    	AuthUser userObj = (AuthUser)user;
+    		MultipartFormData body = request().body().asMultipartFormData();
+    	    CustomerPdf pdf=new CustomerPdf();
+    			if(body != null){
+		    		FilePart picture = body.getFile("file0");
+		    		if (picture != null) {
+		    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+		    			File file = picture.getFile();
+		    			try {
+		    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Customer_Pdf");
+		    	    	    if(!fdir.exists()) {
+		    	    	    	fdir.mkdir();
+		    	    	    }
+		    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Customer_Pdf"+File.separator+fileName;
+		    	    	    FileUtils.moveFile(file, new File(filePath));
+		    	    	    pdf.pdf_name=fileName;
+		    	    	    pdf.pdf_path=session("USER_LOCATION")+File.separator+"Customer_Pdf"+File.separator+fileName;
+		    	    	    pdf.save();
+		    			} catch (Exception e) {
+							e.printStackTrace();
+						}
+		    		}
+    		}
+    	}
+    	return ok();
+    }
+    
+    public static Result getCustomerPdfData(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<CustomerPdf> list = CustomerPdf.getAllPdfData();
+    		List<DocumentationVM> modelList = new ArrayList<>();
+    		
+    		for (CustomerPdf pdf : list) {
+    			DocumentationVM vm=new DocumentationVM();
+    			vm.customerPdfName=pdf.pdf_name;
+    			vm.customerPdfId=pdf.id;
+    			modelList.add(vm);
+			}
+    		
+    		return ok(Json.toJson(modelList));
+    	}
+	}
+	
+    
+    
+    public static Result deletePdfById(Long id){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		CustomerPdf pdf = CustomerPdf.findPdfById(id);
+    		File file = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Customer_Pdf"+File.separator+pdf.pdf_name);
+    		
+	    	//File thumbFile = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+"thumbnail_"+image.imgName);
+	    	file.delete();
+	    	//thumbFile.delete();
+    		
+    		pdf.delete();
+    		
+    		
+    		return ok();
+    	}
+	}
+    
+    public static Result deleteInternalPdf(Long id){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		InternalPdf pdf = InternalPdf.findPdfById(id);
+    		File file = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Internal_Pdf"+File.separator+pdf.pdf_name);
+    		
+	    	//File thumbFile = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+"thumbnail_"+image.imgName);
+	    	file.delete();
+	    	//thumbFile.delete();
+    		
+    		pdf.delete();
+    		
+    		
+    		return ok();
+    	}
+	}
+    
+    
+    
+    
+    
+    
+    
+    public static Result getInternalPdfData(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<InternalPdf> list = InternalPdf.getAllPdfData();
+    		List<DocumentationVM> modelList = new ArrayList<>();
+    		
+    		for (InternalPdf pdf : list) {
+    			DocumentationVM vm=new DocumentationVM();
+    			vm.internalPdfName=pdf.pdf_name;
+    			vm.internalPdfId=pdf.id;
+    			modelList.add(vm);
+			}
+    		
+    		return ok(Json.toJson(modelList));
+    	}
+	}
+	
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public static Result saveVehicle() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

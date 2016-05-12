@@ -1,0 +1,241 @@
+					<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+						  <ul id="myTabs" class="nav nav-tabs" role="tablist">
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
+						       	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email Tab </button></a></li>
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation  </button></a></li>
+						       	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
+						  </ul>
+   
+	    
+					  </div>
+					 <div class="col-sm-12">
+					 
+					 <div  class="col-sm-12" style="margin-top: 10px">
+					 <form ng-submit="saveAutoPortal(auto,'AutoTrader.com')">
+					 <label  class="col-sm-2">
+			          AutoTrader.com
+			        </label>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="auto.login" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="auto.passward" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Port" class="form-control form-white"ng-model="auto.port" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Path" class="form-control form-white"ng-model="auto.path" >
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+			        </div>
+			        
+			        
+			        
+					 <div  class="col-sm-12"style="margin-top: 10px">
+					 <form ng-submit="saveAutoPortal(Cars,'Cars.com')">
+					 <label class="col-sm-2">
+			          Cars.com
+			        </label>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="Cars.login" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="Cars.passward" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Port" class="form-control form-white"ng-model="Cars.port" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Path" class="form-control form-white"ng-model="Cars.path" >
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+			        </div>
+			        
+			        
+			        
+			        
+					 <div  class="col-sm-12"style="margin-top: 10px">
+					 <form ng-submit="saveAutoPortal(CarsGuru,'CarsGuru')">
+					 <label class="col-sm-2">
+			          CarsGuru
+			        </label>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="CarsGuru.login" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="CarsGuru.passward" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Port" class="form-control form-white"ng-model="CarsGuru.port" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Path" class="form-control form-white"ng-model="CarsGuru.path" >
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+			        </div>
+			        
+			        
+			        
+			        
+					 <div  class="col-sm-12"style="margin-top: 10px">
+					 <form ng-submit="saveAutoPortal(TrueCar,'TrueCar')">
+					 <label class="col-sm-2">
+			          TrueCar
+			        </label>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="TrueCar.login" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="TrueCar.passward" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Port" class="form-control form-white"ng-model="TrueCar.port" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Path" class="form-control form-white"ng-model="TrueCar.path" >
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+			        </div>
+			        
+			        
+			        
+			        
+					 <div  class="col-sm-12"style="margin-top: 10px">
+					 <form ng-submit="saveAutoPortal(Carfax,'Carfax')">
+					 <label class="col-sm-2">
+			          Carfax
+			        </label>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="Carfax.login" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="Carfax.passward" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Port" class="form-control form-white"ng-model="Carfax.port" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Path" class="form-control form-white"ng-model="Carfax.path" >
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+			        </div>
+			        
+			        
+			        
+			        
+			        
+					 <div  class="col-sm-12"style="margin-top: 10px">
+					 <form ng-submit="saveAutoPortal(Craigslist,'Craigslist')">
+					 <label class="col-sm-2">
+					Craigslist ($5)
+			        </label>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="Craigslist.login" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="Craigslist.passward" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Port" class="form-control form-white"ng-model="Craigslist.port" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Path" class="form-control form-white"ng-model="Craigslist.path" >
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+			        </div>
+			        
+			        
+			        
+			        
+			        
+					 <div  class="col-sm-12"style="margin-top: 10px">
+					 <form ng-submit="saveAutoPortal(Ebay,'Ebay')">
+					 <label class="col-sm-2">
+			          Ebay
+			        </label>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="Ebay.login" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="Ebay.passward" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Port" class="form-control form-white"ng-model="Ebay.port" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Path" class="form-control form-white"ng-model="Ebay.path" >
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+			        </div>
+			        
+			        
+			        
+			        
+			        
+					 <div  class="col-sm-12"style="margin-top: 10px">
+					 <form ng-submit="saveAutoPortal(Kelly,'Kelly')">
+					 <label class="col-sm-2">
+			          Kelly Blue Book
+			        </label>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="Kelly.login" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="Kelly.passward" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Port" class="form-control form-white"ng-model="Kelly.port" >
+			        </div>
+			        <div class="col-sm-2">
+			        <input type="text"placeholder="Path" class="form-control form-white"ng-model="Kelly.path" >
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+			        </div>
+					</div>
+					 
+					 
+					 </div>
+					 
+					  
+					  
+	
+	
+	
+	
+	
+					      
+    
+<style>
+.ImageBorder
+{
+        border: 5px solid #0099FF;
+}
+.noClass{
+	
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+</style>	
+   

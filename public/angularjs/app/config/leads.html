@@ -1,0 +1,75 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+  <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
+       	<li  role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email Tab </button></a></li>
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation </button></a></li>
+       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
+  </ul>
+   
+	    
+  </div> 
+
+<h1 style="margin-top:5%;">Premium Leads</h1>
+
+<form ng-submit="savePremium()">
+	<div class="form-group col-sm-12">
+		<label>Receive Customer requests for the items that are higer than</label>
+	</div>
+	<div class="form-group col-sm-12">
+		<label class="col-sm-2 control-label">Price of the vehicle *</label>
+			<div class="col-sm-3">
+				<input class="form-control form-white" ng-model="premium.priceVehical" value="premium.priceVehical" type="number" required>
+			</div>
+	</div>
+	<div class="form-group col-sm-12" style="margin-left: 1%;">
+		<input type="checkbox" value="true" ng-model="premium.premiumFlag">&nbsp&nbsp Redirect all leads to Manager<br>
+		<a ng-click="showToUser()">Assign</a>
+	</div>
+	<div class="form-group col-sm-12" style="margin-left: 1%;" ng-if="showTable == 1">
+		<table style="width:60%">
+		  <tr>
+		  	<td style="text-align: center;width:80%"><b>Name</b></td>
+		  	<td style="text-align: center;width:20%"><b>Premium</b></td>
+		 </tr>
+		  <tr style="width:20%" ng-repeat="sale in salesPersonList">
+		    <td>{{sale.fullName}}</td>
+		    <td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="sale.premiumFlag" ng-checked="sale.premiumFlag == 1" ng-click="permiumAss(sale);"><br></td> 
+		  </tr>
+		  
+		</table>
+	</div>
+	<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
+</form>	
+</div>
+
+
+
+
+   
+<style>
+.ImageBorder
+{
+        border: 5px solid #0099FF;
+}
+.noClass{
+	
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+</style>	
+
+
+

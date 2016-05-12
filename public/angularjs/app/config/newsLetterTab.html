@@ -1,0 +1,112 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+  <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
+       	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
+      	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email Tab </button></a></li>
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation  </button></a></li>
+       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>	
+  </ul>
+   
+	    
+  </div>
+  
+  
+  
+  
+  
+
+<h1 style="margin-top:5%;">Newsletter Date</h1>
+<form ng-submit="saveDayOfMonth()">
+<div class="form-group col-sm-12" style="margin-left:-6%;margin-top:4%;">
+		<label class="col-sm-2 control-label" style="text-align: right;">Day of Month</label>
+			<div class="col-sm-3">
+				<select class="form-control form-white" ng-model="newsletterDay" required>
+					<option value="">Select</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+					<option value="16">16</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+					<option value="21">21</option>
+					<option value="22">22</option>
+					<option value="23">23</option>
+					<option value="24">24</option>
+					<option value="25">25</option>
+					<option value="26">26</option>
+					<option value="27">27</option>
+					<option value="28">28</option>
+					<option value="29">29</option>
+					<option value="30">30</option>
+					<option value="31">31</option>
+				</select>
+			</div>
+	</div>
+	
+	<div class="form-group col-sm-12" style="margin-left:-6%;margin-top:4%;">
+<label class="col-sm-2 control-label" style="text-align: right;"> Time zone</label>
+<div class="col-sm-4">
+	<select class="form-control form-white" ng-model="newsletterTimeZone" required>
+		<option value="">SELECT</option>
+		<option value="PST">(GMT-08:00) Pacific Time (US & Canada)</option>
+		<option value="MST">(GMT-07:00) Mountain Time (US & Canada)</option>
+		<option value="CST">(GMT-06:00) Central Time (US & Canada)</option>
+		<option value="EST">(GMT-05:00) Eastern Time (US & Canada)</option>
+	</select>
+</div>
+</div>
+	
+	<div class="form-group col-sm-12" style="margin-left:-6%;margin-top:4%;">
+		<label class="col-sm-2 control-label" style="text-align: right;">Time</label>
+			<div class="col-sm-3">
+																		<div class="prepend-icon">
+								                              				<input type="text" name="timepicker" ng-model="newsletterTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="newsTime" required>
+								                              				<i class="icon-clock"></i>
+								                            			</div>
+																	</div>
+																</div>
+				<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
+	</form>	  
+  
+  
+  
+  
+    
+<style>
+.ImageBorder
+{
+        border: 5px solid #0099FF;
+}
+.noClass{
+	
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+</style>	
+   
