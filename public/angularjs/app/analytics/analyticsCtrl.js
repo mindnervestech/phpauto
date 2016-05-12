@@ -668,16 +668,25 @@ $scope.showLeads = function(){
 			if(endDate == ""){
 				endDate = "0";
 			}
-			
+			$scope.obj =  [];
 			$http.get('/getviniewsChartLeads/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data) {
 				console.log("succeess");
 				console.log(data);
 				$http.get('/getCustomerRequestFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data1) {
 					console.log("succeess");
 					console.log(data1);
-					
+					//$scope.obj.push(data1);
 					data.push(data1);
-					 createChart(data);
+					$http.get('/getCustomerLounchDateFlag/'+$routeParams.id+"/"+$routeParams.vin+"/"+$routeParams.status+"/"+startDate+"/"+endDate).success(function(data2) {
+						console.log(data2);
+						//$scope.obj.push(data2);
+						console.log($scope.obj);
+						data.push(data2);
+						console.log(data);
+						createChart(data);
+					});
+					
+					 
 				
 				});
 			});

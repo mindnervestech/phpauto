@@ -1469,7 +1469,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		final String username = emailUsername;
 		final String password = emailPassword;
 		
-		Properties props = new Properties();  
+	/*	Properties props = new Properties();  
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
@@ -1495,7 +1495,58 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		   
 		     } catch (MessagingException e) {
 		    	 e.printStackTrace();
-		    }
+		    }*/
+		
+		Properties props = new Properties();
+ 		props.put("mail.smtp.auth", "true");
+ 		props.put("mail.smtp.starttls.enable", "true");
+ 		props.put("mail.smtp.host", "smtp.gmail.com");
+ 		props.put("mail.smtp.port", "587");
+  
+ 		Session session = Session.getInstance(props,
+ 		  new javax.mail.Authenticator() {
+ 			protected PasswordAuthentication getPasswordAuthentication() {
+ 				return new PasswordAuthentication(emailUsername, emailPassword);
+ 			}
+ 		  });
+  
+ 		try{
+ 		   
+  			Message message = new MimeMessage(session);
+  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+
+  			message.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(emailUsername));
+  			
+  			message.setSubject("Your username and password ");	  			
+  			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
+			
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+			ve.init();
+			
+			Template t = ve.getTemplate("/public/emailTemplate/NotifyMeVehicleLaunch.vm"); 
+	        VelocityContext context = new VelocityContext();
+	        context.put("hostnameUrl", imageUrlPath);
+	        //context.put("siteLogo", logo.logoImagePath);
+	        context.put("username", "yogeshPatil424@gmail.com");
+	        context.put("password", "ghghghgh");
+	        StringWriter writer = new StringWriter();
+	        t.merge( context, writer );
+	        String content = writer.toString(); 
+			
+			messageBodyPart.setContent(content, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+       		} catch (MessagingException e) {
+  			  throw new RuntimeException(e);
+  		}
 				
 		return ok();
 	}
@@ -27803,7 +27854,18 @@ public static Result getviniewsChartLeads(Long id, String vin,
 							e.printStackTrace();
 						}
 						
-						if (vehicle.postedDate.before(thedate) || vehicle.postedDate.equals(thedate)) {
+						int flagLoop = 0;
+						if(vehicle.comingSoonFlag == 1){
+							if (vehicle.comingSoonDate.before(thedate) || vehicle.comingSoonDate.equals(thedate)) {
+								flagLoop = 1;
+							}
+						}else{
+							if (vehicle.postedDate.before(thedate) || vehicle.postedDate.equals(thedate)) {
+								flagLoop = 1;
+							}
+						}
+						
+						if (flagLoop == 1) {
 							
 							if (flagDate == 1) {
 								startDate = df.format(thedate);
@@ -29128,6 +29190,31 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	}
 	
 	
+	
+	public static Result getCustomerLounchDateFlag(Long id, String vin,String status, String startDate, String endDate) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		List<PriceFormatDate> sAndValues = new ArrayList<>();
+		SetPriceChangeFlag sPrice = new SetPriceChangeFlag();
+		if(status.equals("Newly Arrived")){
+			Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+			if(vehicle.comingSoonFlag == 1){
+			
+				for (int i=0;i<1;i++) {
+					PriceFormatDate pvalue = new PriceFormatDate();
+					pvalue.x = vehicle.comingSoonDate.getTime()+ (1000 * 60 * 60 * 24);
+					pvalue.title = "Launch Date";
+					pvalue.text = "Launch Date";
+					sAndValues.add(pvalue);
+				  }
+				sPrice.y = -220;
+				sPrice.type = "flags";
+				sPrice.data = sAndValues;
+				sPrice.name = "Launch Date";
+			}
+		}	
+		
+		return ok(Json.toJson(sPrice));
+	}
 	
 	 public static Result getCustomerRequestFlag(Long id, String vin,String status, String startDate, String endDate) {
 		 	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -33440,7 +33527,12 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			if(vehicle != null){
 				pVm1.person = "Has been added to the invnetory";
-				pVm1.dateTime = df.format(vehicle.postedDate);
+				if(vehicle.comingSoonFlag == 1){
+					pVm1.dateTime = df.format(vehicle.comingSoonDate);
+				}else{
+					pVm1.dateTime = df.format(vehicle.postedDate);
+				}
+				
 				pList.add(pVm1);
 				
 				for(PriceChange pChg:pChange){
