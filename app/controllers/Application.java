@@ -13731,6 +13731,20 @@ private static void cancelTestDriveMail(Map map) {
     	}
     }
     
+    public static Result setPermiumFlag(Integer id){
+    	AuthUser userList = AuthUser.findById(id);
+    	if(userList.premiumFlag == null){
+    		userList.setPremiumFlag("1");
+    	}else if(userList.premiumFlag.equals("0")){
+    		userList.setPremiumFlag("1");
+    	}else if(userList.premiumFlag.equals("1")){
+    		userList.setPremiumFlag("0");
+    	}
+    	userList.update();
+    	return ok();
+    	
+    }
+    
     public static Result getAllUsers() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -13761,6 +13775,7 @@ private static void cancelTestDriveMail(Map map) {
     			vm.trainingCost = user.trainingCost;
     			vm.trainingHours = user.trainingHours;
     			vm.quota = user.quota;
+    			vm.premiumFlag = user.premiumFlag;
     			vm.imageName = user.imageName;
     			vm.imageUrl = user.imageUrl;
     			vm.trial = user.trial;

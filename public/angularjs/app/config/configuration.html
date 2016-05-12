@@ -136,7 +136,27 @@
 	</div>
 	<div class="form-group col-sm-12" style="margin-left: 1%;">
 		<input type="checkbox" value="true" ng-model="premium.premiumFlag">&nbsp&nbsp Redirect all leads to Manager<br>
+		<a ng-click="showToUser()">Assign</a>
+	</div>
+	<div class="form-group col-sm-12" style="margin-left: 1%;" ng-if="showTable == 1">
+		<table style="width:60%">
+		  <tr>
+		  	<td style="text-align: center;width:80%"><b>Name</b></td>
+		  	<td style="text-align: center;width:20%"><b>Premium</b></td>
+		 </tr>
+		  <tr style="width:20%" ng-repeat="sale in salesPersonList">
+		    <td>{{sale.fullName}}</td>
+		    <td style="text-align: center;"><input type="checkbox" name="vehicle" ng-model="sale.premiumFlag" ng-checked="sale.premiumFlag == 1" ng-click="permiumAss(sale);"><br></td> 
+		  </tr>
+		  
+		</table>
 	</div>
 	<button type="submit" class="btn btn-primary" style="margin-left:16%;margin-top:4%;">Save</button>
 </form>	
 </div>
+<style>
+	table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>

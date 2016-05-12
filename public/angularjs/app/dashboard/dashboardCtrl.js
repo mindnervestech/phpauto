@@ -10096,6 +10096,26 @@ angular.module('newApp')
 			}
 		});
 	}
+	$scope.showTable = 0;
+	$scope.showToUser = function(){
+		$scope.showTable = 1;
+		console.log(locationId);
+		$http.get('/getAllUsers').success(function(data){
+			$scope.salesPersonList =data;
+		
+			/*$scope.user=data;
+			if($scope.salesPersonList.length > 0){
+				$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
+			}*/
+		});
+	}
+	
+	$scope.permiumAss = function(saleP){
+		console.log(saleP);
+		$http.get('/setPermiumFlag/'+saleP.id).success(function(data){
+			console.log("Yesssss");
+		});
+	}
 	
 	$scope.saveSlider = function() {
 		$http.get('/saveSliderConfig/'+$scope.slider.width+'/'+$scope.slider.height)

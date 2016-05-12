@@ -42,6 +42,7 @@ public class AuthUser extends Model implements Identity {
 	public String trainingPro;
 	public String trialPeriod;
 	public String trial;
+	public String premiumFlag;
 	public int newUser;
 	public String account;
 	public String getAccount() {
@@ -283,6 +284,16 @@ public class AuthUser extends Model implements Identity {
 
 	public void setTrialPeriod(String trialPeriod) {
 		this.trialPeriod = trialPeriod;
+	}
+
+	
+
+	public String getPremiumFlag() {
+		return premiumFlag;
+	}
+
+	public void setPremiumFlag(String premiumFlag) {
+		this.premiumFlag = premiumFlag;
 	}
 
 	public String getUserGender() {

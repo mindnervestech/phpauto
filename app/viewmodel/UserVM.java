@@ -37,6 +37,7 @@ public class UserVM {
 	public Long saleCar;
 	public  String quota;
 	public Integer planFlag;
+	public String premiumFlag;
 	public String mi;
 	public boolean isSelect;
 	public List<String> permissions;
