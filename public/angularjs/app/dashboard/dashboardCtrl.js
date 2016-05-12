@@ -3965,6 +3965,8 @@ angular.module('newApp')
 		    					$scope.notchange = 0;
 		    				}
 		    				
+		    				
+		    				
 		    				if($scope.currentSelectedType==0) 
 		    					$scope.currentData = response.topVisited;
 		    				else if($scope.currentSelectedType==1)

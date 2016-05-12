@@ -384,7 +384,7 @@ a{text-decoration: none !important;}
                       </td>
                     </tr><!-- end space --><tr><td valign="middle">
                         <table align="left" border="0" cellspacing="0" cellpadding="0" class="container2" width="auto" style="mso-table-lspace:0pt; mso-table-rspace:0pt;"><tbody><tr><td align="center" valign="top" width="80" style="width: 80px;">
-                              <a href="#" style="font-size: inherit; border-style: none; text-decoration: none !important;" border="0"><img src="images/20160403091018_glider_logo_red.png" width="80" style="max-width: 80px; display: block !important; width: 80px; height: auto;" alt="Logo" border="0" hspace="0" vspace="0" height="auto"></a>
+                              <a href="#" style="font-size: inherit; border-style: none; text-decoration: none !important;" border="0"><img src="$hostnameUrl/email_images/20160403091018_glider_logo_red.png" width="80" style="max-width: 80px; display: block !important; width: 80px; height: auto;" alt="Logo" border="0" hspace="0" vspace="0" height="auto"></a>
                             </td>
                           </tr><!-- start space --><tr><td valign="top" class="increase-Height-20">
                             </td>
@@ -634,7 +634,7 @@ a{text-decoration: none !important;}
                           <tr>
                             <td width="170" valign="top" align="left" class="image-170px" style="width: 170px;">
                               
-                                <img src="images/20150817005817_8.jpg" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameMakeDefault"_8.jpg" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -702,7 +702,7 @@ a{text-decoration: none !important;}
                           <tr>
                             <td width="170" valign="top" align="left" class="image-170px" style="width: 170px;">
                               
-                                <img src="images/20150817001412_bentley.jpg" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameEngineDefault" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -770,7 +770,7 @@ a{text-decoration: none !important;}
                           <tr>
                             <td width="170" valign="top" align="left" class="image-170px" style="width: 170px;">
                               
-                                <img src="images/20150817010704_lam.jpg" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameMakeDefault" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>
@@ -791,7 +791,7 @@ a{text-decoration: none !important;}
                                 </tr>
                                 <!--end space height -->
                                 <tr>
-                                  <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="color: rgb(128, 128, 128); font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: 300; font-size: inherit; line-height: 26px;">PRICE:</span> <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$150,000</span></span></td>
+                                  <td style="font-size: 13px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(163, 162, 162); font-weight: 300; text-align: left; word-break: break-word; line-height: 21px;"><span style="color: rgb(128, 128, 128); font-size: 18px; font-weight: 300; line-height: 26px;"><span style="font-weight: 300; font-size: inherit; line-height: 26px;">PRICE:</span> <span style="font-weight: bold; font-size: inherit; line-height: 26px;">$makePrice</span></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>

@@ -1451,7 +1451,7 @@ public class Application extends Controller {
     					vehicle.update();
 	    	    		String subject=vehicle.make+" "+vehicle.model+" "+"has Arrived";
 	    	    		String comment="Hi"+" "+alert.name+" "+vehicle.make+" "+vehicle.model+" "+"has Arrived";
-    					sendEmailForComingSoonVehicle(alert.email,subject,comment);
+    					sendEmailForComingSoonVehicle(alert.email,subject,comment,vehicle.vin);
     				}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -1464,11 +1464,23 @@ public class Application extends Controller {
     	}
     	return ok();
     }
-public static Result sendEmailForComingSoonVehicle(String email,String subject,String comment) {
+public static Result sendEmailForComingSoonVehicle(String email,String subject,String comment,String vin) {
 		
 		final String username = emailUsername;
 		final String password = emailPassword;
 		
+		Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
+		List<Vehicle> sameBodyList = Vehicle.getRandom(vehicle.vin);
+		 SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		 
+		 Vehicle sameBodyStyle = sameBodyList.get(0);
+			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin);
+			
+			Vehicle sameEngine = sameBodyList.get(1);
+			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin);
+			
+			Vehicle sameMake =  sameBodyList.get(2);
+			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
 	/*	Properties props = new Properties();  
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -1498,28 +1510,24 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    }*/
 		
 		Properties props = new Properties();
- 		props.put("mail.smtp.auth", "true");
- 		props.put("mail.smtp.starttls.enable", "true");
- 		props.put("mail.smtp.host", "smtp.gmail.com");
- 		props.put("mail.smtp.port", "587");
-  
- 		Session session = Session.getInstance(props,
- 		  new javax.mail.Authenticator() {
- 			protected PasswordAuthentication getPasswordAuthentication() {
- 				return new PasswordAuthentication(emailUsername, emailPassword);
- 			}
- 		  });
-  
- 		try{
- 		   
-  			Message message = new MimeMessage(session);
-  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
-
-  			message.setRecipients(Message.RecipientType.TO,
-		  			InternetAddress.parse(emailUsername));
-  			
-  			message.setSubject("Your username and password ");	  			
-  			Multipart multipart = new MimeMultipart();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(emailUsername, emailPassword);
+			}
+		});
+		
+		try
+		{
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailUsername));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(email));
+			message.setSubject("Coming Soon Vehicle");
+			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart = new MimeBodyPart();
 			
@@ -1529,13 +1537,143 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
 			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 			ve.init();
+		
 			
-			Template t = ve.getTemplate("/public/emailTemplate/NotifyMeVehicleLaunch.vm"); 
+	        Template t = ve.getTemplate("/public/emailTemplate/NotifyMeVehicleLaunch.vm"); 
 	        VelocityContext context = new VelocityContext();
+	        
 	        context.put("hostnameUrl", imageUrlPath);
-	        //context.put("siteLogo", logo.logoImagePath);
-	        context.put("username", "yogeshPatil424@gmail.com");
-	        context.put("password", "ghghghgh");
+	        context.put("siteLogo", logo.logoImagePath);
+	        
+	        context.put("year", vehicle.year);
+	        context.put("make", vehicle.make);
+	        context.put("model", vehicle.model);
+	       // context.put("oldPrice", "$"+alert.oldPrice);
+	        context.put("newPrice", "$"+vehicle.price);
+	        context.put("bodyStyle", vehicle.bodyStyle);
+	        context.put("mileage", vehicle.mileage);
+	        
+	        if(vehicle.doors != null) {
+	        	context.put("doors", vehicle.doors);
+	        	} else {
+	        		context.put("doors", "");
+	        	}
+	        
+	        
+	        if(vehicle.standardSeating != null) {
+	        	context.put("seats", vehicle.standardSeating);
+	        	} else {
+	        		context.put("seats", "" );
+	        	}
+	        
+	        if(vehicle.drivetrain != null) {
+	        	context.put("driveTrain", vehicle.drivetrain);
+	        	} else {
+	        		context.put("driveTrain", "");
+	        	}
+	        
+	        if(vehicle.engine != null) {
+	        	context.put("engine", vehicle.engine);
+	        	} else {
+	        		context.put("engine", "");
+	        	}
+	        
+	        
+	        if(vehicle.transmission != null) {
+	        	 context.put("transmission", vehicle.transmission);
+	        	} else {
+	        		 context.put("transmission", "");
+	        	}
+	        
+	        if(vehicle.brakes != null) {
+	        	context.put("brakes", vehicle.brakes);
+	        	} else {
+	        		context.put("brakes", "");
+	        	}
+	        
+	        
+	        if(vehicle.horsePower != null) {
+	        	context.put("horsePower", vehicle.horsePower);
+	        	} else {
+	        		context.put("horsePower", "");
+	        	}
+	        
+	       /* context.put("email", profile.email);
+	        String firstThreeDigit=profile.phone;
+	        firstThreeDigit=firstThreeDigit.substring(0, 3);
+	        String secondThreeDigit=profile.phone;
+	        secondThreeDigit=secondThreeDigit.substring(3, 6);
+	        String thirdThreeDigit=profile.phone;*/
+	       /* thirdThreeDigit=thirdThreeDigit.substring(6, 10);
+	        context.put("firstThreeDigit", firstThreeDigit);
+	        context.put("secondThreeDigit", secondThreeDigit);
+	        context.put("thirdThreeDigit", thirdThreeDigit);*/
+	        
+	        //context.put("phone", profile.phone);
+	        if(sameBodyStyle != null) {
+	        	if(sameBodyStyle.price != null) {
+	        		context.put("bodyStylePrice", "$"+sameBodyStyle.price.toString());
+	        	} else {
+	        		context.put("bodyStylePrice", "");
+	        	}
+	        	context.put("bodyStyleVin", sameBodyStyle.vin);
+	        	context.put("bodyStyleYear", sameBodyStyle.year);
+	        	context.put("bodyStyleMake", sameBodyStyle.make);
+	        	context.put("bodyStyleModel", sameBodyStyle.model);
+	        } else {
+	        	context.put("bodyStylePrice", "");
+	        	context.put("bodyStyleVin", "");
+	        }
+	        if(sameEngine != null) {
+	        	if(sameEngine.price != null) {
+	        		context.put("enginePrice", "$"+sameEngine.price.toString());
+	        	} else {
+	        		context.put("enginePrice", "");
+	        	}
+	        	context.put("engineVin", sameEngine.vin);
+	        	context.put("engineMake", sameEngine.make);
+	        	context.put("engineYear", sameEngine.year);
+	        	context.put("engineModel", sameEngine.model);
+	        } else {
+	        	context.put("enginePrice","");
+	        	context.put("engineVin", "");
+	        }
+	        if(sameMake != null) {
+	        	if(sameMake.price != null) {
+	        		context.put("makePrice", "$"+sameMake.price.toString());
+	        	} else {
+	        		context.put("makePrice", "");
+	        	}
+	        	context.put("makeVin", sameMake.vin);
+	        	context.put("sameMake", sameMake.make);
+	        	context.put("sameModel", sameMake.model);
+	        	context.put("sameYear", sameMake.year);
+	        } else {
+	        	context.put("makePrice", "");
+	        	context.put("makeVin", "");
+	        }
+	        
+	        if(sameBodyStyleDefault != null) {
+	        	context.put("sameBodyStyleDefault", sameBodyStyleDefault.thumbPath);
+	        } else {
+	        	context.put("sameBodyStyleDefault", "/no-image.jpg");
+	        }
+	        if(sameEngineDefault != null) {
+	        	context.put("sameEngineDefault", sameEngineDefault.thumbPath);
+	        } else {
+	        	context.put("sameEngineDefault", "/no-image.jpg");
+	        }
+	        if(sameMakeDefault != null) {
+	        	context.put("sameMakeDefault", sameMakeDefault.thumbPath);
+	        } else {
+	        	context.put("sameMakeDefault", "/no-image.jpg");
+	        }
+	        VehicleImage image = VehicleImage.getDefaultImage(vehicle.vin);
+	        if(image != null) {
+	        	context.put("defaultImage", image.path);
+	        } else {
+	        	context.put("defaultImage", "/no-image.jpg");
+	        }
 	        StringWriter writer = new StringWriter();
 	        t.merge( context, writer );
 	        String content = writer.toString(); 
@@ -1544,9 +1682,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			multipart.addBodyPart(messageBodyPart);
 			message.setContent(multipart);
 			Transport.send(message);
-       		} catch (MessagingException e) {
-  			  throw new RuntimeException(e);
-  		}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		} 
+
 				
 		return ok();
 	}
@@ -21920,10 +22061,14 @@ private static void cancelTestDriveMail(Map map) {
     	//}else  if(type.equals("allTime")){
     		///params = "&type=visitors-list&date="+start1+","+end1+"&limit=all";
     	//}
-    	String resultStr = callClickAPI(params);
+    	
+    	/*-------------------edit click 12-05-2016---------------------------------------*/	
+    		String resultStr = callClickAPI(params);
     	    	
     	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
-    	    	
+    	
+    		/*-------------------edit click 12-05-2016---------------------------------------*/	
+    		
     	List<String> vins = new ArrayList<String>();
     	List<String> vins1 = new ArrayList<String>();
     	
@@ -21933,6 +22078,8 @@ private static void cancelTestDriveMail(Map map) {
     	Map<String,Integer> pagesCount1 = new HashMap<String,Integer>();
     	Map<String,Integer> vinUnik1 = new HashMap<String,Integer>();
     	int i = 1;
+    	
+    	/*-------------------edit click 12-05-2016---------------------------------------*/
     	
     	for(JsonNode item:jsonNode) {
     		String data = item.get("landing_page").toString();
@@ -21969,6 +22116,8 @@ private static void cancelTestDriveMail(Map map) {
 				
 			}
     	}
+    	
+    	/*-------------------edit click 12-05-2016---------------------------------------*/
     	
     	List<Vehicle> vlist = null;
     	if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
@@ -22084,7 +22233,6 @@ if(vehicles.equals("All")){
     			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
     		}
     		analyticalVM.vin = vehicle.getVin();
-    	//	analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
     		analyticalVM.name=vehicle.getTitle();
     		if(!searchBy.equals("0") && !search.equals("0")){
 	    		if(searchBy.equals("Model")){
@@ -22101,59 +22249,7 @@ if(vehicles.equals("All")){
     		}
 	}
     	
-    	/*for(Vehicle vehicle:topVisitedSold) {
-    		if((vehicle.soldDate.after(start) && vehicle.soldDate.before(end)) || vehicle.soldDate.equals(end)){
-    			VehicleAnalyticalVM analyticalVM = new VehicleAnalyticalVM();
-	    		List<RequestMoreInfo> rInfos = RequestMoreInfo.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
-	    		List<ScheduleTest> sList = ScheduleTest.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
-	    		List<TradeIn> tIns = TradeIn.findByVinAndLocation(vehicle.getVin(), Location.findById(locationId));
-	    		
-	    		analyticalVM.leadsCount = rInfos.size() + sList.size() + tIns.size();
-	    		
-	    		if(pagesCount.get(vehicle.getVin()) == null){
-	    			analyticalVM.count = 0;
-	    		}else{
-	    			analyticalVM.count = pagesCount.get(vehicle.getVin());
-	    		}
-	    		analyticalVM.stockNumber = vehicle.stock;
-	    		analyticalVM.followerCount = 0;
-	    		List<PriceAlert> pAlert = PriceAlert.getEmailsByVin(vehicle.getVin(), locationId);
-	    		for (PriceAlert priceAlert : pAlert) {
-					PriceAlert alt = PriceAlert.findById(priceAlert.id);
-					if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
-						analyticalVM.followerCount++;
-		    		}
-				}
-	    		
-	    		analyticalVM.vehicleStatus=vehicle.getStatus();
-	    		analyticalVM.price = vehicle.getPrice();
-	    		VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.getVin());
-	    		if(vehicleImage!=null) {
-	    			analyticalVM.id = vehicleImage.getId();
-	    			analyticalVM.isImage = true;
-	    		}
-	    		else {
-	    			analyticalVM.defaultImagePath = "/assets/images/no-image.jpg";
-	    		}
-	    		analyticalVM.vin = vehicle.getVin();
-	    	//	analyticalVM.name = vehicle.getMake() + " "+ vehicle.getModel()+ " "+ vehicle.getYear();
-	    		analyticalVM.name=vehicle.getTitle();
-	    		if(!searchBy.equals("0") && !search.equals("0")){
-		    		if(searchBy.equals("Model")){
-	    				if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
-	    					topVisitedVms.add(analyticalVM);
-	    				}
-	    			}else if(searchBy.equals("Make")){
-	    				if(vehicle.make.toUpperCase().startsWith(search.toUpperCase())){
-	    					topVisitedVms.add(analyticalVM);
-	    				}
-	    			}
-	    		}else{
-	    			topVisitedVms.add(analyticalVM);
-	    		}
-    		}
-	    		
-    	}*/
+    	
     	List<VehicleAnalyticalVM> worstVisitedVms = new ArrayList<>();
     	List<Vehicle> notVisitedVehicle = Vehicle.findByNotInVins(vins);
     	for(Vehicle vehicle:notVisitedVehicle) {
