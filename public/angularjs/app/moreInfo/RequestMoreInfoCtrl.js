@@ -116,6 +116,9 @@ angular.module('newApp')
 			$scope.requsetMoreList = data;
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
+				if($scope.userRole == "Sales Person"){
+					$scope.premiumFlagForSale = data[0].premiumFlagForSale
+				}
 			}
 		});
 	  
@@ -136,6 +139,7 @@ angular.module('newApp')
 			});
 	  },60000);
 	  
+	  $scope.premiumFlagForSale = 0;
   $scope.setAsRead = function(flag,id) {
 	  
 	  $http.get('/requestInfoMarkRead/'+flag+'/'+id)
@@ -148,6 +152,9 @@ angular.module('newApp')
 			$scope.requsetMoreList = data;
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
+				if($scope.userRole == "Sales Person"){
+					$scope.premiumFlagForSale = data[0].premiumFlagForSale
+				}
 			}
 		});
 			$scope.$emit('getCountEvent', '123');

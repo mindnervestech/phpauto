@@ -7708,7 +7708,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm.enthicity = info.enthicity;
 	    		vm.requestDate = df.format(info.requestDate);
 	    		vm.userRole = user.role;
-	    		
+	    		vm.premiumFlagForSale = user.premiumFlag;
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
 	    		} else {
@@ -9126,6 +9126,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.userRole = user.role;
+	    		vm.premiumFlagForSale = user.premiumFlag;
 	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
@@ -9857,7 +9858,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	if(user.role == null || user.role.equals("General Manager")) {
     			listData = TradeIn.findAllData();
     		} else {
-    			if(user.role.equals("Manager")) {
+    			int flag = 0;
+    			if(user.role.equals("Sales Person")) {
+    				if(user.premiumFlag.equals("1")){
+    					flag = 1;
+    				}
+    			}
+    			if(user.role.equals("Manager") || flag == 1) {
     				listData = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
     				sList = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
     				lInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
@@ -10134,6 +10141,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm.enthicity = info.enthicity;
 	    		vm.pdfPath = info.pdfPath;
 	    		vm.userRole = user.role;
+	    		vm.premiumFlagForSale = user.premiumFlag;
 	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";

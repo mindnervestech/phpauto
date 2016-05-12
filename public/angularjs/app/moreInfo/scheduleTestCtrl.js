@@ -136,6 +136,9 @@ angular.module('newApp')
 			console.log(data);
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
+				if($scope.userRole == "Sales Person"){
+					$scope.premiumFlagForSale = data[0].premiumFlagForSale
+				}
 			}
 			$('#sliderBtn').click();
 		});
@@ -170,6 +173,9 @@ angular.module('newApp')
 			$scope.scheduleList = data;
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;
+				if($scope.userRole == "Sales Person"){
+					$scope.premiumFlagForSale = data[0].premiumFlagForSale
+				}
 			}
 			$('#sliderBtn').click();
 		});
