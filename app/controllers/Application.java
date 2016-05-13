@@ -1553,6 +1553,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        context.put("year", vehicle.year);
 	        context.put("make", vehicle.make);
 	        context.put("model", vehicle.model);
+	        context.put("vins", vehicle.vin);
 	       // context.put("oldPrice", "$"+alert.oldPrice);
 	        
 	        if(vehicle.price != null) {
