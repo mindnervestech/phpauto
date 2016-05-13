@@ -1531,7 +1531,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			message.setFrom(new InternetAddress(emailUsername));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(email));
-			message.setSubject("Coming Soon Vehicle");
+			message.setSubject("Vehicle that you were interested in has arrived");
 			Multipart multipart = new MimeMultipart();
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart = new MimeBodyPart();

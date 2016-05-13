@@ -2939,10 +2939,10 @@ angular.module('newApp')
 					$http.get('/sendComingSoonPOpUp').success(function(data){
 						angular.forEach(data, function(value, key) {
 							var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
-								+ '<div class="media-body width-100p col-md-12" style="padding: 0px;border-bottom: solid;margin-bottom: 7px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 165px;margin-top: 55px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;color: cornsilk;"><b>Notify</b></h3></div><span class="col-md-12" style="margin-left: 22px;"><h3><span><b>Year    : </b></span><span>'+value.year+'</span><br><span><span><b>Make   : </b></span>'+value.make+'</b></span><br><span><span><b>Model  : </b></span>'+value.model+'</b></span><br><span><span><b>Price     : </b></span>'+value.price+'</b></span>'
-								+'<br><span><span><b>Vin    :  </b></span>'+value.vin+'</b></span>'
-								+'<br><span><span><b>Scheduled Arrival Date : </b></span>'+value.comingSoonDate+'</b></span>'
-								+'<br><span><span><b>subscribers : </b></span>'+value.subscribers+'</b></span></h3></span><p class="pull-left" style="margin-left:85%;"></p></div></div>'
+								+ '<div class="media-body width-100p col-md-12" style="padding: 0px;border-bottom: solid;margin-bottom: 7px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 165px;margin-top: 55px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;color: cornsilk;font-size: 16px;"><b>Vehicle Arriaval</b></h3></div><span class="col-md-12" style="margin-left: 22px;font-size: 16px;"><h3><span style="font-size: 16px;"><b>Year    : </b></span><span style="font-size: 16px;">'+value.year+'</span><br><span  style="font-size: 16px;"><span><b>Make   : </b></span>'+value.make+'</b></span><br><span  style="font-size: 16px;"><span><b>Model  : </b></span>'+value.model+'</b></span><br><span  style="font-size: 16px;"><span><b>Price     : </b></span>'+value.price+'</b></span>'
+								+'<br><span  style="font-size: 16px;"><span><b>Vin    :  </b></span>'+value.vin+'</b></span>'
+								+'<br><span  style="font-size: 16px;"><span><b>Scheduled Arrival Date : </b></span>'+value.comingSoonDate+'</b></span>'
+								+'<br><span  style="font-size: 16px;"><span><b>Subscribers : </b></span>'+value.subscribers+'</b></span></h3></span><p class="pull-left" style="margin-left:85%;"></p></div></div>'
 								+ '</div>';
 						var position = 'topRight';
 						if ($('body').hasClass(
