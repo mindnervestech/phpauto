@@ -10115,7 +10115,19 @@ angular.module('newApp')
 	
 		
 		
-		
+			$http.get('/getSocialMediadetail')
+			.success(function(data) {
+				/*$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Slider config saved successfully",
+				});*/
+				console.log("getSocialMediadetail");
+				console.log(data);
+				$scope.media=data;
+				//$scope.customerPdfList=data;
+				
+			});	
 		
 		$http.get('/getCustomerPdfData')
 			.success(function(data) {
@@ -10167,13 +10179,30 @@ angular.module('newApp')
 		
 	}
 	
+	$scope.domainDetails= function() {
+		console.log("inside domainDetails");
+		$location.path('/domainDetails');
+		
+	}
+	
+	
+	$scope.plansAndBill= function() {
+		console.log("inside /plansAndBill");
+		$location.path('/plansAndBill');
+		
+	}
+	
 	$scope.newsLetterSetting = function() {
 		console.log("inside newsLetter");
 		$location.path('/newsLetter');
 		
 	}
 	
-	
+	$scope.socialMedia = function() {
+		console.log("inside socialMedia");
+		$location.path('/socialMedia');
+		
+	}
 	
 	$scope.graphicInfo = function() {
 		console.log("inside graphic");
@@ -10185,6 +10214,50 @@ angular.module('newApp')
 		$location.path('/premiumLeads');
 		
 	}
+	
+	$scope.saveEmailDetails= function(auto) {
+		console.log("inside saveEmailDetails");
+		console.log(auto);
+		$http.post('/saveEmailDetails',auto)
+		.success(function(data) {
+
+            $.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Location saved successfully",
+			});
+            
+		});
+		
+		
+		
+	}
+	
+	
+	$scope.saveDomain= function(sitename) {
+		console.log("inside saveDomain");
+		//$scope.autoPort.siteName=siteName;
+		console.log(sitename);
+		$http.get('/saveDomain/'+sitename)
+			.success(function(data) {
+				/*$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Slider config saved successfully",
+				});*/
+			});		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	$scope.autoPort={};
 	$scope.saveAutoPortal= function(auto,siteName) {
 		console.log("inside saveAutoPortal");
@@ -10199,11 +10272,39 @@ angular.module('newApp')
             $.pnotify({
 			    title: "Success",
 			    type:'success',
-			    text: "Location saved successfully",
+			    text: "Autoportal details saved successfully",
 			});
             
 		});
+		
+		
+		
 	}
+	
+	$scope.autoPort1={};
+	$scope.acountDetails= function(auto,siteName) {
+		console.log("inside acountDetails");
+		console.log(siteName);
+		auto.sitename=siteName;
+		$scope.autoPort1=auto;
+		//$scope.autoPort.siteName=siteName;
+		console.log($scope.autoPort1);
+		$http.post('/acountDetails',$scope.autoPort1)
+		.success(function(data) {
+
+            $.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Username and Passward saved successfully",
+			});
+            
+		});
+		
+		
+		
+	}
+	
+	
 	
 	
 	 var logofile;

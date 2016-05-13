@@ -1,0 +1,48 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+						  <ul id="myTabs" class="nav nav-tabs" role="tablist">
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
+						       	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email Tab </button></a></li>
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation  </button></a></li>
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="socialMedia()">Social Media </button></a></li>
+						       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
+						       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="plansAndBill()">Plans & Billing </button></a></li>
+						       	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="domainDetails()">Domain </button></a></li>
+						  </ul>
+   
+	    
+					  </div>
+					  
+					  <div class="col-sm-6"  style="margin-top: 5%">
+					  
+					   <div class="col-sm-6" >
+			           <input type="text"placeholder="Enter domain name"class="form-control form-white" ng-model="domain.sitename" >
+			          </div>
+			        <button  type="submit" ng-click="saveDomain(domain.sitename)" class="btn btn-primary btn-embossed ">Save</button>
+					  
+					  </div>
+					  
+					      
+<style>
+.ImageBorder
+{
+        border: 5px solid #0099FF;
+}
+.noClass{
+	
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+</style>	

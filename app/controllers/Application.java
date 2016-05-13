@@ -63,6 +63,8 @@ import models.ClickyVisitorsList;
 import models.Comments;
 import models.Contacts;
 import models.CustomerPdf;
+import models.Domain;
+import models.EmailDetails;
 import models.FeaturedImage;
 import models.FeaturedImageConfig;
 import models.FollowBrand;
@@ -72,6 +74,7 @@ import models.HoursOfOperation;
 import models.InternalPdf;
 import models.LeadsDateWise;
 import models.Location;
+import models.MarketingAcounts;
 import models.MyProfile;
 import models.NewsletterDate;
 import models.Permission;
@@ -1772,6 +1775,160 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	return ok();
     }
     
+    
+    public static Result saveEmailDetails() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	       Identity user=getLocalUser();
+    		Form<AutoPortalVM> form = DynamicForm.form(AutoPortalVM.class).bindFromRequest();
+    		AutoPortalVM vm = form.get();
+	    	
+    		EmailDetails por=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		
+    		if(por == null ){
+    		EmailDetails email=new EmailDetails();
+    		email.passward=vm.passward;
+    		email.port=vm.port;
+    		email.host=vm.host;
+    		email.username=vm.username;
+	    	email.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		email.save();
+    		}
+    		else{
+    			por.setUsername(vm.username);
+    			por.setPassward(vm.passward);
+    			por.setPort(vm.port);
+    			por.setHost(vm.host);
+    			por.update();
+    		}
+    		    		
+    		
+    		
+	    	return ok();
+    	}
+    }
+     
+    
+    
+
+    public static Result acountDetails() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	
+    		Form<AutoPortalVM> form = DynamicForm.form(AutoPortalVM.class).bindFromRequest();
+    		AutoPortalVM vm = form.get();
+	    	
+    		MarketingAcounts por=MarketingAcounts.findByType("facebook");
+    		if(por == null ){
+    			if(vm.sitename.equalsIgnoreCase("facebook")){
+           MarketingAcounts portal=new MarketingAcounts();
+            portal.username=vm.username;
+	    	portal.passward=vm.passward;
+    		portal.sitename=vm.sitename;
+    		portal.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("facebook")){
+    			por.setPassward(vm.passward);
+    			por.setUsername(vm.username);
+    			por.update();
+    			}
+    		}
+    		
+    		MarketingAcounts por1=MarketingAcounts.findByType("twitter");
+    		if(por1 == null ){
+    			if(vm.sitename.equalsIgnoreCase("twitter")){
+           MarketingAcounts portal=new MarketingAcounts();
+            portal.username=vm.username;
+	    	portal.passward=vm.passward;
+    		portal.sitename=vm.sitename;
+    		portal.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("twitter")){
+    			por1.setPassward(vm.passward);
+    			por1.setUsername(vm.username);
+    			por1.update();
+    			}
+    		}
+
+    		
+    		
+    		MarketingAcounts por2=MarketingAcounts.findByType("instagram");
+    		if(por2 == null ){
+    			if(vm.sitename.equalsIgnoreCase("instagram")){
+           MarketingAcounts portal=new MarketingAcounts();
+            portal.username=vm.username;
+	    	portal.passward=vm.passward;
+    		portal.sitename=vm.sitename;
+    		portal.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("instagram")){
+    			por2.setPassward(vm.passward);
+    			por2.setUsername(vm.username);
+    			por2.update();
+    			}
+    		}
+    		
+    		
+    		MarketingAcounts por3=MarketingAcounts.findByType("pinterest");
+    		if(por3 == null ){
+    			if(vm.sitename.equalsIgnoreCase("pinterest")){
+           MarketingAcounts portal=new MarketingAcounts();
+            portal.username=vm.username;
+	    	portal.passward=vm.passward;
+    		portal.sitename=vm.sitename;
+    		portal.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("pinterest")){
+    			por3.setPassward(vm.passward);
+    			por3.setUsername(vm.username);
+    			por3.update();
+    			}
+    		}
+    		
+
+    		MarketingAcounts por4=MarketingAcounts.findByType("google");
+    		if(por4 == null ){
+    			if(vm.sitename.equalsIgnoreCase("google")){
+           MarketingAcounts portal=new MarketingAcounts();
+            portal.username=vm.username;
+	    	portal.passward=vm.passward;
+    		portal.sitename=vm.sitename;
+    		portal.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		portal.save();
+    			}
+    		}
+    		else{
+    			if(vm.sitename.equalsIgnoreCase("google")){
+    			por4.setPassward(vm.passward);
+    			por4.setUsername(vm.username);
+    			por4.update();
+    			}
+    		}
+    		
+    		
+	    	return ok();
+    	}
+    }
+
+    
+    
+    
+    
+    
     public static Result saveAutoPortal() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -2139,6 +2296,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	return ok();
     }
     
+    public static Result getSocialMediadetail(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		DocumentationVM vm= new DocumentationVM();
+    		AuthUser user=(AuthUser)getLocalUser();
+    		MyProfile profile=MyProfile.findByUser(user);
+    		
+    		vm.facebookLink=profile.facebook;
+    		vm.googleLink=profile.googleplus;
+    		vm.instagramLink=profile.instagram;
+    		vm.twitterLink=profile.twitter;
+    		vm.pinterestLink=profile.pinterest;
+    		
+    		
+    		return ok(Json.toJson(vm));
+    	}
+	}
+	
+    
+    
+    
+    
     public static Result getCustomerPdfData(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -2156,7 +2336,32 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		return ok(Json.toJson(modelList));
     	}
 	}
-	
+    
+    public static Result saveDomain(String domain){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		
+    		 Identity user=getLocalUser();
+    		Domain por=Domain.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		
+    		if(por == null ){
+    			Domain domain1=new Domain();
+    			domain1.domain=domain;
+    			domain1.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    			domain1.save();
+    		}
+    		else
+    		{
+    			por.setDomain(domain);
+    			por.update();
+    		}
+    		
+    		return ok();
+    	}
+	}
+    
+    
     
     
     public static Result deletePdfById(Long id){

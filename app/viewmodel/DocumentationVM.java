@@ -7,6 +7,11 @@ public class DocumentationVM {
 	public String internalPdfPath;
 	public String customerPdfName;
 	public String customerPdfPath;
+	public String facebookLink;
+	public String twitterLink;
+	public String instagramLink;
+	public String pinterestLink;
+	public String googleLink;
 	
 	
 	public String getInternalPdfName() {

@@ -97,7 +97,12 @@ var MakeApp = angular
             templateUrl: '/dealer/config/configuration.html',
             controller: 'ConfigPageCtrl'
         })
+       
         
+        .when('/socialMedia', {
+            templateUrl: '/dealer/config/socialMedia.html',
+            controller: 'ConfigPageCtrl'
+        })
         
         .when('/newsLetter', {
             templateUrl: '/dealer/config/newsLetterTab.html',
@@ -119,6 +124,18 @@ var MakeApp = angular
         
         .when('/autoPortal', {
             templateUrl: '/dealer/config/autoPortal.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
+        
+        .when('/domainDetails', {
+            templateUrl: '/dealer/config/domainPage.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
+        
+        .when('/plansAndBill', {
+            templateUrl: '/dealer/config/planAndBills.html',
             controller: 'ConfigPageCtrl'
         })
         

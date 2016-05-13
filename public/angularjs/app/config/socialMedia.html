@@ -1,0 +1,200 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="init()">
+						  <ul id="myTabs" class="nav nav-tabs" role="tablist">
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
+						       	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email Tab </button></a></li>
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation  </button></a></li>
+						       	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="socialMedia()">Social Media </button></a></li>
+						       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
+						       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="plansAndBill()">Plans & Billing </button></a></li>
+						       		<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="domainDetails()">Domain </button></a></li>
+						       		
+						  </ul>
+   
+	    
+					  </div>
+					  
+					  <div class="col-sm-12">
+					  <div  class="col-sm-6">
+					   <h1 style="margin-top:5%;margin-left: 10%">Social Media</h1>
+					  <div class="form-group col-sm-12" style="margin-top:1%;">
+				<label class="col-sm-2 control-label" style="text-align: right;">Facebook</label>
+					<div class="col-sm-5">
+						<input class="form-control form-white" type="text"  ng-model="media.facebookLink" >
+					</div>
+				</div>
+				<div class="form-group col-sm-12"style="margin-top:1%;">
+				<label class="col-sm-2 control-label" style="text-align: right;">Pinterest</label>
+					<div class="col-sm-5">
+						<input class="form-control form-white" type="text"  ng-model="media.pinterestLink" >
+					</div>
+				</div>
+				<div class="form-group col-sm-12"style="margin-top:1%;">
+				<label class="col-sm-2 control-label" style="text-align: right;">Instagram</label>
+					<div class="col-sm-5">
+						<input class="form-control form-white" type="text"  ng-model="media.instagramLink" >
+					</div>
+				</div>
+				<div class="form-group col-sm-12"style="margin-top:1%;">
+				<label class="col-sm-2 control-label" style="text-align: right;">Twitter</label>
+					<div class="col-sm-5">
+						<input class="form-control form-white" type="text"  ng-model="media.twitterLink" >
+					</div>
+				</div>
+				<div class="form-group col-sm-12"style="margin-top:1%;">
+				<label class="col-sm-2 control-label" style="text-align: right;">Google Plus</label>
+					<div class="col-sm-5">
+						<input class="form-control form-white" type="text"  ng-model="media.googleLink" >
+					</div>
+					
+				</div>
+									  
+									  
+					  
+					  </div>
+					  
+					  <div  class="col-sm-6">
+					  <h1 style="margin-top:5%;margin-left: 10%;">Marketing Acounts</h1>
+					  <div class="col-sm-12" style="margin-top:1%;">
+					  <form ng-submit="acountDetails(facebook,'facebook')">
+					  <div class="col-sm-12">
+					  <label>Facebook</label>
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="facebook.username" >
+			        </div>
+			        <div class="col-sm-3" ng-hide="facebook.check">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="facebook.passward" >
+			        </div>
+			        <div class="col-sm-3" ng-show="facebook.check">
+			        <input type="text"placeholder="text"class="form-control form-white" ng-model="facebook.passward" >
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="checkbox"  ng-model="facebook.check"> <label style="color: darkturquoise; margin-top: 10px">Show Passward</label>
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+					  </div>
+					  
+					   <div class="col-sm-12" style="margin-top:1%;">
+					  <form ng-submit="acountDetails(twitter,'twitter')">
+					  <div class="col-sm-12">
+					  <label>Twitter</label>
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="twitter.username" >
+			        </div>
+			        <div class="col-sm-3" ng-hide="twitter.check">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="twitter.passward" >
+			        </div>
+			        <div class="col-sm-3" ng-show="twitter.check">
+			        <input type="text"placeholder="text"class="form-control form-white" ng-model="twitter.passward" >
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="checkbox"  ng-model="twitter.check"> <label style="color: darkturquoise; margin-top: 10px">Show Passward</label>
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+					  </div>
+					  
+					  
+					   <div class="col-sm-12" style="margin-top:1%;">
+					  <form ng-submit="acountDetails(instagram,'instagram')">
+					  <div class="col-sm-12">
+					  <label>Instagram</label>
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="instagram.username" >
+			        </div>
+			        <div class="col-sm-3" ng-hide="instagram.check">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="instagram.passward" >
+			        </div>
+			        <div class="col-sm-3" ng-show="instagram.check">
+			        <input type="text"placeholder="text"class="form-control form-white" ng-model="instagram.passward" >
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="checkbox"  ng-model="instagram.check"> <label style="color: darkturquoise; margin-top: 10px">Show Passward</label>
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+					  </div>
+					  
+					  
+					 <div class="col-sm-12" style="margin-top:1%;">
+					  <form ng-submit="acountDetails(pinterest,'pinterest')">
+					  <div class="col-sm-12">
+					  <label>Pinterest</label>
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="pinterest.username" >
+			        </div>
+			        <div class="col-sm-3" ng-hide="pinterest.check">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="pinterest.passward" >
+			        </div>
+			        <div class="col-sm-3" ng-show="pinterest.check">
+			        <input type="text"placeholder="text"class="form-control form-white" ng-model="pinterest.passward" >
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="checkbox"  ng-model="pinterest.check"> <label style="color: darkturquoise; margin-top: 10px">Show Passward</label>
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+					  </div>
+					  
+					 
+					 <div class="col-sm-12" style="margin-top:1%;">
+					  <form ng-submit="acountDetails(google,'google')">
+					  <div class="col-sm-12">
+					  <label>Google</label>
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="google.username" >
+			        </div>
+			        <div class="col-sm-3" ng-hide="google.check">
+			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="google.passward" >
+			        </div>
+			        <div class="col-sm-3" ng-show="google.check">
+			        <input type="text"placeholder="text"class="form-control form-white" ng-model="google.passward" >
+			        </div>
+			        <div class="col-sm-3">
+			        <input type="checkbox"  ng-model="google.check"> <label style="color: darkturquoise; margin-top: 10px">Show Passward</label>
+			        </div>
+			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
+			         </form>
+					  </div>
+					  
+					 
+					 
+					  
+					  
+					  </div>
+					  </div>
+					  
+					  
+					  
+					  
+					  					      
+<style>
+.ImageBorder
+{
+        border: 5px solid #0099FF;
+}
+.noClass{
+	
+}
+
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+</style>	
+   
