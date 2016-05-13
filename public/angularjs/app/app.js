@@ -93,7 +93,36 @@ var MakeApp = angular
             templateUrl: '/dealer/homePage/siteLogo.html',
             controller: 'HomePageCtrl'
         })
-        .when('/siteTestiMonials', {
+         .when('/configuration', {
+            templateUrl: '/dealer/config/configuration.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
+        
+        .when('/newsLetter', {
+            templateUrl: '/dealer/config/newsLetterTab.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
+        
+        
+        .when('/premiumLeads', {
+            templateUrl: '/dealer/config/leads.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
+        
+        .when('/documentation', {
+            templateUrl: '/dealer/config/documentation.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
+        .when('/autoPortal', {
+            templateUrl: '/dealer/config/autoPortal.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
+               .when('/siteTestiMonials', {
             templateUrl: '/dealer/homePage/siteTestimonials.html',
             controller: 'HomePageCtrl'
         })
@@ -102,11 +131,7 @@ var MakeApp = angular
             templateUrl: '/dealer/homePage/siteAboutUs.html',
             controller: 'HomePageCtrl'
         })
-        
-         .when('/configuration', {
-            templateUrl: '/dealer/config/configuration.html',
-            controller: 'ConfigPageCtrl'
-        })
+       
         .when('/requestMoreInfo', {
             templateUrl: '/dealer/moreInfo/requestMoreInfo.html',
             controller: 'RequestMoreInfoCtrl'
