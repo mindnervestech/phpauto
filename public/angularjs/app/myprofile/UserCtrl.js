@@ -415,6 +415,18 @@ angular.module('newApp')
 		//console.log($scope.num1);
 		//console.log($scope.duration1);
 		$scope.userData = row.entity;
+			
+		
+		if($scope.userData.userType == "Sales Person"){
+			$scope.showOtherFild = 1;
+		}
+		
+		if($scope.userData.userType == "Photographer"){
+		
+			$scope.showOtherFild = 2;
+		}
+		
+		
 		$scope.userData.trialPeriod = parseInt($scope.userData.trialPeriod);
 		//console.log($scope.userData);
 		$scope.permission = [];
@@ -483,13 +495,45 @@ angular.module('newApp')
 			}
 		}	
 	   
-	
+		$scope.hOperation = {};
 	$scope.saveImage = function() {
 		
 		$scope.user.permissions = $scope.permission;
 		
 		if($scope.user.premiumFlag == undefined){
 			$scope.user.premiumFlag = false;
+		}
+		
+		if($scope.user.userType == "Photographer"){
+			$scope.user.hOperation.sunOpenTime = $('#sunOpen').val();
+			$scope.user.hOperation.monOpenTime = $('#monOpen').val();
+			$scope.user.hOperation.tueOpenTime = $('#tueOpen').val();
+			$scope.user.hOperation.wedOpenTime = $('#wedOpen').val();
+			$scope.user.hOperation.thuOpenTime = $('#thuOpen').val();
+			$scope.user.hOperation.friOpenTime = $('#friOpen').val();
+			$scope.user.hOperation.satOpenTime = $('#satOpen').val();
+			
+			if($scope.user.hOperation.sunOpen == undefined){
+				$scope.user.hOperation.sunOpen = false;
+			}
+			if($scope.user.hOperation.monOpen == undefined){
+				$scope.user.hOperation.monOpen = false;
+			}
+			if($scope.user.hOperation.tueOpen == undefined){
+				$scope.user.hOperation.tueOpen = false;
+			}
+			if($scope.user.hOperation.wedOpen == undefined){
+				$scope.user.hOperation.wedOpen = false;
+			}
+			if($scope.user.hOperation.thuOpen == undefined){
+				$scope.user.hOperation.thuOpen = false;
+			}
+			if($scope.user.hOperation.friOpen == undefined){
+				$scope.user.hOperation.friOpen = false;
+			}
+			if($scope.user.hOperation.satOpen == undefined){
+				$scope.user.hOperation.satOpen = false;
+			}
 		}
 		
 		if($scope.contactVal=="Employee"){
@@ -604,7 +648,41 @@ angular.module('newApp')
 		$scope.userData.permissions = $scope.permission;
 		delete $scope.userData.successRate;
 		
+		if($scope.userData.userType == "Photographer"){
+			$scope.userData.hOperation.sunOpenTime = $('#sunOpen').val();
+			$scope.userData.hOperation.monOpenTime = $('#monOpen').val();
+			$scope.userData.hOperation.tueOpenTime = $('#tueOpen').val();
+			$scope.userData.hOperation.wedOpenTime = $('#wedOpen').val();
+			$scope.userData.hOperation.thuOpenTime = $('#thuOpen').val();
+			$scope.userData.hOperation.friOpenTime = $('#friOpen').val();
+			$scope.userData.hOperation.satOpenTime = $('#satOpen').val();
+			
+			if($scope.userData.hOperation.sunOpen == undefined){
+				$scope.userData.hOperation.sunOpen = false;
+			}
+			if($scope.userData.hOperation.monOpen == undefined){
+				$scope.userData.hOperation.monOpen = false;
+			}
+			if($scope.userData.hOperation.tueOpen == undefined){
+				$scope.userData.hOperation.tueOpen = false;
+			}
+			if($scope.userData.hOperation.wedOpen == undefined){
+				$scope.userData.hOperation.wedOpen = false;
+			}
+			if($scope.userData.hOperation.thuOpen == undefined){
+				$scope.userData.hOperation.thuOpen = false;
+			}
+			if($scope.userData.hOperation.friOpen == undefined){
+				$scope.userData.hOperation.friOpen = false;
+			}
+			if($scope.userData.hOperation.satOpen == undefined){
+				$scope.userData.hOperation.satOpen = false;
+			}
+		}
+		
 		if($scope.contactVal=="Employee"){
+			$scope.userData.contractDur = $scope.contactVal;
+		}else if($scope.contactVal=="One Time Order"){
 			$scope.userData.contractDur = $scope.contactVal;
 		}else{
 			if($scope.num1==null){

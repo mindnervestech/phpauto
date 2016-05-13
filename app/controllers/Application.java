@@ -13105,9 +13105,78 @@ private static void cancelTestDriveMail(Map map) {
 	    		   }
 	    		   userObj.setPermission(permissionData);
 	    	   }
+	    	   
 	    	   userObj.save();
 	    	   
+	    	   if(vm.userType.equals("Photographer")){
+	    		   PhotographerHoursOfOperation pOperation = new PhotographerHoursOfOperation();
+			    	
+			    	
+			    	try {
+			    			
+			    			if(vm.hOperation.sunOpen == true){
+			    				pOperation.sunOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.sunOpenTime);
+			    				pOperation.sunOpen = 1;
+			    			}else{
+			    				pOperation.sunOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.monOpen == true){
+			    				pOperation.monOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monOpenTime);
+			    				pOperation.monOpen = 1;
+			    			}else{
+			    				pOperation.monOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.thuOpen == true){
+			    				pOperation.thuOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.thuOpenTime);
+			    				pOperation.thuOpen = 1;
+			    			}else{
+			    				pOperation.thuOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.tueOpen == true){
+			    				pOperation.tueOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueOpenTime);
+			    				pOperation.tueOpen = 1;
+			    			}else{
+			    				pOperation.tueOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.wedOpen == true){
+			    				pOperation.wedOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.wedOpenTime);
+			    				pOperation.wedOpen = 1;
+			    			}else{
+			    				pOperation.wedOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.friOpen == true){
+			    				pOperation.friOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friOpenTime);
+			    				pOperation.friOpen = 1;
+			    			}else{
+			    				pOperation.friOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.satOpen == true){
+			    				pOperation.satOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.satOpenTime);
+			    				pOperation.satOpen = 1;
+			    			}else{
+			    				pOperation.satOpen = 0;
+			    			}
+				    	
+			    			pOperation.user = AuthUser.findById(userObj.id);
+			    			pOperation.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			    			
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			    	
+			    	pOperation.save();
+	    	   }
 	    	  
+		    	
+		    	    	
+	    	   
 	    	   if(body != null) {
 	    		FilePart picture = body.getFile("file0");
 		    	  if (picture != null) {
@@ -14503,6 +14572,89 @@ private static void cancelTestDriveMail(Map map) {
     				parmi.add(permission.name);
     			}
     			vm.permissions = parmi;
+    			if(user.role.equals("Photographer")){
+    				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+    				
+    				PhotographerHoursOfOperation pOperation = PhotographerHoursOfOperation.findByUser(user);
+    				if(pOperation != null){
+    					if(pOperation.friOpen != null){
+    						if(pOperation.friOpen == 0){
+    							vm.hOperation.friOpen = false;
+    						}else{
+    							vm.hOperation.friOpen = true;
+    						}
+        				}
+        				if(pOperation.tueOpen != null){
+        					if(pOperation.tueOpen == 0){
+    							vm.hOperation.tueOpen = false;
+    						}else{
+    							vm.hOperation.tueOpen = true;
+    						}
+        				}
+        				if(pOperation.thuOpen != null){
+        					if(pOperation.thuOpen == 0){
+    							vm.hOperation.thuOpen = false;
+    						}else{
+    							vm.hOperation.thuOpen = true;
+    						}
+        				}
+        				if(pOperation.wedOpen != null){
+        					if(pOperation.wedOpen == 0){
+    							vm.hOperation.wedOpen = false;
+    						}else{
+    							vm.hOperation.wedOpen = true;
+    						}
+        				}
+        				if(pOperation.monOpen != null){
+        					if(pOperation.monOpen == 0){
+    							vm.hOperation.monOpen = false;
+    						}else{
+    							vm.hOperation.monOpen = true;
+    						}
+        				}
+        				if(pOperation.satOpen != null){
+        					if(pOperation.satOpen == 0){
+    							vm.hOperation.satOpen = false;
+    						}else{
+    							vm.hOperation.satOpen = true;
+    						}
+        				}
+        				if(pOperation.sunOpen != null){
+        					if(pOperation.sunOpen == 0){
+    							vm.hOperation.sunOpen = false;
+    						}else{
+    							vm.hOperation.sunOpen = true;
+    						}
+        				}
+        				
+        				
+        				
+        				
+        				if(pOperation.friOpenTime != null){
+        					vm.hOperation.friOpenTime = parseTime.format(pOperation.friOpenTime);
+        				}
+        				if(pOperation.tueOpenTime != null){
+        					vm.hOperation.tueOpenTime = parseTime.format(pOperation.tueOpenTime);
+        				}
+        				if(pOperation.thuOpenTime != null){
+        					vm.hOperation.thuOpenTime = parseTime.format(pOperation.thuOpenTime);
+        				}
+        				if(pOperation.wedOpenTime != null){
+        					vm.hOperation.wedOpenTime = parseTime.format(pOperation.wedOpenTime);
+        				}
+        				if(pOperation.monOpenTime != null){
+        					vm.hOperation.monOpenTime = parseTime.format(pOperation.monOpenTime);
+        				}
+        				if(pOperation.satOpenTime != null){
+        					vm.hOperation.satOpenTime = parseTime.format(pOperation.satOpenTime);
+        				}
+        				if(pOperation.sunOpenTime != null){
+        					vm.hOperation.sunOpenTime = parseTime.format(pOperation.sunOpenTime);
+        				}
+    				}
+    				
+    				
+    			}
     			
     			if(!vm.userType.equals("Manager")){
     				vmList.add(vm);
@@ -14754,6 +14906,75 @@ private static void cancelTestDriveMail(Map map) {
 	   	    	userObj.setImageName(null);
 	   	    	userObj.setImageUrl(vm.imageUrl);
 	    	   }
+	    	   
+	    	   if(vm.userType.equals("Photographer")){
+	    		   PhotographerHoursOfOperation pOperation = PhotographerHoursOfOperation.findByUser(userObj);
+			    	
+			    	
+			    	try {
+			    			
+			    			if(vm.hOperation.sunOpen == true){
+			    				pOperation.sunOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.sunOpenTime);
+			    				pOperation.sunOpen = 1;
+			    			}else{
+			    				pOperation.sunOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.monOpen == true){
+			    				pOperation.monOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monOpenTime);
+			    				pOperation.monOpen = 1;
+			    			}else{
+			    				pOperation.monOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.thuOpen == true){
+			    				pOperation.thuOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.thuOpenTime);
+			    				pOperation.thuOpen = 1;
+			    			}else{
+			    				pOperation.thuOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.tueOpen == true){
+			    				pOperation.tueOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueOpenTime);
+			    				pOperation.tueOpen = 1;
+			    			}else{
+			    				pOperation.tueOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.wedOpen == true){
+			    				pOperation.wedOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.wedOpenTime);
+			    				pOperation.wedOpen = 1;
+			    			}else{
+			    				pOperation.wedOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.friOpen == true){
+			    				pOperation.friOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friOpenTime);
+			    				pOperation.friOpen = 1;
+			    			}else{
+			    				pOperation.friOpen = 0;
+			    			}
+			    			
+			    			if(vm.hOperation.satOpen == true){
+			    				pOperation.satOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.satOpenTime);
+			    				pOperation.satOpen = 1;
+			    			}else{
+			    				pOperation.satOpen = 0;
+			    			}
+				    	
+			    			pOperation.user = AuthUser.findById(userObj.id);
+			    			pOperation.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			    			
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			    	
+			    	pOperation.update();
+	    	   }
+	    	   
+	    	   
+	    	   
 	    	   userObj.update();
 	    	return ok();
     	}    	

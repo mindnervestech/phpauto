@@ -97,7 +97,6 @@ var MakeApp = angular
             templateUrl: '/dealer/config/configuration.html',
             controller: 'ConfigPageCtrl'
         })
-       
         
         .when('/socialMedia', {
             templateUrl: '/dealer/config/socialMedia.html',

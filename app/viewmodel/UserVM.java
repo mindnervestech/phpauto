@@ -45,5 +45,6 @@ public class UserVM {
 	public Long locationId;
 	public String type;
 	public String time;
+	public HoursOperation hOperation = new HoursOperation();
 	
 }
