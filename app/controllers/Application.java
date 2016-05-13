@@ -78,6 +78,7 @@ import models.MarketingAcounts;
 import models.MyProfile;
 import models.NewsletterDate;
 import models.Permission;
+import models.PhotographerHoursOfOperation;
 import models.PlanLocationTotal;
 import models.PlanSalesTotal;
 import models.PlanSchedule;
