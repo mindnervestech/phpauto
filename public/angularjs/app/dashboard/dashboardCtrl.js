@@ -8112,6 +8112,11 @@ angular.module('newApp')
 			});
 	   }
    }
+   $scope.dataShow1 = function(check){
+		console.log(check);
+		console.log($scope.vinData.specification);
+		$scope.vinData.specification.price = 0;
+	}
    
    
    $scope.saveVehicle = function() {
@@ -9144,13 +9149,20 @@ angular.module('newApp')
 			});
 		};
 		
+		
+		
+		
 		$scope.dataShow = function(check){
 			console.log(check);
+			//vinData.specification.commingSoonVehicle
+			console.log($scope.vinData.specification);
+			$scope.vinData.specification.price = 0;
 			if(check == undefined){
 				$('#comingsoonDateEdit').val('');
 			}
 			
 			if(check == true){
+				
 				$('#comingsoonDateEdit').val('');
 			}
 			//$('#comingsoonDateEdit').val();
