@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -14,6 +15,8 @@ public class CustomerPdf extends Model {
 	public Long id;
 	public String pdf_name;
 	public String pdf_path;
+	 @ManyToOne
+		public Location locations;
 	
 	public Long getId() {
 		return id;
@@ -34,6 +37,13 @@ public class CustomerPdf extends Model {
 		this.pdf_path = pdf_path;
 	}
 	
+	public Location getLocations() {
+		return locations;
+	}
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
 public static Finder<Long,CustomerPdf> find = new Finder<>(Long.class,CustomerPdf.class);
 	
 	

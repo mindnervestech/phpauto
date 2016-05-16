@@ -1765,6 +1765,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	    	    FileUtils.moveFile(file, new File(filePath));
 		    	    	    pdf.pdf_name=fileName;
 		    	    	    pdf.pdf_path=session("USER_LOCATION")+File.separator+"Internal_Pdf"+File.separator+fileName;
+		    	    	    pdf.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	    	    pdf.save();
 		    			} catch (Exception e) {
 							e.printStackTrace();
@@ -2286,6 +2287,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	    	    FileUtils.moveFile(file, new File(filePath));
 		    	    	    pdf.pdf_name=fileName;
 		    	    	    pdf.pdf_path=session("USER_LOCATION")+File.separator+"Customer_Pdf"+File.separator+fileName;
+		    	    	    pdf.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	    	    pdf.save();
 		    			} catch (Exception e) {
 							e.printStackTrace();
@@ -2419,7 +2421,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		List<InternalPdf> list = InternalPdf.getAllPdfData();
+    		List<InternalPdf> list = InternalPdf.findByLocation(Long.valueOf(session("USER_LOCATION")));
     		List<DocumentationVM> modelList = new ArrayList<>();
     		
     		for (InternalPdf pdf : list) {
@@ -13220,6 +13222,14 @@ private static void cancelTestDriveMail(Map map) {
 			  		} 
 		    	  } 
 	    	   } 
+	    	   InternalPdf iPdf = null;
+	    	   for(Long ls:vm.pdfIds){
+	    		   iPdf = InternalPdf.findPdfById(ls);  
+	    	   }
+	    	   //InternalPdf iPdf = InternalPdf.findPdfById(vm.pdfId);
+	    	   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
+	    		File f = new File(PdfFile);
+	    	   
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
 	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
 	    		Properties props = new Properties();
@@ -13236,7 +13246,7 @@ private static void cancelTestDriveMail(Map map) {
 		 		  });
 		  
 		 		try{
-		 		   
+		 			MimeBodyPart attachPart = new MimeBodyPart();
 		  			Message message = new MimeMessage(session);
 		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
 		  			message.setRecipients(Message.RecipientType.TO,
@@ -13264,11 +13274,18 @@ private static void cancelTestDriveMail(Map map) {
 	    	        String content = writer.toString(); 
 	    			
 	    			messageBodyPart.setContent(content, "text/html");
+	    			 try {
+	    					attachPart.attachFile(f);
+	    		  	      } catch (IOException e) {
+	    		  	       	// TODO Auto-generated catch block
+	    		  	       		e.printStackTrace();
+	    		  	    }
+	    			 multipart.addBodyPart(attachPart);
 	    			multipart.addBodyPart(messageBodyPart);
 	    			message.setContent(multipart);
 	    			Transport.send(message);
 		       		} catch (MessagingException e) {
-		  			  throw new RuntimeException(e);
+		  			 throw new RuntimeException(e);
 		  		}
 	    	   
 	    	return ok();

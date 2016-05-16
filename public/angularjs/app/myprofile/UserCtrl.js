@@ -173,6 +173,12 @@ angular.module('newApp')
 		//console.log($scope.assignUser);
 	});
 	
+	$http.get('/getInternalPdfData')
+		.success(function(data) {
+			
+			$scope.internalPdfList=data;
+		});		
+	
 	$scope.selectLead = function(row){
 		if(row.entity.check == true){
 			$scope.checked.push(row.entity);
@@ -395,6 +401,27 @@ angular.module('newApp')
 		  });
 	}
 	
+	
+	$scope.pdfDoc = [];
+	$scope.selectPdf = function(e,item,value){
+		console.log(item);
+		console.log(value);
+		if(value == false || value == undefined){
+			$scope.pdfDoc.push(item.internalPdfId);
+		}else{
+			$scope.deletepdfItem(item);
+		}
+		console.log($scope.pdfDoc);
+	}
+	$scope.deletepdfItem = function(item){
+		angular.forEach($scope.pdfDoc, function(obj, index){
+			 if ((item.internalPdfId == obj)) {
+				 $scope.pdfDoc.splice(index, 1);
+		       	return;
+		    };
+		  });
+	}
+	
 	$scope.editUser = function(row) {
 		angular.forEach($scope.permissionList, function(obj, index){
 			 obj.isSelected = false;
@@ -499,6 +526,7 @@ angular.module('newApp')
 	$scope.saveImage = function() {
 		
 		$scope.user.permissions = $scope.permission;
+		$scope.user.pdfIds = $scope.pdfDoc;
 		
 		if($scope.user.premiumFlag == undefined){
 			$scope.user.premiumFlag = false;

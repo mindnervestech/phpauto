@@ -391,6 +391,21 @@
 				 	               	<img id="img7" class="noClass" style="width: 100px;margin-left: 10px;margin-top: 20px;" src="/assets/images/p7.png" ng-click="imageBorder('img7')">
 							</div>	
 						</div>	
+						<div class="col-sm-12" style="margin-top: 20px;margin-left: 25px;" ng-if="showOtherFild == 1">
+								<table  style="border: 1px solid; width:80%" >
+					    		<tr style="border: 1px solid;">
+					    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">PDF Name</td>
+					    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+					    		  </tr>
+					    			<tr ng-repeat="item in internalPdfList" style="border: 1px solid;">
+					    				<td style="padding: 5px;border: 1px solid;" >{{item.internalPdfName}}</td>
+					    				<td style="border: 1px solid;text-align: center;"> <input type="checkbox" ng-model="selected" name="vehicle" ng-click="selectPdf($event,item,selected)"></td>
+					    			</tr>
+					    		</table>
+							</div>
+							
+							<!-- <input type="checkbox" name="permissions" ng-click="rolesClicked($event,rolePer,rolePer.isSelected)"
+				 						   	ng-model="rolePer.isSelected"> -->
 						
 
                 </div>

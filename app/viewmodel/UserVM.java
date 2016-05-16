@@ -43,6 +43,7 @@ public class UserVM {
 	public List<String> permissions;
 	public int per;
 	public Long locationId;
+	public List<Long> pdfIds;
 	public String type;
 	public String time;
 	public HoursOperation hOperation = new HoursOperation();

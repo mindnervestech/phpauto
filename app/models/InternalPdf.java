@@ -2,6 +2,8 @@ package models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 import java.util.List;
 
 import play.db.ebean.Model;
@@ -13,6 +15,9 @@ public class InternalPdf extends Model {
 	public Long id;
 	public String pdf_name;
 	public String pdf_path;
+	
+	 @ManyToOne
+		public Location locations;
 	
 	
 	
@@ -30,6 +35,14 @@ public class InternalPdf extends Model {
 	}
 	
 	
+	public Location getLocations() {
+		return locations;
+	}
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
+
 	public static Finder<Long,InternalPdf> find = new Finder<>(Long.class,InternalPdf.class);
 	
 	
@@ -37,6 +50,9 @@ public class InternalPdf extends Model {
 		return find.all();
 	}
 	
+	public static List<InternalPdf> findByLocation(Long location) {
+		return find.where().eq("locations_id", location).findList();
+	}
 	
 	public static InternalPdf findPdfById(Long id) {
 		return find.byId(id);

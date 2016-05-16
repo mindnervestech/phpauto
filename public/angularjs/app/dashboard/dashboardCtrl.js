@@ -10355,13 +10355,7 @@ angular.module('newApp')
 			
 		 	  			$http.get('/getInternalPdfData')
 		 	  			.success(function(data) {
-		 	  				/*$.pnotify({
-		 	  				    title: "Success",
-		 	  				    type:'success',
-		 	  				    text: "Slider config saved successfully",
-		 	  				});*/
-		 	  				console.log("Internal pdf dat");
-		 	  				console.log(data);
+		 	  				
 		 	  				$scope.internalPdfList=data;
 		 	  			});		
 		 	  			
