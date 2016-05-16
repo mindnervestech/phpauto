@@ -9179,6 +9179,11 @@ angular.module('newApp')
 		   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
 		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
 		   
+		   console.log($scope.vinData.specification.price);
+		   if($scope.vinData.specification.price == null){
+			   $scope.vinData.specification.price = 0;
+		   }
+		   
 		   if($scope.vinData.specification.commingSoonVehicle == true){
 			   	$scope.vinData.specification.comingSoonFlag = 1;
 				  $scope.vinData.specification.comingSoonDate = $('#comingsoonDateEdit').val();
