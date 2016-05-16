@@ -10091,6 +10091,8 @@ angular.module('newApp')
 			$scope.newsletterId = data.NewsletterId;
 			$scope.newsletterTime = data.newsletterTime;
 			$scope.newsletterTimeZone = data.NewsletterTimeZone;
+			$scope.domain = data.domain;
+			$scope.showLoginPasswordText($scope.domain.hostingProvider);
 		
 			$scope.premium.priceVehical = parseInt(data.premiumLeads.premium_amount);
 			

@@ -7772,6 +7772,16 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	       if(pLeads != null){	
 	    	   map.put("premiumLeads", pLeads);
 	       }  
+	       
+	       Domain domain = Domain.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	       if(domain != null){
+	    	   domainVM dVm = new domainVM();
+	    	   dVm.domain = domain.domain;
+	    	   dVm.hostingProvider = domain.hostingProvider;
+	    	   dVm.userName = domain.userName;
+	    	   dVm.password = domain.password;
+	    	   map.put("domain", dVm);
+	       }
 	    	
 	    	return ok(Json.toJson(map));
     	}
