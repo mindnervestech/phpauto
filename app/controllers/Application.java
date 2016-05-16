@@ -13223,12 +13223,7 @@ private static void cancelTestDriveMail(Map map) {
 		    	  } 
 	    	   } 
 	    	   InternalPdf iPdf = null;
-	    	   for(Long ls:vm.pdfIds){
-	    		   iPdf = InternalPdf.findPdfById(ls);  
-	    	   }
-	    	   //InternalPdf iPdf = InternalPdf.findPdfById(vm.pdfId);
-	    	   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
-	    		File f = new File(PdfFile);
+	    	   
 	    	   
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
 	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
@@ -13246,7 +13241,7 @@ private static void cancelTestDriveMail(Map map) {
 		 		  });
 		  
 		 		try{
-		 			MimeBodyPart attachPart = new MimeBodyPart();
+		 			
 		  			Message message = new MimeMessage(session);
 		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
 		  			message.setRecipients(Message.RecipientType.TO,
@@ -13274,13 +13269,24 @@ private static void cancelTestDriveMail(Map map) {
 	    	        String content = writer.toString(); 
 	    			
 	    			messageBodyPart.setContent(content, "text/html");
-	    			 try {
+	    			
+	    			for(Long ls:vm.pdfIds){
+	 	    		   iPdf = InternalPdf.findPdfById(ls);  
+	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
+	 	    		  File f = new File(PdfFile);
+	 	    		 MimeBodyPart attachPart = new MimeBodyPart();
+	 	    		 try {
 	    					attachPart.attachFile(f);
 	    		  	      } catch (IOException e) {
 	    		  	       	// TODO Auto-generated catch block
 	    		  	       		e.printStackTrace();
 	    		  	    }
 	    			 multipart.addBodyPart(attachPart);
+	 	    	   }
+	 	    	   
+	 	    		
+	    			
+	    			
 	    			multipart.addBodyPart(messageBodyPart);
 	    			message.setContent(multipart);
 	    			Transport.send(message);
