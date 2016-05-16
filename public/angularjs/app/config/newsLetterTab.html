@@ -2,7 +2,7 @@
   <ul id="myTabs" class="nav nav-tabs" role="tablist">
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
        	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
-      	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email Tab </button></a></li>
+      	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email</button></a></li>
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation  </button></a></li>
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="socialMedia()">Social Media </button></a></li>
        <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>	
@@ -14,22 +14,26 @@
   </div>
   <div class="col-sm-12">
   <div class="col-sm-12">
-  <h1 style="margin-top:5%;">Google Sign In</h1>
+  <h1 style="margin-top:5%;">Email Setup</h1>
             <form ng-submit="saveEmailDetails(email)">
 			        <div class="col-sm-2">
 			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="email.username" >
+			        Example:"glider.autos@gmail.com"
 			        </div>
 			        <div class="col-sm-2" >
-			        <input type="password"placeholder="Passward"class="form-control form-white" ng-model="email.passward" >
+			        <input type="password"placeholder="Password"class="form-control form-white" ng-model="email.passward" >
+			        "gliderautos23"
 			        </div>
 			       <!--  <div class="col-sm-2" >
 			        <input type="text"placeholder="text"class="form-control form-white" ng-model="email.passward" >
 			        </div> -->
 			        <div  class="col-sm-2">
 			        <input type="text"placeholder="Email Port" class="form-control form-white"ng-model="email.port" >
+			        "587"
 			        </div>
 			        <div class="col-sm-2">
 			        <input type="text"placeholder="Email host" class="form-control form-white"ng-model="email.host" >
+			        "smtp.gmail.com"
 			        </div>
 			        <button  type="submit" class="btn btn-primary btn-embossed ">Save</button>
 			         </form>

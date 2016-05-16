@@ -2,7 +2,7 @@
 						  <ul id="myTabs" class="nav nav-tabs" role="tablist">
 						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
 						       	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
-						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email Tab </button></a></li>
+						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email</button></a></li>
 						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation  </button></a></li>
 						      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="socialMedia()">Social Media </button></a></li>
 						       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
@@ -13,13 +13,40 @@
 	    
 					  </div>
 					  
-					  <div class="col-sm-6"  style="margin-top: 5%">
-					  
-					   <div class="col-sm-6" >
-			           <input type="text"placeholder="Enter domain name"class="form-control form-white" ng-model="domain.sitename" >
+					  <div class="form-group col-sm-12"  style="margin-top: 5%">
+					   <div class="col-sm-4">
+			           <input type="text" placeholder="Enter domain name"class="form-control form-white" ng-model="domain.domain" >
 			          </div>
-			        <button  type="submit" ng-click="saveDomain(domain.sitename)" class="btn btn-primary btn-embossed ">Save</button>
-					  
+					  </div>
+					  <div class="form-group col-sm-12">
+					  	 <div class="col-sm-4">
+					  	 	<select  class="form-control" ng-model="domain.hostingProvider" ng-change="showLoginPasswordText(domain.hostingProvider)" required>
+						          	<option value="">Hosting Provider</option>
+						           <option value="GoDaddy">GoDaddy</option>
+						           <option value="Bluehost">Bluehost</option>
+						           <option value="Mediatemple">Mediatemple</option>
+						           <option value="Firehost">Firehost</option>
+						           <option value="Ehosting">Ehosting</option>
+						           <option value="Inmotionhosting">Inmotionhosting</option>
+						           <option value="Rackspace">Rackspace</option>
+						           <option value="Heartinternet">Heartinternet</option>
+						           <option value="Other">Other</option>
+						        </select>
+					  	 </div>
+					  </div>
+					  <div class="form-group col-sm-12"  style="margin-top: 5%">
+					   	<div class="col-sm-4" ng-if="selectHost == 2">
+			          		 <input type="text"placeholder="Hosting Provider"class="form-control form-white" ng-model="domain.hostingProvider" >
+			            </div>
+			            <div class="col-sm-4" ng-if="selectHost != 0">
+			          		 <input type="text"placeholder="UserName"class="form-control form-white" ng-model="domain.userName" >
+			            </div>
+			            <div class="col-sm-4" ng-if="selectHost != 0">
+			          		 <input type="text"placeholder="Password"class="form-control form-white" ng-model="domain.password" >
+			            </div>
+					  </div>
+					  <div class="form-group col-sm-12" style="text-align: right;">
+					  	<button  type="submit" ng-click="saveDomain(domain)" class="btn btn-primary btn-embossed ">Save</button>
 					  </div>
 					  
 					      

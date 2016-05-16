@@ -13,6 +13,10 @@ public class Domain extends Model {
 	 
 	public String domain;
 	
+	public String hostingProvider;
+	public String userName;
+	public String password;
+	
 	 @ManyToOne
 		public Location locations;
 
@@ -42,6 +46,34 @@ public class Domain extends Model {
 
 	 
 	
+public String getHostingProvider() {
+		return hostingProvider;
+	}
+
+	public void setHostingProvider(String hostingProvider) {
+		this.hostingProvider = hostingProvider;
+	}
+
+	
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+
 public static Finder<Long,Domain> find = new Finder<>(Long.class,Domain.class);
 	
 	

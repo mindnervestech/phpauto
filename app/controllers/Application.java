@@ -17,7 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -181,6 +180,7 @@ import viewmodel.VehicleVM;
 import viewmodel.VideoVM;
 import viewmodel.VirtualTourVM;
 import viewmodel.bodyStyleSetVM;
+import viewmodel.domainVM;
 import viewmodel.profileVM;
 import viewmodel.sendDataVM;
 import viewmodel.sendDateAndValue;
@@ -193,7 +193,6 @@ import au.com.bytecode.opencsv.CSVWriter;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlRow;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.gargoylesoftware.htmlunit.protocol.about.AboutURLConnection;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 import com.google.api.client.auth.oauth2.TokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -2338,23 +2337,32 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
 	}
     
-    public static Result saveDomain(String domain){
+    public static Result saveDomain(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		
     		 Identity user=getLocalUser();
+    		Form<domainVM> form = DynamicForm.form(domainVM.class).bindFromRequest();
+    		domainVM vm = form.get();
+    		
+    		
     		Domain por=Domain.findByLocation(Long.valueOf(session("USER_LOCATION")));
     		
     		if(por == null ){
     			Domain domain1=new Domain();
-    			domain1.domain=domain;
+    			domain1.domain=vm.domain;
+    			domain1.hostingProvider = vm.hostingProvider;
+    			domain1.userName = vm.userName;
+    			domain1.password = vm.password;
     			domain1.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
     			domain1.save();
     		}
     		else
     		{
-    			por.setDomain(domain);
+    			por.setDomain(vm.domain);
+    			por.setHostingProvider(vm.hostingProvider);
+    			por.setUserName(vm.userName);
+    			por.setPassword(vm.password);
     			por.update();
     		}
     		
@@ -14534,10 +14542,142 @@ private static void cancelTestDriveMail(Map map) {
     	
     }
     
+    public static Result getAllSalesUsers(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		AuthUser users = getLocalUser();
+    		List<AuthUser> userList = AuthUser.findByLocatioUsers(users.location);
+    		List<UserVM> vmList = new ArrayList<>();
+    	
+    		for(AuthUser user : userList) {
+    			List<String> parmi = new ArrayList<>();
+    			UserVM vm = new UserVM();
+    			vm.fullName = user.firstName + " "+ user.lastName;
+    			vm.firstName = user.firstName;
+    			vm.lastName = user.lastName;
+    			vm.email = user.email;
+    			vm.phone = user.phone;
+    			vm.userType = user.role;
+    			vm.commission =user.commission;
+    			vm.contractDur = user.contractDur;
+    			vm.age = user.age;
+    			vm.userGender = user.userGender;
+    			vm.experience = user.experience;
+    			vm.trainingPro = user.trainingPro;
+    			vm.salary = user.salary;
+    			vm.trialPeriod = user.trialPeriod;
+    			vm.trainingCost = user.trainingCost;
+    			vm.trainingHours = user.trainingHours;
+    			vm.quota = user.quota;
+    			vm.premiumFlag = user.premiumFlag;
+    			vm.imageName = user.imageName;
+    			vm.imageUrl = user.imageUrl;
+    			vm.trial = user.trial;
+    			vm.id = user.id;
+    			for(Permission permission:user.permission){
+    				parmi.add(permission.name);
+    			}
+    			vm.permissions = parmi;
+    			if(user.role.equals("Photographer")){
+    				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+    				
+    				PhotographerHoursOfOperation pOperation = PhotographerHoursOfOperation.findByUser(user);
+    				if(pOperation != null){
+    					if(pOperation.friOpen != null){
+    						if(pOperation.friOpen == 0){
+    							vm.hOperation.friOpen = false;
+    						}else{
+    							vm.hOperation.friOpen = true;
+    						}
+        				}
+        				if(pOperation.tueOpen != null){
+        					if(pOperation.tueOpen == 0){
+    							vm.hOperation.tueOpen = false;
+    						}else{
+    							vm.hOperation.tueOpen = true;
+    						}
+        				}
+        				if(pOperation.thuOpen != null){
+        					if(pOperation.thuOpen == 0){
+    							vm.hOperation.thuOpen = false;
+    						}else{
+    							vm.hOperation.thuOpen = true;
+    						}
+        				}
+        				if(pOperation.wedOpen != null){
+        					if(pOperation.wedOpen == 0){
+    							vm.hOperation.wedOpen = false;
+    						}else{
+    							vm.hOperation.wedOpen = true;
+    						}
+        				}
+        				if(pOperation.monOpen != null){
+        					if(pOperation.monOpen == 0){
+    							vm.hOperation.monOpen = false;
+    						}else{
+    							vm.hOperation.monOpen = true;
+    						}
+        				}
+        				if(pOperation.satOpen != null){
+        					if(pOperation.satOpen == 0){
+    							vm.hOperation.satOpen = false;
+    						}else{
+    							vm.hOperation.satOpen = true;
+    						}
+        				}
+        				if(pOperation.sunOpen != null){
+        					if(pOperation.sunOpen == 0){
+    							vm.hOperation.sunOpen = false;
+    						}else{
+    							vm.hOperation.sunOpen = true;
+    						}
+        				}
+        				
+        				
+        				
+        				
+        				if(pOperation.friOpenTime != null){
+        					vm.hOperation.friOpenTime = parseTime.format(pOperation.friOpenTime);
+        				}
+        				if(pOperation.tueOpenTime != null){
+        					vm.hOperation.tueOpenTime = parseTime.format(pOperation.tueOpenTime);
+        				}
+        				if(pOperation.thuOpenTime != null){
+        					vm.hOperation.thuOpenTime = parseTime.format(pOperation.thuOpenTime);
+        				}
+        				if(pOperation.wedOpenTime != null){
+        					vm.hOperation.wedOpenTime = parseTime.format(pOperation.wedOpenTime);
+        				}
+        				if(pOperation.monOpenTime != null){
+        					vm.hOperation.monOpenTime = parseTime.format(pOperation.monOpenTime);
+        				}
+        				if(pOperation.satOpenTime != null){
+        					vm.hOperation.satOpenTime = parseTime.format(pOperation.satOpenTime);
+        				}
+        				if(pOperation.sunOpenTime != null){
+        					vm.hOperation.sunOpenTime = parseTime.format(pOperation.sunOpenTime);
+        				}
+    				}
+    				
+    				
+    			}
+    			
+    			if(!vm.userType.equals("Manager")){
+    				vmList.add(vm);
+    			}
+    		}
+    		return ok(Json.toJson(vmList));
+    	}
+    }
+    
     public static Result getAllUsers() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
+    		//2813
+    		//2714
+    		//2583
     		
     		AuthUser users = getLocalUser();
     		/*List<AuthUser> userList = AuthUser.getUserByType();*/

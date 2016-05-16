@@ -2,7 +2,7 @@
   <ul id="myTabs" class="nav nav-tabs" role="tablist">
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
        	<li  role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
-      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email Tab </button></a></li>
+      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email</button></a></li>
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation </button></a></li>
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="socialMedia()">Social Media </button></a></li>
        	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
@@ -27,9 +27,9 @@
 	</div>
 	<div class="form-group col-sm-12" style="margin-left: 1%;">
 		<input type="checkbox" value="true" ng-model="premium.premiumFlag">&nbsp&nbsp Redirect all leads to Manager<br>
-		<a ng-click="showToUser()">Assign</a>
+		<!-- <a ng-click="showToUser()">Assign</a> -->
 	</div>
-	<div class="form-group col-sm-12" style="margin-left: 1%;" ng-if="showTable == 1">
+	<div class="form-group col-sm-12" style="margin-left: 1%;">
 		<table style="width:60%">
 		  <tr>
 		  	<td style="text-align: center;width:80%"><b>Name</b></td>

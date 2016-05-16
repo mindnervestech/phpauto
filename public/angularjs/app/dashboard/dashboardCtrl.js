@@ -10100,18 +10100,26 @@ angular.module('newApp')
 				$scope.premium.premiumFlag = false;
 			}
 		});
-			$scope.showToUser = function(){
-		$scope.showTable = 1;
-		console.log(locationId);
-		$http.get('/getAllUsers').success(function(data){
+		
+		
+		$http.get('/getAllSalesUsers').success(function(data){
 			$scope.salesPersonList =data;
 		
-			/*$scope.user=data;
+			
+		});
+		
+			/*$scope.showToUser = function(){
+		$scope.showTable = 1;
+		console.log(locationId);
+		$http.get('/getAllSalesUsers').success(function(data){
+			$scope.salesPersonList =data;
+		
+			$scope.user=data;
 			if($scope.salesPersonList.length > 0){
 				$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
-			}*/
+			}
 		});
-	}
+	}*/
 	
 		
 		
@@ -10232,20 +10240,28 @@ angular.module('newApp')
 		
 		
 	}
+	$scope.selectHost = 0;
+	$scope.showLoginPasswordText = function(hostname){
+		console.log(hostname);
+		if(hostname != "Other"){
+			$scope.selectHost = 1;
+		}else{
+			$scope.selectHost = 2;
+		}
+	}
 	
-	
-	$scope.saveDomain= function(sitename) {
-		console.log("inside saveDomain");
-		//$scope.autoPort.siteName=siteName;
-		console.log(sitename);
-		$http.get('/saveDomain/'+sitename)
-			.success(function(data) {
-				/*$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Slider config saved successfully",
-				});*/
-			});		
+	$scope.saveDomain= function(sitenameData) {
+				
+		$http.post('/saveDomain',sitenameData)
+		.success(function(data) {
+
+            $.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Domain saved successfully",
+			});
+            
+		});
 		
 		
 		
