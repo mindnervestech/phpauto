@@ -9150,7 +9150,7 @@ angular.module('newApp')
 		};
 		
 		
-		
+		$scope.vinData = {};
 		
 		$scope.dataShow = function(check){
 			console.log(check);
