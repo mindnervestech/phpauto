@@ -191,7 +191,7 @@
 <div class="form-group col-sm-12" ng-if="vinData.specification.commingSoonVehicle == true">
 <label class="col-sm-2 control-label" style="text-align: right;">Price</label>
 	<div class="col-sm-5">
-		<input type="text" class="form-control form-white" field="vinData.specification.price" type="number" min="0" placeholder="$">
+		<input type="text" class="form-control form-white" ng-model="vinData.specification.price" type="number" min="0" placeholder="$">
 		<p>Numbers only,Enter 0 to display "Call"</p>
 	</div>
 </div>

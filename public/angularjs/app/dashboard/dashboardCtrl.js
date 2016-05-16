@@ -9156,7 +9156,7 @@ angular.module('newApp')
 			console.log(check);
 			//vinData.specification.commingSoonVehicle
 			console.log($scope.vinData.specification);
-			$scope.vinData.specification.price = 0;
+			//$scope.vinData.specification.price = 0;
 			if(check == undefined){
 				$('#comingsoonDateEdit').val('');
 			}
