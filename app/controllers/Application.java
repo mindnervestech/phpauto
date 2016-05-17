@@ -21491,10 +21491,21 @@ private static void cancelTestDriveMail(Map map) {
 	        			vm.fullUrl = obj.get("url").textValue();
 	    	    	} else {
 	    	    		if(arr[arr.length-1].equals("") || arr[arr.length-1].equals("glivr")) {
-	    	    			vm.pageUrl = "dashboard";
+	    	    			vm.pageUrl = "Home Page";
 	    	    			vm.fullUrl = obj.get("url").textValue();
 	    	    		} else {
-	    	    			vm.pageUrl = arr[arr.length-1];
+	    	    			if(arr[arr.length-1].equals("aboutUs")){
+	    	    				vm.pageUrl = "About Us";
+	    	    			}else if(arr[arr.length-1].equals("blog")){
+	    	    				vm.pageUrl = "Blog";
+	    	    			}else if(arr[arr.length-1].equals("contactUs")){
+	    	    				vm.pageUrl = "Contact Us";
+	    	    			}else if(arr[arr.length-1].equals("warranty")){
+	    	    				vm.pageUrl = "Warranty";
+	    	    			}else{
+	    	    				vm.pageUrl = arr[arr.length-1];
+	    	    			}
+	    	    			
 	    	    			vm.fullUrl = obj.get("url").textValue();
 	    	    		}
 	    	    	}
