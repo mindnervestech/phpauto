@@ -195,11 +195,16 @@ var MakeApp = angular
             controller: 'VehicleDateWiseCtrl'
         })
         
-        
         .when('/allVehicleSessions', {
             templateUrl: '/dealer/analytics/allVehicleSessionsData.html',
             controller: 'allVehicleSessionsDataCtrl'
         })
+        
+        .when('/allPlatformsInfos', {
+            templateUrl: '/dealer/analytics/allPlatformsInfos.html',
+            controller: 'allPlatformsInfoCtrl'
+        })
+        
         .when('/contentAnalytics', {
             templateUrl: '/dealer/analytics/content.html',
             controller: 'ContentCtrl'

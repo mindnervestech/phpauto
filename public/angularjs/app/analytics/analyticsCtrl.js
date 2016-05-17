@@ -127,8 +127,121 @@ angular.module('newApp')
 		$location.path('/heatMapInfoAnalytics');
 	}
 	
-	$scope.goToVehicleInfo = function(){
-		$location.path('/allVehicleSessions');
+	$scope.goToPlatformsInfo = function(){
+		$location.path('/allPlatformsInfos');
+	}
+	
+}]);
+
+angular.module('newApp')
+.controller('allPlatformsInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+	
+	
+	$scope.gridOptions = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
+	
+	 $scope.gridOptions.enableHorizontalScrollbar = 0;
+		 $scope.gridOptions.enableVerticalScrollbar = 2;
+		 $scope.gridOptions.columnDefs = [
+		                                 { name: 'key', displayName: 'Title', width:'60%',cellEditableCondition: false,
+		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		                                       if (row.entity.isRead === false) {
+		                                         return 'red';
+		                                     }
+		                                	} ,
+		                                 },
+		                                 { name: 'value', displayName: 'Count', width:'40%',cellEditableCondition: false,
+		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+		                                       if (row.entity.isRead === false) {
+		                                         return 'red';
+		                                     }
+		                                	} ,
+		                                 },
+		                                 		                               		                                
+		                                 ];
+	
+		 $scope.gridOptions.onRegisterApi = function(gridApi){
+			 $scope.gridApi = gridApi;
+			 
+	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+		          var grid = this.grid;
+		          $scope.gridOptions.data = $filter('filter')($scope.ActionList,{'action_title':grid.columns[0].filters[0].term,'action_type':grid.columns[1].filters[0].term,'ip_address':grid.columns[2].filters[0].term,'referrer_domain':grid.columns[3].filters[0].term,'referrer_search':grid.columns[4].filters[0].term},undefined);
+		        });
+	   		
+		};
+	
+	
+	$http.get('/getAllVehicleDemographics').success(function(data) {
+		console.log(data);
+		$scope.langmap = data.language;
+		$scope.webBrosmap = data.webBrowser;
+		$scope.operatingSystem = data.operatingSystem;
+		$scope.location = data.location;
+		$scope.screenResoluations = data.screenResoluation;
+		$scope.changeTab('browser');
+	});
+	
+	$scope.valueSet = {};
+	$scope.typSet = [];
+	
+	 
+	$scope.changeTab = function(type){
+		$scope.gridOptions.data = [];
+		$scope.typSet = [];
+		if(type == "os"){
+			$.each($scope.operatingSystem, function(key, value) {
+	            $scope.valueSet = {};
+	            $scope.valueSet.key = key;
+	            $scope.valueSet.value = value;
+	            $scope.typSet.push($scope.valueSet);
+	            
+			});
+			$scope.labelSet = "OS";
+			$scope.gridOptions.data = $scope.typSet;
+		}
+		if(type == "browser"){
+			$.each($scope.webBrosmap, function(key, value) {
+	            $scope.valueSet = {};
+	            $scope.valueSet.key = key;
+	            $scope.valueSet.value = value;
+	            $scope.typSet.push($scope.valueSet);
+	            
+			});
+			$scope.labelSet = "Browser";
+			$scope.gridOptions.data = $scope.typSet;
+		}
+		if(type == "resolution"){
+			$.each($scope.screenResoluations, function(key, value) {
+	            $scope.valueSet = {};
+	            $scope.valueSet.key = key;
+	            $scope.valueSet.value = value;
+	            $scope.typSet.push($scope.valueSet);
+	            
+			});
+			$scope.labelSet = "Resolution";
+			$scope.gridOptions.data = $scope.typSet;
+		}
+		if(type == "hardware"){
+			/*$.each($scope.screenResoluations, function(key, value) {
+	            $scope.valueSet = {};
+	            $scope.valueSet.key = key;
+	            $scope.valueSet.value = value;
+	            $scope.typSet.push($scope.valueSet);
+	            
+			});
+			$scope.gridOptions.data = $scope.typSet;*/
+			$scope.labelSet = "Hardware";
+			
+		}
+		
+		console.log($scope.typSet);
+		
 	}
 	
 }]);

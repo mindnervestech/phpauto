@@ -20731,7 +20731,6 @@ private static void cancelTestDriveMail(Map map) {
 			e.printStackTrace();
 		}
     	
-    	
     	List<ClickyVisitorsList> cList = ClickyVisitorsList.getAll(sDate, eDate);
     	
     	//params = "&type=visitors-list&date=last-7-days&limit=all";
