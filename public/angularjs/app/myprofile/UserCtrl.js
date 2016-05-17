@@ -674,6 +674,7 @@ angular.module('newApp')
 	
 	$scope.updateImage = function() {
 		$scope.userData.permissions = $scope.permission;
+		$scope.userData.pdfIds = $scope.pdfDoc;
 		delete $scope.userData.successRate;
 		
 		if($scope.userData.userType == "Photographer"){

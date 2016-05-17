@@ -15247,6 +15247,85 @@ private static void cancelTestDriveMail(Map map) {
 	    	   
 	    	   
 	    	   userObj.update();
+	    	   
+
+	    	   InternalPdf iPdf = null;
+	    	   
+	    	   
+	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
+	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
+	    		Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		  
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 			
+		  			Message message = new MimeMessage(session);
+		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			message.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(userObj.email));
+		  			message.setSubject("Your username and password ");	  			
+		  			Multipart multipart = new MimeMultipart();
+	    			BodyPart messageBodyPart = new MimeBodyPart();
+	    			messageBodyPart = new MimeBodyPart();
+	    			
+	    			VelocityEngine ve = new VelocityEngine();
+	    			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+	    			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+	    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+	    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+	    			ve.init();
+	    			
+	    			Template t = ve.getTemplate("/public/emailTemplate/newUserTemplate.vm"); 
+	    	        VelocityContext context = new VelocityContext();
+	    	        context.put("hostnameUrl", imageUrlPath);
+	    	        //context.put("siteLogo", logo.logoImagePath);
+	    	        context.put("username", userObj.email);
+	    	        context.put("password", userObj.password);
+	    	        StringWriter writer = new StringWriter();
+	    	        t.merge( context, writer );
+	    	        String content = writer.toString(); 
+	    			
+	    			messageBodyPart.setContent(content, "text/html");
+	    			
+	    			for(Long ls:vm.pdfIds){
+	 	    		   iPdf = InternalPdf.findPdfById(ls);  
+	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
+	 	    		  File f = new File(PdfFile);
+	 	    		 MimeBodyPart attachPart = new MimeBodyPart();
+	 	    		 try {
+	    					attachPart.attachFile(f);
+	    		  	      } catch (IOException e) {
+	    		  	       	// TODO Auto-generated catch block
+	    		  	       		e.printStackTrace();
+	    		  	    }
+	    			 multipart.addBodyPart(attachPart);
+	 	    	   }
+	 	    	   
+	 	    		
+	    			
+	    			
+	    			multipart.addBodyPart(messageBodyPart);
+	    			message.setContent(multipart);
+	    			Transport.send(message);
+		       		} catch (MessagingException e) {
+		  			 throw new RuntimeException(e);
+		  		}
+	
+	    	   
+	    	   
+	    	   
+	    	   
+	    	   
 	    	return ok();
     	}    	
     }

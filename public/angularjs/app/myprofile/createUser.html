@@ -623,9 +623,26 @@
 									
 						</div>
 						
+						<div class="col-sm-12" style="margin-left: 25px;" ng-if="showOtherFild == 1">
+						<label>Documentation</label>
+					</div>
+					<div class="col-sm-12" style="margin-top: 20px;margin-left: 25px;" ng-if="showOtherFild == 1">
+								<table  style="border: 1px solid; width:80%" >
+					    		<tr style="border: 1px solid;">
+					    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">PDF Name</td>
+					    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+					    		  </tr>
+					    			<tr ng-repeat="item in internalPdfList" style="border: 1px solid;">
+					    				<td style="padding: 5px;border: 1px solid;" >{{item.internalPdfName}}</td>
+					    				<td style="border: 1px solid;text-align: center;"> <input type="checkbox" ng-model="selected" name="vehicle" ng-click="selectPdf($event,item,selected)"></td>
+					    			</tr>
+					    		</table>
+							</div>
+						
+						
 						
 					
-						  <div class="col-sm-12" ng-if="showOtherFild == 2">
+						  <div class="col-sm-12" style="margin-top: 10px;"ng-if="showOtherFild == 2">
 	  <div class="col-sm-6">
 	 <!--  <form ng-submit="saveSalesHours()"> -->
 	  <div class="col-sm-12">
@@ -767,7 +784,7 @@
 	   </div>
 					
 					
-						<div class="form-group col-sm-12" ng-if="showOtherFild == 1">
+						<div class="form-group col-sm-12" ng-if="showOtherFild == 1" style="margin-top: 15px;">
 							<div class="col-sm-4">
 								<label class="col-sm-4 control-label" style="text-align: right;">Photo </label>
 	                   				<!-- <input class="form-control" type="file" style="margin-left: 29%;width: 42%;" accept="image/*" name="logoFile" ng-file-select="onLogoFileSelect($files)" required=""> -->
