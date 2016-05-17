@@ -13106,7 +13106,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			
 	    			multipart.addBodyPart(messageBodyPart);
 	    			message.setContent(multipart);
-	    			//Transport.send(message);
+	    			Transport.send(message);
 		       		} catch (MessagingException e) {
 		  			 throw new RuntimeException(e);
 		  		}

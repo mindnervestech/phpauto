@@ -5025,10 +5025,15 @@ angular.module('newApp')
 		
 		$scope.deletePdf = function(item,model) {
 			console.log(item);
-			console.log(model);
+			
+			if(model == undefined){
+				model=true;
+			}
 			$scope.customePdfmodel=model;
 			$scope.customePdfId=item.customerPdfId;
 			console.log($scope.customePdfId);
+			console.log($scope.customePdfmodel);
+			
 		}
 		
     	$scope.soldScheduleStatus = function(entity) {
