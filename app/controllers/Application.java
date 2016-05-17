@@ -15288,7 +15288,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			Template t = ve.getTemplate("/public/emailTemplate/newUserTemplate.vm"); 
 	    	        VelocityContext context = new VelocityContext();
 	    	        context.put("hostnameUrl", imageUrlPath);
-	    	        //context.put("siteLogo", logo.logoImagePath);
+	    	        context.put("siteLogo", logo.logoImagePath);
 	    	        context.put("username", userObj.email);
 	    	        context.put("password", userObj.password);
 	    	        StringWriter writer = new StringWriter();
