@@ -45,6 +45,8 @@ public class UserVM {
 	public Long locationId;
 	public List<Long> pdfIds;
 	public String type;
+	public String title;
+	public String text;
 	public String time;
 	public HoursOperation hOperation = new HoursOperation();
 	

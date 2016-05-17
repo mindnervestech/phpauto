@@ -15,7 +15,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q', function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload) {
 	  var ele = document.getElementById('loadingmanual');	
    	$(ele).hide();
 	$http.get('/getLocationDays')
@@ -1614,7 +1614,7 @@ angular.module('newApp')
      	     		     			 		 		 $scope.gridOptions7.enableHorizontalScrollbar = 0;
      	     		     			 		 		 $scope.gridOptions7.enableVerticalScrollbar = 2;
      	     		     			 		 		 $scope.gridOptions7.columnDefs = [
-																					{ name: 'name', displayName: 'Name', width:'9%',cellEditableCondition: false,
+																					{ name: 'name', displayName: 'Name', width:'8%',cellEditableCondition: false,
 																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
 																					    	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																					    		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -1622,7 +1622,7 @@ angular.module('newApp')
 																					               }
 																					         	} ,
 																					      },
-																					      { name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
+																					      { name: 'phone', displayName: 'Phone', width:'6%',cellEditableCondition: false,
 																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.phone}}</a> ',
 																					     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																					     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -1630,7 +1630,7 @@ angular.module('newApp')
 																					            }
 																					      	} ,
 																					      },
-																					      { name: 'email', displayName: 'Email', width:'12%',cellEditableCondition: false,
+																					      { name: 'email', displayName: 'Email', width:'10%',cellEditableCondition: false,
 																					     	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
 																					     	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																					     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -1638,7 +1638,7 @@ angular.module('newApp')
 																					            }
 																					      	} ,
 																					      },
-																					   { name: 'requestDate', displayName: 'Date Added', width:'8%',cellEditableCondition: false,
+																					   { name: 'requestDate', displayName: 'Date Added', width:'7%',cellEditableCondition: false,
 																					     	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
 																					     	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 																					     		 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -1646,7 +1646,7 @@ angular.module('newApp')
 																					             }
 																					       	} ,
 																					       },
-     	     		     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'8%',cellEditableCondition: false,
+     	     		     			 		 		                                 { name: 'vin', displayName: 'Vin', width:'9%',cellEditableCondition: false,
      	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.vin}}</a> ',
      	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -1654,7 +1654,7 @@ angular.module('newApp')
      	     		     			 		   		                                     }
      	     		     			 		  		                                	} ,
      	     		     			 		 		                                 },
-     	     		     			 		 		                                 { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
+     	     		     			 		 		                                 { name: 'model', displayName: 'Model', width:'6%',cellEditableCondition: false,
      	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.model}}</a> ',
      	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -1662,7 +1662,7 @@ angular.module('newApp')
      	     		     			 		   		                                     }
      	     		     			 		  		                                	} ,
      	     		     			 		 		                                 },
-     	     		     			 		 		                                 { name: 'make', displayName: 'Make', width:'9%',cellEditableCondition: false,
+     	     		     			 		 		                                 { name: 'make', displayName: 'Make', width:'7%',cellEditableCondition: false,
      	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.make}}</a> ',
      	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -1670,7 +1670,7 @@ angular.module('newApp')
      	     		     			 		   		                                     }
      	     		     			 		  		                                	} ,
      	     		     			 		 		                                 },
-     	     		     			 		 		                            { name: 'typeOfLead', displayName: 'type', width:'9%',cellEditableCondition: false,
+     	     		     			 		 		                            { name: 'typeOfLead', displayName: 'type', width:'8%',cellEditableCondition: false,
       	     		     			 		 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.typeOfLead}}</a> ',
       	     		     			 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
       	     		     			 		 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
@@ -1690,8 +1690,8 @@ angular.module('newApp')
      	     		     			 				                                 
      	     		     			 				                                 },
      	     		     			 				                                 
-     	     		     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'35%',cellEditableCondition: false,
-     	     		     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-left:3%;">SOLD</button><button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
+     	     		     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,
+     	     		     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-left:3%;">SOLD</button> <select ng-model="action" ng-change="grid.appScope.actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary"><option value="">Action</option><option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option><option ng-if="row.entity.confirmDate != null" value="Rechedule" value="Reschedule">Reschedule</option> <option value="SendPdf">Send Pdf</option> </select> <button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
      	     		     	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     		     	      			 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
      	     		     	       			   		                                         return 'red';
@@ -4888,6 +4888,148 @@ angular.module('newApp')
 		       	
 	}
 		
+		
+		$scope.sendPdfEmail= function (pdf){
+			console.log(pdf);
+			$scope.pdf.pdfIds = $scope.pdfDoc;
+			console.log($scope.pdf.pdfIds);
+			$scope.pdf.email=$scope.SendPdfemail;
+			
+			$http.post('/sendPdfEmail',$scope.pdf)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Status changed successfully",
+				});
+				
+				
+				console.log("$scope.customePdfmodel"+$scope.customePdfmodel);
+				console.log("$scope.customePdfId"+$scope.customePdfId);
+				if($scope.customePdfmodel == true){
+					$http.get('/deletePdfById/'+$scope.customePdfId)
+		  			.success(function(data) {
+		  				/*$.pnotify({
+		  				    title: "Success",
+		  				    type:'success',
+		  				    text: "Slider config saved successfully",
+		  				});*/
+				
+		  			});
+				}
+				
+			});
+			
+			
+			
+			
+		}
+		
+		$scope.actionOnPdf= function (entity,option){
+			console.log("inside pdf");
+			console.log(entity);
+				if(option == 'Schedule' || option == 'Rechedule' ){
+					$scope.scheduleTestDriveForUser(entity,2);
+				}
+				else if(option == 'SendPdf'){
+					$scope.SendPdfemail=entity.email;
+					console.log($scope.SendPdfemail);
+					$('#sendPdfRequest').click();
+					
+					
+					$http.get('/getCustomerPdfData')
+       				.success(function(data) {
+       					$scope.customerPdfList=data;
+       					console.log(data);
+       				
+       				});
+					
+					
+				}
+				
+			console.log(option);
+			
+		}
+		$scope.pdfDoc = [];
+		$scope.selectPdf = function(e,item,value){
+			console.log(item);
+			console.log(value);
+			if(value == false || value == undefined){
+				$scope.pdfDoc.push(item.customerPdfId);
+			}else{
+				$scope.deletepdfItem(item);
+			}
+			console.log($scope.pdfDoc);
+		}
+		
+		
+		
+		$scope.deletepdfItem = function(item){
+			console.log(item);
+			angular.forEach($scope.pdfDoc, function(obj, index){
+				 if ((item.customerPdfId == obj)) {
+					 $scope.pdfDoc.splice(index, 1);
+			       	return;
+			    };
+			  });
+		}
+		
+
+		var logofile1;
+		$scope.flagForUpload=0;
+		$scope.onCustomerFileSelect = function ($files) {
+			logofile1 = $files;
+			console.log("??????????");
+			console.log(logofile1);
+			$upload.upload({
+		 	         url : '/saveCustomerPdf',
+		 	         method: 'POST',
+		 	         file:logofile1,
+		 	      }).success(function(data) {
+		 	  			$.pnotify({
+		 	  			    title: "Success",
+		 	  			    type:'success',
+		 	  			    text: "pdf saved successfully",
+		 	  			});
+		 	  			
+		 	  				/*$.pnotify({
+		 	  				    title: "Success",
+		 	  				    type:'success',
+		 	  				    text: "Slider config saved successfully",
+		 	  				});*/
+		 	  				$scope.flagForUpload=1;
+		 	  				$http.get('/getCustomerPdfData')
+		       				.success(function(data) {
+		       				  console.log("ddddddddd");
+		       				  console.log(data);
+		       					$scope.lengths=data.length-1;
+			 	  				$scope.uploadData=data;
+			 	  				
+       						angular.forEach($scope.uploadData,function(obj, index){
+       							console.log(index);
+       							console.log($scope.lengths);
+       						 if(index == $scope.lengths) {
+       							 console.log(obj);
+           					$scope.pdfDoc.push(obj.customerPdfId);
+       					    }
+       						console.log("Customer pdfData");
+       					   $scope.customerPdfList=data;
+	       					console.log(data);
+       					  });
+		       				});
+			
+		});	
+		}
+		
+		
+		
+		$scope.deletePdf = function(item,model) {
+			console.log(item);
+			console.log(model);
+			$scope.customePdfmodel=model;
+			$scope.customePdfId=item.customerPdfId;
+			console.log($scope.customePdfId);
+		}
 		
     	$scope.soldScheduleStatus = function(entity) {
     		$scope.scheduleStatusVal = entity;

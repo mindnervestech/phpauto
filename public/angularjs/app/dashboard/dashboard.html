@@ -5288,6 +5288,7 @@ float: right !important;
 							<button id="cancelBtnTradeIn" data-toggle="modal" data-target="#cancelTradeInLead" style="display: none;"></button>
 							<button id="btnCancelTestDrive" data-toggle="modal" data-target="#cancelTestDriveModal" style="display: none;"></button>
 							
+							<button id="sendPdfRequest" data-toggle="modal" data-target="#sendPdfmodal" style="display: none;"></button>
 							<button id="btnCompleteRequest" data-toggle="modal" data-target="#requestCompleteStatusModal" style="display: none;"></button>
 							<button id="btnCancelRequest" data-toggle="modal" data-target="#requestCancelStatusModal" style="display: none;"></button>
 							<button id="btnCompleteTradeIn" data-toggle="modal" data-target="#tradeInCompleteStatusModal" style="display: none;"></button>
@@ -5904,6 +5905,78 @@ float: right !important;
 								            </div>
 								        </div>
 								    </div>
+								    
+								    <div class="modal fade" id="sendPdfmodal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content" style="height: 500px;overflow: auto;">
+								                <div class="modal-header">
+								                    <button type="button" class="close" id="scheduleCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Send PDF File</h4>
+								                </div>
+								                <form ng-submit="sendPdfEmail(pdf)">
+								                <div class="modal-body">
+								                <div class="form-group col-sm-12">
+								                <label  class="form-group col-sm-3">Title   </label>
+								                     <div class="form-group col-sm-9">
+														<div class="col-sm-510">
+															<input class="form-control form-white" style="" ng-model="pdf.title" type="text" required>
+														</div>
+													</div>
+													
+												</div>	
+												<div class="form-group col-sm-12">
+								                <label  class="form-group col-sm-3">Text   </label>
+								                     <div class="form-group col-sm-9">
+														<div class="col-sm-510">
+															<input class="form-control form-white" style="" ng-model="pdf.text" type="text" required>
+														</div>
+													</div>
+													
+												</div>	
+												
+												<div class="col-sm-12" style="margin-left: 25px;">
+											<label>Documentation</label>
+												</div>
+												
+														
+								<div class="col-sm-12" style="margin-top: 20px;margin-left: 25px;" >
+									<table  style="border: 1px solid; width:80%" >
+						    		<tr style="border: 1px solid;">
+						    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">PDF Name</td>
+						    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Action</td>
+						    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Save to Documentation</td>
+						    		  </tr>
+						    			<tr ng-repeat="item in customerPdfList" style="border: 1px solid;" ng-if="flagForUpload !=1">
+						    				<td style="padding: 5px;border: 1px solid;" >{{item.customerPdfName}}</td>
+						    				<td style="border: 1px solid;text-align: center;"> <input type="checkbox" ng-model="selected" ng-click="selectPdf($event,item,selected)"></td>
+						    				<td style="padding: 5px;border: 1px solid;" >Existed</td>
+						    			</tr>
+						    			<tr ng-repeat="item in customerPdfList"  style="border: 1px solid;" ng-if="flagForUpload ==1">
+						    				<td style="padding: 5px;border: 1px solid;" >{{item.customerPdfName}}</td>
+						    				<td style="border: 1px solid;text-align: center;"> <input  type="checkbox" ng-checked="$index == lengths" ng-model="selected" ng-click="selectPdf($event,item,selected)"  checked></td>
+						    			    <td style="border: 1px solid;text-align: center;"><label ng-if="$index != lengths" >Existed</label> <input ng-if="$index == lengths" type="checkbox" ng-checked="true"  ng-model="pdfCheck" ng-click="deletePdf(item,pdfCheck)"  checked></td>
+						    			</tr>
+						    			
+						    		</table>
+								</div>
+						 <div class="form-group col-sm-12" style="margin-top: 15px">
+								<label class="col-sm-3 control-label" style="text-align: right">Upload PDF File *</label>
+								<div class="col-sm-5">
+										<input type="file" name="logoFile" ng-file-select="onCustomerFileSelect($files)" accept="application/msword,application/pdf"/>
+								</div>
+							</div>
+								
+					                </div>
+					                <div class="modal-footer">
+				                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+				                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+				                    </div>            
+								                </form>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    
 								    
 								    <div class="modal fade" id="requestCompleteStatusModal" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog" style="width: 900px;">

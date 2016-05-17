@@ -13027,6 +13027,102 @@ private static void cancelTestDriveMail(Map map) {
 		}
     }
     
+    public static Result sendPdfEmail() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+    		AuthUser users = (AuthUser) getLocalUser();
+    		MultipartFormData body = request().body().asMultipartFormData();
+    		
+    		
+	    	AuthUser userObj = new AuthUser();
+	    	UserVM vm = form.get();
+	    	//List<String> aa= new ArrayList<>();
+	    		   CustomerPdf iPdf = null;
+	    		Properties props = new Properties();
+		 		props.put("mail.smtp.auth", "true");
+		 		props.put("mail.smtp.starttls.enable", "true");
+		 		props.put("mail.smtp.host", "smtp.gmail.com");
+		 		props.put("mail.smtp.port", "587");
+		  
+		 		Session session = Session.getInstance(props,
+		 		  new javax.mail.Authenticator() {
+		 			protected PasswordAuthentication getPasswordAuthentication() {
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 			}
+		 		  });
+		  
+		 		try{
+		 			
+		  			Message message = new MimeMessage(session);
+		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			message.setRecipients(Message.RecipientType.TO,
+		  			InternetAddress.parse(vm.email));
+		  			message.setSubject("PDF file");	  			
+		  			Multipart multipart = new MimeMultipart();
+	    			BodyPart messageBodyPart = new MimeBodyPart();
+	    			messageBodyPart = new MimeBodyPart();
+	    			
+	    			VelocityEngine ve = new VelocityEngine();
+	    			ve.setProperty( RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute" );
+	    			ve.setProperty("runtime.log.logsystem.log4j.logger","clientService");
+	    			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath"); 
+	    			ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+	    			ve.init();
+	    			
+	    			Template t = ve.getTemplate("/public/emailTemplate/PDFsent_HTML.html"); 
+	    	        VelocityContext context = new VelocityContext();
+	    	        context.put("hostnameUrl", imageUrlPath);
+	    	        //context.put("siteLogo", logo.logoImagePath);
+	    	        context.put("title", vm.title);
+	    	        context.put("text", vm.text);
+	    	        context.put("name", users.fullName());
+	    	        context.put("email", users.email);
+	    	        context.put("phone", users.phone);
+	    	        
+	    	        StringWriter writer = new StringWriter();
+	    	        t.merge( context, writer );
+	    	        String content = writer.toString(); 
+	    			
+	    			messageBodyPart.setContent(content, "text/html");
+	    			
+	    			for(Long ls:vm.pdfIds){
+	 	    		   iPdf = CustomerPdf.findPdfById(ls);  
+	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
+	 	    		  File f = new File(PdfFile);
+	 	    		 MimeBodyPart attachPart = new MimeBodyPart();
+	 	    		 try {
+	    					attachPart.attachFile(f);
+	    		  	      } catch (IOException e) {
+	    		  	       	// TODO Auto-generated catch block
+	    		  	       		e.printStackTrace();
+	    		  	    }
+	    			 multipart.addBodyPart(attachPart);
+	 	    	   }
+	 	    	   
+	 	    		
+	    			
+	    			
+	    			multipart.addBodyPart(messageBodyPart);
+	    			message.setContent(multipart);
+	    			//Transport.send(message);
+		       		} catch (MessagingException e) {
+		  			 throw new RuntimeException(e);
+		  		}
+	    	   
+	    	return ok();
+    	}
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public static Result saveUser() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
