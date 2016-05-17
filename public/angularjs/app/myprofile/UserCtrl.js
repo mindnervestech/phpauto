@@ -5,7 +5,7 @@ angular.module('newApp')
 	$scope.permission = [];
 	$scope.permissionList =[
 	{name:'Dashboard',isSelected:false},
-	{name:'Home Page Editing',isSelected:false},
+	{name:'Website Editing',isSelected:false},
 	{name:'Add Vehicle',isSelected:false},
 	{name:'Inventory',isSelected:false},
 	{name:'Customer Requests',isSelected:false},
