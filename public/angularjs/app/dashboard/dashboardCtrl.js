@@ -4900,7 +4900,7 @@ angular.module('newApp')
 				$.pnotify({
 				    title: "Success",
 				    type:'success',
-				    text: "Status changed successfully",
+				    text: "PDF sent successfully",
 				});
 				
 				
@@ -4917,6 +4917,9 @@ angular.module('newApp')
 				
 		  			});
 				}
+				
+				$("#sendPdfmodal").modal('hide');
+				
 				
 			});
 			
