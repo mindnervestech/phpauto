@@ -1,14 +1,25 @@
 <div ng-init="init()">
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-      <li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSlider()">Slider Images</button></a></li>
+      <li role="presentation" class="active"><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Home Page</button></a></li>
+      <!-- <li role="presentation" class=""><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToFeatured()">Featured Images</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLogo()">Logo & Favicon</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToTestiMonials()">Testimonials</button></a></li>
+       --><li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToAboutUs()">About Us</button></a></li>
+    </ul>
+    
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+       <li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSlider()">Slider Images</button></a></li>
       <li role="presentation" class=""><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToFeatured()">Featured Images</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
       <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLogo()">Logo & Favicon</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToTestiMonials()">Testimonials</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToAboutUs()">About Us</button></a></li>
-    </ul>
+     </ul>
+    
+    
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 	        	
