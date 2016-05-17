@@ -2347,7 +2347,7 @@ angular.module('newApp')
 			        $scope.pagesList = response.pagesList;
 			        $scope.referersList = response.referersList;
 			        $scope.searchesList = response.searchesList;
-
+			        
     				  
         			  var visitorsData = {
         			            labels: response.months,
@@ -2625,14 +2625,14 @@ angular.module('newApp')
     				 $scope.gridOptions12.enableHorizontalScrollbar = 0;
     					 $scope.gridOptions12.enableVerticalScrollbar = 2;
     					 $scope.gridOptions12.columnDefs = [
-    					                                 { name: 'title', displayName: 'Title', width:'32%',cellEditableCondition: false,
+    					                                 { name: 'title', displayName: 'Title', width:'30%',cellEditableCondition: false,
     					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     					                                       if (row.entity.isRead === false) {
     					                                         return 'red';
     					                                     }
     					                                	} ,
     					                                 },
-    					                                 { name: 'showUrl', displayName: 'ShowUrl', width:'45%',cellEditableCondition: false,
+    					                                 { name: 'showUrl', displayName: 'ShowUrl', width:'47%',cellEditableCondition: false,
     					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
     					                                       if (row.entity.isRead === false) {
     					                                         return 'red';
@@ -2666,13 +2666,15 @@ angular.module('newApp')
     					 $http.get('/getHeatMapListDale/'+startD+"/"+endD)
     						.success(function(data) {
     							
-    							$scope.gridOptions12.data = data[0].dates[0].items;
+    							$scope.gridOptions12.data = data;
+    							$scope.heatMapList = data;
+    							/*$scope.gridOptions12.data = data[0].dates[0].items;
     							$scope.heatMapList = data[0].dates[0].items;
     							angular.forEach($scope.gridOptions12.data, function(value, key) {
     								$scope.array = value.url.split('#');
     								$scope.gridOptions12.data[key].showUrl = $scope.array[0];
     								$scope.heatMapList[key].showUrl = $scope.array[0];
-    							});
+    							});*/
     							
     						$('#sliderBtn').click();
     					});
@@ -3284,8 +3286,6 @@ angular.module('newApp')
 			}
 
 			$scope.addByPriceMakeIt = function(price){
-				 console.log($scope.priceDetail);
-				 console.log(price);
 				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price)
 					.success(function(data) {
 						 $('#addPriceOther').modal("toggle");
@@ -3304,7 +3304,6 @@ angular.module('newApp')
 			$scope.addMakeIt = function(){
 				$http.get('/sendComingSoonEmail')
 				.success(function(data) {
-					console.log("ggggg");
 					
 				});
 			}
@@ -3315,7 +3314,6 @@ angular.module('newApp')
       	  	}
 			
 			$scope.addChangeArrival = function(){
-				console.log($('#arrDate').val());
 				var aDate = $('#arrDate').val();
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
 				.success(function(data) {
@@ -3337,8 +3335,6 @@ angular.module('newApp')
 			 
 			 
 			 $scope.addPriceInVeh = function(price){
-				 console.log($scope.priceDetail);
-				 console.log(price);
 				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price)
 					.success(function(data) {
 						 $('#addPrice').modal("toggle");
@@ -8113,8 +8109,6 @@ angular.module('newApp')
 	   }
    }
    $scope.dataShow1 = function(check){
-		console.log(check);
-		console.log($scope.vinData.specification);
 		$scope.vinData.specification.price = 0;
 	}
    
@@ -8133,13 +8127,10 @@ angular.module('newApp')
 		   
 		   $scope.vinData.specification.cost = $scope.vinData.specification.cost.split(',').join('');
 		   var comingSoonDate = {};
-	console.log("LLLLLLLLLL"+$scope.vinData.specification.commingSoonVehicle);
 	  if($scope.vinData.specification.commingSoonVehicle == true){
 		  $scope.vinData.specification.comingSoonDate = $('#comingsoonDate').val();
 		  
 	  }
-	  console.log($scope.vinData.specification.comingSoonDate);
- 	  console.log($scope.vinData);
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
  	  
@@ -8153,7 +8144,6 @@ angular.module('newApp')
  		  }
  		 saveFlag = 1;
  	  }else{
- 		  console.log($scope.vinData.specification.price);
  		  if($scope.vinData.specification.price == null || $scope.vinData.specification.price == '' || $scope.vinData.specification.price == undefined){
  			 $.pnotify({
  			    title: "Error",
@@ -8979,7 +8969,6 @@ angular.module('newApp')
 				 $scope.vinData.specification.commingSoonVehicle = true;
 			 }
 			//for publish button flag
-			 console.log('before calling');
 				$http.get('/isCarPublic/'+$scope.vinData.specification.id).success(function(data){
 					if(data == 'true'){
 						$scope.isPublished = true;						
@@ -9154,9 +9143,7 @@ angular.module('newApp')
 		$scope.vinData = {};
 		
 		$scope.dataShow = function(check){
-			console.log(check);
 			//vinData.specification.commingSoonVehicle
-			console.log($scope.vinData.specification);
 			//$scope.vinData.specification.price = 0;
 			if(check == undefined){
 				$('#comingsoonDateEdit').val('');
@@ -9180,7 +9167,6 @@ angular.module('newApp')
 		   $scope.vinData.specification.stereo = $('#stereoSearch_value').val();
 		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
 		   
-		   console.log($scope.vinData.specification.price);
 		   if($scope.vinData.specification.price == null || $scope.vinData.specification.price == ""){
 			   $scope.vinData.specification.price = 0;
 		   }
@@ -9192,7 +9178,6 @@ angular.module('newApp')
 			  }else{
 				  $scope.vinData.specification.comingSoonFlag = 0;
 			  }
-		   console.log($scope.vinData.specification);
 		   
 		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
 				if(pdfFile != undefined){
@@ -10101,7 +10086,6 @@ angular.module('newApp')
 	$scope.init = function() {
 		$http.get('/getImageConfig')
 		.success(function(data) {
-			console.log("<<>>");
 			
 			$scope.slider = data.slider;
 			$scope.featured = data.featured;
@@ -10150,8 +10134,6 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Slider config saved successfully",
 				});*/
-				console.log("getSocialMediadetail");
-				console.log(data);
 				$scope.media=data;
 				//$scope.customerPdfList=data;
 				
@@ -10164,8 +10146,6 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Slider config saved successfully",
 				});*/
-				console.log("Customer pdfData");
-				console.log(data);
 				$scope.customerPdfList=data;
 				
 			});	
@@ -10177,8 +10157,6 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Slider config saved successfully",
 				});*/
-				console.log("Internal pdf dat");
-				console.log(data);
 				$scope.internalPdfList=data;
 			});	
 			
@@ -10186,8 +10164,6 @@ angular.module('newApp')
 	 		.success(function(data) {
 	 			$scope.siteList = data;
 	 			
-	 			console.log("sitelist");
-	 			console.log($scope.siteList);
 	 		});
 		
 		
@@ -10195,57 +10171,47 @@ angular.module('newApp')
 	
 	
 	$scope.documentationSetting = function() {
-		console.log("inside documentationSetting");
 		$location.path('/documentation');
 		
 	}
 	
 	
 	$scope.autoPortal = function() {
-		console.log("inside autoPortal");
 		$location.path('/autoPortal');
 		
 	}
 	
 	$scope.domainDetails= function() {
-		console.log("inside domainDetails");
 		$location.path('/domainDetails');
 		
 	}
 	
 	
 	$scope.plansAndBill= function() {
-		console.log("inside /plansAndBill");
 		$location.path('/plansAndBill');
 		
 	}
 	
 	$scope.newsLetterSetting = function() {
-		console.log("inside newsLetter");
 		$location.path('/newsLetter');
 		
 	}
 	
 	$scope.socialMedia = function() {
-		console.log("inside socialMedia");
 		$location.path('/socialMedia');
 		
 	}
 	
 	$scope.graphicInfo = function() {
-		console.log("inside graphic");
 		$location.path('/configuration');
 		
 	}
 	$scope.premiumLeadsInfo= function() {
-		console.log("inside premiumLeads");
 		$location.path('/premiumLeads');
 		
 	}
 	
 	$scope.saveEmailDetails= function(auto) {
-		console.log("inside saveEmailDetails");
-		console.log(auto);
 		$http.post('/saveEmailDetails',auto)
 		.success(function(data) {
 
@@ -10262,7 +10228,6 @@ angular.module('newApp')
 	}
 	$scope.selectHost = 0;
 	$scope.showLoginPasswordText = function(hostname){
-		console.log(hostname);
 		if(hostname != "Other"){
 			$scope.selectHost = 1;
 		}else{
@@ -10296,12 +10261,9 @@ angular.module('newApp')
 	
 	$scope.autoPort={};
 	$scope.saveAutoPortal= function(auto,siteName) {
-		console.log("inside saveAutoPortal");
-		console.log(siteName);
 		auto.sitename=siteName;
 		$scope.autoPort=auto;
 		//$scope.autoPort.siteName=siteName;
-		console.log($scope.autoPort);
 		$http.post('/saveAutoPortal',$scope.autoPort)
 		.success(function(data) {
 
@@ -10319,12 +10281,9 @@ angular.module('newApp')
 	
 	$scope.autoPort1={};
 	$scope.acountDetails= function(auto,siteName) {
-		console.log("inside acountDetails");
-		console.log(siteName);
 		auto.sitename=siteName;
 		$scope.autoPort1=auto;
 		//$scope.autoPort.siteName=siteName;
-		console.log($scope.autoPort1);
 		$http.post('/acountDetails',$scope.autoPort1)
 		.success(function(data) {
 
@@ -10346,8 +10305,6 @@ angular.module('newApp')
 	 var logofile;
 		$scope.onFileSelect = function ($files) {
 			logofile = $files;
-			console.log("??????????");
-			console.log(logofile);
 			$upload.upload({
 		 	         url : '/saveInternalPdf',
 		 	         method: 'POST',
@@ -10372,8 +10329,6 @@ angular.module('newApp')
 		var logofile1;
 		$scope.onCustomerFileSelect = function ($files) {
 			logofile1 = $files;
-			console.log("??????????");
-			console.log(logofile);
 			$upload.upload({
 		 	         url : '/saveCustomerPdf',
 		 	         method: 'POST',
@@ -10392,8 +10347,6 @@ angular.module('newApp')
 		 	  				    type:'success',
 		 	  				    text: "Slider config saved successfully",
 		 	  				});*/
-		 	  				console.log("Customer pdfData");
-		 	  				console.log(data);
 		 	  				
 		 	  			});		
 		 	  			
@@ -10403,8 +10356,6 @@ angular.module('newApp')
 		
 		$scope.deletePdf = function(id) {
 			
-			console.log("inside delete pdf");
-			console.log(id);
 			$http.get('/deletePdfById/'+id)
 	  			.success(function(data) {
 	  				/*$.pnotify({
@@ -10420,8 +10371,6 @@ angular.module('newApp')
 
 		$scope.deleteInternalPdf = function(id) {
 			
-			console.log("inside delete pdf");
-			console.log(id);
 			$http.get('/deleteInternalPdf/'+id)
 	  			.success(function(data) {
 	  				/*$.pnotify({
@@ -10434,7 +10383,6 @@ angular.module('newApp')
 		}
 		
 		$scope.permiumAss = function(saleP){
-		console.log(saleP);
 		$http.get('/setPermiumFlag/'+saleP.id).success(function(data){
 			console.log("Yesssss");
 		});
@@ -10549,8 +10497,6 @@ angular.module('newApp')
 	
 		$http.get('/getSaleHourData')
 		.success(function(data) {
-			console.log("?????????????????????");
-			console.log(data[0]);
 			$scope.operation=data[0];
 			//$('#sunOpen').val($scope.operation.sunOpenTime);
 			
@@ -10560,8 +10506,6 @@ angular.module('newApp')
 		
 		$http.get('/getSaleHourDataForService')
 		.success(function(data) {
-			console.log("?????????????????????");
-			console.log(data[0]);
 			$scope.operation1=data[0];
 			//$('#sunOpen').val($scope.operation.sunOpenTime);
 			
@@ -10569,8 +10513,6 @@ angular.module('newApp')
 		
 		$http.get('/getSaleHourDataForParts')
 		.success(function(data) {
-			console.log("?????????????????????");
-			console.log(data[0]);
 			$scope.operation2=data[0];
 			//$('#sunOpen').val($scope.operation.sunOpenTime);
 			
@@ -10695,7 +10637,6 @@ angular.module('newApp')
 	$scope.operation2={};
 	$scope.saveSalesHoursForParts = function() {
 		$scope.operation2.typeOfOperation='parts';
-		console.log(">>>>>>>>>>>> <<<<<<<<<<<<<<<")
 		$scope.operation2.sunOpenTime = $('#sunOpen2').val();
 		$scope.operation2.sunCloseTime= $('#sunClose2').val();
 		$scope.operation2.monOpenTime = $('#monOpen2').val();
@@ -10710,7 +10651,6 @@ angular.module('newApp')
 		$scope.operation2.friCloseTime= $('#friClose2').val();
 		$scope.operation2.satOpenTime = $('#satOpen2').val();
 		$scope.operation2.satCloseTime= $('#satClose2').val();
-		   console.log($scope.operation2);
 		   
 		   $http.post('/saveSalesHoursForParts',$scope.operation2)
 			.success(function(data) {
@@ -10747,7 +10687,6 @@ angular.module('newApp')
 		$scope.operation.friCloseTime= $('#friClose').val();
 		$scope.operation.satOpenTime = $('#satOpen').val();
 		$scope.operation.satCloseTime= $('#satClose').val();
-		   console.log($scope.operation);
 		   
 		   $http.post('/saveHours',$scope.operation)
 			.success(function(data) {
@@ -10766,7 +10705,6 @@ angular.module('newApp')
 	$scope.checkForService = function() {
 		$scope.checkForServiceValue=0;
 		$scope.operation1.typeOfOperation='service';
-		console.log($scope.operation1.serviceCheck);
 		if($scope.operation1.serviceCheck == false || $scope.operation1.serviceCheck == undefined ){
 			$scope.checkForServiceValue=1;
 		}
@@ -10783,7 +10721,6 @@ angular.module('newApp')
 	$scope.checkForServiceForPart = function() {
 		$scope.checkForServiceValue=0;
 		$scope.operation1.typeOfOperation='parts';
-		console.log($scope.operation2.serviceCheck);
 		if($scope.operation2.serviceCheck == false || $scope.operation2.serviceCheck == undefined ){
 			$scope.checkForServiceValue=1;
 		}
@@ -10799,7 +10736,6 @@ angular.module('newApp')
 	
 	$scope.operation1={};
 	$scope.saveSalesHoursForService = function() {
-		console.log(">>>>>>>>>>>> <<<<<<<<<<<<<<<")
 		$scope.operation1.typeOfOperation='service';
 		$scope.operation1.sunOpenTime = $('#sunOpen1').val();
 		$scope.operation1.sunCloseTime= $('#sunClose1').val();
@@ -10815,7 +10751,6 @@ angular.module('newApp')
 		$scope.operation1.friCloseTime= $('#friClose1').val();
 		$scope.operation1.satOpenTime = $('#satOpen1').val();
 		$scope.operation1.satCloseTime= $('#satClose1').val();
-		   console.log($scope.operation1);
 		   
 		   $http.post('/saveSalesHoursForService',$scope.operation1)
 			.success(function(data) {

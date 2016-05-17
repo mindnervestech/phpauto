@@ -4657,11 +4657,12 @@ float: right !important;
 		                <div class="panel no-bd bd-3 panel-stat">
 		                	<div class="panel-header">
 		                		<b>PAGES</b>
+		                		
 		                	</div>
 		                	<div style="height:180px;overflow-y:auto;">
 			                	<div ng-repeat="page in pagesList">
 			                	<div class="form-group col-sm-12">
-										<label class="col-sm-10 control-label" style="font-size:10px;">{{page.pageUrl}}</label>
+										<label class="col-sm-10 control-label" style="font-size:10px;"><a href="{{page.fullUrl}}" target="_blank">{{page.pageUrl}}</a></label>
 											<div class="col-sm-2" style="font-size:10px;">
 												{{page.count}}
 											</div>

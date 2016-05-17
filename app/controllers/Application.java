@@ -141,6 +141,7 @@ import viewmodel.AudioVM;
 import viewmodel.AutoPortalVM;
 import viewmodel.BarChartVM;
 import viewmodel.BlogVM;
+import viewmodel.ClickyPagesVM;
 import viewmodel.ContactsVM;
 import viewmodel.DateAndValueVM;
 import viewmodel.DocumentationVM;
@@ -20731,7 +20732,48 @@ private static void cancelTestDriveMail(Map map) {
     	
     	String params = null;
     	params = "&type=pages&heatmap_url=1&date="+startD+","+endD+"&limit=all";
-    	return ok(Json.parse(callClickAPI(params)));
+    	Location locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	List<ClickyPagesVM> cList = new ArrayList<>();
+    	try {
+    		
+			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+			for(int i=0;i<jsonArray.length();i++){
+    			String data = jsonArray.getJSONObject(i).get("url").toString();
+    			String arr[] = data.split("#_");
+    			try {
+	    			String findLoc[] = arr[0].split("locationId=");
+	    			String locString = findLoc[1].replace("+", " ");
+	    			if(locations.name.equals(locString)){
+	    				ClickyPagesVM cPagesVM = new ClickyPagesVM();
+	    				cPagesVM.value = jsonArray.getJSONObject(i).get("value").toString();
+	    				cPagesVM.value_percent = jsonArray.getJSONObject(i).get("value_percent").toString();
+	    				cPagesVM.title = jsonArray.getJSONObject(i).get("title").toString();
+	    				cPagesVM.stats_url = jsonArray.getJSONObject(i).get("stats_url").toString();
+	    				cPagesVM.url = jsonArray.getJSONObject(i).get("url").toString();
+	    				cPagesVM.showUrl = arr[0];
+	    				cList.add(cPagesVM);
+	    			}
+    			} catch (Exception e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    			
+    			
+			}	
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	return ok(Json.toJson(cList));
     }
     
     public static Result getHeatMapList(Integer value){
@@ -21307,6 +21349,9 @@ private static void cancelTestDriveMail(Map map) {
     	List<Integer> actionsList = new ArrayList<Integer>(12);
     	List<Integer> averageActionsList = new ArrayList<Integer>(12);
     	List<String> months = new ArrayList<String>(12);
+    	
+    	Location locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	
     	for(int i=0;i<12;i++) {
     		String year = c.get(Calendar.YEAR)+"";
         	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
@@ -21338,21 +21383,36 @@ private static void cancelTestDriveMail(Map map) {
     	List<PageVM> searchesList = new ArrayList<>();
     	
     	for(JsonNode obj : pagesNodeList.get(0).get("dates").get(0).get("items")) {
-    		String arr[] = obj.get("url").textValue().split("/");
-    		PageVM vm = new PageVM();
-    		vm.count = obj.get("value").textValue();
-    		if(arr[arr.length-2].equals("mobile")) {
-    			vm.pageUrl = "mobile "+arr[arr.length-1];	
-	    	} else {
-	    		if(arr[arr.length-1].equals("") || arr[arr.length-1].equals("glivr")) {
-	    			vm.pageUrl = "dashboard";
-	    		} else {
-	    			vm.pageUrl = arr[arr.length-1];
+    		try{
+	    		String findLoc[] = obj.get("url").textValue().split("locationId=");
+	    		String locString = findLoc[1].replace("+", " ");
+	    		if(locations.name.equals(locString)){
+	    			String sUrl = findLoc[0].replace("?", "");
+	    			String arr[] = sUrl.split("/");
+	        		PageVM vm = new PageVM();
+	        		vm.count = obj.get("value").textValue();
+	        		if(arr[arr.length-2].equals("mobile")) {
+	        			vm.pageUrl = "mobile "+arr[arr.length-1];	
+	        			vm.fullUrl = obj.get("url").textValue();
+	    	    	} else {
+	    	    		if(arr[arr.length-1].equals("") || arr[arr.length-1].equals("glivr")) {
+	    	    			vm.pageUrl = "dashboard";
+	    	    			vm.fullUrl = obj.get("url").textValue();
+	    	    		} else {
+	    	    			vm.pageUrl = arr[arr.length-1];
+	    	    			vm.fullUrl = obj.get("url").textValue();
+	    	    		}
+	    	    	}
+	        		pagesList.add(vm);
 	    		}
-	    	}
+    		}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		
-    		pagesList.add(vm);
+    		
     	}
+       	
     	
     	for(JsonNode obj : referersNodeList.get(0).get("dates").get(0).get("items")) {
     		PageVM vm = new PageVM();
