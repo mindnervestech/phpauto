@@ -8976,6 +8976,7 @@ angular.module('newApp')
 			 $('#comingsoonDateEdit').val(data.specification.comingSoonDate);
 			 if(data.specification.comingSoonFlag ==1){
 				 $scope.master=true;
+				 $scope.vinData.specification.commingSoonVehicle = true;
 			 }
 			//for publish button flag
 			 console.log('before calling');
@@ -9180,7 +9181,7 @@ angular.module('newApp')
 		   $scope.vinData.specification.drivetrain = $('#driveTypeSearch_value').val();
 		   
 		   console.log($scope.vinData.specification.price);
-		   if($scope.vinData.specification.price == null){
+		   if($scope.vinData.specification.price == null || $scope.vinData.specification.price == ""){
 			   $scope.vinData.specification.price = 0;
 		   }
 		   
