@@ -5928,7 +5928,8 @@ float: right !important;
 								                <label  class="form-group col-sm-3">Text   </label>
 								                     <div class="form-group col-sm-9">
 														<div class="col-sm-510">
-															<input class="form-control form-white" style="" ng-model="pdf.text" type="text" required>
+														<textarea rows="6" class="form-control form-white" style="" ng-model="pdf.text" type="text" required></textarea>
+															<!-- <input class="form-control form-white" style="" ng-model="pdf.text" type="text" required> -->
 														</div>
 													</div>
 													
@@ -5964,8 +5965,11 @@ float: right !important;
 								<div class="col-sm-5">
 										<input type="file" name="logoFile" ng-file-select="onCustomerFileSelect($files)" accept="application/msword,application/pdf"/>
 								</div>
-							</div>
-								
+					</div>
+										<div class="form-group col-sm-12">
+						                <label  ng-if="flagForMsg == 1" class="form-group col-sm-12" style="color: red;"> You have to select or upload One Pdf file </label>
+										</div>	
+						
 					                </div>
 					                <div class="modal-footer">
 				                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>

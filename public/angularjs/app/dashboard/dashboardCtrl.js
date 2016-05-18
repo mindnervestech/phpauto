@@ -1690,8 +1690,8 @@ angular.module('newApp')
      	     		     			 				                                 
      	     		     			 				                                 },
      	     		     			 				                                 
-     	     		     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,
-     	     		     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-left:3%;">SOLD</button> <select ng-model="action" ng-change="grid.appScope.actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary" style="text-transform :uppercase;height :25px"><option value="">Actions</option><option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option><option ng-if="row.entity.confirmDate != null" value="Rechedule" value="Reschedule">Reschedule</option> <option value="SendPdf">Send Pdf</option> </select> <button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
+     	     		     			 				                               { name: 'btnSold', displayName: '',enableFiltering: false, width:'40%',cellEditableCondition: false,        /* <button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate != null" class="btn btn-sm btn-primary" style="margin-left:0px;">RESCHEDULE</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,2)" ng-show="grid.appScope.userType != \'\' && row.entity.confirmDate == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button>*/                                                                     
+     	     		     	      			 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.soldScheduleStatus(row.entity)" class="btn btn-sm btn-primary" ng-show="grid.appScope.userType != \'\'"style="margin-left:3%;">SOLD</button> <button type="button" ng-show="grid.appScope.userType != \'\'"ng-click="grid.appScope.cancelScheduleStatus(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button> <button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'tradeIn\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button> <select ng-model="action" ng-change="grid.appScope.actionOnPdf(row.entity,action)" class="btn btn-sm btn-primary" style="text-transform :uppercase;height :25px"><option value="" >Actions</option><option ng-if="row.entity.confirmDate == null" value="Schedule">Schedule</option><option ng-if="row.entity.confirmDate != null" value="Rechedule" value="Reschedule">Reschedule</option> <option value="SendPdf">Send Pdf</option> <option value="clientele">Add to Clientele </option>  </select> ',   
      	     		     	      			 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
      	     		     	      			 		                                	 if (row.entity.confirmDate === null && row.entity.noteFlag != 1) {
      	     		     	       			   		                                         return 'red';
@@ -4888,13 +4888,17 @@ angular.module('newApp')
 		       	
 	}
 		
-		
+		$scope.ducumentNames = [];
 		$scope.sendPdfEmail= function (pdf){
 			console.log(pdf);
 			$scope.pdf.pdfIds = $scope.pdfDoc;
-			console.log($scope.pdf.pdfIds);
+			console.log(":::::::::"+$scope.pdfDoc.length);
 			$scope.pdf.email=$scope.SendPdfemail;
+			$scope.flagForMsg=0;
 			
+			
+			
+			if($scope.pdfDoc.length != 0 ){
 			$http.post('/sendPdfEmail',$scope.pdf)
 			.success(function(data) {
 				$.pnotify({
@@ -4923,14 +4927,34 @@ angular.module('newApp')
 				
 			});
 			
+			}
+			else{
+				
+				$scope.flagForMsg=1;
+				
+			}
 			
 			
 			
 		}
 		
+		$scope.pdf={};
 		$scope.actionOnPdf= function (entity,option){
 			console.log("inside pdf");
 			console.log(entity);
+			//$scope.pdf.typeOfLead=entity.typeOfLead;
+			if(entity.typeOfLead == "Request More Info"){
+				$scope.pdf.typeOfLead="requestMore";
+			}
+			else if(entity.typeOfLead == "Schedule Test Drive"){
+				$scope.pdf.typeOfLead="scheduleTest";
+			}
+          else if(entity.typeOfLead == "Trade-In Appraisal"){
+        	  $scope.pdf.typeOfLead="tradeIn";
+			}
+			
+			
+			$scope.pdf.id=entity.id;
 				if(option == 'Schedule' || option == 'Rechedule' ){
 					$scope.scheduleTestDriveForUser(entity,2);
 				}
@@ -4950,7 +4974,10 @@ angular.module('newApp')
 					
 				}
 				
-			console.log(option);
+				else if(option == 'clientele'){
+					$scope.createContact(entity)
+				}
+				
 			
 		}
 		$scope.pdfDoc = [];
