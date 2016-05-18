@@ -93,6 +93,7 @@ import models.ScheduleTest;
 import models.Site;
 import models.SiteAboutUs;
 import models.SiteContent;
+import models.SiteInventory;
 import models.SiteLogo;
 import models.SiteTestimonials;
 import models.SliderImage;
@@ -167,6 +168,7 @@ import viewmodel.ScheduleTestVM;
 import viewmodel.SetPriceChangeFlag;
 import viewmodel.SiteAboutUsVM;
 import viewmodel.SiteContentVM;
+import viewmodel.SiteInventoryVM;
 import viewmodel.SiteLogoVM;
 import viewmodel.SiteTestimonialVM;
 import viewmodel.SiteVM;
@@ -2339,6 +2341,89 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		return ok(Json.toJson(modelList));
     	}
 	}
+    
+    
+    public static Result saveSiteInventory(){
+    	Identity user=getLocalUser();
+    	Form<SiteInventoryVM> form = DynamicForm.form(SiteInventoryVM.class).bindFromRequest();
+    	SiteInventoryVM vm = form.get();
+    	
+    		if(vm.vType.equals("Used") || vm.applyAll.equals("true")){
+    			SiteInventory sInventoryUsed = SiteInventory.findByLocationAndType(Long.valueOf(session("USER_LOCATION")),"Used");
+    			if(sInventoryUsed == null){
+    				SiteInventory siInventory = new SiteInventory();
+                	siInventory.defaultView = vm.defaultView;
+                	siInventory.mainTitle = vm.mainTitle;
+                	siInventory.subTitle = vm.subTitle;
+                	siInventory.sortBy = vm.sortBy;
+                	siInventory.sortType = vm.sortType;
+                	siInventory.vType = "Used";
+                	siInventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+                	siInventory.save();
+    			}else{
+    				sInventoryUsed.setDefaultView(vm.defaultView);
+    				sInventoryUsed.setMainTitle(vm.mainTitle);
+    				sInventoryUsed.setSubTitle(vm.subTitle);
+    				sInventoryUsed.setSortBy(vm.sortBy);
+    				sInventoryUsed.setSortType(vm.sortType);
+    				sInventoryUsed.setvType("Used");
+    				sInventoryUsed.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    				sInventoryUsed.update();
+    			}
+    			
+    		}
+    		if(vm.vType.equals("New") || vm.applyAll.equals("true")){
+    			SiteInventory sInventoryNew = SiteInventory.findByLocationAndType(Long.valueOf(session("USER_LOCATION")),"New");
+    			if(sInventoryNew == null){
+    				SiteInventory siInventory = new SiteInventory();
+                	siInventory.defaultView = vm.defaultView;
+                	siInventory.mainTitle = vm.mainTitle;
+                	siInventory.subTitle = vm.subTitle;
+                	siInventory.sortBy = vm.sortBy;
+                	siInventory.sortType = vm.sortType;
+                	siInventory.vType = "New";
+                	siInventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+                	siInventory.save();
+    			}else{
+    				sInventoryNew.setDefaultView(vm.defaultView);
+    				sInventoryNew.setMainTitle(vm.mainTitle);
+    				sInventoryNew.setSubTitle(vm.subTitle);
+    				sInventoryNew.setSortBy(vm.sortBy);
+    				sInventoryNew.setSortType(vm.sortType);
+    				sInventoryNew.setvType("New");
+    				sInventoryNew.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    				sInventoryNew.update();
+    			}
+    			
+    		}
+    		if(vm.vType.equals("comingSoon") || vm.applyAll.equals("true")){
+    			SiteInventory sInventoryComingSoon = SiteInventory.findByLocationAndType(Long.valueOf(session("USER_LOCATION")),"comingSoon");
+    			if(sInventoryComingSoon == null){
+    				SiteInventory siInventory = new SiteInventory();
+                	siInventory.defaultView = vm.defaultView;
+                	siInventory.mainTitle = vm.mainTitle;
+                	siInventory.subTitle = vm.subTitle;
+                	siInventory.sortBy = vm.sortBy;
+                	siInventory.sortType = vm.sortType;
+                	siInventory.vType = "comingSoon";
+                	siInventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+                	siInventory.save();
+    			}else{
+    				sInventoryComingSoon.setDefaultView(vm.defaultView);
+    				sInventoryComingSoon.setMainTitle(vm.mainTitle);
+    				sInventoryComingSoon.setSubTitle(vm.subTitle);
+    				sInventoryComingSoon.setSortBy(vm.sortBy);
+    				sInventoryComingSoon.setSortType(vm.sortType);
+    				sInventoryComingSoon.setvType("comingSoon");
+    				sInventoryComingSoon.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    				sInventoryComingSoon.update();
+    			}
+    			
+    		}
+    	
+    	
+    	return ok();
+    }
     
     public static Result saveDomain(){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {

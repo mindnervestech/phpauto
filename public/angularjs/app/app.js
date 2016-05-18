@@ -147,6 +147,22 @@ var MakeApp = angular
             templateUrl: '/dealer/homePage/siteAboutUs.html',
             controller: 'HomePageCtrl'
         })
+        
+        .when('/goToInventoryNew/:type', {
+            templateUrl: '/dealer/homePage/siteInventoryNew.html',
+            controller: 'HomePageCtrl'
+        })
+        
+        .when('/goToInventoryUsed/:type', {
+            templateUrl: '/dealer/homePage/siteInventoryUsed.html',
+            controller: 'HomePageCtrl'
+        })
+        
+        .when('/goToInventoryComingsoon/:type', {
+            templateUrl: '/dealer/homePage/siteInventoryComingSoon.html',
+            controller: 'HomePageCtrl'
+        })
+        
        
         .when('/requestMoreInfo', {
             templateUrl: '/dealer/moreInfo/requestMoreInfo.html',

@@ -10066,6 +10066,23 @@ angular.module('newApp')
 			});
 	   }
 	   
+	   $scope.saveInventory = function(type){
+		   console.log(type);
+		   console.log($scope.siteInventory);
+		   if($scope.siteInventory.applyAll == undefined){
+			   $scope.siteInventory.applyAll = false;
+		   }
+		   $scope.siteInventory.vType = type;
+		   $http.post('/saveSiteInventory',$scope.siteInventory)
+	   		.success(function(data) {
+	   			$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Inventory saved successfully",
+				});
+	   		});
+		   
+	   }
 	   $scope.goToSlider = function() {
 		   $location.path('/sliderImages');
 	   }
@@ -10086,6 +10103,16 @@ angular.module('newApp')
 	   }
 	   $scope.goToAboutUs = function(){
 		   $location.path('/siteAboutUs');
+	   }
+	   $scope.goToInventory = function(){
+		   $location.path('/goToInventoryNew/'+"New");
+	   }
+	   
+	   $scope.goToInventoryUsed = function(){
+		   $location.path('/goToInventoryUsed/'+"Used");
+	   }
+	   $scope.goToInventorycomingSoon = function(){
+		   $location.path('/goToInventoryComingsoon/'+"comingSoon");
 	   }
 	   
 	   

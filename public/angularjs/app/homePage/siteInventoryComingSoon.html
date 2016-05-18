@@ -1,0 +1,112 @@
+<div ng-init="init()">
+  <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Home Page</button></a></li>
+      <!-- <li role="presentation" class=""><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToFeatured()">Featured Images</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLogo()">Logo & Favicon</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToTestiMonials()">Testimonials</button></a></li>
+       --><li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToAboutUs()">About Us</button></a></li>
+    </ul>
+    
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+       <li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSlider()">Slider Images</button></a></li>
+      <li role="presentation" class=""><a id="profile-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToFeatured()">Featured Images</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLogo()">Logo & Favicon</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToTestiMonials()">Testimonials</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="home-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventory()">Inventory</button></a></li>
+     </ul>
+     <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class=""><a id="profile-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventory()">News</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventoryUsed()">Used</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="home-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventorycomingSoon()">Coming Soon</button></a></li>
+     </ul>
+    
+    
+	    <div id="myTabContent" class="tab-content">
+	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+	        	<h2>Coming Soon</h2>
+	        	<form ng-submit="saveInventory('comingSoon')" style="margin-top:5%;">
+	        	<div class="form-group col-sm-12">
+	        		 <div class="col-sm-2">
+	        		</div>
+	        		<div class="col-sm-6"> 
+	        			<input type="checkbox" ng-model="siteInventory.applyAll" name="applyAll" value="applyAll"> Assign same setting for all collections
+	        		 </div> 
+	        		
+	        	</div>
+	            <div class="form-group col-sm-12">
+					<label class="col-sm-2 control-label" style="text-align: right;">Main Title: </label>
+					<div class="col-sm-6">
+						<input class="form-control form-white" type="text" ng-model="siteInventory.mainTitle" placeholder="" required>
+					</div>
+				</div>
+				<div class="form-group col-sm-12">
+					<label class="col-sm-2 control-label" style="text-align: right;">SubTitle: </label>
+					<div class="col-sm-6">
+						<input class="form-control form-white" type="text" ng-model="siteInventory.subTitle" placeholder="" required>
+					</div>
+				</div>
+				
+				<div class="form-group col-sm-12">
+					<label class="col-sm-2 control-label" style="text-align: right;">default View: </label>
+					<div class="col-sm-6">
+						<input type="radio" ng-model="siteInventory.defaultView" name="defaultView" value="oneLine" checked><i class="glyphicon glyphicon-align-justify"></i>&nbsp;&nbsp;&nbsp;
+  						<input type="radio" ng-model="siteInventory.defaultView" name="defaultView" value="multipleLine"> <i class="glyphicon glyphicon-th"></i>
+					</div>
+				</div>
+				<div class="form-group col-sm-12">
+					<label class="col-sm-2 control-label" style="text-align: right;">Sort By: </label>
+					<div class="col-sm-6">
+						<div class="col-sm-12">
+							<input type="radio" ng-model="siteInventory.sortBy" name="sortBy" value="price"><b>By Price</b>
+							<div class="col-sm-12" ng-if="siteInventory.sortBy == 'price'">
+								<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Low To High"> Low To High&nbsp;&nbsp;&nbsp;
+	  							<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="High To Low"> High To Low
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<input type="radio" ng-model="siteInventory.sortBy" name="sortBy" value="Alphabetical"><b>By Alphabetical Order</b>
+							<div class="col-sm-12" ng-if="siteInventory.sortBy == 'Alphabetical'">
+								<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="A To Z"> A To Z&nbsp;&nbsp;&nbsp;
+	  							<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Z To A"> Z To A
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<input type="radio" ng-model="siteInventory.sortBy" name="sortBy" value="Time"><b>By Time Added</b>
+							<div class="col-sm-12" ng-if="siteInventory.sortBy == 'Time'">
+								<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Newest To Oldest"> Newest To Oldest &nbsp;&nbsp;&nbsp;
+	  							<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Oldest To Newest"> Oldest To Newest
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			
+			<button type="submit" class="btn btn-primary" style="margin-top:3%;margin-left:20%;">Save</button>
+			</form>
+			
+	      </div>
+	      
+	    </div>
+  </div>
+</div>  
+
+
+<style>
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+</style>
