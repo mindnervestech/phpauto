@@ -21002,6 +21002,84 @@ private static void cancelTestDriveMail(Map map) {
     }
     
     
+    
+    public static Result getAllVehicleDemographicsInData(){
+    	Map map = new HashMap(2);
+		Map<String, Integer> mapRM = new HashMap<String, Integer>();
+		Map<String, Integer> mapWebBro = new HashMap<String, Integer>();
+		Map<String, Integer> maplocation = new HashMap<String, Integer>();
+		Map<String, Integer> mapoperatingSystem = new HashMap<String, Integer>();
+		Map<String, Integer> mapSreenResoluation = new HashMap<String, Integer>();
+		
+		List<ClickyVisitorsList> cList= ClickyVisitorsList.getfindAll();
+		//String params = "&type=visitors-list&date=last-30-days&limit=all";
+    	//try {
+    		
+    		int lagCount = 1;
+			//JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+			for(ClickyVisitorsList click:cList){
+    			String data = click.landingPage;
+    			String arr[] = data.split("/");
+    			if(arr.length > 5){
+    			  if(arr[5] != null){
+    				//  if(arr[5].equals(value)){
+    					  
+    					  Integer langValue = mapRM.get(click.language); 
+    						if (langValue == null) {
+    							mapRM.put(click.language, lagCount);
+    						}else{
+    							mapRM.put(click.language, mapRM.get(click.language) + 1);
+    						}
+    						
+    						 Integer mapWebBroValue = mapWebBro.get(click.webBrowser); 
+     						if (mapWebBroValue == null) {
+     							mapWebBro.put(click.webBrowser, lagCount);
+     						}else{
+     							mapWebBro.put(click.webBrowser, mapWebBro.get(click.webBrowser) + 1);
+     						}
+     						
+     						Integer maplocationValue = maplocation.get(click.geolocation); 
+     						if (maplocationValue == null) {
+     							maplocation.put(click.geolocation, lagCount);
+     						}else{
+     							maplocation.put(click.geolocation, maplocation.get(click.geolocation) + 1);
+     						}
+     						
+     						Integer mapoperatingSystemValue = mapoperatingSystem.get(click.operatingSystem); 
+     						if (mapoperatingSystemValue == null) {
+     							mapoperatingSystem.put(click.operatingSystem, lagCount);
+     						}else{
+     							mapoperatingSystem.put(click.operatingSystem, mapoperatingSystem.get(click.operatingSystem) + 1);
+     						}
+     						
+     						Integer mapSreenResoluationValue = mapSreenResoluation.get(click.screenResolution); 
+     						if (mapSreenResoluationValue == null) {
+     							mapSreenResoluation.put(click.screenResolution, lagCount);
+     						}else{
+     							mapSreenResoluation.put(click.screenResolution, mapSreenResoluation.get(click.screenResolution) + 1);
+     						}
+    						
+     						
+    				 // }
+    			  }
+    			}
+    			
+			}	
+		/*} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+
+    	map.put("language", mapRM);
+    	map.put("location", maplocation);
+    	map.put("webBrowser", mapWebBro);
+    	map.put("operatingSystem", mapoperatingSystem);
+    	map.put("screenResoluation", mapSreenResoluation);
+    	
+    	
+    	return ok(Json.toJson(map));
+    }
+    
     public static Result getAllVehicleDemographics(){
     	Map map = new HashMap(2);
 		Map<String, Integer> mapRM = new HashMap<String, Integer>();

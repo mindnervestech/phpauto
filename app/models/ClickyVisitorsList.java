@@ -360,6 +360,9 @@ public class ClickyVisitorsList extends Model {
 		return find.where().between("DateClick", sDate, eDate).findList();
 	}
 	
+	public static List<ClickyVisitorsList> getfindAll() {
+		return find.all();
+	}
 	
 	
 }

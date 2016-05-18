@@ -177,7 +177,7 @@ angular.module('newApp')
 		};
 	
 	
-	$http.get('/getAllVehicleDemographics').success(function(data) {
+		$http.get('/getAllVehicleDemographicsInData').success(function(data) {
 		console.log(data);
 		$scope.langmap = data.language;
 		$scope.webBrosmap = data.webBrowser;
