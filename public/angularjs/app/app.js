@@ -48,11 +48,11 @@ var MakeApp = angular
             controller: 'myprofileCtrl'
         })
         
-        .when('/hoursOfOperations', {
+       /* .when('/hoursOfOperations', {
             templateUrl: '/dealer/myprofile/hoursOfOperation.html',
             controller: 'myprofileCtrl'
         })
-        
+        */
         .when('/createUser', {
             templateUrl: '/dealer/myprofile/createUser.html',
             controller: 'createUserCtrl'
@@ -146,6 +146,11 @@ var MakeApp = angular
         .when('/siteAboutUs', {
             templateUrl: '/dealer/homePage/siteAboutUs.html',
             controller: 'HomePageCtrl'
+        })
+        
+         .when('/hoursOfOperations', {
+            templateUrl: '/dealer/homePage/hoursOfOperation.html',
+            controller: 'myprofileCtrl'
         })
         
         .when('/goToInventoryNew/:type', {

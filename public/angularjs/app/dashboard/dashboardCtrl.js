@@ -10112,6 +10112,12 @@ angular.module('newApp')
 		   $location.path('/goToInventoryNew/'+"New");
 	   }
 	   
+	   $scope.gotoHoursOfOperation = function() {
+			
+			$location.path('/hoursOfOperations');
+		}; 	
+	   
+	   
 	   $scope.goToInventoryUsed = function(){
 		   $location.path('/goToInventoryUsed/'+"Used");
 	   }
@@ -10836,10 +10842,52 @@ angular.module('newApp')
 		
 	}
 	
-	$scope.gotoHoursOfOperation = function() {
+	
+
+	   $scope.goToSlider = function() {
+		   $location.path('/sliderImages');
+	   }
+	   $scope.goToFeatured = function() {
+		   $location.path('/featuredImages');
+	   }
+	   $scope.goToSlogan = function() {
+		   $location.path('/siteSlogan');
+	   }
+	   $scope.goToDesc = function() {
+		   $location.path('/siteDescription');
+	   }
+	   $scope.goToLogo = function() {
+		   $location.path('/siteLogo');
+	   }
+	   $scope.goToTestiMonials = function() {
+		   $location.path('/siteTestiMonials');
+	   }
+	   $scope.goToAboutUs = function(){
+		   $location.path('/siteAboutUs');
+	   }
+	   $scope.goToInventory = function(){
+		   $location.path('/goToInventoryNew/'+"New");
+	   }
+	   
+	   $scope.gotoHoursOfOperation = function() {
+			
+			$location.path('/hoursOfOperations');
+		}; 	
+	   
+	   
+	   $scope.goToInventoryUsed = function(){
+		   $location.path('/goToInventoryUsed/'+"Used");
+	   }
+	   $scope.goToInventorycomingSoon = function(){
+		   $location.path('/goToInventoryComingsoon/'+"comingSoon");
+	   }
+	   
+
+	
+	/*$scope.gotoHoursOfOperation = function() {
 		
 		$location.path('/hoursOfOperations');
-	}; 	
+	};*/ 	
 	
 	
 	$scope.operation2={};
