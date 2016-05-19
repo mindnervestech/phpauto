@@ -24,6 +24,7 @@
       <li role="presentation" class=""><a id="profile-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventory()">New</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventoryUsed()">Used</button></a></li>
       <li role="presentation" class="active"><a role="tab" id="home-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventorycomingSoon()">Coming Soon</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventorycomingSoon()">Comparison</button></a></li>
      </ul>
     
     
@@ -55,7 +56,7 @@
 				<div class="form-group col-sm-12">
 					<label class="col-sm-2 control-label" style="text-align: right;">default View: </label>
 					<div class="col-sm-6">
-						<input type="radio" ng-model="siteInventory.defaultView" name="defaultView" value="oneLine" checked><i class="glyphicon glyphicon-align-justify"></i>&nbsp;&nbsp;&nbsp;
+						<input type="radio" ng-model="siteInventory.defaultView" name="defaultView" value="oneLine" checked><i class="glyphicon glyphicon-align-justify"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   						<input type="radio" ng-model="siteInventory.defaultView" name="defaultView" value="multipleLine"> <i class="glyphicon glyphicon-th"></i>
 					</div>
 				</div>
@@ -65,21 +66,21 @@
 						<div class="col-sm-12">
 							<input type="radio" ng-model="siteInventory.sortBy" name="sortBy" value="price"><b>By Price</b>
 							<div class="col-sm-12" ng-if="siteInventory.sortBy == 'price'">
-								<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Low To High"> Low To High&nbsp;&nbsp;&nbsp;
+								<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Low To High"> Low To High&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	  							<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="High To Low"> High To Low
 							</div>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12" style="margin-top: 15px;">
 							<input type="radio" ng-model="siteInventory.sortBy" name="sortBy" value="Alphabetical"><b>By Alphabetical Order</b>
 							<div class="col-sm-12" ng-if="siteInventory.sortBy == 'Alphabetical'">
-								<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="A To Z"> A To Z&nbsp;&nbsp;&nbsp;
+								<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="A To Z"> A To Z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	  							<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Z To A"> Z To A
 							</div>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12" style="margin-top: 15px;">
 							<input type="radio" ng-model="siteInventory.sortBy" name="sortBy" value="Time"><b>By Time Added</b>
 							<div class="col-sm-12" ng-if="siteInventory.sortBy == 'Time'">
-								<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Newest To Oldest"> Newest To Oldest &nbsp;&nbsp;&nbsp;
+								<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Newest To Oldest"> Newest To Oldest &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	  							<input type="radio" ng-model="siteInventory.sortType" name="sortType" value="Oldest To Newest"> Oldest To Newest
 							</div>
 						</div>
