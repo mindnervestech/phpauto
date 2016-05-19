@@ -88,9 +88,14 @@ public Long getId() {
 public static Finder<Long,CoverImage> find = new Finder<>(Long.class,CoverImage.class);
 	
 	
-public static CoverImage findByLocation(Long location) {
-	return find.where().eq("locations.id", location).findUnique();
-}
+	
+	public static CoverImage findByUser(AuthUser user) {
+		return find.where().eq("user", user).findUnique();
+	}
+	
+	public static CoverImage findByLocation(Long location) {
+		return find.where().eq("locations.id", location).findUnique();
+	}
 	
 	
 }
