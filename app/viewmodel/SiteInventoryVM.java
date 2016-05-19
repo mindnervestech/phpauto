@@ -10,6 +10,7 @@ public class SiteInventoryVM {
 	public String sortBy;
 	public String sortType;
 	public String imageUrl;
+	public String thumbPath;
 	public String imageName;
 	public String vType;
 	

@@ -163,6 +163,22 @@ var MakeApp = angular
             controller: 'HomePageCtrl'
         })
         
+        .when('/goToInventoryCoverImg/:type', {
+            templateUrl: '/dealer/homePage/siteInventoryCoverImg.html',
+            controller: 'HomePageCtrl'
+        })
+        
+         .when('/goToInventoryCoverImgNew/:type', {
+            templateUrl: '/dealer/homePage/siteInventoryCoverImgNew.html',
+            controller: 'HomePageCtrl'
+        })
+        
+         .when('/goToInventoryCoverImgComingSoon/:type', {
+            templateUrl: '/dealer/homePage/siteInventoryCoverImgComingSoon.html',
+            controller: 'HomePageCtrl'
+        })
+        
+        
         .when('/goToInventoryComingsoon/:type', {
             templateUrl: '/dealer/homePage/siteInventoryComingSoon.html',
             controller: 'HomePageCtrl'
@@ -262,6 +278,13 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/cropFeaturedImage.html',
             controller: 'FeaturedCropCtrl'
         })
+        
+        .when('/cropInventoryImage/:id', {
+            templateUrl: '/dealer/addPhotos/cropInventoryImage.html',
+            controller: 'InventoryCropCtrl'
+        })
+        
+        
         .when('/managePhotos/:num', {
             templateUrl: '/dealer/addPhotos/managePhotos.html',
             controller: 'ManagePhotoCtrl'

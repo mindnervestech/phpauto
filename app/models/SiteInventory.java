@@ -20,11 +20,25 @@ public class SiteInventory extends Model {
 	public String sortType;
 	public String vType;
 	public String imageUrl;
+	public String thumbPath;
 	public String imageName;
 	
-		
+	
 	@ManyToOne
 	public Location locations;
+	
+	
+	public String getThumbPath() {
+		return thumbPath;
+	}
+
+	public void setThumbPath(String thumbPath) {
+		this.thumbPath = thumbPath;
+	}
+
+
+
+	
 
 		
 	public Long getId() {

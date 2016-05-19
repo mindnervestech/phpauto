@@ -61,6 +61,7 @@ import models.Blog;
 import models.ClickyVisitorsList;
 import models.Comments;
 import models.Contacts;
+import models.CoverImage;
 import models.CustomerPdf;
 import models.Domain;
 import models.EmailDetails;
@@ -7045,14 +7046,178 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
 	    	
 	    	VehicleImageConfig config = VehicleImageConfig.findByUser(user);
-	    	//Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
-	    	//Thumbnails.of(croppedImage).size(210, 140).toFile(thumbFile);
 	    	Thumbnails.of(croppedImage).height(140).width(210).toFile(thumbFile);
 	    	
 	    	return ok();
     	}	
     }
     
+    
+    public static Result uploadInventoryPhotosComingSoon() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	MultipartFormData body = request().body().asMultipartFormData();
+	    	
+	    	Identity user = getLocalUser();
+	    	AuthUser userObj = (AuthUser)user;
+	    	
+	    	FilePart picture = body.getFile("file");
+	    	  if (picture != null) {
+	    	    String fileName = picture.getFilename();
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg");
+	    	    if(!fdir.exists()) {
+	    	    	fdir.mkdirs();
+	    	    }
+	    	    
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg"+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg"+File.separator+"thumbnail_"+fileName;
+	    	    File thumbFile = new File(thumbnailPath);
+	    	    File file = picture.getFile();
+	    	    try {
+	    	    BufferedImage originalImage = ImageIO.read(file);
+	    	    Thumbnails.of(originalImage).size(1200, 315).toFile(thumbFile);
+	    	    File _f = new File(filePath);
+				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+				
+				SiteInventory sInventory = SiteInventory.findByLocationAndType(Long.parseLong(session("USER_LOCATION")), "comingSoon");
+				
+				if(sInventory == null){
+					SiteInventory siteInventory = new SiteInventory();
+					siteInventory.imageName = fileName;
+					siteInventory.imageUrl = "/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName;
+					siteInventory.thumbPath = "/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName;
+					siteInventory.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					siteInventory.vType = "comingSoon";
+					siteInventory.save();
+				}else{
+					sInventory.setImageName(fileName);
+					sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
+					sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+					sInventory.update();
+				}
+				
+	    	  } catch (FileNotFoundException e) {
+	  			e.printStackTrace();
+		  		} catch (IOException e) {
+		  			e.printStackTrace();
+		  		} 
+	    	  } 
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+    public static Result uploadInventoryPhotosNew() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	MultipartFormData body = request().body().asMultipartFormData();
+	    	
+	    	Identity user = getLocalUser();
+	    	AuthUser userObj = (AuthUser)user;
+	    	
+	    	FilePart picture = body.getFile("file");
+	    	  if (picture != null) {
+	    	    String fileName = picture.getFilename();
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg");
+	    	    if(!fdir.exists()) {
+	    	    	fdir.mkdirs();
+	    	    }
+	    	    
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg"+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg"+File.separator+"thumbnail_"+fileName;
+	    	    File thumbFile = new File(thumbnailPath);
+	    	    File file = picture.getFile();
+	    	    try {
+	    	    BufferedImage originalImage = ImageIO.read(file);
+	    	    Thumbnails.of(originalImage).size(1200, 315).toFile(thumbFile);
+	    	    File _f = new File(filePath);
+				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+				
+				SiteInventory sInventory = SiteInventory.findByLocationAndType(Long.parseLong(session("USER_LOCATION")), "New");
+				
+				if(sInventory == null){
+					SiteInventory siteInventory = new SiteInventory();
+					siteInventory.imageName = fileName;
+					siteInventory.imageUrl = "/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName;
+					siteInventory.thumbPath = "/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName;
+					siteInventory.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					siteInventory.vType = "New";
+					siteInventory.save();
+				}else{
+					sInventory.setImageName(fileName);
+					sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
+					sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+					sInventory.update();
+				}
+				
+	    	  } catch (FileNotFoundException e) {
+	  			e.printStackTrace();
+		  		} catch (IOException e) {
+		  			e.printStackTrace();
+		  		} 
+	    	  } 
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    public static Result uploadInventoryPhotos() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	MultipartFormData body = request().body().asMultipartFormData();
+	    	
+	    	Identity user = getLocalUser();
+	    	AuthUser userObj = (AuthUser)user;
+	    	
+	    	FilePart picture = body.getFile("file");
+	    	  if (picture != null) {
+	    	    String fileName = picture.getFilename();
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg");
+	    	    if(!fdir.exists()) {
+	    	    	fdir.mkdirs();
+	    	    }
+	    	    
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg"+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg"+File.separator+"thumbnail_"+fileName;
+	    	    File thumbFile = new File(thumbnailPath);
+	    	    File file = picture.getFile();
+	    	    try {
+	    	    BufferedImage originalImage = ImageIO.read(file);
+	    	    Thumbnails.of(originalImage).size(1200, 315).toFile(thumbFile);
+	    	    File _f = new File(filePath);
+				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+				
+				SiteInventory sInventory = SiteInventory.findByLocationAndType(Long.parseLong(session("USER_LOCATION")), "Used");
+				
+				if(sInventory == null){
+					SiteInventory siteInventory = new SiteInventory();
+					siteInventory.imageName = fileName;
+					siteInventory.imageUrl = "/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName;
+					siteInventory.thumbPath = "/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName;
+					siteInventory.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					siteInventory.vType = "Used";
+					siteInventory.save();
+				}else{
+					sInventory.setImageName(fileName);
+					sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
+					sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+					sInventory.update();
+				}
+				
+	    	  } catch (FileNotFoundException e) {
+	  			e.printStackTrace();
+		  		} catch (IOException e) {
+		  			e.printStackTrace();
+		  		} 
+	    	  } 
+	    	
+	    	return ok();
+    	}	
+    }
     
     public static Result uploadSliderPhotos() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -7197,6 +7362,24 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
     
     
+    
+    public static Result getInventoryImage(Long id,String type) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	File file = null;
+	    	SiteInventory image = SiteInventory.findById(id);
+	    	if(type.equals("thumbnail")) {
+		    	file = new File(rootDir+image.thumbPath);
+	    	}
+	    	
+	    	if(type.equals("full")) {
+	    		file = new File(rootDir+image.imageUrl);
+	    	}
+	    	return ok(file);
+    	}
+    }
+    
     public static Result getFeaturedImageById(Long id,String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -7230,6 +7413,23 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     }
     
+    public static Result deleteInventoryImage(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	SiteInventory image = SiteInventory.findById(id);
+	    	File file = new File(rootDir+File.separator+Long.valueOf(session("USER_LOCATION"))+File.separator+"Inventory"+File.separator+"CoverImg"+File.separator+image.imageName);
+	    	file.delete();
+	    	File thumbfile = new File(rootDir+File.separator+Long.valueOf(session("USER_LOCATION"))+File.separator+"Inventory"+File.separator+"CoverImg"+File.separator+"thumbnail_"+image.imageName);
+	    	thumbfile.delete();
+	    	image.setImageName(null);
+	    	image.setImageUrl(null);
+	    	image.setThumbPath(null);
+	    	image.update();
+	    	return ok();
+    	}
+    }
     
     public static Result deleteFeaturedImage(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -7320,6 +7520,25 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	}
 	    	configList.add(slider);
 	    	
+	    	List<SiteInventoryVM> sVms = new ArrayList<>();
+	    	List<SiteInventory> siInventory = SiteInventory.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	for(SiteInventory sInventory:siInventory){
+	    		if(sInventory.imageUrl != null){
+	    			SiteInventoryVM siteInventory = new SiteInventoryVM();
+		    		siteInventory.imageName = sInventory.imageName;
+		    		siteInventory.imageUrl = sInventory.imageUrl;
+		    		siteInventory.thumbPath = sInventory.thumbPath;
+		    		siteInventory.vType = sInventory.vType;
+		    		siteInventory.id = sInventory.id;
+		    		siteInventory.mainTitle = sInventory.mainTitle;
+		    		siteInventory.subTitle = sInventory.subTitle;
+		    		siteInventory.sortBy = sInventory.sortBy;
+		    		siteInventory.sortType = sInventory.sortType;
+		    		siteInventory.defaultView = sInventory.defaultView;
+		    		sVms.add(siteInventory);
+	    		}
+	    	}
+	    	map.put("inventoryImg", sVms);
 	    	FeaturedImageConfig featuredConfig = FeaturedImageConfig.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    	ImageVM featured = new ImageVM();
 	    	if(featuredConfig != null) {
@@ -7743,6 +7962,30 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}	
     }
     
+    public static Result getInventoryImageDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	SiteInventory image = SiteInventory.findById(id);
+	    	File file = new File(rootDir+image.imageUrl);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.imageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.imageUrl;
+			//vm.description = image.description;
+			//vm.link = image.link;
+			CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
     
     public static Result getFeaturedImageDataById(Long id) throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -7820,6 +8063,35 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
 	    	
 	    	return ok();
+    	}	
+    }
+    
+    public static Result editInventoryImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	    	SiteInventory image = SiteInventory.findById(vm.imageId);
+	    	/*image.setImgName(vm.imgName);
+	    	image.setDescription(vm.description);
+	    	image.setLink(vm.link);
+	    	image.update();*/
+	    	File file = new File(rootDir+image.imageUrl);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	    	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	    	
+	    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+	    	
+	
     	}	
     }
     
