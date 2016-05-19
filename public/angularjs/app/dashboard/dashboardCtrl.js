@@ -10570,13 +10570,27 @@ angular.module('newApp')
 		
 		$scope.deletePdf = function(id) {
 			
-			$http.get('/deletePdfById/'+id)
+			$http.get('/getCustomerPdfDataById/'+id)
+  			.success(function(data) {
+		        $scope.customerPdfName=data;
+  			});
+			
+			$('#btndeleteCustomerPdf').click();
+			$scope.customerPdfId = id;
+			
+		}
+		
+		
+		$scope.deletePdfCustomer = function() {
+			console.log("$scope.customerPdfId"+$scope.customerPdfId);
+			
+			$http.get('/deletePdfById/'+$scope.customerPdfId)
 	  			.success(function(data) {
-	  				/*$.pnotify({
+	  				$.pnotify({
 	  				    title: "Success",
 	  				    type:'success',
-	  				    text: "Slider config saved successfully",
-	  				});*/
+	  				    text: "PDF deleted successfully",
+	  				});
 			
 	  			});
 		}
@@ -10585,13 +10599,27 @@ angular.module('newApp')
 
 		$scope.deleteInternalPdf = function(id) {
 			
-			$http.get('/deleteInternalPdf/'+id)
+			$http.get('/getInternalPdfDataById/'+id)
+  			.success(function(data) {
+		        $scope.internalPdfName=data;
+  			});
+			
+			$('#btndeleteInternalPdf').click();
+			$scope.internalPdfId = id;
+		}
+		
+		
+		
+          $scope.deletePdfInternal = function() {
+			
+        	  console.log("$scope.internalPdfId"+$scope.internalPdfId);
+			$http.get('/deleteInternalPdf/'+$scope.internalPdfId)
 	  			.success(function(data) {
-	  				/*$.pnotify({
+	  				$.pnotify({
 	  				    title: "Success",
 	  				    type:'success',
-	  				    text: "Slider config saved successfully",
-	  				});*/
+	  				    text: "PDF deleted successfully",
+	  				});
 			
 	  			});
 		}

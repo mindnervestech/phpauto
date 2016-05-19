@@ -80,6 +80,53 @@
 						 </div>
 						 
 						 </div>
+						 
+						 
+						           <button id="btndeleteInternalPdf" data-toggle="modal" data-target="#deleteInternalPdfModal" style="display: none;"></button>
+							       <button id="btndeleteCustomerPdf" data-toggle="modal" data-target="#deleteCustomerPdfModal" style="display: none;"></button>
+							
+							   
+						  
+								    <div class="modal fade" id="deleteInternalPdfModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Remove PDF</h4>
+								                </div>
+								                <div class="modal-body">
+								                Are you sure you want to permanantly remove {{internalPdfName}}? <br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deletePdfInternal()">Remove</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    <div class="modal fade" id="deleteCustomerPdfModal" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Remove PDF</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Are you sure you want to permanantly remove {{customerPdfName}}?<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Cancel</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deletePdfCustomer()">Remove</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								    
+								    
+								    
+						  
+						  
 						  
   
     

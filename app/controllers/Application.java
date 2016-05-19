@@ -2498,6 +2498,37 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	}
     
     
+    public static Result  getCustomerPdfDataById(Long id){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    	 CustomerPdf pdf = CustomerPdf.findPdfById(id);
+    		DocumentationVM vm = new DocumentationVM();
+    		if(pdf != null){
+    			vm.internalPdfName=pdf.pdf_name;
+    		}
+    		
+    		return ok(Json.toJson(vm.internalPdfName));
+    	}
+	}
+	
+    
+    public static Result getInternalPdfDataById(Long id){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    	 InternalPdf pdf = InternalPdf.findPdfById(id);
+    		DocumentationVM vm = new DocumentationVM();
+    		if(pdf != null){
+    			vm.internalPdfName=pdf.pdf_name;
+    		}
+    		
+    		return ok(Json.toJson(vm.internalPdfName));
+    	}
+	}
+	
+    
+    
     
     
     
