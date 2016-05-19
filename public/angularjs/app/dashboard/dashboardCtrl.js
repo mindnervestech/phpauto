@@ -5009,6 +5009,9 @@ angular.module('newApp')
 		$scope.flagForUpload=0;
 		$scope.onCustomerFileSelect = function ($files) {
 			logofile1 = $files;
+			 
+		    var ele = document.getElementById('loadingmanual');	
+		  	$(ele).show();
 			console.log("??????????");
 			console.log(logofile1);
 			$upload.upload({
@@ -5021,7 +5024,8 @@ angular.module('newApp')
 		 	  			    type:'success',
 		 	  			    text: "pdf saved successfully",
 		 	  			});
-		 	  			
+		 	  		 var ele = document.getElementById('loadingmanual');	
+		 		   	$(ele).hide();
 		 	  				/*$.pnotify({
 		 	  				    title: "Success",
 		 	  				    type:'success',
