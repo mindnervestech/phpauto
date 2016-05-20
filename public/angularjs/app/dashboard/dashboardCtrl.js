@@ -8748,11 +8748,11 @@ angular.module('newApp')
     		    		    		                                 },
     		    		    		                                 { name: 'testDrive', displayName:'Next Test Drive' ,enableFiltering: false, width:'10%',cellEditableCondition: false,
     		    		    		                                 },
-    		    		    		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false, width:'9%',cellEditableCondition: false,
+    		    		    		                                 { name: 'pageViewCount', displayName: 'History Log',enableFiltering: false, width:'9%',cellEditableCondition: false,
     		    		    		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
     		    		    		                                 },
     		    		    		                                 { name: 'edit', displayName: '', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		    		        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
+    		    		        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
     		    		    		                                 
     		    		    		                                 },
     		    		        		                                
@@ -8963,12 +8963,18 @@ angular.module('newApp')
 	   });
    }
    $scope.updateVehicleStatus = function(row){
+	   console.log(row);
 	   $scope.statusVal = "";
 	   if(row.entity.status == 'Newly Arrived') {
 		   $('#btnStatusSchedule').click();
 		   $scope.soldContact.statusVal = "Sold";
 	   }
 	   if(row.entity.status == 'Sold') {
+		   
+		    $('#AddbtnInventory').modal();
+		  
+		  }
+	   $scope.addtoinventory = function() {
 		   $http.get('/addSameNewCar/'+row.entity.id).success(function(data){
 			   if(data=='success'){
 				   $scope.soldContact.statusVal = "Newly Arrived";
