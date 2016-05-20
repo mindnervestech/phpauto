@@ -134,6 +134,9 @@ angular.module('newApp')
 	  $http.get('/getAllTradeIn')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
+			
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			$scope.tradeInList = data;
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;

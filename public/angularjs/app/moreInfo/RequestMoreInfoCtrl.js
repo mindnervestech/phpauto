@@ -112,7 +112,11 @@ angular.module('newApp')
 	  $http.get('/getAllRequestInfo')
 			.success(function(data) {
 				console.log(data);
+				
 			$scope.gridOptions.data = data;
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+			
 			$scope.requsetMoreList = data;
 			if(data.length > 0){
 				$scope.userRole = data[0].userRole;

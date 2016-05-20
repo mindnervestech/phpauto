@@ -132,6 +132,9 @@ angular.module('newApp')
 	  $http.get('/getAllScheduleTest')
 			.success(function(data) {
 			$scope.gridOptions.data = data;
+			
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			$scope.scheduleList = data;
 			console.log(data);
 			if(data.length > 0){
