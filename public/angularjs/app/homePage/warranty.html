@@ -23,10 +23,9 @@
      <ul id="myTabs" class="nav nav-tabs" role="tablist">
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Hours Of Operation</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToBlog()">Blog</button></a></li>
-      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToContactUs()">Contact Us</button></a></li>
-    <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToWarranty()">Warranty</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToContactUs()">Contact Us</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToWarranty()">Warranty</button></a></li>
      </ul>
-    
     
     
     
@@ -34,14 +33,14 @@
 	      <div class="form-group col-sm-12" style="margin-top: 25px">
            	    <label class="col-sm-2">Main Title </label>
 				<div class="col-sm-5">
-					<input class="form-control form-white" type="text" ng-model="header2.mainTitle" placeholder="" required>
+					<input class="form-control form-white" type="text" ng-model="header3.mainTitle" placeholder="" required>
 				</div>
 				
 			</div>
 			<div class="form-group col-sm-12">
            	    <label class="col-sm-2" >Subtitle</label>
 				<div class="col-sm-5">
-					<input class="form-control form-white" type="text" ng-model="header2.textData" placeholder="" rows="12" required>
+					<input class="form-control form-white" type="text" ng-model="header3.textData" placeholder="" rows="12" required>
 				</div>
 				
 			</div>
@@ -49,7 +48,7 @@
 	      <div class="form-group col-sm-12" style="margin-top: 20px">
            	    <label class="col-sm-4" ></label>
 				<div class="col-sm-6">
-					<button type="button" class="btn btn-primary btn-embossed" ng-click="saveContactHeader(header2)">Save</button>
+					<button type="button" class="btn btn-primary btn-embossed" ng-click="saveHeader(header3)">Save</button>
 				</div>
 				
 			</div>
@@ -57,18 +56,18 @@
 	      <div class="form-group col-sm-12"style="margin-top: 25px">
            	    <h1>Cover Image</h1>
            	    <div class="row" style="margin-bottom: 3%;">
-            <div gridster="gridsterOpts7">
+            <div gridster="gridsterOpts8">
             <ul style="list-style:none;">
 				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
-				                    		id="{{image.id}}"   ng-repeat="image in contactList" style="float:left;">
+				                    		id="{{image.id}}"   ng-repeat="image in warrantyList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
-				                        			<img  ng-if="thumbPath2 != null" class="myImage" style="width:100%; height:100%;" src="/contactImageById/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                        			<img  ng-if="thumbPath3 != null" class="myImage" style="width:100%; height:100%;" src="/warrantyImageById/{{image.id}}/thumbnail" id="imgId{{$index}}" />
 				                            		
 				                            		<div>
-				                            			<a class="remImage" ng-click="deleteContactImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            			<a class="remImage" ng-click="deleteWarImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
 				                            		</div>
 				                            		<a class="remImage2" ng-click="showFullFeaturedImage(image)" data-toggle="modal" data-target="#modal-image2" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
-				                        			<a class="remImage3" ng-click="editContactImage(image)" style="cursor:pointer;color:#319DB5;margin-left: 15px"><b>Edit</b></a>
+				                        			<a class="remImage3" ng-click="editWarImage(image)" style="cursor:pointer;color:#319DB5;margin-left: 15px"><b>Edit</b></a>
 				                        		</div>
 				                        	</li>
 				                        </ul>
@@ -77,12 +76,12 @@
 				                        
            <h1>Upload Cover Images</h1>
 			<p><b>Minimum image dimension should be {{configList[1].width}} X {{configList[1].height}}</b></p>
-            <form id="dropzoneFrm7" action="/uploadContactPhotos" class="dropzone">
+            <form id="dropzoneFrm8" action="/uploadWarrantyPhotos" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" multiple />
                             </div>
                         </form>
- 					<button class="btn btn-primary" ng-click="contactImageFilesUpload()" style="margin-left:44%;margin-top:3%;">Upload</button>   
+ 					<button class="btn btn-primary" ng-click="warrantyFilesUpload()" style="margin-left:44%;margin-top:3%;">Upload</button>   
 	        	</div>				                        
 				</div>                        
 			</div>	
@@ -109,23 +108,21 @@
 
 
 
- <p style="display: none;">{{contactImageUpload()}}</p>
+ <p style="display: none;">{{warrantyImageUpload()}}</p>
     
     
     
     
     
     
+    </div>
     
     
     
     
     
     
-    
-    
- </div>   
-     
+ 
 <style>
 .red { color: black;  background-color: #ffd3d3 !important; }
 
@@ -179,5 +176,5 @@ opacity:1;
 opacity:0.2;
 }
 
-</style>	
+</style>	    
     

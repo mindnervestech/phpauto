@@ -9710,6 +9710,9 @@ angular.module('newApp')
 	$scope.featuredList = [];
 	$scope.coverList = [];
 	$scope.blogList = [];
+	$scope.compareList = [];
+	$scope.warrantyList = [];
+	$scope.contactList = [];
 	$scope.gridsterOpts1 = {
 		    columns: 6, // the width of the grid, in columns
 		    pushing: true, // whether to push other items out of the way on move or resize
@@ -9897,6 +9900,71 @@ angular.module('newApp')
 				    }
 		};
 	
+	
+	$scope.gridsterOpts9 = {
+		    columns: 6, // the width of the grid, in columns
+		    pushing: true, // whether to push other items out of the way on move or resize
+		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
+		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
+		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
+		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
+		    rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
+		    margins: [10, 10], // the pixel distance between each widget
+		    outerMargin: true, // whether margins apply to outer edges of the grid
+		    isMobile: false, // stacks the grid items if true
+		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
+		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
+		    minColumns: 6, // the minimum columns the grid must have
+		    minRows: 1, // the minimum height of the grid, in rows
+		    maxRows: 100,
+		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
+		    defaultSizeY: 1, // the default height of a gridster item, if not specified
+		    resizable: {
+			       enabled: false,
+			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
+			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
+			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
+			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
+			    },
+		    /* minSizeX: 1, // minimum column width of an item
+		    maxSizeX: null, // maximum column width of an item
+		    minSizeY: 1, // minumum row height of an item
+		    maxSizeY: null, // maximum row height of an item
+		   */
+			    draggable: {
+				       enabled: true, // whether dragging items is supported
+				       handle: '.my-class', // optional selector for resize handle
+				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
+				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
+				       stop: function(event, $element, widget) {
+				    	   
+				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
+				    		   return;
+				    	   };
+				    	   
+				    	   for(var i=0;i<$scope.compareList.length;i++) {
+				    		   delete $scope.compareList[i].description;
+				    		   delete $scope.compareList[i].width;
+				    		   delete $scope.compareList[i].height;
+				    		   delete $scope.compareList[i].link;
+				    		   delete $scope.compareList[i].vin;
+				    		   delete $scope.compareList[i].defaultImage;
+				    	   }
+				    	   $http.post('/saveComparePosition',$scope.compareList)
+					   		.success(function(data) {
+					   			$.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Position saved successfully",
+								});
+					   		});
+				    	   
+				       } // optional callback fired when item is finished dragging
+				    }
+		};
+	
+	
+	
 
 	$scope.gridsterOpts6 = {
 		    columns: 6, // the width of the grid, in columns
@@ -9960,10 +10028,147 @@ angular.module('newApp')
 				    }
 		};
 	
+	$scope.gridsterOpts8 = {
+		    columns: 6, // the width of the grid, in columns
+		    pushing: true, // whether to push other items out of the way on move or resize
+		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
+		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
+		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
+		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
+		    rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
+		    margins: [10, 10], // the pixel distance between each widget
+		    outerMargin: true, // whether margins apply to outer edges of the grid
+		    isMobile: false, // stacks the grid items if true
+		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
+		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
+		    minColumns: 6, // the minimum columns the grid must have
+		    minRows: 1, // the minimum height of the grid, in rows
+		    maxRows: 100,
+		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
+		    defaultSizeY: 1, // the default height of a gridster item, if not specified
+		    resizable: {
+			       enabled: false,
+			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
+			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
+			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
+			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
+			    },
+		    /* minSizeX: 1, // minimum column width of an item
+		    maxSizeX: null, // maximum column width of an item
+		    minSizeY: 1, // minumum row height of an item
+		    maxSizeY: null, // maximum row height of an item
+		   */
+			    draggable: {
+				       enabled: true, // whether dragging items is supported
+				       handle: '.my-class', // optional selector for resize handle
+				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
+				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
+				       stop: function(event, $element, widget) {
+				    	   
+				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
+				    		   return;
+				    	   };
+				    	   
+				    	   for(var i=0;i<$scope.warrantyList.length;i++) {
+				    		   delete $scope.warrantyList[i].description;
+				    		   delete $scope.warrantyList[i].width;
+				    		   delete $scope.warrantyList[i].height;
+				    		   delete $scope.warrantyList[i].link;
+				    		   delete $scope.warrantyList[i].vin;
+				    		   delete $scope.warrantyList[i].defaultImage;
+				    	   }
+				    	   $http.post('/saveWarrantyPosition',$scope.warrantyList)
+					   		.success(function(data) {
+					   			$.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Position saved successfully",
+								});
+					   		});
+				    	   
+				       } // optional callback fired when item is finished dragging
+				    }
+		};
+	
+	
+	
+	
+	
+	$scope.gridsterOpts7 = {
+		    columns: 6, // the width of the grid, in columns
+		    pushing: true, // whether to push other items out of the way on move or resize
+		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
+		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
+		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
+		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
+		    rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
+		    margins: [10, 10], // the pixel distance between each widget
+		    outerMargin: true, // whether margins apply to outer edges of the grid
+		    isMobile: false, // stacks the grid items if true
+		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
+		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
+		    minColumns: 6, // the minimum columns the grid must have
+		    minRows: 1, // the minimum height of the grid, in rows
+		    maxRows: 100,
+		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
+		    defaultSizeY: 1, // the default height of a gridster item, if not specified
+		    resizable: {
+			       enabled: false,
+			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
+			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
+			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
+			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
+			    },
+		    /* minSizeX: 1, // minimum column width of an item
+		    maxSizeX: null, // maximum column width of an item
+		    minSizeY: 1, // minumum row height of an item
+		    maxSizeY: null, // maximum row height of an item
+		   */
+			    draggable: {
+				       enabled: true, // whether dragging items is supported
+				       handle: '.my-class', // optional selector for resize handle
+				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
+				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
+				       stop: function(event, $element, widget) {
+				    	   
+				    	   if($(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
+				    		   return;
+				    	   };
+				    	   
+				    	   for(var i=0;i<$scope.contactList.length;i++) {
+				    		   delete $scope.contactList[i].description;
+				    		   delete $scope.contactList[i].width;
+				    		   delete $scope.contactList[i].height;
+				    		   delete $scope.contactList[i].link;
+				    		   delete $scope.contactList[i].vin;
+				    		   delete $scope.contactList[i].defaultImage;
+				    	   }
+				    	   $http.post('/saveContactPosition',$scope.contactList)
+					   		.success(function(data) {
+					   			$.pnotify({
+								    title: "Success",
+								    type:'success',
+								    text: "Position saved successfully",
+								});
+					   		});
+				    	   
+				       } // optional callback fired when item is finished dragging
+				    }
+		};
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	$scope.header={};
 	$scope.header1={};
+	$scope.header2={};
+	$scope.header3={};
+	$scope.header4={};
 	$scope.siteDescription = {};
 	$scope.siteHeading = "";
 	$scope.inventoryImg = [];
@@ -9971,7 +10176,8 @@ angular.module('newApp')
 		
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
-			
+			   console.log(">>>>>>>>>");
+			   console.log(data);
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
@@ -10004,6 +10210,27 @@ angular.module('newApp')
 				$scope.blogList = data.blogData;
 				}
 				
+				$scope.header2.mainTitle=data.contactData[0].mainTitle;
+				$scope.header2.textData=data.contactData[0].subtitle;
+				$scope.thumbPath2=data.contactData[0].thumbPath;
+				if($scope.thumbPath2 != null){
+				$scope.contactList = data.contactData;
+				}
+				
+				$scope.header3.mainTitle=data.warData[0].mainTitle;
+				$scope.header3.textData=data.warData[0].subtitle;
+				$scope.thumbPath3=data.warData[0].thumbPath;
+				if($scope.thumbPath3 != null){
+				$scope.warrantyList = data.warData;
+				}
+				
+				
+				$scope.header4.mainTitle=data.compareData[0].mainTitle;
+				$scope.header4.textData=data.compareData[0].subtitle;
+				$scope.thumbPath4=data.compareData[0].thumbPath;
+				if($scope.thumbPath4 != null){
+				$scope.compareList = data.compareData;
+				}
 				
 				$scope.siteHeading = data.contentVM[0].heading;
 				$scope.testiMonial = data.testiMonialVM[0];
@@ -10116,7 +10343,82 @@ angular.module('newApp')
 		     });
 	   	   
 	 }
+      
+	   var myDropzone9;
+	   $scope.compareImageUpload = function() {
+	   myDropzone9 = new Dropzone("#dropzoneFrm9",{
+		   parallelUploads: 30,
+		     headers: { "vinNum": 1 },
+		     acceptedFiles:"image/*",
+		     addRemoveLinks:true,
+		     autoProcessQueue:false,
+		     init:function () {
+		     this.on("queuecomplete", function (file) {
+		            
+		     //$scope.getImages();
+		            $scope.$apply();
+		        });
+		     
+		     this.on("complete", function() {
+		     this.removeAllFiles();
+		     });
+		     }
+		     });
+	   	   
+	 }
+        
+	   
+	   
+	   
+	   var myDropzone8;
+	   $scope.warrantyImageUpload = function() {
+	   myDropzone8 = new Dropzone("#dropzoneFrm8",{
+		   parallelUploads: 30,
+		     headers: { "vinNum": 1 },
+		     acceptedFiles:"image/*",
+		     addRemoveLinks:true,
+		     autoProcessQueue:false,
+		     init:function () {
+		     this.on("queuecomplete", function (file) {
+		            
+		     //$scope.getImages();
+		            $scope.$apply();
+		        });
+		     
+		     this.on("complete", function() {
+		     this.removeAllFiles();
+		     });
+		     }
+		     });
+	   	   
+	 }
+	   
 
+	   var myDropzone7;
+	   $scope.contactImageUpload = function() {
+	   myDropzone7 = new Dropzone("#dropzoneFrm7",{
+		   parallelUploads: 30,
+		     headers: { "vinNum": 1 },
+		     acceptedFiles:"image/*",
+		     addRemoveLinks:true,
+		     autoProcessQueue:false,
+		     init:function () {
+		     this.on("queuecomplete", function (file) {
+		            
+		     //$scope.getImages();
+		            $scope.$apply();
+		        });
+		     
+		     this.on("complete", function() {
+		     this.removeAllFiles();
+		     });
+		     }
+		     });
+	   	   
+	 }
+
+ 
+	   
 	   
 	   
 	   
@@ -10173,8 +10475,8 @@ angular.module('newApp')
 	   }
 	   
 	   $scope.blogImageFilesUpload = function() {
-		   console.log(">>>>>"+$scope.coverList.length);
-		  if($scope.coverList.length>=1) {
+		   console.log(">>>>>"+$scope.blogList.length);
+		  if($scope.blogList.length>=1) {
 		   $('#btnFeaturedMsg').click();
 		   } else {
 			   console.log("inside upload");
@@ -10183,6 +10485,44 @@ angular.module('newApp')
 		   }
 		   
 	   }
+	   
+	   $scope.compareImageFilesUpload = function() {
+		   console.log(">>>>>"+$scope.compareList.length);
+		  if($scope.compareList.length>=1) {
+		   $('#btnFeaturedMsg').click();
+		   } else {
+			   console.log("inside upload");
+			   Dropzone.autoDiscover = false;
+			   myDropzone9.processQueue();
+		   }
+		   
+	   }
+	   
+	   
+	   $scope.warrantyFilesUpload = function() {
+		   console.log(">>>>>"+$scope.warrantyList.length);
+		  if($scope.warrantyList.length>=1) {
+		   $('#btnFeaturedMsg').click();
+		   } else {
+			   console.log("inside upload");
+			   Dropzone.autoDiscover = false;
+			   myDropzone8.processQueue();
+		   }
+		   
+	   }
+	   
+	   $scope.contactImageFilesUpload = function() {
+		   console.log(">>>>>"+$scope.contactList.length);
+		   if($scope.contactList.length>=1) {
+		   $('#btnFeaturedMsg').click();
+		   } else {
+			   console.log("inside upload");
+			   Dropzone.autoDiscover = false;
+			   myDropzone7.processQueue();
+		   }
+		   
+	   }
+	   
 	   
 	   
 	   
@@ -10244,6 +10584,21 @@ angular.module('newApp')
 				});
 		   }
 	   
+	    $scope.deleteWarImage = function(image) {
+			   $http.get('/deleteWarImage/'+image.id)
+				.success(function(data) {
+					$scope.warrantyList.splice($scope.warrantyList.indexOf(image),1);
+				});
+		   }
+	    
+	    
+	    $scope.deleteContactImage = function(image) {
+			   $http.get('/deleteContactImage/'+image.id)
+				.success(function(data) {
+					$scope.contactList.splice($scope.contactList.indexOf(image),1);
+				});
+		   }
+	    
 	   
 	   $scope.showFullSliderImage = function(image) {
 		   $scope.sliderImgId = image.id;
@@ -10279,7 +10634,20 @@ angular.module('newApp')
 		   console.log(image);
 		   $location.path('/cropBlogImage/'+image.id);
 	   }
-	 
+	  
+	   $scope.editWarImage = function(image) {
+		   console.log("imageimageimage");
+		   console.log(image);
+		   $location.path('/cropWarImage/'+image.id);
+	   }
+	   
+	   
+	   $scope.editContactImage = function(image) {
+		   console.log("imageimageimage");
+		   console.log(image);
+		   $location.path('/editContactImage/'+image.id);
+	   }
+	   
 	   $scope.saveSiteHeading = function(siteHeading) {
 		   $http.get('/saveSiteHeading/'+siteHeading)
 			.success(function(data) {
@@ -10334,6 +10702,62 @@ angular.module('newApp')
 		   
 	   }
 	   
+	   $scope.saveCompareHeader = function(header1) {
+		   console.log(header1);
+		   console.log(header1.applyAll);
+		   if(header1.applyAll == undefined || header1.applyAll == true){
+			   header1.headerFlag =1;
+		   }
+		   else{
+			   header1.headerFlag =0;
+		   }
+		   $http.post('/saveCompareHeader',header1)
+			.success(function(data) {
+
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Compare have been successfully saved",
+				});
+	            
+			}); 
+		   
+	   }
+	   
+	   
+	   
+	   
+	   
+	   $scope.saveHeader = function(header) {
+		   console.log(header);
+		   $http.post('/saveHeader',header)
+			.success(function(data) {
+
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Blog have been successfully saved",
+				});
+	            
+			}); 
+		   
+	   }
+
+	   
+	   $scope.saveContactHeader = function(header) {
+		   console.log(header);
+		   $http.post('/saveContactHeader',header)
+			.success(function(data) {
+
+	            $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Contact have been successfully saved",
+				});
+	            
+			}); 
+		   
+	   }
 	   
 	   
 		
@@ -10502,6 +10926,11 @@ angular.module('newApp')
 		   $location.path('/contactUs');
 	   }
 	   
+	   $scope.goToWarranty = function() {
+		   $location.path('/warranty');
+	   }
+	   
+	   
 	   $scope.goToSlider = function() {
 		   $location.path('/sliderImages');
 	   }
@@ -10549,7 +10978,11 @@ angular.module('newApp')
 			}
 		   
 	   }
-	   
+	    
+	    $scope.goToCompare = function(){
+			   $location.path('/comparision');
+		   }
+	    
 	   $scope.goToInventoryUsed = function(){
 		   $location.path('/goToInventoryUsed/'+"Used");
 	   }
@@ -10741,6 +11174,104 @@ angular.module('newApp')
 
 
 
+angular.module('newApp')
+.controller('WarrantyCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+	$scope.coords = {};
+	$scope.imgId = "/warrantyImageById/"+$routeParams.id+"/full?d=" + Math.random();
+	var imageW, imageH, boundx, boundy;
+	$scope.init = function() {
+		
+		
+		 $http.get('/getWarDataById/'+$routeParams.id)
+			.success(function(data) {
+				console.log(data);
+				imageW = data.col;
+				imageH = data.row;
+			//	$scope.thumbPath=data.thumbPath;
+				$('#set-height').val(data.height);
+				$('#set-width').val(data.width);
+				
+				$scope.image = data;
+				
+				 $('#target').css({
+					 width: Math.round(727) + 'px',
+					 height: Math.round(727*(imageH/imageW)) + 'px'
+					 });
+				
+				    $('#target').Jcrop({
+				        onSelect: showCoords,
+				        onChange: showCoords,
+				        setSelect:   [ 0, 0, data.width, data.height ],
+				        minSize:[data.width,data.height],
+				        allowSelect: false,
+				        trueSize: [data.col,data.row],
+				        aspectRatio: data.width/data.height
+				    },function(){
+				    	var bounds = this.getBounds();
+				        boundx = bounds[0];
+				        boundy = bounds[1];
+				        //$('#preview')
+				    });
+			});
+		 
+	}
+		 function showCoords(c)
+		    {
+			 
+			    console.log("??????????");
+			    console.log(c);
+			 	var rx = 200 / c.w;
+				var ry = 200*(imageH/imageW) / c.h;
+				
+				$('#preview-container').css({
+					width: Math.round(200) + 'px',
+					height: Math.round(200*(imageH/imageW)) + 'px'
+				});
+				
+				$('#preview').css({
+					width: Math.round(rx * boundx) + 'px',
+					height: Math.round(ry * boundy) + 'px',
+					marginLeft: '-' + Math.round(rx * c.x) + 'px',
+					marginTop: '-' + Math.round(ry * c.y) + 'px'
+				});
+			 
+				 $scope.coords.x = c.x;
+				 $scope.coords.y = c.y;
+				 $scope.coords.x2 = c.x2;
+				 $scope.coords.y2 = c.y2;
+				 $scope.coords.w = c.w;
+				 $scope.coords.h = c.h;
+				 
+		    };
+		    
+		$scope.saveImage = function(image) {
+			console.log(image);
+			console.log($scope.coords);
+			$scope.coords.imageId = $routeParams.id;
+			$scope.coords.imgName = image.imgName;
+			$scope.coords.description = image.description;
+			$scope.coords.link = image.link;
+			
+			$http.post('/editWarImage',$scope.coords)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Croped Image has been saved",
+				});
+				
+				//$location.path('/homePage');
+				//$scope.$apply();
+			});
+		}    
+		 
+		
+}]);	
+
+
+
+
+
 
 angular.module('newApp')
 .controller('BlogCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
@@ -10835,6 +11366,204 @@ angular.module('newApp')
 		 
 		
 }]);	
+
+
+angular.module('newApp')
+.controller('CompareCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+	$scope.coords = {};
+	$scope.imgId = "/compareImageById/"+$routeParams.id+"/full?d=" + Math.random();
+	var imageW, imageH, boundx, boundy;
+	$scope.init = function() {
+		
+		
+		 $http.get('/getBlogDataById/'+$routeParams.id)
+			.success(function(data) {
+				console.log(data);
+				imageW = data.col;
+				imageH = data.row;
+			//	$scope.thumbPath=data.thumbPath;
+				$('#set-height').val(data.height);
+				$('#set-width').val(data.width);
+				
+				$scope.image = data;
+				
+				 $('#target').css({
+					 width: Math.round(727) + 'px',
+					 height: Math.round(727*(imageH/imageW)) + 'px'
+					 });
+				
+				    $('#target').Jcrop({
+				        onSelect: showCoords,
+				        onChange: showCoords,
+				        setSelect:   [ 0, 0, data.width, data.height ],
+				        minSize:[data.width,data.height],
+				        allowSelect: false,
+				        trueSize: [data.col,data.row],
+				        aspectRatio: data.width/data.height
+				    },function(){
+				    	var bounds = this.getBounds();
+				        boundx = bounds[0];
+				        boundy = bounds[1];
+				        //$('#preview')
+				    });
+			});
+		 
+	}
+		 function showCoords(c)
+		    {
+			 
+			    console.log("??????????");
+			    console.log(c);
+			 	var rx = 200 / c.w;
+				var ry = 200*(imageH/imageW) / c.h;
+				
+				$('#preview-container').css({
+					width: Math.round(200) + 'px',
+					height: Math.round(200*(imageH/imageW)) + 'px'
+				});
+				
+				$('#preview').css({
+					width: Math.round(rx * boundx) + 'px',
+					height: Math.round(ry * boundy) + 'px',
+					marginLeft: '-' + Math.round(rx * c.x) + 'px',
+					marginTop: '-' + Math.round(ry * c.y) + 'px'
+				});
+			 
+				 $scope.coords.x = c.x;
+				 $scope.coords.y = c.y;
+				 $scope.coords.x2 = c.x2;
+				 $scope.coords.y2 = c.y2;
+				 $scope.coords.w = c.w;
+				 $scope.coords.h = c.h;
+				 
+		    };
+		    
+		$scope.saveImage = function(image) {
+			console.log(image);
+			console.log($scope.coords);
+			$scope.coords.imageId = $routeParams.id;
+			$scope.coords.imgName = image.imgName;
+			$scope.coords.description = image.description;
+			$scope.coords.link = image.link;
+			
+			$http.post('/editBlogImage',$scope.coords)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Croped Image has been saved",
+				});
+				
+				//$location.path('/homePage');
+				//$scope.$apply();
+			});
+		}    
+		 
+		
+}]);	
+
+
+
+
+
+
+
+
+angular.module('newApp')
+.controller('ContactCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+	$scope.coords = {};
+	$scope.imgId = "/contactImageById/"+$routeParams.id+"/full?d=" + Math.random();
+	var imageW, imageH, boundx, boundy;
+	$scope.init = function() {
+		
+		
+		 $http.get('/getContactDataById/'+$routeParams.id)
+			.success(function(data) {
+				console.log(data);
+				imageW = data.col;
+				imageH = data.row;
+			//	$scope.thumbPath=data.thumbPath;
+				$('#set-height').val(data.height);
+				$('#set-width').val(data.width);
+				
+				$scope.image = data;
+				
+				 $('#target').css({
+					 width: Math.round(727) + 'px',
+					 height: Math.round(727*(imageH/imageW)) + 'px'
+					 });
+				
+				    $('#target').Jcrop({
+				        onSelect: showCoords,
+				        onChange: showCoords,
+				        setSelect:   [ 0, 0, data.width, data.height ],
+				        minSize:[data.width,data.height],
+				        allowSelect: false,
+				        trueSize: [data.col,data.row],
+				        aspectRatio: data.width/data.height
+				    },function(){
+				    	var bounds = this.getBounds();
+				        boundx = bounds[0];
+				        boundy = bounds[1];
+				        //$('#preview')
+				    });
+			});
+		 
+	}
+		 function showCoords(c)
+		    {
+			 
+			    console.log("??????????");
+			    console.log(c);
+			 	var rx = 200 / c.w;
+				var ry = 200*(imageH/imageW) / c.h;
+				
+				$('#preview-container').css({
+					width: Math.round(200) + 'px',
+					height: Math.round(200*(imageH/imageW)) + 'px'
+				});
+				
+				$('#preview').css({
+					width: Math.round(rx * boundx) + 'px',
+					height: Math.round(ry * boundy) + 'px',
+					marginLeft: '-' + Math.round(rx * c.x) + 'px',
+					marginTop: '-' + Math.round(ry * c.y) + 'px'
+				});
+			 
+				 $scope.coords.x = c.x;
+				 $scope.coords.y = c.y;
+				 $scope.coords.x2 = c.x2;
+				 $scope.coords.y2 = c.y2;
+				 $scope.coords.w = c.w;
+				 $scope.coords.h = c.h;
+				 
+		    };
+		    
+		$scope.saveImage = function(image) {
+			console.log(image);
+			console.log($scope.coords);
+			$scope.coords.imageId = $routeParams.id;
+			$scope.coords.imgName = image.imgName;
+			$scope.coords.description = image.description;
+			$scope.coords.link = image.link;
+			
+			$http.post('/editContactImage',$scope.coords)
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Croped Image has been saved",
+				});
+				
+				//$location.path('/homePage');
+				//$scope.$apply();
+			});
+		}    
+		 
+		
+}]);	
+
+
 
 
 
@@ -11605,7 +12334,11 @@ angular.module('newApp')
 	   $scope.goToContactUs = function() {
 		   $location.path('/contactUs');
 	   }
-
+       
+	   $scope.goToWarranty = function() {
+		   $location.path('/warranty');
+	   }
+	   
 	   $scope.goToSlider = function() {
 		   $location.path('/sliderImages');
 	   }
@@ -11651,7 +12384,10 @@ angular.module('newApp')
 		   $location.path('/goToInventoryComingsoon/'+"comingSoon");
 	   }
 	   
-
+      
+	   $scope.goToCompare = function(){
+		   $location.path('/comparision');
+	   }
 	
 	/*$scope.gotoHoursOfOperation = function() {
 		

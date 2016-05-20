@@ -1,0 +1,28 @@
+<div ng-init="init()">
+
+<div style="float:left;">
+	<img src="{{imgId}}" width="727" height="466" id="target" />
+</div>
+<div style="margin-left:79%;"><p><b>PREVIEW</b></p></div>
+<div id="preview-container" style="width:200px;height:200px;overflow:hidden;margin-left:79%;">
+	<img  src="{{imgId}}" id="preview" style="display: inline; width: 172px; height: 128px; margin-left: -32px; margin-top: -28px;">
+</div>
+<div style="margin-left:79%;margin-top:5%;">
+<label style="margin-right:5%;">Height</label>
+<input class="form-control form-white" id="set-height" type="text" style="width:70%;">
+</div>
+<div style="margin-left:79%;margin-top:2%;">
+	<label style="margin-right:5%;">Width&nbsp;</label>
+	<input class="form-control form-white" id="set-width" type="text" style="width:70%;">
+</div>
+<form ng-submit="saveImage(image)">
+	<!-- <div class="form-group col-sm-12" style="margin-top:5%;">
+		<label class="col-sm-2 control-label" style="text-align: right;">Name *</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" ng-model="image.imgName" type="text" required>
+			</div>
+	</div> -->
+	
+	<button type="submit" class="btn btn-primary" style="margin-left:85%;margin-top:1%;">Crop & Save</button>
+</form>
+</div>

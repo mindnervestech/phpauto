@@ -16,6 +16,8 @@ public class SiteAboutUsVM {
 	public String link;
 	public Integer row;
 	public Integer col;
+	public Integer headerFlag;
+	
 	
 	
 }

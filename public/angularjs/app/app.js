@@ -82,7 +82,10 @@ var MakeApp = angular
             controller: 'HomePageCtrl'
         })
         
-        
+        .when('/warranty', {
+            templateUrl: '/dealer/homePage/warranty.html',
+            controller: 'HomePageCtrl'
+        })
         .when('/featuredImages', {
             templateUrl: '/dealer/homePage/featuredImages.html',
             controller: 'HomePageCtrl'
@@ -157,7 +160,12 @@ var MakeApp = angular
             templateUrl: '/dealer/homePage/siteAboutUs.html',
             controller: 'HomePageCtrl'
         })
-        
+      
+      .when('/comparision', {
+          templateUrl: '/dealer/homePage/compare.html',
+          controller: 'HomePageCtrl'
+      })
+      
         .when('/goToPageContent', {
             templateUrl: '/dealer/homePage/pageContent.html',
             controller: 'HomePageCtrl'
@@ -309,6 +317,18 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/cropBlogPhoto.html',
             controller: 'BlogCropCtrl'
         })
+        
+        
+        .when('/cropWarImage/:id', {
+            templateUrl: '/dealer/addPhotos/cropWarrantyPhoto.html',
+            controller: 'WarrantyCropCtrl'
+        })
+        
+        .when('/editContactImage/:id', {
+            templateUrl: '/dealer/addPhotos/cropContactPhoto.html',
+            controller: 'ContactCropCtrl'
+        })
+        
         
         .when('/managePhotos/:num', {
             templateUrl: '/dealer/addPhotos/managePhotos.html',

@@ -1,47 +1,54 @@
 <div ng-init="init()">
   <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="uploadFeaturedImages()">Home Page</button></a></li>
-      <!-- <li role="presentation" class="active"><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="uploadFeaturedImages()">Featured Images</button></a></li>
+      <li role="presentation" class="active"><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Home Page</button></a></li>
+      <!-- <li role="presentation" class=""><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToFeatured()">Featured Images</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLogo()">Logo & Favicon</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToTestiMonials()">Testimonials</button></a></li>
-      --> <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToAboutUs()">About Us</button></a></li>
+       --><li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToAboutUs()">About Us</button></a></li>
     </ul>
+    
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
-      	<li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSlider()">Slider Images</button></a></li>
-      <li role="presentation" class=""><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="uploadFeaturedImages()">Featured Images</button></a></li>
+       <li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSlider()">Slider Images</button></a></li>
+      <li role="presentation" class=""><a id="profile-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToFeatured()">Featured Images</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLogo()">Logo & Favicon</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToTestiMonials()">Testimonials</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventory()">Inventory</button></a></li>
-     <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Header</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="home-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventory()">Inventory</button></a></li>
+     <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Header </button></a></li>
      </ul>
-    
      <ul id="myTabs" class="nav nav-tabs" role="tablist">
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Hours Of Operation</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToBlog()">Blog</button></a></li>
-      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToContactUs()">Contact Us</button></a></li>
-    <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToWarranty()">Warranty</button></a></li>
+      <li role="presentation" class=""><a id="profile-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventory()">New</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventoryUsed()">Used</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="home-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventorycomingSoon()">Coming Soon</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToCompare()">Comparison</button></a></li>
      </ul>
     
     
-    
+        <div class="form-group col-sm-12" style="margin-top: 25px;">
+	        		 <div class="col-sm-2">
+	        		</div>
+	        		<div class="col-sm-6"> 
+	        			<input type="checkbox" ng-model="header4.applyAll" name="applyAll" value="applyAll"> Comparision between vehicles
+	        		 </div> 
+	        		
+	  	</div>
     
     
 	      <div class="form-group col-sm-12" style="margin-top: 25px">
            	    <label class="col-sm-2">Main Title </label>
 				<div class="col-sm-5">
-					<input class="form-control form-white" type="text" ng-model="header2.mainTitle" placeholder="" required>
+					<input class="form-control form-white" type="text" ng-model="header4.mainTitle" placeholder="" required>
 				</div>
 				
 			</div>
 			<div class="form-group col-sm-12">
            	    <label class="col-sm-2" >Subtitle</label>
 				<div class="col-sm-5">
-					<input class="form-control form-white" type="text" ng-model="header2.textData" placeholder="" rows="12" required>
+					<input class="form-control form-white" type="text" ng-model="header4.textData" placeholder="" rows="12" required>
 				</div>
 				
 			</div>
@@ -49,7 +56,7 @@
 	      <div class="form-group col-sm-12" style="margin-top: 20px">
            	    <label class="col-sm-4" ></label>
 				<div class="col-sm-6">
-					<button type="button" class="btn btn-primary btn-embossed" ng-click="saveContactHeader(header2)">Save</button>
+					<button type="button" class="btn btn-primary btn-embossed" ng-click="saveCompareHeader(header4)">Save</button>
 				</div>
 				
 			</div>
@@ -57,18 +64,18 @@
 	      <div class="form-group col-sm-12"style="margin-top: 25px">
            	    <h1>Cover Image</h1>
            	    <div class="row" style="margin-bottom: 3%;">
-            <div gridster="gridsterOpts7">
+            <div gridster="gridsterOpts9">
             <ul style="list-style:none;">
 				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
-				                    		id="{{image.id}}"   ng-repeat="image in contactList" style="float:left;">
+				                    		id="{{image.id}}"   ng-repeat="image in compareList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
-				                        			<img  ng-if="thumbPath2 != null" class="myImage" style="width:100%; height:100%;" src="/contactImageById/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                        			<img  ng-if="thumbPath4 != null" class="myImage" style="width:100%; height:100%;" src="/compareImageById/{{image.id}}/thumbnail" id="imgId{{$index}}" />
 				                            		
 				                            		<div>
-				                            			<a class="remImage" ng-click="deleteContactImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            			<a class="remImage" ng-click="deleteBlogImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
 				                            		</div>
 				                            		<a class="remImage2" ng-click="showFullFeaturedImage(image)" data-toggle="modal" data-target="#modal-image2" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
-				                        			<a class="remImage3" ng-click="editContactImage(image)" style="cursor:pointer;color:#319DB5;margin-left: 15px"><b>Edit</b></a>
+				                        			<a class="remImage3" ng-click="editBlogImage(image)" style="cursor:pointer;color:#319DB5;margin-left: 15px"><b>Edit</b></a>
 				                        		</div>
 				                        	</li>
 				                        </ul>
@@ -77,12 +84,12 @@
 				                        
            <h1>Upload Cover Images</h1>
 			<p><b>Minimum image dimension should be {{configList[1].width}} X {{configList[1].height}}</b></p>
-            <form id="dropzoneFrm7" action="/uploadContactPhotos" class="dropzone">
+            <form id="dropzoneFrm9" action="/uploadComparePhotos" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" multiple />
                             </div>
                         </form>
- 					<button class="btn btn-primary" ng-click="contactImageFilesUpload()" style="margin-left:44%;margin-top:3%;">Upload</button>   
+ 					<button class="btn btn-primary" ng-click="compareImageFilesUpload()" style="margin-left:44%;margin-top:3%;">Upload</button>   
 	        	</div>				                        
 				</div>                        
 			</div>	
@@ -109,23 +116,21 @@
 
 
 
- <p style="display: none;">{{contactImageUpload()}}</p>
+ <p style="display: none;">{{compareImageUpload()}}</p>
     
     
     
     
     
     
+    </div>
     
     
     
     
     
     
-    
-    
- </div>   
-     
+ 
 <style>
 .red { color: black;  background-color: #ffd3d3 !important; }
 
@@ -179,5 +184,7 @@ opacity:1;
 opacity:0.2;
 }
 
-</style>	
+</style>	    
+    
+    
     
