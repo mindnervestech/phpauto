@@ -823,6 +823,10 @@ public class Vehicle extends Model {
 		return find.where().eq("vin", vin).eq("comingSoonFlag",1).findUnique();
 	}
 	
+	public static List<Vehicle> findByComingSoonDate(Date cDate) {
+		return find.where().eq("comingSoonFlag",1).eq("comingSoonDate", cDate).findList();
+	}
+	
 	public static Vehicle findByVinAndStatusForGM(String vid,Location location) {
 		return find.where().eq("vin", vid).eq("status", "Newly Arrived").eq("locations", location).findUnique();
 	}

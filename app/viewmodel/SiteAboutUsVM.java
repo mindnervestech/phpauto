@@ -18,5 +18,4 @@ public class SiteAboutUsVM {
 	public Integer col;
 	
 	
-	
 }

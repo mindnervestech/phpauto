@@ -2972,7 +2972,7 @@ angular.module('newApp')
 							              }
 							          },
 							          {
-							              addClass: 'general-button btnText', text: 'Add Price', onClick: function($noty)
+							              addClass: 'general-button btnText', text: 'Add or Change Price ', onClick: function($noty)
 							              {
 							            	 // $scope.acceptDate(value);
 							            	  $scope.addPrice(value);
@@ -3310,6 +3310,8 @@ angular.module('newApp')
 			
 			$scope.changeArrivalDate = function(value){
           	  $('#changeDate').modal();
+          	  console.log(value);
+          	  $scope.arrDate = value.comingSoonDate;
           	  $scope.priceDetail = value;
       	  	}
 			
@@ -3327,10 +3329,33 @@ angular.module('newApp')
 				});
 			}
 
+			$scope.buttFlag = 0;
 			 $scope.addPrice = function(value){
+				 
+				 $scope.buttFlag = 0;
+				 $scope.arrDate = value.comingSoonDate;
+				 $scope.checkDate = value.comingSoonDate;
+				 $scope.price = value.price;
+				 if($scope.price == 0){
+					 $scope.buttFlag = 0;
+				 }else{
+					 $scope.buttFlag = 1;
+				 }
 				$('#addPrice').modal();
       		  	$scope.priceDetail = value;
       	  	}
+			 $scope.addMakeItInPrice = function(){
+				 $scope.arrDate = $('#arrDate').val();
+				 if($scope.arrDate != $scope.checkDate){
+					 $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "coming soon date not match with current date",
+						});
+				 }else{
+					 $scope.addMakeIt();
+				 }
+			 }
 			 
 			 
 			 
@@ -3343,7 +3368,7 @@ angular.module('newApp')
 						    type:'success',
 						    text: "Price Add successfully",
 						});
-						
+						$scope.buttFlag = 1;
 					});
 				 
 			 }
@@ -9352,14 +9377,28 @@ angular.module('newApp')
 			   $scope.vinData.specification.price = 0;
 		   }
 		   
+		   var saveFlag = 0;
+		   
 		   if($scope.vinData.specification.commingSoonVehicle == true){
 			   	$scope.vinData.specification.comingSoonFlag = 1;
 				  $scope.vinData.specification.comingSoonDate = $('#comingsoonDateEdit').val();
-				  
+				  saveFlag = 1;
 			  }else{
 				  $scope.vinData.specification.comingSoonFlag = 0;
+				  if($scope.vinData.specification.price == 0){
+					  $.pnotify({
+			 			    title: "Error",
+			 			    type:'success',
+			 			    text: "Price fields required",
+			 			});
+			 			saveFlag = 0;
+				  }else{
+					  	saveFlag = 1;
+				  }
 			  }
 		   
+		 if(saveFlag == 1){
+			   
 		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
 				if(pdfFile != undefined){
 					$http.post('/updateVehicleById',$scope.vinData.specification)
@@ -9413,6 +9452,7 @@ angular.module('newApp')
 				    text: "Please select all fields",
 				});
 		   }
+	}  
 	}
 	
 	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
@@ -9925,8 +9965,7 @@ angular.module('newApp')
 		
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
-			   console.log(">>>>>>>>>");
-			   console.log(data);
+			
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
@@ -9934,6 +9973,11 @@ angular.module('newApp')
 						if(value.vType == $scope.vTypes){
 							$scope.inventoryImg.push(value);
 							$scope.siteInventory = value;
+							if($scope.siteInventory.applyAll == "1"){
+								$scope.siteInventory.applyAll = true;
+							}else{
+								$scope.siteInventory.applyAll = false;
+							}
 						}
 						
 					});
@@ -10947,7 +10991,7 @@ angular.module('newApp')
 			
 			$http.post('/editInventoryImage',$scope.coords)
 			.success(function(data) {
-				$location.path('/homePage');
+				$location.path('/goToInventoryNew/New');
 				$scope.$apply();
 			});
 		}    

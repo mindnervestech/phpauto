@@ -22,6 +22,7 @@ public class SiteInventory extends Model {
 	public String imageUrl;
 	public String thumbPath;
 	public String imageName;
+	public Integer applyAll;
 	
 	
 	@ManyToOne
@@ -35,12 +36,17 @@ public class SiteInventory extends Model {
 	public void setThumbPath(String thumbPath) {
 		this.thumbPath = thumbPath;
 	}
-
-
-
+		
 	
 
-		
+	public Integer getApplyAll() {
+		return applyAll;
+	}
+
+	public void setApplyAll(Integer applyAll) {
+		this.applyAll = applyAll;
+	}
+
 	public Long getId() {
 		return id;
 	}

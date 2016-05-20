@@ -1385,54 +1385,79 @@ public class Application extends Controller {
     public static Result sendComingSoonPOpUp(){
     	List<PriceAlert> price=PriceAlert.getAllRecordPopUp();
     	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+    	/*Date cDate = new Date();
+    	String cd = df2.format(cDate);
+    	Date curDate = null;
+		try {
+			curDate = df2.parse(cd);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+    	Date curDate = null;
     	List<RequestInfoVM> rList = new ArrayList<>();
-    	for(PriceAlert alert:price){
-    		Vehicle vehicle=Vehicle.findByVinAndComingSoonDate(alert.vin);
-    		if(vehicle != null){
+    	//for(PriceAlert alert:price){
+    	
+    	Date date=new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		
+			Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+			String date1=df2.format(date);
+			try {
+				curDate = formatter.parse(date1);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		List<Vehicle> vehList=Vehicle.findByComingSoonDate(curDate);
+    		
+    		for(Vehicle vehicle:vehList){
     			if(vehicle.locations != null){
-    			Date date=new Date();
-    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    			
-        			Location location = Location.findById(vehicle.locations.id);
-        			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
-    			try {
-    				
-    				    				
-    				String date1=df2.format(date);
-    				
-    				if(vehicle.comingSoonDate.equals(formatter.parse(date1))){
-    					RequestInfoVM rVm = new RequestInfoVM();
-    					rVm.id = vehicle.id;
-    					rVm.vin = vehicle.vin;
-    					rVm.make =  vehicle.make;
-    					rVm.model = vehicle.model;
-    					rVm.year = vehicle.year;
-    					rVm.price = vehicle.price;
-    					int vCount = 0;
-    					List<PriceAlert> vehCount = PriceAlert.getByVin(vehicle.vin);
-    					for(PriceAlert pAlert:vehCount){
-    						vCount++;
-    					}
-    					rVm.subscribers = vCount;
-    					
-    					rVm.comingSoonDate = formatter.format(vehicle.comingSoonDate);
-    					VehicleImage vehicleImg = VehicleImage.getDefaultImage(vehicle.vin);
-    					if(vehicleImg != null) {
-    						rVm.imageUrl = "http://glider-autos.com/glivrImg/images"+vehicleImg.thumbPath;
-    					}else {
-    						rVm.imageUrl = "/profile-pic.jpg";
-    					}
-    					
-    					rList.add(rVm);
-    				}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    			
+        		//	Date date=new Date();
+        			//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        			
+            			//Location location = Location.findById(vehicle.locations.id);
+            			//df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+        		//	try {
+        				
+        				    				
+        				//String date1=df2.format(date);
+        				
+        				//if(vehicle.comingSoonDate.equals(formatter.parse(date1))){
+        					RequestInfoVM rVm = new RequestInfoVM();
+        					rVm.id = vehicle.id;
+        					rVm.vin = vehicle.vin;
+        					rVm.make =  vehicle.make;
+        					rVm.model = vehicle.model;
+        					rVm.year = vehicle.year;
+        					rVm.price = vehicle.price;
+        					int vCount = 0;
+        					List<PriceAlert> vehCount = PriceAlert.getByVin(vehicle.vin);
+        					for(PriceAlert pAlert:vehCount){
+        						vCount++;
+        					}
+        					rVm.subscribers = vCount;
+        					
+        					rVm.comingSoonDate = formatter.format(vehicle.comingSoonDate);
+        					VehicleImage vehicleImg = VehicleImage.getDefaultImage(vehicle.vin);
+        					if(vehicleImg != null) {
+        						rVm.imageUrl = "http://glider-autos.com/glivrImg/images"+vehicleImg.thumbPath;
+        					}else {
+        						rVm.imageUrl = "/profile-pic.jpg";
+        					}
+        					
+        					rList.add(rVm);
+        				//}
+    				/*} catch (Exception e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}*/
+        			
+        		}
     		}
-    		}
-    	}
+    		
+    	//}
     	return ok(Json.toJson(rList));
     }
     
@@ -2359,6 +2384,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
                 	siInventory.sortBy = vm.sortBy;
                 	siInventory.sortType = vm.sortType;
                 	siInventory.vType = "Used";
+                	if(vm.applyAll.equals("true")){
+                		siInventory.applyAll = 1;
+                	}else{
+                		siInventory.applyAll = 0;
+                	}
+                	
                 	siInventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
                 	siInventory.save();
     			}else{
@@ -2368,6 +2399,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     				sInventoryUsed.setSortBy(vm.sortBy);
     				sInventoryUsed.setSortType(vm.sortType);
     				sInventoryUsed.setvType("Used");
+    				if(vm.applyAll.equals("true")){
+    					sInventoryUsed.setApplyAll(1);
+                	}else{
+                		sInventoryUsed.setApplyAll(0);
+                	}
     				sInventoryUsed.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
     				sInventoryUsed.update();
     			}
@@ -2383,6 +2419,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
                 	siInventory.sortBy = vm.sortBy;
                 	siInventory.sortType = vm.sortType;
                 	siInventory.vType = "New";
+                	if(vm.applyAll.equals("true")){
+                		siInventory.applyAll = 1;
+                	}else{
+                		siInventory.applyAll = 0;
+                	}
                 	siInventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
                 	siInventory.save();
     			}else{
@@ -2392,6 +2433,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     				sInventoryNew.setSortBy(vm.sortBy);
     				sInventoryNew.setSortType(vm.sortType);
     				sInventoryNew.setvType("New");
+    				if(vm.applyAll.equals("true")){
+    					sInventoryNew.setApplyAll(1);
+                	}else{
+                		sInventoryNew.setApplyAll(0);
+                	}
     				sInventoryNew.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
     				sInventoryNew.update();
     			}
@@ -2407,6 +2453,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
                 	siInventory.sortBy = vm.sortBy;
                 	siInventory.sortType = vm.sortType;
                 	siInventory.vType = "comingSoon";
+                	if(vm.applyAll.equals("true")){
+                		siInventory.applyAll = 1;
+                	}else{
+                		siInventory.applyAll = 0;
+                	}
                 	siInventory.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
                 	siInventory.save();
     			}else{
@@ -2416,6 +2467,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     				sInventoryComingSoon.setSortBy(vm.sortBy);
     				sInventoryComingSoon.setSortType(vm.sortType);
     				sInventoryComingSoon.setvType("comingSoon");
+    				if(vm.applyAll.equals("true")){
+    					sInventoryComingSoon.setApplyAll(1);
+                	}else{
+                		sInventoryComingSoon.setApplyAll(0);
+                	}
     				sInventoryComingSoon.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
     				sInventoryComingSoon.update();
     			}
@@ -7152,10 +7208,22 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					siteInventory.vType = "comingSoon";
 					siteInventory.save();
 				}else{
-					sInventory.setImageName(fileName);
-					sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
-					sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
-					sInventory.update();
+					if(sInventory.applyAll == 1){
+						List<SiteInventory> sInventory1 = SiteInventory.findByLocation(Long.parseLong(session("USER_LOCATION")));
+						for(SiteInventory siteInventory:sInventory1){
+							siteInventory.setImageName(fileName);
+							siteInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
+							siteInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+							siteInventory.update();
+						}
+					}else{
+						sInventory.setImageName(fileName);
+						sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
+						sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+						sInventory.update();
+					}
+					
+					
 				}
 				
 	    	  } catch (FileNotFoundException e) {
@@ -7208,10 +7276,20 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					siteInventory.vType = "New";
 					siteInventory.save();
 				}else{
-					sInventory.setImageName(fileName);
-					sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
-					sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
-					sInventory.update();
+					if(sInventory.applyAll == 1){
+						List<SiteInventory> sInventory1 = SiteInventory.findByLocation(Long.parseLong(session("USER_LOCATION")));
+						for(SiteInventory siteInventory:sInventory1){
+							siteInventory.setImageName(fileName);
+							siteInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
+							siteInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+							siteInventory.update();
+						}
+					}else{
+						sInventory.setImageName(fileName);
+						sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
+						sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+						sInventory.update();
+					}
 				}
 				
 	    	  } catch (FileNotFoundException e) {
@@ -7263,10 +7341,20 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					siteInventory.vType = "Used";
 					siteInventory.save();
 				}else{
-					sInventory.setImageName(fileName);
-					sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
-					sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
-					sInventory.update();
+					if(sInventory.applyAll == 1){
+						List<SiteInventory> sInventory1 = SiteInventory.findByLocation(Long.parseLong(session("USER_LOCATION")));
+						for(SiteInventory siteInventory:sInventory1){
+							siteInventory.setImageName(fileName);
+							siteInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
+							siteInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+							siteInventory.update();
+						}
+					}else{
+						sInventory.setImageName(fileName);
+						sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
+						sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+						sInventory.update();
+					}
 				}
 				
 	    	  } catch (FileNotFoundException e) {
@@ -7802,6 +7890,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    		siteInventory.sortBy = sInventory.sortBy;
 		    		siteInventory.sortType = sInventory.sortType;
 		    		siteInventory.defaultView = sInventory.defaultView;
+		    		siteInventory.applyAll = sInventory.applyAll.toString();
+		    		
 		    		sVms.add(siteInventory);
 	    		}
 	    	}
