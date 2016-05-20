@@ -5087,6 +5087,37 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
    
     
+    public static Result   saveBlogPosition() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	JsonNode nodes = ctx().request().body().asJson();
+	    	ObjectMapper mapper = new ObjectMapper();
+	    	try {
+	    		List<Blog> images = mapper.readValue(nodes.toString(), new TypeReference<List<Blog>>() {});
+				
+		    	for(Blog image : images) {
+		    		image.update();
+		    	}
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+    
+    
     public static Result  saveCoveredPosition() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -7323,6 +7354,65 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	return ok();
     	}	
     }
+   
+
+    public static Result  uploadBlogPhotos() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	MultipartFormData body = request().body().asMultipartFormData();
+	    	
+	    	AuthUser userObj = (AuthUser)getLocalUser();
+	    	
+	    	FilePart picture = body.getFile("file");
+	    	  if (picture != null) {
+	    	    String fileName = picture.getFilename();
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"BlogImages");
+	    	    if(!fdir.exists()) {
+	    	    	fdir.mkdirs();
+	    	    }
+	    	    
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"BlogImages"+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"BlogImages"+File.separator+"thumbnail_"+fileName;
+	    	    File thumbFile = new File(thumbnailPath);
+	    	    File file = picture.getFile();
+	    	    try {
+	    	    BufferedImage originalImage = ImageIO.read(file);
+	    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
+	    	    File _f = new File(filePath);
+				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+				
+				Blog imageObj = Blog .findByLocations(Long.valueOf(session("USER_LOCATION")));
+				if(imageObj == null) {
+					Blog vImage = new Blog();
+					vImage.coverImageName = fileName;
+					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"BlogImages"+"/"+fileName;
+					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"BlogImages"+"/"+"thumbnail_"+fileName;
+					vImage.user = userObj;
+					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.save();
+					
+				}
+				else{
+					imageObj.setCoverImageName(fileName);
+					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"BlogImages"+"/"+fileName);
+					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"BlogImages"+"/"+"thumbnail_"+fileName);
+					imageObj.update();
+				}
+	    	  } catch (FileNotFoundException e) {
+	  			e.printStackTrace();
+		  		} catch (IOException e) {
+		  			e.printStackTrace();
+		  		} 
+	    	  } 
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+
+    
     
     
 
@@ -7468,6 +7558,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     }
     
+    
+    
+    public static Result blogImageById(Long id,String type) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	File file = null;
+	    	Blog image = Blog.findById(id);
+	    	if(image.thumbPath != null || image.path != null){
+	    	if(type.equals("thumbnail")) {
+		    	file = new File(rootDir+image.thumbPath);
+	    	}
+	    	
+	    	if(type.equals("full")) {
+	    		file = new File(rootDir+image.path);
+	    	}
+	    	}
+	    	return ok(file);
+    	}
+    }
+    
+    
+    
 	   public static Result aboutUsCoverImageById(Long id,String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -7553,6 +7666,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	return ok();
     	}
     }
+    
+    
+    public static Result deleteBlogImage(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Blog image = Blog.findById(id);
+	    	File file = new File(rootDir+File.separator+"BlogImages"+File.separator+image.coverImageName);
+	    	file.delete();
+	    	File thumbfile = new File(rootDir+File.separator+"BlogImages"+File.separator+"thumbnail_"+image.coverImageName);
+	    	thumbfile.delete();
+	    	//image.delete();
+	    	image.setThumbPath(null);
+	    	image.setCoverImageName(null);
+	    	image.setPath(null);
+	    	image.setRow(null);
+	    	image.setCol(null);
+	    	image.update();
+	    	return ok();
+    	}
+    }
+    
     
     
     public static Result deleteCvrImage(Long id) {
@@ -7745,6 +7881,26 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	map.put("siteAboutUs", siteAboutList);
 	    	
 	    	
+	    	
+
+	    	List<SiteAboutUsVM> siteAboutList1=new ArrayList<>();
+	    	Blog sAboutUs1 = Blog.findByLocations(Long.valueOf(session("USER_LOCATION")));
+	    	if(sAboutUs1 != null){
+	    	SiteAboutUsVM sUs = new SiteAboutUsVM();
+	    	sUs.mainTitle = sAboutUs1.mainTitle;
+	    	sUs.subtitle=sAboutUs1.subtitle;
+	    	sUs.id = sAboutUs1.id;
+	    	sUs.path = sAboutUs1.path;
+	    	sUs.imgName = sAboutUs1.coverImageName;
+	    	sUs.row = sAboutUs1.row;
+	    	sUs.col = sAboutUs1.col;
+	    	sUs.thumbPath=sAboutUs1.thumbPath;
+	    	siteAboutList1.add(sUs);
+	    	}
+	    	map.put("blogData", siteAboutList1);
+	    	
+	    	
+	    	
 	    	int i = 1;
 	    	List<SiteTestimonialVM> siteList = new ArrayList<>();
  	    	List<SiteTestimonials> siteTestimonials = SiteTestimonials.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -7857,7 +8013,42 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     
     
     
-
+    
+    public static Result saveBlogHeader(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<SiteAboutUsVM> form = DynamicForm.form(SiteAboutUsVM.class).bindFromRequest();
+	    	SiteAboutUsVM vm = form.get();
+	    	
+	    	Blog sAboutUs = Blog.findByLocations(Long.valueOf(session("USER_LOCATION")));
+	    	if(sAboutUs == null){
+	    		
+	    		Blog siAboutUs = new Blog();
+		    	siAboutUs.mainTitle = vm.mainTitle;
+		    	siAboutUs.subtitle = vm.textData;
+		    	siAboutUs.user = user;
+		    	siAboutUs.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	siAboutUs.headerFlag=1;
+		    	siAboutUs.save();
+		    	
+		    	
+	    	}else{
+	    			sAboutUs.setMainTitle(vm.mainTitle);
+	    			sAboutUs.setSubtitle(vm.textData);
+	    			sAboutUs.setHeaderFlag(1);
+	    		sAboutUs.update();
+	    	}
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+    
+    
+    
     public static Result saveSiteAboutUsHeader(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -8165,7 +8356,36 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}	
     }
     
-	 
+  
+
+    public static Result getBlogDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Blog image = Blog.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.coverImageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.thumbPath=image.thumbPath;
+			CoverImage config = CoverImage.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+    
+	
+    
+    
+    
     public static Result getCoverDataById(Long id) throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -8244,7 +8464,34 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}	
     }
     
-	 
+    public static Result editBlogImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	    Blog image = Blog.findById(vm.imageId);
+	    	image.setCoverImageName(vm.imgName);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	       	
+	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+    
+    
     public static Result editCovrImage() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));

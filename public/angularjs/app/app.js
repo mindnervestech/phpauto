@@ -73,6 +73,16 @@ var MakeApp = angular
             templateUrl: '/dealer/homePage/sliderImages.html',
             controller: 'HomePageCtrl'
         })
+        .when('/blog', {
+            templateUrl: '/dealer/homePage/blog.html',
+            controller: 'HomePageCtrl'
+        })
+        .when('/contactUs', {
+            templateUrl: '/dealer/homePage/contactUs.html',
+            controller: 'HomePageCtrl'
+        })
+        
+        
         .when('/featuredImages', {
             templateUrl: '/dealer/homePage/featuredImages.html',
             controller: 'HomePageCtrl'
@@ -291,6 +301,13 @@ var MakeApp = angular
          .when('/cropCoverImage/:id', {
             templateUrl: '/dealer/addPhotos/cropCoverPhoto.html',
             controller: 'CoverCropCtrl'
+        })
+        
+        
+        
+        .when('/cropBlogImage/:id', {
+            templateUrl: '/dealer/addPhotos/cropBlogPhoto.html',
+            controller: 'BlogCropCtrl'
         })
         
         .when('/managePhotos/:num', {

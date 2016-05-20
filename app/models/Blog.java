@@ -21,6 +21,14 @@ public class Blog extends Model {
 	public String imageName;
 	public String videoUrl;
 	public String postedBy;
+	public String coverImageName;
+	public String path;
+	public String thumbPath;
+	public String mainTitle;
+	public String subtitle;
+	public Integer row;
+	public Integer col;
+	public Integer headerFlag;
 	public Date postedDate;
 	
 	@ManyToOne
@@ -108,6 +116,81 @@ public class Blog extends Model {
 	public void setLocations(Location locations) {
 		this.locations = locations;
 	}
+	
+	
+
+	
+	
+
+
+	public String getCoverImageName() {
+		return coverImageName;
+	}
+
+	public void setCoverImageName(String coverImageName) {
+		this.coverImageName = coverImageName;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getThumbPath() {
+		return thumbPath;
+	}
+
+	public void setThumbPath(String thumbPath) {
+		this.thumbPath = thumbPath;
+	}
+
+	public String getMainTitle() {
+		return mainTitle;
+	}
+
+	public void setMainTitle(String mainTitle) {
+		this.mainTitle = mainTitle;
+	}
+
+	public String getSubtitle() {
+		return subtitle;
+	}
+
+	public void setSubtitle(String subtitle) {
+		this.subtitle = subtitle;
+	}
+
+	public Integer getRow() {
+		return row;
+	}
+
+	public void setRow(Integer row) {
+		this.row = row;
+	}
+
+	public Integer getCol() {
+		return col;
+	}
+
+	public void setCol(Integer col) {
+		this.col = col;
+	}
+
+
+	public Integer getHeaderFlag() {
+		return headerFlag;
+	}
+
+	public void setHeaderFlag(Integer headerFlag) {
+		this.headerFlag = headerFlag;
+	}
+
+
+
+
 
 
 
@@ -128,6 +211,10 @@ public class Blog extends Model {
 	public static List<Blog> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}
+	public static Blog findByLocations(Long location) {
+		return find.where().eq("locations.id", location).findUnique();
+	}
+	
 	
 	public static List<Blog> getBlogsByDate(Date start,Date end) {
 		return find.where().between("postedDate", start, end).orderBy("postedDate desc").findList();
