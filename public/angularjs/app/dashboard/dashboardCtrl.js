@@ -3319,7 +3319,7 @@ angular.module('newApp')
 				var aDate = $('#arrDate').val();
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
 				.success(function(data) {
-					 $('#changeDate').modal("toggle");
+					 $('#changeDate').hide();
 					$.pnotify({
 					    title: "Success",
 					    type:'success',
@@ -3371,6 +3371,7 @@ angular.module('newApp')
 						$scope.buttFlag = 1;
 					});
 				 
+				 $scope.addChangeArrival();
 			 }
 			
     		  
@@ -8963,7 +8964,6 @@ angular.module('newApp')
 	   });
    }
    $scope.updateVehicleStatus = function(row){
-	   console.log(row);
 	   $scope.statusVal = "";
 	   if(row.entity.status == 'Newly Arrived') {
 		   $('#btnStatusSchedule').click();
@@ -10176,8 +10176,7 @@ angular.module('newApp')
 		
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
-			   console.log(">>>>>>>>>");
-			   console.log(data);
+			
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
