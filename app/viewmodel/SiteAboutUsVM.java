@@ -17,6 +17,9 @@ public class SiteAboutUsVM {
 	public Integer row;
 	public Integer col;
 	public Integer headerFlag;
+	public Integer makeFlag;
+	public Integer financeFlag;
+	public Integer socialFlag;
 	public String hideMenu;
 	
 	

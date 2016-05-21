@@ -86,6 +86,12 @@ var MakeApp = angular
             templateUrl: '/dealer/homePage/warranty.html',
             controller: 'HomePageCtrl'
         })
+        
+        .when('/vehicleProfile', {
+            templateUrl: '/dealer/homePage/vehicleProfile.html',
+            controller: 'HomePageCtrl'
+        })
+        
         .when('/featuredImages', {
             templateUrl: '/dealer/homePage/featuredImages.html',
             controller: 'HomePageCtrl'
@@ -328,6 +334,13 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/cropWarrantyPhoto.html',
             controller: 'WarrantyCropCtrl'
         })
+        
+        
+        .when('/editVehicleImage/:id', {
+            templateUrl: '/dealer/addPhotos/vehicleProfileCrop.html',
+            controller: 'VehicleCropCtrl'
+        })
+        
         
         .when('/editContactImage/:id', {
             templateUrl: '/dealer/addPhotos/cropContactPhoto.html',

@@ -107,6 +107,7 @@ import models.TradeIn;
 import models.UserNotes;
 import models.Vehicle;
 import models.VehicleAudio;
+import models.VehicleHeader;
 import models.VehicleImage;
 import models.VehicleImageConfig;
 import models.Video;
@@ -5175,6 +5176,37 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
     
     
+
+    public static Result saveVehiclePosition() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	JsonNode nodes = ctx().request().body().asJson();
+	    	ObjectMapper mapper = new ObjectMapper();
+	    	try {
+	    		List<VehicleHeader> images = mapper.readValue(nodes.toString(), new TypeReference<List<VehicleHeader>>() {});
+				
+		    	for(VehicleHeader image : images) {
+		    		image.update();
+		    	}
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+	    	
+	    	return ok();
+    	}	
+    }
+    
+
+    
     
     
 
@@ -7594,6 +7626,62 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 
     
     
+    public static Result  uploadVehiclePhotos() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	MultipartFormData body = request().body().asMultipartFormData();
+	    	
+	    	AuthUser userObj = (AuthUser)getLocalUser();
+	    	
+	    	FilePart picture = body.getFile("file");
+	    	  if (picture != null) {
+	    	    String fileName = picture.getFilename();
+	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"VehicleProfile");
+	    	    if(!fdir.exists()) {
+	    	    	fdir.mkdirs();
+	    	    }
+	    	    
+	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"VehicleProfile"+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"VehicleProfile"+File.separator+"thumbnail_"+fileName;
+	    	    File thumbFile = new File(thumbnailPath);
+	    	    File file = picture.getFile();
+	    	    try {
+	    	    BufferedImage originalImage = ImageIO.read(file);
+	    	    Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
+	    	    File _f = new File(filePath);
+				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+				
+				VehicleHeader imageObj = VehicleHeader.findByLocations(Long.valueOf(session("USER_LOCATION")));
+				if(imageObj == null) {
+					VehicleHeader vImage = new VehicleHeader();
+					vImage.coverImageName = fileName;
+					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+fileName;
+					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName;
+					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.save();
+					
+				}
+				else{
+					imageObj.setCoverImageName(fileName);
+					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"VehicleProfile"+"/"+fileName);
+					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName);
+					imageObj.update();
+				}
+	    	  } catch (FileNotFoundException e) {
+	  			e.printStackTrace();
+		  		} catch (IOException e) {
+		  			e.printStackTrace();
+		  		} 
+	    	  } 
+	    	
+	    	return ok();
+    	}	
+    }
+    
+
+    
+    
     
     public static Result  uploadWarrantyPhotos() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -7931,6 +8019,27 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
     
     
+    
+    public static Result vehicleProfileImageById(Long id,String type) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	File file = null;
+	    	VehicleHeader image = VehicleHeader.findById(id);
+	    	if(image.thumbPath != null || image.path != null){
+	    	if(type.equals("thumbnail")) {
+		    	file = new File(rootDir+image.thumbPath);
+	    	}
+	    	
+	    	if(type.equals("full")) {
+	    		file = new File(rootDir+image.path);
+	    	}
+	    	}
+	    	return ok(file);
+    	}
+    }
+    
+    
 
     public static Result warrantyImageById(Long id,String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -8146,6 +8255,24 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
     
     
+    public static Result deleteVehicleImage(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	VehicleHeader image = VehicleHeader.findById(id);
+	    	File file = new File(rootDir+File.separator+"VehicleProfile"+File.separator+image.coverImageName);
+	    	file.delete();
+	    	File thumbfile = new File(rootDir+File.separator+"VehicleProfile"+File.separator+"thumbnail_"+image.coverImageName);
+	    	thumbfile.delete();
+	    	//image.delete();
+	    	image.setThumbPath(null);
+	    	image.setCoverImageName(null);
+	    	image.setPath(null);
+	    	image.update();
+	    	return ok();
+    	}
+    }
     
     
     public static Result deleteBlogImage(Long id) {
@@ -8381,6 +8508,23 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	}
 	    	map.put("blogData", siteAboutList1);
 	    	
+	    	
+	    	List<SiteAboutUsVM> vehicleProfile=new ArrayList<>();
+	    	VehicleHeader header = VehicleHeader.findByLocations(Long.valueOf(session("USER_LOCATION")));
+	    	if(header != null){
+	    	SiteAboutUsVM sUs = new SiteAboutUsVM();
+	    	sUs.mainTitle = header.mainTitle;
+	    	sUs.subtitle=header.subtitle;
+	    	sUs.id = header.id;
+	    	sUs.path = header.path;
+	    	sUs.imgName = header.coverImageName;
+	    	sUs.thumbPath=header.thumbPath;
+	    	sUs.financeFlag=header.financeFlag;
+	    	sUs.makeFlag=header.makeFlag;
+	    	sUs.socialFlag=header.socialFlag;
+	    	vehicleProfile.add(sUs);
+	    	}
+	    	map.put("vehicleProfileData", vehicleProfile);
 	    	
 	    	List<SiteAboutUsVM> siteAbout=new ArrayList<>();
 	    	Warranty sAbout = Warranty.findByLocations(Long.valueOf(session("USER_LOCATION")));
@@ -8641,6 +8785,44 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	return ok();
     	}	
     }
+    
+    
+    
+    public static Result saveprofileHeader(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<SiteAboutUsVM> form = DynamicForm.form(SiteAboutUsVM.class).bindFromRequest();
+	    	SiteAboutUsVM vm = form.get();
+	    	
+	    	VehicleHeader sAboutUs = VehicleHeader.findByLocations(Long.valueOf(session("USER_LOCATION")));
+	    	if(sAboutUs == null){
+	    		
+	    		VehicleHeader siAboutUs = new VehicleHeader();
+		    	siAboutUs.mainTitle = vm.mainTitle;
+		    	siAboutUs.subtitle = vm.textData;
+		    	siAboutUs.financeFlag=vm.financeFlag;
+		    	siAboutUs.makeFlag=vm.makeFlag;
+		    	siAboutUs.socialFlag=vm.socialFlag;
+		    	siAboutUs.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	siAboutUs.save();
+		    	
+	    	}else{
+	    			sAboutUs.setMainTitle(vm.mainTitle);
+	    			sAboutUs.setSubtitle(vm.textData);
+	    			sAboutUs.setSocialFlag(vm.socialFlag);
+	    			sAboutUs.setFinanceFlag(vm.financeFlag);
+	    			sAboutUs.setMakeFlag(vm.makeFlag);
+	    		sAboutUs.update();
+	    	}
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+    
     
     public static Result saveHeader(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -9021,6 +9203,33 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
     
     
+
+    public static Result getVehicleProfileDataById(Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	VehicleHeader image = VehicleHeader.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.coverImageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.thumbPath=image.thumbPath;
+			CoverImage config = CoverImage.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+
+    
+    
     
     public static Result getWarDataById(Long id) throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -9207,8 +9416,34 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	return ok();
     	}	
     }
-    
    
+
+    public static Result editVehicleProfileImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	       VehicleHeader image = VehicleHeader.findById(vm.imageId);
+	    	image.setCoverImageName(vm.imgName);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	       	
+	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+   
+    
 
     public static Result  editWarImage() throws IOException {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
