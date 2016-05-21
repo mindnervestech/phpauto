@@ -72,10 +72,10 @@
 				                        			<img  ng-if="thumbPath4 != null" class="myImage" style="width:100%; height:100%;" src="/compareImageById/{{image.id}}/thumbnail" id="imgId{{$index}}" />
 				                            		
 				                            		<div>
-				                            			<a class="remImage" ng-click="deleteBlogImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            			<a class="remImage" ng-click="deleteCompareImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
 				                            		</div>
 				                            		<a class="remImage2" ng-click="showFullFeaturedImage(image)" data-toggle="modal" data-target="#modal-image2" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
-				                        			<a class="remImage3" ng-click="editBlogImage(image)" style="cursor:pointer;color:#319DB5;margin-left: 15px"><b>Edit</b></a>
+				                        			<a class="remImage3" ng-click="editCompareImage(image)" style="cursor:pointer;color:#319DB5;margin-left: 15px"><b>Edit</b></a>
 				                        		</div>
 				                        	</li>
 				                        </ul>

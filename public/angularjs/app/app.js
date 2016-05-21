@@ -318,6 +318,11 @@ var MakeApp = angular
             controller: 'BlogCropCtrl'
         })
         
+        .when('/cropCompareImage/:id', {
+            templateUrl: '/dealer/addPhotos/cropCompare.html',
+            controller: 'CompareCropCtrl'
+        })
+        
         
         .when('/cropWarImage/:id', {
             templateUrl: '/dealer/addPhotos/cropWarrantyPhoto.html',

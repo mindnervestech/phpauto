@@ -10584,6 +10584,15 @@ angular.module('newApp')
 				});
 		   }
 	   
+	    
+	    
+	    $scope.deleteCompareImage = function(image) {
+			   $http.get('/deleteCompareImage/'+image.id)
+				.success(function(data) {
+					$scope.compareList.splice($scope.compareList.indexOf(image),1);
+				});
+		   }
+	    
 	    $scope.deleteWarImage = function(image) {
 			   $http.get('/deleteWarImage/'+image.id)
 				.success(function(data) {
@@ -10634,7 +10643,13 @@ angular.module('newApp')
 		   console.log(image);
 		   $location.path('/cropBlogImage/'+image.id);
 	   }
-	  
+	   
+	   $scope.editCompareImage = function(image) {
+		   console.log("imageimageimage");
+		   console.log(image);
+		   $location.path('/cropCompareImage/'+image.id);
+	   }
+	   
 	   $scope.editWarImage = function(image) {
 		   console.log("imageimageimage");
 		   console.log(image);
@@ -11376,7 +11391,7 @@ angular.module('newApp')
 	$scope.init = function() {
 		
 		
-		 $http.get('/getBlogDataById/'+$routeParams.id)
+		 $http.get('/getCompareDataById/'+$routeParams.id)
 			.success(function(data) {
 				console.log(data);
 				imageW = data.col;
@@ -11446,7 +11461,7 @@ angular.module('newApp')
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
 			
-			$http.post('/editBlogImage',$scope.coords)
+			$http.post('/editCompareImage',$scope.coords)
 			.success(function(data) {
 				$.pnotify({
 				    title: "Success",

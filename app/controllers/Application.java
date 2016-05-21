@@ -8126,6 +8126,28 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     
     
     
+    public static Result deleteCompareImage(Long id) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	SiteComparison image = SiteComparison.findById(id);
+	    	File file = new File(rootDir+File.separator+"Compare"+File.separator+image.coverImageName);
+	    	file.delete();
+	    	File thumbfile = new File(rootDir+File.separator+"Compare"+File.separator+"thumbnail_"+image.coverImageName);
+	    	thumbfile.delete();
+	    	//image.delete();
+	    	image.setThumbPath(null);
+	    	image.setCoverImageName(null);
+	    	image.setPath(null);
+	    	image.update();
+	    	return ok();
+    	}
+    }
+    
+    
+    
+    
     public static Result deleteBlogImage(Long id) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -9010,6 +9032,33 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	return ok(Json.toJson(vm));
     	}	
     }
+   
+
+    public static Result getCompareDataById (Long id) throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	SiteComparison image = SiteComparison.findById(id);
+	    	File file = new File(rootDir+image.path);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	    	
+	    	ImageVM vm = new ImageVM();
+			vm.id = image.id;
+			vm.imgName = image.coverImageName;
+			vm.row = originalImage.getHeight();
+			vm.col = originalImage.getWidth();
+			vm.path = image.path;
+			vm.thumbPath=image.thumbPath;
+			CoverImage config = CoverImage.findByUser(user);
+			vm.width = config.cropWidth;
+			vm.height = config.cropHeight;
+	    	return ok(Json.toJson(vm));
+    	}	
+    }
+    
+	
     
     
     
@@ -9157,6 +9206,32 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	EditImageVM vm = form.get();
 	    	
 	       Warranty image = Warranty.findById(vm.imageId);
+	    	image.setCoverImageName(vm.imgName);
+	    	image.update();
+	    	File file = new File(rootDir+image.path);
+	    	File thumbFile = new File(rootDir+image.thumbPath);
+	    	
+	    	BufferedImage originalImage = ImageIO.read(file);
+	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
+	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	        Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	       	
+	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
+	    	
+	    	return ok();
+    	}	
+    }
+   
+    
+    public static Result  editCompareImage() throws IOException {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
+	    	EditImageVM vm = form.get();
+	    	
+	       SiteComparison image = SiteComparison.findById(vm.imageId);
 	    	image.setCoverImageName(vm.imgName);
 	    	image.update();
 	    	File file = new File(rootDir+image.path);
