@@ -10176,7 +10176,8 @@ angular.module('newApp')
 		
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
-			
+			   console.log(">>>>>>>>>");
+			   console.log(data);
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
@@ -10333,6 +10334,7 @@ angular.module('newApp')
 		            
 		     //$scope.getImages();
 		            $scope.$apply();
+		            $scope.init();
 		        });
 		     
 		     this.on("complete", function() {
@@ -10356,6 +10358,7 @@ angular.module('newApp')
 		            
 		     //$scope.getImages();
 		            $scope.$apply();
+		            $scope.init();
 		        });
 		     
 		     this.on("complete", function() {
@@ -10381,6 +10384,7 @@ angular.module('newApp')
 		     this.on("queuecomplete", function (file) {
 		            
 		     //$scope.getImages();
+		    	 $scope.init();
 		            $scope.$apply();
 		        });
 		     
@@ -10406,6 +10410,7 @@ angular.module('newApp')
 		            
 		     //$scope.getImages();
 		            $scope.$apply();
+		            $scope.init();
 		        });
 		     
 		     this.on("complete", function() {
@@ -10413,6 +10418,8 @@ angular.module('newApp')
 		     });
 		     }
 		     });
+	   
+	   
 	   	   
 	 }
 
