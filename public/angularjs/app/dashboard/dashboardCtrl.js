@@ -10224,7 +10224,7 @@ angular.module('newApp')
 				$scope.thumbPath3=data.warData[0].thumbPath;
 				if($scope.thumbPath3 != null){
 					
-					if($scope.header3.hideMenu == "1"){
+					if(data.warData[0].hideMenu == "1"){
 						$scope.header3.hideMenu = true;
 					}else{
 						$scope.header3.hideMenu = false;
@@ -10757,6 +10757,9 @@ angular.module('newApp')
 	   
 	   $scope.saveHeader = function(header) {
 		   console.log(header);
+		   if(header.hideMenu == undefined){
+			   header.hideMenu = false;
+		   }
 		   $http.post('/saveHeader',header)
 			.success(function(data) {
 

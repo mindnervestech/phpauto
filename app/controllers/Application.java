@@ -8392,6 +8392,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	sUs.path = sAbout.path;
 	    	sUs.imgName = sAbout.coverImageName;
 	    	sUs.thumbPath=sAbout.thumbPath;
+	    	sUs.hideMenu = sAbout.hideMenu.toString();
 	    	siteAbout.add(sUs);
 	    	}
 	    	map.put("warData", siteAbout);

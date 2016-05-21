@@ -17,10 +17,12 @@ public class Warranty extends Model {
 	public String subtitle;
 	public Integer headerFlag;
 	public String coverImageName;
+	public Integer hideMenu;
 	
 	
 	@ManyToOne
 	public Location locations;
+	
 
 
 	public Long getId() {
@@ -30,6 +32,16 @@ public class Warranty extends Model {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+
+	public Integer getHideMenu() {
+		return hideMenu;
+	}
+
+
+	public void setHideMenu(Integer hideMenu) {
+		this.hideMenu = hideMenu;
 	}
 
 
