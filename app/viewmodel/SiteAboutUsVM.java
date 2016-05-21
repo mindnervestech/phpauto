@@ -17,7 +17,7 @@ public class SiteAboutUsVM {
 	public Integer row;
 	public Integer col;
 	public Integer headerFlag;
-	
+	public String hideMenu;
 	
 	
 }

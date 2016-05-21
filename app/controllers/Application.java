@@ -8653,6 +8653,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	if(sAboutUs == null){
 	    		
 	    		Warranty siAboutUs = new Warranty();
+	    		if(vm.hideMenu.equals("true")){
+	    			siAboutUs.hideMenu = 1;
+	    		}else{
+	    			siAboutUs.hideMenu = 0;
+	    		}
+	    		
 		    	siAboutUs.mainTitle = vm.mainTitle;
 		    	siAboutUs.subtitle = vm.textData;
 		    	siAboutUs.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -8661,6 +8667,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	
 		    	
 	    	}else{
+	    			
+	    			if(vm.hideMenu.equals("true")){
+	    				sAboutUs.setHideMenu(1);
+		    		}else{
+		    			sAboutUs.setHideMenu(0);
+		    		}
 	    			sAboutUs.setMainTitle(vm.mainTitle);
 	    			sAboutUs.setSubtitle(vm.textData);
 	    			sAboutUs.setHeaderFlag(1);

@@ -10224,6 +10224,12 @@ angular.module('newApp')
 				$scope.header3.textData=data.warData[0].subtitle;
 				$scope.thumbPath3=data.warData[0].thumbPath;
 				if($scope.thumbPath3 != null){
+					
+					if($scope.header3.hideMenu == "1"){
+						$scope.header3.hideMenu = true;
+					}else{
+						$scope.header3.hideMenu = false;
+					}
 				$scope.warrantyList = data.warData;
 				}
 				
