@@ -4949,7 +4949,7 @@ angular.module('newApp')
 				}
 				
 				$("#sendPdfmodal").modal('hide');
-				
+				$route.reload();
 				
 			});
 			
