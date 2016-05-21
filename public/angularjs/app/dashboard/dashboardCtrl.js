@@ -10202,7 +10202,10 @@ angular.module('newApp')
 				$scope.coverList = data.siteAboutUs;
 				}
 				$scope.configListForCvr=data.coverImageConf;
-				
+				console.log(data.coverImageConf[2].width);
+				console.log(data.coverImageConf[2].height);
+				$scope.configWidth=data.coverImageConf[2].width;
+				$scope.configHeight=data.coverImageConf[2].height;
 				$scope.header1.mainTitle=data.blogData[0].mainTitle;
 				$scope.header1.textData=data.blogData[0].subtitle;
 				$scope.thumbPath1=data.blogData[0].thumbPath;

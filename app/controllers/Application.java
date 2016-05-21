@@ -14769,7 +14769,7 @@ private static void cancelTestDriveMail(Map map) {
 		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
 		  			message.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(vm.email));
-		  			message.setSubject("PDF file");	  			
+		  			message.setSubject("Requested Document");	  			
 		  			Multipart multipart = new MimeMultipart();
 	    			BodyPart messageBodyPart = new MimeBodyPart();
 	    			messageBodyPart = new MimeBodyPart();
