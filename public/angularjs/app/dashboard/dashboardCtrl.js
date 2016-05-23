@@ -4918,13 +4918,13 @@ angular.module('newApp')
 		$scope.sendPdfEmail= function (pdf){
 			console.log(pdf);
 			$scope.pdf.pdfIds = $scope.pdfDoc;
+			$scope.pdf.vin=$scope.vehiclePdfVin;
+			console.log("$scope.vehiclePdfVin"+$scope.vehiclePdfVin);
 			console.log(":::::::::"+$scope.pdfDoc.length);
 			$scope.pdf.email=$scope.SendPdfemail;
 			$scope.flagForMsg=0;
 			
-			
-			
-			if($scope.pdfDoc.length != 0 ){
+			if($scope.pdfDoc.length != 0 || $scope.pdf.vin != null){
 			$http.post('/sendPdfEmail',$scope.pdf)
 			.success(function(data) {
 				$.pnotify({
@@ -4968,6 +4968,16 @@ angular.module('newApp')
 		$scope.actionOnPdf= function (entity,option){
 			console.log("inside pdf");
 			console.log(entity);
+			
+			$http.get('/getCustomerPdfForVehicle/'+entity.vin)
+				.success(function(data) {
+					$scope.vehiclePdfList=data;
+					console.log(data);
+				
+				});
+			
+			
+			
 			//$scope.pdf.typeOfLead=entity.typeOfLead;
 			if(entity.typeOfLead == "Request More Info"){
 				$scope.pdf.typeOfLead="requestMore";
@@ -5016,6 +5026,16 @@ angular.module('newApp')
 				$scope.deletepdfItem(item);
 			}
 			console.log($scope.pdfDoc);
+		}
+		
+		
+		$scope.selectVehiclePdf = function(vin,value){
+			console.log(vin);
+			console.log(value);
+			if(value == false || value == undefined){
+				$scope.vehiclePdfVin=vin;
+			}
+			
 		}
 		
 		
@@ -10397,6 +10417,7 @@ angular.module('newApp')
 		     this.on("queuecomplete", function (file) {
 		            
 		     //$scope.getImages();
+		    	   $scope.init();
 		            $scope.$apply();
 		        });
 		     

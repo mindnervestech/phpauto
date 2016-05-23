@@ -2558,6 +2558,24 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
 	}
     
+    public static Result  getCustomerPdfForVehicle(String vin){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    	 //CustomerPdf pdf = CustomerPdf.findPdfById(id);
+    		Vehicle vehicle=Vehicle.findByVin(vin);
+    		DocumentationVM vm = new DocumentationVM();
+    		if(vehicle != null){
+    			vm.customerPdfName=vehicle.pdfBrochureName;
+    			vm.customerPdfPath=vehicle.pdfBrochurePath;
+    			vm.vehicleVin=vehicle.vin;
+    		}
+    		return ok(Json.toJson(vm));
+    	}
+	}
+	
+    
+    
     
     public static Result  getCustomerPdfDataById(Long id){
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -15065,6 +15083,24 @@ private static void cancelTestDriveMail(Map map) {
 	    			   
 	    			 
 	 	    	   }
+	    			if(vm.vin != null){
+	    				
+	    				Vehicle vehicle=Vehicle.findByVin(vm.vin);
+	    				  String PdfFile = rootDir + File.separator +vehicle.pdfBrochurePath;
+		 	    		  File f = new File(PdfFile);
+		 	    		 MimeBodyPart attachPart = new MimeBodyPart();
+		 	    		 try {
+		    					attachPart.attachFile(f);
+		    		  	      } catch (IOException e) {
+		    		  	       	// TODO Auto-generated catch block
+		    		  	       		e.printStackTrace();
+		    		  	    }
+		    			 multipart.addBodyPart(attachPart);
+	    				
+	    				
+	    				
+	    			}
+	    			
 	    			String nameDoc= output.toString();
 	    			String actionTitle="Followed up with the following documents: "+nameDoc;
 	    			String action="Other";
