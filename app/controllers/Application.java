@@ -1565,7 +1565,14 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		try
 		{
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}
+    		catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(email));
 			message.setSubject("Vehicle that you were interested in has arrived");
@@ -3608,7 +3615,14 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		 		try{
 		 		   
 		  			Message message = new MimeMessage(session);
-		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		    		String emailName=details.name;
+		    		try{
+		  			message.setFrom(new InternetAddress("glider.autos@gmail.com",emailName));
+		    		}
+		    		catch(UnsupportedEncodingException e){
+		    			e.printStackTrace();
+		    		}
 		  		  if(vm.mi.equals("true")){
 		  			message.setRecipients(Message.RecipientType.TO,
 				  			InternetAddress.parse(users.email));
@@ -4833,7 +4847,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    				usersArray[index] = new InternetAddress(user.getEmail());
 	    				
 	    				Message message = new MimeMessage(session);
-	    				message.setFrom(new InternetAddress(emailUsername));
+	    				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	    		String emailName=details.name;
+	    	    		try{
+	    				message.setFrom(new InternetAddress(emailUsername,emailName));
+	    	    		}catch(UnsupportedEncodingException e){
+	    	    			e.printStackTrace();
+	    	    		}
 	    				message.setRecipients(Message.RecipientType.TO, usersArray);
 	    				message.setSubject("Trade-In Appraisal");
 	    				Multipart multipart = new MimeMultipart();
@@ -6141,7 +6161,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					try
 					{
 						Message message = new MimeMessage(session);
-						message.setFrom(new InternetAddress(emailUsername));
+						EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			    		String emailName=details.name;
+			    		try{
+						message.setFrom(new InternetAddress(emailUsername,emailName));
+			    		}catch(UnsupportedEncodingException e){
+			    			e.printStackTrace();
+			    		}
 						message.setRecipients(Message.RecipientType.TO,
 						InternetAddress.parse(email));
 						message.setSubject("CAR BRAND INVENTORY UPDATE");
@@ -6230,7 +6256,14 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			try
 			{
 				Message message = new MimeMessage(session);
-				message.setFrom(new InternetAddress(emailUsername));
+				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		String emailName=details.name;
+	    		try{
+				message.setFrom(new InternetAddress(emailUsername,emailName));
+	    		}
+	    		catch(UnsupportedEncodingException e){
+	    			e.printStackTrace();
+	    		}
 				message.setRecipients(Message.RecipientType.TO,
 						InternetAddress.parse(alert.email));
 				message.setSubject("VEHICLE PRICE CHANGE ALERT");
@@ -14599,7 +14632,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		  
 		    try {  
 		     MimeMessage message = new MimeMessage(session);  
-		     message.setFrom(new InternetAddress(username));  
+		     EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		String emailName=details.name;
+	    		try{
+		     message.setFrom(new InternetAddress(username,emailName));  
+	    		}catch(UnsupportedEncodingException e){
+	    			e.printStackTrace();
+	    		}
 		     message.addRecipient(Message.RecipientType.TO,new InternetAddress(aUser.communicationemail));  
 		     message.setSubject("Premium Leads");  
 		     message.setText("Premium Request has been submitted");  
@@ -14637,7 +14676,14 @@ private static void cancelTestDriveMail(Map map) {
     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
     		
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}
+    		catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(map.get("email").toString()));
 			message.setSubject("TEST DRIVE CANCELLED");
@@ -14906,7 +14952,13 @@ private static void cancelTestDriveMail(Map map) {
     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
     		
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	 		String emailName=details.name;
+	 		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+	 		}catch(UnsupportedEncodingException e){
+	 			e.printStackTrace();
+	 		}
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(map.get("email").toString()));
 			message.setSubject("TEST DRIVE CONFIRMATION");
@@ -15005,6 +15057,10 @@ private static void cancelTestDriveMail(Map map) {
 			e.printStackTrace();
 		}
     }
+    
+    
+    
+    
     
     public static Result sendPdfEmail() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -15336,7 +15392,8 @@ private static void cancelTestDriveMail(Map map) {
 	    	   } 
 	    	   InternalPdf iPdf = null;
 	    	   
-	    	   
+	    	   EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		String emailName=details.name;
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
 	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
 	    		Properties props = new Properties();
@@ -15355,7 +15412,12 @@ private static void cancelTestDriveMail(Map map) {
 		 		try{
 		 			
 		  			Message message = new MimeMessage(session);
-		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			try {
+						message.setFrom(new InternetAddress("glider.autos@gmail.com",emailName));
+					} catch (UnsupportedEncodingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 		  			message.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(userObj.email));
 		  			message.setSubject("Your username and password ");	  			
@@ -17266,7 +17328,8 @@ private static void cancelTestDriveMail(Map map) {
 
 	    	   InternalPdf iPdf = null;
 	    	   
-	    	   
+	    	   EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		String emailName=details.name;
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
 	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
 	    		Properties props = new Properties();
@@ -17285,7 +17348,12 @@ private static void cancelTestDriveMail(Map map) {
 		 		try{
 		 			
 		  			Message message = new MimeMessage(session);
-		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			try {
+						message.setFrom(new InternetAddress("glider.autos@gmail.com",emailName));
+					} catch (UnsupportedEncodingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 		  			message.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(userObj.email));
 		  			message.setSubject("Your username and password ");	  			
@@ -19195,6 +19263,8 @@ private static void cancelTestDriveMail(Map map) {
      	
      //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
      //	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
+    	 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+ 		String emailName=details.name;
  		Properties props = new Properties();
  		props.put("mail.smtp.auth", "true");
  		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -19213,7 +19283,12 @@ private static void cancelTestDriveMail(Map map) {
      		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
      		
  			Message message = new MimeMessage(session);
- 			message.setFrom(new InternetAddress(emailUsername));
+ 			try{
+ 			message.setFrom(new InternetAddress(emailUsername,emailName));
+ 			}
+ 			catch(UnsupportedEncodingException e){
+ 				e.printStackTrace();
+ 			}
  			//message.setRecipients(Message.RecipientType.TO,
  			//		InternetAddress.parse(map.get("email").toString()));
  			if(user.role.equalsIgnoreCase("Manager")){
@@ -19383,8 +19458,15 @@ private static void cancelTestDriveMail(Map map) {
 		
 		try
 		{
+			
+			 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		String emailName=details.name;
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+			}catch(UnsupportedEncodingException e){
+				e.printStackTrace();
+			}
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(communicationEmail));
 			/*usersArray*/
 			message.setSubject(subject);
@@ -19496,8 +19578,10 @@ private static void cancelTestDriveMail(Map map) {
 		
 		try
 		{
+			 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		String emailName=details.name;
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			message.setFrom(new InternetAddress(emailUsername,emailName));
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(communicationEmail));
 			/*usersArray*/
 			message.setSubject(subject);
@@ -22428,7 +22512,14 @@ private static void cancelTestDriveMail(Map map) {
 		try
 		{
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
+    		
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(email));
 			message.addRecipients(Message.RecipientType.BCC,usersArray);
@@ -27973,7 +28064,15 @@ if(vehicles.equals("All")){
 				usersArray[index] = new InternetAddress(user.getEmail());
 				
 				Message message = new MimeMessage(session);
-				message.setFrom(new InternetAddress(emailUsername));
+				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		String emailName=details.name;
+	    		try{
+				message.setFrom(new InternetAddress(emailUsername,emailName));
+	    		}
+	    		catch(UnsupportedEncodingException e){
+	    			e.printStackTrace();
+	    			
+	    		}
 				message.setRecipients(Message.RecipientType.TO, usersArray);
 				message.setSubject("Trade-In Appraisal");
 				Multipart multipart = new MimeMultipart();
@@ -28860,7 +28959,14 @@ if(vehicles.equals("All")){
 		 		try{
 		 		   
 		  			Message message = new MimeMessage(session);
-		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		    		String emailName=details.name;
+		  			try {
+						message.setFrom(new InternetAddress("glider.autos@gmail.com",emailName));
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		  			message.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(contact.getEmail()));
 		  			message.setSubject("Newsletter ");	  			
@@ -29642,7 +29748,14 @@ if(vehicles.equals("All")){
 		try
 		{
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}
+    		catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
 			message.setRecipients(Message.RecipientType.TO,usersArray);
 			/*usersArray*/
 			message.setSubject("Meeting Info changed");
@@ -30326,7 +30439,14 @@ private static void salesPersonPlanMail(Map map) {
     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
     		
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}
+    		catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(map.get("email").toString()));
 			message.setSubject("This month's plan has been added");
@@ -31031,7 +31151,14 @@ private static void salesPersonPlanMail(Map map) {
 		try
 		{
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}
+    		catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
 			message.setRecipients(Message.RecipientType.TO,usersArray);
 			/*usersArray*/
 			message.setSubject("Meeting Invitation");
@@ -31124,7 +31251,13 @@ private static void salesPersonPlanMail(Map map) {
 		try
 		{
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
 			message.setRecipients(Message.RecipientType.TO,
 			InternetAddress.parse(user.getEmail()));
 			message.setSubject("Meeting Scheduled");
@@ -34514,7 +34647,13 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
 	    		
 				Message message = new MimeMessage(session);
-				message.setFrom(new InternetAddress(emailUsername));
+				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		String emailName=details.name;
+	    		try{
+				message.setFrom(new InternetAddress(emailUsername,emailName));
+	    		}catch(UnsupportedEncodingException e){
+	    			e.printStackTrace();
+	    		}
 				message.setRecipients(Message.RecipientType.TO,
 						InternetAddress.parse(vm.email.toString()));
 				System.out.println(vm.email.toString());
@@ -36483,7 +36622,14 @@ private static void managerLikeWork(String email,String subject,String comments,
     	try
 		{
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}
+    		catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(email));
 			message.setSubject(subject);
@@ -36555,7 +36701,14 @@ private static void managerLikeWork(String email,String subject,String comments,
 		});
 		    try {  
 		     MimeMessage message = new MimeMessage(session);  
-		     message.setFrom(new InternetAddress(username));  
+		     EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    		String emailName=details.name;
+	    		try{
+		     message.setFrom(new InternetAddress(username,emailName));  
+	    		}
+	    		catch(UnsupportedEncodingException e){
+	    			e.printStackTrace();
+	    		}
 		     message.addRecipient(Message.RecipientType.TO,new InternetAddress(email));  
 		     message.setSubject(subject);  
 		     message.setText(comment);  
@@ -36593,7 +36746,14 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());
     		*/
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}
+    		catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(email));
 			message.setSubject(subject);
@@ -36845,7 +37005,13 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		try
 		{
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    		}
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(email));
 			/*usersArray*/
 			message.setSubject("Meeting Declined");
@@ -37695,9 +37861,18 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		
 		try
 		{
+			
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
-			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(communicationMail));
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;
+    		try{
+			message.setFrom(new InternetAddress(emailUsername,emailName));
+    		}
+    		catch(UnsupportedEncodingException e)
+    		{
+    			e.printStackTrace();
+    		}
+    			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(communicationMail));
 			/*usersArray*/
 			message.setSubject("Meeting Cancelled");
 			Multipart multipart = new MimeMultipart();
