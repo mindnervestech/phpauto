@@ -248,5 +248,8 @@ angular.module('newApp')
 	  $scope.tradeIn = function() {
 			$location.path('/tradeIn');
 		}
+	  $scope.goContactUs = function() {
+			$location.path('/contactUsInfo');
+		}
 	  
 }]);

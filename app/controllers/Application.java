@@ -366,13 +366,13 @@ public class Application extends Controller {
 			}
 			
 		}
-	
 	public static Result login() {
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String email = Form.form().bindFromRequest().get("email");
 		String password= Form.form().bindFromRequest().get("password");
 		String tokanNo= Form.form().bindFromRequest().get("tokan");
 		Date curDate = new Date();
+		
 		AuthUser user = null;
 		if(email != null && password != null){
 			 user = AuthUser.find.where().eq("email", email).eq("password", password).eq("account", "active").findUnique();
@@ -10406,6 +10406,76 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}	
     }
     
+    public static Result getAllContactInfo() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		//Long.valueOf(session("USER_LOCATION"))
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<RequestMoreInfo> listData = new ArrayList<>();
+	    	if(user.role == null || user.role.equals("General Manager")) {
+    			listData = RequestMoreInfo.findAllContactData();
+    		} else {
+    			if(user.role.equals("Manager")) {
+    				listData = RequestMoreInfo.findAllLocationDataManagerContactUs(Long.valueOf(session("USER_LOCATION")));
+    			} else {
+    				//listData = RequestMoreInfo.findAllByDate();
+    				listData = RequestMoreInfo.findAllLocationDataContactUs(Long.valueOf(session("USER_LOCATION")));
+    			}
+    		}
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	for(RequestMoreInfo info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.stock = vehicle.stock;
+	    			vm.year = vehicle.year;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.price = vehicle.price;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
+	    		vm.requestDate = df.format(info.requestDate);
+	    		vm.userRole = user.role;
+	    		vm.premiumFlagForSale = user.premiumFlag;
+	    		if(info.assignedTo == null) {
+	    			vm.status = "Unclaimed";
+	    		} else {
+		    		if(info.assignedTo != null && info.status == null) {
+		    			vm.status = "In Progress";
+		    		} else {
+		    			vm.status = info.status;
+		    		}
+	    		}
+	    		if(info.assignedTo != null) {
+	    			vm.salesRep = info.assignedTo.getFirstName()+" "+info.assignedTo.getLastName();
+	    		}
+	    		
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		
+	    		infoVMList.add(vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
+    }
+    
     
     public static Result getAllRequestInfo() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -11339,6 +11409,69 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    
 	    	return ok(Json.toJson(infoVMList));
     	}
+    }
+    
+    public static Result getAllContactUsSeen() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeen(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	    	SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+	    	for(RequestMoreInfo info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	       		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.howContactedUs = info.contactedFrom;
+	    		vm.howFoundUs = info.hearedFrom;
+	    		vm.requestDate = df.format(info.requestDate);
+	    		
+	    		if(!info.custZipCode.equals("null")){
+	    			vm.custZipCode = info.custZipCode;
+	    		}
+	    		
+	    		vm.enthicity = info.enthicity;
+	    		vm.typeOfLead = "ContactUs Info";
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
+	    		List<NoteVM> list = new ArrayList<>();
+	    		Integer nFlag = 0;
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = time.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory != null){
+	        				if(noteObj.saveHistory.equals(1)){
+	            				nFlag = 1;
+	            			}
+	        			}
+	    			}
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
+	    		vm.requestDate = df.format(info.requestDate);
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		
+	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
     }
     
     public static Result getAllRequestInfoSeen() {
@@ -15057,10 +15190,6 @@ private static void cancelTestDriveMail(Map map) {
 			e.printStackTrace();
 		}
     }
-    
-    
-    
-    
     
     public static Result sendPdfEmail() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -20678,6 +20807,91 @@ private static void cancelTestDriveMail(Map map) {
     	
     }
     
+    public static Result getAllSalesPersonContactUsSeen(Integer id){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		AuthUser user;
+    		if(id == 0){
+    			user = getLocalUser();
+    		}else{
+    			user = AuthUser.findById(id);
+    		}
+    			
+	    	List<RequestMoreInfo> listData = RequestMoreInfo.findAllSeenContactUs(user);
+	    	List<RequestInfoVM> infoVMList = new ArrayList<>();
+	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	    	SimpleDateFormat timedf = new SimpleDateFormat("HH:mm:ss");
+	    	for(RequestMoreInfo info: listData) {
+	    		RequestInfoVM vm = new RequestInfoVM();
+	    		vm.id = info.id;
+	    		Vehicle vehicle = Vehicle.findByVinAndStatus(info.vin);
+	    		vm.vin = info.vin;
+	    		if(vehicle != null) {
+	    			vm.model = vehicle.model;
+	    			vm.make = vehicle.make;
+	    			vm.typeofVehicle=vehicle.typeofVehicle;
+	    			vm.stock = vehicle.stock;
+	    			vm.mileage = vehicle.mileage;
+	    			vm.year = vehicle.year;
+	    			vm.bodyStyle =vehicle.bodyStyle;
+	    			vm.drivetrain = vehicle.drivetrain;
+	    			vm.engine = vehicle.engine;
+	    			vm.transmission = vehicle.transmission;
+	    			vm.price = vehicle.price;
+	    			VehicleImage vehicleImage = VehicleImage.getDefaultImage(vehicle.vin);
+	        		if(vehicleImage!=null) {
+	        			vm.imgId = vehicleImage.getId().toString();
+	        		}
+	        		else {
+	        			vm.imgId = "/assets/images/no-image.jpg";
+	        		}
+	        		vm.price = vehicle.price;
+	    		}
+	    		vm.name = info.name;
+	    		vm.phone = info.phone;
+	    		vm.email = info.email;
+	    		vm.custZipCode = info.custZipCode;
+	    		vm.enthicity = info.enthicity;
+	    		
+	    		vm.requestDate = df.format(info.requestDate);
+	    		vm.typeOfLead = "Request More Info";
+	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
+	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
+	    		Integer nFlag = 0;
+	    		List<NoteVM> list = new ArrayList<>();
+	    		for(UserNotes noteObj :notesList) {
+	    			NoteVM obj = new NoteVM();
+	    			obj.id = noteObj.id;
+	    			obj.note = noteObj.note;
+	    			obj.action = noteObj.action;
+	    			obj.date = df.format(noteObj.createdDate);
+	    			obj.time = timedf.format(noteObj.createdTime);
+	    			if(noteObj.saveHistory != null){
+	    				if(noteObj.saveHistory.equals(1)){
+	        				nFlag = 1;
+	        			}
+	    			}
+	    			list.add(obj);
+	    		}
+	    		vm.note = list;
+	    		vm.noteFlag = nFlag;
+	    		vm.requestDate = df.format(info.requestDate);
+	    		if(info.isRead == 0) {
+	    			vm.isRead = false;
+	    		}
+	    		
+	    		if(info.isRead == 1) {
+	    			vm.isRead = true;
+	    		}
+	    		
+	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
+	    	
+	    	}
+	    	
+	    	return ok(Json.toJson(infoVMList));
+    	}	
+    }
     
     public static Result getAllSalesPersonRequestInfoSeen(Integer id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

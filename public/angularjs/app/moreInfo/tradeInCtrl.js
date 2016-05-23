@@ -202,4 +202,8 @@ angular.module('newApp')
 			$location.path('/premiumpage');
 		}
 	  
+	  $scope.goContactUs = function() {
+			$location.path('/contactUsInfo');
+		}
+	  
 }]);

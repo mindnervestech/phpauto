@@ -52,6 +52,7 @@ public class RequestMoreInfo extends Model {
 	public Long parentId;
 	public int onlineOrOfflineLeads;
 public String testDriveStatus;
+public String isContactusType;
 	
 	
 	
@@ -100,6 +101,14 @@ public String testDriveStatus;
 	}
 	public void setStatusTime(Date statusTime) {
 		this.statusTime = statusTime;
+	}
+
+
+	public String getIsContactusType() {
+		return isContactusType;
+	}
+	public void setIsContactusType(String isContactusType) {
+		this.isContactusType = isContactusType;
 	}
 
 
@@ -284,15 +293,28 @@ public String testDriveStatus;
 	}
 	
 	public static List<RequestMoreInfo> findAllData() {
-		return find.all();
+		return find.where().eq("isContactusType", null).findList();
+		
 	}
 	
+	public static List<RequestMoreInfo> findAllContactData() {
+		return find.where().ne("isContactusType", null).findList();
+	}
+	
+	
 	public static List<RequestMoreInfo> findAllLocationData(Long locationId) {
-		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("assignedTo", null).eq("locations.id", locationId).findList();
+		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("assignedTo", null).eq("isContactusType", null).eq("locations.id", locationId).findList();
+	}
+	public static List<RequestMoreInfo> findAllLocationDataContactUs(Long locationId) {
+		return find.where().eq("status", null).eq("isRead", 0).eq("premiumFlag", 0).eq("assignedTo", null).ne("isContactusType", null).eq("locations.id", locationId).findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationDataManager(Long locationId) {
-		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).findList();
+		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).eq("isContactusType", null).findList();
+	}
+	
+	public static List<RequestMoreInfo> findAllLocationDataManagerContactUs(Long locationId) {
+		return find.where().eq("status", null).eq("locations.id", locationId).eq("premiumFlag", 0).ne("isContactusType", null).findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllLocationDataManagerPremium(Long locationId) {
@@ -300,7 +322,10 @@ public String testDriveStatus;
 	}
 	
 	public static List<RequestMoreInfo> findAllSeen(AuthUser user) {
-		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
+		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).eq("isContactusType", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
+	}
+	public static List<RequestMoreInfo> findAllSeenContactUs(AuthUser user) {
+		return find.where().eq("assignedTo", user).eq("isRead", 1).eq("status", null).ne("isContactusType", null).eq("isScheduled", false).orderBy("requestDate desc").findList();
 	}
 	
 	public static List<RequestMoreInfo> findAllSeenSch(AuthUser user) {

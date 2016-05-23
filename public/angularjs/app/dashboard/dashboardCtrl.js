@@ -1275,6 +1275,82 @@ angular.module('newApp')
 			  		                                	} ,
 			 		                                 },
     	     		                                 ];
+    	 		 
+    	 		$scope.gridOptions8 = {
+    	    	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+    	    	 		    paginationPageSize: 150,
+    	    	 		    enableFiltering: true,
+    	    	 		    useExternalFiltering: true,
+    	    	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+    	    	 		 };
+    	    	 		 $scope.gridOptions8.enableHorizontalScrollbar = 0;
+    	    	 		 $scope.gridOptions8.enableVerticalScrollbar = 2;
+    	    	 		 $scope.gridOptions8.columnDefs = [
+    	    	 		                                 { name: 'vin', displayName: 'Vin', width:'10%',cellEditableCondition: false,
+    	    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.vin}}</a> ',
+    	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    	    	 		                                       if (row.entity.noteFlag != 1) {
+    	    	 		                                         return 'red';
+    	    	 		                                       }
+    	    	 		                                	} ,
+    	    	 		                                 },
+    	    	 		                                 { name: 'model', displayName: 'Model', width:'7%',cellEditableCondition: false,
+    	    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.model}}</a> ',
+    	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    	    	  		                                       if (row.entity.noteFlag != 1) {
+    	    	  		                                         return 'red';
+    	    	  		                                     }
+    	    	 		                                	} ,
+    	    	 		                                 },
+    	    	 		                                 { name: 'make', displayName: 'Make', width:'8%',cellEditableCondition: false,
+    	    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.make}}</a> ',
+    	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    	    	  		                                       if (row.entity.noteFlag != 1) {
+    	    	  		                                         return 'red';
+    	    	  		                                     }
+    	    	 		                                	} ,
+    	    	 		                                 },
+    	    	 		                                 { name: 'name', displayName: 'Name', width:'10%',cellEditableCondition: false,
+    	    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.name}}</a> ',
+    	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    	    	  		                                       if (row.entity.noteFlag != 1) {
+    	    	  		                                         return 'red';
+    	    	  		                                     }
+    	    	 		                                	} ,
+    	    	 		                                 },
+    	    	 		                                 { name: 'phone', displayName: 'Phone', width:'7%',cellEditableCondition: false,
+    	    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.phone}}</a> ',
+    	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    	    	  		                                       if (row.entity.noteFlag != 1) {
+    	    	  		                                         return 'red';
+    	    	  		                                     }
+    	    	 		                                	} ,
+    	    	 		                                 },
+    	    	 		                                 { name: 'email', displayName: 'Email', width:'9%',cellEditableCondition: false,
+    	    	 		                                	cellTemplate:'<a  href="mailto:{{row.entity.email}}">{{row.entity.email}}</a> ',
+    	    	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    	    	  		                                       if (row.entity.noteFlag != 1) {
+    	    	  		                                         return 'red';
+    	    	  		                                     }
+    	    	 		                                	} ,
+    	    	 		                                 },
+    	    	 		                                { name: 'requestDate', displayName: 'Date Added', width:'5%',cellEditableCondition: false,
+    	    	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.requestDate}}</a> ',
+    		 		 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		 		   		                                       if (row.entity.noteFlag != 1) {
+    		 		   		                                         return 'red';
+    		 		   		                                     }
+    		 		  		                                	} ,
+    		 		 		                                 },
+    	    	 		                                { name: 'btnSold', displayName: '',enableFiltering: false, width:'45%',cellEditableCondition: false,
+    				 		                                	cellTemplate:'<button type="button" ng-click="grid.appScope.completeRequestStatus(row.entity)" class="btn btn-sm btn-primary " ng-disabled="row.entity.vin == null" ng-show="grid.appScope.userType != \'\'" style="margin-left:3%;">SOLD</button><button type="button" ng-click="grid.appScope.cancelRequestStatus(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">CANCEL</button><button type="button" ng-click="grid.appScope.addNoteToRequestUser(row.entity,\'requestMore\')" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">HISTORY</button><button type="button" ng-click="grid.appScope.scheduleTestDriveForUser(row.entity,1)" ng-show="grid.appScope.userType != \'\'" ng-disabled="row.entity.vin == null" class="btn btn-sm btn-primary" style="margin-left:0px;">SCHEDULE</button><button type="button" ng-click="grid.appScope.createContact(row.entity)" ng-show="grid.appScope.userType != \'\'" class="btn btn-sm btn-primary" style="margin-left:0px;">ADD TO CLIENTELE</button><button ng-show="grid.appScope.userType == \'Manager\'" type="button" ng-click="grid.appScope.assignCanceledLead(row.entity)" class="btn btn-sm btn-primary" style="margin-left:0%;">ASSIGN</button>',
+    				 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    				   		                                       if (row.entity.noteFlag != 1) {
+    				   		                                         return 'red';
+    				   		                                     }
+    				  		                                	} ,
+    				 		                                 },
+    	    	     		                                 ];
     	 		
     			 $scope.gridOptions2 = {
      			 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -1911,6 +1987,12 @@ angular.module('newApp')
     				$scope.gridOptions5.data = data;
     				$scope.AllRequestInfoSeenList = data;
     			});
+    		  
+    		  $http.get('/getAllContactUsSeen')
+				.success(function(data) {
+				$scope.gridOptions8.data = data;
+				$scope.AllContactUsInfoSeenList = data;
+			});
     		  
 	    		  $scope.gridOptions7.onRegisterApi = function(gridApi){
 	 				 $scope.gridApi = gridApi;
@@ -4524,6 +4606,7 @@ angular.module('newApp')
     	$scope.showLeadsV = false;
     	$scope.cancelleads = false;
     	$scope.showAllTypeLeads = true;
+    	$scope.contact = false;
     	
     	
     	$scope.showLeadsDrive = function(){
@@ -4541,6 +4624,7 @@ angular.module('newApp')
         	$scope.allLeadd = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
+        	$scope.contact = false;
 //    		$scope.schedulTestDir();
     	}
     	
@@ -4552,6 +4636,7 @@ angular.module('newApp')
         	$scope.trdin = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
+        	$scope.contact = false;
     	}		  
     	$scope.testDrive = function() {
     		$scope.schedTest = false;
@@ -4561,6 +4646,7 @@ angular.module('newApp')
         	$scope.allLeadd = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
+        	$scope.contact = false;
     	}	
     	$scope.tradeIn = function() {
     		$scope.schedTest = false;
@@ -4570,6 +4656,18 @@ angular.module('newApp')
         	$scope.allLeadd = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
+        	$scope.contact = false;
+    	}
+    	
+    	$scope.contactUs = function(){
+    		$scope.schedTest = false;
+    		$scope.reqMore = false;	
+        	$scope.testdrv = false;
+        	$scope.trdin = false;
+        	$scope.allLeadd = false;
+        	$scope.showLeadsV = false;
+        	$scope.cancelleads = false;
+        	$scope.contact = true;
     	}
     	
     	$scope.getAllLeadIn = function(){
@@ -4577,6 +4675,7 @@ angular.module('newApp')
     		$scope.reqMore = false;	
         	$scope.testdrv = false;
         	$scope.trdin = false;
+        	$scope.contact = false;
         	$scope.showLeadsV = false;
         	$scope.cancelleads = false;
         	$scope.allLeadd = true;
@@ -4786,6 +4885,29 @@ angular.module('newApp')
 			return deferred.promise;
 		};
 		
+		$scope.getContactUsData = function(id){
+			var deferred = $q.defer();
+			$http.get('/getAllSalesPersonContactUsSeen/'+id)
+			.success(function(data) {
+				var countUnReadLead = 0;
+			$scope.gridOptions8.data = data;
+			$scope.AllContactUsInfoSeenList = data;
+			if($scope.userType == "Sales Person"){
+				angular.forEach($scope.gridOptions8.data,function(value,key){
+	        		$scope.getAllListLeadDate.push(value);
+	        		if(value.noteFlag == 0 && value.confirmDate == null){
+	        			countUnReadLead++;
+	        		}
+	        	});
+					$scope.lengthOfAllLead = countUnReadLead;
+					deferred.resolve("success");
+			}else{
+				deferred.resolve("error");
+			}
+		   });
+			return deferred.promise;
+		};
+		
 		
 		$scope.getTradeInData = function(id){
 			
@@ -4822,6 +4944,12 @@ angular.module('newApp')
   		        			countUnReadLead++;
   		        		}
   		        	});
+  				 angular.forEach($scope.gridOptions8.data,function(value,key){
+		        		$scope.getAllListLeadDate.push(value);
+		        		if(value.noteFlag == 0 && value.confirmDate == null){
+		        			countUnReadLead++;
+		        		}
+		        	}); 
   				 angular.forEach($scope.gridOptions5.data,function(value,key){
   		        		$scope.getAllListLeadDate.push(value);
   		        		if(value.noteFlag == 0 && value.confirmDate == null){
@@ -4859,6 +4987,8 @@ angular.module('newApp')
 		    		       			function(success){
 		    		       				$scope.getTradeInData(id).then(
 		    		    		       			function(success){
+		    		    		       				$scope.getContactUsData(id).then(
+		    		    		    		       			function(success){
 		    		    		       				$scope.addData().then(
 		    		    		    		       			function(success){
 		    		    		    		       				$scope.gridOptions7.data = $scope.getAllListLeadDate;
@@ -4903,6 +5033,10 @@ angular.module('newApp')
 		    		    		       	);
 		    		       				
 		    		       			},function(error){
+		    		       				
+		    		       			}
+		    		       	);
+		    		       		},function(error){
 		    		       				
 		    		       			}
 		    		       	);
@@ -10260,8 +10394,7 @@ angular.module('newApp')
 		
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
-			   console.log(">>>>>>>>>");
-			   console.log(data);
+			
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
@@ -10323,7 +10456,6 @@ angular.module('newApp')
 					$scope.profileHeader.financeFlag=true;
 				}
 				$scope.thumbPat=data.vehicleProfileData[0].thumbPath;
-				console.log(">>>>>>"+data.vehicleProfileData[0].financeFlag);
 				   if(data.vehicleProfileData[0].financeFlag == 1){
 					   $scope.financeFlag=true;
 				   }

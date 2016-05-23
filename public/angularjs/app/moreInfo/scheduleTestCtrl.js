@@ -222,5 +222,9 @@ angular.module('newApp')
 	$scope.goPremium = function() {
 		$location.path('/premiumpage');
 	}
+	
+	$scope.goContactUs = function() {
+		$location.path('/contactUsInfo');
+	}
   
 }]);

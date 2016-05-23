@@ -73,6 +73,8 @@ public class EmailDetails extends Model {
 	public static EmailDetails findByLocation(Long location) {
 		return find.where().eq("locations_id", location).findUnique();
 	}
-	
+	public static List<EmailDetails> findAllData() {
+		return find.all();
+	}
 	
 }

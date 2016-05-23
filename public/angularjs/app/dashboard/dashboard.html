@@ -4719,6 +4719,7 @@ float: right !important;
 			      			<li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="requestMore()">Request More Info </a></li>
 			      			<li role="presentation" class=""><a role="tab" id="test-drive-tabSched" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="testDrive()">Schedule Test Drive</a></li>
 			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="tradeIn()">Trade In Inquiries</a></li>
+			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="contactUs()">ContactUs</a></li>
 			      			
 			    		</ul>
 				        
@@ -4729,11 +4730,14 @@ float: right !important;
 							<div class="watermark" ng-show="!gridOptions2.data.length" >No Leads has been added</div>
 												</div> 
 							<div ng-if="trdin" ui-grid="gridOptions3" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
-							<div class="watermark"ng-show="!gridOptions3.data.length" >No Leads has been added</div>
+							<div class="watermark" ng-show="!gridOptions3.data.length" >No Leads has been added</div>
 												</div>
 							<div ng-if="allLeadd" ui-grid="gridOptions7" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions7.data.length" >No Leads has been added</div>
 											</div>	
+							<div ng-if="contact" ui-grid="gridOptions8" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<div class="watermark" ng-show="!gridOptions8.data.length" >No Leads has been added</div>
+											</div>					
 																				
 																			
 				      </div>
