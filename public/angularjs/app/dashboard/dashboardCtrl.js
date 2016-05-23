@@ -10312,7 +10312,7 @@ angular.module('newApp')
 						$scope.header3.hideMenu = false;
 					}
 				$scope.warrantyList = data.warData;
-				}
+				//}
 				
 				
 				$scope.header4.mainTitle=data.compareData[0].mainTitle;
