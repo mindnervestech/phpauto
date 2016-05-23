@@ -10260,7 +10260,8 @@ angular.module('newApp')
 		
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
-			
+			   console.log(">>>>>>>>>");
+			   console.log(data);
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
@@ -10322,6 +10323,28 @@ angular.module('newApp')
 					$scope.profileHeader.financeFlag=true;
 				}
 				$scope.thumbPat=data.vehicleProfileData[0].thumbPath;
+				console.log(">>>>>>"+data.vehicleProfileData[0].financeFlag);
+				   if(data.vehicleProfileData[0].financeFlag == 1){
+					   $scope.financeFlag=true;
+				   }
+				   else{
+					   $scope.financeFlag=false;
+				   }
+				   
+				   if(data.vehicleProfileData[0].socialFlag == 1){
+					   $scope.socialFlag=true;
+				   }
+				   else{
+					   $scope.socialFlag=false;
+				   }
+				   
+				   if(data.vehicleProfileData[0].makeFlag == 1){
+					   $scope.makeFlag=true;
+				   }
+				   else{
+					   $scope.makeFlag=false;
+				   }
+				   
 				if($scope.thumbPat != null){
 					$scope.vehicleProfileList = data.vehicleProfileData;
 				}
@@ -10916,23 +10939,26 @@ angular.module('newApp')
 	   
 	   $scope.saveProfileHeader = function(ProfileHeader) {
 		   console.log(ProfileHeader);
-		   if(ProfileHeader.financeFlag == true){
+		   console.log($scope.financeFlag);
+		   console.log($scope.socialFlag);
+		   console.log($scope.makeFlag);
+		   if($scope.financeFlag == true){
 			   ProfileHeader.financeFlag=1;
 		   }
 		   else{
 			   ProfileHeader.financeFlag=0;
 		   }
-			   if(ProfileHeader.socialFlag ==true){
+			   if($scope.socialFlag ==true){
 				   ProfileHeader.socialFlag=1;
 			   }
 			   else{
 				   ProfileHeader.socialFlag=0;
 			   }
-				   if(ProfileHeader.makeFlag == true){
+				   if($scope.makeFlag == true){
 					   ProfileHeader.makeFlag =1;
 				   }
 				   else{
-					   ProfileHeader.makeFlag =0;
+					   ProfileHeader.makeFlag=0;
 				   }
 		   $http.post('/saveprofileHeader',ProfileHeader)
 			.success(function(data) {
