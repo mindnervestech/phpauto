@@ -15011,8 +15011,8 @@ private static void cancelTestDriveMail(Map map) {
     		AuthUser users = (AuthUser) getLocalUser();
     		MultipartFormData body = request().body().asMultipartFormData();
     		
-    		final  EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		final  String emailName=details.name;	
+    		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		String emailName=details.name;	
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
 	    	//List<String> aa= new ArrayList<>();
