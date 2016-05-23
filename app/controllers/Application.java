@@ -15011,7 +15011,8 @@ private static void cancelTestDriveMail(Map map) {
     		AuthUser users = (AuthUser) getLocalUser();
     		MultipartFormData body = request().body().asMultipartFormData();
     		
-    		
+    		final  EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		final  String emailName=details.name;	
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
 	    	//List<String> aa= new ArrayList<>();
@@ -15032,7 +15033,13 @@ private static void cancelTestDriveMail(Map map) {
 		 		try{
 		 			
 		  			Message message = new MimeMessage(session);
-		  			message.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			try {
+		  				System.out.println(">>>>>>>"+emailName);
+						message.setFrom(new InternetAddress("glider.autos@gmail.com",emailName));
+					} catch (UnsupportedEncodingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 		  			message.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(vm.email));
 		  			message.setSubject("Requested Document");	  			

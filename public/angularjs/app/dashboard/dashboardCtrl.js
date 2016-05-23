@@ -12226,7 +12226,7 @@ angular.module('newApp')
             $.pnotify({
 			    title: "Success",
 			    type:'success',
-			    text: "Location saved successfully",
+			    text: "Email Info saved successfully",
 			});
             
 		});
