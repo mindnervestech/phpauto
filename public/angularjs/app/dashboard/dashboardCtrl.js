@@ -10227,13 +10227,6 @@ angular.module('newApp')
 		};
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	$scope.header={};
 	$scope.header1={};
 	$scope.header2={};
@@ -10247,8 +10240,7 @@ angular.module('newApp')
 		
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
-			   console.log(">>>>>>>>>");
-			   console.log(data);
+			
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
@@ -10319,7 +10311,8 @@ angular.module('newApp')
 					}else{
 						$scope.header3.hideMenu = false;
 					}
-				
+				$scope.warrantyList = data.warData;
+				}
 				
 				
 				$scope.header4.mainTitle=data.compareData[0].mainTitle;
