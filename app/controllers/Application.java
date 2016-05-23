@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
@@ -1824,6 +1825,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		EmailDetails email=new EmailDetails();
     		email.passward=vm.passward;
     		email.port=vm.port;
+    		email.name=vm.name;
     		email.host=vm.host;
     		email.username=vm.username;
 	    	email.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -1834,6 +1836,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     			por.setPassward(vm.passward);
     			por.setPort(vm.port);
     			por.setHost(vm.host);
+    			por.setName(vm.name);
     			por.update();
     		}
     		    		

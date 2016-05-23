@@ -16,6 +16,10 @@
   <div class="col-sm-12">
   <h1 style="margin-top:5%;">Email Setup</h1>
             <form ng-submit="saveEmailDetails(email)">
+			      <div class="col-sm-2">
+			        <input type="text"placeholder="name" class="form-control form-white"ng-model="email.name" >
+			        Example:"name"
+			        </div>
 			        <div class="col-sm-2">
 			        <input type="text"placeholder="Username" class="form-control form-white"ng-model="email.username" >
 			        Example:"glider.autos@gmail.com"

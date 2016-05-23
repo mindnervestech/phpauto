@@ -16,16 +16,20 @@ public class EmailDetails extends Model {
 	@Id
 	public Long id;
 	public String username;
+	public String name;
 	public String passward;
 	public String host;
 	public String port;
 
 	@ManyToOne
 		public Location locations;
-	
-	
-	
-	
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public Location getLocations() {
 		return locations;
 	}
