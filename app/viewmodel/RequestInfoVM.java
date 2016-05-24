@@ -9,6 +9,7 @@ public class RequestInfoVM {
 	public String trim;
 	public String vin;
 	public String model;
+	public String message;
 	public String make;
 	public String year;
 	public String mileage;

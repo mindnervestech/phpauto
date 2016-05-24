@@ -13,6 +13,7 @@ public class DocumentationVM {
 	public String instagramLink;
 	public String pinterestLink;
 	public String googleLink;
+	public String yelpLink;
 	public String vehicleVin;
 	
 	

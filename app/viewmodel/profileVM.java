@@ -10,6 +10,7 @@ public class profileVM {
 	public String state;
 	public String zip;
 	public String country;
+	public String yelp;
 	public String phone;
 	public String email;
 	public String web;

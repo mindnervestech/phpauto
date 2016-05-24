@@ -2376,7 +2376,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		vm.instagramLink=profile.instagram;
     		vm.twitterLink=profile.twitter;
     		vm.pinterestLink=profile.pinterest;
-    		
+    		vm.yelpLink=profile.yelp;
     		
     		return ok(Json.toJson(vm));
     	}
@@ -10478,6 +10478,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			vm.mileage = vehicle.mileage;
 	    			vm.price = vehicle.price;
 	    		}
+	    		vm.message=info.message;
 	    		vm.name = info.name;
 	    		vm.phone = info.phone;
 	    		vm.email = info.email;
@@ -14308,6 +14309,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		mpObj.setWeb(vm.web);
     		mpObj.setFacebook(vm.facebook);
     		mpObj.setTwitter(vm.twitter);
+    		mpObj.setYelp(vm.yelp);
     		mpObj.setPinterest(vm.pinterest);
     		if(session("USER_LOCATION") != null){
     			mpObj.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
@@ -14324,6 +14326,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		mpObj.setCity(vm.city);
     		mpObj.setState(vm.state);
     		mpObj.setZip(vm.zip);
+    		mpObj.setYelp(vm.yelp);
     		mpObj.setCountry(vm.country);
     		mpObj.setPhone(vm.phone);
     		mpObj.setEmail(vm.email);
@@ -14404,7 +14407,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	profileVM vm = new profileVM();
     	if(mpObj.size() != 0){
     		
-    	
+    	vm.yelp=mpObj.get(0).yelp;
     	vm.address = mpObj.get(0).address;
     	vm.myname = mpObj.get(0).myname;
     	vm.city = mpObj.get(0).city;

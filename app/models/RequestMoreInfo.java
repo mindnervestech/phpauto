@@ -53,11 +53,17 @@ public class RequestMoreInfo extends Model {
 	public int onlineOrOfflineLeads;
 public String testDriveStatus;
 public String isContactusType;
+public String message;	
 	
 	
 	
 	
-	
+	public String getMessage() {
+	return message;
+}
+public void setMessage(String message) {
+	this.message = message;
+}
 	public String getTestDriveStatus() {
 		return testDriveStatus;
 	}

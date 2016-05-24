@@ -29,6 +29,7 @@ public class MyProfile extends Model {
 	public String instagram;
 	public String googleplus;
 	public String businessOption;
+	public String yelp;
 	
 
 	@Id
@@ -42,6 +43,16 @@ public class MyProfile extends Model {
 	
 	public String getWeb() {
 		return web;
+	}
+
+    
+	public String getYelp() {
+		return yelp;
+	}
+
+
+	public void setYelp(String yelp) {
+		this.yelp = yelp;
 	}
 
 
@@ -92,7 +103,7 @@ public class MyProfile extends Model {
 
 	
 	public void setTwitter(String twitter) {
-		twitter = twitter;
+		this.twitter = twitter;
 	}
 
 

@@ -48,6 +48,14 @@ angular.module('newApp')
    		                                     }
   		                                	} ,
   		                                 },
+  		                               { name: 'message', displayName: 'Message',enableFiltering: false, width:'14%',cellEditableCondition: false,
+  		                                	cellTemplate:'<div><a ng-click="grid.appScope.showMessage(row.entity)"  style="color: black; text-overflow:ellipsis;" title="{{row.entity.message}}" >{{row.entity.message}}</a> </div>',
+  		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+    		                                       if (row.entity.isRead === false) {
+    		                                         return 'red';
+    		                                     }
+   		                                	} ,
+   		                                 },
  		                                 { name: 'isRead', displayName: 'Claim',enableFiltering: false, width:'10%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
  		                                	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" title="Claim this lead" style="margin-left:18%;"></div>', 
  		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
@@ -84,6 +92,16 @@ angular.module('newApp')
 				}
 			}
 		});
+	  
+	  
+	  
+	  $scope.showMessage = function(entity) {
+	  
+		  console.log(entity);
+		 $scope.contactMessage=entity.message;
+		  $('#btncontactMessageModal').click();
+	  }
+	  
 	  
 	  $scope.getAllRequestInfo = function() {
 		  $http.get('/getAllContactInfo')
