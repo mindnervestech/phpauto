@@ -15201,6 +15201,10 @@ private static void cancelTestDriveMail(Map map) {
     		
     		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
     		String emailName=details.name;	
+    		String port=details.port;
+    		String gmail=details.host;
+    	final	String emailUser=details.username;
+    	final	String emailPass=details.username;
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
 	    	//List<String> aa= new ArrayList<>();
@@ -15208,13 +15212,13 @@ private static void cancelTestDriveMail(Map map) {
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port", "587");
+		 		props.put("mail.smtp.host", gmail);
+		 		props.put("mail.smtp.port", port);
 		  
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 				return new PasswordAuthentication(emailUser, emailPass);
 		 			}
 		 		  });
 		  
@@ -15223,14 +15227,15 @@ private static void cancelTestDriveMail(Map map) {
 		  			Message message = new MimeMessage(session);
 		  			try {
 		  				System.out.println(">>>>>>>"+emailName);
-						message.setFrom(new InternetAddress("glider.autos@gmail.com",emailName));
+						message.setFrom(new InternetAddress(emailUser,emailName));
 					} catch (UnsupportedEncodingException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 		  			message.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(vm.email));
-		  			message.setSubject("Requested Document");	  			
+		  			
+		  			message.setSubject("Requested Documents");	  			
 		  			Multipart multipart = new MimeMultipart();
 	    			BodyPart messageBodyPart = new MimeBodyPart();
 	    			messageBodyPart = new MimeBodyPart();
