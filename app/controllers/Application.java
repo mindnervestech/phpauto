@@ -15204,7 +15204,7 @@ private static void cancelTestDriveMail(Map map) {
     		String port=details.port;
     		String gmail=details.host;
     	final	String emailUser=details.username;
-    	final	String emailPass=details.username;
+    	final	String emailPass=details.passward;
 	    	AuthUser userObj = new AuthUser();
 	    	UserVM vm = form.get();
 	    	//List<String> aa= new ArrayList<>();
@@ -15212,15 +15212,16 @@ private static void cancelTestDriveMail(Map map) {
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port","587");
-		    System.out.println(">>port"+port);
+		 		props.put("mail.smtp.host", gmail);
+		 		props.put("mail.smtp.port",port);
+		 		System.out.println(">>port"+port);
+		    System.out.println(">>gmailhost"+gmail);
 		    System.out.println(">>>>emailUser"+emailUser);
 		    System.out.println(">>>>emailPass"+emailPass);
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 				return new PasswordAuthentication(emailUser, emailPass);
 		 			}
 		 		  });
 		  
