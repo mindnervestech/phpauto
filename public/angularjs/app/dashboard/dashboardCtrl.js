@@ -11563,6 +11563,8 @@ angular.module('newApp')
 	$scope.coords = {};
 	$scope.imgId = "/vehicleProfileImageById/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
+	$scope.minImgheight;
+	$scope.minImgwidth;
 	$scope.init = function() {
 		
 		
@@ -11571,6 +11573,8 @@ angular.module('newApp')
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
+				$scope.minImgheight = data.height;
+				$scope.minImgwidth = data.width;
 			//	$scope.thumbPath=data.thumbPath;
 				$('#set-height').val(data.height);
 				$('#set-width').val(data.width);
@@ -11589,7 +11593,7 @@ angular.module('newApp')
 				        minSize:[data.width,data.height],
 				        allowSelect: false,
 				        trueSize: [data.col,data.row],
-				        aspectRatio: data.width/data.height
+				        aspectRatio: 4/1
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -11604,6 +11608,9 @@ angular.module('newApp')
 			 
 			    console.log("??????????");
 			    console.log(c);
+			    if(c.x < 0 || c.y < 0){
+			    	$scope.showErrorMsg = 1;
+			    }
 			 	var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
@@ -11662,6 +11669,8 @@ angular.module('newApp')
 	$scope.coords = {};
 	$scope.imgId = "/warrantyImageById/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
+	$scope.minImgheight;
+	$scope.minImgwidth;
 	$scope.init = function() {
 		
 		
@@ -11670,6 +11679,8 @@ angular.module('newApp')
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
+				$scope.minImgheight = data.height;
+				$scope.minImgwidth = data.width;
 			//	$scope.thumbPath=data.thumbPath;
 				$('#set-height').val(data.height);
 				$('#set-width').val(data.width);
@@ -11688,7 +11699,7 @@ angular.module('newApp')
 				        minSize:[data.width,data.height],
 				        allowSelect: false,
 				        trueSize: [data.col,data.row],
-				        aspectRatio: data.width/data.height
+				        aspectRatio: 4/1
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -11701,8 +11712,11 @@ angular.module('newApp')
 		 function showCoords(c)
 		    {
 			 
-			    console.log("??????????");
 			    console.log(c);
+			    if(c.x < 0 || c.y < 0){
+			    	$scope.showErrorMsg = 1;
+			    }
+			    
 			 	var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
@@ -11761,6 +11775,9 @@ angular.module('newApp')
 	$scope.coords = {};
 	$scope.imgId = "/blogImageById/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
+	$scope.minImgheight;
+	$scope.minImgwidth;
+	$scope.showErrorMsg = 0;
 	$scope.init = function() {
 		
 		
@@ -11769,6 +11786,8 @@ angular.module('newApp')
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
+				$scope.minImgheight = data.height;
+				$scope.minImgwidth = data.width;
 			//	$scope.thumbPath=data.thumbPath;
 				$('#set-height').val(data.height);
 				$('#set-width').val(data.width);
@@ -11787,7 +11806,7 @@ angular.module('newApp')
 				        minSize:[data.width,data.height],
 				        allowSelect: false,
 				        trueSize: [data.col,data.row],
-				        aspectRatio: data.width/data.height
+				        aspectRatio: 4/1
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -11802,6 +11821,9 @@ angular.module('newApp')
 			 
 			    console.log("??????????");
 			    console.log(c);
+			    if(c.x < 0 || c.y < 0){
+			    	$scope.showErrorMsg = 1;
+			    }
 			 	var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
@@ -11957,6 +11979,8 @@ angular.module('newApp')
 	$scope.coords = {};
 	$scope.imgId = "/contactImageById/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
+	$scope.minImgheight;
+	$scope.minImgwidth;
 	$scope.init = function() {
 		
 		
@@ -11965,6 +11989,8 @@ angular.module('newApp')
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
+				$scope.minImgheight = data.height;
+				$scope.minImgwidth = data.width;
 			//	$scope.thumbPath=data.thumbPath;
 				$('#set-height').val(data.height);
 				$('#set-width').val(data.width);
@@ -11983,7 +12009,7 @@ angular.module('newApp')
 				        minSize:[data.width,data.height],
 				        allowSelect: false,
 				        trueSize: [data.col,data.row],
-				        aspectRatio: data.width/data.height
+				        aspectRatio: 4/1
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -11998,6 +12024,9 @@ angular.module('newApp')
 			 
 			    console.log("??????????");
 			    console.log(c);
+			    if(c.x < 0 || c.y < 0){
+			    	$scope.showErrorMsg = 1;
+			    }
 			 	var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				
@@ -12141,12 +12170,17 @@ angular.module('newApp')
 	$scope.coords = {};
 	$scope.imgId = "/getInventoryImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
+	$scope.minImgheight;
+	$scope.minImgwidth;
 	$scope.init = function() {
 		 $http.get('/getInventoryImageDataById/'+$routeParams.id)
 			.success(function(data) {
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
+				
+				$scope.minImgheight = data.height;
+				$scope.minImgwidth = data.width;
 				$('#set-height').val(data.height);
 				$('#set-width').val(data.width);
 				
@@ -12164,7 +12198,7 @@ angular.module('newApp')
 				        minSize:[data.width,data.height],
 				        allowSelect: false,
 				        trueSize: [data.col,data.row],
-				        aspectRatio: data.width/data.height
+				        aspectRatio: 4/1
 				    },function(){
 				    	var bounds = this.getBounds();
 				        boundx = bounds[0];
@@ -12176,6 +12210,9 @@ angular.module('newApp')
 	}
 		 function showCoords(c)
 		    {
+			 if(c.x < 0 || c.y < 0){
+			    	$scope.showErrorMsg = 1;
+			    }
 			 	var rx = 200 / c.w;
 				var ry = 200*(imageH/imageW) / c.h;
 				

@@ -326,8 +326,6 @@ var MakeApp = angular
             controller: 'CoverCropCtrl'
         })
         
-        
-        
         .when('/cropBlogImage/:id', {
             templateUrl: '/dealer/addPhotos/cropBlogPhoto.html',
             controller: 'BlogCropCtrl'

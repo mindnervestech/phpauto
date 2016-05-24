@@ -9463,7 +9463,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	BufferedImage originalImage = ImageIO.read(file);
 	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
 	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	        Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	        Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
 	       	
 	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
 	    	
@@ -9489,7 +9489,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	BufferedImage originalImage = ImageIO.read(file);
 	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
 	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	        Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	        Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
 	       	
 	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
 	    	
@@ -9516,7 +9516,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	BufferedImage originalImage = ImageIO.read(file);
 	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
 	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	        Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	        Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
 	       	
 	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
 	    	
@@ -9569,7 +9569,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	BufferedImage originalImage = ImageIO.read(file);
 	       	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
 	       	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	        Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	        Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
 	       	
 	        Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
 	    	
@@ -9682,7 +9682,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	BufferedImage originalImage = ImageIO.read(file);
 	    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
 	    	CoverImage config = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    	Thumbnails.of(croppedImage).size(config.cropWidth,config.cropHeight).toFile(file);
+	    	Thumbnails.of(croppedImage).size(vm.w.intValue(),vm.h.intValue()).toFile(file);
 	    	
 	    	Thumbnails.of(croppedImage).size(150, 150).toFile(thumbFile);
 	    	
@@ -15214,10 +15214,7 @@ private static void cancelTestDriveMail(Map map) {
 		 		props.put("mail.smtp.starttls.enable", "true");
 		 		props.put("mail.smtp.host", gmail);
 		 		props.put("mail.smtp.port",port);
-		 		System.out.println(">>port"+port);
-		    System.out.println(">>gmailhost"+gmail);
-		    System.out.println(">>>>emailUser"+emailUser);
-		    System.out.println(">>>>emailPass"+emailPass);
+		 	
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -15226,8 +15223,7 @@ private static void cancelTestDriveMail(Map map) {
 		 		  });
 		  
 		 		try{
-		 			System.out.println("emailUsername"+emailUsername);
-		 			System.out.println("emailPassword"+emailPassword);
+		 		
 		  			Message message = new MimeMessage(session);
 		  			try {
 		  				System.out.println(">>>>>>>"+emailName);

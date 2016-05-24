@@ -1,7 +1,8 @@
 <div ng-init="init()">
 
 <div style="float:left;">
-	<img src="{{imgId}}" width="727" height="466" id="target" />
+	<img src="{{imgId}}" width="727" height="466" id="target" /><br>
+	<label ng-if="showErrorMsg == 1" style="color:red;">Minimum image dimension should be {{minImgwidth}} X {{minImgheight}}</label>
 </div>
 <div style="margin-left:79%;"><p><b>PREVIEW</b></p></div>
 <div id="preview-container" style="width:200px;height:200px;overflow:hidden;margin-left:79%;">
@@ -15,7 +16,7 @@
 	<label style="margin-right:5%;">Width&nbsp;</label>
 	<input class="form-control form-white" id="set-width" type="text" style="width:70%;">
 </div>
-<button type="button" class="btn btn-primary" ng-click="saveImage()" style="margin-left:31%;margin-top:4%;">Crop & Save</button>
+<button type="button" class="btn btn-primary" ng-click="saveImage()" ng-disabled="showErrorMsg == 1" style="margin-left:31%;margin-top:4%;">Crop & Save</button>
 <!-- <form ng-submit="saveImage(image)">
 	<div class="form-group col-sm-12" style="margin-top:5%;">
 		<label class="col-sm-2 control-label" style="text-align: right;">Name *</label>
