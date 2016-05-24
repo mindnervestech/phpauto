@@ -15221,7 +15221,7 @@ private static void cancelTestDriveMail(Map map) {
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUser, emailPass);
+		 				return new PasswordAuthentication(emailUsername, emailPassword);
 		 			}
 		 		  });
 		  
@@ -15230,7 +15230,7 @@ private static void cancelTestDriveMail(Map map) {
 		  			Message message = new MimeMessage(session);
 		  			try {
 		  				System.out.println(">>>>>>>"+emailName);
-						message.setFrom(new InternetAddress(emailUser,emailName));
+						message.setFrom(new InternetAddress(emailUsername,emailName));
 					} catch (UnsupportedEncodingException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
