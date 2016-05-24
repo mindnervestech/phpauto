@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -84,7 +86,7 @@ public class RegistrationController extends Controller {
     	   regi.name=vm.name;
     	   regi.email=vm.email;
     	   regi.phone=vm.phone;
-    	   regi.businessAdd = vm.businessAddress;
+    	   regi.businessAdd = vm.businessAdd;
     	   regi.businessName =vm.businessName;
     	   regi.location =vm.oneLocation;
     	   regi.options = vm.options;
@@ -165,10 +167,11 @@ public class RegistrationController extends Controller {
     	   regi.setName(vm.name);
     	   regi.setEmail(vm.email);
     	   regi.setPhone(vm.phone);
-    	   regi.setBusinessAdd(vm.businessAddress);
+    	   regi.setBusinessAdd(vm.businessAdd);
     	   regi.setBusinessName(vm.businessName);
     	   regi.setLocation(vm.oneLocation);
     	   regi.setOptions(vm.options);
+    	   
     	   regi.setRegistrationDate(date);
     	   //regi.sendDemoFlag = 0;
     	   
@@ -417,14 +420,224 @@ public class RegistrationController extends Controller {
 			}
 	    }
 	    
-	    
+	 public static Result getCarDetails(){
+			if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	List <Registration> registrationObjList = Registration.findByCar();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
+		     	for(Registration vm : registrationObjList){
+		     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+		     		RegisterVM vehicle = new RegisterVM();
+		     		vehicle.id = vm.id;
+		     		vehicle.name=vm.name;
+		     		vehicle.email=vm.email;
+		     		vehicle.phone=vm.phone;
+		     		vehicle.businessName=vm.businessName;
+		     		vehicle.businessAdd=vm.businessAdd;
+		     		vehicle.options=vm.options;
+		     		if(vm.activity != null){
+			     		vehicle.activity=df.format(vm.activity);
+			     		}
+			    	  	 regVMs.add(vehicle);
+		  	}
+		     	
+		     	return ok(Json.toJson(regVMs));
+	    	}	
+		}
 	
+	 public static Result getMotorcyclesDetails(){
+			if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	List <Registration> registrationObjList = Registration.findByMotorcycles();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
+		     	for(Registration vm : registrationObjList){
+		     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+		     		RegisterVM vehicle = new RegisterVM();
+		     		vehicle.id = vm.id;
+		     		vehicle.name=vm.name;
+		     		vehicle.email=vm.email;
+		     		vehicle.phone=vm.phone;
+		     		vehicle.businessName=vm.businessName;
+		     		vehicle.businessAdd=vm.businessAdd;
+		     		vehicle.options=vm.options;
+		     		if(vm.activity != null){
+			     		vehicle.activity=df.format(vm.activity);
+			     		}
+			    	  	 regVMs.add(vehicle);
+		  	}
+		     	
+		     	return ok(Json.toJson(regVMs));
+	    	}	
+		}
+		 public static Result getBoatDetails(){
+			if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	List <Registration> registrationObjList = Registration.findByBoat();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
+		     	for(Registration vm : registrationObjList){
+		     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+		     		RegisterVM vehicle = new RegisterVM();
+		     		vehicle.id = vm.id;
+		     		vehicle.name=vm.name;
+		     		vehicle.email=vm.email;
+		     		vehicle.phone=vm.phone;
+		     		vehicle.businessName=vm.businessName;
+		     		vehicle.businessAdd=vm.businessAdd;
+		     		vehicle.options=vm.options;
+		     		
+		     		if(vm.activity != null){
+			     		vehicle.activity=df.format(vm.activity);
+			     		}
+			    	  	 regVMs.add(vehicle);
+		  	}
+		     	
+		     	return ok(Json.toJson(regVMs));
+	    	}	
+		}
+		 
+		 public static Result getDesignerFurnitureDetails(){
+				if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	List <Registration> registrationObjList = Registration.findByDesignerFurniture();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
+			     	for(Registration vm : registrationObjList){
+			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+			     		RegisterVM vehicle = new RegisterVM();
+			     		vehicle.id = vm.id;
+			     		vehicle.name=vm.name;
+			     		vehicle.email=vm.email;
+			     		vehicle.phone=vm.phone;
+			     		vehicle.businessName=vm.businessName;
+			     		vehicle.businessAdd=vm.businessAdd;
+			     		vehicle.options=vm.options;
+			     		if(vm.activity != null){
+				     		vehicle.activity=df.format(vm.activity);
+				     		}
+				    	  	 regVMs.add(vehicle);
+			  	}
+			     	
+			     	return ok(Json.toJson(regVMs));
+		    	}	
+			}
 	
+		 public static Result getRealStateDetails(){
+				if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	List <Registration> registrationObjList = Registration.findByRealState();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	
+			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
+			     	for(Registration vm : registrationObjList){
+			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+			     		RegisterVM vehicle = new RegisterVM();
+			     		vehicle.id = vm.id;
+			     		vehicle.name=vm.name;
+			     		vehicle.email=vm.email;
+			     		vehicle.phone=vm.phone;
+			     		vehicle.businessName=vm.businessName;
+			     		vehicle.businessAdd=vm.businessAdd;
+			     		vehicle.options=vm.options;
+			     		//vehicle.activity=vm.activity;
+			     		if(vm.activity != null){
+				     		vehicle.activity=df.format(vm.activity);
+				     		}
+				    	  	 regVMs.add(vehicle);
+			  	}
+			     	
+			     	return ok(Json.toJson(regVMs));
+		    	}	
+			}	
 	
-	
-	
-	
-	
+		 public static Result getAllAirplanesDetails(){
+				if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	List <Registration> registrationObjList = Registration.findByAirplanes();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
+			     	for(Registration vm : registrationObjList){
+			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+			     		RegisterVM vehicle = new RegisterVM();
+			     		vehicle.id = vm.id;
+			     		vehicle.name=vm.name;
+			     		vehicle.email=vm.email;
+			     		vehicle.phone=vm.phone;
+			     		vehicle.businessName=vm.businessName;
+			     		vehicle.businessAdd=vm.businessAdd;
+			     		vehicle.options=vm.options;
+			     		if(vm.activity != null){
+			     		vehicle.activity=df.format(vm.activity);
+			     		}
+			     		regVMs.add(vehicle);
+			  	}
+			     	
+			     	return ok(Json.toJson(regVMs));
+		    	}	
+			}	
+		 
+		 public static Result getAllServiceProviderDetails(){
+				if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	List <Registration> registrationObjList = Registration.findByServiceProvider();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
+			     	for(Registration vm : registrationObjList){
+			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+			     		RegisterVM vehicle = new RegisterVM();
+			     		vehicle.id = vm.id;
+			     		vehicle.name=vm.name;
+			     		vehicle.email=vm.email;
+			     		vehicle.phone=vm.phone;
+			     		vehicle.businessName=vm.businessName;
+			     		vehicle.businessAdd=vm.businessAdd;
+			     		vehicle.options=vm.options;
+			     		if(vm.activity != null){
+				     		vehicle.activity=df.format(vm.activity);
+				     		}
+				    	  	 regVMs.add(vehicle);
+			  	}
+			     	
+			     	return ok(Json.toJson(regVMs));
+		    	}	
+			}	
+		 
+		 public static Result getAllLuxuryProductsDetails(){
+				if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+			    	List <Registration> registrationObjList = Registration.findByLuxuryProducts();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
+			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
+			     	for(Registration vm : registrationObjList){
+			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+			     		RegisterVM vehicle = new RegisterVM();
+			     		vehicle.id = vm.id;
+			     		vehicle.name=vm.name;
+			     		vehicle.email=vm.email;
+			     		vehicle.phone=vm.phone;
+			     		vehicle.businessName=vm.businessName;
+			     		vehicle.businessAdd=vm.businessAdd;
+			     		vehicle.options=vm.options;
+			     		if(vm.activity != null){
+				     		vehicle.activity=df.format(vm.activity);
+				     		}
+				    	  	 regVMs.add(vehicle);
+			  	}
+			     	
+			     	return ok(Json.toJson(regVMs));
+		    	}	
+			}	
+		 
 	 public static AuthUser getLocalUser() {
 	    	String id = session("USER_KEY");
 	    	AuthUser user = AuthUser.find.byId(Integer.parseInt(id));

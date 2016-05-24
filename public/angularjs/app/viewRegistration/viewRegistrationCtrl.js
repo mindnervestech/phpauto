@@ -27,21 +27,28 @@ angular.module('newApp')
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'businessName', displayName: 'Business Name', width:'15%',cellEditableCondition: false,
+		                                 { name: 'businessName', displayName: 'Business Name', width:'14%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'businessAdd', displayName: 'Business Addree', width:'25%',cellEditableCondition: false,
+		                                 { name: 'businessAdd', displayName: 'Business Address', width:'20%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'options', displayName: 'Options', width:'15%',cellEditableCondition: false,
+		                                 { name: 'options', displayName: 'Options', width:'14%',cellEditableCondition: false,
+		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			                                       if (row.entity.sendDemoFlag == 0) {
+			                                         return 'red';
+			                                     }
+			                                	} ,
+		                                 },
+		                                 { name: 'activity', displayName: 'Activity', width:'10%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
@@ -63,7 +70,7 @@ angular.module('newApp')
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		          $scope.gridOptions.data = $filter('filter')($scope.pendingList,{'name':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'businessName':grid.columns[2].filters[0].term,'businessAdd':grid.columns[3].filters[0].term,'options':grid.columns[4].filters[0].term},undefined);
+		          $scope.gridOptions.data = $filter('filter')($scope.pendingList,{'name':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'businessName':grid.columns[2].filters[0].term,'businessAdd':grid.columns[3].filters[0].term,'options':grid.columns[4].filters[0].term,'activity':grid.columns[5].filters[0].term},undefined);
 		        });
 	   		
   		};
@@ -221,7 +228,102 @@ angular.module('newApp')
 				$('#editPopup').click();
 			});
 		 }*/
-	
-	
-	
+		 $scope.goTocars = function() {
+			 
+			 $scope.doPublic = 0;
+			 $http.get('/getAllCarsDetails')
+		 		.success(function(data) {
+		 			
+		 			//for(var i=0;i<data.length;i++) {
+		 			//	data[i].price = "$ "+data[i].price;
+		 			//}
+		 			
+		 			//$scope.doPublic = 1;
+		 			//$scope.vType = "cars";
+		 			//$scope.type = "All";
+		 			$scope.registrationObjList = data;
+		 			$scope.gridOptions.data = data;
+		 			//$scope.gridOptionscolumnDefs[8].displayName='Next Test Drive';
+		 			//$scope.gridOptions.columnDefs[9].displayName='Views';
+		 			
+		 			
+		 		});
+		 }
+		 
+
+		 $scope.goToBoat = function() {
+			 
+			 $scope.doPublic = 0;
+			 $http.get('/getAllBoat')
+		 		.success(function(data) {
+		 			$scope.registrationObjList = data;
+		 			$scope.gridOptions.data = data;
+		 			
+		 		});
+			 }
+			 $scope.goToMotorcycles = function() {
+				 
+				 $scope.doPublic = 0;
+				 $http.get('/getAllMotorcycles')
+			 		.success(function(data) {
+			 			$scope.registrationObjList = data;
+			 			$scope.gridOptions.data = data;
+			 			
+			 		});
+			 }
+			 
+			$scope.goToDesignerFurniture = function() {
+				 
+				 $scope.doPublic = 0;
+				 $http.get('/getAllDesignerFurniture')
+			 		.success(function(data) {
+			 			$scope.registrationObjList = data;
+			 			$scope.gridOptions.data = data;
+			 			
+			 		});
+			 }
+			
+			$scope.goToRealState = function() {
+				 
+				 $scope.doPublic = 0;
+				 $http.get('/getAllRealState')
+			 		.success(function(data) {
+			 			$scope.registrationObjList = data;
+			 			$scope.gridOptions.data = data;
+			 			
+			 		});
+			 }
+				
+			$scope.goToAirplanes = function() {
+				 
+				 $scope.doPublic = 0;
+				 $http.get('/getAllAirplanes')
+			 		.success(function(data) {
+			 			$scope.registrationObjList = data;
+			 			$scope.gridOptions.data = data;
+			 			
+			 		});
+			 }
+			
+			$scope.goToServiceProvider = function() {
+				 
+				 $scope.doPublic = 0;
+				 $http.get('/getAllServiceProvider')
+			 		.success(function(data) {
+			 			$scope.registrationObjList = data;
+			 			$scope.gridOptions.data = data;
+			 			
+			 		});
+			 }
+			
+			$scope.goToLuxuryProducts = function() {
+				 
+				 $scope.doPublic = 0;
+				 $http.get('/getAllLuxuryProducts')
+			 		.success(function(data) {
+			 			$scope.registrationObjList = data;
+			 			$scope.gridOptions.data = data;
+			 			
+			 		});
+			 }
 }]);

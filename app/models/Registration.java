@@ -30,6 +30,9 @@ public class Registration extends Model {
 	public Date startDate;
 	public Date expiryDate;
 	public Integer sendDemoFlag;
+
+	public Date activity;
+	
 	
 	
 	
@@ -149,6 +152,18 @@ public class Registration extends Model {
 	public void setSendDemoFlag(Integer sendDemoFlag) {
 		this.sendDemoFlag = sendDemoFlag;
 	}
+	
+
+	
+	
+
+	public Date getActivity() {
+		return activity;
+	}
+
+	public void setActivity(Date activity) {
+		this.activity = activity;
+	}
 
 	public static Registration findById(Long id) {
 		return find.byId(id);
@@ -165,7 +180,35 @@ public class Registration extends Model {
 	public static List<Registration> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}
+	public static List<Registration> findByCar( ){
+		return find.where().eq("options","Cars" ).findList();
+	}
+	
+	public static List<Registration> findByMotorcycles( ){
+		return find.where().eq("options","Motorcycles" ).findList();
+	}
+	
+	public static List<Registration> findByBoat( ){
+		return find.where().eq("options","Boat" ).findList();
+	}
+	
+	public static List<Registration> findByDesignerFurniture( ){
+		return find.where().eq("options","DesignerFurniture" ).findList();
+	}
+	
+	public static List<Registration> findByRealState( ){
+		return find.where().eq("options","RealEstate" ).findList();
+	}
+	
+	public static List<Registration> findByAirplanes( ){
+		return find.where().eq("options","Airplanes" ).findList();
+	}
 
+	public static List<Registration> findByServiceProvider( ){
+		return find.where().eq("options","ServiceProvider" ).findList();
+	}
 	
-	
+	public static List<Registration> findByLuxuryProducts( ){
+		return find.where().eq("options","LuxuryProducts" ).findList();
+	}
 }

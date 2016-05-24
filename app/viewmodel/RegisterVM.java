@@ -1,5 +1,7 @@
 package viewmodel;
 
+import java.util.Date;
+
 public class RegisterVM {
 	
 	public Long id;
@@ -9,6 +11,6 @@ public class RegisterVM {
 	public String email;
 	public String phone;
 	public String businessName;
-	public String businessAddress;
-
+	public String businessAdd;
+	public String activity;
 }

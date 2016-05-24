@@ -168,6 +168,7 @@ import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
 import viewmodel.PriceFormatDate;
+import viewmodel.RegisterVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
@@ -413,6 +414,9 @@ public class Application extends Controller {
 					    		for(Permission per: userPermissions) {
 					    			permission.put(per.name, true);
 					    		}
+					    		
+					    		registration.setActivity(curDate);
+					    		registration.update();
 					    		
 					    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 					    		//return redirect("/googleConnectionStatus");

@@ -6,14 +6,85 @@
     	</div>	
     
    
-</div>		
-    <tabset class="nav-tabs2">
+</div>
+ <tabset class="nav-tabs2">
                                 <tab>
                                     <tab-heading>
-                                        <button type="button" class="btn btn-blue" ng-click="pendingUser()">Send Demo Link</button>
+                                        <button type="button" class="btn btn-blue" ng-click="goTocars()">Cars</button>
+                                       
                                     </tab-heading>
 								    
     							</tab>
+    							<tab>
+                                    <tab-heading>
+                                        <button type="button" id="motorBtn" class="btn btn-blue" ng-click="goToMotorcycles()">Motorcycles</button>
+                                    </tab-heading>
+                               </tab>   
+                               <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="goToBoat()">Boat</button>
+                                    </tab-heading>
+                               </tab> 
+                                <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="goToAirplanes()">Airplanes</button>
+                                    </tab-heading>
+								    
+    							</tab>
+    							<tab>
+                                    <tab-heading>
+                                        <button type="button" id="furnitureBtn" class="btn btn-blue" ng-click="goToDesignerFurniture()">Designer Furniture</button>
+                                    </tab-heading>
+                               </tab>   
+                               <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="goToRealState()">Real State</button>
+                                    </tab-heading>
+                               </tab>   
+                               <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="goToServiceProvider()">Service Provider</button>
+                                    </tab-heading>
+								    
+    							</tab>
+    							<tab>
+                                    <tab-heading>
+                                        <button type="button" id="luxuryBtn" class="btn btn-blue" ng-click="goToLuxuryProducts()">Luxury Products</button>
+                                    </tab-heading>
+                               </tab>    
+     </tabset>	
+	<div  ng-if="doPublic == 0"><div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 1"><div ui-grid="gridOptions1" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 2"><div ui-grid="gridOptions2" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 3"><div ui-grid="gridOptions3" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 4"><div ui-grid="gridOptions4" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	
+	<div  ng-if="doPublic == 5"><div ui-grid="gridOptions5" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	<div  ng-if="doPublic == 6"><div ui-grid="gridOptions6" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+	
+	
+	<div  ng-if="doPublic == 7"><div ui-grid="gridOptions7" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div></div>
+    <tabset class="nav-tabs2">
+                               <!--  <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="pendingUser()">Send Demo Link</button>
+                                    </tab-heading> -->
+                                    
+                                    
     							<!-- <tab>
                                     <tab-heading>
                                         <button type="button" id="soldBtn" class="btn btn-blue" ng-click="viewActive()">Active</button>
