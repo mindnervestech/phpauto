@@ -5249,7 +5249,7 @@ angular.module('newApp')
 		$scope.deletePdf = function(item,model) {
 			console.log(item);
 			console.log(model);
-			if(model == undefined || model == false ){
+			if(model == true ){
 				$scope.customePdfmodel=true;
 			}
 			//$scope.customePdfmodel=model;
