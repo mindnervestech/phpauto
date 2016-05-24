@@ -5252,6 +5252,11 @@ angular.module('newApp')
 			if(model == true ){
 				$scope.customePdfmodel=true;
 			}
+			
+			if(model == undefined ){
+				$scope.customePdfmodel=false;
+			}
+			
 			//$scope.customePdfmodel=model;
 			$scope.customePdfId=item.customerPdfId;
 			console.log($scope.customePdfId);
