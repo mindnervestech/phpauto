@@ -1,8 +1,16 @@
 angular.module('newApp')
 .controller('VisitorsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 
+	 var date = new Date();
+	 $scope.typeOfInfo = 'Visitor log';
+	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
+		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
+		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
 	
-	
+		$scope.initFunction = function(){
+			$scope.DateWiseFind();
+		}
+		
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -22,42 +30,49 @@ angular.module('newApp')
 		                                     }
 		                                	} ,
 		                                 },
-		                                 { name: 'ip_address', displayName: 'IpAddress', width:'15%',cellEditableCondition: false,
+		                                 { name: 'organization', displayName: 'Organization', width:'15%',cellEditableCondition: false,
+			                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			                                       if (row.entity.isRead === false) {
+			                                         return 'red';
+			                                     }
+			                                	} ,
+			                                 },
+		                                 { name: 'ipAddress', displayName: 'IpAddress', width:'15%',cellEditableCondition: false,
 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                                       if (row.entity.isRead === false) {
 		                                         return 'red';
 		                                     }
 		                                	} ,
 		                                 },
-		                                 { name: 'referrer_domain', displayName: 'Referrer_Domain', width:'15%',cellEditableCondition: false,
+		                                 { name: 'referrerDomain', displayName: 'Referrer_Domain', width:'15%',cellEditableCondition: false,
 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                                       if (row.entity.isRead === false) {
 		                                         return 'red';
 		                                     }
 		                                	} ,
 		                                 },
-		                                 { name: 'total_visits', displayName: 'Total_Visits', width:'12%',cellEditableCondition: false,
+		                                 { name: 'totalVisits', displayName: 'Total_Visits', width:'12%',cellEditableCondition: false,
 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                                       if (row.entity.isRead === false) {
 		                                         return 'red';
 		                                     }
 		                                	} ,
 	                                 },
-		                                 { name: 'web_browser', displayName: 'Web_Browser', width:'15%',cellEditableCondition: false,
+		                                 { name: 'webBrowser', displayName: 'Web_Browser', width:'15%',cellEditableCondition: false,
 	                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   		                                       if (row.entity.isRead === false) {
   		                                         return 'red';
   		                                     }
  		                                	} ,
 		                                 },
-		                                 { name: 'time_pretty', displayName: 'Time_Pretty', width:'15%',cellEditableCondition: false,
+		                                 { name: 'timePretty', displayName: 'Time_Pretty', width:'15%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 	  		                                       if (row.entity.isRead === false) {
 	  		                                         return 'red';
 	  		                                     }
 	 		                                	} ,
 			                                 },
-			                                { name: 'screen_resolution', displayName: 'Screen_Resolution', width:'15%',cellEditableCondition: false,
+			                                { name: 'screenResolution', displayName: 'Screen_Resolution', width:'15%',cellEditableCondition: false,
 			                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		  		                                       if (row.entity.isRead === false) {
 		  		                                         return 'red';
@@ -81,23 +96,84 @@ angular.module('newApp')
   		};
   		
   		
-		 $http.get('/getVisitorList/'+30)
+		/* $http.get('/getVisitorList/'+$scope.startDate+"/"+$scope.endDate)
 			.success(function(data) {
-				console.log(data[0].dates[0].items);
-			$scope.gridOptions.data = data[0].dates[0].items;
-			$scope.visitiorList = data[0].dates[0].items;
+				console.log(data);
+				//console.log(data[0].dates[0].items);
+			$scope.gridOptions.data = data;// data[0].dates[0].items;
+			$scope.visitiorList = data;//data[0].dates[0].items;
 			$('#sliderBtn').click();
-		});
+		});*/
 	
-		 $scope.lastDays = function(value){
-			 $http.get('/getVisitorList/'+value)
+		 $scope.setShowVisitorsInfoType = function(typeOfInfo){
+				$scope.typeOfInfo = typeOfInfo;
+				$scope.DateWiseFind();
+			} 
+		 
+		 $scope.DateWiseFind = function(){
+			 var startDate = $("#cnfstartDateValue").val();
+			var endDate = $("#cnfendDateValue").val();	 
+			console.log(endDate);
+			
+			
+			if($scope.typeOfInfo == 'Visitor log'){
+				
+				 $http.get('/getVisitorList/'+startDate+"/"+endDate)
+					.success(function(data) {
+					$scope.gridOptions.data = data;
+					//console.log($scope.gridOptions.data);
+					angular.forEach($scope.gridOptions.data, function(value, key) {
+						var array = value.timePretty.split(',');
+						value.timeSet = array[1];
+						value.timeTotal = $filter('date')(value.timeTotal, 'hh:mm:ss');
+						
+					});
+					 console.log($scope.gridOptions.data);
+					$scope.visitiorList = data;
+				});
+				
+				
+				$scope.gridOptions.columnDefs = [
+				                                 {name: 'timeSet', displayName: 'Time'},
+				                                 {name: 'geolocation', displayName: 'Location'},
+				                                 {name:'organization', displayName:'Organization'},
+				                                 {name:'actions', displayName:'Action'},
+				                                 {name:'timeTotal', displayName:'Time_Total'},
+				                                 {name:'landingPage', displayName:'landing_page'}
+				                             ];  
+				
+			}else if($scope.typeOfInfo == 'Action log'){
+				
+				/*$http.get('/getActionListTwo/'+startDate+"/"+endDate)
 				.success(function(data) {
-					console.log(data[0].dates[0].items);
-				$scope.gridOptions.data = data[0].dates[0].items;
-				$scope.visitiorList = data[0].dates[0].items;
-				$('#sliderBtn').click();
-			});
+				$scope.gridOptions.data = data;
+				console.log($scope.gridOptions.data);
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					var array = value.time_pretty.split(',');
+					value.timeSet = array[1];
+					
+				});
+				 console.log($scope.gridOptions.data);
+				$scope.visitiorList = data;
+			});*/
+				
+				 $http.get('/getVisitorList/'+startDate+"/"+endDate)
+					.success(function(data) {
+					$scope.gridOptions.data = data;
+					console.log($scope.gridOptions.data);
+					$scope.visitiorList = data;
+				});
+				
+				$scope.gridOptions.columnDefs = [
+									             {name: 'time_pretty', displayName: 'time_pretty'},
+									             {name:'organization', displayName:'organization'},
+									             {name:'landingPage', displayName:'landingPage'}
+									         ]
+			}
+			
 		 }
+		 
+		
 	
 	$scope.goToActions = function() {
 		$location.path('/actionsAnalytics');

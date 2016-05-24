@@ -150,6 +150,10 @@ public class Location extends Model {
 	public static Location findManagerType(AuthUser user) {
 		return find.where().eq("type", "active").eq("manager", user).findUnique();
 	}
+	
+	public static Location findLocationByName(String name) {
+		return find.where().eq("name", name).findUnique();
+	}
 
 	public AuthUser getManager() {
 		return manager;

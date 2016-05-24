@@ -56,8 +56,9 @@
 				                        </ul>
 				</div>                        
 			</div>	
-			<h1>Upload Inventory Images</h1>
-			<p><b>Minimum image dimension should be 1200 X 351</b></p>
+			<h1>Upload Inventory Image</h1>
+			<p><b>Prefered image dimension should be {{coverConfig[0].cropWidth}} X {{coverConfig[0].cropHeight}}</b></p><br>
+			<p ng-if="imgSmall == 1" style="color:red"><b>This image is less than preferred image size, it will be streched to fit the screen, which can reduce image's quality</b></p>
             <form id="dropzoneFrm4" action="/uploadInventoryPhotosNew" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" multiple />

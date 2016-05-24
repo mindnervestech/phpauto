@@ -22,6 +22,7 @@ public class Warranty extends Model {
 	
 	@ManyToOne
 	public Location locations;
+	
 
 
 	public Long getId() {
@@ -123,10 +124,6 @@ public static Finder<Long,Warranty> find = new Finder<>(Long.class,Warranty.clas
 	public static Warranty findByLocations(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
 	}
-
-
-
-	
 	
 	
 	

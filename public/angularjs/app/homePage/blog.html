@@ -82,8 +82,9 @@
 				                        
 			</div>	                        
 				                        
-           <h1>Upload Cover Images</h1>
-			<p><b>Minimum image dimension should be {{configWidth}} X {{configHeight}}</b></p>
+           <h1>Upload Cover Image</h1>
+			<p><b>Prefered image dimension should be {{configWidth}} X {{configHeight}}</b></p>
+			<p ng-if="imgSmall == 1" style="color:red"><b>This image is less than preferred image size, it will be streched to fit the screen, which can reduce image's quality</b></p>
             <form id="dropzoneFrm6" action="/uploadBlogPhotos" class="dropzone">
                             <div class="fallback">
                                 <input name="file" type="file" multiple />

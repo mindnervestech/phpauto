@@ -59,6 +59,8 @@ import models.ActionAdd;
 import models.AuthUser;
 import models.AutoPortal;
 import models.Blog;
+import models.ClickyActionList;
+import models.ClickyPagesList;
 import models.ClickyVisitorsList;
 import models.Comments;
 import models.ContactHeader;
@@ -8554,6 +8556,16 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		slider.width = slconfig.cropWidth;
 	    	}
 	    	configList.add(slider);
+	    	
+	    	CoverImage cImage = CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	List<SliderImageConfig> sIcons = new ArrayList<>();
+	    	SliderImageConfig sIcon = new SliderImageConfig();
+	    	if(cImage != null){
+	    		sIcon.cropWidth = cImage.cropWidth;
+	    		sIcon.cropHeight = cImage.cropHeight;
+	    		sIcons.add(sIcon);
+	    	}
+	    	map.put("coverImg", sIcons);
 	    	
 	    	List<SiteInventoryVM> sVms = new ArrayList<>();
 	    	List<SiteInventory> siInventory = SiteInventory.findByLocation(Long.valueOf(session("USER_LOCATION")));
@@ -23293,6 +23305,25 @@ private static void cancelTestDriveMail(Map map) {
     	return ok(Json.parse(callClickAPI(params)));
     }
     
+    
+    public static Result getActionListTwo(String startDate,String endDate){
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    	Date sDate = null;
+    	Date eDate = null;
+    	
+    	try {
+			sDate = df.parse(startDate);
+			eDate = df.parse(endDate); 
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	List<ClickyActionList> cList = ClickyActionList.getAll(sDate, eDate);
+    	
+    	return ok(Json.toJson(cList));
+    }
+    
     public static Result getVisitorList(String startDate,String endDate){
     	int year = Calendar.getInstance().get(Calendar.YEAR);
     	String params = null;
@@ -23328,11 +23359,14 @@ private static void cancelTestDriveMail(Map map) {
     	Long id = 1L;
     	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
+    	List<Location> locations = Location.findAllData();
     	
     	Date curr = new Date();
     	String sDate = df.format(curr);
     	
         	String params = null;
+        	String paramsPages = null;
+        	String paramsAction = null;
         	
         	params = "&type=visitors-list&date="+sDate+"&limit=all";
         	//params = "&type=visitors-list&date=last-30-days&limit=all";
@@ -23385,6 +23419,44 @@ private static void cancelTestDriveMail(Map map) {
 	    			
 	    			cVisitorsList.save();
 	    			
+				}	
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		paramsPages = "&type=pages&heatmap_url=1&date="+sDate+"&limit=all";
+			
+			JSONArray jsonArrayPage;
+			try {
+				jsonArrayPage = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+				for(int i=0;i<jsonArrayPage.length();i++){
+					String locString = null;
+					Location locationName = null;
+					String data = jsonArrayPage.getJSONObject(i).get("url").toString();
+	    			String arr[] = data.split("#_");
+					try{
+						
+			    		String findLoc[] = arr[0].split("locationId=");
+			    		locString = findLoc[1].replace("+", " ");
+			    		locationName = Location.findLocationByName(locString);
+					}catch(Exception e){
+						System.out.println("No Location");
+					}
+					
+	    			ClickyPagesList cPages = new ClickyPagesList();
+	    			cPages.setValue(jsonArrayPage.getJSONObject(i).get("value").toString());
+	    			cPages.setValue_percent(jsonArrayPage.getJSONObject(i).get("value_percent").toString());
+	    			cPages.setTitle(jsonArrayPage.getJSONObject(i).get("title").toString());
+	    			cPages.setStats_url(jsonArrayPage.getJSONObject(i).get("stats_url").toString());
+	    			cPages.setUrl(jsonArrayPage.getJSONObject(i).get("url").toString());
+	    			cPages.setMainUrl(arr[0]);
+	    			if(locationName != null){
+	    				cPages.locationName = locationName.name;
+	    				cPages.locations = locationName.id;
+	    			}
+	    			cPages.setSaveDate(curr);
+	    			cPages.save();
 	    			
 				}	
 			} catch (JSONException e) {
@@ -23392,11 +23464,34 @@ private static void cancelTestDriveMail(Map map) {
 				e.printStackTrace();
 			}
 			
+			paramsAction = "&type=actions-list&date="+sDate+"&limit=all";
 			
-	
+			JSONArray jsonArrayAction;
+			try {
+				jsonArrayAction = new JSONArray(callClickAPI(paramsAction)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+				for(int i=0;i<jsonArrayAction.length();i++){
+					
+	    			ClickyActionList cAction = new ClickyActionList();
+	    			cAction.setTime(jsonArrayAction.getJSONObject(i).get("time").toString());
+	    			cAction.setTime_pretty(jsonArrayAction.getJSONObject(i).get("time_pretty").toString());
+	    			cAction.setIp_address(jsonArrayAction.getJSONObject(i).get("ip_address").toString());
+	    			cAction.setUid(jsonArrayAction.getJSONObject(i).get("uid").toString());
+	    			cAction.setSession_id(jsonArrayAction.getJSONObject(i).get("session_id").toString());
+	    			cAction.setAction_type(jsonArrayAction.getJSONObject(i).get("action_type").toString());
+	    			cAction.setAction_title(jsonArrayAction.getJSONObject(i).get("action_title").toString());
+	    			cAction.setAction_url(jsonArrayAction.getJSONObject(i).get("action_url").toString());
+	    			cAction.setStats_url(jsonArrayAction.getJSONObject(i).get("stats_url").toString());
+	    			cAction.setCurrDate(curr);
+	    			cAction.save();
+	    			
+				}	
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	
-    	
-    	
+			
+			
     	
     	return ok();
     }

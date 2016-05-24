@@ -10432,6 +10432,7 @@ angular.module('newApp')
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
+				$scope.coverConfig = data.coverImg;
 					angular.forEach(data.inventoryImg, function(value, key) {
 						if(value.vType == $scope.vTypes){
 							$scope.inventoryImg.push(value);
@@ -10603,17 +10604,27 @@ angular.module('newApp')
 		     addRemoveLinks:true,
 		     autoProcessQueue:false,
 		     init:function () {
-		     this.on("queuecomplete", function (file) {
-		            
-		     //$scope.getImages();
-		    	   $scope.init();
-		            $scope.$apply();
-		        });
-		     
-		     this.on("complete", function() {
-		     this.removeAllFiles();
-		     });
-		     }
+				   this.on("queuecomplete", function (file) {
+				          
+					   $scope.init();
+				          $scope.$apply();
+				      });
+				   this.on("thumbnail", function(file) {
+					      // Do the dimension checks you want to do
+					   $scope.imgSmall = 0;
+					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
+					    	  $scope.imgSmall = 1;
+					    	  //file.rejectDimensions()
+					      }
+					      else {
+					        file.acceptDimensions();
+					      }
+					    });
+				   this.on("complete", function() {
+					   
+					   this.removeAllFiles();
+				   });
+			   }
 		     });
 
 	   
@@ -10630,17 +10641,27 @@ angular.module('newApp')
 		     addRemoveLinks:true,
 		     autoProcessQueue:false,
 		     init:function () {
-		     this.on("queuecomplete", function (file) {
-		            
-		     //$scope.getImages();
-		            $scope.$apply();
-		            $scope.init();
-		        });
-		     
-		     this.on("complete", function() {
-		     this.removeAllFiles();
-		     });
-		     }
+				   this.on("queuecomplete", function (file) {
+				          
+					   $scope.init();
+				          $scope.$apply();
+				      });
+				   this.on("thumbnail", function(file) {
+					      // Do the dimension checks you want to do
+					   $scope.imgSmall = 0;
+					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
+					    	  $scope.imgSmall = 1;
+					    	  //file.rejectDimensions()
+					      }
+					      else {
+					        file.acceptDimensions();
+					      }
+					    });
+				   this.on("complete", function() {
+					   
+					   this.removeAllFiles();
+				   });
+			   }
 		     });
 	   	   
 	 }
@@ -10654,17 +10675,27 @@ angular.module('newApp')
 		     addRemoveLinks:true,
 		     autoProcessQueue:false,
 		     init:function () {
-		     this.on("queuecomplete", function (file) {
-		            
-		     //$scope.getImages();
-		            $scope.$apply();
-		            $scope.init();
-		        });
-		     
-		     this.on("complete", function() {
-		     this.removeAllFiles();
-		     });
-		     }
+				   this.on("queuecomplete", function (file) {
+				          
+					   $scope.init();
+				          $scope.$apply();
+				      });
+				   this.on("thumbnail", function(file) {
+					      // Do the dimension checks you want to do
+					   $scope.imgSmall = 0;
+					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
+					    	  $scope.imgSmall = 1;
+					    	  //file.rejectDimensions()
+					      }
+					      else {
+					        file.acceptDimensions();
+					      }
+					    });
+				   this.on("complete", function() {
+					   
+					   this.removeAllFiles();
+				   });
+			   }
 		     });
 	   	   
 	 }
@@ -10681,17 +10712,27 @@ angular.module('newApp')
 		     addRemoveLinks:true,
 		     autoProcessQueue:false,
 		     init:function () {
-		     this.on("queuecomplete", function (file) {
-		            
-		     //$scope.getImages();
-		    	 $scope.init();
-		            $scope.$apply();
-		        });
-		     
-		     this.on("complete", function() {
-		     this.removeAllFiles();
-		     });
-		     }
+				   this.on("queuecomplete", function (file) {
+				          
+					   $scope.init();
+				          $scope.$apply();
+				      });
+				   this.on("thumbnail", function(file) {
+					      // Do the dimension checks you want to do
+					   $scope.imgSmall = 0;
+					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
+					    	  $scope.imgSmall = 1;
+					    	  //file.rejectDimensions()
+					      }
+					      else {
+					        file.acceptDimensions();
+					      }
+					    });
+				   this.on("complete", function() {
+					   
+					   this.removeAllFiles();
+				   });
+			   }
 		     });
 	   	   
 	 }
@@ -10706,17 +10747,27 @@ angular.module('newApp')
 		     addRemoveLinks:true,
 		     autoProcessQueue:false,
 		     init:function () {
-		     this.on("queuecomplete", function (file) {
-		            
-		     //$scope.getImages();
-		    	 $scope.init();
-		            $scope.$apply();
-		        });
-		     
-		     this.on("complete", function() {
-		     this.removeAllFiles();
-		     });
-		     }
+				   this.on("queuecomplete", function (file) {
+				          
+					   $scope.init();
+				          $scope.$apply();
+				      });
+				   this.on("thumbnail", function(file) {
+					      // Do the dimension checks you want to do
+					   $scope.imgSmall = 0;
+					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
+					    	  $scope.imgSmall = 1;
+					    	  //file.rejectDimensions()
+					      }
+					      else {
+					        file.acceptDimensions();
+					      }
+					    });
+				   this.on("complete", function() {
+					   
+					   this.removeAllFiles();
+				   });
+			   }
 		     });
 	   	   
 	 }
@@ -10735,17 +10786,27 @@ angular.module('newApp')
 		     addRemoveLinks:true,
 		     autoProcessQueue:false,
 		     init:function () {
-		     this.on("queuecomplete", function (file) {
-		            
-		     //$scope.getImages();
-		            $scope.$apply();
-		            $scope.init();
-		        });
-		     
-		     this.on("complete", function() {
-		     this.removeAllFiles();
-		     });
-		     }
+				   this.on("queuecomplete", function (file) {
+				          
+					   $scope.init();
+				          $scope.$apply();
+				      });
+				   this.on("thumbnail", function(file) {
+					      // Do the dimension checks you want to do
+					   $scope.imgSmall = 0;
+					      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
+					    	  $scope.imgSmall = 1;
+					    	  //file.rejectDimensions()
+					      }
+					      else {
+					        file.acceptDimensions();
+					      }
+					    });
+				   this.on("complete", function() {
+					   
+					   this.removeAllFiles();
+				   });
+			   }
 		     });
 	   	   
 	 }
@@ -11311,18 +11372,36 @@ angular.module('newApp')
 	   $scope.uploadCoverImages = function() {
 			myDropzone4 = new Dropzone("#dropzoneFrm4",{
 				parallelUploads: 30,
-				   headers: { "vinNum": 1 },
+				  /* headers: { "vinNum": 1 },
+				   acceptedFiles:"image/*",
+				   addRemoveLinks:true,
+				   autoProcessQueue:false,*/
+				   
+				   parallelUploads: 1,
 				   acceptedFiles:"image/*",
 				   addRemoveLinks:true,
 				   autoProcessQueue:false,
+				   maxFiles:1,
+				  
 				   init:function () {
 					   this.on("queuecomplete", function (file) {
 					          
 						   $scope.init();
 					          $scope.$apply();
 					      });
-					   
+					   this.on("thumbnail", function(file) {
+						      // Do the dimension checks you want to do
+						   $scope.imgSmall = 0;
+						      if (file.width < $scope.coverConfig[0].cropWidth || file.height < $scope.coverConfig[0].cropHeight) {
+						    	  $scope.imgSmall = 1;
+						    	  //file.rejectDimensions()
+						      }
+						      else {
+						        file.acceptDimensions();
+						      }
+						    });
 					   this.on("complete", function() {
+						   
 						   this.removeAllFiles();
 					   });
 				   }
@@ -12349,8 +12428,8 @@ angular.module('newApp')
 				//$scope.customerPdfList=data;
 				
 			});	
-			
-			$http.get('/getCustomerPdfData')
+		
+		$http.get('/getCustomerPdfData')
 			.success(function(data) {
 				/*$.pnotify({
 				    title: "Success",
