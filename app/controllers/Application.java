@@ -15226,11 +15226,12 @@ private static void cancelTestDriveMail(Map map) {
 		 		  });
 		  
 		 		try{
-		 			
+		 			System.out.println("emailUsername"+emailUsername);
+		 			System.out.println("emailPassword"+emailPassword);
 		  			Message message = new MimeMessage(session);
 		  			try {
 		  				System.out.println(">>>>>>>"+emailName);
-						message.setFrom(new InternetAddress(emailUsername,emailName));
+						message.setFrom(new InternetAddress(emailUser,emailName));
 					} catch (UnsupportedEncodingException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
