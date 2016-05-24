@@ -589,25 +589,35 @@ public class Application extends Controller {
 	        String to = "info@gliderllc.com";
 	        String from = "glider.autos@gmail.com";
 	        String host = "mail.smtp.host";
-
+            
+	        
+	        EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			String emailName=details.name;
+			String port=details.port;
+			String gmail=details.host;
+			final	String emailUser=details.username;
+			final	String emailPass=details.passward;
 	        Properties props = new Properties();
 	 		props.put("mail.smtp.auth", "true");
 	 		props.put("mail.smtp.starttls.enable", "true");
-	 		props.put("mail.smtp.host", "smtp.gmail.com");
-	 		props.put("mail.smtp.port", "587");
+	 		props.put("mail.smtp.host", gmail);
+	 		props.put("mail.smtp.port", port);
 
 	        // Get the Session object.
 	        Session session = Session.getInstance(props,
 	           new javax.mail.Authenticator() {
 	              protected PasswordAuthentication getPasswordAuthentication() {
-	                 return new PasswordAuthentication(emailUsername, emailPassword);
+	                 return new PasswordAuthentication(emailUser, emailPass);
 	              }
 	           });
 
 	        try {
 	           Message message = new MimeMessage(session);
-
-	           message.setFrom(new InternetAddress(from));
+                try{
+	           message.setFrom(new InternetAddress(emailUser,emailName));
+                }catch(UnsupportedEncodingException e){
+                	e.printStackTrace();
+                }
 
 	           message.setRecipients(Message.RecipientType.TO,
 	              InternetAddress.parse(to));
@@ -646,17 +656,24 @@ public class Application extends Controller {
 	}
 	
 	public static Result agreementEmail(String userName,String userDate, String userPhone) {
-			
+		
+		 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			String emailName=details.name;
+			String port=details.port;
+			String gmail=details.host;
+			final	String emailUser=details.username;
+			final	String emailPass=details.passward;
+		
 		Properties props = new Properties();
  		props.put("mail.smtp.auth", "true");
  		props.put("mail.smtp.starttls.enable", "true");
- 		props.put("mail.smtp.host", "smtp.gmail.com");
- 		props.put("mail.smtp.port", "587");
+ 		props.put("mail.smtp.host", gmail);
+ 		props.put("mail.smtp.port", port);
   
  		Session session = Session.getInstance(props,
  		  new javax.mail.Authenticator() {
  			protected PasswordAuthentication getPasswordAuthentication() {
- 				return new PasswordAuthentication(emailUsername, emailPassword);
+ 				return new PasswordAuthentication(emailUser, emailPass);
  			}
  		  });
   
@@ -1551,24 +1568,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	 e.printStackTrace();
 		    }*/
 		
+			
+			 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+				String emailName=details.name;
+				String port=details.port;
+				String gmail=details.host;
+				final	String emailUser=details.username;
+				final	String emailPass=details.passward;
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		
 		try
 		{
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}
     		catch(UnsupportedEncodingException e){
     			e.printStackTrace();
@@ -3599,26 +3621,31 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	   }
 	    	   //AuthUser logoUser = AuthUser.findById(userObj.id);
 	    	   //SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(logoUser);
-	    		Properties props = new Properties();
+	    		
+	    	   EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+				String emailName=details.name;
+				String port=details.port;
+				String gmail=details.host;
+				final	String emailUser=details.username;
+				final	String emailPass=details.passward;
+	    	   Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port", "587");
+		 		props.put("mail.smtp.host", gmail);
+		 		props.put("mail.smtp.port", port);
 		  
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 				return new PasswordAuthentication(emailUser, emailPass);
 		 			}
 		 		  });
 		  
 		 		try{
 		 		   
 		  			Message message = new MimeMessage(session);
-		  			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-		    		String emailName=details.name;
 		    		try{
-		  			message.setFrom(new InternetAddress("glider.autos@gmail.com",emailName));
+		  			message.setFrom(new InternetAddress(emailUser,emailName));
 		    		}
 		    		catch(UnsupportedEncodingException e){
 		    			e.printStackTrace();
@@ -4827,16 +4854,23 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 
 	    			final String username = emailUsername;
 	    			final String password = emailPassword;
+	    			
+	    			 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    				String emailName=details.name;
+	    				String port=details.port;
+	    				String gmail=details.host;
+	    				final	String emailUser=details.username;
+	    				final	String emailPass=details.passward;
 	    			Properties props = new Properties();
 	    			props.put("mail.smtp.auth", "true");
-	    			props.put("mail.smtp.host", "smtp.gmail.com");
-	    			props.put("mail.smtp.port", "587");
+	    			props.put("mail.smtp.host", gmail);
+	    			props.put("mail.smtp.port", port);
 	    			props.put("mail.smtp.starttls.enable", "true");
 	    			Session session = Session.getInstance(props,
 	    					new javax.mail.Authenticator() {
 	    						protected PasswordAuthentication getPasswordAuthentication() {
-	    							return new PasswordAuthentication(username,
-	    									password);
+	    							return new PasswordAuthentication(emailUser,
+	    									emailPass);
 	    						}
 	    					});
 	    			try {
@@ -4847,8 +4881,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    				usersArray[index] = new InternetAddress(user.getEmail());
 	    				
 	    				Message message = new MimeMessage(session);
-	    				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    	    		String emailName=details.name;
 	    	    		try{
 	    				message.setFrom(new InternetAddress(emailUsername,emailName));
 	    	    		}catch(UnsupportedEncodingException e){
@@ -6147,24 +6179,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    			vehicleVMList.add(vm);
 		    		}
 		    		
+		    		 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		 			String emailName=details.name;
+		 			String port=details.port;
+		 			String gmail=details.host;
+		 			final	String emailUser=details.username;
+		 			final	String emailPass=details.passward;
+		    		
 			    	Properties props = new Properties();
 					props.put("mail.smtp.auth", "true");
-					props.put("mail.smtp.host", "smtp.gmail.com");
-					props.put("mail.smtp.port", "587");
+					props.put("mail.smtp.host", gmail);
+					props.put("mail.smtp.port", port);
 					props.put("mail.smtp.starttls.enable", "true");
 					Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(emailUsername, emailPassword);
+							return new PasswordAuthentication(emailUser, emailPass);
 						}
 					});
 					
 					try
 					{
 						Message message = new MimeMessage(session);
-						EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-			    		String emailName=details.name;
 			    		try{
-						message.setFrom(new InternetAddress(emailUsername,emailName));
+						message.setFrom(new InternetAddress(emailUser,emailName));
 			    		}catch(UnsupportedEncodingException e){
 			    			e.printStackTrace();
 			    		}
@@ -6241,25 +6278,28 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			Vehicle sameMake =  sameBodyList.get(2);
 			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
 			
-			
+			 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+				String emailName=details.name;
+				String port=details.port;
+				String gmail=details.host;
+				final	String emailUser=details.username;
+				final	String emailPass=details.passward;
 			Properties props = new Properties();
 			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.host", gmail);
+			props.put("mail.smtp.port", port);
 			props.put("mail.smtp.starttls.enable", "true");
 			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(emailUsername, emailPassword);
+					return new PasswordAuthentication(emailUser, emailPass);
 				}
 			});
 			
 			try
 			{
 				Message message = new MimeMessage(session);
-				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    		String emailName=details.name;
 	    		try{
-				message.setFrom(new InternetAddress(emailUsername,emailName));
+				message.setFrom(new InternetAddress(emailUser,emailName));
 	    		}
 	    		catch(UnsupportedEncodingException e){
 	    			e.printStackTrace();
@@ -14392,24 +14432,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	if(user != null) {
 			
     	
-	        
+    		 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+ 			String emailName=details.name;
+ 			String port=details.port;
+ 			String gmail=details.host;
+ 			final	String emailUser=details.username;
+ 			final	String emailPass=details.passward;
 	 		Properties props = new Properties();
 	 		props.put("mail.smtp.auth", "true");
 	 		props.put("mail.smtp.starttls.enable", "true");
-	 		props.put("mail.smtp.host", "smtp.gmail.com");
-	 		props.put("mail.smtp.port", "587");
+	 		props.put("mail.smtp.host", gmail);
+	 		props.put("mail.smtp.port", port);
 	  
 	 		Session session = Session.getInstance(props,
 	 		  new javax.mail.Authenticator() {
 	 			protected PasswordAuthentication getPasswordAuthentication() {
-	 				return new PasswordAuthentication(emailUsername, emailPassword);
+	 				return new PasswordAuthentication(emailUser, emailPass);
 	 			}
 	 		  });
 	  
 	 		try{
 	 		   
 	  			Message feedback = new MimeMessage(session);
-	  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+	  			feedback.setFrom(new InternetAddress(emailUser));
 	  			feedback.setRecipients(Message.RecipientType.TO,
 	  			InternetAddress.parse(user.email));
 	  			feedback.setSubject("Your forgot password ");	  			
@@ -14749,10 +14794,17 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		final String username = emailUsername;
 		final String password = emailPassword;
 		
+		 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			String emailName=details.name;
+			String port=details.port;
+			String gmail=details.host;
+			final	String emailUser=details.username;
+			final	String emailPass=details.passward;
+		
 		Properties props = new Properties();  
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		     
 		
@@ -14765,10 +14817,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		  
 		    try {  
 		     MimeMessage message = new MimeMessage(session);  
-		     EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    		String emailName=details.name;
 	    		try{
-		     message.setFrom(new InternetAddress(username,emailName));  
+		     message.setFrom(new InternetAddress(emailUser,emailName));  
 	    		}catch(UnsupportedEncodingException e){
 	    			e.printStackTrace();
 	    		}
@@ -14791,14 +14841,21 @@ private static void cancelTestDriveMail(Map map) {
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
-		Properties props = new Properties();
+		
+    	 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			String emailName=details.name;
+			String port=details.port;
+			String gmail=details.host;
+			final	String emailUser=details.username;
+			final	String emailPass=details.passward;
+    	Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host",gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
     	try
@@ -14809,10 +14866,8 @@ private static void cancelTestDriveMail(Map map) {
     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
     		
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}
     		catch(UnsupportedEncodingException e){
     			e.printStackTrace();
@@ -14940,14 +14995,21 @@ private static void cancelTestDriveMail(Map map) {
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
-		Properties props = new Properties();
+		
+    	 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			String emailName=details.name;
+			String port=details.port;
+			String gmail=details.host;
+			final	String emailUser=details.username;
+			final	String emailPass=details.passward;
+    	Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
     	try
@@ -14958,7 +15020,7 @@ private static void cancelTestDriveMail(Map map) {
     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
     		
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername));
+			message.setFrom(new InternetAddress(emailUser));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(map.get("email").toString()));
 			message.setSubject("Test Drive's Information has been changed");
@@ -15067,14 +15129,21 @@ private static void cancelTestDriveMail(Map map) {
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
-		Properties props = new Properties();
+	
+    	 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			String emailName=details.name;
+			String port=details.port;
+			String gmail=details.host;
+			final	String emailUser=details.username;
+			final	String emailPass=details.passward;
+    	Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
     	try
@@ -15085,10 +15154,8 @@ private static void cancelTestDriveMail(Map map) {
     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
     		
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	 		String emailName=details.name;
 	 		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
 	 		}catch(UnsupportedEncodingException e){
 	 			e.printStackTrace();
 	 		}
@@ -15209,12 +15276,17 @@ private static void cancelTestDriveMail(Map map) {
 	    	UserVM vm = form.get();
 	    	//List<String> aa= new ArrayList<>();
 	    		   CustomerPdf iPdf = null;
+	    		   
+	    		   
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
 		 		props.put("mail.smtp.host", gmail);
 		 		props.put("mail.smtp.port",port);
-		 	
+		 		System.out.println(">>port"+port);
+		    System.out.println(">>gmailhost"+gmail);
+		    System.out.println(">>>>emailUser"+emailUser);
+		    System.out.println(">>>>emailPass"+emailPass);
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -15223,7 +15295,8 @@ private static void cancelTestDriveMail(Map map) {
 		 		  });
 		  
 		 		try{
-		 		
+		 			System.out.println("emailUsername"+emailUsername);
+		 			System.out.println("emailPassword"+emailPassword);
 		  			Message message = new MimeMessage(session);
 		  			try {
 		  				System.out.println(">>>>>>>"+emailName);
@@ -15531,18 +15604,22 @@ private static void cancelTestDriveMail(Map map) {
 	    	   
 	    	   EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		String emailName=details.name;
+	    		String port=details.port;
+	    		String gmail=details.host;
+	    	final	String emailUser=details.username;
+	    	final	String emailPass=details.passward;
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
 	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port", "587");
+		 		props.put("mail.smtp.host",gmail);
+		 		props.put("mail.smtp.port", port);
 		  
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 				return new PasswordAuthentication(emailUser, emailPass);
 		 			}
 		 		  });
 		  
@@ -17467,18 +17544,22 @@ private static void cancelTestDriveMail(Map map) {
 	    	   
 	    	   EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
 	    		String emailName=details.name;
+	    		String port=details.port;
+	    		String gmail=details.host;
+	    	final	String emailUser=details.username;
+	    	final	String emailPass=details.passward;
 	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
 	    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port", "587");
+		 		props.put("mail.smtp.host", gmail);
+		 		props.put("mail.smtp.port", port);
 		  
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 				return new PasswordAuthentication(emailUser, emailPass);
 		 			}
 		 		  });
 		  
@@ -19402,14 +19483,18 @@ private static void cancelTestDriveMail(Map map) {
      //	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
     	 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
  		String emailName=details.name;
+ 		String port=details.port;
+		String gmail=details.host;
+	final	String emailUser=details.username;
+	final	String emailPass=details.passward;
  		Properties props = new Properties();
  		props.put("mail.smtp.auth", "true");
- 		props.put("mail.smtp.host", "smtp.gmail.com");
- 		props.put("mail.smtp.port", "587");
+ 		props.put("mail.smtp.host", gmail);
+ 		props.put("mail.smtp.port", port);
  		props.put("mail.smtp.starttls.enable", "true");
  		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
  			protected PasswordAuthentication getPasswordAuthentication() {
- 				return new PasswordAuthentication(emailUsername, emailPassword);
+ 				return new PasswordAuthentication(emailUser, emailPass);
  			}
  		});
      	try
@@ -19421,7 +19506,7 @@ private static void cancelTestDriveMail(Map map) {
      		
  			Message message = new MimeMessage(session);
  			try{
- 			message.setFrom(new InternetAddress(emailUsername,emailName));
+ 			message.setFrom(new InternetAddress(emailUser,emailName));
  			}
  			catch(UnsupportedEncodingException e){
  				e.printStackTrace();
@@ -19580,27 +19665,31 @@ private static void cancelTestDriveMail(Map map) {
 			
 			
 		}
-		
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+	final	String emailUser=details.username;
+	final	String emailPass=details.passward;
 		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		
 		try
 		{
 			
-			 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    		String emailName=details.name;
+			 
 			Message message = new MimeMessage(session);
 			try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
 			}catch(UnsupportedEncodingException e){
 				e.printStackTrace();
 			}
@@ -19701,24 +19790,28 @@ private static void cancelTestDriveMail(Map map) {
 			
 		}
 		
-		
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		
 		try
 		{
-			 EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    		String emailName=details.name;
+			 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(communicationEmail));
 			/*usersArray*/
 			message.setSubject(subject);
@@ -22720,24 +22813,32 @@ private static void cancelTestDriveMail(Map map) {
 		}
 		*/
 		
+		
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", 587);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		
 		try
 		{
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
+    		
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+    			
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}catch(UnsupportedEncodingException e){
     			e.printStackTrace();
     		}
@@ -28264,18 +28365,22 @@ if(vehicles.equals("All")){
 				e.printStackTrace();
 			}
 
-			final String username = emailUsername;
-			final String password = emailPassword;
+			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			String emailName=details.name;
+			String port=details.port;
+			String gmail=details.host;
+			final	String emailUser=details.username;
+			final	String emailPass=details.passward;
 			Properties props = new Properties();
 			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.host", gmail);
+			props.put("mail.smtp.port", port);
 			props.put("mail.smtp.starttls.enable", "true");
 			Session session = Session.getInstance(props,
 					new javax.mail.Authenticator() {
 						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(username,
-									password);
+							return new PasswordAuthentication(emailUser,
+									emailPass);
 						}
 					});
 			try {
@@ -28286,10 +28391,8 @@ if(vehicles.equals("All")){
 				usersArray[index] = new InternetAddress(user.getEmail());
 				
 				Message message = new MimeMessage(session);
-				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    		String emailName=details.name;
 	    		try{
-				message.setFrom(new InternetAddress(emailUsername,emailName));
+				message.setFrom(new InternetAddress(emailUser,emailName));
 	    		}
 	    		catch(UnsupportedEncodingException e){
 	    			e.printStackTrace();
@@ -29165,26 +29268,31 @@ if(vehicles.equals("All")){
 	    	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); //findByUser(logoUser);
 			List<Contacts> contactsList = Contacts.getAllNewsletter();
 			for(Contacts contact : contactsList) {
+				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+				String emailName=details.name;
+				String port=details.port;
+				String gmail=details.host;
+				final	String emailUser=details.username;
+				final	String emailPass=details.passward;
+				
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port", "587");
+		 		props.put("mail.smtp.host", gmail);
+		 		props.put("mail.smtp.port", port);
 		  
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 				return new PasswordAuthentication(emailUser, emailPass);
 		 			}
 		 		  });
 		  
 		 		try{
 		 		   
 		  			Message message = new MimeMessage(session);
-		  			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-		    		String emailName=details.name;
 		  			try {
-						message.setFrom(new InternetAddress("glider.autos@gmail.com",emailName));
+						message.setFrom(new InternetAddress(emailUser,emailName));
 					} catch (UnsupportedEncodingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -29956,24 +30064,29 @@ if(vehicles.equals("All")){
 		}
 		
 		
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		
 		try
 		{
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}
     		catch(UnsupportedEncodingException e){
     			e.printStackTrace();
@@ -30643,14 +30756,21 @@ private static void salesPersonPlanMail(Map map) {
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
-		Properties props = new Properties();
+		
+    	EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
+    	Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
     	try
@@ -30661,10 +30781,8 @@ private static void salesPersonPlanMail(Map map) {
     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
     		
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}
     		catch(UnsupportedEncodingException e){
     			e.printStackTrace();
@@ -31358,25 +31476,29 @@ private static void salesPersonPlanMail(Map map) {
 			list.add(vm1);
 		}
 		
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
 		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		
 		try
 		{
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}
     		catch(UnsupportedEncodingException e){
     			e.printStackTrace();
@@ -31459,6 +31581,12 @@ private static void salesPersonPlanMail(Map map) {
 			meetingBy = meetingBy + assi.getFirstName()+" "+assi.getLastName()+" , ";
 		}
 		
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -31466,17 +31594,15 @@ private static void salesPersonPlanMail(Map map) {
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		
 		try
 		{
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}catch(UnsupportedEncodingException e){
     			e.printStackTrace();
     		}
@@ -34706,23 +34832,30 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	public static Result scheduleEmail(List<String> emailList) {
 		
 			for(String email : emailList) {
+				
+				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+				String emailName=details.name;
+				String port=details.port;
+				String gmail=details.host;
+				final	String emailUser=details.username;
+				final	String emailPass=details.passward;
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port", "587");
+		 		props.put("mail.smtp.host", gmail);
+		 		props.put("mail.smtp.port", port);
 		  
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 				return new PasswordAuthentication(emailUser, emailPass);
 		 			}
 		 		  });
 		  
 		 		try{
 		 			
 		 			Message feedback = new MimeMessage(session);
-		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			feedback.setFrom(new InternetAddress(emailUser));
 		  			feedback.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(email));
 		  			 feedback.setSubject("Test Drive Alert");	  			
@@ -34811,23 +34944,29 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	public static Result vehicleSoldEmail(List<String> emailList) {
 		
 			for(String email : emailList) {
+				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+				String emailName=details.name;
+				String port=details.port;
+				String gmail=details.host;
+				final	String emailUser=details.username;
+				final	String emailPass=details.passward;
 				Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
-		 		props.put("mail.smtp.host", "smtp.gmail.com");
-		 		props.put("mail.smtp.port", "587");
+		 		props.put("mail.smtp.host", gmail);
+		 		props.put("mail.smtp.port",port);
 		  
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 				return new PasswordAuthentication(emailUser, emailPass);
 		 			}
 		 		  });
 		  
 		 		try{
 		 			
 		 			Message feedback = new MimeMessage(session);
-		  			feedback.setFrom(new InternetAddress("glider.autos@gmail.com"));
+		  			feedback.setFrom(new InternetAddress(emailUser));
 		  			feedback.setRecipients(Message.RecipientType.TO,
 		  			InternetAddress.parse(email));
 		  			 feedback.setSubject("Vehicle Sold notificatio");	  			
@@ -34851,14 +34990,21 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    	AuthUser logoUser = getLocalUser();
 	    //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
 	    	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
+	    	EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			String emailName=details.name;
+			String port=details.port;
+			String gmail=details.host;
+			final	String emailUser=details.username;
+			final	String emailPass=details.passward;
+	    	
 			Properties props = new Properties();
 			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.host", "smtp.gmail.com");
-			props.put("mail.smtp.port", "587");
+			props.put("mail.smtp.host", gmail);
+			props.put("mail.smtp.port", port);
 			props.put("mail.smtp.starttls.enable", "true");
 			Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(emailUsername, emailPassword);
+					return new PasswordAuthentication(emailUser, emailPass);
 				}
 			});
 	    	try
@@ -34869,10 +35015,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		usersArray[1] = new InternetAddress(map.get("custEmail").toString());*/
 	    		
 				Message message = new MimeMessage(session);
-				EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    		String emailName=details.name;
 	    		try{
-				message.setFrom(new InternetAddress(emailUsername,emailName));
+				message.setFrom(new InternetAddress(emailUser,emailName));
 	    		}catch(UnsupportedEncodingException e){
 	    			e.printStackTrace();
 	    		}
@@ -36831,23 +36975,28 @@ private static void managerLikeWork(String email,String subject,String comments,
     	AuthUser logoUser = getLocalUser();
     //AuthUser logoUser = AuthUser.findById(Integer.getInteger(session("USER_KEY")));
     	SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION"))); // findByUser(logoUser);
-		Properties props = new Properties();
+		
+    	EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
+    	Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
     	try
 		{
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}
     		catch(UnsupportedEncodingException e){
     			e.printStackTrace();
@@ -36907,10 +37056,17 @@ private static void managerLikeWork(String email,String subject,String comments,
 		final String username = emailUsername;
 		final String password = emailPassword;
 		
+		
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
 		Properties props = new Properties();  
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		System.out.println(email);
 		System.out.println(username);
@@ -36918,15 +37074,13 @@ private static void managerLikeWork(String email,String subject,String comments,
 		
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		    try {  
 		     MimeMessage message = new MimeMessage(session);  
-		     EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    		String emailName=details.name;
 	    		try{
-		     message.setFrom(new InternetAddress(username,emailName));  
+		     message.setFrom(new InternetAddress(emailUser,emailName));  
 	    		}
 	    		catch(UnsupportedEncodingException e){
 	    			e.printStackTrace();
@@ -36949,15 +37103,20 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		final String username = emailUsername;
 		final String password = emailPassword;
 		
-		
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
     	try
@@ -36968,10 +37127,8 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
     		usersArray[1] = new InternetAddress(map.get("custEmail").toString());
     		*/
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}
     		catch(UnsupportedEncodingException e){
     			e.printStackTrace();
@@ -37211,26 +37368,29 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 			
 			
 		}*/
-		
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
 		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		
 		try
 		{
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}catch(UnsupportedEncodingException e){
     			e.printStackTrace();
     		}
@@ -38070,14 +38230,21 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		}
 		*/
 		
+    	EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
+    	
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailUsername, emailPassword);
+				return new PasswordAuthentication(emailUser, emailPass);
 			}
 		});
 		
@@ -38085,10 +38252,8 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		{
 			
 			Message message = new MimeMessage(session);
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-    		String emailName=details.name;
     		try{
-			message.setFrom(new InternetAddress(emailUsername,emailName));
+			message.setFrom(new InternetAddress(emailUser,emailName));
     		}
     		catch(UnsupportedEncodingException e)
     		{
