@@ -5972,7 +5972,7 @@ float: right !important;
 						    			<tr ng-repeat="item in customerPdfList"  style="border: 1px solid;" ng-if="flagForUpload ==1">
 						    				<td style="padding: 5px;border: 1px solid;" >{{item.customerPdfName}}</td>
 						    				<td style="border: 1px solid;text-align: center;"> <input  type="checkbox" ng-checked="$index == lengths" ng-model="selected" ng-click="selectPdf($event,item,selected)"  checked></td>
-						    			    <td style="border: 1px solid;text-align: center;"><label ng-if="$index != lengths" >Existed</label> <input ng-if="$index == lengths" type="checkbox" ng-checked="true"  ng-model="pdfCheck" ng-click="deletePdf(item,pdfCheck)"  checked></td>
+						    			    <td style="border: 1px solid;text-align: center;"><label ng-if="$index != lengths" >Existed</label> <input ng-if="$index == lengths" type="checkbox"  ng-model="pdfCheck" ng-click="deletePdf(item,pdfCheck)"></td>
 						    			</tr>
 						    			<tr style="border: 1px solid;" ng-if="vehiclePdfList.customerPdfName != null">
 						    				<td style="padding: 5px;border: 1px solid;" >{{vehiclePdfList.customerPdfName}}</td>
@@ -5987,7 +5987,14 @@ float: right !important;
 										<input type="file" name="logoFile" ng-file-select="onCustomerFileSelect($files)" accept="application/msword,application/pdf"/>
 								</div>
 					</div>
-										<div class="form-group col-sm-12">
+					
+					<!--  <div class="form-group col-sm-12" style="margin-top: 10px">
+								<label class="col-sm-5 control-label" >Add to documentation</label>
+								<div class="col-sm-5">
+										<input  type="checkbox" ng-model="pdfCheck" ng-checked="true" ng-click="deletePdfForDoc(pdfCheck)""checked></td>
+								</div>
+					</div>
+							 -->			<div class="form-group col-sm-12">
 						                <label  ng-if="flagForMsg == 1" class="form-group col-sm-12" style="color: red;"> You have to select or upload One Pdf file </label>
 										</div>	
 						

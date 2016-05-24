@@ -5069,8 +5069,16 @@ angular.module('newApp')
 				
 				
 				console.log("$scope.customePdfmodel"+$scope.customePdfmodel);
+				
+				/* model value undefined */
+				if($scope.customePdfmodel == undefined ){
+					$scope.customePdfId =$scope.pdfIdForUndefinedModel;
+					$scope.customePdfmodel = true;
+				}
 				console.log("$scope.customePdfId"+$scope.customePdfId);
-				if($scope.customePdfmodel == true){
+				console.log(" after $scope.customePdfmodel"+$scope.customePdfmodel);
+				if($scope.customePdfmodel == true && $scope.customePdfId != null && $scope.customePdfId != undefined ){
+					console.log("iiiiinnnnn");
 					$http.get('/deletePdfById/'+$scope.customePdfId)
 		  			.success(function(data) {
 		  				/*$.pnotify({
@@ -5224,6 +5232,7 @@ angular.module('newApp')
        							console.log($scope.lengths);
        						 if(index == $scope.lengths) {
        							 console.log(obj);
+       							 $scope.pdfIdForUndefinedModel=obj.customerPdfId;
            					$scope.pdfDoc.push(obj.customerPdfId);
        					    }
        						console.log("Customer pdfData");
@@ -5239,16 +5248,41 @@ angular.module('newApp')
 		
 		$scope.deletePdf = function(item,model) {
 			console.log(item);
-			
-			if(model == undefined){
-				model=true;
+			console.log(model);
+			if(model == undefined || model == false ){
+				$scope.customePdfmodel=true;
 			}
-			$scope.customePdfmodel=model;
+			//$scope.customePdfmodel=model;
 			$scope.customePdfId=item.customerPdfId;
 			console.log($scope.customePdfId);
 			console.log($scope.customePdfmodel);
 			
 		}
+		
+		/*$scope.deletePdfForDoc = function(model) {
+			
+			if(model == undefined){
+				model=true;
+			}
+			console.log("}}}}}");
+			console.log($scope.lengths);
+			angular.forEach($scope.uploadData,function(obj, index){
+				console.log(index);
+				console.log($scope.lengths);
+			 if(index == $scope.lengths) {
+				 console.log(obj);
+			$scope.customPdfIdNew = obj.customerPdfId;
+		    }
+			 
+			});
+			//$scope.customePdfmodel=model;
+			//$scope.customePdfId=item.customerPdfId;
+			console.log($scope.customPdfIdNew);
+			//console.log($scope.customePdfmodel);
+			
+		}
+		*/
+		
 		
     	$scope.soldScheduleStatus = function(entity) {
     		$scope.scheduleStatusVal = entity;
@@ -12461,6 +12495,24 @@ angular.module('newApp')
 		});
 		
 	}
+	
+	$scope.saveEmailLinks= function(email) {
+		console.log(email);
+		//$scope.autoPort.siteName=siteName;
+		$http.post('/saveEmailLinks',email)
+		.success(function(data) {
+
+            $.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Social Links saved successfully",
+			});
+            
+		});
+	}
+	
+	
+	
 	
 	$scope.autoPort1={};
 	$scope.acountDetails= function(auto,siteName) {

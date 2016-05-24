@@ -1882,6 +1882,47 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     
     
 
+    public static Result saveEmailLinks() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	       Identity user=getLocalUser();
+    		Form<DocumentationVM> form = DynamicForm.form(DocumentationVM.class).bindFromRequest();
+    		DocumentationVM vm = form.get();
+	    	
+    		MyProfile por=MyProfile.findByLocations(Long.valueOf(session("USER_LOCATION")));
+    		
+    		if(por == null ){
+    			MyProfile email=new MyProfile();
+    		email.facebook=vm.facebookLink;
+    		email.twitter=vm.twitterLink;
+    		email.yelp=vm.yelpLink;
+    		email.pinterest=vm.pinterestLink;
+    		email.googleplus=vm.googleLink;
+    		email.instagram=vm.instagramLink;
+	    	email.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    		email.save();
+    		}
+    		else{
+    			por.setFacebook(vm.facebookLink);
+    			por.setTwitter(vm.twitterLink);
+    			por.setInstagram(vm.instagramLink);
+    			por.setPinterest(vm.pinterestLink);
+    			por.setGoogleplus(vm.googleLink);
+    			por.setYelp(vm.yelpLink);
+    			por.update();
+    		}
+    		    		
+    		
+    		
+	    	return ok();
+    	}
+    }
+    
+    
+    
+    
+    
     public static Result acountDetails() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
