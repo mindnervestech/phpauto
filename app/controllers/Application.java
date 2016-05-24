@@ -15221,7 +15221,7 @@ private static void cancelTestDriveMail(Map map) {
 		 		Session session = Session.getInstance(props,
 		 		  new javax.mail.Authenticator() {
 		 			protected PasswordAuthentication getPasswordAuthentication() {
-		 				return new PasswordAuthentication(emailUsername, emailPassword);
+		 				return new PasswordAuthentication(emailUser,emailPass);
 		 			}
 		 		  });
 		  
