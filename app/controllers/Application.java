@@ -2388,6 +2388,28 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	
     
     
+    public static Result getEmailDetails(){
+		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		
+    		EmailDetails detail=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		AutoPortalVM vm =new AutoPortalVM();
+    		if(detail != null){
+    			vm.name=detail.name;
+    			vm.username=detail.username;
+    			vm.host=detail.host;
+    			vm.port=detail.port;
+    			vm.passward=detail.passward;
+    			
+    			
+    		}
+    		
+    		return ok(Json.toJson(vm));
+    	}
+	}
+    
+    
     
     
     public static Result getCustomerPdfData(){

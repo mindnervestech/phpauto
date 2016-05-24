@@ -50,6 +50,8 @@ POST   /saveAutoPortal				controllers.Application.saveAutoPortal()
 POST   /acountDetails				controllers.Application.acountDetails()
 POST   /saveEmailDetails				controllers.Application.saveEmailDetails()
 GET		/getCustomerPdfData		 controllers.Application.getCustomerPdfData()
+GET		/getEmailDetails		 controllers.Application.getEmailDetails()
+
 GET		/getCustomerPdfForVehicle/:vin 	controllers.Application.getCustomerPdfForVehicle(vin:String)
 GET		/getSocialMediadetail		controllers.Application.getSocialMediadetail()
 GET		/deletePdfById/:id	   controllers.Application.deletePdfById(id:Long)

@@ -12315,8 +12315,8 @@ angular.module('newApp')
 				//$scope.customerPdfList=data;
 				
 			});	
-		
-		$http.get('/getCustomerPdfData')
+			
+			$http.get('/getCustomerPdfData')
 			.success(function(data) {
 				/*$.pnotify({
 				    title: "Success",
@@ -12324,6 +12324,14 @@ angular.module('newApp')
 				    text: "Slider config saved successfully",
 				});*/
 				$scope.customerPdfList=data;
+				
+			});
+			
+		
+		$http.get('/getEmailDetails')
+			.success(function(data) {
+				
+				$scope.email=data;
 				
 			});	
 		
