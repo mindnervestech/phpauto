@@ -11075,7 +11075,7 @@ angular.module('newApp')
 	   $scope.editCompareImage = function(image) {
 		   console.log("imageimageimage");
 		   console.log(image);
-		   $location.path('/cropCompareImage/'+image.id);
+		   $location.path('/cropCompareImage/'+image.id+"/"+image.findById);
 	   }
 	   
 	   $scope.editWarImage = function(image) {
@@ -12004,7 +12004,7 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('CompareCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 	$scope.coords = {};
-	$scope.imgId = "/compareImageById/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "/compareImageById/"+$routeParams.findById+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		

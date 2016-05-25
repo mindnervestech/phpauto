@@ -331,7 +331,7 @@ var MakeApp = angular
             controller: 'BlogCropCtrl'
         })
         
-        .when('/cropCompareImage/:id', {
+        .when('/cropCompareImage/:id/:findById', {
             templateUrl: '/dealer/addPhotos/cropCompare.html',
             controller: 'CompareCropCtrl'
         })

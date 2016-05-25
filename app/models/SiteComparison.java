@@ -18,8 +18,18 @@ public class SiteComparison extends Model {
 	public String subTitle;
 	public Integer compareFlag;
 	public String coverImageName;
-    
+	public Long findNewId;
 	
+	
+	public Long getFindNewId() {
+		return findNewId;
+	}
+
+
+	public void setFindNewId(Long findNewId) {
+		this.findNewId = findNewId;
+	}
+
 	@ManyToOne
 	public Location locations;
 
@@ -108,6 +118,10 @@ public static Finder<Long,SiteComparison> find = new Finder<>(Long.class,SiteCom
 	
 	public static SiteComparison findById(Long id) {
 		return find.byId(id);
+	}
+	
+	public static SiteComparison findByOtherId(Long id,Long location) {
+		return find.where().eq("findNewId", id).eq("locations.id", location).findUnique();
 	}
 	
 	public static SiteComparison findByLocations(Long location) {
