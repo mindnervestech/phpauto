@@ -5072,8 +5072,8 @@ angular.module('newApp')
 				
 				/* model value undefined */
 				if($scope.customePdfmodel == undefined ){
-					//$scope.customePdfId =$scope.pdfIdForUndefinedModel;
-					$scope.customePdfmodel = false;
+					$scope.customePdfId =$scope.pdfIdForUndefinedModel;
+					$scope.customePdfmodel = true;
 				}
 				console.log("$scope.customePdfId"+$scope.customePdfId);
 				console.log(" after $scope.customePdfmodel"+$scope.customePdfmodel);
@@ -5250,11 +5250,11 @@ angular.module('newApp')
 			console.log(item);
 			console.log(model);
 			
-			if(model == undefined || model == true  ){
-				$scope.customePdfmodel=true;
+			if(model == undefined || model == false  ){
+				$scope.customePdfmodel=false;
 			}
 			else{
-				$scope.customePdfmodel=false;
+				$scope.customePdfmodel=true;
 			}
 			
 			//$scope.customePdfmodel=model;
