@@ -11079,7 +11079,7 @@ angular.module('newApp')
 	   $scope.editWarImage = function(image) {
 		   console.log("imageimageimage");
 		   console.log(image);
-		   $location.path('/cropWarImage/'+image.id);
+		   $location.path('/cropWarImage/'+image.id+"/"+image.findById);
 	   }
 	   
 	   $scope.editVehicleImage = function(image) {
@@ -11790,7 +11790,9 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('WarrantyCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 	$scope.coords = {};
-	$scope.imgId = "/warrantyImageById/"+$routeParams.id+"/full?d=" + Math.random();
+	console.log("jjjjhhh");
+	console.log($routeParams.findById);
+	$scope.imgId = "/warrantyImageById/"+$routeParams.findById+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.minImgheight;
 	$scope.minImgwidth;
@@ -11799,6 +11801,7 @@ angular.module('newApp')
 		
 		 $http.get('/getWarDataById/'+$routeParams.id)
 			.success(function(data) {
+				
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;

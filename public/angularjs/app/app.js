@@ -337,7 +337,7 @@ var MakeApp = angular
         })
         
         
-        .when('/cropWarImage/:id', {
+        .when('/cropWarImage/:id/:findById', {
             templateUrl: '/dealer/addPhotos/cropWarrantyPhoto.html',
             controller: 'WarrantyCropCtrl'
         })

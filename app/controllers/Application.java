@@ -9420,6 +9420,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	
 	    	ImageVM vm = new ImageVM();
 			vm.id = image.id;
+			vm.findNewId = image.findNewId;
 			vm.imgName = image.coverImageName;
 			vm.row = originalImage.getHeight();
 			vm.col = originalImage.getWidth();
