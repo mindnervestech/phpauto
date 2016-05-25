@@ -373,6 +373,12 @@ var MakeApp = angular
             controller: 'ViewRegistrationCtrl'
         })
         
+        .when('/viewClient', {
+            templateUrl: '/dealer/viewClient/viewClient.html',
+            controller: 'ViewClientCtrl'
+        })
+        
+        
          .when('/dashboardLocation/:LocationId/:managerId/:gmIsManager', {
             templateUrl: '/dealer/dashboard/dashboardLocation.html',
             controller: 'dashboardLocationCtrl'

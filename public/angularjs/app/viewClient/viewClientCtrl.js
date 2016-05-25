@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ViewRegistrationCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('ViewClientCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -56,7 +56,7 @@ angular.module('newApp')
 			                                	} ,
 		                                 },
 		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.Status(row)"  title="Status"></i> ', 
+    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
     		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
@@ -75,48 +75,6 @@ angular.module('newApp')
 	   		
   		};
   		
-  		/*$scope.gridOptions1 = {
-  		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-  		 		    paginationPageSize: 150,
-  		 		    enableFiltering: true,
-  		 		    useExternalFiltering: true,
-  		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
-  		 		 };
-  		
-  		
-  		 $scope.gridOptions1.enableHorizontalScrollbar = 0;
-  			 $scope.gridOptions1.enableVerticalScrollbar = 2;
-  			 $scope.gridOptions1.columnDefs = [
-  			                                 { name: 'name', displayName: 'Name', width:'15%',cellEditableCondition: false,
-  			                                	
-  			                                 },
-  			                                 { name: 'email', displayName: 'Email', width:'20%',cellEditableCondition: false,
-  			                                	
-  			                                 },
-  			                                 { name: 'businessName', displayName: 'Business Name', width:'15%',cellEditableCondition: false,
-  			                                	
-  			                                 },
-  			                                 { name: 'businessAdd', displayName: 'Business Addree', width:'25%',cellEditableCondition: false,
-  			                                	
-  			                                 },
-  			                                 { name: 'options', displayName: 'Options', width:'15%',cellEditableCondition: false,
-  		                                	 
-  			                                 },
-  			                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-  	    		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.deactiveUsers(row)"  title="suspend"></i> &nbsp;', 
-  			                                 
-  			                                 },
-  			                                    ];
-  		
-  			 $scope.gridOptions1.onRegisterApi = function(gridApi){
-  				 $scope.gridApi = gridApi;
-  				 
-  		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
-  			          var grid = this.grid;
-  			          $scope.gridOptions1.data = $filter('filter')($scope.activeList,{'name':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'businessName':grid.columns[2].filters[0].term,'businessAdd':grid.columns[3].filters[0].term,'options':grid.columns[4].filters[0].term},undefined);
-  			        });
-  		   		
-  	  		};*/
   		
 		 
 		 $scope.pendingUser = function(){
@@ -128,45 +86,8 @@ angular.module('newApp')
 			});
 		 }
 		 
-		 /*$scope.activeUsers = function(row){
-			 console.log(row.entity);
-			 $http.get('/getSetActiveUser/'+row.entity.id)
-				.success(function(data) {
-					 $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "user Active",
-						});
-				$scope.gridOptions.data = data;
-				$scope.pendingUser();
-			});
-		 }*/
-		 
-		 /*$scope.deactiveUsers = function(row){
-			 console.log(row.entity);
-			 $http.get('/getSetdeActiveUser/'+row.entity.id)
-				.success(function(data) {
-					 $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "user Active",
-						});
-				$scope.gridOptions.data = data;
-				$scope.pendingUser();
-			});
-		 }*/
-		 
-		 
-		/* $scope.viewActive = function(){
-			 $scope.doShow = 1;
-			 $http.get('/getActiveRegistrList')
-				.success(function(data) {
-					console.log(data);
-				$scope.gridOptions1.data = data;
-				$scope.activeList = data;
-			});
-		 }*/
-		 $scope.Status = function(row){
+		
+		/* $scope.Status = function(row){
 			 $http.get('/getStatus/'+row.entity.id)
 				.success(function(data) {
 					 $.pnotify({
@@ -174,33 +95,10 @@ angular.module('newApp')
 						    type:'success',
 						    text: "Status",
 						});
-					 if(row.entity.options =="Cars"){
-						 $scope.goTocars();
-					 }
-					 if(row.entity.options =="Motorcycles"){
-						 $scope.goToMotorcycles();
-					 }
-					 if(row.entity.options =="Boat"){
-						 $scope.goToBoat();
-					 }
-					 if(row.entity.options =="DesignerFurniture"){
-						 $scope.goToDesignerFurniture();
-					 }
-					 if(row.entity.options =="RealEstate"){
-						 $scope.goToRealState();
-					 }
-					 if(row.entity.options =="Airplanes"){
-						 $scope.goToAirplanes();
-					 }
-					 if(row.entity.options =="ServiceProvider"){
-						 $scope.goToServiceProvider();
-					 }
-					 if(row.entity.options =="LuxuryProducts"){
-						 $scope.goToLuxuryProducts();
-					 }
-					 
-				});
-		 }
+				$scope.gridOptions.data = data;
+				$scope.pendingUser();
+			});
+		 }*/
 		 
 		 $scope.removeUser = function(row){
 			 $http.get('/getRemoveUser/'+row.entity.id)
@@ -253,26 +151,15 @@ angular.module('newApp')
     		});
 		 }
 		 
-	/*
-		 $scope.lastDays = function(value){
-			 $http.get('/getVisitorList/'+value)
-				.success(function(data) {
-					console.log(data[0].dates[0].items);
-				$scope.gridOptions.data = data[0].dates[0].items;
-				$scope.visitiorList = data[0].dates[0].items;
-				$('#editPopup').click();
-			});
-		 }*/
+	
 		 $scope.goTocars = function() {
 			 
 			 $scope.doPublic = 0;
-			 $http.get('/getAllCarsDetails')
+			 $http.get('/getCarsDetails')
 		 		.success(function(data) {
-		 			
 		 			//for(var i=0;i<data.length;i++) {
 		 			//	data[i].price = "$ "+data[i].price;
 		 			//}
-		 			
 		 			//$scope.doPublic = 1;
 		 			//$scope.vType = "cars";
 		 			//$scope.type = "All";
@@ -280,8 +167,6 @@ angular.module('newApp')
 		 			$scope.gridOptions.data = data;
 		 			//$scope.gridOptionscolumnDefs[8].displayName='Next Test Drive';
 		 			//$scope.gridOptions.columnDefs[9].displayName='Views';
-		 			
-		 			
 		 		});
 		 }
 		 
@@ -289,7 +174,7 @@ angular.module('newApp')
 		 $scope.goToBoat = function() {
 			 
 			 $scope.doPublic = 0;
-			 $http.get('/getAllBoat')
+			 $http.get('/getBoat')
 		 		.success(function(data) {
 		 			$scope.registrationObjList = data;
 		 			$scope.gridOptions.data = data;
@@ -299,7 +184,7 @@ angular.module('newApp')
 			 $scope.goToMotorcycles = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllMotorcycles')
+				 $http.get('/getMotorcycles')
 			 		.success(function(data) {
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
@@ -310,7 +195,7 @@ angular.module('newApp')
 			$scope.goToDesignerFurniture = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllDesignerFurniture')
+				 $http.get('/getDesignerFurniture')
 			 		.success(function(data) {
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
@@ -321,7 +206,7 @@ angular.module('newApp')
 			$scope.goToRealState = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllRealState')
+				 $http.get('/getRealState')
 			 		.success(function(data) {
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
@@ -332,7 +217,7 @@ angular.module('newApp')
 			$scope.goToAirplanes = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllAirplanes')
+				 $http.get('/getAirplanes')
 			 		.success(function(data) {
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
@@ -343,7 +228,7 @@ angular.module('newApp')
 			$scope.goToServiceProvider = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllServiceProvider')
+				 $http.get('/getServiceProvider')
 			 		.success(function(data) {
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
@@ -354,7 +239,7 @@ angular.module('newApp')
 			$scope.goToLuxuryProducts = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllLuxuryProducts')
+				 $http.get('/getLuxuryProducts')
 			 		.success(function(data) {
 			 			$scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;

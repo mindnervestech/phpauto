@@ -180,35 +180,67 @@ public class Registration extends Model {
 	public static List<Registration> findByLocation(Long location) {
 		return find.where().eq("locations.id", location).findList();
 	}
-	public static List<Registration> findByCar( ){
-		return find.where().eq("options","Cars" ).findList();
+	public static List<Registration> findByCarAndPending( ){
+		return find.where().eq("options","Cars" ).eq("status" , "Pending").findList();
 	}
 	
-	public static List<Registration> findByMotorcycles( ){
-		return find.where().eq("options","Motorcycles" ).findList();
+	public static List<Registration> findByMotorcyclesAndPending( ){
+		return find.where().eq("options","Motorcycles" ).eq("status" , "Pending").findList();
 	}
 	
-	public static List<Registration> findByBoat( ){
-		return find.where().eq("options","Boat" ).findList();
+	public static List<Registration> findByBoatAndPending( ){
+		return find.where().eq("options","Boat" ).eq("status" , "Pending").findList();
 	}
 	
-	public static List<Registration> findByDesignerFurniture( ){
-		return find.where().eq("options","DesignerFurniture" ).findList();
+	public static List<Registration> findByDesignerFurnitureAndPending( ){
+		return find.where().eq("options","DesignerFurniture" ).eq("status" , "Pending").findList();
 	}
 	
-	public static List<Registration> findByRealState( ){
-		return find.where().eq("options","RealEstate" ).findList();
+	public static List<Registration> findByRealStateAndPending( ){
+		return find.where().eq("options","RealEstate" ).eq("status" , "Pending").findList();
 	}
 	
-	public static List<Registration> findByAirplanes( ){
-		return find.where().eq("options","Airplanes" ).findList();
+	public static List<Registration> findByAirplanesAndPending( ){
+		return find.where().eq("options","Airplanes" ).eq("status" , "Pending").findList();
 	}
 
-	public static List<Registration> findByServiceProvider( ){
-		return find.where().eq("options","ServiceProvider" ).findList();
+	public static List<Registration> findByServiceProviderAndPending( ){
+		return find.where().eq("options","ServiceProvider" ).eq("status" , "Pending").findList();
 	}
 	
-	public static List<Registration> findByLuxuryProducts( ){
-		return find.where().eq("options","LuxuryProducts" ).findList();
+	public static List<Registration> findByLuxuryProductsAndPending( ){
+		return find.where().eq("options","LuxuryProducts" ).eq("status" , "Pending").findList();
+	}
+	
+	public static List<Registration> findByCarAndStatus( ){
+		return find.where().eq("options","Cars" ).eq("status" , "Live").findList();
+	}
+	
+	public static List<Registration> findByBoatAndStatus( ){
+		return find.where().eq("options","Boat" ).eq("status" , "Live").findList();
+	}
+	
+	public static List<Registration> findByMotorcyclesAndStatus( ){
+		return find.where().eq("options","Motorcycles" ).eq("status" , "Live").findList();
+	}
+	
+	public static List<Registration> findByDesignerFurnitureAndStatus( ){
+		return find.where().eq("options","DesignerFurniture" ).eq("status" , "Live").findList();
+	}
+	
+	public static List<Registration> findByAirplanesAndStatus( ){
+		return find.where().eq("options","Airplanes" ).eq("status" , "Live").findList();
+	}
+	
+	public static List<Registration> findByRealStateAndStatus( ){
+		return find.where().eq("options","RealEstate" ).eq("status" , "Live").findList();
+	}
+	
+	public static List<Registration> findByServiceProviderAndStatus( ){
+		return find.where().eq("options","ServiceProvider" ).eq("status" , "Live").findList();
+	}
+	
+	public static List<Registration> findByLuxuryProductsAndStatus( ){
+		return find.where().eq("options","LuxuryProducts" ).eq("status" , "Live").findList();
 	}
 }
