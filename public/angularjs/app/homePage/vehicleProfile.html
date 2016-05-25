@@ -97,7 +97,7 @@
 				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
 				                    		id="{{image.id}}"   ng-repeat="image in vehicleProfileList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
-				                        			<img  ng-if="thumbPat != null" class="myImage" style="width:100%; height:100%;" src="/vehicleProfileImageById/{{image.findById}}/thumbnail" id="imgId{{$index}}" />
+				                        			<img  ng-if="thumbPat != null" class="myImage" style="width:100%; height:100%;" src="/vehicleProfileImageById/{{image.findById}}/thumbnail?date={{tempDate}}" id="imgId{{$index}}" />
 				                            		
 				                            		<div>
 				                            			<a class="remImage" ng-click="deleteVehicleImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>

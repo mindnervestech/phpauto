@@ -9896,6 +9896,8 @@ angular.module('newApp')
 		$scope.$apply();
 	}
 	
+	
+	$scope.tempDate = new Date().getTime();
 	console.log($routeParams.type);
 	$scope.vTypes = $routeParams.type;
 	
@@ -10430,7 +10432,7 @@ angular.module('newApp')
 	$scope.siteHeading = "";
 	$scope.inventoryImg = [];
 	$scope.init = function() {
-		
+		$scope.tempDate = new Date().getTime();
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
 			
@@ -11669,7 +11671,7 @@ angular.module('newApp')
 				    text: "Croped Image has been saved",
 				});
 				
-				//$location.path('/homePage');
+				$location.path('/siteAboutUs');
 				//$scope.$apply();
 			});
 		}    
@@ -11774,7 +11776,7 @@ angular.module('newApp')
 				    text: "Croped Image has been saved",
 				});
 				
-				//$location.path('/homePage');
+				$location.path('/vehicleProfile');
 				//$scope.$apply();
 			});
 		}    
@@ -11883,7 +11885,7 @@ angular.module('newApp')
 				    text: "Croped Image has been saved",
 				});
 				
-				//$location.path('/homePage');
+				$location.path('/warranty');
 				//$scope.$apply();
 			});
 		}    
@@ -11990,7 +11992,7 @@ angular.module('newApp')
 				    text: "Croped Image has been saved",
 				});
 				
-				//$location.path('/homePage');
+				$location.path('/blog');
 				//$scope.$apply();
 			});
 		}    
@@ -12085,7 +12087,7 @@ angular.module('newApp')
 				    text: "Croped Image has been saved",
 				});
 				
-				//$location.path('/homePage');
+				$location.path('/comparision');
 				//$scope.$apply();
 			});
 		}    
@@ -12193,7 +12195,7 @@ angular.module('newApp')
 				    text: "Croped Image has been saved",
 				});
 				
-				//$location.path('/homePage');
+				$location.path('/contactUs');
 				//$scope.$apply();
 			});
 		}    

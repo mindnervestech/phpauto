@@ -54,7 +54,7 @@
 				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
 				                    		id="{{image.id}}"   ng-repeat="image in coverList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
-				                        			<img  ng-if="thumbPath != null" class="myImage" style="width:100%; height:100%;" src="/aboutUsCoverImageById/{{image.findById}}/thumbnail" id="imgId{{$index}}" />
+				                        			<img  ng-if="thumbPath != null" class="myImage" style="width:100%; height:100%;" src="/aboutUsCoverImageById/{{image.findById}}/thumbnail?date={{tempDate}}" id="imgId{{$index}}" />
 				                            		
 				                            		<div>
 				                            			<a class="remImage" ng-click="deleteCvrImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
