@@ -321,12 +321,12 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/cropInventoryImage.html',
             controller: 'InventoryCropCtrl'
         })
-         .when('/cropCoverImage/:id', {
+         .when('/cropCoverImage/:id/:findById', {
             templateUrl: '/dealer/addPhotos/cropCoverPhoto.html',
             controller: 'CoverCropCtrl'
         })
         
-        .when('/cropBlogImage/:id', {
+        .when('/cropBlogImage/:id/:findById', {
             templateUrl: '/dealer/addPhotos/cropBlogPhoto.html',
             controller: 'BlogCropCtrl'
         })
@@ -343,13 +343,13 @@ var MakeApp = angular
         })
         
         
-        .when('/editVehicleImage/:id', {
+        .when('/editVehicleImage/:id/:findById', {
             templateUrl: '/dealer/addPhotos/vehicleProfileCrop.html',
             controller: 'VehicleCropCtrl'
         })
         
         
-        .when('/editContactImage/:id', {
+        .when('/editContactImage/:id/:findById', {
             templateUrl: '/dealer/addPhotos/cropContactPhoto.html',
             controller: 'ContactCropCtrl'
         })

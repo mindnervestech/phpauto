@@ -7766,6 +7766,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"ContactImages"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"ContactImages"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.findNewId=1L;
 					vImage.save();
 					
 				}
@@ -7773,6 +7774,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					imageObj.setCoverImageName(fileName);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"ContactImages"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"ContactImages"+"/"+"thumbnail_"+fileName);
+					Long value = imageObj.findNewId + 1L;
+					imageObj.setFindNewId(value);
 					imageObj.update();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -7822,6 +7825,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.findNewId=1L;
 					vImage.save();
 					
 				}
@@ -7829,6 +7833,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					imageObj.setCoverImageName(fileName);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"VehicleProfile"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName);
+					Long value = imageObj.findNewId + 1L;
+					imageObj.setFindNewId(value);
 					imageObj.update();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -7996,6 +8002,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"BlogImages"+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.findNewId=1L;
 					vImage.save();
 					
 				}
@@ -8003,6 +8010,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					imageObj.setCoverImageName(fileName);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"BlogImages"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"BlogImages"+"/"+"thumbnail_"+fileName);
+					Long value = imageObj.findNewId + 1L;
+					imageObj.setFindNewId(value);
 					imageObj.update();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -8056,6 +8065,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"CvrImages"+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.findNewId=1L;
 					vImage.save();
 					
 				}
@@ -8063,6 +8073,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					imageObj.setImgName(fileName);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"CvrImages"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"CvrImages"+"/"+"thumbnail_"+fileName);
+					Long value = imageObj.findNewId + 1L;
+					imageObj.setFindNewId(value);
 					imageObj.update();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -8170,7 +8182,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
-	    	ContactHeader image = ContactHeader.findById(id);
+	    	ContactHeader image = ContactHeader.findByOtherId(id,Long.valueOf(session("USER_LOCATION")));
 	    	if(image.thumbPath != null || image.path != null){
 	    	if(type.equals("thumbnail")) {
 		    	file = new File(rootDir+image.thumbPath);
@@ -8191,7 +8203,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
-	    	VehicleHeader image = VehicleHeader.findById(id);
+	    	VehicleHeader image = VehicleHeader.findByOtherId(id,Long.valueOf(session("USER_LOCATION")));
 	    	if(image.thumbPath != null || image.path != null){
 	    	if(type.equals("thumbnail")) {
 		    	file = new File(rootDir+image.thumbPath);
@@ -8212,7 +8224,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
-	    	Warranty image = Warranty.findByOtherId(id);
+	    	Warranty image = Warranty.findByOtherId(id,Long.valueOf(session("USER_LOCATION")));
 	    	if(image.thumbPath != null || image.path != null){
 	    	if(type.equals("thumbnail")) {
 		    	file = new File(rootDir+image.thumbPath);
@@ -8256,7 +8268,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
-	    	Blog image = Blog.findById(id);
+	    	Blog image = Blog.findByOtherId(id,Long.valueOf(session("USER_LOCATION")));
 	    	if(image.thumbPath != null || image.path != null){
 	    	if(type.equals("thumbnail")) {
 		    	file = new File(rootDir+image.thumbPath);
@@ -8277,7 +8289,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
-	    	SiteAboutUs image = SiteAboutUs.findById(id);
+	    	SiteAboutUs image = SiteAboutUs.findByOtherId(id,Long.valueOf(session("USER_LOCATION")));
 	    	if(image.thumbPath != null || image.path != null){
 	    	if(type.equals("thumbnail")) {
 		    	file = new File(rootDir+image.thumbPath);
@@ -8661,6 +8673,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	sUs.row = sAboutUs.row;
 	    	sUs.col = sAboutUs.col;
 	    	sUs.thumbPath=sAboutUs.thumbPath;
+	    	sUs.findById=sAboutUs.findNewId;
 	    	siteAboutList.add(sUs);
 	    	}
 	    	map.put("siteAboutUs", siteAboutList);
@@ -8679,6 +8692,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	sUs.imgName = sAboutUs1.coverImageName;
 	    	sUs.row = sAboutUs1.row;
 	    	sUs.col = sAboutUs1.col;
+	    	sUs.findById=sAboutUs1.findNewId;
 	    	sUs.thumbPath=sAboutUs1.thumbPath;
 	    	siteAboutList1.add(sUs);
 	    	}
@@ -8698,6 +8712,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	sUs.financeFlag=header.financeFlag;
 	    	sUs.makeFlag=header.makeFlag;
 	    	sUs.socialFlag=header.socialFlag;
+	    	sUs.findById=header.findNewId;
 	    	vehicleProfile.add(sUs);
 	    	}
 	    	map.put("vehicleProfileData", vehicleProfile);
@@ -8747,6 +8762,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	sUs.imgName = sAboutUs2.coverImageName;
 	    	sUs.row = sAboutUs2.row;
 	    	sUs.col = sAboutUs2.col;
+	    	sUs.findById=sAboutUs2.findNewId;
 	    	sUs.thumbPath=sAboutUs2.thumbPath;
 	    	siteAboutList2.add(sUs);
 	    	}

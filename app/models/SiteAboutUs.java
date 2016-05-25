@@ -28,7 +28,7 @@ public class SiteAboutUs extends Model {
 	public Integer headerFlag;
 	public Integer row;
 	public Integer col;
-	
+	public Long findNewId;
 	
 	
 	
@@ -44,6 +44,14 @@ public class SiteAboutUs extends Model {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Long getFindNewId() {
+		return findNewId;
+	}
+
+	public void setFindNewId(Long findNewId) {
+		this.findNewId = findNewId;
 	}
 
 	public String getText1() {
@@ -200,6 +208,11 @@ public class SiteAboutUs extends Model {
 	public static SiteAboutUs findByUser(AuthUser user) {
 		return find.where().eq("user", user).findUnique();
 	}
+	public static SiteAboutUs findByOtherId(Long id,Long location) {
+		return find.where().eq("findNewId", id).eq("locations.id", location).findUnique();
+	}
+	
+	
 	public static SiteAboutUs findAllByLocation(Long locationId) {
 		return find.where().eq("locations.id", locationId).findUnique();
 	}

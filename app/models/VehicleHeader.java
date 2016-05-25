@@ -21,8 +21,19 @@ public class VehicleHeader extends Model {
 	public Integer financeFlag;
 	public Integer socialFlag;
 	public String coverImageName;
+	public Long findNewId;
 	
 	
+	public Long getFindNewId() {
+		return findNewId;
+	}
+
+
+	public void setFindNewId(Long findNewId) {
+		this.findNewId = findNewId;
+	}
+
+
 	public Integer getSocialFlag() {
 		return socialFlag;
 	}
@@ -137,6 +148,10 @@ public static Finder<Long,VehicleHeader> find = new Finder<>(Long.class,VehicleH
 	
 	public static VehicleHeader findByLocations(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
+	}
+	
+	public static VehicleHeader findByOtherId(Long id,Long location) {
+		return find.where().eq("findNewId", id).eq("locations.id", location).findUnique();
 	}
 	
 	

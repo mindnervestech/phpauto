@@ -136,8 +136,8 @@ public static Finder<Long,Warranty> find = new Finder<>(Long.class,Warranty.clas
 		return find.where().eq("locations.id", location).findUnique();
 	}
 	
-	public static Warranty findByOtherId(Long id) {
-		return find.where().eq("findNewId", id).findUnique();
+	public static Warranty findByOtherId(Long id,Long location) {
+		return find.where().eq("findNewId", id).eq("locations.id", location).findUnique();
 	}
 	
 	

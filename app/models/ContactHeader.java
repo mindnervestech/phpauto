@@ -21,7 +21,19 @@ public class ContactHeader extends Model {
 	public Integer col;
 	public Integer headerFlag;
 	public String coverImageName;
+	public Long findNewId;
 	
+	
+	public Long getFindNewId() {
+		return findNewId;
+	}
+
+
+	public void setFindNewId(Long findNewId) {
+		this.findNewId = findNewId;
+	}
+
+
 	public String getCoverImageName() {
 		return coverImageName;
 	}
@@ -130,6 +142,10 @@ public static Finder<Long,ContactHeader> find = new Finder<>(Long.class,ContactH
 	
 	public static ContactHeader findById(Long id) {
 		return find.byId(id);
+	}
+	
+	public static ContactHeader findByOtherId(Long id,Long location) {
+		return find.where().eq("findNewId", id).eq("locations.id", location).findUnique();
 	}
 	
 	public static ContactHeader findByLocations(Long location) {

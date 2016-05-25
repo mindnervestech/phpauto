@@ -11061,13 +11061,13 @@ angular.module('newApp')
 	   $scope.editCvrImage = function(image) {
 		   console.log("imageimageimage");
 		   console.log(image);
-		   $location.path('/cropCoverImage/'+image.id);
+		   $location.path('/cropCoverImage/'+image.id+"/"+image.findById);
 	   }
 	   
 	   $scope.editBlogImage = function(image) {
 		   console.log("imageimageimage");
 		   console.log(image);
-		   $location.path('/cropBlogImage/'+image.id);
+		   $location.path('/cropBlogImage/'+image.id+"/"+image.findById);
 	   }
 	   
 	   $scope.editCompareImage = function(image) {
@@ -11085,7 +11085,7 @@ angular.module('newApp')
 	   $scope.editVehicleImage = function(image) {
 		   console.log("imageimageimage");
 		   console.log(image);
-		   $location.path('/editVehicleImage/'+image.id);
+		   $location.path('/editVehicleImage/'+image.id+"/"+image.findById);
 	   }
 	   
 	   
@@ -11093,7 +11093,7 @@ angular.module('newApp')
 	   $scope.editContactImage = function(image) {
 		   console.log("imageimageimage");
 		   console.log(image);
-		   $location.path('/editContactImage/'+image.id);
+		   $location.path('/editContactImage/'+image.id+"/"+image.findById);
 	   }
 	   
 	   $scope.saveSiteHeading = function(siteHeading) {
@@ -11586,7 +11586,7 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('CoverCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 	$scope.coords = {};
-	$scope.imgId = "/aboutUsCoverImageById/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "/aboutUsCoverImageById/"+$routeParams.findById+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		
@@ -11684,7 +11684,7 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('VehicleCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 	$scope.coords = {};
-	$scope.imgId = "/vehicleProfileImageById/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "/vehicleProfileImageById/"+$routeParams.findById+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.minImgheight;
 	$scope.minImgwidth;
@@ -11899,7 +11899,7 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('BlogCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 	$scope.coords = {};
-	$scope.imgId = "/blogImageById/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "/blogImageById/"+$routeParams.findById+"/full?d="+ Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.minImgheight;
 	$scope.minImgwidth;
@@ -12103,7 +12103,7 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('ContactCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 	$scope.coords = {};
-	$scope.imgId = "/contactImageById/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "/contactImageById/"+$routeParams.findById+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.minImgheight;
 	$scope.minImgwidth;

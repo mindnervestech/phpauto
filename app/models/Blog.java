@@ -30,12 +30,23 @@ public class Blog extends Model {
 	public Integer col;
 	public Integer headerFlag;
 	public Date postedDate;
+	public Long findNewId;
 	
 	@ManyToOne
 	public AuthUser user;
 	
 	@ManyToOne
 	public Location locations;
+
+	
+	
+	public Long getFindNewId() {
+		return findNewId;
+	}
+
+	public void setFindNewId(Long findNewId) {
+		this.findNewId = findNewId;
+	}
 
 	public Long getId() {
 		return id;
@@ -198,6 +209,10 @@ public class Blog extends Model {
 	
 	public static Blog findById(Long id) {
 		return find.byId(id);
+	}
+	
+	public static Blog findByOtherId(Long id,Long location) {
+		return find.where().eq("findNewId", id).eq("locations.id", location).findUnique();
 	}
 	
 	public static List<Blog> findByUser(AuthUser user) {
