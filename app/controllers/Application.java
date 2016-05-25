@@ -7879,6 +7879,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"Warranty"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"Warranty"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.findNewId = 1L;
 					vImage.save();
 					
 				}
@@ -7886,6 +7887,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					imageObj.setCoverImageName(fileName);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"Warranty"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"Warranty"+"/"+"thumbnail_"+fileName);
+					Long value = imageObj.findNewId + 1L;
+					imageObj.setFindNewId(value);
 					imageObj.update();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -8209,7 +8212,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
-	    	Warranty image = Warranty.findById(id);
+	    	Warranty image = Warranty.findByOtherId(id);
 	    	if(image.thumbPath != null || image.path != null){
 	    	if(type.equals("thumbnail")) {
 		    	file = new File(rootDir+image.thumbPath);
@@ -8709,6 +8712,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	sUs.path = sAbout.path;
 	    	sUs.imgName = sAbout.coverImageName;
 	    	sUs.thumbPath=sAbout.thumbPath;
+	    	sUs.findById = sAbout.findNewId;
 	    	sUs.hideMenu = sAbout.hideMenu.toString();
 	    	siteAbout.add(sUs);
 	    	}

@@ -18,6 +18,7 @@ public class Warranty extends Model {
 	public Integer headerFlag;
 	public String coverImageName;
 	public Integer hideMenu;
+	public Long findNewId;
 	
 	
 	@ManyToOne
@@ -85,6 +86,16 @@ public class Warranty extends Model {
 	}
 
 
+	public Long getFindNewId() {
+		return findNewId;
+	}
+
+
+	public void setFindNewId(Long findNewId) {
+		this.findNewId = findNewId;
+	}
+
+
 	public Integer getHeaderFlag() {
 		return headerFlag;
 	}
@@ -123,6 +134,10 @@ public static Finder<Long,Warranty> find = new Finder<>(Long.class,Warranty.clas
 	
 	public static Warranty findByLocations(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
+	}
+	
+	public static Warranty findByOtherId(Long id) {
+		return find.where().eq("findNewId", id).findUnique();
 	}
 	
 	

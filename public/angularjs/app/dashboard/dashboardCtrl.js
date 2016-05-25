@@ -10712,10 +10712,16 @@ angular.module('newApp')
 	   $scope.warrantyImageUpload = function() {
 	   myDropzone8 = new Dropzone("#dropzoneFrm8",{
 		   parallelUploads: 30,
-		     headers: { "vinNum": 1 },
+		    /* headers: { "vinNum": 1 },
 		     acceptedFiles:"image/*",
 		     addRemoveLinks:true,
-		     autoProcessQueue:false,
+		     autoProcessQueue:false,*/
+		   parallelUploads: 1,
+		   acceptedFiles:"image/*",
+		   addRemoveLinks:true,
+		   autoProcessQueue:false,
+		   maxFiles:1,
+		   
 		     init:function () {
 				   this.on("queuecomplete", function (file) {
 				          
@@ -10899,7 +10905,6 @@ angular.module('newApp')
 	   
 	   
 	   $scope.warrantyFilesUpload = function() {
-		   console.log(">>>>>"+$scope.warrantyList.length);
 		  if($scope.warrantyList.length>=1) {
 		   $('#btnFeaturedMsg').click();
 		   } else {
