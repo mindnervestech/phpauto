@@ -20,9 +20,9 @@ angular.module('newApp')
 	 		 };
 	
 	
-	 $scope.gridOptions.enableHorizontalScrollbar = 0;
-		 $scope.gridOptions.enableVerticalScrollbar = 2;
-		 $scope.gridOptions.columnDefs = [
+	 /*$scope.gridOptions.enableHorizontalScrollbar = 0;
+		 $scope.gridOptions.enableVerticalScrollbar = 2;*/
+		/* $scope.gridOptions.columnDefs = [
 		                                 { name: 'geolocation', displayName: 'Location', width:'15%',cellEditableCondition: false,
 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 		                                       if (row.entity.isRead === false) {
@@ -83,7 +83,7 @@ angular.module('newApp')
 			                                 
 	                                 
 		                                
- 		                                 ];
+ 		                                 ];*/
 	
 		 $scope.gridOptions.onRegisterApi = function(gridApi){
 			 $scope.gridApi = gridApi;
@@ -158,8 +158,8 @@ angular.module('newApp')
 				 
 				$scope.gridOptions.columnDefs = [
 									             {name: 'timePretty', displayName: 'time_pretty'},
-									             {name:'organization', displayName:'organization',
-									            	 cellTemplate:'<div><span>{{row.entity.organization}}</span><br><span>{{row.entity.geolocation}} {{row.entity.operatingSystem}} {{row.entity.webBrowser}}</span></div>',
+									             {name:'a', displayName:'organization',
+									            	 cellTemplate:'<div><span>{{row.entity.organization}}</span><br><span>{{row.entity.geolocation}},&nbsp;&nbsp {{row.entity.operatingSystem}},&nbsp;&nbsp {{row.entity.webBrowser}}</span></div>',
 									             },
 									             {name:'landingPage', displayName:'landingPage',
 									            	 cellTemplate:'<div><span>{{row.entity.landingPage}}</span></div>',
@@ -218,7 +218,7 @@ angular.module('newApp')
 									            
 									         ]
 				
-			}else if($scope.typeOfInfo == 'traffic_scoures'){
+			}else if($scope.typeOfInfo == 'Traffic_scoures'){
 				$http.get('/getTrafficScoures/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data[0].dates[0].items;
@@ -237,7 +237,7 @@ angular.module('newApp')
 									            
 									         ]
 				
-			}else if($scope.typeOfInfo == 'active_visitors'){
+			}else if($scope.typeOfInfo == 'Active_visitors'){
 				$http.get('/getActiveVisitors/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data[0].dates[0].items;
@@ -293,6 +293,241 @@ angular.module('newApp')
 	$scope.goToPlatformsInfo = function(){
 		$location.path('/allPlatformsInfos');
 	}
+	
+	$scope.goToContentInfo = function(){
+		$location.path('/goToContentInfo');
+	}
+	
+	
+}]);
+
+angular.module('newApp')
+.controller('goToContentInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+
+	 var date = new Date();
+	 $scope.typeOfInfo = 'Pages';
+	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
+		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
+		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
+	
+		$scope.initFunction = function(){
+			$scope.DateWiseFind();
+		}
+		
+	$scope.gridOptions = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
+	
+	
+		 $scope.gridOptions.onRegisterApi = function(gridApi){
+			 $scope.gridApi = gridApi;
+			 
+	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+		          var grid = this.grid;
+		          $scope.gridOptions.data = $filter('filter')($scope.visitiorList,{'geolocation':grid.columns[0].filters[0].term,'ip_address':grid.columns[1].filters[0].term,'referrer_domain':grid.columns[2].filters[0].term,'total_visits':grid.columns[3].filters[0].term,'web_browser':grid.columns[4].filters[0].term},undefined);
+		        });
+	   		
+  		};
+  		
+  		
+	
+		 $scope.setShowPagesInfoType = function(typeOfInfo){
+				$scope.typeOfInfo = typeOfInfo;
+				$scope.DateWiseFind();
+			} 
+		 
+		 $scope.DateWiseFind = function(){
+			 var startDate = $("#cnfstartDateValue").val();
+			var endDate = $("#cnfendDateValue").val();	 
+			console.log(endDate);
+			
+			if(endDate == '' || startDate == ''){
+				 var startDate = $scope.startDate;
+					var endDate = $scope.endDate;
+			}
+			if($scope.typeOfInfo == 'Pages'){
+				
+				 $http.get('/getHeatMapListDale/'+startDate+"/"+endDate)
+					.success(function(data) {
+					$scope.gridOptions.data = data;
+					//console.log($scope.gridOptions.data);
+					
+					 console.log($scope.gridOptions.data);
+					$scope.visitiorList = data;
+				});
+				
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'showUrl', displayName: 'Page', width:'60%',
+										            	 cellTemplate:'<div><span>{{row.entity.showUrl}}</span><br><span>{{row.entity.title}}</span></div>'
+										             },
+										             {name: 'url', displayName: '', width:'10%',
+										            	 cellTemplate:'<a href="{{row.entity.url}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>'
+										             },
+										             {name:'value', displayName:'Views', width:'15%'},
+										             {name:'value_percent', displayName:'value_Percent', width:'15%'},
+										            
+										         ]
+				
+			}else if($scope.typeOfInfo == 'Entrance'){
+				
+				
+				 $http.get('/getEntranceList/'+startDate+"/"+endDate)
+					.success(function(data) {
+						$scope.gridOptions.data = data[0].dates[0].items;
+					console.log($scope.gridOptions.data);
+					$scope.visitiorList = data;
+				});
+				 
+				 
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'showUrl', displayName: 'Page', width:'60%',
+										            	 cellTemplate:'<div><span>{{row.entity.url}}</span><br><span>{{row.entity.title}}</span></div>'
+										             },
+										             {name:'value', displayName:'Views', width:'20%'},
+										             {name:'value_percent', displayName:'value_Percent', width:'20%'},
+										            
+										         ]
+			}else if($scope.typeOfInfo == 'Engagement_action'){
+				 $http.get('/getEngagementAction/'+startDate+"/"+endDate)
+					.success(function(data) {
+					$scope.gridOptions.data = data[0].dates[0].items;
+					console.log($scope.gridOptions.data);
+					$scope.visitiorList = data[0].dates[0].items;
+					
+					
+				});
+				 
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'title', displayName: 'Actions', width:'50%'},
+										             {name:'value', displayName:'Visitors', width:'10%'},
+										             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+										             {name:'stats_url', displayName:'', width:'30%',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										             },
+										            
+										         ]
+				 
+			}else if($scope.typeOfInfo == 'Engagement_time'){
+				$http.get('/getEngagementTime/'+startDate+"/"+endDate)
+				.success(function(data) {
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				/*if ( inputString.indexOf(findme) > -1 ) {
+				    alert( "found it" );
+				}*/
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					if(value.title.indexOf("&amp;lt;") > -1){
+						value.title = "<1m";
+					}
+					if(value.title.indexOf("&amp;gt;") > -1){
+						var array = value.title.split('gt;');
+						value.title = ">"+array[1];
+					}
+					
+				});
+				
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name: 'title', displayName: 'Actions', width:'50%'},
+									             {name:'value', displayName:'Visitors', width:'10%'},
+									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+									             {name:'stats_url', displayName:'', width:'30%',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									             },
+									            
+									         ]
+				
+			}else if($scope.typeOfInfo == 'Traffic_scoures'){
+				$http.get('/getTrafficScoures/'+startDate+"/"+endDate)
+				.success(function(data) {
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name: 'title', displayName: 'Actions', width:'50%'},
+									             {name:'value', displayName:'Visitors', width:'10%'},
+									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+									             {name:'stats_url', displayName:'', width:'30%',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									             },
+									            
+									         ]
+				
+			}else if($scope.typeOfInfo == 'Active_visitors'){
+				$http.get('/getActiveVisitors/'+startDate+"/"+endDate)
+				.success(function(data) {
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name: 'title', displayName: 'Actions', width:'50%'},
+									             {name:'value', displayName:'Visitors', width:'10%'},
+									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+									             {name:'stats_url', displayName:'', width:'30%',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									             },
+									            
+									         ]
+				
+			}
+			
+		 }
+		 
+		
+		 $scope.goToVisitors = function() {
+				$location.path('/visitorsAnalytics');
+			}
+	
+	$scope.goToActions = function() {
+		$location.path('/actionsAnalytics');
+	}
+	
+	$scope.goToBasics = function() {
+		$location.path('/basicsAnalytics');
+	}
+	
+	$scope.goToSearches = function() {
+		$location.path('/searchesAnalytics');
+	}
+	
+	$scope.goToRefferers = function() {
+		$location.path('/refferersAnalytics');
+	}
+	
+	$scope.goToContent = function() {
+		$location.path('/contentAnalytics');
+	}
+	
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
+	}
+	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
+	}
+	
+	$scope.goToPlatformsInfo = function(){
+		$location.path('/allPlatformsInfos');
+	}
+	
+	$scope.goToContentInfo = function(){
+		$location.path('/goToContentInfo');
+	}
+	
 	
 }]);
 

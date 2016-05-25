@@ -280,6 +280,11 @@ var MakeApp = angular
             controller: 'allPlatformsInfoCtrl'
         })
         
+        .when('/goToContentInfo', {
+            templateUrl: '/dealer/analytics/goToContentInfo.html',
+            controller: 'goToContentInfoCtrl' 
+        })
+        
         .when('/contentAnalytics', {
             templateUrl: '/dealer/analytics/content.html',
             controller: 'ContentCtrl'

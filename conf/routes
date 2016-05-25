@@ -359,6 +359,7 @@ GET   /getEngagementAction/:startDate/:endDate			controllers.Application.getEnga
 GET   /getTrafficScoures/:startDate/:endDate			controllers.Application.getTrafficScoures(startDate:String,endDate:String)
 GET   /getActiveVisitors/:startDate/:endDate			controllers.Application.getActiveVisitors(startDate:String,endDate:String)
 GET   /getEngagementTime/:startDate/:endDate			controllers.Application.getEngagementTime(startDate:String,endDate:String)
+GET   /getEntranceList/:startDate/:endDate			controllers.Application.getEntranceList(startDate:String,endDate:String)
 #GET   /getVisitorList			controllers.Application.getVisitorList()
 GET   /getHeatMapList/:value			controllers.Application.getHeatMapList(value:Integer)
 GET   /getHeatMapListDale/:startD/:endD		controllers.Application.getHeatMapListDale(startD:String,endD:String)

@@ -23408,6 +23408,12 @@ private static void cancelTestDriveMail(Map map) {
 	    return ok(Json.parse(callClickAPI(params)));
     }
     
+    public static Result getEntranceList(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=pages-entrance&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
     public static Result getEngagementTime(String startDate,String endDate){
     	String params = null;
     	params = "&type=engagement-times&date="+startDate+","+endDate+"&limit=all";
@@ -23622,14 +23628,6 @@ private static void cancelTestDriveMail(Map map) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
     	
     	return ok(Json.toJson(cList));
     }
