@@ -23,7 +23,7 @@ public class SiteInventory extends Model {
 	public String thumbPath;
 	public String imageName;
 	public Integer applyAll;
-	
+	public Long findNewId;
 	
 	@ManyToOne
 	public Location locations;
@@ -32,6 +32,21 @@ public class SiteInventory extends Model {
 	public String getThumbPath() {
 		return thumbPath;
 	}
+
+	
+	
+	public Long getFindNewId() {
+		return findNewId;
+	}
+
+
+	public void setFindNewId(Long findNewId) {
+		this.findNewId = findNewId;
+	}
+
+
+
+
 
 	public void setThumbPath(String thumbPath) {
 		this.thumbPath = thumbPath;
@@ -137,6 +152,11 @@ public class SiteInventory extends Model {
 	
 	public static List<SiteInventory> findByUser(AuthUser user) {
 		return find.where().eq("user", user).findList();
+	}
+	
+	
+	public static SiteInventory findByOtherId(Long id,String vType,Long location) {
+		return find.where().eq("findNewId", id).eq("vType",vType).eq("locations.id", location).findUnique();
 	}
 	
 	public static List<SiteInventory> findByLocation(Long location) {

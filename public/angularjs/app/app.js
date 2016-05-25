@@ -317,7 +317,7 @@ var MakeApp = angular
             controller: 'FeaturedCropCtrl'
         })
         
-        .when('/cropInventoryImage/:id', {
+        .when('/cropInventoryImage/:id/:findById/:vType', {
             templateUrl: '/dealer/addPhotos/cropInventoryImage.html',
             controller: 'InventoryCropCtrl'
         })

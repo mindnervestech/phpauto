@@ -7496,6 +7496,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					siteInventory.thumbPath = "/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName;
 					siteInventory.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					siteInventory.vType = "comingSoon";
+					siteInventory.findNewId=1L;
 					siteInventory.save();
 				}else{
 					if(sInventory.applyAll == 1){
@@ -7504,12 +7505,16 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 							siteInventory.setImageName(fileName);
 							siteInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
 							siteInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+							Long value = siteInventory.findNewId + 1L;
+							siteInventory.setFindNewId(value);
 							siteInventory.update();
 						}
 					}else{
 						sInventory.setImageName(fileName);
 						sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
 						sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+						Long value = sInventory.findNewId + 1L;
+						sInventory.setFindNewId(value);
 						sInventory.update();
 					}
 					
@@ -7564,6 +7569,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					siteInventory.thumbPath = "/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName;
 					siteInventory.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					siteInventory.vType = "New";
+					siteInventory.findNewId=1L;
 					siteInventory.save();
 				}else{
 					if(sInventory.applyAll == 1){
@@ -7572,12 +7578,17 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 							siteInventory.setImageName(fileName);
 							siteInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
 							siteInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+							Long value = siteInventory.findNewId + 1L;
+							siteInventory.setFindNewId(value);
 							siteInventory.update();
 						}
 					}else{
 						sInventory.setImageName(fileName);
 						sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
 						sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+						
+						Long value = sInventory.findNewId + 1L;
+						sInventory.setFindNewId(value);
 						sInventory.update();
 					}
 				}
@@ -7629,6 +7640,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					siteInventory.thumbPath = "/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName;
 					siteInventory.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 					siteInventory.vType = "Used";
+					siteInventory.findNewId=1L;
 					siteInventory.save();
 				}else{
 					if(sInventory.applyAll == 1){
@@ -7637,12 +7649,16 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 							siteInventory.setImageName(fileName);
 							siteInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
 							siteInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+							Long value = siteInventory.findNewId + 1L;
+							siteInventory.setFindNewId(value);
 							siteInventory.update();
 						}
 					}else{
 						sInventory.setImageName(fileName);
 						sInventory.setImageUrl("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+fileName);
 						sInventory.setThumbPath("/"+session("USER_LOCATION")+"/"+"Inventory"+"/"+"CoverImg"+"/"+"thumbnail_"+fileName);
+						Long value = sInventory.findNewId + 1L;
+						sInventory.setFindNewId(value);
 						sInventory.update();
 					}
 				}
@@ -8159,12 +8175,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     
     
     
-    public static Result getInventoryImage(Long id,String type) {
+    public static Result getInventoryImage(Long id,String vType,String type) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
 	    	File file = null;
-	    	SiteInventory image = SiteInventory.findById(id);
+	    	SiteInventory image = SiteInventory.findByOtherId(id,vType,Long.valueOf(session("USER_LOCATION")));
 	    	if(type.equals("thumbnail")) {
 		    	file = new File(rootDir+image.thumbPath);
 	    	}
@@ -8598,7 +8614,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    		siteInventory.sortType = sInventory.sortType;
 		    		siteInventory.defaultView = sInventory.defaultView;
 		    		siteInventory.applyAll = sInventory.applyAll.toString();
-		    		
+		    		siteInventory.findById=sInventory.findNewId;
 		    		sVms.add(siteInventory);
 	    		}
 	    	}

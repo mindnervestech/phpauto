@@ -13,6 +13,6 @@ public class SiteInventoryVM {
 	public String thumbPath;
 	public String imageName;
 	public String vType;
-	
+	public Long findById;
 	
 }

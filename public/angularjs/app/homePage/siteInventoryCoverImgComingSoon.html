@@ -44,7 +44,7 @@
 				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
 				                    		id="{{image.id}}"  ng-repeat="image in inventoryImg" ng-if="image.vType == vTypes" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
-				                        			<img class="myImage" style="width:100%; height:100%;" src="/getInventoryImage/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                        			<img class="myImage" style="width:100%; height:100%;" src="/getInventoryImage/{{image.findById}}/{{image.vType}}/thumbnail" id="imgId{{$index}}" />
 				                            		
 				                            		<div>
 				                            			<a class="remImage" ng-click="deleteInventoryImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>

@@ -11055,7 +11055,7 @@ angular.module('newApp')
 
 	   $scope.editInventoryImage = function(image) {
 		   console.log($scope.vTypes);
-		   $location.path('/cropInventoryImage/'+image.id);
+		   $location.path('/cropInventoryImage/'+image.id+"/"+image.findById+"/"+image.vType);
 	   }
 	 
 	   $scope.editCvrImage = function(image) {
@@ -12294,7 +12294,7 @@ angular.module('newApp')
 .controller('InventoryCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 	$scope.coords = {};
-	$scope.imgId = "/getInventoryImage/"+$routeParams.id+"/full?d=" + Math.random();
+	$scope.imgId = "/getInventoryImage/"+$routeParams.findById+"/"+$routeParams.vType+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.minImgheight;
 	$scope.minImgwidth;
