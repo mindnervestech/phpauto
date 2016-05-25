@@ -115,7 +115,10 @@ angular.module('newApp')
 			var endDate = $("#cnfendDateValue").val();	 
 			console.log(endDate);
 			
-			
+			if(endDate == '' || startDate == ''){
+				 var startDate = $scope.startDate;
+					var endDate = $scope.endDate;
+			}
 			if($scope.typeOfInfo == 'Visitor log'){
 				
 				 $http.get('/getVisitorList/'+startDate+"/"+endDate)
@@ -144,18 +147,6 @@ angular.module('newApp')
 				
 			}else if($scope.typeOfInfo == 'Action log'){
 				
-				/*$http.get('/getActionListTwo/'+startDate+"/"+endDate)
-				.success(function(data) {
-				$scope.gridOptions.data = data;
-				console.log($scope.gridOptions.data);
-				angular.forEach($scope.gridOptions.data, function(value, key) {
-					var array = value.time_pretty.split(',');
-					value.timeSet = array[1];
-					
-				});
-				 console.log($scope.gridOptions.data);
-				$scope.visitiorList = data;
-			});*/
 				
 				 $http.get('/getVisitorList/'+startDate+"/"+endDate)
 					.success(function(data) {
@@ -163,12 +154,108 @@ angular.module('newApp')
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
 				});
-				
+				 
+				 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'time_pretty', displayName: 'time_pretty'},
-									             {name:'organization', displayName:'organization'},
-									             {name:'landingPage', displayName:'landingPage'}
+									             {name: 'timePretty', displayName: 'time_pretty'},
+									             {name:'organization', displayName:'organization',
+									            	 cellTemplate:'<div><span>{{row.entity.organization}}</span><br><span>{{row.entity.geolocation}} {{row.entity.operatingSystem}} {{row.entity.webBrowser}}</span></div>',
+									             },
+									             {name:'landingPage', displayName:'landingPage',
+									            	 cellTemplate:'<div><span>{{row.entity.landingPage}}</span></div>',
+									             }
 									         ]
+			}else if($scope.typeOfInfo == 'Engagement_action'){
+				 $http.get('/getEngagementAction/'+startDate+"/"+endDate)
+					.success(function(data) {
+					$scope.gridOptions.data = data[0].dates[0].items;
+					console.log($scope.gridOptions.data);
+					$scope.visitiorList = data[0].dates[0].items;
+					
+					
+				});
+				 
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'title', displayName: 'Actions', width:'50%'},
+										             {name:'value', displayName:'Visitors', width:'10%'},
+										             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+										             {name:'stats_url', displayName:'', width:'30%',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										             },
+										            
+										         ]
+				 
+			}else if($scope.typeOfInfo == 'Engagement_time'){
+				$http.get('/getEngagementTime/'+startDate+"/"+endDate)
+				.success(function(data) {
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				/*if ( inputString.indexOf(findme) > -1 ) {
+				    alert( "found it" );
+				}*/
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					if(value.title.indexOf("&amp;lt;") > -1){
+						value.title = "<1m";
+					}
+					if(value.title.indexOf("&amp;gt;") > -1){
+						var array = value.title.split('gt;');
+						value.title = ">"+array[1];
+					}
+					
+				});
+				
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name: 'title', displayName: 'Actions', width:'50%'},
+									             {name:'value', displayName:'Visitors', width:'10%'},
+									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+									             {name:'stats_url', displayName:'', width:'30%',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									             },
+									            
+									         ]
+				
+			}else if($scope.typeOfInfo == 'traffic_scoures'){
+				$http.get('/getTrafficScoures/'+startDate+"/"+endDate)
+				.success(function(data) {
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name: 'title', displayName: 'Actions', width:'50%'},
+									             {name:'value', displayName:'Visitors', width:'10%'},
+									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+									             {name:'stats_url', displayName:'', width:'30%',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									             },
+									            
+									         ]
+				
+			}else if($scope.typeOfInfo == 'active_visitors'){
+				$http.get('/getActiveVisitors/'+startDate+"/"+endDate)
+				.success(function(data) {
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name: 'title', displayName: 'Actions', width:'50%'},
+									             {name:'value', displayName:'Visitors', width:'10%'},
+									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+									             {name:'stats_url', displayName:'', width:'30%',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									             },
+									            
+									         ]
+				
 			}
 			
 		 }

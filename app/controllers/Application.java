@@ -23369,6 +23369,31 @@ private static void cancelTestDriveMail(Map map) {
     	return ok(Json.toJson(cList));
     }
     
+    
+    public static Result getTrafficScoures(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=traffic-sources&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getActiveVisitors(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=visitors-most-active&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getEngagementAction(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=engagement-actions&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getEngagementTime(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=engagement-times&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
     public static Result getVisitorList(String startDate,String endDate){
     	int year = Calendar.getInstance().get(Calendar.YEAR);
     	String params = null;
