@@ -21,6 +21,7 @@ public class SiteAboutUsVM {
 	public Integer financeFlag;
 	public Integer socialFlag;
 	public String hideMenu;
+	public Long findById;
 	
 	
 }
