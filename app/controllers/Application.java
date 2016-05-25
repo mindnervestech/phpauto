@@ -9865,6 +9865,30 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	vm2.height = config2.cropHeight;
 		    	map.put("featured", vm2);
 	    	}
+	    	
+	    	CoverImage image=CoverImage.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	if(image != null){
+	    		
+	    		ImageVM vm2 = new ImageVM();
+		    	vm2.width = image.cropWidth;
+		    	vm2.height = image.cropHeight;
+		    	map.put("coverData", vm2);
+	    		
+	    	}
+	    	
+	    	
+	    	VehicleImageConfig conf=VehicleImageConfig.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	if(conf != null){
+	    		
+	    		ImageVM vm2 = new ImageVM();
+		    	vm2.width = conf.cropWidth;
+		    	vm2.height = conf.cropHeight;
+		    	map.put("vehicleImageConfig", vm2);
+	    		
+	    	}
+	    	
+	    	
+	    	
 	    	List<NewsletterDate> objList = NewsletterDate.findAll();
 	    	SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 	    	if(objList.size() > 0) {

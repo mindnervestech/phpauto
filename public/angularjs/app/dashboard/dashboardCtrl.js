@@ -12386,7 +12386,8 @@ angular.module('newApp')
 	$scope.init = function() {
 		$http.get('/getImageConfig')
 		.success(function(data) {
-			
+			$scope.cover=data.coverData;
+			$scope.vehSize=data.vehicleImageConfig;
 			$scope.slider = data.slider;
 			$scope.featured = data.featured;
 			$scope.newsletterDay = data.NewsletterDate;
