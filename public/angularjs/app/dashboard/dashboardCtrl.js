@@ -5072,8 +5072,8 @@ angular.module('newApp')
 				
 				/* model value undefined */
 				if($scope.customePdfmodel == undefined ){
-					$scope.customePdfId =$scope.pdfIdForUndefinedModel;
-					$scope.customePdfmodel = true;
+					//$scope.customePdfId =$scope.pdfIdForUndefinedModel;
+					$scope.customePdfmodel = false;
 				}
 				console.log("$scope.customePdfId"+$scope.customePdfId);
 				console.log(" after $scope.customePdfmodel"+$scope.customePdfmodel);
@@ -5249,11 +5249,11 @@ angular.module('newApp')
 		$scope.deletePdf = function(item,model) {
 			console.log(item);
 			console.log(model);
-			if(model == true ){
+			
+			if(model == undefined || model == true  ){
 				$scope.customePdfmodel=true;
 			}
-			
-			if(model == undefined ){
+			else{
 				$scope.customePdfmodel=false;
 			}
 			
