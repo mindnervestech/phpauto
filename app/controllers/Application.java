@@ -7882,7 +7882,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-					vImage.makeValue=makeValue;
 					vImage.findNewId=1L;
 					vImage.save();
 					
@@ -7893,7 +7892,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName);
 					Long value = imageObj.findNewId + 1L;
 					imageObj.setFindNewId(value);
-					imageObj.setMakeValue(makeValue);
 					imageObj.update();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -9211,20 +9209,17 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		VehicleHeader siAboutUs = new VehicleHeader();
 		    	siAboutUs.mainTitle = vm.mainTitle;
 		    	siAboutUs.subtitle = vm.textData;
-		    	siAboutUs.financeFlag=vm.financeFlag;
-		    	siAboutUs.makeFlag=vm.makeFlag;
-		    	siAboutUs.socialFlag=vm.socialFlag;
 		    	siAboutUs.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	siAboutUs.makeValue=vm.makeValue;
+		    	siAboutUs.findNewId=1L;
 		    	siAboutUs.save();
 		    	
 	    	}else{
 	    		   sAboutUs.setMakeValue(vm.makeValue);
 	    			sAboutUs.setMainTitle(vm.mainTitle);
 	    			sAboutUs.setSubtitle(vm.textData);
-	    			sAboutUs.setSocialFlag(vm.socialFlag);
-	    			sAboutUs.setFinanceFlag(vm.financeFlag);
-	    			sAboutUs.setMakeFlag(vm.makeFlag);
+	    			sAboutUs.setFindNewId(sAboutUs.findNewId + 1);
+	    			
 	    		sAboutUs.update();
 	    	}
 	    	
