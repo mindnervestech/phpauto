@@ -7472,6 +7472,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
+	    	    String fname = fileName.replace("(", "-");
+				String fname1=fname.replace(")","-");	
+				fileName=fname1;
 	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
@@ -7545,6 +7548,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
+	    	    String fname = fileName.replace("(", "-");
+				String fname1=fname.replace(")","-");	
+				fileName=fname1;
 	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
@@ -7616,6 +7622,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
+	    	    String fname = fileName.replace("(", "-");
+				String fname1=fname.replace(")","-");	
+				fileName=fname1;
 	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
@@ -7764,7 +7773,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
 	    	    }
-	    	    
+	    	    String fname = fileName.replace("(", "-");
+				String fname1=fname.replace(")","-");	
+				fileName=fname1;
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"ContactImages"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"ContactImages"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -7778,7 +7789,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 				ContactHeader imageObj = ContactHeader.findByLocations(Long.valueOf(session("USER_LOCATION")));
 				if(imageObj == null) {
 					ContactHeader vImage = new ContactHeader();
-					vImage.coverImageName = fileName;
+					vImage.coverImageName = fname1;
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"ContactImages"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"ContactImages"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -7787,7 +7798,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					
 				}
 				else{
-					imageObj.setCoverImageName(fileName);
+					imageObj.setCoverImageName(fname1);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"ContactImages"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"ContactImages"+"/"+"thumbnail_"+fileName);
 					Long value = imageObj.findNewId + 1L;
@@ -7823,7 +7834,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
 	    	    }
-	    	    
+	    	    String fname = fileName.replace("(", "-");
+				String fname1=fname.replace(")","-");	
+				fileName=fname1;
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"VehicleProfile"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"VehicleProfile"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -7837,7 +7850,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 				VehicleHeader imageObj = VehicleHeader.findByLocations(Long.valueOf(session("USER_LOCATION")));
 				if(imageObj == null) {
 					VehicleHeader vImage = new VehicleHeader();
-					vImage.coverImageName = fileName;
+					
+					vImage.coverImageName = fname1;
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -7846,7 +7860,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					
 				}
 				else{
-					imageObj.setCoverImageName(fileName);
+					imageObj.setCoverImageName(fname1);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"VehicleProfile"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName);
 					Long value = imageObj.findNewId + 1L;
@@ -7883,7 +7897,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
 	    	    }
-	    	    
+	    	    String fname = fileName.replace("(", "-");
+				String fname1=fname.replace(")","-");	
+				fileName=fname1;
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Warranty"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Warranty"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -7897,7 +7913,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 				Warranty imageObj = Warranty.findByLocations(Long.valueOf(session("USER_LOCATION")));
 				if(imageObj == null) {
 					Warranty vImage = new Warranty();
-					vImage.coverImageName = fileName;
+					vImage.coverImageName = fname1;
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"Warranty"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"Warranty"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -7906,7 +7922,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					
 				}
 				else{
-					imageObj.setCoverImageName(fileName);
+					imageObj.setCoverImageName(fname1);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"Warranty"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"Warranty"+"/"+"thumbnail_"+fileName);
 					Long value = imageObj.findNewId + 1L;
@@ -7941,7 +7957,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
 	    	    }
-	    	    
+	    	    String fname = fileName.replace("(", "-");
+				String fname1=fname.replace(")","-");	
+				fileName=fname1;
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Compare"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Compare"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -7955,7 +7973,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 				SiteComparison imageObj = SiteComparison.findByLocations(Long.valueOf(session("USER_LOCATION")));
 				if(imageObj == null) {
 					SiteComparison vImage = new SiteComparison();
-					vImage.coverImageName = fileName;
+					vImage.coverImageName = fname1;
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"Compare"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"Compare"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -7964,7 +7982,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					
 				}
 				else{
-					imageObj.setCoverImageName(fileName);
+					imageObj.setCoverImageName(fname1);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"Compare"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"Compare"+"/"+"thumbnail_"+fileName);
 					Long value = imageObj.findNewId + 1L;
@@ -8002,7 +8020,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
 	    	    }
-	    	    
+	    	    String fname = fileName.replace("(", "-");
+				String fname1=fname.replace(")","-");	
+				fileName=fname1;
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"BlogImages"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"BlogImages"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -8016,7 +8036,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 				Blog imageObj = Blog .findByLocations(Long.valueOf(session("USER_LOCATION")));
 				if(imageObj == null) {
 					Blog vImage = new Blog();
-					vImage.coverImageName = fileName;
+					 vImage.coverImageName=fname1;
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"BlogImages"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"BlogImages"+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
@@ -8026,7 +8046,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					
 				}
 				else{
-					imageObj.setCoverImageName(fileName);
+					imageObj.setCoverImageName(fname1);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+"BlogImages"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"BlogImages"+"/"+"thumbnail_"+fileName);
 					Long value = imageObj.findNewId + 1L;
@@ -8065,7 +8085,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
 	    	    }
-	    	    
+	    	    String fname = fileName.replace("(", "-");
+				String fname1=fname.replace(")","-");	
+				fileName=fname1;
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+File.separator+userObj.id+File.separator+"CvrImages"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+File.separator+userObj.id+File.separator+"CvrImages"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -8079,7 +8101,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 				SiteAboutUs imageObj = SiteAboutUs.findByLocation(Long.valueOf(session("USER_LOCATION")));
 				if(imageObj == null) {
 					SiteAboutUs vImage = new SiteAboutUs();
-					vImage.imgName = fileName;
+					vImage.imgName = fname1;
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"CvrImages"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"CvrImages"+"/"+"thumbnail_"+fileName;
 					vImage.user = userObj;
@@ -8089,7 +8111,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					
 				}
 				else{
-					imageObj.setImgName(fileName);
+					imageObj.setImgName(fname1);
 					imageObj.setPath("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"CvrImages"+"/"+fileName);
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"CvrImages"+"/"+"thumbnail_"+fileName);
 					Long value = imageObj.findNewId + 1L;
