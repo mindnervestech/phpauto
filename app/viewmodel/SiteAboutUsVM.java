@@ -7,6 +7,7 @@ public class SiteAboutUsVM {
 	public String subtitle;
 	public String mainTitle;
 	public String textData;
+	public String makeValue;
 	public String textData1;
 	public String imageurl;
 	public String path;

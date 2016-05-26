@@ -9897,6 +9897,14 @@ angular.module('newApp')
 	}
 	
 	
+	$scope.makeForUpload='/uploadVehiclePhotos?make='+$routeParams.makeValue;
+	if( $routeParams.makeValue != null || $routeParams.makeValue !=undefined ){
+		$scope.makeValue=$routeParams.makeValue;
+	}
+	else{
+		$scope.makeValue='all';
+	}
+	
 	$scope.tempDate = new Date().getTime();
 	console.log($routeParams.type);
 	$scope.vTypes = $routeParams.type;
@@ -9905,6 +9913,7 @@ angular.module('newApp')
 	$scope.featuredList = [];
 	$scope.coverList = [];
 	$scope.blogList = [];
+	$scope.makeListForImage = [];
 	$scope.compareList = [];
 	$scope.warrantyList = [];
 	$scope.contactList = [];
@@ -10432,6 +10441,58 @@ angular.module('newApp')
 	$scope.siteHeading = "";
 	$scope.inventoryImg = [];
 	$scope.init = function() {
+		
+		 $http.get('/getAllMakeList')
+			.success(function(data) {
+				console.log(">>>>>>>>>");
+				console.log(data);
+				$scope.makeList=data;
+			});
+		
+		 $http.get('/getMakeWiseData/'+$scope.makeValue)
+			.success(function(data) {
+				console.log(">>>>>>>>>");
+				console.log(data);
+				$scope.profileHeader.mainTitle=data.vehicleProfileData[0].mainTitle;
+				$scope.profileHeader.textData=data.vehicleProfileData[0].subtitle;
+				if(data.vehicleProfileData[0].socialFlag == 1){
+					$scope.profileHeader.socialFlag=true;
+				}
+				if(data.vehicleProfileData[0].makeFlag == 1){
+					$scope.profileHeader.makeFlag=true;
+				}
+				if(data.vehicleProfileData[0].financeFlag == 1){
+					$scope.profileHeader.financeFlag=true;
+				}
+				$scope.thumbPat=data.vehicleProfileData[0].thumbPath;
+				   if(data.vehicleProfileData[0].financeFlag == 1){
+					   $scope.financeFlag=true;
+				   }
+				   else{
+					   $scope.financeFlag=false;
+				   }
+				   
+				   if(data.vehicleProfileData[0].socialFlag == 1){
+					   $scope.socialFlag=true;
+				   }
+				   else{
+					   $scope.socialFlag=false;
+				   }
+				   
+				   if(data.vehicleProfileData[0].makeFlag == 1){
+					   $scope.makeFlag=true;
+				   }
+				   else{
+					   $scope.makeFlag=false;
+				   }
+				   
+				if($scope.thumbPat != null){
+					$scope.vehicleProfileList = data.vehicleProfileData;
+				}
+	
+			});
+		 
+		
 		$scope.tempDate = new Date().getTime();
 		 $http.get('/getSliderAndFeaturedImages')
 			.success(function(data) {
@@ -10486,42 +10547,6 @@ angular.module('newApp')
 				$scope.warrantyList = data.warData;
 				}
 				
-				$scope.profileHeader.mainTitle=data.vehicleProfileData[0].mainTitle;
-				$scope.profileHeader.textData=data.vehicleProfileData[0].subtitle;
-				if(data.vehicleProfileData[0].socialFlag == 1){
-					$scope.profileHeader.socialFlag=true;
-				}
-				if(data.vehicleProfileData[0].makeFlag == 1){
-					$scope.profileHeader.makeFlag=true;
-				}
-				if(data.vehicleProfileData[0].financeFlag == 1){
-					$scope.profileHeader.financeFlag=true;
-				}
-				$scope.thumbPat=data.vehicleProfileData[0].thumbPath;
-				   if(data.vehicleProfileData[0].financeFlag == 1){
-					   $scope.financeFlag=true;
-				   }
-				   else{
-					   $scope.financeFlag=false;
-				   }
-				   
-				   if(data.vehicleProfileData[0].socialFlag == 1){
-					   $scope.socialFlag=true;
-				   }
-				   else{
-					   $scope.socialFlag=false;
-				   }
-				   
-				   if(data.vehicleProfileData[0].makeFlag == 1){
-					   $scope.makeFlag=true;
-				   }
-				   else{
-					   $scope.makeFlag=false;
-				   }
-				   
-				if($scope.thumbPat != null){
-					$scope.vehicleProfileList = data.vehicleProfileData;
-				}
 	
 					if(data.warData[0].hideMenu == "1"){
 						$scope.header3.hideMenu = true;
@@ -11087,7 +11112,7 @@ angular.module('newApp')
 	   $scope.editVehicleImage = function(image) {
 		   console.log("imageimageimage");
 		   console.log(image);
-		   $location.path('/editVehicleImage/'+image.id+"/"+image.findById);
+		   $location.path('/editVehicleImage/'+image.id+"/"+image.findById+"/"+image.makeValue);
 	   }
 	   
 	   
@@ -11137,6 +11162,7 @@ angular.module('newApp')
 			}); 
 		   
 	   }
+	   
 	   $scope.saveBlogHeader = function(header) {
 		   console.log(header);
 		   $http.post('/saveBlogHeader',header)
@@ -11175,30 +11201,75 @@ angular.module('newApp')
 	   }
 	   
 	   
+	   $scope.saveMakeFlag = function() {
+		   console.log($scope.makeFlag);
+		   
+		   if($scope.makeFlag == false){
+			   $scope.makeFlag1 =1;
+		   }
+		   else{
+			   $scope.makeFlag1=0;
+		   }
+		   
+		   
+		   $http.get('/saveMakeFlag/'+$scope.makeFlag1)
+			.success(function(data) {
+				
+			});
+	   }
+	   
+	   $scope.saveSocialFlag = function() {
+		   console.log($scope.socialFlag);
+		   
+		   if($scope.socialFlag ==false){
+			   $scope.socialFlag1=1;
+		   }
+		   else{
+			   $scope.socialFlag1=0;
+		   }
+		   
+		   $http.get('/saveSocialFlag/'+$scope.socialFlag1)
+			.success(function(data) {
+				
+			});
+	   }
+	   
+	   
+	   $scope.saveFinanceFlag = function() {
+		   console.log($scope.financeFlag);
+		   
+		   if($scope.financeFlag == false){
+			   $scope.financeFlag1=1;
+		   }
+		   else{
+			   $scope.financeFlag1=0;
+		   }
+		   
+		   
+		   $http.get('/saveFinanceFlag/'+$scope.financeFlag1)
+			.success(function(data) {
+				
+			});
+	   }
+	    
+	   
+	   
+	   
+	   
+	   
 	   
 	   $scope.saveProfileHeader = function(ProfileHeader) {
 		   console.log(ProfileHeader);
 		   console.log($scope.financeFlag);
 		   console.log($scope.socialFlag);
 		   console.log($scope.makeFlag);
-		   if($scope.financeFlag == true){
-			   ProfileHeader.financeFlag=1;
-		   }
-		   else{
-			   ProfileHeader.financeFlag=0;
-		   }
-			   if($scope.socialFlag ==true){
-				   ProfileHeader.socialFlag=1;
-			   }
-			   else{
-				   ProfileHeader.socialFlag=0;
-			   }
-				   if($scope.makeFlag == true){
-					   ProfileHeader.makeFlag =1;
-				   }
-				   else{
-					   ProfileHeader.makeFlag=0;
-				   }
+		  
+			   
+				  
+				   
+				
+	     ProfileHeader.makeValue=$scope.makeValue;
+			
 		   $http.post('/saveprofileHeader',ProfileHeader)
 			.success(function(data) {
 	            $.pnotify({
@@ -11210,6 +11281,17 @@ angular.module('newApp')
 			}); 
 		   
 	   }
+	   
+	   
+	   $scope.uploadImageForMake = function(make) {
+		   
+		   $scope.makeValue=make;
+		   console.log("LLLLLLLLL"+$scope.makeValue);
+		   $location.path('/goToMakeImageUpload/'+$scope.makeValue);
+		   
+	   }
+	   
+	   
 	   
 	   $scope.saveHeader = function(header) {
 		   console.log(header);
@@ -11691,7 +11773,7 @@ angular.module('newApp')
 	$scope.minImgheight;
 	$scope.minImgwidth;
 	$scope.init = function() {
-		
+		$scope.makeValue=$routeParams.makeValue;	
 		
 		 $http.get('/getVehicleProfileDataById/'+$routeParams.id)
 			.success(function(data) {
@@ -11775,8 +11857,8 @@ angular.module('newApp')
 				    type:'success',
 				    text: "Croped Image has been saved",
 				});
-				
-				$location.path('/vehicleProfile');
+				console.log("/vehicleProfile/"+$scope.makeValue);
+				//$location.path('/vehicleProfile/'+$scope.makeValue);
 				//$scope.$apply();
 			});
 		}    

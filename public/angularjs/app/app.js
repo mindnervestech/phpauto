@@ -197,6 +197,14 @@ var MakeApp = angular
             controller: 'HomePageCtrl'
         })
         
+        
+        .when('/goToMakeImageUpload/:makeValue', {
+            templateUrl: '/dealer/homePage/coverImageForMake.html',
+            controller: 'HomePageCtrl'
+        })
+        
+        
+        
          .when('/goToInventoryCoverImgNew/:type', {
             templateUrl: '/dealer/homePage/siteInventoryCoverImgNew.html',
             controller: 'HomePageCtrl'
@@ -348,7 +356,7 @@ var MakeApp = angular
         })
         
         
-        .when('/editVehicleImage/:id/:findById', {
+        .when('/editVehicleImage/:id/:findById/:makeValue', {
             templateUrl: '/dealer/addPhotos/vehicleProfileCrop.html',
             controller: 'VehicleCropCtrl'
         })

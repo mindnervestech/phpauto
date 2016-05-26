@@ -5410,6 +5410,35 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
     
     
+
+    
+    public static Result   saveMakePosition() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	JsonNode nodes = ctx().request().body().asJson();
+	    	ObjectMapper mapper = new ObjectMapper();
+	    	try {
+	    		List<VehicleHeader> images = mapper.readValue(nodes.toString(), new TypeReference<List<VehicleHeader>>() {});
+				
+		    	for(VehicleHeader image : images) {
+		    		image.update();
+		    	}
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+	    	
+	    	return ok();
+    	}	
+    }
     
     
     public static Result   saveBlogPosition() {
@@ -7824,9 +7853,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		return ok(home.render("",userRegistration));
     	} else {
 	    	MultipartFormData body = request().body().asMultipartFormData();
-	    	
+	    	String makeValue=request().getQueryString("make");
 	    	AuthUser userObj = (AuthUser)getLocalUser();
-	    	
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
@@ -7847,14 +7875,14 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    File _f = new File(filePath);
 				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 				
-				VehicleHeader imageObj = VehicleHeader.findByLocations(Long.valueOf(session("USER_LOCATION")));
+				VehicleHeader imageObj = VehicleHeader.findByLocationsAndMake(Long.valueOf(session("USER_LOCATION")),makeValue);
 				if(imageObj == null) {
 					VehicleHeader vImage = new VehicleHeader();
-					
 					vImage.coverImageName = fname1;
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.makeValue=makeValue;
 					vImage.findNewId=1L;
 					vImage.save();
 					
@@ -7865,6 +7893,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName);
 					Long value = imageObj.findNewId + 1L;
 					imageObj.setFindNewId(value);
+					imageObj.setMakeValue(makeValue);
 					imageObj.update();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -8553,6 +8582,67 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
     
     
+    
+    
+    public static Result getAllMakeList() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<VehicleVM> makeList = new ArrayList<>();
+	    	List<Vehicle> list = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
+	    	Map<String, Vehicle> mapMake = new HashMap<>();
+    		for (Vehicle vehicle : list) {
+    			if(vehicle.getMake() != null){
+    				
+    				Vehicle objectMake = mapMake.get(vehicle.getMake());
+    					mapMake.put(vehicle.getMake(), vehicle);
+    					
+    			}
+    		}
+    		for (Entry<String, Vehicle> value : mapMake.entrySet()) {
+    			VehicleVM vm=new VehicleVM();
+    			vm.make=value.getKey();
+    			makeList.add(vm);
+    		}
+	    	return ok(Json.toJson(makeList));
+    	}	
+    }
+    
+    
+    
+    
+    public static Result getMakeWiseData(String makeValue) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Map<String,List> map = new HashMap<>();
+	    	List<SiteAboutUsVM> vehicleProfile=new ArrayList<>();
+	    	VehicleHeader header = VehicleHeader.findByLocationsAndMake(Long.valueOf(session("USER_LOCATION")),makeValue);
+	    	if(header != null){
+	    	SiteAboutUsVM sUs = new SiteAboutUsVM();
+	    	sUs.mainTitle = header.mainTitle;
+	    	sUs.subtitle=header.subtitle;
+	    	sUs.id = header.id;
+	    	sUs.path = header.path;
+	    	sUs.imgName = header.coverImageName;
+	    	sUs.thumbPath=header.thumbPath;
+	    	sUs.financeFlag=header.financeFlag;
+	    	sUs.makeFlag=header.makeFlag;
+	    	sUs.socialFlag=header.socialFlag;
+	    	sUs.findById=header.findNewId;
+	    	sUs.makeValue=header.makeValue;
+	    	vehicleProfile.add(sUs);
+	    	
+	    	}
+	    	map.put("vehicleProfileData", vehicleProfile);
+	    	return ok(Json.toJson(map));
+    	}	
+    }
+    
+    
+    
+    
+    
     public static Result getSliderAndFeaturedImages() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -8739,7 +8829,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	}
 	    	map.put("blogData", siteAboutList1);
 	    	
-	    	
+	    	/*
 	    	List<SiteAboutUsVM> vehicleProfile=new ArrayList<>();
 	    	VehicleHeader header = VehicleHeader.findByLocations(Long.valueOf(session("USER_LOCATION")));
 	    	if(header != null){
@@ -8754,9 +8844,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	sUs.makeFlag=header.makeFlag;
 	    	sUs.socialFlag=header.socialFlag;
 	    	sUs.findById=header.findNewId;
+	    	sUs.makeValue=header.makeValue;
 	    	vehicleProfile.add(sUs);
 	    	}
-	    	map.put("vehicleProfileData", vehicleProfile);
+	    	map.put("vehicleProfileData", vehicleProfile);*/
 	    	
 	    	List<SiteAboutUsVM> siteAbout=new ArrayList<>();
 	    	Warranty sAbout = Warranty.findByLocations(Long.valueOf(session("USER_LOCATION")));
@@ -8770,6 +8861,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	sUs.thumbPath=sAbout.thumbPath;
 	    	sUs.findById = sAbout.findNewId;
 	    	sUs.hideMenu = sAbout.hideMenu.toString();
+	    	
 	    	siteAbout.add(sUs);
 	    	}
 	    	map.put("warData", siteAbout);
@@ -9021,6 +9113,88 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}	
     }
     
+
+    public static Result saveMakeFlag(int makeFlag){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<VehicleHeader> sAboutUs = VehicleHeader.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	if(sAboutUs != null){
+	    		for(VehicleHeader siAboutUs:sAboutUs){
+	    			siAboutUs.setMakeFlag(makeFlag);
+			    	
+	    			siAboutUs.update();
+	    			
+	    		}
+		    	
+	    	}else{
+	    		VehicleHeader sAboutUs1=new VehicleHeader();
+	    		sAboutUs1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		sAboutUs1.financeFlag=makeFlag;
+	    		sAboutUs1.save();
+	    	}
+	    	
+	    	return ok();
+    	}	
+    }
+    
+
+    public static Result saveSocialFlag(int makeFlag){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<VehicleHeader> sAboutUs = VehicleHeader.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	if(sAboutUs != null){
+	    		for(VehicleHeader siAboutUs:sAboutUs){
+	    			siAboutUs.setSocialFlag(makeFlag);
+	    			siAboutUs.update();
+	    			
+	    		}
+		    	
+	    	}else{
+	    		VehicleHeader sAboutUs1=new VehicleHeader();
+	    		sAboutUs1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		sAboutUs1.socialFlag=makeFlag;
+	    		sAboutUs1.save();
+	    	}
+	    	
+	    	return ok();
+    	}	
+    }
+    
+
+    public static Result saveFinanceFlag(int makeFlag){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<VehicleHeader> sAboutUs = VehicleHeader.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	if(sAboutUs != null){
+	    		for(VehicleHeader siAboutUs:sAboutUs){
+	    			siAboutUs.setFinanceFlag(makeFlag);
+	    			siAboutUs.update();
+	    			
+	    		}
+		    	
+	    	}else{
+	    		VehicleHeader sAboutUs1=new VehicleHeader();
+	    		sAboutUs1.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+	    		sAboutUs1.financeFlag=makeFlag;
+	    		sAboutUs1.save();
+	    	}
+	    	
+	    	return ok();
+    	}	
+    }
+    
+    
+    
+    
+    
+    
+    
     
     
     public static Result saveprofileHeader(){
@@ -9031,7 +9205,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	Form<SiteAboutUsVM> form = DynamicForm.form(SiteAboutUsVM.class).bindFromRequest();
 	    	SiteAboutUsVM vm = form.get();
 	    	
-	    	VehicleHeader sAboutUs = VehicleHeader.findByLocations(Long.valueOf(session("USER_LOCATION")));
+	    	VehicleHeader sAboutUs = VehicleHeader.findByLocationsAndMake(Long.valueOf(session("USER_LOCATION")),vm.makeValue);
 	    	if(sAboutUs == null){
 	    		
 	    		VehicleHeader siAboutUs = new VehicleHeader();
@@ -9041,9 +9215,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	siAboutUs.makeFlag=vm.makeFlag;
 		    	siAboutUs.socialFlag=vm.socialFlag;
 		    	siAboutUs.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	siAboutUs.makeValue=vm.makeValue;
 		    	siAboutUs.save();
 		    	
 	    	}else{
+	    		   sAboutUs.setMakeValue(vm.makeValue);
 	    			sAboutUs.setMainTitle(vm.mainTitle);
 	    			sAboutUs.setSubtitle(vm.textData);
 	    			sAboutUs.setSocialFlag(vm.socialFlag);

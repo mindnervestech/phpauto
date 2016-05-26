@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -17,6 +19,7 @@ public class VehicleHeader extends Model {
 	public String thumbPath;
 	public String mainTitle;
 	public String subtitle;
+	public String makeValue;
 	public Integer makeFlag;
 	public Integer financeFlag;
 	public Integer socialFlag;
@@ -24,6 +27,19 @@ public class VehicleHeader extends Model {
 	public Long findNewId;
 	
 	
+	
+	
+	
+	public String getMakeValue() {
+		return makeValue;
+	}
+
+
+	public void setMakeValue(String makeValue) {
+		this.makeValue = makeValue;
+	}
+
+
 	public Long getFindNewId() {
 		return findNewId;
 	}
@@ -146,12 +162,20 @@ public static Finder<Long,VehicleHeader> find = new Finder<>(Long.class,VehicleH
 		return find.byId(id);
 	}
 	
+	public static VehicleHeader findByLocationsAndMake(Long location,String makeValue) {
+		return find.where().eq("locations.id", location).eq("makeValue",makeValue).findUnique();
+	}
+	
 	public static VehicleHeader findByLocations(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
 	}
 	
 	public static VehicleHeader findByOtherId(Long id,Long location) {
 		return find.where().eq("findNewId", id).eq("locations.id", location).findUnique();
+	}
+	
+	public static List<VehicleHeader> findAllByLocation(Long location) {
+		return find.where().eq("locations.id", location).findList();
 	}
 	
 	
