@@ -23421,12 +23421,92 @@ private static void cancelTestDriveMail(Map map) {
     public static Result getActiveVisitors(String startDate,String endDate){
     	String params = null;
     	params = "&type=visitors-most-active&date="+startDate+","+endDate+"&limit=all";
+		
+/*		JSONArray jsonArrayAction;
+		try {
+			jsonArrayAction = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+			for(int i=0;i<jsonArrayAction.length();i++){
+				
+    			ClickyPagesVM cAction = new ClickyPagesVM();
+    			cAction.value = jsonArrayAction.getJSONObject(i).get("value").toString();
+    			cAction.value_percent = jsonArrayAction.getJSONObject(i).get("value_percent").toString();
+    			cAction.title = jsonArrayAction.getJSONObject(i).get("title").toString();
+    			cAction.stats_url = jsonArrayAction.getJSONObject(i).get("stats_url").toString();
+    			File dbfile = new File("db/GeoLiteCity.dat");
+    			LookupService lookup = new LookupService(dbfile,LookupService.GEOIP_MEMORY_CACHE);
+    			Location locationServices = lookup.getLocation("22332332");
+    			
+			}	
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	    return ok(Json.parse(callClickAPI(params)));
     }
     
     public static Result getEngagementAction(String startDate,String endDate){
     	String params = null;
     	params = "&type=engagement-actions&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getExit(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=pages-exit&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getDownloads(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=downloads&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getEvent(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=events&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getSearchesListDale(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=searches&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getKeywordsList(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=searches-keywords&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getEngines(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=searches-engines&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getRecent(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=searches-recent&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getNewestUni(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=searches-unique&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getRankings(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=searches-rankings&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
+    public static Result getDomains(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=site-domains&date="+startDate+","+endDate+"&limit=all";
 	    return ok(Json.parse(callClickAPI(params)));
     }
     

@@ -1,4 +1,4 @@
-<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="initFunction()">
  <ul id="myTabs" class="nav nav-tabs" role="tablist">
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">WebSite</button></a></li>
        <li role="presentation" class=""><a id="profile-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToVehicleInfo()">Inventory</button></a></li>
@@ -23,9 +23,23 @@
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 	     <div class="col-sm-12">
-	        	 	 <a class="btn btn-blue col-sm-1" ng-click="lastDays(7)">Searches</a><a class="btn btn-blue col-sm-1" ng-click="lastDays(30)">Keywords</a><a class="btn btn-blue col-sm-1" ng-click="lastDays(30)">Engines</a><a class="btn btn-blue col-sm-1" ng-click="lastDays(30)">Recent</a><a class="btn btn-blue col-sm-1" style="width: 140px"  ng-click="lastDays(30)">Newest Unique</a> <a class="btn btn-blue col-sm-1" style="width: 140px" ng-click="lastDays(30)">Local Searches</a> <a class="btn btn-blue col-sm-1" ng-click="lastDays(30)">Rankings</a> <a class="btn btn-blue col-sm-2" ng-click="lastDays(30)">Rankings (SheerSEO)</a> 
+	        	 	 <a class="btn btn-blue col-sm-1" ng-click="setShowSearchesType('Searches')">Searches</a><a class="btn btn-blue col-sm-1" ng-click="setShowSearchesType('Keywords')">Keywords</a><a class="btn btn-blue col-sm-1" ng-click="setShowSearchesType('Engines')">Engines</a><a class="btn btn-blue col-sm-1" ng-click="setShowSearchesType('Recent')">Recent</a><a class="btn btn-blue col-sm-1" style="width: 140px"  ng-click="setShowSearchesType('Newest Unique')">Newest Unique</a> <a class="btn btn-blue col-sm-1" style="width: 140px" ng-click="setShowSearchesType('Local Searches')">Local Searches</a> <a class="btn btn-blue col-sm-1" ng-click="setShowSearchesType('Rankings')">Rankings</a> <a class="btn btn-blue col-sm-2" ng-click="setShowSearchesType('Rankings_SheerSEO')">Rankings (SheerSEO)</a> 
 	      </div>
-	      <h2>Searches</h2>
+	         <div class="col-sm-12">
+	      		<div class="col-sm-2">
+									     	<label>Start Date</label>
+									     		<input data-provide="datepicker" id="cnfstartDateValue" name="startDateValue" class="form-control" ng-model="startDate" data-date-format="yyyy-mm-dd" required>
+									     		
+									     </div>
+									     <div class="col-sm-2">
+									     	<label>End Date</label>
+									     		<input data-provide="datepicker" id="cnfendDateValue" name="endDateValue" class="form-control" ng-model="endDate" data-date-format="yyyy-mm-dd" required>
+									     </div>
+									 <div class="col-sm-2">
+									 	<a class="btn btn-blue" ng-click="DateWiseFind()" style="width: 40%;margin-top: 25px;">OK</a>
+									 </div>    
+	      </div>
+	      <h2>{{typeOfInfo}}</h2>
 	       <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
 				</div> 
 	      </div>

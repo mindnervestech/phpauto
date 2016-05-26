@@ -137,12 +137,16 @@ angular.module('newApp')
 				
 				
 				$scope.gridOptions.columnDefs = [
-				                                 {name: 'timeSet', displayName: 'Time'},
-				                                 {name: 'geolocation', displayName: 'Location'},
-				                                 {name:'organization', displayName:'Organization'},
-				                                 {name:'actions', displayName:'Action'},
-				                                 {name:'timeTotal', displayName:'Time_Total'},
-				                                 {name:'landingPage', displayName:'landing_page'}
+				                                 {name: 'timeSet', displayName: 'Time', width:'8%'},
+				                                 {name: 'geolocation', displayName: 'Location', width:'10%'},
+				                                 {name:'organization', displayName:'Internet Provider', width:'15%'},
+				                                 {name:'actions', displayName:'Actions', width:'8%'},
+				                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
+				                                 {name:'landingPage', displayName:'landing_page', width:'45%'},
+				                                 {name:'Sear', displayName:'Search', width:'10%',
+				                                	 cellTemplate:'<a target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+				                                 }
+				                                 
 				                             ];  
 				
 			}else if($scope.typeOfInfo == 'Action log'){
@@ -157,13 +161,14 @@ angular.module('newApp')
 				 
 				 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'timePretty', displayName: 'time_pretty'},
-									             {name:'a', displayName:'organization',
+									             {name: 'timePretty', displayName: 'Time'},
+									             {name:'a', displayName:'User',
 									            	 cellTemplate:'<div><span>{{row.entity.organization}}</span><br><span>{{row.entity.geolocation}},&nbsp;&nbsp {{row.entity.operatingSystem}},&nbsp;&nbsp {{row.entity.webBrowser}}</span></div>',
 									             },
-									             {name:'landingPage', displayName:'landingPage',
-									            	 cellTemplate:'<div><span>{{row.entity.landingPage}}</span></div>',
-									             }
+									             {name:'landingPage', displayName:'Action',
+									            	 cellTemplate:'<div><span><a href="{{row.entity.landingPage}}">{{row.entity.landingPage}}</a></span></div>',
+									             },
+									             {name: 'referrerType', displayName: 'Referrer'}
 									         ]
 			}else if($scope.typeOfInfo == 'Engagement_action'){
 				 $http.get('/getEngagementAction/'+startDate+"/"+endDate)
@@ -176,10 +181,11 @@ angular.module('newApp')
 				});
 				 
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'title', displayName: 'Actions', width:'50%'},
-										             {name:'value', displayName:'Visitors', width:'10%'},
-										             {name:'value_percent', displayName:'value_Percent', width:'10%'},
-										             {name:'stats_url', displayName:'', width:'30%',
+										             {name: 'title', displayName: 'Actions', width:'60%'},
+										             {name:'value', displayName:'Visitors', width:'20%',
+										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+										             },
+										             {name:'stats_url', displayName:'', width:'20%',
 										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
 										            
@@ -228,12 +234,11 @@ angular.module('newApp')
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Actions', width:'50%'},
-									             {name:'value', displayName:'Visitors', width:'10%'},
-									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
-									             {name:'stats_url', displayName:'', width:'30%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									             {name: 'title', displayName: 'Source', width:'70%'},
+									             {name:'value', displayName:'Visitors', width:'30%',
+									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
+									            
 									            
 									         ]
 				
@@ -247,10 +252,11 @@ angular.module('newApp')
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Actions', width:'50%'},
-									             {name:'value', displayName:'Visitors', width:'10%'},
-									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
-									             {name:'stats_url', displayName:'', width:'30%',
+									             {name: 'title', displayName: 'Ip Address', width:'50%'},
+									             {name:'value', displayName:'Visits', width:'20%',
+									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+									             },
+									             {name:'stats_url', displayName:'', width:'20%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									            
@@ -392,61 +398,52 @@ angular.module('newApp')
 										             {name:'value_percent', displayName:'value_Percent', width:'20%'},
 										            
 										         ]
-			}else if($scope.typeOfInfo == 'Engagement_action'){
-				 $http.get('/getEngagementAction/'+startDate+"/"+endDate)
+			}else if($scope.typeOfInfo == 'Exit'){
+				 $http.get('/getExit/'+startDate+"/"+endDate)
 					.success(function(data) {
 					$scope.gridOptions.data = data[0].dates[0].items;
-					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data[0].dates[0].items;
-					
 					
 				});
 				 
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'title', displayName: 'Actions', width:'50%'},
-										             {name:'value', displayName:'Visitors', width:'10%'},
-										             {name:'value_percent', displayName:'value_Percent', width:'10%'},
-										             {name:'stats_url', displayName:'', width:'30%',
+										             {name:'t', displayName:'Pages', width:'60%',
+										            	 cellTemplate:'<div><span>{{row.entity.url}}<br>{{row.entity.title}}</span></div>',
+										             },
+										             {name:'v', displayName:'Visits', width:'20%',
+										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+										             },
+										             {name:'stats_url', displayName:'', width:'20%',
 										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
 										            
 										         ]
 				 
-			}else if($scope.typeOfInfo == 'Engagement_time'){
-				$http.get('/getEngagementTime/'+startDate+"/"+endDate)
+			}else if($scope.typeOfInfo == 'Downloads'){
+				$http.get('/getDownloads/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data[0].dates[0].items;
 				console.log($scope.gridOptions.data);
+				console.log("fghjhhhhhhhhhhhhhhhhh");
 				$scope.visitiorList = data[0].dates[0].items;
-				/*if ( inputString.indexOf(findme) > -1 ) {
-				    alert( "found it" );
-				}*/
-				angular.forEach($scope.gridOptions.data, function(value, key) {
-					if(value.title.indexOf("&amp;lt;") > -1){
-						value.title = "<1m";
-					}
-					if(value.title.indexOf("&amp;gt;") > -1){
-						var array = value.title.split('gt;');
-						value.title = ">"+array[1];
-					}
-					
-				});
-				
 				
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Actions', width:'50%'},
-									             {name:'value', displayName:'Visitors', width:'10%'},
-									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
-									             {name:'stats_url', displayName:'', width:'30%',
+									             {name:'title', displayName:'File', width:'60%',
+									            	 cellTemplate:'<div><span>{{row.entity.title}}<br>{{row.entity.url}}</span></div>',
+									             },
+									             {name:'v', displayName:'Downloads', width:'20%',
+									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+									             },
+									             {name:'stats_url', displayName:'', width:'20%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									            
 									         ]
 				
-			}else if($scope.typeOfInfo == 'Traffic_scoures'){
-				$http.get('/getTrafficScoures/'+startDate+"/"+endDate)
+			}else if($scope.typeOfInfo == 'Event'){
+				$http.get('/getEvent/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data[0].dates[0].items;
 				console.log($scope.gridOptions.data);
@@ -455,16 +452,19 @@ angular.module('newApp')
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Actions', width:'50%'},
-									             {name:'value', displayName:'Visitors', width:'10%'},
-									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+									             {name: 'url', displayName: 'Event', width:'50%',
+									            	 cellTemplate:'<div><span>{{row.entity.url}}<br>{{row.entity.title}}</span></div>',
+									             },
+									             {name: 'value', displayName: 'Hits', width:'30%',
+									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+									             },
 									             {name:'stats_url', displayName:'', width:'30%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									            
 									         ]
 				
-			}else if($scope.typeOfInfo == 'Active_visitors'){
+			}else if($scope.typeOfInfo == 'Media'){
 				$http.get('/getActiveVisitors/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data[0].dates[0].items;
@@ -478,6 +478,29 @@ angular.module('newApp')
 									             {name:'value', displayName:'Visitors', width:'10%'},
 									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
 									             {name:'stats_url', displayName:'', width:'30%',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									             },
+									            
+									         ]
+				
+			}else if($scope.typeOfInfo == 'Domains'){
+				$http.get('/getDomains/'+startDate+"/"+endDate)
+				.success(function(data) {
+					console.log(data);
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name:'title', displayName:'Domain', width:'60%',
+									            	 cellTemplate:'<div><span>{{row.entity.title}}</span></div>',
+									             },
+									             {name:'v', displayName:'Hits', width:'20%',
+									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+									             },
+									             {name:'stats_url', displayName:'', width:'20%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									            
@@ -809,7 +832,16 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('SearchesCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 
+	 var date = new Date();
+	 $scope.typeOfInfo = 'Searches';
+	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
+		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
+		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
 	
+		$scope.initFunction = function(){
+			$scope.DateWiseFind();
+		}
+		
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -819,63 +851,156 @@ angular.module('newApp')
 	 		 };
 	
 	
-	 $scope.gridOptions.enableHorizontalScrollbar = 0;
-		 $scope.gridOptions.enableVerticalScrollbar = 2;
-		 $scope.gridOptions.columnDefs = [
-		                                 { name: 'title', displayName: 'Title', width:'35%',cellEditableCondition: false,
-		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		                                       if (row.entity.isRead === false) {
-		                                         return 'red';
-		                                     }
-		                                	} ,
-		                                 },
-		                                 { name: 'value', displayName: 'value', width:'33%',cellEditableCondition: false,
-		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		                                       if (row.entity.isRead === false) {
-		                                         return 'red';
-		                                     }
-		                                	} ,
-		                                 },
-		                                 { name: 'value_percent', displayName: 'value_percent', width:'33%',cellEditableCondition: false,
-		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		                                       if (row.entity.isRead === false) {
-		                                         return 'red';
-		                                     }
-		                                	} ,
-		                                 },
-		                                	                                 
-	                                 
-		                                
-		                                 ];
 	
 		 $scope.gridOptions.onRegisterApi = function(gridApi){
 			 $scope.gridApi = gridApi;
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		          $scope.gridOptions.data = $filter('filter')($scope.SearchList,{'title':grid.columns[0].filters[0].term,'value':grid.columns[1].filters[0].term,'value_percent':grid.columns[2].filters[0].term},undefined);
+		          $scope.gridOptions.data = $filter('filter')($scope.visitiorList,{'geolocation':grid.columns[0].filters[0].term,'ip_address':grid.columns[1].filters[0].term,'referrer_domain':grid.columns[2].filters[0].term,'total_visits':grid.columns[3].filters[0].term,'web_browser':grid.columns[4].filters[0].term},undefined);
 		        });
 	   		
-		};
-		
-		
-		 $http.get('/getSearchList/'+30)
-			.success(function(data) {
-				console.log(data[0].dates[0].items);
-			$scope.gridOptions.data = data[0].dates[0].items;
-			$scope.SearchList = data[0].dates[0].items;
-			$('#sliderBtn').click();
-		});
+  		};
+  		
+  		
+	
+		 $scope.setShowSearchesType = function(typeOfInfo){
+				$scope.typeOfInfo = typeOfInfo;
+				$scope.DateWiseFind();
+			} 
 		 
-		 $scope.lastDays = function(value){
-			 $http.get('/getSearchList/'+value)
+		 $scope.DateWiseFind = function(){
+			 var startDate = $("#cnfstartDateValue").val();
+			var endDate = $("#cnfendDateValue").val();	 
+			console.log(endDate);
+			
+			if(endDate == '' || startDate == ''){
+				 var startDate = $scope.startDate;
+					var endDate = $scope.endDate;
+			}
+			if($scope.typeOfInfo == 'Searches'){
+				
+				 $http.get('/getSearchesListDale/'+startDate+"/"+endDate)
+					.success(function(data) {
+					$scope.gridOptions.data = data[0].dates[0].items;
+					//console.log($scope.gridOptions.data);
+					
+					 console.log($scope.gridOptions.data);
+					$scope.visitiorList = data[0].dates[0].items;
+				});
+				
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'title', displayName: 'Search', width:'60%'},
+										             {name:'v', displayName:'Visitors', width:'20%',
+										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+										             },
+										            
+										         ]
+				
+			}else if($scope.typeOfInfo == 'Keywords'){
+				
+				
+				 $http.get('/getKeywordsList/'+startDate+"/"+endDate)
+					.success(function(data) {
+						$scope.gridOptions.data = data[0].dates[0].items;
+					console.log($scope.gridOptions.data);
+					$scope.visitiorList = data;
+				});
+				 
+				 
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'title', displayName: 'Search', width:'60%'},
+										             {name:'v', displayName:'Visitors', width:'20%',
+										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+										             },
+										             {name:'stats_url', displayName:'Rank', width:'20%',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										             },
+										            
+										         ]
+				
+			}else if($scope.typeOfInfo == 'Engines'){
+				 $http.get('/getEngines/'+startDate+"/"+endDate)
+					.success(function(data) {
+					$scope.gridOptions.data = data[0].dates[0].items;
+					$scope.visitiorList = data[0].dates[0].items;
+					
+				});
+				 
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'title', displayName: 'Engine', width:'60%'},
+										             {name:'v', displayName:'Visitors', width:'20%',
+										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+										             },
+										            
+										         ]
+				 
+			}else if($scope.typeOfInfo == 'Recent'){
+				$http.get('/getRecent/'+startDate+"/"+endDate)
 				.success(function(data) {
-					console.log(data[0].dates[0].items);
 				$scope.gridOptions.data = data[0].dates[0].items;
 				$scope.visitiorList = data[0].dates[0].items;
-				$('#sliderBtn').click();
+				
 			});
+			 
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'time_pretty', displayName: 'Time', width:'20%'},
+										             {name:'item', displayName:'Item', width:'80%'}
+										            
+										         ]
+				
+			}else if($scope.typeOfInfo == 'Newest Unique'){
+				$http.get('/getNewestUni/'+startDate+"/"+endDate)
+				.success(function(data) {
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name: 'time_pretty', displayName: 'Time', width:'20%'},
+									             {name:'item', displayName:'Item', width:'80%'}
+									            
+									         ]
+				
+			}else if($scope.typeOfInfo == 'Local Searches'){
+				$http.get('/getActiveVisitors/'+startDate+"/"+endDate)
+				.success(function(data) {
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name: 'time_pretty', displayName: 'Time', width:'20%'},
+									             {name:'item', displayName:'Item', width:'80%'}
+									            
+									         ]
+				
+			}else if($scope.typeOfInfo == 'Rankings'){
+				$http.get('/getRankings/'+startDate+"/"+endDate)
+				.success(function(data) {
+					console.log(data);
+				$scope.gridOptions.data = data[0].dates[0].items;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data[0].dates[0].items;
+				
+			});
+			 
+				$scope.gridOptions.columnDefs = [
+									             {name: 'time_pretty', displayName: 'Search', width:'20%'},
+									             {name:'item', displayName:'Rank', width:'80%'}
+									            
+									         ]
+				
+			}else if($scope.typeOfInfo == 'Rankings_SheerSEO'){
+				
+			}
+			
 		 }
+		 
 	
 	$scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
