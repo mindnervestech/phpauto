@@ -1,0 +1,190 @@
+<div ng-init="init()">
+  <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSlider()">Home Page</button></a></li>
+      <!-- <li role="presentation" class="active"><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="uploadFeaturedImages()">Featured Images</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLogo()">Logo & Favicon</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToTestiMonials()">Testimonials</button></a></li>
+      --> <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToAboutUs()">About Us</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventory()">Inventory</button></a></li>
+    <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Hours Of Operation</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToBlog()">Blog</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToContactUs()">Contact Us</button></a></li>
+     <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToWarranty()">Warranty</button></a></li>
+    <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVehicleProfile()">Vehicle Profile</button></a></li>
+     
+    
+    </ul>
+    <!-- <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      	<li role="presentation" class=""><a role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSlider()">Slider Images</button></a></li>
+      <li role="presentation" class=""><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="uploadFeaturedImages()">Featured Images</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSlogan()">Site's slogan</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToDesc()">Site Description</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToLogo()">Logo & Favicon</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToTestiMonials()">Testimonials</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToInventory()">Inventory</button></a></li>
+     <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Header</button></a></li>
+     </ul>
+    
+     <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="gotoHoursOfOperation()">Hours Of Operation</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToBlog()">Blog</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToContactUs()">Contact Us</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToWarranty()">Warranty</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVehicleProfile()">Vehicle Profile</button></a></li>
+     </ul>
+     -->
+          
+    
+	      <div class="form-group col-sm-12" style="margin-top: 25px">
+           	    <label class="col-sm-2">Main Title </label>
+				<div class="col-sm-5">
+					<input class="form-control form-white" type="text" ng-model="profileHeader.mainTitle" placeholder="" required>
+				</div>
+				
+			</div>
+			<div class="form-group col-sm-12">
+           	    <label class="col-sm-2" >Subtitle</label>
+				<div class="col-sm-5">
+					<input class="form-control form-white" type="text" ng-model="profileHeader.textData" placeholder="" rows="12" required>
+				</div>
+				
+			</div>
+	      
+	      <div class="form-group col-sm-12" style="margin-top: 20px">
+           	    <label class="col-sm-4" ></label>
+				<div class="col-sm-6">
+					<button type="button" class="btn btn-primary btn-embossed" ng-click="saveProfileHeader(profileHeader)">Save</button>
+				</div>
+				
+			</div>
+	      
+	      <div class="form-group col-sm-12"style="margin-top: 0px">
+           	    <h1>Cover Image</h1>
+           	    <div class="row" style="margin-bottom: 3%;">
+            <div gridster="gridsterOpts10" style="height: 160px !important;">
+            <ul style="list-style:none;">
+				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
+				                    		id="{{image.id}}"   ng-repeat="image in vehicleProfileList" style="float:left;">
+				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
+				                        			<img  ng-if="thumbPat != null && makeValue==image.makeValue" class="myImage" style="width:100%; height:100%;" src="/vehicleProfileImageById/{{image.findById}}/thumbnail?date={{tempDate}}" id="imgId{{$index}}" />
+				                            		
+				                            		<div>
+				                            			<a class="remImage" ng-click="deleteVehicleImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            		</div>
+				                            		<a class="remImage2" ng-click="showFullFeaturedImage(image)" data-toggle="modal" data-target="#modal-image2" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+				                        			<a class="remImage3" ng-click="editVehicleImage(image)" style="cursor:pointer;color:#319DB5;margin-left: 15px"><b>Edit</b></a>
+				                        		</div>
+				                        	</li>
+				                        </ul>
+				                        
+			</div>	                        
+				                        
+           <h1>Upload Cover Image</h1>
+			<p><b>Prefered image dimension should be {{configWidth}} X {{configHeight}}</b></p>****{{makeForUpload}}
+			<p ng-if="imgSmall == 1" style="color:red"><b>This image is less than preferred image size, it will be streched to fit the screen, which can reduce image's quality</b></p>
+            <form id="dropzoneFrm10" action='{{makeForUpload}}' class="dropzone">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple />
+                            </div>
+                        </form>
+ 					<button class="btn btn-primary" ng-click="vehicleFilesUpload()" style="margin-left:44%;margin-top:3%;">Upload</button>   
+	        	</div>				                        
+				</div>                        
+			</div>	
+			</div>
+                 
+              
+									    <button id="featuredBtnMsg" data-toggle="modal" data-target="#featuredMsg" style="display: none;"></button>
+									    
+  										<div class="modal fade" id="modal-basic2" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title"><strong>Max limit</strong> exceeded</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Only 1 featured images can be uploaded<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+
+
+
+ <p style="display: none;">{{vehicleImageUpload()}}</p>
+    
+    
+    
+    
+    
+    
+    </div>
+    
+    
+    
+    
+    
+    
+ 
+<style>
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+
+.remImage{
+opacity:0;
+top:0;
+right:-15px;
+position:absolute;
+}
+
+
+.remImage2{
+opacity:0;
+top:80px;
+left:123px;
+position:absolute;
+}
+
+.remImage3{
+opacity:0;
+top:80px;
+left:10px;
+position:absolute;
+}
+
+.imageGroup{
+position:relative;
+float:left;
+}
+.imageGroup:hover .remImage{
+opacity:1;
+}
+.imageGroup:hover .remImage2{
+opacity:1;
+}
+.imageGroup:hover .remImage3{
+opacity:1;
+}
+.imageGroup:hover .myImage{
+opacity:0.2;
+}
+
+</style>	    
+    
