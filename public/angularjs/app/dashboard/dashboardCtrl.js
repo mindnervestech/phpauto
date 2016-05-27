@@ -11300,19 +11300,19 @@ angular.module('newApp')
 		   console.log($scope.financeFlag);
 		   console.log($scope.socialFlag);
 		   console.log($scope.makeFlag);
-		   if($scope.makeFlag == true){
+		   if($scope.makeFlag == false){
 			   ProfileHeader.makeFlag =1;
 		   }
 		   else{
-			   ProfileHeadermakeFlag=0;
+			   ProfileHeader.makeFlag=0;
 		   }
-		   if($scope.socialFlag == true){
+		   if($scope.socialFlag == false){
 			   ProfileHeader.socialFlag =1;
 		   }
 		   else{
 			   ProfileHeader.socialFlag=0;
 		   }
-		   if($scope.financeFlag == true){
+		   if($scope.financeFlag == false){
 			   ProfileHeader.financeFlag =1;
 		   }
 		   else{

@@ -9295,6 +9295,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	siAboutUs.subtitle = vm.textData;
 		    	siAboutUs.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 		    	siAboutUs.makeValue=vm.makeValue;
+		    	siAboutUs.makeFlag=vm.makeFlag;
+		    	siAboutUs.financeFlag=vm.financeFlag;
+		    	siAboutUs.socialFlag=vm.socialFlag;
 		    	siAboutUs.findNewId=1L;
 		    	siAboutUs.save();
 		    	
@@ -9302,6 +9305,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		   sAboutUs.setMakeValue(vm.makeValue);
 	    			sAboutUs.setMainTitle(vm.mainTitle);
 	    			sAboutUs.setSubtitle(vm.textData);
+	    			sAboutUs.setMakeFlag(vm.makeFlag);
+	    			sAboutUs.setFinanceFlag(vm.financeFlag);
+	    			sAboutUs.setSocialFlag(vm.socialFlag);
 	    			sAboutUs.setFindNewId(sAboutUs.findNewId + 1);
 	    			
 	    		sAboutUs.update();
