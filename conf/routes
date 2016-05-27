@@ -121,7 +121,7 @@ GET     /saveAction/:actionV		controllers.Application.saveAction(actionV: String
 GET     /sendComingSoonPOpUp			controllers.Application.sendComingSoonPOpUp()
 GET     /getAddPrice/:vId/:price			controllers.Application.getAddPrice(vId:Long,price:Integer)
 GET     /setArrivelDate/:vId/:aDate			controllers.Application.setArrivelDate(vId:Long,aDate:String)
-GET     /sendComingSoonEmail					controllers.Application.sendComingSoonEmail()
+GET     /sendComingSoonEmail/:vin					controllers.Application.sendComingSoonEmail(vin:String)
 GET     /getAllAction				controllers.Application.getAllAction()
 POST	/updateVehicleById			controllers.Application.updateVehicleById()
 POST	/updateVehicleByIdPdf/:id			controllers.Application.updateVehicleByIdPdf(id:Long)

@@ -1489,12 +1489,12 @@ public class Application extends Controller {
     	return ok(Json.toJson(rList));
     }
     
-    public  static Result sendComingSoonEmail(){
-    	List<PriceAlert> price=PriceAlert.getAllRecord();
+    public  static Result sendComingSoonEmail(String vin){
+    	
     	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-    	for(PriceAlert alert:price){
+    	
     		
-    		Vehicle vehicle=Vehicle.findByVinAndComingSoonDate(alert.vin);
+    		Vehicle vehicle=Vehicle.findByVinAndComingSoonDate(vin);
     		if(vehicle != null){
     			if(vehicle.locations != null){
     			Date date=new Date();
@@ -1510,23 +1510,35 @@ public class Application extends Controller {
     				System.out.println(formatter.parse(date1));
     				
     				if(vehicle.comingSoonDate.equals(formatter.parse(date1))){
-    					alert.setPopupFlag(0);
-    					alert.update();
     					vehicle.setComingSoonFlag(0);
     					vehicle.update();
-	    	    		String subject=vehicle.make+" "+vehicle.model+" "+"has Arrived";
-	    	    		String comment="Hi"+" "+alert.name+" "+vehicle.make+" "+vehicle.model+" "+"has Arrived";
-    					sendEmailForComingSoonVehicle(alert.email,subject,comment,vehicle.vin);
     				}
-				} catch (Exception e) {
+    				
+    				List<PriceAlert> price=PriceAlert.getByVin(vin);
+    	    		for(PriceAlert alert:price){
+    	    		//	Vehicle vehicle1=Vehicle.findByVinAndComingSoonDate(vin);
+    	    			if(alert != null){
+    	    				if(alert.locations != null){
+    	    				alert.setPopupFlag(0);
+        					alert.update();
+        					String subject=vehicle.make+" "+vehicle.model+" "+"has Arrived";
+    	    	    		String comment="Hi"+" "+alert.name+" "+vehicle.make+" "+vehicle.model+" "+"has Arrived";
+    	    		sendEmailForComingSoonVehicle(alert.email,subject,comment,vehicle.vin);
+    	    			}
+    	    			}
+				}
+    				
+    			}
+    			catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
     			
+    			}
     		}
-    		}
+	    	    		
+    			
     		
-    	}
     	return ok();
     }
 public static Result sendEmailForComingSoonVehicle(String email,String subject,String comment,String vin) {

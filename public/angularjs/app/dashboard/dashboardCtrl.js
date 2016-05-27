@@ -3359,11 +3359,14 @@ angular.module('newApp')
 			}
 			
 			$scope.makeIt = function(value){
+				console.log(value);
+				$scope.vinForPopup=value.vin;
 				if(value.price == 0){
 					$scope.priceDetail = value;
 					$('#addPriceOther').modal();
-				}else{
-					$scope.addMakeIt();
+				}
+				else{
+					$scope.addMakeIt($scope.vinForPopup);
 				}
 			}
 
@@ -3377,14 +3380,16 @@ angular.module('newApp')
 						    text: "Price Add successfully",
 						});
 						
-						$scope.addMakeIt();
+						$scope.addMakeIt($scope.vinForPopup);
 						
 					});
 				 
 			 }
 			
-			$scope.addMakeIt = function(){
-				$http.get('/sendComingSoonEmail')
+			$scope.addMakeIt = function(vin){
+				console.log("inside coming soon");
+				console.log(vin);
+				$http.get('/sendComingSoonEmail/'+vin)
 				.success(function(data) {
 					
 				});
@@ -3398,7 +3403,8 @@ angular.module('newApp')
       	  	}
 			
 			$scope.addChangeArrival = function(){
-				var aDate = $('#arrDate').val();
+				var aDate = $('#arrivalDate').val();
+				console.log(aDate);
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
 				.success(function(data) {
 					 $('#changeDate').hide();
@@ -3427,7 +3433,7 @@ angular.module('newApp')
       		  	$scope.priceDetail = value;
       	  	}
 			 $scope.addMakeItInPrice = function(){
-				 $scope.arrDate = $('#arrDate').val();
+				 $scope.arrDate = $('#arrivalDate').val();
 				 if($scope.arrDate != $scope.checkDate){
 					 $.pnotify({
 						    title: "Success",
@@ -3435,7 +3441,7 @@ angular.module('newApp')
 						    text: "coming soon date not match with current date",
 						});
 				 }else{
-					 $scope.addMakeIt();
+					 $scope.addMakeIt($scope.vinForPopup);
 				 }
 			 }
 			 
