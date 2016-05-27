@@ -377,6 +377,7 @@ GET   /getExit/:startDate/:endDate			controllers.Application.getExit(startDate:S
 GET   /getDownloads/:startDate/:endDate			controllers.Application.getDownloads(startDate:String,endDate:String)
 GET   /getEvent/:startDate/:endDate			controllers.Application.getEvent(startDate:String,endDate:String)
 GET   /getDomains/:startDate/:endDate			controllers.Application.getDomains(startDate:String,endDate:String)
+GET   /getSearchesLocal/:startDate/:endDate			controllers.Application.getSearchesLocal(startDate:String,endDate:String)
 #GET   /getVisitorList			controllers.Application.getVisitorList()
 GET   /getHeatMapList/:value			controllers.Application.getHeatMapList(value:Integer)
 GET   /getHeatMapListDale/:startD/:endD		controllers.Application.getHeatMapListDale(startD:String,endD:String)

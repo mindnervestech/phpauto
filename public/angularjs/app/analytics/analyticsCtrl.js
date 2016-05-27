@@ -965,7 +965,7 @@ angular.module('newApp')
 									         ]
 				
 			}else if($scope.typeOfInfo == 'Local Searches'){
-				$http.get('/getActiveVisitors/'+startDate+"/"+endDate)
+				$http.get('/getSearchesLocal/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data[0].dates[0].items;
 				console.log($scope.gridOptions.data);

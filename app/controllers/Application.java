@@ -23666,6 +23666,12 @@ private static void cancelTestDriveMail(Map map) {
 	    return ok(Json.parse(callClickAPI(params)));
     }
     
+    public static Result getSearchesLocal(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=searches-local&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
     public static Result getSearchesListDale(String startDate,String endDate){
     	String params = null;
     	params = "&type=searches&date="+startDate+","+endDate+"&limit=all";
@@ -26491,15 +26497,17 @@ private static void cancelTestDriveMail(Map map) {
     	if(type.equals("week")){
     		params = "&type=visitors-list&date=last-7-days&limit=all";
     	}else if(type.equals("month")){*/
-    		params = "&type=visitors-list&date=last-30-days&limit=all";
+    		//params = "&type=visitors-list&date=last-30-days&limit=all";
     	//}else  if(type.equals("allTime")){
     		///params = "&type=visitors-list&date="+start1+","+end1+"&limit=all";
     	//}
     	
+    	List<ClickyVisitorsList> cList = ClickyVisitorsList.getfindAll();
+    	
     	/*-------------------edit click 12-05-2016---------------------------------------*/	
-    		String resultStr = callClickAPI(params);
+    		//String resultStr = callClickAPI(params);
     	    	
-    	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
+    //	JsonNode jsonNode = Json.parse(resultStr).get(0).get("dates").get(0).get("items");
     	
     		/*-------------------edit click 12-05-2016---------------------------------------*/	
     		
@@ -26515,36 +26523,39 @@ private static void cancelTestDriveMail(Map map) {
     	
     	/*-------------------edit click 12-05-2016---------------------------------------*/
     	
-    	for(JsonNode item:jsonNode) {
-    		String data = item.get("landing_page").toString();
+    	for(ClickyVisitorsList item:cList) {
+    		String data = item.landingPage;
 			String arrVin[] = data.split("/");
 			if(arrVin.length > 5){
-				String van[] = arrVin[5].split("\"");
-				Vehicle vehicle = null;
-				if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
-					vehicle = Vehicle.findByVinAndStatusForGM(van[0],Location.findById(locationId));
-				}else{
-					vehicle = Vehicle.findByVinAndStatus(van[0]);
-				}
-				
-				if(vehicle !=null){
-					String arr[] = item.get("time_pretty").toString().split(" ");
-					String arrNew[] = arr[3].split(",");
-					checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
-					try {
-						thedate = df1.parse(checkDate);
-					} catch (ParseException e) {
-						e.printStackTrace();
+				if(!arrVin[5].equals("\"")){
+					String van[] = arrVin[5].split("\"");
+					Vehicle vehicle = null;
+					if(user.role.equals("Sales Person") || user.role.equals("Manager") || gmInManag.equals("1")){
+						vehicle = Vehicle.findByVinAndStatusForGM(van[0],Location.findById(locationId));
+					}else{
+						vehicle = Vehicle.findByVinAndStatus(van[0]);
 					}
 					
-					if (vehicle.postedDate.before(thedate) || vehicle.postedDate.equals(thedate)) {
-						if(pagesCount1.get(vehicle.vin) !=null){
-							int j = pagesCount1.get(vehicle.vin);
-							pagesCount1.put(vehicle.vin, j+1);
-						}else{
-							pagesCount1.put(vehicle.vin, 1);
-						}
+					if(vehicle !=null){
+						/*String arr[] = item.get("time_pretty").toString().split(" ");
+						String arrNew[] = arr[3].split(",");
+						checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];*/
+						//try {
+							//thedate = df1.parse(checkDate);
+							thedate = item.DateClick;
+						/*} catch (ParseException e) {
+							e.printStackTrace();
+						}*/
 						
+						if (vehicle.postedDate.before(thedate) || vehicle.postedDate.equals(thedate)) {
+							if(pagesCount1.get(vehicle.vin) !=null){
+								int j = pagesCount1.get(vehicle.vin);
+								pagesCount1.put(vehicle.vin, j+1);
+							}else{
+								pagesCount1.put(vehicle.vin, 1);
+							}
+							
+						}
 					}
 				}
 				
