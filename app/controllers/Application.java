@@ -23798,49 +23798,55 @@ private static void cancelTestDriveMail(Map map) {
 			try {
 				jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArray.length();i++){
-	    			String data = jsonArray.getJSONObject(i).get("time").toString();
-	    			String data1 = jsonArray.getJSONObject(i).get("time_pretty").toString();
-	    			ClickyVisitorsList cVisitorsList = new ClickyVisitorsList();
-	    			cVisitorsList.setTime(jsonArray.getJSONObject(i).get("time").toString());
-	    			cVisitorsList.setTimePretty(jsonArray.getJSONObject(i).get("time_pretty").toString());
-	    			cVisitorsList.setTimeTotal(jsonArray.getJSONObject(i).get("time_total").toString());
-	    			cVisitorsList.setIpAddress(jsonArray.getJSONObject(i).get("ip_address").toString());
-	    			cVisitorsList.setUid(jsonArray.getJSONObject(i).get("uid").toString());
-	    			cVisitorsList.setSessionId(jsonArray.getJSONObject(i).get("session_id").toString());
-	    			cVisitorsList.setActions(jsonArray.getJSONObject(i).get("actions").toString());
-	    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
-	    			cVisitorsList.setLandingPage(jsonArray.getJSONObject(i).get("landing_page").toString());
-	    			cVisitorsList.setWebBrowser(jsonArray.getJSONObject(i).get("web_browser").toString());
-	    			cVisitorsList.setOperatingSystem(jsonArray.getJSONObject(i).get("operating_system").toString());
-	    			cVisitorsList.setScreenResolution(jsonArray.getJSONObject(i).get("screen_resolution").toString());
-	    			cVisitorsList.setJavascript(jsonArray.getJSONObject(i).get("javascript").toString());
-	    			cVisitorsList.setLanguage(jsonArray.getJSONObject(i).get("language").toString());
-	    			//cVisitorsList.setReferrerUrl(jsonArray.getJSONObject(i).get("referrer_url").toString());
-	    			//cVisitorsList.setReferrerType(jsonArray.getJSONObject(i).get("referrer_type").toString());
-	    			//cVisitorsList.setReferrerDomain(jsonArray.getJSONObject(i).get("referrer_domain").toString());
-	    			cVisitorsList.setGeolocation(jsonArray.getJSONObject(i).get("geolocation").toString());
-	    			cVisitorsList.setCountryCode(jsonArray.getJSONObject(i).get("country_code").toString());
-	    			cVisitorsList.setLatitude(jsonArray.getJSONObject(i).get("latitude").toString());
-	    			cVisitorsList.setLongitude(jsonArray.getJSONObject(i).get("longitude").toString());
-	    			//cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
-	    			cVisitorsList.setOrganization(jsonArray.getJSONObject(i).get("organization").toString());
-	    			cVisitorsList.setStatsUrl(jsonArray.getJSONObject(i).get("stats_url").toString());
-	    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
-	    			
-	    			String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
-					String arrNew[] = arr[3].split(",");
-					String checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
-					Date thedate = null;
-					try {
-						thedate = df1.parse(checkDate);
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					
+					List<ClickyVisitorsList> cVisitorsLists = ClickyVisitorsList.getClickyUnikue(jsonArray.getJSONObject(i).get("uid").toString(),jsonArray.getJSONObject(i).get("session_id").toString());
+					
+					if(cVisitorsLists.size() == 0){
+						
+						String data = jsonArray.getJSONObject(i).get("time").toString();
+		    			String data1 = jsonArray.getJSONObject(i).get("time_pretty").toString();
+		    			ClickyVisitorsList cVisitorsList = new ClickyVisitorsList();
+		    			cVisitorsList.setTime(jsonArray.getJSONObject(i).get("time").toString());
+		    			cVisitorsList.setTimePretty(jsonArray.getJSONObject(i).get("time_pretty").toString());
+		    			cVisitorsList.setTimeTotal(jsonArray.getJSONObject(i).get("time_total").toString());
+		    			cVisitorsList.setIpAddress(jsonArray.getJSONObject(i).get("ip_address").toString());
+		    			cVisitorsList.setUid(jsonArray.getJSONObject(i).get("uid").toString());
+		    			cVisitorsList.setSessionId(jsonArray.getJSONObject(i).get("session_id").toString());
+		    			cVisitorsList.setActions(jsonArray.getJSONObject(i).get("actions").toString());
+		    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
+		    			cVisitorsList.setLandingPage(jsonArray.getJSONObject(i).get("landing_page").toString());
+		    			cVisitorsList.setWebBrowser(jsonArray.getJSONObject(i).get("web_browser").toString());
+		    			cVisitorsList.setOperatingSystem(jsonArray.getJSONObject(i).get("operating_system").toString());
+		    			cVisitorsList.setScreenResolution(jsonArray.getJSONObject(i).get("screen_resolution").toString());
+		    			cVisitorsList.setJavascript(jsonArray.getJSONObject(i).get("javascript").toString());
+		    			cVisitorsList.setLanguage(jsonArray.getJSONObject(i).get("language").toString());
+		    			//cVisitorsList.setReferrerUrl(jsonArray.getJSONObject(i).get("referrer_url").toString());
+		    			//cVisitorsList.setReferrerType(jsonArray.getJSONObject(i).get("referrer_type").toString());
+		    			//cVisitorsList.setReferrerDomain(jsonArray.getJSONObject(i).get("referrer_domain").toString());
+		    			cVisitorsList.setGeolocation(jsonArray.getJSONObject(i).get("geolocation").toString());
+		    			cVisitorsList.setCountryCode(jsonArray.getJSONObject(i).get("country_code").toString());
+		    			cVisitorsList.setLatitude(jsonArray.getJSONObject(i).get("latitude").toString());
+		    			cVisitorsList.setLongitude(jsonArray.getJSONObject(i).get("longitude").toString());
+		    			//cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
+		    			cVisitorsList.setOrganization(jsonArray.getJSONObject(i).get("organization").toString());
+		    			cVisitorsList.setStatsUrl(jsonArray.getJSONObject(i).get("stats_url").toString());
+		    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
+		    			
+		    			String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
+						String arrNew[] = arr[3].split(",");
+						String checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
+						Date thedate = null;
+						try {
+							thedate = df1.parse(checkDate);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+		    			
+		    			cVisitorsList.setDateClick(thedate);
+		    			
+		    			cVisitorsList.save();
 					}
-	    			
-	    			cVisitorsList.setDateClick(thedate);
-	    			
-	    			cVisitorsList.save();
 	    			
 				}	
 			} catch (JSONException e) {
@@ -23894,18 +23900,21 @@ private static void cancelTestDriveMail(Map map) {
 				jsonArrayAction = new JSONArray(callClickAPI(paramsAction)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayAction.length();i++){
 					
-	    			ClickyActionList cAction = new ClickyActionList();
-	    			cAction.setTime(jsonArrayAction.getJSONObject(i).get("time").toString());
-	    			cAction.setTime_pretty(jsonArrayAction.getJSONObject(i).get("time_pretty").toString());
-	    			cAction.setIp_address(jsonArrayAction.getJSONObject(i).get("ip_address").toString());
-	    			cAction.setUid(jsonArrayAction.getJSONObject(i).get("uid").toString());
-	    			cAction.setSession_id(jsonArrayAction.getJSONObject(i).get("session_id").toString());
-	    			cAction.setAction_type(jsonArrayAction.getJSONObject(i).get("action_type").toString());
-	    			cAction.setAction_title(jsonArrayAction.getJSONObject(i).get("action_title").toString());
-	    			cAction.setAction_url(jsonArrayAction.getJSONObject(i).get("action_url").toString());
-	    			cAction.setStats_url(jsonArrayAction.getJSONObject(i).get("stats_url").toString());
-	    			cAction.setCurrDate(curr);
-	    			cAction.save();
+					List<ClickyActionList> cActionLists = ClickyActionList.getClickyUnikue(jsonArrayAction.getJSONObject(i).get("uid").toString(),jsonArrayAction.getJSONObject(i).get("session_id").toString());
+					if(cActionLists.size() == 0){
+						ClickyActionList cAction = new ClickyActionList();
+		    			cAction.setTime(jsonArrayAction.getJSONObject(i).get("time").toString());
+		    			cAction.setTime_pretty(jsonArrayAction.getJSONObject(i).get("time_pretty").toString());
+		    			cAction.setIp_address(jsonArrayAction.getJSONObject(i).get("ip_address").toString());
+		    			cAction.setUid(jsonArrayAction.getJSONObject(i).get("uid").toString());
+		    			cAction.setSession_id(jsonArrayAction.getJSONObject(i).get("session_id").toString());
+		    			cAction.setAction_type(jsonArrayAction.getJSONObject(i).get("action_type").toString());
+		    			cAction.setAction_title(jsonArrayAction.getJSONObject(i).get("action_title").toString());
+		    			cAction.setAction_url(jsonArrayAction.getJSONObject(i).get("action_url").toString());
+		    			cAction.setStats_url(jsonArrayAction.getJSONObject(i).get("stats_url").toString());
+		    			cAction.setCurrDate(curr);
+		    			cAction.save();
+					}
 	    			
 				}	
 			} catch (JSONException e) {

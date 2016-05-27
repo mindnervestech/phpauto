@@ -360,6 +360,10 @@ public class ClickyVisitorsList extends Model {
 		return find.where().between("DateClick", sDate, eDate).findList();
 	}
 	
+	public static List<ClickyVisitorsList> getClickyUnikue(String uid,String sessionId) {
+		return find.where().eq("uid", uid).eq("sessionId", sessionId).findList();
+	}
+	
 	public static List<ClickyVisitorsList> getfindAll() {
 		return find.all();
 	}

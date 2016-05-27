@@ -126,6 +126,8 @@ public class ClickyActionList extends Model {
 	public static List<ClickyActionList> getfindAll() {
 		return find.all();
 	}
-	
+	public static List<ClickyActionList> getClickyUnikue(String uid,String sessionId) {
+		return find.where().eq("uid", uid).eq("session_id", sessionId).findList();
+	}
 	
 }
