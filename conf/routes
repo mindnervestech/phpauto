@@ -156,7 +156,7 @@ GET		/deleteFeaturedImage/:id	controllers.Application.deleteFeaturedImage(id:Lon
 GET     /deleteInventoryImage/:id	controllers.Application.deleteInventoryImage(id:Long)
 GET		/deleteCvrImage/:id	controllers.Application.deleteCvrImage(id:Long)
 GET		/deleteBlogImage/:id	controllers.Application.deleteBlogImage(id:Long)
-GET		/deleteVehicleImage/:id	controllers.Application.deleteVehicleImage(id:Long)
+GET		/deleteVehicleImage/:id/:makeValue  	controllers.Application.deleteVehicleImage(id:Long,makeValue:String)
 GET		/deleteCompareImage/:id	controllers.Application.deleteCompareImage(id:Long)
 GET		/deleteWarImage/:id	controllers.Application.deleteWarImage(id:Long)
 GET		/deleteContactImage/:id	controllers.Application.deleteContactImage(id:Long)

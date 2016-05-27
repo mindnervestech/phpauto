@@ -11063,7 +11063,7 @@ angular.module('newApp')
 	    
 	    
 	    $scope.deleteVehicleImage = function(image) {
-			   $http.get('/deleteVehicleImage/'+image.id)
+			   $http.get('/deleteVehicleImage/'+image.id+"/"+$scope.makeValue)
 				.success(function(data) {
 					$scope.vehicleProfileList.splice($scope.vehicleProfileList.indexOf(image),1);
 				});

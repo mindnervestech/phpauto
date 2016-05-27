@@ -166,6 +166,10 @@ public static Finder<Long,VehicleHeader> find = new Finder<>(Long.class,VehicleH
 		return find.where().eq("locations.id", location).eq("makeValue",makeValue).findUnique();
 	}
 	
+	public static VehicleHeader findByIdAndMake(Long id,String makeValue ) {
+		return find.where().eq("id", id).eq("makeValue",makeValue).findUnique();
+	}
+	
 	public static VehicleHeader findByLocations(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
 	}

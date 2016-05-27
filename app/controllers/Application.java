@@ -8503,12 +8503,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
     
     
-    public static Result deleteVehicleImage(Long id) {
+    public static Result deleteVehicleImage(Long id, String makeValue ) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
 	    	AuthUser user = (AuthUser) getLocalUser();
-	    	VehicleHeader image = VehicleHeader.findById(id);
+	    	VehicleHeader image = VehicleHeader.findByIdAndMake(id,makeValue);
 	    	File file = new File(rootDir+File.separator+"VehicleProfile"+File.separator+image.coverImageName);
 	    	file.delete();
 	    	File thumbfile = new File(rootDir+File.separator+"VehicleProfile"+File.separator+"thumbnail_"+image.coverImageName);
