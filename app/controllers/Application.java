@@ -7503,7 +7503,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    String fileName = picture.getFilename();
 	    	    String fname = fileName.replace("(", "-");
 				String fname1=fname.replace(")","-");	
-				fileName=fname1;
+				fileName=fname1.replace(" ", "-");
 	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
@@ -7579,7 +7579,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    String fileName = picture.getFilename();
 	    	    String fname = fileName.replace("(", "-");
 				String fname1=fname.replace(")","-");	
-				fileName=fname1;
+				fileName=fname1.replace(" ", "-");
 	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
@@ -7653,7 +7653,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    String fileName = picture.getFilename();
 	    	    String fname = fileName.replace("(", "-");
 				String fname1=fname.replace(")","-");	
-				fileName=fname1;
+				fileName=fname1.replace(" ", "-");
 	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"Inventory"+File.separator+"CoverImg");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdirs();
@@ -7804,7 +7804,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    }
 	    	    String fname = fileName.replace("(", "-");
 				String fname1=fname.replace(")","-");	
-				fileName=fname1;
+				fileName=fname1.replace(" ", "-");
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"ContactImages"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"ContactImages"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -7864,7 +7864,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    }
 	    	    String fname = fileName.replace("(", "-");
 				String fname1=fname.replace(")","-");	
-				fileName=fname1;
+				fileName=fname1.replace(" ", "-");
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"VehicleProfile"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"VehicleProfile"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -7928,7 +7928,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    }
 	    	    String fname = fileName.replace("(", "-");
 				String fname1=fname.replace(")","-");	
-				fileName=fname1;
+				fileName=fname1.replace(" ", "-");
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Warranty"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Warranty"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -7988,7 +7988,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    }
 	    	    String fname = fileName.replace("(", "-");
 				String fname1=fname.replace(")","-");	
-				fileName=fname1;
+				fileName=fname1.replace(" ", "-");
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Compare"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"Compare"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -8051,7 +8051,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    }
 	    	    String fname = fileName.replace("(", "-");
 				String fname1=fname.replace(")","-");	
-				fileName=fname1;
+				fileName=fname1.replace(" ", "-");
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"BlogImages"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"BlogImages"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
@@ -8116,7 +8116,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    }
 	    	    String fname = fileName.replace("(", "-");
 				String fname1=fname.replace(")","-");	
-				fileName=fname1;
+				fileName=fname1.replace(" ", "-");
 	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+File.separator+userObj.id+File.separator+"CvrImages"+File.separator+fileName;
 	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+File.separator+userObj.id+File.separator+"CvrImages"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
