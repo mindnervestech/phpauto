@@ -24651,6 +24651,33 @@ private static void cancelTestDriveMail(Map map) {
     	return ok(Json.toJson(onlineVisitorsNode.get(0).get("dates").get(0).get("items").get(0).get("value").asInt()));
     }
     
+    private static String getbusinessname(String businessname) {
+    	StringBuffer response = new StringBuffer();
+    	try {
+    		String url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=AIzaSyBIpjvwQGWY7YOV4KfI71PX6b2DhSjS5Cs&input="+businessname+"&callback=initMap";
+		
+    		URL obj = new URL(url);
+    		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    		con.setRequestMethod("GET");
+    		con.setRequestProperty("User-Agent", USER_AGENT);
+    		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(con.getInputStream()));
+    		String inputLine;
+    		while ((inputLine = in.readLine()) != null) {
+    			response.append(inputLine);
+    		}
+    		in.close();
+    	} catch(Exception e) {}
+    	return response.toString();
+    }
+    
+    public static Result getbusinessData(String businessname){
+    	//JsonNode onlineVisitorsNode = Json.parse(getbusinessname(businessname));
+    	//return ok(Json.parse(onlineVisitorsNode));
+    	String name = businessname.replaceAll(" ", "");
+    	return ok(Json.parse(getbusinessname(name)));
+    }
+    
     public static Result getMonthlyVisitorsStats(String startDate, String endDate) {
     	
     	Calendar c = Calendar.getInstance();

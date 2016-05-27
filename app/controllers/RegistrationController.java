@@ -86,7 +86,7 @@ public class RegistrationController extends Controller {
     	   regi.name=vm.name;
     	   regi.email=vm.email;
     	   regi.phone=vm.phone;
-    	   regi.businessAdd = vm.businessAdd;
+    	   regi.businessAdd = vm.businessAddress;
     	   regi.businessName =vm.businessName;
     	   regi.location =vm.oneLocation;
     	   regi.options = vm.options;

@@ -60,6 +60,19 @@ angular.module('newApp').controller('mainLoginCtrl',
 	       		});
 	            }
 	            
+	            $scope.getbusinessname = function(businessName){
+	            	console.log(businessName);
+	            	 $http.get('/getbusinessData/'+businessName)
+				 		.success(function(data) {
+				 			console.log(data);
+				 			$scope.locationNameList = data.predictions;
+				 		});
+				 }
+	            
+	            $scope.businessAddress = function(check){
+	            	console.log(check);
+	            	$scope.register.businessAddress = check;
+	            }
 	            
 	        }]);
 angular.module('newApp').controller('mainPdfCtrl',

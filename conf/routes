@@ -82,6 +82,7 @@ GET		/vehicleProfileImageByIdForCrop/:id/:makeValue/:type	controllers.Applicatio
 GET		/contactImageById/:id/:type	controllers.Application.contactImageById(id:Long,type:String)
 GET		/deleteImage/:id			controllers.Application.deleteImage(id:Long)
 GET		/setDefaultImage/:id		controllers.Application.setDefaultImage(id:Long)
+GET     /getbusinessData/:businessName	controllers.Application.getbusinessData(businessName:String)
 GET     /getPdfPath/:id				controllers.Application.getPdfPath(id:Long)
 GET		/removeDefault/:old/:newId	controllers.Application.removeDefault(old:Long,newId:Long)
 POST	/savePosition			controllers.Application.savePosition
