@@ -62,14 +62,14 @@
 			</div>
 	      
 	      <div class="form-group col-sm-12"style="margin-top: 0px">
-           	    <h1>Cover Image</h1>
+           	    <h1>Default Cover Image</h1>
            	    <div class="row" style="margin-bottom: 3%;">
             <div gridster="gridsterOpts10" style="height: 160px !important;">
             <ul style="list-style:none;">
 				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" data-sizex="1" data-sizey="1"
 				                    		id="{{image.id}}"   ng-repeat="image in vehicleProfileList" style="float:left;">
 				                    		 	<div class="imageGroup" style="margin-left:5%;margin-top:5%;">
-				                        			<img  ng-if="thumbPat != null && makeValue==image.makeValue" class="myImage" style="width:100%; height:100%;" src="/vehicleProfileImageById/{{image.findById}}/thumbnail?date={{tempDate}}" id="imgId{{$index}}" />
+				                        			<img  ng-if="thumbPat != null && makeValue==image.makeValue" class="myImage" style="width:100%; height:100%;" src="/vehicleProfileImageById/{{image.id}}/thumbnail?date={{tempDate}}" id="imgId{{$index}}" />
 				                            		
 				                            		<div>
 				                            			<a class="remImage" ng-click="deleteVehicleImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
@@ -127,11 +127,11 @@
 									<table  style="border: 1px solid; width:80%" >
 						    		<tr style="border: 1px solid;">
 						    			<td style="padding: 5px;font-size: 20px;text-align: center; border: 1px solid;">Make</td>
-						    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Upload Image</td>
+						    			<td style="padding: 5px;font-size: 20px;text-align: center;border: 1px solid;">Cover Image Section</td>
 						    		  </tr>
 						    			<tr ng-repeat="item in makeList" style="border: 1px solid;">
 						    				<td style="padding: 5px;border: 1px solid;" >{{item.make}}</td>
-						    				<td style="border: 1px solid;text-align: center; height: 50px"> <button type="button" class="btn btn-primary btn-embossed" ng-click="uploadImageForMake(item.make)">Upload</button> </td>
+						    				<td style="border: 1px solid; height: 50px; "> <button  style=" margin-left:30%"  type="button" class="btn btn-primary btn-embossed" ng-click="uploadImageForMake(item.make)">Edit</button><label ng-if=" item.flagForMake == 1 "> No Image Added </label> </td>
 						    			</tr>
 						    		</table>
 								</div>

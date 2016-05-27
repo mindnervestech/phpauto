@@ -171,7 +171,7 @@ public static Finder<Long,VehicleHeader> find = new Finder<>(Long.class,VehicleH
 	}
 	
 	public static VehicleHeader findByOtherId(Long id,Long location) {
-		return find.where().eq("findNewId", id).eq("locations.id", location).findUnique();
+		return find.where().eq("id", id).eq("locations.id", location).findUnique();
 	}
 	
 	public static List<VehicleHeader> findAllByLocation(Long location) {

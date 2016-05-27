@@ -10447,12 +10447,43 @@ angular.module('newApp')
 				console.log(">>>>>>>>>");
 				console.log(data);
 				$scope.makeList=data;
+				$scope.makeWiseData();
+				
+				
 			});
 		
+		 
+		 
+		 $scope.makeWiseData = function() {
 		 $http.get('/getMakeWiseData/'+$scope.makeValue)
 			.success(function(data) {
-				console.log(">>>>>>>>>");
+				
 				console.log(data);
+				console.log(data.vehProfData);
+				$scope.vehProfDataByMake=data.vehProfData;
+				console.log($scope.makeList);
+				angular.forEach( $scope.makeList, function(value, key) {
+					var keepGoing = true;
+					// $scope.makeList[key].flagForMake=1;
+					angular.forEach( $scope.vehProfDataByMake, function(value1, key1) {
+						if(keepGoing) {
+						if(value1.makeValue == value.make && value1.path != null ){
+							
+							
+							$scope.makeList[key].flagForMake=0;
+							keepGoing = false;
+						}
+						else{
+							$scope.makeList[key].flagForMake=1;
+						}
+						}
+					});
+					
+				});
+				
+				
+				
+				
 				$scope.profileHeader.mainTitle=data.vehicleProfileData[0].mainTitle;
 				$scope.profileHeader.textData=data.vehicleProfileData[0].subtitle;
 				if(data.vehicleProfileData[0].socialFlag == 1){
@@ -10491,7 +10522,7 @@ angular.module('newApp')
 				}
 	
 			});
-		 
+		 }
 		
 		$scope.tempDate = new Date().getTime();
 		 $http.get('/getSliderAndFeaturedImages')
@@ -11263,7 +11294,25 @@ angular.module('newApp')
 		   console.log($scope.financeFlag);
 		   console.log($scope.socialFlag);
 		   console.log($scope.makeFlag);
-		  
+		   if($scope.makeFlag == true){
+			   ProfileHeader.makeFlag =1;
+		   }
+		   else{
+			   ProfileHeadermakeFlag=0;
+		   }
+		   if($scope.socialFlag == true){
+			   ProfileHeader.socialFlag =1;
+		   }
+		   else{
+			   ProfileHeader.socialFlag=0;
+		   }
+		   if($scope.financeFlag == true){
+			   ProfileHeader.financeFlag =1;
+		   }
+		   else{
+			   ProfileHeader.financeFlag=0;
+		   }
+		   
 			   
 				  
 				   

@@ -7882,6 +7882,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					vImage.path = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+fileName;
 					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName;
 					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.makeValue=makeValue;
 					vImage.findNewId=1L;
 					vImage.save();
 					
@@ -7892,6 +7893,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					imageObj.setThumbPath("/"+session("USER_LOCATION")+"/"+"VehicleProfile"+"/"+"thumbnail_"+fileName);
 					Long value = imageObj.findNewId + 1L;
 					imageObj.setFindNewId(value);
+					imageObj.setMakeValue(makeValue);
 					imageObj.update();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -8615,6 +8617,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	} else {
     		Map<String,List> map = new HashMap<>();
 	    	List<SiteAboutUsVM> vehicleProfile=new ArrayList<>();
+	    	List<SiteAboutUsVM> vehicleProfile1=new ArrayList<>();
 	    	VehicleHeader header = VehicleHeader.findByLocationsAndMake(Long.valueOf(session("USER_LOCATION")),makeValue);
 	    	if(header != null){
 	    	SiteAboutUsVM sUs = new SiteAboutUsVM();
@@ -8633,6 +8636,30 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	
 	    	}
 	    	map.put("vehicleProfileData", vehicleProfile);
+	    	
+	    	List <VehicleHeader> header1=VehicleHeader.findAllByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	if(header1 != null)
+	    	for(VehicleHeader vheader:header1){
+	    		
+	    		SiteAboutUsVM sUs = new SiteAboutUsVM();
+		    	sUs.mainTitle = vheader.mainTitle;
+		    	sUs.subtitle=vheader.subtitle;
+		    	sUs.id = vheader.id;
+		    	sUs.path = vheader.path;
+		    	sUs.imgName = vheader.coverImageName;
+		    	sUs.thumbPath=vheader.thumbPath;
+		    	sUs.financeFlag=vheader.financeFlag;
+		    	sUs.makeFlag=vheader.makeFlag;
+		    	sUs.socialFlag=vheader.socialFlag;
+		    	sUs.findById=vheader.findNewId;
+		    	sUs.makeValue=vheader.makeValue;
+		    	vehicleProfile1.add(sUs);
+	    	}
+	    	map.put("vehProfData", vehicleProfile1);
+	    	
+	    	
+	    	
+	    	
 	    	return ok(Json.toJson(map));
     	}	
     }
