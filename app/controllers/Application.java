@@ -8265,6 +8265,27 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	return ok(file);
     	}
     }
+   
+    
+    public static Result  vehicleProfileImageByIdForCrop(Long id,String makeValue,String type) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	File file = null;
+	    	VehicleHeader image = VehicleHeader.findByIdAndMake(id,makeValue);
+	    	if(image.thumbPath != null || image.path != null){
+	    	if(type.equals("thumbnail")) {
+		    	file = new File(rootDir+image.thumbPath);
+	    	}
+	    	
+	    	if(type.equals("full")) {
+	    		file = new File(rootDir+image.path);
+	    	}
+	    	}
+	    	return ok(file);
+    	}
+    }
+    
     
     
     

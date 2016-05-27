@@ -11817,7 +11817,7 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('VehicleCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 	$scope.coords = {};
-	$scope.imgId = "/vehicleProfileImageById/"+$routeParams.findById+"/full?d=" + Math.random();
+	$scope.imgId = "/vehicleProfileImageByIdForCrop/"+$routeParams.id+"/"+$routeParams.makeValue+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.minImgheight;
 	$scope.minImgwidth;

@@ -77,6 +77,7 @@ GET		/blogImageById/:id/:type	controllers.Application.blogImageById(id:Long,type
 GET		/compareImageById/:id/:type	controllers.Application.compareImageById(id:Long,type:String)
 GET		/warrantyImageById/:id/:type	controllers.Application.warrantyImageById(id:Long,type:String)
 GET		/vehicleProfileImageById/:id/:type	controllers.Application.vehicleProfileImageById(id:Long,type:String)
+GET		/vehicleProfileImageByIdForCrop/:id/:makeValue/:type	controllers.Application.vehicleProfileImageByIdForCrop(id:Long,makeValue:String,type:String)
 GET		/contactImageById/:id/:type	controllers.Application.contactImageById(id:Long,type:String)
 GET		/deleteImage/:id			controllers.Application.deleteImage(id:Long)
 GET		/setDefaultImage/:id		controllers.Application.setDefaultImage(id:Long)
