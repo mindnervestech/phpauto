@@ -59,6 +59,7 @@ import models.ActionAdd;
 import models.AuthUser;
 import models.AutoPortal;
 import models.Blog;
+import models.CampaignsVM;
 import models.ClickyActionList;
 import models.ClickyPagesList;
 import models.ClickyVisitorsList;
@@ -150,6 +151,7 @@ import viewmodel.AudioVM;
 import viewmodel.AutoPortalVM;
 import viewmodel.BarChartVM;
 import viewmodel.BlogVM;
+import viewmodel.CampaignsVMs;
 import viewmodel.ClickyPagesVM;
 import viewmodel.ContactsVM;
 import viewmodel.DateAndValueVM;
@@ -1855,6 +1857,28 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		}
     	}
     	return ok();
+    }
+    
+    public static Result saveCampaigns(){
+    	
+    	
+    	Form<CampaignsVMs> form = DynamicForm.form(CampaignsVMs.class).bindFromRequest();
+    	CampaignsVMs vm = form.get();
+    	
+    	
+    	CampaignsVM cam = new CampaignsVM();
+    	cam.name = vm.name;
+    	cam.matchType = vm.matchType;
+    	cam.matchString = vm.matchString;
+    	cam.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	cam.save();
+    	
+    	return ok();
+    }
+    
+    public static Result getCampaign(){
+    	List<CampaignsVM> cVm = CampaignsVM.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    	return ok(Json.toJson(cVm));
     }
     
     

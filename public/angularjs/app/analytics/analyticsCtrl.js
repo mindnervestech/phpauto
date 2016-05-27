@@ -284,6 +284,10 @@ angular.module('newApp')
 		$location.path('/refferersAnalytics');
 	}
 	
+	$scope.goCampaignss = function(){
+		$location.path('/CampaignsAnalytics');
+	}
+	
 	$scope.goToContent = function() {
 		$location.path('/contentAnalytics');
 	}
@@ -527,6 +531,10 @@ angular.module('newApp')
 		$location.path('/searchesAnalytics');
 	}
 	
+	$scope.goCampaignss = function(){
+		$location.path('/CampaignsAnalytics');
+	}
+	
 	$scope.goToRefferers = function() {
 		$location.path('/refferersAnalytics');
 	}
@@ -669,6 +677,40 @@ angular.module('newApp')
 
 
 angular.module('newApp')
+.controller('CampaignsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+	
+	$scope.showSet = 0;
+	$scope.savecampaign = function(campaign){
+		$scope.campaign = campaign;
+		console.log($scope.campaign);
+		$http.post("/saveCampaigns",$scope.campaign).success(function(data){
+			 console.log("yessssssss");
+		});
+		
+		$scope.showSet = 0;
+	}
+	
+	 $http.get('/getCampaign')
+		.success(function(data) {
+			$scope.listCamp = data;
+		});
+	
+	$scope.showSetup = function(){
+		$scope.showSet = 1;
+	}
+	
+	$scope.goToSearches = function() {
+		$location.path('/searchesAnalytics');
+	}
+	
+	$scope.goToRefferers = function() {
+		$location.path('/refferersAnalytics');
+	}
+	
+}]);
+
+
+angular.module('newApp')
 .controller('ActionsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 
 	
@@ -773,6 +815,9 @@ angular.module('newApp')
 	$scope.goToRefferers = function() {
 		$location.path('/refferersAnalytics');
 	}
+	$scope.goCampaignss = function(){
+		$location.path('/CampaignsAnalytics');
+	}
 	
 	$scope.goToContent = function() {
 		$location.path('/contentAnalytics');
@@ -808,6 +853,10 @@ angular.module('newApp')
 	
 	$scope.goToRefferers = function() {
 		$location.path('/refferersAnalytics');
+	}
+	
+	$scope.goCampaignss = function(){
+		$location.path('/CampaignsAnalytics');
 	}
 	
 	$scope.goToContent = function() {
@@ -1143,6 +1192,10 @@ angular.module('newApp')
 		$location.path('/searchesAnalytics');
 	}
 	
+	$scope.goCampaignss = function(){
+		$location.path('/CampaignsAnalytics');
+	}
+	
 	$scope.goToContent = function() {
 		$location.path('/contentAnalytics');
 	}
@@ -1188,6 +1241,10 @@ angular.module('newApp')
 	
 	$scope.goToSearches = function() {
 		$location.path('/searchesAnalytics');
+	}
+	
+	$scope.goCampaignss = function(){
+		$location.path('/CampaignsAnalytics');
 	}
 	
 	$scope.goToRefferers = function() {
@@ -2015,6 +2072,10 @@ angular.module('newApp')
 				$location.path('/refferersAnalytics');
 			}
 			
+			$scope.goCampaignss = function(){
+				$location.path('/CampaignsAnalytics');
+			}
+			
 			$scope.goToContent = function() {
 				$location.path('/contentAnalytics');
 			}
@@ -2497,6 +2558,10 @@ $scope.maillineChartMap = function(lastTime,analyType){
 	
 	$scope.goToRefferers = function() {
 		$location.path('/refferersAnalytics');
+	}
+	
+	$scope.goCampaignss = function(){
+		$location.path('/CampaignsAnalytics');
 	}
 	
 	$scope.goToContent = function() {

@@ -260,6 +260,12 @@ var MakeApp = angular
             templateUrl: '/dealer/analytics/searches.html',
             controller: 'SearchesCtrl'
         })
+        
+        .when('/CampaignsAnalytics', {
+            templateUrl: '/dealer/analytics/campaigns.html',
+            controller: 'CampaignsCtrl'
+        })
+        
         .when('/refferersAnalytics', {
             templateUrl: '/dealer/analytics/refferers.html',
             controller: 'RefferersCtrl'

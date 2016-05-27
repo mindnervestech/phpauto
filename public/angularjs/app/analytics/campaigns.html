@@ -1,0 +1,226 @@
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="initFunction()">
+ <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">WebSite</button></a></li>
+       <li role="presentation" class=""><a id="profile-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToVehicleInfo()">Inventory</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToActions()">Leads</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSearches()">Staff</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToRefferers()">Financial</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="home-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSearches()">Marketing</button></a></li>
+     </ul>
+     <ul id="myTabs" class="nav nav-tabs" role="tablist"> 
+      <li role="presentation" class=""><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToSearches()">Searches</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToRefferers()">Refferers</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goCampaignss()">Campaigns</button></a></li> 
+    </ul>
+    <!-- <ul id="myTabs" class="nav nav-tabs" role="tablist">
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVehicleInfo()">Inventory</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">Visitors</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToActions()">Actions</button></a></li>
+      <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue">Searches</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToRefferers()">Refferers</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToheatMapInfo()">HeatMap</button></a></li>
+      
+    </ul> -->
+	    <div id="myTabContent" class="tab-content">
+	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
+	     <div class="col-sm-12">
+	        	 	 <a class="btn btn-blue col-sm-1" ng-click="setShowSearchesType('Searches')">Campaigns</a><a class="btn btn-blue col-sm-1" ng-click="setShowSearchesType('Keywords')">Setup</a> 
+	      </div>
+	        <!--  <div class="col-sm-12">
+	      		<div class="col-sm-2">
+									     	<label>111Start Date</label>
+									     		<input data-provide="datepicker" id="cnfstartDateValue" name="startDateValue" class="form-control" ng-model="startDate" data-date-format="yyyy-mm-dd" required>
+									     		
+									     </div>
+									     <div class="col-sm-2">
+									     	<label>End Date</label>
+									     		<input data-provide="datepicker" id="cnfendDateValue" name="endDateValue" class="form-control" ng-model="endDate" data-date-format="yyyy-mm-dd" required>
+									     </div>
+									 <div class="col-sm-2">
+									 	<a class="btn btn-blue" ng-click="DateWiseFind()" style="width: 40%;margin-top: 25px;">OK</a>
+									 </div>    
+	      </div> -->
+	      <!-- <h2>{{typeOfInfo}}</h2>
+	       <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+				</div>  -->
+				<div class="col-sm-12" ng-if="showSet == 0">
+				<div id="main-ajax" style="margin-top: 87px;">
+
+
+					<br> <a ng-click="showSetup()"><img
+						class="mb-2" src="//con.tent.network/media/icon_add.gif">
+						Create new campaign</a><br>
+					<br>
+					<br>
+					<div class="col-sm-12">
+					
+							 <table cellpadding="5" cellspacing="1" border="1">
+						<tbody>
+							<tr>
+								<th colspan="2">Static campaigns</th>
+							</tr>
+
+							<tr class="alt" ng-repeat="lis in listCamp">
+								<td><img title="Active"
+									src="//con.tent.network/media/icon_check.gif"></td>
+								<td><a
+									href="/stats/campaigns-setup?site_id=100875513&amp;id=173">{{lis.name}}
+										</a> &nbsp;</td>
+							</tr>
+
+						</tbody>
+					</table> 
+					</div>
+				
+
+					<h3>What is a campaign?</h3>
+
+					Clicky has two ways to monitor any campaigns or advertisements that
+					you run for your web site. These are called static and dynamic.<br>
+					<br>
+
+					<h4>Static campaigns</h4>
+					A static campaign is one that is pre-defined in our system. You can
+					enter a landing page or referring domain and any visitor who lands
+					on that page or arrives via that domain will be flagged as a
+					campaign visitor. This method may be preferred if you aren't in
+					complete control of the URL that links to your site, or if your
+					campaign is running on a lot of different sites. By simply entering
+					the URL or referring domain instead, you don't have to change any
+					of your existing links. <a
+						ng-click="showSetup()">Click here to
+						setup a static campaign now</a>.<br>
+					<br>
+
+					<h4>Dynamic campaigns</h4>
+					Dynamic campaigns offer a lot more flexibility, as they do not have
+					to be pre-defined. Instead, you just add a couple of parameters to
+					your landing pages, and we handle the rest. We use the same tags
+					that Google Analytics / Urchin use, so if you are coming from
+					either of those systems, your existing campaigns should work
+					automatically. Please refer to the links below to learn more about
+					setting up dynamic campaigns.<br>
+					<br> <b class="red">Important notes:</b> There are 5 different
+					parameters you can use to define dynamic campaigns on your landing
+					pages. All of them are optional, except "utm_campaign", which is
+					required. It is essentially the "name" of your campaign, and we
+					group campaigns by their name, so this parameter is always
+					required. Otherwise, all "UTM" parameters will be ignored.<br>
+					<br>
+					<ul>
+						<li><b class="red">NEW!</b> Use our <a
+							href="/help/code-generator">code generator</a> page to generate
+							dynamic campaign URLs automatically. <!-- <li><a href="http://support.google.com/analytics/bin/answer.py?hl=en&answer=1033867">Use this form to easily create new dynamic campaign URLs</a> -->
+						</li>
+						<li><a
+							href="http://support.google.com/analytics/bin/answer.py?hl=en&amp;answer=1733663"
+							target="_blank">The five dimensions of campaigns</a></li>
+					</ul>
+
+					<br>
+					<br>
+
+
+					<h3>Important notes</h3>
+					<ul>
+						<li>There are limits on the number of static campaigns you
+							can create, as they take a lot more resources to process than
+							dynamic ones. Your account level allows for up to 30 static
+							campaigns. There are no limits for dynamic campaigns.<br>
+						<br>
+
+						</li>
+						<li>You don't need to choose between the two campaign types.
+							You can have a mix of both static and dynamic campaigns running
+							at any time, and they will be reported together in the same
+							interface. In other words, while there are two different ways to
+							"define" your campaigns, once they are processed they both end up
+							as the same type of data in your stats.<br>
+						<br>
+
+						</li>
+						<li>Campaigns are only processed on a visitor's landing page
+							(the first page they view on your site during that session). This
+							helps prevent duplicate hits and assures that the people we log
+							as campaign visitors actually arrived at your site via a
+							campaign.<br>
+						<br>
+
+						</li>
+						<li>A visitor can only be attached to one campaign. If a
+							visitor's landing page matches more than one static campaign,
+							then only the first one we process will be logged. Be sure to
+							make your matching strings unique enough that they only match the
+							pages they should.<br>
+						<br>
+
+						</li>
+						<li>Static campaigns override dynamic campaigns. In other
+							words, if a visitor's landing page matches a static campaign, but
+							it also has dynamic campaign variables in the URL, we will only
+							log the static campaign.<br>
+						<br>
+						</li>
+					</ul>
+
+
+					<div class="cb"></div>
+					<br>
+					<br>
+
+				</div>
+			</div>
+			<div class="col-sm-12" ng-if="showSet == 1">
+				  <form role="form" class="form-validation" ng-submit="savecampaign(campaign)" method="post"> 
+					<div class="form-group col-sm-12">
+						<div class="col-sm-3">
+							<label>Name</label>
+						</div>
+						<div class="col-sm-8">
+							<input class="form-control" ng-model="campaign.name" type="text">
+						</div>
+					</div>
+					<div class="form-group col-sm-12">
+						<div class="col-sm-3">
+							<label>Match Type</label>
+						</div>
+						<div class="col-sm-8">
+							<select  class="form-control" ng-model="campaign.matchType" ng-change="showuser(schmeeting.location)" required>
+								   <option value="Landing Page">Landing Page</option>
+						           <option value="Referring domain">Referring domain</option>
+						        </select>
+						</div>
+					</div>
+					<div class="form-group col-sm-12">
+						<div class="col-sm-3">
+							<label>Match String</label>
+						</div>
+						<div class="col-sm-8">
+							<input class="form-control" ng-model="campaign.matchString" type="text">
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>	
+			</div>
+			
+	      </div>
+	      
+	 </div>
+	</div>
+</div>	  
+
+
+<style>
+.red { color: black;  background-color: #ffd3d3 !important; }
+
+.nav-tabs > li > a::before {
+	height: 0px;
+}
+.tab-content {
+    background-color: #F1F1F1;
+    border-top: 0px;
+}
+.nav.nav-tabs > li.active > a {
+	background-color: #F1F1F1;
+}
+</style>      
