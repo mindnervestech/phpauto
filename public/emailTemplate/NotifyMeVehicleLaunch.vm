@@ -634,7 +634,7 @@ a{text-decoration: none !important;}
                           <tr>
                             <td width="170" valign="top" align="left" class="image-170px" style="width: 170px;">
                               
-                                <img src="$hostnameUrl$sameMakeDefault"_8.jpg" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
+                                <img src="$hostnameUrl$sameBodyStyleDefault" width="170" alt="" style="max-width: 170px; display: block !important;" border="0" hspace="0" vspace="0">
                               
                             </td>
                           </tr>

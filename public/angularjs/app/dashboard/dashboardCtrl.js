@@ -3060,7 +3060,16 @@ angular.module('newApp')
 							            	  $scope.addPrice(value);
 							                 $noty.close();
 							              }
-							          }
+							          },
+							          {
+							              addClass: 'general-button btnText', text: 'Close', onClick: function($noty)
+							              {
+							            	 // $scope.acceptDate(value);
+							            	 // $scope.addPrice(value);
+							                 $noty.close();
+							              }
+							          },
+							          
 									 ],
 							animation : {
 								open : 'animated bounceIn',
@@ -3420,6 +3429,7 @@ angular.module('newApp')
 			$scope.buttFlag = 0;
 			 $scope.addPrice = function(value){
 				 
+				 $scope.vinForPriceChange=value.vin;
 				 $scope.buttFlag = 0;
 				 $scope.arrDate = value.comingSoonDate;
 				 $scope.checkDate = value.comingSoonDate;
@@ -3433,7 +3443,8 @@ angular.module('newApp')
       		  	$scope.priceDetail = value;
       	  	}
 			 $scope.addMakeItInPrice = function(){
-				 $scope.arrDate = $('#arrivalDate').val();
+				 $scope.arrDate = $('#arrDate').val();
+				 console.log($scope.arrDate);
 				 if($scope.arrDate != $scope.checkDate){
 					 $.pnotify({
 						    title: "Success",
@@ -3441,7 +3452,7 @@ angular.module('newApp')
 						    text: "coming soon date not match with current date",
 						});
 				 }else{
-					 $scope.addMakeIt($scope.vinForPopup);
+					 $scope.addMakeIt($scope.vinForPriceChange);
 				 }
 			 }
 			 
