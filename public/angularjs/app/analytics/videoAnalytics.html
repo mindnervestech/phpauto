@@ -11,14 +11,14 @@
       <li role="presentation" class=""><a id="home-tabs" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">Visitors</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tabs" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToActions()">Actions</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToheatMapInfo()">HeatMap</button></a></li>
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVideoAnalytics()" >Video & Audio</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVideoAnalytics()" >Video & Audio</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="goToPlatformsInfo()">Platforms</button></a></li>
-      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="goToContentInfo()">Content</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="goToContentInfo()">Content</button></a></li>
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tabs">
 	      <div class="col-sm-12">
-	        	 	 <a class="btn btn-blue" ng-click="setShowPagesInfoType('Pages')" style="width: 8%;">Pages</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Entrance')" style="width: 8%;">Entrance</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Exit')" style="width: 13%;">Exit</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Downloads')" style="width: 13%;">Downloads</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Event')" style="width: 15%;">Event</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Media')" style="width: 12%;">Media</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Domains')" style="width: 12%;">Domains</a>   
+	        	<a class="btn btn-blue" ng-click="setShowVisitorsInfoType('video&video_meta=1')" style="width: 13%;">Engagement(action)</a>   
 	      </div>
 	      <div class="col-sm-12">
 	      		<div class="col-sm-2">
@@ -50,11 +50,11 @@
 
 <style>
 
-.ui-grid-row, .ui-grid-cell {
-  min-height: 45px !important;
+
+
+   .ui-grid-row, .ui-grid-cell {
+  min-height: 150px !important;
 }
-
-
 
 .red { color: black;  background-color: #ffd3d3 !important; }
 

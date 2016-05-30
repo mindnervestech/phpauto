@@ -23711,6 +23711,14 @@ private static void cancelTestDriveMail(Map map) {
 	    return ok(Json.parse(callClickAPI(params)));
     }
     
+    
+    
+    public static Result getVideoAction(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=video&video_meta=1&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.parse(callClickAPI(params)));
+    }
+    
     public static Result getExit(String startDate,String endDate){
     	String params = null;
     	params = "&type=pages-exit&date="+startDate+","+endDate+"&limit=all";

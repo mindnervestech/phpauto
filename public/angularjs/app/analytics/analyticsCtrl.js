@@ -187,11 +187,14 @@ angular.module('newApp')
 										             },
 										             {name:'stats_url', displayName:'', width:'20%',
 										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
-										             },
 										            
-										         ]
+										             }
+										            	 ]
 				 
-			}else if($scope.typeOfInfo == 'Engagement_time'){
+			
+			}
+			
+			else if($scope.typeOfInfo == 'Engagement_time'){
 				$http.get('/getEngagementTime/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data[0].dates[0].items;
@@ -270,6 +273,10 @@ angular.module('newApp')
 	
 	$scope.goToActions = function() {
 		$location.path('/actionsAnalytics');
+	}
+	
+	$scope.goToVideoAnalytics = function() {
+		$location.path('/goToVideoAnalytics');
 	}
 	
 	$scope.goToBasics = function() {
@@ -519,6 +526,10 @@ angular.module('newApp')
 				$location.path('/visitorsAnalytics');
 			}
 	
+		 $scope.goToVideoAnalytics = function() {
+				$location.path('/goToVideoAnalytics');
+			}
+		 
 	$scope.goToActions = function() {
 		$location.path('/actionsAnalytics');
 	}
@@ -561,6 +572,235 @@ angular.module('newApp')
 	
 	
 }]);
+
+
+angular.module('newApp')
+.controller('VideoAnalyticsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+
+	 var date = new Date();
+	// $scope.typeOfInfo = 'Pages';
+	 $scope.typeOfInfo = 'video&video_meta=1';
+	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
+		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
+		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
+	
+		$scope.initFunction = function(){
+			$scope.DateWiseFind();
+			console.log($scope.typeOfInfo);
+		}
+		
+	$scope.gridOptions = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
+	
+	
+		 $scope.gridOptions.onRegisterApi = function(gridApi){
+			 $scope.gridApi = gridApi;
+			 
+	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+		          var grid = this.grid;
+		          $scope.gridOptions.data = $filter('filter')($scope.visitiorList,{'geolocation':grid.columns[0].filters[0].term,'ip_address':grid.columns[1].filters[0].term,'referrer_domain':grid.columns[2].filters[0].term,'total_visits':grid.columns[3].filters[0].term,'web_browser':grid.columns[4].filters[0].term},undefined);
+		        });
+	   		
+  		};
+  		
+  		
+  		$scope.setShowVisitorsInfoType = function(typeOfInfo){
+			$scope.typeOfInfo = typeOfInfo;
+			$scope.DateWiseFind();
+		} 
+		
+		 $scope.DateWiseFind = function(){
+			 var startDate = $("#cnfstartDateValue").val();
+			var endDate = $("#cnfendDateValue").val();	 
+			console.log(endDate);
+			
+			if(endDate == '' || startDate == ''){
+				 var startDate = $scope.startDate;
+					var endDate = $scope.endDate;
+			}
+			
+			if($scope.typeOfInfo == 'video&video_meta=1'){
+				console.log(">>>>>>>");
+				 $http.get('/getVideoAction/'+startDate+"/"+endDate)
+					.success(function(data) {
+					$scope.gridOptions.data = data[0].dates[0].items;
+					
+					angular.forEach($scope.gridOptions.data, function(obj, index){
+						console.log($scope.gridOptions.data[index].video_meta);
+						//$scope.gridOptions.data[index].video_meta.average_time_before_pause_seek = Math.floor($scope.gridOptions.data[index].video_meta.average_time_before_pause_seek/ 1000);
+						//$scope.gridOptions.data[index].video_meta.total_time_spent_watching = Math.floor($scope.gridOptions.data[index].video_meta.total_time_spent_watching/ 1000);
+						
+						console.log($scope.gridOptions.data[index].video_meta.total_time_spent_watching);
+						
+						var seconds = Math.floor($scope.gridOptions.data[index].video_meta.total_time_spent_watching / 1000);
+				        var h = 3600;
+				        var m = 60;
+				        var hours = Math.floor(seconds/h);
+				        var minutes = Math.floor( (seconds % h)/m );
+				        var scnds = Math.floor( (seconds % m) );
+				        var timeString = '';
+				        if(scnds < 10) scnds = "0"+scnds;
+				        if(hours < 10) hours = "0"+hours;
+				        if(minutes < 10) minutes = "0"+minutes;
+				        if(hours == "00" ){
+				        	timeString =minutes +" m  "+scnds+" s ";
+				        }else{
+				        	timeString = hours +" h  "+ minutes +" m  "+scnds+" s ";
+				        }
+				        $scope.gridOptions.data[index].video_meta.total_time_spent_watching=timeString ;
+				        
+				        
+				        var seconds = Math.floor($scope.gridOptions.data[index].video_meta.average_time_before_pause_seek / 1000);
+				        var h = 3600;
+				        var m = 60;
+				        var hours = Math.floor(seconds/h);
+				        var minutes = Math.floor( (seconds % h)/m );
+				        var scnds = Math.floor( (seconds % m) );
+				        var timeString = '';
+				        if(scnds < 10) scnds = "0"+scnds;
+				        if(hours < 10) hours = "0"+hours;
+				        if(minutes < 10) minutes = "0"+minutes;
+				        if(hours == "00" ){
+				        	timeString =minutes +" m  "+scnds+" s ";
+				        }else{
+				        	timeString = hours +" h"+ minutes +" m"+scnds+"  s ";
+				        }
+				        
+				        $scope.gridOptions.data[index].video_meta.average_time_before_pause_seek=timeString ;
+				        
+				        
+				        var seconds = Math.floor($scope.gridOptions.data[index].video_meta.average_time_spent_watching / 1000);
+				        var h = 3600;
+				        var m = 60;
+				        var hours = Math.floor(seconds/h);
+				        var minutes = Math.floor( (seconds % h)/m );
+				        var scnds = Math.floor( (seconds % m) );
+				        var timeString = '';
+				        if(scnds < 10) scnds = "0"+scnds;
+				        if(hours < 10) hours = "0"+hours;
+				        if(minutes < 10) minutes = "0"+minutes;
+				        if(hours == "00" ){
+				        	timeString =minutes +" m  "+scnds+" s ";
+				        }else{
+				        	timeString = hours +" h "+ minutes +" m "+scnds+" s ";
+				        }
+				        $scope.gridOptions.data[index].video_meta.average_time_spent_watching=timeString ;
+				        
+				        
+				        if( $scope.gridOptions.data[index].video_meta.watched_entire_video_without_stopping != "0"){
+				        var seconds = Math.floor($scope.gridOptions.data[index].video_meta.watched_entire_video_without_stopping / 1000);
+				        var h = 3600;
+				        var m = 60;
+				        var hours = Math.floor(seconds/h);
+				        var minutes = Math.floor( (seconds % h)/m );
+				        var scnds = Math.floor( (seconds % m) );
+				        var timeString = '';
+				        if(scnds < 10) scnds = "0"+scnds;
+				        if(hours < 10) hours = "0"+hours;
+				        if(minutes < 10) minutes = "0"+minutes;
+				        if(hours == "00" ){
+				        	timeString =minutes +" m  "+scnds+" s ";
+				        }else{
+				        	timeString = hours +" h  "+ minutes +" m  "+scnds+" s ";
+				        }
+				        $scope.gridOptions.data[index].video_meta.watched_entire_video_without_stopping=timeString ;
+				        }
+				        else{
+				        	var timeString = '0 Seconds ';
+				        	console.log("::::::");
+				        	$scope.gridOptions.data[index].video_meta.watched_entire_video_without_stopping=timeString;
+				        }
+				        
+				        
+						
+						
+					});
+					
+					console.log($scope.gridOptions.data);
+					$scope.visitiorList = data[0].dates[0].items;
+					
+					
+				});
+				 
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'title', displayName: 'Video', width:'60%',
+										            	 cellTemplate:'<div> <span style="color: #337ab7;margin-top:10px;"" >{{row.entity.url}} </span> </br> <span style="color: black; margin-top:10px;" >{{row.entity.video_meta.average_time_before_pause_seek}} &nbsp;&nbsp;  </span> <label> Average time before pause seek </label></br> <span style="color: black" >{{row.entity.video_meta.average_time_spent_watching}}  &nbsp;&nbsp; </span><label>Average time spent watching</label></br> <span style="color: black">{{row.entity.video_meta.total_time_spent_watching}}  &nbsp;&nbsp;</span> <label> Total time spent watching</label></br> <span style="color: black">{{row.entity.video_meta.watched_entire_video_without_stopping}} &nbsp;&nbsp;  </span><label>Watched entire video without stopping </label> </div>',	 
+										             },
+										             {name:'value', displayName:'Views', width:'15%',
+										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+										             },
+										             {name:'stats_url', displayName:'', width:'25%',
+										            	 cellTemplate:'<div><span> {{row.entity.value_percent}}% &nbsp;&nbsp; <img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 						             },
+										            
+										         ]
+				 
+			}
+			
+			
+			
+		 }
+		 
+		
+		 $scope.goToVisitors = function() {
+				$location.path('/visitorsAnalytics');
+			}
+	
+		 $scope.goToVideoAnalytics = function() {
+				$location.path('/goToVideoAnalytics');
+			}
+		 
+	$scope.goToActions = function() {
+		$location.path('/actionsAnalytics');
+	}
+	
+	$scope.goToBasics = function() {
+		$location.path('/basicsAnalytics');
+	}
+	
+	$scope.goToSearches = function() {
+		$location.path('/searchesAnalytics');
+	}
+	
+	$scope.goCampaignss = function(){
+		$location.path('/CampaignsAnalytics');
+	}
+	
+	$scope.goToRefferers = function() {
+		$location.path('/refferersAnalytics');
+	}
+	
+	$scope.goToContent = function() {
+		$location.path('/contentAnalytics');
+	}
+	
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
+	}
+	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
+	}
+	
+	$scope.goToPlatformsInfo = function(){
+		$location.path('/allPlatformsInfos');
+	}
+	
+	$scope.goToContentInfo = function(){
+		$location.path('/goToContentInfo');
+	}
+	
+	
+}]);
+
+
+
 
 angular.module('newApp')
 .controller('allPlatformsInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
@@ -804,6 +1044,10 @@ angular.module('newApp')
 		$location.path('/visitorsAnalytics');
 	}
 	
+	 $scope.goToVideoAnalytics = function() {
+			$location.path('/goToVideoAnalytics');
+		}
+	
 	$scope.goToBasics = function() {
 		$location.path('/basicsAnalytics');
 	}
@@ -842,6 +1086,10 @@ angular.module('newApp')
 	$scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
 	}
+	
+	 $scope.goToVideoAnalytics = function() {
+			$location.path('/goToVideoAnalytics');
+		}
 	
 	$scope.goToActions = function() {
 		$location.path('/actionsAnalytics');
@@ -1055,6 +1303,9 @@ angular.module('newApp')
 		$location.path('/visitorsAnalytics');
 	}
 	
+	 $scope.goToVideoAnalytics = function() {
+			$location.path('/goToVideoAnalytics');
+		}
 	$scope.goToActions = function() {
 		$location.path('/actionsAnalytics');
 	}
@@ -1180,6 +1431,9 @@ angular.module('newApp')
 		$location.path('/visitorsAnalytics');
 	}
 	
+	 $scope.goToVideoAnalytics = function() {
+			$location.path('/goToVideoAnalytics');
+		}
 	$scope.goToActions = function() {
 		$location.path('/actionsAnalytics');
 	}
@@ -1230,6 +1484,9 @@ angular.module('newApp')
 	$scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
 	}
+	 $scope.goToVideoAnalytics = function() {
+			$location.path('/goToVideoAnalytics');
+		}
 	
 	$scope.goToActions = function() {
 		$location.path('/actionsAnalytics');
@@ -2060,6 +2317,9 @@ angular.module('newApp')
 				$location.path('/visitorsAnalytics');
 			}
 			
+			 $scope.goToVideoAnalytics = function() {
+					$location.path('/goToVideoAnalytics');
+				}
 			$scope.goToBasics = function() {
 				$location.path('/basicsAnalytics');
 			}
@@ -2548,6 +2808,9 @@ $scope.maillineChartMap = function(lastTime,analyType){
 		$location.path('/visitorsAnalytics');
 	}
 	
+	 $scope.goToVideoAnalytics = function() {
+			$location.path('/goToVideoAnalytics');
+		}
 	$scope.goToBasics = function() {
 		$location.path('/basicsAnalytics');
 	}
