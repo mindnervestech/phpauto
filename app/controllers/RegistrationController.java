@@ -861,8 +861,9 @@ public static Result getStatus(Long userId) {
 			     		vehicle.options=vm.options;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
-				     		}
-			     		else{vehicle.activity="N/A";
+				     	}
+			     		else{
+			     			vehicle.activity="N/A";
 			     		}
 				    	  	 regVMs.add(vehicle);
 			  	}
@@ -890,8 +891,9 @@ public static Result getStatus(Long userId) {
 			     		vehicle.options=vm.options;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
-				     		}
-			     		else{vehicle.activity="N/A";
+				     	}
+			     		else{
+			     			vehicle.activity="N/A";
 			     		}
 				    	  	 regVMs.add(vehicle);
 			  	}
