@@ -24674,7 +24674,7 @@ private static void cancelTestDriveMail(Map map) {
     public static Result getbusinessData(String businessname){
     	//JsonNode onlineVisitorsNode = Json.parse(getbusinessname(businessname));
     	//return ok(Json.parse(onlineVisitorsNode));
-    	String name = businessname.replaceAll(" ", "");
+    	String name = businessname.replaceAll(" ", " ");
     	return ok(Json.parse(getbusinessname(name)));
     }
     
