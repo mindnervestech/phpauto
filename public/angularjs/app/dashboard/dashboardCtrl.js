@@ -3401,6 +3401,7 @@ angular.module('newApp')
 				$http.get('/sendComingSoonEmail/'+vin)
 				.success(function(data) {
 					
+					 $('#addPrice').modal("toggle");
 				});
 			}
 			
