@@ -209,7 +209,7 @@ h1, h2 {
             <div class="row">
             	<p id="messg" style="color:red;display:none;">@message</p>
                 <input type="submit" value="login" ng-click="test()">
-                <a style="font-size: 18px;" class="register" >Register</a>
+                <a style="font-size: 18px; cursor:pointer;" class="register" >Register</a>
                 <a href="#" class="remind">Forgot password?</a>
             </div>
         </form>
@@ -298,9 +298,9 @@ h1, h2 {
 								    </div> 
 								    
 								    <div class="col-md-12">
-								    	<table border="2" align="center">
+								    	<table border=1px align="center">
 								    		<tr ng-repeat="list in locationNameList">
-								    			<td><input type="radio" name="radio" value="{{list.description}}" ng-model="check" ng-click="businessAddress(list.description)"> &nbsp;</td>
+								    			<td>&nbsp;<input type="radio" name="radio" value="{{list.description}}" ng-model="check" ng-click="businessAddress(list.description)"> &nbsp;</td>
 								    			<td> {{list.description}}</td>
 								    		</tr>
 								    	</table>

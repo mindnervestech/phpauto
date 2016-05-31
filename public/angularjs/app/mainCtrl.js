@@ -17,11 +17,12 @@
             $http.get('/getUserInfo').success(function(data,status, headers, config){
             	
             	$scope.name = data.firstName + " " + data.lastName;
-            	if(data.imageName == null){
+            	/*if(data.imageName == null){
             		$scope.userimage = data.imageUrl;
-            	}else{
+            	}else{*/
             		$scope.userimage = "http://glider-autos.com/glivrImg/images"+data.imageUrl;
-            	}
+            		
+            	/*}*/
 
         		console.log($scope.userimage);
             	

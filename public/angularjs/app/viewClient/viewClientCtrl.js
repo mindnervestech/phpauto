@@ -108,8 +108,30 @@ angular.module('newApp')
 						    type:'success',
 						    text: "Remove User",
 						});
-				$scope.gridOptions.data = data;
-				$scope.pendingUser();
+					 if(row.entity.options =="Cars"){
+						 $scope.goTocars();
+					 }
+					 if(row.entity.options =="Motorcycles"){
+						 $scope.goToMotorcycles();
+					 }
+					 if(row.entity.options =="Boat"){
+						 $scope.goToBoat();
+					 }
+					 if(row.entity.options =="DesignerFurniture"){
+						 $scope.goToDesignerFurniture();
+					 }
+					 if(row.entity.options =="RealEstate"){
+						 $scope.goToRealState();
+					 }
+					 if(row.entity.options =="Airplanes"){
+						 $scope.goToAirplanes();
+					 }
+					 if(row.entity.options =="ServiceProvider"){
+						 $scope.goToServiceProvider();
+					 }
+					 if(row.entity.options =="LuxuryProducts"){
+						 $scope.goToLuxuryProducts();
+					 }
 			});
 		 }
 		 

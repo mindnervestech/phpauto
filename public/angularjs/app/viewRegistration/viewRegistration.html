@@ -38,7 +38,7 @@
                                </tab>   
                                <tab style="width:129px;">
                                     <tab-heading>
-                                        <button type="button" style="width:100px;" class="btn btn-blue" ng-click="goToRealState()">Real State</button>
+                                        <button type="button" style="width:100px;" class="btn btn-blue" ng-click="goToRealState()">Real Estate</button>
                                     </tab-heading>
                                </tab>   
                                <tab style="width:164px;">
@@ -398,14 +398,41 @@
 								        </div>
 								    </div>								    
 								     -->
+								     
+		<button id="makeLivebutton" data-toggle="modal" data-target="#AddbtnLive" style="display: none;"></button>
+		 <div class="modal fade" id="AddbtnLive" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Registration</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Are you sure to Make Live?<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="MakeLive()">Yes</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div> 
+								     
 								    
 	<div class="modal fade" id="imagePopup" tabindex="-1" role="dialog" aria-hidden="true" style="text-align:right; margin-top:20%;height:200px; overflow: hidden; margin-left:30%;width:250px;">
   		<div class="modal-dialog" style=" width: 250px;padding-right: 0 !important;    margin: 0;">
   			 <div class="modal-header" style="display:none;">
 				<button type="button" class="close" id="imgClose" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
        		</div>
+       		
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                   
+                </div>
   			<div id="img" style="height:200px; width: 250px;"> 
 				<img id="thumb_image"src="" style="height:200px; width:250px;" />
+			</div>
 			</div>
   		</div>	
   </div>								    
