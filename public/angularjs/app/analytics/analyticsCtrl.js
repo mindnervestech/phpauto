@@ -231,18 +231,20 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Traffic_scoures'){
 				$http.get('/getTrafficScoures/'+startDate+"/"+endDate)
 				.success(function(data) {
-				$scope.gridOptions.data = data[0].dates[0].items;
+				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data[0].dates[0].items;
+				$scope.visitiorList = data;
 				
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Source', width:'70%'},
+									             {name: 'title', displayName: 'Source', width:'40%'},
 									             {name:'value', displayName:'Visitors', width:'30%',
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
-									            
+									             {name:'stats_url', displayName:'', width:'30%',
+									            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+									             },
 									            
 									         ]
 				
@@ -380,16 +382,20 @@ angular.module('newApp')
 				});
 				
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'showUrl', displayName: 'Page', width:'60%',
+										             {name: 'showUrl', displayName: 'Page', width:'50%',
 										            	 cellTemplate:'<div><span>{{row.entity.showUrl}}</span><br><span>{{row.entity.title}}</span></div>'
 										             },
 										             {name: 'url', displayName: '', width:'10%',
 										            	 cellTemplate:'<a href="{{row.entity.url}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>'
 										             },
-										             {name:'value', displayName:'Views', width:'25%',
+										             {name:'value', displayName:'Views', width:'20%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										            
+										             {name:'stats_url', displayName:'', width:'20%',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+										             },
+										             
 										         ]
 				
 			}else if($scope.typeOfInfo == 'Entrance'){
@@ -397,25 +403,28 @@ angular.module('newApp')
 				
 				 $http.get('/getEntranceList/'+startDate+"/"+endDate)
 					.success(function(data) {
-						$scope.gridOptions.data = data[0].dates[0].items;
+						$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
 				});
 				 
 				 
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'showUrl', displayName: 'Page', width:'60%',
+										             {name: 'showUrl', displayName: 'Page', width:'40%',
 										            	 cellTemplate:'<div><span>{{row.entity.url}}</span><br><span>{{row.entity.title}}</span></div>'
 										             },
 										             {name:'value', displayName:'Views', width:'20%'},
 										             {name:'value_percent', displayName:'value_Percent', width:'20%'},
-										            
+										             {name:'stats_url', displayName:'', width:'20%',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+										             },
+										             
 										         ]
 			}else if($scope.typeOfInfo == 'Exit'){
 				 $http.get('/getExit/'+startDate+"/"+endDate)
 					.success(function(data) {
-					$scope.gridOptions.data = data[0].dates[0].items;
-					$scope.visitiorList = data[0].dates[0].items;
+					$scope.gridOptions.data = data;
+					$scope.visitiorList = data;
 					
 				});
 				 
@@ -427,7 +436,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
 										             },
 										            
 										         ]
@@ -500,9 +509,9 @@ angular.module('newApp')
 				$http.get('/getDomains/'+startDate+"/"+endDate)
 				.success(function(data) {
 					console.log(data);
-				$scope.gridOptions.data = data[0].dates[0].items;
+				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data[0].dates[0].items;
+				$scope.visitiorList = data;
 				
 			});
 			 
@@ -514,7 +523,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'stats_url', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
 									             },
 									            
 									         ]
@@ -1181,18 +1190,22 @@ angular.module('newApp')
 				
 				 $http.get('/getSearchesListDale/'+startDate+"/"+endDate)
 					.success(function(data) {
-					$scope.gridOptions.data = data[0].dates[0].items;
+					$scope.gridOptions.data = data;
 					//console.log($scope.gridOptions.data);
 					
 					 console.log($scope.gridOptions.data);
-					$scope.visitiorList = data[0].dates[0].items;
+					$scope.visitiorList = data;
 				});
 				
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'title', displayName: 'Search', width:'60%'},
+										             {name: 'title', displayName: 'Search', width:'50%'},
 										             {name:'v', displayName:'Visitors', width:'20%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
+										             {name:'stats_url', displayName:'', width:'30%',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}" class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+										             },
+										            
 										            
 										         ]
 				
@@ -1221,15 +1234,18 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Engines'){
 				 $http.get('/getEngines/'+startDate+"/"+endDate)
 					.success(function(data) {
-					$scope.gridOptions.data = data[0].dates[0].items;
-					$scope.visitiorList = data[0].dates[0].items;
+					$scope.gridOptions.data = data;
+					$scope.visitiorList = data;
 					
 				});
 				 
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'title', displayName: 'Engine', width:'60%'},
+										             {name: 'title', displayName: 'Engine', width:'50%'},
 										             {name:'v', displayName:'Visitors', width:'20%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+										             },
+										             {name:'stats_url', displayName:'', width:'30%',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}" class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
 										             },
 										            
 										         ]

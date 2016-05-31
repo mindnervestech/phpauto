@@ -23702,7 +23702,70 @@ private static void cancelTestDriveMail(Map map) {
     public static Result getTrafficScoures(String startDate,String endDate){
     	String params = null;
     	params = "&type=traffic-sources&date="+startDate+","+endDate+"&limit=all";
-	    return ok(Json.parse(callClickAPI(params)));
+	    //return ok(Json.parse(callClickAPI(params)));
+	    
+
+	    Date d1 = null;
+        Date d2 = null;
+        List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             //in milliseconds
+             long diff = d2.getTime() - d1.getTime();
+
+            // long diffSeconds = diff / 1000 % 60;
+             long diffMinutes = diff / (60 * 1000) % 60;
+             long diffHours = diff / (60 * 60 * 1000) % 24;
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+             //System.out.print(diffHours + " hours, ");
+         //    System.out.print(diffMinutes + " minutes, ");
+          //   System.out.print(diffSeconds + " seconds.");
+             
+     	   	JsonNode jsonList = Json.parse(callClickAPI("&type=traffic-sources&date="+startDate+","+endDate+"&limit=all"));
+     	   	
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+     	   	vm.title = obj.get("title").textValue();
+     	   	vm.value = obj.get("value").textValue();
+     	   	vm.value_percent = obj.get("value_percent").textValue();
+     	   //	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=segmentation&source=traffic-sources&date="+newDate+","+startDate+""));
+     	 	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=traffic-sources&date="+newDate+","+startDate+""));
+     	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
+     	   		if(obj1.get("title").textValue().equals(vm.title)){
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   			//vm.averageActions=obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+     	   		}
+     	   	
+     	   	
+     	   	}
+     	// String a= ( (vm.value_percent2 - vm.value_percent)/(vm.value_percent))*100;
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+             
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+    	//params = "&type=engagement-actions&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.toJson(clickyList));
+	    
+
+	    
+	    
+	    
+	    
+	    
     }
     
     public static Result getActiveVisitors(String startDate,String endDate){
@@ -23768,8 +23831,8 @@ private static void cancelTestDriveMail(Map map) {
      	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=engagement-actions&date="+newDate+","+startDate+""));
      	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
      	   		if(obj1.get("title").textValue().equals(vm.title)){
-     	   			vm.value_percent2 = obj1.get("value_percent").textValue();
-     	   		vm.averagePercent=((Double.parseDouble(vm.value_percent)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value_percent)))*100;
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
      	   		}
      	   	
      	   	
@@ -23801,7 +23864,64 @@ private static void cancelTestDriveMail(Map map) {
     public static Result getExit(String startDate,String endDate){
     	String params = null;
     	params = "&type=pages-exit&date="+startDate+","+endDate+"&limit=all";
-	    return ok(Json.parse(callClickAPI(params)));
+	  //  return ok(Json.parse(callClickAPI(params)));
+    	
+    	Date d1=null;
+    	Date d2=null;
+    	List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+             
+     	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+     	   	
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	  // 	String data = obj.get("url").textValue();
+			//String arr[] = data.split("#_");	
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+			vm.value = obj.get("value").textValue();
+			vm.value_percent = obj.get("value_percent").textValue();
+			vm.title = obj.get("title").textValue();
+			vm.stats_url = obj.get("stats_url").textValue();
+			vm.url = obj.get("url").textValue();
+			//vm.showUrl = arr[0];
+     	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=pages-exit&date="+newDate+","+startDate+""));
+     	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
+     	    	//String data1 = obj1.get("url").textValue();
+     	   		//String arr1[] = data1.split("#_");
+     	   		//String url=arr1[0];
+     	   		if(obj1.get("url").textValue().equals(vm.url)){
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   			vm.averageActions=obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+     	   		}
+     	   	
+     	   	
+     	   	}
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+             
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(clickyList));
+
+    	
+    	
+    	
     }
     
     public static Result getDownloads(String startDate,String endDate){
@@ -23825,7 +23945,63 @@ private static void cancelTestDriveMail(Map map) {
     public static Result getSearchesListDale(String startDate,String endDate){
     	String params = null;
     	params = "&type=searches&date="+startDate+","+endDate+"&limit=all";
-	    return ok(Json.parse(callClickAPI(params)));
+	    //return ok(Json.parse(callClickAPI(params)));
+
+    	Date d1=null;
+    	Date d2=null;
+    	List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+             
+     	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+     	   	
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	  // 	String data = obj.get("url").textValue();
+			//String arr[] = data.split("#_");	
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+			vm.value = obj.get("value").textValue();
+			vm.value_percent = obj.get("value_percent").textValue();
+			vm.title = obj.get("title").textValue();
+			vm.stats_url = obj.get("stats_url").textValue();
+			//vm.url = obj.get("url").textValue();
+			//vm.showUrl = arr[0];
+     	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=searches&date="+newDate+","+startDate+""));
+     	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
+     	    	//String data1 = obj1.get("url").textValue();
+     	   		//String arr1[] = data1.split("#_");
+     	   		//String url=arr1[0];
+     	   		if(obj1.get("title").textValue().equals(vm.title)){
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   			vm.averageActions=obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+     	   		}
+     	   	
+     	   	
+     	   	}
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+             
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(clickyList));
+
+    	
+    	
     }
     
     public static Result getKeywordsList(String startDate,String endDate){
@@ -23837,7 +24013,63 @@ private static void cancelTestDriveMail(Map map) {
     public static Result getEngines(String startDate,String endDate){
     	String params = null;
     	params = "&type=searches-engines&date="+startDate+","+endDate+"&limit=all";
-	    return ok(Json.parse(callClickAPI(params)));
+	//    return ok(Json.parse(callClickAPI(params)));
+
+    	Date d1=null;
+    	Date d2=null;
+    	List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+             
+     	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+     	   	
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	  // 	String data = obj.get("url").textValue();
+			//String arr[] = data.split("#_");	
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+			vm.value = obj.get("value").textValue();
+			vm.value_percent = obj.get("value_percent").textValue();
+			vm.title = obj.get("title").textValue();
+			vm.stats_url = obj.get("stats_url").textValue();
+			//vm.url = obj.get("url").textValue();
+			//vm.showUrl = arr[0];
+     	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=searches-engines&date="+newDate+","+startDate+""));
+     	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
+     	    	//String data1 = obj1.get("url").textValue();
+     	   		//String arr1[] = data1.split("#_");
+     	   		//String url=arr1[0];
+     	   		if(obj1.get("title").textValue().equals(vm.title)){
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   			vm.averageActions=obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+     	   		}
+     	   	
+     	   	
+     	   	}
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+             
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(clickyList));
+
+
+    
     }
     
     public static Result getRecent(String startDate,String endDate){
@@ -23861,13 +24093,129 @@ private static void cancelTestDriveMail(Map map) {
     public static Result getDomains(String startDate,String endDate){
     	String params = null;
     	params = "&type=site-domains&date="+startDate+","+endDate+"&limit=all";
-	    return ok(Json.parse(callClickAPI(params)));
+	//    return ok(Json.parse(callClickAPI(params)));
+    	
+    	
+    	Date d1=null;
+    	Date d2=null;
+    	List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+             
+     	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+     	   	
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	  // 	String data = obj.get("url").textValue();
+			//String arr[] = data.split("#_");	
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+			vm.value = obj.get("value").textValue();
+			vm.value_percent = obj.get("value_percent").textValue();
+			vm.title = obj.get("title").textValue();
+			//vm.stats_url = obj.get("stats_url").textValue();
+			//vm.url = obj.get("url").textValue();
+			//vm.showUrl = arr[0];
+     	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=site-domains&date="+newDate+","+startDate+""));
+     	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
+     	    	//String data1 = obj1.get("url").textValue();
+     	   		//String arr1[] = data1.split("#_");
+     	   		//String url=arr1[0];
+     	   		if(obj1.get("title").textValue().equals(vm.title)){
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   			vm.averageActions=obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+     	   		}
+     	   	
+     	   	
+     	   	}
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+             
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(clickyList));
+
+    
     }
     
     public static Result getEntranceList(String startDate,String endDate){
     	String params = null;
     	params = "&type=pages-entrance&date="+startDate+","+endDate+"&limit=all";
-	    return ok(Json.parse(callClickAPI(params)));
+	    //return ok(Json.parse(callClickAPI(params)));
+        List<ClickyPagesVM> cList = new ArrayList<>();
+    	
+    	Date d1=null;
+    	Date d2=null;
+    	List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+             
+     	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+     	   	
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	  // 	String data = obj.get("url").textValue();
+			//String arr[] = data.split("#_");	
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+			vm.value = obj.get("value").textValue();
+			vm.value_percent = obj.get("value_percent").textValue();
+			vm.title = obj.get("title").textValue();
+			vm.stats_url = obj.get("stats_url").textValue();
+			vm.url = obj.get("url").textValue();
+			//vm.showUrl = arr[0];
+     	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=pages-entrance&date="+newDate+","+startDate+""));
+     	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
+     	    	//String data1 = obj1.get("url").textValue();
+     	   		//String arr1[] = data1.split("#_");
+     	   		//String url=arr1[0];
+     	   		if(obj1.get("url").textValue().equals(vm.url)){
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   			vm.averageActions=obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+     	   		}
+     	   	
+     	   	
+     	   	}
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+             
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(clickyList));
+
+    	
+    	
+	    
+	    
+	    
     }
     
     public static Result getEngagementTime(String startDate,String endDate){
@@ -23910,8 +24258,8 @@ private static void cancelTestDriveMail(Map map) {
      	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=engagement-times&date="+newDate+","+startDate+""));
      	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
      	   		if(obj1.get("title").textValue().equals(vm.title)){
-     	   			vm.value_percent2 = obj1.get("value_percent").textValue();
-     	   		vm.averagePercent=((Double.parseDouble(vm.value_percent)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value_percent)))*100;
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
      	   		}
      	   	
      	   	
@@ -24122,36 +24470,63 @@ private static void cancelTestDriveMail(Map map) {
     	
     	String params = null;
     	params = "&type=pages&heatmap_url=1&date="+startD+","+endD+"&limit=all";
-    	Location locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     	List<ClickyPagesVM> cList = new ArrayList<>();
-    	try {
-    		
-			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-			for(int i=0;i<jsonArray.length();i++){
-    			String data = jsonArray.getJSONObject(i).get("url").toString();
-    			String arr[] = data.split("#_");
-    			try {
-	    				ClickyPagesVM cPagesVM = new ClickyPagesVM();
-	    				cPagesVM.value = jsonArray.getJSONObject(i).get("value").toString();
-	    				cPagesVM.value_percent = jsonArray.getJSONObject(i).get("value_percent").toString();
-	    				cPagesVM.title = jsonArray.getJSONObject(i).get("title").toString();
-	    				cPagesVM.stats_url = jsonArray.getJSONObject(i).get("stats_url").toString();
-	    				cPagesVM.url = jsonArray.getJSONObject(i).get("url").toString();
-	    				cPagesVM.showUrl = arr[0];
-	    				cList.add(cPagesVM);
-    			} catch (Exception e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
-    			
-    			
-			}	
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
     	
-    	return ok(Json.toJson(cList));
+    	Date d1=null;
+    	Date d2=null;
+    	List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	 try {
+             d1 = format.parse(startD);
+             d2 = format.parse(endD);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+             
+     	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+     	   	
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	   	String data = obj.get("url").textValue();
+			String arr[] = data.split("#_");	
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+			vm.value = obj.get("value").textValue();
+			vm.value_percent = obj.get("value_percent").textValue();
+			vm.title = obj.get("title").textValue();
+			vm.stats_url = obj.get("stats_url").textValue();
+			vm.url = obj.get("url").textValue();
+			vm.showUrl = arr[0];
+     	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=pages&heatmap_url=1&date="+newDate+","+startD+""));
+     	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
+     	    	String data1 = obj1.get("url").textValue();
+     	   		String arr1[] = data1.split("#_");
+     	   		String url=arr1[0];
+     	   		if(url.equals(vm.showUrl)){
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   			vm.averageActions=obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+     	   		}
+     	   	
+     	   	
+     	   	}
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+             
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(clickyList));
+	    
+    	
+    	
     }
     
     
