@@ -435,7 +435,7 @@ public static Result getStatus(Long userId) {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	List <Registration> registrationObjList = Registration.findByCarAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 		    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 		     	for(Registration vm : registrationObjList){
 		     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -466,7 +466,7 @@ public static Result getStatus(Long userId) {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	List <Registration> registrationObjList = Registration.findByMotorcyclesAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 		    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 		     	for(Registration vm : registrationObjList){
 		     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -494,7 +494,7 @@ public static Result getStatus(Long userId) {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	List <Registration> registrationObjList = Registration.findByBoatAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-		    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+		    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 		    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 		     	for(Registration vm : registrationObjList){
 		     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -524,7 +524,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByDesignerFurnitureAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -553,7 +553,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByRealStateAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
@@ -584,7 +584,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByAirplanesAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -613,7 +613,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByServiceProviderAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -642,7 +642,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByLuxuryProductsAndPending();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -671,7 +671,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByCarAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -700,7 +700,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByBoatAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -729,7 +729,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByMotorcyclesAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -758,7 +758,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByDesignerFurnitureAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -787,7 +787,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByAirplanesAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -816,7 +816,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByRealStateAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
@@ -847,7 +847,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByServiceProviderAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -877,7 +877,7 @@ public static Result getStatus(Long userId) {
 		    		return ok(home.render("",userRegistration));
 		    	} else {
 			    	List <Registration> registrationObjList = Registration.findByLuxuryProductsAndStatus();//getVehiclesByDraftStatusAndLocation(Long.valueOf(session("USER_LOCATION")));
-			    	SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 			    	ArrayList<RegisterVM> regVMs = new ArrayList<>(); 
 			     	for(Registration vm : registrationObjList){
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);

@@ -50,8 +50,10 @@ angular.module('newApp').controller('mainLoginCtrl',
 	            $scope.registerUser = function(register){
 	            	console.log("::::::insideRegester");
 	            	console.log(register);
-	            	
 	            	$http.post("/registerUser",register).success(function(data){
+		            	 $('#registerPopClose').click();
+		            	 
+	            		 console.log("::::::success")
 	            		/*$.pnotify({
 						    title: "Success",
 						    type:'success',

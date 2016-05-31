@@ -166,6 +166,7 @@ angular.module('newApp')
 				$scope.activeList = data;
 			});
 		 }*/
+		
 		 $scope.Status = function(row){
 			 $('#makeLivebutton').click();
 			 $scope.MakeLives = row.entity;
