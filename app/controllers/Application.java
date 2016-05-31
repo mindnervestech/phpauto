@@ -419,7 +419,33 @@ public class Application extends Controller {
 					    			permission.put(per.name, true);
 					    		}
 					    		
-					    		registration.setActivity(curDate);
+					    		
+					    		
+					    		
+					    		DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+								
+								Date curDates = null;
+								SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+								
+									Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+									df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+									String date1=df2.format(curDate);
+									try {
+										curDates = formatter.parse(date1);
+									} catch (ParseException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								
+								
+								
+								
+								
+					    		
+					    		
+					    		
+					    		
+					    		registration.setActivity(curDates);
 					    		registration.update();
 					    		
 					    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
