@@ -173,9 +173,10 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Engagement_action'){
 				 $http.get('/getEngagementAction/'+startDate+"/"+endDate)
 					.success(function(data) {
-					$scope.gridOptions.data = data[0].dates[0].items;
+						console.log(data);
+					$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
-					$scope.visitiorList = data[0].dates[0].items;
+					$scope.visitiorList = data;
 					
 					
 				});
@@ -186,7 +187,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
 										            
 										             }
 										            	 ]
@@ -197,9 +198,9 @@ angular.module('newApp')
 			else if($scope.typeOfInfo == 'Engagement_time'){
 				$http.get('/getEngagementTime/'+startDate+"/"+endDate)
 				.success(function(data) {
-				$scope.gridOptions.data = data[0].dates[0].items;
+				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data[0].dates[0].items;
+				$scope.visitiorList = data;
 				/*if ( inputString.indexOf(findme) > -1 ) {
 				    alert( "found it" );
 				}*/
@@ -222,7 +223,7 @@ angular.module('newApp')
 									             {name:'value', displayName:'Visitors', width:'10%'},
 									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
 									             {name:'stats_url', displayName:'', width:'30%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
 									             },
 									            
 									         ]
