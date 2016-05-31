@@ -369,7 +369,7 @@ angular.module('newApp')
 			}
 			if($scope.typeOfInfo == 'Pages'){
 				
-				 $http.get('/getHeatMapListDale/'+startDate+"/"+endDate)
+				 $http.get('/getPagesListDale/'+startDate+"/"+endDate)
 					.success(function(data) {
 					$scope.gridOptions.data = data;
 					//console.log($scope.gridOptions.data);
@@ -385,8 +385,9 @@ angular.module('newApp')
 										             {name: 'url', displayName: '', width:'10%',
 										            	 cellTemplate:'<a href="{{row.entity.url}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>'
 										             },
-										             {name:'value', displayName:'Views', width:'15%'},
-										             {name:'value_percent', displayName:'value_Percent', width:'15%'},
+										             {name:'value', displayName:'Views', width:'25%',
+										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+										             },
 										            
 										         ]
 				

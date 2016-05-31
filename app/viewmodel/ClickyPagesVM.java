@@ -9,6 +9,13 @@ public class ClickyPagesVM {
 	public String stats_url;
 	public String url;
 	public String showUrl;
+	public String visitors;
+	public String uniqueVisitors;
+	public String actions;
+	public String averageActions;
+	public String totalTime;
+	public String averageTime;
+	public String bounceRate;
 	
 	
 }

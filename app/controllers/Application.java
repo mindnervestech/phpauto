@@ -23978,6 +23978,45 @@ private static void cancelTestDriveMail(Map map) {
     	return ok();
     }
     
+    
+    public static Result getPagesListDale(String startD,String endD){
+    	
+    	String params = null;
+    	params = "&type=pages&heatmap_url=1&date="+startD+","+endD+"&limit=all";
+    	Location locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	List<ClickyPagesVM> cList = new ArrayList<>();
+    	try {
+    		
+			JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+			for(int i=0;i<jsonArray.length();i++){
+    			String data = jsonArray.getJSONObject(i).get("url").toString();
+    			String arr[] = data.split("#_");
+    			try {
+	    				ClickyPagesVM cPagesVM = new ClickyPagesVM();
+	    				cPagesVM.value = jsonArray.getJSONObject(i).get("value").toString();
+	    				cPagesVM.value_percent = jsonArray.getJSONObject(i).get("value_percent").toString();
+	    				cPagesVM.title = jsonArray.getJSONObject(i).get("title").toString();
+	    				cPagesVM.stats_url = jsonArray.getJSONObject(i).get("stats_url").toString();
+	    				cPagesVM.url = jsonArray.getJSONObject(i).get("url").toString();
+	    				cPagesVM.showUrl = arr[0];
+	    				cList.add(cPagesVM);
+    			} catch (Exception e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    			
+    			
+			}	
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	
+    	return ok(Json.toJson(cList));
+    }
+    
+    
+    
     public static Result getHeatMapListDale(String startD,String endD){
     	
     	String params = null;

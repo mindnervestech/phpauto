@@ -386,6 +386,7 @@ GET   /getSearchesLocal/:startDate/:endDate			controllers.Application.getSearche
 #GET   /getVisitorList			controllers.Application.getVisitorList()
 GET   /getHeatMapList/:value			controllers.Application.getHeatMapList(value:Integer)
 GET   /getHeatMapListDale/:startD/:endD		controllers.Application.getHeatMapListDale(startD:String,endD:String)
+GET   /getPagesListDale/:startD/:endD		controllers.Application.getPagesListDale(startD:String,endD:String)
 GET   /getActionListTwo/:startD/:endD		controllers.Application.getActionListTwo(startD:String,endD:String)
 GET   /getActionList/:value 			controllers.Application.getActionList(value:Integer)
 GET   /getSearchList/:value 			controllers.Application.getSearchList(value:Integer)
