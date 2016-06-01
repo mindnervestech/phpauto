@@ -5703,7 +5703,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
-	    	String params = "&date=last-28-days&type=visitors-list&limit=all";
+	    	//String params = "&date=last-28-days&type=visitors-list&limit=all";
 	     	for(Vehicle vm : vehicleObjList){
 	     		
 	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
@@ -5744,7 +5744,19 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	vehicle.sold = false;
 		    	visitorCount = 0;
 		    	
-        		try {
+		    	List<ClickyVisitorsList> cList = ClickyVisitorsList.getfindAll();
+		    	for(ClickyVisitorsList clickData:cList){
+		    		String data = clickData.landingPage;
+		    		String arr[] = data.split("/");
+	    			if(arr.length > 5){
+	    			  if(arr[5] != null){
+	    				  if(arr[5].equals(vm.vin)){
+	    					  visitorCount = visitorCount + 1;
+	    				  }
+	    			  }
+	    			}
+		    	}
+        		/*try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
     	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
@@ -5761,7 +5773,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     			} catch (JSONException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
-    			}
+    			}*/
 		    	
         		vehicle.pageViewCount = visitorCount;
 		    	
