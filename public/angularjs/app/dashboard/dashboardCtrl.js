@@ -3380,7 +3380,7 @@ angular.module('newApp')
 			}
 
 			$scope.addByPriceMakeIt = function(price){
-				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price)
+				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price+"/"+$scope.arrivalD)
 					.success(function(data) {
 						 $('#addPriceOther').modal("toggle");
 						$.pnotify({
@@ -3460,8 +3460,9 @@ angular.module('newApp')
 			 
 			 
 			 $scope.addPriceInVeh = function(price){
-				 var aDate = $('#arrDate').val();
+				 var aDate = $('#arrivalDate').val();
 				 console.log(aDate);
+				 $scope.arrivalD=aDate;
 				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price+"/"+aDate)
 					.success(function(data) {
 						 $('#addPrice').modal("toggle");

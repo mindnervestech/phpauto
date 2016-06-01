@@ -272,7 +272,8 @@ angular.module('newApp')
 			
 		 }
 		 
-		 
+		 $scope.flagForChart1 = true;
+		 $scope.flagForChart = true;
 		 $scope.showEngagementChart = function(title) {
 			 console.log(">>>>>>>>");
 			 var startDate = $("#cnfstartDateValue").val();
@@ -280,11 +281,15 @@ angular.module('newApp')
 				console.log(endDate);
 				console.log(startDate);
 				console.log(title);
+				$scope.flagForChart=0;
 				$http.get('/getEngagementActionChart/'+startDate+"/"+endDate+"/"+title)
 				.success(function(data) {
 					console.log(data);
-					
+					$scope.flagForChart=1;
+					$scope.flagForChart1 = false;
 					createChart(data);
+					//$('#functional-chart').css('height', '500px');
+					//$('#functional-chart').css('width','500px');
 					$scope.value = [];
 					$scope.dates = [];
 					/*angular.forEach(data, function(obj, index){
@@ -313,9 +318,10 @@ angular.module('newApp')
 	      var seriesCounter = 0;
 	      var stockChart; 
 	      var stockChart1; 
+	      
 	      function createChart(initdata) {
 	    	  stockChart1 = 1;
-	    	  
+	    	  console.log("$scope.flagForChart"+$scope.flagForChart);
 	    	  stockChart = $('#functional-chart').highcharts({
 	    		  title: {
 	    	            text: '',

@@ -20,7 +20,7 @@
 	      <div class="col-sm-12">
 	        	 	 <a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Visitor log')" style="width: 8%;">Visitor log</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Action log')" style="width: 8%;">Action log</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Engagement_action')" style="width: 13%;">Engagement(action)</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Engagement_time')" style="width: 13%;">Engagement(time)</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Active_visitors')" style="width: 15%;">Most active visitors</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Traffic_scoures')" style="width: 12%;">Traffic scoures</a>   
 	      </div>
-	      <div class="col-sm-12">
+	      <div  class="col-sm-12">
 	      		<div class="col-sm-2">
 									     	<label>Start Date</label>
 									     		<input data-provide="datepicker" id="cnfstartDateValue" name="startDateValue" class="form-control" ng-model="startDate" data-date-format="yyyy-mm-dd" required>
@@ -35,10 +35,13 @@
 									 </div>    
 	      </div>
 	      <h2>{{typeOfInfo}}</h2>
-	      <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	      <div ng-show="flagForChart1" ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
 				</div> 
+			<div class="col-sm-12">
+				<div ng-show="flagForChart" id="functional-chart" style="height:240px"></div>
+			</div>	
 				
-		<div id="functional-chart" style="height:240px"></div>		
+				
 	      </div>
 	      
 	      
