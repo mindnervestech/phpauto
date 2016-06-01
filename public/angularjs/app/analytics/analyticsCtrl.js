@@ -1,6 +1,56 @@
 angular.module('newApp')
 .controller('VisitorsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 
+	
+	/*function initialize() {
+		  latLng = new google.maps.LatLng(parseInt($scope.latitude), parseInt($scope.longitude))
+		  var mapOptions = {
+		    center: latLng,
+		    zoom: 16,
+		    mapTypeId: google.maps.MapTypeId.ROADMAP
+		  };
+		  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+		  var marker = new google.maps.Marker({
+		      position: latLng,
+		      title:"Hello World!",
+		      visible: true
+		  });
+		  marker.setMap(map);
+		  
+		}*/
+	
+	
+	 function initialize() {
+		 //  $( document ).ready(function() {
+	    	console.log(">>>>>>>>>>");
+	    	console.log($scope.latitude);
+	    	 
+	    	
+	      var myLatlng = new google.maps.LatLng(parseInt($scope.latitude), parseInt($scope.longitude));
+	      var myOptions = {
+	        zoom: 8,
+	        center: myLatlng,
+	        mapTypeId: google.maps.MapTypeId.ROADMAP
+	      }
+	      var marker = new google.maps.Marker({
+    	      position: myLatlng,
+    	      visible: true
+    	  });
+	      var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+	    }
+
+	    function loadScript() {
+	      var script = document.createElement("script");
+	      script.type = "text/javascript";
+	      script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+	      document.body.appendChild(script);
+	    }
+
+	    google.maps.event.addDomListener(window, 'load', initialize);
+	
+	
+	
 	 var date = new Date();
 	 $scope.typeOfInfo = 'Visitor log';
 	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
@@ -124,6 +174,7 @@ angular.module('newApp')
 				 $http.get('/getVisitorList/'+startDate+"/"+endDate)
 					.success(function(data) {
 					$scope.gridOptions.data = data;
+					console.log(data);
 					//console.log($scope.gridOptions.data);
 					angular.forEach($scope.gridOptions.data, function(value, key) {
 						var array = value.timePretty.split(',');
@@ -140,7 +191,10 @@ angular.module('newApp')
 				                                 {name: 'timeSet', displayName: 'Time', width:'8%'},
 				                                 {name: 'geolocation', displayName: 'Location', width:'10%'},
 				                                 {name:'organization', displayName:'Internet Provider', width:'15%'},
-				                                 {name:'actions', displayName:'Actions', width:'8%'},
+				                                 {name:'actions', displayName:'Actions', width:'8%',
+				                                	 cellTemplate:'<div ><label ng-click="grid.appScope.showVisitorInfo(row.entity)">{{row.entity.actions}} actions </label></div>',
+				                                	 
+				                                 },
 				                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
 				                                 {name:'landingPage', displayName:'landing_page', width:'45%'},
 				                                 {name:'Sear', displayName:'Search', width:'10%',
@@ -251,18 +305,22 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Active_visitors'){
 				$http.get('/getActiveVisitors/'+startDate+"/"+endDate)
 				.success(function(data) {
-				$scope.gridOptions.data = data[0].dates[0].items;
+					console.log(data);
+				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data[0].dates[0].items;
+				$scope.visitiorList = data;
 				
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Ip Address', width:'50%'},
+                                               {name: 'geoLocation', displayName: 'Location', width:'20%'},
+									             {name: 'title', displayName: 'Ip Address', width:'30%',
+                                            	   cellTemplate:'<div><span>{{row.entity.title}} </span></br><span>{{row.entity.organization}} </span></div>',
+									            	 },
 									             {name:'value', displayName:'Visits', width:'20%',
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
-									             {name:'stats_url', displayName:'', width:'20%',
+									             {name:'stats_url', displayName:'', width:'30%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									            
@@ -271,6 +329,23 @@ angular.module('newApp')
 			}
 			
 		 }
+		 
+		 
+		 
+		 $scope.visitorInfo={};
+		 $scope.showVisitorInfo = function(data) {
+			 console.log(data);
+			 $scope.flagForChart1 = false;
+			 $scope.flagForChart = false;
+			 $scope.visitorInfo=data;
+			 $scope.latitude=data.latitude;
+			 $scope.longitude=data.longitude;
+			 initialize();
+			 
+			 
+		 }
+		 
+		 
 		 
 		 $scope.flagForChart1 = true;
 		 $scope.flagForChart = true;

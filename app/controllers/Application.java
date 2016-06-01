@@ -23823,28 +23823,27 @@ private static void cancelTestDriveMail(Map map) {
     public static Result getActiveVisitors(String startDate,String endDate){
     	String params = null;
     	params = "&type=visitors-most-active&date="+startDate+","+endDate+"&limit=all";
-		
-/*		JSONArray jsonArrayAction;
-		try {
-			jsonArrayAction = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-			for(int i=0;i<jsonArrayAction.length();i++){
-				
-    			ClickyPagesVM cAction = new ClickyPagesVM();
-    			cAction.value = jsonArrayAction.getJSONObject(i).get("value").toString();
-    			cAction.value_percent = jsonArrayAction.getJSONObject(i).get("value_percent").toString();
-    			cAction.title = jsonArrayAction.getJSONObject(i).get("title").toString();
-    			cAction.stats_url = jsonArrayAction.getJSONObject(i).get("stats_url").toString();
-    			File dbfile = new File("db/GeoLiteCity.dat");
-    			LookupService lookup = new LookupService(dbfile,LookupService.GEOIP_MEMORY_CACHE);
-    			Location locationServices = lookup.getLocation("22332332");
-    			
-			}	
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	    return ok(Json.parse(callClickAPI(params)));
-    }
+    	
+    	 List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	JsonNode jsonList = Json.parse(callClickAPI(params));
+ 	   	
+ 	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+ 	   	ClickyPagesVM vm = new ClickyPagesVM();
+ 	   	vm.title = obj.get("title").textValue();
+ 	   	vm.value = obj.get("value").textValue();
+ 	   	
+ 	   	List<ClickyVisitorsList> list=ClickyVisitorsList.findByTitle(vm.title);
+ 	   	vm.geoLocation=list.get(0).geolocation;
+ 	   	vm.organization=list.get(0).organization;
+ 	    clickyList.add(vm);
+ 	   	
+ 	   	}
+ 	// String a= ( (vm.value_percent2 - vm.value_percent)/(vm.value_percent))*100;
+ 	     return  ok(Json.toJson(clickyList));
+ 	   	
+ 	   	}
+    	
+	    
     
     
     
