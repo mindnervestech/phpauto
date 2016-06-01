@@ -251,6 +251,11 @@ var MakeApp = angular
             controller: 'VideoAnalyticsCtrl'
         })
         
+      .when('/visitorInfo/:visitorInfo', {
+          templateUrl: '/dealer/analytics/visitorInfo.html',
+          controller: 'VisitorsCtrl'
+      })
+      
         .when('/visitorsAnalytics', {
             templateUrl: '/dealer/analytics/visitors.html',
             controller: 'VisitorsCtrl'

@@ -17,7 +17,7 @@
     </ul>
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tabs">
-	      <div ng-show="flagForChart1" class="col-sm-12">
+	      <div  class="col-sm-12">
 	        	 	 <a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Visitor log')" style="width: 8%;">Visitor log</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Action log')" style="width: 8%;">Action log</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Engagement_action')" style="width: 13%;">Engagement(action)</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Engagement_time')" style="width: 13%;">Engagement(time)</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Active_visitors')" style="width: 15%;">Most active visitors</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Traffic_scoures')" style="width: 12%;">Traffic scoures</a>   
 	      </div>
 	      <div ng-show="flagForChart1"  class="col-sm-12">
@@ -48,139 +48,7 @@
 	     
 	 </div>
 	</div>
-	<div class="col-sm-12" >
-	<h2> Visitor details </h2>
-	<hr style="border-color: black;">
-	<div class="col-sm-6">
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>Visits:</label>
-	</div>
-	<div class="col-sm-4">
-	<a>{{visitorInfo.totalVisits}}</a>
-	</div>
-	</div>
 	
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>Unique ID:</label>
-	</div>
-	<div class="col-sm-2">
-	<a>{{visitorInfo.uid}}</a>
-	</div>
-	<div class="col-sm-1" style="color: red">(tag)</div>
-	</div>
-	
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>IP Address:</label>
-	</div>
-	<div class="col-sm-4">
-	<a>{{visitorInfo.ipAddress}} &nbsp;&nbsp;&nbsp; (ARIN/RIPE)</a>
-	</div>
-	<div class="col-sm-1" style="color: red">(tag)</div>
-	</div>
-	
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>Locale:</label>
-	</div>
-	<div class="col-sm-5">
-	<a>{{visitorInfo.geolocation}}&nbsp;/&nbsp;{{visitorInfo.language}}</a>
-	</div>
-	</div>
-	
-	
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>Organization:</label>
-	</div>
-	<div class="col-sm-5">
-	<a>{{visitorInfo.organization}}&nbsp;/&nbsp;{{visitorInfo.hostname}}</a>
-	</div>
-	</div>
-	
-	
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>Platform:</label>
-	</div>
-	<div class="col-sm-6">
-	<a>{{visitorInfo.webBrowser}}&nbsp;/&nbsp;{{visitorInfo.operatingSystem}}&nbsp;/&nbsp;{{visitorInfo.screenResolution}}</a>
-	</div>
-	</div>
-	
-	
-	
-	
-	
-	</div>
-	
-	<div class="col-sm-6">
-	<div class="col-sm-12" > 
-		 <div id="map-canvas" style="width:100%; height:390px"></div> 
-	</div>
-	</div>
-	</div>
-	
-	
-	
-	
-	
-	
-    <div class="col-sm-12">
-	<h2> This Visit </h2>
-	<hr style="border-color: black;">
-	<div class="col-sm-6">
-	
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>Date:</label>
-	</div>
-	<div class="col-sm-6">
-	<a>{{visitorInfo.timePretty}}</a>
-	</div>
-	</div>
-	
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>Session:</label>
-	</div>
-	<div class="col-sm-6">
-	<a>{{visitorInfo.timeTotal}},{{visitorInfo.actions}} actions </a>
-	</div>
-	</div>
-	
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>Landing Page:</label>
-	</div>
-	<div class="col-sm-8">
-	<a>{{visitorInfo.landingPage}}</a>
-	</div>
-	</div>
-	
-	
-	<div  class="col-sm-12">
-	<div class="col-sm-3">
-	<label>Referrer type:</label>
-	</div>
-	<div class="col-sm-6">
-	<a>{{visitorInfo.referrerType}}</a>
-	</div>
-	</div>
-	
-	
-	</div>
-	
-	<div class="col-sm-6">
-	
-	</div>
-	
-	
-	
-	</div>
-		
 
 
 

@@ -24406,6 +24406,17 @@ private static void cancelTestDriveMail(Map map) {
 	    
     }
     
+    
+    public static Result getVisitorData(Long id){
+    	
+    	
+    	ClickyVisitorsList List = ClickyVisitorsList.findById(id);
+    	
+    	
+    	return ok(Json.toJson(List));
+    }
+    
+    
     public static Result getVisitorList(String startDate,String endDate){
     	int year = Calendar.getInstance().get(Calendar.YEAR);
     	String params = null;

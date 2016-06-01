@@ -2,26 +2,13 @@ angular.module('newApp')
 .controller('VisitorsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 
 	
-	/*function initialize() {
-		  latLng = new google.maps.LatLng(parseInt($scope.latitude), parseInt($scope.longitude))
-		  var mapOptions = {
-		    center: latLng,
-		    zoom: 16,
-		    mapTypeId: google.maps.MapTypeId.ROADMAP
-		  };
-		  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
-		  var marker = new google.maps.Marker({
-		      position: latLng,
-		      title:"Hello World!",
-		      visible: true
-		  });
-		  marker.setMap(map);
-		  
-		}*/
+	$scope.visitorInfos = $routeParams.visitorInfo;
+	console.log("}}}}");
+	console.log($scope.visitorInfos);
 	
 	
-	 function initialize() {
+	
+	 function initialized() {
 		 //  $( document ).ready(function() {
 	    	console.log(">>>>>>>>>>");
 	    	console.log($scope.latitude);
@@ -47,7 +34,7 @@ angular.module('newApp')
 	      document.body.appendChild(script);
 	    }
 
-	    google.maps.event.addDomListener(window, 'load', initialize);
+	    
 	
 	
 	
@@ -59,6 +46,19 @@ angular.module('newApp')
 	
 		$scope.initFunction = function(){
 			$scope.DateWiseFind();
+			$scope.latitude=undefined;
+			$scope.longitude=undefined;
+			 google.maps.event.addDomListener(window, 'load', initialized);
+			$http.get('/getVisitorData/'+$scope.visitorInfos)
+			.success(function(data) {
+			
+			console.log("::::::::");
+			console.log(data);
+			$scope.latitude=data.latitude; 
+			$scope.longitude=data.longitude;
+			initialized();
+			$scope.visitorInfo=data;
+		});
 		}
 		
 	$scope.gridOptions = {
@@ -70,90 +70,7 @@ angular.module('newApp')
 	 		 };
 	
 	
-	 /*$scope.gridOptions.enableHorizontalScrollbar = 0;
-		 $scope.gridOptions.enableVerticalScrollbar = 2;*/
-		/* $scope.gridOptions.columnDefs = [
-		                                 { name: 'geolocation', displayName: 'Location', width:'15%',cellEditableCondition: false,
-		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		                                       if (row.entity.isRead === false) {
-		                                         return 'red';
-		                                     }
-		                                	} ,
-		                                 },
-		                                 { name: 'organization', displayName: 'Organization', width:'15%',cellEditableCondition: false,
-			                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-			                                       if (row.entity.isRead === false) {
-			                                         return 'red';
-			                                     }
-			                                	} ,
-			                                 },
-		                                 { name: 'ipAddress', displayName: 'IpAddress', width:'15%',cellEditableCondition: false,
-		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		                                       if (row.entity.isRead === false) {
-		                                         return 'red';
-		                                     }
-		                                	} ,
-		                                 },
-		                                 { name: 'referrerDomain', displayName: 'Referrer_Domain', width:'15%',cellEditableCondition: false,
-		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		                                       if (row.entity.isRead === false) {
-		                                         return 'red';
-		                                     }
-		                                	} ,
-		                                 },
-		                                 { name: 'totalVisits', displayName: 'Total_Visits', width:'12%',cellEditableCondition: false,
-		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		                                       if (row.entity.isRead === false) {
-		                                         return 'red';
-		                                     }
-		                                	} ,
-	                                 },
-		                                 { name: 'webBrowser', displayName: 'Web_Browser', width:'15%',cellEditableCondition: false,
-	                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-  		                                       if (row.entity.isRead === false) {
-  		                                         return 'red';
-  		                                     }
- 		                                	} ,
-		                                 },
-		                                 { name: 'timePretty', displayName: 'Time_Pretty', width:'15%',cellEditableCondition: false,
-		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-	  		                                       if (row.entity.isRead === false) {
-	  		                                         return 'red';
-	  		                                     }
-	 		                                	} ,
-			                                 },
-			                                { name: 'screenResolution', displayName: 'Screen_Resolution', width:'15%',cellEditableCondition: false,
-			                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-		  		                                       if (row.entity.isRead === false) {
-		  		                                         return 'red';
-		  		                                     }
-		 		                                	} ,
-				                              },
-		                                 
-			                                 
-	                                 
-		                                
- 		                                 ];*/
-	
-		 $scope.gridOptions.onRegisterApi = function(gridApi){
-			 $scope.gridApi = gridApi;
-			 
-	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
-		          var grid = this.grid;
-		          $scope.gridOptions.data = $filter('filter')($scope.visitiorList,{'geolocation':grid.columns[0].filters[0].term,'ip_address':grid.columns[1].filters[0].term,'referrer_domain':grid.columns[2].filters[0].term,'total_visits':grid.columns[3].filters[0].term,'web_browser':grid.columns[4].filters[0].term},undefined);
-		        });
-	   		
-  		};
-  		
-  		
-		/* $http.get('/getVisitorList/'+$scope.startDate+"/"+$scope.endDate)
-			.success(function(data) {
-				console.log(data);
-				//console.log(data[0].dates[0].items);
-			$scope.gridOptions.data = data;// data[0].dates[0].items;
-			$scope.visitiorList = data;//data[0].dates[0].items;
-			$('#sliderBtn').click();
-		});*/
+	 
 	
 		 $scope.setShowVisitorsInfoType = function(typeOfInfo){
 				$scope.typeOfInfo = typeOfInfo;
@@ -192,7 +109,7 @@ angular.module('newApp')
 				                                 {name: 'geolocation', displayName: 'Location', width:'10%'},
 				                                 {name:'organization', displayName:'Internet Provider', width:'15%'},
 				                                 {name:'actions', displayName:'Actions', width:'8%',
-				                                	 cellTemplate:'<div ><label ng-click="grid.appScope.showVisitorInfo(row.entity)">{{row.entity.actions}} actions </label></div>',
+				                                	 cellTemplate:'<div ><label ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
 				                                	 
 				                                 },
 				                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
@@ -331,18 +248,22 @@ angular.module('newApp')
 		 }
 		 
 		 
-		 
+		 $scope.flagForVisitor = false;
 		 $scope.visitorInfo={};
-		 $scope.showVisitorInfo = function(data) {
-			 console.log(data);
-			 $scope.flagForChart1 = false;
+		 $scope.showVisitorInfo = function(id) {
+			 console.log(id);
+			// $scope.visitorInfo=data;
+			/* $scope.flagForChart1 = false;
 			 $scope.flagForChart = false;
 			 $scope.visitorInfo=data;
 			 $scope.latitude=data.latitude;
 			 $scope.longitude=data.longitude;
-			 initialize();
+			
+			 initialized();
+			// loadScript()
+			 $scope.flagForVisitor = true;*/
 			 
-			 
+					$location.path('/visitorInfo/'+id);
 		 }
 		 
 		 
