@@ -18,6 +18,7 @@ public class ClickyPagesVM {
 	public String averageTime;
 	public String bounceRate;
 	public String value_percent2;
+	public String chartDate;
 	public double averagePercent;
 	
 	

@@ -3460,7 +3460,9 @@ angular.module('newApp')
 			 
 			 
 			 $scope.addPriceInVeh = function(price){
-				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price)
+				 var aDate = $('#arrDate').val();
+				 console.log(aDate);
+				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price+"/"+aDate)
 					.success(function(data) {
 						 $('#addPrice').modal("toggle");
 						$.pnotify({

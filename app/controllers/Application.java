@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -1414,10 +1415,19 @@ public class Application extends Controller {
     	return ok(Json.toJson(userObj));
     }
     
-    public static Result getAddPrice(Long id,Integer price){
+    public static Result getAddPrice(Long id,Integer price,String cDate){
+    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    	Date comingSoonDate=null;
+		try {
+			comingSoonDate = df.parse(cDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	Vehicle vehicle = Vehicle.findById(id);
     	if(vehicle != null){
     		vehicle.setPrice(price);
+    		vehicle.setComingSoonDate(comingSoonDate);
     		vehicle.update();
     	}
     	return ok();
@@ -1577,15 +1587,45 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
 		List<Vehicle> sameBodyList = Vehicle.getRandom(vehicle.vin);
 		 SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
-		 
-		 Vehicle sameBodyStyle = sameBodyList.get(0);
-			VehicleImage sameBodyStyleDefault = VehicleImage.getDefaultImage(sameBodyStyle.vin);
+		 VehicleImage sameBodyStyleDefault=null;
+		 VehicleImage sameMakeDefault=null;
+		 VehicleImage sameEngineDefault=null;
+		 Vehicle sameBodyStyle=null;
+		 Vehicle sameEngine = null;
+		 Vehicle sameMake =null;
+		 for(Vehicle veh:sameBodyList){
+			 if(vehicle.bodyStyle != null){
+			 if(vehicle.bodyStyle.equalsIgnoreCase(veh.bodyStyle)){
+				 sameBodyStyleDefault = VehicleImage.getDefaultImage(veh.vin);
+				 sameBodyStyle = Vehicle.findByVin(veh.vin);
+				 break;
+			 }
+			 }
+			 
 			
-			Vehicle sameEngine = sameBodyList.get(1);
-			VehicleImage sameEngineDefault = VehicleImage.getDefaultImage(sameEngine.vin);
+		 }
+		 for(Vehicle veh:sameBodyList){
+			 if(vehicle.make != null){
+				 if(vehicle.make.equalsIgnoreCase(veh.make)){
+					sameMakeDefault = VehicleImage.getDefaultImage(veh.vin); 
+					sameMake = Vehicle.findByVin(veh.vin);
+					break;
+				 }
+				 }
+		 }
 			
-			Vehicle sameMake =  sameBodyList.get(2);
-			VehicleImage sameMakeDefault = VehicleImage.getDefaultImage(sameMake.vin);
+		 for(Vehicle veh:sameBodyList){
+			 if(vehicle.engine != null){
+				 if(vehicle.engine.equalsIgnoreCase(veh.engine)){
+					 sameEngineDefault = VehicleImage.getDefaultImage(veh.vin); 
+					sameEngine=  Vehicle.findByVin(veh.vin);
+					break;
+				 }
+				 }
+		 }
+			
+			
+			
 	/*	Properties props = new Properties();  
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -23805,6 +23845,77 @@ private static void cancelTestDriveMail(Map map) {
 		}*/
 	    return ok(Json.parse(callClickAPI(params)));
     }
+    
+    
+    
+
+    public static Result getEngagementActionChart(String startDate,String endDate,String title){
+    	String params = null;
+    	System.out.println(startDate);
+    	System.out.println(endDate);
+    	Date d1 = null;
+        Date d2 = null;
+        Map<String, Object> map = new HashMap<>();
+        List<sendDataVM> data = new ArrayList<>();
+		List<Object> dates = new ArrayList<>();
+		map.put("dates",dates);
+		map.put("data",data);
+        List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat format1 = new SimpleDateFormat("MMM dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+     	   	
+             GregorianCalendar gcal = new GregorianCalendar();
+             gcal.setTime(d1);
+             sendDataVM vm=new sendDataVM();
+             vm.name=title;
+             List<Long> lonnn = new ArrayList<>();
+             while (!gcal.getTime().after(d2)) {
+                 Date d = gcal.getTime();
+                 System.out.println(d);
+                 String startD=format.format(d);
+                 JsonNode jsonList = Json.parse(callClickAPI("&type=engagement-actions&date="+startD+"&limit=all"));
+                 
+                 
+                 for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+              	   	if(title.equals(obj.get("title").textValue())){
+                	// ClickyPagesVM vm = new ClickyPagesVM();
+              	   	String value = obj.get("value").textValue();
+              	   	Long l=(long)Integer.parseInt(value);
+              	  lonnn.add(l);
+              	   //	vm.value_percent = obj.get("value_percent").textValue();
+              	   	
+              	   	String chartDate=format1.format(d);
+              	     dates.add(chartDate);
+              	   
+              	   	//clickyList.add(vm);
+              	   	}
+              	   	}
+                gcal.add(Calendar.DAY_OF_MONTH, 1);
+                 
+             }
+             vm.data=lonnn;
+             data.add(vm);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(map));
+	    
+    }
+    
+
+    
     
     public static Result getEngagementAction(String startDate,String endDate){
     	String params = null;

@@ -187,7 +187,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+										            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"> <span ng-click="grid.appScope.showEngagementChart(row.entity.title)" > {{row.entity.averagePercent}}% </span> </div> </div>',
 										            
 										             }
 										            	 ]
@@ -272,7 +272,84 @@ angular.module('newApp')
 			
 		 }
 		 
-		
+		 
+		 $scope.showEngagementChart = function(title) {
+			 console.log(">>>>>>>>");
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();	 
+				console.log(endDate);
+				console.log(startDate);
+				console.log(title);
+				$http.get('/getEngagementActionChart/'+startDate+"/"+endDate+"/"+title)
+				.success(function(data) {
+					console.log(data);
+					
+					createChart(data);
+					$scope.value = [];
+					$scope.dates = [];
+					/*angular.forEach(data, function(obj, index){
+						if(parseInt(obj.value)>0){
+							var val=1;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+						}
+						else{
+							var val=0;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+							
+						}
+						
+					
+					});*/
+				
+			});
+				
+			 
+			}
+		 
+		 
+		 var seriesOptions = [];
+	      var seriesCounter = 0;
+	      var stockChart; 
+	      var stockChart1; 
+	      function createChart(initdata) {
+	    	  stockChart1 = 1;
+	    	  
+	    	  stockChart = $('#functional-chart').highcharts({
+	    		  title: {
+	    	            text: '',
+	    	            x: -20 //center
+	    	        },
+	    	        xAxis: {
+	    	            categories: initdata.dates
+	    	        },
+	    	        yAxis: {
+	    	            title: {
+	    	                text: ''
+	    	            },
+	    	            plotLines: [{
+	    	                value: 0,
+	    	                width: 1,
+	    	                color: '#808080'
+	    	            }],
+	    	            min : 0
+	    	        },
+	    	        tooltip: {
+	    	            valueSuffix: ''
+	    	        },
+	    	        legend: {
+	    	            layout: 'vertical',
+	    	            align: 'right',
+	    	            verticalAlign: 'middle',
+	    	            borderWidth: 0
+	    	        },
+	    	        series: initdata.data
+	          });
+	      };
+	      
+	      
+		 
 	
 	$scope.goToActions = function() {
 		$location.path('/actionsAnalytics');
