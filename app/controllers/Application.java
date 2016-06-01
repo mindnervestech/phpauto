@@ -25378,8 +25378,11 @@ private static void cancelTestDriveMail(Map map) {
     	for(int i=0;i<12;i++) {
     		String year = c.get(Calendar.YEAR)+"";
         	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
-    		JsonNode node = Json.parse(callClickAPI("&date="+year+"-"+month+"&type=visitors,visitors-new,actions,actions-average&limit=all"));
-    		JsonNode allVisitorNode = node.get(0);
+    	//	JsonNode node = Json.parse(callClickAPI("&date="+year+"-"+month+"&type=visitors,visitors-new,actions,actions-average&limit=all"));
+        	JsonNode node = Json.parse(callClickAPI("&date="+startDate+","+endDate+"&type=visitors,visitors-new,actions,actions-average&limit=all"));
+    		
+        	
+        	JsonNode allVisitorNode = node.get(0);
     		JsonNode onlineVisitorNode = node.get(1);
     		JsonNode actionsNode = node.get(2);
     		JsonNode averageActionsNode = node.get(3);
