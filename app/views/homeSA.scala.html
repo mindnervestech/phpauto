@@ -188,7 +188,7 @@ h1, h2 {
 </head>
 <body ng-app="newApp" ng-controller="mainLoginCtrl">
 
-<div class="container" id="container">
+<div class="container" id="container" ng-init="test()">
     <div class="inner">
     	<h1 class="animated fadeIn">Welcome<br/>to<br/><span class="highlight">glider enterprise</span></h1>
         <form action="authenticate" method="POST">
@@ -198,7 +198,7 @@ h1, h2 {
             <div class="row">
             	<p id="messg" style="color:red;display:none;">@message</p>
                 <input type="submit" value="login" ng-click="test()">
-                <a style="font-size: 18px;" class="register" >Register</a>
+                <a style="font-size: 18px; cursor:pointer;" class="register" >Register</a>
                 <a href="#" class="remind">Forgot password?</a>
             </div>
         </form>
@@ -276,9 +276,10 @@ h1, h2 {
 								   <div class="col-md-2"></div>
                                   <div class="col-md-2" style="text-align: left;" >
 								  			<label style="margin-top: 20%">	Business Name</label>
+								  			<label style="margin-top: 1%; font-size:12px;">*like it's displayed on Google Maps</label>
 								  		</div>
 								     <div class="col-md-6" >
-		         				<input type="text" ng-model="register.businessName" class="form-control" placeholder="Business Name" required/> 
+		         				<input type="text" ng-model="register.businessName" id="autocomplete" class="form-control" placeholder="Business Name" required/> 
 								      	</div>
 								    </div>    
 								    <div class="col-md-12">
@@ -443,13 +444,13 @@ first written above
 </div>
 
 </div>
-
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUNed71Bq6SCyI5SauRA7Rs9xT319HPP0&libraries=places"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="/assets/loginPage/particles.min.js"></script>
 <script src="/dealerjs/plugins/angular/angular.min.js"></script>
 <script src="/dealer/mainLoginCtrl.js"></script>
 <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
-
+<script src="/assets/global/plugins/google-maps/gmaps.js"></script>
 <script>
 	
 	$( document ).ready(function() {
