@@ -14,4 +14,5 @@ public class RegisterVM {
 	public String businessAdd;
 	public String businessAddress;
 	public String activity;
+	public String clientsince;
 }

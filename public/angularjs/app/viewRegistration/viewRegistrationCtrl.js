@@ -55,7 +55,7 @@ angular.module('newApp')
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+		                                 { name: 'edit', displayName: 'Actions', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
     		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.Status(row)"  title="Make Live"></i> ', 
     		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
@@ -254,8 +254,30 @@ angular.module('newApp')
 						    type:'success',
 						    text: "Demo Link send",
 						});
-				$scope.gridOptions.data = data;
-				$scope.pendingUser();
+					 if(row.entity.options =="Cars"){
+						 $scope.goTocars();
+					 }
+					 if(row.entity.options =="Motorcycles"){
+						 $scope.goToMotorcycles();
+					 }
+					 if(row.entity.options =="Boat"){
+						 $scope.goToBoat();
+					 }
+					 if(row.entity.options =="DesignerFurniture"){
+						 $scope.goToDesignerFurniture();
+					 }
+					 if(row.entity.options =="RealEstate"){
+						 $scope.goToRealState();
+					 }
+					 if(row.entity.options =="Airplanes"){
+						 $scope.goToAirplanes();
+					 }
+					 if(row.entity.options =="ServiceProvider"){
+						 $scope.goToServiceProvider();
+					 }
+					 if(row.entity.options =="LuxuryProducts"){
+						 $scope.goToLuxuryProducts();
+					 }
 			});
 		 }
 		 
@@ -264,7 +286,7 @@ angular.module('newApp')
 			 $('#editPopup').click();
 			 console.log(row.entity)
 			 $scope.register = row.entity;
-			 $scope.register.oneLocation = row.entity.location;
+			 $scope.register.oneLocation = row.entity.oneLocation;
 			 $scope.register.businessAddress = row.entity.businessAdd;
 		 }
 		 

@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import javax.mail.BodyPart;
@@ -30,6 +33,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import models.AuthUser;
+import models.Location;
 import models.Registration;
 import models.SiteLogo;
 import models.Vehicle;
@@ -447,6 +451,7 @@ public static Result getStatus(Long userId) {
 		     		vehicle.businessName=vm.businessName;
 		     		vehicle.businessAdd=vm.businessAdd;
 		     		vehicle.options=vm.options;
+		     		vehicle.oneLocation = vm.location;
 		     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -478,6 +483,7 @@ public static Result getStatus(Long userId) {
 		     		vehicle.businessName=vm.businessName;
 		     		vehicle.businessAdd=vm.businessAdd;
 		     		vehicle.options=vm.options;
+		     		vehicle.oneLocation = vm.location;
 		     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -506,7 +512,7 @@ public static Result getStatus(Long userId) {
 		     		vehicle.businessName=vm.businessName;
 		     		vehicle.businessAdd=vm.businessAdd;
 		     		vehicle.options=vm.options;
-		     		
+		     		vehicle.oneLocation = vm.location;
 		     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -536,6 +542,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -566,6 +573,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		//vehicle.activity=vm.activity;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
@@ -596,6 +604,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -625,6 +634,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -654,6 +664,7 @@ public static Result getStatus(Long userId) {
 			     		vehicle.businessName=vm.businessName;
 			     		vehicle.businessAdd=vm.businessAdd;
 			     		vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -677,12 +688,16 @@ public static Result getStatus(Long userId) {
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -706,12 +721,16 @@ public static Result getStatus(Long userId) {
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -735,12 +754,16 @@ public static Result getStatus(Long userId) {
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -764,12 +787,16 @@ public static Result getStatus(Long userId) {
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -793,12 +820,16 @@ public static Result getStatus(Long userId) {
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 			     		vehicle.activity=df.format(vm.activity);
 			     		}
@@ -823,13 +854,17 @@ public static Result getStatus(Long userId) {
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
 			     		//vehicle.activity=vm.activity;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     		}
@@ -853,12 +888,16 @@ public static Result getStatus(Long userId) {
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     	}
@@ -883,12 +922,17 @@ public static Result getStatus(Long userId) {
 			     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 			     		RegisterVM vehicle = new RegisterVM();
 			     		vehicle.id = vm.id;
-			     		vehicle.name=vm.name;
-			     		vehicle.email=vm.email;
-			     		vehicle.phone=vm.phone;
+			     		//vehicle.name=vm.name;
+			     		//vehicle.email=vm.email;
+			     		//vehicle.phone=vm.phone;
 			     		vehicle.businessName=vm.businessName;
-			     		vehicle.businessAdd=vm.businessAdd;
-			     		vehicle.options=vm.options;
+			     		//vehicle.businessAdd=vm.businessAdd;
+			     		//vehicle.options=vm.options;
+			     		//vehicle.clientsince=df.format(vm.clientsince);
+			     		vehicle.oneLocation = vm.location;
+			     		if(vm.clientsince != null){
+			     			vehicle.clientsince=df.format(vm.clientsince);
+			     		}
 			     		if(vm.activity != null){
 				     		vehicle.activity=df.format(vm.activity);
 				     	}

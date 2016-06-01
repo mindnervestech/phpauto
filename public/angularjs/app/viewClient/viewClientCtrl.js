@@ -13,49 +13,49 @@ angular.module('newApp')
 	 $scope.gridOptions.enableHorizontalScrollbar = 0;
 		 $scope.gridOptions.enableVerticalScrollbar = 2;
 		 $scope.gridOptions.columnDefs = [
-		                                 { name: 'name', displayName: 'Name', width:'15%',cellEditableCondition: false,
+		                                 { name: 'businessName', displayName: 'Business Name', width:'15%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'email', displayName: 'Email', width:'20%',cellEditableCondition: false,
+		                                 { name: 'email', displayName: 'Website', width:'20%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'businessName', displayName: 'Business Name', width:'14%',cellEditableCondition: false,
+		                                 { name: 'clientsince', displayName: 'Client Since', width:'14%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'businessAdd', displayName: 'Business Address', width:'15%',cellEditableCondition: false,
+		                                 { name: 'activity', displayName: 'Last Time Logged in', width:'15%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'options', displayName: 'Options', width:'14%',cellEditableCondition: false,
+		                                 { name: 'options', displayName: 'Active Users', width:'14%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
 			                                     }
 			                                	} ,
 		                                 },
-		                                 { name: 'activity', displayName: 'Activity', width:'10%',cellEditableCondition: false,
+		                                 /*{ name: 'businessAddress', displayName: 'Actions', width:'10%',cellEditableCondition: false,
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
 			                                     }
 			                                	} ,
-		                                 },
-		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+		                                 },*/
+		                                 { name: 'edit', displayName: 'Actions', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
     		                                 cellTemplate:'<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.sendDemoUrl(row)"  title="Send Demo Url"></i> &nbsp;&nbsp;&nbsp<i class="fa fa-trash" ng-click="grid.appScope.removeUser(row)"  title="Remove"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
     		                                 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
@@ -70,7 +70,7 @@ angular.module('newApp')
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		          $scope.gridOptions.data = $filter('filter')($scope.pendingList,{'name':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'businessName':grid.columns[2].filters[0].term,'businessAdd':grid.columns[3].filters[0].term,'options':grid.columns[4].filters[0].term,'activity':grid.columns[5].filters[0].term},undefined);
+		         $scope.gridOptions.data = $filter('filter')($scope.pendingList,{'name':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'businessName':grid.columns[2].filters[0].term,'businessAddress':grid.columns[3].filters[0].term,'options':grid.columns[4].filters[0].term,'activity':grid.columns[5].filters[0].term,'clientsince':grid.columns[6].filters[0].term},undefined);
 		        });
 	   		
   		};
@@ -143,8 +143,30 @@ angular.module('newApp')
 						    type:'success',
 						    text: "Demo Link send",
 						});
-				$scope.gridOptions.data = data;
-				$scope.pendingUser();
+					 if(row.entity.options =="Cars"){
+						 $scope.goTocars();
+					 }
+					 if(row.entity.options =="Motorcycles"){
+						 $scope.goToMotorcycles();
+					 }
+					 if(row.entity.options =="Boat"){
+						 $scope.goToBoat();
+					 }
+					 if(row.entity.options =="DesignerFurniture"){
+						 $scope.goToDesignerFurniture();
+					 }
+					 if(row.entity.options =="RealEstate"){
+						 $scope.goToRealState();
+					 }
+					 if(row.entity.options =="Airplanes"){
+						 $scope.goToAirplanes();
+					 }
+					 if(row.entity.options =="ServiceProvider"){
+						 $scope.goToServiceProvider();
+					 }
+					 if(row.entity.options =="LuxuryProducts"){
+						 $scope.goToLuxuryProducts();
+					 }
 			});
 		 }
 		 

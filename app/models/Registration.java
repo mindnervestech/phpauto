@@ -32,6 +32,7 @@ public class Registration extends Model {
 	public Integer sendDemoFlag;
 
 	public Date activity;
+	public Date clientsince;
 	
 	
 	
@@ -155,7 +156,15 @@ public class Registration extends Model {
 	
 
 	
-	
+
+
+	public Date getClientsince() {
+		return clientsince;
+	}
+
+	public void setClientsince(Date clientsince) {
+		this.clientsince = clientsince;
+	}
 
 	public Date getActivity() {
 		return activity;

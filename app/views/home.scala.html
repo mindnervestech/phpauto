@@ -288,7 +288,8 @@ h1, h2 {
 								   <div class="col-md-12">
 								   <div class="col-md-2"></div>
                                   <div class="col-md-2" style="text-align: left;" >
-								  			<label style="margin-top: 20%">	Google Places Search</label>
+								  			<label style="margin-top: 20%">Business Name</label>
+								  			<label style="margin-top: 1%; font-size:12px;">*like it's displayed on Google Maps</label>
 								  		</div>
 								     <div class="col-md-6" >
 		         				<input type="text" ng-model="register.businessName" class="form-control" placeholder="Business Name" ng-blur="getbusinessname(register.businessName)" required/> 
@@ -309,7 +310,7 @@ h1, h2 {
 								    <div class="col-md-12">
 								    <div class="col-md-2"></div>
                                   <div class="col-md-2" style="text-align: left;">
-								  			<label style="margin-top: 20%">	Business Adress</label>
+								  			<label style="margin-top: 20%">	Business Address</label>
 								  		</div>
 								     <div class="col-md-6" >
 		         				<input type="text" class="form-control" ng-model="register.businessAddress"placeholder="Business Adress" required/>
@@ -476,9 +477,9 @@ first written above
 <script src="/dealerjs/plugins/angular/angular.min.js"></script>
 <script src="/dealer/mainLoginCtrl.js"></script>
 <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+
  <script>
- <script>
-	
 	$( document ).ready(function() {
 		console.log('@message');
 	if('@message' != "Invalid Credentials" && '@message'!="" && '@message'!= null && '@message' !="Your account has been suspended, please contact your management for further questions"){
