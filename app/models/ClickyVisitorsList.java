@@ -354,7 +354,9 @@ public class ClickyVisitorsList extends Model {
 		this.statsUrl = statsUrl;
 	}
 
-
+	public static ClickyVisitorsList findById(Long id) {
+		return find.byId(id);
+	}
 
 	public static List<ClickyVisitorsList> getAll(Date sDate,Date eDate) {
 		return find.where().between("DateClick", sDate, eDate).findList();
