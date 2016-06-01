@@ -251,6 +251,26 @@ public class RegistrationController extends Controller {
 public static Result getStatus(Long userId) {
 		
 		Registration regi = Registration.findById(userId);
+    	Date date = new Date();
+    	
+
+/*		DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
+		Date curDates = null;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
+			Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+			String date1=df2.format(date);
+			try {
+				curDates = formatter.parse(date1);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+*/		
+    	
+    	regi.setClientsince(date);
     	
     	regi.setStatus("Live");
     	regi.update();

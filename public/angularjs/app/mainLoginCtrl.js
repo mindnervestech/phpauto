@@ -41,6 +41,45 @@ angular.module('newApp').controller('mainLoginCtrl',
 	    	   		
 	            });
 	            }
+	           /* $scope.onSubmit = function(){
+	            	
+	            	console.log("submit");
+	            	$('#submitData').attr("display", "block");
+	            	
+	            }*/
+	            
+	            $scope.test = function(){
+	            	$scope.initAutocomplete();
+	            };
+	            
+	           var placeSearch, autocomplete;
+	            
+	            $scope.initAutocomplete = function() {
+	            	 autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
+	            	     {types: ['geocode']});
+	            	 autocomplete.addListener('place_changed', fillInAddress);
+	            	}
+
+	            	function fillInAddress() {
+	            	 var place = autocomplete.getPlace();
+	            	 console.log(place);
+	            	 $scope.register.businessName = place.name;
+	            	 $scope.register.businessAddress = place.formatted_address;
+	            	 /*for (var component in componentForm) {
+	            	   //document.getElementById(component).value = '';
+	            	   //document.getElementById(component).disabled = false;
+	            	 }*/
+	            	 /*for (var i = 0; i < place.address_components.length; i++) {
+	            	   var addressType = place.address_components[i].types[0];
+	            	   
+	            	   if (componentForm[addressType]) {
+	            	     //var val = place.address_components[i][componentForm[addressType]];
+	            	     //document.getElementById(addressType).value = val;
+	            	   }
+	            	 }*/
+	            	}
+	            	
+	            
 	            
 	            $scope.openRegister = function(){
 	            	console.log("Checkkkk");
@@ -64,11 +103,15 @@ angular.module('newApp').controller('mainLoginCtrl',
 	            
 	            $scope.getbusinessname = function(businessName){
 	            	console.log(businessName);
-	            	 $http.get('/getbusinessData/'+businessName)
+	            	if(businessName != undefined){
+	            		$http.get('/getbusinessData/'+businessName)
 				 		.success(function(data) {
 				 			console.log(data);
 				 			$scope.locationNameList = data.predictions;
 				 		});
+	            	}else{
+	            		$scope.locationNameList = null;
+	            	}	            	 
 				 }
 	            
 	            $scope.businessAddress = function(check){

@@ -28,6 +28,7 @@ angular.module('newApp')
 			                                	} ,
 		                                 },
 		                                 { name: 'businessName', displayName: 'Business Name', width:'14%',cellEditableCondition: false,
+		                                	 cellTemplate:'<a href="http://maps.google.com/?q={{row.entity.businessName}}" target="_blank">{{row.entity.businessName}}</a>',
 		                                	 cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			                                       if (row.entity.sendDemoFlag == 0) {
 			                                         return 'red';
@@ -123,7 +124,9 @@ angular.module('newApp')
 			 $scope.doShow = 0;
 			 $http.get('/getRegistrList')
 				.success(function(data) {
+					
 				$scope.gridOptions.data = data;
+				console.log($scope.gridOptions.data);
 				$scope.pendingList = data;
 			});
 		 }

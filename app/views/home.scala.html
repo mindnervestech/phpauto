@@ -198,7 +198,7 @@ h1, h2 {
 </head>
 <body ng-app="newApp" ng-controller="mainLoginCtrl">
 
-<div class="container" id="container">
+<div class="container" id="container" ng-init="test()">
     <div class="inner">
     	<h1 class="animated fadeIn">Welcome<br/>to<br/><span class="highlight">glider enterprise</span></h1>
         <form action="authenticate" method="POST">
@@ -292,7 +292,7 @@ h1, h2 {
 								  			<label style="margin-top: 1%; font-size:12px;">*like it's displayed on Google Maps</label>
 								  		</div>
 								     <div class="col-md-6" >
-		         				<input type="text" ng-model="register.businessName" class="form-control" placeholder="Business Name" ng-blur="getbusinessname(register.businessName)" required/> 
+		         				<input type="text" ng-model="register.businessName" id="autocomplete" class="form-control" placeholder="Business Name" ng-blur="getbusinessname(register.businessName)" required/> 
 								      	</div>
 								      	
 										
@@ -465,18 +465,21 @@ first written above
 		<input type="hidden" value="@message" name="email">
 	 	<button type="submit" id="subId" class="btn btn-primary" value="Accept" click="">SUBMIT</button>
    		<button  class="btn btn-primary" id="cancelAgreement" value="Cancel" onclick="">CANCEL</button>
+   		
     </form>
 </div>
 
 </div>
  <div id="map"></div>
       
-   <!--  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEC-msSz_XCaOZah4HvBuz_r9oNghrXiY&libraries=places&callback=initMap"></script> -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEC-msSz_XCaOZah4HvBuz_r9oNghrXiY&libraries=places"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="/assets/loginPage/particles.min.js"></script>
 <script src="/dealerjs/plugins/angular/angular.min.js"></script>
 <script src="/dealer/mainLoginCtrl.js"></script>
 <script src="/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfEwhaiqr_2ezqmQhTHQhV1_RN3k6eY0g&libraries=places" async defer></script> -->
+<script src="/assets/global/plugins/google-maps/gmaps.js"></script>
 
 
  <script>
