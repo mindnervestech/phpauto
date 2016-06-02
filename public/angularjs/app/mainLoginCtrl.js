@@ -90,8 +90,8 @@ angular.module('newApp').controller('mainLoginCtrl',
 	            	console.log("::::::insideRegester");
 	            	console.log(register);
 	            	$http.post("/registerUser",register).success(function(data){
-		            	 $('#registerPopClose').click();
-		            	 
+	            		//$('#registerPopClose').click();
+	            		 $('.page_overlay, .pops, .popsReg ').fadeOut(500);
 	            		 console.log("::::::success")
 	            		/*$.pnotify({
 						    title: "Success",
