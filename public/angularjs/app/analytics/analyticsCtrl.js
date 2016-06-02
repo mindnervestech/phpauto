@@ -234,18 +234,49 @@ angular.module('newApp')
 				$http.get('/getTrafficScoures/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data;
-				console.log($scope.gridOptions.data);
+				console.log(data);
 				$scope.visitiorList = data;
+				
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					
+					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+					value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+					 var splitTime   = value.totalTime.split(":");
+					 var splitTime1   = value.averageTime.split(":");
+					 if(splitTime[0] == 00){
+						 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					 if(splitTime1[0] == 00){
+						 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					
+				});
+				
+				
+				
+				
 				
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Source', width:'40%'},
-									             {name:'value', displayName:'Visitors', width:'30%',
+									             {name: 'title', displayName: 'Source', width:'15%'},
+									             {name:'value', displayName:'Visitors', width:'15%',
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
-									             {name:'stats_url', displayName:'', width:'30%',
-									            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+									             {name: 'averageActions', displayName: 'Average Actions', width:'15%'},
+									             {name: 'averageTime', displayName: 'Average Time', width:'15%'},
+									             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
+									             {name: 'bounceRate', displayName: 'Bounce Rate', width:'15%'},
+									             {name:'stats_url', displayName:'', width:'10%',
+									            	 cellTemplate:'<div class="col-sm-12" title="{{row.entity.value_percent2}}"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
 									             },
 									            
 									         ]

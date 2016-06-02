@@ -23809,17 +23809,62 @@ private static void cancelTestDriveMail(Map map) {
      	   	vm.title = obj.get("title").textValue();
      	   	vm.value = obj.get("value").textValue();
      	   	vm.value_percent = obj.get("value_percent").textValue();
-     	   //	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=segmentation&source=traffic-sources&date="+newDate+","+startDate+""));
-     	 	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=traffic-sources&date="+newDate+","+startDate+""));
+     	    vm.stats_url= obj.get("stats_url").textValue();
+     	   	
+     	 	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=segmentation&source=traffic-sources&stats_url="+vm.stats_url+"&segments=summary&date="+newDate+","+startDate+""));
+     	 	JsonNode jsonActionsList1 = Json.parse(callClickAPI("&type=segmentation&source=traffic-sources&stats_url="+vm.stats_url+"&segments=summary&date="+startDate+","+endDate+""));
      	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
-     	   		if(obj1.get("title").textValue().equals(vm.title)){
-     	   			vm.value_percent2 = obj1.get("value").textValue();
-     	   			//vm.averageActions=obj1.get("value").textValue();
-     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
-     	   		}
-     	   	
-     	   	
+	   			
+	   			if(obj1.get("title").textValue().equalsIgnoreCase("Average actions / visit")){
+	   				vm.value_percent2 = obj1.get("value").textValue();
+	   			vm.averageActions=obj1.get("value").textValue();
+	   			vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+	   			}
+	   			
+	   			
+			   		if(obj1.get("title").textValue().equalsIgnoreCase("Average time / visit")){
+			   			vm.value_percent2 = obj1.get("value").textValue();
+			   		vm.averageTime=	obj1.get("value").textValue();
+			   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+					}
+			   		
+			   	if(obj1.get("title").textValue().equalsIgnoreCase("Total time")){
+			   		vm.value_percent2 = obj1.get("value").textValue();
+			   	vm.totalTime=obj1.get("value").textValue();
+			   	vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+					}
+			   	
+			   if(obj1.get("title").textValue().equalsIgnoreCase("Bounce rate")){
+				   vm.value_percent2 = obj1.get("value").textValue();
+				  vm.bounceRate= obj1.get("value").textValue();
+				  vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+				}
+     	        
+			   
      	   	}
+     	   for(JsonNode obj1 : jsonActionsList1.get(0).get("dates").get(0).get("items")) {
+	   			
+	   			//vm.averageActions=obj1.get("value").textValue();
+	   			if(obj1.get("title").textValue().equalsIgnoreCase("Average actions / visit")){
+	   			vm.averageActions=obj1.get("value").textValue();
+	   			}
+	   			
+	   			
+			   		if(obj1.get("title").textValue().equalsIgnoreCase("Average time / visit")){
+			   		vm.averageTime=	obj1.get("value").textValue();
+					}
+			   		
+			   	if(obj1.get("title").textValue().equalsIgnoreCase("Total time")){
+			   	vm.totalTime=obj1.get("value").textValue();
+					}
+			   	
+			   if(obj1.get("title").textValue().equalsIgnoreCase("Bounce rate")){
+				  vm.bounceRate= obj1.get("value").textValue();
+				}
+    	        
+			   
+    	   	}
+     	   	
      	// String a= ( (vm.value_percent2 - vm.value_percent)/(vm.value_percent))*100;
      	   	
      	   clickyList.add(vm);
