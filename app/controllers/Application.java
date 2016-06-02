@@ -24407,6 +24407,43 @@ private static void cancelTestDriveMail(Map map) {
     }
     
     
+public static Result getVisitorDataForLanding(Long id,String startDate,String endDate,String flagForLanding){
+    	
+    	ClickyVisitorsList List = ClickyVisitorsList.findById(id);
+    	String title=List.referrerUrl;
+    	String params = null; 
+    	List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	if(flagForLanding.equalsIgnoreCase("ForSearch")){
+    	params = "&type=segmentation&source=searches&title="+title+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    	}
+    	else if(flagForLanding.equalsIgnoreCase("ForDomain")){
+    		params = "&type=segmentation&source=searches&domain=google.com&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    	}
+    	else{
+    		params = "&type=segmentation&source=searches&search="+title+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    	}
+    	 try {
+
+     	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+			vm.title = obj.get("title").textValue();
+			vm.value = obj.get("value").textValue();
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+             
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+    	
+    	
+    	
+    	return ok(Json.toJson(clickyList));
+    }
+    
     public static Result getVisitorData(Long id){
     	
     	
@@ -24435,6 +24472,13 @@ private static void cancelTestDriveMail(Map map) {
     	
     	List<ClickyVisitorsList> cList = ClickyVisitorsList.getAll(sDate, eDate);
     	
+         /* for(ClickyVisitorsList list:cList){
+        	  
+        	  
+        	  String arrNew[] = list.timePretty.split(" ");
+        	  String netTime= arrNew[1];
+        	  cList.add(e)
+          }*/
     	//params = "&type=visitors-list&date=last-7-days&limit=all";
     	//if(value == 30){
     		//params = "&type=visitors-list&date="+startDate+","+endDate+"&limit=all";
@@ -24490,6 +24534,29 @@ private static void cancelTestDriveMail(Map map) {
 		    			cVisitorsList.setScreenResolution(jsonArray.getJSONObject(i).get("screen_resolution").toString());
 		    			cVisitorsList.setJavascript(jsonArray.getJSONObject(i).get("javascript").toString());
 		    			cVisitorsList.setLanguage(jsonArray.getJSONObject(i).get("language").toString());
+		    			
+		    			try{
+		    				cVisitorsList.setReferrerUrl(jsonArray.getJSONObject(i).get("referrer_url").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+                       
+		    			try{
+                    	   cVisitorsList.setReferrerType(jsonArray.getJSONObject(i).get("referrer_type").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			
+                       try{
+                    	   cVisitorsList.setReferrerDomain(jsonArray.getJSONObject(i).get("referrer_domain").toString());
+		    				
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			
 		    			//cVisitorsList.setReferrerUrl(jsonArray.getJSONObject(i).get("referrer_url").toString());
 		    			//cVisitorsList.setReferrerType(jsonArray.getJSONObject(i).get("referrer_type").toString());
 		    			//cVisitorsList.setReferrerDomain(jsonArray.getJSONObject(i).get("referrer_domain").toString());

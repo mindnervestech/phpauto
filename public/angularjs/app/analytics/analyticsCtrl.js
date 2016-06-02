@@ -3,8 +3,10 @@ angular.module('newApp')
 
 	
 	$scope.visitorInfos = $routeParams.visitorInfo;
+	$scope.infoType = $routeParams.typeOfInfo;
+	
 	console.log("}}}}");
-	console.log($scope.visitorInfos);
+	console.log($scope.infoType);
 	
 	
 	
@@ -59,6 +61,18 @@ angular.module('newApp')
 			initialized();
 			$scope.visitorInfo=data;
 		});
+			
+			
+			
+			if($scope.infoType != undefined && $scope.infoType != null  ){
+				
+				console.log($scope.infoType);
+				$scope.typeOfInfo = $scope.infoType;
+				$scope.DateWiseFind();
+				
+			}
+			 
+			
 		}
 		
 	$scope.gridOptions = {
@@ -69,8 +83,12 @@ angular.module('newApp')
 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 };
 	
-	
-	 
+	      
+	     $scope.showVisitorsInfo = function(typeOfInfo){
+	    	
+	    	 $location.path('/visitorsAnalytics/'+typeOfInfo);
+	    	   
+			} 
 	
 		 $scope.setShowVisitorsInfoType = function(typeOfInfo){
 				$scope.typeOfInfo = typeOfInfo;
@@ -95,8 +113,20 @@ angular.module('newApp')
 					//console.log($scope.gridOptions.data);
 					angular.forEach($scope.gridOptions.data, function(value, key) {
 						var array = value.timePretty.split(',');
+						var timeNew= value.timePretty.split(' ');
+						var newTimePretty;
 						value.timeSet = array[1];
-						value.timeTotal = $filter('date')(value.timeTotal, 'hh:mm:ss');
+						value.newTimePretty=timeNew[1]+" "+timeNew[2]+" "+timeNew[3]+" "+timeNew[4];
+						//value.timeTotal = $filter('date')(value.timeTotal, 'hh:mm:ss');
+						value.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.timeTotal)), 'HH:mm:ss');
+						 var splitTime   = value.timeTotal.split(":");
+						 if(splitTime[0] == 00){
+							 value.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
 						
 					});
 					 console.log($scope.gridOptions.data);
@@ -105,7 +135,7 @@ angular.module('newApp')
 				
 				
 				$scope.gridOptions.columnDefs = [
-				                                 {name: 'timeSet', displayName: 'Time', width:'8%'},
+				                                 {name: 'newTimePretty', displayName: 'Date & Time', width:'12%'},
 				                                 {name: 'geolocation', displayName: 'Location', width:'10%'},
 				                                 {name:'organization', displayName:'Internet Provider', width:'15%'},
 				                                 {name:'actions', displayName:'Actions', width:'8%',
@@ -113,15 +143,16 @@ angular.module('newApp')
 				                                	 
 				                                 },
 				                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
-				                                 {name:'landingPage', displayName:'landing_page', width:'45%'},
+				                                 {name:'referrerUrl', displayName:'Searches & Refferals', width:'40%',
+				                                	 cellTemplate:'<div ><label ng-if="row.entity.referrerUrl != null" ><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"> </span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a> <a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">google.com</a> &nbsp;&nbsp;<span ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</span> </label></div>',
+				                                	 },
 				                                 {name:'Sear', displayName:'Search', width:'10%',
-				                                	 cellTemplate:'<a target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+				                                	 cellTemplate:'<a href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
 				                                 }
 				                                 
 				                             ];  
 				
 			}else if($scope.typeOfInfo == 'Action log'){
-				
 				
 				 $http.get('/getVisitorList/'+startDate+"/"+endDate)
 					.success(function(data) {
@@ -266,6 +297,98 @@ angular.module('newApp')
 					$location.path('/visitorInfo/'+id);
 		 }
 		 
+		 
+		 $scope.showUrlInfo = function(id) {
+			 console.log(id);
+			 var startDate = $("#cnfstartDateValue").val();
+			var endDate = $("#cnfendDateValue").val();	 
+				console.log(endDate);
+				$scope.flagForLanding="ForSearch";
+			//$location.path('/visitorInfo/'+id);
+			 $http.get('/getVisitorDataForLanding/'+id+"/"+startDate+"/"+endDate+"/"+$scope.flagForLanding)
+				.success(function(data) {
+				
+				console.log("::::::::");
+				console.log(data);
+				
+				$scope.gridOptions.data = data;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data;
+				
+			});
+			 
+			 
+			 $scope.gridOptions.columnDefs = [
+                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
+									             {name: 'value', displayName: 'These visitors', width:'30%'
+									             },
+									            
+									         ]
+				
+			 
+		 }
+		 
+		 $scope.showUrlInfoForDomain = function(id) {
+			 console.log(id);
+			 $scope.flagForLanding="ForDomain";
+			 var startDate = $("#cnfstartDateValue").val();
+			var endDate = $("#cnfendDateValue").val();	 
+				console.log(endDate);
+			//$location.path('/visitorInfo/'+id);
+			 $http.get('/getVisitorDataForLanding/'+id+"/"+startDate+"/"+endDate+"/"+$scope.flagForLanding)
+				.success(function(data) {
+				
+				console.log("::::::::");
+				console.log(data);
+				
+				$scope.gridOptions.data = data;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data;
+				
+			});
+			 
+			 
+			 $scope.gridOptions.columnDefs = [
+                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
+									             {name: 'value', displayName: 'These visitors', width:'30%'
+									             },
+									            
+									         ]
+				
+			 
+		 }
+		 
+		 $scope.showUrlInfoForRefferal = function(id) {
+			 console.log(id);
+			 $scope.flagForLanding="ForRefferalUrl";
+			 var startDate = $("#cnfstartDateValue").val();
+			var endDate = $("#cnfendDateValue").val();	 
+				console.log(endDate);
+			//$location.path('/visitorInfo/'+id);
+			 $http.get('/getVisitorDataForLanding/'+id+"/"+startDate+"/"+endDate+"/"+$scope.flagForLanding)
+				.success(function(data) {
+				
+				console.log("::::::::");
+				console.log(data);
+				
+				$scope.gridOptions.data = data;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data;
+				
+			});
+			 
+			 
+			 $scope.gridOptions.columnDefs = [
+                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
+									             {name: 'value', displayName: 'These visitors', width:'30%'
+									             },
+									            
+									         ]
+				
+			 
+		 }
+		 
+		  
 		 
 		 
 		 $scope.flagForChart1 = true;

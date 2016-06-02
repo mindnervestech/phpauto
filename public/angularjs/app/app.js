@@ -260,6 +260,12 @@ var MakeApp = angular
             templateUrl: '/dealer/analytics/visitors.html',
             controller: 'VisitorsCtrl'
         })
+        
+        .when('/visitorsAnalytics/:typeOfInfo', {
+            templateUrl: '/dealer/analytics/visitors.html',
+            controller: 'VisitorsCtrl'
+        })
+        
         .when('/actionsAnalytics', {
             templateUrl: '/dealer/analytics/actions.html',
             controller: 'ActionsCtrl'
