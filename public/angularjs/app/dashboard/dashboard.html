@@ -4436,10 +4436,11 @@ float: right !important;
 							        							        	    		
 		<div class="panel">
 	<div class="col-md-12"  style="margin-bottom: 2%;">
-	<div class="col-sm-6">
-	<h2>VISITORS STATISTICS</h1>	
-	</div>
+	
 			<form ng-submit="visitorsStats(startDateV,endDateV)">
+				<div class="col-sm-6">
+					<b style="margin-left:3%;font-size: 19px;">WEBSITE STATISTICS</b>	
+				</div>
 	           <div Class="col-sm-2">
 				 	<label>Start Date</label>
 					<input data-provide="datepicker" id="vstartDate" name="startDateValue" class="form-control" ng-model="startDateV" data-date-format="yyyy-mm-dd" required>
@@ -4523,7 +4524,7 @@ float: right !important;
         <div class="col-sm-4">
         <div class="row">
             <div class="col-md-12">
-            <small style="font-size: 22px;">Heat Map</small>
+            <small style="font-size: 22px;">Page's Heat Map</small>
 	      <div ui-grid="gridOptions12" style="height:400px;" ui-grid-edit ui-grid-pagination>
 				</div> 
                 <!-- <div class="panel no-bd bd-3 panel-stat" style="height: 439px;">
