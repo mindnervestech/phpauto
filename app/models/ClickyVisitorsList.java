@@ -370,6 +370,7 @@ public class ClickyVisitorsList extends Model {
 		return find.all();
 	}
 	
+	
 	public static List<ClickyVisitorsList> findByTitle(String title) {
 		return find.where().eq("ipAddress", title).findList();
 	}

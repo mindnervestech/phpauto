@@ -800,13 +800,21 @@ float: right !important;
 												<div class="col-sm-2" style="padding: 0px;" > 
 								     						<h6 class="col-sm-12">
 								     								<span class="col-sm-12" style="padding: 0px;">
-								     									<span style="font-size: 16px;"> Search By : </span><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a>
+								     									<span style="font-size: 16px;"> Filter By : </span><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a>
 								     								</span>
 																	<span class="col-sm-8" ng-if="search == 'Make'" style="padding: 0px;margin-left: 33%;width: 50%;">
-								     									<input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" style="margin-top: 6px;padding: 0px; height:25px;" class="col-sm-11">
+																		<select  class="form-control form-white" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')">
+										    								<option ng-selected="true" value="">Make</option>
+							                  							   <option ng-repeat="item in makelist" value="{{item.make}}">{{item.make}}</option>
+							              							  </select>
+								     									<!-- <input placeholder="Make" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')" type="text" style="margin-top: 6px;padding: 0px; height:25px;" class="col-sm-11"> -->
 								     								</span>
 								     								<span class="col-sm-8" ng-if="search == 'Model'" style="padding: 0px;margin-left: 33%;width: 50%;">
-								     									<input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" style="margin-top: 6px;padding: 0px; height:25px;" class="col-sm-11">
+								     									<select  class="form-control form-white" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')">
+									    										<option ng-selected="true" value="">Model</option>
+						                  							  		 <option ng-repeat="item in modellist" value="{{item.model}}">{{item.model}}</option>
+						              							  		</select>
+								     									<!-- <input  placeholder="Model" ng-model="modelSaerch" ng-change="findModel(modelSaerch,'Model')" type="text" style="margin-top: 6px;padding: 0px; height:25px;" class="col-sm-11"> -->
 								     								</span>
 								     						</h6>
 								     			</div>

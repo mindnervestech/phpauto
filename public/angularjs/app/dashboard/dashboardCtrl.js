@@ -4028,6 +4028,15 @@ angular.module('newApp')
 		  			  });
 	    		}
 	    		
+	    		
+	    		$http.get('/getAllMakeList').success(function(response) {
+	    			console.log(response);
+	    			$scope.makelist = response;
+    			});
+	    		$http.get('/getAllModelList').success(function(response) {
+	    			$scope.modellist = response;
+    			});
+	    		
 	    		$scope.visitors = [];
 	    		$scope.newUsers = [];
 	    		$scope.bounceRate = [];
@@ -4063,6 +4072,7 @@ angular.module('newApp')
 	    			$scope.currentSelectedWeekDuration = 0;
 	    			$scope.getVisitedData('allTime','countHigh','0','0','All',startD,endD);
 	    		};
+	    		
 	    		
 	    		$scope.vehicleData=function(vehicles,startDate,endDate){
 	    			$scope.all=vehicles; 

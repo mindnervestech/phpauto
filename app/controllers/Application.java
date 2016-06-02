@@ -6668,7 +6668,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		        }
 		        StringWriter writer = new StringWriter();
 		        t.merge( context, writer );
-		        String content = writer.toString(); 
+		        String content = writer.toString();
 				
 				messageBodyPart.setContent(content, "text/html");
 				multipart.addBodyPart(messageBodyPart);
@@ -8716,7 +8716,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}	
     }
     
-    
+    public static Result getAllModelList() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<VehicleVM> modelList = new ArrayList<>();
+	    	List<Vehicle> list = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
+	    	Map<String, Vehicle> mapModel = new HashMap<>();
+    		for (Vehicle vehicle : list) {
+    			if(vehicle.getModel() != null){
+    				
+    				Vehicle objectModel = mapModel.get(vehicle.getModel());
+    				mapModel.put(vehicle.getModel(), vehicle);
+    					
+    			}
+    		}
+    		for (Entry<String, Vehicle> value : mapModel.entrySet()) {
+    			VehicleVM vm=new VehicleVM();
+    			vm.model=value.getKey();
+    			modelList.add(vm);
+    		}
+	    	return ok(Json.toJson(modelList));
+    	}	
+    }
     
     
     public static Result getAllMakeList() {
@@ -24472,13 +24494,6 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	
     	List<ClickyVisitorsList> cList = ClickyVisitorsList.getAll(sDate, eDate);
     	
-         /* for(ClickyVisitorsList list:cList){
-        	  
-        	  
-        	  String arrNew[] = list.timePretty.split(" ");
-        	  String netTime= arrNew[1];
-        	  cList.add(e)
-          }*/
     	//params = "&type=visitors-list&date=last-7-days&limit=all";
     	//if(value == 30){
     		//params = "&type=visitors-list&date="+startDate+","+endDate+"&limit=all";
@@ -27299,7 +27314,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 		Date enddat=null;
 		
 		
-		if(type.equals("datewise")) {
+		//if(type.equals("datewise")) {
 		try {
 			startDat=df2.parse(startDate);
 			enddat=df2.parse(endDate);
@@ -27309,7 +27324,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		}
+		//}
 		
 		/*if(type.equals("week")) {
 			cal.add(Calendar.DATE, -7);
@@ -27350,7 +27365,8 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 			}
 		}
     	
-    	
+		
+		
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
     	
     	String params = null;
@@ -27365,7 +27381,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     		///params = "&type=visitors-list&date="+start1+","+end1+"&limit=all";
     	//}
     	
-    	List<ClickyVisitorsList> cList = ClickyVisitorsList.getfindAll();
+    	List<ClickyVisitorsList> cList = ClickyVisitorsList.getAll(start,end);
     	
     	/*-------------------edit click 12-05-2016---------------------------------------*/	
     		//String resultStr = callClickAPI(params);
