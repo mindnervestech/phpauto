@@ -1054,6 +1054,14 @@ angular.module('newApp')
 .controller('allPlatformsInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 	
 	
+	var date = new Date();
+	// $scope.typeOfInfo = 'Pages';
+	 $scope.typeOfInfo = 'browser';
+	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
+		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
+		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
+	
+	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -1094,7 +1102,7 @@ angular.module('newApp')
 		};
 	
 	
-		$http.get('/getAllVehicleDemographicsInData').success(function(data) {
+		/*$http.get('/getAllVehicleDemographicsInData').success(function(data) {
 		console.log(data);
 		$scope.langmap = data.language;
 		$scope.webBrosmap = data.webBrowser;
@@ -1102,13 +1110,136 @@ angular.module('newApp')
 		$scope.location = data.location;
 		$scope.screenResoluations = data.screenResoluation;
 		$scope.changeTab('browser');
-	});
+	});*/
 	
 	$scope.valueSet = {};
 	$scope.typSet = [];
 	
 	 
-	$scope.changeTab = function(type){
+	
+	$scope.changeTab = function(typeOfInfo){
+		$scope.typeOfInfo = typeOfInfo;
+		$scope.flagForChart1 = true;
+		$scope.getDateWiseFind();
+	} 
+ 
+ $scope.getDateWiseFind = function(){
+	 var startDate = $("#cnfstartDateValue").val();
+	 var endDate = $("#cnfendDateValue").val();	 
+	 console.log(endDate);
+	
+	if(endDate == '' || startDate == ''){
+		 var startDate = $scope.startDate;
+			var endDate = $scope.endDate;
+	}
+	if($scope.typeOfInfo == 'browser'){
+		$http.get('/getbrowser/'+startDate+"/"+endDate)
+			.success(function(data) {
+				console.log(data);
+			$scope.gridOptions.data = data;
+			$scope.visitiorList = data;
+		});
+		 
+		 $scope.gridOptions.columnDefs = [
+								              {name: 'title', displayName: 'Actions', width:'60%'},
+								             {name:'value', displayName:'Visitors', width:'10%',
+								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+								             },
+								             {name:'stats_url', displayName:'', width:'20%',
+								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+								             },
+								             {name:'averagePercent', displayName:'', width:'10%',		
+								            	 cellTemplate:'<div  style="margin-left:47px;"><span> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+								            
+								             }
+								            	 ]
+	}
+	else if($scope.typeOfInfo == 'os'){
+		$http.get('/getOperatingSystem/'+startDate+"/"+endDate)
+			.success(function(data) {
+				console.log(data);
+			$scope.gridOptions.data = data;
+			$scope.visitiorList = data;
+		});
+		 
+		 $scope.gridOptions.columnDefs = [
+								             {name: 'title', displayName: 'Actions', width:'60%'},
+								             {name:'value', displayName:'Visitors', width:'10%',
+								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+								             },
+								             {name:'stats_url', displayName:'', width:'20%',
+								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+								             },
+								             {name:'averagePercent', displayName:'', width:'10%',		
+								            	 cellTemplate:'<div  style="margin-left:47px;"><span> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+								            
+								             }
+								            	 ]
+	}
+	else if($scope.typeOfInfo == 'resolution'){
+		$http.get('/getScreenResolution/'+startDate+"/"+endDate)
+			.success(function(data) {
+				console.log(data);
+			$scope.gridOptions.data = data;
+			$scope.visitiorList = data;
+		});
+		 
+		 $scope.gridOptions.columnDefs = [
+		                                  {name: 'title', displayName: 'Actions', width:'60%'},
+								             {name:'value', displayName:'Visitors', width:'10%',
+								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+								             },
+								             {name:'stats_url', displayName:'', width:'20%',
+								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+								             },
+								             {name:'averagePercent', displayName:'', width:'10%',		
+								            	 cellTemplate:'<div  style="margin-left:47px;"><span> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+								            
+								             }
+								            	 ]
+	}
+ }
+ 
+ $scope.goToVisitors = function() {
+		$location.path('/visitorsAnalytics');
+	}
+	
+	 $scope.goToVideoAnalytics = function() {
+			$location.path('/goToVideoAnalytics');
+		}
+	
+	$scope.goToActions = function() {
+		$location.path('/actionsAnalytics');
+	}
+	
+	$scope.goToSearches = function() {
+		$location.path('/searchesAnalytics');
+	}
+	
+	$scope.goToRefferers = function() {
+		$location.path('/refferersAnalytics');
+	}
+	
+	$scope.goCampaignss = function(){
+		$location.path('/CampaignsAnalytics');
+	}
+	
+	$scope.goToContent = function() {
+		$location.path('/contentAnalytics');
+	}
+	
+	$scope.goToSessionsData = function() {
+		$location.path('/sessionsAnalytics');
+	}
+	
+	$scope.goToheatMapInfo = function() {
+		$location.path('/heatMapInfoAnalytics');
+	}
+	
+	$scope.goToVehicleInfo = function(){
+		$location.path('/allVehicleSessions');
+	}
+	/*$scope.changeTab = function(type){
 		$scope.gridOptions.data = [];
 		$scope.typSet = [];
 		if(type == "os"){
@@ -1145,21 +1276,21 @@ angular.module('newApp')
 			$scope.gridOptions.data = $scope.typSet;
 		}
 		if(type == "hardware"){
-			/*$.each($scope.screenResoluations, function(key, value) {
+			$.each($scope.screenResoluations, function(key, value) {
 	            $scope.valueSet = {};
 	            $scope.valueSet.key = key;
 	            $scope.valueSet.value = value;
 	            $scope.typSet.push($scope.valueSet);
 	            
 			});
-			$scope.gridOptions.data = $scope.typSet;*/
+			$scope.gridOptions.data = $scope.typSet;
 			$scope.labelSet = "Hardware";
 			
 		}
 		
 		console.log($scope.typSet);
 		
-	}
+	}*/
 	
 }]);
 
