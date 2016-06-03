@@ -14,19 +14,21 @@ angular.module('newApp')
 		 //  $( document ).ready(function() {
 	    	console.log(">>>>>>>>>>");
 	    	console.log($scope.latitude);
-	    	 
+	    	 console.log($scope.longitude);
 	    	
-	      var myLatlng = new google.maps.LatLng(parseInt($scope.latitude), parseInt($scope.longitude));
+	      var myLatlng = new google.maps.LatLng($scope.latitude,$scope.longitude);
 	      var myOptions = {
 	        zoom: 8,
 	        center: myLatlng,
 	        mapTypeId: google.maps.MapTypeId.ROADMAP
 	      }
+	      var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
 	      var marker = new google.maps.Marker({
     	      position: myLatlng,
+    	      map: map,
     	      visible: true
     	  });
-	      var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+	     
 	    }
 
 	    function loadScript() {
@@ -36,7 +38,6 @@ angular.module('newApp')
 	      document.body.appendChild(script);
 	    }
 
-	    
 	
 	
 	
@@ -91,6 +92,9 @@ angular.module('newApp')
 			} 
 	
 		 $scope.setShowVisitorsInfoType = function(typeOfInfo){
+			  
+			 $scope.flagForChart1 = true;
+			 $scope.flagForChart = false;
 				$scope.typeOfInfo = typeOfInfo;
 				$scope.DateWiseFind();
 			} 

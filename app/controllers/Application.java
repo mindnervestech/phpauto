@@ -24559,8 +24559,8 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	List<Location> locations = Location.findAllData();
     	
     	Date curr = new Date();
-    	String sDate = df.format(curr);
-    	
+    	//String sDate = df.format(curr);
+    	String sDate = "2016-05-27";
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;
