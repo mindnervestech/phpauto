@@ -24559,8 +24559,8 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	List<Location> locations = Location.findAllData();
     	
     	Date curr = new Date();
-    	//String sDate = df.format(curr);
-    	String sDate = "2016-05-27";
+    	String sDate = df.format(curr);
+    	
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;
@@ -25504,6 +25504,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	Calendar c = Calendar.getInstance();
     	String[] monthsArr = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     	c.add(Calendar.MONTH, -11);
+    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     	List<Integer> allVisitor = new ArrayList<Integer>(12);
     	List<Integer> onlineVisitor = new ArrayList<Integer>(12);
     	List<Integer> actionsList = new ArrayList<Integer>(12);
@@ -25511,8 +25512,44 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	List<String> months = new ArrayList<String>(12);
     	
     	Location locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	Calendar c1 = Calendar.getInstance();
+    	Date sDa = null;
+    	Date eDa = null;
+		try {
+			sDa = dateFormat.parse(startDate);
+			eDa = dateFormat.parse(endDate);
+			//c1.setTime(dateFormat.parse(startDate));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//c1.add(Calendar.DATE, 1);
+		Date addDate = sDa;
+		int addFlag = 0;
+		while(addFlag <= 0){
+			
+        	JsonNode node = Json.parse(callClickAPI("&date="+dateFormat.format(addDate)+"&type=visitors,visitors-new,actions,actions-average&limit=all"));
+        	
+        	JsonNode allVisitorNode = node.get(0);
+    		JsonNode onlineVisitorNode = node.get(1);
+    		JsonNode actionsNode = node.get(2);
+    		JsonNode averageActionsNode = node.get(3);
+    		allVisitor.add(allVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		onlineVisitor.add(onlineVisitorNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		actionsList.add(actionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		averageActionsList.add(averageActionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
+    		months.add(dateFormat.format(addDate));
+    		
+    		if(addDate.equals(eDa)){
+				addFlag = 1;
+			}
+			c1.setTime(addDate);
+			c1.add(Calendar.DATE, 1);
+			addDate = c1.getTime();
+				
+		}
     	
-    	for(int i=0;i<12;i++) {
+    	/*for(int i=0;i<12;i++) {
     		String year = c.get(Calendar.YEAR)+"";
         	String month = c.get(Calendar.MONTH)+1>9?(c.get(Calendar.MONTH)+1)+"":"0"+(c.get(Calendar.MONTH)+1);
     		JsonNode node = Json.parse(callClickAPI("&date="+year+"-"+month+"&type=visitors,visitors-new,actions,actions-average&limit=all"));
@@ -25529,7 +25566,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     		averageActionsList.add(averageActionsNode.get("dates").get(0).get("items").get(0).get("value").asInt());
     		months.add(monthsArr[c.get(Calendar.MONTH)]);
     		c.add(Calendar.MONTH, 1);
-    	}
+    	}*/
     	Date date = new Date();
         c.setTime(date);
         String year = c.get(Calendar.YEAR)+"";
