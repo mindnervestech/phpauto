@@ -1148,8 +1148,8 @@ angular.module('newApp')
 								             {name:'stats_url', displayName:'', width:'20%',
 								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 								             },
-								             {name:'averagePercent', displayName:'', width:'10%',		
-								            	 cellTemplate:'<div  style="margin-left:47px;"><span> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+								             {name:'url', displayName:'', width:'10%',		
+								            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showBrowserChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 								            
 								             }
 								            	 ]
@@ -1171,7 +1171,7 @@ angular.module('newApp')
 								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 								             },
 								             {name:'averagePercent', displayName:'', width:'10%',		
-								            	 cellTemplate:'<div  style="margin-left:47px;"><span> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+								            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showOperatingSystemChart(row.entity.title)">{{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 								            
 								             }
 								            	 ]
@@ -1192,13 +1192,178 @@ angular.module('newApp')
 								             {name:'stats_url', displayName:'', width:'20%',
 								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 								             },
-								             {name:'averagePercent', displayName:'', width:'10%',		
-								            	 cellTemplate:'<div  style="margin-left:47px;"><span> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+								             {name:'Percent', displayName:'', width:'10%',		
+								            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showScreenResolutionChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 								            
 								             }
 								            	 ]
 	}
  }
+ 
+ $scope.flagForChart1 = true;
+ $scope.flagForChart = true;
+ $scope.showBrowserChart = function(title) {
+	 console.log(">>>>>>>>");
+	 var startDate = $("#cnfstartDateValue").val();
+		var endDate = $("#cnfendDateValue").val();	 
+		console.log(endDate);
+		console.log(startDate);
+		console.log(title);
+		$scope.flagForChart=0;
+		$http.get('/getBrowserChart/'+startDate+"/"+endDate+"/"+title)
+		.success(function(data) {
+			console.log(data);
+			$scope.flagForChart=1;
+			$scope.flagForChart1 = false;
+			createChart(data);
+			//$('#functional-chart').css('height', '500px');
+			//$('#functional-chart').css('width','500px');
+			$scope.value = [];
+			$scope.dates = [];
+			/*angular.forEach(data, function(obj, index){
+				if(parseInt(obj.value)>0){
+					var val=1;
+					$scope.value.push(val);
+					$scope.dates.push(obj.chartDate);
+				}
+				else{
+					var val=0;
+					$scope.value.push(val);
+					$scope.dates.push(obj.chartDate);
+					
+				}
+				
+			
+			});*/
+		
+	});
+		
+	 
+	}
+ 
+ $scope.flagForChart1 = true;
+ $scope.flagForChart = true;
+ $scope.showOperatingSystemChart = function(title) {
+	 console.log(">>>>>>>>");
+	 var startDate = $("#cnfstartDateValue").val();
+		var endDate = $("#cnfendDateValue").val();	 
+		console.log(endDate);
+		console.log(startDate);
+		console.log(title);
+		$scope.flagForChart=0;
+		$http.get('/getOperatingSystemChart/'+startDate+"/"+endDate+"/"+title)
+		.success(function(data) {
+			console.log(data);
+			$scope.flagForChart=1;
+			$scope.flagForChart1 = false;
+			createChart(data);
+			//$('#functional-chart').css('height', '500px');
+			//$('#functional-chart').css('width','500px');
+			$scope.value = [];
+			$scope.dates = [];
+			/*angular.forEach(data, function(obj, index){
+				if(parseInt(obj.value)>0){
+					var val=1;
+					$scope.value.push(val);
+					$scope.dates.push(obj.chartDate);
+				}
+				else{
+					var val=0;
+					$scope.value.push(val);
+					$scope.dates.push(obj.chartDate);
+					
+				}
+				
+			
+			});*/
+		
+	});
+		
+	 
+	}
+ 
+ $scope.flagForChart1 = true;
+ $scope.flagForChart = true;
+ $scope.showScreenResolutionChart = function(title) {
+	 console.log(">>>>>>>>");
+	 var startDate = $("#cnfstartDateValue").val();
+		var endDate = $("#cnfendDateValue").val();	 
+		console.log(endDate);
+		console.log(startDate);
+		console.log(title);
+		$scope.flagForChart=0;
+		$http.get('/getScreenResolutionChart/'+startDate+"/"+endDate+"/"+title)
+		.success(function(data) {
+			console.log(data);
+			$scope.flagForChart=1;
+			$scope.flagForChart1 = false;
+			createChart(data);
+			//$('#functional-chart').css('height', '500px');
+			//$('#functional-chart').css('width','500px');
+			$scope.value = [];
+			$scope.dates = [];
+			/*angular.forEach(data, function(obj, index){
+				if(parseInt(obj.value)>0){
+					var val=1;
+					$scope.value.push(val);
+					$scope.dates.push(obj.chartDate);
+				}
+				else{
+					var val=0;
+					$scope.value.push(val);
+					$scope.dates.push(obj.chartDate);
+					
+				}
+				
+			
+			});*/
+		
+	});
+		
+	 
+	}
+ 
+ var seriesOptions = [];
+ var seriesCounter = 0;
+ var stockChart; 
+ var stockChart1; 
+ 
+ function createChart(initdata) {
+	  stockChart1 = 1;
+	  console.log("$scope.flagForChart"+$scope.flagForChart);
+	  stockChart = $('#functional-chart').highcharts({
+		  title: {
+	            text: '',
+	            x: -20 //center
+	        },
+	        xAxis: {
+	            categories: initdata.dates
+	        },
+	        yAxis: {
+	            title: {
+	                text: ''
+	            },
+	            plotLines: [{
+	                value: 0,
+	                width: 1,
+	                color: '#808080'
+	            }],
+	            min : 0
+	        },
+	        tooltip: {
+	            valueSuffix: ''
+	        },
+	        legend: {
+	            layout: 'vertical',
+	            align: 'right',
+	            verticalAlign: 'middle',
+	            borderWidth: 0
+	        },
+	        series: initdata.data
+     });
+ };
+ 
+ 
  
  $scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
