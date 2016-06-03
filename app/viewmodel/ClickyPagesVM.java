@@ -4,6 +4,7 @@ public class ClickyPagesVM {
 
 	public Long id;
 	public String value;
+	public String urlForGraph;
 	public String newPrecentage;
 	public String value_percent;
 	public String title;
@@ -21,6 +22,8 @@ public class ClickyPagesVM {
 	public String organization;
 	public String value_percent2;
 	public String chartDate;
+	public String startDate;
+	public String endDate;
 	public double averagePercent;
 	
 	
