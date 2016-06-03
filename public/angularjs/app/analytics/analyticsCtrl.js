@@ -143,7 +143,7 @@ angular.module('newApp')
 				                                 {name: 'geolocation', displayName: 'Location', width:'10%'},
 				                                 {name:'organization', displayName:'Internet Provider', width:'15%'},
 				                                 {name:'actions', displayName:'Actions', width:'8%',
-				                                	 cellTemplate:'<div ><label ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
+				                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
 				                                	 
 				                                 },
 				                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
@@ -339,7 +339,6 @@ angular.module('newApp')
 			var endDate = $("#cnfendDateValue").val();	 
 				console.log(endDate);
 				$scope.flagForLanding="ForSearch";
-			//$location.path('/visitorInfo/'+id);
 			 $http.get('/getVisitorDataForLanding/'+id+"/"+startDate+"/"+endDate+"/"+$scope.flagForLanding)
 				.success(function(data) {
 				
@@ -1708,6 +1707,8 @@ angular.module('newApp')
 		 $scope.setShowSearchesType = function(typeOfInfo){
 				$scope.typeOfInfo = typeOfInfo;
 				$scope.DateWiseFind();
+				$scope.flagForChart1 = true;
+				 $scope.flagForChart=false;
 			} 
 		 
 		 $scope.DateWiseFind = function(){
@@ -1757,7 +1758,10 @@ angular.module('newApp')
 				});
 				
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'title', displayName: 'Search', width:'15%'},
+										             {name: 'title', displayName: 'Search', width:'15%',
+										            	 
+										            	 cellTemplate:'<div><span ng-click="grid.appScope.showUrlInfoForSearch(row.entity.title)" >{{row.entity.title}}</span></div>',
+										             },
 										             {name:'v', displayName:'Visitors', width:'15%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
@@ -1766,7 +1770,7 @@ angular.module('newApp')
 										             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
 										             {name: 'bounceRate', displayName: 'Bounce Rate', width:'15%'},
 										             {name:'stats_url', displayName:'', width:'15%',
-										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}" class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}% </span></div> </div>',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}" class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span  ng-click="grid.appScope.showSearchesChart(row.entity.urlForGraph)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div> </div>',
 										             },
 										            
 										            
@@ -1879,7 +1883,136 @@ angular.module('newApp')
 			
 		 }
 		 
-	
+		 $scope.showUrlInfoForSearch= function(url) {
+			 var startDate = $("#cnfstartDateValue").val();
+			var endDate = $("#cnfendDateValue").val();	
+			console.log(startDate);
+				console.log(endDate);
+				$scope.flagForLanding="ForSearch";
+			$http.get('/getDataForSearch/'+url+"/"+startDate+"/"+endDate)
+				.success(function(data) {
+				
+				console.log("::::::::");
+				console.log(data);
+				
+				$scope.gridOptions.data = data;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data;
+				
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					if( value.title== "Average time / visit" && value.value != null  ){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+					 var splitTime1   = value.value.split(":");
+					 if(splitTime1[0] == 00){
+						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					}
+					if(value.title== "Total time" && value.value != null){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+						var splitTime   = value.value.split(":");
+						if(splitTime[0] == 00){
+							value.value = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+					}
+					
+					
+				});
+				
+				
+				
+			});
+			 
+			 
+			 $scope.gridOptions.columnDefs = [
+                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
+									             {name: 'value', displayName: 'These visitors', width:'30%'
+									             },
+									            
+									         ]
+									        
+				
+			 
+		 }	 
+		 $scope.flagForChart1 = true;
+		 $scope.flagForChart=true;
+		 $scope.showSearchesChart = function(title) {
+			 console.log(">>>>>>>>");
+			 $scope.chartData={};
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();	 
+				console.log(endDate);
+				console.log(startDate);
+				console.log(title);
+				$scope.flagForChart=0;
+				$scope.chartData.title=title;
+				$scope.chartData.startDate=startDate;
+				$scope.chartData.endDate=endDate;
+				$http.post("/getSearchesActionChart",$scope.chartData).success(function(data){
+					console.log(data);
+					$scope.flagForChart=1;
+					$scope.flagForChart1 = false;
+					createChart(data);
+				
+			});
+				
+				
+				
+			 
+			}
+		 
+		 
+		 var seriesOptions = [];
+	      var seriesCounter = 0;
+	      var stockChart; 
+	      var stockChart1; 
+	      
+	      function createChart(initdata) {
+	    	  stockChart1 = 1;
+	    	  console.log("$scope.flagForChart"+$scope.flagForChart);
+	    	  stockChart = $('#functional-chart').highcharts({
+	    		  title: {
+	    	            text: '',
+	    	            x: -20 //center
+	    	        },
+	    	        xAxis: {
+	    	            categories: initdata.dates
+	    	        },
+	    	        yAxis: {
+	    	            title: {
+	    	                text: ''
+	    	            },
+	    	            plotLines: [{
+	    	                value: 0,
+	    	                width: 1,
+	    	                color: '#808080'
+	    	            }],
+	    	            min : 0
+	    	        },
+	    	        tooltip: {
+	    	            valueSuffix: ''
+	    	        },
+	    	        legend: {
+	    	            layout: 'vertical',
+	    	            align: 'right',
+	    	            verticalAlign: 'middle',
+	    	            borderWidth: 0
+	    	        },
+	    	        series: initdata.data
+	          });
+	      };
+	      
+		 
+		 
+		 
+		 
+		 
 	$scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
 	}
