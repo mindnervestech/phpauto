@@ -24332,30 +24332,46 @@ private static void cancelTestDriveMail(Map map) {
      	   	JsonNode jsonList = Json.parse(callClickAPI(params));
      	   	
      	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
-     	  // 	String data = obj.get("url").textValue();
-			//String arr[] = data.split("#_");	
      	   	ClickyPagesVM vm = new ClickyPagesVM();
 			vm.value = obj.get("value").textValue();
 			vm.value_percent = obj.get("value_percent").textValue();
 			vm.title = obj.get("title").textValue();
+			String title=vm.title;
 			vm.stats_url = obj.get("stats_url").textValue();
-			//vm.url = obj.get("url").textValue();
-			//vm.showUrl = arr[0];
-     	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=searches&date="+newDate+","+startDate+""));
+			vm.title=URLEncoder.encode(vm.title);
+    	 	JsonNode jsonActionsList1 = Json.parse(callClickAPI("&type=segmentation&source=searches&stats_url="+vm.stats_url+"&segments=summary&date="+startDate+","+endDate+""));
+    	 	
+    	 	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=searches&date="+newDate+","+startDate+""));
      	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
-     	    	//String data1 = obj1.get("url").textValue();
-     	   		//String arr1[] = data1.split("#_");
-     	   		//String url=arr1[0];
-     	   		if(obj1.get("title").textValue().equals(vm.title)){
+     	   		if(obj1.get("title").textValue().equals(title)){
      	   			vm.value_percent2 = obj1.get("value").textValue();
      	   			vm.averageActions=obj1.get("value").textValue();
      	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
      	   		}
-     	   	
-     	   	
      	   	}
-     	   	
-     	   clickyList.add(vm);
+    	   for(JsonNode obj1 : jsonActionsList1.get(0).get("dates").get(0).get("items")) {
+	   			
+	   			//vm.averageActions=obj1.get("value").textValue();
+	   			if(obj1.get("title").textValue().equalsIgnoreCase("Average actions / visit")){
+	   			vm.averageActions=obj1.get("value").textValue();
+	   			}
+	   			
+			   		if(obj1.get("title").textValue().equalsIgnoreCase("Average time / visit")){
+			   		vm.averageTime=	obj1.get("value").textValue();
+					}
+			   		
+			   	if(obj1.get("title").textValue().equalsIgnoreCase("Total time")){
+			   	vm.totalTime=obj1.get("value").textValue();
+					}
+			   	
+			   if(obj1.get("title").textValue().equalsIgnoreCase("Bounce rate")){
+				  vm.bounceRate= obj1.get("value").textValue();
+				}
+			   
+   	   	}
+    	// String a= ( (vm.value_percent2 - vm.value_percent)/(vm.value_percent))*100;
+    	   clickyList.add(vm);  	
+     	   
      	   	
      	   	}
              

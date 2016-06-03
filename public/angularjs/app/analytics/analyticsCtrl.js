@@ -193,7 +193,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"> <span ng-click="grid.appScope.showEngagementChart(row.entity.title)" > {{row.entity.averagePercent}}% </span> </div> </div>',
+										            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"> <span ng-click="grid.appScope.showEngagementChart(row.entity.title)" > {{row.entity.averagePercent.toFixed(2)}}% </span> </div> </div>',
 										            
 										             }
 										            	 ]
@@ -229,7 +229,7 @@ angular.module('newApp')
 									             {name:'value', displayName:'Visitors', width:'10%'},
 									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
 									             {name:'stats_url', displayName:'', width:'30%',
-									            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+									            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
 									             },
 									            
 									         ]
@@ -280,7 +280,7 @@ angular.module('newApp')
 									             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
 									             {name: 'bounceRate', displayName: 'Bounce Rate', width:'15%'},
 									             {name:'stats_url', displayName:'', width:'10%',
-									            	 cellTemplate:'<div class="col-sm-12" title="{{row.entity.value_percent2}}"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+									            	 cellTemplate:'<div class="col-sm-12" title="{{row.entity.value_percent2}}"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
 									             },
 									            
 									         ]
@@ -630,7 +630,7 @@ angular.module('newApp')
 										             },
 										            
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
 										             },
 										             
 										         ]
@@ -653,7 +653,7 @@ angular.module('newApp')
 										             {name:'value', displayName:'Views', width:'20%'},
 										             {name:'value_percent', displayName:'value_Percent', width:'20%'},
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
 										             },
 										             
 										         ]
@@ -673,7 +673,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
 										             },
 										            
 										         ]
@@ -760,7 +760,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'stats_url', displayName:'', width:'20%',
-									            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+									            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
 									             },
 									            
 									         ]
@@ -1561,17 +1561,47 @@ angular.module('newApp')
 					$scope.gridOptions.data = data;
 					//console.log($scope.gridOptions.data);
 					
+					angular.forEach($scope.gridOptions.data, function(value, key) {
+						
+						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+						value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+						 var splitTime   = value.totalTime.split(":");
+						 var splitTime1   = value.averageTime.split(":");
+						 if(splitTime[0] == 00){
+							 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
+						 if(splitTime1[0] == 00){
+							 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						
+					});
+					
+					
+					
+					
 					 console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
 				});
 				
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'title', displayName: 'Search', width:'50%'},
-										             {name:'v', displayName:'Visitors', width:'20%',
+										             {name: 'title', displayName: 'Search', width:'15%'},
+										             {name:'v', displayName:'Visitors', width:'15%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
-										             {name:'stats_url', displayName:'', width:'30%',
-										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}" class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+										             {name: 'averageActions', displayName: 'Average Actions', width:'15%'},
+										             {name: 'averageTime', displayName: 'Average Time', width:'15%'},
+										             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
+										             {name: 'bounceRate', displayName: 'Bounce Rate', width:'15%'},
+										             {name:'stats_url', displayName:'', width:'15%',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}" class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}% </span></div> </div>',
 										             },
 										            
 										            
@@ -1613,7 +1643,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'30%',
-										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}" class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent}}% </span></div> </div>',
+										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}" class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
 										             },
 										            
 										         ]
