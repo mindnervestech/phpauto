@@ -27789,19 +27789,19 @@ if(vehicles.equals("All")){
     		int sche = 0;
     		int trad = 0;
     		for(RequestMoreInfo rInfo :rInfos){
-				if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
+				//if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
 					req++;
-				}
+				//}
 			}
 			for(ScheduleTest sTest: sList){
-				if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
+				//if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
 					sche++;
-				}	
+				//}	
 			}
 			for(TradeIn tradeIn: tIns){
-				if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
+				//if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
 					trad++;
-				}
+				//}
 			}
     		
     		analyticalVM.leadsCount = req + sche + trad;
@@ -27949,21 +27949,21 @@ if(vehicles.equals("All")){
     		int schedCount = 0;
     		int tradeCount = 0;
     		for(RequestMoreInfo rInfo : rInfos){
-    			if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
+    			//if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
     				requCount++;
-    			}
+    			//}
     		}
     		
     		for(ScheduleTest sInfo : sList){
-    			if((sInfo.scheduleDate.after(start) && sInfo.scheduleDate.before(end)) || sInfo.scheduleDate.equals(end) || sInfo.scheduleDate.equals(start)){
+    			//if((sInfo.scheduleDate.after(start) && sInfo.scheduleDate.before(end)) || sInfo.scheduleDate.equals(end) || sInfo.scheduleDate.equals(start)){
     				schedCount++;
-    			}
+    			//}
     		}
     		
     		for(TradeIn tInfo : tIns){
-    			if((tInfo.tradeDate.after(start) && tInfo.tradeDate.before(end)) || tInfo.tradeDate.equals(end) || tInfo.tradeDate.equals(start)){
+    			//if((tInfo.tradeDate.after(start) && tInfo.tradeDate.before(end)) || tInfo.tradeDate.equals(end) || tInfo.tradeDate.equals(start)){
     				tradeCount++;
-    			}
+    			//}
     		}
     		
     		
@@ -27987,11 +27987,11 @@ if(vehicles.equals("All")){
     		anVm.stockNumber = vehicle.stock;
     		for (PriceAlert priceAlert : pAlert) {
 				PriceAlert alt = PriceAlert.findById(priceAlert.id);
-				if((alt.currDate.after(start) && alt.currDate.before(end)) || alt.currDate.equals(end) || alt.currDate.equals(start)){
+				//if((alt.currDate.after(start) && alt.currDate.before(end)) || alt.currDate.equals(end) || alt.currDate.equals(start)){
 					if (vehicle.postedDate.before(alt.currDate) || vehicle.postedDate.equals(alt.currDate)) {
 						anVm.followerCount++;
 		    		}
-				}
+				//}
 			}
     		if(!searchBy.equals("0") && !search.equals("0")){
     			if(searchBy.equals("Model")){
