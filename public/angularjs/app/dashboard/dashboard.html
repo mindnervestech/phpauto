@@ -4534,6 +4534,7 @@ float: right !important;
             <div class="col-md-12">
             <small style="font-size: 22px;">Page's Heat Map</small>
 	      <div ui-grid="gridOptions12" style="height:400px;" ui-grid-edit ui-grid-pagination>
+				 <div class="watermark" ng-show="!gridOptions12.data.length" >No data available</div> 
 				</div> 
                 <!-- <div class="panel no-bd bd-3 panel-stat" style="height: 439px;">
                     <div class="panel-header">
@@ -4583,7 +4584,7 @@ float: right !important;
 	<div class="col-sm-7" style="width:50%;">
 	            
 	            <div class="col-md-6" style="padding-left: 0px;">
-		                <div class="panel no-bd bd-3 panel-stat"">
+		                <div class="panel no-bd bd-3 panel-stat">
 		                	<div class="panel-header">
 		                		<b>THE BASICS</b>
 		                	</div>
@@ -4647,18 +4648,24 @@ float: right !important;
 		                		<a ng-click="serchesPage()"><b>SEARCHES</b></a>
 		                	</div>
 		                	<div style="height:180px;overflow-y:auto;">
-		                	<div ng-repeat="page in searchesList">
-		                	<div class="form-group col-sm-12">
+		                	<div ng-if="!searchesList.length">
+		                		<h3 style="color: black;" class="watermark" ng-if="msgShow == 1"><b>No data available</b></h3>
+		                	</div>
+		                		<div ng-repeat="page in searchesList">
+		                		<div class="form-group col-sm-12">
 									<label class="col-sm-10 control-label" style="font-size:10px;">{{page.pageUrl}}</label>
 										<div class="col-sm-2" style="font-size:10px;">
 											{{page.count}}
 										</div>
 								</div>
 						   </div>
+		                	
+						   
+            	</div>
 						   </div>
 		                </div>
 	            </div>
-	           </div> 
+	           
 	           <div class="col-sm-7" style="width:50%;">
 	            <div class="col-md-6">
 		                <div class="panel no-bd bd-3 panel-stat">
@@ -4666,6 +4673,9 @@ float: right !important;
 		                		<a ng-click="refferPage()"><b>REFERRERS</b></a>
 		                	</div>
 		                	<div style="height:180px;overflow-y:auto;">
+		                		<div ng-if="!referersList.length">
+		                		<h3 style="color: black;" class="watermark" ng-if="msgShow == 1"><b>No data available</b></h3>
+		                	</div>
 			                	<div ng-repeat="page in referersList">
 			                	<div class="form-group col-sm-12">
 										<label class="col-sm-10 control-label" style="font-size:10px;">{{page.pageUrl}}</label>
@@ -4684,6 +4694,9 @@ float: right !important;
 		                		
 		                	</div>
 		                	<div style="height:180px;overflow-y:auto;">
+		                	<div ng-if="!pagesList.length">
+		                		<h3 style="color: black;" class="watermark" ng-if="msgShow == 1"><b>No data available</b></h3>
+		                	</div>
 			                	<div ng-repeat="page in pagesList">
 			                	<div class="form-group col-sm-12">
 										<label class="col-sm-10 control-label" style="font-size:10px;"><a href="{{page.fullUrl}}" target="_blank">{{page.pageUrl}}</a></label>
@@ -4697,6 +4710,7 @@ float: right !important;
 	            </div>
 	            
 		</div>
+		</div> 
 	
 </div>
 </div>
