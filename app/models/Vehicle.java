@@ -988,6 +988,11 @@ public class Vehicle extends Model {
 	public static List<Vehicle> findByNewlyArrivedForGM(Location location) {
 		return find.where().eq("status", "Newly Arrived").eq("locations",location).findList();
 	}
+	
+	public static List<Vehicle> findByModelAndLocation(String make,Long loc) {
+		return find.where().eq("make", make).eq("locations.id",loc).eq("status", "Newly Arrived").findList();
+	}
+	
 	public static List<Vehicle> findByNewlyArrivedandsoldForGM(Location location) {
 		return find.where().eq("locations",location).findList();
 	}

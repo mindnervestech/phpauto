@@ -8716,12 +8716,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}	
     }
     
-    public static Result getAllModelList() {
+    public static Result getAllModelList(String make) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
     		List<VehicleVM> modelList = new ArrayList<>();
-	    	List<Vehicle> list = Vehicle.findByNewArrAndLocation(Long.valueOf(session("USER_LOCATION")));
+	    	List<Vehicle> list = Vehicle.findByModelAndLocation(make, Long.valueOf(session("USER_LOCATION")));
 	    	Map<String, Vehicle> mapModel = new HashMap<>();
     		for (Vehicle vehicle : list) {
     			if(vehicle.getModel() != null){

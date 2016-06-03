@@ -800,7 +800,7 @@ float: right !important;
 												<div class="col-sm-2" style="padding: 0px;" > 
 								     						<h6 class="col-sm-12">
 								     								<span class="col-sm-12" style="padding: 0px;">
-								     									<span style="font-size: 16px;"> Filter By : </span><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-click="showTextBox('Model')">Model</a>
+								     									<span style="font-size: 16px;"> Filter By : </span><a style="cursor:pointer;font-size: 18px;" ng-class="currentSelectedDuration == 0 ?'underline':''" ng-click="showTextBox('Make')">Make</a> &nbsp;&nbsp;|&nbsp;&nbsp;<a style="cursor:pointer;font-size: 18px;" id="monthPerf" ng-class="currentSelectedDuration == 1 ?'underline':''" ng-if="molelFlag == 1" ng-click="showTextBox('Model')">Model</a>
 								     								</span>
 																	<span class="col-sm-8" ng-if="search == 'Make'" style="padding: 0px;margin-left: 33%;width: 50%;">
 																		<select  class="form-control form-white" ng-model="makeSaerch" ng-change="findMake(makeSaerch,'Make')">

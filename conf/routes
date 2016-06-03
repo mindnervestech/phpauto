@@ -152,7 +152,7 @@ GET		/saveSocialFlag/:SocialFlag   	controllers.Application.saveSocialFlag(Socia
 GET		/saveFinanceFlag/:FinanceFlag   	controllers.Application.saveFinanceFlag(FinanceFlag:Integer)
 GET		/getMakeWiseData/:makeValue   	controllers.Application.getMakeWiseData(makeValue:String)
 GET		/getAllMakeList      	controllers.Application.getAllMakeList()
-GET     /getAllModelList     	controllers.Application.getAllModelList()
+GET     /getAllModelList/:make     	controllers.Application.getAllModelList(make:String)
 GET		/deleteSliderImage/:id		controllers.Application.deleteSliderImage(id:Long)
 GET     /getClickyVisitorList			controllers.Application.getClickyVisitorList()
 GET     /sendEmailDaily   			controllers.Application.sendEmailDaily()

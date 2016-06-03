@@ -4033,9 +4033,7 @@ angular.module('newApp')
 	    			console.log(response);
 	    			$scope.makelist = response;
     			});
-	    		$http.get('/getAllModelList').success(function(response) {
-	    			$scope.modellist = response;
-    			});
+	    		
 	    		
 	    		$scope.visitors = [];
 	    		$scope.newUsers = [];
@@ -4384,10 +4382,15 @@ angular.module('newApp')
 	    			$scope.search = search;
 	    			
 	    		}
-	    		
+	    		$scope.molelFlag = 0;
 	    		$scope.findMake = function(value,searchBy){
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
+		 			  $scope.molelFlag = 1;
+		 			  $http.get('/getAllModelList/'+value).success(function(response) {
+			    			$scope.modellist = response;
+		    			});
+		 			   
 	    			if(value.length > 2){
 	    				$scope.searchBy = searchBy;
 	    				$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);

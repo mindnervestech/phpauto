@@ -14,7 +14,7 @@ angular.module('newApp')
 		 //  $( document ).ready(function() {
 	    	console.log(">>>>>>>>>>");
 	    	console.log($scope.latitude);
-	    	 console.log($scope.longitude);
+	    	 
 	    	
 	      var myLatlng = new google.maps.LatLng($scope.latitude,$scope.longitude);
 	      var myOptions = {
