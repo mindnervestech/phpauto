@@ -1561,7 +1561,7 @@ public class Application extends Controller {
         					alert.update();
         					String subject=vehicle.make+" "+vehicle.model+" "+"has Arrived";
     	    	    		String comment="Hi"+" "+alert.name+" "+vehicle.make+" "+vehicle.model+" "+"has Arrived";
-    	    		sendEmailForComingSoonVehicle(alert.email,subject,comment,vehicle.vin);
+    	    		sendEmailForComingSoonVehicle(alert.email,subject,comment,vehicle.vin,vehicle.locations.id);
     	    			}
     	    			}
 				}
@@ -1579,13 +1579,13 @@ public class Application extends Controller {
     		
     	return ok();
     }
-public static Result sendEmailForComingSoonVehicle(String email,String subject,String comment,String vin) {
+public static Result sendEmailForComingSoonVehicle(String email,String subject,String comment,String vin,Long location) {
 		
 		final String username = emailUsername;
 		final String password = emailPassword;
 		
 		Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
-		List<Vehicle> sameBodyList = Vehicle.getRandomForComingSoon(vehicle.vin);
+		List<Vehicle> sameBodyList = Vehicle.getRandomForComingSoon(vehicle.vin,location);
 		 SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
 		 VehicleImage sameBodyStyleDefault=null;
 		 VehicleImage sameMakeDefault=null;

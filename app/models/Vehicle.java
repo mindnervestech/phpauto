@@ -910,8 +910,8 @@ public class Vehicle extends Model {
 		return find.where().ne("vin", vin).findList();
 	}
 	
-	public static List<Vehicle> getRandomForComingSoon(String vin) {
-		return find.where().ne("vin", vin).eq("status", "Newly Arrived").eq("publicStatus","public").findList();
+	public static List<Vehicle> getRandomForComingSoon(String vin,Long location) {
+		return find.where().ne("vin", vin).eq("status", "Newly Arrived").eq("publicStatus","public").eq("locations.id", location).findList();
 	}
 	
 	public static List<Vehicle> getVehiclesByMake(AuthUser user,String make) {
