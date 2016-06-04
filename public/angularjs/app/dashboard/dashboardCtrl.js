@@ -4401,6 +4401,8 @@ angular.module('newApp')
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
 	    			if(value.length > 1){
+	    				value = value+"_&_"+maketype;
+	    				console.log(value);
 	    				$scope.searchBy = searchBy;
 		    			$scope.getVisitedData('week','countHigh',value,$scope.searchBy,'All',startD,endD);
 	    			}

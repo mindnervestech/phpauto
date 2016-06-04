@@ -28270,7 +28270,9 @@ if(vehicles.equals("All")){
     		analyticalVM.name=vehicle.getTitle();
     		if(!searchBy.equals("0") && !search.equals("0")){
 	    		if(searchBy.equals("Model")){
-    				if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
+	    			String arrNew[] = search.split("_&_");
+					
+    				if(vehicle.model.toUpperCase().startsWith(arrNew[0].toUpperCase()) && vehicle.make.toUpperCase().startsWith(arrNew[1].toUpperCase())){
     					topVisitedVms.add(analyticalVM);
     				}
     			}else if(searchBy.equals("Make")){
@@ -28328,7 +28330,8 @@ if(vehicles.equals("All")){
     		
     		if(!searchBy.equals("0") && !search.equals("0")){
     			if(searchBy.equals("Model")){
-    				if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
+    				String arrNew[] = search.split("_&_");
+    				if(vehicle.model.toUpperCase().startsWith(arrNew[0].toUpperCase()) && vehicle.make.toUpperCase().startsWith(arrNew[1].toUpperCase())){
     					worstVisitedVms.add(analyticalVM);
     				}
     			}else if(searchBy.equals("Make")){
@@ -28430,7 +28433,8 @@ if(vehicles.equals("All")){
 			}
     		if(!searchBy.equals("0") && !search.equals("0")){
     			if(searchBy.equals("Model")){
-    				if(vehicle.model.toUpperCase().startsWith(search.toUpperCase())){
+    				String arrNew[] = search.split("_&_");
+    				if(vehicle.model.toUpperCase().startsWith(arrNew[0].toUpperCase()) && vehicle.make.toUpperCase().startsWith(arrNew[1].toUpperCase())){
     					allVehical.add(anVm);
     				}
     			}else if(searchBy.equals("Make")){
