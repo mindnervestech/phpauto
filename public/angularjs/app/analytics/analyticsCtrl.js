@@ -2007,17 +2007,22 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Engines'){
 				 $http.get('/getEngines/'+startDate+"/"+endDate)
 					.success(function(data) {
+						console.log(data);
 					$scope.gridOptions.data = data;
 					$scope.visitiorList = data;
 					
 				});
 				 
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'title', displayName: 'Engine', width:'50%'},
-										             {name:'v', displayName:'Visitors', width:'20%',
+										             {name: 'title', displayName: 'Engine', width:'15%'},
+										             {name:'v', displayName:'Visitors', width:'12%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
-										             {name:'stats_url', displayName:'', width:'30%',
+										             {name: 'averageActions', displayName: 'Average Actions', width:'15%'},
+										             {name: 'averageTime', displayName: 'Average Time', width:'15%'},
+										             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
+										             {name: 'bounceRate', displayName: 'Bounce Rate', width:'15%'},
+										             {name:'stats_url', displayName:'', width:'15%',
 										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}" class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
 										             },
 										            

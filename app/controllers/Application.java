@@ -24864,6 +24864,7 @@ private static void cancelTestDriveMail(Map map) {
 			vm.stats_url = obj.get("stats_url").textValue();
 			//vm.url = obj.get("url").textValue();
 			//vm.showUrl = arr[0];
+			JsonNode jsonActionsList1 = Json.parse(callClickAPI("&type=segmentation&source=searches-engines&title="+vm.title+"&segments=summary&date="+startDate+","+endDate+""));
      	   	JsonNode jsonActionsList = Json.parse(callClickAPI("&type=searches-engines&date="+newDate+","+startDate+""));
      	   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
      	    	//String data1 = obj1.get("url").textValue();
@@ -24877,6 +24878,28 @@ private static void cancelTestDriveMail(Map map) {
      	   	
      	   	
      	   	}
+     	   	
+     	   for(JsonNode obj1 : jsonActionsList1.get(0).get("dates").get(0).get("items")) {
+	   			
+	   			//vm.averageActions=obj1.get("value").textValue();
+	   			if(obj1.get("title").textValue().equalsIgnoreCase("Average actions / visit")){
+	   			vm.averageActions=obj1.get("value").textValue();
+	   			}
+	   			
+			   		if(obj1.get("title").textValue().equalsIgnoreCase("Average time / visit")){
+			   		vm.averageTime=	obj1.get("value").textValue();
+					}
+			   		
+			   	if(obj1.get("title").textValue().equalsIgnoreCase("Total time")){
+			   	vm.totalTime=obj1.get("value").textValue();
+					}
+			   	
+			   if(obj1.get("title").textValue().equalsIgnoreCase("Bounce rate")){
+				  vm.bounceRate= obj1.get("value").textValue();
+				}
+			   
+  	   	}
+     	   	
      	   	
      	   clickyList.add(vm);
      	   	
