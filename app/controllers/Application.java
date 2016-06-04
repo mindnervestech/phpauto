@@ -36115,20 +36115,35 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	
 	public static Result getFinancialVehicleDetailsByBodyStyle(String startDate,String enddate){
 		AuthUser user = getLocalUser();
-		
-		List<sendDateAndValue> sAndValues = new ArrayList<>();
+		Map<String, Object> sAndValues = new HashMap<>();
+		//List<sendDateAndValue> sAndValues = new ArrayList<>();
 		FinancialVehicleDetails(user,sAndValues,startDate,enddate);
 		return ok(Json.toJson(sAndValues));
 	}
 	
-	public static void FinancialVehicleDetails(AuthUser user, List<sendDateAndValue> sAndValues,String startD,String endD){
+	public static void FinancialVehicleDetails(AuthUser user, Map<String, Object> sAndValues,String startD,String endD){
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		
+		SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM");
 		List<Vehicle> vehicle = null;
 		Map<String, Long> mapBodyStyle = new HashMap<String, Long>();
 		//Map<Long, Long> mapdate = new HashMap<Long, Long>();
 		
 		Map<Long, Long> mapAlldate = new HashMap<Long, Long>();
+		List<sendDataVM> data = new ArrayList<>();
+		List<Object> dates = new ArrayList<>();
+		sAndValues.put("dates",dates);
+		sAndValues.put("data",data);
+		
+		Date startDate = null;
+		Date endDate = null;
+		try {
+			startDate=df.parse(startD);
+			endDate=df.parse(endD);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(user.role.equals("General Manager")){
 			vehicle = Vehicle.findBySold();
 		}else if(user.role.equals("Manager")){
@@ -36154,8 +36169,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		for (Entry<String, Long> entry : mapBodyStyle.entrySet()) {
 			Map<Long, Long> mapdate = new HashMap<Long, Long>();
 			Map<Long, Long> treeMap = null;
-			List<List<Long>> lonnn = new ArrayList<>();
-			sendDateAndValue sValue = new sendDateAndValue();
+			List<Long> lonnn = new ArrayList<>();
+			sendDataVM sValue = new sendDataVM();
 			List<Vehicle> veList = null;
 			
 			if(user.role.equals("General Manager")){
@@ -36166,7 +36181,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				veList = Vehicle.findByBodyStyleAndSold(entry.getKey(), user);
 			}
 			
-			Date startDate = null;
+			/*Date startDate = null;
 			Date endDate = null;
 			
 			try {
@@ -36176,7 +36191,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			
 			
 			
@@ -36202,19 +36217,43 @@ public static Result getviniewsChartLeads(Long id, String vin,
 					}
 				}
 				
-				for (Entry<Long, Long> entryValue : mapdate.entrySet()) {
-					List<Long> value = new ArrayList<>();
-					value.add(entryValue.getKey());
-					value.add(entryValue.getValue()); //= {entryValue.getKey(),entryValue.getValue()};
-					lonnn.add(value);
-				  }
+				
+				Date d1 = startDate;
+				Date d2 = endDate;
+				//Long i =0L;
+				while((d1.before(d2)|| d1.equals(d2))){
+					//dates.add(d1.getTime() + (1000 * 60 * 60 * 24));
+					Long objectDate = mapdate.get(d1.getTime() + (1000 * 60 * 60 * 24));
+					if(objectDate == null){
+						mapdate.put(d1.getTime() + (1000 * 60 * 60 * 24), 0l);
+						lonnn.add(0l);
+					}else{
+						lonnn.add(objectDate);
+					}
+					d1 = DateUtils.addHours(d1, 24);
+				}
 				sValue.data = lonnn;
 			}
-			sAndValues.add(sValue);
 			
+			data.add(sValue);
 		  }
 		
-		for(sendDateAndValue sAndValue:sAndValues){
+		Date d1 = startDate;
+		Date d2 = endDate;
+		while((d1.before(d2)|| d1.equals(d2))){
+			Date d = d1;
+			try {
+				String dt = df1.format(d);
+				dates.add(dt);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			d1 = DateUtils.addHours(d1, 24);
+		}
+		
+		
+		
+	/*	for(sendDateAndValue sAndValue:sAndValues){
 			for(List<Long> longs:sAndValue.data){
 				int i = 0;
 				for(Long long1:longs){
@@ -36247,9 +36286,9 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				}
 			  }
 			
-		}
+		}*/
 		
-		for(sendDateAndValue sValue:sAndValues){
+		/*for(sendDataVM sValue:sAndValues){
 		
 			Collections.sort(sValue.data, new Comparator<List<Long>>(){
 				 @Override
@@ -36258,7 +36297,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 		            }
 				
 			});
-		}
+		}*/
 		
 	}
 	

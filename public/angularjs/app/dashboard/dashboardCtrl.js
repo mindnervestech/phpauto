@@ -896,14 +896,14 @@ angular.module('newApp')
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
     	  	$http.get('/getFinancialVehicleDetailsByBodyStyle/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
-    	  		$scope.msgShow = 1;
-    	  		angular.forEach(data, function(value, key) {
+    	  		$scope.msgShow = 0;
+    	  		/*angular.forEach(data, function(value, key) {
     	  			if(value.data.length != 0){
     	  				$scope.msgShow = 0;
     	  			}
-    	  		});
-    	  		
-    	  		 createChart1(data);
+    	  		});*/
+    	  		console.log(data);
+    	  		 createChart(data);
   			});
     	  
     	  
