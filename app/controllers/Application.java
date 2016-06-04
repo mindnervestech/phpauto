@@ -24317,6 +24317,70 @@ private static void cancelTestDriveMail(Map map) {
 	    
     }
     
+    public static Result getshowHardwareChart(String startDate,String endDate,String title){
+    	String params = null;
+    	System.out.println(startDate);
+    	System.out.println(endDate);
+    	Date d1 = null;
+        Date d2 = null;
+        Map<String, Object> map = new HashMap<>();
+        List<sendDataVM> data = new ArrayList<>();
+		List<Object> dates = new ArrayList<>();
+		map.put("dates",dates);
+		map.put("data",data);
+        List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat format1 = new SimpleDateFormat("MMM dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+     	   	
+             GregorianCalendar gcal = new GregorianCalendar();
+             gcal.setTime(d1);
+             sendDataVM vm=new sendDataVM();
+             vm.name=title;
+             List<Long> lonnn = new ArrayList<>();
+             while (!gcal.getTime().after(d2)) {
+                 Date d = gcal.getTime();
+                 System.out.println(d);
+                 String startD=format.format(d);
+                 JsonNode jsonList = Json.parse(callClickAPI("&type=hardware&date="+startD+"&limit=all"));
+                 
+                 
+                 for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+              	   	if(title.equals(obj.get("title").textValue())){
+                	// ClickyPagesVM vm = new ClickyPagesVM();
+              	   	String value = obj.get("value").textValue();
+              	   	Long l=(long)Integer.parseInt(value);
+              	  lonnn.add(l);
+              	   //	vm.value_percent = obj.get("value_percent").textValue();
+              	   	
+              	   	String chartDate=format1.format(d);
+              	     dates.add(chartDate);
+              	   
+              	   	//clickyList.add(vm);
+              	   	}
+              	   	}
+                gcal.add(Calendar.DAY_OF_MONTH, 1);
+                 
+             }
+             vm.data=lonnn;
+             data.add(vm);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(map));
+	    
+    }
     
     
     public static Result getbrowser(String startDate,String endDate){
@@ -24347,6 +24411,66 @@ private static void cancelTestDriveMail(Map map) {
           //   System.out.print(diffSeconds + " seconds.");
              
      	   	JsonNode jsonList = Json.parse(callClickAPI("&type=web-browsers&date="+startDate+","+endDate+"&limit=all"));
+     	   	
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+     	   	vm.title = obj.get("title").textValue();
+     	   	vm.value = obj.get("value").textValue();
+     	   	vm.value_percent = obj.get("value_percent").textValue();
+     		JsonNode jsonActionsList = Json.parse(callClickAPI("&type=web-browsers&date="+newDate+","+startDate+""));
+     		   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
+     	   		if(obj1.get("title").textValue().equals(vm.title)){
+     	   			vm.value_percent2 = obj1.get("value").textValue();
+     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+     	   		}
+     	   	
+     	   	
+     	   	}
+     	// String a= ( (vm.value_percent2 - vm.value_percent)/(vm.value_percent))*100;
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+             
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+    	//params = "&type=engagement-actions&date="+startDate+","+endDate+"&limit=all";
+	    return ok(Json.toJson(clickyList));
+	    
+    }
+    
+    
+    public static Result getHardware(String startDate,String endDate){
+    	String params = null;
+    	System.out.println(startDate);
+    	System.out.println(endDate);
+    	Date d1 = null;
+        Date d2 = null;
+        List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             //in milliseconds
+             long diff = d2.getTime() - d1.getTime();
+
+            // long diffSeconds = diff / 1000 % 60;
+             long diffMinutes = diff / (60 * 1000) % 60;
+             long diffHours = diff / (60 * 60 * 1000) % 24;
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+             //System.out.print(diffHours + " hours, ");
+         //    System.out.print(diffMinutes + " minutes, ");
+          //   System.out.print(diffSeconds + " seconds.");
+             
+     	   	JsonNode jsonList = Json.parse(callClickAPI("&type=hardware&date="+startDate+","+endDate+"&limit=all"));
      	   	
      	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
      	   	ClickyPagesVM vm = new ClickyPagesVM();
