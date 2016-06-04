@@ -1703,7 +1703,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        context.put("siteLogo", logo.logoImagePath);
 	        
 	        context.put("year", vehicle.year);
-	        context.put("make", vehicle.make);
+	        
+	        if(vehicle.make != null) {
+	        	context.put("make", vehicle.make);
+	        	} else {
+	        		context.put("make", "");
+	        	}
 	        context.put("model", vehicle.model);
 	        context.put("vins", vehicle.vin);
 	       // context.put("oldPrice", "$"+alert.oldPrice);
@@ -1713,7 +1718,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        	} else {
 	        		context.put("newPrice", "");
 	        	}
-	        context.put("bodyStyle", vehicle.bodyStyle);
+	        
+	        if(vehicle.bodyStyle != null) {
+	        	context.put("bodyStyle", vehicle.bodyStyle);
+	        	} else {
+	        		context.put("bodyStyle", "");
+	        	}
 	        context.put("mileage", vehicle.mileage);
 	        
 	        if(vehicle.doors != null) {

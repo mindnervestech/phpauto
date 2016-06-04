@@ -625,6 +625,7 @@ a{text-decoration: none !important;}
                     <tbody><tr>
                       <td valign="top">
                         
+                        #if($bodyStyle != "")
                         <table width="170" border="0" cellspacing="0" cellpadding="0" align="left" class="col-3" style="width: 170px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
                           <!--start space height -->
                           <tbody><tr>
@@ -647,7 +648,7 @@ a{text-decoration: none !important;}
                             <td>
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
                                 <tbody><tr>
-                                  <td style="font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word; line-height: 26px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;"><span style="color: rgb(194, 0, 0); font-size: 18px; font-weight: 300; line-height: 26px;"> $bodyStyleMake </span><br style="line-height: 24px;"></span></td>
+                                  <td style="font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word; line-height: 26px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;"><span style="color: rgb(194, 0, 0); font-size: 18px; font-weight: 300; line-height: 26px;margin-left: 27%;"> $bodyStyleMake </span><br style="line-height: 24px;"></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>
@@ -682,7 +683,7 @@ a{text-decoration: none !important;}
                           </tr>
                           <!--end space height -->
                         </tbody></table><!--[if (gte mso 9)|(IE)]></td><td valign="top" ><![endif]-->
-                        
+                        #end
                         
                         <table class="remove" width="1" border="0" cellpadding="0" cellspacing="0" align="left" style="font-size: 0px; line-height: 0; border-collapse: collapse; width: 1px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
                           <tbody><tr>
@@ -692,7 +693,7 @@ a{text-decoration: none !important;}
                           </tr>
                         </tbody></table><!--[if (gte mso 9)|(IE)]></td><td valign="top" ><![endif]-->
                         
-                        
+                        #if($engine != "")
                         <table width="170" border="0" cellspacing="0" cellpadding="0" align="left" class="col-3" style="width: 170px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
                           <!--start space height -->
                           <tbody><tr>
@@ -715,7 +716,7 @@ a{text-decoration: none !important;}
                             <td>
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
                                 <tbody><tr>
-                                  <td style="font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word; line-height: 26px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;"><span style="color: rgb(194, 0, 0); font-size: inherit; line-height: 26px;"> $engineMake </span><br style="line-height: 24px;"></span></td>
+                                  <td style="font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word; line-height: 26px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;"><span style="color: rgb(194, 0, 0); font-size: inherit; line-height: 26px;margin-left: 27%;"> $engineMake </span><br style="line-height: 24px;"></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>
@@ -750,7 +751,7 @@ a{text-decoration: none !important;}
                           </tr>
                           <!--end space height -->
                         </tbody></table><!--[if (gte mso 9)|(IE)]></td><td valign="top" ><![endif]-->
-                        
+                        #end
                         
                         <table class="remove" width="1" border="0" cellpadding="0" cellspacing="0" align="left" style="font-size: 0px; line-height: 0; border-collapse: collapse; width: 1px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
                           <tbody><tr>
@@ -760,7 +761,7 @@ a{text-decoration: none !important;}
                           </tr>
                         </tbody></table><!--[if (gte mso 9)|(IE)]></td><td valign="top" ><![endif]-->
                         
-                        
+                        #if($make != "")
                         <table width="170" border="0" cellspacing="0" cellpadding="0" align="left" class="col-3-last" style="width: 170px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
                           <!--start space height -->
                           <tbody><tr>
@@ -783,7 +784,7 @@ a{text-decoration: none !important;}
                             <td>
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" style="mso-table-lspace:0pt; mso-table-rspace:0pt;">
                                 <tbody><tr>
-                                  <td style="font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word; line-height: 26px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;"><span style="color: rgb(194, 0, 0); font-size: inherit; line-height: 26px;"> $sameMake </span><br style="line-height: 24px;"></span></td>
+                                  <td style="font-size: 18px; font-family: Roboto, Arial, Helvetica, sans-serif; color: rgb(85, 85, 85); font-weight: 300; text-align: left; word-break: break-word; line-height: 26px;"><span style="font-size: 18px; font-weight: 300; line-height: 26px;"><span style="color: rgb(194, 0, 0); font-size: inherit; line-height: 26px;margin-left: 27%;"> $sameMake </span><br style="line-height: 24px;"></span></td>
                                 </tr>
                                 <!--start space height -->
                                 <tr>
@@ -818,7 +819,7 @@ a{text-decoration: none !important;}
                           </tr>
                           <!--end space height -->
                         </tbody></table>
-                        
+                        #end
                       </td>
                     </tr>
                     <!-- end image and content -->
