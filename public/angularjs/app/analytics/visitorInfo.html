@@ -42,7 +42,7 @@
 	<label>Locale:</label>
 	</div>
 	<div class="col-sm-5">
-	<a  ng-click="referrerTypeDataForLocation(visitorInfo.geolocation)"  >{{visitorInfo.geolocation}}</a>&nbsp;/&nbsp;<a ng-click="referrerTypeDataForLang(visitorInfo.language)" >{{visitorInfo.language}}</a>
+	<a   style="cursor: pointer;" ng-click="referrerTypeDataForLocation(visitorInfo.geolocation)"  >{{visitorInfo.geolocation}}</a>&nbsp;/&nbsp;<a  style="cursor: pointer;" ng-click="referrerTypeDataForLang(visitorInfo.language)" >{{visitorInfo.language}}</a>
 	</div>
 	</div>
 	
@@ -52,7 +52,7 @@
 	<label>Organization:</label>
 	</div>
 	<div class="col-sm-5">
-	<a>{{visitorInfo.organization}}&nbsp;/&nbsp;{{visitorInfo.hostname}}</a>
+	<a  style="cursor: pointer;" ng-click="referrerTypeDataForOrg(visitorInfo.organization)" >{{visitorInfo.organization}}</a>&nbsp;/&nbsp;<a   style="cursor: pointer;" ng-click="referrerTypeDataForHost(visitorInfo.hostname)" >{{visitorInfo.hostname}}</a>
 	</div>
 	</div>
 	
@@ -62,7 +62,7 @@
 	<label>Platform:</label>
 	</div>
 	<div class="col-sm-6">
-	<a>{{visitorInfo.webBrowser}}&nbsp;/&nbsp;{{visitorInfo.operatingSystem}}&nbsp;/&nbsp;{{visitorInfo.screenResolution}}</a>
+	<a  style="cursor: pointer;" ng-click="referrerTypeDataForBrowser(visitorInfo.webBrowser)" >{{visitorInfo.webBrowser}}</a>&nbsp;/&nbsp;<a style="cursor: pointer;" ng-click="referrerTypeDataForOs(visitorInfo.operatingSystem)">{{visitorInfo.operatingSystem}}</a>&nbsp;/&nbsp;<a style="cursor: pointer;" ng-click="referrerTypeDataForScreen(visitorInfo.screenResolution)" >{{visitorInfo.screenResolution}}</a>
 	</div>
 	</div>
 	
@@ -118,7 +118,7 @@
 	<label>Referrer type:</label>
 	</div>
 	<div class="col-sm-6">
-	<a  ng-click="referrerTypeData(visitorInfo.referrerType)" >{{visitorInfo.referrerType}}</a>
+	<a   style="cursor: pointer;" ng-click="referrerTypeData(visitorInfo.referrerType)" >{{visitorInfo.referrerType}}</a>
 	</div>
 	</div>
 	

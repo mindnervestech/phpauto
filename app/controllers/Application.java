@@ -25149,7 +25149,7 @@ private static void cancelTestDriveMail(Map map) {
 		//startDate=dateFormat.format(date);
      	List<ClickyPagesVM> clickyList = new ArrayList<>();
      	
-     	if(locationFlag.equals("location")){
+     	if(locationFlag.equalsIgnoreCase("location")){
      		String location[]=type.split(",");
      		String city=location[0];
      		
@@ -25157,11 +25157,37 @@ private static void cancelTestDriveMail(Map map) {
      		System.out.println(country[1]);
      		params = "&type=segmentation&city="+city+"&country="+country[1]+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
      	}
-     	else if(type.equals("language")){
+     	else if(locationFlag.equalsIgnoreCase("language")){
      		
      		params = "&type=segmentation&language="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
      		
-     	}else{
+     	}
+          else if(locationFlag.equalsIgnoreCase("org")){
+     		String encod=URLEncoder.encode(type);
+     		params = "&type=segmentation&org="+encod+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+     		
+     	}
+          else if(locationFlag.equalsIgnoreCase("host")){
+       		
+       		params = "&type=segmentation&hostname="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+       		
+       	}
+          else if(locationFlag.equalsIgnoreCase("os")){
+        	  String encod=URLEncoder.encode(type);
+       		params = "&type=segmentation&os="+encod+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+       		
+       	}
+          else if(locationFlag.equalsIgnoreCase("browser")){
+        	  String encod=URLEncoder.encode(type);
+       		params = "&type=segmentation&browser="+encod+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+       		
+       	}
+          else if(locationFlag.equalsIgnoreCase("screen")){
+       		
+       		params = "&type=segmentation&resolution="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+       		
+       	}
+     	else{
      		params = "&type=segmentation&source="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
      		
      	}

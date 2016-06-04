@@ -415,6 +415,62 @@ angular.module('newApp')
 			 
 		 }
 		 
+		 $scope.referrerTypeDataForOrg = function(type) {
+			 console.log(type);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log(endDate);
+			 $scope.flagForLocation='org';
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 
+		 }
+		 
+		 
+		 $scope.referrerTypeDataForHost = function(type) {
+			 console.log(type);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log(endDate);
+			 $scope.flagForLocation='host';
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 
+		 }
+		 
+		 
+		 $scope.referrerTypeDataForBrowser = function(type) {
+			 console.log(type);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log(endDate);
+			 $scope.flagForLocation='browser';
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 
+		 }
+		
+		 
+		 $scope.referrerTypeDataForOs = function(type) {
+			 console.log(type);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log(endDate);
+			 $scope.flagForLocation='os';
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 
+		 }
+		
+		 
+		 $scope.referrerTypeDataForScreen = function(type) {
+			 console.log(type);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log(endDate);
+			 $scope.flagForLocation='screen';
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 
+		 }
+		 
+		 
+		 
 		 
 		 
 		 
