@@ -4397,7 +4397,7 @@ angular.module('newApp')
 	    				$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
 	    			}
 	    		}
-	    		$scope.findModel = function(value,searchBy){
+	    		$scope.findModel = function(value,searchBy,maketype){
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
 	    			if(value.length > 1){

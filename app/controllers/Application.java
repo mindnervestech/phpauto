@@ -28178,19 +28178,19 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 			List<TradeIn> tIns = TradeIn.findAllSeenSch(user);
 			
 			for(RequestMoreInfo rInfo :rMoreInfo){
-				if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
+				//if((rInfo.requestDate.after(start) && rInfo.requestDate.before(end)) || rInfo.requestDate.equals(end) || rInfo.requestDate.equals(start)){
 					vinUnik.put(rInfo.vin, 1);
-				}
+				//}
 			}
 			for(ScheduleTest sTest: sTests){
-				if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
+				//if((sTest.scheduleDate.after(start) && sTest.scheduleDate.before(end)) || sTest.scheduleDate.equals(end) || sTest.scheduleDate.equals(start)){
 					vinUnik.put(sTest.vin, 1);
-				}	
+				//}	
 			}
 			for(TradeIn tradeIn: tIns){
-				if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
+				//if((tradeIn.tradeDate.after(start) && tradeIn.tradeDate.before(end)) || tradeIn.tradeDate.equals(end) || tradeIn.tradeDate.equals(start)){
 					vinUnik.put(tradeIn.vin, 1);
-				}
+				//}
 			}
 			for (Map.Entry<String, Integer> entry : vinUnik.entrySet()) {
 				vins.add(entry.getKey());
@@ -28241,10 +28241,10 @@ if(vehicles.equals("All")){
     		
     		analyticalVM.leadsCount = req + sche + trad;
     		
-    		if(pagesCount.get(vehicle.getVin()) == null){
+    		if(pagesCount1.get(vehicle.getVin()) == null){
     			analyticalVM.count = 0;
     		}else{
-    			analyticalVM.count = pagesCount.get(vehicle.getVin());
+    			analyticalVM.count = pagesCount1.get(vehicle.getVin());
     		}
     		analyticalVM.stockNumber = vehicle.stock;
     		analyticalVM.followerCount = 0;
