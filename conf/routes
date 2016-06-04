@@ -376,6 +376,11 @@ GET   /getHardware/:startDate/:endDate			controllers.Application.getHardware(sta
 GET   /getOperatingSystem/:startDate/:endDate			controllers.Application.getOperatingSystem(startDate:String,endDate:String)
 GET   /getScreenResolution/:startDate/:endDate			controllers.Application.getScreenResolution(startDate:String,endDate:String)
 GET   /getEngagementActionChart/:startDate/:endDate/:title			controllers.Application.getEngagementActionChart(startDate:String,endDate:String,title:String)
+GET   /getEngagementTimeChart/:startDate/:endDate/:title			controllers.Application.getEngagementTimeChart(startDate:String,endDate:String,title:String)
+GET   /getTrafficScouresChart/:startDate/:endDate/:title			controllers.Application.getTrafficScouresChart(startDate:String,endDate:String,title:String)
+POST   /getPagesChart											controllers.Application.getPagesChart()
+POST   /getEntranceChart								controllers.Application.getEntranceChart()
+
 POST  /getSearchesActionChart                                       controllers.Application.getSearchesActionChart()
 GET   /getBrowserChart/:startDate/:endDate/:title			controllers.Application.getBrowserChart(startDate:String,endDate:String,title:String)
 GET   /getOperatingSystemChart/:startDate/:endDate/:title			controllers.Application.getOperatingSystemChart(startDate:String,endDate:String,title:String)

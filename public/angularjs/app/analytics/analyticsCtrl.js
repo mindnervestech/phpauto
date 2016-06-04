@@ -267,13 +267,17 @@ angular.module('newApp')
 				 
 				 $scope.gridOptions.columnDefs = [
 										             {name: 'title', displayName: 'Actions', width:'60%'},
-										             {name:'value', displayName:'Visitors', width:'20%',
-										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
-										             },
-										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"> <span ng-click="grid.appScope.showEngagementChart(row.entity.title)" > {{row.entity.averagePercent.toFixed(2)}}% </span> </div> </div>',
-										            
-										             }
+								             {name:'value', displayName:'Visitors', width:'10%',
+								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+								             },
+								             {name:'stats_url', displayName:'', width:'20%',
+								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+								             },
+								             {name:'Per', displayName:'', width:'10%',		
+								            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEngagementActionChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+								            
+								             }
+										             
 										            	 ]
 				 
 			
@@ -306,9 +310,14 @@ angular.module('newApp')
 									             {name: 'title', displayName: 'Actions', width:'50%'},
 									             {name:'value', displayName:'Visitors', width:'10%'},
 									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
-									             {name:'stats_url', displayName:'', width:'30%',
-									            	 cellTemplate:'<div class="col-sm-12"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
+									             {name:'stats_url', displayName:'', width:'20%',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
+									             {name:'url', displayName:'', width:'10%',		
+									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEngagementTimeChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+									            
+									             }
+									             
 									            
 									         ]
 				
@@ -349,17 +358,21 @@ angular.module('newApp')
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Source', width:'15%'},
-									             {name:'value', displayName:'Visitors', width:'15%',
+									             {name: 'title', displayName: 'Source', width:'10%'},
+									             {name:'value', displayName:'Visitors', width:'10%',
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
-									             {name: 'averageActions', displayName: 'Average Actions', width:'15%'},
+									             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
 									             {name: 'averageTime', displayName: 'Average Time', width:'15%'},
 									             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
-									             {name: 'bounceRate', displayName: 'Bounce Rate', width:'15%'},
-									             {name:'stats_url', displayName:'', width:'10%',
-									            	 cellTemplate:'<div class="col-sm-12" title="{{row.entity.value_percent2}}"> <div class="col-sm-2"><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
+									             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
+									             {name:'stats_url', displayName:'', width:'20%',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
+									             {name:'Percent', displayName:'', width:'10%',		
+									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showTrafficScouresChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+									            
+									             }
 									            
 									         ]
 				
@@ -597,7 +610,7 @@ angular.module('newApp')
 		 
 		 $scope.flagForChart1 = true;
 		 $scope.flagForChart = true;
-		 $scope.showEngagementChart = function(title) {
+		 $scope.showEngagementActionChart = function(title) {
 			 console.log(">>>>>>>>");
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();	 
@@ -636,6 +649,88 @@ angular.module('newApp')
 			 
 			}
 		 
+		 $scope.flagForChart1 = true;
+		 $scope.flagForChart = true;
+		 $scope.showEngagementTimeChart = function(title) {
+			 console.log(">>>>>>>>");
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();	 
+				console.log(endDate);
+				console.log(startDate);
+				console.log(title);
+				$scope.flagForChart=0;
+				$http.get('/getEngagementTimeChart/'+startDate+"/"+endDate+"/"+title)
+				.success(function(data) {
+					console.log(data);
+					$scope.flagForChart=1;
+					$scope.flagForChart1 = false;
+					createChart(data);
+					//$('#functional-chart').css('height', '500px');
+					//$('#functional-chart').css('width','500px');
+					$scope.value = [];
+					$scope.dates = [];
+					/*angular.forEach(data, function(obj, index){
+						if(parseInt(obj.value)>0){
+							var val=1;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+						}
+						else{
+							var val=0;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+							
+						}
+						
+					
+					});*/
+				
+			});
+				
+			 
+			}
+		 
+		 
+		 $scope.flagForChart1 = true;
+		 $scope.flagForChart = true;
+		 $scope.showTrafficScouresChart = function(title) {
+			 console.log(">>>>>>>>");
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();	 
+				console.log(endDate);
+				console.log(startDate);
+				console.log(title);
+				$scope.flagForChart=0;
+				$http.get('/getTrafficScouresChart/'+startDate+"/"+endDate+"/"+title)
+				.success(function(data) {
+					console.log(data);
+					$scope.flagForChart=1;
+					$scope.flagForChart1 = false;
+					createChart(data);
+					//$('#functional-chart').css('height', '500px');
+					//$('#functional-chart').css('width','500px');
+					$scope.value = [];
+					$scope.dates = [];
+					/*angular.forEach(data, function(obj, index){
+						if(parseInt(obj.value)>0){
+							var val=1;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+						}
+						else{
+							var val=0;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+							
+						}
+						
+					
+					});*/
+				
+			});
+				
+			 
+			}
 		 
 		 var seriesOptions = [];
 	      var seriesCounter = 0;
@@ -764,6 +859,8 @@ angular.module('newApp')
 	
 		 $scope.setShowPagesInfoType = function(typeOfInfo){
 				$scope.typeOfInfo = typeOfInfo;
+				 $scope.flagForChart1 = true;
+				 $scope.flagForChart = false;
 				$scope.DateWiseFind();
 			} 
 		 
@@ -794,13 +891,17 @@ angular.module('newApp')
 										             {name: 'url', displayName: '', width:'10%',
 										            	 cellTemplate:'<a href="{{row.entity.url}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>'
 										             },
-										             {name:'value', displayName:'Views', width:'20%',
+										             {name:'value', displayName:'Views', width:'10%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										            
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
+										             {name:'per', displayName:'', width:'10%',		
+										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showPagesChart(row.entity.showUrl)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+										            
+										             }
 										             
 										         ]
 				
@@ -816,14 +917,18 @@ angular.module('newApp')
 				 
 				 
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'showUrl', displayName: 'Page', width:'40%',
+										             {name: 'url', displayName: 'Page', width:'40%',
 										            	 cellTemplate:'<div><span>{{row.entity.url}}</span><br><span>{{row.entity.title}}</span></div>'
 										             },
-										             {name:'value', displayName:'Views', width:'20%'},
-										             {name:'value_percent', displayName:'value_Percent', width:'20%'},
+										             {name:'value', displayName:'Views', width:'15%'},
+										             {name:'value_percent', displayName:'value_Percent', width:'15%'},
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
+										             {name:'percent', displayName:'', width:'10%',		
+										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEntranceChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+										            
+										             }
 										             
 										         ]
 			}else if($scope.typeOfInfo == 'Exit'){
@@ -838,12 +943,16 @@ angular.module('newApp')
 										             {name:'t', displayName:'Pages', width:'60%',
 										            	 cellTemplate:'<div><span>{{row.entity.url}}<br>{{row.entity.title}}</span></div>',
 										             },
-										             {name:'v', displayName:'Visits', width:'20%',
+										             {name:'v', displayName:'Visits', width:'10%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div title="{{row.entity.value_percent2}}"  class="col-sm-12"> <div class="col-sm-2" ><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div> <div class="col-sm-6" style="margin-left:47px;"><span > {{row.entity.averagePercent.toFixed(2)}}%  </span></div> </div>',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
+										             {name:'percentage', displayName:'', width:'10%',		
+										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showExitChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+										            
+										             }
 										            
 										         ]
 				 
@@ -937,6 +1046,142 @@ angular.module('newApp')
 			}
 			
 		 }
+		 
+		 $scope.urlobj={};
+		 $scope.flagForChart1 = true;
+		 $scope.flagForChart = true;
+		 $scope.showPagesChart = function(url) {
+			 console.log(">>>>>>>>");
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();	 
+				console.log(endDate);
+				console.log(startDate);
+				console.log(url);
+				
+				$scope.urlobj.startDate=startDate;
+				$scope.urlobj.endDate=endDate;
+				$scope.urlobj.url=url;
+				
+				$scope.flagForChart=0;
+				$http.post('/getPagesChart', $scope.urlobj)
+				.success(function(data) {
+					console.log(data);
+					$scope.flagForChart=1;
+					$scope.flagForChart1 = false;
+					createChart(data);
+					//$('#functional-chart').css('height', '500px');
+					//$('#functional-chart').css('width','500px');
+					$scope.value = [];
+					$scope.dates = [];
+					/*angular.forEach(data, function(obj, index){
+						if(parseInt(obj.value)>0){
+							var val=1;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+						}
+						else{
+							var val=0;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+							
+						}
+						
+					
+					});*/
+				
+			});
+				
+			 
+			}
+		 
+		 $scope.urlobj={};
+		 $scope.flagForChart1 = true;
+		 $scope.flagForChart = true;
+		 $scope.showEntranceChart = function(url) {
+			 console.log(">>>>>>>>");
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();	 
+				console.log(endDate);
+				console.log(startDate);
+				console.log(url);
+				
+				$scope.urlobj.startDate=startDate;
+				$scope.urlobj.endDate=endDate;
+				$scope.urlobj.url=url;
+				
+				$scope.flagForChart=0;
+				$http.post('/getEntranceChart', $scope.urlobj)
+				.success(function(data) {
+					console.log(data);
+					$scope.flagForChart=1;
+					$scope.flagForChart1 = false;
+					createChart(data);
+					//$('#functional-chart').css('height', '500px');
+					//$('#functional-chart').css('width','500px');
+					$scope.value = [];
+					$scope.dates = [];
+					/*angular.forEach(data, function(obj, index){
+						if(parseInt(obj.value)>0){
+							var val=1;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+						}
+						else{
+							var val=0;
+							$scope.value.push(val);
+							$scope.dates.push(obj.chartDate);
+							
+						}
+						
+					
+					});*/
+				
+			});
+				
+			 
+			}
+		 
+		 
+		 var seriesOptions = [];
+		 var seriesCounter = 0;
+		 var stockChart; 
+		 var stockChart1; 
+		 
+		 function createChart(initdata) {
+			  stockChart1 = 1;
+			  console.log("$scope.flagForChart"+$scope.flagForChart);
+			  stockChart = $('#functional-chart').highcharts({
+				  title: {
+			            text: '',
+			            x: -20 //center
+			        },
+			        xAxis: {
+			            categories: initdata.dates
+			        },
+			        yAxis: {
+			            title: {
+			                text: ''
+			            },
+			            plotLines: [{
+			                value: 0,
+			                width: 1,
+			                color: '#808080'
+			            }],
+			            min : 0
+			        },
+			        tooltip: {
+			            valueSuffix: ''
+			        },
+			        legend: {
+			            layout: 'vertical',
+			            align: 'right',
+			            verticalAlign: 'middle',
+			            borderWidth: 0
+			        },
+			        series: initdata.data
+		     });
+		 };
+		 
 		 
 		
 		 $scope.goToVisitors = function() {
