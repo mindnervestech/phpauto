@@ -1857,7 +1857,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        }
 	        
 	        if(sameBodyStyleDefault != null) {
-	        	context.put("sameBodyStyleDefault", sameBodyStyleDefault.thumbPath);
+	        	String url=URLEncoder.encode(sameBodyStyleDefault.thumbPath);
+	        	context.put("sameBodyStyleDefault",url );
 	        } else {
 	        	context.put("sameBodyStyleDefault", "/no-image.jpg");
 	        }
