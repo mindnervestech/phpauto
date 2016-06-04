@@ -1585,7 +1585,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		final String password = emailPassword;
 		
 		Vehicle vehicle = Vehicle.findByVinAndStatus(vin);
-		List<Vehicle> sameBodyList = Vehicle.getRandom(vehicle.vin);
+		List<Vehicle> sameBodyList = Vehicle.getRandomForComingSoon(vehicle.vin);
 		 SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));
 		 VehicleImage sameBodyStyleDefault=null;
 		 VehicleImage sameMakeDefault=null;
@@ -1784,8 +1784,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        	context.put("bodyStyleMake", sameBodyStyle.make);
 	        	context.put("bodyStyleModel", sameBodyStyle.model);
 	        } else {
+	        	context.put("bodyStyleMake", "");
 	        	context.put("bodyStylePrice", "");
 	        	context.put("bodyStyleVin", "");
+	        	context.put("bodyStyleModel", "");
 	        }
 	        if(sameEngine != null) {
 	        	if(sameEngine.price != null) {
@@ -1798,6 +1800,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        	context.put("engineYear", sameEngine.year);
 	        	context.put("engineModel", sameEngine.model);
 	        } else {
+	        	context.put("engineMake", "");
 	        	context.put("enginePrice","");
 	        	context.put("engineVin", "");
 	        }
@@ -1812,6 +1815,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        	context.put("sameModel", sameMake.model);
 	        	context.put("sameYear", sameMake.year);
 	        } else {
+	        	context.put("sameMake", "");
 	        	context.put("makePrice", "");
 	        	context.put("makeVin", "");
 	        }
