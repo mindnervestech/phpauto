@@ -625,7 +625,7 @@ a{text-decoration: none !important;}
                     <tbody><tr>
                       <td valign="top">
                         
-                        #if($bodyStyle != "")
+                        #if($bodyFlag != 1)
                         <table width="170" border="0" cellspacing="0" cellpadding="0" align="left" class="col-3" style="width: 170px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
                           <!--start space height -->
                           <tbody><tr>
@@ -693,7 +693,7 @@ a{text-decoration: none !important;}
                           </tr>
                         </tbody></table><!--[if (gte mso 9)|(IE)]></td><td valign="top" ><![endif]-->
                         
-                        #if($engine != "")
+                        #if($EngineFlag != 1)
                         <table width="170" border="0" cellspacing="0" cellpadding="0" align="left" class="col-3" style="width: 170px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
                           <!--start space height -->
                           <tbody><tr>
@@ -761,7 +761,7 @@ a{text-decoration: none !important;}
                           </tr>
                         </tbody></table><!--[if (gte mso 9)|(IE)]></td><td valign="top" ><![endif]-->
                         
-                        #if($make != "")
+                        #if($MakeFlag != 1)
                         <table width="170" border="0" cellspacing="0" cellpadding="0" align="left" class="col-3-last" style="width: 170px;mso-table-lspace:0pt; mso-table-rspace:0pt;">
                           <!--start space height -->
                           <tbody><tr>

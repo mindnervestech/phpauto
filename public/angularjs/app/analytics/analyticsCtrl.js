@@ -4,10 +4,17 @@ angular.module('newApp')
 	
 	$scope.visitorInfos = $routeParams.visitorInfo;
 	$scope.infoType = $routeParams.typeOfInfo;
-	
+	$scope.typeOfReferrer = $routeParams.type;
+	$scope.locationFlag = $routeParams.flagForLocation;
+	$scope.startDate1=$routeParams.startDate1;
+	$scope.endDate1=$routeParams.endDate1;
+	$scope.startDate2=$routeParams.startDate2;
+	$scope.endDate2=$routeParams.endDate2;
 	console.log("}}}}");
-	console.log($scope.infoType);
-	
+	console.log($scope.typeOfReferrer);
+	console.log($scope.locationFlag);
+	console.log($routeParams.startDate1);
+	console.log($routeParams.endDate1);
 	
 	
 	 function initialized() {
@@ -61,6 +68,16 @@ angular.module('newApp')
 			$scope.longitude=data.longitude;
 			initialized();
 			$scope.visitorInfo=data;
+			$scope.visitorInfo.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt($scope.visitorInfo.timeTotal)), 'HH:mm:ss');
+			 var splitTime   = $scope.visitorInfo.timeTotal.split(":");
+			 if(splitTime[0] == 00){
+				 $scope.visitorInfo.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+			 }
+			 else{
+				 $scope.visitorInfo.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+			 }
+			 console.log($scope.visitorInfo);
+			
 		});
 			
 			
@@ -73,6 +90,35 @@ angular.module('newApp')
 				
 			}
 			 
+			if($scope.typeOfReferrer != undefined && $scope.typeOfReferrer != null){
+			  console.log($scope.typeOfReferrer);
+			  //var startDate = $("#cnfstartDateValue").val();
+				//var endDate = $("#cnfendDateValue").val();	
+				$http.get('/getreferrerTypeData/'+$scope.typeOfReferrer+"/"+$scope.locationFlag+"/"+$scope.startDate2+"/"+$scope.endDate2)
+				.success(function(data) {
+				
+				console.log("::::::::");
+				console.log(data);
+				$scope.chartFlag1=false;
+				
+				$scope.gridOptions.data = data;
+				console.log($scope.gridOptions.data);
+				$scope.visitiorList = data;
+				
+			});
+			 
+			 
+			 $scope.gridOptions.columnDefs = [
+                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
+									             {name: 'value', displayName: 'These visitors', width:'30%'
+									             },
+									            
+									         ]
+				
+				
+			}
+			
+			
 			
 		}
 		
@@ -114,7 +160,10 @@ angular.module('newApp')
 					.success(function(data) {
 					$scope.gridOptions.data = data;
 					console.log(data);
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 					//console.log($scope.gridOptions.data);
+					//cellFilter: 'date:"yyyy-MM-dd"',enableSorting: true,
 					angular.forEach($scope.gridOptions.data, function(value, key) {
 						var array = value.timePretty.split(',');
 						var timeNew= value.timePretty.split(' ');
@@ -150,8 +199,8 @@ angular.module('newApp')
 				                                 {name:'referrerUrl', displayName:'Searches & Refferals', width:'40%',
 				                                	 cellTemplate:'<div ><label ng-if="row.entity.referrerUrl != null" ><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"> </span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a> <a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">google.com</a> &nbsp;&nbsp;<span ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</span> </label></div>',
 				                                	 },
-				                                 {name:'Sear', displayName:'Search', width:'10%',
-				                                	 cellTemplate:'<a href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+				                                 {name:'Sear', displayName:'Page', width:'10%',
+				                                	 cellTemplate:'<a   target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
 				                                 }
 				                                 
 				                             ];  
@@ -328,9 +377,45 @@ angular.module('newApp')
 			 initialized();
 			// loadScript()
 			 $scope.flagForVisitor = true;*/
-			 
-					$location.path('/visitorInfo/'+id);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+					$location.path('/visitorInfo/'+id+"/"+startDate+"/"+endDate);
 		 }
+		 
+		 
+		 $scope.chartFlag1=true;
+		 $scope.chartFlag=true;
+		 $scope.referrerTypeData = function(type) {
+			 
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log(endDate);
+			 $scope.flagForLocation='other';
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDate1+"/"+$scope.endDate1);
+			 
+		 }
+		 
+		 $scope.referrerTypeDataForLocation = function(type) {
+			 console.log(type);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log(endDate);
+			 $scope.flagForLocation='location';
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 
+		 }
+		 
+		 $scope.referrerTypeDataForLang = function(type) {
+			 console.log(type);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log(endDate);
+			 $scope.flagForLocation='language';
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 
+		 }
+		 
+		 
 		 
 		 
 		 $scope.showUrlInfo = function(id) {

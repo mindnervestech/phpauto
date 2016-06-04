@@ -1704,6 +1704,32 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	        
 	        context.put("year", vehicle.year);
 	        
+	        int bodyFlag=0;
+	        int MakeFlag=0;
+	        int EngineFlag=0;
+	        if(sameBodyStyleDefault == null && sameBodyStyle == null ){
+	        	bodyFlag=1;
+	        	context.put("bodyFlag", bodyFlag);
+				 
+			 }else{
+	        context.put("bodyFlag", bodyFlag);
+			 }
+	         if(sameMakeDefault == null && sameMake == null ){
+	        	 MakeFlag=1;
+	        	 context.put("MakeFlag", MakeFlag);
+				 
+			 }
+	         else{
+	        	 context.put("MakeFlag", MakeFlag);
+	         }
+	         if(sameEngineDefault == null && sameEngine == null ){
+	        	 EngineFlag=1;
+	        	 context.put("EngineFlag", EngineFlag);
+	        	 
+			 }else{
+				 context.put("EngineFlag", EngineFlag);
+			 }
+	        
 	        if(vehicle.make != null) {
 	        	context.put("make", vehicle.make);
 	        	} else {
@@ -25112,6 +25138,58 @@ private static void cancelTestDriveMail(Map map) {
     	return ok(Json.toJson(clickyList));
     }
     
+     
+     
+     public static Result getreferrerTypeData(String type,String locationFlag,String startDate,String endDate){
+     	//String startDate=null;
+     	String params = null; 
+     	
+     	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		//startDate=dateFormat.format(date);
+     	List<ClickyPagesVM> clickyList = new ArrayList<>();
+     	
+     	if(locationFlag.equals("location")){
+     		String location[]=type.split(",");
+     		String city=location[0];
+     		
+     		String country[]=location[1].split(" ");
+     		System.out.println(country[1]);
+     		params = "&type=segmentation&city="+city+"&country="+country[1]+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+     	}
+     	else if(type.equals("language")){
+     		
+     		params = "&type=segmentation&language="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+     		
+     	}else{
+     		params = "&type=segmentation&source="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+     		
+     	}
+     	try {
+
+      	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+      	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+      	   	ClickyPagesVM vm = new ClickyPagesVM();
+ 			vm.title = obj.get("title").textValue();
+ 			vm.value = obj.get("value").textValue();
+      	   	
+      	   clickyList.add(vm);
+      	   	
+      	   	}
+              
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+     	
+     	
+     	
+     	
+     	return ok(Json.toJson(clickyList));
+     }
+
+     
+     
+     
 public static Result getVisitorDataForLanding(Long id,String startDate,String endDate,String flagForLanding){
     	
     	ClickyVisitorsList List = ClickyVisitorsList.findById(id);

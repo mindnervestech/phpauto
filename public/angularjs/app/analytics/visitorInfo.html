@@ -1,10 +1,10 @@
 <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="initFunction()">
 </div>
 
-<div  class="col-sm-12">
+<!-- <div  class="col-sm-12">
 	        	 	 <a class="btn btn-blue" ng-click="showVisitorsInfo('Visitor log')" style="width: 8%;">Visitor log</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Action log')" style="width: 8%;">Action log</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Engagement_action')" style="width: 13%;">Engagement(action)</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Engagement_time')" style="width: 13%;">Engagement(time)</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Active_visitors')" style="width: 15%;">Most active visitors</a><a class="btn btn-blue" ng-click="showVisitorsInfo('Traffic_scoures')" style="width: 12%;">Traffic scoures</a>   
-	      </div>
-<div  class="col-sm-12" >
+	      </div> -->
+<div   class="col-sm-12" >
 	<h2> Visitor details </h2>
 	<hr style="border-color: black;">
 	<div class="col-sm-6">
@@ -42,7 +42,7 @@
 	<label>Locale:</label>
 	</div>
 	<div class="col-sm-5">
-	<a>{{visitorInfo.geolocation}}&nbsp;/&nbsp;{{visitorInfo.language}}</a>
+	<a  ng-click="referrerTypeDataForLocation(visitorInfo.geolocation)"  >{{visitorInfo.geolocation}}</a>&nbsp;/&nbsp;<a ng-click="referrerTypeDataForLang(visitorInfo.language)" >{{visitorInfo.language}}</a>
 	</div>
 	</div>
 	
@@ -108,7 +108,7 @@
 	<label>Landing Page:</label>
 	</div>
 	<div class="col-sm-8">
-	<a>{{visitorInfo.landingPage}}</a>
+	<a   target="_blank"  href="{{visitorInfo.landingPage}}"  >{{visitorInfo.landingPage}}</a>
 	</div>
 	</div>
 	
@@ -118,7 +118,7 @@
 	<label>Referrer type:</label>
 	</div>
 	<div class="col-sm-6">
-	<a>{{visitorInfo.referrerType}}</a>
+	<a  ng-click="referrerTypeData(visitorInfo.referrerType)" >{{visitorInfo.referrerType}}</a>
 	</div>
 	</div>
 	
