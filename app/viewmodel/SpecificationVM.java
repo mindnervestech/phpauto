@@ -13,6 +13,7 @@ public class SpecificationVM {
 	public String year;
 	public String make;
 	public String model;
+	public String last4Vin;
 	public String trim_level;
 	public String label;
 	public String stock;

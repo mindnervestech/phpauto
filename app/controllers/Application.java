@@ -5786,7 +5786,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
 	    	//String params = "&date=last-28-days&type=visitors-list&limit=all";
 	     	for(Vehicle vm : vehicleObjList){
-	     		
+	     		int len=0;
 	     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
 	     		
 	     		SpecificationVM vehicle = new SpecificationVM();
@@ -5794,6 +5794,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	     	    vehicle.title=vm.getTitle();
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
+		    	len=vehicle.vin.length();
+		    	//vehicle.last4Vin=vehicle.vin.charAt(len-3)+""+vehicle.vin.charAt(len-2)+""+vehicle.vin.charAt(len-1)+""+vehicle.vin.charAt(len);
+		    	vehicle.last4Vin=vehicle.vin.substring(Math.max(len - 4, 0));
 		    	vehicle.year = vm.year;
 		    	vehicle.make = vm.make;
 		    	vehicle.model = vm.model;
@@ -6003,6 +6006,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	vehicle.mileage = vm.mileage;
 		    	vehicle.cost = vm.cost;
 		    	vehicle.price = vm.price;
+		    	int len=vehicle.vin.length();
+		    	vehicle.last4Vin=vehicle.vin.substring(Math.max(len - 4, 0));
 		    	vehicle.extColor = vm.exteriorColor;
 		    	vehicle.intColor = vm.interiorColor;
 		    	vehicle.colorDesc = vm.colorDescription;
@@ -6053,6 +6058,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	vehicle.mileage = vm.mileage;
 		    	vehicle.cost = vm.cost;
 		    	vehicle.price = vm.price;
+		    	int len=vehicle.vin.length();
+		    	vehicle.last4Vin=vehicle.vin.substring(Math.max(len - 4, 0));
 		    	vehicle.extColor = vm.exteriorColor;
 		    	vehicle.intColor = vm.interiorColor;
 		    	vehicle.colorDesc = vm.colorDescription;
@@ -6095,6 +6102,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	     		vehicle.id = vm.id;
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
+		    	int len=vehicle.vin.length();
+		    	vehicle.last4Vin=vehicle.vin.substring(Math.max(len - 4, 0));
 		    	vehicle.year = vm.year;
 		    	//vehicle.make = vm.make+" "+vm.model;
 		    	vehicle.make = vm.make;

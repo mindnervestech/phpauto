@@ -8828,6 +8828,9 @@ angular.module('newApp')
     		                                 { name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
     		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
+    		                                 { name: 'last4Vin', displayName: 'vin',enableColumnMenu: false, width:'5%',cellEditableCondition: true,
+    		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.last4Vin}}" >{{row.entity.last4Vin}}</label> </div>',
+    		                                 },
     		                                 { name: 'stock', displayName: 'Stock',enableColumnMenu: false, width:'6%',
     		                                 },
     		                                 { name: 'bodyStyle', displayName: 'Body Style',enableColumnMenu: false,enableFiltering: false, width:'9%',cellEditableCondition: false,
@@ -8853,7 +8856,7 @@ angular.module('newApp')
         		                                 cellTemplate:'<input type="checkbox" name="vehicle" ng-click="grid.appScope.hideVehicle(row)" autocomplete="off">', 
     		                                 
     		                                 },
-    		                                 { name: 'edit', displayName: '', width:'10%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+    		                                 { name: 'edit', displayName: '', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
         		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
     		                                 
     		                                 },
@@ -8873,9 +8876,10 @@ angular.module('newApp')
     				});
     			 });
     			 
+    			 
     			 $scope.gridApi.core.on.filterChanged( $scope, function() {
     		          var grid = this.grid;
-    		          $scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'stock':grid.columns[1].filters[0].term},undefined);
+    		          $scope.gridOptions.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'last4Vin':grid.columns[1].filters[0].term,'stock':grid.columns[2].filters[0].term},undefined);
     		        });
     			 
     			 };
@@ -8894,6 +8898,9 @@ angular.module('newApp')
     		    		 $scope.gridOptions1.columnDefs = [
     		    		                                 { name: 'title', displayName: 'Title', width:'15%',enableColumnMenu: false,cellEditableCondition: true,
     		    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
+    		    		                                 },
+    		    		                                 { name: 'last4Vin', displayName: 'vin',enableColumnMenu: false, width:'5%',cellEditableCondition: true,
+    		    		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.last4Vin}}" >{{row.entity.last4Vin}}</label> </div>',
     		    		                                 },
     		    		                                 { name: 'stock', displayName: 'Stock',enableColumnMenu: false, width:'6%',
     		    		                                 },
@@ -8939,7 +8946,7 @@ angular.module('newApp')
     		    			 
     		    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
     		    		          var grid = this.grid;
-    		    		          $scope.gridOptions1.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'stock':grid.columns[1].filters[0].term},undefined);
+    		    		          $scope.gridOptions1.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'last4Vin':grid.columns[1].filters[0].term,'stock':grid.columns[2].filters[0].term},undefined);
     		    		        });
     		    			 
     		    			 };	 
@@ -8958,9 +8965,12 @@ angular.module('newApp')
     		    		    		                                 { name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
     		    		    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		    		    		                                 },
+    		    		    		                                 { name: 'last4Vin', displayName: 'vin',enableColumnMenu: false, width:'5%',cellEditableCondition: true,
+    		    		    		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.last4Vin}}" >{{row.entity.last4Vin}}</label> </div>',
+    		    		    		                                 },
     		    		    		                                 { name: 'stock',enableColumnMenu: false, displayName: 'Stock', width:'6%',
     		    		    		                                 },
-    		    		    		                                 { name: 'bodyStyle', displayName: 'Body Style',enableFiltering: false, width:'9%',cellEditableCondition: false,
+    		    		    		                                 { name: 'bodyStyle', displayName: 'Body Style',enableFiltering: false,enableColumnMenu: false, width:'9%',cellEditableCondition: false,
     		    		    		                                	 cellTemplate:'<select style="width:100%;" ng-model="row.entity.bodyStyle" ng-change="grid.appScope.updateVehicleBody(row)"><option value="">Select</option><option value="Sedan">Sedan</option><option value="Coupe">Coupe</option><option value="SUV">SUV</option><option value="Van">Van</option><option value="Minivan">Minivan</option></select>',
     		    		    		                                 },
     		    		    		                                 { name: 'mileage', displayName: 'Mileage',enableFiltering: false,enableColumnMenu: false, width:'8%',cellEditableCondition: true,
@@ -9001,7 +9011,7 @@ angular.module('newApp')
     		    		    			 
     		    		    			 $scope.gridApi.core.on.filterChanged( $scope, function() {
     		    		    		          var grid = this.grid;
-    		    		    		          $scope.gridOptions2.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'stock':grid.columns[1].filters[0].term},undefined);
+    		    		    		          $scope.gridOptions2.data = $filter('filter')($scope.vehiClesList,{'make':grid.columns[0].filters[0].term,'last4Vin':grid.columns[1].filters[0].term,'stock':grid.columns[2].filters[0].term},undefined);
     		    		    		        });
     		    		    			 
     		    		    			 };
