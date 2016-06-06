@@ -25380,14 +25380,21 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	
     	ClickyVisitorsList List = ClickyVisitorsList.findById(id);
     	String title=List.referrerUrl;
+    	String domain=List.referrerDomain;
+    	String url=List.referrerUrl;
     	String params = null; 
     	List<ClickyPagesVM> clickyList = new ArrayList<>();
     	if(flagForLanding.equalsIgnoreCase("ForSearch")){
     	params = "&type=segmentation&source=searches&title="+title+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
     	}
     	else if(flagForLanding.equalsIgnoreCase("ForDomain")){
-    		params = "&type=segmentation&source=searches&domain=google.com&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    		params = "&type=segmentation&source=searches&domain="+domain+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
     	}
+    	else if(flagForLanding.equalsIgnoreCase("ForRefferalUrl")){
+    		String urlArr[]=url.split("=");
+    		params = "&type=segmentation&source=searches&search="+urlArr[1]+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    	}
+    	
     	else{
     		params = "&type=segmentation&source=searches&search="+title+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
     	}
@@ -25461,8 +25468,8 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	List<Location> locations = Location.findAllData();
     	
     	Date curr = new Date();
-    	//String sDate = df.format(curr);
-    	String sDate="2016-06-03";
+    	String sDate = df.format(curr);
+    	//String sDate="2016-06-03";
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;

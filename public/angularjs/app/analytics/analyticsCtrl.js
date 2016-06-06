@@ -616,6 +616,34 @@ angular.module('newApp')
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
 				
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					if( value.title== "Average time / visit" && value.value != null  ){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+					 var splitTime1   = value.value.split(":");
+					 if(splitTime1[0] == 00){
+						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					}
+					if(value.title== "Total time" && value.value != null){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+						var splitTime   = value.value.split(":");
+						if(splitTime[0] == 00){
+							value.value = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+					}
+					
+					
+				});
+				
+				
+				
 			});
 			 
 			 
@@ -645,6 +673,34 @@ angular.module('newApp')
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
+				
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					if( value.title== "Average time / visit" && value.value != null  ){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+					 var splitTime1   = value.value.split(":");
+					 if(splitTime1[0] == 00){
+						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					}
+					if(value.title== "Total time" && value.value != null){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+						var splitTime   = value.value.split(":");
+						if(splitTime[0] == 00){
+							value.value = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+					}
+					
+					
+				});
+				
+				
 				
 			});
 			 
