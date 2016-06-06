@@ -1112,7 +1112,7 @@ angular.module('newApp')
 									             {name:'stats_url', displayName:'', width:'20%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
-									             {name:'point', displayName:'', width:'10%',		
+									             {name:'po', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEventChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 									            
 									             }
@@ -1135,7 +1135,7 @@ angular.module('newApp')
 									             {name:'stats_url', displayName:'', width:'20%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
-									             {name:'point', displayName:'', width:'10%',		
+									             {name:'poi', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showMediaChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 									            
 									             }
@@ -1162,7 +1162,7 @@ angular.module('newApp')
 									             {name:'stats_url', displayName:'', width:'20%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
-									             {name:'point', displayName:'', width:'10%',		
+									             {name:'p', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showDomainsChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 									            
 									             }
