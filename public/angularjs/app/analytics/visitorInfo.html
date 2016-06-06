@@ -10,10 +10,10 @@
 	<div class="col-sm-6">
 	<div  class="col-sm-12">
 	<div class="col-sm-3">
-	<label>Visits:</label>
+	<label  >Visits:</label>
 	</div>
 	<div class="col-sm-4">
-	<a>{{visitorInfo.totalVisits}}</a>
+	<a style="color:black;" > {{visitorInfo.totalVisits}} </a>
 	</div>
 	</div>
 	
@@ -22,17 +22,17 @@
 	<label>Unique ID:</label>
 	</div>
 	<div class="col-sm-2">
-	<a>{{visitorInfo.uid}}</a>
+	<a style="cursor: pointer;" >{{visitorInfo.uid}}</a>
 	</div>
 	<div class="col-sm-1" style="color: red">(tag)</div>
 	</div>
 	
 	<div  class="col-sm-12">
 	<div class="col-sm-3">
-	<label>IP Address:</label>
+	<label  >IP Address:</label>
 	</div>
 	<div class="col-sm-4">
-	<a>{{visitorInfo.ipAddress}} &nbsp;&nbsp;&nbsp; (ARIN/RIPE)</a>
+	<a  style="cursor: pointer;"  ng-click="referrerTypeDataForIpAdress(visitorInfo.ipAddress)" >{{visitorInfo.ipAddress}} &nbsp;&nbsp;&nbsp; (ARIN/RIPE)</a>
 	</div>
 	<div class="col-sm-1" style="color: red">(tag)</div>
 	</div>
@@ -72,7 +72,7 @@
 	
 	</div>
 	
-	<div class="col-sm-6">
+	<div  ng-if="flagForIpAdressData != 1" class="col-sm-6">
 	<div class="col-sm-12" > 
 		 <div id="map-canvas" style="width:100%; height:390px"></div> 
 	</div>
@@ -80,17 +80,17 @@
 	</div>
 	
 	
-    <div class="col-sm-12">
+    <div  ng-if="flagForIpAdressData != 1" class="col-sm-12">
 	<h2> This Visit </h2>
 	<hr style="border-color: black;">
 	<div class="col-sm-6">
 	
 	<div  class="col-sm-12">
 	<div class="col-sm-3">
-	<label>Date:</label>
+	<label >Date:</label>
 	</div>
 	<div class="col-sm-6">
-	<a>{{visitorInfo.timePretty}}</a>
+	<a style="color:black;" >{{visitorInfo.timePretty}}</a>
 	</div>
 	</div>
 	
@@ -99,7 +99,7 @@
 	<label>Session:</label>
 	</div>
 	<div class="col-sm-6">
-	<a>{{visitorInfo.timeTotal}},{{visitorInfo.actions}} actions </a>
+	<a style="color:black;" >{{visitorInfo.timeTotal}},{{visitorInfo.actions}} actions </a>
 	</div>
 	</div>
 	
@@ -132,4 +132,7 @@
 	
 	
 	</div>
+	
+	<div style="margin-top: 40%;"  ng-if="flagForIpAdressData == 1" ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
+	</div> 
 		

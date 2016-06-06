@@ -15,7 +15,8 @@ angular.module('newApp')
 	console.log($scope.locationFlag);
 	console.log($routeParams.startDate1);
 	console.log($routeParams.endDate1);
-	
+	console.log($routeParams.startDate2);
+	console.log($routeParams.endDate2);
 	
 	 function initialized() {
 		 //  $( document ).ready(function() {
@@ -101,9 +102,16 @@ angular.module('newApp')
 				console.log(data);
 				$scope.chartFlag1=false;
 				
-				$scope.gridOptions.data = data;
+				$scope.gridOptions1.data = data;
 				
-				angular.forEach($scope.gridOptions.data, function(value, key) {
+				
+				
+				
+				angular.forEach($scope.gridOptions1.data, function(value, key) {
+					if( value.city != null && value.city != undefined  ){
+						$scope.city=value.city;
+						console.log($scope.city);
+					}
 					if( value.title== "Average time / visit" && value.value != null  ){
 						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
 					 var splitTime1   = value.value.split(":");
@@ -131,18 +139,26 @@ angular.module('newApp')
 				
 				 
 				
-				console.log($scope.gridOptions.data);
+				console.log($scope.gridOptions1.data);
 				$scope.visitiorList = data;
 				
 			});
 			 
 			 
-			 $scope.gridOptions.columnDefs = [
+			 $scope.gridOptions1.columnDefs = [
                                               {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
 									             {name: 'value', displayName: 'These visitors', width:'30%'
 									             },
 									            
 									         ]
+			 
+			 
+			 if($scope.locationFlag == 'location'){
+				 
+				 $scope.typeOfInfo == 'Visitor log';
+					$scope.DateWiseFind();
+			 }
+			 
 				
 				
 			}
@@ -159,7 +175,13 @@ angular.module('newApp')
 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 };
 	
-	      
+	$scope.gridOptions1 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
 	     $scope.showVisitorsInfo = function(typeOfInfo){
 	    	
 	    	 $location.path('/visitorsAnalytics/'+typeOfInfo);
@@ -178,6 +200,14 @@ angular.module('newApp')
 			 var startDate = $("#cnfstartDateValue").val();
 			var endDate = $("#cnfendDateValue").val();	 
 			console.log(endDate);
+			if($scope.flagForIpAdressData == 1 && $scope.flagForIpAdressData != undefined ){
+				startDate=$scope.startDate1;
+				endDate=$scope.endDate1;
+			}
+			if($scope.locationFlag == 'location'){
+				startDate=$scope.startDate2;
+				endDate=$scope.endDate2;
+			}
 			
 			if(endDate == '' || startDate == ''){
 				 var startDate = $scope.startDate;
@@ -443,7 +473,31 @@ angular.module('newApp')
 				var endDate = $("#cnfendDateValue").val();
 				console.log(endDate);
 			 $scope.flagForLocation='location';
-			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDate1+"/"+$scope.endDate1);
+			 
+		 }
+		 
+		 
+		 
+		 $scope.referrerTypeDataForIpAdress = function(type) {
+			 console.log(type);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log($scope.startDate1);
+			 $scope.flagForLocation='IP';
+			// $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 
+				$http.get('/getreferrerTypeData/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDate1+"/"+$scope.endDate1)
+				.success(function(data) {
+				
+				console.log("::::::::");
+				console.log(data);
+				$scope.flagForIpAdressData=1;
+			    $scope.typeOfInfo == 'Visitor log';
+				$scope.DateWiseFind();
+				
+			});
+			 
 			 
 		 }
 		 

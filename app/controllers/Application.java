@@ -25301,10 +25301,10 @@ private static void cancelTestDriveMail(Map map) {
 		Date date = new Date();
 		//startDate=dateFormat.format(date);
      	List<ClickyPagesVM> clickyList = new ArrayList<>();
-     	
+     	String city=null;
      	if(locationFlag.equalsIgnoreCase("location")){
      		String location[]=type.split(",");
-     		String city=location[0];
+     		city=location[0];
      		
      		String country[]=location[1].split(" ");
      		System.out.println(country[1]);
@@ -25335,6 +25335,11 @@ private static void cancelTestDriveMail(Map map) {
        		params = "&type=segmentation&browser="+encod+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
        		
        	}
+		else if(locationFlag.equalsIgnoreCase("Ip")){
+       		
+       		params = "&type=segmentation&ip_address="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+       		
+       	}
           else if(locationFlag.equalsIgnoreCase("screen")){
        		
        		params = "&type=segmentation&resolution="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
@@ -25351,7 +25356,9 @@ private static void cancelTestDriveMail(Map map) {
       	   	ClickyPagesVM vm = new ClickyPagesVM();
  			vm.title = obj.get("title").textValue();
  			vm.value = obj.get("value").textValue();
-      	   	
+ 			if(locationFlag.equalsIgnoreCase("location")){
+ 			vm.city=city;
+ 			}
       	   clickyList.add(vm);
       	   	
       	   	}
