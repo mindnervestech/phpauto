@@ -8831,7 +8831,7 @@ angular.module('newApp')
     		                                 { name: 'title', displayName: 'Title',enableColumnMenu: false, width:'15%',cellEditableCondition: true,
     		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
     		                                 },
-    		                                 { name: 'last4Vin', displayName: 'vin',enableColumnMenu: false, width:'5%',cellEditableCondition: true,
+    		                                 { name: 'last4Vin', displayName: 'VIN',enableColumnMenu: false, width:'5%',cellEditableCondition: true,
     		                                	 cellTemplate: '<div> <label  style="line-height: 200%;" data-content="{{row.entity.last4Vin}}" >{{row.entity.last4Vin}}</label> </div>',
     		                                 },
     		                                 { name: 'stock', displayName: 'Stock',enableColumnMenu: false, width:'6%',
@@ -9078,8 +9078,8 @@ angular.module('newApp')
 		    			 			$scope.vType = "new";
 		    			 			$scope.vehiClesList = data;
 		    			 			$scope.gridOptions.data = data;
-		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
+		    			 			$scope.gridOptions.columnDefs[9].displayName='Next Test Drive';
+		    			 			$scope.gridOptions.columnDefs[10].displayName='Views';
 		    			 		});
     					}
     					if($scope.vType == 'sold'){
@@ -9092,8 +9092,8 @@ angular.module('newApp')
 		    			 			$scope.vType = "sold";
 		    			 			$scope.vehiClesList = data;
 		    			 			$scope.gridOptions2.data = data;
-		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
+		    			 			$scope.gridOptions.columnDefs[9].displayName='Next Test Drive';
+		    			 			$scope.gridOptions.columnDefs[10].displayName='Views';
 		    			 		});
    					}
     				};
@@ -9115,8 +9115,9 @@ angular.module('newApp')
     		    			 			$scope.vType = "new";
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions.data = data;
-    		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
-    		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
+    		    			 			console.log($scope.gridOptions.data);
+    		    			 			$scope.gridOptions.columnDefs[9].displayName='Next Test Drive';
+    		    			 			$scope.gridOptions.columnDefs[10].displayName='Views';
     		    			 		});
     		    			 }	    			 
     		    			 
