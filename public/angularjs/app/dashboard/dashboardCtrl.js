@@ -4385,9 +4385,6 @@ angular.module('newApp')
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
 		 			  $scope.molelFlag = 1;
-		 			  $http.get('/getAllModelList/'+value).success(function(response) {
-			    			$scope.modellist = response;
-		    			});
 		 			   
 	    			if(value.length > 2){
 	    				$scope.searchBy = searchBy;
@@ -4396,6 +4393,9 @@ angular.module('newApp')
 					if(value.length == 0){
 	    				$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
 	    			}
+					$http.get('/getAllModelList/'+value).success(function(response) {
+		    			$scope.modellist = response;
+	    			});
 	    		}
 	    		$scope.findModel = function(value,searchBy,maketype){
 	    			var startD = $('#cnfstartDateValueForListing').val();
