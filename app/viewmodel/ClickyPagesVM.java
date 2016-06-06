@@ -10,6 +10,7 @@ public class ClickyPagesVM {
 	public String title;
 	public String stats_url;
 	public String url;
+	public String city;
 	public String showUrl;
 	public String visitors;
 	public String uniqueVisitors;
