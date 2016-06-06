@@ -40,14 +40,15 @@
 									 	<a class="btn btn-blue" ng-click="DateWiseFind()" style="width: 40%;margin-top: 25px;">OK</a>
 									 </div>    
 	      </div>
-	      <h2>{{typeOfInfo}}</h2>
+	     <!--  <h2>{{typeOfInfo}}</h2> -->
 	      <!--  <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
 				</div> 
 				 -->
+				 <h2 ng-show="flagForChart1">{{typeOfInfo}}</h2>
 			<div ng-show="flagForChart1" ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
 				</div> 
 			<div class="col-sm-12" style="margin-top: 6%;">
-				<div ng-show="flagForChart" id="functional-chart" style="height:240px"></div>
+				<div ng-show="flagForChart" id="functional-chart" style="height:400px;width:1190px;"></div>
 			</div>		
 	      </div>
 	      
