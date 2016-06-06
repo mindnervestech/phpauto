@@ -4104,6 +4104,7 @@ angular.module('newApp')
 		    					$scope.currentData = response.worstVisited;
 		    				else if($scope.currentSelectedType==2)
 		    					$scope.currentData = response.allVehical;
+		    				$(ele).hide();
 		    			});
 		    					
 		    				});
@@ -4124,7 +4125,8 @@ angular.module('newApp')
 	    					$scope.currentData = response.worstVisited;
 	    				else if($scope.currentSelectedType==2)
 	    					$scope.currentData = response.allVehical;
-	    			});
+	    				$(ele).hide();
+	    				});
 	    					
 	    			}
 	    		};
@@ -4382,6 +4384,7 @@ angular.module('newApp')
 	    		}
 	    		$scope.molelFlag = 0;
 	    		$scope.findMake = function(value,searchBy){
+	    			$(ele).show();
 	    			var startD = $('#cnfstartDateValueForListing').val();
 		 			   var endD = $('#cnfendDateValueForListing').val();
 		 			  $scope.molelFlag = 1;
