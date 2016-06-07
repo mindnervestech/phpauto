@@ -261,7 +261,10 @@ var MakeApp = angular
           controller: 'VisitorsCtrl'
       })
       
-      
+      .when('/landingPageInfo/:idOfLanding/:flagForLandingUrl/:startDateForLand/:endDateForLand', {
+          templateUrl: '/dealer/analytics/landingPage.html',
+          controller: 'VisitorsCtrl'
+      })
       
         .when('/visitorsAnalytics', {
             templateUrl: '/dealer/analytics/visitors.html',

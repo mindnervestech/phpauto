@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('VisitorsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('VisitorsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
 
 	
 	$scope.visitorInfos = $routeParams.visitorInfo;
@@ -10,13 +10,72 @@ angular.module('newApp')
 	$scope.endDate1=$routeParams.endDate1;
 	$scope.startDate2=$routeParams.startDate2;
 	$scope.endDate2=$routeParams.endDate2;
+	$scope.idOfLand=$routeParams.idOfLanding;
+	$scope.typeOfLand=$routeParams.flagForLandingUrl;
+	$scope.startDateForLand=$routeParams.startDateForLand;
+	$scope.endDateForLand=$routeParams.endDateForLand;
 	console.log("}}}}");
-	console.log($scope.typeOfReferrer);
-	console.log($scope.locationFlag);
-	console.log($routeParams.startDate1);
-	console.log($routeParams.endDate1);
-	console.log($routeParams.startDate2);
-	console.log($routeParams.endDate2);
+	console.log($scope.startDateForLand);
+	console.log($scope.endDateForLand);
+	
+	
+	$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");;
+	$rootScope.endDateFilter = moment().add('days', 1).format("YYYY-MM-DD");
+	   
+	    setTimeout(function(){
+
+	        $('.reportrange').daterangepicker(
+	                {
+	                    ranges: {
+	                        'Today': [moment(), moment()],
+	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 14 Days':[moment().subtract('days', 14), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
+	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
+	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+	                    },
+	                    startDate: moment().subtract('days', 7),
+	                    endDate: moment()
+	                },
+	                function(start, end) {
+	                    var startDate =  moment(start).format("MMDDYYYY");
+	                    var endDate =  moment(end).format("MMDDYYYY");
+	                    $rootScope.startDateFilter = moment(start).format("YYYY-MM-DD");
+	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD ");
+	                    if($scope.typeOfInfo != undefined){
+	                    	
+	                    console.log($scope.typeOfInfo);	
+	                    $scope.setShowVisitorsInfoType($scope.typeOfInfo); 
+	                    
+	                    }
+	                    console.log($rootScope.startDateFilter);
+	            		console.log($rootScope.endDateFilter);
+	                    $scope.$emit('reportDateChange', { startDate: startDate, endDate: endDate });
+	                    $('.reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+	                    $scope.$apply();
+	                }
+	            );
+	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+
+	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+
+	    }, 2000);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	 function initialized() {
 		 //  $( document ).ready(function() {
@@ -59,12 +118,12 @@ angular.module('newApp')
 			$scope.DateWiseFind();
 			$scope.latitude=undefined;
 			$scope.longitude=undefined;
+			console.log("::::::::");
+			console.log($scope.startDateFilter);
+			console.log($scope.endDateFilter);
 			 google.maps.event.addDomListener(window, 'load', initialized);
 			$http.get('/getVisitorData/'+$scope.visitorInfos)
 			.success(function(data) {
-			
-			console.log("::::::::");
-			console.log(data);
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
 			initialized();
@@ -239,8 +298,10 @@ angular.module('newApp')
 					var endDate = $scope.endDate;
 			}
 			if($scope.typeOfInfo == 'Visitor log'){
-				
-				 $http.get('/getVisitorList/'+startDate+"/"+endDate)
+				$scope.tabClickFlag=1;
+				console.log($scope.startDateFilter);
+				console.log($scope.endDateFilter);
+				 $http.get('/getVisitorList/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 					.success(function(data) {
 					$scope.gridOptions.data = data;
 					console.log(data);
@@ -294,12 +355,16 @@ angular.module('newApp')
 				                             ];  
 				
 			}else if($scope.typeOfInfo == 'Action log'){
-				
-				 $http.get('/getVisitorList/'+startDate+"/"+endDate)
+				$scope.tabClickFlag=2;
+				console.log($scope.startDateFilter);
+				console.log($scope.endDateFilter);
+				 $http.get('/getVisitorList/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 					.success(function(data) {
 					$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				});
 				 
 				 
@@ -314,14 +379,17 @@ angular.module('newApp')
 									             {name: 'referrerType', displayName: 'Referrer'}
 									         ]
 			}else if($scope.typeOfInfo == 'Engagement_action'){
-				 $http.get('/getEngagementAction/'+startDate+"/"+endDate)
+				$scope.tabClickFlag=3;
+				console.log($scope.startDateFilter);
+				console.log($scope.endDateFilter);
+				 $http.get('/getEngagementAction/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 					.success(function(data) {
 						console.log(data);
 					$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
-					
-					
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				});
 				 
 				 $scope.gridOptions.columnDefs = [
@@ -343,11 +411,16 @@ angular.module('newApp')
 			}
 			
 			else if($scope.typeOfInfo == 'Engagement_time'){
-				$http.get('/getEngagementTime/'+startDate+"/"+endDate)
+				$scope.tabClickFlag=4;
+				console.log($scope.startDateFilter);
+				console.log($scope.endDateFilter);
+				$http.get('/getEngagementTime/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 				.success(function(data) {
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				/*if ( inputString.indexOf(findme) > -1 ) {
 				    alert( "found it" );
 				}*/
@@ -381,12 +454,16 @@ angular.module('newApp')
 									         ]
 				
 			}else if($scope.typeOfInfo == 'Traffic_scoures'){
-				$http.get('/getTrafficScoures/'+startDate+"/"+endDate)
+				$scope.tabClickFlag=6;
+				console.log($scope.startDateFilter);
+				console.log($scope.endDateFilter);
+				$http.get('/getTrafficScoures/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 				.success(function(data) {
 				$scope.gridOptions.data = data;
 				console.log(data);
 				$scope.visitiorList = data;
-				
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				angular.forEach($scope.gridOptions.data, function(value, key) {
 					
 					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -436,13 +513,17 @@ angular.module('newApp')
 									         ]
 				
 			}else if($scope.typeOfInfo == 'Active_visitors'){
-				$http.get('/getActiveVisitors/'+startDate+"/"+endDate)
+				$scope.tabClickFlag=5;
+				console.log($scope.startDateFilter);
+				console.log($scope.endDateFilter);
+				$http.get('/getActiveVisitors/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 				.success(function(data) {
 					console.log(data);
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
-				
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			});
 			 
 				$scope.gridOptions.columnDefs = [
@@ -480,7 +561,7 @@ angular.module('newApp')
 			 $scope.flagForVisitor = true;*/
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-					$location.path('/visitorInfo/'+id+"/"+startDate+"/"+endDate);
+					$location.path('/visitorInfo/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 		 }
 		 
 		 
@@ -536,7 +617,7 @@ angular.module('newApp')
 				var endDate = $("#cnfendDateValue").val();
 				console.log(endDate);
 			 $scope.flagForLocation='language';
-			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
 		 }
 		 
@@ -546,7 +627,7 @@ angular.module('newApp')
 				var endDate = $("#cnfendDateValue").val();
 				console.log(endDate);
 			 $scope.flagForLocation='org';
-			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
 		 }
 		 
@@ -557,7 +638,7 @@ angular.module('newApp')
 				var endDate = $("#cnfendDateValue").val();
 				console.log(endDate);
 			 $scope.flagForLocation='host';
-			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
 		 }
 		 
@@ -568,7 +649,7 @@ angular.module('newApp')
 				var endDate = $("#cnfendDateValue").val();
 				console.log(endDate);
 			 $scope.flagForLocation='browser';
-			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
 		 }
 		
@@ -579,7 +660,7 @@ angular.module('newApp')
 				var endDate = $("#cnfendDateValue").val();
 				console.log(endDate);
 			 $scope.flagForLocation='os';
-			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
 		 }
 		
@@ -590,7 +671,7 @@ angular.module('newApp')
 				var endDate = $("#cnfendDateValue").val();
 				console.log(endDate);
 			 $scope.flagForLocation='screen';
-			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
 		 }
 		 
@@ -605,7 +686,7 @@ angular.module('newApp')
 			var endDate = $("#cnfendDateValue").val();	 
 				console.log(endDate);
 				$scope.flagForLanding="ForSearch";
-			 $http.get('/getVisitorDataForLanding/'+id+"/"+startDate+"/"+endDate+"/"+$scope.flagForLanding)
+			 $http.get('/getVisitorDataForLanding/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+$scope.flagForLanding)
 				.success(function(data) {
 				
 				console.log("::::::::");
@@ -635,7 +716,7 @@ angular.module('newApp')
 			var endDate = $("#cnfendDateValue").val();	 
 				console.log(endDate);
 			//$location.path('/visitorInfo/'+id);
-			 $http.get('/getVisitorDataForLanding/'+id+"/"+startDate+"/"+endDate+"/"+$scope.flagForLanding)
+			 $http.get('/getVisitorDataForLanding/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+$scope.flagForLanding)
 				.success(function(data) {
 				
 				console.log("::::::::");
@@ -693,7 +774,7 @@ angular.module('newApp')
 			var endDate = $("#cnfendDateValue").val();	 
 				console.log(endDate);
 			//$location.path('/visitorInfo/'+id);
-			 $http.get('/getVisitorDataForLanding/'+id+"/"+startDate+"/"+endDate+"/"+$scope.flagForLanding)
+			 $http.get('/getVisitorDataForLanding/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+$scope.flagForLanding)
 				.success(function(data) {
 				
 				console.log("::::::::");
@@ -757,7 +838,7 @@ angular.module('newApp')
 				console.log(startDate);
 				console.log(title);
 				$scope.flagForChart=0;
-				$http.get('/getEngagementActionChart/'+startDate+"/"+endDate+"/"+title)
+				$http.get('/getEngagementActionChart/'+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+title)
 				.success(function(data) {
 					console.log(data);
 					$scope.flagForChart=1;
@@ -798,7 +879,7 @@ angular.module('newApp')
 				console.log(startDate);
 				console.log(title);
 				$scope.flagForChart=0;
-				$http.get('/getEngagementTimeChart/'+startDate+"/"+endDate+"/"+title)
+				$http.get('/getEngagementTimeChart/'+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+title)
 				.success(function(data) {
 					console.log(data);
 					$scope.flagForChart=1;
@@ -840,7 +921,7 @@ angular.module('newApp')
 				console.log(startDate);
 				console.log(title);
 				$scope.flagForChart=0;
-				$http.get('/getTrafficScouresChart/'+startDate+"/"+endDate+"/"+title)
+				$http.get('/getTrafficScouresChart/'+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+title)
 				.success(function(data) {
 					console.log(data);
 					$scope.flagForChart=1;
@@ -962,16 +1043,82 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('goToContentInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('goToContentInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
 
+	console.log($rootScope.startDateFilter);
+	console.log($rootScope.endDateFilter);
+	  setTimeout(function(){
+
+	        $('.reportrange').daterangepicker(
+	                {
+	                    ranges: {
+	                        'Today': [moment(), moment()],
+	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 14 Days':[moment().subtract('days', 14), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
+	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
+	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+	                    },
+	                    startDate: moment().subtract('days', 7),
+	                    endDate: moment()
+	                },
+	                function(start, end) {
+	                    var startDate =  moment(start).format("MMDDYYYY");
+	                    var endDate =  moment(end).format("MMDDYYYY");
+	                    $rootScope.startDateFilter = moment(start).format("YYYY-MM-DD");
+	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD ");
+	                    if($scope.typeOfInfo != undefined){
+	                    	
+	                    console.log($scope.typeOfInfo);	
+	                    $scope.setShowPagesInfoType($scope.typeOfInfo); 
+	                    
+	                    }
+	                    console.log($rootScope.startDateFilter);
+	            		console.log($rootScope.endDateFilter);
+	                    $scope.$emit('reportDateChange', { startDate: startDate, endDate: endDate });
+	                    $('.reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+	                    $scope.$apply();
+	                }
+	            );
+	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+
+	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+
+	    }, 2000);
+	
+	
+	
 	 var date = new Date();
 	 $scope.typeOfInfo = 'Pages';
 	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
-		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
-		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
-	
-		$scope.initFunction = function(){
+	  
+
+	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
+		{
+		  console.log("in if");
+		$scope.startDate=$rootScope.startDateFilter;
+		$scope.endDate=$rootScope.endDateFilter;
+		}
+	else{
+		console.log("in else");
+		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+         $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+	}
+		
+	  $scope.initFunction = function(){
+		 
+		  $scope.startDate=$rootScope.startDateFilter;
+			$scope.endDate=$rootScope.endDateFilter;
+			
 			$scope.DateWiseFind();
+			console.log($scope.startDate);
+			console.log($scope.endDate);
 		}
 		
 	$scope.gridOptions = {
@@ -1004,8 +1151,8 @@ angular.module('newApp')
 			} 
 		 
 		 $scope.DateWiseFind = function(){
-			 var startDate = $("#cnfstartDateValue").val();
-			var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+			var endDate =$rootScope.endDateFilter;
 			console.log(endDate);
 			
 			if(endDate == '' || startDate == ''){
@@ -1629,14 +1776,77 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('VideoAnalyticsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('VideoAnalyticsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
 
+	
+	
+	
+	
+	console.log($rootScope.startDateFilter);
+	console.log($rootScope.endDateFilter);
+	  setTimeout(function(){
+
+	        $('.reportrange').daterangepicker(
+	                {
+	                    ranges: {
+	                        'Today': [moment(), moment()],
+	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 14 Days':[moment().subtract('days', 14), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
+	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
+	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+	                    },
+	                    startDate: moment().subtract('days', 7),
+	                    endDate: moment()
+	                },
+	                function(start, end) {
+	                    var startDate =  moment(start).format("MMDDYYYY");
+	                    var endDate =  moment(end).format("MMDDYYYY");
+	                    $rootScope.startDateFilter = moment(start).format("YYYY-MM-DD");
+	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD ");
+	                    if($scope.typeOfInfo != undefined){
+	                    	
+	                    console.log($scope.typeOfInfo);	
+	                    $scope.setShowVisitorsInfoType($scope.typeOfInfo); 
+	                    
+	                    }
+	                    console.log($rootScope.startDateFilter);
+	            		console.log($rootScope.endDateFilter);
+	                    $scope.$emit('reportDateChange', { startDate: startDate, endDate: endDate });
+	                    $('.reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+	                    $scope.$apply();
+	                }
+	            );
+	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+
+	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+
+	    }, 2000);
+	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
+		{
+		  console.log("in if");
+		$scope.startDate=$rootScope.startDateFilter;
+		$scope.endDate=$rootScope.endDateFilter;
+		}
+	else{
+		console.log("in else");
+		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+       $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+	}
+	
+	
 	 var date = new Date();
 	// $scope.typeOfInfo = 'Pages';
 	 $scope.typeOfInfo = 'video&video_meta=1';
 	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
-		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
-		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
+		$scope.startDate=$rootScope.startDateFilter;
+		$scope.endDate=$rootScope.endDateFilter;
 	
 		$scope.initFunction = function(){
 			$scope.DateWiseFind();
@@ -1670,8 +1880,8 @@ angular.module('newApp')
 		} 
 		
 		 $scope.DateWiseFind = function(){
-			 var startDate = $("#cnfstartDateValue").val();
-			var endDate = $("#cnfendDateValue").val();	 
+			 var startDate = $rootScope.startDateFilter;
+			var endDate = $rootScope.endDateFilter;	 
 			console.log(endDate);
 			
 			if(endDate == '' || startDate == ''){
@@ -1857,15 +2067,78 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('allPlatformsInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('allPlatformsInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
+	
+	
+	console.log($rootScope.startDateFilter);
+	console.log($rootScope.endDateFilter);
+	  setTimeout(function(){
+
+	        $('.reportrange').daterangepicker(
+	                {
+	                    ranges: {
+	                        'Today': [moment(), moment()],
+	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
+	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
+	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+	                    },
+	                    startDate: moment().subtract('days', 7),
+	                    endDate: moment()
+	                },
+	                function(start, end) {
+	                    var startDate =  moment(start).format("MMDDYYYY");
+	                    var endDate =  moment(end).format("MMDDYYYY");
+	                    $rootScope.startDateFilter = moment(start).format("YYYY-MM-DD");
+	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD ");
+	                    if($scope.typeOfInfo != undefined){
+	                    	
+	                    console.log($scope.typeOfInfo);	
+	                    $scope.changeTab($scope.typeOfInfo); 
+	                    
+	                    }
+	                    console.log($rootScope.startDateFilter);
+	            		console.log($rootScope.endDateFilter);
+	                    $scope.$emit('reportDateChange', { startDate: startDate, endDate: endDate });
+	                    $('.reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+	                    $scope.$apply();
+	                }
+	            );
+	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+
+	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+
+	    }, 2000);
+	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
+		{
+		  console.log("in if");
+		$scope.startDate=$rootScope.startDateFilter;
+		$scope.endDate=$rootScope.endDateFilter;
+		}
+	else{
+		console.log("in else");
+		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+       $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+	}
+	
+	
+	
+	
 	
 	
 	var date = new Date();
 	// $scope.typeOfInfo = 'Pages';
 	 $scope.typeOfInfo = 'browser';
 	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
-		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
-		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
+		$scope.startDate=$rootScope.startDateFilter;
+		$scope.endDate=$rootScope.endDateFilter;
 	
 	
 	$scope.gridOptions = {
@@ -1930,8 +2203,9 @@ angular.module('newApp')
 	} 
  
  $scope.getDateWiseFind = function(){
-	 var startDate = $("#cnfstartDateValue").val();
-	 var endDate = $("#cnfendDateValue").val();	 
+	 var startDate = $rootScope.startDateFilter;
+	 var endDate = $rootScope.endDateFilter;	 
+	 console.log(startDate);
 	 console.log(endDate);
 	
 	if(endDate == '' || startDate == ''){
@@ -2332,7 +2606,73 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('CampaignsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('CampaignsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
+	
+	
+
+	console.log($rootScope.startDateFilter);
+	console.log($rootScope.endDateFilter);
+	  setTimeout(function(){
+
+	        $('.reportrange').daterangepicker(
+	                {
+	                    ranges: {
+	                        'Today': [moment(), moment()],
+	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
+	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
+	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+	                    },
+	                    startDate: moment().subtract('days', 7),
+	                    endDate: moment()
+	                },
+	                function(start, end) {
+	                    var startDate =  moment(start).format("MMDDYYYY");
+	                    var endDate =  moment(end).format("MMDDYYYY");
+	                    $rootScope.startDateFilter = moment(start).format("YYYY-MM-DD");
+	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD ");
+	                    if($scope.typeOfInfo != undefined){
+	                    	
+	                    console.log($scope.typeOfInfo);	
+	                    $scope.changeTab($scope.typeOfInfo); 
+	                    
+	                    }
+	                    console.log($rootScope.startDateFilter);
+	            		console.log($rootScope.endDateFilter);
+	                    $scope.$emit('reportDateChange', { startDate: startDate, endDate: endDate });
+	                    $('.reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+	                    $scope.$apply();
+	                }
+	            );
+	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+
+	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+
+	    }, 2000);
+	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
+		{
+		  console.log("in if");
+		$scope.startDate=$rootScope.startDateFilter;
+		$scope.endDate=$rootScope.endDateFilter;
+		}
+	else{
+		console.log("in else");
+		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+       $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+	}
+	
+
+	
+	
+	
+	
 	
 	$scope.showSet = 0;
 	$scope.savecampaign = function(campaign){
@@ -2542,13 +2882,78 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('SearchesCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('SearchesCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
 
+	
+	
+	
+
+	console.log($rootScope.startDateFilter);
+	console.log($rootScope.endDateFilter);
+	  setTimeout(function(){
+
+	        $('.reportrange').daterangepicker(
+	                {
+	                    ranges: {
+	                        'Today': [moment(), moment()],
+	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
+	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
+	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+	                    },
+	                    startDate: moment().subtract('days', 7),
+	                    endDate: moment()
+	                },
+	                function(start, end) {
+	                    var startDate =  moment(start).format("MMDDYYYY");
+	                    var endDate =  moment(end).format("MMDDYYYY");
+	                    $rootScope.startDateFilter = moment(start).format("YYYY-MM-DD");
+	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD ");
+	                    if($scope.typeOfInfo != undefined){
+	                    	
+	                    console.log($scope.typeOfInfo);	
+	                    $scope.setShowSearchesType($scope.typeOfInfo); 
+	                    
+	                    }
+	                    console.log($rootScope.startDateFilter);
+	            		console.log($rootScope.endDateFilter);
+	                    $scope.$emit('reportDateChange', { startDate: startDate, endDate: endDate });
+	                    $('.reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+	                    $scope.$apply();
+	                }
+	            );
+	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+
+	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+
+	    }, 2000);
+	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
+		{
+		  console.log("in if");
+		$scope.startDate=$rootScope.startDateFilter;
+		$scope.endDate=$rootScope.endDateFilter;
+		}
+	else{
+		console.log("in else");
+		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+       $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+	}
+	
+
+	
+	
 	 var date = new Date();
 	 $scope.typeOfInfo = 'Searches';
 	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
-		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
-		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
+		$scope.startDate=$rootScope.startDateFilter;
+		$scope.endDate=$rootScope.endDateFilter;
 	
 		$scope.initFunction = function(){
 			$scope.DateWiseFind();
@@ -2584,8 +2989,8 @@ angular.module('newApp')
 			} 
 		 
 		 $scope.DateWiseFind = function(){
-			 var startDate = $("#cnfstartDateValue").val();
-			var endDate = $("#cnfendDateValue").val();	 
+			 var startDate = $rootScope.startDateFilter;
+			var endDate = $rootScope.endDateFilter;	 
 			console.log(endDate);
 			
 			if(endDate == '' || startDate == ''){
@@ -2600,7 +3005,7 @@ angular.module('newApp')
 					//console.log($scope.gridOptions.data);
 					
 					angular.forEach($scope.gridOptions.data, function(value, key) {
-						
+						if(value.averageTime != null || value.totalTime != null){
 						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
 						value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
 						 var splitTime   = value.totalTime.split(":");
@@ -2619,8 +3024,9 @@ angular.module('newApp')
 							 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
 						 }
 						 
-						
+						}	
 					});
+					
 					
 					
 					

@@ -1,4 +1,6 @@
 <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="initFunction()">
+   <div  class="col-sm-12">
+   <div   class="col-sm-10" >
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a role="tab" id="home-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">WebSite</button></a></li>
        <li role="presentation" class=""><a id="profile-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToVehicleInfo()">Inventory</button></a></li>
@@ -7,6 +9,14 @@
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToRefferers()">Financial</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSearches()">Marketing</button></a></li>
      </ul>
+     </div>
+     
+	       <div class="reportrange col-sm-2" style="margin-top: 10px;font-size: 16px;padding-left: 0;text-align: center;cursor:pointer;">
+                                <i class="fa fa-calendar"></i>&nbsp;<span>May 7, 2015- June 5, 2015</span>
+                                <i class="fa fa-angle-down"></i>
+                                <input type="hidden" name="datestart" ><input type="hidden" name="endstart">
+             </div> 
+     </div>
      <ul id="myTabs" class="nav nav-tabs" role="tablist"> 
       <li role="presentation" class="active"><a id="home-tabs" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">Visitors</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tabs" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToActions()">Actions</button></a></li>
@@ -15,12 +25,23 @@
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="goToPlatformsInfo()">Platforms</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="goToContentInfo()">Content</button></a></li>
     </ul>
+    
 	    <div id="myTabContent" class="tab-content">
 	      <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tabs">
-	      <div  class="col-sm-12">
-	        	 	 <a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Visitor log')" style="width: 8%;">Visitor log</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Action log')" style="width: 8%;">Action log</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Engagement_action')" style="width: 13%;">Engagement(action)</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Engagement_time')" style="width: 13%;">Engagement(time)</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Active_visitors')" style="width: 15%;">Most active visitors</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Traffic_scoures')" style="width: 12%;">Traffic scoures</a>   
+	      <div class="col-sm-12">
+	      
+	      <div class="col-sm-9" >
+	        	 	 <a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Visitor log')" style="width: 10%;">Visitor log</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Action log')" style="width: 10%;">Action log</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Engagement_action')" style="width: 17%;">Engagement(action)</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Engagement_time')" style="width: 15%;">Engagement(time)</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Active_visitors')" style="width: 16%;">Most active visitors</a><a class="btn btn-blue" ng-click="setShowVisitorsInfoType('Traffic_scoures')" style="width: 14%;">Traffic scoures</a>   
 	      </div>
-	      <div ng-show="flagForChart1"  class="col-sm-12">
+	      
+	       <!-- <div class="reportrange col-sm-3" style="margin-top: 10px;font-size: 16px;padding-left: 0;text-align: center;cursor:pointer;">
+                                <i class="fa fa-calendar"></i>&nbsp;<span>May 7, 2015- June 5, 2015</span>
+                                <i class="fa fa-angle-down"></i>
+                                <input type="hidden" name="datestart" ><input type="hidden" name="endstart">
+             </div> -->
+	     
+	      </div>
+	      <!-- <div ng-show="flagForChart1"  class="col-sm-12">
 	      		<div class="col-sm-2">
 									     	<label>Start Date</label>
 									     		<input data-provide="datepicker" id="cnfstartDateValue" name="startDateValue" class="form-control" ng-model="startDate" data-date-format="yyyy-mm-dd" required>
@@ -33,7 +54,7 @@
 									 <div class="col-sm-2">
 									 	<a class="btn btn-blue" ng-click="DateWiseFind()" style="width: 40%;margin-top: 25px;">OK</a>
 									 </div>    
-	      </div>
+	      </div> -->
 	      <h2 ng-show="flagForChart1" >{{typeOfInfo}}</h2>
 	      <div ng-show="flagForChart1" ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
 				</div> 

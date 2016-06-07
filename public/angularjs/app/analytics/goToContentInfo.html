@@ -1,4 +1,7 @@
 <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="initFunction()">
+   
+   <div class="col-sm-12">
+   <div  class="col-sm-10">
     <ul id="myTabs" class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active"><a role="tab" id="home-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">WebSite</button></a></li>
        <li role="presentation" class=""><a id="profile-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToVehicleInfo()">Inventory</button></a></li>
@@ -7,6 +10,13 @@
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToRefferers()">Financial</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToSearches()">Marketing</button></a></li>
      </ul>
+     </div>
+     <div class="reportrange col-sm-2" style="margin-top: 10px;font-size: 16px;padding-left: 0;text-align: center;cursor:pointer;">
+                                <i class="fa fa-calendar"></i>&nbsp;<span>May 7, 2015- June 5, 2015</span>
+                                <i class="fa fa-angle-down"></i>
+                                <input type="hidden" name="datestart" ><input type="hidden" name="endstart">
+             </div>
+     </div> 
      <ul id="myTabs" class="nav nav-tabs" role="tablist"> 
       <li role="presentation" class=""><a id="home-tabs" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="goToVisitors()">Visitors</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tabs" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goToActions()">Actions</button></a></li>
@@ -20,7 +30,7 @@
 	      <div class="col-sm-12">
 	        	 	 <a class="btn btn-blue" ng-click="setShowPagesInfoType('Pages')" style="width: 8%;">Pages</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Entrance')" style="width: 8%;">Entrance</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Exit')" style="width: 13%;">Exit</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Downloads')" style="width: 13%;">Downloads</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Event')" style="width: 15%;">Event</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Media')" style="width: 12%;">Media</a><a class="btn btn-blue" ng-click="setShowPagesInfoType('Domains')" style="width: 12%;">Domains</a>   
 	      </div>
-	      <div class="col-sm-12">
+	      <!-- <div class="col-sm-12">
 	      		<div class="col-sm-2">
 									     	<label>Start Date</label>
 									     		<input data-provide="datepicker" id="cnfstartDateValue" name="startDateValue" class="form-control" ng-model="startDate" data-date-format="yyyy-mm-dd" required>
@@ -33,7 +43,7 @@
 									 <div class="col-sm-2">
 									 	<a class="btn btn-blue" ng-click="DateWiseFind()" style="width: 40%;margin-top: 25px;">OK</a>
 									 </div>    
-	      </div>
+	      </div> -->
 	     <!--  <h2>{{typeOfInfo}}</h2>
 	      <div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
 				</div>  -->
