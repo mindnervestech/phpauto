@@ -80,6 +80,31 @@ angular.module('newApp')
 			 console.log($scope.visitorInfo);
 			
 		});
+			if($scope.visitorInfos != undefined){
+			
+				console.log($scope.visitorInfos);
+				$http.get('/getIPAddress/'+$scope.visitorInfos)
+				.success(function(data){
+					console.log("in function");
+					console.log(data);
+					
+					console.log("::::::::");
+					console.log(data);
+					$scope.latitude=data.latitude; 
+					$scope.longitude=data.longitude;
+					initialized();
+					$scope.visitorInfo=data;
+					$scope.visitorInfo.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt($scope.visitorInfo.timeTotal)), 'HH:mm:ss');
+					 var splitTime   = $scope.visitorInfo.timeTotal.split(":");
+					 if(splitTime[0] == 00){
+						 $scope.visitorInfo.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 $scope.visitorInfo.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 console.log($scope.visitorInfo);
+				});
+			}
 			
 			
 			
@@ -248,8 +273,12 @@ angular.module('newApp')
 				
 				$scope.gridOptions.columnDefs = [
 				                                 {name: 'newTimePretty', displayName: 'Date & Time', width:'12%'},
-				                                 {name: 'geolocation', displayName: 'Location', width:'10%'},
-				                                 {name:'organization', displayName:'Internet Provider', width:'15%'},
+				                                 {name: 'geolocation', displayName: 'Location', width:'10%',
+				                                	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.referrerTypeDataForLocation(visitorInfo.geolocation)">{{row.entity.geolocation}}</label></div>',
+				                                 },
+				                                 {name:'organization', displayName:'Internet Provider', width:'15%',
+				                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
+				                                 },
 				                                 {name:'actions', displayName:'Actions', width:'8%',
 				                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
 				                                	 
@@ -277,10 +306,10 @@ angular.module('newApp')
 				$scope.gridOptions.columnDefs = [
 									             {name: 'timePretty', displayName: 'Time'},
 									             {name:'a', displayName:'User',
-									            	 cellTemplate:'<div><span>{{row.entity.organization}}</span><br><span>{{row.entity.geolocation}},&nbsp;&nbsp {{row.entity.operatingSystem}},&nbsp;&nbsp {{row.entity.webBrowser}}</span></div>',
+									            	 cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></span><br><span>{{row.entity.geolocation}},&nbsp;&nbsp {{row.entity.operatingSystem}},&nbsp;&nbsp {{row.entity.webBrowser}}</span></div>',
 									             },
 									             {name:'landingPage', displayName:'Action',
-									            	 cellTemplate:'<div><span><a href="{{row.entity.landingPage}}">{{row.entity.landingPage}}</a></span></div>',
+									            	 cellTemplate:'<div><span><a href="{{row.entity.landingPage}}" target="_blank">{{row.entity.landingPage}}</a></span></div>',
 									             },
 									             {name: 'referrerType', displayName: 'Referrer'}
 									         ]
@@ -419,7 +448,7 @@ angular.module('newApp')
 				$scope.gridOptions.columnDefs = [
                                                {name: 'geoLocation', displayName: 'Location', width:'20%'},
 									             {name: 'title', displayName: 'Ip Address', width:'30%',
-                                            	   cellTemplate:'<div><span>{{row.entity.title}} </span></br><span>{{row.entity.organization}} </span></div>',
+                                            	   cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.title)">{{row.entity.title}}</label> </span></br><span>{{row.entity.organization}} </span></div>',
 									            	 },
 									             {name:'value', displayName:'Visits', width:'20%',
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',

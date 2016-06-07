@@ -25744,6 +25744,12 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	return ok(Json.toJson(clickyList));
     }
     
+	public static Result getIPAddress(String id){
+		
+		List<ClickyVisitorsList> List = ClickyVisitorsList.findByTitle(id);
+		return ok(Json.toJson(List.get(0)));
+	}
+
     public static Result getVisitorData(Long id){
     	
     	
