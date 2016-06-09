@@ -134,6 +134,11 @@ var MakeApp = angular
             controller: 'ConfigPageCtrl'
         })
         
+        .when('/leadtype', {
+            templateUrl: '/dealer/config/leadtype.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
         
         .when('/documentation', {
             templateUrl: '/dealer/config/documentation.html',

@@ -81,6 +81,7 @@ import models.GroupTable;
 import models.HeardAboutUs;
 import models.HoursOfOperation;
 import models.InternalPdf;
+import models.LeadType;
 import models.LeadsDateWise;
 import models.Location;
 import models.MarketingAcounts;
@@ -166,6 +167,7 @@ import viewmodel.HoursOperation;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
 import viewmodel.LeadDateWiseVM;
+import viewmodel.LeadTypeVM;
 import viewmodel.LeadVM;
 import viewmodel.LocationMonthPlanVM;
 import viewmodel.LocationVM;
@@ -2563,13 +2565,24 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		DocumentationVM vm= new DocumentationVM();
     		AuthUser user=(AuthUser)getLocalUser();
     		MyProfile profile=MyProfile.findByUser(user);
-    		
-    		vm.facebookLink=profile.facebook;
-    		vm.googleLink=profile.googleplus;
-    		vm.instagramLink=profile.instagram;
-    		vm.twitterLink=profile.twitter;
-    		vm.pinterestLink=profile.pinterest;
-    		vm.yelpLink=profile.yelp;
+    		if(profile != null){
+    			vm.facebookLink=profile.facebook;
+    		}
+    		if(profile != null){
+    			vm.googleLink=profile.googleplus;
+    		}
+    		if(profile != null){
+    			vm.instagramLink=profile.instagram;
+    		}
+    		if(profile != null){
+    			vm.twitterLink=profile.twitter;
+    		}
+    		if(profile != null){
+    			vm.pinterestLink=profile.pinterest;
+    		}
+    		if(profile != null){
+    			vm.yelpLink=profile.yelp;
+    		}
     		
     		return ok(Json.toJson(vm));
     	}
@@ -10316,8 +10329,89 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	return ok();
     	}	
     }
+    public static Result getLeadTypeData(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List <LeadType> leadtypeObjList = LeadType.getLeadData();
+	    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+	    	
+	    	ArrayList<LeadTypeVM> leadVMs = new ArrayList<>(); 
+	     	for(LeadType vm : leadtypeObjList){
+	     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+	     		LeadTypeVM lead = new LeadTypeVM();
+	     		lead.id = vm.id;
+	     		lead.leadName = vm.leadName;
+	     		
+	     		leadVMs.add(lead);
+	  	}
+	     	
+	     	return ok(Json.toJson(leadVMs));
+    		
+    	}
+    }
+    
+    public static Result addnewrUser() {
+		Form<LeadTypeVM> form = DynamicForm.form(LeadTypeVM.class).bindFromRequest();
+		LeadTypeVM vm=form.get();
+		//AuthUser user=new AuthUser();
+		Date date = new Date();
+		
+		LeadType lead = new LeadType();
+		    	 
+    	   lead.id = vm.id;
+    	   lead.leadName = vm.leadName;
+    	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	   lead.save();
+   		
+    	   return ok();
+	}
     
     
+		public static Result getdeletelead(Long Id) {
+				
+			LeadType lead = LeadType.findById(Id);
+		    	
+			//lead.setStatus("Deactive");
+			lead.delete();
+		    	
+				return ok();
+			}
+   
+		public static Result UpdateLeadType() {
+			Form<LeadTypeVM> form = DynamicForm.form(LeadTypeVM.class).bindFromRequest();
+			LeadTypeVM vm=form.get();
+			Date date = new Date();
+			
+			LeadType lead = LeadType.findById(vm.id);
+			   lead.setId(vm.id); 	 
+	    	   lead.setLeadName(vm.leadName);
+	    	  // lead.setLocations(vm.id);
+	    	  
+	    	  lead.update();
+	    	  
+	    	   return ok();
+		}	
+		
+		public static Result getLeadTypeList() {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+		    	AuthUser user = (AuthUser) getLocalUser();
+		    	List<LeadType> lead = LeadType.getLeadData();
+		    	
+		    	return ok(Json.toJson(lead));
+	    	}	
+	    }
+		
+		public static Result getAllLeadData() {
+			
+			List<LeadType> lead = LeadType.getLeadData();
+			return ok(Json.toJson(lead)); 
+			
+		}
+		
+		
     public static Result getImageConfig() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
