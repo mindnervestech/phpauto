@@ -12737,6 +12737,7 @@ $scope.leadTypeAll = function(){
 
 		$scope.openAddNew = function(){
 			console.log("Checkkkk");
+			$scope.leadcreate={"leadName":""};
 			//$('#createLeadPopup').click();
 			$('#completedPopup').modal('show');
 		}
@@ -12786,6 +12787,7 @@ $scope.leadTypeAll = function(){
 			
 			 $('#editPopup').click();
 			 console.log(row.entity)
+			 $scope.leadName = row.entity.leadName;
 			 $scope.editleadtype.id = row.entity.id;
 			 
 		 }
