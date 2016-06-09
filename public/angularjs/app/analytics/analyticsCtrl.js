@@ -1047,6 +1047,17 @@ angular.module('newApp')
 
 	console.log($rootScope.startDateFilter);
 	console.log($rootScope.endDateFilter);
+	$scope.idForGrid=$routeParams.id;
+	
+	
+	$scope.gridOptions = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
 	  setTimeout(function(){
 
 	        $('.reportrange').daterangepicker(
@@ -1119,15 +1130,72 @@ angular.module('newApp')
 			$scope.DateWiseFind();
 			console.log($scope.startDate);
 			console.log($scope.endDate);
+			
+			
+			if($scope.idForGrid != undefined){
+				console.log($scope.idForGrid);
+				$http.get('/getEntranceData/'+$scope.idForGrid)
+				.success(function(data) {
+					$scope.items=[];
+					console.log(data);
+					
+					
+					 $scope.items.push({
+					      title: 'Visitors',
+					      value: data.visitors
+					    })	
+					    
+					  $scope.items.push({
+					      title: 'Unique visitors',
+					      value: data.uniqueVisitor
+					    })	
+					    
+					     $scope.items.push({
+					      title: 'Actions',
+					      value: data.action
+					    })	
+					    
+					     $scope.items.push({
+					      title: 'Average actions',
+					      value: data.averageAction
+					    })	
+					    
+					     $scope.items.push({
+					      title: 'Total time',
+					      value: data.totalTime
+					    })	
+					    
+					    
+					    $scope.items.push({
+					      title: 'Average time per visit',
+					      value: data.averageTime
+					    })	
+					    
+					    $scope.items.push({
+					      title: 'Bounce rate',
+					      value: data.bounceRate
+					    })	
+					 console.log($scope.items);   
+					$scope.gridOptions.data=$scope.items;
+					$scope.visitiorList = $scope.items;
+				});
+				 
+				 
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'title', displayName: 'Summary of filtered visitors', width:'30%',
+										            	 cellTemplate:'<div><span><a ng-click="grid.appScope.showEntranceActionData(row.entity.id)" >{{row.entity.url}}</a><br><span>{{row.entity.title}}</span></div>',
+										             },
+										             {name:'value', displayName:'These visitors', width:'10%'},
+										             
+										         ]
+				
+			}
+			
+			
+			
 		}
 		
-	$scope.gridOptions = {
-	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
-	 		    paginationPageSize: 150,
-	 		    enableFiltering: true,
-	 		    useExternalFiltering: true,
-	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
-	 		 };
+	
 	
 	
 	
@@ -1160,6 +1228,8 @@ angular.module('newApp')
 					var endDate = $scope.endDate;
 			}
 			if($scope.typeOfInfo == 'Pages'){
+				console.log(startDate);
+				console.log(endDate);
 				
 				 $http.get('/getPagesListDale/'+startDate+"/"+endDate)
 					.success(function(data) {
@@ -1171,19 +1241,25 @@ angular.module('newApp')
 				});
 				
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'showUrl', displayName: 'Page', width:'50%',
+										             {name: 'showUrl', displayName: 'Page', width:'30%',
 										            	 cellTemplate:'<div><span>{{row.entity.showUrl}}</span><br><span>{{row.entity.title}}</span></div>'
 										             },
-										             {name: 'url', displayName: '', width:'10%',
-										            	 cellTemplate:'<a href="{{row.entity.url}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>'
-										             },
+										             /*{name: 'url', displayName: '', width:'10%',
+										            	 cellTemplate:'<a href="{{row.entity.url}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" ></a>'
+										             },*/
 										             {name:'value', displayName:'Views', width:'10%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										            
-										             {name:'stats_url', displayName:'', width:'20%',
+										             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
+										             {name: 'averageTime', displayName: 'Average Time', width:'10%'},
+										             {name: 'totalTime', displayName: 'Total Time', width:'10%'},
+										             {name: 'bounceRate', displayName: 'Exit', width:'10%'},
+										             
+										             /*
+										             {name:' ', displayName:'', width:'20%',
 										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
-										             },
+										             },*/
 										             {name:'per', displayName:'', width:'10%',		
 										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showPagesChart(row.entity.showUrl)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 										            
@@ -1203,15 +1279,19 @@ angular.module('newApp')
 				 
 				 
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'url', displayName: 'Page', width:'40%',
-										            	 cellTemplate:'<div><span>{{row.entity.url}}</span><br><span>{{row.entity.title}}</span></div>'
+										             {name: 'url', displayName: 'Page', width:'30%',
+										            	 cellTemplate:'<div><span><a ng-click="grid.appScope.showEntranceActionData(row.entity.id)" >{{row.entity.url}}</a><br><span>{{row.entity.title}}</span></div>',
 										             },
-										             {name:'value', displayName:'Views', width:'15%'},
-										             {name:'value_percent', displayName:'value_Percent', width:'15%'},
-										             {name:'stats_url', displayName:'', width:'20%',
+										             {name:'value', displayName:'Views', width:'10%'},
+										             {name:'valuePercent', displayName:'value_Percent', width:'10%'},
+										            /* {name:'statsUrl', displayName:'', width:'20%',
 										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
-										             },
-										             {name:'percent', displayName:'', width:'10%',		
+										             },*/
+										             {name: 'averageActions', displayName: 'Average Actions', width:'8%'},
+										             {name: 'averageTime', displayName: 'Average Time', width:'8%'},
+										             {name: 'totalTime', displayName: 'Total Time', width:'8%'},
+										             {name: 'bounceRate', displayName: 'Exit', width:'8%'},
+										             {name:'percent', displayName:'', width:'8%',		
 										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEntranceChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 										            
 										             }
@@ -1349,13 +1429,28 @@ angular.module('newApp')
 			
 		 }
 		 
+		 
+		 
+		 $scope.showEntranceActionData = function(id) {
+			 console.log(id);
+			 $location.path('/entranceGrid/'+id);
+			 
+			 
+		 }
+		 
+		 
+		 $scope.goToContentInfo = function(){
+				
+			}
+		 
+		 
 		 $scope.urlobj={};
 		 $scope.flagForChart1 = true;
 		 $scope.flagForChart = true;
 		 $scope.showPagesChart = function(url) {
 			 console.log(">>>>>>>>");
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;	 
 				console.log(endDate);
 				console.log(startDate);
 				console.log(url);

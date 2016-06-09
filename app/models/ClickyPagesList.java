@@ -107,12 +107,18 @@ public class ClickyPagesList extends Model {
 	}
 
 	public static List<ClickyPagesList> getAll(Date sDate,Date eDate) {
-		return find.where().between("DateClick", sDate, eDate).findList();
+		return find.where().between("saveDate", sDate, eDate).findList();
 	}
 	
 	public static List<ClickyPagesList> getfindAll() {
 		return find.all();
 	}
+	
+	
+	public static ClickyPagesList findById(Long id) {
+		return find.byId(id);
+	}
+	
 	
 	
 }

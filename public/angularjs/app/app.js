@@ -326,6 +326,11 @@ var MakeApp = angular
             templateUrl: '/dealer/analytics/goToContentInfo.html',
             controller: 'goToContentInfoCtrl' 
         })
+         .when('/entranceGrid/:id', {
+            templateUrl: '/dealer/analytics/entrancePageGrid.html',
+            controller: 'goToContentInfoCtrl'
+        })
+        
         
         .when('/contentAnalytics', {
             templateUrl: '/dealer/analytics/content.html',
