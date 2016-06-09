@@ -111,8 +111,8 @@ angular.module('newApp')
 	 var date = new Date();
 	 $scope.typeOfInfo = 'Visitor log';
 	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
-		$scope.startDate=$filter('date')(startdate, 'yyyy-MM-dd');
-		$scope.endDate=$filter('date')(date, 'yyyy-MM-dd');
+		$scope.startDate=$rootScope.startDateFilter;
+		$scope.endDate=$scope.endDateFilter;
 	
 		$scope.initFunction = function(){
 			$scope.DateWiseFind();
@@ -122,6 +122,7 @@ angular.module('newApp')
 			console.log($scope.startDateFilter);
 			console.log($scope.endDateFilter);
 			 google.maps.event.addDomListener(window, 'load', initialized);
+			 if($scope.visitorInfos != undefined){
 			$http.get('/getVisitorData/'+$scope.visitorInfos)
 			.success(function(data) {
 			$scope.latitude=data.latitude; 
@@ -136,9 +137,55 @@ angular.module('newApp')
 			 else{
 				 $scope.visitorInfo.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
 			 }
-			 console.log($scope.visitorInfo);
+			 
+			 
+			 $scope.sessionId=data.sessionId;
+			 if($scope.sessionId != null && $scope.sessionId != undefined){
+				 
+				 console.log($scope.startDate1);
+				 console.log($scope.startDate1);
+				 console.log($scope.endDateFilter);
+				 $http.get('/getSessionData/'+$scope.sessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
+					.success(function(data) {
+						
+						$scope.gridOptions1.data=data;
+						 console.log($scope.gridOptions1.data);
+							$scope.visitiorList = data;
+						});
+						
+						
+						$scope.gridOptions1.columnDefs = [
+						                                 {name: 'newTimePretty', displayName: '', width:'20%',
+						                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> </br>   <label ">{{row.entity.newTime}}</label> </div>',	 
+						                                 },
+						                                 {name: 'actionUrl', displayName: '', width:'40%',
+						                                	 cellTemplate:'<div ><a   target="_blank"   href="{{row.entity.actionUrl}}" >{{row.entity.newActionUrl}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
+						                                 },
+						                                /* {name:'organization', displayName:'Internet Provider', width:'15%',
+						                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
+						                                 },
+						                                 {name:'actions', displayName:'Actions', width:'8%',
+						                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
+						                                	 
+						                                 },
+						                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
+						                                 {name:'referrerUrl', displayName:'Searches & Refferals', width:'40%',
+						                                	 cellTemplate:'<div ><label ng-if="row.entity.referrerUrl != null" ><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"> </span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a> <a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">google.com</a> &nbsp;&nbsp;<span ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</span> </label></div>',
+						                                	 },
+						                                 {name:'Sear', displayName:'Page', width:'10%',
+						                                	 cellTemplate:'<a   target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+						                                 }*/
+						                                 
+						                             ];  
+						
+				 
+				 
+			 }
+			 
 			
 		});
+			 }
+			 
 			if($scope.visitorInfos != undefined){
 			
 				console.log($scope.visitorInfos);
@@ -1058,6 +1105,15 @@ angular.module('newApp')
 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 };
 	
+	$scope.gridOptions1 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
+	
 	  setTimeout(function(){
 
 	        $('.reportrange').daterangepicker(
@@ -1139,7 +1195,7 @@ angular.module('newApp')
 					$scope.items=[];
 					console.log(data);
 					
-					
+					$scope.landingUrl=data.url;
 					 $scope.items.push({
 					      title: 'Visitors',
 					      value: data.visitors
@@ -1176,14 +1232,14 @@ angular.module('newApp')
 					      value: data.bounceRate
 					    })	
 					 console.log($scope.items);   
-					$scope.gridOptions.data=$scope.items;
+					$scope.gridOptions1.data=$scope.items;
 					$scope.visitiorList = $scope.items;
+					console.log($scope.gridOptions1.data);
 				});
 				 
 				 
-				 $scope.gridOptions.columnDefs = [
+				 $scope.gridOptions1.columnDefs = [
 										             {name: 'title', displayName: 'Summary of filtered visitors', width:'30%',
-										            	 cellTemplate:'<div><span><a ng-click="grid.appScope.showEntranceActionData(row.entity.id)" >{{row.entity.url}}</a><br><span>{{row.entity.title}}</span></div>',
 										             },
 										             {name:'value', displayName:'These visitors', width:'10%'},
 										             
