@@ -12852,6 +12852,7 @@ $scope.leadTypeAll = function(){
 		
 	}
 	$scope.premiumLeadsInfo= function() {
+		console.log("clikkkkkkkkkkkk");
 		$location.path('/premiumLeads');
 		
 	}
