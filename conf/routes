@@ -402,6 +402,7 @@ GET   /getshowHardwareChart/:startDate/:endDate/:title			controllers.Application
 GET   /getVideoAction/:startDate/:endDate			controllers.Application.getVideoAction(startDate:String,endDate:String)
 GET   /getTrafficScoures/:startDate/:endDate			controllers.Application.getTrafficScoures(startDate:String,endDate:String)
 GET   /getActiveVisitors/:startDate/:endDate			controllers.Application.getActiveVisitors(startDate:String,endDate:String)
+GET   /getMediaDetails/:startDate/:endDate			controllers.Application.getMediaDetails(startDate:String,endDate:String)
 GET   /getEngagementTime/:startDate/:endDate			controllers.Application.getEngagementTime(startDate:String,endDate:String)
 GET   /getEntranceList/:startDate/:endDate			controllers.Application.getEntranceList(startDate:String,endDate:String)
 GET	  /getSearchesListDale/:startDate/:endDate			controllers.Application.getSearchesListDale(startDate:String,endDate:String)
