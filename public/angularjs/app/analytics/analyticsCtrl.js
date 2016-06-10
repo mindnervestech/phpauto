@@ -2399,17 +2399,21 @@ angular.module('newApp')
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
-								             {name: 'title', displayName: 'Actions', width:'60%'},
+								             {name: 'title', displayName: 'Actions', width:'40%'},
 								             {name:'value', displayName:'Visitors', width:'10%',
-								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
-								             },
-								             {name:'stats_url', displayName:'', width:'20%',
-								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
-								             },
-								             {name:'averagePercent', displayName:'', width:'10%',		
-								            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showOperatingSystemChart(row.entity.title)">{{row.entity.averagePercent.toFixed(2)}}% </span></div>',
-								            
-								             }
+									        	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
+									         },
+									        /* {name:'stats_url', displayName:'', width:'10%',
+									        	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									         },*/
+									         {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
+									         {name: 'averageTime', displayName: 'Average Time', width:'10%'},
+									         {name: 'totalTime', displayName: 'Total Time', width:'10%'},
+									         {name: 'bounceRate', displayName: 'Exit', width:'10%'},
+									         {name:'url', displayName:'', width:'10%',		
+									        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showBrowserChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+									        
+									         }
 								            	 ]
 	}
 	else if($scope.typeOfInfo == 'resolution'){
@@ -2421,18 +2425,22 @@ angular.module('newApp')
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
-		                                  {name: 'title', displayName: 'Actions', width:'60%'},
+		                                  {name: 'title', displayName: 'Actions', width:'40%'},
 								             {name:'value', displayName:'Visitors', width:'10%',
-								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
-								             },
-								             {name:'stats_url', displayName:'', width:'20%',
-								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
-								             },
-								             {name:'Percent', displayName:'', width:'10%',		
-								            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showScreenResolutionChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
-								            
-								             }
-								            	 ]
+									        	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
+									         },
+									        /* {name:'stats_url', displayName:'', width:'10%',
+									        	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									         },*/
+									         {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
+									         {name: 'averageTime', displayName: 'Average Time', width:'10%'},
+									         {name: 'totalTime', displayName: 'Total Time', width:'10%'},
+									         {name: 'bounceRate', displayName: 'Exit', width:'10%'},
+									         {name:'url', displayName:'', width:'10%',		
+									        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showBrowserChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+									        
+									         }
+								            ]
 	}
 	
 	else if($scope.typeOfInfo == 'hardware'){
@@ -2444,17 +2452,21 @@ angular.module('newApp')
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
-		                                  {name: 'title', displayName: 'Actions', width:'60%'},
+		                                   {name: 'title', displayName: 'Actions', width:'40%'},
 								             {name:'value', displayName:'Visitors', width:'10%',
-								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
-								             },
-								             {name:'stats_url', displayName:'', width:'20%',
-								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
-								             },
-								             {name:'Per', displayName:'', width:'10%',		
-								            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showHardwareChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
-								            
-								             }
+									        	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
+									         },
+									        /* {name:'stats_url', displayName:'', width:'10%',
+									        	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									         },*/
+									         {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
+									         {name: 'averageTime', displayName: 'Average Time', width:'10%'},
+									         {name: 'totalTime', displayName: 'Total Time', width:'10%'},
+									         {name: 'bounceRate', displayName: 'Exit', width:'10%'},
+									         {name:'url', displayName:'', width:'10%',		
+									        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showBrowserChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+									        
+									         }
 								            	 ]
 	}
  }

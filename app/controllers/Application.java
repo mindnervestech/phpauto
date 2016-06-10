@@ -25137,32 +25137,47 @@ private static void cancelTestDriveMail(Map map) {
           Date beforeStart = DateUtils.addDays(d1, -days); 
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
-             //System.out.print(diffHours + " hours, ");
-         //    System.out.print(diffMinutes + " minutes, ");
-          //   System.out.print(diffSeconds + " seconds.");
-             
-     	   	JsonNode jsonList = Json.parse(callClickAPI("&type=operating-systems&date="+startDate+","+endDate+"&limit=all"));
-     	   	
-     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
-     	   	ClickyPagesVM vm = new ClickyPagesVM();
-     	   	vm.title = obj.get("title").textValue();
-     	   	vm.value = obj.get("value").textValue();
-     	   	vm.value_percent = obj.get("value_percent").textValue();
-     		JsonNode jsonActionsList = Json.parse(callClickAPI("&type=operating-systems&date="+newDate+","+startDate+""));
-     		   	for(JsonNode obj1 : jsonActionsList.get(0).get("dates").get(0).get("items")) {
-     	   		if(obj1.get("title").textValue().equals(vm.title)){
-     	   			vm.value_percent2 = obj1.get("value").textValue();
-     	   		vm.averagePercent=((Double.parseDouble(vm.value)-Double.parseDouble(vm.value_percent2))/(Double.parseDouble(vm.value)))*100;
+             List <ClickyPlatformHardware> list=ClickyPlatformHardware.getAll(d1, d2) ;
+	            for(ClickyPlatformHardware lis:list){
+         	ClickyPagesVM vm = new ClickyPagesVM();
+   	     	   	vm.id=lis.id;
+   				vm.value=lis.value;
+   				vm.valuePercent = lis.valuePercent;
+   				vm.title = lis.title;
+   				vm.statsUrl =lis.statsUrl;
+   	   			vm.averageActions=lis.averageAction;
+   	   			vm.averageTime=lis.averageTime;
+   	   			vm.totalTime=lis.totalTime;
+   	   			vm.bounceRate=lis.bounceRate;
+   	   		List <ClickyPlatformHardware> list2=ClickyPlatformHardware.getAll(beforeStart, d1) ;
+   	   	    double count=0;
+   	   	    double count1=0;
+   	   	for(ClickyPlatformHardware lis2:list) {
+ 	    	String url = lis2.title;
+ 	   		if(url.equals(vm.title)){
+ 	   			vm.value_percent2 = lis2.value;
+ 	   		  count1=count1+Double.parseDouble(vm.value_percent2);
+ 	   		
+ 	   		}
+ 	   		
+   	   	}	
+   	   	    
+     	   	for(ClickyPlatformHardware lis2:list2) {
+     	    	String url = lis2.title;
+     	   		if(url.equals(vm.title)){
+     	   			vm.value_percent2 = lis2.value;
+     	   		  count=count+Double.parseDouble(vm.value_percent2);
+     	   		
      	   		}
-     	   	
-     	   	
+   	   			
      	   	}
-     	// String a= ( (vm.value_percent2 - vm.value_percent)/(vm.value_percent))*100;
-     	   	
-     	   clickyList.add(vm);
-     	   	
-     	   	}
-             
+     	   vm.averagePercent=((count1-count)/count1)*100;
+   	   				
+   	   		    clickyList.add(vm);
+   	   			
+		
+	}
+
 
          } catch (Exception e) {
              e.printStackTrace();
