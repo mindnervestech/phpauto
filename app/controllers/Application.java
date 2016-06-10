@@ -76,6 +76,7 @@ import models.Comments;
 import models.ContactHeader;
 import models.Contacts;
 import models.CoverImage;
+import models.CreateNewForm;
 import models.CustomerPdf;
 import models.Domain;
 import models.EmailDetails;
@@ -164,6 +165,7 @@ import viewmodel.BlogVM;
 import viewmodel.CampaignsVMs;
 import viewmodel.ClickyPagesVM;
 import viewmodel.ContactsVM;
+import viewmodel.CreateNewFormVM;
 import viewmodel.DateAndValueVM;
 import viewmodel.DocumentationVM;
 import viewmodel.EditImageVM;
@@ -10338,7 +10340,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		List <LeadType> leadtypeObjList = LeadType.getLeadData();
+    		List<LeadType> leadtypeObjList = LeadType.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		//List <LeadType> leadtypeObjList = LeadType.getLeadData();
 	    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 	    	
 	    	ArrayList<LeadTypeVM> leadVMs = new ArrayList<>(); 
@@ -10352,6 +10355,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	  	}
 	     	
 	     	return ok(Json.toJson(leadVMs));
+    		
+    	}
+    }
+    
+    public static Result getsystemInfo(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		List<CreateNewForm> formList = CreateNewForm.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    		//List <CreateNewForm> formList = CreateNewForm.getAllData();
+	    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+	    	
+	    	ArrayList<CreateNewFormVM> formVMs = new ArrayList<>(); 
+	     	for(CreateNewForm vm : formList){
+	     		//VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+	     		CreateNewFormVM form = new CreateNewFormVM();
+	     		form.id = vm.id;
+	     		form.name = vm.name;
+	     		
+	     		formVMs.add(form);
+	  	}
+	     	
+	     	return ok(Json.toJson(formVMs));
     		
     	}
     }
@@ -10398,12 +10424,64 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	   return ok();
 		}	
 		
+		public static Result UpdateName() {
+			Form<CreateNewFormVM> form = DynamicForm.form(CreateNewFormVM.class).bindFromRequest();
+			CreateNewFormVM vm=form.get();
+			Date date = new Date();
+			//CreateNewForm newform = CreateNewForm.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			CreateNewForm newform = CreateNewForm.findById(vm.id);
+			newform.setId(vm.id); 	 
+			newform.setName(vm.name);
+	    	  // lead.setLocations(vm.id);
+	    	  
+			newform.update();
+	    	  
+	    	   return ok();
+		}	
+		
+		public static Result allFormName() {
+			
+			List<CreateNewForm> formname = CreateNewForm.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			return ok(Json.toJson(formname)); 
+			
+		}
+		
+		 public static Result addnewForm() {
+				Form<CreateNewFormVM> form = DynamicForm.form(CreateNewFormVM.class).bindFromRequest();
+				CreateNewFormVM vm=form.get();
+				//AuthUser user=new AuthUser();
+				Date date = new Date();
+				
+				CreateNewForm lead = new CreateNewForm();
+				    	 
+		    	   lead.id = vm.id;
+		    	   lead.name = vm.name;
+		    	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	   lead.save();
+		   		
+		    	   return ok();
+		    	   
+		    	/*   Form<LeadTypeVM> form = DynamicForm.form(LeadTypeVM.class).bindFromRequest();
+		   		LeadTypeVM vm=form.get();
+		   		//AuthUser user=new AuthUser();
+		   		Date date = new Date();
+		   		
+		   		LeadType lead = new LeadType();
+		   		    	 
+		       	   lead.id = vm.id;
+		       	   lead.leadName = vm.leadName;
+		       	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		       	   lead.save();*/
+			}
+		
+		
 		public static Result getLeadTypeList() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
 	    	} else {
 		    	AuthUser user = (AuthUser) getLocalUser();
-		    	List<LeadType> lead = LeadType.getLeadData();
+		    	List<LeadType> lead = LeadType.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		    	//List<LeadType> lead = LeadType.getLeadData();
 		    	
 		    	return ok(Json.toJson(lead));
 	    	}	
@@ -10411,7 +10489,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		
 		public static Result getAllLeadData() {
 			
-			List<LeadType> lead = LeadType.getLeadData();
+			List<LeadType> lead = LeadType.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			//List<LeadType> lead = LeadType.getLeadData();
 			return ok(Json.toJson(lead)); 
 			
 		}
