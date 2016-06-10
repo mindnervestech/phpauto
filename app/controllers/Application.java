@@ -73,6 +73,7 @@ import models.ClickyPagesList;
 import models.ClickyPlatformBrowser;
 import models.ClickyPlatformHardware;
 import models.ClickyPlatformScreen;
+import models.ClickyPlatformOperatingSystem;
 import models.ClickyVisitorsList;
 import models.Comments;
 import models.ContactHeader;
@@ -26226,7 +26227,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	
     	Date curr = new Date();
     	String sDate = df.format(curr);
-    	//String sDate="2016-06-05";
+    	//String sDate="2016-06-08";
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;

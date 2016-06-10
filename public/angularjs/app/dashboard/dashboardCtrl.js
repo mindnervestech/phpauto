@@ -12876,11 +12876,11 @@ $scope.leadTypeAll = function(){
 		$location.path('/leadtype');
 		
 	}
-	/*$scope.systemInfo = function() {
+	$scope.form = function() {
 		//console.log("ddd22");
 		$location.path('/form');
 		
-	}*/
+	}
 	
 	$scope.autoPortal = function() {
 		$location.path('/autoPortal');
