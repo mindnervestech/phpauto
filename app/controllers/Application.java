@@ -72,7 +72,6 @@ import models.ClickyPagesActionList;
 import models.ClickyPagesList;
 import models.ClickyPlatformBrowser;
 import models.ClickyPlatformHardware;
-import models.ClickyPlatformOperatingSystem;
 import models.ClickyPlatformScreen;
 import models.ClickyPlatformOperatingSystem;
 import models.ClickyVisitorsList;
