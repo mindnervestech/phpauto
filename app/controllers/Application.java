@@ -24030,13 +24030,8 @@ private static void cancelTestDriveMail(Map map) {
     	//params = "&type=engagement-actions&date="+startDate+","+endDate+"&limit=all";
 	    return ok(Json.toJson(clickyList));
 	    
-
-	    
-	    
-	    
-	    
-	    
     }
+    
     
     public static Result getMediaDetails(String startDate,String endDate){
     	String params = null;
@@ -25680,7 +25675,7 @@ private static void cancelTestDriveMail(Map map) {
     
     public static Result getEntranceList(String startDate,String endDate){
     	String params = null;
-    	params = "&type=pages-entrance&date="+startDate+","+endDate+"&limit=all";
+    	//params = "&type=pages-entrance&date="+startDate+","+endDate+"&limit=all";
 	    //return ok(Json.parse(callClickAPI(params)));
         List<ClickyPagesVM> cList = new ArrayList<>();
     	
@@ -25714,6 +25709,7 @@ private static void cancelTestDriveMail(Map map) {
                 				vm.statsUrl =lis.statsUrl;
                 				vm.url = lis.url;
                 				vm.showUrl = arr[0];
+                				vm.mainUrl=lis.mainUrl;
                 	   			vm.averageActions=lis.averageAction;
                 	   			vm.averageTime=lis.averageTime;
                 	   			vm.totalTime=lis.totalTime;
@@ -26740,23 +26736,21 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
                  Date d = gcal.getTime();
                  System.out.println(d);
                  String startD=format.format(d);
-                 JsonNode jsonList = Json.parse(callClickAPI("&type=pages&date="+startD+"&limit=all"));
-                 
-                 
-                 for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
-              	   	if(url.equals(obj.get("url").textValue())){
-                	// ClickyPagesVM vm = new ClickyPagesVM();
-              	   	String value = obj.get("value").textValue();
-              	   	Long l=(long)Integer.parseInt(value);
-              	  lonnn.add(l);
-              	   //	vm.value_percent = obj.get("value_percent").textValue();
+                 //JsonNode jsonList = Json.parse(callClickAPI("&type=pages&date="+startD+"&limit=all"));
+                 List<ClickyPagesList> list=ClickyPagesList.getAllData(d);
+                 Long l =0L;
+                // for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+                 for(ClickyPagesList lis:list){
+              	   	if(url.equals(lis.mainUrl)){
+              	   	String value = lis.value;
               	   	
-              	   	String chartDate=format1.format(d);
-              	     dates.add(chartDate);
-              	   
-              	   	//clickyList.add(vm);
+              	   	l=l+(long)Integer.parseInt(value);
+              	  
               	   	}
               	   	}
+                 lonnn.add(l);
+             	String chartDate=format1.format(d);
+         	     dates.add(chartDate); 
                 gcal.add(Calendar.DAY_OF_MONTH, 1);
                  
              }
@@ -26818,23 +26812,21 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
                  Date d = gcal.getTime();
                  System.out.println(d);
                  String startD=format.format(d);
-                 JsonNode jsonList = Json.parse(callClickAPI("&type=pages-entrance&date="+startD+"&limit=all"));
+                 List<ClickyEntranceList> list=ClickyEntranceList.getAllData(d);
+               //  JsonNode jsonList = Json.parse(callClickAPI("&type=pages-entrance&date="+startD+"&limit=all"));
                  
-                 
-                 for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
-              	   	if(url.equals(obj.get("url").textValue())){
+                 Long l=0L;
+                 for(ClickyEntranceList lis:list) {
+              	   	if(url.equals(lis.mainUrl)){
                 	// ClickyPagesVM vm = new ClickyPagesVM();
-              	   	String value = obj.get("value").textValue();
-              	   	Long l=(long)Integer.parseInt(value);
-              	  lonnn.add(l);
-              	   //	vm.value_percent = obj.get("value_percent").textValue();
-              	   	
-              	   	String chartDate=format1.format(d);
-              	     dates.add(chartDate);
-              	   
-              	   	//clickyList.add(vm);
+              	   	String value =lis.value;
+              	   	l=l+(long)Integer.parseInt(value);
+              	  
               	   	}
               	   	}
+                 lonnn.add(l);
+                 String chartDate=format1.format(d);
+                 dates.add(chartDate);
                 gcal.add(Calendar.DAY_OF_MONTH, 1);
                  
              }
@@ -26895,23 +26887,20 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
                  Date d = gcal.getTime();
                  System.out.println(d);
                  String startD=format.format(d);
-                 JsonNode jsonList = Json.parse(callClickAPI("&type=pages-exit&date="+startD+"&limit=all"));
-                 
-                 
-                 for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
-              	   	if(url.equals(obj.get("url").textValue())){
+                // JsonNode jsonList = Json.parse(callClickAPI("&type=pages-exit&date="+startD+"&limit=all"));
+             	Long l=0L;
+                 List<ClickyContentExit> list=ClickyContentExit.getAllData(d);
+                 for(ClickyContentExit lis:list) {
+              	   	if(url.equals(lis.url)){
                 	// ClickyPagesVM vm = new ClickyPagesVM();
-              	   	String value = obj.get("value").textValue();
-              	   	Long l=(long)Integer.parseInt(value);
-              	  lonnn.add(l);
-              	   //	vm.value_percent = obj.get("value_percent").textValue();
-              	   	
-              	   	String chartDate=format1.format(d);
-              	     dates.add(chartDate);
-              	   
-              	   	//clickyList.add(vm);
+              	   	String value =lis.value;
+              	   l=l+(long)Integer.parseInt(value);
+              	 
               	   	}
               	   	}
+             	String chartDate=format1.format(d);
+         	     dates.add(chartDate);
+                 lonnn.add(l);
                 gcal.add(Calendar.DAY_OF_MONTH, 1);
                  
              }
@@ -26972,23 +26961,20 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
                  Date d = gcal.getTime();
                  System.out.println(d);
                  String startD=format.format(d);
-                 JsonNode jsonList = Json.parse(callClickAPI("&type=downloads&date="+startD+"&limit=all"));
+                 Long l=0L;
+                 //JsonNode jsonList = Json.parse(callClickAPI("&type=downloads&date="+startD+"&limit=all"));
+                 List<ClickyContentDownLoad> list=ClickyContentDownLoad.getAllData(d);
                  
-                 
-                 for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
-              	   	if(url.equals(obj.get("url").textValue())){
+                 for(ClickyContentDownLoad lis:list) {
+              	   	if(url.equals(lis.url)){
                 	// ClickyPagesVM vm = new ClickyPagesVM();
-              	   	String value = obj.get("value").textValue();
-              	   	Long l=(long)Integer.parseInt(value);
-              	  lonnn.add(l);
-              	   //	vm.value_percent = obj.get("value_percent").textValue();
-              	   	
-              	   	String chartDate=format1.format(d);
-              	     dates.add(chartDate);
-              	   
-              	   	//clickyList.add(vm);
+              	   	String value =lis.value;
+              	  l=l+(long)Integer.parseInt(value);
               	   	}
               	   	}
+             	  lonnn.add(l);
+             	   	String chartDate=format1.format(d);
+             	     dates.add(chartDate);
                 gcal.add(Calendar.DAY_OF_MONTH, 1);
                  
              }
@@ -27048,23 +27034,22 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
                  Date d = gcal.getTime();
                  System.out.println(d);
                  String startD=format.format(d);
-                 JsonNode jsonList = Json.parse(callClickAPI("&type=events&date="+startD+"&limit=all"));
-                 
-                 
-                 for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
-              	   	if(url.equals(obj.get("url").textValue())){
+                 Long l=0L;
+                 //JsonNode jsonList = Json.parse(callClickAPI("&type=events&date="+startD+"&limit=all"));
+                 List<ClickyContentEvent> list=ClickyContentEvent.getAllData(d);
+                 for(ClickyContentEvent lis:list) {
+              	   	if(url.equals(lis.url)){
                 	// ClickyPagesVM vm = new ClickyPagesVM();
-              	   	String value = obj.get("value").textValue();
-              	   	Long l=(long)Integer.parseInt(value);
-              	  lonnn.add(l);
-              	   //	vm.value_percent = obj.get("value_percent").textValue();
-              	   	
-              	   	String chartDate=format1.format(d);
-              	     dates.add(chartDate);
+              	   	String value =lis.url;
+              	   	l=l+(long)Integer.parseInt(value);
+              	  
               	   
               	   	//clickyList.add(vm);
               	   	}
               	   	}
+                    lonnn.add(l);
+            	   	String chartDate=format1.format(d);
+            	     dates.add(chartDate);
                 gcal.add(Calendar.DAY_OF_MONTH, 1);
                  
              }
@@ -27125,23 +27110,18 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
                  Date d = gcal.getTime();
                  System.out.println(d);
                  String startD=format.format(d);
-                 JsonNode jsonList = Json.parse(callClickAPI("&type=visitors-most-active&date="+startD+"&limit=all"));
-                 
-                 
-                 for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
-              	   	if(title.equals(obj.get("title").textValue())){
+                 List<ClickyContentMedia> list=ClickyContentMedia.getAllData(d);
+                 Long l=0L;
+                 for(ClickyContentMedia lis:list) {
+              	   	if(title.equals(lis.url)){
                 	// ClickyPagesVM vm = new ClickyPagesVM();
-              	   	String value = obj.get("value").textValue();
-              	   	Long l=(long)Integer.parseInt(value);
-              	  lonnn.add(l);
-              	   //	vm.value_percent = obj.get("value_percent").textValue();
-              	   	
-              	   	String chartDate=format1.format(d);
-              	     dates.add(chartDate);
-              	   
-              	   	//clickyList.add(vm);
+              	   	String value = lis.value;
+              	   l=l+(long)Integer.parseInt(value);
               	   	}
               	   	}
+                    lonnn.add(l);
+            	   	String chartDate=format1.format(d);
+            	     dates.add(chartDate);
                 gcal.add(Calendar.DAY_OF_MONTH, 1);
                  
              }
@@ -27201,26 +27181,23 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
                  Date d = gcal.getTime();
                  System.out.println(d);
                  String startD=format.format(d);
-                 JsonNode jsonList = Json.parse(callClickAPI("&type=site-domains&date="+startD+"&limit=all"));
-                 
-                 
-                 for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
-              	   	if(title.equals(obj.get("title").textValue())){
+                 //JsonNode jsonList = Json.parse(callClickAPI("&type=site-domains&date="+startD+"&limit=all"));
+                 List<ClickyContentDomain> list=ClickyContentDomain.getAllData(d);
+                 Long l=0L;
+                 for(ClickyContentDomain lis:list) {
+              	   	if(title.equals(lis.title)){
                 	// ClickyPagesVM vm = new ClickyPagesVM();
-              	   	String value = obj.get("value").textValue();
-              	   	Long l=(long)Integer.parseInt(value);
-              	  lonnn.add(l);
-              	   //	vm.value_percent = obj.get("value_percent").textValue();
-              	   	
-              	   	String chartDate=format1.format(d);
-              	     dates.add(chartDate);
-              	   
-              	   	//clickyList.add(vm);
+              	   	String value = lis.value;
+              	   	l=l+(long)Integer.parseInt(value);
               	   	}
               	   	}
+                 lonnn.add(l);
+            	   	String chartDate=format1.format(d);
+            	     dates.add(chartDate);
                 gcal.add(Calendar.DAY_OF_MONTH, 1);
                  
              }
+             
              vm.data=lonnn;
              data.add(vm);
          } catch (Exception e) {
@@ -27236,7 +27213,6 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     public static Result getPagesListDale(String startD,String endD){
     	
     	String params = null;
-    	params = "&type=pages&heatmap_url=1&date="+startD+","+endD+"&limit=all";
     	List<ClickyPagesVM> cList = new ArrayList<>();
     	
     	Date d1=null;

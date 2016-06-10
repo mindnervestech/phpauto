@@ -100,6 +100,11 @@ public class ClickyContentDownLoad extends Model {
 		return find.where().between("saveDate", sDate, eDate).findList();
 	}
 	
+	public static List<ClickyContentDownLoad> getAllData(Date sDate) {
+		return find.where().eq("saveDate", sDate).findList();
+	}
+	
+	
 	public static List<ClickyContentDownLoad> getfindAll() {
 		return find.all();
 	}

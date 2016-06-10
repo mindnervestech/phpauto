@@ -132,6 +132,9 @@ public class ClickyEntranceList extends Model {
 	}
 	
 	
+	public static List<ClickyEntranceList> getAllData(Date sDate) {
+		return find.where().eq("saveDate", sDate).findList();
+	}
 	
 	public static List<ClickyEntranceList> getfindAll() {
 		return find.all();

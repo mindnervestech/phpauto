@@ -110,6 +110,11 @@ public class ClickyPagesList extends Model {
 		return find.where().between("saveDate", sDate, eDate).findList();
 	}
 	
+	public static List<ClickyPagesList> getAllData(Date sDate) {
+		return find.where().eq("saveDate", sDate).findList();
+	}
+	
+	
 	public static List<ClickyPagesList> getfindAll() {
 		return find.all();
 	}

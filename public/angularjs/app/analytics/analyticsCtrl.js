@@ -1298,11 +1298,11 @@ angular.module('newApp')
 				
 				 $scope.gridOptions.columnDefs = [
 										             {name: 'showUrl', displayName: 'Page', width:'30%',
-										            	 cellTemplate:'<div><span>{{row.entity.showUrl}}</span><br><span>{{row.entity.title}}</span></div>'
+										            	 cellTemplate:'<div><a   href="{{row.entity.showUrl}}" target="_blank"  >{{row.entity.showUrl}}</a><br><span>{{row.entity.title}}</span></div>'
 										             },
-										             /*{name: 'url', displayName: '', width:'10%',
-										            	 cellTemplate:'<a href="{{row.entity.url}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" ></a>'
-										             },*/
+										             {name: 'url', displayName: ' ', width:'10%',
+										            	 cellTemplate:'<div><a href="{{row.entity.url}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="http://con.tent.network/media/icon_heatmap.png" ></a> <a href="{{row.entity.showUrl}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" src="http://con.tent.network/media/arrow.gif" ></a> </div>'
+										             },
 										             {name:'value', displayName:'Views', width:'10%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
@@ -1316,10 +1316,10 @@ angular.module('newApp')
 										             {name:' ', displayName:'', width:'20%',
 										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },*/
-										             {name:'per', displayName:'', width:'10%',		
+										             {name:'a', displayName:'Filter Result', width:'10%',		
 										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showPagesChart(row.entity.showUrl)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 										            
-										             }
+ 										             }
 										             
 										         ]
 				
@@ -1348,7 +1348,7 @@ angular.module('newApp')
 										             {name: 'totalTime', displayName: 'Total Time', width:'8%'},
 										             {name: 'bounceRate', displayName: 'Exit', width:'8%'},
 										             {name:'percent', displayName:'', width:'8%',		
-										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEntranceChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEntranceChart(row.entity.mainUrl)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 										            
 										             }
 										             
@@ -1449,7 +1449,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'poi', displayName:'', width:'10%',		
-									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showMediaChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showMediaChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 									            
 									             }
 									            
@@ -1553,8 +1553,8 @@ angular.module('newApp')
 		 $scope.flagForChart = true;
 		 $scope.showEntranceChart = function(url) {
 			 console.log(">>>>>>>>");
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;
 				console.log(endDate);
 				console.log(startDate);
 				console.log(url);
@@ -1600,8 +1600,8 @@ angular.module('newApp')
 		 $scope.flagForChart = true;
 		 $scope.showExitChart = function(url) {
 			 console.log(">>>>>>>>");
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;
 				console.log(endDate);
 				console.log(startDate);
 				console.log(url);
@@ -1648,8 +1648,8 @@ angular.module('newApp')
 		 $scope.flagForChart = true;
 		 $scope.showDownloadsChart = function(url) {
 			 console.log(">>>>>>>>");
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;	 
 				console.log(endDate);
 				console.log(startDate);
 				console.log(url);
@@ -1696,8 +1696,8 @@ angular.module('newApp')
 		 $scope.flagForChart = true;
 		 $scope.showEventChart = function(url) {
 			 console.log(">>>>>>>>");
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;	 
 				console.log(endDate);
 				console.log(startDate);
 				console.log(url);
@@ -1743,8 +1743,8 @@ angular.module('newApp')
 		 $scope.flagForChart = true;
 		 $scope.showMediaChart = function(title) {
 			 console.log(">>>>>>>>");
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;	 
 				console.log(endDate);
 				console.log(startDate);
 				console.log(title);
@@ -1790,8 +1790,8 @@ angular.module('newApp')
 		 $scope.flagForChart = true;
 		 $scope.showDomainsChart = function(title) {
 			 console.log(">>>>>>>>");
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;
 				console.log(endDate);
 				console.log(startDate);
 				console.log(title);

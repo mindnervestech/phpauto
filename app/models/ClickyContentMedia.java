@@ -100,6 +100,10 @@ public class ClickyContentMedia extends Model {
 		return find.where().between("saveDate", sDate, eDate).findList();
 	}
 	
+	public static List<ClickyContentMedia> getAllData(Date sDate) {
+		return find.where().eq("saveDate", sDate).findList();
+	}
+	
 	public static List<ClickyContentMedia> getfindAll() {
 		return find.all();
 	}
