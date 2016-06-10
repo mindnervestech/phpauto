@@ -139,6 +139,10 @@ var MakeApp = angular
             controller: 'ConfigPageCtrl'
         })
         
+        .when('/form', {
+            templateUrl: '/dealer/config/form.html',
+            controller: 'ConfigPageCtrl'
+        })
         
         .when('/documentation', {
             templateUrl: '/dealer/config/documentation.html',
