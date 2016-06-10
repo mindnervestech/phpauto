@@ -1434,15 +1434,16 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Media'){
 				$http.get('/getMediaDetails/'+startDate+"/"+endDate)
 				.success(function(data) {
-				$scope.gridOptions.data = data/*[0].dates[0].items*/;
+					console.log(data);
+			    $scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data/*[0].dates[0].items*/;
+				$scope.visitiorList = data;
 				
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Actions', width:'50%'},
-									             {name:'value', displayName:'Visitors', width:'10%'},
+									             {name: 'url', displayName: 'Media', width:'50%'},
+									             {name:'value', displayName:'Views', width:'10%'},
 									             {name:'valuePercent', displayName:'value_Percent', width:'10%'},
 									             {name:'statsUrl', displayName:'', width:'20%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',

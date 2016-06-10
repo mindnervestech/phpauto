@@ -3413,7 +3413,7 @@ angular.module('newApp')
       	  	}
 			
 			$scope.addChangeArrival = function(){
-				var aDate = $('#arrivalDate').val();
+				var aDate = $('#changeeArrivalDate').val();
 				console.log(aDate);
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
 				.success(function(data) {
@@ -12854,7 +12854,6 @@ $scope.leadTypeAll = function(){
 		
 	}
 	$scope.premiumLeadsInfo= function() {
-		console.log("clikkkkkkkkkkkk");
 		$location.path('/premiumLeads');
 		
 	}

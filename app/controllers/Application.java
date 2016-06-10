@@ -24071,6 +24071,7 @@ private static void cancelTestDriveMail(Map map) {
    	   	    double count=0;
    	   	    double count1=0;
    	   	for(ClickyContentMedia lis2:list) {
+   	   		if(lis2.url != null){
  	    	String url = lis2.url;
  	   		if(url.equals(vm.url)){
  	   			vm.value_percent2 = lis2.value;
@@ -24079,8 +24080,9 @@ private static void cancelTestDriveMail(Map map) {
  	   		}
  	   		
    	   	}	
-   	   	    
+   	   	}
      	   	for(ClickyContentMedia lis2:list2) {
+     	   		if(lis2.url != null){
      	    	String url = lis2.url;
      	   		if(url.equals(vm.url)){
      	   			vm.value_percent2 = lis2.value;
@@ -24088,6 +24090,7 @@ private static void cancelTestDriveMail(Map map) {
      	   		
      	   		}
    	   			
+     	   	}
      	   	}
      	   vm.averagePercent=((count1-count)/count1)*100;
    	   				
