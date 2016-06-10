@@ -72,6 +72,7 @@ import models.ClickyPagesActionList;
 import models.ClickyPagesList;
 import models.ClickyPlatformBrowser;
 import models.ClickyPlatformHardware;
+import models.ClickyPlatformOperatingSystem;
 import models.ClickyPlatformScreen;
 import models.ClickyPlatformOperatingSystem;
 import models.ClickyVisitorsList;
@@ -25138,8 +25139,8 @@ private static void cancelTestDriveMail(Map map) {
           Date beforeStart = DateUtils.addDays(d1, -days); 
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
-             List <ClickyPlatformHardware> list=ClickyPlatformHardware.getAll(d1, d2) ;
-	            for(ClickyPlatformHardware lis:list){
+             List <ClickyPlatformOperatingSystem> list=ClickyPlatformOperatingSystem.getAll(d1, d2) ;
+	            for(ClickyPlatformOperatingSystem lis:list){
          	ClickyPagesVM vm = new ClickyPagesVM();
    	     	   	vm.id=lis.id;
    				vm.value=lis.value;
@@ -25150,10 +25151,10 @@ private static void cancelTestDriveMail(Map map) {
    	   			vm.averageTime=lis.averageTime;
    	   			vm.totalTime=lis.totalTime;
    	   			vm.bounceRate=lis.bounceRate;
-   	   		List <ClickyPlatformHardware> list2=ClickyPlatformHardware.getAll(beforeStart, d1) ;
+   	   		List <ClickyPlatformOperatingSystem> list2=ClickyPlatformOperatingSystem.getAll(beforeStart, d1) ;
    	   	    double count=0;
    	   	    double count1=0;
-   	   	for(ClickyPlatformHardware lis2:list) {
+   	   	for(ClickyPlatformOperatingSystem lis2:list) {
  	    	String url = lis2.title;
  	   		if(url.equals(vm.title)){
  	   			vm.value_percent2 = lis2.value;
@@ -25163,7 +25164,7 @@ private static void cancelTestDriveMail(Map map) {
  	   		
    	   	}	
    	   	    
-     	   	for(ClickyPlatformHardware lis2:list2) {
+     	   	for(ClickyPlatformOperatingSystem lis2:list2) {
      	    	String url = lis2.title;
      	   		if(url.equals(vm.title)){
      	   			vm.value_percent2 = lis2.value;
