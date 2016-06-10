@@ -3413,8 +3413,9 @@ angular.module('newApp')
       	  	}
 			
 			$scope.addChangeArrival = function(){
-				var aDate = $('#changeeArrivalDate').val();
+				var aDate = $('#arrivalDate').val();
 				console.log(aDate);
+				
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
 				.success(function(data) {
 					 $('#changeDate').hide();
@@ -3460,7 +3461,7 @@ angular.module('newApp')
 			 
 			 
 			 $scope.addPriceInVeh = function(price){
-				 var aDate = $('#arrivalDate').val();
+				 var aDate = $('#changeArrivalDate').val();
 				 console.log(aDate);
 				 $scope.arrivalD=aDate;
 				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price+"/"+aDate)
@@ -3473,7 +3474,7 @@ angular.module('newApp')
 						});
 						$scope.buttFlag = 1;
 					});
-				 
+				 $('#arrivalDate').val($('#changeArrivalDate').val());
 				 $scope.addChangeArrival();
 			 }
 			
