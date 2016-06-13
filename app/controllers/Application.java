@@ -25804,10 +25804,14 @@ private static void cancelTestDriveMail(Map map) {
        		params = "&type=segmentation&resolution="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
        		
        	}
+          else if(locationFlag.equalsIgnoreCase("Domain")){
+      		params = "&type=segmentation&domain="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+      	}
      	else{
      		params = "&type=segmentation&source="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
      		
      	}
+     	
      	try {
 
       	   	JsonNode jsonList = Json.parse(callClickAPI(params));
@@ -25891,8 +25895,16 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     		params = "&type=segmentation&source=searches&domain="+domain+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
     	}
     	else if(flagForLanding.equalsIgnoreCase("ForRefferalUrl")){
-    		String urlArr[]=url.split("=");
-    		params = "&type=segmentation&source=searches&search="+urlArr[1]+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    		String newUrl=null;
+    		if(url.contains("=")){
+    			String urlArr[]=url.split("=");
+    			newUrl=urlArr[1];
+    		}
+    		else{
+    			newUrl=url;
+    		}
+    		
+    		params = "&type=segmentation&source=searches&link="+newUrl+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
     	}
     	
     	else{

@@ -20,7 +20,7 @@ angular.module('newApp')
 	
 	
 	$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");;
-	$rootScope.endDateFilter = moment().add('days', 1).format("YYYY-MM-DD");
+	$rootScope.endDateFilter = moment().add('days', -1).format("YYYY-MM-DD");
 	   
 	    setTimeout(function(){
 
@@ -29,7 +29,7 @@ angular.module('newApp')
 	                    ranges: {
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 7 Days': [moment().subtract('days', 6), moment().subtract('days', 2)],
 	                        'Last 14 Days':[moment().subtract('days', 14), moment()],
 	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
@@ -78,9 +78,6 @@ angular.module('newApp')
 	
 	
 	 function initialized() {
-		 //  $( document ).ready(function() {
-	    	console.log(">>>>>>>>>>");
-	    	console.log($scope.latitude);
 	    	 
 	    	
 	      var myLatlng = new google.maps.LatLng($scope.latitude,$scope.longitude);
@@ -118,9 +115,6 @@ angular.module('newApp')
 			$scope.DateWiseFind();
 			$scope.latitude=undefined;
 			$scope.longitude=undefined;
-			console.log("::::::::");
-			console.log($scope.startDateFilter);
-			console.log($scope.endDateFilter);
 			 google.maps.event.addDomListener(window, 'load', initialized);
 			 if($scope.visitorInfos != undefined){
 			$http.get('/getVisitorData/'+$scope.visitorInfos)
@@ -191,11 +185,6 @@ angular.module('newApp')
 				console.log($scope.visitorInfos);
 				$http.get('/getIPAddress/'+$scope.visitorInfos)
 				.success(function(data){
-					console.log("in function");
-					console.log(data);
-					
-					console.log("::::::::");
-					console.log(data);
 					$scope.latitude=data.latitude; 
 					$scope.longitude=data.longitude;
 					initialized();
@@ -208,7 +197,6 @@ angular.module('newApp')
 					 else{
 						 $scope.visitorInfo.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
 					 }
-					 console.log($scope.visitorInfo);
 				});
 			}
 			
@@ -226,7 +214,7 @@ angular.module('newApp')
 			  console.log($scope.typeOfReferrer);
 			  //var startDate = $("#cnfstartDateValue").val();
 				//var endDate = $("#cnfendDateValue").val();	
-				$http.get('/getreferrerTypeData/'+$scope.typeOfReferrer+"/"+$scope.locationFlag+"/"+$scope.startDate2+"/"+$scope.endDate2)
+				$http.get('/getreferrerTypeData/'+$scope.typeOfReferrer+"/"+$scope.locationFlag+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
 				.success(function(data) {
 				
 				console.log("::::::::");
@@ -418,12 +406,14 @@ angular.module('newApp')
 				$scope.gridOptions.columnDefs = [
 									             {name: 'timePretty', displayName: 'Time'},
 									             {name:'a', displayName:'User',
-									            	 cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></span><br><span>{{row.entity.geolocation}},&nbsp;&nbsp {{row.entity.operatingSystem}},&nbsp;&nbsp {{row.entity.webBrowser}}</span></div>',
+									            	 cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></span><br><a  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)" >{{row.entity.geolocation}}</a>,&nbsp;&nbsp<a  ng-click="grid.appScope.referrerTypeDataForOs(row.entity.operatingSystem)" > {{row.entity.operatingSystem}}</a> <a  ng-click="grid.appScope.referrerTypeDataForBrowser(row.entity.webBrowser)" >{{row.entity.webBrowser}} </a> </div>',
 									             },
 									             {name:'landingPage', displayName:'Action',
 									            	 cellTemplate:'<div><span><a href="{{row.entity.landingPage}}" target="_blank">{{row.entity.landingPage}}</a></span></div>',
 									             },
-									             {name: 'referrerType', displayName: 'Referrer'}
+									             {name: 'referrerType', displayName: 'Referrer',
+									            	 cellTemplate:'<div  ng-if="row.entity.referrerDomain != null"><span><a ng-click="grid.appScope.referrerTypeDataForDomain(row.entity.referrerDomain)"  >{{row.entity.referrerDomain}}</a>  <a   href="{{row.entity.referrerUrl}}" target="_blank" ><img src="//con.tent.network/media/arrow.gif" > </a> </span></div>',	 
+									             }
 									         ]
 			}else if($scope.typeOfInfo == 'Engagement_action'){
 				$scope.tabClickFlag=3;
@@ -628,9 +618,9 @@ angular.module('newApp')
 			 console.log(type);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log(endDate);
+				console.log($scope.endDate1);
 			 $scope.flagForLocation='location';
-			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDate1+"/"+$scope.endDate1);
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.startDateFilter);
 			 
 		 }
 		 
@@ -721,7 +711,12 @@ angular.module('newApp')
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
 		 }
-		 
+		 $scope.referrerTypeDataForDomain = function(type) {
+			 console.log(type);
+			 $scope.flagForLocation='Domain';
+			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
+			 
+		 }
 		 
 		 
 		 
@@ -761,8 +756,6 @@ angular.module('newApp')
 			 $scope.flagForLanding="ForDomain";
 			 var startDate = $("#cnfstartDateValue").val();
 			var endDate = $("#cnfendDateValue").val();	 
-				console.log(endDate);
-			//$location.path('/visitorInfo/'+id);
 			 $http.get('/getVisitorDataForLanding/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+$scope.flagForLanding)
 				.success(function(data) {
 				
@@ -817,9 +810,7 @@ angular.module('newApp')
 		 $scope.showUrlInfoForRefferal = function(id) {
 			 console.log(id);
 			 $scope.flagForLanding="ForRefferalUrl";
-			 var startDate = $("#cnfstartDateValue").val();
-			var endDate = $("#cnfendDateValue").val();	 
-				console.log(endDate);
+				console.log($scope.startDateFilter);
 			//$location.path('/visitorInfo/'+id);
 			 $http.get('/getVisitorDataForLanding/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+$scope.flagForLanding)
 				.success(function(data) {
