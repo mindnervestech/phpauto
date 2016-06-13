@@ -74,6 +74,7 @@ import models.ClickyPlatformBrowser;
 import models.ClickyPlatformHardware;
 import models.ClickyPlatformScreen;
 import models.ClickyPlatformOperatingSystem;
+import models.ClickyVisitorActiveVisitor;
 import models.ClickyVisitorEngagementAction;
 import models.ClickyVisitorEngagementTime;
 import models.ClickyVisitorTrafficSource;
@@ -24188,27 +24189,32 @@ private static void cancelTestDriveMail(Map map) {
 
     
     
-    
-    
-    
-    
     public static Result getActiveVisitors(String startDate,String endDate){
     	String params = null;
-    	params = "&type=visitors-most-active&date="+startDate+","+endDate+"&limit=all";
-    	
+    	Date d1=null;
+    	Date d2=null;
     	 List<ClickyPagesVM> clickyList = new ArrayList<>();
-    	JsonNode jsonList = Json.parse(callClickAPI(params));
- 	   	
- 	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+    	 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+    	 }
+       catch (Exception e) {
+          e.printStackTrace();
+       }
+    	 
+    	 List<ClickyVisitorActiveVisitor> list=ClickyVisitorActiveVisitor.getAll(d1,d2);
+ 	   	for(ClickyVisitorActiveVisitor lis:list) {
  	   	ClickyPagesVM vm = new ClickyPagesVM();
- 	   	vm.title = obj.get("title").textValue();
- 	   	vm.value = obj.get("value").textValue();
+ 	   	vm.title = lis.title;
+ 	   	vm.value = lis.value;
  	   	
-	   	List<ClickyVisitorsList> list=ClickyVisitorsList.findByTitle(vm.title);
- 	   	if(list.size() != 0){
+	   	List<ClickyVisitorsList> list1=ClickyVisitorsList.findByTitle(vm.title);
+ 	   	if(list1.size() != 0){
  	   		System.out.println("in if condition");
- 	   	vm.geoLocation=list.get(0).geolocation;
- 	   	vm.organization=list.get(0).organization;
+ 	   	vm.geoLocation=list1.get(0).geolocation;
+ 	   	vm.organization=list1.get(0).organization;
  	    clickyList.add(vm);
  	   	}
  	   	
@@ -26113,7 +26119,37 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 				e.printStackTrace();
 			}
 			
+
 			
+			     paramsPages = "&type=visitors-most-active&date="+sDate+"&limit=all";
+				JSONArray jsonArrayActiveVisits;
+				try {
+					jsonArrayActiveVisits = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+					for(int i=0;i<jsonArrayActiveVisits.length();i++){
+						ClickyVisitorActiveVisitor cPages = new ClickyVisitorActiveVisitor();
+		    			cPages.setValue(jsonArrayActiveVisits.getJSONObject(i).get("value").toString());
+		    			try{
+		    			cPages.setValuePercent(jsonArrayActiveVisits.getJSONObject(i).get("value_percent").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			cPages.setTitle(jsonArrayActiveVisits.getJSONObject(i).get("title").toString());
+		    			try{
+		    			cPages.setStatsUrl(jsonArrayActiveVisits.getJSONObject(i).get("stats_url").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    				cPages.setSaveDate(curr);
+		    				cPages.save();
+					}
+				}
+				 catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			
 
 			paramsPages = "&type=traffic-sources&date="+sDate+"&limit=all";
