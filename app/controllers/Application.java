@@ -10353,6 +10353,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	     		LeadTypeVM lead = new LeadTypeVM();
 	     		lead.id = vm.id;
 	     		lead.leadName = vm.leadName;
+	     		lead.checkValue = vm.shows;
 	     		
 	     		leadVMs.add(lead);
 	  	}
@@ -41134,6 +41135,13 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    	
 	    	return ok();
     	}	
+	}
+	
+		public static Result getCheckButton(Long leadId,Integer intValue){
+		LeadType lType = LeadType.findById(leadId);
+		lType.setShows(intValue);
+		lType.update();
+		return ok();
 	}
 	
 	public static Result saveSalesHoursForParts(){

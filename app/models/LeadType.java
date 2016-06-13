@@ -16,6 +16,7 @@ public class LeadType extends Model {
 	@Id
 	public Long id;
 	public String leadName;
+	public Integer shows;
 	
 		
 	@ManyToOne
@@ -32,6 +33,15 @@ public class LeadType extends Model {
 
 	public String getLeadName() {
 		return leadName;
+	}
+
+
+	public Integer getShows() {
+		return shows;
+	}
+
+	public void setShows(Integer shows) {
+		this.shows = shows;
 	}
 
 	public void setLeadName(String leadName) {

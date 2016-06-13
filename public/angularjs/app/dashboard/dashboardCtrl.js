@@ -12708,6 +12708,15 @@ $scope.leadTypeAll = function(){
 			console.log(data);
 			$scope.leadtypeObjList = data;
  			$scope.gridOptions.data = data;
+ 			angular.forEach($scope.gridOptions.data, function(obj, index){
+				if(obj.checkValue == 1){
+					obj.checkValue = true;
+				}else if(obj.checkValue == 0){
+					obj.checkValue = false;
+				}
+			});
+ 			console.log("gghgfhghghg");
+ 			console.log($scope.gridOptions.data);
 		});
 		
 		
@@ -12718,7 +12727,7 @@ $scope.leadTypeAll = function(){
 		                                 { name: 'leadName', displayName: 'Lead Type', width:'50%',cellEditableCondition: false
 		                                 },
 		                                 {name:'org', displayName:'Show on Website', width:'15%',
-		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox">  </div>',
+		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row,checkValue)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
     		                                 cellTemplate:'<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test\' && row.entity.leadName != \'Trade In\'" ng-click="grid.appScope.removeUser(row)"  title="Delete"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test\' && row.entity.leadName != \'Trade In\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
@@ -12735,7 +12744,36 @@ $scope.leadTypeAll = function(){
 		})
 	}	
 	
+	$scope.selectCheck = function(row,checkValue){
+		$scope.entityId=row.entity.id;
+		console.log(row);
+		console.log(checkValue);
+		var intValue = 0;
+		if(checkValue == undefined){
+			intValue = 1;
+		}
+		if(checkValue == true){
+			intValue = 0;
+		}else if(checkValue == false){
+			intValue = 1;
+		}
+		
+		$http.get('/getCheckButton/'+$scope.entityId+"/"+intValue)
+		.success(function(data){
+			//$scope.gridOptions.data=data;
+			//console.log(data);
+		})
+	}
+	
+	$scope.ShowCreateNewForm = function(row){
+		$location.path('/leadCreateForm/'+"Edit");
+	}
 
+	$scope.ShowCreateNewForm1 = function(row){
+		$location.path('/leadCreateForm/'+"Preview");
+	}
+	
+	
 	$scope.allLeaddata = function(){
 		$http.get('/getAllLeadData')
 		.success(function(data){
