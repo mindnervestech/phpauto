@@ -24966,6 +24966,45 @@ private static void cancelTestDriveMail(Map map) {
 	    return ok(Json.toJson(clickyList));
 	    
     }
+    
+    public static Result getbrowserdata(String title , String enddate , String startdate){
+    	
+    		List<ClickyPlatformBrowser> browserObjList = ClickyPlatformBrowser.findByTitle(title);
+    		List <ClickyPagesVM> VMs = new ArrayList<>();
+    		ClickyPagesVM vm = new ClickyPagesVM();
+    		double count1=0.0;
+    		double count2=0.0;
+    		double count3=0.0;
+    		double count4=0.0;
+    		double count5=0.0;
+    		double count6=0.0;
+    		double count7=0.0;
+    		 for(ClickyPlatformBrowser lis:browserObjList){
+             	
+    			 count1=count1+Double.parseDouble(lis.averageAction);
+    			 count2=count2+Double.parseDouble(lis.visitors);
+    			 count3=count3+Double.parseDouble(lis.uniqueVisitor);
+    			 count4=count4+Double.parseDouble(lis.totalTime);
+    			 count5=count5+Double.parseDouble(lis.averageTime);
+    			 count6=count6+Double.parseDouble(lis.bounceRate);
+    			 count7=count7+Double.parseDouble(lis.action);
+       	   			
+    		 }
+    		 vm.averageAct=count1;
+    		 vm.visitor=count2;
+    		 vm.uniqueV=count3;
+    		 vm.totalT=count4;
+    		 vm.averageT=count5;
+    		 vm.bounceR=count6;
+    		 vm.action=count7;
+    		
+    		 VMs.add(vm);
+    
+	     	
+	     	return ok(Json.toJson(VMs));
+    		
+    	}
+    
 
     public static Result getScreenResolution(String startDate,String endDate){
     	String params = null;
@@ -26489,18 +26528,82 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 					String locString = null;
 					Location locationName = null;
 					String statsUrl=null;
+					String title=null;
+					
 	    			ClickyPlatformBrowser cPages = new ClickyPlatformBrowser();
 	    			cPages.setValue(jsonArrayPlatformBrowser.getJSONObject(i).get("value").toString());
 	    			cPages.setValuePercent(jsonArrayPlatformBrowser.getJSONObject(i).get("value_percent").toString());
 	    			cPages.setTitle(jsonArrayPlatformBrowser.getJSONObject(i).get("title").toString());
+	    			title=jsonArrayPlatformBrowser.getJSONObject(i).get("title").toString();
+	    			title=URLEncoder.encode(title);
 	    			cPages.setStatsUrl(jsonArrayPlatformBrowser.getJSONObject(i).get("stats_url").toString());
 	    			statsUrl=jsonArrayPlatformBrowser.getJSONObject(i).get("stats_url").toString();
 	    			try{
 	    			cPages.setUrl(jsonArrayPlatformBrowser.getJSONObject(i).get("url").toString());
 	    			}
 	    			catch(Exception e){
+
 	    				e.printStackTrace();
 	    			}
+	    			
+	    			paramsPages = "&type=segmentation&browser="+title+"&segments=summary&date="+sDate+"&limit=all";
+	    			
+	    			JSONArray jsonArraybrowserpage;
+	    			
+	    	     		jsonArraybrowserpage = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+	    			//	ClickyPagesActionList cPages1 = new ClickyPagesActionList();
+	    				for(int j=0;j<jsonArraybrowserpage.length();j++){
+	    	    			
+	    					
+	    					
+	    					if(jsonArraybrowserpage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+	    					
+	    						//cPages.setAverageAction(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						cPages.setAverageAction1(jsonArraybrowserpage.getJSONObject(j).get("value").toString());
+	    					}
+	    					
+	    					if(jsonArraybrowserpage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+		    					
+	    						cPages.setAverageTime1(jsonArraybrowserpage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArraybrowserpage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+		    					
+	    						cPages.setTotalTime1(jsonArraybrowserpage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArraybrowserpage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+		    					
+	    						cPages.setBounceRate1(jsonArraybrowserpage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArraybrowserpage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+		    					
+	    						cPages.setVisitors1(jsonArraybrowserpage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					if(jsonArraybrowserpage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+		    					
+	    						cPages.setUniqueVisitor1(jsonArraybrowserpage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					
+	    					if(jsonArraybrowserpage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+		    					
+	    						cPages.setAction1(jsonArraybrowserpage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    	    			
+	    	    			
+	    			
+	    				}
+	    			
+	    			
+	    			
 	    			
 	    			paramsPages = "&type=segmentation&stats_url="+statsUrl+"&segments=summary&date="+sDate+"&limit=all";
 	    			

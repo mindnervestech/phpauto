@@ -30,7 +30,13 @@ public class ClickyPlatformBrowser extends Model {
 	public String statsUrl;
 	public String mainUrl;
 	
-	
+	public String visitors1;
+	public String uniqueVisitor1;
+	public String action1;
+	public String averageAction1;
+	public String totalTime1;
+	public String averageTime1;
+	public String bounceRate1;
 	
 	
 	public String getValue() {
@@ -125,6 +131,53 @@ public class ClickyPlatformBrowser extends Model {
 		this.bounceRate = bounceRate;
 	}
 	
+	
+	
+	public String getVisitors1() {
+		return visitors1;
+	}
+	public void setVisitors1(String visitors1) {
+		this.visitors1 = visitors1;
+	}
+	public String getUniqueVisitor1() {
+		return uniqueVisitor1;
+	}
+	public void setUniqueVisitor1(String uniqueVisitor1) {
+		this.uniqueVisitor1 = uniqueVisitor1;
+	}
+	public String getAction1() {
+		return action1;
+	}
+	public void setAction1(String action1) {
+		this.action1 = action1;
+	}
+	public String getAverageAction1() {
+		return averageAction1;
+	}
+	public void setAverageAction1(String averageAction1) {
+		this.averageAction1 = averageAction1;
+	}
+	public String getTotalTime1() {
+		return totalTime1;
+	}
+	public void setTotalTime1(String totalTime1) {
+		this.totalTime1 = totalTime1;
+	}
+	public String getAverageTime1() {
+		return averageTime1;
+	}
+	public void setAverageTime1(String averageTime1) {
+		this.averageTime1 = averageTime1;
+	}
+	public String getBounceRate1() {
+		return bounceRate1;
+	}
+	public void setBounceRate1(String bounceRate1) {
+		this.bounceRate1 = bounceRate1;
+	}
+
+
+
 	public static Finder<Long,ClickyPlatformBrowser> find = new Finder<>(Long.class,ClickyPlatformBrowser.class);
 	
 	public static List<ClickyPlatformBrowser> getAll(Date sDate,Date eDate) {
@@ -148,7 +201,9 @@ public class ClickyPlatformBrowser extends Model {
 	}
 	
 	
-	
+	public static List<ClickyPlatformBrowser> findByTitle(String title) {
+		return find.where().eq("title", title).findList();
+	}
 	
 	
 

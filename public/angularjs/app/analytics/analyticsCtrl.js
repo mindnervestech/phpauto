@@ -2212,7 +2212,8 @@ angular.module('newApp')
 angular.module('newApp')
 .controller('allPlatformsInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
 	
-	
+	$scope.titleForBrowser=$routeParams.idForBrowser;
+	console.log(">>>>>"+$scope.idForBrowser);
 	console.log($rootScope.startDateFilter);
 	console.log($rootScope.endDateFilter);
 	  setTimeout(function(){
@@ -2364,7 +2365,9 @@ angular.module('newApp')
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
-								              {name: 'title', displayName: 'Actions', width:'40%'},
+								              {name: 'title', displayName: 'Actions', width:'40%',
+								            	  cellTemplate: '<div><span ng-click="grid.appScope.goToBrowserpage(row.entity.title)">{{row.entity.title}}</span></div>',
+								              },
 								             {name:'value', displayName:'Visitors', width:'10%',
 								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 								             },
@@ -2461,6 +2464,43 @@ angular.module('newApp')
 								            	 ]
 	}
  }
+ 
+
+	$scope.initFunction = function(){
+		console.log("in init function");
+		 var startDate = $rootScope.startDateFilter;
+		 var endDate = $rootScope.endDateFilter;	 
+		 console.log(startDate);
+		 console.log(endDate);
+		 $http.get('/getbrowserdata/'+$scope.titleForBrowser+'/'+startDate+'/'+endDate).success(function(data){
+			 console.log("in the function");
+			 console.log(data);
+				$scope.gridOptions.data = data;
+				$scope.browserObjList = data;
+				
+				 $scope.gridOptions.columnDefs = [
+				                                   {name: 'title', displayName: 'Actions', width:'40%'},
+										             {name:'value', displayName:'Visitors', width:'10%',
+											        	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
+											         },
+											        /* {name:'stats_url', displayName:'', width:'10%',
+											        	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+											         },*/
+											         {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
+											         {name: 'averageTime', displayName: 'Average Time', width:'10%'},
+											         {name: 'totalTime', displayName: 'Total Time', width:'10%'},
+											         {name: 'bounceRate', displayName: 'Exit', width:'10%'},
+											         {name:'stsurl', displayName:'', width:'10%',		
+											        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showHardwareChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+											        
+											         }
+										            	 ]
+		 });
+	}
+
+	
+ 
+ 
  
 
  $scope.urlobj={};
@@ -2735,6 +2775,12 @@ angular.module('newApp')
 	$scope.goToVehicleInfo = function(){
 		$location.path('/allVehicleSessions');
 	}
+	
+	$scope.goToBrowserpage = function(id){
+		console.log("id  is"+id);
+		$location.path('/platformInfo/'+id);
+	}
+	
 	/*$scope.changeTab = function(type){
 		$scope.gridOptions.data = [];
 		$scope.typSet = [];

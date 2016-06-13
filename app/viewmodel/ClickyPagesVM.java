@@ -17,9 +17,13 @@ public class ClickyPagesVM {
 	public String city;
 	public String showUrl;
 	public String visitors;
+	public double visitor;
 	public String uniqueVisitors;
+	public double uniqueV;
 	public String actions;
+	public double action;
 	public String averageActions;
+	public double averageAct;
 	public String time;
 	public String newTime;
 	public String newDate;
@@ -32,8 +36,11 @@ public class ClickyPagesVM {
 	public String newActionUrl;
 	public String actionTitle;
 	public String totalTime;
+	public double totalT;
 	public String averageTime;
+	public double averageT;
 	public String bounceRate;
+	public double bounceR;
 	public String geoLocation;
 	public String organization;
 	public String value_percent2;
@@ -41,6 +48,11 @@ public class ClickyPagesVM {
 	public String startDate;
 	public String endDate;
 	public double averagePercent;
-	
-	
+	public String visitors1;
+	public String uniqueVisitors1;
+	public String actions1;
+	public String averageActions1;
+	public String totalTime1;
+	public String averageTime1;
+	public String bounceRate1;
 }

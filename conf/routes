@@ -88,6 +88,7 @@ GET		/vehicleProfileImageById/:id/:type	controllers.Application.vehicleProfileIm
 GET		/vehicleProfileImageByIdForCrop/:id/:makeValue/:type	controllers.Application.vehicleProfileImageByIdForCrop(id:Long,makeValue:String,type:String)
 GET		/contactImageById/:id/:type	controllers.Application.contactImageById(id:Long,type:String)
 GET		/deleteImage/:id			controllers.Application.deleteImage(id:Long)
+GET		/getbrowserdata/:title/:startdate/:enddate			controllers.Application.getbrowserdata(title:String,startdate:String,enddate:String)
 GET		/setDefaultImage/:id		controllers.Application.setDefaultImage(id:Long)
 GET     /getbusinessData/:businessName	controllers.Application.getbusinessData(businessName:String)
 GET     /getPdfPath/:id				controllers.Application.getPdfPath(id:Long)

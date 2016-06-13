@@ -331,6 +331,11 @@ var MakeApp = angular
             controller: 'allPlatformsInfoCtrl'
         })
         
+         .when('/platformInfo/:idForBrowser', {
+            templateUrl: '/dealer/analytics/platformInfo.html',
+            controller: 'allPlatformsInfoCtrl'
+        })
+        
         .when('/goToContentInfo', {
             templateUrl: '/dealer/analytics/goToContentInfo.html',
             controller: 'goToContentInfoCtrl' 
