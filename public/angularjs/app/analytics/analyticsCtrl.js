@@ -419,7 +419,7 @@ angular.module('newApp')
 				$scope.tabClickFlag=3;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
-				 $http.get('/getEngagementAction/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
+				 $http.get('/getEngagementAct/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 					.success(function(data) {
 						console.log(data);
 					$scope.gridOptions.data = data;
@@ -432,10 +432,10 @@ angular.module('newApp')
 				 $scope.gridOptions.columnDefs = [
 										             {name: 'title', displayName: 'Actions', width:'60%'},
 								             {name:'value', displayName:'Visitors', width:'10%',
-								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 								             },
-								             {name:'stats_url', displayName:'', width:'20%',
-								            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+								             {name:'statsUrl', displayName:'', width:'20%',
+								            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 								             },
 								             {name:'Per', displayName:'', width:'10%',		
 								            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEngagementActionChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -478,9 +478,9 @@ angular.module('newApp')
 				$scope.gridOptions.columnDefs = [
 									             {name: 'title', displayName: 'Actions', width:'50%'},
 									             {name:'value', displayName:'Visitors', width:'10%'},
-									             {name:'value_percent', displayName:'value_Percent', width:'10%'},
+									             {name:'valuePercent', displayName:'valuePercent', width:'10%'},
 									             {name:'stats_url', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'url', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEngagementTimeChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
