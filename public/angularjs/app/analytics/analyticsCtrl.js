@@ -2410,8 +2410,8 @@ angular.module('newApp')
 									         {name: 'averageTime', displayName: 'Average Time', width:'10%'},
 									         {name: 'totalTime', displayName: 'Total Time', width:'10%'},
 									         {name: 'bounceRate', displayName: 'Exit', width:'10%'},
-									         {name:'url', displayName:'', width:'10%',		
-									        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showBrowserChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+									         {name:'ur', displayName:'', width:'10%',		
+									        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showOperatingSystemChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 									        
 									         }
 								            	 ]
@@ -2436,8 +2436,8 @@ angular.module('newApp')
 									         {name: 'averageTime', displayName: 'Average Time', width:'10%'},
 									         {name: 'totalTime', displayName: 'Total Time', width:'10%'},
 									         {name: 'bounceRate', displayName: 'Exit', width:'10%'},
-									         {name:'url', displayName:'', width:'10%',		
-									        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showBrowserChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+									         {name:'urll', displayName:'', width:'10%',		
+									        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showScreenResolutionChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 									        
 									         }
 								            ]
@@ -2463,25 +2463,32 @@ angular.module('newApp')
 									         {name: 'averageTime', displayName: 'Average Time', width:'10%'},
 									         {name: 'totalTime', displayName: 'Total Time', width:'10%'},
 									         {name: 'bounceRate', displayName: 'Exit', width:'10%'},
-									         {name:'url', displayName:'', width:'10%',		
-									        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showBrowserChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+									         {name:'stsurl', displayName:'', width:'10%',		
+									        	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showHardwareChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 									        
 									         }
 								            	 ]
 	}
  }
  
+
+ $scope.urlobj={};
  $scope.flagForChart1 = true;
  $scope.flagForChart = true;
  $scope.showBrowserChart = function(title) {
 	 console.log(">>>>>>>>");
-	 var startDate = $("#cnfstartDateValue").val();
-		var endDate = $("#cnfendDateValue").val();	 
+	 var startDate =$rootScope.startDateFilter;
+		var endDate =$rootScope.endDateFilter;
 		console.log(endDate);
 		console.log(startDate);
 		console.log(title);
+		
+		$scope.urlobj.startDate=startDate;
+		$scope.urlobj.endDate=endDate;
+		$scope.urlobj.title=title;
+		
 		$scope.flagForChart=0;
-		$http.get('/getBrowserChart/'+startDate+"/"+endDate+"/"+title)
+		$http.post('/getBrowserChart', $scope.urlobj)
 		.success(function(data) {
 			console.log(data);
 			$scope.flagForChart=1;
@@ -2512,17 +2519,24 @@ angular.module('newApp')
 	 
 	}
  
+ 
+ $scope.urlobj={};
  $scope.flagForChart1 = true;
  $scope.flagForChart = true;
  $scope.showOperatingSystemChart = function(title) {
 	 console.log(">>>>>>>>");
-	 var startDate = $("#cnfstartDateValue").val();
-		var endDate = $("#cnfendDateValue").val();	 
+	 var startDate =$rootScope.startDateFilter;
+		var endDate =$rootScope.endDateFilter;
 		console.log(endDate);
 		console.log(startDate);
 		console.log(title);
+		
+		$scope.urlobj.startDate=startDate;
+		$scope.urlobj.endDate=endDate;
+		$scope.urlobj.title=title;
+		
 		$scope.flagForChart=0;
-		$http.get('/getOperatingSystemChart/'+startDate+"/"+endDate+"/"+title)
+		$http.post('/getshowOperatingSystemChart', $scope.urlobj)
 		.success(function(data) {
 			console.log(data);
 			$scope.flagForChart=1;
@@ -2553,17 +2567,23 @@ angular.module('newApp')
 	 
 	}
  
+ $scope.urlobj={};
  $scope.flagForChart1 = true;
  $scope.flagForChart = true;
  $scope.showScreenResolutionChart = function(title) {
 	 console.log(">>>>>>>>");
-	 var startDate = $("#cnfstartDateValue").val();
-		var endDate = $("#cnfendDateValue").val();	 
+	 var startDate =$rootScope.startDateFilter;
+		var endDate =$rootScope.endDateFilter;
 		console.log(endDate);
 		console.log(startDate);
 		console.log(title);
+		
+		$scope.urlobj.startDate=startDate;
+		$scope.urlobj.endDate=endDate;
+		$scope.urlobj.title=title;
+		
 		$scope.flagForChart=0;
-		$http.get('/getScreenResolutionChart/'+startDate+"/"+endDate+"/"+title)
+		$http.post('/getScreenResolutionChart', $scope.urlobj)
 		.success(function(data) {
 			console.log(data);
 			$scope.flagForChart=1;
@@ -2594,17 +2614,23 @@ angular.module('newApp')
 	 
 	}
  
+ $scope.urlobj={};
  $scope.flagForChart1 = true;
  $scope.flagForChart = true;
  $scope.showHardwareChart = function(title) {
 	 console.log(">>>>>>>>");
-	 var startDate = $("#cnfstartDateValue").val();
-		var endDate = $("#cnfendDateValue").val();	 
+	 var startDate =$rootScope.startDateFilter;
+		var endDate =$rootScope.endDateFilter;
 		console.log(endDate);
 		console.log(startDate);
 		console.log(title);
+		
+		$scope.urlobj.startDate=startDate;
+		$scope.urlobj.endDate=endDate;
+		$scope.urlobj.title=title;
+		
 		$scope.flagForChart=0;
-		$http.get('/getshowHardwareChart/'+startDate+"/"+endDate+"/"+title)
+		$http.post('/getHardwareChart', $scope.urlobj)
 		.success(function(data) {
 			console.log(data);
 			$scope.flagForChart=1;
@@ -2634,6 +2660,7 @@ angular.module('newApp')
 		
 	 
 	}
+
  
  
  var seriesOptions = [];
