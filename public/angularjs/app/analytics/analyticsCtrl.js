@@ -17,7 +17,7 @@ angular.module('newApp')
 	$scope.startDateForLand=$routeParams.startDateForLand;
 	$scope.endDateForLand=$routeParams.endDateForLand;
 	console.log("}}}}");
-	console.log($scope.trafficSourceTitle);
+	console.log($scope.engTimeTitle);
 	
 	$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");;
 	$rootScope.endDateFilter = moment().add('days', -1).format("YYYY-MM-DD");
