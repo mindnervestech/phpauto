@@ -26105,6 +26105,125 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     }
     
     
+ public static Result getEngActionData(String title,String startdate,String enddate){
+    	
+
+	    Date d1= null;
+		Date d2= null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+			 d1 = format.parse(startdate);
+	         d2 = format.parse(enddate);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		
+		List<ClickyVisitorEngagementAction> browserObjList = ClickyVisitorEngagementAction.findByTitleAndDate(title, d1, d2);
+		List<ClickyVisitorEngagementAction> allbrowserlist = ClickyVisitorEngagementAction.getAll(d1, d2);
+		List <ClickyPagesVM> VMs = new ArrayList<>();
+		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+		ClickyPagesVM vm = new ClickyPagesVM();
+		double count1=0.0;
+		double count2=0.0;
+		double count3=0.0;
+		double count4=0.0;
+		double count5=0.0;
+		double count6=0.0;
+		double count7=0.0;
+		 for(ClickyVisitorEngagementAction lis:browserObjList){
+	     	
+			 count1=count1+Double.parseDouble(lis.averageAction);
+			 count2=count2+Double.parseDouble(lis.visitors);
+			 count3=count3+Double.parseDouble(lis.uniqueVisitor);
+			 count4=count4+Double.parseDouble(lis.totalTime);
+			 count5=count5+Double.parseDouble(lis.averageTime);
+			 count6=count6+Double.parseDouble(lis.bounceRate);
+			 count7=count7+Double.parseDouble(lis.action);
+		   			
+		 }
+		 
+		 double countAll1=0.0;
+			double countAll2=0.0;
+			double countAll3=0.0;
+			double countAll4=0.0;
+			double countAll5=0.0;
+			double countAll6=0.0;
+			double countAll7=0.0;
+			 for(ClickyVisitorEngagementAction list:allbrowserlist){
+	      	
+				 countAll1=countAll1+Double.parseDouble(list.averageAction);
+				 countAll2=countAll2+Double.parseDouble(list.visitors);
+				 countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+				 if(!list.totalTime.equals("")){
+				 countAll4=countAll4+Double.parseDouble(list.totalTime);
+				 }
+				 if(!list.action.equals("")){
+					 countAll7=countAll7+Double.parseDouble(list.action);
+					 }
+				 countAll5=countAll5+Double.parseDouble(list.averageTime);
+				 countAll6=countAll6+Double.parseDouble(list.bounceRate);
+				
+		   			
+			 }
+		 
+		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+		 cVm.title = "visitors";
+		 cVm.these_visitors =  count2;
+		 cVm.all_visitors = countAll2;
+		 platformvm.add(cVm);
+		 
+		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+		 cVm1.title = "uniqueV";
+		 cVm1.these_visitors = count3;
+		 cVm1.all_visitors = countAll3;
+		 platformvm.add(cVm1);
+		 
+		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+		 cVm2.title = "action";
+		 cVm2.these_visitors = count7;
+		 cVm2.all_visitors = countAll7;
+		 platformvm.add(cVm2);
+		 
+		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+		 cVm3.title = "averageAct";
+		 cVm3.these_visitors = count1;
+		 cVm3.all_visitors = countAll1;
+		 platformvm.add(cVm3);
+		 
+		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+		 cVm4.title = "totalT";
+		 cVm4.these_visitors = count4;
+		 cVm4.all_visitors = countAll4;
+		 platformvm.add(cVm4);
+		 
+		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+		 cVm5.title = "averageT";
+		 cVm5.these_visitors = count5;
+		 cVm5.all_visitors = countAll5;
+		 platformvm.add(cVm5);
+		 
+		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+		 cVm6.title = "bounceR";
+		 cVm6.these_visitors = count6;
+		 cVm6.all_visitors = countAll6;
+		 platformvm.add(cVm6);
+		 
+		 vm.averageAct=count1;
+		 vm.visitor=count2;
+		 vm.uniqueV=count3;
+		 vm.totalT=count4;
+		 vm.averageT=count5;
+		 vm.bounceR=count6;
+		 vm.action=count7;
+		
+		 VMs.add(vm);
+
+	 	
+	 	return ok(Json.toJson(platformvm));
+
+
+    }
+        
     public static Result getVisitorList(String startDate,String endDate){
     	int year = Calendar.getInstance().get(Calendar.YEAR);
     	String params = null;
@@ -26383,6 +26502,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 	 	      paramsPages = "&type=engagement-actions&date="+sDate+"&limit=all";
 			JSONArray jsonArrayEngagementAction;
 			try {
+				String title=null;
 				jsonArrayEngagementAction = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayEngagementAction.length();i++){
 					ClickyVisitorEngagementAction cPages = new ClickyVisitorEngagementAction();
@@ -26395,6 +26515,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 	    				e.printStackTrace();
 	    			}
 	    			cPages.setTitle(jsonArrayEngagementAction.getJSONObject(i).get("title").toString());
+	    			 title=jsonArrayEngagementAction.getJSONObject(i).get("title").toString();
 	    			try{
 	    			cPages.setStatsUrl(jsonArrayEngagementAction.getJSONObject(i).get("stats_url").toString());
 	    			}
@@ -26402,6 +26523,78 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 	    		  		cPages.setStatsUrl("null url");	
 	    				e.printStackTrace();
 	    			}
+	    			String titleArr[]=title.split(" ");
+                    if(titleArr[0].contains("-")) { 
+                    	titleArr[0]=titleArr[0].replace("-", ",");
+	    			paramsPages = "&type=segmentation&actions="+titleArr[0]+"&segments=summary&date="+sDate+"&limit=all";
+                    }
+                    else{
+                    	paramsPages = "&type=segmentation&actions="+titleArr[0]+"&segments=summary&date="+sDate+"&limit=all";
+                    }
+	    			
+	    			JSONArray jsonArrayPage1;
+	    			
+	    				jsonArrayPage1 = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+	    			//	ClickyPagesActionList cPages1 = new ClickyPagesActionList();
+	    				for(int j=0;j<jsonArrayPage1.length();j++){
+	    	    			
+	    					
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+	    					
+	    						cPages.setAverageAction(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+		    					
+	    						cPages.setAverageTime(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+		    					
+	    						cPages.setTotalTime(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+		    					
+	    						cPages.setBounceRate(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+		    					
+	    						cPages.setVisitors(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+		    					
+	    						cPages.setUniqueVisitor(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+		    					
+	    						cPages.setAction(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    	    			
+	    			
+	    				}
+	    	
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
+	    			
 	    				cPages.setSaveDate(curr);
 	    				cPages.save();
 				}
@@ -27821,6 +28014,239 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	}
 	    
     }
+    
+    
+    
+
+    public static Result getEngActionChart(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Form<ClickyPagesVM> form = DynamicForm.form(ClickyPagesVM.class).bindFromRequest();
+    		ClickyPagesVM vm1 = form.get();
+    		String startDate=vm1.startDate;
+    		String endDate=vm1.endDate;
+    		String url=vm1.url;
+    		
+    		
+    	String params = null;
+    	System.out.println(startDate);
+    	System.out.println(endDate);
+    	Date d1 = null;
+        Date d2 = null;
+        Map<String, Object> map = new HashMap<>();
+        List<sendDataVM> data = new ArrayList<>();
+		List<Object> dates = new ArrayList<>();
+		map.put("dates",dates);
+		map.put("data",data);
+        List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat format1 = new SimpleDateFormat("MMM dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+     	   	
+             GregorianCalendar gcal = new GregorianCalendar();
+             gcal.setTime(d1);
+             sendDataVM vm=new sendDataVM();
+             vm.name=url;
+             List<Long> lonnn = new ArrayList<>();
+             while (!gcal.getTime().after(d2)) {
+                 Date d = gcal.getTime();
+                 System.out.println(d);
+                 String startD=format.format(d);
+                 Long l=0L;
+                 //JsonNode jsonList = Json.parse(callClickAPI("&type=downloads&date="+startD+"&limit=all"));
+                 List<ClickyVisitorEngagementAction> list=ClickyVisitorEngagementAction.getAllData(d);
+                 
+                 for(ClickyVisitorEngagementAction lis:list) {
+              	   	if(url.equals(lis.title)){
+                	// ClickyPagesVM vm = new ClickyPagesVM();
+              	   	String value =lis.value;
+              	  l=l+(long)Integer.parseInt(value);
+              	   	}
+              	   	}
+             	  lonnn.add(l);
+             	   	String chartDate=format1.format(d);
+             	     dates.add(chartDate);
+                gcal.add(Calendar.DAY_OF_MONTH, 1);
+                 
+             }
+             vm.data=lonnn;
+             data.add(vm);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(map));
+    	}
+	    
+    }
+
+    
+    
+
+    public static Result getTrafficChart(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Form<ClickyPagesVM> form = DynamicForm.form(ClickyPagesVM.class).bindFromRequest();
+    		ClickyPagesVM vm1 = form.get();
+    		String startDate=vm1.startDate;
+    		String endDate=vm1.endDate;
+    		String url=vm1.url;
+    		
+    		
+    	String params = null;
+    	System.out.println(startDate);
+    	System.out.println(endDate);
+    	Date d1 = null;
+        Date d2 = null;
+        Map<String, Object> map = new HashMap<>();
+        List<sendDataVM> data = new ArrayList<>();
+		List<Object> dates = new ArrayList<>();
+		map.put("dates",dates);
+		map.put("data",data);
+        List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat format1 = new SimpleDateFormat("MMM dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+     	   	
+             GregorianCalendar gcal = new GregorianCalendar();
+             gcal.setTime(d1);
+             sendDataVM vm=new sendDataVM();
+             vm.name=url;
+             List<Long> lonnn = new ArrayList<>();
+             while (!gcal.getTime().after(d2)) {
+                 Date d = gcal.getTime();
+                 System.out.println(d);
+                 String startD=format.format(d);
+                 Long l=0L;
+                 //JsonNode jsonList = Json.parse(callClickAPI("&type=downloads&date="+startD+"&limit=all"));
+                 List<ClickyVisitorTrafficSource> list=ClickyVisitorTrafficSource.getAllData(d);
+                 
+                 for(ClickyVisitorTrafficSource lis:list) {
+              	   	if(url.equals(lis.title)){
+                	// ClickyPagesVM vm = new ClickyPagesVM();
+              	   	String value =lis.value;
+              	  l=l+(long)Integer.parseInt(value);
+              	   	}
+              	   	}
+             	  lonnn.add(l);
+             	   	String chartDate=format1.format(d);
+             	     dates.add(chartDate);
+                gcal.add(Calendar.DAY_OF_MONTH, 1);
+                 
+             }
+             vm.data=lonnn;
+             data.add(vm);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(map));
+    	}
+	    
+    }
+    
+    
+    
+    public static Result getEngTimeChart(){
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		Form<ClickyPagesVM> form = DynamicForm.form(ClickyPagesVM.class).bindFromRequest();
+    		ClickyPagesVM vm1 = form.get();
+    		String startDate=vm1.startDate;
+    		String endDate=vm1.endDate;
+    		String url=vm1.url;
+    		
+    		
+    	String params = null;
+    	System.out.println(startDate);
+    	System.out.println(endDate);
+    	Date d1 = null;
+        Date d2 = null;
+        Map<String, Object> map = new HashMap<>();
+        List<sendDataVM> data = new ArrayList<>();
+		List<Object> dates = new ArrayList<>();
+		map.put("dates",dates);
+		map.put("data",data);
+        List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat format1 = new SimpleDateFormat("MMM dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+     	   	
+             GregorianCalendar gcal = new GregorianCalendar();
+             gcal.setTime(d1);
+             sendDataVM vm=new sendDataVM();
+             vm.name=url;
+             List<Long> lonnn = new ArrayList<>();
+             while (!gcal.getTime().after(d2)) {
+                 Date d = gcal.getTime();
+                 System.out.println(d);
+                 String startD=format.format(d);
+                 Long l=0L;
+                 //JsonNode jsonList = Json.parse(callClickAPI("&type=downloads&date="+startD+"&limit=all"));
+                 List<ClickyVisitorEngagementTime> list=ClickyVisitorEngagementTime.getAllData(d);
+                 
+                 for(ClickyVisitorEngagementTime lis:list) {
+              	   	if(url.equals(lis.title)){
+                	// ClickyPagesVM vm = new ClickyPagesVM();
+              	   	String value =lis.value;
+              	  l=l+(long)Integer.parseInt(value);
+              	   	}
+              	   	}
+             	  lonnn.add(l);
+             	   	String chartDate=format1.format(d);
+             	     dates.add(chartDate);
+                gcal.add(Calendar.DAY_OF_MONTH, 1);
+                 
+             }
+             vm.data=lonnn;
+             data.add(vm);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(map));
+    	}
+	    
+    }
+    
+    
+    
+    
+    
+    
 
 
     public static Result getDownloadsChart(){
