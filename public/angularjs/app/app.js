@@ -281,6 +281,15 @@ var MakeApp = angular
       })
       
       
+      .when('/getEngActionTime/:engTimeTitle', {
+          templateUrl: '/dealer/analytics/engActionAvgData.html',
+          controller: 'VisitorsCtrl'
+      })
+      
+      .when('/getTrafficInfo/:trafficSourceTitle', {
+          templateUrl: '/dealer/analytics/engActionAvgData.html',
+          controller: 'VisitorsCtrl'
+      })
       
         .when('/visitorsAnalytics', {
             templateUrl: '/dealer/analytics/visitors.html',
