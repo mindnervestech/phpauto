@@ -647,10 +647,11 @@ angular.module('newApp')
 				console.log($scope.endDateFilter);
 				$http.get('/getEngagementTime/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 				.success(function(data) {
+					
+				console.log(data);	
 				$scope.gridOptions.data = data;
-				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
-				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				/*if ( inputString.indexOf(findme) > -1 ) {
 				    alert( "found it" );
