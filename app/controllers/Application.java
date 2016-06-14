@@ -171,6 +171,7 @@ import viewmodel.BarChartVM;
 import viewmodel.BlogVM;
 import viewmodel.CampaignsVMs;
 import viewmodel.ClickyPagesVM;
+import viewmodel.ClickyPlatformVM;
 import viewmodel.ContactsVM;
 import viewmodel.CreateNewFormVM;
 import viewmodel.DateAndValueVM;
@@ -24967,10 +24968,21 @@ private static void cancelTestDriveMail(Map map) {
 	    
     }
     
-    public static Result getbrowserdata(String title , String enddate , String startdate){
-    	
-    		List<ClickyPlatformBrowser> browserObjList = ClickyPlatformBrowser.findByTitle(title);
+    public static Result getbrowserdata(String title , String startdate, String enddate){
+    		Date d1= null;
+    		Date d2= null;
+    		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    		try{
+	    		 d1 = format.parse(startdate);
+	             d2 = format.parse(enddate);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+    		
+    		List<ClickyPlatformBrowser> browserObjList = ClickyPlatformBrowser.findByTitleAndDate(title, d1, d2);
+    		List<ClickyPlatformBrowser> allbrowserlist = ClickyPlatformBrowser.getAll(d1, d2);
     		List <ClickyPagesVM> VMs = new ArrayList<>();
+    		List<ClickyPlatformVM> platformvm =new ArrayList<>();
     		ClickyPagesVM vm = new ClickyPagesVM();
     		double count1=0.0;
     		double count2=0.0;
@@ -24981,15 +24993,77 @@ private static void cancelTestDriveMail(Map map) {
     		double count7=0.0;
     		 for(ClickyPlatformBrowser lis:browserObjList){
              	
-    			 count1=count1+Double.parseDouble(lis.averageAction);
-    			 count2=count2+Double.parseDouble(lis.visitors);
-    			 count3=count3+Double.parseDouble(lis.uniqueVisitor);
-    			 count4=count4+Double.parseDouble(lis.totalTime);
-    			 count5=count5+Double.parseDouble(lis.averageTime);
-    			 count6=count6+Double.parseDouble(lis.bounceRate);
-    			 count7=count7+Double.parseDouble(lis.action);
+    			 count1=count1+Double.parseDouble(lis.averageAction1);
+    			 count2=count2+Double.parseDouble(lis.visitors1);
+    			 count3=count3+Double.parseDouble(lis.uniqueVisitor1);
+    			 count4=count4+Double.parseDouble(lis.totalTime1);
+    			 count5=count5+Double.parseDouble(lis.averageTime1);
+    			 count6=count6+Double.parseDouble(lis.bounceRate1);
+    			 count7=count7+Double.parseDouble(lis.action1);
        	   			
     		 }
+    		 
+    		 double countAll1=0.0;
+     		double countAll2=0.0;
+     		double countAll3=0.0;
+     		double countAll4=0.0;
+     		double countAll5=0.0;
+     		double countAll6=0.0;
+     		double countAll7=0.0;
+     		 for(ClickyPlatformBrowser list:allbrowserlist){
+              	
+     			 countAll1=countAll1+Double.parseDouble(list.averageAction1);
+     			 countAll2=countAll2+Double.parseDouble(list.visitors1);
+     			 countAll3=countAll3+Double.parseDouble(list.uniqueVisitor1);
+     			 countAll4=countAll4+Double.parseDouble(list.totalTime1);
+     			 countAll5=countAll5+Double.parseDouble(list.averageTime1);
+     			 countAll6=countAll6+Double.parseDouble(list.bounceRate1);
+     			 countAll7=countAll7+Double.parseDouble(list.action1);
+        	   			
+     		 }
+    		 
+    		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+    		 cVm.title = "visitors";
+    		 cVm.these_visitors =  count2;
+    		 cVm.all_visitors = countAll2;
+    		 platformvm.add(cVm);
+    		 
+    		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+    		 cVm1.title = "uniqueV";
+    		 cVm1.these_visitors = count3;
+    		 cVm1.all_visitors = countAll3;
+    		 platformvm.add(cVm1);
+    		 
+    		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+    		 cVm2.title = "action";
+    		 cVm2.these_visitors = count7;
+    		 cVm2.all_visitors = countAll7;
+    		 platformvm.add(cVm2);
+    		 
+    		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+    		 cVm3.title = "averageAct";
+    		 cVm3.these_visitors = count1;
+    		 cVm3.all_visitors = countAll1;
+    		 platformvm.add(cVm3);
+    		 
+    		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+    		 cVm4.title = "totalT";
+    		 cVm4.these_visitors = count4;
+    		 cVm4.all_visitors = countAll4;
+    		 platformvm.add(cVm4);
+    		 
+    		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+    		 cVm5.title = "averageT";
+    		 cVm5.these_visitors = count5;
+    		 cVm5.all_visitors = countAll5;
+    		 platformvm.add(cVm5);
+    		 
+    		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+    		 cVm6.title = "bounceR";
+    		 cVm6.these_visitors = count6;
+    		 cVm6.all_visitors = countAll6;
+    		 platformvm.add(cVm6);
+    		 
     		 vm.averageAct=count1;
     		 vm.visitor=count2;
     		 vm.uniqueV=count3;
