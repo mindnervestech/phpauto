@@ -352,6 +352,21 @@ var MakeApp = angular
             controller: 'allPlatformsInfoCtrl'
         })
         
+         .when('/ResolutionInfo/:idForScreen', {
+            templateUrl: '/dealer/analytics/platformInfo.html',
+            controller: 'allPlatformsInfoCtrl'
+        })
+        
+          .when('/HardwareInfo/:idForHardware', {
+            templateUrl: '/dealer/analytics/platformInfo.html',
+            controller: 'allPlatformsInfoCtrl'
+        })
+        
+         .when('/operatingSystemInfo/:idForOS', {
+            templateUrl: '/dealer/analytics/platformInfo.html',
+            controller: 'allPlatformsInfoCtrl'
+        })
+        
         .when('/goToContentInfo', {
             templateUrl: '/dealer/analytics/goToContentInfo.html',
             controller: 'goToContentInfoCtrl' 
