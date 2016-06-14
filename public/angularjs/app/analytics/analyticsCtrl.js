@@ -19,8 +19,8 @@ angular.module('newApp')
 	console.log("}}}}");
 	console.log($scope.engTimeTitle);
 	
-	$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");;
-	$rootScope.endDateFilter = moment().add('days', -1).format("YYYY-MM-DD");
+	//$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");;
+	//$rootScope.endDateFilter = moment().add('days', -1).format("YYYY-MM-DD");
 	   
 	    setTimeout(function(){
 
@@ -108,9 +108,17 @@ angular.module('newApp')
 	 var date = new Date();
 	 $scope.typeOfInfo = 'Visitor log';
 	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
+	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
+		{
+		  console.log("in if");
 		$scope.startDate=$rootScope.startDateFilter;
-		$scope.endDate=$scope.endDateFilter;
-	
+		$scope.endDate=$rootScope.endDateFilter;
+		}
+	else{
+		console.log("in else");
+		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+       $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
+	}
 		$scope.initFunction = function(){
 			$scope.DateWiseFind();
 			$scope.latitude=undefined;
@@ -283,7 +291,9 @@ angular.module('newApp')
 			
 			  if( $scope.engTimeTitle != undefined ){
 		        	$scope.typeOfInfo="";	
-		        	$http.get('/getEngTimeData/'+$scope.engTimeTitle+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
+		        	console.log($scope.startDate);
+		        	console.log($scope.endDate);
+		        	$http.get('/getEngTimeData/'+$scope.engTimeTitle+"/"+$scope.startDate+"/"+$scope.endDate)
 					.success(function(data){
 						console.log(data);
 						$scope.gridOptions1.data = data;
