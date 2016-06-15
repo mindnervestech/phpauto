@@ -5745,7 +5745,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	    			}
     				}	
     				
-    			} catch (JSONException e) {
+    			} catch (Exception e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
@@ -24655,53 +24655,76 @@ private static void cancelTestDriveMail(Map map) {
           Date beforeStart = DateUtils.addDays(d1, -days); 
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
+             Map<String, String> mapOffline = new HashMap<String, String>();
              List <ClickyVisitorEngagementAction> list=ClickyVisitorEngagementAction.getAll(d1, d2) ;
+               Integer valueCount=0;
+               Integer perCount=0;
    	            for(ClickyVisitorEngagementAction lis:list){
             	ClickyPagesVM vm = new ClickyPagesVM();
       	     	   	vm.id=lis.id;
-      				vm.value=lis.value;
+      				String value=lis.value;
+      				String valuePercent=null;
       				if(lis.valuePercent != null){
-      				vm.valuePercent = lis.valuePercent;
+      					valuePercent = lis.valuePercent;
       				}
       				else{
-      					vm.valuePercent ="0";
+      					valuePercent ="0";
       				}
-      				vm.title = lis.title;
-      				vm.statsUrl =lis.statsUrl;
-      	   		List <ClickyVisitorEngagementAction> list2=ClickyVisitorEngagementAction.getAll(beforeStart, d1) ;
-      	   		//JsonNode jsonActionsList = Json.parse(callClickAPI("&type=pages&heatmap_url=1&date="+newDate+","+startD+""));
-      	   	    double count=0;
-      	   	    double count1=0;
-      	   	for(ClickyVisitorEngagementAction lis2:list) {
-    	    	String url = lis2.title;
-    	   		if(url.equals(vm.title)){
-    	   			vm.value_percent2 = lis2.value;
-    	   		  count1=count1+Double.parseDouble(vm.value_percent2);
-    	   		
-    	   		}
-    	   		
-      	   	}	
-      	   	    
-        	   	for(ClickyVisitorEngagementAction lis2:list2) {
-        	    	String url = lis2.title;
-        	   		if(url.equals(vm.title)){
-        	   			vm.value_percent2 = lis2.value;
-        	   		  count=count+Double.parseDouble(vm.value_percent2);
-        	   		
-        	   		}
-      	   			
-        	   	}
-        	   	if(count1 != 0){
-        	   vm.averagePercent=((count1-count)/count1)*100;
-        	   	}
-        	   	else{
-        	   		vm.averagePercent=0;
-        	   	}
-      	   		    clickyList.add(vm);
-      	   			
+      				String title = lis.title;
+      				valueCount=Integer.parseInt(value);
+      				perCount=Integer.parseInt(valuePercent);
+      		     				String objectMake = mapOffline.get(title);
+      		        			if (objectMake == null) {
+      		        				mapOffline.put(title, valueCount+"&"+perCount);
+      		        			}else{
+      		        				 String arr[]=mapOffline.get(title).split("&");
+      		        				mapOffline.put(title, valueCount+Integer.parseInt(arr[0])+"&"+(perCount+Integer.parseInt(arr[1])));
+      		        			}
    		
-   	}
-             
+   	           }
+   	            
+   	         List<bodyStyleSetVM> bSetVMsoffline = new ArrayList<>();
+		     	for (Entry<String , String> entryValue : mapOffline.entrySet()) {
+		     		ClickyPagesVM vm = new ClickyPagesVM();
+					vm.title = entryValue.getKey();
+					String arr[]=entryValue.getValue().split("&");
+					vm.value = arr[0];
+					vm.valuePercent=arr[1];
+					
+					double count=0;
+	      	   	    double count1=0;
+	      	   	 List <ClickyVisitorEngagementAction> list1=ClickyVisitorEngagementAction.getAll(d1, d2) ;
+	      	   	for(ClickyVisitorEngagementAction lis2:list1) {
+	    	    	String url = lis2.title;
+	    	   		if(url.equals(vm.title)){
+	    	   			vm.value_percent2 = lis2.value;
+	    	   		  count1=count1+Double.parseDouble(vm.value_percent2);
+	    	   		
+	    	   		}
+	    	   		
+	      	   	}	
+	      	  List <ClickyVisitorEngagementAction> list2=ClickyVisitorEngagementAction.getAll(beforeStart, d1) ;
+	        	   	for(ClickyVisitorEngagementAction lis2:list2) {
+	        	    	String url = lis2.title;
+	        	   		if(url.equals(vm.title)){
+	        	   			vm.value_percent2 = lis2.value;
+	        	   		  count=count+Double.parseDouble(vm.value_percent2);
+	        	   		
+	        	   		}
+	      	   			
+	        	   	}
+	        	   	if(count1 != 0){
+	        	   vm.averagePercent=((count1-count)/count1)*100;
+	        	   	}
+	        	   	else{
+	        	   		vm.averagePercent=0;
+	        	   	}
+					
+					
+					
+					
+					clickyList.add(vm);
+				}
 
       //   } catch (Exception e) {
           //   e.printStackTrace();
@@ -26875,7 +26898,15 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	
     	    Date curr = new Date();
     	   String sDate = df.format(curr);
-           // String sDate="2016-06-07";
+            // String sDate="2016-06-14";
+           Date startDateForList=null;
+           try {
+        	 startDateForList=df.parse(sDate);
+			curr=df.parse(sDate);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;
@@ -26958,7 +26989,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 					}
 	    			
 				}	
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -26968,6 +26999,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			     paramsPages = "&type=visitors-most-active&date="+sDate+"&limit=all";
 				JSONArray jsonArrayActiveVisits;
 				try {
+					List <ClickyVisitorActiveVisitor> visitor=ClickyVisitorActiveVisitor.getAllData(startDateForList);
+					if(visitor.size() == 0){
 					jsonArrayActiveVisits = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 					for(int i=0;i<jsonArrayActiveVisits.length();i++){
 						ClickyVisitorActiveVisitor cPages = new ClickyVisitorActiveVisitor();
@@ -26989,7 +27022,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    				cPages.save();
 					}
 				}
-				 catch (JSONException e) {
+				}
+				 catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -26999,6 +27033,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			paramsPages = "&type=traffic-sources&date="+sDate+"&limit=all";
 			JSONArray jsonArrayClickyTraffic;
 			try {
+				List <ClickyVisitorTrafficSource> visitor=ClickyVisitorTrafficSource.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayClickyTraffic = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayClickyTraffic.length();i++){
 					String locString = null;
@@ -27131,7 +27167,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -27144,6 +27181,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		   paramsPages = "&type=engagement-times&date="+sDate+"&limit=all";
 			JSONArray jsonArrayEngagementTime;
 			try {
+				List <ClickyVisitorEngagementTime> visitor=ClickyVisitorEngagementTime.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayEngagementTime = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayEngagementTime.length();i++){
 					String url=null;
@@ -27234,7 +27273,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 			}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -27245,6 +27285,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	 	      paramsPages = "&type=engagement-actions&date="+sDate+"&limit=all";
 			JSONArray jsonArrayEngagementAction;
 			try {
+				List <ClickyVisitorEngagementAction> visitor=ClickyVisitorEngagementAction.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				String title=null;
 				jsonArrayEngagementAction = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayEngagementAction.length();i++){
@@ -27332,7 +27374,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 			}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -27344,6 +27387,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			paramsPages = "&type=hardware&date="+sDate+"&limit=all";
 			JSONArray jsonArrayPlatformHardware;
 			try {
+				List <ClickyPlatformHardware> visitor=ClickyPlatformHardware.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayPlatformHardware = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayPlatformHardware.length();i++){
 					String locString = null;
@@ -27479,7 +27524,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+				}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -27493,6 +27539,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			paramsPages = "&type=screen-resolutions&date="+sDate+"&limit=all";
 			JSONArray jsonArrayPlatformScreen;
 			try {
+				List <ClickyPlatformScreen> visitor=ClickyPlatformScreen.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayPlatformScreen = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayPlatformScreen.length();i++){
 					String locString = null;
@@ -27630,7 +27678,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -27642,6 +27691,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			paramsPages = "&type=web-browsers&date="+sDate+"&limit=all";
 			JSONArray jsonArrayPlatformBrowser;
 			try {
+				List <ClickyPlatformBrowser> visitor=ClickyPlatformBrowser.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayPlatformBrowser = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayPlatformBrowser.length();i++){
 					String locString = null;
@@ -27717,7 +27768,6 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    						
 	    					}
 	    	    			
-	    	    			
 	    			
 	    				}
 	    			
@@ -27783,7 +27833,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -27792,6 +27843,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 				paramsPages = "&type=operating-systems&date="+sDate+"&limit=all";
 			JSONArray jsonArrayPlatformOperatingSystem;
 			try {
+				List <ClickyPlatformOperatingSystem> visitor=ClickyPlatformOperatingSystem.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayPlatformOperatingSystem = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayPlatformOperatingSystem.length();i++){
 					String locString = null;
@@ -27931,7 +27984,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -27942,6 +27996,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			
 			JSONArray jsonArrayPage;
 			try {
+				List <ClickyPagesList> visitor=ClickyPagesList.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayPage = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayPage.length();i++){
 					String locString = null;
@@ -28043,7 +28099,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages1.save();
 				}
 				}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -28052,7 +28109,9 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 
  			paramsPages = "&type=site-domains&date="+sDate+"&limit=all";
 			JSONArray jsonArrayDomain;
+			List<ClickyContentDomain> list= ClickyContentDomain.getAllData(startDateForList);
 			try {
+				if(list.size() == 0){
 				jsonArrayDomain = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayDomain.length();i++){
 	    			ClickyContentDomain cPages = new ClickyContentDomain();
@@ -28094,7 +28153,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+				}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -28104,6 +28164,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
  			paramsPages = "&type=media&date="+sDate+"&limit=all";
 			JSONArray jsonArrayMedia;
 			try {
+				List <ClickyContentMedia> visitor=ClickyContentMedia.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayMedia = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayMedia.length();i++){
 	    			ClickyContentMedia cPages = new ClickyContentMedia();
@@ -28134,6 +28196,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
+			}
 			 catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -28149,6 +28212,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
  			paramsPages = "&type=events&date="+sDate+"&limit=all";
 			JSONArray jsonArrayContentEvents;
 			try {
+				List <ClickyContentEvent> visitor=ClickyContentEvent.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayContentEvents = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayContentEvents.length();i++){
 	    			ClickyContentEvent cPages = new ClickyContentEvent();
@@ -28174,7 +28239,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -28188,6 +28254,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			paramsPages = "&type=downloads&date="+sDate+"&limit=all";
 			JSONArray jsonArrayContentDownLoad;
 			try {
+				List <ClickyContentDownLoad> visitor=ClickyContentDownLoad.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayContentDownLoad = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayContentDownLoad.length();i++){
 					String locString = null;
@@ -28218,7 +28286,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -28232,10 +28301,10 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 
 			
 			paramsPages = "&type=pages-exit&date="+sDate+"&limit=all";
-              //paramsPages = "&type=pages&heatmap_url=1&date="+sDate+"&limit=all";
-			
 			JSONArray jsonArrayContentExit;
 			try {
+				List <ClickyContentExit> visitor=ClickyContentExit.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayContentExit = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayContentExit.length();i++){
 					String locString = null;
@@ -28266,7 +28335,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -28278,6 +28348,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			paramsPages = "&type=pages-entrance&date="+sDate+"&limit=all";
 			JSONArray jsonArrayEntrance;
 			try {
+				List <ClickyEntranceList> visitor=ClickyEntranceList.getAllData(startDateForList);
+				if(visitor.size() == 0){
 				jsonArrayEntrance = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				for(int i=0;i<jsonArrayEntrance.length();i++){
 					String locString = null;
@@ -28365,7 +28437,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPages.save();
 				}
 				}
-			 catch (JSONException e) {
+			}
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -32068,7 +32141,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	    			}
     				}	
     				
-    			} catch (JSONException e) {
+    			} catch (Exception e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
@@ -38284,7 +38357,7 @@ public static Result getviniewsChartLeads(Long id, String vin,
 				}
     			
 			}
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

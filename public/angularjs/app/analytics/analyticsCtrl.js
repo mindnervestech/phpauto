@@ -627,8 +627,8 @@ angular.module('newApp')
 					$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
-					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
-					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'title');
+					//$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				});
 				 
 				 $scope.gridOptions.columnDefs = [
