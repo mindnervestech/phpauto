@@ -5558,7 +5558,11 @@ float: right !important;
 								    
 								    
 								    	<div class="modal fade" id="editLeads" tabindex="-1" role="dialog" aria-hidden="true" style="height: 938px;">
+								        <div class="col-sm-12">
+								        <div  class="col-sm-10">
 								        <div class="modal-dialog" style="width: 950px;">
+								         <div class="col-sm-12">
+								         <div  class="col-sm-11" style="padding: 0px;">
 								            <div class="modal-content">
 								                <div class="modal-header">
 												<div class="col-sm-12">
@@ -5570,6 +5574,7 @@ float: right !important;
 								                
 								                <form ng-submit="editleads()">
 								                <div class="modal-body" style="height:661px;overflow-x:auto;">
+								                <div class="col-sm-12" >
 								                <div class="financing_calculator">
 								                   <div class="form-group col-sm-12">
 														<label class="col-sm-1 control-label" style="text-align: right;">Name</label>
@@ -5806,49 +5811,7 @@ float: right !important;
 								                    	</div>
 								                    </div>
 													
-													
-													<!-- ----------------------------------- -->
-													
-												<!-- 	 <div class="form-group col-sm-10">
-								                 	<label class="col-sm-3 control-label" style="text-align: right;">Stock Number</label>
-														<div class="col-sm-4">
-								                      	<select class="form-control form-white" ng-model="editLeads.stockNumber" ng-change="changesVin('',editLeads.stockNumber)" required>
-																<option value="">Select</option>
-																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.stockNumber == vehi.stock" value="{{vehi.stock}}">{{vehi.stock}}</option>
-															</select>
-															</div>
-								                 </div>
-												<div class="form-group col-sm-10">
-								                 	<label class="col-sm-3 control-label" style="text-align: right;">Vin</label>
-														<div class="col-sm-4">
-								                      	<select class="form-control form-white" ng-model="editLeads.vin" ng-change="changesVin(editLeads.vin,'')" required>
-																<option value="">Select</option>
-																<option ng-repeat="vehi in allVehicalss" ng-selected="editLeads.vin == vehi.vin" value="{{vehi.vin}}">{{vehi.vin}}</option>
-															</select>
-															</div>
-								                 </div>
-								                
-								                 <div class="form-group col-sm-10">
-								                 	<label class="col-sm-3 control-label" style="text-align: right;">Year</label>
-														<div class="col-sm-4">
-								                      
-															<input type="text" class="form-control form-white" ng-model="editLeads.year" disabled required>
-															</div>
-								                 </div>
-								                  <div class="form-group col-sm-10">
-								                 	<label class="col-sm-3 control-label" style="text-align: right;">Model</label>
-														<div class="col-sm-4">
-								                      
-															<input type="text" class="form-control form-white" ng-model="editLeads.model" disabled required>
-															</div>
-								                 </div>
-								                 <div class="form-group col-sm-10">
-								                 	<label class="col-sm-3 control-label" style="text-align: right;">Make</label>
-														<div class="col-sm-4">
-								                      	
-															<input type="text" class="form-control form-white" ng-model="editLeads.make" disabled required>
-															</div>
-								                 </div>  -->
+												
 								                 <div ng-if="pdffile != null">
 								                 <div class="form-group col-sm-11" style="text-align: center;" ng-if="editLeads.leadType == 'Trade In' || editLeads.leadType == 'Trade-In Appraisal'">
 								                 	<a ng-click="showPdf(editLeads.id)" style="cursor: pointer;"><span class="glyphicon glyphicon-list-alt" style="font-size: 50px;"></span>
@@ -5858,6 +5821,7 @@ float: right !important;
 								                 	<button type="button" class="btn btn-default btn-embossed" ng-click="openForm()">Trade_In Form</button>
 								                 </div>
 								                 
+												</div>
 												</div>									               													
 								                </div>
 								                <div class="modal-footer">
@@ -5866,7 +5830,24 @@ float: right !important;
 								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
 								                </div>
 								                </form>
+								                </div>
+								                </div>
+								         <div class="col-sm-1" style="padding: 0px;">
+								         PPPP{{infoColorFlag}}
+								         <div  ng-class="infoColorFlag==1 ?'activeTabColor':'infoTabColor'"  style=" width: 106px;height: 80px;">
+								        <span > <img   id="infoImage" ng-click="changeInfoImage()" style="width: 100px;height: 70px; margin-top: 7px;" src="../../../assets/global/images/leadsImages/information-button active.png"></span>
+								       </div>
+								       
+								       <div  ng-class="infoColorFlag==1 ?'infoTabColor':'activeTabColor'"   style=" width: 106px;height: 80px;">
+								       <span > <img id="activeTabImage" ng-click="changeActiveTabImage()" style="width: 100px;height: 70px; margin-top: 7px;"  src="../../../assets/global/images/leadsImages/session_data inactive.png"></span>
+								        </div>
+								        </div>
+								                
 								            </div>
+								            <div>	</div>
+								        </div>
+								         <div class="col-sm-2">
+								        </div>
 								        </div>
 								    </div>
 								    
@@ -9911,6 +9892,14 @@ float: right !important;
 
 .txtColourGreen{
 color:green;
+}
+
+.activeTabColor{
+background: #eaeaea;
+}
+.infoTabColor{
+
+background:white; 
 }
 
 .txtColourRed{

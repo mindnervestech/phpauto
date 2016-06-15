@@ -2084,6 +2084,23 @@ angular.module('newApp')
    	  		$scope.pdfFile = "/getPdfPath/"+id;
    	  		$('#openPdffile').click();
    	  	}
+   	 $scope.infoColorFlag=1;
+   	 $scope.changeActiveTabImage = function(id){
+	  console.log("inside");
+	  $scope.infoColorFlag=0;
+	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
+  	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
+    	 
+	 }
+   	
+   	
+    $scope.changeInfoImage = function(id){
+    	$scope.infoColorFlag=1;
+    	 document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button active.png";
+   	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data inactive.png";
+  	 }
+   	 
+   	  	
    	        $scope.financeData={};
    	  		$scope.editLeads = {};
    	  	$scope.stockWiseData = [];
