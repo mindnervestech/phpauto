@@ -7,4 +7,6 @@ public class ClickyPlatformVM {
 	public Double these_visitors;
 	public Double all_visitors;
 	public String difference;
+	public String images;
+	
 }

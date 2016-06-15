@@ -367,6 +367,11 @@ var MakeApp = angular
             controller: 'allPlatformsInfoCtrl'
         })
         
+        .when('/contentInfo/:idForMedia', {
+            templateUrl: '/dealer/analytics/contentInfo.html',
+            controller: 'goToContentInfoCtrl' 
+        })
+        
         .when('/goToContentInfo', {
             templateUrl: '/dealer/analytics/goToContentInfo.html',
             controller: 'goToContentInfoCtrl' 

@@ -92,6 +92,7 @@ GET		/getbrowserdata/:title/:startdate/:enddate			controllers.Application.getbro
 GET		/getOperatingSystemdata/:title/:startdate/:enddate			controllers.Application.getOperatingSystemdata(title:String,startdate:String,enddate:String)
 GET		/getResolutiondata/:title/:startdate/:enddate			controllers.Application.getResolutiondata(title:String,startdate:String,enddate:String)
 GET		/getHardwaredata/:title/:startdate/:enddate			controllers.Application.getHardwaredata(title:String,startdate:String,enddate:String)
+GET		/getMediaData/:url/:startdate/:enddate			controllers.Application.getMediaData(url:Long,startdate:String,enddate:String)
 GET		/setDefaultImage/:id		controllers.Application.setDefaultImage(id:Long)
 GET     /getbusinessData/:businessName	controllers.Application.getbusinessData(businessName:String)
 GET     /getPdfPath/:id				controllers.Application.getPdfPath(id:Long)

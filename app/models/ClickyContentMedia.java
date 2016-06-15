@@ -22,7 +22,72 @@ public class ClickyContentMedia extends Model {
 	public String editedUrl;
 	public Date saveDate;
 	
+	public String visitors;
+	public String uniqueVisitor;
+	public String action;
+	public String averageAction;
+	public String totalTime;
+	public String averageTime;
+	public String bounceRate;
 	
+	
+	
+	public String getVisitors() {
+		return visitors;
+	}
+
+	public void setVisitors(String visitors) {
+		this.visitors = visitors;
+	}
+
+	public String getUniqueVisitor() {
+		return uniqueVisitor;
+	}
+
+	public void setUniqueVisitor(String uniqueVisitor) {
+		this.uniqueVisitor = uniqueVisitor;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public String getAverageAction() {
+		return averageAction;
+	}
+
+	public void setAverageAction(String averageAction) {
+		this.averageAction = averageAction;
+	}
+
+	public String getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime(String totalTime) {
+		this.totalTime = totalTime;
+	}
+
+	public String getAverageTime() {
+		return averageTime;
+	}
+
+	public void setAverageTime(String averageTime) {
+		this.averageTime = averageTime;
+	}
+
+	public String getBounceRate() {
+		return bounceRate;
+	}
+
+	public void setBounceRate(String bounceRate) {
+		this.bounceRate = bounceRate;
+	}
+
 	public String getEditedUrl() {
 		return editedUrl;
 	}
@@ -113,7 +178,13 @@ public class ClickyContentMedia extends Model {
 		return find.byId(id);
 	}
 	
+	public static List<ClickyContentMedia> findByTitle(String title) {
+		return find.where().eq("title", title).findList();
+	}
 	
+	public static List<ClickyContentMedia> findByUrlAndDate(String url, Date startdate, Date enddate) {
+		return find.where().eq("url", url).between("saveDate", startdate, enddate).findList();
+	}
 	
 }
 

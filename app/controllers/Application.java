@@ -170,6 +170,7 @@ import viewmodel.AutoPortalVM;
 import viewmodel.BarChartVM;
 import viewmodel.BlogVM;
 import viewmodel.CampaignsVMs;
+import viewmodel.ClickyContentVM;
 import viewmodel.ClickyPagesVM;
 import viewmodel.ClickyPlatformVM;
 import viewmodel.ContactsVM;
@@ -24967,6 +24968,129 @@ private static void cancelTestDriveMail(Map map) {
 	    
     }
     
+    public static Result getMediaData(Long url , String startdate, String enddate){
+		Date d1= null;
+		Date d2= null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+    		 d1 = format.parse(startdate);
+             d2 = format.parse(enddate);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		ClickyContentMedia oneRow = ClickyContentMedia.findById(url);
+		
+		List<ClickyContentMedia> mediaObjList = ClickyContentMedia.findByUrlAndDate(oneRow.url, d1, d2);
+		List<ClickyContentMedia> allmedialist = ClickyContentMedia.getAll(d1, d2);
+		List <ClickyContentVM> VMs = new ArrayList<>();
+		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+		ClickyContentVM vm = new ClickyContentVM();
+		double count1=0.0;
+		double count2=0.0;
+		double count3=0.0;
+		double count4=0.0;
+		double count5=0.0;
+		double count6=0.0;
+		double count7=0.0;
+		 for(ClickyContentMedia lis:mediaObjList){
+         	
+			 count1=count1+Double.parseDouble(lis.averageAction);
+			 count2=count2+Double.parseDouble(lis.visitors);
+			 count3=count3+Double.parseDouble(lis.uniqueVisitor);
+			 count4=count4+Double.parseDouble(lis.totalTime);
+			 count5=count5+Double.parseDouble(lis.averageTime);
+			 count6=count6+Double.parseDouble(lis.bounceRate);
+			 count7=count7+Double.parseDouble(lis.action);
+   	   			
+		 }
+		 
+		 double countAll1=0.0;
+ 		double countAll2=0.0;
+ 		double countAll3=0.0;
+ 		double countAll4=0.0;
+ 		double countAll5=0.0;
+ 		double countAll6=0.0;
+ 		double countAll7=0.0;
+ 		 for(ClickyContentMedia list:allmedialist){
+          	
+ 			 countAll1=countAll1+Double.parseDouble(list.averageAction);
+ 			 countAll2=countAll2+Double.parseDouble(list.visitors);
+ 			 countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+ 			 countAll4=countAll4+Double.parseDouble(list.totalTime);
+ 			 countAll5=countAll5+Double.parseDouble(list.averageTime);
+ 			 countAll6=countAll6+Double.parseDouble(list.bounceRate);
+ 			 countAll7=countAll7+Double.parseDouble(list.action);
+    	   			
+ 		 }
+		 
+		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+		 cVm.title = "visitors";
+		 cVm.these_visitors =  count2;
+		 cVm.all_visitors = countAll2;
+		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		 platformvm.add(cVm);
+		 
+		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+		 cVm1.title = "uniqueVisitors";
+		 cVm1.these_visitors = count3;
+		 cVm1.all_visitors = countAll3;
+		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		 platformvm.add(cVm1);
+		 
+		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+		 cVm2.title = "action";
+		 cVm2.these_visitors = count7;
+		 cVm2.all_visitors = countAll7;
+		 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		 platformvm.add(cVm2);
+		 
+		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+		 cVm3.title = "averageAction";
+		 cVm3.these_visitors = count1;
+		 cVm3.all_visitors = countAll1;
+		 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		 platformvm.add(cVm3);
+		 
+		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+		 cVm4.title = "totalTime";
+		 cVm4.these_visitors = count4;
+		 cVm4.all_visitors = countAll4;
+		 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		 platformvm.add(cVm4);
+		 
+		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+		 cVm5.title = "averageTime";
+		 cVm5.these_visitors = count5;
+		 cVm5.all_visitors = countAll5;
+		 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		 platformvm.add(cVm5);
+		 
+		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+		 cVm6.title = "bounceRate";
+		 cVm6.these_visitors = count6;
+		 cVm6.all_visitors = countAll6;
+		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+		 platformvm.add(cVm6);
+		 
+		 vm.averageAction=count1;
+		 vm.visitor=count2;
+		 vm.uniqueVisitor=count3;
+		 vm.totalTimes=count4;
+		 vm.averageTimes=count5;
+		 vm.bounceRates=count6;
+		 vm.action=count7;
+		
+		 VMs.add(vm);
+
+     	
+     	
+		 
+     	return ok(Json.toJson(platformvm));
+		
+	}
+
+    
+    
     public static Result getbrowserdata(String title , String startdate, String enddate){
     		Date d1= null;
     		Date d2= null;
@@ -25025,42 +25149,49 @@ private static void cancelTestDriveMail(Map map) {
     		 cVm.title = "visitors";
     		 cVm.these_visitors =  count2;
     		 cVm.all_visitors = countAll2;
+    		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
     		 platformvm.add(cVm);
     		 
     		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
     		 cVm1.title = "uniqueV";
     		 cVm1.these_visitors = count3;
     		 cVm1.all_visitors = countAll3;
+    		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
     		 platformvm.add(cVm1);
     		 
     		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
     		 cVm2.title = "action";
     		 cVm2.these_visitors = count7;
     		 cVm2.all_visitors = countAll7;
+    		 cVm2.images = "//con.tent.network/media/icon_click.gif";
     		 platformvm.add(cVm2);
     		 
     		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
     		 cVm3.title = "averageAct";
     		 cVm3.these_visitors = count1;
     		 cVm3.all_visitors = countAll1;
+    		 cVm3.images = "//con.tent.network/media/icon_click.gif";
     		 platformvm.add(cVm3);
     		 
     		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
     		 cVm4.title = "totalT";
     		 cVm4.these_visitors = count4;
     		 cVm4.all_visitors = countAll4;
+    		 cVm4.images = "//con.tent.network/media/icon_time.gif";
     		 platformvm.add(cVm4);
     		 
     		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
     		 cVm5.title = "averageT";
     		 cVm5.these_visitors = count5;
     		 cVm5.all_visitors = countAll5;
+    		 cVm5.images = "//con.tent.network/media/icon_time.gif";
     		 platformvm.add(cVm5);
     		 
     		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
     		 cVm6.title = "bounceR";
     		 cVm6.these_visitors = count6;
     		 cVm6.all_visitors = countAll6;
+    		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
     		 platformvm.add(cVm6);
     		 
     		 vm.averageAct=count1;
@@ -25138,42 +25269,49 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
+		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
 		 cVm1.title = "uniqueV";
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
+		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
 		 cVm2.title = "action";
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
+		 cVm2.images = "//con.tent.network/media/icon_click.gif";
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 		 cVm3.title = "averageAct";
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
+		 cVm3.images = "//con.tent.network/media/icon_click.gif";
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
 		 cVm4.title = "totalT";
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
+		 cVm4.images = "//con.tent.network/media/icon_time.gif";
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 		 cVm5.title = "averageT";
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
+		 cVm5.images = "//con.tent.network/media/icon_time.gif";
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 		 cVm6.title = "bounceR";
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
+		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 		 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
@@ -25252,42 +25390,49 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
+		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
 		 cVm1.title = "uniqueV";
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
+		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
 		 cVm2.title = "action";
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
+		 cVm2.images = "//con.tent.network/media/icon_click.gif";
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 		 cVm3.title = "averageAct";
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
+		 cVm3.images = "//con.tent.network/media/icon_click.gif";
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
 		 cVm4.title = "totalT";
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
+		 cVm4.images = "//con.tent.network/media/icon_time.gif";
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 		 cVm5.title = "averageT";
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
+		 cVm5.images = "//con.tent.network/media/icon_time.gif";
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 		 cVm6.title = "bounceR";
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
+		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 		 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
@@ -25365,42 +25510,49 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
+		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
 		 cVm1.title = "uniqueV";
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
+		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
 		 cVm2.title = "action";
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
+		 cVm2.images = "//con.tent.network/media/icon_click.gif";
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 		 cVm3.title = "averageAct";
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
+		 cVm3.images = "//con.tent.network/media/icon_click.gif";
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
 		 cVm4.title = "totalT";
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
+		 cVm4.images = "//con.tent.network/media/icon_time.gif";
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 		 cVm5.title = "averageT";
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
+		 cVm5.images = "//con.tent.network/media/icon_time.gif";
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 		 cVm6.title = "bounceR";
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
+		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 		 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
@@ -28187,9 +28339,69 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    			catch(Exception e){
 		    				e.printStackTrace();
 		    			}
-	    			
+	    			String url = null;
 	    			cPages.setStatsUrl(jsonArrayMedia.getJSONObject(i).get("stats_url").toString());
 	    			cPages.setUrl(jsonArrayMedia.getJSONObject(i).get("url").toString());
+	    			url=jsonArrayMedia.getJSONObject(i).get("url").toString();
+	    			url=URLEncoder.encode(url);
+	    			
+	    			
+	    			
+	    			paramsPages = "&type=segmentation&video="+url+"&segments=summary&date="+sDate+"&limit=all";
+	    			
+	    			JSONArray jsonArraymediaPage;
+	    			
+	    			jsonArraymediaPage = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+	    			//	ClickyPagesActionList cPages1 = new ClickyPagesActionList();
+	    				for(int j=0;j<jsonArraymediaPage.length();j++){
+	    	    			
+	    					
+	    					
+	    					if(jsonArraymediaPage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+	    					
+	    						cPages.setAverageAction(jsonArraymediaPage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArraymediaPage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+		    					
+	    						cPages.setAverageTime(jsonArraymediaPage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArraymediaPage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+		    					
+	    						cPages.setTotalTime(jsonArraymediaPage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArraymediaPage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+		    					
+	    						cPages.setBounceRate(jsonArraymediaPage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArraymediaPage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+		    					
+	    						cPages.setVisitors(jsonArraymediaPage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					if(jsonArraymediaPage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+		    					
+	    						cPages.setUniqueVisitor(jsonArraymediaPage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					
+	    					if(jsonArraymediaPage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+		    					
+	    						cPages.setAction(jsonArraymediaPage.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    	    			
+	    	    			
+	    			
+	    				}
 	    			
 	    			cPages.setSaveDate(curr);
 	    			//	cPages1.setClickyPagesId(idForPage);

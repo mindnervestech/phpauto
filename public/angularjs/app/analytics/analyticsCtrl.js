@@ -1279,10 +1279,12 @@ angular.module('newApp')
 
 angular.module('newApp')
 .controller('goToContentInfoCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
-
+	
+	$scope.urlForMedia=$routeParams.idForMedia;
 	console.log($rootScope.startDateFilter);
 	console.log($rootScope.endDateFilter);
 	$scope.idForGrid=$routeParams.id;
+	console.log($scope.urlForMedia);
 	
 	
 	$scope.gridOptions = {
@@ -1630,7 +1632,9 @@ angular.module('newApp')
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'url', displayName: 'Media', width:'50%'},
+									             {name: 'url', displayName: 'Media', width:'50%',
+									            	 cellTemplate: '<div><span ng-click="grid.appScope.goToMediaPages(row.entity.id)">{{row.entity.url}}</span></div>',
+									             },
 									             {name:'value', displayName:'Views', width:'10%'},
 									             {name:'valuePercent', displayName:'value_Percent', width:'10%'},
 									             {name:'statsUrl', displayName:'', width:'20%',
@@ -1646,7 +1650,7 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Domains'){
 				$http.get('/getDomains/'+startDate+"/"+endDate)
 				.success(function(data) {
-					console.log(data);
+					console.log(data);l
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
@@ -1674,6 +1678,85 @@ angular.module('newApp')
 			
 		 }
 		 
+		 $scope.mediaFunction = function(){
+				console.log("in media function");
+				 var startDate = $rootScope.startDateFilter;
+				 var endDate = $rootScope.endDateFilter;	 
+				 console.log(startDate);
+				 console.log(endDate);
+				 console.log($scope.urlForMedia);
+				
+					 
+				 $http.get('/getMediaData/'+$scope.urlForMedia+'/'+startDate+'/'+endDate)
+				 .success(function(data){
+					 console.log("in the function data");
+					 console.log(data);
+						$scope.gridOptions.data = data;
+						$scope.mediaObjList = data;
+						
+						angular.forEach($scope.gridOptions.data, function(value, key) {
+							if(value.title=="totalTime"){
+								value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+								 var splitTime   = value.these_visitors.split(":");
+								 if(splitTime[0] == 00){
+									 value.these_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+								 }
+								 else{
+									 value.these_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+								 }
+								 
+								 
+								}	
+							if(value.title=="averageTime"){
+								value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+								 var splitTime1   = value.these_visitors.split(":");
+								 if(splitTime1[0] == 00){
+									 value.these_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+								 }
+								 else{
+									 value.these_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+								 }
+								 
+								}	 
+								 
+							if(value.title=="totalTime"){
+								value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+								 var splitTime   = value.all_visitors.split(":");
+								 if(splitTime[0] == 00){
+									 value.all_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+								 }
+								 else{
+									 value.all_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+								 }
+								 
+								 
+								}	
+							if(value.title=="averageTime"){
+								value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+								 var splitTime1   = value.all_visitors.split(":");
+								 if(splitTime1[0] == 00){
+									 value.all_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+								 }
+								 else{
+									 value.all_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+								 }
+								 
+								}	 
+								
+						});
+						
+						 $scope.gridOptions.columnDefs = [
+						                                   {name: 'ur', displayName: 'Summary of filtered visitors', width:'55%',
+						                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',			
+						                                   },
+												             {name:'these_visitors', displayName:'These Visitors', width:'15%' },
+												             {name:'all_visitors', displayName:'All Visitors', width:'15%' },
+												             {name:'these_vis', displayName:'Difference', width:'15%' },
+													        
+													        
+												            	 ]
+				 });
+				 }
 		 
 		 
 		 $scope.showEntranceActionData = function(id) {
@@ -2740,8 +2823,8 @@ angular.module('newApp')
 				});
 				
 				 $scope.gridOptions.columnDefs = [
-				                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%'
-				                                	   /*cellTemplate: '<div> <img  src="//con.tent.network/media/icon_visitors.gif" >{{row.entity.title}}</div>',*/			
+				                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
+				                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',			
 				                                   },
 										             {name:'these_visitors', displayName:'These Visitors', width:'15%' },
 										             {name:'all_visitors', displayName:'All Visitors', width:'15%' },
@@ -2818,7 +2901,9 @@ angular.module('newApp')
 					
 					
 					 $scope.gridOptions.columnDefs = [
-					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%'},
+					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
+					                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',
+					                                   },
 											             {name:'these_visitors', displayName:'These Visitors', width:'15%' },
 											             {name:'all_visitors', displayName:'All Visitors', width:'15%' },
 											             {name:'these_vis', displayName:'Difference', width:'15%' },
@@ -2895,7 +2980,9 @@ angular.module('newApp')
 					
 					
 					 $scope.gridOptions.columnDefs = [
-					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%'},
+					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
+					                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',   
+					                                   },
 											             {name:'these_visitors', displayName:'These Visitors', width:'15%' },
 											             {name:'all_visitors', displayName:'All Visitors', width:'15%' },
 											             {name:'these_vis', displayName:'Difference', width:'15%' },
@@ -2972,7 +3059,9 @@ angular.module('newApp')
 					
 					
 					 $scope.gridOptions.columnDefs = [
-					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%'},
+					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
+					                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',   
+					                                   },
 											             {name:'these_visitors', displayName:'These Visitors', width:'15%' },
 											             {name:'all_visitors', displayName:'All Visitors', width:'15%' },
 											             {name:'these_vis', displayName:'Difference', width:'15%' },
