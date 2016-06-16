@@ -50,6 +50,7 @@ public class RequestMoreInfo extends Model {
 	public Date statusTime;
 	public Integer premiumFlag;
 	public Long parentId;
+	public String sessionId;
 	public int onlineOrOfflineLeads;
 public String testDriveStatus;
 public String isContactusType;
@@ -58,6 +59,12 @@ public String message;
 	
 	
 	
+	public String getSessionId() {
+	return sessionId;
+}
+public void setSessionId(String sessionId) {
+	this.sessionId = sessionId;
+}
 	public String getMessage() {
 	return message;
 }

@@ -5562,7 +5562,156 @@ float: right !important;
 								        <div  class="col-sm-10">
 								        <div class="modal-dialog" style="width: 950px;">
 								         <div class="col-sm-12">
-								         <div  class="col-sm-11" style="padding: 0px;">
+								         
+								       <!-- -----  map tab -->
+								         <div ng-if="infoColorFlag==0"  class="col-sm-11" style="padding: 0px;" >
+								         <div class="modal-content">
+								                <div class="modal-header">
+												<div class="col-sm-12">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title" style="color: black;">Visitor Details</h4>
+												</div>	
+								                </div>
+								                
+								                <div class="modal-body" style="height:661px;overflow-x:auto;">
+								           
+								           
+								           <div>							                
+									    <div   class="col-sm-12" >
+										<h2> Visitor details </h2>
+										<hr style="border-color: black;">
+										<div  style="margin-top: 10px" class="col-sm-7">
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label  >Visits:</label>
+										</div>
+										<div class="col-sm-8">
+										<a style="color:black;" > {{visitorInfo.totalVisits}} </a>
+										</div>
+										</div>
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label>Unique ID:</label>
+										</div>
+										<div class="col-sm-7">
+										<a style="cursor: pointer;color:black;" >{{visitorInfo.uid}}</a>
+										</div>
+										<div class="col-sm-1" style="color: red"></div>
+										</div>
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label  >IP Address:</label>
+										</div>
+										<div class="col-sm-7">
+										<a  style="cursor: pointer;"   >{{visitorInfo.ipAddress}} (ARIN/RIPE)</a>
+										</div>
+										<div class="col-sm-1" style="color: red"></div>
+										</div>
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label>Locale:</label>
+										</div>
+										<div class="col-sm-8">
+										<a   style="cursor: pointer;"   >{{visitorInfo.geolocation}}</a>&nbsp;/&nbsp;<a  style="cursor: pointer;" ng-click="referrerTypeDataForLang(visitorInfo.language)" >{{visitorInfo.language}}</a>
+										</div>
+										</div>
+										
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label>Organization:</label>
+										</div>
+										<div class="col-sm-8">
+										<a  style="cursor: pointer;"  >{{visitorInfo.organization}}</a>&nbsp;/&nbsp;<a   style="cursor: pointer;" ng-click="referrerTypeDataForHost(visitorInfo.hostname)" >{{visitorInfo.hostname}}</a>
+										</div>
+										</div>
+										
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label>Platform:</label>
+										</div>
+										<div class="col-sm-8">
+										<a  style="cursor: pointer;" >{{visitorInfo.webBrowser}}</a> / <a style="cursor: pointer;" ng-click="referrerTypeDataForOs(visitorInfo.operatingSystem)">{{visitorInfo.operatingSystem}}</a>/<a style="cursor: pointer;" ng-click="referrerTypeDataForScreen(visitorInfo.screenResolution)" >{{visitorInfo.screenResolution}}</a>
+										</div>
+										</div>
+										
+										
+										
+										
+										
+										</div>
+										
+										<div  ng-if="flagForIpAdressData != 1" class="col-sm-5">
+										<div class="col-sm-12" > 
+											 <div id="map-canvas" style="width:110%; height:270px"></div> 
+										</div>
+										</div>
+										</div>
+										
+										
+									    <div  ng-if="flagForIpAdressData != 1" class="col-sm-12">
+										<h2> This Visit </h2>
+										<hr style="border-color: black;">
+										<div class="col-sm-6">
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-3">
+										<label >Date:</label>
+										</div>
+										<div class="col-sm-6">
+										<a style="color:black;" >{{visitorInfo.timePretty}}</a>
+										</div>
+										</div>
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-3">
+										<label>Session:</label>
+										</div>
+										<div class="col-sm-6">
+										<a style="color:black;" >{{visitorInfo.timeTotal}},{{visitorInfo.actions}} actions </a>
+										</div>
+										</div>
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-3">
+										<label>Landing Page:</label>
+										</div>
+										<div class="col-sm-8">
+										<a   target="_blank"   >{{visitorInfo.landingPage}}</a>
+										</div>
+										</div>
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-3">
+										<label>Referrer type:</label>
+										</div>
+										<div class="col-sm-6">
+										<a   style="cursor: pointer;"  >{{visitorInfo.referrerType}}</a>
+										</div>
+										</div>
+										
+										
+										</div>
+										
+										<div  style="margin-top: 5%;" class="col-sm-12">
+										<div  ui-grid="gridForSession" style="height:500px;" ui-grid-edit ui-grid-pagination>
+										</div> 
+										
+										</div>
+										
+										</div>
+											</div>
+										  </div>	
+										  </div>					           
+										   </div>
+										   
+										   
+										   
+								         <div ng-if="infoColorFlag==1"  class="col-sm-11" style="padding: 0px;">
 								            <div class="modal-content">
 								                <div class="modal-header">
 												<div class="col-sm-12">
@@ -5832,8 +5981,8 @@ float: right !important;
 								                </form>
 								                </div>
 								                </div>
+								                
 								         <div class="col-sm-1" style="padding: 0px;">
-								         PPPP{{infoColorFlag}}
 								         <div  ng-class="infoColorFlag==1 ?'activeTabColor':'infoTabColor'"  style=" width: 106px;height: 80px;">
 								        <span > <img   id="infoImage" ng-click="changeInfoImage()" style="width: 100px;height: 70px; margin-top: 7px;" src="../../../assets/global/images/leadsImages/information-button active.png"></span>
 								       </div>
@@ -9843,6 +9992,9 @@ float: right !important;
 }
 .underline {
 	text-decoration: underline;
+}
+ .ui-grid-row, .ui-grid-cell {
+  min-height: 50px !important;
 }
 
 .futureA{

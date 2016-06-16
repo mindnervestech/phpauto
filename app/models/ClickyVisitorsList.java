@@ -365,7 +365,9 @@ public class ClickyVisitorsList extends Model {
 	public static List<ClickyVisitorsList> getClickyUnikue(String uid,String sessionId) {
 		return find.where().eq("uid", uid).eq("sessionId", sessionId).findList();
 	}
-	
+	public static List<ClickyVisitorsList> getClickySessionData(String sessionId) {
+		return find.where().eq("sessionId", sessionId).findList();
+	}
 	public static List<ClickyVisitorsList> getfindAll() {
 		return find.all();
 	}

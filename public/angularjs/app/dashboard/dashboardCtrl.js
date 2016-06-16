@@ -2084,15 +2084,83 @@ angular.module('newApp')
    	  		$scope.pdfFile = "/getPdfPath/"+id;
    	  		$('#openPdffile').click();
    	  	}
+   	  	
+							          
+      $scope.gridForSession = {
+		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+		 		    paginationPageSize: 150,
+		 		    enableFiltering: true,
+		 		    useExternalFiltering: true,
+		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+		 		 }; 
+   	  	
    	 $scope.infoColorFlag=1;
+   	$scope.visitorInfo={};
    	 $scope.changeActiveTabImage = function(id){
 	  console.log("inside");
 	  $scope.infoColorFlag=0;
 	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
   	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
-    	 
+    	
+  	 console.log($scope.sessionId) ;
+  	 $scope.sessionId="187903883";
+  	  $http.get('/getSessionIdData/'+$scope.sessionId)
+		.success(function(data) {
+			console.log(data);
+			$scope.latitude=data.latitude; 
+			$scope.longitude=data.longitude;
+			initialized();
+			$scope.visitorInfo=data;
+			
+			
+			if($scope.sessionId != null && $scope.sessionId != undefined){
+				var today = new Date()
+				$scope.startDateFilter = $filter('date')(today,"yyyy-MM-dd");
+				$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
+				console.log($scope.startDateFilter);
+        		console.log($scope.endDateFilter);
+				 $http.get('/getSessionData/'+$scope.sessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
+					.success(function(data) {
+						console.log(data);
+						$scope.gridForSession.data=data;
+							$scope.visitiorList = data;
+							
+							 $scope.gridForSession.columnDefs = [
+								                                 {name: 'newTimePretty', displayName: '', width:'40%',
+								                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> </br>   <label ">{{row.entity.newTime}}</label> </div>',	 
+								                                 },
+								                                 {name: 'actionUrl', displayName: '', width:'40%',
+								                                	 cellTemplate:'<div ><a   target="_blank"   href="{{row.entity.actionUrl}}" >{{row.entity.newActionUrl}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
+								                                 },
+								                                 
+								                          ];
+							
+						});
+						
+						
+				  
+			 }
+		});
+  	  
 	 }
-   	
+   	 
+   	 
+   	 
+   	 function initialized() {
+	      var myLatlng = new google.maps.LatLng($scope.latitude,$scope.longitude);
+	      var myOptions = {
+	        zoom: 8,
+	        center: myLatlng,
+	        mapTypeId: google.maps.MapTypeId.ROADMAP
+	      }
+	      var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+	      var marker = new google.maps.Marker({
+   	      position: myLatlng,
+   	      map: map,
+   	      visible: true
+   	  });
+	     
+	    }
    	
     $scope.changeInfoImage = function(id){
     	$scope.infoColorFlag=1;
@@ -2105,6 +2173,8 @@ angular.module('newApp')
    	  		$scope.editLeads = {};
    	  	$scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
+   	  		console.log("********");
+   	  		console.log(entity);
    	  		  $scope.financeData.downPayment=1000;
    	  		  $scope.financeData.annualInterestRate=7;
    	  		  $scope.financeData.numberOfYears=5;
@@ -2154,6 +2224,42 @@ angular.module('newApp')
 		   	  	$scope.editLeads.custEmail = entity.email;
 		   	  	$scope.editLeads.custNumber = entity.phone;
 		   	  	$scope.editLeads.leadType = entity.typeOfLead;
+		   	  	
+		   	 if(entity.typeOfLead == "Trade In" || entity.typeOfLead == "Trade-In Appraisal") {
+				   $scope.pdffile = entity.pdfPath;
+				   $scope.lead = entity.leadsValue;
+				   
+				   $scope.tradeInId=entity.id;
+				   
+				   $http.get('/getSessionIdForTrade/'+$scope.tradeInId)
+				.success(function(data) {
+					console.log(data);
+					$scope.sessionId=data.sessionId;
+				});
+				   
+			   }
+	  			
+	  		if(entity.typeOfLead == "Schedule Test Drive" || entity.typeOfLead == "Schedule Test") {
+	  			$scope.scheduleTestId=entity.id;
+				   $http.get('/getSessionIdForSchedule/'+$scope.scheduleTestId)
+				.success(function(data) {
+					console.log(data);
+					$scope.sessionId=data.sessionId;
+				});
+			   }   
+	  		
+	 if(entity.typeOfLead == "Request More Info" || entity.typeOfLead == "Request More") {
+			$scope.requestTestId=entity.id;
+			   $http.get('/getSessionIdForRequest/'+$scope.requestTestId)
+			.success(function(data) {
+				console.log(data);
+				$scope.sessionId=data.sessionId;
+			});
+		   }   
+		   	  	
+		   	  	
+		   	  	
+		   	  	
    	  		}
    	  		
    	  		$scope.changesVin = function(vinNo,stockNo){

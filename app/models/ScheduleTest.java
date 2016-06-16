@@ -44,7 +44,7 @@ public class ScheduleTest extends Model {
 
 
 
-
+	public String sessionId;
 	public String leadStatus;
 	public String reason;
 	public String declineUser;
@@ -59,6 +59,16 @@ public class ScheduleTest extends Model {
 		this.meeting = meeting;
 	}
 
+
+
+
+
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
 
 
 

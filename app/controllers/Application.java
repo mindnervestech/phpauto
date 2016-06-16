@@ -24187,7 +24187,7 @@ private static void cancelTestDriveMail(Map map) {
  	   	ClickyPagesVM vm = new ClickyPagesVM();
  	   	vm.title = lis.title;
  	   	vm.value = lis.value;
- 	   	
+ 	   	vm.valuePercent=lis.valuePercent;
 	   	List<ClickyVisitorsList> list1=ClickyVisitorsList.findByTitle(vm.title);
  	   	if(list1.size() != 0){
  	   		System.out.println("in if condition");
@@ -24659,7 +24659,7 @@ private static void cancelTestDriveMail(Map map) {
              Map<String, String> mapOffline = new HashMap<String, String>();
              List <ClickyVisitorEngagementAction> list=ClickyVisitorEngagementAction.getAll(d1, d2) ;
                Integer valueCount=0;
-               Integer perCount=0;
+               double perCount=0;
    	            for(ClickyVisitorEngagementAction lis:list){
             	ClickyPagesVM vm = new ClickyPagesVM();
       	     	   	vm.id=lis.id;
@@ -24673,13 +24673,13 @@ private static void cancelTestDriveMail(Map map) {
       				}
       				String title = lis.title;
       				valueCount=Integer.parseInt(value);
-      				perCount=Integer.parseInt(valuePercent);
+      				perCount=Double.parseDouble(valuePercent);
       		     				String objectMake = mapOffline.get(title);
       		        			if (objectMake == null) {
       		        				mapOffline.put(title, valueCount+"&"+perCount);
       		        			}else{
       		        				 String arr[]=mapOffline.get(title).split("&");
-      		        				mapOffline.put(title, valueCount+Integer.parseInt(arr[0])+"&"+(perCount+Integer.parseInt(arr[1])));
+      		        				mapOffline.put(title, valueCount+Integer.parseInt(arr[0])+"&"+(perCount+Double.parseDouble(arr[1])));
       		        			}
    		
    	           }
@@ -26306,50 +26306,75 @@ private static void cancelTestDriveMail(Map map) {
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
              List <ClickyVisitorEngagementTime> list=ClickyVisitorEngagementTime.getAll(d1, d2) ;
-	            for(ClickyVisitorEngagementTime lis:list){
-         	ClickyPagesVM vm = new ClickyPagesVM();
-   	     	   	vm.id=lis.id;
-   				vm.value=lis.value;
-   				if(lis.valuePercent != null){
-   				vm.valuePercent = lis.valuePercent;
-   				}
-   				else{
-   					vm.valuePercent ="0";
-   				}
-   				vm.title = lis.title;
-   				vm.statsUrl =lis.statsUrl;
-   	   		List <ClickyVisitorEngagementTime> list2=ClickyVisitorEngagementTime.getAll(beforeStart, d1) ;
-   	   	    double count=0;
-   	   	    double count1=0;
-   	   	for(ClickyVisitorEngagementTime lis2:list) {
- 	    	String url = lis2.title;
- 	   		if(url.equals(vm.title)){
- 	   			vm.value_percent2 = lis2.value;
- 	   		  count1=count1+Double.parseDouble(vm.value_percent2);
- 	   		
- 	   		}
- 	   		
-   	   	}	
-   	   	    
-     	   	for(ClickyVisitorEngagementTime lis2:list2) {
-     	    	String url = lis2.title;
-     	   		if(url.equals(vm.title)){
-     	   			vm.value_percent2 = lis2.value;
-     	   		  count=count+Double.parseDouble(vm.value_percent2);
-     	   		
-     	   		}
-   	   			
-     	   	}
-     	   	if(count1 != 0){
-     	   vm.averagePercent=((count1-count)/count1)*100;
-     	   	}
-     	   	else{
-     	   		vm.averagePercent=0;
-     	   	}
-   	   		    clickyList.add(vm);
-   	   			
-		
-	}
+                  Map<String, String> mapOffline = new HashMap<String, String>();
+                    Integer valueCount=0;
+                    double perCount=0;
+        	            for(ClickyVisitorEngagementTime lis:list){
+                 	ClickyPagesVM vm = new ClickyPagesVM();
+           	     	   	vm.id=lis.id;
+           				String value=lis.value;
+           				String valuePercent=null;
+           				if(lis.valuePercent != null){
+           					valuePercent = lis.valuePercent;
+           				}
+           				else{
+           					valuePercent ="0";
+           				}
+           				String title = lis.title;
+           				valueCount=Integer.parseInt(value);
+           				perCount=Double.parseDouble(valuePercent);
+           		     				String objectMake = mapOffline.get(title);
+           		        			if (objectMake == null) {
+           		        				mapOffline.put(title, valueCount+"&"+perCount);
+           		        			}else{
+           		        				 String arr[]=mapOffline.get(title).split("&");
+           		        				mapOffline.put(title, valueCount+Integer.parseInt(arr[0])+"&"+(perCount+Double.parseDouble(arr[1])));
+           		        			}
+        		
+        	           }
+        	            
+        	         List<bodyStyleSetVM> bSetVMsoffline = new ArrayList<>();
+     		     	for (Entry<String , String> entryValue : mapOffline.entrySet()) {
+     		     		ClickyPagesVM vm = new ClickyPagesVM();
+     					vm.title = entryValue.getKey();
+     					String arr[]=entryValue.getValue().split("&");
+     					vm.value = arr[0];
+     					vm.valuePercent=arr[1];
+     					
+     					double count=0;
+     	      	   	    double count1=0;
+     	      	   	 List <ClickyVisitorEngagementTime> list1=ClickyVisitorEngagementTime.getAll(d1, d2) ;
+     	      	   	for(ClickyVisitorEngagementTime lis2:list1) {
+     	    	    	String url = lis2.title;
+     	    	   		if(url.equals(vm.title)){
+     	    	   			vm.value_percent2 = lis2.value;
+     	    	   		  count1=count1+Double.parseDouble(vm.value_percent2);
+     	    	   		
+     	    	   		}
+     	    	   		
+     	      	   	}	
+     	      	  List <ClickyVisitorEngagementTime> list2=ClickyVisitorEngagementTime.getAll(beforeStart, d1) ;
+     	        	   	for(ClickyVisitorEngagementTime lis2:list2) {
+     	        	    	String url = lis2.title;
+     	        	   		if(url.equals(vm.title)){
+     	        	   			vm.value_percent2 = lis2.value;
+     	        	   		  count=count+Double.parseDouble(vm.value_percent2);
+     	        	   		
+     	        	   		}
+     	      	   			
+     	        	   	}
+     	        	   	if(count1 != 0){
+     	        	   vm.averagePercent=((count1-count)/count1)*100;
+     	        	   	}
+     	        	   	else{
+     	        	   		vm.averagePercent=0;
+     	        	   	}
+     					
+     					
+     					
+     					
+     					clickyList.add(vm);
+     				}
              
 
          } catch (Exception e) {
@@ -26580,6 +26605,41 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	return ok(Json.toJson(clickyList));
     }
     
+			public static Result getSessionIdForRequest(Long id){
+				
+				
+				RequestMoreInfo List = RequestMoreInfo.findById(id);
+				
+				return ok(Json.toJson(List));
+			} 
+
+		public static Result getSessionIdForSchedule(Long id){
+			
+			
+			ScheduleTest List = ScheduleTest.findById(id);
+			
+			return ok(Json.toJson(List));
+		}
+
+		public static Result getSessionIdForTrade(Long id){
+			
+			
+			TradeIn List = TradeIn.findById(id);
+			
+			
+			return ok(Json.toJson(List));
+		}
+		
+	public static Result getSessionIdData(String id){
+			
+			
+			List <ClickyVisitorsList> List = ClickyVisitorsList.getClickySessionData(id);
+			
+			
+			return ok(Json.toJson(List.get(0)));
+		}
+
+
 	public static Result getIPAddress(String id){
 		
 		List<ClickyVisitorsList> List = ClickyVisitorsList.findByTitle(id);

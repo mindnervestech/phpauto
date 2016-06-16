@@ -384,6 +384,11 @@ GET   /getVisitorList/:startDate/:endDate			controllers.Application.getVisitorLi
 GET   /getVisitorData/:id			controllers.Application.getVisitorData(id:Long)
 GET   /getSessionData/:sessionId/:startDate/:endDate			controllers.Application.getSessionData(sessionId:String,startDate:String,endDate:String)
 GET   /getIPAddress/:id				controllers.Application.getIPAddress(id:String)
+
+GET   /getSessionIdData/:id				controllers.Application.getSessionIdData(id:String)
+GET   /getSessionIdForRequest/:id				controllers.Application.getSessionIdForRequest(id:Long)
+GET   /getSessionIdForSchedule/:id				controllers.Application.getSessionIdForSchedule(id:Long)
+GET   /getSessionIdForTrade/:id				controllers.Application.getSessionIdForTrade(id:Long)
 GET   /getEngActionData/:title/:startDate/:endDate				controllers.Application.getEngActionData(title:String,startDate:String,endDate:String)
 GET   /getEngTimeData/:title/:startDate/:endDate				controllers.Application.getEngTimeData(title:String,startDate:String,endDate:String)
 GET   /getTrafficSourceData/:title/:startDate/:endDate				controllers.Application.getTrafficSourceData(title:String,startDate:String,endDate:String)

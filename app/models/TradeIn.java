@@ -88,12 +88,18 @@ public class TradeIn extends Model {
 	public String testDriveCompletedComment;
 	public String testDriveCompletedDuration;
 	public int onlineOrOfflineLeads;
-public String testDriveStatus;
+	public String testDriveStatus;
+	public String sessionId;
 	
 	
 	
 	
-	
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
 	public String getTestDriveStatus() {
 		return testDriveStatus;
 	}
