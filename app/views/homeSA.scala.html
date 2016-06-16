@@ -279,18 +279,21 @@ h1, h2 {
 								  			<label style="margin-top: 1%; font-size:12px;">*like it's displayed on Google Maps</label>
 								  		</div>
 								     <div class="col-md-6" >
-		         				<input type="text" ng-model="register.businessName" id="autocomplete" ng-blur="getbusinessname(register.businessName)" class="form-control" placeholder="Business Name" required/> 
+		         				<input type="text" ng-model="register.businessName" id="autocomplete" list="comicstitle" ng-change="getbusinessname(register.businessName)" class="form-control" placeholder="Business Name" required/> 
 								      	</div>
+								      	<datalist id="comicstitle">
+    												<option  data-ng-repeat="ttl in locationNameList" value="{{ttl.description}}" >
+  												</datalist>
 								    </div> 
 								    
-								     <div class="col-md-12">
+								    <!--  <div class="col-md-12">
 								    	<table border=1px align="center">
 								    		<tr ng-repeat="list in locationNameList">
 								    			<td>&nbsp;<input type="radio" name="radio" value="{{list.description}}" ng-model="check" ng-click="businessAddress(list.description)"> &nbsp;</td>
 								    			<td> {{list.description}}</td>
 								    		</tr>
 								    	</table>
-								    </div>
+								    </div> -->
 								       
 								    <div class="col-md-12">
 								    <div class="col-md-2"></div>
