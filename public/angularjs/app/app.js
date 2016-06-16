@@ -352,6 +352,7 @@ var MakeApp = angular
             controller: 'allPlatformsInfoCtrl'
         })
         
+        
          .when('/ResolutionInfo/:idForScreen', {
             templateUrl: '/dealer/analytics/platformInfo.html',
             controller: 'allPlatformsInfoCtrl'
