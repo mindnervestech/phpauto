@@ -20,6 +20,7 @@ public class ClickyVisitorsList extends Model {
 	public String ipAddress;
 	public String uid;
 	public String sessionId;
+	public String customSessionId;
 	public String actions;
 	public String totalVisits;
 	public String landingPage;
@@ -44,6 +45,18 @@ public class ClickyVisitorsList extends Model {
 	
 	
 	
+	public String getCustomSessionId() {
+		return customSessionId;
+	}
+
+
+
+	public void setCustomSessionId(String customSessionId) {
+		this.customSessionId = customSessionId;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
@@ -367,6 +380,9 @@ public class ClickyVisitorsList extends Model {
 	}
 	public static List<ClickyVisitorsList> getClickySessionData(String sessionId) {
 		return find.where().eq("sessionId", sessionId).findList();
+	}
+	public static List<ClickyVisitorsList> getClickyCustomSessionData(String sessionId) {
+		return find.where().eq("customSessionId", sessionId).findList();
 	}
 	public static List<ClickyVisitorsList> getfindAll() {
 		return find.all();

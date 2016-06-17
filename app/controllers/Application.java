@@ -152,6 +152,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import play.Play;
 import play.data.DynamicForm;
@@ -24037,7 +24038,7 @@ private static void cancelTestDriveMail(Map map) {
           Date beforeStart = DateUtils.addDays(d1, -days); 
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
-             List <ClickyVisitorTrafficSource> list = ClickyVisitorTrafficSource.getAll(d1, d2) ;
+             /*List <ClickyVisitorTrafficSource> list = ClickyVisitorTrafficSource.getAll(d1, d2) ;
 	            for(ClickyVisitorTrafficSource lis:list){
       	ClickyPagesVM vm = new ClickyPagesVM();
 	     	   	vm.id=lis.id;
@@ -24086,8 +24087,92 @@ private static void cancelTestDriveMail(Map map) {
 	   			
 		
 	}
-          
-             
+*/          
+             List <ClickyVisitorTrafficSource> list=ClickyVisitorTrafficSource.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+               Integer valueCount=0;
+               double perCount=0;
+               double avgActCount=0;
+               double avgTimeCount=0;
+               double totTimeCount=0;
+               double bounRateCount=0;
+   	            for(ClickyVisitorTrafficSource lis:list){
+            	ClickyPagesVM vm = new ClickyPagesVM();
+      	     	   	vm.id=lis.id;
+      				String value=lis.value;
+      				String valuePercent=null;
+      				if(lis.valuePercent != null){
+      					valuePercent = lis.valuePercent;
+      				}
+      				else{
+      					valuePercent ="0";
+      				}
+      				String averageActions=lis.averageAction;
+      				String averageTime=lis.averageTime;
+      				String totalTime=lis.totalTime;
+      				String bounceRate=lis.bounceRate;
+      				
+      				
+      				String title = lis.title;
+      				valueCount=Integer.parseInt(value);
+      				perCount=Double.parseDouble(valuePercent);
+      				avgActCount=Double.parseDouble(averageActions);
+      				avgTimeCount=Double.parseDouble(averageTime);
+      				totTimeCount=Double.parseDouble(totalTime);
+      				bounRateCount=Double.parseDouble(bounceRate);
+      		     				String objectMake = mapOffline.get(title);
+      		        			if (objectMake == null) {
+      		        				mapOffline.put(title, valueCount+"&"+perCount+"&"+avgActCount+"&"+avgTimeCount+"&"+totTimeCount+"&"+bounRateCount);
+      		        			}else{
+      		        				 String arr[]=mapOffline.get(title).split("&");
+      		        				mapOffline.put(title, valueCount+Integer.parseInt(arr[0])+"&"+(perCount+Double.parseDouble(arr[1]))+"&"+(avgActCount+Double.parseDouble(arr[2]))
+      		        						+"&"+(avgTimeCount+Double.parseDouble(arr[3]))+"&"+(totTimeCount+Double.parseDouble(arr[4]))+"&"+(bounRateCount+Double.parseDouble(arr[5])));
+      		        			}
+   		
+   	           }
+   	            
+   	         List<bodyStyleSetVM> bSetVMsoffline = new ArrayList<>();
+		     	for (Entry<String , String> entryValue : mapOffline.entrySet()) {
+		     		ClickyPagesVM vm = new ClickyPagesVM();
+					vm.title = entryValue.getKey();
+					String arr[]=entryValue.getValue().split("&");
+					vm.value = arr[0];
+					vm.valuePercent=arr[1];
+					vm.averageActions=arr[2];
+					vm.averageTime=arr[3];
+					vm.totalTime=arr[4];
+					vm.bounceRate=arr[5];
+					double count=0;
+	      	   	    double count1=0;
+	      	   	 List <ClickyVisitorTrafficSource> list1=ClickyVisitorTrafficSource.getAll(d1, d2) ;
+	      	   	for(ClickyVisitorTrafficSource lis2:list1) {
+	    	    	String url = lis2.title;
+	    	   		if(url.equals(vm.title)){
+	    	   			vm.value_percent2 = lis2.value;
+	    	   		  count1=count1+Double.parseDouble(vm.value_percent2);
+	    	   		
+	    	   		}
+	    	   		
+	      	   	}	
+	      	  List <ClickyVisitorTrafficSource> list2=ClickyVisitorTrafficSource.getAll(beforeStart, d1) ;
+	        	   	for(ClickyVisitorTrafficSource lis2:list2) {
+	        	    	String url = lis2.title;
+	        	   		if(url.equals(vm.title)){
+	        	   			vm.value_percent2 = lis2.value;
+	        	   		  count=count+Double.parseDouble(vm.value_percent2);
+	        	   		
+	        	   		}
+	      	   			
+	        	   	}
+	        	   	if(count1 != 0){
+	        	   vm.averagePercent=((count1-count)/count1)*100;
+	        	   	}
+	        	   	else{
+	        	   		vm.averagePercent=0;
+	        	   	}
+					
+					clickyList.add(vm);
+				}
 
          } catch (Exception e) {
              e.printStackTrace();
@@ -26633,8 +26718,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 	public static Result getSessionIdData(String id){
 			
 			
-			List <ClickyVisitorsList> List = ClickyVisitorsList.getClickySessionData(id);
-			
+			List <ClickyVisitorsList> List = ClickyVisitorsList.getClickyCustomSessionData(id);
 			
 			return ok(Json.toJson(List.get(0)));
 		}
@@ -27156,7 +27240,15 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    			catch(Exception e){
 		    				e.printStackTrace();
 		    			}
-                       
+		    			try{
+		    				
+		    				JSONObject jsonObj = new JSONObject(jsonArray.getJSONObject(i).get("custom").toString());
+		    				cVisitorsList.setCustomSessionId(jsonObj.get("session_Id").toString());
+		    				
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
 		    			try{
                     	   cVisitorsList.setReferrerType(jsonArray.getJSONObject(i).get("referrer_type").toString());
 		    			}

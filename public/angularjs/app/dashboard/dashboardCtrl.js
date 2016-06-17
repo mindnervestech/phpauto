@@ -2103,23 +2103,22 @@ angular.module('newApp')
   	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
     	
   	 console.log($scope.sessionId) ;
-  	 $scope.sessionId="187903883";
+  	// $scope.sessionId="187903883";
   	  $http.get('/getSessionIdData/'+$scope.sessionId)
 		.success(function(data) {
 			console.log(data);
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
+			$scope.clickySessionId=data.sessionId;
 			initialized();
 			$scope.visitorInfo=data;
-			
-			
 			if($scope.sessionId != null && $scope.sessionId != undefined){
 				var today = new Date()
 				$scope.startDateFilter = $filter('date')(today,"yyyy-MM-dd");
 				$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
 				console.log($scope.startDateFilter);
         		console.log($scope.endDateFilter);
-				 $http.get('/getSessionData/'+$scope.sessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
+				 $http.get('/getSessionData/'+$scope.clickySessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
 					.success(function(data) {
 						console.log(data);
 						$scope.gridForSession.data=data;
