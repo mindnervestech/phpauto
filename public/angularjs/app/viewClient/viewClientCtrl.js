@@ -71,21 +71,24 @@ angular.module('newApp')
 			 
 	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
 		          var grid = this.grid;
-		         $scope.gridOptions.data = $filter('filter')($scope.pendingList,{'name':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'businessName':grid.columns[2].filters[0].term,'businessAddress':grid.columns[3].filters[0].term,'options':grid.columns[4].filters[0].term,'activity':grid.columns[5].filters[0].term,'clientsince':grid.columns[6].filters[0].term},undefined);
+		         $scope.gridOptions.data = $filter('filter')($scope.registrationObjList,{'businessName':grid.columns[0].filters[0].term,'email':grid.columns[1].filters[0].term,'clientsince':grid.columns[2].filters[0].term,'activity':grid.columns[3].filters[0].term,'options':grid.columns[4].filters[0].term},undefined);
 		        });
 	   		
   		};
   		
   		
 		 
-		 $scope.pendingUser = function(){
+		/* $scope.pendingUser = function(){
 			 $scope.doShow = 0;
-			 $http.get('/getRegistrList')
+			 $http.get('/getClientList')
 				.success(function(data) {
 				$scope.gridOptions.data = data;
+				console.log("in client data");
+				console.log(data);
 				$scope.pendingList = data;
+				console.log($scope.pendingList);
 			});
-		 }
+		 }*/
 		 
 		
 		/* $scope.Status = function(row){
@@ -186,7 +189,7 @@ angular.module('newApp')
 		 
 		 $scope.UpdateRegisterUser = function(){
 			 console.log($scope.register);
-			 $http.post("/updateRegisterUser",$scope.register).success(function(data){
+			 $http.post("/updateClientUser",$scope.register).success(function(data){
          		$.pnotify({
 					    title: "Success",
 					    type:'success',

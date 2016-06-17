@@ -33,6 +33,9 @@ public class Registration extends Model {
 
 	public Date activity;
 	public Date clientsince;
+	public String website;
+	public String lastTimeLoggedIn;
+	public String activeUser;
 	
 	
 	
@@ -40,6 +43,31 @@ public class Registration extends Model {
 	public static Finder<Long,Registration> find = new Finder<>(Long.class,Registration.class);
 	
 	
+	
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+	public String getLastTimeLoggedIn() {
+		return lastTimeLoggedIn;
+	}
+
+	public void setLastTimeLoggedIn(String lastTimeLoggedIn) {
+		this.lastTimeLoggedIn = lastTimeLoggedIn;
+	}
+
+	public String getActiveUser() {
+		return activeUser;
+	}
+
+	public void setActiveUser(String activeUser) {
+		this.activeUser = activeUser;
+	}
+
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}

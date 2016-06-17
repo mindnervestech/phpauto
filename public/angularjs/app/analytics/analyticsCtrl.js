@@ -1474,6 +1474,7 @@ angular.module('newApp')
 					var endDate = $scope.endDate;
 			}
 			if($scope.typeOfInfo == 'Pages'){
+				$scope.gridOptions.data = [];
 				console.log(startDate);
 				console.log(endDate);
 				
@@ -1514,7 +1515,7 @@ angular.module('newApp')
 										         ]
 				
 			}else if($scope.typeOfInfo == 'Entrance'){
-				
+				$scope.gridOptions.data = [];
 				
 				 $http.get('/getEntranceList/'+startDate+"/"+endDate)
 					.success(function(data) {
@@ -1544,6 +1545,7 @@ angular.module('newApp')
 										             
 										         ]
 			}else if($scope.typeOfInfo == 'Exit'){
+				$scope.gridOptions.data = [];
 				 $http.get('/getExit/'+startDate+"/"+endDate)
 					.success(function(data) {
 					$scope.gridOptions.data = data;
@@ -1569,6 +1571,7 @@ angular.module('newApp')
 										         ]
 				 
 			}else if($scope.typeOfInfo == 'Downloads'){
+				$scope.gridOptions.data = [];
 				$http.get('/getDownloads/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data/*[0].dates[0].items*/;
@@ -1596,6 +1599,7 @@ angular.module('newApp')
 									         ]
 				
 			}else if($scope.typeOfInfo == 'Event'){
+				$scope.gridOptions.data = [];
 				$http.get('/getEvent/'+startDate+"/"+endDate)
 				.success(function(data) {
 				$scope.gridOptions.data = data/*[0].dates[0].items*/;
@@ -1622,6 +1626,7 @@ angular.module('newApp')
 									         ]
 				
 			}else if($scope.typeOfInfo == 'Media'){
+				$scope.gridOptions.data = [];
 				$http.get('/getMediaDetails/'+startDate+"/"+endDate)
 				.success(function(data) {
 					console.log(data);
@@ -1648,6 +1653,7 @@ angular.module('newApp')
 									         ]
 				
 			}else if($scope.typeOfInfo == 'Domains'){
+				$scope.gridOptions.data = [];
 				$http.get('/getDomains/'+startDate+"/"+endDate)
 				.success(function(data) {
 					console.log(data);
@@ -2194,6 +2200,10 @@ angular.module('newApp')
 		$location.path('/goToContentInfo');
 	}
 	
+	$scope.goToMediaPages = function(id){
+		console.log("id  is"+id);
+		$location.path('/contentInfo/'+id);
+	}
 	
 }]);
 

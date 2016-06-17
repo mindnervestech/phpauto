@@ -167,7 +167,39 @@ public class RegistrationController extends Controller {
 		Date date = new Date();
 		
 		Registration regi = Registration.findById(vm.id);
-		    	 
+		    regi.setLastTimeLoggedIn(vm.lastTimeLoggedIn);
+		    regi.setWebsite(vm.website);
+		    regi.setActiveUser(vm.activeUser);
+    	   regi.setName(vm.name);
+    	   regi.setEmail(vm.email);
+    	   regi.setPhone(vm.phone);
+    	   regi.setBusinessAdd(vm.businessAdd);
+    	   regi.setBusinessName(vm.businessName);
+    	   regi.setLocation(vm.oneLocation);
+    	   regi.setOptions(vm.options);
+    	   
+    	   regi.setRegistrationDate(date);
+    	   //regi.sendDemoFlag = 0;
+    	   
+    	   regi.update();
+   		
+    	   //String subject= "Successfully registered";
+          //String comments="Successfully registered";
+    	 //sendEmail(vm.email,subject,comments);
+    	   
+		
+		return ok();
+	}	
+	
+	public static Result updateClientUser() {
+		Form<RegisterVM> form = DynamicForm.form(RegisterVM.class).bindFromRequest();
+		RegisterVM vm=form.get();
+		Date date = new Date();
+		
+		Registration regi = Registration.findById(vm.id);
+		    regi.setLastTimeLoggedIn(vm.lastTimeLoggedIn);
+		    regi.setWebsite(vm.website);
+		    regi.setActiveUser(vm.activeUser);
     	   regi.setName(vm.name);
     	   regi.setEmail(vm.email);
     	   regi.setPhone(vm.phone);
@@ -190,6 +222,17 @@ public class RegistrationController extends Controller {
 	}	
 	
 	public static Result getRegistrList() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+	    	AuthUser user = (AuthUser) getLocalUser();
+	    	List<Registration> regi = Registration.getPending();
+	    	
+	    	return ok(Json.toJson(regi));
+    	}	
+    }
+	
+	public static Result getClientList() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
