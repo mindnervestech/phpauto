@@ -25740,25 +25740,443 @@ private static void cancelTestDriveMail(Map map) {
     }
     
     
-    
-    public static Result getEntranceData(Long id){
+    public static Result getEventData(Long id,String startdate,String enddate){
     	
-    	ClickyEntranceList list=ClickyEntranceList.findById(id);
-    	/*ClickyPagesVM vm=new ClickyPagesVM();
-    	vm.id=list.id;
-		vm.value=list.value;
-		vm.valuePercent = list.valuePercent;
-		vm.title = list.title;
-		vm.statsUrl =list.statsUrl;
-		vm.url = list.url;
-     	vm.averageActions=list.averageAction;
-			vm.averageTime=list.averageTime;
-			vm.totalTime=list.totalTime;
-			vm.bounceRate=list.bounceRate;*/
-    	
-    	
-	    return ok(Json.toJson(list));
+
+	    Date d1= null;
+		Date d2= null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+			 d1 = format.parse(startdate);
+	         d2 = format.parse(enddate);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		ClickyContentEvent event=ClickyContentEvent.findById(id);
+		String title=event.url;
+		List<ClickyContentEvent> browserObjList = ClickyContentEvent.findByTitleAndDate(title, d1, d2);
+		List<ClickyContentEvent> allbrowserlist = ClickyContentEvent.getAll(d1, d2);
+		List <ClickyPagesVM> VMs = new ArrayList<>();
+		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+		ClickyPagesVM vm = new ClickyPagesVM();
+		double count1=0.0;
+		double count2=0.0;
+		double count3=0.0;
+		double count4=0.0;
+		double count5=0.0;
+		double count6=0.0;
+		double count7=0.0;
+		for(ClickyContentEvent lis:browserObjList){
+	     	if(lis.averageAction != null && !lis.averageAction.equals("")){
+	     		count1=count1+Double.parseDouble(lis.averageAction);
+	     	}
+			if(lis.bounceRate != null && !lis.bounceRate.equals("")){
+				count6=count6+Double.parseDouble(lis.bounceRate);	
+				     	}
+			if(lis.averageTime != null && !lis.averageTime.equals("")){
+				count5=count5+Double.parseDouble(lis.averageTime);	
+				}
+			if(lis.totalTime != null && !lis.totalTime.equals("")){
+				count4=count4+Double.parseDouble(lis.totalTime);
+				}
+			if(lis.visitors != null && !lis.visitors.equals("")){
+				 count2=count2+Double.parseDouble(lis.visitors);
+				}
+			if(lis.uniqueVisitor!= null && !lis.uniqueVisitor.equals("")){
+				count3=count3+Double.parseDouble(lis.uniqueVisitor);
+				}
+			if(lis.action != null && !lis.action.equals("")){
+			count7=count7+Double.parseDouble(lis.action);
+			}
+		   			
+		 }
+		 
+		 double countAll1=0.0;
+			double countAll2=0.0;
+			double countAll3=0.0;
+			double countAll4=0.0;
+			double countAll5=0.0;
+			double countAll6=0.0;
+			double countAll7=0.0;
+			 for(ClickyContentEvent list:allbrowserlist){
+					
+					
+					if(list.averageAction != null && !list.averageAction.equals("")){
+						 countAll1=countAll1+Double.parseDouble(list.averageAction);
+			     	}
+					if(list.bounceRate != null && !list.bounceRate.equals("")){
+						 countAll6=countAll6+Double.parseDouble(list.bounceRate);	
+						     	}
+					if(list.averageTime != null && !list.averageTime.equals("")){
+						countAll5=countAll5+Double.parseDouble(list.averageTime);
+						}
+					if(list.totalTime != null && !list.totalTime.equals("")){
+						 countAll4=countAll4+Double.parseDouble(list.totalTime);
+						}
+					if(list.visitors != null && !list.visitors.equals("")){
+						countAll2=countAll2+Double.parseDouble(list.visitors);
+						}
+					if(list.uniqueVisitor!= null && !list.uniqueVisitor.equals("")){
+						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+						}
+					if(list.action != null && !list.action.equals("")){
+						 countAll7=countAll7+Double.parseDouble(list.action);
+					}
+				 
+		   			
+			 }
+		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+		 cVm.title = "visitors";
+		 cVm.these_visitors =  count2;
+		 cVm.all_visitors = countAll2;
+		 platformvm.add(cVm);
+		 
+		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+		 cVm1.title = "uniqueV";
+		 cVm1.these_visitors = count3;
+		 cVm1.all_visitors = countAll3;
+		 platformvm.add(cVm1);
+		 
+		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+		 cVm2.title = "action";
+		 cVm2.these_visitors = count7;
+		 cVm2.all_visitors = countAll7;
+		 platformvm.add(cVm2);
+		 
+		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+		 cVm3.title = "averageAct";
+		 cVm3.these_visitors = count1;
+		 cVm3.all_visitors = countAll1;
+		 platformvm.add(cVm3);
+		 
+		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+		 cVm4.title = "totalT";
+		 cVm4.these_visitors = count4;
+		 cVm4.all_visitors = countAll4;
+		 platformvm.add(cVm4);
+		 
+		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+		 cVm5.title = "averageT";
+		 cVm5.these_visitors = count5;
+		 cVm5.all_visitors = countAll5;
+		 platformvm.add(cVm5);
+		 
+		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+		 cVm6.title = "bounceR";
+		 cVm6.these_visitors = count6;
+		 cVm6.all_visitors = countAll6;
+		 platformvm.add(cVm6);
+		 
+		 vm.averageAct=count1;
+		 vm.visitor=count2;
+		 vm.uniqueV=count3;
+		 vm.totalT=count4;
+		 vm.averageT=count5;
+		 vm.bounceR=count6;
+		 vm.action=count7;
+		
+		 VMs.add(vm);
+
+	 	
+	 	return ok(Json.toJson(platformvm));
+
+
     }
+    
+ public static Result getExitData(Long id,String startdate,String enddate){
+    	
+
+	    Date d1= null;
+		Date d2= null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+			 d1 = format.parse(startdate);
+	         d2 = format.parse(enddate);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		ClickyContentExit event=ClickyContentExit.findById(id);
+		String title=event.url;
+		List<ClickyContentExit> browserObjList = ClickyContentExit.findByTitleAndDate(title, d1, d2);
+		List<ClickyContentExit> allbrowserlist = ClickyContentExit.getAll(d1, d2);
+		List <ClickyPagesVM> VMs = new ArrayList<>();
+		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+		ClickyPagesVM vm = new ClickyPagesVM();
+		double count1=0.0;
+		double count2=0.0;
+		double count3=0.0;
+		double count4=0.0;
+		double count5=0.0;
+		double count6=0.0;
+		double count7=0.0;
+		for(ClickyContentExit lis:browserObjList){
+	     	if(lis.averageAction != null && !lis.averageAction.equals("")){
+	     		count1=count1+Double.parseDouble(lis.averageAction);
+	     	}
+			if(lis.bounceRate != null && !lis.bounceRate.equals("")){
+				count6=count6+Double.parseDouble(lis.bounceRate);	
+				     	}
+			if(lis.averageTime != null && !lis.averageTime.equals("")){
+				count5=count5+Double.parseDouble(lis.averageTime);	
+				}
+			if(lis.totalTime != null && !lis.totalTime.equals("")){
+				count4=count4+Double.parseDouble(lis.totalTime);
+				}
+			if(lis.visitors != null && !lis.visitors.equals("")){
+				 count2=count2+Double.parseDouble(lis.visitors);
+				}
+			if(lis.uniqueVisitor!= null && !lis.uniqueVisitor.equals("")){
+				count3=count3+Double.parseDouble(lis.uniqueVisitor);
+				}
+			if(lis.action != null && !lis.action.equals("")){
+			count7=count7+Double.parseDouble(lis.action);
+			}
+		   			
+		 }
+		 
+		 double countAll1=0.0;
+			double countAll2=0.0;
+			double countAll3=0.0;
+			double countAll4=0.0;
+			double countAll5=0.0;
+			double countAll6=0.0;
+			double countAll7=0.0;
+			 for(ClickyContentExit list:allbrowserlist){
+					
+					
+					if(list.averageAction != null && !list.averageAction.equals("")){
+						 countAll1=countAll1+Double.parseDouble(list.averageAction);
+			     	}
+					if(list.bounceRate != null && !list.bounceRate.equals("")){
+						 countAll6=countAll6+Double.parseDouble(list.bounceRate);	
+						     	}
+					if(list.averageTime != null && !list.averageTime.equals("")){
+						countAll5=countAll5+Double.parseDouble(list.averageTime);
+						}
+					if(list.totalTime != null && !list.totalTime.equals("")){
+						 countAll4=countAll4+Double.parseDouble(list.totalTime);
+						}
+					if(list.visitors != null && !list.visitors.equals("")){
+						countAll2=countAll2+Double.parseDouble(list.visitors);
+						}
+					if(list.uniqueVisitor!= null && !list.uniqueVisitor.equals("")){
+						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+						}
+					if(list.action != null && !list.action.equals("")){
+						 countAll7=countAll7+Double.parseDouble(list.action);
+					}
+				 
+		   			
+			 }
+		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+		 cVm.title = "visitors";
+		 cVm.these_visitors =  count2;
+		 cVm.all_visitors = countAll2;
+		 platformvm.add(cVm);
+		 
+		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+		 cVm1.title = "uniqueV";
+		 cVm1.these_visitors = count3;
+		 cVm1.all_visitors = countAll3;
+		 platformvm.add(cVm1);
+		 
+		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+		 cVm2.title = "action";
+		 cVm2.these_visitors = count7;
+		 cVm2.all_visitors = countAll7;
+		 platformvm.add(cVm2);
+		 
+		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+		 cVm3.title = "averageAct";
+		 cVm3.these_visitors = count1;
+		 cVm3.all_visitors = countAll1;
+		 platformvm.add(cVm3);
+		 
+		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+		 cVm4.title = "totalT";
+		 cVm4.these_visitors = count4;
+		 cVm4.all_visitors = countAll4;
+		 platformvm.add(cVm4);
+		 
+		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+		 cVm5.title = "averageT";
+		 cVm5.these_visitors = count5;
+		 cVm5.all_visitors = countAll5;
+		 platformvm.add(cVm5);
+		 
+		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+		 cVm6.title = "bounceR";
+		 cVm6.these_visitors = count6;
+		 cVm6.all_visitors = countAll6;
+		 platformvm.add(cVm6);
+		 
+		 vm.averageAct=count1;
+		 vm.visitor=count2;
+		 vm.uniqueV=count3;
+		 vm.totalT=count4;
+		 vm.averageT=count5;
+		 vm.bounceR=count6;
+		 vm.action=count7;
+		
+		 VMs.add(vm);
+
+	 	
+	 	return ok(Json.toJson(platformvm));
+
+
+    }
+    
+	
+    
+    
+    
+    public static Result getEntranceData(Long id,String startdate,String enddate){
+    	
+    	ClickyEntranceList event=ClickyEntranceList.findById(id);
+		String title=event.title;
+
+	    Date d1= null;
+		Date d2= null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+			 d1 = format.parse(startdate);
+	         d2 = format.parse(enddate);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		
+		List<ClickyEntranceList> browserObjList = ClickyEntranceList.findByTitleAndDate(title, d1, d2);
+		List<ClickyEntranceList> allbrowserlist = ClickyEntranceList.getAll(d1, d2);
+		List <ClickyPagesVM> VMs = new ArrayList<>();
+		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+		ClickyPagesVM vm = new ClickyPagesVM();
+		double count1=0.0;
+		double count2=0.0;
+		double count3=0.0;
+		double count4=0.0;
+		double count5=0.0;
+		double count6=0.0;
+		double count7=0.0;
+		 for(ClickyEntranceList lis:browserObjList){
+	     	if(lis.averageAction != null && !lis.averageAction.equals("")){
+	     		count1=count1+Double.parseDouble(lis.averageAction);
+	     	}
+			if(lis.bounceRate != null && !lis.bounceRate.equals("")){
+				count6=count6+Double.parseDouble(lis.bounceRate);	
+				     	}
+			if(lis.averageTime != null && !lis.averageTime.equals("")){
+				count5=count5+Double.parseDouble(lis.averageTime);	
+				}
+			if(lis.totalTime != null && !lis.totalTime.equals("")){
+				count4=count4+Double.parseDouble(lis.totalTime);
+				}
+			if(lis.visitors != null && !lis.visitors.equals("")){
+				 count2=count2+Double.parseDouble(lis.visitors);
+				}
+			if(lis.uniqueVisitor!= null && !lis.uniqueVisitor.equals("")){
+				count3=count3+Double.parseDouble(lis.uniqueVisitor);
+				}
+			if(lis.action != null && !lis.action.equals("")){
+			count7=count7+Double.parseDouble(lis.action);
+			}
+		   			
+		 }
+		 
+		 double countAll1=0.0;
+			double countAll2=0.0;
+			double countAll3=0.0;
+			double countAll4=0.0;
+			double countAll5=0.0;
+			double countAll6=0.0;
+			double countAll7=0.0;
+			 for(ClickyEntranceList list:allbrowserlist){
+					
+					
+					if(list.averageAction != null && !list.averageAction.equals("")){
+						 countAll1=countAll1+Double.parseDouble(list.averageAction);
+			     	}
+					if(list.bounceRate != null && !list.bounceRate.equals("")){
+						 countAll6=countAll6+Double.parseDouble(list.bounceRate);	
+						     	}
+					if(list.averageTime != null && !list.averageTime.equals("")){
+						countAll5=countAll5+Double.parseDouble(list.averageTime);
+						}
+					if(list.totalTime != null && !list.totalTime.equals("")){
+						 countAll4=countAll4+Double.parseDouble(list.totalTime);
+						}
+					if(list.visitors != null && !list.visitors.equals("")){
+						countAll2=countAll2+Double.parseDouble(list.visitors);
+						}
+					if(list.uniqueVisitor!= null && !list.uniqueVisitor.equals("")){
+						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+						}
+					if(list.action != null && !list.action.equals("")){
+						 countAll7=countAll7+Double.parseDouble(list.action);
+					}
+				 
+		   			
+			 }
+		 
+		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+		 cVm.title = "visitors";
+		 cVm.these_visitors =  count2;
+		 cVm.all_visitors = countAll2;
+		 platformvm.add(cVm);
+		 
+		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+		 cVm1.title = "uniqueV";
+		 cVm1.these_visitors = count3;
+		 cVm1.all_visitors = countAll3;
+		 platformvm.add(cVm1);
+		 
+		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+		 cVm2.title = "action";
+		 cVm2.these_visitors = count7;
+		 cVm2.all_visitors = countAll7;
+		 platformvm.add(cVm2);
+		 
+		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+		 cVm3.title = "averageAct";
+		 cVm3.these_visitors = count1;
+		 cVm3.all_visitors = countAll1;
+		 platformvm.add(cVm3);
+		 
+		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+		 cVm4.title = "totalT";
+		 cVm4.these_visitors = count4;
+		 cVm4.all_visitors = countAll4;
+		 platformvm.add(cVm4);
+		 
+		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+		 cVm5.title = "averageT";
+		 cVm5.these_visitors = count5;
+		 cVm5.all_visitors = countAll5;
+		 platformvm.add(cVm5);
+		 
+		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+		 cVm6.title = "bounceR";
+		 cVm6.these_visitors = count6;
+		 cVm6.all_visitors = countAll6;
+		 platformvm.add(cVm6);
+		 
+		 vm.averageAct=count1;
+		 vm.visitor=count2;
+		 vm.uniqueV=count3;
+		 vm.totalT=count4;
+		 vm.averageT=count5;
+		 vm.bounceR=count6;
+		 vm.action=count7;
+		
+		 VMs.add(vm);
+
+	 	
+	 	return ok(Json.toJson(platformvm));
+    	
+    }
+    
+    
+    
+    
     
     
     
@@ -26720,7 +27138,13 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 			
 			List <ClickyVisitorsList> List = ClickyVisitorsList.getClickyCustomSessionData(id);
 			
-			return ok(Json.toJson(List.get(0)));
+			if(List.size()==0){
+				return ok(Json.toJson(List.get(0)));
+			}
+			else{
+				return ok(Json.toJson(List.get(0)));
+			}
+			
 		}
 
 
@@ -28561,7 +28985,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 				}
 				}
 			}
-			 catch (JSONException e) {
+			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -28598,6 +29022,67 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    			cPages.setStatsUrl(jsonArrayContentEvents.getJSONObject(i).get("stats_url").toString());
 	    			cPages.setUrl(jsonArrayContentEvents.getJSONObject(i).get("url").toString());
 	    			
+	    			String data=jsonArrayContentEvents.getJSONObject(i).get("url").toString();
+	    			String arr[] = data.split(".com");	
+	    			String href=URLEncoder.encode(arr[1]);
+            paramsPages = "&type=segmentation&href="+href+"&segments=summary&date="+sDate+"&limit=all";
+	    			JSONArray jsonArrayContentEx;
+	    			
+	    			jsonArrayContentEx = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+	    			//	ClickyPagesActionList cPages1 = new ClickyPagesActionList();
+	    				for(int j=0;j<jsonArrayContentEx.length();j++){
+	    	    			
+	    					
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+	    					
+	    						cPages.setAverageAction(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+		    					
+	    						cPages.setAverageTime(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+		    					
+	    						cPages.setTotalTime(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+		    					
+	    						cPages.setBounceRate(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+		    					
+	    						cPages.setVisitors(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+		    					
+	    						cPages.setUniqueVisitor(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+		    					
+	    						cPages.setAction(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    	    			
+	    	    			
+	    			
+	    				}
+	    	
+	    			
+	    			
+	    			
 	    			cPages.setSaveDate(curr);
 	    			//	cPages1.setClickyPagesId(idForPage);
 	    				cPages.save();
@@ -28608,10 +29093,6 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
-			
-			
-			
 			
 			
 			
@@ -28693,6 +29174,64 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    			cPages.setTitle(jsonArrayContentExit.getJSONObject(i).get("title").toString());
 	    			cPages.setStatsUrl(jsonArrayContentExit.getJSONObject(i).get("stats_url").toString());
 	    			cPages.setUrl(jsonArrayContentExit.getJSONObject(i).get("url").toString());
+	    			
+	    			
+
+	    			paramsPages = "&type=segmentation&exit="+arr[1]+"&segments=summary&date="+sDate+"&limit=all";
+	    			
+	    			JSONArray jsonArrayContentEx;
+	    			
+	    			jsonArrayContentEx = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+	    			//	ClickyPagesActionList cPages1 = new ClickyPagesActionList();
+	    				for(int j=0;j<jsonArrayContentEx.length();j++){
+	    	    			
+	    					
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+	    					
+	    						cPages.setAverageAction(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+		    					
+	    						cPages.setAverageTime(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+		    					
+	    						cPages.setTotalTime(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+		    					
+	    						cPages.setBounceRate(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+		    					
+	    						cPages.setVisitors(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+		    					
+	    						cPages.setUniqueVisitor(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					
+	    					if(jsonArrayContentEx.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+		    					
+	    						cPages.setAction(jsonArrayContentEx.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    	    			
+	    	    			
+	    			
+	    				}
 	    			
 	    			cPages.setSaveDate(curr);
 	    			//	cPages1.setClickyPagesId(idForPage);
@@ -28825,7 +29364,12 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    			cAction.setUid(jsonArrayAction.getJSONObject(i).get("uid").toString());
 		    			cAction.setSession_id(jsonArrayAction.getJSONObject(i).get("session_id").toString());
 		    			cAction.setAction_type(jsonArrayAction.getJSONObject(i).get("action_type").toString());
+		    			try{
 		    			cAction.setAction_title(jsonArrayAction.getJSONObject(i).get("action_title").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
 		    			cAction.setAction_url(jsonArrayAction.getJSONObject(i).get("action_url").toString());
 		    			cAction.setStats_url(jsonArrayAction.getJSONObject(i).get("stats_url").toString());
 		    			cAction.setCurrDate(curr);
