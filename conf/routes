@@ -401,7 +401,7 @@ GET   /getVisitorDataForLanding/:id/:startDate/:endDate/:flagForLanding			contro
 GET   /getDataForSearch/:url/:startDate/:endDate			                    controllers.Application.getDataForSearch(url:String,startDate:String,endDate:String)
 GET   /getEngagementAct/:startDate/:endDate			controllers.Application.getEngagementAct(startDate:String,endDate:String)
 GET   /getsearchInfo/:id/:startDate/:endDate			controllers.Application.getsearchInfo(id:Long,startDate:String,endDate:String)
-GET   /getEngineInfo/:id/:startDate/:endDate			controllers.Application.getEngineInfo(id:Long,startDate:String,endDate:String)
+GET   /getEngineInfo/:title/:startDate/:endDate			controllers.Application.getEngineInfo(title:String,startDate:String,endDate:String)
 GET   /getRecentInfo/:id/:startDate/:endDate			controllers.Application.getRecentInfo(id:Long,startDate:String,endDate:String)
 GET   /getNewestInfo/:id/:startDate/:endDate			controllers.Application.getNewestInfo(id:Long,startDate:String,endDate:String)
 GET   /getRankingInfo/:id/:startDate/:endDate			controllers.Application.getRankingInfo(id:Long,startDate:String,endDate:String)

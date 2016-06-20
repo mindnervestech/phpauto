@@ -25062,7 +25062,7 @@ private static void cancelTestDriveMail(Map map) {
     
     
     
-    public static Result getEngineInfo(Long id , String startdate, String enddate){
+    public static Result getEngineInfo(String title , String startdate, String enddate){
 		Date d1= null;
 		Date d2= null;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -25072,9 +25072,9 @@ private static void cancelTestDriveMail(Map map) {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-		ClickySearchesEngine oneRow = ClickySearchesEngine.findById(id);
+		//ClickySearchesEngine oneRow = ClickySearchesEngine.findById(id);
 		
-		List<ClickySearchesEngine> mediaObjList = ClickySearchesEngine.findByTitleAndDate(oneRow.title, d1, d2);
+		List<ClickySearchesEngine> mediaObjList = ClickySearchesEngine.findByTitleAndDate(title, d1, d2);
 		List<ClickySearchesEngine> allmedialist = ClickySearchesEngine.getAll(d1, d2);
 		List <ClickyContentVM> VMs = new ArrayList<>();
 		List<ClickyPlatformVM> platformvm =new ArrayList<>();
@@ -27152,7 +27152,7 @@ private static void cancelTestDriveMail(Map map) {
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
               
-             List <ClickySearchesEngine> list=ClickySearchesEngine.getAll(d1, d2) ;
+            /* List <ClickySearchesEngine> list=ClickySearchesEngine.getAll(d1, d2) ;
        	   	            for(ClickySearchesEngine lis:list){
        	            	ClickyPagesVM vm = new ClickyPagesVM();
                  	     	   	vm.id=lis.id;
@@ -27193,6 +27193,100 @@ private static void cancelTestDriveMail(Map map) {
        	   		
        	   	}
              
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(clickyList));
+
+*/
+             
+             List <ClickySearchesEngine> list=ClickySearchesEngine.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+               Integer valueCount=0;
+               double perCount=0;
+               double avgActCount=0;
+               double avgTimeCount=0;
+               double totTimeCount=0;
+               double bounRateCount=0;
+   	            for(ClickySearchesEngine lis:list){
+            	ClickyPagesVM vm = new ClickyPagesVM();
+      	     	   	vm.id=lis.id;
+      				String value=lis.value;
+      				String valuePercent=null;
+      				if(lis.valuePercent != null){
+      					valuePercent = lis.valuePercent;
+      				}
+      				else{
+      					valuePercent ="0";
+      				}
+      				String averageActions=lis.averageAction;
+      				String averageTime=lis.averageTime;
+      				String totalTime=lis.totalTime;
+      				String bounceRate=lis.bounceRate;
+      				
+      				
+      				String title = lis.title;
+      				valueCount=Integer.parseInt(value);
+      				perCount=Double.parseDouble(valuePercent);
+      				avgActCount=Double.parseDouble(averageActions);
+      				avgTimeCount=Double.parseDouble(averageTime);
+      				totTimeCount=Double.parseDouble(totalTime);
+      				bounRateCount=Double.parseDouble(bounceRate);
+      		     				String objectMake = mapOffline.get(title);
+      		        			if (objectMake == null) {
+      		        				mapOffline.put(title, valueCount+"&"+perCount+"&"+avgActCount+"&"+avgTimeCount+"&"+totTimeCount+"&"+bounRateCount);
+      		        			}else{
+      		        				 String arr[]=mapOffline.get(title).split("&");
+      		        				mapOffline.put(title, valueCount+Integer.parseInt(arr[0])+"&"+(perCount+Double.parseDouble(arr[1]))+"&"+(avgActCount+Double.parseDouble(arr[2]))
+      		        						+"&"+(avgTimeCount+Double.parseDouble(arr[3]))+"&"+(totTimeCount+Double.parseDouble(arr[4]))+"&"+(bounRateCount+Double.parseDouble(arr[5])));
+      		        			}
+   		
+   	           }
+   	            
+   	         List<bodyStyleSetVM> bSetVMsoffline = new ArrayList<>();
+		     	for (Entry<String , String> entryValue : mapOffline.entrySet()) {
+		     		ClickyPagesVM vm = new ClickyPagesVM();
+					vm.title = entryValue.getKey();
+					String arr[]=entryValue.getValue().split("&");
+					vm.value = arr[0];
+					vm.valuePercent=arr[1];
+					vm.averageActions=arr[2];
+					vm.averageTime=arr[3];
+					vm.totalTime=arr[4];
+					vm.bounceRate=arr[5];
+					double count=0;
+	      	   	    double count1=0;
+	      	   	 List <ClickySearchesEngine> list1=ClickySearchesEngine.getAll(d1, d2) ;
+	      	   	for(ClickySearchesEngine lis2:list1) {
+	    	    	String url = lis2.title;
+	    	   		if(url.equals(vm.title)){
+	    	   			vm.value_percent2 = lis2.value;
+	    	   		  count1=count1+Double.parseDouble(vm.value_percent2);
+	    	   		
+	    	   		}
+	    	   		
+	      	   	}	
+	      	  List <ClickySearchesEngine> list2=ClickySearchesEngine.getAll(beforeStart, d1) ;
+	        	   	for(ClickySearchesEngine lis2:list2) {
+	        	    	String url = lis2.title;
+	        	   		if(url.equals(vm.title)){
+	        	   			vm.value_percent2 = lis2.value;
+	        	   		  count=count+Double.parseDouble(vm.value_percent2);
+	        	   		
+	        	   		}
+	      	   			
+	        	   	}
+	        	   	if(count1 != 0){
+	        	   vm.averagePercent=((count1-count)/count1)*100;
+	        	   	}
+	        	   	else{
+	        	   		vm.averagePercent=0;
+	        	   	}
+					
+					clickyList.add(vm);
+				}
 
          } catch (Exception e) {
              e.printStackTrace();

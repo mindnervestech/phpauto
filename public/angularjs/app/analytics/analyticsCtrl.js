@@ -3992,7 +3992,7 @@ angular.module('newApp')
 						$scope.gridOptions.data = data;
 						console.log(data);
 						$scope.visitiorList = data;
-						$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+						$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 						$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 						angular.forEach($scope.gridOptions.data, function(value, key) {
 							
@@ -4051,6 +4051,8 @@ angular.module('newApp')
 						$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				});
 				 
 				 
@@ -4102,12 +4104,14 @@ angular.module('newApp')
 				 
 				 $scope.gridOptions.columnDefs = [
 										             {name: 'title', displayName: 'Engine', width:'20%',
-										            	 cellTemplate:'<div ><a ng-click="grid.appScope.getEngineInfo(row.entity.id)">{{row.entity.title}}</a> </div>',	
+										            	 cellTemplate:'<div ><a ng-click="grid.appScope.getEngineInfo(row.entity.title)">{{row.entity.title}}</a> </div>',	
 										             },
 										             {name:'v', displayName:'Visitors', width:'10%',
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 										             },
-										             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
+										             {name: 'averageActions', displayName: 'Average Actions', width:'10%',
+										            	 cellTemplate:'<div><span> {{row.entity.averageActions}}</span></div>', 
+										             },
 										             {name: 'averageTime', displayName: 'Average Time', width:'10%'},
 										             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
 										             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
