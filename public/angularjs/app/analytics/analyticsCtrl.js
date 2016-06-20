@@ -1444,66 +1444,7 @@ angular.module('newApp')
 			
 			});	
 				
-				/*
-				$http.get('/getEntranceData/'+$scope.idForGrid)
-				.success(function(data) {
-					$scope.items=[];
-					console.log(data);
-					
-					$scope.landingUrl=data.url;
-					 $scope.items.push({
-					      title: 'Visitors',
-					      value: data.visitors
-					    })	
-					    
-					  $scope.items.push({
-					      title: 'Unique visitors',
-					      value: data.uniqueVisitor
-					    })	
-					    
-					     $scope.items.push({
-					      title: 'Actions',
-					      value: data.action
-					    })	
-					    
-					     $scope.items.push({
-					      title: 'Average actions',
-					      value: data.averageAction
-					    })	
-					    
-					     $scope.items.push({
-					      title: 'Total time',
-					      value: data.totalTime
-					    })	
-					    
-					    
-					    $scope.items.push({
-					      title: 'Average time per visit',
-					      value: data.averageTime
-					    })	
-					    
-					    $scope.items.push({
-					      title: 'Bounce rate',
-					      value: data.bounceRate
-					    })	
-					 console.log($scope.items);   
-					$scope.gridOptions1.data=$scope.items;
-					$scope.visitiorList = $scope.items;
-					console.log($scope.gridOptions1.data);
-				});
-				 
-				 
-				 $scope.gridOptions1.columnDefs = [
-										             {name: 'title', displayName: 'Summary of filtered visitors', width:'30%',
-										             },
-										             {name:'value', displayName:'These visitors', width:'10%'},
-										             
-										         ]
 				
-			}
-			
-			*/
-			
 		}
 		
 			if($scope.idForEvent != undefined){
@@ -4047,11 +3988,90 @@ angular.module('newApp')
 				
 				 $http.get('/getSearchesListDale/'+startDate+"/"+endDate)
 					.success(function(data) {
-					$scope.gridOptions.data = data;
-					//console.log($scope.gridOptions.data);
+						$scope.gridOptions.data = data;
+						console.log(data);
+						$scope.visitiorList = data;
+						$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+						$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+						angular.forEach($scope.gridOptions.data, function(value, key) {
+							
+							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+							value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+							 var splitTime   = value.totalTime.split(":");
+							 var splitTime1   = value.averageTime.split(":");
+							 if(splitTime[0] == 00){
+								 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 else{
+								 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 
+							 if(splitTime1[0] == 00){
+								 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 else{
+								 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 
+							
+						});
+						
+						
+						
+						
+					});
+					 
+						$scope.gridOptions.columnDefs = [
+											             {name: 'title', displayName: 'Source', width:'30%',
+											            	 cellTemplate:'<div > <a ng-click="grid.appScope.getTrafficInfo(row.entity.title)">{{row.entity.title}}</a> </div>',
+											             },
+											             {name:'value', displayName:'Visitors', width:'10%',
+											            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
+											             },
+											             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
+											             {name: 'averageTime', displayName: 'Average Time', width:'15%'},
+											             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
+											             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
+											             /*{name:'stats_url', displayName:'', width:'20%',
+											            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+											             },*/
+											             {name:'Percent', displayName:'', width:'10%',		
+											            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showTrafficScouresChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+											            
+											             }
+											            
+											         ]
 					
+			}else if($scope.typeOfInfo == 'Keywords'){
+				
+				
+				 $http.get('/getKeywordsList/'+startDate+"/"+endDate)
+					.success(function(data) {
+						$scope.gridOptions.data = data[0].dates[0].items;
+					console.log($scope.gridOptions.data);
+					$scope.visitiorList = data;
+				});
+				 
+				 
+				 $scope.gridOptions.columnDefs = [
+										             {name: 'title', displayName: 'Search', width:'60%'},
+										             {name:'v', displayName:'Visitors', width:'20%',
+										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
+										             },
+										             {name:'stats_url', displayName:'Rank', width:'20%',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										             },
+										            
+										         ]
+				
+			}else if($scope.typeOfInfo == 'Engines'){
+				 $http.get('/getEngines/'+startDate+"/"+endDate)
+					.success(function(data) {
+						console.log(data);
+					$scope.gridOptions.data = data;
+					$scope.visitiorList = data;
 					angular.forEach($scope.gridOptions.data, function(value, key) {
-						if(value.averageTime != null || value.totalTime != null){
+						
 						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
 						value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
 						 var splitTime   = value.totalTime.split(":");
@@ -4070,82 +4090,24 @@ angular.module('newApp')
 							 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
 						 }
 						 
-						}	
+						
 					});
 					
 					
-					
-					
-					
-					 console.log($scope.gridOptions.data);
-					$scope.visitiorList = data;
-				});
-				
-				 $scope.gridOptions.columnDefs = [
-										             {name: 'title', displayName: 'Search', width:'20%',
-										            	 
-										            	 cellTemplate:'<div><span ng-click="grid.appScope.showUrlInfoForSearch(row.entity.title)" >{{row.entity.title}}</span></div>',
-										             },
-										             {name:'v', displayName:'Visitors', width:'10%',
-										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
-										             },
-										             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
-										             {name: 'averageTime', displayName: 'Average Time', width:'10%'},
-										             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
-										             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
-										             
-										             {name:'stats_url', displayName:'', width:'15%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
-										             },
-										             {name:'point', displayName:'', width:'10%',		
-										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showSearchesChart(row.entity.urlForGraph)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
-										            
-										             }
-										            
-										         ]
-				
-			}else if($scope.typeOfInfo == 'Keywords'){
-				
-				
-				 $http.get('/getKeywordsList/'+startDate+"/"+endDate)
-					.success(function(data) {
-						$scope.gridOptions.data = data[0].dates[0].items;
-					console.log($scope.gridOptions.data);
-					$scope.visitiorList = data;
-				});
-				 
-				 
-				 $scope.gridOptions.columnDefs = [
-										             {name: 'title', displayName: 'Search', width:'60%'},
-										             {name:'v', displayName:'Visitors', width:'20%',
-										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
-										             },
-										             {name:'stats_url', displayName:'Rank', width:'20%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
-										             },
-										            
-										         ]
-				
-			}else if($scope.typeOfInfo == 'Engines'){
-				 $http.get('/getEngines/'+startDate+"/"+endDate)
-					.success(function(data) {
-						console.log(data);
-					$scope.gridOptions.data = data;
-					$scope.visitiorList = data;
 					
 				});
 				 
 				 $scope.gridOptions.columnDefs = [
 										             {name: 'title', displayName: 'Engine', width:'20%'},
 										             {name:'v', displayName:'Visitors', width:'10%',
-										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
+										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 										             },
 										             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
 										             {name: 'averageTime', displayName: 'Average Time', width:'10%'},
 										             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
 										             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
-										             {name:'stats_url', displayName:'', width:'15%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										             {name:'statsUrl', displayName:'', width:'15%',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
 										             {name:'url', displayName:'', width:'10%',		
 										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEnginesChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -4157,44 +4119,46 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Recent'){
 				$http.get('/getRecent/'+startDate+"/"+endDate)
 				.success(function(data) {
-				$scope.gridOptions.data = data[0].dates[0].items;
-				$scope.visitiorList = data[0].dates[0].items;
+				$scope.gridOptions.data = data;
+				$scope.visitiorList = data;
 				
 			});
 			 
 				 $scope.gridOptions.columnDefs = [
-										             {name: 'time_pretty', displayName: 'Time', width:'20%'},
-										             {name:'item', displayName:'Item', width:'80%'}
+										             {name: 'timePretty', displayName: 'Time', width:'20%'},
+										             {name:'title', displayName:'Item', width:'80%',
+										            	 cellTemplate:'<div  style="margin-left:47px;"><a>{{row.entity.title}} </a></div>',	 
+										             }
 										            
 										         ]
 				
 			}else if($scope.typeOfInfo == 'Newest Unique'){
 				$http.get('/getNewestUni/'+startDate+"/"+endDate)
 				.success(function(data) {
-				$scope.gridOptions.data = data[0].dates[0].items;
+				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data[0].dates[0].items;
+				$scope.visitiorList = data;
 				
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'time_pretty', displayName: 'Time', width:'20%'},
-									             {name:'item', displayName:'Item', width:'80%'}
+									             {name: 'timePretty', displayName: 'Time', width:'20%'},
+									             {name:'title', displayName:'Item', width:'80%'}
 									            
 									         ]
 				
 			}else if($scope.typeOfInfo == 'Local Searches'){
 				$http.get('/getSearchesLocal/'+startDate+"/"+endDate)
 				.success(function(data) {
-				$scope.gridOptions.data = data[0].dates[0].items;
+				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data[0].dates[0].items;
+				$scope.visitiorList = data;
 				
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'time_pretty', displayName: 'Time', width:'20%'},
-									             {name:'item', displayName:'Item', width:'80%'}
+									             {name: 'timePretty', displayName: 'Time', width:'20%'},
+									             {name:'title', displayName:'Item', width:'80%'}
 									            
 									         ]
 				
