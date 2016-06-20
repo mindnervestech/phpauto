@@ -4698,79 +4698,105 @@ angular.module('newApp')
 			 
 		 }
 		 
-		 
 		 $scope.flagForChart1 = true;
-		 $scope.flagForChart=true;
-		 $scope.showSearchesChart = function(title) {
+		 $scope.flagForChart = true;
+		 $scope.showSearchesPagesChart = function(title) {
 			 console.log(">>>>>>>>");
-			 $scope.chartData={};
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;
 				console.log(endDate);
 				console.log(startDate);
 				console.log(title);
+				
+				$scope.urlobj.startDate=startDate;
+				$scope.urlobj.endDate=endDate;
+				$scope.urlobj.title=title;
+				
 				$scope.flagForChart=0;
-				$scope.chartData.title=title;
-				$scope.chartData.startDate=startDate;
-				$scope.chartData.endDate=endDate;
-				$http.post("/getSearchesActionChart",$scope.chartData).success(function(data){
+				$http.post('/getSearchesPagesChart', $scope.urlobj)
+				.success(function(data) {
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
+					
+					$scope.value = [];
+					$scope.dates = [];
+					
 				
 			});
 				
+			 
 			}
 		 
 		 
+		 
+		
+		 $scope.urlobj={};
 		 $scope.flagForChart1 = true;
-		 $scope.flagForChart=true;
+		 $scope.flagForChart = true;
 		 $scope.showEnginesChart = function(title) {
 			 console.log(">>>>>>>>");
-			 $scope.chartData={};
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;
 				console.log(endDate);
 				console.log(startDate);
 				console.log(title);
+				
+				$scope.urlobj.startDate=startDate;
+				$scope.urlobj.endDate=endDate;
+				$scope.urlobj.title=title;
+				
 				$scope.flagForChart=0;
-				$scope.chartData.title=title;
-				$scope.chartData.startDate=startDate;
-				$scope.chartData.endDate=endDate;
-				$http.post("/getsEnginesChart",$scope.chartData).success(function(data){
+				$http.post('/getEnginesChart', $scope.urlobj)
+				.success(function(data) {
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
+					
+					$scope.value = [];
+					$scope.dates = [];
+					
 				
 			});
 				
+			 
 			}
-		 
+		 $scope.urlobj={};
 		 $scope.flagForChart1 = true;
-		 $scope.flagForChart=true;
+		 $scope.flagForChart = true;
 		 $scope.showRankingsChart = function(title) {
 			 console.log(">>>>>>>>");
-			 $scope.chartData={};
-			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();	 
+			 var startDate =$rootScope.startDateFilter;
+				var endDate =$rootScope.endDateFilter;
 				console.log(endDate);
 				console.log(startDate);
 				console.log(title);
+				
+				$scope.urlobj.startDate=startDate;
+				$scope.urlobj.endDate=endDate;
+				$scope.urlobj.title=title;
+				
 				$scope.flagForChart=0;
-				$scope.chartData.title=title;
-				$scope.chartData.startDate=startDate;
-				$scope.chartData.endDate=endDate;
-				$http.post("/getsRankingsChart",$scope.chartData).success(function(data){
+				$http.post('/getRankingsChart', $scope.urlobj)
+				.success(function(data) {
 					console.log(data);
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
+					
+					$scope.value = [];
+					$scope.dates = [];
+					
 				
 			});
 				
-			}	 
+			 
+			}
+		 
+		 
+		
 		 
 		 
 		 var seriesOptions = [];

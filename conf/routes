@@ -415,6 +415,9 @@ GET   /getTrafficScouresChart/:startDate/:endDate/:title			controllers.Applicati
 POST   /getPagesChart											controllers.Application.getPagesChart()
 POST   /getEntranceChart								controllers.Application.getEntranceChart()
 POST   /getBrowserChart								controllers.Application.getBrowserChart()
+POST   /getSearchesPagesChart								controllers.Application.getSearchesPagesChart()
+POST   /getEnginesChart								controllers.Application.getEnginesChart()
+POST   /getRankingsChart								controllers.Application.getRankingsChart()
 POST   /getshowOperatingSystemChart								controllers.Application.getshowOperatingSystemChart()
 POST   /getScreenResolutionChart								controllers.Application.getScreenResolutionChart()
 POST   /getHardwareChart								controllers.Application.getHardwareChart()
@@ -426,9 +429,8 @@ POST   /getTrafficChart									controllers.Application.getTrafficChart()
 POST   /getEventChart									controllers.Application.getEventChart()
 POST   /getMediaChart									controllers.Application.getMediaChart()
 POST   /getshowDomainsChart									controllers.Application.getshowDomainsChart()
-POST  /getSearchesActionChart                                       controllers.Application.getSearchesActionChart()
-POST  /getsEnginesChart                                       controllers.Application.getsEnginesChart()
-POST  /getsRankingsChart                                       controllers.Application.getsRankingsChart()
+
+
 
 GET   /getVideoAction/:startDate/:endDate			controllers.Application.getVideoAction(startDate:String,endDate:String)
 GET   /getTrafficScoures/:startDate/:endDate			controllers.Application.getTrafficScoures(startDate:String,endDate:String)
