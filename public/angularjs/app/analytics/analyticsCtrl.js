@@ -3870,7 +3870,8 @@ angular.module('newApp')
 
 angular.module('newApp')
 .controller('SearchesCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
-
+    
+	$scope.idForSearch=$routeParams.idForSearch;
 	
 	
 	
@@ -4023,7 +4024,7 @@ angular.module('newApp')
 					 
 						$scope.gridOptions.columnDefs = [
 											             {name: 'title', displayName: 'Source', width:'30%',
-											            	 cellTemplate:'<div > <a ng-click="grid.appScope.getTrafficInfo(row.entity.title)">{{row.entity.title}}</a> </div>',
+											            	 cellTemplate:'<div > <a ng-click="grid.appScope.getSearchInfo(row.entity.id)">{{row.entity.title}}</a> </div>',
 											             },
 											             {name:'value', displayName:'Visitors', width:'10%',
 											            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
@@ -4249,6 +4250,97 @@ angular.module('newApp')
 				
 			 
 		 }	 
+		 
+		 $scope.getSearchInfo = function(id){
+				 console.log(id);
+			  $location.path('/getSearchInfo/'+id);
+			 
+		 }
+		 
+		 
+		 $scope.uniqueDataForAllTab = function(){
+			 
+			console.log($scope.idForSearch) ;
+			 if($scope.idForSearch != undefined){
+					$http.get('/getsearchInfo/'+$scope.idForSearch+"/"+$scope.startDate+"/"+$scope.endDate)
+						.success(function(data) {
+							$scope.gridOptions.data=data;
+							console.log($scope.gridOptions.data);
+							angular.forEach($scope.gridOptions.data, function(value, key) {
+								if(value.title=="totalTime"){
+									value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+									 var splitTime   = value.these_visitors.split(":");
+									 if(splitTime[0] == 00){
+										 value.these_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+									 }
+									 else{
+										 value.these_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+									 }
+									 
+									 
+									}	
+								if(value.title=="averageTime"){
+									value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+									 var splitTime1   = value.these_visitors.split(":");
+									 if(splitTime1[0] == 00){
+										 value.these_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+									 }
+									 else{
+										 value.these_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+									 }
+									 
+									}	 
+									 
+								if(value.title=="totalTime"){
+									value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+									 var splitTime   = value.all_visitors.split(":");
+									 if(splitTime[0] == 00){
+										 value.all_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+									 }
+									 else{
+										 value.all_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+									 }
+									 
+									 
+									}	
+								if(value.title=="averageTime"){
+									value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+									 var splitTime1   = value.all_visitors.split(":");
+									 if(splitTime1[0] == 00){
+										 value.all_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+									 }
+									 else{
+										 value.all_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+									 }
+									 
+									}	 
+									
+								
+							});
+							
+							
+					 
+					 
+					 
+				});
+					
+					
+					 $scope.gridOptions.columnDefs = [
+					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
+					                                	   cellTemplate: '<div>{{row.entity.title}}</div>',			
+					                                   },
+											             {name:'these_visitors', displayName:'These Visitors', width:'15%' },
+											             {name:'all_visitors', displayName:'All Visitors', width:'15%' },
+											             {name:'these_vis', displayName:'Difference', width:'15%' },
+												        
+												        
+											            	 ]
+			 
+		 }
+			 
+		 }
+		 
+		 
 		 $scope.flagForChart1 = true;
 		 $scope.flagForChart=true;
 		 $scope.showSearchesChart = function(title) {

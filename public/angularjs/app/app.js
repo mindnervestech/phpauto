@@ -291,6 +291,12 @@ var MakeApp = angular
           controller: 'VisitorsCtrl'
       })
       
+      
+      .when('/getSearchInfo/:idForSearch', {
+          templateUrl: '/dealer/analytics/searchTabInfo.html',
+          controller: 'SearchesCtrl'
+      }) 
+      
         .when('/visitorsAnalytics', {
             templateUrl: '/dealer/analytics/visitors.html',
             controller: 'VisitorsCtrl'
