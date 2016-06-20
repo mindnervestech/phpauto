@@ -297,6 +297,27 @@ var MakeApp = angular
           controller: 'SearchesCtrl'
       }) 
       
+      .when('/getEngineInfo/:idForEngine', {
+          templateUrl: '/dealer/analytics/searchTabInfo.html',
+          controller: 'SearchesCtrl'
+      }) 
+      
+      .when('/getRecentInfo/:idForRecent', {
+          templateUrl: '/dealer/analytics/searchTabInfo.html',
+          controller: 'SearchesCtrl'
+      }) 
+      
+      .when('/getNewestInfo/:idForNewest', {
+          templateUrl: '/dealer/analytics/searchTabInfo.html',
+          controller: 'SearchesCtrl'
+      }) 
+      
+      .when('/getRankingInfo/:idForRanking', {
+          templateUrl: '/dealer/analytics/searchTabInfo.html',
+          controller: 'SearchesCtrl'
+      }) 
+      
+      
         .when('/visitorsAnalytics', {
             templateUrl: '/dealer/analytics/visitors.html',
             controller: 'VisitorsCtrl'
