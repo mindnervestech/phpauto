@@ -328,8 +328,8 @@
                     <div class="header-right">
                         <ul class="header-menu nav navbar-nav">
                             <!-- BEGIN USER DROPDOWN -->
-                             <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">{{notifictionCount}}</span></a>
-                        <ul class="dropdown-menu dropdown-alerts">
+                             <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header" ng-if="notificationArray.length != 0">{{notifictionCount}}</span></a>
+                        <ul class="dropdown-menu dropdown-alerts" ng-if="notificationArray.length != 0">
                             <li style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>{{notifictionCount}} Pending Notifications</p></li>
                             <li>
                                 <div class="dropdown-slimscroll">
