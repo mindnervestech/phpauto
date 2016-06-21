@@ -341,6 +341,43 @@
                             <li class="last"><a href="extra-user-list.html" class="text-right">See all alerts</a></li>
                         </ul>
                     </li>
+                    
+                    
+                    
+                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i><span class="badge badge-green">{{dataLength}}</span></a>
+                        <ul class="dropdown-menu dropdown-alerts">
+                            <li style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>You have {{dataLength}} new notifications</p></li>
+                            <li>
+                                <div  ng-repeat="item in leadData" class="dropdown-slimscroll">
+                                    <ul>
+                                        <li>
+                                        <div class="col-sm-12">
+                                        <div class="col-sm-4">
+                                        <img   style="width: 100px; height: 100px;" src="{{item.imagePath}}">
+                                        </div>
+                                         <div class="col-sm-4">
+                                         <span style="width: 150px;" class="col-sm-12">{{item.name}}</span>
+                                         <span style="width: 150px;" class="col-sm-12">{{item.typeOfLead}}</span>
+                                         <div style="width: 320px;" class="col-sm-12">
+                                        <button style="width: 70px;height: 25px;font-size: 12px" type="button"  ng-click="setAsRead(item)" class="btn btn-primary btn-embossed">Claim</button> 
+                                         <button  style="width: 70px;height: 25px;font-size: 12px;margin-left: 0% " ng-click="assignCanceledLead(item)"  type="button" class="btn btn-primary btn-embossed">Assign</button>
+                                       <button ng-if="item.typeOfLead == 'Premium'"  ng-click="releaseLeads(item)" style="width: 75px;height: 25px;font-size: 12px;margin-left: 0% "  type="button" class="btn btn-primary btn-embossed">Release</button>
+                                         </div>
+                                         </div>
+                                         
+                                          <div class="col-sm-4">
+                                         <span style="width: 200px;padding: 0px;" class="col-sm-12">{{item.timeUnit}}</span> 
+                                          </div>
+                                        </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    
+                    
                             <li ng-sec = "Customer Requests" class="dropdown" id="language-header">
                                 <a href="#requestMoreInfo" title="Request More Info">
                                 <i class="icon-info" style="color:white;"></i>
@@ -427,6 +464,37 @@
           
         <!-- END QUICKVIEW SIDEBAR -->
         <!-- BEGIN SEARCH -->
+        <button id="btnAssig" data-toggle="modal" data-target="#assignUser" style="display: none;"></button>
+        <div class="modal fade" id="assignUser" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" id="closeChangeUser" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Assign Sales Representative</h4>
+								                </div>
+								                <form ng-submit="changeUser()">
+								                <div class="modal-body">
+								                    <div class="form-group col-sm-12">
+														<label class="col-sm-4 control-label" style="text-align: right;">User</label>
+														<div class="col-sm-6">
+															<select  class="form-control form-white" ng-model="changedUser" required>
+														    	<option value="">Select user</option>
+											                     <option ng-repeat="item in salesPersonPerf" value="{{item.id}}">{{item.firstName}} {{item.lastName}}</option>
+											                </select>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Yes</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
+        
+        
+        
         <div id="morphsearch" class="morphsearch">
             <form class="morphsearch-form">
                 <input class="morphsearch-input" type="search" placeholder="Search..." />
@@ -735,6 +803,23 @@
 .theme-sdtl.color-default .sidebar .sidebar-inner {
     background: transparent !important;
 }
+
+.topbar .header-right .header-menu .dropdown-menu {
+    border-top-left-radius: 1px!important;
+    border-top-right-radius: 1px!important;
+    left: auto;
+    margin: 0;
+    max-width: 430px!important;
+    min-width: 170px!important;
+    padding: 0;
+    right: 0;
+    top: 53px;
+    width: 450px;
+    height:450px;
+    overflow: auto;
+    min-height: 300px; 
+}
+
 </style>
 
 <script language="javascript">

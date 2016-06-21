@@ -12,11 +12,13 @@ public class RequestInfoVM {
 	public String message;
 	public String make;
 	public String year;
+	public String type;
 	public String last4Vin;
 	public String mileage;
 	public String typeofVehicle;
 	public Integer price;
 	public String stock;
+	public String imagePath;
 	public String mesg;
 	public String bodyStyle;
 	public String engine;
@@ -27,6 +29,7 @@ public class RequestInfoVM {
 	public String hostName;
 	public String email;
 	public String phone;
+	public String timeUnit;
 	public String requestDate;
 	public String bestDay;
 	public String bestTime;

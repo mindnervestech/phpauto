@@ -156,6 +156,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.joda.time.Period;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14237,6 +14238,283 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	vm.userType = user.role;
 	    	
 	    	return ok(Json.toJson(vm));
+    	}
+    }
+    
+    
+    public static Result getLeadInfo() {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		AuthUser user = (AuthUser) getLocalUser();
+	    	InfoCountVM vm = new InfoCountVM();
+	    	List<ScheduleTest> scList = ScheduleTest.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	List<TradeIn> trList = TradeIn.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	List<RequestMoreInfo> rList = RequestMoreInfo.findAllLeads(Long.valueOf(session("USER_LOCATION")));
+	    	List<RequestInfoVM> list = new ArrayList<>();
+	    	for(ScheduleTest sc: scList){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.name;
+	    		vm1.id=sc.id;
+	    		vm1.typeOfLead="Schedule Test";
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
+	    			if(image != null){
+	    				imagePath=image.thumbPath;
+	    			}
+	    		}
+	    		vm1.imagePath=imageUrlPath+imagePath;
+	    		Date currD = new Date();
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	            dt2 = sc.scheduleTime;
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        if(diffInDays != 0){
+    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	for(TradeIn sc: trList){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.firstName+" "+sc.lastName;
+	    		vm1.typeOfLead="Trade In";
+	    		vm1.id=sc.id;
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
+	    			if(image != null){
+	    				imagePath=image.thumbPath;
+	    			}
+	    		}
+	    		vm1.imagePath=imageUrlPath+imagePath;
+	    		Date currD = new Date();
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	            dt2 = sc.tradeTime;
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        if(diffInDays != 0){
+    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago ";
+    	        }
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	for(RequestMoreInfo sc: rList){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.name;
+	    		vm1.typeOfLead="Request More";
+	    		vm1.id=sc.id;
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
+	    			if(image != null){
+	    				imagePath=image.thumbPath;
+	    			}
+	    		}
+	    		vm1.imagePath=imageUrlPath+imagePath;
+	    		Date currD = new Date();
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	            dt2 = sc.requestTime;
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        if(diffInDays != 0){
+    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	if(user.location != null){
+	    		Location location=Location.findById(user.location.id);
+		    	vm.locationName=location.name;
+	    	}
+	    	
+	    	List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+	    	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+	    	List<TradeIn> tradeIns = TradeIn.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
+
+	    	int premi = sched.size() + reInfos.size() + tradeIns.size();
+	    	vm.premium = premi;
+	    	
+	    	for(ScheduleTest sc: sched){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.name;
+	    		vm1.typeOfLead="Premium";
+	    		vm1.type="Schedule Test";
+	    		vm1.id=sc.id;
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
+	    			if(image != null){
+	    				imagePath=image.thumbPath;
+	    			}
+	    		}
+	    		vm1.imagePath=imageUrlPath+imagePath;
+	    		Date currD = new Date();
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	            dt2 = sc.scheduleTime;
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        if(diffInDays != 0){
+    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	for(TradeIn sc: tradeIns){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.firstName+" "+sc.lastName;
+	    		vm1.typeOfLead="Premium";
+	    		vm1.type="Trade In";
+	    		vm1.id=sc.id;
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
+	    			if(image != null){
+	    				imagePath=image.thumbPath;
+	    			}
+	    		}
+	    		vm1.imagePath=imageUrlPath+imagePath;
+	    		Date currD = new Date();
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	            dt2 = sc.tradeTime;
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        if(diffInDays != 0){
+    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		
+	    		
+	    		
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	for(RequestMoreInfo sc: reInfos){
+	    		RequestInfoVM vm1=new RequestInfoVM();
+	    		vm1.name=sc.name;
+	    		vm1.typeOfLead="Premium";
+	    		vm1.id=sc.id;
+	    		vm1.type="Request More Info";
+	    		String imagePath=null;
+	    		if(sc.vin != null){
+	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
+	    			if(image != null){
+	    				imagePath=image.thumbPath;
+	    			}
+	    		}
+	    		vm1.imagePath=imageUrlPath+imagePath;
+	    		DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:a");
+    	        Date currD = new Date();
+    	        Date dt1=null;
+    	        Date dt2=null;
+    	        try {
+    	        	dt1 =currD;
+    	            dt2 = sc.requestTime;
+    	        } catch (Exception e) {
+    	            e.printStackTrace();
+    	        }
+
+    	        // Get msec from each, and subtract.
+    	        long diff = dt1.getTime() - dt2.getTime();
+    	        long diffSeconds = diff / 1000 % 60;
+    	        long diffMinutes = diff / (60 * 1000) % 60;
+    	        long diffHours = diff / (60 * 60 * 1000)% 24;
+    	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
+    	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        if(diffInDays != 0){
+    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        
+	    		list.add(vm1);		
+	    		
+	    	}
+	    	
+	    	vm.userType = user.role;
+	    	
+	    	return ok(Json.toJson(list));
     	}
     }
     

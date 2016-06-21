@@ -381,7 +381,9 @@ public void setMessage(String message) {
 	public static int findAll(Long locationId) {
 		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).eq("locations.id", locationId).findRowCount();
 	}
-	
+	public static List<RequestMoreInfo> findAllLeads(Long locationId) {
+		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("status", null).eq("locations.id", locationId).findList();
+	}
 	public static List<RequestMoreInfo> findAllByUser(AuthUser user) {
 		return find.where().eq("user", user).findList();
 	}

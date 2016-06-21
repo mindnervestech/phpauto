@@ -30,6 +30,110 @@
             		window.location.href = "/login";
             	}
             });
+            
+            
+            
+            $scope.leadData={};
+            $http.get('/getLeadInfo').success(function(data,status, headers, config){
+            
+            	console.log("*****");
+            	console.log(data);
+            	$scope.leadData=data;
+            	$scope.dataLength=$scope.leadData.length;
+               
+            })
+            
+            $http.get('/getSalesUserValue')
+		.success(function(data){
+			console.log(data);
+			$scope.salesPersonPerf = data;
+			
+		    });
+            
+            $scope.assignCanceledLead = function(item) {
+        		console.log(item.typeOfLead);
+              	$scope.leadlId = item.id;
+              	$scope.leadType = item.typeOfLead;
+              	$scope.changedUser = "";
+              	$('#btnAssig').click();
+              }
+              
+            
+            $scope.changeUser = function() {
+            console.log("inside");	
+   			 console.log($scope.leadlId);
+   			 console.log($scope.leadType);
+   			 console.log($scope.changedUser);
+   	        	$http.get('/changeAssignedUser/'+$scope.leadlId+'/'+$scope.changedUser+'/'+$scope.leadType)
+   				.success(function(data) {
+   					$('#assignUserModal').modal('hide');
+   					$.pnotify({
+   					    title: "Success",
+   					    type:'success',
+   					    text: "User assigned successfully",
+   					});
+   				});
+   	        	
+   	        }
+            
+            $scope.releaseLeads = function(entity){
+            	console.log(entity.type);
+   			$http.get('/releaseLeads/'+entity.id+'/'+entity.type)
+   				.success(function(data) {
+   					$.pnotify({
+   					    title: "Success",
+   					    type:'success',
+   					    text: "Premium lead has been successfully released for everyone to claim ",
+   					});
+   				});
+   		 }
+            
+            
+            $scope.setAsRead = function (item) {
+                console.log("IIIIDDDD");
+                
+                console.log(item);
+                var flag=true;
+                if(item.typeOfLead =="Request More"){
+                	 $http.get('/requestInfoMarkRead/'+flag+'/'+item.id)
+             		.success(function(data) {
+             		console.log(data);
+             	});
+                	
+                }
+                
+                else if(item.typeOfLead =="Schedule Test"){
+                	var flag=true;
+                	$http.get('/scheduleTestMarkRead/'+flag+'/'+item.id)
+            		.success(function(data) {
+
+            			console.log(data);
+            		});
+                }
+                
+               else if(item.typeOfLead =="Trade In"){
+            	   
+            	   $http.get('/tradeInMarkRead/'+flag+'/'+item.id)
+       			.success(function(data) {
+       				console.log(data);
+       	       	});
+                }
+               else if(item.typeOfLead =="Premium"){
+            	   $http.get('/changeAssignedUser/'+item.id+'/'+userKey+'/'+item.type)
+					.success(function(data) {
+						$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Claimed Successfully",
+						});
+					});
+            	   
+               	
+               }
+                
+                
+            };
+
 
             $http.get('/getInfoCount').success(function(data,status, headers, config){
             	

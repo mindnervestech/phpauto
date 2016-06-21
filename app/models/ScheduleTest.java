@@ -487,7 +487,9 @@ public class ScheduleTest extends Model {
 	public static int findAll(Long locationId) {
 		return find.where().eq("isRead", 0).ne("vin", "no").eq("premiumFlag", 0).eq("locations.id", locationId).eq("leadStatus", null).findRowCount();
 	}
-	
+	public static List<ScheduleTest> findAllLeads(Long locationId) {
+		return find.where().eq("isRead", 0).ne("vin", "no").eq("premiumFlag", 0).eq("locations.id", locationId).eq("leadStatus", null).findList();
+	}
 	public static List<ScheduleTest> findAllByUser(AuthUser user) {
 		return find.where().eq("user", user).findList();
 	}

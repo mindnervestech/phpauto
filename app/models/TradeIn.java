@@ -637,6 +637,9 @@ public class TradeIn extends Model {
 		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("locations.id", locationId).eq("status", null).findRowCount();
 	}
 	
+	public static List<TradeIn> findAllLeads(Long locationId) {
+		return find.where().eq("isRead", 0).eq("premiumFlag", 0).eq("locations.id", locationId).eq("status", null).findList();
+	}
 	public static List<TradeIn> findByConfirmLeads(Long locationId, AuthUser user) {
 		return find.where().ne("confirmTime", null).ne("confirmDate", null).eq("status", null).eq("testDriveStatus", null).eq("locations.id", locationId).eq("assignedTo", user).findList();
 	}
