@@ -2720,9 +2720,9 @@ angular.module('newApp')
     			  //$scope.invitationMsg();
     			  //$scope.decline();
     			 // $scope.acceptMsg();
-    			  $scope.deleteMeeting();
+    			  //$scope.deleteMeeting();
     			  $scope.PlanOnMonday();
-    			  $scope.updateMeeting();
+    			  //$scope.updateMeeting();
     			  //$scope.planMsg();
     			  $scope.priceAlertMsg();
     			  
@@ -3021,7 +3021,7 @@ angular.module('newApp')
 	    		});
 			}*/
 			
-			$scope.updateMeeting = function(){
+		/*	$scope.updateMeeting = function(){
 
 				$http.get('/getUpdateMeeting')
 	    		.success(function(data){
@@ -3056,7 +3056,7 @@ angular.module('newApp')
 						$compile(element)($scope);
 	    				});
 	    		});
-			}
+			}*/
 			
 			
 		/*	$scope.acceptMsg = function(){
@@ -3306,7 +3306,7 @@ angular.module('newApp')
 			}
 			
 			
-			$scope.deleteMeeting = function(){
+		/*	$scope.deleteMeeting = function(){
 				
 				$http.get('/getdeleteMeeting')
 	    		.success(function(data){
@@ -3373,7 +3373,7 @@ angular.module('newApp')
 	    		});
 				
 				
-			}
+			}*/
 			
 			
 		/*	$scope.invitationMsg = function() {
@@ -4067,7 +4067,6 @@ angular.module('newApp')
 	    		$scope.reminderPopup = function(){
 	    			
 	    			$http.get('/getReminderPopup').success(function(data) {
-		  				  
 		  				  
 		  				var notifContent;
 	    				angular.forEach(data, function(value, key) {

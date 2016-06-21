@@ -265,14 +265,47 @@
                 		$scope.notifictionCount++;
                 	});
                 	
+                	angular.forEach(data.deleteMeeting, function(value, key) {
+                		if(value.declineUser == 'Host'){
+                			$scope.notificationArray.push({
+    							title: value.name+" has been cancelled",
+    							id:"55151",
+    						});
+                		
+                		}else if(value.declineUser == 'this person'){
+                			$scope.notificationArray.push({
+    							title: value.firstName+" "+value.lastName+" can't go to the "+value.name,
+    							id:"55151",
+    						});
+                		}
+                		
+                		$scope.notifictionCount++;
+                	});
                 	
                 	
-                	console.log($scope.notificationArray);
+                	angular.forEach(data.updateMeeting, function(value, key) {
+                		$scope.notificationArray.push({
+							title: value.name+" information has been changed",
+							id:"5515100",
+						});
+                		$scope.notifictionCount++;
+                	});
+                	
+                	angular.forEach(data.reminderPopup, function(value, key) {
+                		$scope.notificationArray.push({
+							title: value.notes,
+							id:"5844444",
+						});
+                		$scope.notifictionCount++;
+                	});
+                	
                 	$scope.decline(data.declineMeeting);
                 	$scope.invitationMsg(data.invitationData);
                 	$scope.likeMsg(data.commentLike);
                 	$scope.planMsg(data.planScheduleMonthly);
                 	$scope.acceptMsg(data.acceptedMeeting);
+                	$scope.deleteMeeting(data.deleteMeeting);
+                	$scope.updateMeeting(data.updateMeeting);
                 	
             	});
             }
@@ -566,6 +599,108 @@
 				//$compile(element)($scope);
 				});
 	}
+	
+	
+	$scope.deleteMeeting = function(data){
+		
+
+				var notifContent;
+				angular.forEach(data, function(value, key) {
+					if(value.declineUser == 'Host'){
+						notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.name+" has been cancelled</span><br></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    				
+	    				var position = 'topRight';
+		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+		    	        var n = noty({
+		    	            text: notifContent,
+		    	            type: 'success',
+		    	            layout: position,
+		    	            theme: 'made',
+		    	            animation: {
+		    	                open: 'animated bounceIn',
+		    	                close: 'animated bounceOut'
+		    	            },
+		    	            
+		    	            callback: {
+		    	                onShow: function () {
+		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+		    	                },
+		    	                onCloseClick: function () {
+		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+		    	                }
+		    	            }
+		    	        });
+		    	        
+		    	        var element = $('#cnt');
+						//$compile(element)($scope);
+					}else if(value.declineUser == 'this person'){
+						notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> "+value.firstName+"&nbsp;&nbsp;"+value.lastName+" can't go to the "+value.name+"</span><br><span>"+value.confirmDate+"&nbsp;&nbsp"+value.confirmTime+"</span><br><span>"+value.reason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+	    				
+	    				var position = 'topRight';
+		    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+		    	        var n = noty({
+		    	            text: notifContent,
+		    	            type: 'success',
+		    	            layout: position,
+		    	            theme: 'made',
+		    	            animation: {
+		    	                open: 'animated bounceIn',
+		    	                close: 'animated bounceOut'
+		    	            },
+		    	            
+		    	            callback: {
+		    	                onShow: function () {
+		    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+		    	                },
+		    	                onCloseClick: function () {
+		    	                	$('html, body').animate({scrollTop:480}, 'slow');
+		    	                }
+		    	            }
+		    	        });
+		    	        
+		    	        var element = $('#cnt');
+						//$compile(element)($scope);
+					}
+				
+				});
+		
+		
+	}
+	
+	$scope.updateMeeting = function(data){
+
+				var notifContent;
+				angular.forEach(data, function(value, key) {
+				//var t = $filter('date')(value.confirmTime,"hh:mm a");
+				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.name+" information has been changed</span><br><span>"+value.confirmDate+"   "+value.confirmTime+" - "+value.confirmEndTime+"</span><br><span>"+value.reason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+				
+				var position = 'topRight';
+    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+    	        var n = noty({
+    	            text: notifContent,
+    	            type: 'success',
+    	            layout: position,
+    	            theme: 'made',
+    	            animation: {
+    	                open: 'animated bounceIn',
+    	                close: 'animated bounceOut'
+    	            },
+    	            
+    	            callback: {
+    	                onShow: function () {
+    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('margin-left', -30).css('bottom', 10);
+    	                },
+    	                onCloseClick: function () {
+    	                	$('html, body').animate({scrollTop:480}, 'slow');
+    	                }
+    	            }
+    	        });
+    	        
+    	        var element = $('#cnt');
+				//$compile(element)($scope);
+				});
+	}
+	
 	
 	
 	
