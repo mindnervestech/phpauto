@@ -712,8 +712,8 @@ angular.module('newApp')
 				$scope.gridOptions.data = data;
 				console.log(data);
 				$scope.visitiorList = data;
-				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
-				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'title');
+				//$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				angular.forEach($scope.gridOptions.data, function(value, key) {
 					
 					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');

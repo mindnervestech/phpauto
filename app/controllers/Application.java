@@ -25501,11 +25501,14 @@ private static void cancelTestDriveMail(Map map) {
 			 count1=count1+Double.parseDouble(lis.averageAction);
 			 count2=count2+Double.parseDouble(lis.visitors);
 			 count3=count3+Double.parseDouble(lis.uniqueVisitor);
+			 if(!lis.totalTime.equals("")){
 			 count4=count4+Double.parseDouble(lis.totalTime);
+			 }
 			 count5=count5+Double.parseDouble(lis.averageTime);
 			 count6=count6+Double.parseDouble(lis.bounceRate);
+			 if(!lis.action.equals("")){
 			 count7=count7+Double.parseDouble(lis.action);
-   	   			
+			 }
 		 }
 		 
 		 double countAll1=0.0;
@@ -25520,11 +25523,14 @@ private static void cancelTestDriveMail(Map map) {
  			 countAll1=countAll1+Double.parseDouble(list.averageAction);
  			 countAll2=countAll2+Double.parseDouble(list.visitors);
  			 countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+ 			if(!list.totalTime.equals("")){
  			 countAll4=countAll4+Double.parseDouble(list.totalTime);
+ 			}
  			 countAll5=countAll5+Double.parseDouble(list.averageTime);
  			 countAll6=countAll6+Double.parseDouble(list.bounceRate);
+ 			if(!list.action.equals("")){
  			 countAll7=countAll7+Double.parseDouble(list.action);
-    	   			
+ 			}		
  		 }
 		 
 		 ClickyPlatformVM cVm = new ClickyPlatformVM();
