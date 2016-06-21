@@ -1479,18 +1479,9 @@ public class Application extends Controller {
     public static Result sendComingSoonPOpUp(){
     	List<PriceAlert> price=PriceAlert.getAllRecordPopUp();
     	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-    	/*Date cDate = new Date();
-    	String cd = df2.format(cDate);
-    	Date curDate = null;
-		try {
-			curDate = df2.parse(cd);
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
+    	
     	Date curDate = null;
     	List<RequestInfoVM> rList = new ArrayList<>();
-    	//for(PriceAlert alert:price){
     	
     	Date date=new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -1508,18 +1499,7 @@ public class Application extends Controller {
     		
     		for(Vehicle vehicle:vehList){
     			if(vehicle.locations != null){
-        		//	Date date=new Date();
-        			//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        			
-            			//Location location = Location.findById(vehicle.locations.id);
-            			//df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
-        		//	try {
-        				
-        				    				
-        				//String date1=df2.format(date);
-        				
-        				//if(vehicle.comingSoonDate.equals(formatter.parse(date1))){
-        					RequestInfoVM rVm = new RequestInfoVM();
+        	RequestInfoVM rVm = new RequestInfoVM();
         					rVm.id = vehicle.id;
         					rVm.vin = vehicle.vin;
         					rVm.make =  vehicle.make;
@@ -1542,16 +1522,11 @@ public class Application extends Controller {
         					}
         					
         					rList.add(rVm);
-        				//}
-    				/*} catch (Exception e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}*/
+        				
         			
         		}
     		}
     		
-    	//}
     	return ok(Json.toJson(rList));
     }
     
@@ -14055,6 +14030,164 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	
 	    	return ok(Json.toJson(infoVMList));
     	}	
+    }
+    
+    
+    public static Result getNotificationData(){
+    	Map<String, Object> mapList = new HashMap<>();
+		
+		AuthUser user = (AuthUser) getLocalUser();
+		
+		/*-----------------------Like comment---------------------*/
+    	
+		
+		List<UserVM> listU = new ArrayList<>();
+		List<Comments> comments = Comments.getByListUserWithFlag(user);
+		for(Comments comm:comments){
+			UserVM uVm = new UserVM();
+			uVm.firstName = comm.commentUser.getFirstName();
+			uVm.lastName = comm.commentUser.getLastName();
+			uVm.id = comm.commentUser.id;
+			uVm.userComment=comm.comment;
+			if(comm.commentUser.imageUrl != null) {
+				if(comm.commentUser.imageName !=null){
+					uVm.imageUrl = "http://glider-autos.com/glivrImg/images"+comm.commentUser.imageUrl;
+				}else{
+					uVm.imageUrl = comm.commentUser.imageUrl;
+				}
+				
+			} else {
+				uVm.imageUrl = "/profile-pic.jpg";
+			}
+			
+			listU.add(uVm);
+			
+			comm.setCommentFlag(0);
+			//comm.update();
+			
+		}
+    	
+    	mapList.put("commentLike", listU);
+    	
+    	/*----------------------------Plan schedule-----------------------*/
+    	
+    	List<PlanScheduleMonthlySalepeople> salepeople = PlanScheduleMonthlySalepeople.findByAllMsgPlan(user);
+    	for(PlanScheduleMonthlySalepeople sales:salepeople){
+    		sales.setFlagMsg(0);
+    		//sales.update();
+    		
+    	}
+    	mapList.put("planScheduleMonthly", salepeople);
+    	
+    	/*-------------------Coming soon--------------------------*/
+    	
+    	List<PriceAlert> price=PriceAlert.getAllRecordPopUp();
+    	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+    	
+    	
+    	Date curDate = null;
+    	List<RequestInfoVM> rList = new ArrayList<>();
+    	
+    	Date date=new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		
+			Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+			String date1=df2.format(date);
+			try {
+				curDate = formatter.parse(date1);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		List<Vehicle> vehList=Vehicle.findByComingSoonDate(curDate);
+    		
+    		for(Vehicle vehicle:vehList){
+    			if(vehicle.locations != null){
+        	RequestInfoVM rVm = new RequestInfoVM();
+        					rVm.id = vehicle.id;
+        					rVm.vin = vehicle.vin;
+        					rVm.make =  vehicle.make;
+        					rVm.model = vehicle.model;
+        					rVm.year = vehicle.year;
+        					rVm.price = vehicle.price;
+        					int vCount = 0;
+        					List<PriceAlert> vehCount = PriceAlert.getByVin(vehicle.vin);
+        					for(PriceAlert pAlert:vehCount){
+        						vCount++;
+        					}
+        					rVm.subscribers = vCount;
+        					
+        					rVm.comingSoonDate = formatter.format(vehicle.comingSoonDate);
+        					VehicleImage vehicleImg = VehicleImage.getDefaultImage(vehicle.vin);
+        					if(vehicleImg != null) {
+        						rVm.imageUrl = "http://glider-autos.com/glivrImg/images"+vehicleImg.thumbPath;
+        					}else {
+        						rVm.imageUrl = "/profile-pic.jpg";
+        					}
+        					
+        					rList.add(rVm);
+        				
+        			
+        		}
+    		}
+    		
+    		
+    		mapList.put("ComingSoonData", rList);
+    		
+    	/*-----------------------Invitation---------------------------------*/
+    		
+    	      DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+  	        Date currD = new Date();
+  	        String cDate = df.format(currD);
+  	        Date datec = null;
+  	        try {
+  				datec = df.parse(cDate);
+  			} catch (ParseException e) {
+  				// TODO Auto-generated catch block
+  				e.printStackTrace();
+  			}
+  	        
+  		List<ScheduleTest> list = ScheduleTest.findAllByInvitationTest(user, datec);
+  		
+  		List<RequestInfoVM> checkData = new ArrayList<>();
+  		for(ScheduleTest sche:list){
+  			
+  			RequestInfoVM sTestVM = new RequestInfoVM();
+          	
+          	
+  			sTestVM.id = sche.id;
+          	sTestVM.confirmDate = new SimpleDateFormat("MM-dd-yyyy").format(sche.confirmDate);
+          	sTestVM.confirmTime = new SimpleDateFormat("hh:mm a").format(sche.confirmTime);
+          	sTestVM.confirmDateOrderBy = sche.confirmDate;
+          	sTestVM.typeOfLead = "Schedule Test Drive";
+          	sTestVM.name = sche.name;
+      		sTestVM.phone = sche.phone;
+      		sTestVM.email = sche.email;
+      		
+      		AuthUser user2 = AuthUser.findById(sche.user.id);
+      		if(user2.imageUrl != null) {
+  				if(user2.imageName !=null){
+  					sTestVM.imageUrl = "http://glider-autos.com/glivrImg/images"+user2.imageUrl;
+  				}else{
+  					sTestVM.imageUrl = user2.imageUrl;
+  				}
+  				
+  			} else {
+  				sTestVM.imageUrl = "/profile-pic.jpg";
+  			}
+      		
+      		checkData.add(sTestVM);
+      		
+  			sche.setSendInvitation(0);
+  			sche.update();
+  		}
+  		
+  		mapList.put("invitationData", checkData);
+    	
+    	return ok(Json.toJson(mapList));
+		
+    	
     }
     
     public static Result getInfoCount() {
@@ -46273,7 +46406,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 			listU.add(uVm);
 			
 			comm.setCommentFlag(0);
-			comm.update();
+			//comm.update();
 			
 		}
 		
@@ -46720,7 +46853,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
     	List<PlanScheduleMonthlySalepeople> salepeople = PlanScheduleMonthlySalepeople.findByAllMsgPlan(users);
     	for(PlanScheduleMonthlySalepeople sales:salepeople){
     		sales.setFlagMsg(0);
-    		sales.update();
+    		//sales.update();
     		
     	}
     	

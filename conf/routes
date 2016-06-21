@@ -429,7 +429,7 @@ POST   /getTrafficChart									controllers.Application.getTrafficChart()
 POST   /getEventChart									controllers.Application.getEventChart()
 POST   /getMediaChart									controllers.Application.getMediaChart()
 POST   /getshowDomainsChart									controllers.Application.getshowDomainsChart()
-
+GET    /getNotificationData									controllers.Application.getNotificationData()
 
 
 GET   /getVideoAction/:startDate/:endDate			controllers.Application.getVideoAction(startDate:String,endDate:String)

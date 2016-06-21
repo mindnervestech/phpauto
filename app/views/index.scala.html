@@ -52,7 +52,7 @@
         <!-- END LAYOUT STYLE -->
         <!-- <script src="/assets/global/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script> -->
     </head>
-    <body ng-app="newApp" class="sidebar-condensed fixed-topbar fixed-sidebar theme-sdtl color-default" ng-controller="mainCtrl">
+    <body ng-app="newApp" class="sidebar-condensed fixed-topbar fixed-sidebar theme-sdtl color-default" ng-controller="mainCtrl" ng-init="indexInitFunction()">
         <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -328,19 +328,13 @@
                     <div class="header-right">
                         <ul class="header-menu nav navbar-nav">
                             <!-- BEGIN USER DROPDOWN -->
-                             <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-green">3</span></a>
+                             <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">3</span></a>
                         <ul class="dropdown-menu dropdown-alerts">
-                            <li style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>You have 14 new notifications</p></li>
+                            <li style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>You have {{notifictionCount}} new notifications</p></li>
                             <li>
                                 <div class="dropdown-slimscroll">
-                                    <ul>
-                                        <li><a href="extra-user-list.html" target="_blank"><span class="label label-blue"><i class="fa fa-comment"></i></span>New Comment<span class="pull-right text-muted small">4 mins ago</span></a></li>
-                                        <li><a href="extra-user-list.html" target="_blank"><span class="label label-violet"><i class="fa fa-twitter"></i></span>3 New Followers<span class="pull-right text-muted small">12 mins ago</span></a></li>
-                                        <li><a href="extra-user-list.html" target="_blank"><span class="label label-pink"><i class="fa fa-envelope"></i></span>Message Sent<span class="pull-right text-muted small">15 mins ago</span></a></li>
-                                        <li><a href="extra-user-list.html" target="_blank"><span class="label label-green"><i class="fa fa-tasks"></i></span>New Task<span class="pull-right text-muted small">18 mins ago</span></a></li>
-                                        <li><a href="extra-user-list.html" target="_blank"><span class="label label-yellow"><i class="fa fa-upload"></i></span>Server Rebooted<span class="pull-right text-muted small">19 mins ago</span></a></li>
-                                        <li><a href="extra-user-list.html" target="_blank"><span class="label label-green"><i class="fa fa-tasks"></i></span>New Task<span class="pull-right text-muted small">2 days ago</span></a></li>
-                                        <li><a href="extra-user-list.html" target="_blank"><span class="label label-pink"><i class="fa fa-envelope"></i></span>Message Sent<span class="pull-right text-muted small">5 days ago</span></a></li>
+                                    <ul style="height: 350px;overflow: auto;">
+                                        <li ng-repeat="notify in notificationArray" class="col-md-12"><a href="extra-user-list.html" target="_blank"><i class="glyphicon glyphicon-star col-md-1" style="color: black;padding: 0px;"></i><span class="col-md-9" style="padding: 0px;">{{notify.title}}</span><span class="pull-right text-muted small col-md-2" style="padding: 0px;">4 mins ago</span></a></li>
                                     </ul>
                                 </div>
                             </li>

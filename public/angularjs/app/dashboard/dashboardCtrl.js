@@ -2716,14 +2716,14 @@ angular.module('newApp')
     		
     		  $scope.init = function() {
     			  
-    			  $scope.likeMsg();
+    			  //$scope.likeMsg();
     			  $scope.invitationMsg();
     			  $scope.decline();
     			  $scope.acceptMsg();
     			  $scope.deleteMeeting();
     			  $scope.PlanOnMonday();
     			  $scope.updateMeeting();
-    			  $scope.planMsg();
+    			  //$scope.planMsg();
     			  $scope.priceAlertMsg();
     			  
     			 $scope.check={};
@@ -2895,7 +2895,7 @@ angular.module('newApp')
 					 
 				 }
 
-			$scope.likeMsg = function() {
+		/*	$scope.likeMsg = function() {
 
 								$http
 										.get('/getcommentLike')
@@ -2947,13 +2947,13 @@ angular.module('newApp')
 									
 												});
 
-							}
+							}*/
 			
 			
 			 
 			
 			
-			$scope.planMsg = function(){
+		/*	$scope.planMsg = function(){
 				
 				$http.get('/getPlanMsg')
 	    		.success(function(data){
@@ -3019,7 +3019,7 @@ angular.module('newApp')
 						$compile(element)($scope);
 	    				});
 	    		});
-			}
+			}*/
 			
 			$scope.updateMeeting = function(){
 
@@ -6682,7 +6682,7 @@ angular.module('newApp')
 			   
 		   }
 		  
-		   $scope.planForsalePersonForMonth = function(month){
+		   /*$scope.planForsalePersonForMonth = function(month){
 			   $('#salepersonPlanModelForMonth').modal();
 			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+month)
 				.success(function(data) {
@@ -6691,7 +6691,7 @@ angular.module('newApp')
 					}
 					$scope.saleMonthTotalPerForMonth=data;
 				});
-		   }
+		   }*/
 		   
 		   $scope. planForLocationManager = function(){
 			   $('#locationPlanModel').modal();
