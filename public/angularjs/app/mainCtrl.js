@@ -137,18 +137,38 @@
                 		$scope.notifictionCount++;
                 	});
                 	
-                	angular.forEach(data.ComingSoonData, function(value, key) {
+                	angular.forEach(data.invitationData, function(value, key) {
                 		$scope.notificationArray.push({
-							title: "Coming Soon",
-							id:"444",
+							title: "New meeting invitation received",
+							id:"5551",
+						});
+                		$scope.notifictionCount++;
+                	});
+                	
+                	angular.forEach(data.declineMeeting, function(value, key) {
+                		$scope.notificationArray.push({
+							title: "Your invitation to "+value.assignedTo.firstName+" "+value.assignedTo.lastName+" has been declined",
+							id:"55151",
+						});
+                		$scope.notifictionCount++;
+                	});
+                	
+                	angular.forEach(data.acceptedMeeting, function(value, key) {
+                		$scope.notificationArray.push({
+							title: value.assignedTo.firstName+"  "+value.assignedTo.lastName+" accepted your invitation to "+value.name,
+							id:"55151",
 						});
                 		$scope.notifictionCount++;
                 	});
                 	
                 	
+                	
                 	console.log($scope.notificationArray);
+                	$scope.decline(data.declineMeeting);
+                	$scope.invitationMsg(data.invitationData);
                 	$scope.likeMsg(data.commentLike);
                 	$scope.planMsg(data.planScheduleMonthly);
+                	$scope.acceptMsg(data.acceptedMeeting);
                 	
             	});
             }
@@ -282,4 +302,169 @@
 	   }
             
 
+	$scope.invitationMsg = function(data) {
+
+							angular.forEach(data, function(value, key) {
+								var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
+									+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">New meeting invitation received</h3></div><span class="col-md-12" style="margin-left: 22px;text-align: center;border-bottom: solid;"><h3><span>'+value.name+'</span><br><span style="color: cornflowerblue;"><b>'+value.confirmDate+'&nbsp;&nbsp;&nbsp;&nbsp;'+value.confirmTime+' </b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
+									+ '</div>';
+							var position = 'topRight';
+							if ($('body').hasClass(
+									'rtl'))
+								position = 'topLeft';
+							var n = noty({
+								text : notifContent,
+								type : 'success',
+								layout : position,
+								theme : 'made',
+								buttons: [
+								          {
+										        addClass: 'general-button btnText', text: 'Decline', onClick: function($noty)
+										              {
+										            	  $scope.declineDate(value);
+										                 $noty.close();
+										              }
+										          },
+								          {
+								              addClass: 'general-button btnText', text: 'Accept', onClick: function($noty)
+								              {
+								            	  $scope.acceptDate(value);
+								                 $noty.close();
+								              }
+								          }
+										 ],
+								animation : {
+									open : 'animated bounceIn',
+									close : 'animated bounceOut'
+								},
+
+								callback : {
+									onShow : function() {
+										$(
+												'#noty_topRight_layout_container, .noty_container_type_success')
+												.css(
+														
+														'width',
+														477)
+												.css('margin-left', -135)
+												.css(
+														
+														'bottom',
+														10);
+									},
+									onCloseClick : function() {
+										$('html, body')
+												.animate(
+														{
+															scrollTop : 480
+														},
+														'slow');
+									}
+								}
+							});
+							});
+			
+
+	}
+		
+	
+	$scope.declineDate = function(value){
+		$('#decline-model').modal();
+		$scope.valueId = value;
+	}
+	
+	$scope.acceptDate = function(value){
+		var reason = null;
+		
+		 $http.get('/getAcceptAndDecline/'+value.id+"/"+reason+"/"+"accept")
+			.success(function(data) {
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Meeting invitation has been accepted",
+				});
+				
+				$scope.schedulmultidatepicker();
+				$http.get("/getscheduletest").success(function(data){
+					   $scope.scheduleListData = data;
+				   });
+				
+			});
+		
+	}
+	
+	$scope.decline = function(data){
+		
+		
+				var notifContent;
+				angular.forEach(data, function(value, key) {
+				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your invitation to "+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" has been declined</span><br><span> Reason: "+value.declineReason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+				
+				var position = 'topRight';
+    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+    	        var n = noty({
+    	            text: notifContent,
+    	            type: 'success',
+    	            layout: position,
+    	            theme: 'made',
+    	            animation: {
+    	                open: 'animated bounceIn',
+    	                close: 'animated bounceOut'
+    	            },
+    	            
+    	            callback: {
+    	                onShow: function () {
+    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('bottom', 10);
+    	                },
+    	                onCloseClick: function () {
+    	                	$('html, body').animate({scrollTop:480}, 'slow');
+    	                }
+    	            }
+    	        });
+    	        
+    	        var element = $('#cnt');
+				//$compile(element)($scope);
+				});
+		
+	}
+	
+	
+	$scope.acceptMsg = function(data){
+
+		
+				var notifContent;
+				angular.forEach(data, function(value, key) {
+				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" accepted your invitation to "+value.name+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+				
+				var position = 'topRight';
+    	        if ($('body').hasClass('rtl')) position = 'topLeft';
+    	        var n = noty({
+    	            text: notifContent,
+    	            type: 'success',
+    	            layout: position,
+    	            theme: 'made',
+    	            animation: {
+    	                open: 'animated bounceIn',
+    	                close: 'animated bounceOut'
+    	            },
+    	            
+    	            callback: {
+    	                onShow: function () {
+    	                    $('#noty_topRight_layout_container, .noty_container_type_success').css('width', 350).css('margin-left', -30).css('bottom', 10);
+    	                },
+    	                onCloseClick: function () {
+    	                	$('html, body').animate({scrollTop:480}, 'slow');
+    	                }
+    	            }
+    	        });
+    	        
+    	        var element = $('#cnt');
+				//$compile(element)($scope);
+				});
+	}
+	
+	
+	
+	
+	
         }]);

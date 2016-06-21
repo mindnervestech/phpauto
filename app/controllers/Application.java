@@ -14180,10 +14180,33 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
       		checkData.add(sTestVM);
       		
   			sche.setSendInvitation(0);
-  			sche.update();
+  			//sche.update();
   		}
   		
   		mapList.put("invitationData", checkData);
+  		
+  		
+  		/*-------------Decline Metting--------------------------------*/
+  		
+    	List<ScheduleTest> sche = ScheduleTest.getdecline(user);
+    	for(ScheduleTest sch:sche){
+    		sch.setDeclineMeeting(0);
+    		//sch.update();
+    	}
+    	
+    	mapList.put("declineMeeting", sche);
+    	
+    	
+    	/*-----------------accept msg--------------------------*/
+    	
+		
+    	List<ScheduleTest> sche1 = ScheduleTest.getaccepted(user);
+    	for(ScheduleTest sch1:sche1){
+    		sch1.setAcceptMeeting(0);
+    		//sch1.update();
+    	}
+    	
+    	mapList.put("acceptedMeeting", sche);
     	
     	return ok(Json.toJson(mapList));
 		
@@ -46374,7 +46397,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
     		checkData.add(sTestVM);
     		
 			sche.setSendInvitation(0);
-			sche.update();
+			//sche.update();
 		}
 		
 		return ok(Json.toJson(checkData));

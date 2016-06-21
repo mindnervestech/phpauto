@@ -2717,9 +2717,9 @@ angular.module('newApp')
     		  $scope.init = function() {
     			  
     			  //$scope.likeMsg();
-    			  $scope.invitationMsg();
-    			  $scope.decline();
-    			  $scope.acceptMsg();
+    			  //$scope.invitationMsg();
+    			  //$scope.decline();
+    			 // $scope.acceptMsg();
     			  $scope.deleteMeeting();
     			  $scope.PlanOnMonday();
     			  $scope.updateMeeting();
@@ -3059,7 +3059,7 @@ angular.module('newApp')
 			}
 			
 			
-			$scope.acceptMsg = function(){
+		/*	$scope.acceptMsg = function(){
 
 				
 				$http.get('/getaccepted')
@@ -3095,8 +3095,8 @@ angular.module('newApp')
 						$compile(element)($scope);
 	    				});
 	    		});
-			}
-			$scope.decline = function(){
+			}*/
+			/*$scope.decline = function(){
 				
 				
 				
@@ -3135,7 +3135,7 @@ angular.module('newApp')
 	    		});
 				
 				
-			}
+			}*/
 			 $scope.callForLocalCheck = function(){
 				   $scope.aValue;
 				   $scope.aValue = localStorage.getItem('flagForNoty');
@@ -3376,7 +3376,7 @@ angular.module('newApp')
 			}
 			
 			
-			$scope.invitationMsg = function() {
+		/*	$scope.invitationMsg = function() {
 
 				$http
 						.get('/getinvitationMsg')
@@ -3444,13 +3444,13 @@ angular.module('newApp')
 					
 								});
 
-			}
+			}*/
 			
 			
 			$('#button-0').css("background-color","black");
 			$('#button-1').css("background-color","black");
 			
-			$scope.acceptDate = function(value){
+			/*$scope.acceptDate = function(value){
 				var reason = null;
 				
 				 $http.get('/getAcceptAndDecline/'+value.id+"/"+reason+"/"+"accept")
@@ -3468,7 +3468,7 @@ angular.module('newApp')
 						
 					});
 				
-			}
+			}*/
 			
 			$scope.declineDate = function(value){
 				$('#decline-model').modal();
@@ -3476,7 +3476,6 @@ angular.module('newApp')
 			}
 			
 			$scope.declineMeeting = function(reason){
-				
 				$http.get('/getAcceptAndDecline/'+$scope.valueId.id+"/"+reason+"/"+"decline")
 				.success(function(data) {
 					 $('#decline-model').modal("toggle");
