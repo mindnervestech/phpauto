@@ -328,17 +328,17 @@
                     <div class="header-right">
                         <ul class="header-menu nav navbar-nav">
                             <!-- BEGIN USER DROPDOWN -->
-                             <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">3</span></a>
+                             <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">{{notifictionCount}}</span></a>
                         <ul class="dropdown-menu dropdown-alerts">
                             <li style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>{{notifictionCount}} Pending Notifications</p></li>
                             <li>
                                 <div class="dropdown-slimscroll">
                                     <ul style="height: 350px;overflow: auto;">
-                                        <li ng-repeat="notify in notificationArray" class="col-md-12"><a href="extra-user-list.html" target="_blank"><i class="glyphicon glyphicon-star col-md-1" style="color: chocolate;padding: 0px;"></i><span class="col-md-9" style="padding: 0px;">{{notify.title}}</span><span class="pull-right text-muted small col-md-2" style="padding: 0px;">4 mins ago</span></a></li>
+                                        <li ng-repeat="notify in notificationArray" class="col-md-12"><i class="{{notify.iconClass}} col-md-1"></i><span class="col-md-9" style="padding: 0px;">{{notify.title}}<br><a style="color:#319DB5;" class="col-md-6">See Details</a></span><span class="pull-right text-muted small col-md-2" style="padding: 0px;">4 mins ago</span></li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="last"><a href="extra-user-list.html" class="text-right">See all alerts</a></li>
+                            <!-- <li class="last"><a href="extra-user-list.html" class="text-right">See all alerts</a></li> -->
                         </ul>
                     </li>
                     
@@ -835,6 +835,23 @@
     height:450px;
     overflow: auto;
     min-height: 300px; 
+}
+
+.editClassColor{
+	color: chocolate;
+	font-size: 20px;
+	padding: 0px;
+}
+.editClassColorRed{
+	color: red;
+	font-size: 20px;
+	padding: 0px;
+}
+
+.editClassColorBlack{
+	color: black;
+	font-size: 20px;
+	padding: 0px;
 }
 
 </style>

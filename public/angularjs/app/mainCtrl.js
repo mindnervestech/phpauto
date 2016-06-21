@@ -222,6 +222,7 @@
                 	angular.forEach(data.commentLike, function(value, key) {
                 		$scope.notificationArray.push({
 							title: value.firstName+"  "+ value.lastName+" just Liked your work!"+ value.userComment,
+							iconClass: "glyphicon glyphicon-heart editClassColorRed",
 							id:"111",
 						});
                 		$scope.notifictionCount++;
@@ -236,6 +237,7 @@
                 		
                 		$scope.notificationArray.push({
 							title: month+"'s plan has been assigned",
+							iconClass: "glyphicon glyphicon-star editClassColor",
 							id:"555",
 						});
                 		$scope.notifictionCount++;
@@ -244,6 +246,7 @@
                 	angular.forEach(data.invitationData, function(value, key) {
                 		$scope.notificationArray.push({
 							title: "New meeting invitation received",
+							iconClass: "fa fa-car editClassColorBlack",
 							id:"5551",
 						});
                 		$scope.notifictionCount++;
@@ -252,6 +255,17 @@
                 	angular.forEach(data.declineMeeting, function(value, key) {
                 		$scope.notificationArray.push({
 							title: "Your invitation to "+value.assignedTo.firstName+" "+value.assignedTo.lastName+" has been declined",
+							iconClass: "glyphicon glyphicon-star editClassColor",
+							id:"55151",
+						});
+                		$scope.notifictionCount++;
+                	});
+                	
+                	
+                	angular.forEach(data.comingSoonData, function(value, key) {
+                		$scope.notificationArray.push({
+							title: value.make+" "+value.model+" coming Soon Vehicle",
+							iconClass: "icon-car editClassColorBlack",
 							id:"55151",
 						});
                 		$scope.notifictionCount++;
@@ -260,6 +274,7 @@
                 	angular.forEach(data.acceptedMeeting, function(value, key) {
                 		$scope.notificationArray.push({
 							title: value.assignedTo.firstName+"  "+value.assignedTo.lastName+" accepted your invitation to "+value.name,
+							iconClass: "glyphicon glyphicon-star editClassColor",
 							id:"55151",
 						});
                 		$scope.notifictionCount++;
@@ -269,12 +284,14 @@
                 		if(value.declineUser == 'Host'){
                 			$scope.notificationArray.push({
     							title: value.name+" has been cancelled",
+    							iconClass: "glyphicon glyphicon-star editClassColor",
     							id:"55151",
     						});
                 		
                 		}else if(value.declineUser == 'this person'){
                 			$scope.notificationArray.push({
     							title: value.firstName+" "+value.lastName+" can't go to the "+value.name,
+    							iconClass: "glyphicon glyphicon-star editClassColor",
     							id:"55151",
     						});
                 		}
@@ -286,6 +303,7 @@
                 	angular.forEach(data.updateMeeting, function(value, key) {
                 		$scope.notificationArray.push({
 							title: value.name+" information has been changed",
+							iconClass: "glyphicon glyphicon-star editClassColor",
 							id:"5515100",
 						});
                 		$scope.notifictionCount++;
@@ -294,6 +312,7 @@
                 	angular.forEach(data.reminderPopup, function(value, key) {
                 		$scope.notificationArray.push({
 							title: value.notes,
+							iconClass: "icon-car editClassColorBlack",
 							id:"5844444",
 						});
                 		$scope.notifictionCount++;

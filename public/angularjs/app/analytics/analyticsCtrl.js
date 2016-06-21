@@ -18,9 +18,7 @@ angular.module('newApp')
 	$scope.endDateForLand=$routeParams.endDateForLand;
 	console.log("}}}}");
 	console.log($scope.engTimeTitle);
-	console.log("type referrer"+$scope.typeOfReferrer);
-	console.log($routeParams.title);
-	console.log($scope.engActionTitle);
+	
 	//$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");;
 	//$rootScope.endDateFilter = moment().add('days', -1).format("YYYY-MM-DD");
 	   

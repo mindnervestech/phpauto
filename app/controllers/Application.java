@@ -14134,7 +14134,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		}
     		
     		
-    		mapList.put("ComingSoonData", rList);
+    		mapList.put("comingSoonData", rList);
     		
     	/*-----------------------Invitation---------------------------------*/
     		
