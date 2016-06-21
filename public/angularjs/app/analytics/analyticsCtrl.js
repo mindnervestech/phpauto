@@ -4042,7 +4042,7 @@ angular.module('newApp')
 					});
 					 
 						$scope.gridOptions.columnDefs = [
-											             {name: 'title', displayName: 'Source', width:'30%',
+											             {name: 'titl', displayName: 'Source', width:'30%',
 											            	 cellTemplate:'<div > <a ng-click="grid.appScope.getSearchInfo(row.entity.id)">{{row.entity.title}}</a> </div>',
 											             },
 											             {name:'value', displayName:'Visitors', width:'10%',
@@ -4211,7 +4211,7 @@ angular.module('newApp')
 									             {name: 'title', displayName: 'Search', width:'60%',
 									            	 cellTemplate:'<div > <a ng-click="grid.appScope.getRankingInfo(row.entity.id)">{{row.entity.title}}</a> </div>',	 
 									             },
-									             {name:'v', displayName:'Visitors', width:'10%',
+									             {name:'v', displayName:'Rank', width:'10%',
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'stats_url', displayName:'', width:'20%',
