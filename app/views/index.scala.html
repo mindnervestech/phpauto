@@ -344,29 +344,46 @@
                     
                     
                     
-                     <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i><span class="badge badge-green">{{dataLength}}</span></a>
+                      <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">{{dataLength}}</span></a>
                         <ul class="dropdown-menu dropdown-alerts">
                             <li style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>You have {{dataLength}} new notifications</p></li>
                             <li>
                                 <div  ng-repeat="item in leadData" class="dropdown-slimscroll">
                                     <ul>
                                         <li>
-                                        <div class="col-sm-12">
-                                        <div class="col-sm-4">
-                                        <img   style="width: 100px; height: 100px;" src="{{item.imagePath}}">
+                                        <div  style="padding: 0px;" class="col-sm-12">
+                                        <div style="padding: 0px;" class="col-sm-3">
+                                        <img   style="width: 90px; height: 70px;margin-top: 7px" src="{{item.imagePath}}">
                                         </div>
-                                         <div class="col-sm-4">
+                                         <div style="padding: 0px;" class="col-sm-5">
                                          <span style="width: 150px;" class="col-sm-12">{{item.name}}</span>
                                          <span style="width: 150px;" class="col-sm-12">{{item.typeOfLead}}</span>
-                                         <div style="width: 320px;" class="col-sm-12">
+                                         </div>
+                                         
+                                          <div style="padding: 0px;"  class="col-sm-4">
+                                         <span style="width: 135px;padding: 0px;" class="col-sm-12">{{item.timeUnit}}</span> 
+                                          </div>
+                                          
+                                          
+                                          <div style="padding: 0px;" class="col-sm-12">
+                                          <div style="padding: 0px;" class="col-sm-3"></div>
+                                          <div style="padding: 0px;" class="col-sm-9">
+                                           <div style="padding: 0px;"  class="col-sm-12">
+                                         <div style="padding: 0px;" class="col-sm-4">
                                         <button style="width: 70px;height: 25px;font-size: 12px" type="button"  ng-click="setAsRead(item)" class="btn btn-primary btn-embossed">Claim</button> 
-                                         <button  style="width: 70px;height: 25px;font-size: 12px;margin-left: 0% " ng-click="assignCanceledLead(item)"  type="button" class="btn btn-primary btn-embossed">Assign</button>
-                                       <button ng-if="item.typeOfLead == 'Premium'"  ng-click="releaseLeads(item)" style="width: 75px;height: 25px;font-size: 12px;margin-left: 0% "  type="button" class="btn btn-primary btn-embossed">Release</button>
+                                        </div>
+                                        <div style="padding: 0px;" class="col-sm-4">
+                                         <button  style="width: 70px;height: 25px;font-size: 12px;margin-left: 1% " ng-click="assignCanceledLead(item)"  type="button" class="btn btn-primary btn-embossed">Assign</button>
+                                         </div>
+                                          <div style="padding: 0px;" class="col-sm-4">
+                                          <button ng-if="item.typeOfLead == 'Premium'"  ng-click="releaseLeads(item)" style="width: 75px;height: 25px;font-size: 12px; margin-left: 1% "  type="button" class="btn btn-primary btn-embossed">Release</button>
+                                        </div>
+                                         </div>
                                          </div>
                                          </div>
                                          
-                                          <div class="col-sm-4">
-                                         <span style="width: 200px;padding: 0px;" class="col-sm-12">{{item.timeUnit}}</span> 
+                                         <div style="padding: 0px;" class="col-sm-12"> 
+                                         <hr  style="padding: 0px;" class="col-sm-12">
                                           </div>
                                         </div>
                                         </li>
