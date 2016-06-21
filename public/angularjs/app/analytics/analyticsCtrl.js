@@ -18,7 +18,9 @@ angular.module('newApp')
 	$scope.endDateForLand=$routeParams.endDateForLand;
 	console.log("}}}}");
 	console.log($scope.engTimeTitle);
-	
+	console.log("type referrer"+$scope.typeOfReferrer);
+	console.log($routeParams.title);
+	console.log($scope.engActionTitle);
 	//$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");;
 	//$rootScope.endDateFilter = moment().add('days', -1).format("YYYY-MM-DD");
 	   
@@ -188,7 +190,7 @@ angular.module('newApp')
 		});
 			 }
 			 
-			if($scope.visitorInfos != undefined){
+			 else if($scope.visitorInfos != undefined){
 			
 				console.log($scope.visitorInfos);
 				$http.get('/getIPAddress/'+$scope.visitorInfos)
@@ -210,7 +212,7 @@ angular.module('newApp')
 			
 			
 			
-			if($scope.infoType != undefined && $scope.infoType != null  ){
+			else if($scope.infoType != undefined && $scope.infoType != null  ){
 				
 				console.log($scope.infoType);
 				$scope.typeOfInfo = $scope.infoType;
@@ -219,7 +221,7 @@ angular.module('newApp')
 			}
 			 
 			
-			if( $scope.trafficSourceTitle != undefined ){
+			else if( $scope.trafficSourceTitle != undefined ){
 	        	$scope.typeOfInfo="";	
 	        	$http.get('/getTrafficSourceData/'+$scope.trafficSourceTitle+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
 				.success(function(data){
@@ -289,7 +291,7 @@ angular.module('newApp')
 			
 			
 			
-			  if( $scope.engTimeTitle != undefined ){
+			else if( $scope.engTimeTitle != undefined ){
 		        	$scope.typeOfInfo="";	
 		        	console.log($scope.startDate);
 		        	console.log($scope.endDate);
@@ -360,11 +362,13 @@ angular.module('newApp')
 			
 			
 			
-        if( $scope.engActionTitle != undefined ){
+			  else if( $scope.engActionTitle != undefined ){
         	$scope.typeOfInfo="";	
+        	console.log("out of engaction function");
         	$http.get('/getEngActionData/'+$scope.engActionTitle+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
 			.success(function(data){
 				console.log(data);
+				console.log("in get engaction function");
 				$scope.gridOptions1.data = data;
 				$scope.browserObjList = data;
 				
@@ -428,10 +432,13 @@ angular.module('newApp')
 			
 			
 			if($scope.typeOfReferrer != undefined && $scope.typeOfReferrer != null){
+				console.log("in domain functon");
 				$http.get('/getreferrerTypeData/'+$scope.typeOfReferrer+"/"+$scope.locationFlag+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
 				.success(function(data) {
 				$scope.chartFlag1=false;
+				console.log("out domain functon"+$scope.gridOptions1.data);
 				$scope.gridOptions1.data = data;
+				console.log(data);
 				angular.forEach($scope.gridOptions1.data, function(value, key) {
 					if( value.city != null && value.city != undefined  ){
 						$scope.city=value.city;
@@ -590,6 +597,7 @@ angular.module('newApp')
 				                                 }
 				                                 
 				                             ];  
+				 
 				
 			}else if($scope.typeOfInfo == 'Action log'){
 				$scope.tabClickFlag=2;
@@ -681,7 +689,7 @@ angular.module('newApp')
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Actions', width:'50%',
+									             {name: 'title', displayName: 'Time', width:'50%',
 									            	 cellTemplate:'<div ><span  ng-if="row.entity.value == 0 ">{{row.entity.title}} </span> <a ng-if="row.entity.value != 0"  ng-click="grid.appScope.getEngActionTime(row.entity.title)">{{row.entity.title}}</a></div>',	
 									             },
 									             {name:'value', displayName:'Visitors', width:'10%'},
@@ -738,7 +746,7 @@ angular.module('newApp')
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-									             {name: 'title', displayName: 'Source', width:'10%',
+									             {name: 'title', displayName: 'Source', width:'10%', 
 									            	 cellTemplate:'<div > <a ng-click="grid.appScope.getTrafficInfo(row.entity.title)">{{row.entity.title}}</a> </div>',
 									             },
 									             {name:'value', displayName:'Visitors', width:'10%',
@@ -789,8 +797,17 @@ angular.module('newApp')
 			}
 			
 		 }
+		 $scope.gridOptions.onRegisterApi = function(gridApi){
+			 $scope.gridApi = gridApi;
+			 
+	   		$scope.gridApi.core.on.filterChanged( $scope, function() {
+		          var grid = this.grid;
+		          $scope.gridOptions.data = $filter('filter')($scope.visitiorList,{'newTimePretty':grid.columns[0].filters[0].term,'geolocation':grid.columns[1].filters[0].term,'organization':grid.columns[2].filters[0].term,'actions':grid.columns[3].filters[0].term,'timeTotal':grid.columns[4].filters[0].term,'referrerUrl':grid.columns[5].filters[0].term},undefined);
+		        });
+	   		
+  		};
 		 
-		 
+  		
 		 $scope.flagForVisitor = false;
 		 $scope.visitorInfo={};
 		 $scope.showVisitorInfo = function(id) {
@@ -815,6 +832,7 @@ angular.module('newApp')
 		 
 		 $scope.getEngActionInfo = function(title) {
 			 console.log(title);
+			 console.log("title is "+title);
 		  $location.path('/getEngActionInfo/'+title);
 		 }
 		 
@@ -939,7 +957,8 @@ angular.module('newApp')
 			 
 		 }
 		 $scope.referrerTypeDataForDomain = function(type) {
-			 console.log(type);
+			 console.log("domain type"+type);
+			 
 			 $scope.flagForLocation='Domain';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
@@ -1639,7 +1658,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										            
-										             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
+										             {name: 'averageActions', displayName: 'Visitors', width:'10%'},
 										             {name: 'averageTime', displayName: 'Average Time', width:'10%'},
 										             {name: 'totalTime', displayName: 'Total Time', width:'10%'},
 										             {name: 'bounceRate', displayName: 'Exit', width:'10%'},

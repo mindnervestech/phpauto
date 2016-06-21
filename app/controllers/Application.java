@@ -28016,7 +28016,8 @@ private static void cancelTestDriveMail(Map map) {
      public static Result getreferrerTypeData(String type,String locationFlag,String startDate,String endDate){
      	//String startDate=null;
      	String params = null; 
-     	
+     	startDate = startDate.replaceAll(" ","");
+     	 
      	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		//startDate=dateFormat.format(date);
@@ -28575,11 +28576,14 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			 count1=count1+Double.parseDouble(lis.averageAction);
 			 count2=count2+Double.parseDouble(lis.visitors);
 			 count3=count3+Double.parseDouble(lis.uniqueVisitor);
+			 if(!lis.totalTime.equals("")){
 			 count4=count4+Double.parseDouble(lis.totalTime);
+			 }
 			 count5=count5+Double.parseDouble(lis.averageTime);
 			 count6=count6+Double.parseDouble(lis.bounceRate);
+			 if(!lis.action.equals("")){
 			 count7=count7+Double.parseDouble(lis.action);
-		   			
+			 }		
 		 }
 		 
 		 double countAll1=0.0;
@@ -28703,7 +28707,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	
     	    Date curr = new Date();
     	   String sDate = df.format(curr);
-            // String sDate="2016-06-14";
+            //String sDate="2016-06-20";
            Date startDateForList=null;
            try {
         	 startDateForList=df.parse(sDate);
@@ -29724,6 +29728,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    			}
 	    			cPages.setTitle(jsonArrayEngagementAction.getJSONObject(i).get("title").toString());
 	    			 title=jsonArrayEngagementAction.getJSONObject(i).get("title").toString();
+	    			 title=URLEncoder.encode(title);
 	    			try{
 	    			cPages.setStatsUrl(jsonArrayEngagementAction.getJSONObject(i).get("stats_url").toString());
 	    			}
