@@ -62,6 +62,19 @@
               }
               
             
+            $scope.setNewFlag = function() {
+            	console.log("inside.....in")
+                $scope.flagForPop=0;
+              }
+            
+            $scope.flagForPop=0;
+            $scope.setFlagForPop = function() {
+            	
+              $scope.flagForPop=1;
+            }
+            
+           
+            
             $scope.changeUser = function() {
             console.log("inside");	
    			 console.log($scope.leadlId);
@@ -243,7 +256,6 @@
             	if(infoNotifiction.findBy == "comment like"){
             		$scope.arrayAdd.push(infoNotifiction.value);
             		$scope.likeMsg($scope.arrayAdd);
-            		
             	}
             	if(infoNotifiction.findBy == "invitation received"){
             		$scope.arrayAdd.push(infoNotifiction.value);
