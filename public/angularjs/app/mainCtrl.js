@@ -99,6 +99,11 @@
                 if(item.typeOfLead =="Request More"){
                 	 $http.get('/requestInfoMarkRead/'+flag+'/'+item.id)
              		.success(function(data) {
+             			$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Claimed Successfully",
+						});
              		console.log(data);
              	});
                 	
@@ -108,6 +113,11 @@
                 	var flag=true;
                 	$http.get('/scheduleTestMarkRead/'+flag+'/'+item.id)
             		.success(function(data) {
+            			$.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "Claimed Successfully",
+						});
 
             			console.log(data);
             		});
@@ -117,6 +127,11 @@
             	   
             	   $http.get('/tradeInMarkRead/'+flag+'/'+item.id)
        			.success(function(data) {
+       				$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Claimed Successfully",
+					});
        				console.log(data);
        	       	});
                 }
