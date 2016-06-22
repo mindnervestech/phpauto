@@ -73,7 +73,16 @@
               $scope.flagForPop=1;
             }
             
-           
+            $scope.setNewFlagNew = function() {
+            	console.log("inside.....in")
+                $scope.flagForPopNew=0;
+              }
+            
+            $scope.flagForPopNew=0;
+            $scope.setFlagForPopNew = function() {
+            	
+              $scope.flagForPopNew=1;
+            }
             
             $scope.changeUser = function() {
             console.log("inside");	
