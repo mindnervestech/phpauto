@@ -14350,6 +14350,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 
     	        // Get msec from each, and subtract.
     	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
     	        long diffSeconds = diff / 1000 % 60;
     	        long diffMinutes = diff / (60 * 1000) % 60;
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
@@ -14372,6 +14373,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+        	        
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+        	     
+        	        }
     	        else{
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
@@ -14411,6 +14417,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 
     	        // Get msec from each, and subtract.
     	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
     	        long diffSeconds = diff / 1000 % 60;
     	        long diffMinutes = diff / (60 * 1000) % 60;
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
@@ -14433,6 +14440,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+        	        
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+        	     
+        	        }
     	        else{
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
@@ -14471,6 +14483,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 
     	        // Get msec from each, and subtract.
     	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
     	        long diffSeconds = diff / 1000 % 60;
     	        long diffMinutes = diff / (60 * 1000) % 60;
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
@@ -14493,6 +14506,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+        	        
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+        	     
+        	        }
     	        else{
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
@@ -14545,6 +14563,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 
     	        // Get msec from each, and subtract.
     	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
     	        long diffSeconds = diff / 1000 % 60;
     	        long diffMinutes = diff / (60 * 1000) % 60;
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
@@ -14567,6 +14586,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+        	        
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+        	     
+        	        }
     	        else{
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
@@ -14606,6 +14630,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 
     	        // Get msec from each, and subtract.
     	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
     	        long diffSeconds = diff / 1000 % 60;
     	        long diffMinutes = diff / (60 * 1000) % 60;
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
@@ -14628,6 +14653,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+        	        
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+        	     
+        	        }
     	        else{
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
@@ -14670,6 +14700,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 
     	        // Get msec from each, and subtract.
     	        long diff = dt1.getTime() - dt2.getTime();
+    	        vm1.timeDiff=diff;
     	        long diffSeconds = diff / 1000 % 60;
     	        long diffMinutes = diff / (60 * 1000) % 60;
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
@@ -14691,6 +14722,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffHr=""+diffHours;
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else if(diffInDays == 0 && diffHours == 0){
+    	        
+    	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	     
     	        }
     	        else{
     	        	 if(diffHours <10){

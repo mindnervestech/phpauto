@@ -10,6 +10,7 @@ public class RequestInfoVM {
 	public String vin;
 	public String model;
 	public String message;
+	public long timeDiff;
 	public String make;
 	public String year;
 	public String type;
