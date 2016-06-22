@@ -39,7 +39,7 @@
             	console.log("*****");
             	console.log(data);
             	$scope.leadData=data;
-            	$scope.leadData = $filter('orderBy')($scope.leadData,'timeUnit');
+            	$scope.leadData = $filter('orderBy')($scope.leadData,'timeDiff');
             	//$scope.leadData = $scope.leadData.reverse();
             	$scope.dataLength=$scope.leadData.length;
                
