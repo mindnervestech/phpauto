@@ -229,18 +229,77 @@
             
             
             
+            $scope.showDetailsFunction = function(infoNotifiction){
+            	$scope.arrayAdd = [];
+            	console.log(infoNotifiction);
+            	if(infoNotifiction.findBy == "month plan"){
+            		$scope.planForsalePersonForMonth(infoNotifiction.value.month);
+            	}
+            	if(infoNotifiction.findBy == "declined meeting"){
+            		$scope.arrayAdd.push(infoNotifiction.value);
+            		$scope.decline($scope.arrayAdd);
+            	}
+            	if(infoNotifiction.findBy == "comment like"){
+            		$scope.arrayAdd.push(infoNotifiction.value);
+            		$scope.likeMsg($scope.arrayAdd);
+            	}
+            	if(infoNotifiction.findBy == "invitation received"){
+            		$scope.arrayAdd.push(infoNotifiction.value);
+            		$scope.invitationMsg($scope.arrayAdd);
+            	}
+            	if(infoNotifiction.findBy == "coming soon"){
+            		$scope.arrayAdd.push(infoNotifiction.value);
+            		//$scope.invitationMsg($scope.arrayAdd);
+            	}
+            	if(infoNotifiction.findBy == "accept meeting"){
+            		$scope.arrayAdd.push(infoNotifiction.value);
+            		$scope.acceptMsg($scope.arrayAdd);
+            	}
+            	if(infoNotifiction.findBy == "delete meeting"){
+            		$scope.arrayAdd.push(infoNotifiction.value);
+            		$scope.deleteMeeting($scope.arrayAdd);
+            	}
+            	if(infoNotifiction.findBy == "update meeting"){
+            		$scope.arrayAdd.push(infoNotifiction.value);
+            		$scope.updateMeeting($scope.arrayAdd);
+            	}
+            }
+            
+            $scope.dismissFunction = function(infoNotifiction){
+            	angular.forEach($scope.notificationArray, function(value, key) {
+            		if(infoNotifiction.findBy == value.findBy){
+            			$scope.notificationArray.splice(key, 1);
+            		}
+            	}
+/*            	if(infoNotifiction.findBy == "month plan"){
+            	}
+            	if(infoNotifiction.findBy == "declined meeting"){
+            	}
+            	if(infoNotifiction.findBy == "comment like"){
+            	}
+            	if(infoNotifiction.findBy == "invitation received"){
+            	}
+            	if(infoNotifiction.findBy == "coming soon"){
+            	}
+            	if(infoNotifiction.findBy == "accept meeting"){
+            	}
+            	if(infoNotifiction.findBy == "delete meeting"){
+            	}
+            	if(infoNotifiction.findBy == "update meeting"){
+            	}
+*/            }
+            
             $scope.notificationArray = [];
             $scope.notifictionCount = 0;
             $scope.indexInitFunction = function(){
             	$http.get('/getNotificationData').success(function(data,status, headers, config){
 
-                	console.log("(()))(())&%&%&%");
-                	console.log(data);
                 	angular.forEach(data.commentLike, function(value, key) {
                 		$scope.notificationArray.push({
 							title: value.firstName+"  "+ value.lastName+" just Liked your work!"+ value.userComment,
 							iconClass: "glyphicon glyphicon-heart editClassColorRed",
-							id:"111",
+							findBy:"comment like",
+							value:value,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -255,7 +314,8 @@
                 		$scope.notificationArray.push({
 							title: month+"'s plan has been assigned",
 							iconClass: "glyphicon glyphicon-star editClassColor",
-							id:"555",
+							findBy:"month plan",
+							value:value,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -264,7 +324,8 @@
                 		$scope.notificationArray.push({
 							title: "New meeting invitation received",
 							iconClass: "fa fa-car editClassColorBlack",
-							id:"5551",
+							findBy:"invitation received",
+							value:value,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -273,7 +334,8 @@
                 		$scope.notificationArray.push({
 							title: "Your invitation to "+value.assignedTo.firstName+" "+value.assignedTo.lastName+" has been declined",
 							iconClass: "glyphicon glyphicon-star editClassColor",
-							id:"55151",
+							findBy:"declined meeting",
+							value:value,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -283,7 +345,8 @@
                 		$scope.notificationArray.push({
 							title: value.make+" "+value.model+" coming Soon Vehicle",
 							iconClass: "icon-car editClassColorBlack",
-							id:"55151",
+							findBy:"coming soon",
+							value:value,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -292,7 +355,8 @@
                 		$scope.notificationArray.push({
 							title: value.assignedTo.firstName+"  "+value.assignedTo.lastName+" accepted your invitation to "+value.name,
 							iconClass: "glyphicon glyphicon-star editClassColor",
-							id:"55151",
+							findBy:"accept meeting",
+							value:value,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -302,14 +366,16 @@
                 			$scope.notificationArray.push({
     							title: value.name+" has been cancelled",
     							iconClass: "glyphicon glyphicon-star editClassColor",
-    							id:"55151",
+    							findBy:"delete meeting",
+    							value:value,
     						});
                 		
                 		}else if(value.declineUser == 'this person'){
                 			$scope.notificationArray.push({
     							title: value.firstName+" "+value.lastName+" can't go to the "+value.name,
     							iconClass: "glyphicon glyphicon-star editClassColor",
-    							id:"55151",
+    							findBy:"delete meeting",
+    							value:value,
     						});
                 		}
                 		
@@ -321,7 +387,8 @@
                 		$scope.notificationArray.push({
 							title: value.name+" information has been changed",
 							iconClass: "glyphicon glyphicon-star editClassColor",
-							id:"5515100",
+							findBy:"update meeting",
+							value:value,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -330,7 +397,8 @@
                 		$scope.notificationArray.push({
 							title: value.notes,
 							iconClass: "icon-car editClassColorBlack",
-							id:"5844444",
+							findBy:"reminder popup",
+							value:value,
 						});
                 		$scope.notifictionCount++;
                 	});
