@@ -14461,15 +14461,21 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	for(RequestMoreInfo sc: rList){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
-	    		vm1.typeOfLead="Request More";
 	    		vm1.id=sc.id;
 	    		String imagePath=null;
-	    		if(sc.vin != null){
+	    		String typeoflead=null;
+	    		if(sc.vin != null || sc.isContactusType == null){
 	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
 	    			if(image != null){
 	    				imagePath=image.thumbPath;
 	    			}
+	    			typeoflead="Request More";
 	    		}
+	    		else if(sc.isContactusType.equals("contactUs")){
+	    			imagePath="../../../assets/global/images/leadsImages/rmail.png" ;
+	    			typeoflead="Contact Us";
+	    		}
+	    		vm1.typeOfLead=typeoflead;
 	    		vm1.imagePath=imageUrlPath+imagePath;
 	    		Date currD = new Date();
     	        Date dt1=null;
