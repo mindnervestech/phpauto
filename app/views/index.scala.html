@@ -329,12 +329,12 @@
                         <ul class="header-menu nav navbar-nav">
                             <!-- BEGIN USER DROPDOWN -->
                              <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header" ng-if="notificationArray.length != 0">{{notifictionCount}}</span></a>
-                        <ul class="dropdown-menu dropdown-alerts" ng-if="notificationArray.length != 0">
+                        <ul class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;" ng-if="notificationArray.length != 0">
                             <li style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>{{notifictionCount}} Pending Notifications</p></li>
                             <li>
                                 <div class="dropdown-slimscroll">
                                     <ul style="height: 350px;overflow: auto;">
-                                        <li ng-repeat="notify in notificationArray" class="col-md-12"><i class="{{notify.iconClass}} col-md-1"></i><span class="col-md-9" style="padding: 0px;">{{notify.title}}<br><a style="color:#319DB5;" class="col-md-6">See Details</a></span><span class="pull-right text-muted small col-md-2" style="padding: 0px;">4 mins ago</span></li>
+                                        <li ng-repeat="notify in notificationArray" class="col-md-12"><i class="{{notify.iconClass}} col-md-1"></i><span class="col-md-9" style="padding: 0px;"><span class="col-md-12">{{notify.title}}</span><br><a style="color:#319DB5;" class="col-md-6" ng-click="showDetailsFunction(notify)">See Details</a><a style="color:#darkcyan;" class="col-md-6" ng-click="dismissFunction(notify)">Dismiss</a></span><span class="pull-right text-muted small col-md-2" style="padding: 0px;">4 mins ago</span></li>
                                     </ul>
                                 </div>
                             </li>
