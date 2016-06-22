@@ -270,24 +270,8 @@
             		if(infoNotifiction.findBy == value.findBy){
             			$scope.notificationArray.splice(key, 1);
             		}
-            	}
-/*            	if(infoNotifiction.findBy == "month plan"){
-            	}
-            	if(infoNotifiction.findBy == "declined meeting"){
-            	}
-            	if(infoNotifiction.findBy == "comment like"){
-            	}
-            	if(infoNotifiction.findBy == "invitation received"){
-            	}
-            	if(infoNotifiction.findBy == "coming soon"){
-            	}
-            	if(infoNotifiction.findBy == "accept meeting"){
-            	}
-            	if(infoNotifiction.findBy == "delete meeting"){
-            	}
-            	if(infoNotifiction.findBy == "update meeting"){
-            	}
-*/            }
+            	});
+      }
             
             $scope.notificationArray = [];
             $scope.notifictionCount = 0;
