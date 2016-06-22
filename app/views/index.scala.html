@@ -344,11 +344,11 @@
                     
                     
                     
-                      <li ng-mouseout="setNewFlag()" class="dropdown"><a ng-click="setFlagForPop()" data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">{{dataLength}}</span></a>
-                        <ul ng-if="flagForPop == 1" class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;height:450px; overflow: auto;">
+                      <li class="dropdown"><a ng-click="setFlagForPop()" data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">{{dataLength}}</span></a>
+                        <ul  ng-mouseleave="setNewFlag()" ng-if="flagForPop == 1" class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;height:450px; overflow: auto;">
                             <li  style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>You have {{dataLength}} new notifications</p></li>
                             <li>
-                                <div  ng-repeat="item in leadData" class="dropdown-slimscroll">
+                                <div ng-repeat="item in leadData" class="dropdown-slimscroll">
                                     <ul>
                                         <li>
                                         <div  style="padding: 0px;" class="col-sm-12">
@@ -361,7 +361,8 @@
                                          </div>
                                          
                                           <div style="padding: 0px;"  class="col-sm-4">
-                                         <span style="width: 135px;padding: 0px;" class="col-sm-12">{{item.timeUnit}}</span> 
+                                          <span class="glyphicon glyphicon-time"  ></span>
+                                          <span style="width: 135px;padding: 0px;" class="col-sm-12">{{item.timeUnit}}</span> 
                                           </div>
                                           
                                           
