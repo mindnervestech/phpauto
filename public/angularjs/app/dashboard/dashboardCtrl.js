@@ -15,7 +15,7 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$rootScope',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$rootScope) {
 	  var ele = document.getElementById('loadingmanual');	
    	$(ele).hide();
 	$http.get('/getLocationDays')
@@ -25,6 +25,17 @@ angular.module('newApp')
 	$http.get('/getDealerProfile').success(function(data) {
 		$scope.userProfile = data.dealer;
 	});
+	
+	
+	 $rootScope.$on("CallComingSoonMethod", function(){
+         $scope.priceAlertMsg();
+      });
+	 
+	 $rootScope.$on("CallReminderMethod", function(){
+		 $scope.reminderPopup();
+      });
+	 
+	 
 	
 	$scope.txt = false;
 	$scope.userKey = userKey;
@@ -4065,7 +4076,6 @@ angular.module('newApp')
 	    		},900000);
 	    		
 	    		$scope.reminderPopup = function(){
-	    			
 	    			$http.get('/getReminderPopup').success(function(data) {
 		  				  
 		  				var notifContent;

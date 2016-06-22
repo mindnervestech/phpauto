@@ -14064,7 +14064,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			listU.add(uVm);
 			
 			comm.setCommentFlag(0);
-			//comm.update();
+			comm.update();
 			
 		}
     	
@@ -14075,7 +14075,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	List<PlanScheduleMonthlySalepeople> salepeople = PlanScheduleMonthlySalepeople.findByAllMsgPlan(user);
     	for(PlanScheduleMonthlySalepeople sales:salepeople){
     		sales.setFlagMsg(0);
-    		//sales.update();
+    		sales.update();
     		
     	}
     	mapList.put("planScheduleMonthly", salepeople);
@@ -14181,7 +14181,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
       		checkData.add(sTestVM);
       		
   			sche.setSendInvitation(0);
-  			//sche.update();
+  			sche.update();
   		}
   		
   		mapList.put("invitationData", checkData);
@@ -14192,7 +14192,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	List<ScheduleTest> sche = ScheduleTest.getdecline(user);
     	for(ScheduleTest sch:sche){
     		sch.setDeclineMeeting(0);
-    		//sch.update();
+    		sch.update();
     	}
     	
     	mapList.put("declineMeeting", sche);
@@ -14204,7 +14204,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	List<ScheduleTest> sche1 = ScheduleTest.getaccepted(user);
     	for(ScheduleTest sch1:sche1){
     		sch1.setAcceptMeeting(0);
-    		//sch1.update();
+    		sch1.update();
     	}
     	
     	mapList.put("acceptedMeeting", sche);
@@ -14221,7 +14221,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     			if(!user.id.equals(sch.user.id)){
     				
     				sch.setDeleteMsgFlag(0);
-    	    		//sch.update();
+    	    		sch.update();
     				
     				ScheduleTestVM sLVm = new ScheduleTestVM();
     	    		sLVm.name = sch.name;
@@ -14238,7 +14238,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     			
     			if(!user.id.equals(sch.assignedTo.id)){
     				sch.setDeleteMsgFlag(0);
-            		//sch.update();
+            		sch.update();
         			
         			ScheduleTestVM sLVm = new ScheduleTestVM();
     	    		sLVm.name = sch.name;
@@ -14270,7 +14270,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		vm.reason = sch.reason;
     		listData.add(vm);
     		sch.setDeclineUpdate(0);
-    		//sch.update();
+    		sch.update();
     	}
     	
     	mapList.put("updateMeeting", listData);

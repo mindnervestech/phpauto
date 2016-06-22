@@ -1,6 +1,6 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$filter','$interval',
-        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$filter,$interval) {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$filter','$interval','$rootScope',
+        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$filter,$interval,$rootScope) {
     	var ele = document.getElementById('loadingmanual');	
     	$(ele).hide();
             $(document).ready(function () {
@@ -243,6 +243,7 @@
             	if(infoNotifiction.findBy == "comment like"){
             		$scope.arrayAdd.push(infoNotifiction.value);
             		$scope.likeMsg($scope.arrayAdd);
+            		
             	}
             	if(infoNotifiction.findBy == "invitation received"){
             		$scope.arrayAdd.push(infoNotifiction.value);
@@ -250,7 +251,7 @@
             	}
             	if(infoNotifiction.findBy == "coming soon"){
             		$scope.arrayAdd.push(infoNotifiction.value);
-            		//$scope.invitationMsg($scope.arrayAdd);
+            		$rootScope.$emit("CallComingSoonMethod", {});
             	}
             	if(infoNotifiction.findBy == "accept meeting"){
             		$scope.arrayAdd.push(infoNotifiction.value);
@@ -264,6 +265,13 @@
             		$scope.arrayAdd.push(infoNotifiction.value);
             		$scope.updateMeeting($scope.arrayAdd);
             	}
+            	if(infoNotifiction.findBy == "reminder popup"){
+            		$scope.arrayAdd.push(infoNotifiction.value);
+            		$rootScope.$emit("CallReminderMethod", {});
+            		
+            	}
+            	
+            
             }
             
             $scope.dismissFunction = function(infoNotifiction){
