@@ -334,7 +334,7 @@
                             <li>
                                 <div class="dropdown-slimscroll">
                                     <ul style="height: 350px;overflow: auto;">
-                                        <li ng-repeat="notify in notificationArray" class="col-md-12"><i class="{{notify.iconClass}} col-md-1"></i><span class="col-md-9" style="padding: 0px;"><span class="col-md-12">{{notify.title}}</span><br><a style="color:#319DB5;" style="width: 50% !important;" ng-click="showDetailsFunction(notify)">See Details</a><a style="color:#darkcyan;" style="width: 50% !important;" ng-click="dismissFunction(notify)">Dismiss</a></span><span class="pull-right text-muted small col-md-2" style="padding: 0px;">4 mins ago</span></li>
+                                        <li ng-repeat="notify in notificationArray" class="col-md-12"><i class="{{notify.iconClass}} col-md-1"></i><span class="col-md-9" style="padding: 0px;"><span class="col-md-12">{{notify.title}}</span><br><span class="col-md-6"><a style="color:#319DB5;" ng-click="showDetailsFunction(notify)">See Details</a></span><span class="col-md-6"><a style="color:#darkcyan;" style="width: 50% !important;" ng-click="dismissFunction(notify)">Dismiss</a></span></span><span class="pull-right text-muted small col-md-2" style="padding: 0px;">4 mins ago</span></li>
                                     </ul>
                                 </div>
                             </li>

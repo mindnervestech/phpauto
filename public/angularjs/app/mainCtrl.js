@@ -380,7 +380,7 @@
                 	angular.forEach(data.reminderPopup, function(value, key) {
                 		$scope.notificationArray.push({
 							title: value.notes,
-							iconClass: "icon-car editClassColorBlack",
+							iconClass: "fa fa-car editClassColorBlack",
 							findBy:"reminder popup",
 							value:value,
 						});
