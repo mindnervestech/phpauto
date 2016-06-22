@@ -328,8 +328,8 @@
                     <div class="header-right">
                         <ul class="header-menu nav navbar-nav">
                             <!-- BEGIN USER DROPDOWN -->
-                             <li ng-click="setFlagForPopNew()" class="dropdown"><a data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header" ng-if="notificationArray.length != 0">{{notificationArray.length}}</span></a>
-                        <ul ng-mouseleave="setNewFlagNew()" ng-if="flagForPopNew == 1" class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;" ng-if="notificationArray.length != 0">
+                             <li ng-mouseleave="setNewFlagNew()" ng-click="setFlagForPopNew()" class="dropdown"><a data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-bell fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header" ng-if="notificationArray.length != 0">{{notificationArray.length}}</span></a>
+                        <ul  ng-if="flagForPopNew == 1" class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;" ng-if="notificationArray.length != 0">
                             <li style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>{{notificationArray.length}} Pending Notifications</p></li>
                             <li>
                                 <div class="dropdown-slimscroll">
@@ -344,8 +344,8 @@
                     
                     
                     
-                      <li class="dropdown"><a ng-click="setFlagForPop()" data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">{{dataLength}}</span></a>
-                        <ul  ng-mouseleave="setNewFlag()" ng-if="flagForPop == 1" class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;height:450px; overflow: auto;">
+                      <li  ng-mouseleave="setNewFlag()" class="dropdown"><a ng-click="setFlagForPop()" data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">{{dataLength}}</span></a>
+                        <ul   ng-if="flagForPop == 1" class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;height:450px; overflow: auto;">
                             <li  style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>You have {{dataLength}} new notifications</p></li>
                             <li>
                                 <div ng-repeat="item in leadData" class="dropdown-slimscroll">
