@@ -1,6 +1,6 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval',
-        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval) {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$filter','$interval',
+        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$filter,$interval) {
     	var ele = document.getElementById('loadingmanual');	
     	$(ele).hide();
             $(document).ready(function () {
@@ -39,6 +39,8 @@
             	console.log("*****");
             	console.log(data);
             	$scope.leadData=data;
+            	$scope.leadData = $filter('orderBy')($scope.leadData,'timeUnit');
+            	//$scope.leadData = $scope.leadData.reverse();
             	$scope.dataLength=$scope.leadData.length;
                
             })

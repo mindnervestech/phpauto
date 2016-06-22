@@ -14355,11 +14355,31 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
     	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
     	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
     	        if(diffInDays != 0){
-    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        if(diffInDays <10){
+    	        	diffDay="0"+diffInDays;
     	        }
     	        else{
-    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr="0"+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	 if(diffHours <10){
+    	    	        	diffHr="0"+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		
 	    		list.add(vm1);		
@@ -14396,11 +14416,31 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
     	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
     	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
     	        if(diffInDays != 0){
-    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        if(diffInDays <10){
+    	        	diffDay="0"+diffInDays;
     	        }
     	        else{
-    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago ";
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr="0"+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	 if(diffHours <10){
+    	    	        	diffHr="0"+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		list.add(vm1);		
 	    		
@@ -14436,12 +14476,33 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
     	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
     	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
     	        if(diffInDays != 0){
-    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        if(diffInDays <10){
+    	        	diffDay="0"+diffInDays;
     	        }
     	        else{
-    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        	diffDay=""+diffInDays;
     	        }
+    	        if(diffHours <10){
+    	        	diffHr="0"+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	 if(diffHours <10){
+    	    	        	diffHr="0"+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		
 	    		list.add(vm1);		
 	    		
 	    	}
@@ -14489,11 +14550,31 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
     	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
     	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
     	        if(diffInDays != 0){
-    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        if(diffInDays <10){
+    	        	diffDay="0"+diffInDays;
     	        }
     	        else{
-    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr="0"+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	 if(diffHours <10){
+    	    	        	diffHr="0"+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		list.add(vm1);		
 	    		
@@ -14530,11 +14611,31 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
     	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
     	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
     	        if(diffInDays != 0){
-    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        if(diffInDays <10){
+    	        	diffDay="0"+diffInDays;
     	        }
     	        else{
-    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        	diffDay=""+diffInDays;
+    	        }
+    	        if(diffHours <10){
+    	        	diffHr="0"+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	 if(diffHours <10){
+    	    	        	diffHr="0"+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		
 	    		
@@ -14574,13 +14675,33 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        long diffHours = diff / (60 * 60 * 1000)% 24;
     	        int diffInh = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 ));
     	        int diffInDays = (int) ((dt1.getTime() - dt2.getTime()) / (1000 * 60 * 60 * 24));
+    	        String diffDay=null;
+    	        String diffHr=null;
     	        if(diffInDays != 0){
-    	        vm1.timeUnit=diffInDays+" days "+diffHours+" hours "+diffMinutes+" minutes ago";
+    	        if(diffInDays <10){
+    	        	diffDay="0"+diffInDays;
     	        }
     	        else{
-    	        	vm1.timeUnit=diffHours+" hours "+diffMinutes+" minutes ago";
+    	        	diffDay=""+diffInDays;
     	        }
-    	        
+    	        if(diffHours <10){
+    	        	diffHr="0"+diffHours;
+    	        }
+    	        else{
+    	        	diffHr=""+diffHours;
+    	        }
+    	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+    	        else{
+    	        	 if(diffHours <10){
+    	    	        	diffHr="0"+diffHours;
+    	    	        }
+    	    	        else{
+    	    	        	diffHr=""+diffHours;
+    	    	        }
+    	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        }
+	    		
 	    		list.add(vm1);		
 	    		
 	    	}
