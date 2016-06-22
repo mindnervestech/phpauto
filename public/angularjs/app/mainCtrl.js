@@ -12,7 +12,8 @@
             });
             
             var array = [];
-            
+            $scope.userRole=userRole;
+            console.log("**userRole"+userRole);
             $http.get('/getUserInfo').success(function(data,status, headers, config){
             	
             	$scope.name = data.firstName + " " + data.lastName;

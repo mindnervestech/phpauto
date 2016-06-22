@@ -370,13 +370,13 @@
                                           <div style="padding: 0px;" class="col-sm-9">
                                            <div style="padding: 0px;"  class="col-sm-12">
                                          <div style="padding: 0px;" class="col-sm-4">
-                                        <button style="width: 70px;height: 25px;font-size: 12px" type="button"  ng-click="setAsRead(item)" class="btn btn-primary btn-embossed">Claim</button> 
+                                        <button style="width: 74px;height: 28px;font-size: 12px" type="button"  ng-click="setAsRead(item)" class="btn btn-primary btn-embossed">CLAIM</button> 
                                         </div>
                                         <div style="padding: 0px;" class="col-sm-4">
-                                         <button  style="width: 70px;height: 25px;font-size: 12px;margin-left: 1% " ng-click="assignCanceledLead(item)"  type="button" class="btn btn-primary btn-embossed">Assign</button>
+                                         <button ng-if="userRole == 'Manager'" style="width: 74px;height: 28px;font-size: 12px;margin-left: 1% " ng-click="assignCanceledLead(item)"  type="button" class="btn btn-primary btn-embossed">ASSIGN</button>
                                          </div>
                                           <div style="padding: 0px;" class="col-sm-4">
-                                          <button ng-if="item.typeOfLead == 'Premium'"  ng-click="releaseLeads(item)" style="width: 75px;height: 25px;font-size: 12px; margin-left: 1% "  type="button" class="btn btn-primary btn-embossed">Release</button>
+                                          <button ng-if="item.typeOfLead == 'Premium'"  ng-click="releaseLeads(item)" style="width: 77px;height: 28px;font-size: 12px; margin-left: 1% "  type="button" class="btn btn-primary btn-embossed">RELEASE</button>
                                         </div>
                                          </div>
                                          </div>

@@ -14325,6 +14325,23 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	List<TradeIn> trList = TradeIn.findAllLeads(Long.valueOf(session("USER_LOCATION")));
 	    	List<RequestMoreInfo> rList = RequestMoreInfo.findAllLeads(Long.valueOf(session("USER_LOCATION")));
 	    	List<RequestInfoVM> list = new ArrayList<>();
+	    	Date curr = new Date();
+    		Location location = Location.findById(Long.parseLong(session("USER_LOCATION")));
+      		 if(user.location != null){
+      			 location = Location.findById(user.location.id);
+      		 }
+      		 DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+      		DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+      		df1.setTimeZone(TimeZone.getTimeZone(location.time_zone));	
+      		 String dat=df1.format(curr);
+      		Date currD=null;
+      		 try {
+				currD=df2.parse(dat);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    	
 	    	for(ScheduleTest sc: scList){
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
@@ -14338,7 +14355,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			}
 	    		}
 	    		vm1.imagePath=imageUrlPath+imagePath;
-	    		Date currD = new Date();
+	    		
     	        Date dt1=null;
     	        Date dt2=null;
     	        try {
@@ -14405,7 +14422,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			}
 	    		}
 	    		vm1.imagePath=imageUrlPath+imagePath;
-	    		Date currD = new Date();
     	        Date dt1=null;
     	        Date dt2=null;
     	        try {
@@ -14477,7 +14493,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		}
 	    		vm1.typeOfLead=typeoflead;
 	    		vm1.imagePath=imageUrlPath+imagePath;
-	    		Date currD = new Date();
     	        Date dt1=null;
     	        Date dt2=null;
     	        try {
@@ -14531,10 +14546,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		
 	    	}
 	    	
-	    	if(user.location != null){
-	    		Location location=Location.findById(user.location.id);
-		    	vm.locationName=location.name;
-	    	}
 	    	
 	    	List<ScheduleTest> sched = ScheduleTest.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
 	    	List<RequestMoreInfo> reInfos = RequestMoreInfo.findAllLocationDataManagerPremium(Long.valueOf(session("USER_LOCATION")));
@@ -14557,7 +14568,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			}
 	    		}
 	    		vm1.imagePath=imageUrlPath+imagePath;
-	    		Date currD = new Date();
     	        Date dt1=null;
     	        Date dt2=null;
     	        try {
@@ -14624,7 +14634,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			}
 	    		}
 	    		vm1.imagePath=imageUrlPath+imagePath;
-	    		Date currD = new Date();
     	        Date dt1=null;
     	        Date dt2=null;
     	        try {
@@ -14694,7 +14703,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		}
 	    		vm1.imagePath=imageUrlPath+imagePath;
 	    		DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:a");
-    	        Date currD = new Date();
     	        Date dt1=null;
     	        Date dt2=null;
     	        try {
