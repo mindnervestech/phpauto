@@ -26976,6 +26976,149 @@ private static void cancelTestDriveMail(Map map) {
 
     }
     
+ public static Result getPagesData(Long id,String startdate,String enddate){
+    	
+
+	    Date d1= null;
+		Date d2= null;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try{
+			 d1 = format.parse(startdate);
+	         d2 = format.parse(enddate);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		ClickyPagesActionList event=ClickyPagesActionList.findById(id);
+		String title=event.url;
+		List<ClickyPagesActionList> pagesObjList = ClickyPagesActionList.findByTitleAndDate(title, d1, d2);
+		List<ClickyPagesActionList> allpageslist = ClickyPagesActionList.getAll(d1, d2);
+		List <ClickyPagesVM> VMs = new ArrayList<>();
+		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+		ClickyPagesVM vm = new ClickyPagesVM();
+		double count1=0.0;
+		double count2=0.0;
+		double count3=0.0;
+		double count4=0.0;
+		double count5=0.0;
+		double count6=0.0;
+		double count7=0.0;
+		for(ClickyPagesActionList lis:pagesObjList){
+	     	if(lis.averageAction != null && !lis.averageAction.equals("")){
+	     		count1=count1+Double.parseDouble(lis.averageAction);
+	     	}
+			if(lis.bounceRate != null && !lis.bounceRate.equals("")){
+				count6=count6+Double.parseDouble(lis.bounceRate);	
+				     	}
+			if(lis.averageTime != null && !lis.averageTime.equals("")){
+				count5=count5+Double.parseDouble(lis.averageTime);	
+				}
+			if(lis.totalTime != null && !lis.totalTime.equals("")){
+				count4=count4+Double.parseDouble(lis.totalTime);
+				}
+			if(lis.visitors != null && !lis.visitors.equals("")){
+				 count2=count2+Double.parseDouble(lis.visitors);
+				}
+			if(lis.uniqueVisitor!= null && !lis.uniqueVisitor.equals("")){
+				count3=count3+Double.parseDouble(lis.uniqueVisitor);
+				}
+			if(lis.action != null && !lis.action.equals("")){
+			count7=count7+Double.parseDouble(lis.action);
+			}
+		   			
+		 }
+		 
+		 double countAll1=0.0;
+			double countAll2=0.0;
+			double countAll3=0.0;
+			double countAll4=0.0;
+			double countAll5=0.0;
+			double countAll6=0.0;
+			double countAll7=0.0;
+			 for(ClickyPagesActionList list:allpageslist){
+					
+					
+					if(list.averageAction != null && !list.averageAction.equals("")){
+						 countAll1=countAll1+Double.parseDouble(list.averageAction);
+			     	}
+					if(list.bounceRate != null && !list.bounceRate.equals("")){
+						 countAll6=countAll6+Double.parseDouble(list.bounceRate);	
+						     	}
+					if(list.averageTime != null && !list.averageTime.equals("")){
+						countAll5=countAll5+Double.parseDouble(list.averageTime);
+						}
+					if(list.totalTime != null && !list.totalTime.equals("")){
+						 countAll4=countAll4+Double.parseDouble(list.totalTime);
+						}
+					if(list.visitors != null && !list.visitors.equals("")){
+						countAll2=countAll2+Double.parseDouble(list.visitors);
+						}
+					if(list.uniqueVisitor!= null && !list.uniqueVisitor.equals("")){
+						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+						}
+					if(list.action != null && !list.action.equals("")){
+						 countAll7=countAll7+Double.parseDouble(list.action);
+					}
+				 
+		   			
+			 }
+		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+		 cVm.title = "visitors";
+		 cVm.these_visitors =  count2;
+		 cVm.all_visitors = countAll2;
+		 platformvm.add(cVm);
+		 
+		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+		 cVm1.title = "uniqueV";
+		 cVm1.these_visitors = count3;
+		 cVm1.all_visitors = countAll3;
+		 platformvm.add(cVm1);
+		 
+		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+		 cVm2.title = "action";
+		 cVm2.these_visitors = count7;
+		 cVm2.all_visitors = countAll7;
+		 platformvm.add(cVm2);
+		 
+		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+		 cVm3.title = "averageAct";
+		 cVm3.these_visitors = count1;
+		 cVm3.all_visitors = countAll1;
+		 platformvm.add(cVm3);
+		 
+		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+		 cVm4.title = "totalT";
+		 cVm4.these_visitors = count4;
+		 cVm4.all_visitors = countAll4;
+		 platformvm.add(cVm4);
+		 
+		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+		 cVm5.title = "averageT";
+		 cVm5.these_visitors = count5;
+		 cVm5.all_visitors = countAll5;
+		 platformvm.add(cVm5);
+		 
+		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+		 cVm6.title = "bounceR";
+		 cVm6.these_visitors = count6;
+		 cVm6.all_visitors = countAll6;
+		 platformvm.add(cVm6);
+		 
+		 vm.averageAct=count1;
+		 vm.visitor=count2;
+		 vm.uniqueV=count3;
+		 vm.totalT=count4;
+		 vm.averageT=count5;
+		 vm.bounceR=count6;
+		 vm.action=count7;
+		
+		 VMs.add(vm);
+
+	 	
+	 	return ok(Json.toJson(platformvm));
+
+
+    }
+    
  public static Result getExitData(Long id,String startdate,String enddate){
     	
 
@@ -30624,6 +30767,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    			cPages.setTitle(jsonArrayPage.getJSONObject(i).get("title").toString());
 	    			cPages.setStats_url(jsonArrayPage.getJSONObject(i).get("stats_url").toString());
 	    			cPages.setUrl(jsonArrayPage.getJSONObject(i).get("url").toString());
+	    			
 	    			cPages.setMainUrl(arr[0]);
 	    			if(locationName != null){
 	    				cPages.locationName = locationName.name;
@@ -30643,65 +30787,128 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				String ur[]=url.split(":8080");
 	    				url=ur[1];
 	    			}
+	    			
+	    			//url=jsonArrayPage.getJSONObject(i).get("url").toString();
+	    			//url=URLEncoder.encode(url);
+	    			
 	    			paramsPages = "&type=segmentation&href="+url+"&segments=summary&date="+sDate+"&limit=all";
 	    			
-	    			JSONArray jsonArrayPage1;
+	    			JSONArray jsonArrayPagePages;
 	    			
-	    				jsonArrayPage1 = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
-	    				ClickyPagesActionList cPages1 = new ClickyPagesActionList();
-	    				for(int j=0;j<jsonArrayPage1.length();j++){
+	    			jsonArrayPagePages = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+	    				ClickyPagesActionList cPage = new ClickyPagesActionList();
+	    				for(int j=0;j<jsonArrayPagePages.length();j++){
 	    	    			
 	    					
 	    					
-	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+	    					if(jsonArrayPagePages.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
 	    					
-	    						cPages1.setAverageAction(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						cPage.setAverageAction1(jsonArrayPagePages.getJSONObject(j).get("value").toString());
 	    						
 	    					}
 	    					
-	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+	    					if(jsonArrayPagePages.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
 		    					
-	    						cPages1.setAverageTime(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						cPage.setAverageTime1(jsonArrayPagePages.getJSONObject(j).get("value").toString());
 	    						
 	    					}
 	    					
-	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+	    					if(jsonArrayPagePages.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
 		    					
-	    						cPages1.setTotalTime(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						cPage.setTotalTime1(jsonArrayPagePages.getJSONObject(j).get("value").toString());
 	    						
 	    					}
 	    					
-	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+	    					if(jsonArrayPagePages.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
 		    					
-	    						cPages1.setBounceRate(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						cPage.setBounceRate1(jsonArrayPagePages.getJSONObject(j).get("value").toString());
 	    						
 	    					}
 	    					
-	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+	    					if(jsonArrayPagePages.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
 		    					
-	    						cPages1.setVisitors(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						cPage.setVisitors1(jsonArrayPagePages.getJSONObject(j).get("value").toString());
 	    						
 	    					}
-	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+	    					if(jsonArrayPagePages.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
 		    					
-	    						cPages1.setUniqueVisitor(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						cPage.setUniqueVisitor1(jsonArrayPagePages.getJSONObject(j).get("value").toString());
 	    						
 	    					}
 	    					
 	    					
-	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+	    					if(jsonArrayPagePages.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
 		    					
-	    						cPages1.setAction(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						cPage.setAction1(jsonArrayPagePages.getJSONObject(j).get("value").toString());
 	    						
 	    					}
 	    	    			
 	    	    			
 	    			
 	    				}
-	    				cPages1.setSaveDate(curr);
-	    				cPages1.setUrl(url);
-	    				cPages1.setClickyPagesId(idForPage);
-	    				cPages1.save();
+	    			
+	    			
+	    			
+	    			paramsPages = "&type=segmentation&href="+url+"&segments=summary&date="+sDate+"&limit=all";
+	    			
+	    			JSONArray jsonArrayPage1;
+	    			
+	    				jsonArrayPage1 = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+	    				//ClickyPagesActionList cPage = new ClickyPagesActionList();
+	    				for(int j=0;j<jsonArrayPage1.length();j++){
+	    	    			
+	    					
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+	    					
+	    						cPage.setAverageAction(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+		    					
+	    						cPage.setAverageTime(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+		    					
+	    						cPage.setTotalTime(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+		    					
+	    						cPage.setBounceRate(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+		    					
+	    						cPage.setVisitors(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+		    					
+	    						cPage.setUniqueVisitor(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    					
+	    					
+	    					if(jsonArrayPage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+		    					
+	    						cPage.setAction(jsonArrayPage1.getJSONObject(j).get("value").toString());
+	    						
+	    					}
+	    	    			
+	    	    			
+	    			
+	    				}
+	    				cPage.setSaveDate(curr);
+	    				cPage.setUrl(url);
+	    				cPage.setClickyPagesId(idForPage);
+	    				cPage.save();
+	    				//cPage.save();
 				}
 				}
 			}
@@ -32568,7 +32775,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
                	   				
                	   			String data = lis.url;
                				String arr[] = data.split("#_");	
-               	     	   	
+               	     	   	vm.id = lis1.id;
                				vm.value=lis.value;
                				vm.value_percent = lis.value_percent;
                				vm.title = lis.title;

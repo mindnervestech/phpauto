@@ -1303,8 +1303,10 @@ angular.module('newApp')
 	$scope.idForGrid=$routeParams.id;
 	console.log($scope.urlForMedia);
 	$scope.idForEvent=$routeParams.idForEvent;
+	$scope.idForPages=$routeParams.idForPages;
 	$scope.idForExit=$routeParams.idForExit;
-	
+	console.log($scope.idForPages);
+	console.log("pages id");
 	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -1464,6 +1466,74 @@ angular.module('newApp')
 				
 		}
 		
+			if($scope.idForPages != undefined){
+				console.log($scope.idForPages);
+				$http.get('/getPagesData/'+$scope.idForPages+"/"+$scope.startDate+"/"+$scope.endDate)
+				.success(function(data) {
+				console.log("In pages function");
+				$scope.gridOptions1.data = data;
+				$scope.pagesObjList = data;
+				
+				angular.forEach($scope.gridOptions1.data, function(value, key) {
+					if(value.title=="totalT"){
+						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+						 var splitTime   = value.these_visitors.split(":");
+						 if(splitTime[0] == 00){
+							 value.these_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.these_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
+						}	
+					if(value.title=="averageT"){
+						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+						 var splitTime1   = value.these_visitors.split(":");
+						 if(splitTime1[0] == 00){
+							 value.these_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.these_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						}	 
+						 
+					if(value.title=="totalT"){
+						value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+						 var splitTime   = value.all_visitors.split(":");
+						 if(splitTime[0] == 00){
+							 value.all_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.all_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
+						 
+						}	
+					if(value.title=="averageT"){
+						value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+						 var splitTime1   = value.all_visitors.split(":");
+						 if(splitTime1[0] == 00){
+							 value.all_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.all_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						}	 
+				});
+				 $scope.gridOptions1.columnDefs = [
+				                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
+										             {name:'these_visitors', displayName:'These Visitors', width:'20%' },
+										             {name:'all_visitors', displayName:'All Visitors', width:'20%' },
+										             {name:'these_vis', displayName:'Difference', width:'20%' },
+										          ]
+			
+			});	
+				
+				
+		}
+			
 			if($scope.idForEvent != undefined){
 				console.log($scope.idForEvent);
 				$http.get('/getEventData/'+$scope.idForEvent+"/"+$scope.startDate+"/"+$scope.endDate)
@@ -1647,7 +1717,7 @@ angular.module('newApp')
 				
 				 $scope.gridOptions.columnDefs = [
 										             {name: 'showUrl', displayName: 'Page', width:'30%',
-										            	 cellTemplate:'<div><a   href="{{row.entity.showUrl}}" target="_blank"  >{{row.entity.showUrl}}</a><br><span>{{row.entity.title}}</span></div>'
+										            	 cellTemplate:'<div><a ng-click="grid.appScope.showPagesData(row.entity.id)" >{{row.entity.showUrl}}</a><br><span>{{row.entity.title}}</span></div>'
 										             },
 										             {name: 'url', displayName: ' ', width:'10%',
 										            	 cellTemplate:'<div><a href="{{row.entity.url}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="http://con.tent.network/media/icon_heatmap.png" ></a> <a href="{{row.entity.showUrl}}" target="_blank"><img class="mb-2" style="margin-left: 8px;width: 21px;" src="http://con.tent.network/media/arrow.gif" ></a> </div>'
@@ -1931,6 +2001,12 @@ angular.module('newApp')
 			 
 		 }
 		 
+		 $scope.showPagesData = function(id) {
+			 console.log(id);
+			 $location.path('/pagesGrid/'+id);
+			 
+			 
+		 }
 		 
 		 $scope.showEventData= function(id) {
 			 console.log("event"+id);

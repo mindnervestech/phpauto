@@ -130,6 +130,7 @@ GET    	/deleteVehicleById/:id      controllers.Application.deleteVehicleById(id
 GET    	/getEntranceData/:id/:startDate/:endDate      controllers.Application.getEntranceData(id:Long,startDate:String,endDate:String)
 GET    	/getExitData/:id/:startDate/:endDate      controllers.Application.getExitData(id:Long,startDate:String,endDate:String)
 GET    	/getEventData/:id/:startDate/:endDate      controllers.Application.getEventData(id:Long,startDate:String,endDate:String)
+GET    	/getPagesData/:id/:startDate/:endDate      controllers.Application.getPagesData(id:Long,startDate:String,endDate:String)
 GET 	/getVehicleHistory/:vin		controllers.Application.getVehicleHistory(vin: String)
 GET 	/getPriceHistory/:vin		controllers.Application.getPriceHistory(vin: String)
 GET    	/updateVehicleStatus/:id/:status    controllers.Application.updateVehicleStatus(id: Long,status:String)
