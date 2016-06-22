@@ -337,7 +337,7 @@
                 	angular.forEach(data.comingSoonData, function(value, key) {
                 		$scope.notificationArray.push({
 							title: value.make+" "+value.model+" coming Soon Vehicle",
-							iconClass: "icon-car editClassColorBlack",
+							iconClass: "fa fa-car editClassColorBlack",
 							findBy:"coming soon",
 							value:value,
 						});
