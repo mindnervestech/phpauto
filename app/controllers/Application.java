@@ -14377,7 +14377,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        String diffHr=null;
     	        if(diffInDays != 0){
     	        if(diffInDays <10){
-    	        	diffDay="0"+diffInDays;
+    	        	
+    	        	diffDay=""+diffInDays;
     	        }
     	        else{
     	        	diffDay=""+diffInDays;
@@ -14389,13 +14390,15 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffHr=""+diffHours;
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-        	        
+        	        vm1.diffDays="less than 1 day";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
+    	        	vm1.diffDays="less than 1 day";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14443,7 +14446,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        String diffHr=null;
     	        if(diffInDays != 0){
     	        if(diffInDays <10){
-    	        	diffDay="0"+diffInDays;
+    	        	diffDay=""+diffInDays;
     	        }
     	        else{
     	        	diffDay=""+diffInDays;
@@ -14455,13 +14458,15 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffHr=""+diffHours;
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-        	        
+    	        	vm1.diffDays="less than 1 day";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
+    	        	vm1.diffDays="less than 1 day";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14514,7 +14519,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        String diffHr=null;
     	        if(diffInDays != 0){
     	        if(diffInDays <10){
-    	        	diffDay="0"+diffInDays;
+    	        	diffDay=""+diffInDays;
     	        }
     	        else{
     	        	diffDay=""+diffInDays;
@@ -14526,13 +14531,15 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffHr=""+diffHours;
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-        	        
+    	        	vm1.diffDays="less than 1 day";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
+    	        	vm1.diffDays="less than 1 day";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14589,7 +14596,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        String diffHr=null;
     	        if(diffInDays != 0){
     	        if(diffInDays <10){
-    	        	diffDay="0"+diffInDays;
+    	        	diffDay=""+diffInDays;
     	        }
     	        else{
     	        	diffDay=""+diffInDays;
@@ -14601,13 +14608,15 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffHr=""+diffHours;
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-        	        
+    	        	vm1.diffDays="less than 1 day";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
+    	        	vm1.diffDays="less than 1 day";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14655,7 +14664,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        String diffHr=null;
     	        if(diffInDays != 0){
     	        if(diffInDays <10){
-    	        	diffDay="0"+diffInDays;
+    	        	diffDay=""+diffInDays;
     	        }
     	        else{
     	        	diffDay=""+diffInDays;
@@ -14667,13 +14676,15 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffHr=""+diffHours;
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-        	        
+    	        	vm1.diffDays="less than 1 day";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
+    	        	vm1.diffDays="less than 1 day";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14724,7 +14735,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        String diffHr=null;
     	        if(diffInDays != 0){
     	        if(diffInDays <10){
-    	        	diffDay="0"+diffInDays;
+    	        	diffDay=""+diffInDays;
     	        }
     	        else{
     	        	diffDay=""+diffInDays;
@@ -14736,13 +14747,15 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffHr=""+diffHours;
     	        }
     	        vm1.timeUnit=diffDay+" days "+diffHr+" hours "+diffMinutes+" minutes ago";
+    	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-    	        
+    	        	vm1.diffDays="less than 1 day";
     	        vm1.timeUnit=diffMinutes+" minutes ago";
     	     
     	        }
     	        else{
+    	        	vm1.diffDays="less than 1 day";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }

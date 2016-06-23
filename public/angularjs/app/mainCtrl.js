@@ -108,7 +108,7 @@
    					$.pnotify({
    					    title: "Success",
    					    type:'success',
-   					    text: "Premium lead has been successfully released for everyone to claim ",
+   					    text: "This lead has been released for everyone to claim ",
    					});
    				});
    		 }

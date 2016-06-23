@@ -16,6 +16,7 @@ public class RequestInfoVM {
 	public String type;
 	public String last4Vin;
 	public String mileage;
+	public String diffDays;
 	public String typeofVehicle;
 	public Integer price;
 	public String stock;
