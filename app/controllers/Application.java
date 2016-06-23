@@ -6875,12 +6875,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		}
 	    		
 	    		int comingSoonFlag=0;
-	    		if(vm.comingSoonDate != ""){
+	    		if(vm.comingSoonDate != "" && vm.comingSoonDate != null){
 	    			vehicle.setComingSoonFlag(1);
 	    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	    			try {
 						vehicle.setComingSoonDate(formatter.parse(vm.comingSoonDate));
-					} catch (ParseException e) {
+					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}

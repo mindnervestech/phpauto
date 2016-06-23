@@ -353,13 +353,13 @@
                                         <li>
                                         <div  style="padding: 0px;" class="col-sm-12">
                                         <div style="padding: 0px;" class="col-sm-3">
-                                        <img   style="width: 90px; height: 70px;margin-top: 7px" src="{{item.imagePath}}">
+                                        <img ng-if="item.typeOfLead != 'Contact Us'"  style="width: 90px; height: 70px;margin-top: 7px" src="{{item.imagePath}}">
+                                        <img ng-if="item.typeOfLead == 'Contact Us'"  style="width: 70px; height: 70px;margin-top: 7px" src="{{item.imagePath}}">
                                         </div>
                                          <div style="padding: 0px;" class="col-sm-5">
                                          <span style="width: 150px;" class="col-sm-12">{{item.name}}</span>
-                                         <span style="width: 150px;" class="col-sm-12">{{item.typeOfLead}}</span>
+                                         <b style="width: 150px;" class="col-sm-12">{{item.typeOfLead}}</b>
                                          </div>
-                                         
                                           <div style="padding: 0px;"  class="col-sm-4">
                                           <span class="glyphicon glyphicon-time"  ></span>
                                           <span style="width: 135px;padding: 0px;" class="col-sm-12">{{item.timeUnit}}</span> 
@@ -371,13 +371,13 @@
                                           <div style="padding: 0px;" class="col-sm-9">
                                            <div style="padding: 0px;"  class="col-sm-12">
                                          <div style="padding: 0px;" class="col-sm-4">
-                                        <button style="width: 74px;height: 28px;font-size: 12px" type="button"  ng-click="setAsRead(item)" class="btn btn-primary btn-embossed">CLAIM</button> 
+                                        <button style="width: 80px;height: 30px;font-size: 12px;text-align: center; "" type="button"  ng-click="setAsRead(item)" class="btn btn-primary btn-embossed">CLAIM</button> 
                                         </div>
                                         <div style="padding: 0px;" class="col-sm-4">
-                                         <button ng-if="userRole == 'Manager'" style="width: 74px;height: 28px;font-size: 12px;margin-left: 1% " ng-click="assignCanceledLead(item)"  type="button" class="btn btn-primary btn-embossed">ASSIGN</button>
+                                         <button ng-if="userRole == 'Manager'" style="width: 84px;height: 30px;font-size: 12px;margin-left: 1%;text-align: center; " " ng-click="assignCanceledLead(item)"  type="button" class="btn btn-primary btn-embossed">ASSIGN</button>
                                          </div>
                                           <div style="padding: 0px;" class="col-sm-4">
-                                          <button ng-if="item.typeOfLead == 'Premium'"  ng-click="releaseLeads(item)" style="width: 77px;height: 28px;font-size: 12px; margin-left: 1% "  type="button" class="btn btn-primary btn-embossed">RELEASE</button>
+                                          <button ng-if="item.typeOfLead == 'Premium'"  ng-click="releaseLeads(item)" style="width: 92px;height: 30px;font-size: 12px; margin-left: 1%;text-align: center; "  type="button" class="btn btn-primary btn-embossed">RELEASE</button>
                                         </div>
                                          </div>
                                          </div>
