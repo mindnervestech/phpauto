@@ -183,7 +183,7 @@ public class ClickyContentEvent extends Model {
 	
 	
 	public static List<ClickyContentEvent> findByTitleAndDate(String title, Date startdate, Date enddate) {
-		return find.where().eq("title", title).between("saveDate", startdate, enddate).findList();
+		return find.where().eq("url", title).between("saveDate", startdate, enddate).findList();
 	}
 	
 	

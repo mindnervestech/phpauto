@@ -25587,18 +25587,20 @@ private static void cancelTestDriveMail(Map map) {
     	   			
  		 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+ 		ClickyPlatformVM cVm = new ClickyPlatformVM();
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
 		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueVisitors";
+		 cVm1.title = "uniqueV";
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
 		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
@@ -25606,36 +25608,45 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
 		 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAction";
+		 cVm3.title = "averageAct";
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
 		 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalTime";
+		 cVm4.title = "totalT";
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
 		 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageTime";
+		 cVm5.title = "averageT";
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
 		 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceRate";
+		 cVm6.title = "bounceR";
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
 		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-		 platformvm.add(cVm6);
-		 
+		 if(countAll6 !=0){
+			 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		 }
+		 else{
+			 cVm6.difference = 0.0;
+		 }
+		 platformvm.add(cVm6);		 
 		 vm.averageAction=count1;
 		 vm.visitor=count2;
 		 vm.uniqueVisitor=count3;
@@ -25717,18 +25728,20 @@ private static void cancelTestDriveMail(Map map) {
  			}		
  		 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+ 		ClickyPlatformVM cVm = new ClickyPlatformVM();
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
 		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueVisitors";
+		 cVm1.title = "uniqueV";
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
 		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
@@ -25736,36 +25749,45 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
 		 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAction";
+		 cVm3.title = "averageAct";
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
 		 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalTime";
+		 cVm4.title = "totalT";
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
 		 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageTime";
+		 cVm5.title = "averageT";
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
 		 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceRate";
+		 cVm6.title = "bounceR";
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
 		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-		 platformvm.add(cVm6);
-		 
+		 if(countAll6 !=0){
+			 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		 }
+		 else{
+			 cVm6.difference = 0.0;
+		 }
+		 platformvm.add(cVm6);		 
 		 vm.averageAction=count1;
 		 vm.visitor=count2;
 		 vm.uniqueVisitor=count3;
@@ -25965,18 +25987,20 @@ private static void cancelTestDriveMail(Map map) {
     	   			
  		 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+ 		ClickyPlatformVM cVm = new ClickyPlatformVM();
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
 		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueVisitors";
+		 cVm1.title = "uniqueV";
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
 		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
@@ -25984,34 +26008,44 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
 		 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAction";
+		 cVm3.title = "averageAct";
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
 		 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalTime";
+		 cVm4.title = "totalT";
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
 		 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageTime";
+		 cVm5.title = "averageT";
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
 		 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceRate";
+		 cVm6.title = "bounceR";
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
 		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+		 if(countAll6 !=0){
+			 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		 }
+		 else{
+			 cVm6.difference = 0.0;
+		 }
 		 platformvm.add(cVm6);
 		 
 		 vm.averageAction=count1;
@@ -26090,18 +26124,20 @@ private static void cancelTestDriveMail(Map map) {
     	   			
  		 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+ 		ClickyPlatformVM cVm = new ClickyPlatformVM();
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
 		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueVisitors";
+		 cVm1.title = "uniqueV";
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
 		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
@@ -26109,34 +26145,44 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
 		 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAction";
+		 cVm3.title = "averageAct";
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
 		 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalTime";
+		 cVm4.title = "totalT";
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
 		 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageTime";
+		 cVm5.title = "averageT";
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
 		 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceRate";
+		 cVm6.title = "bounceR";
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
 		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+		 if(countAll6 !=0){
+			 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		 }
+		 else{
+			 cVm6.difference = 0.0;
+		 }
 		 platformvm.add(cVm6);
 		 
 		 vm.averageAction=count1;
@@ -26214,18 +26260,20 @@ private static void cancelTestDriveMail(Map map) {
     	   			
  		 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+ 		 ClickyPlatformVM cVm = new ClickyPlatformVM();
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
 		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueVisitors";
+		 cVm1.title = "uniqueV";
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
 		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
@@ -26233,34 +26281,44 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
 		 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAction";
+		 cVm3.title = "averageAct";
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
 		 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalTime";
+		 cVm4.title = "totalT";
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
 		 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageTime";
+		 cVm5.title = "averageT";
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
 		 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceRate";
+		 cVm6.title = "bounceR";
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
 		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+		 if(countAll6 !=0){
+			 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		 }
+		 else{
+			 cVm6.difference = 0.0;
+		 }
 		 platformvm.add(cVm6);
 		 
 		 vm.averageAction=count1;
@@ -26336,54 +26394,66 @@ private static void cancelTestDriveMail(Map map) {
         	   			
      		 }
     		 
-    		 ClickyPlatformVM cVm = new ClickyPlatformVM();
-    		 cVm.title = "visitors";
-    		 cVm.these_visitors =  count2;
-    		 cVm.all_visitors = countAll2;
-    		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-    		 platformvm.add(cVm);
-    		 
-    		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-    		 cVm1.title = "uniqueV";
-    		 cVm1.these_visitors = count3;
-    		 cVm1.all_visitors = countAll3;
-    		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
-    		 platformvm.add(cVm1);
-    		 
-    		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-    		 cVm2.title = "action";
-    		 cVm2.these_visitors = count7;
-    		 cVm2.all_visitors = countAll7;
-    		 cVm2.images = "//con.tent.network/media/icon_click.gif";
-    		 platformvm.add(cVm2);
-    		 
-    		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-    		 cVm3.title = "averageAct";
-    		 cVm3.these_visitors = count1;
-    		 cVm3.all_visitors = countAll1;
-    		 cVm3.images = "//con.tent.network/media/icon_click.gif";
-    		 platformvm.add(cVm3);
-    		 
-    		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-    		 cVm4.title = "totalT";
-    		 cVm4.these_visitors = count4;
-    		 cVm4.all_visitors = countAll4;
-    		 cVm4.images = "//con.tent.network/media/icon_time.gif";
-    		 platformvm.add(cVm4);
-    		 
-    		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-    		 cVm5.title = "averageT";
-    		 cVm5.these_visitors = count5;
-    		 cVm5.all_visitors = countAll5;
-    		 cVm5.images = "//con.tent.network/media/icon_time.gif";
-    		 platformvm.add(cVm5);
-    		 
-    		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-    		 cVm6.title = "bounceR";
-    		 cVm6.these_visitors = count6;
-    		 cVm6.all_visitors = countAll6;
-    		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-    		 platformvm.add(cVm6);
+     		ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
     		 
     		 vm.averageAct=count1;
     		 vm.visitor=count2;
@@ -26456,11 +26526,12 @@ private static void cancelTestDriveMail(Map map) {
     	   			
  		 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+ 		ClickyPlatformVM cVm = new ClickyPlatformVM();
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
 		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
@@ -26468,6 +26539,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
 		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
@@ -26475,6 +26547,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
 		 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
@@ -26482,6 +26555,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
 		 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
@@ -26489,6 +26563,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
 		 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
@@ -26496,6 +26571,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
 		 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
@@ -26503,6 +26579,12 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
 		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+		 if(countAll6 !=0){
+			 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		 }
+		 else{
+			 cVm6.difference = 0.0;
+		 }
 		 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
@@ -26577,11 +26659,12 @@ private static void cancelTestDriveMail(Map map) {
     	   			
  		 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+ 		ClickyPlatformVM cVm = new ClickyPlatformVM();
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
 		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
@@ -26589,6 +26672,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
 		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
@@ -26596,6 +26680,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
 		 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
@@ -26603,6 +26688,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
 		 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
@@ -26610,6 +26696,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
 		 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
@@ -26617,6 +26704,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
 		 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
@@ -26624,6 +26712,12 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
 		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+		 if(countAll6 !=0){
+			 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		 }
+		 else{
+			 cVm6.difference = 0.0;
+		 }
 		 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
@@ -26697,11 +26791,12 @@ private static void cancelTestDriveMail(Map map) {
     	   			
  		 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+ 		ClickyPlatformVM cVm = new ClickyPlatformVM();
 		 cVm.title = "visitors";
 		 cVm.these_visitors =  count2;
 		 cVm.all_visitors = countAll2;
 		 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
 		 platformvm.add(cVm);
 		 
 		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
@@ -26709,6 +26804,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm1.these_visitors = count3;
 		 cVm1.all_visitors = countAll3;
 		 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
 		 platformvm.add(cVm1);
 		 
 		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
@@ -26716,6 +26812,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm2.these_visitors = count7;
 		 cVm2.all_visitors = countAll7;
 		 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
 		 platformvm.add(cVm2);
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
@@ -26723,6 +26820,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm3.these_visitors = count1;
 		 cVm3.all_visitors = countAll1;
 		 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 		 platformvm.add(cVm3);
 		 
 		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
@@ -26730,6 +26828,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm4.these_visitors = count4;
 		 cVm4.all_visitors = countAll4;
 		 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
 		 platformvm.add(cVm4);
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
@@ -26737,6 +26836,7 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm5.these_visitors = count5;
 		 cVm5.all_visitors = countAll5;
 		 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 		 platformvm.add(cVm5);
 		 
 		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
@@ -26744,8 +26844,13 @@ private static void cancelTestDriveMail(Map map) {
 		 cVm6.these_visitors = count6;
 		 cVm6.all_visitors = countAll6;
 		 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-		 platformvm.add(cVm6);
-		 
+		 if(countAll6 !=0){
+			 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		 }
+		 else{
+			 cVm6.difference = 0.0;
+		 }
+		 platformvm.add(cVm6);		 
 		 vm.averageAct=count1;
 		 vm.visitor=count2;
 		 vm.uniqueV=count3;
@@ -26931,47 +27036,66 @@ private static void cancelTestDriveMail(Map map) {
 				 
 		   			
 			 }
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
-		 cVm.title = "visitors";
-		 cVm.these_visitors =  count2;
-		 cVm.all_visitors = countAll2;
-		 platformvm.add(cVm);
-		 
-		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueV";
-		 cVm1.these_visitors = count3;
-		 cVm1.all_visitors = countAll3;
-		 platformvm.add(cVm1);
-		 
-		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-		 cVm2.title = "action";
-		 cVm2.these_visitors = count7;
-		 cVm2.all_visitors = countAll7;
-		 platformvm.add(cVm2);
-		 
-		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAct";
-		 cVm3.these_visitors = count1;
-		 cVm3.all_visitors = countAll1;
-		 platformvm.add(cVm3);
-		 
-		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalT";
-		 cVm4.these_visitors = count4;
-		 cVm4.all_visitors = countAll4;
-		 platformvm.add(cVm4);
-		 
-		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageT";
-		 cVm5.these_visitors = count5;
-		 cVm5.all_visitors = countAll5;
-		 platformvm.add(cVm5);
-		 
-		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceR";
-		 cVm6.these_visitors = count6;
-		 cVm6.all_visitors = countAll6;
-		 platformvm.add(cVm6);
+			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
 		 vm.visitor=count2;
@@ -27074,47 +27198,66 @@ private static void cancelTestDriveMail(Map map) {
 				 
 		   			
 			 }
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
-		 cVm.title = "visitors";
-		 cVm.these_visitors =  count2;
-		 cVm.all_visitors = countAll2;
-		 platformvm.add(cVm);
-		 
-		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueV";
-		 cVm1.these_visitors = count3;
-		 cVm1.all_visitors = countAll3;
-		 platformvm.add(cVm1);
-		 
-		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-		 cVm2.title = "action";
-		 cVm2.these_visitors = count7;
-		 cVm2.all_visitors = countAll7;
-		 platformvm.add(cVm2);
-		 
-		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAct";
-		 cVm3.these_visitors = count1;
-		 cVm3.all_visitors = countAll1;
-		 platformvm.add(cVm3);
-		 
-		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalT";
-		 cVm4.these_visitors = count4;
-		 cVm4.all_visitors = countAll4;
-		 platformvm.add(cVm4);
-		 
-		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageT";
-		 cVm5.these_visitors = count5;
-		 cVm5.all_visitors = countAll5;
-		 platformvm.add(cVm5);
-		 
-		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceR";
-		 cVm6.these_visitors = count6;
-		 cVm6.all_visitors = countAll6;
-		 platformvm.add(cVm6);
+			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
 		 vm.visitor=count2;
@@ -27217,47 +27360,66 @@ private static void cancelTestDriveMail(Map map) {
 				 
 		   			
 			 }
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
-		 cVm.title = "visitors";
-		 cVm.these_visitors =  count2;
-		 cVm.all_visitors = countAll2;
-		 platformvm.add(cVm);
-		 
-		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueV";
-		 cVm1.these_visitors = count3;
-		 cVm1.all_visitors = countAll3;
-		 platformvm.add(cVm1);
-		 
-		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-		 cVm2.title = "action";
-		 cVm2.these_visitors = count7;
-		 cVm2.all_visitors = countAll7;
-		 platformvm.add(cVm2);
-		 
-		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAct";
-		 cVm3.these_visitors = count1;
-		 cVm3.all_visitors = countAll1;
-		 platformvm.add(cVm3);
-		 
-		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalT";
-		 cVm4.these_visitors = count4;
-		 cVm4.all_visitors = countAll4;
-		 platformvm.add(cVm4);
-		 
-		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageT";
-		 cVm5.these_visitors = count5;
-		 cVm5.all_visitors = countAll5;
-		 platformvm.add(cVm5);
-		 
-		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceR";
-		 cVm6.these_visitors = count6;
-		 cVm6.all_visitors = countAll6;
-		 platformvm.add(cVm6);
+			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
 		 vm.visitor=count2;
@@ -27366,47 +27528,66 @@ private static void cancelTestDriveMail(Map map) {
 		   			
 			 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
-		 cVm.title = "visitors";
-		 cVm.these_visitors =  count2;
-		 cVm.all_visitors = countAll2;
-		 platformvm.add(cVm);
-		 
-		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueV";
-		 cVm1.these_visitors = count3;
-		 cVm1.all_visitors = countAll3;
-		 platformvm.add(cVm1);
-		 
-		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-		 cVm2.title = "action";
-		 cVm2.these_visitors = count7;
-		 cVm2.all_visitors = countAll7;
-		 platformvm.add(cVm2);
-		 
-		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAct";
-		 cVm3.these_visitors = count1;
-		 cVm3.all_visitors = countAll1;
-		 platformvm.add(cVm3);
-		 
-		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalT";
-		 cVm4.these_visitors = count4;
-		 cVm4.all_visitors = countAll4;
-		 platformvm.add(cVm4);
-		 
-		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageT";
-		 cVm5.these_visitors = count5;
-		 cVm5.all_visitors = countAll5;
-		 platformvm.add(cVm5);
-		 
-		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceR";
-		 cVm6.these_visitors = count6;
-		 cVm6.all_visitors = countAll6;
-		 platformvm.add(cVm6);
+			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
 		 vm.visitor=count2;
@@ -28670,47 +28851,66 @@ public static Result getTrafficSourceData(String title,String startdate,String e
 		   			
 			 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
-		 cVm.title = "visitors";
-		 cVm.these_visitors =  count2;
-		 cVm.all_visitors = countAll2;
-		 platformvm.add(cVm);
-		 
-		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueV";
-		 cVm1.these_visitors = count3;
-		 cVm1.all_visitors = countAll3;
-		 platformvm.add(cVm1);
-		 
-		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-		 cVm2.title = "action";
-		 cVm2.these_visitors = count7;
-		 cVm2.all_visitors = countAll7;
-		 platformvm.add(cVm2);
-		 
-		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAct";
-		 cVm3.these_visitors = count1;
-		 cVm3.all_visitors = countAll1;
-		 platformvm.add(cVm3);
-		 
-		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalT";
-		 cVm4.these_visitors = count4;
-		 cVm4.all_visitors = countAll4;
-		 platformvm.add(cVm4);
-		 
-		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageT";
-		 cVm5.these_visitors = count5;
-		 cVm5.all_visitors = countAll5;
-		 platformvm.add(cVm5);
-		 
-		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceR";
-		 cVm6.these_visitors = count6;
-		 cVm6.all_visitors = countAll6;
-		 platformvm.add(cVm6);
+			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
 		 vm.visitor=count2;
@@ -28817,47 +29017,66 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		   			
 			 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
-		 cVm.title = "visitors";
-		 cVm.these_visitors =  count2;
-		 cVm.all_visitors = countAll2;
-		 platformvm.add(cVm);
-		 
-		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueV";
-		 cVm1.these_visitors = count3;
-		 cVm1.all_visitors = countAll3;
-		 platformvm.add(cVm1);
-		 
-		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-		 cVm2.title = "action";
-		 cVm2.these_visitors = count7;
-		 cVm2.all_visitors = countAll7;
-		 platformvm.add(cVm2);
-		 
-		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAct";
-		 cVm3.these_visitors = count1;
-		 cVm3.all_visitors = countAll1;
-		 platformvm.add(cVm3);
-		 
-		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalT";
-		 cVm4.these_visitors = count4;
-		 cVm4.all_visitors = countAll4;
-		 platformvm.add(cVm4);
-		 
-		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageT";
-		 cVm5.these_visitors = count5;
-		 cVm5.all_visitors = countAll5;
-		 platformvm.add(cVm5);
-		 
-		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceR";
-		 cVm6.these_visitors = count6;
-		 cVm6.all_visitors = countAll6;
-		 platformvm.add(cVm6);
+			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
 		 vm.visitor=count2;
@@ -28943,47 +29162,66 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		   			
 			 }
 		 
-		 ClickyPlatformVM cVm = new ClickyPlatformVM();
-		 cVm.title = "visitors";
-		 cVm.these_visitors =  count2;
-		 cVm.all_visitors = countAll2;
-		 platformvm.add(cVm);
-		 
-		 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-		 cVm1.title = "uniqueV";
-		 cVm1.these_visitors = count3;
-		 cVm1.all_visitors = countAll3;
-		 platformvm.add(cVm1);
-		 
-		 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-		 cVm2.title = "action";
-		 cVm2.these_visitors = count7;
-		 cVm2.all_visitors = countAll7;
-		 platformvm.add(cVm2);
-		 
-		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-		 cVm3.title = "averageAct";
-		 cVm3.these_visitors = count1;
-		 cVm3.all_visitors = countAll1;
-		 platformvm.add(cVm3);
-		 
-		 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-		 cVm4.title = "totalT";
-		 cVm4.these_visitors = count4;
-		 cVm4.all_visitors = countAll4;
-		 platformvm.add(cVm4);
-		 
-		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-		 cVm5.title = "averageT";
-		 cVm5.these_visitors = count5;
-		 cVm5.all_visitors = countAll5;
-		 platformvm.add(cVm5);
-		 
-		 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-		 cVm6.title = "bounceR";
-		 cVm6.these_visitors = count6;
-		 cVm6.all_visitors = countAll6;
-		 platformvm.add(cVm6);
+			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
 		 
 		 vm.averageAct=count1;
 		 vm.visitor=count2;
