@@ -306,6 +306,8 @@
             $scope.notificationArray = [];
             $scope.notifictionCount = 0;
             $scope.indexInitFunction = function(){
+            	
+            	 $scope.notificationArray = [];
             	$http.get('/getNotificationData').success(function(data,status, headers, config){
 
                 	angular.forEach(data.commentLike, function(value, key) {

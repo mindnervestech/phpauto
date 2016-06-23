@@ -3532,7 +3532,7 @@ angular.module('newApp')
 				console.log(vin);
 				$http.get('/sendComingSoonEmail/'+vin)
 				.success(function(data) {
-					
+					  $scope.indexInitFunction();
 					 $('#addPrice').modal("toggle");
 				});
 			}
@@ -3551,6 +3551,7 @@ angular.module('newApp')
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
 				.success(function(data) {
 					 $('#changeDate').hide();
+					 $scope.indexInitFunction();
 					$.pnotify({
 					    title: "Success",
 					    type:'success',
@@ -3598,6 +3599,7 @@ angular.module('newApp')
 				 $scope.arrivalD=aDate;
 				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price+"/"+aDate)
 					.success(function(data) {
+						 $scope.indexInitFunction();
 						 $('#addPrice').modal("toggle");
 						$.pnotify({
 						    title: "Success",
