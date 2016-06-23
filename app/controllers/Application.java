@@ -14393,12 +14393,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-        	        vm1.diffDays="less than 1 day";
+        	        vm1.diffDays=diffMinutes+" minutes ago";;
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14461,12 +14461,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14534,12 +14534,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14611,12 +14611,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14679,12 +14679,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
         	     
         	        }
     	        else{
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14750,12 +14750,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
     	        vm1.timeUnit=diffMinutes+" minutes ago";
     	     
     	        }
     	        else{
-    	        	vm1.diffDays="less than 1 day";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
