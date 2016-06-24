@@ -34,17 +34,7 @@
             
             
             
-            $scope.leadData={};
-            $http.get('/getLeadInfo').success(function(data,status, headers, config){
-            
-            	console.log("*****");
-            	console.log(data);
-            	$scope.leadData=data;
-            	$scope.leadData = $filter('orderBy')($scope.leadData,'timeDiff');
-            	//$scope.leadData = $scope.leadData.reverse();
-            	$scope.dataLength=$scope.leadData.length;
-               
-            })
+           
             
             $http.get('/getSalesUserValue')
 		.success(function(data){
@@ -97,6 +87,7 @@
    					    type:'success',
    					    text: "User assigned successfully",
    					});
+   					$scope.indexInitFunction();
    				});
    	        	
    	        }
@@ -110,7 +101,9 @@
    					    type:'success',
    					    text: "This lead has been released for everyone to claim ",
    					});
+   					$scope.indexInitFunction();
    				});
+   			
    		 }
             
             
@@ -127,6 +120,7 @@
 						    type:'success',
 						    text: "Claimed Successfully",
 						});
+             			 $scope.indexInitFunction(); 
              		console.log(data);
              	});
                 	
@@ -141,7 +135,7 @@
 						    type:'success',
 						    text: "Claimed Successfully",
 						});
-
+            			 $scope.indexInitFunction(); 
             			console.log(data);
             		});
                 }
@@ -155,6 +149,7 @@
 					    type:'success',
 					    text: "Claimed Successfully",
 					});
+       			 $scope.indexInitFunction(); 
        				console.log(data);
        	       	});
                 }
@@ -166,11 +161,12 @@
 						    type:'success',
 						    text: "Claimed Successfully",
 						});
+						 $scope.indexInitFunction(); 
 					});
             	   
                	
                }
-                
+               
                 
             };
 
@@ -440,6 +436,24 @@
                 	$scope.updateMeeting(data.updateMeeting);
                 	
             	});
+            	
+            	
+            	
+            	
+            	 $scope.leadData={};
+                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
+                 
+                 	console.log("*****");
+                 	console.log(data);
+                 	$scope.leadData=data;
+                 	$scope.leadData = $filter('orderBy')($scope.leadData,'timeDiff');
+                 	//$scope.leadData = $scope.leadData.reverse();
+                 	$scope.dataLength=$scope.leadData.length;
+                    
+                 })
+            	
+            	
+            	
             }
             
             
