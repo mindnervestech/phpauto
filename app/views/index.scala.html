@@ -334,7 +334,15 @@
                             <li>
                                 <div class="dropdown-slimscroll">
                                     <ul style="height: 350px;overflow: auto;">
-                                        <li ng-repeat="notify in notificationArray" class="col-md-12"><i class="{{notify.iconClass}} col-md-1"></i><span class="col-md-9" style="padding: 0px;"><span class="col-md-12">{{notify.title}}</span><br><span class="col-md-6"><a style="color:#319DB5;" ng-click="showDetailsFunction(notify)">See Details</a></span><span class="col-md-6"><a style="color:#darkcyan;" style="width: 50% !important;" ng-click="dismissFunction(notify)">Dismiss</a></span></span><span class="pull-right text-muted small col-md-2" style="padding: 0px;">4 mins ago</span></li>
+                                        <li ng-repeat="notify in notificationArray" class="col-md-12">
+                                        <i class="{{notify.iconClass}} col-md-1"></i>
+                                        <span class="col-md-9" style="padding: 0px;">
+                                        <span class="col-md-12">{{notify.title}}</span><br>
+                                        <span class="col-md-6"><a style="color:#319DB5;" ng-click="showDetailsFunction(notify)">See Details</a></span>
+                                        <span class="col-md-6"><a style="color:#darkcyan;" style="width: 50% !important;" ng-click="dismissFunction(notify)">Dismiss</a></span></span>
+                                        <span class="pull-right text-muted small col-md-2" style="padding: 0px;">4 mins ago</span>
+                                        <span> </span>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -397,7 +405,7 @@
                     </li>
                     
                     
-                    
+                    <!-- 
                             <li ng-sec = "Customer Requests" class="dropdown" id="language-header">
                                 <a href="#requestMoreInfo" title="Request More Info">
                                 <i class="icon-info" style="color:white;"></i>
@@ -405,8 +413,8 @@
                                 </a>
                                 
                             </li>
-                            <!-- END USER DROPDOWN -->
-                            <!-- BEGIN NOTIFICATION DROPDOWN -->
+                            END USER DROPDOWN
+                            BEGIN NOTIFICATION DROPDOWN
                             <li ng-sec = "Customer Requests" class="dropdown" id="notifications-header">
                                 <a href="#scheduleTest" title="Schedule Test">
                                 <i class="icon-rounded-pin" style="color:white;"></i>
@@ -414,8 +422,8 @@
                                 </a>
                                 
                             </li>
-                            <!-- END NOTIFICATION DROPDOWN -->
-                            <!-- BEGIN MESSAGES DROPDOWN -->
+                            END NOTIFICATION DROPDOWN
+                            BEGIN MESSAGES DROPDOWN
                             <li ng-sec = "Customer Requests" class="dropdown" id="messages-header">
                                 <a href="#tradeIn" title="Trade-In Appraisal">
                                 <i class="icon-rounded-air-plane" style="color:white;"></i>
@@ -427,13 +435,13 @@
                             </li>
                             <li ng-sec = "Customer Requests" class="dropdown" id="messages-header" ng-if="userType == 'Manager'">
                                 <a href="#premiumpage" title="Premium Leads">
-                                <!-- href="/assets/global/images/favicon.png" -->
+                                href="/assets/global/images/favicon.png"
                                 <img src="/assets/images/premium1.png" style="width: 24px;"></img>
                                 <span class="badge badge-primary badge-header" ng-show="premiumlength != 0">
                                 {{premiumlength}}
                                 </span>
                                 </a>
-                                
+                                 -->
                             </li>
                             <li class="dropdown" id="notifications-header" ng-if="setFalg == 1">
                                 <a href="http://glider-autos.com/glivr/?locationId={{locationName}}" target="_blank">

@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -156,6 +157,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Period;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -246,6 +248,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.oauth2.Oauth2;
@@ -14087,20 +14090,37 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	
     	
     	Date curDate = null;
+    	Date curDate1 = null;
+    	Date curDateNew = null;
     	List<RequestInfoVM> rList = new ArrayList<>();
-    	
     	Date date=new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		
+		DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+		DateFormat format1 = new SimpleDateFormat("HH:mm:a");
+		 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
 			Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
 			df2.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+			df11.setTimeZone(TimeZone.getTimeZone(location.time_zone));
 			String date1=df2.format(date);
+			String dateNew=df11.format(date);
+			String date11="00:00:AM";
+			
 			try {
+				curDate1=df1.parse(dateNew);
 				curDate = formatter.parse(date1);
+				curDateNew=format1.parse(date11);
 			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+			  long diff = curDate1.getTime() - curDateNew.getTime();
+  	        long diffSeconds = diff / 1000 % 60;
+  	        long diffMinutes = diff / (60 * 1000) % 60;
+  	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+			
+			
     		List<Vehicle> vehList=Vehicle.findByComingSoonDate(curDate);
     		
     		for(Vehicle vehicle:vehList){
@@ -14112,6 +14132,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
         					rVm.model = vehicle.model;
         					rVm.year = vehicle.year;
         					rVm.price = vehicle.price;
+        					rVm.diffDays=diffHours+" hours"+diffMinutes+" minutes ago";
         					int vCount = 0;
         					List<PriceAlert> vehCount = PriceAlert.getByVin(vehicle.vin);
         					for(PriceAlert pAlert:vehCount){
@@ -14398,7 +14419,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
         	     
         	        }
     	        else{
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14406,6 +14427,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	    	        	diffHr=""+diffHours;
     	    	        }
     	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		
 	    		list.add(vm1);		
@@ -14466,7 +14488,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
         	     
         	        }
     	        else{
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14474,6 +14496,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	    	        	diffHr=""+diffHours;
     	    	        }
     	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		list.add(vm1);		
 	    		
@@ -14539,7 +14562,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
         	     
         	        }
     	        else{
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14547,6 +14570,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	    	        	diffHr=""+diffHours;
     	    	        }
     	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		
 	    		list.add(vm1);		
@@ -14616,7 +14640,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
         	     
         	        }
     	        else{
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14624,6 +14648,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	    	        	diffHr=""+diffHours;
     	    	        }
     	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		list.add(vm1);		
 	    		
@@ -14684,7 +14709,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
         	     
         	        }
     	        else{
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14692,6 +14717,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	    	        	diffHr=""+diffHours;
     	    	        }
     	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		
 	    		
@@ -14755,7 +14781,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	     
     	        }
     	        else{
-    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	
     	        	 if(diffHours <10){
     	    	        	diffHr="0"+diffHours;
     	    	        }
@@ -14763,6 +14789,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	    	        	diffHr=""+diffHours;
     	    	        }
     	        	vm1.timeUnit=diffHr+" hours "+diffMinutes+" minutes ago";
+    	        	vm1.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     	        }
 	    		
 	    		list.add(vm1);		
