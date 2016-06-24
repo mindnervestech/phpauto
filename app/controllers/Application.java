@@ -14132,7 +14132,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
         					rVm.model = vehicle.model;
         					rVm.year = vehicle.year;
         					rVm.price = vehicle.price;
+        					if(diffHours != 0){
         					rVm.diffDays=diffHours+" hours"+diffMinutes+" minutes ago";
+        					}
+        					else{
+        						rVm.diffDays=diffMinutes+" minutes ago";
+        					}
         					int vCount = 0;
         					List<PriceAlert> vehCount = PriceAlert.getByVin(vehicle.vin);
         					for(PriceAlert pAlert:vehCount){
@@ -45286,10 +45291,11 @@ public static Result getviniewsChartLeads(Long id, String vin,
 	    		comm.setComment(comment);
 	    		comm.update();
 	    	}else{*/
-	    	Date currDate = new Date();
+	    	   Date currDate=new Date();
 	    		Comments cm = new Comments();
 	    		cm.comment = comment;
-	    		cm.likeDate = currDate;
+	    		cm.likeDate =currDate;
+	    		cm.newTime=currDate;
 	    		cm.user = userObj;
 	    		cm.commentUser = user;
 	    		cm.commentFlag = 1;

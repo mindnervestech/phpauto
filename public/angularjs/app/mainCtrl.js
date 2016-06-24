@@ -316,6 +316,7 @@
 							iconClass: "glyphicon glyphicon-heart editClassColorRed",
 							findBy:"comment like",
 							value:value,
+							timeDiff:"4 minutes ago",
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -332,6 +333,7 @@
 							iconClass: "glyphicon glyphicon-star editClassColor",
 							findBy:"month plan",
 							value:value,
+							timeDiff:"4 minutes ago",
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -342,6 +344,7 @@
 							iconClass: "fa fa-car editClassColorBlack",
 							findBy:"invitation received",
 							value:value,
+							timeDiff:"4 minutes ago",
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -352,6 +355,7 @@
 							iconClass: "glyphicon glyphicon-star editClassColor",
 							findBy:"declined meeting",
 							value:value,
+							timeDiff:"4 minutes ago",
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -363,8 +367,10 @@
 							iconClass: "fa fa-car editClassColorBlack",
 							findBy:"coming soon",
 							value:value,
+							timeDiff:value.diffDays,
 						});
                 		$scope.notifictionCount++;
+                		
                 	});
                 	
                 	angular.forEach(data.acceptedMeeting, function(value, key) {
@@ -373,6 +379,7 @@
 							iconClass: "glyphicon glyphicon-star editClassColor",
 							findBy:"accept meeting",
 							value:value,
+							timeDiff:"4 minutes ago",
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -384,6 +391,7 @@
     							iconClass: "glyphicon glyphicon-star editClassColor",
     							findBy:"delete meeting",
     							value:value,
+    							timeDiff:"4 minutes ago",
     						});
                 		
                 		}else if(value.declineUser == 'this person'){
@@ -392,6 +400,7 @@
     							iconClass: "glyphicon glyphicon-star editClassColor",
     							findBy:"delete meeting",
     							value:value,
+    							timeDiff:"4 minutes ago",
     						});
                 		}
                 		
@@ -405,6 +414,7 @@
 							iconClass: "glyphicon glyphicon-star editClassColor",
 							findBy:"update meeting",
 							value:value,
+							timeDiff:"4 minutes ago",
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -415,6 +425,7 @@
 							iconClass: "fa fa-car editClassColorBlack",
 							findBy:"reminder popup",
 							value:value,
+							timeDiff:"4 minutes ago",
 						});
                 		$scope.notifictionCount++;
                 	});
