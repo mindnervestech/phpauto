@@ -29,7 +29,7 @@ angular.module('newApp')
 	                    ranges: {
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-	                        'Last 7 Days': [moment().subtract('days', 6), moment().subtract('days', 2)],
+	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
 	                        'Last 14 Days':[moment().subtract('days', 14), moment()],
 	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
