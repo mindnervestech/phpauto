@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -26,7 +27,17 @@ public class PlanScheduleMonthlySalepeople extends Model {
 	public String cell;
 	public Integer flagMsg;
 	public String successRate;
+	public Date saveDate;
 	
+	
+	public Date getSaveDate() {
+		return saveDate;
+	}
+
+	public void setSaveDate(Date saveDate) {
+		this.saveDate = saveDate;
+	}
+
 	@ManyToOne
 	public AuthUser user;
 	

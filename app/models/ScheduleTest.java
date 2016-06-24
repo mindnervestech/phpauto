@@ -34,6 +34,7 @@ public class ScheduleTest extends Model {
 	public Date confirmDate;
 	public Date confirmTime;
 	public Date confirmEndTime;
+	public Date meetingActionTime;
 	public Date getConfirmEndTime() {
 		return confirmEndTime;
 	}
@@ -59,10 +60,12 @@ public class ScheduleTest extends Model {
 		this.meeting = meeting;
 	}
 
-
-
-
-
+	public Date getMeetingActionTime() {
+		return meetingActionTime;
+	}
+	public void setMeetingActionTime(Date meetingActionTime) {
+		this.meetingActionTime = meetingActionTime;
+	}
 	public String getSessionId() {
 		return sessionId;
 	}

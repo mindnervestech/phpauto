@@ -323,6 +323,7 @@
                 	
                 	angular.forEach(data.planScheduleMonthly, function(value, key) {
                 		var month=value.month;
+                		console.log(value.diffDays);
     					if(month !=null){
     						month = month.toLowerCase();
     						month=month.substring(0,1).toUpperCase()+month.substring(1);
@@ -333,7 +334,7 @@
 							iconClass: "glyphicon glyphicon-star editClassColor",
 							findBy:"month plan",
 							value:value,
-							timeDiff:"4 minutes ago",
+							timeDiff:value.diffDays,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -351,11 +352,11 @@
                 	
                 	angular.forEach(data.declineMeeting, function(value, key) {
                 		$scope.notificationArray.push({
-							title: "Your invitation to "+value.assignedTo.firstName+" "+value.assignedTo.lastName+" has been declined",
+							title: "Your invitation to "+value.firstName+" "+value.lastName+" has been declined",
 							iconClass: "glyphicon glyphicon-star editClassColor",
 							findBy:"declined meeting",
 							value:value,
-							timeDiff:"4 minutes ago",
+							timeDiff:value.diffDays,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -375,11 +376,11 @@
                 	
                 	angular.forEach(data.acceptedMeeting, function(value, key) {
                 		$scope.notificationArray.push({
-							title: value.assignedTo.firstName+"  "+value.assignedTo.lastName+" accepted your invitation to "+value.name,
+							title: value.firstName+"  "+value.lastName+" accepted your invitation to "+value.name,
 							iconClass: "glyphicon glyphicon-star editClassColor",
 							findBy:"accept meeting",
 							value:value,
-							timeDiff:"4 minutes ago",
+							timeDiff:value.diffDays,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -666,7 +667,7 @@
 		
 				var notifContent;
 				angular.forEach(data, function(value, key) {
-				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your invitation to "+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" has been declined</span><br><span> Reason: "+value.declineReason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your invitation to "+value.firstName+"&nbsp;&nbsp;"+value.lastName+" has been declined</span><br><span> Reason: "+value.declineReason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
 				
 				var position = 'topRight';
     	        if ($('body').hasClass('rtl')) position = 'topLeft';

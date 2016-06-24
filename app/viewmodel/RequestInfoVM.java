@@ -7,9 +7,12 @@ public class RequestInfoVM {
 
 	public Long id;
 	public String trim;
+	public String month;
 	public String vin;
 	public String model;
 	public String message;
+	public String firstName;
+	public String lastName;
 	public long timeDiff;
 	public String make;
 	public String year;
@@ -20,6 +23,7 @@ public class RequestInfoVM {
 	public String typeofVehicle;
 	public Integer price;
 	public String stock;
+	public String  declineReason;
 	public String imagePath;
 	public String mesg;
 	public String bodyStyle;

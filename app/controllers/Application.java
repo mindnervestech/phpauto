@@ -14076,12 +14076,84 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	/*----------------------------Plan schedule-----------------------*/
     	
     	List<PlanScheduleMonthlySalepeople> salepeople = PlanScheduleMonthlySalepeople.findByAllMsgPlan(user);
+    	
+    	List<RequestInfoVM> rList1 = new ArrayList<>();
     	for(PlanScheduleMonthlySalepeople sales:salepeople){
+    	if(sales != null){
+    	RequestInfoVM rVm = new RequestInfoVM();
+    					rVm.month = sales.month;
+    					Date date=new Date();
+    					Date newDate=sales.saveDate;
+    					Date curDate1=null;
+    					Date curDate=null;
+    					DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    					 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    				    Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    						df11.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+    						String date1=df11.format(date);
+    						String dateNew=df1.format(newDate);
+    						String date11="00:00:AM";
+    						
+    						try {
+    							curDate1=df1.parse(date1);
+    							curDate = df1.parse(dateNew);
+    						} catch (ParseException e1) {
+    							// TODO Auto-generated catch block
+    							e1.printStackTrace();
+    						}
+    						
+    						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+    						  long diff = curDate1.getTime() - curDate.getTime();
+    			  	        long diffSeconds = diff / 1000 % 60;
+    			  	        long diffMinutes = diff / (60 * 1000) % 60;
+    			  	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+    			  	        	int diffInDays = (int) ((curDate1.getTime() - curDate.getTime()) / (1000 * 60 * 60 * 24));
+    			    	        String diffDay=null;
+    			    	        String diffHr=null;
+    			    	        if(diffInDays != 0){
+    			    	        if(diffInDays <10){
+    			    	        	
+    			    	        	diffDay=""+diffInDays;
+    			    	        }
+    			    	        else{
+    			    	        	diffDay=""+diffInDays;
+    			    	        }
+    			    	        if(diffHours <10){
+    			    	        	diffHr="0"+diffHours;
+    			    	        }
+    			    	        else{
+    			    	        	diffHr=""+diffHours;
+    			    	        }
+    			    	        rVm.diffDays=diffDay+" + days";
+    			    	        }
+    			    	        else if(diffInDays == 0 && diffHours == 0){
+    			    	        	rVm.diffDays=diffMinutes+" minutes ago";;
+    			        	     
+    			        	        }
+    			    	        else{
+    			    	        	
+    			    	        	 if(diffHours <10){
+    			    	    	        	diffHr="0"+diffHours;
+    			    	    	        }
+    			    	    	        else{
+    			    	    	        	diffHr=""+diffHours;
+    			    	    	        }
+    			    	        	 rVm.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
+    			    	        }
+    			  	        	
+    			  	        	
+    			  	        	
+    					rList1.add(rVm);
+    			
+    		}
+		}
+    	mapList.put("planScheduleMonthly", rList1);
+    for(PlanScheduleMonthlySalepeople sales:salepeople){
+    		
     		sales.setFlagMsg(0);
     		sales.update();
     		
     	}
-    	mapList.put("planScheduleMonthly", salepeople);
     	
     	/*-------------------Coming soon--------------------------*/
     	
@@ -14215,25 +14287,172 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
   		
   		/*-------------Decline Metting--------------------------------*/
   		
-    	List<ScheduleTest> sche = ScheduleTest.getdecline(user);
-    	for(ScheduleTest sch:sche){
-    		sch.setDeclineMeeting(0);
-    		sch.update();
-    	}
     	
-    	mapList.put("declineMeeting", sche);
+    	List<ScheduleTest> sche = ScheduleTest.getdecline(user);
+    	List<RequestInfoVM> acList1 = new ArrayList<>();
+    	for(ScheduleTest sch1:sche){
+    	if(sch1 != null){
+    	RequestInfoVM rVm = new RequestInfoVM();
+    	AuthUser user1=AuthUser.findById(sch1.assignedTo.id);
+    					rVm.firstName = user1.firstName;
+    					rVm.lastName = user1.lastName;
+    					rVm.name = sch1.name;
+    					rVm.declineReason=sch1.declineReason;
+    					Date schDate=new Date();
+    					Date schcurDate11=null;
+    					Date schcurDate1=null;
+    					DateFormat schDatedf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    					 DateFormat schDatedf11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    				    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    				    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+    						String schDate1=schDatedf11.format(schDate);
+    						String dateNew1=schDatedf1.format(sch1.meetingActionTime);
+    						
+    						try {
+    							schcurDate11=schDatedf1.parse(schDate1);
+    							schcurDate1 =schDatedf1.parse(dateNew1);
+    						} catch (ParseException e1) {
+    							// TODO Auto-generated catch block
+    							e1.printStackTrace();
+    						}
+    						
+    						  long schdiff = schcurDate11.getTime() - schcurDate1.getTime();
+    			  	        long diffSeconds1 = schdiff / 1000 % 60;
+    			  	        long diffMinutes1 = schdiff / (60 * 1000) % 60;
+    			  	        	long diffHours1 = diff / (60 * 60 * 1000)% 24;
+    			  	        	int diffInDays1 = (int) ((schcurDate11.getTime() - schcurDate1.getTime()) / (1000 * 60 * 60 * 24));
+    			    	        String diffDay=null;
+    			    	        String diffHr=null;
+    			    	        if(diffInDays1 != 0){
+    			    	        if(diffInDays1<10){
+    			    	        	
+    			    	        	diffDay=""+diffInDays1;
+    			    	        }
+    			    	        else{
+    			    	        	diffDay=""+diffInDays1;
+    			    	        }
+    			    	        if(diffHours <10){
+    			    	        	diffHr="0"+diffHours1;
+    			    	        }
+    			    	        else{
+    			    	        	diffHr=""+diffHours1;
+    			    	        }
+    			    	        rVm.diffDays=diffDay+" + days";
+    			    	        }
+    			    	        else if(diffInDays1 == 0 && diffHours1 == 0){
+    			    	        	rVm.diffDays=diffMinutes1+" minutes ago";;
+    			        	     
+    			        	        }
+    			    	        else{
+    			    	        	
+    			    	        	 if(diffHours1 <10){
+    			    	    	        	diffHr="0"+diffHours1;
+    			    	    	        }
+    			    	    	        else{
+    			    	    	        	diffHr=""+diffHours1;
+    			    	    	        }
+    			    	        	 rVm.diffDays=diffHr+" hours "+diffMinutes1+" minutes ago";
+    			    	        }
+    			  	        	
+    			  	        	
+    			  	        	
+    			    	        acList1.add(rVm);
+    			    	        
+    			    	        for(ScheduleTest sch:sche){
+    			    	    		sch.setDeclineMeeting(0);
+    			    	    		sch.update();
+    			    	    	}
+    			
+    		}
+		}
+    	
+    	mapList.put("declineMeeting", acList1);
+    	
+    	
     	
     	
     	/*-----------------accept msg--------------------------*/
-    	
 		
     	List<ScheduleTest> sche1 = ScheduleTest.getaccepted(user);
+    	List<RequestInfoVM> acList = new ArrayList<>();
+    	for(ScheduleTest sch1:sche1){
+    	if(sch1 != null){
+    	RequestInfoVM rVm = new RequestInfoVM();
+    					rVm.firstName = sch1.assignedTo.firstName;
+    					rVm.lastName = sch1.assignedTo.lastName;
+    					rVm.name = sch1.name;
+    					Date schDate=new Date();
+    					Date schcurDate11=null;
+    					Date schcurDate1=null;
+    					DateFormat schDatedf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    					 DateFormat schDatedf11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+    				    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    				    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+    						String schDate1=schDatedf11.format(schDate);
+    						String dateNew1=schDatedf1.format(sch1.meetingActionTime);
+    						
+    						try {
+    							schcurDate11=schDatedf1.parse(schDate1);
+    							schcurDate1 =schDatedf1.parse(dateNew1);
+    						} catch (ParseException e1) {
+    							// TODO Auto-generated catch block
+    							e1.printStackTrace();
+    						}
+    						
+    						  long schdiff = schcurDate11.getTime() - schcurDate1.getTime();
+    			  	        long diffSeconds1 = diff / 1000 % 60;
+    			  	        long diffMinutes1 = diff / (60 * 1000) % 60;
+    			  	        	long diffHours1 = diff / (60 * 60 * 1000)% 24;
+    			  	        	int diffInDays1 = (int) ((schcurDate11.getTime() - schcurDate1.getTime()) / (1000 * 60 * 60 * 24));
+    			    	        String diffDay=null;
+    			    	        String diffHr=null;
+    			    	        if(diffInDays1 != 0){
+    			    	        if(diffInDays1<10){
+    			    	        	
+    			    	        	diffDay=""+diffInDays1;
+    			    	        }
+    			    	        else{
+    			    	        	diffDay=""+diffInDays1;
+    			    	        }
+    			    	        if(diffHours <10){
+    			    	        	diffHr="0"+diffHours1;
+    			    	        }
+    			    	        else{
+    			    	        	diffHr=""+diffHours1;
+    			    	        }
+    			    	        rVm.diffDays=diffDay+" + days";
+    			    	        }
+    			    	        else if(diffInDays1 == 0 && diffHours1 == 0){
+    			    	        	rVm.diffDays=diffMinutes1+" minutes ago";;
+    			        	     
+    			        	        }
+    			    	        else{
+    			    	        	
+    			    	        	 if(diffHours1 <10){
+    			    	    	        	diffHr="0"+diffHours1;
+    			    	    	        }
+    			    	    	        else{
+    			    	    	        	diffHr=""+diffHours1;
+    			    	    	        }
+    			    	        	 rVm.diffDays=diffHr+" hours "+diffMinutes1+" minutes ago";
+    			    	        }
+    			  	        	
+    			  	        	
+    			  	        	
+    			    	        acList.add(rVm);
+    			
+    		}
+		}
+    	mapList.put("acceptedMeeting", acList);
+    	
     	for(ScheduleTest sch1:sche1){
     		sch1.setAcceptMeeting(0);
     		sch1.update();
     	}
     	
-    	mapList.put("acceptedMeeting", sche);
+    	
+    	
+    	
     	
     	/*---------------------delete meeting-------------------------------*/
     	
@@ -29310,7 +29529,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	
     	    Date curr = new Date();
     	   String sDate = df.format(curr);
-           //String sDate="2016-06-07";
+            //String sDate="2016-06-20";
            Date startDateForList=null;
            try {
         	 startDateForList=df.parse(sDate);
@@ -29322,9 +29541,6 @@ public static Result getEngTimeData(String title,String startdate,String enddate
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;
-        	
-        	
-        	
             	params = "&type=visitors-list&date="+sDate+"&limit=all";
         	JSONArray jsonArray;
 			try {
@@ -40521,7 +40737,7 @@ if(vehicles.equals("All")){
 		AuthUser user = getLocalUser();
 		
 		for(Integer saleId:vm.salesList){
-			
+			Date date=new Date();
 			AuthUser uAuthUser = AuthUser.findById(saleId);
 			PlanScheduleMonthlySalepeople pSalePer = PlanScheduleMonthlySalepeople.findByUserMonth(uAuthUser,vm.month);
 			
@@ -40537,12 +40753,14 @@ if(vehicles.equals("All")){
 				planMoth.setSuccessRate(vm.successRate);
 				planMoth.setTestDrives(vm.testDrives);
 				planMoth.setFlagMsg(1);
+				planMoth.setSaveDate(date);
 				planMoth.setTotalBrought(vm.totalBrought);
 				planMoth.setVehicalesToSell(vm.vehicalesToSell);
 				planMoth.setUser(uAuthUser);
 				planMoth.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 				planMoth.save();
 			}else{
+				pSalePer.setSaveDate(date);
 				pSalePer.setCell(vm.cell);
 				pSalePer.setEmails(vm.emails);
 				pSalePer.setMonth(vm.month);
@@ -47207,7 +47425,8 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		    	SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
 		    	String date1=df.format(stTest.confirmDate);
 				String time1=time.format(stTest.confirmTime);
-				
+				Date date=new Date();
+				stTest.setMeetingActionTime(date);
 				stTest.setAcceptMeeting(2);
 				stTest.setMeeting(0);
 				stTest.update();
@@ -47227,10 +47446,8 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 		    	SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
 		    	String date1=df.format(stTest.confirmDate);
 				String time1=time.format(stTest.confirmTime);
-				
-				
-				
-				
+				Date date=new Date();
+				stTest.setMeetingActionTime(date);
 					stTest.setDeclineMeeting(2);
 				stTest.setMeeting(2);
 				stTest.setDeclineReason(reason);
