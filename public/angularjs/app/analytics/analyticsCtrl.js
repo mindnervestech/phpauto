@@ -619,8 +619,9 @@ angular.module('newApp')
 					$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
+					
 					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
-					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+					//$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				});
 				 
 				 
@@ -646,7 +647,29 @@ angular.module('newApp')
 					$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
-					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'title');
+					
+					
+					angular.forEach($scope.gridOptions.data, function(value, key) {
+						var number = value.title.split('action');
+						
+						console.log("length is " +number[0].length);
+						if(number[0].length <= 2)
+							{
+								value.sortingValue = parseInt(number[0]);
+							}
+						else{
+								var number1 = number[0].split('-');
+								if(parseInt(number1) == 1){
+									value.sortingValue = parseInt("10");
+								}else{
+									value.sortingValue = parseInt(number1);
+								}
+							}
+					});
+					
+					
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'sortingValue');
+					console.log($scope.gridOptions.data);
 					//$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				});
 				 
