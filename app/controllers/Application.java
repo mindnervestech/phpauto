@@ -29309,8 +29309,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	List<Location> locations = Location.findAllData();
     	
     	    Date curr = new Date();
-    	   //String sDate = df.format(curr);
-           String sDate="2016-06-07";
+    	   String sDate = df.format(curr);
+           //String sDate="2016-06-07";
            Date startDateForList=null;
            try {
         	 startDateForList=df.parse(sDate);
