@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -388,6 +392,16 @@ public class ClickyVisitorsList extends Model {
 		return find.all();
 	}
 	
+	/*public Date getMaxDate(){
+		return (Date)entityManager.createQuery("select max(date_click) from clicky_visitors_list").getSingleResult();
+	}*/
+	
+	public static SqlRow getMaxDate() {
+		
+		SqlQuery q = Ebean.createSqlQuery("select max(date_click) as maxDate from clicky_visitors_list");
+		SqlRow rows = q.findUnique();
+		return rows;
+	}
 	
 	public static List<ClickyVisitorsList> findByTitle(String title) {
 		return find.where().eq("ipAddress", title).findList();

@@ -28991,8 +28991,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 			
 			if(List.size()==0){
 				return ok(Json.toJson(List.get(0)));
-			}
-			else{
+			}else{
 				return ok(Json.toJson(List.get(0)));
 			}
 			
@@ -29571,6 +29570,9 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
     	List<Location> locations = Location.findAllData();
     	
+			SqlRow maxDate = ClickyVisitorsList.getMaxDate();
+    	System.out.println(maxDate.get("maxdate"));
+		
     	int b = 13;
     	    Date curr = new Date();
     	   //String sDate = df.format(curr);

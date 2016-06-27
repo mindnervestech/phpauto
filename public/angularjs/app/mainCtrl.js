@@ -203,6 +203,7 @@
             })
             
             var promo =  $interval(function(){
+            	$scope.leadCount();
 				
 				$http.get('/getInfoCount').success(function(data,status, headers, config){
 	            	$scope.requestMoreLength = data.req;
@@ -440,22 +441,23 @@
             	
             	
             	
-            	 $scope.leadData={};
-                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
-                 
-                 	console.log("*****");
-                 	console.log(data);
-                 	$scope.leadData=data;
-                 	$scope.leadData = $filter('orderBy')($scope.leadData,'timeDiff');
-                 	//$scope.leadData = $scope.leadData.reverse();
-                 	$scope.dataLength=$scope.leadData.length;
-                    
-                 })
-            	
             	
             	
             }
             
+            
+            $scope.leadCount = function(){
+            	$scope.leadData={};
+                $http.get('/getLeadInfo').success(function(data,status, headers, config){
+                
+                	console.log("*****");
+                	console.log(data);
+                	$scope.leadData=data;
+                	$scope.leadData = $filter('orderBy')($scope.leadData,'timeDiff');
+                	$scope.dataLength=$scope.leadData.length;
+                   
+                })
+            }
             
         	$scope.likeMsg = function(data) {
 
