@@ -2109,14 +2109,14 @@ angular.module('newApp')
    	$scope.visitorInfo={};
    	 $scope.changeActiveTabImage = function(id){
 	  console.log("inside");
-	  $scope.infoColorFlag=0;
-	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
-  	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
     	
   	 console.log($scope.sessionId) ;
   	// $scope.sessionId="187903883";
   	  $http.get('/getSessionIdData/'+$scope.sessionId)
 		.success(function(data) {
+			 $scope.infoColorFlag=0;
+			  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
+		  	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
 			console.log(data);
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
@@ -2150,6 +2150,8 @@ angular.module('newApp')
 						
 				  
 			 }
+		}).error(function(data, status) {
+			$scope.changeInfoImage("1");
 		});
   	  
 	 }

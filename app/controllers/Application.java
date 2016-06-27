@@ -28991,8 +28991,7 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 			
 			if(List.size()==0){
 				return ok(Json.toJson(List.get(0)));
-			}
-			else{
+			}else{
 				return ok(Json.toJson(List.get(0)));
 			}
 			
