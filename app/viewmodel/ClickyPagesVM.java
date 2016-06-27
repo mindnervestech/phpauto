@@ -1,5 +1,7 @@
 package viewmodel;
 
+import java.util.Date;
+
 public class ClickyPagesVM {
 
 	public Long id;
@@ -55,4 +57,10 @@ public class ClickyPagesVM {
 	public String totalTime1;
 	public String averageTime1;
 	public String bounceRate1;
+	public String operatingSystem;
+	public String webBrowser;
+	public String landingPage;
+	public String referrerDomain;
+	public String referrerUrl;
+	public Date curr_Date;
 }

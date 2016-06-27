@@ -392,6 +392,8 @@ public class ClickyVisitorsList extends Model {
 	public static List<ClickyVisitorsList> findByTitle(String title) {
 		return find.where().eq("ipAddress", title).findList();
 	}
-	
+	public static List<ClickyVisitorsList> getIPAddress(String ipAddress) {
+		return find.where().eq("ipAddress", ipAddress).findList();
+	}
 	
 }

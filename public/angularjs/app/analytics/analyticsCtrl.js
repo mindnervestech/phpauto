@@ -614,26 +614,26 @@ angular.module('newApp')
 				$scope.tabClickFlag=2;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
-				 $http.get('/getVisitorList/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
+				 $http.get('/getActionListData/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 					.success(function(data) {
 					$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
 					
-					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
-					//$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'curr_Date');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				});
 				 
 				 
 				$scope.gridOptions.columnDefs = [
 									             {name: 'timePretty', displayName: 'Time'},
 									             {name:'a', displayName:'User',
-									            	 cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></span><br><a  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)" >{{row.entity.geolocation}}</a>,&nbsp;&nbsp<a  ng-click="grid.appScope.referrerTypeDataForOs(row.entity.operatingSystem)" > {{row.entity.operatingSystem}}</a> <a  ng-click="grid.appScope.referrerTypeDataForBrowser(row.entity.webBrowser)" >{{row.entity.webBrowser}} </a> </div>',
+									            	 cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></span><br><a  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)" >{{row.entity.geoLocation}}</a>,&nbsp;&nbsp<a  ng-click="grid.appScope.referrerTypeDataForOs(row.entity.operatingSystem)" > {{row.entity.operatingSystem}}</a> <a  ng-click="grid.appScope.referrerTypeDataForBrowser(row.entity.webBrowser)" >{{row.entity.webBrowser}} </a> </div>',
 									             },
 									             {name:'landingPage', displayName:'Action',
-									            	 cellTemplate:'<div><span><a href="{{row.entity.landingPage}}" target="_blank">{{row.entity.landingPage}}</a></span></div>',
+									            	 cellTemplate:'<div><span><a href="{{row.entity.actionUrl}}" target="_blank">{{row.entity.actionUrl}}</a></span></div>',
 									             },
-									             {name: 'referrerType', displayName: 'Referrer',
+									             {name: 'referrerTy', displayName: 'Referrer',
 									            	 cellTemplate:'<div  ng-if="row.entity.referrerDomain != null"><span><a ng-click="grid.appScope.referrerTypeDataForDomain(row.entity.referrerDomain)"  >{{row.entity.referrerDomain}}</a>  <a   href="{{row.entity.referrerUrl}}" target="_blank" ><img src="//con.tent.network/media/arrow.gif" > </a> </span></div>',	 
 									             }
 									         ]

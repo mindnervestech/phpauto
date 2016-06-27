@@ -129,5 +129,7 @@ public class ClickyActionList extends Model {
 	public static List<ClickyActionList> getClickyUnikue(String uid,String sessionId) {
 		return find.where().eq("uid", uid).eq("session_id", sessionId).findList();
 	}
-	
+	public static List<ClickyActionList> getcurr_date(Date curr_date){
+		return find.where().eq("curr_date" , curr_date).findList();
+	}
 }

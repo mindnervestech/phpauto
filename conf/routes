@@ -387,6 +387,7 @@ GET   /saveGroup/:createGroup		controllers.Application.saveGroup(createGroup:Str
 GET   /deleteGroup/:groupId		 controllers.Application.deleteGroup(groupId:Long)
 GET		/checkEmailOfUser/:email		controllers.Application.checkEmailOfUser(email:String)
 GET   /getVisitorList/:startDate/:endDate			controllers.Application.getVisitorList(startDate:String,endDate:String)
+GET   /getActionListData/:startDate/:endDate			controllers.Application.getActionListData(startDate:String,endDate:String)
 GET   /getVisitorData/:id			controllers.Application.getVisitorData(id:Long)
 GET   /getSessionData/:sessionId/:startDate/:endDate			controllers.Application.getSessionData(sessionId:String,startDate:String,endDate:String)
 GET   /getIPAddress/:id				controllers.Application.getIPAddress(id:String)
