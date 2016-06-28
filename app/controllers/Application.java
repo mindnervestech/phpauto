@@ -29543,20 +29543,23 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	{
     		ClickyPagesVM vm = new ClickyPagesVM();
     		List<ClickyVisitorsList> cLists = ClickyVisitorsList.getIPAddress(cList1.ip_address);
-    		vm.ipAddress = cLists.get(0).ipAddress;
+    		if(cLists.size() != 0){
+    			vm.ipAddress = cLists.get(0).ipAddress;
+    			vm.organization = cLists.get(0).organization;
+        		vm.geoLocation = cLists.get(0).geolocation;
+        		vm.operatingSystem = cLists.get(0).operatingSystem;
+        		vm.webBrowser = cLists.get(0).webBrowser;
+        		vm.landingPage = cLists.get(0).landingPage;
+        		vm.referrerDomain = cLists.get(0).referrerDomain;
+        		vm.referrerUrl = cLists.get(0).referrerUrl;
+    		}
+    		
     		vm.time = cList1.time;
     		vm.timePretty = cList1.time_pretty;
     		vm.actionType = cList1.action_type;
     		vm.actionTitle =cList1.action_title;
     		vm.actionUrl = cList1.action_url;
     		vm.statsUrl = cList1.stats_url;
-    		vm.organization = cLists.get(0).organization;
-    		vm.geoLocation = cLists.get(0).geolocation;
-    		vm.operatingSystem = cLists.get(0).operatingSystem;
-    		vm.webBrowser = cLists.get(0).webBrowser;
-    		vm.landingPage = cLists.get(0).landingPage;
-    		vm.referrerDomain = cLists.get(0).referrerDomain;
-    		vm.referrerUrl = cLists.get(0).referrerUrl;
     		vm.curr_Date = cList1.currDate;
     		infoVMList.add(vm);
     	}
