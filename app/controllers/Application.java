@@ -29047,8 +29047,17 @@ private static void cancelTestDriveMail(Map map) {
      		city=location[0];
      		
      		String country[]=location[1].split(" ");
+     		
      		System.out.println(country[1]);
-     		params = "&type=segmentation&city="+city+"&country="+country[1]+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+     		try{
+     			String country1[]=location[2].split(" ");
+     		params = "&type=segmentation&city="+city+"&country="+country1[1]+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+     		
+     		}
+     		catch(Exception e)
+     		{
+     			params = "&type=segmentation&city="+city+"&country="+country[1]+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+     		}
      	}
      	else if(locationFlag.equalsIgnoreCase("language")){
      		
@@ -29161,8 +29170,8 @@ private static void cancelTestDriveMail(Map map) {
      
      
      
-public static Result getVisitorDataForLanding(Long id,String startDate,String endDate,String flagForLanding){
-    	
+public static Result getVisitorDataForLanding(Long id,String flagForLanding ,String endDate,String startDate){
+    	//public static Result getUrlData(Long id){
     	ClickyVisitorsList List = ClickyVisitorsList.findById(id);
     	String title=List.referrerUrl;
     	String domain=List.referrerDomain;
@@ -29170,10 +29179,10 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     	String params = null; 
     	List<ClickyPagesVM> clickyList = new ArrayList<>();
     	if(flagForLanding.equalsIgnoreCase("ForSearch")){
-    	params = "&type=segmentation&source=searches&title="+title+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    	params = "&type=segmentation&source=searches&title="+title+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
     	}
     	else if(flagForLanding.equalsIgnoreCase("ForDomain")){
-    		params = "&type=segmentation&source=searches&domain="+domain+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    		params = "&type=segmentation&source=searches&domain="+domain+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
     	}
     	else if(flagForLanding.equalsIgnoreCase("ForRefferalUrl")){
     		String newUrl=null;
@@ -29185,11 +29194,11 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
     			newUrl=url;
     		}
     		
-    		params = "&type=segmentation&source=searches&link="+newUrl+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    		params = "&type=segmentation&search="+newUrl+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
     	}
     	
     	else{
-    		params = "&type=segmentation&source=searches&search="+title+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+    		params = "&type=segmentation&search="+title+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
     	}
     	 try {
 
@@ -29806,6 +29815,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
         		vm.landingPage = cLists.get(0).landingPage;
         		vm.referrerDomain = cLists.get(0).referrerDomain;
         		vm.referrerUrl = cLists.get(0).referrerUrl;
+        		vm.id = cLists.get(0).id;
+        		
     		}
     		
     		vm.time = cList1.time;
@@ -29815,6 +29826,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     		vm.actionUrl = cList1.action_url;
     		vm.statsUrl = cList1.stats_url;
     		vm.curr_Date = cList1.currDate;
+    		
     		infoVMList.add(vm);
     	}
     	
@@ -29831,8 +29843,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			SqlRow maxDate = ClickyVisitorsList.getMaxDate();
     	System.out.println(maxDate.get("maxdate"));
     	    Date curr = new Date();
-    	   //String sDate = df.format(curr);
-            String sDate="2016-06-27";
+    	    String sDate = df.format(curr);
+           // String sDate="2016-06-27";
            Date startDateForList=null;
            try {
         	 startDateForList=df.parse(sDate);

@@ -269,7 +269,14 @@ var MakeApp = angular
           templateUrl: '/dealer/analytics/referrerTypeData.html',
           controller: 'VisitorsCtrl'
       })
-      
+      .when('/visitorInfoForDomain/:idForDomain/:flagForLocation/:startDate2/:endDate2', {
+          templateUrl: '/dealer/analytics/referrerTypeData.html',
+          controller: 'VisitorsCtrl'
+      })
+      .when('/visitorInfoForRefferal/:idForRefferal/:flagForLocation/:startDate2/:endDate2', {
+          templateUrl: '/dealer/analytics/referrerTypeData.html',
+          controller: 'VisitorsCtrl'
+      })
       .when('/landingPageInfo/:idOfLanding/:flagForLandingUrl/:startDateForLand/:endDateForLand', {
           templateUrl: '/dealer/analytics/landingPage.html',
           controller: 'VisitorsCtrl'

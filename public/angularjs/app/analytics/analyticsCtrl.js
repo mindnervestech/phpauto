@@ -7,6 +7,8 @@ angular.module('newApp')
 	$scope.visitorInfos = $routeParams.visitorInfo;
 	$scope.infoType = $routeParams.typeOfInfo;
 	$scope.typeOfReferrer = $routeParams.type;
+	$scope.idForDomain = $routeParams.idForDomain;
+	$scope.idForRefferal = $routeParams.idForRefferal;
 	$scope.locationFlag = $routeParams.flagForLocation;
 	$scope.startDate1=$routeParams.startDate1;
 	$scope.endDate1=$routeParams.endDate1;
@@ -44,7 +46,7 @@ angular.module('newApp')
 	                    var startDate =  moment(start).format("MMDDYYYY");
 	                    var endDate =  moment(end).format("MMDDYYYY");
 	                    $rootScope.startDateFilter = moment(start).format("YYYY-MM-DD");
-	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD ");
+	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD");
 	                    if($scope.typeOfInfo != undefined){
 	                    	
 	                    console.log($scope.typeOfInfo);	
@@ -58,8 +60,8 @@ angular.module('newApp')
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
-	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD'));
+	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
 	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
@@ -501,9 +503,113 @@ angular.module('newApp')
 				
 				
 			}
+			if($scope.idForDomain != undefined && $scope.idForDomain != null){
+				console.log("in domain functon");
+				$scope.flagForLanding="ForDomain";
+				$http.get('/getVisitorDataForLanding/'+$scope.idForDomain+"/"+$scope.flagForLanding+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
+				.success(function(data) {
+				$scope.chartFlag1=false;
+				console.log("out domain functon"+$scope.gridOptions1.data);
+				$scope.gridOptions1.data = data;
+				console.log(data);
+				angular.forEach($scope.gridOptions1.data, function(value, key) {
+					if( value.city != null && value.city != undefined  ){
+						$scope.city=value.city;
+						console.log($scope.city);
+					}
+					if( value.title== "Average time / visit" && value.value != null  ){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+					 var splitTime1   = value.value.split(":");
+					 if(splitTime1[0] == 00){
+						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					}
+					if(value.title== "Total time" && value.value != null){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+						var splitTime   = value.value.split(":");
+						if(splitTime[0] == 00){
+							value.value = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+					}
+					
+					
+				});
+				$scope.visitiorList = data;
+				
+			});
+			 
+			 
+			 $scope.gridOptions1.columnDefs = [
+                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
+									             {name: 'value', displayName: 'These visitors', width:'20%' },
+									            /*{name: 'title', displayName: 'All visitors', width:'20%'},
+									            {name: 'title', displayName: 'Difference', width:'20%'},*/
+									            
+									         ]
+			 
 			
+			}
 			
+			if($scope.idForRefferal != undefined && $scope.idForRefferal != null){
+				console.log("in domain functon");
+				$scope.flagForLanding="ForRefferalUrl";
+				$http.get('/getVisitorDataForLanding/'+$scope.idForRefferal+"/"+$scope.flagForLanding+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
+				.success(function(data) {
+				$scope.chartFlag1=false;
+				console.log("out domain functon"+$scope.gridOptions1.data);
+				$scope.gridOptions1.data = data;
+				console.log(data);
+				angular.forEach($scope.gridOptions1.data, function(value, key) {
+					if( value.city != null && value.city != undefined  ){
+						$scope.city=value.city;
+						console.log($scope.city);
+					}
+					if( value.title== "Average time / visit" && value.value != null  ){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+					 var splitTime1   = value.value.split(":");
+					 if(splitTime1[0] == 00){
+						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					}
+					if(value.title== "Total time" && value.value != null){
+						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
+						var splitTime   = value.value.split(":");
+						if(splitTime[0] == 00){
+							value.value = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+					}
+					
+					
+				});
+				$scope.visitiorList = data;
+				
+			});
+			 
+			 
+			 $scope.gridOptions1.columnDefs = [
+                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
+									             {name: 'value', displayName: 'These visitors', width:'20%' },
+									            /*{name: 'title', displayName: 'All visitors', width:'20%'},
+									            {name: 'title', displayName: 'Difference', width:'20%'},*/
+									            
+									         ]
+			 
 			
+			}
 		}
 		
 	$scope.gridOptions = {
@@ -628,7 +734,7 @@ angular.module('newApp')
 				$scope.gridOptions.columnDefs = [
 									             {name: 'timePretty', displayName: 'Time'},
 									             {name:'a', displayName:'User',
-									            	 cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></span><br><a  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)" >{{row.entity.geoLocation}}</a>,&nbsp;&nbsp<a  ng-click="grid.appScope.referrerTypeDataForOs(row.entity.operatingSystem)" > {{row.entity.operatingSystem}}</a> <a  ng-click="grid.appScope.referrerTypeDataForBrowser(row.entity.webBrowser)" >{{row.entity.webBrowser}} </a> </div>',
+									            	 cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></span><br><a  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geoLocation)" >{{row.entity.geoLocation}}</a>,&nbsp;&nbsp<a  ng-click="grid.appScope.referrerTypeDataForOs(row.entity.operatingSystem)" > {{row.entity.operatingSystem}}</a> <a  ng-click="grid.appScope.referrerTypeDataForBrowser(row.entity.webBrowser)" >{{row.entity.webBrowser}} </a> </div>',
 									             },
 									             {name:'landingPage', displayName:'Action',
 									            	 cellTemplate:'<div><span><a href="{{row.entity.actionUrl}}" target="_blank">{{row.entity.actionUrl}}</a></span></div>',
@@ -894,7 +1000,7 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.referrerTypeDataForLocation = function(type) {
-			 console.log(type);
+			 console.log("location is " +type);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
 				console.log($scope.endDate1);
@@ -902,8 +1008,24 @@ angular.module('newApp')
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.startDateFilter);
 			 
 		 }
-		 
-		 
+		 $scope.showUrlInfoForDomain = function(id) {
+			 console.log("google.com " + id);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log($scope.endDate1);
+			 $scope.flagForLocation='location';
+			 $location.path('/visitorInfoForDomain/'+id+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.startDateFilter);
+			 
+		 }
+		 $scope.showUrlInfoForRefferal = function(id) {
+			 console.log("Referrer id is " + id);
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+				console.log($scope.endDate1);
+			 $scope.flagForLocation='location';
+			 $location.path('/visitorInfoForRefferal/'+id+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.startDateFilter);
+			 
+		 }
 		 
 		 $scope.referrerTypeDataForIpAdress = function(type) {
 			 console.log(type);
@@ -1031,117 +1153,9 @@ angular.module('newApp')
 			 
 		 }
 		 
-		 $scope.showUrlInfoForDomain = function(id) {
-			 console.log(id);
-			 $scope.flagForLanding="ForDomain";
-			 var startDate = $("#cnfstartDateValue").val();
-			var endDate = $("#cnfendDateValue").val();	 
-			 $http.get('/getVisitorDataForLanding/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+$scope.flagForLanding)
-				.success(function(data) {
-				
-				console.log("::::::::");
-				console.log(data);
-				
-				$scope.gridOptions.data = data;
-				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data;
-				
-				angular.forEach($scope.gridOptions.data, function(value, key) {
-					if( value.title== "Average time / visit" && value.value != null  ){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-					 var splitTime1   = value.value.split(":");
-					 if(splitTime1[0] == 00){
-						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 else{
-						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 
-					}
-					if(value.title== "Total time" && value.value != null){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-						var splitTime   = value.value.split(":");
-						if(splitTime[0] == 00){
-							value.value = splitTime[1]+"m "+splitTime[2]+"s";
-						 }
-						 else{
-							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
-						 }
-					}
-					
-					
-				});
-				
-				
-				
-			});
-			 
-			 
-			 $scope.gridOptions.columnDefs = [
-                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
-									             {name: 'value', displayName: 'These visitors', width:'30%'
-									             },
-									            
-									         ]
-				
-			 
-		 }
+		
 		 
-		 $scope.showUrlInfoForRefferal = function(id) {
-			 console.log(id);
-			 $scope.flagForLanding="ForRefferalUrl";
-				console.log($scope.startDateFilter);
-			//$location.path('/visitorInfo/'+id);
-			 $http.get('/getVisitorDataForLanding/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter+"/"+$scope.flagForLanding)
-				.success(function(data) {
-				
-				console.log("::::::::");
-				console.log(data);
-				
-				$scope.gridOptions.data = data;
-				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data;
-				
-				angular.forEach($scope.gridOptions.data, function(value, key) {
-					if( value.title== "Average time / visit" && value.value != null  ){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-					 var splitTime1   = value.value.split(":");
-					 if(splitTime1[0] == 00){
-						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 else{
-						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 
-					}
-					if(value.title== "Total time" && value.value != null){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-						var splitTime   = value.value.split(":");
-						if(splitTime[0] == 00){
-							value.value = splitTime[1]+"m "+splitTime[2]+"s";
-						 }
-						 else{
-							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
-						 }
-					}
-					
-					
-				});
-				
-				
-				
-			});
-			 
-			 
-			 $scope.gridOptions.columnDefs = [
-                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
-									             {name: 'value', displayName: 'These visitors', width:'30%'
-									             },
-									            
-									         ]
-				
-			 
-		 }
+		
 		 
 		  
 		
@@ -1383,7 +1397,7 @@ angular.module('newApp')
 	                    var startDate =  moment(start).format("MMDDYYYY");
 	                    var endDate =  moment(end).format("MMDDYYYY");
 	                    $rootScope.startDateFilter = moment(start).format("YYYY-MM-DD");
-	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD ");
+	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD");
 	                    if($scope.typeOfInfo != undefined){
 	                    	
 	                    console.log($scope.typeOfInfo);	
@@ -1398,7 +1412,7 @@ angular.module('newApp')
 	                }
 	            );
 	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
-	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
 	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
