@@ -33666,7 +33666,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	
     	String params = null;
     	params = "&type=pages&heatmap_url=1&date="+startD+","+endD+"&limit=all";
-    	Location locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	//Location locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     	List<ClickyPagesVM> cList = new ArrayList<>();
     	try {
     		
@@ -33675,9 +33675,9 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     			String data = jsonArray.getJSONObject(i).get("url").toString();
     			String arr[] = data.split("#_");
     			try {
-	    			String findLoc[] = arr[0].split("locationId=");
-	    			String locString = findLoc[1].replace("+", " ");
-	    			if(locations.name.equals(locString)){
+	    		//	String findLoc[] = arr[0].split("locationId=");
+	    		//	String locString = findLoc[1].replace("+", " ");
+	    			//if(locations.name.equals(locString)){
 	    				ClickyPagesVM cPagesVM = new ClickyPagesVM();
 	    				cPagesVM.value = jsonArray.getJSONObject(i).get("value").toString();
 	    				cPagesVM.value_percent = jsonArray.getJSONObject(i).get("value_percent").toString();
@@ -33686,7 +33686,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPagesVM.url = jsonArray.getJSONObject(i).get("url").toString();
 	    				cPagesVM.showUrl = arr[0];
 	    				cList.add(cPagesVM);
-	    			}
+	    			//}
     			} catch (Exception e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
@@ -34457,7 +34457,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     		try{
 	    		String findLoc[] = obj.get("url").textValue().split("locationId=");
 	    		String locString = findLoc[1].replace("+", " ");
-	    		if(locations.name.equals(locString)){
+	    		//if(locations.name.equals(locString)){
 	    			String sUrl = findLoc[0].replace("?", "");
 	    			String arr[] = sUrl.split("/");
 	        		PageVM vm = new PageVM();
@@ -34486,7 +34486,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    	    		}
 	    	    	}
 	        		pagesList.add(vm);
-	    		}
+	    		//}
     		}catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
