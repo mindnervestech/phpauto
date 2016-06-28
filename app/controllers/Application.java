@@ -29578,7 +29578,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	System.out.println(maxDate.get("maxdate"));
     	    Date curr = new Date();
     	   //String sDate = df.format(curr);
-            String sDate="2016-06-26";
+            String sDate="2016-06-27";
            Date startDateForList=null;
            try {
         	 startDateForList=df.parse(sDate);
