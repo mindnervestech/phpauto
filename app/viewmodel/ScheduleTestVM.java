@@ -12,6 +12,7 @@ public class ScheduleTestVM {
 	public String isSelect;
 	public String per;
 	public String role;
+	public String diffDays;
 	public String userStatus;
 	public String meetingFlag;
 	public String bodyStyle;

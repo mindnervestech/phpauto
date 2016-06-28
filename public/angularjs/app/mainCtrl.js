@@ -342,7 +342,7 @@
 							iconClass: "fa fa-car editClassColorBlack",
 							findBy:"invitation received",
 							value:value,
-							timeDiff:"4 minutes ago",
+							timeDiff:value.diffDays,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -412,7 +412,7 @@
 							iconClass: "glyphicon glyphicon-star editClassColor",
 							findBy:"update meeting",
 							value:value,
-							timeDiff:"4 minutes ago",
+							timeDiff:value.diffDays,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -423,7 +423,7 @@
 							iconClass: "fa fa-car editClassColorBlack",
 							findBy:"reminder popup",
 							value:value,
-							timeDiff:"4 minutes ago",
+							timeDiff:value.diffDays,
 						});
                 		$scope.notifictionCount++;
                 	});

@@ -14276,6 +14276,64 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
   				sTestVM.imageUrl = "/profile-pic.jpg";
   			}
       		
+      		
+      		Date schDate=new Date();
+			Date schcurDate11=null;
+			Date schcurDate1=null;
+      		DateFormat schDatedf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+			 DateFormat schDatedf11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+		    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+				String schDate1=schDatedf11.format(schDate);
+				String dateNew1=schDatedf11.format(sche.scheduleTime);
+				
+				try {
+					schcurDate11=schDatedf1.parse(schDate1);
+					schcurDate1 =schDatedf1.parse(dateNew1);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				  long schdiff = schcurDate11.getTime() - schcurDate1.getTime();
+	  	        long diffSeconds1 = diff / 1000 % 60;
+	  	        long diffMinutes1 = diff / (60 * 1000) % 60;
+	  	        	long diffHours1 = diff / (60 * 60 * 1000)% 24;
+	  	        	int diffInDays1 = (int) ((schcurDate11.getTime() - schcurDate1.getTime()) / (1000 * 60 * 60 * 24));
+	    	        String diffDay=null;
+	    	        String diffHr=null;
+	    	        if(diffInDays1 != 0){
+	    	        if(diffInDays1<10){
+	    	        	
+	    	        	diffDay=""+diffInDays1;
+	    	        }
+	    	        else{
+	    	        	diffDay=""+diffInDays1;
+	    	        }
+	    	        if(diffHours <10){
+	    	        	diffHr=""+diffHours1;
+	    	        }
+	    	        else{
+	    	        	diffHr=""+diffHours1;
+	    	        }
+	    	        sTestVM.diffDays=diffDay+" + days";
+	    	        }
+	    	        else if(diffInDays1 == 0 && diffHours1 == 0){
+	    	        	sTestVM.diffDays=diffMinutes1+" minutes ago";;
+	        	     
+	        	        }
+	    	        else{
+	    	        	
+	    	        	 if(diffHours1 <10){
+	    	    	        	diffHr=""+diffHours1;
+	    	    	        }
+	    	    	        else{
+	    	    	        	diffHr=""+diffHours1;
+	    	    	        }
+	    	        	 sTestVM.diffDays=diffHr+" hours "+diffMinutes1+" minutes ago";
+	    	        }
+      		
+      		
       		checkData.add(sTestVM);
       		
   			sche.setSendInvitation(0);
@@ -14306,7 +14364,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     				    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
     				    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
     						String schDate1=schDatedf11.format(schDate);
-    						String dateNew1=schDatedf1.format(sch1.meetingActionTime);
+    						String dateNew1=schDatedf11.format(sch1.meetingActionTime);
     						
     						try {
     							schcurDate11=schDatedf1.parse(schDate1);
@@ -14378,8 +14436,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	for(ScheduleTest sch1:sche1){
     	if(sch1 != null){
     	RequestInfoVM rVm = new RequestInfoVM();
-    					rVm.firstName = sch1.assignedTo.firstName;
-    					rVm.lastName = sch1.assignedTo.lastName;
+    	AuthUser usersData = AuthUser.findById(sch1.assignedTo.id);
+    					rVm.firstName = usersData.firstName;
+    					rVm.lastName = usersData.lastName;
     					rVm.name = sch1.name;
     					Date schDate=new Date();
     					Date schcurDate11=null;
@@ -14389,7 +14448,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     				    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
     				    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
     						String schDate1=schDatedf11.format(schDate);
-    						String dateNew1=schDatedf1.format(sch1.meetingActionTime);
+    						String dateNew1=schDatedf11.format(sch1.meetingActionTime);
     						
     						try {
     							schcurDate11=schDatedf1.parse(schDate1);
@@ -14440,15 +14499,16 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     			  	        	
     			  	        	
     			    	        acList.add(rVm);
+    			    	        for(ScheduleTest sch2:sche1){
+    			    	    		sch2.setAcceptMeeting(0);
+    			    	    		sch2.update();
+    			    	    	}
     			
     		}
 		}
     	mapList.put("acceptedMeeting", acList);
     	
-    	for(ScheduleTest sch1:sche1){
-    		sch1.setAcceptMeeting(0);
-    		sch1.update();
-    	}
+    	
     	
     	
     	
@@ -14515,6 +14575,66 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		vm.reason = sch.reason;
     		listData.add(vm);
     		sch.setDeclineUpdate(0);
+    		
+    		
+    		Date schDate=new Date();
+			Date schcurDate11=null;
+			Date schcurDate1=null;
+			DateFormat schDatedf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+			 DateFormat schDatedf11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+		    Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    schDatedf11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+				String schDate1=schDatedf11.format(schDate);
+				String dateNew1=schDatedf11.format(sch.meetingActionTime);
+				
+				try {
+					schcurDate11=schDatedf1.parse(schDate1);
+					schcurDate1 =schDatedf1.parse(dateNew1);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				  long schdiff = schcurDate11.getTime() - schcurDate1.getTime();
+	  	        long diffSeconds1 = diff / 1000 % 60;
+	  	        long diffMinutes1 = diff / (60 * 1000) % 60;
+	  	        	long diffHours1 = diff / (60 * 60 * 1000)% 24;
+	  	        	int diffInDays1 = (int) ((schcurDate11.getTime() - schcurDate1.getTime()) / (1000 * 60 * 60 * 24));
+	    	        String diffDay=null;
+	    	        String diffHr=null;
+	    	        if(diffInDays1 != 0){
+	    	        if(diffInDays1<10){
+	    	        	
+	    	        	diffDay=""+diffInDays1;
+	    	        }
+	    	        else{
+	    	        	diffDay=""+diffInDays1;
+	    	        }
+	    	        if(diffHours <10){
+	    	        	diffHr="0"+diffHours1;
+	    	        }
+	    	        else{
+	    	        	diffHr=""+diffHours1;
+	    	        }
+	    	        vm.diffDays=diffDay+" + days";
+	    	        }
+	    	        else if(diffInDays1 == 0 && diffHours1 == 0){
+	    	        	vm.diffDays=diffMinutes1+" minutes ago";;
+	        	     
+	        	        }
+	    	        else{
+	    	        	
+	    	        	 if(diffHours1 <10){
+	    	    	        	diffHr="0"+diffHours1;
+	    	    	        }
+	    	    	        else{
+	    	    	        	diffHr=""+diffHours1;
+	    	    	        }
+	    	        	 vm.diffDays=diffHr+" hours "+diffMinutes1+" minutes ago";
+	    	        }
+
+    		
+    		
     		sch.update();
     	}
     	
@@ -14605,7 +14725,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        Date dt2=null;
     	        try {
     	        	dt1 =currD;
-    	            dt2 = sc.scheduleTime;
+    	            //dt2 = sc.scheduleTime;
+    	        	 String dat1=df1.format(sc.scheduleTime);
+    	            dt2=df2.parse(dat1);
     	        } catch (Exception e) {
     	            e.printStackTrace();
     	        }
@@ -14645,7 +14767,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        else{
     	        	
     	        	 if(diffHours <10){
-    	    	        	diffHr="0"+diffHours;
+    	    	        	diffHr=""+diffHours;
     	    	        }
     	    	        else{
     	    	        	diffHr=""+diffHours;
@@ -14675,7 +14797,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        Date dt2=null;
     	        try {
     	        	dt1 =currD;
-    	            dt2 = sc.tradeTime;
+    	        	String dat1=df1.format(sc.tradeTime);
+    	            dt2=df2.parse(dat1);
+    	            //dt2 = sc.tradeTime;
     	        } catch (Exception e) {
     	            e.printStackTrace();
     	        }
@@ -14698,7 +14822,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffDay=""+diffInDays;
     	        }
     	        if(diffHours <10){
-    	        	diffHr="0"+diffHours;
+    	        	diffHr=""+diffHours;
     	        }
     	        else{
     	        	diffHr=""+diffHours;
@@ -14749,7 +14873,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        Date dt2=null;
     	        try {
     	        	dt1 =currD;
-    	            dt2 = sc.requestTime;
+    	           // dt2 = sc.requestTime;
+    	            String dat1=df1.format(sc.requestTime);
+    	            dt2=df2.parse(dat1);
     	        } catch (Exception e) {
     	            e.printStackTrace();
     	        }
@@ -14772,7 +14898,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffDay=""+diffInDays;
     	        }
     	        if(diffHours <10){
-    	        	diffHr="0"+diffHours;
+    	        	diffHr=""+diffHours;
     	        }
     	        else{
     	        	diffHr=""+diffHours;
@@ -14827,7 +14953,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        Date dt2=null;
     	        try {
     	        	dt1 =currD;
-    	            dt2 = sc.scheduleTime;
+    	        	String dat1=df1.format(sc.scheduleTime);
+    	            dt2=df2.parse(dat1);
+    	           // dt2 = sc.scheduleTime;
+    	            
     	        } catch (Exception e) {
     	            e.printStackTrace();
     	        }
@@ -14850,7 +14979,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffDay=""+diffInDays;
     	        }
     	        if(diffHours <10){
-    	        	diffHr="0"+diffHours;
+    	        	diffHr=""+diffHours;
     	        }
     	        else{
     	        	diffHr=""+diffHours;
@@ -14866,7 +14995,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        else{
     	        	
     	        	 if(diffHours <10){
-    	    	        	diffHr="0"+diffHours;
+    	    	        	diffHr=""+diffHours;
     	    	        }
     	    	        else{
     	    	        	diffHr=""+diffHours;
@@ -14896,7 +15025,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        Date dt2=null;
     	        try {
     	        	dt1 =currD;
-    	            dt2 = sc.tradeTime;
+    	            //dt2 = sc.tradeTime;
+    	            String dat1=df1.format(sc.tradeTime);
+    	            dt2=df2.parse(dat1);
     	        } catch (Exception e) {
     	            e.printStackTrace();
     	        }
@@ -14919,7 +15050,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffDay=""+diffInDays;
     	        }
     	        if(diffHours <10){
-    	        	diffHr="0"+diffHours;
+    	        	diffHr=""+diffHours;
     	        }
     	        else{
     	        	diffHr=""+diffHours;
@@ -14935,7 +15066,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        else{
     	        	
     	        	 if(diffHours <10){
-    	    	        	diffHr="0"+diffHours;
+    	    	        	diffHr=""+diffHours;
     	    	        }
     	    	        else{
     	    	        	diffHr=""+diffHours;
@@ -14968,7 +15099,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        Date dt2=null;
     	        try {
     	        	dt1 =currD;
-    	            dt2 = sc.requestTime;
+    	           // dt2 = sc.requestTime;
+    	        	 String dat1=df1.format(sc.requestTime);
+     	            dt2=df2.parse(dat1);
     	        } catch (Exception e) {
     	            e.printStackTrace();
     	        }
@@ -14991,7 +15124,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        	diffDay=""+diffInDays;
     	        }
     	        if(diffHours <10){
-    	        	diffHr="0"+diffHours;
+    	        	diffHr=""+diffHours;
     	        }
     	        else{
     	        	diffHr=""+diffHours;
@@ -15718,6 +15851,46 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
            		
            		acti.typeOfLead = "Schedule Test Drive";
            		findSchedulParentChildAndBro(actionVM, scTest, dfs, acti);
+           		
+           		Date curDate = null;
+            	Date curDate1 = null;
+            	Date curDateNew = null;
+            	List<RequestInfoVM> rList = new ArrayList<>();
+            	Date date=new Date();
+        		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        		DateFormat newdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        		DateFormat format1 = new SimpleDateFormat("HH:mm:a");
+        		 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        			Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        			df2.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			df11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			String date1=df2.format(date);
+        			String dateNew=df11.format(date);
+        			String date11="00:00:AM";
+        			
+        			try {
+        				curDate1=newdf1.parse(dateNew);
+        				curDate = formatter.parse(date1);
+        				curDateNew=format1.parse(date11);
+        			} catch (ParseException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        			
+        			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+        			  long diff = curDate1.getTime() - curDateNew.getTime();
+          	        long diffSeconds = diff / 1000 % 60;
+          	        long diffMinutes = diff / (60 * 1000) % 60;
+          	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+          	        	if(diffHours != 0){
+          	        		acti.diffDays=diffHours+" hours"+diffMinutes+" minutes ago";
+        					}
+        					else{
+        						acti.diffDays=diffMinutes+" minutes ago";
+        					}
+           		
+           		
+           		
               		 actionVM.add(acti);
               	 }
    			} catch (Exception e) {
@@ -15824,6 +15997,47 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
            		
            		acti.typeOfLead = "Request More Info";
            		findRequestParentChildAndBro(actionVM, rInfo, dfs, acti);
+           		
+           		
+           		
+           		Date curDate = null;
+            	Date curDate1 = null;
+            	Date curDateNew = null;
+            	List<RequestInfoVM> rList = new ArrayList<>();
+            	Date date=new Date();
+        		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        		DateFormat newdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        		DateFormat format1 = new SimpleDateFormat("HH:mm:a");
+        		 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        			Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        			df2.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			df11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			String date1=df2.format(date);
+        			String dateNew=df11.format(date);
+        			String date11="00:00:AM";
+        			
+        			try {
+        				curDate1=newdf1.parse(dateNew);
+        				curDate = formatter.parse(date1);
+        				curDateNew=format1.parse(date11);
+        			} catch (ParseException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        			
+        			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+        			  long diff = curDate1.getTime() - curDateNew.getTime();
+          	        long diffSeconds = diff / 1000 % 60;
+          	        long diffMinutes = diff / (60 * 1000) % 60;
+          	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+          	        	if(diffHours != 0){
+          	        		acti.diffDays=diffHours+" hours"+diffMinutes+" minutes ago";
+        					}
+        					else{
+        						acti.diffDays=diffMinutes+" minutes ago";
+        					}
+           		
+           		
           		 actionVM.add(acti);
           		 }
    			} catch (Exception e) {
@@ -15927,6 +16141,46 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
            		
            		acti.typeOfLead = "Trade-In Appraisal";
            		findTreadParentChildAndBro(actionVM, tInfo, dfs, acti);
+           		
+           		
+           		Date curDate = null;
+            	Date curDate1 = null;
+            	Date curDateNew = null;
+            	List<RequestInfoVM> rList = new ArrayList<>();
+            	Date date=new Date();
+        		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        		DateFormat newdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        		DateFormat format1 = new SimpleDateFormat("HH:mm:a");
+        		 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+        			Location location1 = Location.findById(Long.valueOf(session("USER_LOCATION")));
+        			df2.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			df11.setTimeZone(TimeZone.getTimeZone(location1.time_zone));
+        			String date1=df2.format(date);
+        			String dateNew=df11.format(date);
+        			String date11="00:00:AM";
+        			
+        			try {
+        				curDate1=newdf1.parse(dateNew);
+        				curDate = formatter.parse(date1);
+        				curDateNew=format1.parse(date11);
+        			} catch (ParseException e1) {
+        				// TODO Auto-generated catch block
+        				e1.printStackTrace();
+        			}
+        			
+        			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+        			  long diff = curDate1.getTime() - curDateNew.getTime();
+          	        long diffSeconds = diff / 1000 % 60;
+          	        long diffMinutes = diff / (60 * 1000) % 60;
+          	        	long diffHours = diff / (60 * 60 * 1000)% 24;
+          	        	if(diffHours != 0){
+          	        		acti.diffDays=diffHours+" hours"+diffMinutes+" minutes ago";
+        					}
+        					else{
+        						acti.diffDays=diffMinutes+" minutes ago";
+        					}
+           		
+           		
           		 actionVM.add(acti);
           		 }
    			} catch (Exception e) {
@@ -40061,6 +40315,8 @@ if(vehicles.equals("All")){
 					AuthUser assi = AuthUser.findById(testloop.assignedTo.id);
 					testloop.setName(vm.name);
 					testloop.setReason(vm.reason);
+					Date meetingActionTime=new Date();
+					testloop.setMeetingActionTime(meetingActionTime);
 					if(!testloop.getConfirmDate().equals(df.parse(confDate)) || ! testloop.getConfirmTime().equals(time.parse(confTime))|| ! testloop.getConfirmEndTime().equals(time.parse(confEndTime))){
 						list.add(assi);
 						testloop.setDeclineUpdate(1);
@@ -48306,7 +48562,8 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
         						sche.setDeclineUser("Host");
         						sche.update();*/
         						uEmail = userEmail.communicationemail;
-        						
+        						Date date=new Date();
+        						sche.setMeetingActionTime(date);
         						AuthUser userNames = AuthUser.findById(sche.assignedTo.id);
         						
         						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+sche.name+" \n"+df.format(sche.confirmDate)+"  "+parseTime.format(sche.confirmTime)+"\n"+sche.reason+".";
@@ -48330,7 +48587,8 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
             					oneGrouptest.setReason(reason);
             					oneGrouptest.setDeclineUser("this person");
             					oneGrouptest.update();*/
-            					
+        						Date date=new Date();
+        						oneGrouptest.setMeetingActionTime(date);
             					AuthUser userNames = AuthUser.findById(oneGrouptest.assignedTo.id);
         						comments= userNames.firstName+" "+userNames.lastName+" can't go to the "+oneGrouptest.name+" \n"+df.format(oneGrouptest.confirmDate)+"  "+parseTime.format(oneGrouptest.confirmTime)+"\n"+oneGrouptest.reason+".";
         						sendEmail(userEmail.communicationemail,subject,comments);
@@ -48341,7 +48599,8 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
         				}
         				
         			}else{
-        				
+        				Date date=new Date();
+        				test.setMeetingActionTime(date);
         				test.setConfirmDate(null);
         				test.setConfirmTime(null);
         				test.setLeadStatus(null);
