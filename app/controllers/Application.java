@@ -28991,7 +28991,8 @@ public static Result getVisitorDataForLanding(Long id,String startDate,String en
 			
 			if(List.size()==0){
 				return ok(Json.toJson(List.get(0)));
-			}else{
+			}
+			else{
 				return ok(Json.toJson(List.get(0)));
 			}
 			
@@ -29572,18 +29573,9 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	
 			SqlRow maxDate = ClickyVisitorsList.getMaxDate();
     	System.out.println(maxDate.get("maxdate"));
-		
-    	int b = 13;
     	    Date curr = new Date();
     	   //String sDate = df.format(curr);
-    	    
-
-			for(int k=27;k>=b;k--)
-			{
-				
-            String sDate="2016-06-"+k;
-            
-            
+            String sDate="2016-06-26";
            Date startDateForList=null;
            try {
         	 startDateForList=df.parse(sDate);
@@ -29595,9 +29587,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;
-        	
-        	
-/*            	params = "&type=visitors-list&date="+sDate+"&limit=all";
+            	params = "&type=visitors-list&date="+sDate+"&limit=all";
         	JSONArray jsonArray;
 			try {
 				jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
@@ -30509,13 +30499,13 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    			}
 	    			if(url != null){
 	    			String titleArr[]=url.split("&time=");
-                    if(titleArr[0].contains("-")) { 
+                    /*if(titleArr[0].contains("-")) { 
                     	titleArr[0]=titleArr[0].replace("-", ",");
 	    			paramsPages = "&type=segmentation&actions="+titleArr[0]+"&segments=summary&date="+sDate+"&limit=all";
                     }
                     else{
                     	paramsPages = "&type=segmentation&actions="+titleArr[0]+"&segments=summary&date="+sDate+"&limit=all";
-                    }
+                    }*/
 	    			paramsPages = "&type=segmentation&time="+titleArr[1]+"&segments=summary&date="+sDate+"&limit=all";
 	    			JSONArray jsonArrayPage1;
 	    			
@@ -31986,7 +31976,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
 		
 			List<ClickyActionList> cActionLists = null;
 			try{
@@ -32032,7 +32022,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			}
 			}
 			
-			}	
+			
     	
     	return ok();
     }
