@@ -29843,12 +29843,12 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			SqlRow maxDate = ClickyVisitorsList.getMaxDate();
     	System.out.println(maxDate.get("maxdate"));
     	    Date curr = new Date();
-    	    String sDate = df.format(curr);
-    	   /* int b=13;
+    	    //String sDate = df.format(curr);
+    	    int b=13;
     	    
     	    for(int k=28;k>=b;b++)
-    	    {*/
-    	    	//String sDate="2016-06-"+b;
+    	    {
+    	    	String sDate="2016-06-"+b;
     	    
            Date startDateForList=null;
            try {
@@ -29861,7 +29861,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;
-            	params = "&type=visitors-list&date="+sDate+"&limit=all";
+/*            	params = "&type=visitors-list&date="+sDate+"&limit=all";
         	JSONArray jsonArray;
 			try {
 				jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
@@ -30557,7 +30557,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+*/
 
 			
 			
@@ -30599,7 +30599,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 
 			
 
-			paramsPages = "&type=traffic-sources&date="+sDate+"&limit=all";
+		/*	paramsPages = "&type=traffic-sources&date="+sDate+"&limit=all";
 			JSONArray jsonArrayClickyTraffic;
 			try {
 				List <ClickyVisitorTrafficSource> visitor=ClickyVisitorTrafficSource.getAllData(startDateForList);
@@ -32295,8 +32295,8 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 				e.printStackTrace();
 			}
 			}
-			
-			
+*/			
+    }
     	
     	return ok();
     }

@@ -31,7 +31,7 @@ angular.module('newApp')
 	                    ranges: {
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
 	                        'Last 14 Days':[moment().subtract('days', 14), moment()],
 	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
@@ -854,8 +854,8 @@ angular.module('newApp')
 				$scope.gridOptions.data = data;
 				console.log(data);
 				$scope.visitiorList = data;
-				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'title');
-				//$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				angular.forEach($scope.gridOptions.data, function(value, key) {
 					
 					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -916,7 +916,7 @@ angular.module('newApp')
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
-				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			});
 			 
