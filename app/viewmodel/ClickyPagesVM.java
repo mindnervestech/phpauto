@@ -65,4 +65,5 @@ public class ClickyPagesVM {
 	public String referrerDomain;
 	public String referrerUrl;
 	public Date curr_Date;
+	public double percentage;
 }

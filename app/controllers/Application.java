@@ -25371,6 +25371,14 @@ private static void cancelTestDriveMail(Map map) {
 	        	   		}
 	      	   			
 	        	   	}
+	        	   	double valueper = 0.0;
+	        	   	for(ClickyVisitorTrafficSource lis2:list1)
+	        	   	{
+	        	   		 valueper = valueper + Double.parseDouble(lis2.value);
+	        	   		
+	        	   	}
+	        	   	vm.percentage = (Double.parseDouble(vm.value)/valueper)*100;
+	        	   	
 	        	   	if(count1 != 0){
 	        	   vm.averagePercent=((count1-count)/count1)*100;
 	        	   	}
@@ -25384,6 +25392,7 @@ private static void cancelTestDriveMail(Map map) {
          } catch (Exception e) {
              e.printStackTrace();
          }
+    	
 	    return ok(Json.toJson(clickyList));
 	    
     }
@@ -25456,10 +25465,69 @@ private static void cancelTestDriveMail(Map map) {
     	
 	    return ok(Json.toJson(clickyList));
     }
+    public static Result getActiveVisitors(String startDate,String endDate){
+    	String params = null;
+    	params = "&type=visitors-most-active&date="+startDate+","+endDate+"&limit=all";
+	    //return ok(Json.parse(callClickAPI(params)));
+    	
+    	Date d1=null;
+    	Date d2=null;
+    	List<ClickyPagesVM> clickyList = new ArrayList<>();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    	 try {
+             d1 = format.parse(startDate);
+             d2 = format.parse(endDate);
+
+             long diff = d2.getTime() - d1.getTime();
+
+             long diffDays = diff / (24 * 60 * 60 * 1000);
+             Integer days=(int)diffDays;
+          Date beforeStart = DateUtils.addDays(d1, -days); 
+             String newDate=format.format(beforeStart);
+             System.out.print(newDate + " newDate ");
+             
+     	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+     	   	
+     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+     	 	
+     	   	ClickyPagesVM vm = new ClickyPagesVM();
+			vm.value = obj.get("value").textValue();
+			//vm.geoLocation = obj.get("geoLocation").textValue();
+			//vm.ipAddress = obj.get("ipAddress").textValue();
+			vm.value_percent = obj.get("value_percent").textValue();
+			vm.title = obj.get("title").textValue();
+			
+     	  
+			List<ClickyVisitorActiveVisitor> list=ClickyVisitorActiveVisitor.getAll(d1,d2);
+	 	   	for(ClickyVisitorActiveVisitor lis:list) {
+	 	   	//ClickyPagesVM vm = new ClickyPagesVM();
+	 	   
+		   	List<ClickyVisitorsList> list1=ClickyVisitorsList.findByTitle(vm.title);
+	 	   	if(list1.size() != 0){
+	 	   		System.out.println("in if condition");
+	 	   	vm.geoLocation=list1.get(0).geolocation;
+	 	   	vm.organization=list1.get(0).organization;
+	 	    
+	 	   	}
+	 	   
+	 	   	
+	 	   	}
+			
+     	   	
+     	   clickyList.add(vm);
+     	   	
+     	   	}
+    	 } catch (Exception e) {
+             e.printStackTrace();
+         }
+    	
+	    return ok(Json.toJson(clickyList));
 
     
+    }
     
-    public static Result getActiveVisitors(String startDate,String endDate){
+    
+    /*public static Result getActiveVisitors(String startDate,String endDate){
     	String params = null;
     	Date d1=null;
     	Date d2=null;
@@ -25487,21 +25555,18 @@ private static void cancelTestDriveMail(Map map) {
  	   	vm.organization=list1.get(0).organization;
  	    clickyList.add(vm);
  	   	}
+ 	   double valueper = 0.0;
+	   	for(ClickyVisitorActiveVisitor lis1:list)
+	   	{
+	   		 valueper = valueper + Double.parseDouble(lis1.value);
+	   	}
+	   	vm.percentage = (Double.parseDouble(vm.value)/valueper)*100;
  	   	
  	   	}
- 	// String a= ( (vm.value_percent2 - vm.value_percent)/(vm.value_percent))*100;
- 	     return  ok(Json.toJson(clickyList));
- 	   	
- 	   	}
+ 	   	return  ok(Json.toJson(clickyList));
+ 	}*/
     	
 	    
-    
-    
-   
-    
-   
-    
-    
     public static Result getEngagementActionChart(String startDate,String endDate,String title){
     	String params = null;
     	System.out.println(startDate);

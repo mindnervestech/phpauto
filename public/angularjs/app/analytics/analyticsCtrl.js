@@ -920,7 +920,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div > <a ng-click="grid.appScope.getTrafficInfo(row.entity.title)">{{row.entity.title}}</a> </div>',
 									             },
 									             {name:'value', displayName:'Visitors', width:'10%',
-									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
+									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.percentage.toFixed(2)}}%)</span></div>',
 									             },
 									             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
 									             {name: 'averageTime', displayName: 'Average Time', width:'15%'},
@@ -945,18 +945,18 @@ angular.module('newApp')
 					console.log(data);
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
-				$scope.visitiorList = data;
-				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
-				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
+				$scope.clickyList = data;
+				//$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				//$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-                                              /* {name: 'geoLocation', displayName: 'Location', width:'20%'},*/
-									             {name: 'title', displayName: 'Ip Address', width:'50%',
+                                               {name: 'geoLocation', displayName: 'Location', width:'20%'},
+									             {name: 'title', displayName: 'Ip Address', width:'30%',
                                             	   cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.title)">{{row.entity.title}}</label> </span></br><span>{{row.entity.organization}} </span></div>',
 									            	 },
 									             {name:'value', displayName:'Visits', width:'20%',
-									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
+									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'stats_url', displayName:'', width:'30%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
