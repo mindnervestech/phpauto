@@ -158,6 +158,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25718,8 +25719,9 @@ private static void cancelTestDriveMail(Map map) {
              long diffMinutes = diff / (60 * 1000) % 60;
              long diffHours = diff / (60 * 60 * 1000) % 24;
              long diffDays = diff / (24 * 60 * 60 * 1000);
-             Integer days=(int)diffDays;
+             Integer days=(int)diffDays+1;
           Date beforeStart = DateUtils.addDays(d1, -days); 
+          Date newDat=DateUtils.addDays(d1, -1);
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
              Map<String, String> mapOffline = new HashMap<String, String>();
@@ -25770,7 +25772,7 @@ private static void cancelTestDriveMail(Map map) {
 	    	   		}
 	    	   		
 	      	   	}	
-	      	  List <ClickyVisitorEngagementAction> list2=ClickyVisitorEngagementAction.getAll(beforeStart, d1) ;
+	      	  List <ClickyVisitorEngagementAction> list2=ClickyVisitorEngagementAction.getAll(beforeStart, newDat) ;
 	        	   	for(ClickyVisitorEngagementAction lis2:list2) {
 	        	    	String url = lis2.title;
 	        	   		if(url.equals(vm.title)){
@@ -25780,13 +25782,15 @@ private static void cancelTestDriveMail(Map map) {
 	        	   		}
 	      	   			
 	        	   	}
-	        	   	if(count1 != 0){
-	        	   vm.averagePercent=((count1-count)/count1)*100;
+	        	   	
+	        	   	
+	        	   	if(count != 0){
+	        	   vm.averagePercent=(((count1-count)*100)/count);
 	        	   	}
 	        	   	else{
 	        	   		vm.averagePercent=0;
 	        	   	}
-					
+					vm.secondCount=count;
 					
 					
 					
@@ -28908,8 +28912,9 @@ private static void cancelTestDriveMail(Map map) {
              long diffMinutes = diff / (60 * 1000) % 60;
              long diffHours = diff / (60 * 60 * 1000) % 24;
              long diffDays = diff / (24 * 60 * 60 * 1000);
-             Integer days=(int)diffDays;
+             Integer days=(int)diffDays+1;
           Date beforeStart = DateUtils.addDays(d1, -days); 
+          Date newDat=DateUtils.addDays(d1, -1);
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
              List <ClickyVisitorEngagementTime> list=ClickyVisitorEngagementTime.getAll(d1, d2) ;
@@ -28932,10 +28937,10 @@ private static void cancelTestDriveMail(Map map) {
            				perCount=Double.parseDouble(valuePercent);
            		     				String objectMake = mapOffline.get(title);
            		        			if (objectMake == null) {
-           		        				mapOffline.put(title, valueCount+"&"+perCount);
+           		        				mapOffline.put(title, valueCount+"/"+perCount);
            		        			}else{
-           		        				 String arr[]=mapOffline.get(title).split("&");
-           		        				mapOffline.put(title, valueCount+Integer.parseInt(arr[0])+"&"+(perCount+Double.parseDouble(arr[1])));
+           		        				 String arr[]=mapOffline.get(title).split("/");
+           		        				mapOffline.put(title, valueCount+Integer.parseInt(arr[0])+"/"+(perCount+Double.parseDouble(arr[1])));
            		        			}
         		
         	           }
@@ -28944,7 +28949,7 @@ private static void cancelTestDriveMail(Map map) {
      		     	for (Entry<String , String> entryValue : mapOffline.entrySet()) {
      		     		ClickyPagesVM vm = new ClickyPagesVM();
      					vm.title = entryValue.getKey();
-     					String arr[]=entryValue.getValue().split("&");
+     					String arr[]=entryValue.getValue().split("/");
      					vm.value = arr[0];
      					vm.valuePercent=arr[1];
      					
@@ -28960,7 +28965,7 @@ private static void cancelTestDriveMail(Map map) {
      	    	   		}
      	    	   		
      	      	   	}	
-     	      	  List <ClickyVisitorEngagementTime> list2=ClickyVisitorEngagementTime.getAll(beforeStart, d1) ;
+     	      	  List <ClickyVisitorEngagementTime> list2=ClickyVisitorEngagementTime.getAll(beforeStart, newDat) ;
      	        	   	for(ClickyVisitorEngagementTime lis2:list2) {
      	        	    	String url = lis2.title;
      	        	   		if(url.equals(vm.title)){
@@ -28970,8 +28975,8 @@ private static void cancelTestDriveMail(Map map) {
      	        	   		}
      	      	   			
      	        	   	}
-     	        	   	if(count1 != 0){
-     	        	   vm.averagePercent=((count1-count)/count1)*100;
+     	        	   	if(count != 0){
+     	        	   vm.averagePercent=((count1-count)/count)*100;
      	        	   	}
      	        	   	else{
      	        	   		vm.averagePercent=0;

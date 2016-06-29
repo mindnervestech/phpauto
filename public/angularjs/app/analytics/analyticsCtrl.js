@@ -32,14 +32,14 @@ angular.module('newApp')
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
 	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
-	                        'Last 14 Days':[moment().subtract('days', 14), moment()],
+	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
 	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
 	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
 	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
 	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
 	                    },
-	                    startDate: moment().subtract('days', 7),
+	                    startDate: moment().subtract('days', 6),
 	                    endDate: moment()
 	                },
 	                function(start, end) {
@@ -60,12 +60,12 @@ angular.module('newApp')
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD'));
-	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD');
+	                console.log(moment().subtract('days', 6).format('YYYY-MM-DD'));
+	                $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
-	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
-	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+	            $('.reportrange span').html(moment().subtract('days', 6).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 6).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
 
 	    }, 2000);
 	
@@ -758,7 +758,6 @@ angular.module('newApp')
 					angular.forEach($scope.gridOptions.data, function(value, key) {
 						var number = value.title.split('action');
 						
-						console.log("length is " +number[0].length);
 						if(number[0].length <= 2)
 							{
 								value.sortingValue = parseInt(number[0]);
@@ -790,7 +789,7 @@ angular.module('newApp')
 								            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 								             },
 								             {name:'Per', displayName:'', width:'10%',		
-								            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEngagementActionChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
+								            	 cellTemplate:'<div  style="margin-left:47px;"><span title="{{row.entity.secondCount}}" ng-click="grid.appScope.showEngagementActionChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
 								            
 								             }
 										             
@@ -801,22 +800,18 @@ angular.module('newApp')
 			
 			else if($scope.typeOfInfo == 'Engagement_time'){
 				$scope.tabClickFlag=4;
-				console.log($scope.startDateFilter);
-				console.log($scope.endDateFilter);
 				$http.get('/getEngagementTime/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 				.success(function(data) {
-					
-				console.log(data);	
 				$scope.gridOptions.data = data;
 				$scope.visitiorList = data;
-				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'title');
-				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
-				/*if ( inputString.indexOf(findme) > -1 ) {
-				    alert( "found it" );
-				}*/
 				angular.forEach($scope.gridOptions.data, function(value, key) {
-					if(value.title.indexOf("&amp;lt;") > -1){
+					if(value.title.indexOf("&amp;lt;1m") > -1){
+						console.log(value.title);
 						value.title = "<1m";
+					}
+					if(value.title.indexOf("&amp;lt;10m") > -1){
+						console.log(value.title);
+						value.title = "<10m";
 					}
 					if(value.title.indexOf("&amp;gt;") > -1){
 						var array = value.title.split('gt;');
@@ -824,6 +819,39 @@ angular.module('newApp')
 					}
 					
 				});
+				angular.forEach($scope.gridOptions.data, function(value, key) {
+					var number = value.title.split('m');
+					if(number[0].length <= 2)
+						{
+							value.sortingValue = parseInt(number[0]);
+						}
+					else{
+							var number1 = number[0].split('-');
+							if(parseInt(number1) == 1){
+								value.sortingValue = parseInt("10");
+							}else{
+								value.sortingValue = parseInt(number1);
+							}
+						}
+					
+					if(value.title == '<1m'){
+						console.log("inn<1m");
+						value.sortingValue = parseInt("0");
+					}
+					else if(value.title == '<10m'){
+						console.log("inn<10m");
+						value.sortingValue = parseInt("10");
+					}
+					else if(value.title == '>60m'){
+						console.log("inn<60m");
+						value.sortingValue = parseInt("70");
+					}
+				});
+				
+				
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'sortingValue');
+				
+				console.log($scope.gridOptions.data);
 				
 				
 			});
@@ -921,8 +949,8 @@ angular.module('newApp')
 			});
 			 
 				$scope.gridOptions.columnDefs = [
-                                               {name: 'geoLocation', displayName: 'Location', width:'20%'},
-									             {name: 'title', displayName: 'Ip Address', width:'30%',
+                                              /* {name: 'geoLocation', displayName: 'Location', width:'20%'},*/
+									             {name: 'title', displayName: 'Ip Address', width:'50%',
                                             	   cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.title)">{{row.entity.title}}</label> </span></br><span>{{row.entity.organization}} </span></div>',
 									            	 },
 									             {name:'value', displayName:'Visits', width:'20%',

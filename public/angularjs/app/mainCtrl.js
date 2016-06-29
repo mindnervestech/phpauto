@@ -13,7 +13,6 @@
             
             var array = [];
             $scope.userRole=userRole;
-            console.log("**userRole"+userRole);
             $http.get('/getUserInfo').success(function(data,status, headers, config){
             	
             	$scope.name = data.firstName + " " + data.lastName;
@@ -449,9 +448,6 @@
             $scope.leadCount = function(){
             	$scope.leadData={};
                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
-                
-                	console.log("*****");
-                	console.log(data);
                 	$scope.leadData=data;
                 	$scope.leadData = $filter('orderBy')($scope.leadData,'timeDiff');
                 	$scope.dataLength=$scope.leadData.length;

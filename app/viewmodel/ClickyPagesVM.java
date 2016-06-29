@@ -26,6 +26,7 @@ public class ClickyPagesVM {
 	public double action;
 	public String averageActions;
 	public double averageAct;
+	public double secondCount;
 	public String time;
 	public String newTime;
 	public String newDate;
