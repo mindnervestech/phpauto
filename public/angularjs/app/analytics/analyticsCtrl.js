@@ -747,7 +747,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div  ng-if="row.entity.referrerDomain != null"><span><a ng-click="grid.appScope.referrerTypeDataForDomain(row.entity.referrerDomain)"  >{{row.entity.referrerDomain}}</a>  <a   href="{{row.entity.referrerUrl}}" target="_blank" ><img src="//con.tent.network/media/arrow.gif" > </a> </span></div>',	 
 									             }
 									         ]
-			}else if($scope.typeOfInfo == 'Engagement_action'){
+			}else if($scope.typeOfInfo == 'Engagement action'){
 				$scope.tabClickFlag=3;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
@@ -802,7 +802,7 @@ angular.module('newApp')
 			
 			}
 			
-			else if($scope.typeOfInfo == 'Engagement_time'){
+			else if($scope.typeOfInfo == 'Engagement time'){
 				$scope.tabClickFlag=4;
 				$http.get('/getEngagementTime/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
 				.success(function(data) {
@@ -879,7 +879,7 @@ angular.module('newApp')
 									            
 									         ]
 				
-			}else if($scope.typeOfInfo == 'Traffic_scoures'){
+			}else if($scope.typeOfInfo == 'Traffic soures'){
 				$scope.tabClickFlag=6;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
@@ -940,7 +940,7 @@ angular.module('newApp')
 									            
 									         ]
 				
-			}else if($scope.typeOfInfo == 'Active_visitors'){
+			}else if($scope.typeOfInfo == 'Active visitors'){
 				$scope.tabClickFlag=5;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
