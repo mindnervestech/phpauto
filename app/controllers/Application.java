@@ -29843,8 +29843,13 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			SqlRow maxDate = ClickyVisitorsList.getMaxDate();
     	System.out.println(maxDate.get("maxdate"));
     	    Date curr = new Date();
-    	    String sDate = df.format(curr);
-           // String sDate="2016-06-27";
+    	    //String sDate = df.format(curr);
+    	    int b=13;
+    	    
+    	    for(int k=28;k>=b;b++)
+    	    {
+    	    	String sDate="2016-06-"+b;
+    	    
            Date startDateForList=null;
            try {
         	 startDateForList=df.parse(sDate);
@@ -29856,7 +29861,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;
-            	params = "&type=visitors-list&date="+sDate+"&limit=all";
+/*            	params = "&type=visitors-list&date="+sDate+"&limit=all";
         	JSONArray jsonArray;
 			try {
 				jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
@@ -30590,7 +30595,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 				 catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 
 			
 
@@ -30737,12 +30742,12 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 				e.printStackTrace();
 			}
 
-			
+    	    }
 			
 			
 			
 					
-		   paramsPages = "&type=engagement-times&date="+sDate+"&limit=all";
+		   /*paramsPages = "&type=engagement-times&date="+sDate+"&limit=all";
 			JSONArray jsonArrayEngagementTime;
 			try {
 				List <ClickyVisitorEngagementTime> visitor=ClickyVisitorEngagementTime.getAllData(startDateForList);
@@ -30768,13 +30773,13 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    			}
 	    			if(url != null){
 	    			String titleArr[]=url.split("&time=");
-                    /*if(titleArr[0].contains("-")) { 
+                    if(titleArr[0].contains("-")) { 
                     	titleArr[0]=titleArr[0].replace("-", ",");
 	    			paramsPages = "&type=segmentation&actions="+titleArr[0]+"&segments=summary&date="+sDate+"&limit=all";
                     }
                     else{
                     	paramsPages = "&type=segmentation&actions="+titleArr[0]+"&segments=summary&date="+sDate+"&limit=all";
-                    }*/
+                    }
 	    			paramsPages = "&type=segmentation&time="+titleArr[1]+"&segments=summary&date="+sDate+"&limit=all";
 	    			JSONArray jsonArrayPage1;
 	    			
@@ -32291,7 +32296,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			}
 			}
 			
-			
+*/			
     	
     	return ok();
     }
