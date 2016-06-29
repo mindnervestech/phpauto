@@ -8,6 +8,7 @@ public class ClickyPagesVM {
 	public String value;
 	public String urlForGraph;
 	public String newPrecentage;
+	public double newValuePrecentage;
 	public String value_percent;
 	public String valuePercent;
 	public String title;

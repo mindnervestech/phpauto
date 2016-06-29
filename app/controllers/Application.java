@@ -25772,6 +25772,19 @@ private static void cancelTestDriveMail(Map map) {
 	    	   		}
 	    	   		
 	      	   	}	
+	      	   	
+	      	  double newValuePer=0.0;
+  	      	 for(ClickyVisitorEngagementAction lis2:list1) {
+	    	    	String title = lis2.title;
+	    	   		if(!title.equals("1-10 actions")){
+	    	   			vm.value_percent2 = lis2.value;
+	    	   		newValuePer=newValuePer+Double.parseDouble(vm.value_percent2);
+	    	   		
+	    	   		}
+	    	   		
+	      	   	}	
+  	      	 vm.newValuePrecentage=(Double.parseDouble(vm.value)/newValuePer)*100; 	
+	      	   	
 	      	  List <ClickyVisitorEngagementAction> list2=ClickyVisitorEngagementAction.getAll(beforeStart, newDat) ;
 	        	   	for(ClickyVisitorEngagementAction lis2:list2) {
 	        	    	String url = lis2.title;
@@ -28965,6 +28978,17 @@ private static void cancelTestDriveMail(Map map) {
      	    	   		}
      	    	   		
      	      	   	}	
+     	      	   	double newValuePer=0.0;
+     	      	 for(ClickyVisitorEngagementTime lis2:list1) {
+  	    	    	String title = lis2.title;
+  	    	   		if(!title.equals("&amp;lt;10m")){
+  	    	   			vm.value_percent2 = lis2.value;
+  	    	   		newValuePer=newValuePer+Double.parseDouble(vm.value_percent2);
+  	    	   		
+  	    	   		}
+  	    	   		
+  	      	   	}	
+     	      	 vm.newValuePrecentage=(Double.parseDouble(vm.value)/newValuePer)*100; 	
      	      	  List <ClickyVisitorEngagementTime> list2=ClickyVisitorEngagementTime.getAll(beforeStart, newDat) ;
      	        	   	for(ClickyVisitorEngagementTime lis2:list2) {
      	        	    	String url = lis2.title;
