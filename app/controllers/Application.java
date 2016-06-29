@@ -34460,10 +34460,10 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	
     	for(JsonNode obj : pagesNodeList.get(0).get("dates").get(0).get("items")) {
     		try{
-	    		String findLoc[] = obj.get("url").textValue().split("locationId=");
-	    		String locString = findLoc[1].replace("+", " ");
+	    		//String findLoc[] = obj.get("url").textValue().split("locationId=");
+	    		String locString =  obj.get("url").textValue().replace("+", " ");
 	    		//if(locations.name.equals(locString)){
-	    			String sUrl = findLoc[0].replace("?", "");
+	    			String sUrl = obj.get("url").textValue().replace("?", "");
 	    			String arr[] = sUrl.split("/");
 	        		PageVM vm = new PageVM();
 	        		vm.count = obj.get("value").textValue();
