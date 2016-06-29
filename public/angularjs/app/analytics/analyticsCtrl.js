@@ -5,6 +5,9 @@ angular.module('newApp')
 	$scope.trafficSourceTitle = $routeParams.trafficSourceTitle;
 	$scope.engActionTitle = $routeParams.title;
 	$scope.visitorInfos = $routeParams.visitorInfo;
+	$scope.ipAddressInfo = $routeParams.ipAddressInfo;
+	console.log($scope.ipAddressInfo);
+	console.log($routeParams.ipAddressInfo);
 	$scope.infoType = $routeParams.typeOfInfo;
 	$scope.typeOfReferrer = $routeParams.type;
 	$scope.idForDomain = $routeParams.idForDomain;
@@ -190,11 +193,12 @@ angular.module('newApp')
 		});
 			 }
 			 
-			 else if($scope.visitorInfos != undefined){
+			 else if($scope.ipAddressInfo != undefined){
 			
-				console.log($scope.visitorInfos);
-				$http.get('/getIPAddress/'+$scope.visitorInfos)
+				console.log($scope.ipAddressInfo);
+				$http.get('/getIPAddress/'+$scope.ipAddressInfo)
 				.success(function(data){
+					console.log("ip Address");
 					$scope.latitude=data.latitude; 
 					$scope.longitude=data.longitude;
 					initialized();
@@ -920,7 +924,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div > <a ng-click="grid.appScope.getTrafficInfo(row.entity.title)">{{row.entity.title}}</a> </div>',
 									             },
 									             {name:'value', displayName:'Visitors', width:'10%',
-									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.percentage.toFixed(2)}}%)</span></div>',
+									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.percentage}}%)</span></div>',
 									             },
 									             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
 									             {name: 'averageTime', displayName: 'Average Time', width:'15%'},
@@ -953,7 +957,7 @@ angular.module('newApp')
 				$scope.gridOptions.columnDefs = [
                                                {name: 'geoLocation', displayName: 'Location', width:'20%'},
 									             {name: 'title', displayName: 'Ip Address', width:'30%',
-                                            	   cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.title)">{{row.entity.title}}</label> </span></br><span>{{row.entity.organization}} </span></div>',
+                                            	   cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showIpAddressInfo(row.entity.title)">{{row.entity.title}}</label> </span></br><span>{{row.entity.organization}} </span></div>',
 									            	 },
 									             {name:'value', displayName:'Visits', width:'20%',
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
@@ -996,7 +1000,13 @@ angular.module('newApp')
 				var endDate = $("#cnfendDateValue").val();
 					$location.path('/visitorInfo/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 		 }
-		 
+		 $scope.showIpAddressInfo = function(id) {
+			 console.log(id);
+			
+			 var startDate = $("#cnfstartDateValue").val();
+				var endDate = $("#cnfendDateValue").val();
+					$location.path('/ipAddressInfo/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
+		 }
 		 
 		 
 		 

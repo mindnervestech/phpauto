@@ -264,6 +264,10 @@ var MakeApp = angular
           templateUrl: '/dealer/analytics/visitorInfo.html',
           controller: 'VisitorsCtrl'
       })
+       .when('/ipAddressInfo/:ipAddressInfo/:startDate1/:endDate1', {
+          templateUrl: '/dealer/analytics/visitorInfo.html',
+          controller: 'VisitorsCtrl'
+      })
       
       .when('/visitorInfoForMap/:type/:flagForLocation/:startDate2/:endDate2', {
           templateUrl: '/dealer/analytics/referrerTypeData.html',
