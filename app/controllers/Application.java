@@ -512,6 +512,16 @@ public class Application extends Controller {
 	    		}
 	    		
 	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
+			}else if(user.role.equalsIgnoreCase("Photographer")){
+				session("USER_KEY", user.id+"");
+				session("USER_ROLE", user.role+"");
+				HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
+	    		List<Permission> userPermissions = user.getPermission();
+	    		for(Permission per: userPermissions) {
+	    			permission.put(per.name, true);
+	    		}
+	    		
+	    		 return ok(index.render(Json.stringify(Json.toJson(permission)), session("USER_ROLE"),session("USER_KEY"),Json.stringify(Json.toJson(events1)),Json.stringify(Json.toJson(tasksList)),"0",userRegistration));
 			}else if(user.role.equalsIgnoreCase("General Manager")){
 				if(user.getNewUser()== 1){
 
