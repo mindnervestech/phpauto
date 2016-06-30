@@ -30009,7 +30009,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
         		vm.operatingSystem = cLists.get(0).operatingSystem;
         		vm.webBrowser = cLists.get(0).webBrowser;
         		vm.landingPage = cLists.get(0).landingPage;
-        		vm.referrerDomain = cLists.get(0).referrerDomain;
+        		//vm.referrerDomain = cLists.get(0).referrerDomain;
         		vm.referrerUrl = cLists.get(0).referrerUrl;
         		vm.id = cLists.get(0).id;
         		
@@ -30022,6 +30022,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     		vm.actionUrl = cList1.action_url;
     		vm.statsUrl = cList1.stats_url;
     		vm.curr_Date = cList1.currDate;
+    		vm.referrerDomain = cList1.referrer_domain;
     		
     		infoVMList.add(vm);
     	}
@@ -30039,12 +30040,12 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			SqlRow maxDate = ClickyVisitorsList.getMaxDate();
     	System.out.println(maxDate.get("maxdate"));
     	    Date curr = new Date();
-    	    String sDate = df.format(curr);
-    	   /* int b=13;
+    	    //String sDate = df.format(curr);
+    	    int b=13;
     	    
-    	    for(int k=28;k>=b;b++)
-    	    {*/
-    	    	//String sDate="2016-06-28";
+    	    for(int k=30;k>=b;b++)
+    	    {
+    	    	String sDate="2016-06-"+b;
     	    
            Date startDateForList=null;
            try {
@@ -30057,7 +30058,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
         	String params = null;
         	String paramsPages = null;
         	String paramsAction = null;
-            	params = "&type=visitors-list&date="+sDate+"&limit=all";
+            	/*params = "&type=visitors-list&date="+sDate+"&limit=all";
         	JSONArray jsonArray;
 			try {
 				jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
@@ -30943,7 +30944,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			
 			
 					
-		   paramsPages = "&type=engagement-times&date="+sDate+"&limit=all";
+		  /* paramsPages = "&type=engagement-times&date="+sDate+"&limit=all";
 			JSONArray jsonArrayEngagementTime;
 			try {
 				List <ClickyVisitorEngagementTime> visitor=ClickyVisitorEngagementTime.getAllData(startDateForList);
@@ -32446,7 +32447,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			 catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 		
 			List<ClickyActionList> cActionLists = null;
 			try{
@@ -32481,6 +32482,12 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    			}
 		    			cAction.setAction_url(jsonArrayAction.getJSONObject(i).get("action_url").toString());
 		    			cAction.setStats_url(jsonArrayAction.getJSONObject(i).get("stats_url").toString());
+		    			try{
+		    			cAction.setReferrer_domain(jsonArrayAction.getJSONObject(i).get("referrer_domain").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
 		    			cAction.setCurrDate(curr);
 		    			cAction.save();
 					}
@@ -32492,7 +32499,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			}
 			}
 			
-			
+    }
     	
     	return ok();
     }

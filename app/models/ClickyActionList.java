@@ -26,6 +26,7 @@ public class ClickyActionList extends Model {
 	public String action_url;
 	public String stats_url;
 	public Date currDate;
+	public String referrer_domain;
 	
 	
 	public static Finder<Long,ClickyActionList> find = new Finder<>(Long.class,ClickyActionList.class);
@@ -77,6 +78,14 @@ public class ClickyActionList extends Model {
 
 	public void setSession_id(String session_id) {
 		this.session_id = session_id;
+	}
+
+	public String getReferrer_domain() {
+		return referrer_domain;
+	}
+
+	public void setReferrer_domain(String referrer_domain) {
+		this.referrer_domain = referrer_domain;
 	}
 
 	public String getAction_type() {
