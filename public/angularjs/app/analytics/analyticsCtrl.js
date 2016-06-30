@@ -1237,7 +1237,9 @@ angular.module('newApp')
 		 $scope.flagForChart1 = true;
 		 $scope.flagForChart = true;
 		 $scope.showEngagementTimeChart = function(title) {
-			 console.log(">>>>>>>>");
+			 if(title == '<10m'){
+				 title='&amp;lt;10m';
+			 }
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
 				console.log(endDate);
