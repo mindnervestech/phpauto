@@ -25872,7 +25872,7 @@ private static void cancelTestDriveMail(Map map) {
 	        	   	}
 	        	   	
 	        	   	
-	        	   	if(count != 0){
+	        	   	if(count != 0 & !vm.value.equals("0")){
 	        	   vm.averagePercent=(((count1-count)*100)/count);
 	        	   	}
 	        	   	else{
@@ -29074,7 +29074,7 @@ private static void cancelTestDriveMail(Map map) {
      	        	   		}
      	      	   			
      	        	   	}
-     	        	   	if(count != 0){
+     	        		if(count != 0 & !vm.value.equals("0")){
      	        	   vm.averagePercent=((count1-count)/count)*100;
      	        	   	}
      	        	   	else{
