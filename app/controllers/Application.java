@@ -30036,12 +30036,12 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			SqlRow maxDate = ClickyVisitorsList.getMaxDate();
     	System.out.println(maxDate.get("maxdate"));
     	    Date curr = new Date();
-    	    String sDate = df.format(curr);
+    	   // String sDate = df.format(curr);
     	   /* int b=13;
     	    
     	    for(int k=28;k>=b;b++)
     	    {*/
-    	    	//String sDate="2016-06-"+b;
+    	    	String sDate="2016-06-28";
     	    
            Date startDateForList=null;
            try {
