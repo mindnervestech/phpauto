@@ -892,22 +892,22 @@ angular.module('newApp')
 				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				angular.forEach($scope.gridOptions.data, function(value, key) {
 					
-					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
-					value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
-					 var splitTime   = value.totalTime.split(":");
-					 var splitTime1   = value.averageTime.split(":");
+					value.avgtime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.avgtime)), 'HH:mm:ss');
+					value.totTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totTime)), 'HH:mm:ss');
+					 var splitTime   = value.totTime.split(":");
+					 var splitTime1   = value.avgtime.split(":");
 					 if(splitTime[0] == 00){
-						 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+						 value.totTime = splitTime[1]+"m "+splitTime[2]+"s";
 					 }
 					 else{
-						 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 value.totTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
 					 }
 					 
 					 if(splitTime1[0] == 00){
-						 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 value.avgtime = splitTime1[1]+"m "+splitTime1[2]+"s";
 					 }
 					 else{
-						 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 value.avgtime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
 					 }
 					 
 					
@@ -924,11 +924,13 @@ angular.module('newApp')
 									            	 cellTemplate:'<div > <a ng-click="grid.appScope.getTrafficInfo(row.entity.title)">{{row.entity.title}}</a> </div>',
 									             },
 									             {name:'value', displayName:'Visitors', width:'10%',
-									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.percentage}}%)</span></div>',
+									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.percentage.toFixed(2)}}%)</span></div>',
 									             },
-									             {name: 'averageActions', displayName: 'Average Actions', width:'10%'},
-									             {name: 'averageTime', displayName: 'Average Time', width:'15%'},
-									             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
+									             {name: 'avgaction', displayName: 'Average Actions', width:'10%',
+									            	 cellTemplate:'<div><span>{{row.entity.avgaction.toFixed(2)}}</span></div>',
+									             },
+									             {name: 'avgtime', displayName: 'Average Time', width:'15%'},
+									             {name: 'totTime', displayName: 'Total Time', width:'15%'},
 									             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
 									             {name:'stats_url', displayName:'', width:'20%',
 									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',

@@ -25382,19 +25382,41 @@ private static void cancelTestDriveMail(Map map) {
 	      	   			
 	        	   	}
 	        	   	double valueper = 0.0;
+	        	   	
 	        	   	for(ClickyVisitorTrafficSource lis2:list1)
 	        	   	{
 	        	   		 valueper = valueper + Double.parseDouble(lis2.value);
-	        	   		
+	        	   		 
 	        	   	}
 	        	   	vm.percentage = (Double.parseDouble(vm.value)/valueper)*100;
 	        	   	
-	        	   	if(count1 != 0){
+	        	   	double val = 0.0;
+	        	   	double act = 0.0;
+	        	    double tim = 0.0;
+	        	    double ttim = 0.0;
+	        	    double rows = 0;
+	        	   	for(ClickyVisitorTrafficSource lis2:list1)
+	        	   	{
+	        	   		String tit = lis2.title;
+	        	   				if(tit.equals(vm.title)){
+	        	   		 act = act + Double.parseDouble(lis2.action);
+	        	   		 val = val + Double.parseDouble(lis2.value);
+	        	   		 tim = tim + Double.parseDouble(lis2.averageTime);
+	        	   		 ttim = ttim + Double.parseDouble(lis2.totalTime);
+	        	   		 rows++;
+	        	   				}
+	        	   	}
+	        	   	
+	        	   	vm.avgaction = act/val;
+	        	   	vm.avgtime = tim/rows;
+	        	   	vm.totTime = ttim;
+	        	   	
+	        	   /*	if(count1 != 0){
 	        	   vm.averagePercent=((count1-count)/count1)*100;
 	        	   	}
 	        	   	else{
 	        	   		vm.averagePercent=0;
-	        	   	}
+	        	   	}*/
 					
 					clickyList.add(vm);
 				}
