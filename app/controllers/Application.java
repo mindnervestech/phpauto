@@ -515,6 +515,9 @@ public class Application extends Controller {
 			}else if(user.role.equalsIgnoreCase("Photographer")){
 				session("USER_KEY", user.id+"");
 				session("USER_ROLE", user.role+"");
+				if(user.location != null){
+					session("USER_LOCATION", user.location.id+"");
+				}
 				HashMap<String, Boolean> permission = new HashMap<String, Boolean>();
 	    		List<Permission> userPermissions = user.getPermission();
 	    		for(Permission per: userPermissions) {

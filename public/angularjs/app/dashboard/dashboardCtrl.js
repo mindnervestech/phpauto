@@ -8995,12 +8995,20 @@ angular.module('newApp')
     		                                 
     		                                 },
     		                                 { name: 'edit', displayName: '', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-        		                                 cellTemplate:' <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)"  title="Sold"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
+    		                                	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" ng-if="row.entity.userRole == \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp; <i class="glyphicon glyphicon-edit" ng-click="grid.appScope.editVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'" style="margin-top:7px;margin-left:8px;" title="Edit"></i> &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle" ng-click="grid.appScope.updateVehicleStatus(row)" ng-if="row.entity.userRole != \'Photographer\'"  title="Add to Current Inventory"></i> &nbsp;&nbsp;&nbsp;<i class="fa fa-trash" title="Delete" ng-click="grid.appScope.deleteVehicle(row)" ng-if="row.entity.userRole != \'Photographer\'"></i>&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-stats" ng-if="row.entity.userRole != \'Photographer\' ng-click="grid.appScope.showSessionData(row)" title="sessions"></i>&nbsp;', 
     		                                 
     		                                 },
         		                                
         		                                 ];  
      
+    		 
+    		 
+    		 $scope.editPhoto = function(row){
+    			 console.log(row);
+    			 $location.path('/editVehicle/'+row.entity.id+"/"+true);
+    			 
+    		 }
+    		 
     		 $scope.gridOptions.onRegisterApi = function(gridApi){
     			 $scope.gridApi = gridApi;
     			 gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
@@ -9246,6 +9254,11 @@ angular.module('newApp')
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
+    		    			 			for(var i=0;i<data.length;i++) {
+    		    			 				
+    		    			 				data[i].userRole=$scope.userRole;
+    		    			 				
+    		    							}
     		    			 			
     		    			 			$scope.vType = "new";
     		    			 			$scope.vehiClesList = data;
@@ -9264,8 +9277,12 @@ angular.module('newApp')
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
-    		    			 			
-    		    			 			$scope.vType = "sold";
+		    			 				for(var i=0;i<data.length;i++) {
+		    			 				
+		    			 				data[i].userRole=$scope.userRole;
+		    			 				
+		    							}
+                               $scope.vType = "sold";
     		    			 			$scope.type = "All";
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions2.data = data;
@@ -9281,6 +9298,11 @@ angular.module('newApp')
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
+    		    			 			for(var i=0;i<data.length;i++) {
+    		    			 				
+    		    			 				data[i].userRole=$scope.userRole;
+    		    			 				
+    		    							}
     		    			 			$scope.doPublic = 1;
     		    			 			$scope.vType = "sold";
     		    			 			$scope.type = "All";

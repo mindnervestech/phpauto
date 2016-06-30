@@ -1,7 +1,7 @@
 <div ng-init="init()">
 <h2>Edit Vehicle</h2>
 <tabset class="nav-tabs2">
-                                <tab>
+                                <tab  ng-if="userRole != 'Photographer'">
                                     <tab-heading>
                                         <button type="button" class="btn btn-blue">Details</button>
                                     </tab-heading>
@@ -656,7 +656,7 @@
 									        </div>
 									    </div>  
                                 </tab>
-                                <tab>
+                                <tab ng-if="userRole != 'Photographer'">
                                     <tab-heading>
                                         <button type="button" class="btn btn-blue" ng-click="getAllAudio()">Sound</button>
                                     </tab-heading>
@@ -676,7 +676,7 @@
                                     </form>
                                     
                                 </tab>
-                                <tab>
+                                <tab ng-if="userRole != 'Photographer'">
                                     <tab-heading>
                                     	<button type="button" class="btn btn-blue" ng-click="getVirtualTourData()">Virtual Tour</button>
                                     </tab-heading>
@@ -699,7 +699,7 @@
                                     </form>
                                 </tab>
                                 
-                                 <tab>
+                                 <tab ng-if="userRole != 'Photographer'">
                                     <tab-heading>
                                     	<button type="button" class="btn btn-blue" ng-click="getVirtualTourData()">Video</button>
                                     </tab-heading>
