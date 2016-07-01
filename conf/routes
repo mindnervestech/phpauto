@@ -102,6 +102,7 @@ GET		/removeDefault/:old/:newId	controllers.Application.removeDefault(old:Long,n
 POST	/savePosition			controllers.Application.savePosition
 POST    /editLeads				controllers.Application.editLeads
 POST	/saveSliderPosition		controllers.Application.saveSliderPosition()
+GET     /findLocation		    		controllers.Application.findLocation()
 POST	/saveFeaturedPosition		controllers.Application.saveFeaturedPosition()
 POST	/saveCoveredPosition		controllers.Application.saveCoveredPosition()
 POST	/saveBlogPosition		controllers.Application.saveBlogPosition()

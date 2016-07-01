@@ -49020,6 +49020,9 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
         	return ok();
     	}
     }
+    public static Result findLocation(){
+		   return ok(Json.toJson(Long.valueOf(session("USER_LOCATION"))));
+	   }
     
     public static Result activeLocationById(Long id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
