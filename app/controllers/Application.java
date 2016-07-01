@@ -344,6 +344,17 @@ public class Application extends Controller {
 			this.events = events;
 		}
 		
+
+		public static Result preflight(String all) {
+	        response().setHeader("Access-Control-Allow-Origin", "*");
+	        response().setHeader("Allow", "*");
+	        response().setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+	        response().setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Referer, User-Agent");
+	        return ok();
+	    }
+		
+		
+		
 		public static Result locationWise(Long locationId){
 			AuthUser user = AuthUser.getOnlyGM();
 			
