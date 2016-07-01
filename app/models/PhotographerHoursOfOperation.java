@@ -28,6 +28,9 @@ public class PhotographerHoursOfOperation extends Model {
 	public Integer thuOpen;
 	public Integer friOpen;
 	public Integer satOpen;
+	public String portalName;
+	public Date contractDurStartDate;
+	public Date contractDurEndDate;
 	
 	@ManyToOne
 	public AuthUser user;
@@ -44,6 +47,30 @@ public class PhotographerHoursOfOperation extends Model {
 		this.id = id;
 	}
 	
+	public String getPortalName() {
+		return portalName;
+	}
+
+	public void setPortalName(String portalName) {
+		this.portalName = portalName;
+	}
+
+	public Date getContractDurStartDate() {
+		return contractDurStartDate;
+	}
+
+	public void setContractDurStartDate(Date contractDurStartDate) {
+		this.contractDurStartDate = contractDurStartDate;
+	}
+
+	public Date getContractDurEndDate() {
+		return contractDurEndDate;
+	}
+
+	public void setContractDurEndDate(Date contractDurEndDate) {
+		this.contractDurEndDate = contractDurEndDate;
+	}
+
 	public Location getLocations() {
 		return locations;
 	}

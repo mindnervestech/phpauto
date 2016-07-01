@@ -524,6 +524,10 @@ angular.module('newApp')
 	   
 		$scope.hOperation = {};
 	$scope.saveImage = function() {
+		$http.get('/findLocation')
+		.success(function(data) {
+			console.log(data);
+			$scope.user.locationId = data;
 		
 		$scope.user.permissions = $scope.permission;
 		$scope.user.pdfIds = $scope.pdfDoc;
@@ -540,7 +544,7 @@ angular.module('newApp')
 			$scope.user.hOperation.thuOpenTime = $('#thuOpen').val();
 			$scope.user.hOperation.friOpenTime = $('#friOpen').val();
 			$scope.user.hOperation.satOpenTime = $('#satOpen').val();
-			
+
 			if($scope.user.hOperation.sunOpen == undefined){
 				$scope.user.hOperation.sunOpen = false;
 			}
@@ -562,6 +566,9 @@ angular.module('newApp')
 			if($scope.user.hOperation.satOpen == undefined){
 				$scope.user.hOperation.satOpen = false;
 			}
+			
+			$scope.user.contractDurStartDate = $("#cnfstartDateValue").val();
+			$scope.user.contractDurEndDate = $("#cnfendDateValue").val();
 		}
 		
 		if($scope.contactVal=="Employee"){
@@ -575,53 +582,100 @@ angular.module('newApp')
 			$scope.user.contractDur = $scope.num+" "+$scope.duration;
 		}
 		$scope.user.imageUrl = $scope.img;
-		//console.log(logofile);
-		//console.log($scope.user);
-		if(angular.isUndefined(logofile)) {
-			if($scope.emailMsg == "") {
-				$http.post('/uploadImageFile',$scope.user)
-				.success(function(data) {
-					$scope.user.firstName=" ";
-		            $scope.user.lastName=" ";
-		            $scope.user.email=" ";
-		            $scope.user.phone=" ";
-		            $scope.user.userType=" ";
-		            $scope.user.img=" ";
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
+		if($scope.user.userType == "Photographer"){
+			if(angular.isUndefined(logofile)) {
+				if($scope.emailMsg == "") {
+					$http.post('http://45.33.50.143:9889/uploadImageFile',$scope.user)
+					.success(function(data) {
+						$scope.user.firstName=" ";
+			            $scope.user.lastName=" ";
+			            $scope.user.email=" ";
+			            $scope.user.phone=" ";
+			            $scope.user.userType=" ";
+			            $scope.user.img=" ";
+			            $('#btnClose').click();
+			            $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "User saved successfully",
+						});
+			          //  $scope.init();
 					});
-		            $scope.init();
-				});
+				}
+			} else {
+				if($scope.emailMsg == "") {
+				   $upload.upload({
+			            url : 'http://45.33.50.143:9889/uploadImageFile',
+			            method: 'post',
+			            file:logofile,
+			            data:$scope.user
+			        }).success(function(data, status, headers, config) {
+			            console.log('success');
+			            $scope.user.firstName=" ";
+			            $scope.user.lastName=" ";
+			            $scope.user.email=" ";
+			            $scope.user.phone=" ";
+			            $scope.user.userType=" ";
+			            $scope.user.img=" ";
+			            $("#file").val('');
+			            $('#btnClose').click();
+			            $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "User saved successfully",
+						});
+			            //$scope.init();
+			        });
+				}
 			}
-		} else {
-			if($scope.emailMsg == "") {
-			   $upload.upload({
-		            url : '/uploadImageFile',
-		            method: 'post',
-		            file:logofile,
-		            data:$scope.user
-		        }).success(function(data, status, headers, config) {
-		            console.log('success');
-		            $scope.user.firstName=" ";
-		            $scope.user.lastName=" ";
-		            $scope.user.email=" ";
-		            $scope.user.phone=" ";
-		            $scope.user.userType=" ";
-		            $scope.user.img=" ";
-		            $("#file").val('');
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
+		}else{
+			if(angular.isUndefined(logofile)) {
+				if($scope.emailMsg == "") {
+					$http.post('/uploadImageFile',$scope.user)
+					.success(function(data) {
+						$scope.user.firstName=" ";
+			            $scope.user.lastName=" ";
+			            $scope.user.email=" ";
+			            $scope.user.phone=" ";
+			            $scope.user.userType=" ";
+			            $scope.user.img=" ";
+			            $('#btnClose').click();
+			            $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "User saved successfully",
+						});
+			            $scope.init();
 					});
-		            $scope.init();
-		        });
+				}
+			} else {
+				if($scope.emailMsg == "") {
+				   $upload.upload({
+			            url : '/uploadImageFile',
+			            method: 'post',
+			            file:logofile,
+			            data:$scope.user
+			        }).success(function(data, status, headers, config) {
+			            console.log('success');
+			            $scope.user.firstName=" ";
+			            $scope.user.lastName=" ";
+			            $scope.user.email=" ";
+			            $scope.user.phone=" ";
+			            $scope.user.userType=" ";
+			            $scope.user.img=" ";
+			            $("#file").val('');
+			            $('#btnClose').click();
+			            $.pnotify({
+						    title: "Success",
+						    type:'success',
+						    text: "User saved successfully",
+						});
+			            $scope.init();
+			        });
+				}
 			}
 		}
+		
 		
 		
 		/*$scope.operation.typeOfOperation='sales';
@@ -651,7 +705,7 @@ angular.module('newApp')
 				});
 	            //$scope.init();
 			});*/
-		
+		});
 	   }
 	
 	$scope.openClick = function(){
