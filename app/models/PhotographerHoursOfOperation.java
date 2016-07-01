@@ -21,6 +21,13 @@ public class PhotographerHoursOfOperation extends Model {
 	public Date thuOpenTime;
 	public Date friOpenTime;
 	public Date satOpenTime;
+	public Date sunCloseTime;
+	public Date monCloseTime;
+	public Date tueCloseTime;
+	public Date wedCloseTime;
+	public Date thuCloseTime;
+	public Date friCloseTime;
+	public Date satCloseTime;
 	public Integer sunOpen;
 	public Integer monOpen;
 	public Integer tueOpen;

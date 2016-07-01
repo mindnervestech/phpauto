@@ -170,7 +170,10 @@ var MakeApp = angular
             templateUrl: '/dealer/homePage/siteTestimonials.html',
             controller: 'HomePageCtrl'
         })
-        
+        .when('/myCalendar', {
+           templateUrl: 'dealer/myCalendar/myCalendar.html',
+           controller: 'myCalendarCtrl'
+       })
         .when('/siteAboutUs', {
             templateUrl: '/dealer/homePage/siteAboutUs.html',
             controller: 'HomePageCtrl'

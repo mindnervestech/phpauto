@@ -17507,8 +17507,22 @@ private static void cancelTestDriveMail(Map map) {
 			    				pOperation.sunOpen = 0;
 			    			}
 			    			
+			    			if(vm.hOperation.sunOpen == true){
+			    				pOperation.sunCloseTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.sunCloseTime);
+			    				pOperation.sunOpen = 1;
+			    			}else{
+			    				pOperation.sunOpen = 0;
+			    			}
+			    			
+			    			
 			    			if(vm.hOperation.monOpen == true){
 			    				pOperation.monOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monOpenTime);
+			    				pOperation.monOpen = 1;
+			    			}else{
+			    				pOperation.monOpen = 0;
+			    			}
+			    			if(vm.hOperation.monOpen == true){
+			    				pOperation.monCloseTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monCloseTime);
 			    				pOperation.monOpen = 1;
 			    			}else{
 			    				pOperation.monOpen = 0;
@@ -17521,8 +17535,22 @@ private static void cancelTestDriveMail(Map map) {
 			    				pOperation.thuOpen = 0;
 			    			}
 			    			
+			    			if(vm.hOperation.thuOpen == true){
+			    				pOperation.thuCloseTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.thuCloseTime);
+			    				pOperation.thuOpen = 1;
+			    			}else{
+			    				pOperation.thuOpen = 0;
+			    			}
+			    			
+			    			
 			    			if(vm.hOperation.tueOpen == true){
 			    				pOperation.tueOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueOpenTime);
+			    				pOperation.tueOpen = 1;
+			    			}else{
+			    				pOperation.tueOpen = 0;
+			    			}
+			    			if(vm.hOperation.tueOpen == true){
+			    				pOperation.tueCloseTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueCloseTime);
 			    				pOperation.tueOpen = 1;
 			    			}else{
 			    				pOperation.tueOpen = 0;
@@ -17534,9 +17562,20 @@ private static void cancelTestDriveMail(Map map) {
 			    			}else{
 			    				pOperation.wedOpen = 0;
 			    			}
-			    			
+			    			if(vm.hOperation.wedOpen == true){
+			    				pOperation.wedCloseTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.wedCloseTime);
+			    				pOperation.wedOpen = 1;
+			    			}else{
+			    				pOperation.wedOpen = 0;
+			    			}
 			    			if(vm.hOperation.friOpen == true){
 			    				pOperation.friOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friOpenTime);
+			    				pOperation.friOpen = 1;
+			    			}else{
+			    				pOperation.friOpen = 0;
+			    			}
+			    			if(vm.hOperation.friOpen == true){
+			    				pOperation.friCloseTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friCloseTime);
 			    				pOperation.friOpen = 1;
 			    			}else{
 			    				pOperation.friOpen = 0;
@@ -17548,7 +17587,12 @@ private static void cancelTestDriveMail(Map map) {
 			    			}else{
 			    				pOperation.satOpen = 0;
 			    			}
-				    	
+			    			if(vm.hOperation.satOpen == true){
+			    				pOperation.satCloseTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.satCloseTime);
+			    				pOperation.satOpen = 1;
+			    			}else{
+			    				pOperation.satOpen = 0;
+			    			}
 			    			pOperation.portalName = "MavenFurniture";
 			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
 			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);

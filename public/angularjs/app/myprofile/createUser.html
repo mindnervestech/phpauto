@@ -266,9 +266,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="sunday" style="width: 20px;" ng-model="user.hOperation.sunOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="user.hOperation.sunOpen == true">
-	  <div>
-      <input type="text" name="openTimeTime" ng-model="user.hOperation.sunOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." ng-click="openClick()" data-format="am-pm" id="sunOpen" >
+	  <div class="col-sm-7" ng-if="user.hOperation.sunOpen == true">
+	  <div class="col-sm-6" >
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="user.hOperation.sunOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." ng-click="openClick()" data-format="am-pm" id="sunOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="user.hOperation.sunCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="sunClose" >
 	  </div>
 	  </div>
 	 
@@ -283,10 +286,14 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="monday" style="width: 20px;" ng-model="user.hOperation.monOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="user.hOperation.monOpen == true">
-	  <div>
-      <input type="text"  ng-model="user.hOperation.monOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="monOpen" >
+	  <div class="col-sm-7" ng-if="user.hOperation.monOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" ng-model="user.hOperation.monOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="monOpen" >
 	  </div>
+	 <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="user.hOperation.monCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="monClose" >
+	  </div>
+	 
 	  </div>
 	 
 	  
@@ -300,9 +307,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="tueday" style="width: 20px;" ng-model="user.hOperation.tueOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="user.hOperation.tueOpen == true">
-	  <div>
-      <input type="text"  ng-model="user.hOperation.tueOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="tueOpen" >
+	  <div class="col-sm-7" ng-if="user.hOperation.tueOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px"  ng-model="user.hOperation.tueOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="tueOpen" >
+	  </div>
+	 <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="user.hOperation.tueCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="tueClose" >
 	  </div>
 	  </div>
 	 
@@ -315,9 +325,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="wednesday" style="width: 20px;" ng-model="user.hOperation.wedOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="user.hOperation.wedOpen == true">
-	  <div>
-      <input type="text"  ng-model="user.hOperation.wedOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="wedOpen" >
+	  <div class="col-sm-7" ng-if="user.hOperation.wedOpen == true">
+	  <div class="col-sm-6">
+      <input type="text"style="font-size: 10px"  ng-model="user.hOperation.wedOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="wedOpen" >
+	  </div>
+	 <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="user.hOperation.wedCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="wedClose" >
 	  </div>
 	  </div>
 	 
@@ -332,9 +345,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="thursday" style="width: 20px;" ng-model="user.hOperation.thuOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="user.hOperation.thuOpen == true">
-	  <div>
-      <input type="text"  ng-model="user.hOperation.thuOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="thuOpen" >
+	  <div class="col-sm-7" ng-if="user.hOperation.thuOpen == true">
+	  <div class="col-sm-6">
+      <input type="text"style="font-size: 10px"  ng-model="user.hOperation.thuOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="thuOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="user.hOperation.thuCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="thuClose" >
 	  </div>
 	  </div>
 	
@@ -348,9 +364,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="friday" style="width: 20px;" ng-model="user.hOperation.friOpen"/></span>
 	    </div> 
-	   <div class="col-sm-4" ng-if="user.hOperation.friOpen == true">
-	  <div>
-      <input type="text"  ng-model="user.hOperation.friOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="friOpen" >
+	   <div class="col-sm-7" ng-if="user.hOperation.friOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" ng-model="user.hOperation.friOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="friOpen" >
+	  </div>
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="user.hOperation.friCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="friClose" >
 	  </div>
 	  </div>
 	
@@ -365,9 +384,12 @@
 	   <div class="col-sm-2">
 			<span><input type="checkbox"  name="day" value="saturday" style="width: 20px;" ng-model="user.hOperation.satOpen"/></span>
 	    </div> 
-	  <div class="col-sm-4" ng-if="user.hOperation.satOpen == true">
-	  <div>
-      <input type="text"  ng-model="user.hOperation.satOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="satOpen" >
+	  <div class="col-sm-7" ng-if="user.hOperation.satOpen == true">
+	  <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" ng-model="user.hOperation.satOpenTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Opentime..." data-format="am-pm" ng-click="openClick()" id="satOpen" >
+	  </div>
+	 <div class="col-sm-6">
+      <input type="text" style="font-size: 10px" name="openTimeTime" ng-model="user.hOperation.satCloseTime" class="timepicker form-control hasDatepicker" placeholder="Choose a Closetime..." ng-click="openClick()" data-format="am-pm" id="satClose" >
 	  </div>
 	  </div>
 	  

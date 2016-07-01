@@ -544,6 +544,15 @@ angular.module('newApp')
 			$scope.user.hOperation.thuOpenTime = $('#thuOpen').val();
 			$scope.user.hOperation.friOpenTime = $('#friOpen').val();
 			$scope.user.hOperation.satOpenTime = $('#satOpen').val();
+			
+			$scope.user.hOperation.sunCloseTime = $('#sunClose').val();
+			$scope.user.hOperation.monCloseTime = $('#monClose').val();
+			$scope.user.hOperation.tueCloseTime = $('#tueClose').val();
+			$scope.user.hOperation.wedCloseTime = $('#wedClose').val();
+			$scope.user.hOperation.thuCloseTime = $('#thuClose').val();
+			$scope.user.hOperation.friCloseTime = $('#friClose').val();
+			$scope.user.hOperation.satCloseTime = $('#satClose').val();
+
 
 			if($scope.user.hOperation.sunOpen == undefined){
 				$scope.user.hOperation.sunOpen = false;
@@ -566,6 +575,31 @@ angular.module('newApp')
 			if($scope.user.hOperation.satOpen == undefined){
 				$scope.user.hOperation.satOpen = false;
 			}
+			
+			
+			
+			if($scope.user.hOperation.sunClose == undefined){
+				$scope.user.hOperation.sunClose = false;
+			}
+			if($scope.user.hOperation.monClose == undefined){
+				$scope.user.hOperation.monClose = false;
+			}
+			if($scope.user.hOperation.tueClose == undefined){
+				$scope.user.hOperation.tueClose = false;
+			}
+			if($scope.user.hOperation.wedClose == undefined){
+				$scope.user.hOperation.wedClose = false;
+			}
+			if($scope.user.hOperation.thuClose == undefined){
+				$scope.user.hOperation.thuClose = false;
+			}
+			if($scope.user.hOperation.friClose == undefined){
+				$scope.user.hOperation.friClose = false;
+			}
+			if($scope.user.hOperation.satClose == undefined){
+				$scope.user.hOperation.satClose = false;
+			}
+			
 			
 			$scope.user.contractDurStartDate = $("#cnfstartDateValue").val();
 			$scope.user.contractDurEndDate = $("#cnfendDateValue").val();
