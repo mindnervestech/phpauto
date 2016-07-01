@@ -2881,7 +2881,7 @@ angular.module('newApp')
     					                                	} ,
     					                                 },
     					                                 { name: 'edit', displayName: '', width:'9%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
-    			    		                                 cellTemplate:'<a ng-click="grid.appScope.showheatmap(row)"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>', 
+    			    		                                 cellTemplate:'<a ng-click="grid.appScope.showheatmap(row)"><img  ng-if="row.entity.title != \'Some page\'"  class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://cdn.staticstuff.net/media/icon_heatmap.png"></a>', 
     					                                 
     					                                 },
     					                                 ];
