@@ -2548,8 +2548,11 @@ angular.module('newApp')
     			 }
     			 
     			 $scope.heatMapShow(startDate,endDate);
-    			
-    			 
+    			 var visitorsData = {};
+    			 var chartOptions ={};
+    			 /*var ctx = document.getElementById("visitors-chart").getContext("2d");
+			        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);
+    			 */
     			  $http.get('/getMonthlyVisitorsStats/'+startDate+"/"+endDate).success(function(response) {
     				  
   			        $scope.onlineVisitorsCount = response.onlineVisitors;
@@ -2565,8 +2568,8 @@ angular.module('newApp')
 			        $scope.referersList = response.referersList;
 			        $scope.searchesList = response.searchesList;
 			        
-    				  
-        			  var visitorsData = {
+			        
+        			  visitorsData = {
         			            labels: response.months,
         			            datasets: [
         			                {
@@ -2591,7 +2594,7 @@ angular.module('newApp')
         			                }
         			            ]
         			        };
-        			        var chartOptions = {
+        			        chartOptions = {
         			            scaleGridLineColor: "rgba(0,0,0,.05)",
         			            scaleGridLineWidth: 1,
         			            bezierCurve: true,
@@ -2604,8 +2607,22 @@ angular.module('newApp')
         			            responsive: true,
         			            showScale: false,
         			        };
-        			        var ctx = document.getElementById("visitors-chart").getContext("2d");
-        			        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);
+        			        var ctx = null;
+        			        //var myNewChart = null;
+        			        //$('#visitors-chart').remove();
+        			       // ctx = document.getElementById("visitors-chart").getContext("2d");
+        			        //	myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);
+
+        			        	var pieChartContent = document.getElementById('pieChartContent');
+        			        	pieChartContent.innerHTML = '&nbsp;';
+        			        	$('#pieChartContent').append('<canvas id="visitors-chart" style="margin-bottom: 29px;"><canvas>');
+
+        			        	ctx = document.getElementById("visitors-chart").getContext("2d");
+        			        	var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);	
+        			        	
+        			        	
+        			        	
+        			        	
         			        
         			        var actionsData = {
             			            labels: response.months,
