@@ -1,0 +1,19 @@
+
+<!-- <canvas id='signatureCanvas' width='300' height='180' style='border: 1px solid black;'></canvas>
+  <div class='button-bar'>
+      <a class='button button-energized' ng-click='clearCanvas()'>Clear</a>
+      <a class='button button-balanced' ng-click='saveCanvas()'>Save</a>
+  </div>
+  <br>
+  <img ng-src='{{signature}}'/> -->
+
+  <div ng-show="!app.hasSignature" >
+          <h3>Please sign below</h3>
+          <div signature-pad signature="app.signature" close="app.close()"></div>
+          <div ng-show="app.showRequiredMsg">Please sign before continuing.</div>
+        </div>
+        <div  ng-show="app.hasSignature">
+          <div>Here is a PNG of the signature which can be delivered via a REST service.</div>
+          <div><img ng-src="{{app.signature.dataUrl}}"></div>
+          <button class="button icon-left ion-chevron-left" ng-click="app.signature.clear();app.hasSignature=false; ">Back</button>
+        </div>

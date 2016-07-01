@@ -1,0 +1,9 @@
+<ion-checkbox ng-repeat="(key, option) in to.options"
+            ng-model="multiCheckbox.checked[$index]"
+            ng-change="multiCheckbox.change()">
+{{option[to.labelProp || 'name']}}
+</ion-checkbox>
+
+<!-- <ion-checkbox ng-repeat="item in options.templateOptions.options" icon="{{item.icon? item.icon: 'ion-checkmark'}}" ng-value="item.value" ng-model="model[options.key]">
+  {{ item.text }}
+</ion-checkbox> -->
