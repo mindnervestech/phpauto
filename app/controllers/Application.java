@@ -25417,6 +25417,12 @@ private static void cancelTestDriveMail(Map map) {
 	        	   	else{
 	        	   		vm.averagePercent=0;
 	        	   	}*/
+	        		if(count != 0 & !vm.value.equals("0")){
+		 	        	   vm.averagePercent=(((count1-count)*100)/count);
+		 	        	   	}
+		 	        	   	else{
+		 	        	   		vm.averagePercent=0;
+		 	        	   	}
 					
 					clickyList.add(vm);
 				}
