@@ -30,6 +30,8 @@ public class UserVM {
 	public String contractDur;
 	public String experience;
 	public String trainingPro;
+	public String contractDurStartDate;
+	public String contractDurEndDate;
 	public String trialPeriod;
 	public String trial;
 	public String userGender;
