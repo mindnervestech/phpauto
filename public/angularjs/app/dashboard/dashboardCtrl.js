@@ -2063,7 +2063,7 @@ angular.module('newApp')
    	  		}*/
    	  	
    	  	
-   	  	
+   	 
    	  	$scope.saveCompleted = function(){
 	   	  	 $http.get('/saveCompletedLeads/'+$scope.testCompleted.duration+'/'+$scope.testCompleted.comment+'/'+$scope.testCompleted.id+'/'+$scope.testCompleted.typeOfLead)
 				.success(function(data) {
@@ -2109,19 +2109,17 @@ angular.module('newApp')
    	$scope.visitorInfo={};
    	 $scope.changeActiveTabImage = function(id){
 	  console.log("inside");
-    	
   	 console.log($scope.sessionId) ;
-  	// $scope.sessionId="187903883";
   	  $http.get('/getSessionIdData/'+$scope.sessionId)
 		.success(function(data) {
 			 $scope.infoColorFlag=0;
 			  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
 		  	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
 			console.log(data);
+			
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
 			$scope.clickySessionId=data.sessionId;
-			initialized();
 			$scope.visitorInfo=data;
 			if($scope.sessionId != null && $scope.sessionId != undefined){
 				var today = new Date()
@@ -2161,20 +2159,26 @@ angular.module('newApp')
    	 
    	 
    	 
-   	 function initialized() {
-	      var myLatlng = new google.maps.LatLng($scope.latitude,$scope.longitude);
+    	function initialized() {
+    		$timeout(function(){
+   		 console.log($scope.latitude);
+   		 console.log($scope.longitude);
+   		 $scope.long=parseInt($scope.longitude);
+   		$scope.lat=parseInt($scope.latitude);
+	      var myLatlng = new google.maps.LatLng($scope.lat,$scope.long);
 	      var myOptions = {
 	        zoom: 8,
 	        center: myLatlng,
 	        mapTypeId: google.maps.MapTypeId.ROADMAP
 	      }
-	      var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+	      var map = new google.maps.Map(document.getElementById("canvas1"), myOptions);
 	      var marker = new google.maps.Marker({
    	      position: myLatlng,
    	      map: map,
    	      visible: true
    	  });
-	     
+   		
+    		}, 3000);
 	    }
    	
     $scope.changeInfoImage = function(id){
