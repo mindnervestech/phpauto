@@ -2150,6 +2150,9 @@ angular.module('newApp')
 						
 				  
 			 }
+			google.maps.event.addDomListener(window, "load", initialized);
+			initialized();
+			
 		}).error(function(data, status) {
 			$scope.changeInfoImage("1");
 		});

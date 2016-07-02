@@ -14737,6 +14737,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm1.name=sc.name;
 	    		vm1.id=sc.id;
 	    		vm1.typeOfLead="Schedule Test";
+	    		vm1.leadTypeForNotif="Schedule Test Drive";
 	    		String imagePath=null;
 	    		if(sc.vin != null){
 	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
@@ -14785,8 +14786,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
-        	        vm1.diffDays=diffMinutes+" minutes ago";;
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
+    	        	vm1.diffDays=diffMinutes+" minutes ago";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
         	     
         	        }
     	        else{
@@ -14809,6 +14815,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.firstName+" "+sc.lastName;
 	    		vm1.typeOfLead="Trade In";
+	    		vm1.leadTypeForNotif="Trade In";
 	    		vm1.id=sc.id;
 	    		String imagePath=null;
 	    		if(sc.vin != null){
@@ -14856,8 +14863,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
     	        	vm1.diffDays=diffMinutes+" minutes ago";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
         	     
         	        }
     	        else{
@@ -14887,10 +14899,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    				imagePath=image.thumbPath;
 	    			}
 	    			typeoflead="Request More";
+	    			vm1.leadTypeForNotif="Request More Info";
 	    		}
 	    		else if(sc.isContactusType.equals("contactUs")){
 	    			imagePath="../../../assets/global/images/leadsImages/rmail.png" ;
 	    			typeoflead="Contact Us";
+	    			vm1.leadTypeForNotif="Contact Us";
 	    		}
 	    		vm1.typeOfLead=typeoflead;
 	    		vm1.imagePath=imageUrlPath+imagePath;
@@ -14932,8 +14946,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
     	        	vm1.diffDays=diffMinutes+" minutes ago";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
         	     
         	        }
     	        else{
@@ -14964,6 +14983,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
 	    		vm1.typeOfLead="Premium";
+	    		vm1.leadTypeForNotif="Premium Lead";
 	    		vm1.type="Schedule Test";
 	    		vm1.id=sc.id;
 	    		String imagePath=null;
@@ -15013,8 +15033,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
     	        	vm1.diffDays=diffMinutes+" minutes ago";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
         	     
         	        }
     	        else{
@@ -15036,6 +15061,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.firstName+" "+sc.lastName;
 	    		vm1.typeOfLead="Premium";
+	    		vm1.leadTypeForNotif="Premium Lead";
 	    		vm1.type="Trade In";
 	    		vm1.id=sc.id;
 	    		String imagePath=null;
@@ -15084,8 +15110,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
     	        	vm1.diffDays=diffMinutes+" minutes ago";
         	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
         	     
         	        }
     	        else{
@@ -15109,6 +15140,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
 	    		vm1.typeOfLead="Premium";
+	    		vm1.leadTypeForNotif="Premium Lead";
 	    		vm1.id=sc.id;
 	    		vm1.type="Request More Info";
 	    		String imagePath=null;
@@ -15158,8 +15190,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	        vm1.diffDays=diffDay+" + days";
     	        }
     	        else if(diffInDays == 0 && diffHours == 0){
+    	        	if(diffMinutes == 1){
+    	        		vm1.diffDays=diffMinutes+" minute ago";
+            	        vm1.timeUnit=diffMinutes+" minute ago";
+    	        	}else{
     	        	vm1.diffDays=diffMinutes+" minutes ago";
-    	        vm1.timeUnit=diffMinutes+" minutes ago";
+        	        vm1.timeUnit=diffMinutes+" minutes ago";
+    	        	}
     	     
     	        }
     	        else{
@@ -29440,7 +29477,7 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
 			List <ClickyVisitorsList> List = ClickyVisitorsList.getClickyCustomSessionData(id);
 			
 			if(List.size()==0){
-				return ok(Json.toJson(List.get(0)));
+				return ok();
 			}
 			else{
 				return ok(Json.toJson(List.get(0)));
