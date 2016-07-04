@@ -8969,7 +8969,7 @@ angular.module('newApp')
 	}
 	
 	$scope.deleteImage = function(img) {
-		$http.get('/deleteImage/'+img.id)
+		$http.get('/deleteImage/'+img.id+"/"+userKey)
 		.success(function(data) {
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
@@ -10014,11 +10014,24 @@ $scope.setAsDefault = function(image,index) {
 	}
 	
 	$scope.deleteImage = function(img) {
-		$http.get('/deleteImage/'+img.id)
+		$http.get('/getLocalUserId')
+		.success(function(data) {
+			console.log(data);
+			$scope.userId=data;
+			if($scope.userType == "Photographer"){	
+		  $http.get('/deleteImage/'+img.id+"/"+$scope.userId)
 		.success(function(data) {
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
-		
+			}else{
+				
+				 $http.get('/deleteImage/'+img.id+"/"+$scope.userId)
+					.success(function(data) {
+						$scope.imageList.splice($scope.imageList.indexOf(img),1);
+					});
+				
+			}
+		});
 	}
 	
 	$scope.showFullImage = function(image) {

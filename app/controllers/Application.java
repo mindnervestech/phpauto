@@ -1006,6 +1006,15 @@ public class Application extends Controller {
 		return user;
 	}
 
+    public static Result getLocalUserId() {
+    	String id = session("USER_KEY");
+    	AuthUser user = AuthUser.find.byId(Integer.parseInt(id));
+    	//AuthUser user = getLocalUser();
+		return ok(Json.toJson(user.id));
+	}
+
+    
+    
     @SecureSocial.UserAwareAction
     public static Result userAware() {
         Identity user = getLocalUser();
@@ -4033,9 +4042,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     
 	
     public static Result getImageById(Long id, String type) {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
+    	
 	    	File file = null;
 	    	VehicleImage image = VehicleImage.findById(id);
 	    	if(type.equals("thumbnail")) {
@@ -4046,26 +4053,21 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		file = new File(rootDir+image.path);
 	    	}
 	    	return ok(file);
-    	}	
     }
     
 	
    
 	
     
-    public static Result deleteImage(Long id) {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
-	    	AuthUser user = (AuthUser) getLocalUser();
+    public static Result deleteImage(Long id,Integer userId) {
+	    //	AuthUser user = (AuthUser) getLocalUser();
 	    	VehicleImage image = VehicleImage.findById(id);
-	    	File file = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+image.imgName);
-	    	File thumbFile = new File(rootDir+File.separator+image.vin+"-"+user.id+File.separator+"thumbnail_"+image.imgName);
+	    	File file = new File(rootDir+File.separator+image.vin+"-"+userId+File.separator+image.imgName);
+	    	File thumbFile = new File(rootDir+File.separator+image.vin+"-"+userId+File.separator+"thumbnail_"+image.imgName);
 	    	file.delete();
 	    	thumbFile.delete();
 	    	image.delete();
 	    	return ok();
-    	}
     }
     
     
