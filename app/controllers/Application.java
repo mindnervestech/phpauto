@@ -30133,16 +30133,28 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	List<Location> locations = Location.findAllData();
     	
 			SqlRow maxDate = ClickyVisitorsList.getMaxDate();
-    	System.out.println(maxDate.get("maxdate"));
-    	    Date curr = new Date();
+    	    System.out.println(maxDate.get("maxdate"));
+    	     Date curr = new Date();
+    	     Date newcurrDate=curr;
     	    String sDate = df.format(curr);
-    	    /*int b=13;
-    	    
-    	    for(int k=30;k>=b;b++)
-    	    {
-    	    	String sDate="2016-06-"+b;*/
-    	    
-           Date startDateForList=null;
+    	    /* int b=13;
+    	   	   
+    	   	   for(int k=28;k>=b;b++)
+    	   	   {*/
+    	   	   	//String sDate="2016-06-"+b;
+    	         // String sDate="2016-06-28";
+    	          Date sampleDate=(Date) maxDate.get("maxdate");
+    		    	System.out.println(maxDate.get("maxdate"));
+    				GregorianCalendar gcal = new GregorianCalendar();
+    				gcal.setTime(sampleDate);
+    				while (gcal.getTime().before(newcurrDate)) {
+    				    Date d = gcal.getTime();
+    				    sDate=df.format(d);
+    				   // startDateForList=d;
+    				    System.out.println(sDate);
+    	          
+    	          
+               Date startDateForList=null;
            try {
         	 startDateForList=df.parse(sDate);
 			curr=df.parse(sDate);
@@ -32594,8 +32606,9 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			}
 			}
 			
-    
-    	
+			
+			gcal.add(Calendar.DAY_OF_WEEK, 1);
+    	}
     	return ok();
     }
     
