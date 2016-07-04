@@ -2105,9 +2105,25 @@ angular.module('newApp')
 		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 		 		 }; 
    	  	
+      
+      $scope.changeActiveTabImage = function (id){
+    	  $http.get('/getSessionIdData/'+$scope.sessionId)
+  		.success(function(data) {
+  			$scope.sessionData = data;
+  			console.log(data);
+  			if($scope.sessionData.length == 0){
+  				console.log("length is");
+  				console.log($scope.sessionData.length);
+  			}
+  			else{
+  				$scope.changeActiveImage($scope.id);
+  			}
+  		});
+      }
+      
    	 $scope.infoColorFlag=1;
    	$scope.visitorInfo={};
-   	 $scope.changeActiveTabImage = function(id){
+   	 $scope.changeActiveImage = function(id){
 	  console.log("inside");
   	 console.log($scope.sessionId) ;
   	  $http.get('/getSessionIdData/'+$scope.sessionId)
@@ -2120,6 +2136,8 @@ angular.module('newApp')
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
 			$scope.clickySessionId=data.sessionId;
+			console.log($scope.clickySessionId);
+			
 			$scope.visitorInfo=data;
 			if($scope.sessionId != null && $scope.sessionId != undefined){
 				var today = new Date()
@@ -2866,11 +2884,7 @@ angular.module('newApp')
     					 $scope.gridOptions12.enableVerticalScrollbar = 2;
     					 $scope.gridOptions12.columnDefs = [
     					                                 { name: 'title', displayName: 'Title', width:'30%',cellEditableCondition: false,
-    					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-    					                                       if (row.entity.isRead === false) {
-    					                                         return 'red';
-    					                                     }
-    					                                	} ,
+    					                                	cellTemplete:'<div><span ng-if="row.entity.title != \'Some page\'">{{row.entity.title}}</span></div>'
     					                                 },
     					                                 { name: 'showUrl', displayName: 'ShowUrl', width:'47%',cellEditableCondition: false,
     					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
