@@ -5820,12 +5820,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		/*int visitorCount = 0;
-	    	List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");
+    		int visitorCount = 0;
+	    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
     		
     		List <Vehicle> vehicleObjList = Vehicle.findByNewArrAndLocationNoDraft(Long.valueOf(session("USER_LOCATION")));
     		
 	    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+	    	String ab="ABCD";
 	    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
 	    	//String params = "&date=last-28-days&type=visitors-list&limit=all";
 	     	for(Vehicle vm : vehicleObjList){
@@ -5883,7 +5884,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			  }
 	    			}
 		    	}
-        		try {
+        		/*try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
     	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
@@ -5933,8 +5934,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	     	
 	     	
 	     	
-	     	
-	    	return ok(Json.toJson(NewVMs));
+	     	return ok(Json.toJson(ab));
+	    	//return ok(Json.toJson(NewVMs));
     	}	
     }
 	
