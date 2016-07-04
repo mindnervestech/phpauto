@@ -5820,8 +5820,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
-    		int visitorCount = 0;
-	    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
+    		/*int visitorCount = 0;
+	    	List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");
     		
     		List <Vehicle> vehicleObjList = Vehicle.findByNewArrAndLocationNoDraft(Long.valueOf(session("USER_LOCATION")));
     		
@@ -5883,7 +5883,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			  }
 	    			}
 		    	}
-        		/*try {
+        		try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
     	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
@@ -30135,16 +30135,22 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			SqlRow maxDate = ClickyVisitorsList.getMaxDate();
     	    System.out.println(maxDate.get("maxdate"));
     	     Date curr = new Date();
-    	     Date newcurrDate=curr;
     	    String sDate = df.format(curr);
+    	    Date newcurrDate = null;
+			try {
+				newcurrDate = df.parse(sDate);
+			} catch (ParseException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
     	    /* int b=13;
     	   	   
     	   	   for(int k=28;k>=b;b++)
     	   	   {*/
     	   	   	//String sDate="2016-06-"+b;
     	         // String sDate="2016-06-28";
-    	          Date sampleDate=(Date) maxDate.get("maxdate");
-    		    	System.out.println(maxDate.get("maxdate"));
+    	           Date sampleDate=(Date) maxDate.get("maxdate");
+    		     	System.out.println(maxDate.get("maxdate"));
     				GregorianCalendar gcal = new GregorianCalendar();
     				gcal.setTime(sampleDate);
     				while (gcal.getTime().before(newcurrDate)) {
