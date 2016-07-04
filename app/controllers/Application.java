@@ -5817,11 +5817,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     }
 	public static Result getAllVehicles() {
-		if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		/*if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
     		int visitorCount = 0;
-	    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
+	    	List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");
     		
     		List <Vehicle> vehicleObjList = Vehicle.findByNewArrAndLocationNoDraft(Long.valueOf(session("USER_LOCATION")));
     		
@@ -5884,7 +5884,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			  }
 	    			}
 		    	}
-        		/*try {
+        		try {
     				JSONArray jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
     				for(int j=0;j<jsonArray.length();j++){
     	    			String data = jsonArray.getJSONObject(j).get("landing_page").toString();
@@ -5901,7 +5901,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     			} catch (JSONException e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
-    			}*/
+    			}
 		    	
         		vehicle.pageViewCount = visitorCount;
 		    	
@@ -5936,7 +5936,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	     	
 	     	return ok(Json.toJson(ab));
 	    	//return ok(Json.toJson(NewVMs));
-    	}	
+    	}*/	
+		return ok(Json.toJson("sdfghjk"));
     }
 	
 	public static Result getGoTodraft(Long id){
