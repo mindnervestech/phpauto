@@ -3998,9 +3998,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     
     
     public static Result getImagesByVin(String vin) {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
 	    	List<VehicleImage> imageList = VehicleImage.getByVin(vin);
 	    	reorderImagesForFirstTime(imageList);
 	    	List<ImageVM> vmList = new ArrayList<>();
@@ -4015,7 +4012,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vmList.add(vm);
 	    	}
 	    	return ok(Json.toJson(vmList));
-    	}	
     }
     
     

@@ -9290,12 +9290,11 @@ angular.module('newApp')
     		    				 $scope.gridOptions.data = [];
     		    				 $scope.doPublic = 0;
     		    				 console.log($scope.userType);
+    		    				 $http.get('/findLocation')
+		    						.success(function(data) {
+		    							console.log(data);
+		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
-    		    					 $http.get('/findLocation')
-    		    						.success(function(data) {
-    		    							console.log(data);
-    		    							$scope.userLocationId = data;
-    		    						});
     		    				 $http.get('http://www.glider-autos.com/getAllVehicles/'+$scope.userLocationId)
     		    				 //$http.post('http://45.33.50.143:9889/uploadImageFile',$scope.user)
     		    			 		.success(function(data) {
@@ -9318,7 +9317,7 @@ angular.module('newApp')
     		    			 		});
     		    				 }
     		    				 else{
-    		    					 $http.get('/getAllVehicles')
+    		    					 $http.get('/getAllVehicles/'+$scope.userLocationId)
      		    			 		.success(function(data) {
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
@@ -9338,6 +9337,7 @@ angular.module('newApp')
      		    			 		});
     		    					 
     		    				 }
+    		    				 });
     		    			 }	    			 
     		    			 
     		    			 $scope.soldTab = function() {
@@ -9365,12 +9365,11 @@ angular.module('newApp')
     		    			 $scope.draftTab = function() {
     		    				 
     		    				 $scope.doPublic = 1;
+    		    				 $http.get('/findLocation')
+		    						.success(function(data) {
+		    							console.log(data);
+		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
-    		    					 $http.get('/findLocation')
- 		    						.success(function(data) {
- 		    							console.log(data);
- 		    							$scope.userLocationId = data;
- 		    						});
     		    					 console.log($scope.userLocationId);
     		    					 $http.get('http://www.glider-autos.com/getAllDraftVehicles/'+$scope.userLocationId)
     		    			 		.success(function(data) {
@@ -9414,6 +9413,7 @@ angular.module('newApp')
      		    			 		});
     		    					 
     		    				 }
+    		    			 }); 
     		    			 }
     		    			 
     	$scope.editVehicle = function(row) {
@@ -9816,11 +9816,26 @@ angular.module('newApp')
 	   }
 	
 	$scope.getImages = function() {
-		$scope.isUpdated = false;
-		$http.get('/getImagesByVin/'+$scope.vinData.specification.vin)
+	$scope.isUpdated = false;
+		/*$$http.get('/findLocation')
 		.success(function(data) {
+			console.log(data);
+			$scope.userLocationId = data;*/
+	 if($scope.userType == "Photographer"){
+		 console.log("****");
+	 $http.get('http://www.glider-autos.com/getImagesByVin/'+$scope.vinData.specification.vin)
+		.success(function(data) {
+			console.log(data);
 			$scope.imageList = data;
 		});
+	 }
+	 else{
+		 $http.get('getImagesByVin/'+$scope.vinData.specification.vin)
+			.success(function(data) {
+				console.log(data);
+				$scope.imageList = data;
+			});
+	 }
 	}
 	
 	   $scope.setSiteId = function(id,flag) {
