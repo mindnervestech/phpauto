@@ -33,7 +33,12 @@ public class HoursOperation {
 	public int satFlag;
 	public int checkForSunday;
 	public int checkForMonday;
-	
+	public String portalName;	
+	public String contractDurStartDate;
+	public String contractDurEndDate;
+	public String closeTime;
+	public String openTime;
+	public String setColor;
 	
 	public String getTypeOfOperation() {
 		return typeOfOperation;
@@ -77,6 +82,7 @@ public class HoursOperation {
 	public void setWedCloseTime(String wedCloseTime) {
 		this.wedCloseTime = wedCloseTime;
 	}
+	
 	public String getWedOpenTime() {
 		return wedOpenTime;
 	}
