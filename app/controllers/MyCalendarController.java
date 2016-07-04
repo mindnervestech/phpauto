@@ -9,30 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import models.AddProduct;
 import models.AuthUser;
-import models.CustomizationForm;
-import models.LeadType;
-import models.Location;
 import models.PhotographerHoursOfOperation;
-import models.ProductImages;
-import models.RequestMoreInfo;
-import models.UserNotes;
-import models.Vehicle;
 import play.Play;
-import play.data.DynamicForm;
-import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import viewmodel.CreateFormVM;
 import viewmodel.HoursOperation;
-import viewmodel.NoteVM;
 import viewmodel.PortalNameVM;
-import viewmodel.RequestInfoVM;
-import views.html.home;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 public class MyCalendarController extends Controller {
 
