@@ -64,6 +64,7 @@ POST   /saveCampaigns					controllers.Application.saveCampaigns()
 GET		/getCustomerPdfData		 controllers.Application.getCustomerPdfData()
 GET		/getEmailDetails		 controllers.Application.getEmailDetails()
 GET   /getCheckButton/:leadId/:intValue				 controllers.Application.getCheckButton(leadId:Long,intValue:Integer)
+GET     /getTimeTableOfPhotos	         controllers.MyCalendarController.getTimeTableOfPhotos()
 
 GET		/getCustomerPdfForVehicle/:vin 	controllers.Application.getCustomerPdfForVehicle(vin:String)
 GET		/getSocialMediadetail		controllers.Application.getSocialMediadetail()

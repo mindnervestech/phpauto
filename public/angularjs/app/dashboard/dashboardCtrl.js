@@ -2621,7 +2621,6 @@ angular.module('newApp')
         			        //	myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);
 
         			        	var pieChartContent = document.getElementById('pieChartContent');
-        			        	pieChartContent.innerHTML = '&nbsp;';
         			        	$('#pieChartContent').append('<canvas id="visitors-chart" style="margin-bottom: 29px;"><canvas>');
 
         			        	ctx = document.getElementById("visitors-chart").getContext("2d");

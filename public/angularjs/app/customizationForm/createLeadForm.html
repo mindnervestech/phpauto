@@ -1,0 +1,188 @@
+	
+<div class="form-group col-sm-12" ng-init="initFunction()">
+	<div class="form-group col-sm-12">
+		<h2>FORM CUSTOMIZATION</h2>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="row">
+								                    	<div class="col-md-12">
+								                    		<div class="" ng-show="isInValid" style="color: red;">
+								                    			Please provide all mandatory fields.
+								                    		</div>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.mainTitle}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Main Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a></h3>
+								                    		<div class="col-md-6">
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				
+								                    				<input type="text" ng-model="lead.custNumber" placeholder="Search Name" required/> <span style="color: red;">*</span>
+															    
+								                    			</div>
+								                    			
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
+								                    			</div>
+								                    			
+								                    		</div>
+								                    		<div class="col-md-6">
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="lead.custEmail" placeholder="EMAIL" required/> <span style="color: red;">*</span>
+								                    			</div>	
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="lead.custZipCode" placeholder="ZIP CODE" required/> <span style="color: red;">*</span>
+								                    			</div>
+								                    		</div>	
+								                    	</div>
+								                    </div>
+								                    <div class="row">
+								                    	<div class="col-md-12">
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.searchTitle}}<span style="color: red;">*</span></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Search Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a></h3>
+								                    		<div class="col-md-4">
+								                    			<div class="col-md-12"><label>{{setjson.searchSubTitle}}</label>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Search Sub Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a></div>
+								                    			<div ng-show="isStockError" style="color: red;">Furniture Not Found.</div>
+								                    			<!-- <div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.stockNumber"/>
+								                    			</div> -->
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<angucomplete-alt id="vinSearch1"
+														              placeholder="Title"
+														              pause="10"
+														              selected-object="selectedVin"
+														              local-data="prodSearchList"
+														              search-fields="title"
+														              title-field="title"
+														              minlength="3"
+														              focus-In="focusIn($index)"
+														              input-class="form-control form-control-small">
+															    	</angucomplete-alt>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.designer" disabled="disabled" placeholder="Designer"/>
+								                    			</div>
+								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
+								                    				<input type="text" ng-model="stockRp.year" disabled="disabled" placeholder="Year"/>
+								                    			</div>
+								                    		</div>
+								                    		<div class="col-md-7" style="border-radius: 11px / 13px;border: 1px solid #e5e5e5;box-shadow: 0 0 5px;font-family: 'Open Sans', sans-serif;padding-left: 0px;">
+								                    			<div>
+								                    				<div class="col-md-5" style="padding-left: 0px;">
+								                    				<!-- <img style="width: 120px;margin-left: 20px;margin-top: 25px;" src="{{item.isImage?'/getImage/'+imgId+'/thumbnail':item.defaultImagePath}}"> -->
+								    									<img class="preview" style="margin-top: 7px;width: 174px;height: 121px;" src="/getImage/{{stockRp.imgId}}/thumbnail">
+								    								</div>
+								    								<div class="col-md-7" style="padding: 0px;">
+								    										<label class="col-md-12" style="font-size: 20px;padding: 0px;">Furniture Name</label>
+								    										<label class="col-md-6">designer:</label><label class="col-md-6">-</label>
+								    										<label class="col-md-6">price:</label><label class="col-md-6">_</label>
+								    										 <label class="col-md-6">Primary Title:</label><label class="col-md-6">_</label>
+								    									     <label class="col-md-6">year:</label><label class="col-md-6">_</label>
+								    								</div>
+								                    				
+								                    			</div>
+								                    			
+								                    		</div> 
+								                    		<div class="col-md-1" style="font-size: 29px;margin-top: 54px;" ng-show="stockWiseData.length  > 1">
+								                    			<a ng-click="removeLead($index)"><span class="glyphicon glyphicon-trash"></span></a>
+								                    		</div>
+								                    		
+								                    	</div>
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;">
+								                    	<a>ADD ITEM</a>
+								                    	</div>
+								                    	
+								                    	<div class="col-md-5" style="width: 50%;">
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>{{setjson.leadTypeTitle}}<span style="color: red;">*</span></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Lead Type Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a></h3>
+								                    			<div>
+								                    				<select placeholder="TYPE OF REQUEST" class="col-md-4" ng-model="lead.leadType">
+								                    					<!-- <option value="1">REQUEST MORE INFO</option>
+								                    					<option value="2">SCHEDULE TEST DRIVE</option>
+								                    					<option value="3">TRADE-IN INQUIRIES</option> -->
+								                    				</select>
+								                    			</div>
+								                    		</div> 
+								                    </div>
+								                    <hr>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">FIELDS</h3><br>
+                </div>
+                <div  ng-if="initComponent.length > 0" fb-builder="default" ng-model="initComponent"></div>
+                <div  ng-if="initComponent.length <= 0" fb-builder="default" ng-model="initComponent"></div>
+                <div class="panel-footer">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="isShowScope" />
+                            Show scope
+                        </label>
+                    </div>
+                    <pre ng-if="isShowScope">{{form}}</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+        	<div>
+                    <h2>BUILDER</h2>
+                    <h4>Drag & drop items to the "FIELDS" area.</h4>
+                </div>
+                <hr>
+            <div fb-components></div>
+        </div>
+        
+    </div>
+	</div>
+	<div class="form-group col-sm-12" style="text-align: right;" ng-if="showSaveButton == 'Edit'">
+		<button type="button" class="btn btn-primary" ng-click="saveCreateLeadForm()">Save</button>
+	</div>
+</div>	
+
+
+<div class="modal fade" id="edititle" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" id="scheduleCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <!-- <h4 class="modal-title">Close test drive</h4> -->
+								                </div>
+								                <form ng-submit="editAllTitle()">
+								                <div class="modal-body" ng-if="setjson.showFild == 'Main Title'">
+								                    <b style="margin-left:3%;">Main Title</b><br>
+								                     <div class="form-group col-sm-12">
+														<div class="col-sm-5=10">
+															<input class="form-control form-white" style="" ng-model="setjson.mainTitle" type="text" required>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-body" ng-if="setjson.showFild == 'Search Title'">
+								                    <b style="margin-left:3%;">Search Title</b><br>
+								                     <div class="form-group col-sm-12">
+														<div class="col-sm-5=10">
+															<input class="form-control form-white" style="" ng-model="setjson.searchTitle" type="text" required>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-body" ng-if="setjson.showFild == 'Search Sub Title'">
+								                    <b style="margin-left:3%;">Search Sub Title</b><br>
+								                     <div class="form-group col-sm-12">
+														<div class="col-sm-5=10">
+															<input class="form-control form-white" style="" ng-model="setjson.searchSubTitle" type="text" required>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-body" ng-if="setjson.showFild == 'Lead Type Title'">
+								                    <b style="margin-left:3%;">Lead Type Title</b><br>
+								                     <div class="form-group col-sm-12">
+														<div class="col-sm-5=10">
+															<input class="form-control form-white" style="" ng-model="setjson.leadTypeTitle" type="text" required>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
+								    
