@@ -53,5 +53,6 @@ public class UserVM {
 	public String text;
 	public String time;
 	public HoursOperation hOperation = new HoursOperation();
+	public String portalName;
 	
 }

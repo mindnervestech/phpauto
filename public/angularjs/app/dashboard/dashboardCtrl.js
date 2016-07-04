@@ -3590,7 +3590,7 @@ angular.module('newApp')
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
 				.success(function(data) {
 					 $('#changeDate').hide();
-					 $scope.indexInitFunction();
+					// $scope.indexInitFunction();
 					$.pnotify({
 					    title: "Success",
 					    type:'success',
@@ -3638,7 +3638,8 @@ angular.module('newApp')
 				 $scope.arrivalD=aDate;
 				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price+"/"+aDate)
 					.success(function(data) {
-						 $scope.indexInitFunction();
+						 //$scope.indexInitFunction();
+						//$scope.notifictionCount=$scope.notifictionCount-1;
 						 $('#addPrice').modal("toggle");
 						$.pnotify({
 						    title: "Success",
@@ -3646,6 +3647,8 @@ angular.module('newApp')
 						    text: "Price Add successfully",
 						});
 						$scope.buttFlag = 1;
+						$scope.notifCount();
+						
 					});
 				 $('#arrivalDate').val($('#changeArrivalDate').val());
 				 $scope.addChangeArrival();
@@ -9283,14 +9286,22 @@ angular.module('newApp')
     				
     				
     		    			 $scope.newlyArrivedTab = function() {
-    		    				 
     		    				 $scope.gridOptions.data = [];
     		    				 $scope.doPublic = 0;
-    		    				 $http.get('/getAllVehicles')
+    		    				 console.log($scope.userType);
+    		    				 if($scope.userType == "Photographer"){
+    		    					 $http.get('/findLocation')
+    		    						.success(function(data) {
+    		    							console.log(data);
+    		    							$scope.userLocationId = data;
+    		    						});
+    		    				 $http.get('http://www.glider-autos.com/getAllVehicles/'+$scope.userLocationId)
+    		    				 //$http.post('http://45.33.50.143:9889/uploadImageFile',$scope.user)
     		    			 		.success(function(data) {
-    		    			 			for(var i=0;i<data.length;i++) {
+    		    			 			console.log(data);
+    		    			 			/*for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
-    		    			 			}
+    		    			 			}*/
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				
     		    			 				data[i].userRole=$scope.userRole;
@@ -9304,11 +9315,34 @@ angular.module('newApp')
     		    			 			$scope.gridOptions.columnDefs[9].displayName='Next Test Drive';
     		    			 			$scope.gridOptions.columnDefs[10].displayName='Views';
     		    			 		});
+    		    				 }
+    		    				 else{
+    		    					 $http.get('/getAllVehicles')
+     		    			 		.success(function(data) {
+     		    			 			for(var i=0;i<data.length;i++) {
+     		    			 				data[i].price = "$ "+data[i].price;
+     		    			 			}
+     		    			 			for(var i=0;i<data.length;i++) {
+     		    			 				
+     		    			 				data[i].userRole=$scope.userRole;
+     		    			 				
+     		    							}
+     		    			 			
+     		    			 			$scope.vType = "new";
+     		    			 			$scope.vehiClesList = data;
+     		    			 			$scope.gridOptions.data = data;
+     		    			 			console.log($scope.gridOptions.data);
+     		    			 			$scope.gridOptions.columnDefs[9].displayName='Next Test Drive';
+     		    			 			$scope.gridOptions.columnDefs[10].displayName='Views';
+     		    			 		});
+    		    					 
+    		    				 }
     		    			 }	    			 
     		    			 
     		    			 $scope.soldTab = function() {
     		    				 $scope.ch = false;
     		    				 $scope.doPublic = 2;
+    		    				 
     		    				 $http.get('/getAllSoldVehicles')
     		    			 		.success(function(data) {
     		    			 			for(var i=0;i<data.length;i++) {
@@ -9330,7 +9364,14 @@ angular.module('newApp')
     		    			 $scope.draftTab = function() {
     		    				 
     		    				 $scope.doPublic = 1;
-    		    				 $http.get('/getAllDraftVehicles')
+    		    				 if($scope.userType == "Photographer"){
+    		    					 $http.get('/findLocation')
+ 		    						.success(function(data) {
+ 		    							console.log(data);
+ 		    							$scope.userLocationId = data;
+ 		    						});
+    		    					 console.log($scope.userLocationId);
+    		    					 $http.get('http://www.glider-autos.com/getAllDraftVehicles/'+$scope.userLocationId)
     		    			 		.success(function(data) {
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -9350,6 +9391,28 @@ angular.module('newApp')
     		    			 			
     		    			 			
     		    			 		});
+    		    				 }
+    		    				 else{
+    		    					 $http.get('/getAllDraftVehicles')
+     		    			 		.success(function(data) {
+     		    			 			for(var i=0;i<data.length;i++) {
+     		    			 				data[i].price = "$ "+data[i].price;
+     		    			 			}
+     		    			 			for(var i=0;i<data.length;i++) {
+     		    			 				
+     		    			 				data[i].userRole=$scope.userRole;
+     		    			 				
+     		    							}
+     		    			 			$scope.doPublic = 1;
+     		    			 			$scope.vType = "sold";
+     		    			 			$scope.type = "All";
+     		    			 			$scope.vehiClesList = data;
+     		    			 			$scope.gridOptions1.data = data;
+     		    			 			$scope.gridOptions.columnDefs[8].displayName='Next Test Drive';
+     		    			 			$scope.gridOptions.columnDefs[9].displayName='Views';
+     		    			 		});
+    		    					 
+    		    				 }
     		    			 }
     		    			 
     	$scope.editVehicle = function(row) {

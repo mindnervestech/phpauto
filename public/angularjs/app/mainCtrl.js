@@ -299,6 +299,21 @@
             	});
       }
             
+            
+            $scope.getCount = function(){
+           	 $scope.notificationArray = [];
+           	$http.get('/getNotificationData').success(function(data,status, headers, config){
+           		
+           		
+           	});
+           	}
+            $scope.notifCount = function(){
+            	console.log($scope.notifictionCount);
+            	$scope.notifictionCount=$scope.notifictionCount-1;
+            	console.log("after"+$scope.notifictionCount);
+            	
+            }
+            
             $scope.notificationArray = [];
             $scope.notifictionCount = 0;
             $scope.indexInitFunction = function(){
@@ -437,13 +452,7 @@
                 	
             	});
             	
-            	
-            	
-            	
-            	
-            	
             }
-            
             
             $scope.leadCount = function(){
             	$scope.leadData={};
