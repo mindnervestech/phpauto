@@ -2882,9 +2882,10 @@ angular.module('newApp')
     				
     				 $scope.gridOptions12.enableHorizontalScrollbar = 0;
     					 $scope.gridOptions12.enableVerticalScrollbar = 2;
+    					 
     					 $scope.gridOptions12.columnDefs = [
     					                                 { name: 'title', displayName: 'Title', width:'30%',cellEditableCondition: false,
-    					                                	cellTemplete:'<div><span ng-if="row.entity.title != \'Some page\'">{{row.entity.title}}</span></div>'
+    					                                	cellTemplate:'<div><span ng-if="row.entity.title != \'Some page\'">{{row.entity.title}}</span></div>',
     					                                 },
     					                                 { name: 'showUrl', displayName: 'ShowUrl', width:'47%',cellEditableCondition: false,
     					                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {

@@ -33999,13 +33999,14 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    				cPagesVM.stats_url = jsonArray.getJSONObject(i).get("stats_url").toString();
 	    				cPagesVM.url = jsonArray.getJSONObject(i).get("url").toString();
 	    				cPagesVM.showUrl = arr[0];
+	    				if(!cPagesVM.title.equals("Some page")){
 	    				cList.add(cPagesVM);
-	    			//}
+	    			}
     			} catch (Exception e) {
     				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
-    			
+    		
     			
 			}	
 			} catch (JSONException e) {
@@ -34799,8 +34800,9 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 	    	    			vm.fullUrl = obj.get("url").textValue();
 	    	    		}
 	    	    	}
+	        		if(!vm.pageUrl.equals("pagesome=query")){
 	        		pagesList.add(vm);
-	    		//}
+	    		}
     		}catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
