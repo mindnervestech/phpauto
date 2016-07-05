@@ -3956,13 +3956,14 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     }
     
-    public static Result uploadPhotos(Long locatioId) {
+    public static Result uploadPhotos() {
 	    
     	MultipartFormData body = request().body().asMultipartFormData();
 	    	String vin = request().getHeader("vinNum");
-	    	
-	    	Identity user = getLocalUser();
-	    	AuthUser userObj = (AuthUser)user;
+	    	String abc=request().getHeader("locationId");
+	    	long locatioId=Long.parseLong(abc);
+	    	//Identity user = getLocalUser();
+	    	//AuthUser userObj = (AuthUser)user;
 	    	//AuthUser userObj=AuthUser.findById(id);
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {

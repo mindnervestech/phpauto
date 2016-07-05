@@ -634,7 +634,12 @@
 				                        </ul>
 				                        </div>
 				                        <h1>Upload your photographs</h1>
-				                        <form id="dropzoneFrm" action="{{uploadPhotoUrl}}" class="dropzone">
+				                        <form ng-if="userRole == 'Photographer'" id="dropzoneFrm" action="http://www.glider-autos.com/uploadPhotos" class="dropzone">
+				                            <div class="fallback">
+				                                <input name="file" type="file" multiple />
+				                            </div>
+				                        </form>
+				                         <form ng-if="userRole != 'Photographer'" id="dropzoneFrm" action="/uploadPhotos" class="dropzone">
 				                            <div class="fallback">
 				                                <input name="file" type="file" multiple />
 				                            </div>

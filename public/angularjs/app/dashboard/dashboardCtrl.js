@@ -9696,13 +9696,15 @@ angular.module('newApp')
 			.success(function(data) {
 				console.log(data);
 				$scope.userLocationId = data;
-				 if(userRole == "Photographer"){
+				console.log($scope.userLocationId);
+				/* if(userRole == "Photographer"){
+					 
 				$scope.uploadPhotoUrl="http://www.glider-autos.com/uploadPhotos/"+$scope.userLocationId;	
 				 }
 				 else{
 					 $scope.uploadPhotoUrl="/uploadPhotos/"+$scope.userLocationId;
 				 }
-				console.log($scope.uploadPhotoUrl);
+				console.log($scope.uploadPhotoUrl);*/
 				
 			});
 		
@@ -9827,7 +9829,7 @@ angular.module('newApp')
 	$scope.setDropZone = function() {
 		myDropzone = new Dropzone("#dropzoneFrm",{
 			   parallelUploads: 30,
-			   headers: { "vinNum": $scope.vinData.specification.vin },
+			   headers: { "vinNum": $scope.vinData.specification.vin,"locationId": $scope.userLocationId},
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
