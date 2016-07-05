@@ -632,18 +632,23 @@
 				                        		</div>
 				                        	</li>
 				                        </ul>
-				                        </div>
+				                        </div>{{uploadPhotoUrl}}
 				                        <h1>Upload your photographs</h1>
-				                        <form ng-if="userRole == 'Photographer'" id="dropzoneFrm" action="http://www.glider-autos.com/uploadPhotos" class="dropzone">
+				                        <div id="showDiv">
+				                        	<!-- <form ng-if="userRole == 'Photographer'" id="dropzoneFrm" action="http://www.glider-autos.com/uploadPhotos" class="dropzone">
+				                            	<div class="fallback">
+				                                	<input name="file" type="file" multiple />
+				                            	</div>
+				                        	</form> -->
+				                        </div>
+				                         <div id="showDiv1">
+				                        </div>
+				                          <!-- <form ng-if="userRole != 'Photographer'" id="dropzoneFrm" action="/uploadPhotos" class="dropzone">
 				                            <div class="fallback">
+				                            <
 				                                <input name="file" type="file" multiple />
 				                            </div>
-				                        </form>
-				                         <form ng-if="userRole != 'Photographer'" id="dropzoneFrm" action="/uploadPhotos" class="dropzone">
-				                            <div class="fallback">
-				                                <input name="file" type="file" multiple />
-				                            </div>
-				                        </form>
+				                        </form>  -->
 										 <button class="btn btn-primary" ng-click="uploadFiles()" style="margin-left:44%;margin-top:3%;">Upload</button> 
 				                        <button type="button" style="margin-top: 48px;" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
 				                        <div class="modal fade modal-image" id="modal-image" tabindex="-1" role="dialog" aria-hidden="true">

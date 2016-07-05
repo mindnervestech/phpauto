@@ -3957,11 +3957,14 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     }
     
     public static Result uploadPhotos() {
-	    
-    	MultipartFormData body = request().body().asMultipartFormData();
-	    	String vin = request().getHeader("vinNum");
-	    	String abc=request().getHeader("locationId");
-	    	long locatioId=Long.parseLong(abc);
+    	
+    	
+    	DynamicForm requestData = Form.form().bindFromRequest();
+        String vin = requestData.get("vin");
+        String locationIdNew = requestData.get("locationIdNew");
+        long locatioId=Long.parseLong(locationIdNew);
+    	
+        MultipartFormData body = request().body().asMultipartFormData();
 	    	//Identity user = getLocalUser();
 	    	//AuthUser userObj = (AuthUser)user;
 	    	//AuthUser userObj=AuthUser.findById(id);

@@ -9065,7 +9065,7 @@ angular.module('newApp')
     		 
     		 $scope.editPhoto = function(row){
     			 console.log(row);
-    			 $location.path('/editVehicle/'+row.entity.id+"/"+true);
+    			 $location.path('/editVehicle/'+row.entity.id+"/"+true+"/"+row.entity.vin);
     			 
     		 }
     		 
@@ -9690,24 +9690,29 @@ angular.module('newApp')
  			$scope.siteList = data;
  		});
 		
-		
-		
+		$scope.photoUrl={};
 		 $http.get('/findLocation')
 			.success(function(data) {
-				console.log(data);
+				console.log($routeParams.vin);
+				$scope.vinForUrl=$routeParams.vin;
 				$scope.userLocationId = data;
+				$scope.photoUrl.locationId=$scope.userLocationId;
+				$scope.photoUrl.vin=$scope.vinForUrl;
 				console.log($scope.userLocationId);
-				/* if(userRole == "Photographer"){
-					 
-				$scope.uploadPhotoUrl="http://www.glider-autos.com/uploadPhotos/"+$scope.userLocationId;	
+				//$scope.photoUrl=$scope.userLocationId+"/"+$scope.vinForUrl;
+				 if(userRole == "Photographer"){
+					 var element1 = angular.element("<form  id='dropzoneFrm' action='http://www.glider-autos.com/uploadPhotos' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$scope.vinForUrl+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+					 $("#showDiv").append(element1);
+					 		//$scope.uploadPhotoUrl="http://www.glider-autos.com/uploadPhotos/"+$scope.userLocationId;	
 				 }
-				 else{
-					 $scope.uploadPhotoUrl="/uploadPhotos/"+$scope.userLocationId;
+				else{
+					 var element1 = angular.element("<form  id='dropzoneFrm' action='/uploadPhotos' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$scope.vinForUrl+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+					 $("#showDiv").append(element1);
 				 }
-				console.log($scope.uploadPhotoUrl);*/
+				console.log($scope.uploadPhotoUrl);
+				
 				
 			});
-		
 	
 		
 		$http.get('/getVehicleById/'+$routeParams.id)
@@ -9770,6 +9775,8 @@ angular.module('newApp')
 					$('#vImg').click();
 					$scope.getImages();
 				}
+				
+				//$scope.photoGrapherUrl();
 		});
 		
 		
