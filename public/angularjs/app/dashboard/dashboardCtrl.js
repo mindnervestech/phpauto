@@ -9701,12 +9701,12 @@ angular.module('newApp')
 				console.log($scope.userLocationId);
 				//$scope.photoUrl=$scope.userLocationId+"/"+$scope.vinForUrl;
 				 if(userRole == "Photographer"){
-					 var element1 = angular.element("<form  id='dropzoneFrm' action='http://www.glider-autos.com/uploadPhotos' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$scope.vinForUrl+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+					 var element1 = angular.element("<form  role='form' id='dropzoneFrm' action='http://www.glider-autos.com/uploadPhotos'  method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$scope.vinForUrl+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
 					 $("#showDiv").append(element1);
 					 		//$scope.uploadPhotoUrl="http://www.glider-autos.com/uploadPhotos/"+$scope.userLocationId;	
 				 }
 				else{
-					 var element1 = angular.element("<form  id='dropzoneFrm' action='/uploadPhotos' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$scope.vinForUrl+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+					 var element1 = angular.element("<form role='form' id='dropzoneFrm' action='/uploadPhotos' method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$scope.vinForUrl+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
 					 $("#showDiv").append(element1);
 				 }
 				console.log($scope.uploadPhotoUrl);
@@ -9836,7 +9836,6 @@ angular.module('newApp')
 	$scope.setDropZone = function() {
 		myDropzone = new Dropzone("#dropzoneFrm",{
 			   parallelUploads: 30,
-			   headers: { "vinNum": $scope.vinData.specification.vin,"locationId": $scope.userLocationId},
 			   acceptedFiles:"image/*",
 			   addRemoveLinks:true,
 			   autoProcessQueue:false,
