@@ -76,7 +76,7 @@ GET		/getInternalPdfDataById/:id	   controllers.Application.getInternalPdfDataBy
 GET		/getCustomerPdfDataById/:id	   controllers.Application.getCustomerPdfDataById(id:Long)
 GET		/getInternalPdfData		controllers.Application.getInternalPdfData()
 POST	/myprofile				controllers.Application.myprofile()
-POST	/uploadPhotos/:userId				controllers.Application.uploadPhotos(userId:Integer)
+POST	/uploadPhotos/:userId				controllers.Application.uploadPhotos(userId:Long)
 POST	/assignToUser				controllers.Application.assignToUser()
 GET		/deactivateAccount/:id		controllers.Application.deactivateAccount(id:Integer)
 GET		/getLocalUserId		controllers.Application.getLocalUserId()

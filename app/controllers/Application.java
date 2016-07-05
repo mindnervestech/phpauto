@@ -3956,11 +3956,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     }
     
-    public static Result uploadPhotos(Integer userId) {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
-	    	MultipartFormData body = request().body().asMultipartFormData();
+    public static Result uploadPhotos(Long locatioId) {
+	    
+    	MultipartFormData body = request().body().asMultipartFormData();
 	    	String vin = request().getHeader("vinNum");
 	    	
 	    	Identity user = getLocalUser();
@@ -3969,12 +3967,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
-	    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id);
+	    	    File fdir = new File(rootDir+File.separator+locatioId+File.separator+vin+"-");
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdir();
 	    	    }
-	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+fileName;
-	    	    String thumbnailPath = rootDir+File.separator+session("USER_LOCATION")+File.separator+vin+"-"+userObj.id+File.separator+"thumbnail_"+fileName;
+	    	    String filePath = rootDir+File.separator+locatioId+File.separator+vin+"-"+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+locatioId+File.separator+vin+"-"+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
 	    	    File file = picture.getFile();
 	    	    
@@ -3984,15 +3982,15 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    File _f = new File(filePath);
 				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 				
-				VehicleImage imageObj = VehicleImage.getByImagePath("/"+session("USER_LOCATION")+"/"+vin+"-"+userObj.id+"/"+fileName);
+				VehicleImage imageObj = VehicleImage.getByImagePath("/"+locatioId+"/"+vin+"-"+"/"+fileName);
 				if(imageObj == null) {
 					VehicleImage vImage = new VehicleImage();
 					vImage.vin = vin;
 					vImage.imgName = fileName;
-					vImage.path = "/"+session("USER_LOCATION")+"/"+vin+"-"+userObj.id+"/"+fileName;
-					vImage.thumbPath = "/"+session("USER_LOCATION")+"/"+vin+"-"+userObj.id+"/"+"thumbnail_"+fileName;
-					vImage.user = userObj;
-					vImage.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+					vImage.path = "/"+locatioId+"/"+vin+"-"+"/"+fileName;
+					vImage.thumbPath = "/"+locatioId+"/"+vin+"-"+"/"+"thumbnail_"+fileName;
+					//vImage.user = userObj;
+					vImage.locations = Location.findById(locatioId);
 					vImage.save();
 				}
 	    	  } catch (FileNotFoundException e) {
@@ -4002,7 +4000,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		  		} 
 	    	  } 
 	    	return ok();
-    	}	
     }
     
     
@@ -17493,6 +17490,15 @@ private static void cancelTestDriveMail(Map map) {
 	    		   userObj.permission = permissionData;
 	    	   }
 	    	   
+	    	   if(vm.userType.equals("Photographer")) {
+	    		   List<Permission> permissionData = new ArrayList<>();
+	    		   for(Permission obj: permissionList) {
+	    			   if(obj.name.equals("My Calendar") || obj.name.equals("Dashboard") || obj.name.equals("Inventory")) {
+	    				   permissionData.add(obj);
+	    			   }
+	    		   }
+	    		   userObj.permission = permissionData;
+	    	   }
 	    	   
 	    	   
 	    	   if(vm.userType.equals("Sales Person")) {
@@ -17624,7 +17630,7 @@ private static void cancelTestDriveMail(Map map) {
 			    			}else{
 			    				pOperation.satOpen = 0;
 			    			}
-			    			pOperation.portalName = "MavenFurniture";
+			    		pOperation.portalName = vm.portalName;
 			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
 			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);
 			    			pOperation.user = AuthUser.findById(userObj.id);

@@ -9670,8 +9670,24 @@ angular.module('newApp')
  		.success(function(data) {
  			$scope.siteList = data;
  		});
-	$scope.uploadPhotoUrl="/uploadPhotos/"+userKey;	
-		console.log($scope.uploadPhotoUrl);
+		
+		
+		
+		 $http.get('/findLocation')
+			.success(function(data) {
+				console.log(data);
+				$scope.userLocationId = data;
+				 if(userRole == "Photographer"){
+				$scope.uploadPhotoUrl="http://www.glider-autos.com/uploadPhotos/"+$scope.userLocationId;	
+				 }
+				 else{
+					 $scope.uploadPhotoUrl="/uploadPhotos/"+$scope.userLocationId;
+				 }
+				console.log($scope.uploadPhotoUrl);
+				
+			});
+		
+	
 		
 		$http.get('/getVehicleById/'+$routeParams.id)
 		.success(function(data) {
@@ -9823,8 +9839,7 @@ angular.module('newApp')
 		.success(function(data) {
 			console.log(data);
 			$scope.userLocationId = data;*/
-	 if($scope.userType == "Photographer"){
-		 console.log("****");
+	 if(userRole == "Photographer"){
 	 $http.get('http://www.glider-autos.com/getImagesByVin/'+$scope.vinData.specification.vin)
 		.success(function(data) {
 			console.log(data);

@@ -576,7 +576,7 @@ angular.module('newApp')
 				$scope.user.hOperation.satOpen = false;
 			}
 			
-			
+				$scope.user.portalName = "Autodealer";
 			
 			if($scope.user.hOperation.sunClose == undefined){
 				$scope.user.hOperation.sunClose = false;
