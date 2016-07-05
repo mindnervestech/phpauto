@@ -2106,7 +2106,7 @@ angular.module('newApp')
 		 		 }; 
    	  	
       
-      $scope.changeActiveTabImage = function (id){
+     /* $scope.changeActiveTabImage = function (id){
     	  $http.get('/getSessionIdData/'+$scope.sessionId)
   		.success(function(data) {
   			$scope.sessionData = data;
@@ -2119,25 +2119,39 @@ angular.module('newApp')
   				$scope.changeActiveImage($scope.id);
   			}
   		});
+      }*/
+
+      $scope.ch = function(){
+    	  $scope.infoColorFlag=0;
+    	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
+      	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
       }
       
    	 $scope.infoColorFlag=1;
    	$scope.visitorInfo={};
-   	 $scope.changeActiveImage = function(id){
+   	 $scope.changeActiveTabImage = function(id){
 	  console.log("inside");
+	  if(id != undefined){
+		  $scope.sessionId = id;
+	  }
+	  //document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
+  	  //document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
+	
   	 console.log($scope.sessionId) ;
   	  $http.get('/getSessionIdData/'+$scope.sessionId)
 		.success(function(data) {
-			 $scope.infoColorFlag=0;
-			  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
-		  	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
-			console.log(data);
-			
+			if(data == ""){
+				console.log("fffffffffffff5555");
+				$scope.sessiondata = '0';
+			}else{
+				$scope.sessiondata = data;
+			}
+			  console.log(data);
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
 			$scope.clickySessionId=data.sessionId;
 			console.log($scope.clickySessionId);
-			
+		
 			$scope.visitorInfo=data;
 			if($scope.sessionId != null && $scope.sessionId != undefined){
 				var today = new Date()
@@ -2163,7 +2177,7 @@ angular.module('newApp')
 							
 						});
 						
-						
+			
 				  
 			 }
 			google.maps.event.addDomListener(window, "load", initialized);
@@ -2272,6 +2286,8 @@ angular.module('newApp')
 				.success(function(data) {
 					console.log(data);
 					$scope.sessionId=data.sessionId;
+					//$scope.changeInfoImage("0");
+					$scope.changeActiveTabImage($scope.sessionId);
 				});
 				   
 			   }
@@ -2282,6 +2298,8 @@ angular.module('newApp')
 				.success(function(data) {
 					console.log(data);
 					$scope.sessionId=data.sessionId;
+					//$scope.changeInfoImage("0");
+					$scope.changeActiveTabImage($scope.sessionId);
 				});
 			   }   
 	  		
@@ -2291,11 +2309,12 @@ angular.module('newApp')
 			.success(function(data) {
 				console.log(data);
 				$scope.sessionId=data.sessionId;
+				//$scope.changeInfoImage("0");
+				$scope.changeActiveTabImage($scope.sessionId);
 			});
 		   }   
 		   	  	
-		   	  	
-		   	  	
+		   	  		
 		   	  	
    	  		}
    	  		

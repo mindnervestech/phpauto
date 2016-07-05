@@ -5981,11 +5981,14 @@ float: right !important;
 								                
 								         <div class="col-sm-1" style="padding: 0px;">
 								         <div  ng-class="infoColorFlag==1 ?'activeTabColor':'infoTabColor'"  style=" width: 75px;height: 75px;padding:3px;">
-								        <span > <img   id="infoImage" ng-click="changeInfoImage()" style="width: 73px;height: 73px;" src="../../../assets/global/images/leadsImages/information-button active.png"></span>
+								        <span ><img   id="infoImage" ng-click="changeInfoImage()" style="width: 73px;height: 73px;" src="../../../assets/global/images/leadsImages/information-button active.png"></span>
 								       </div>
 								       
-								       <div  ng-class="infoColorFlag==1 ?'infoTabColor':'activeTabColor'"   style=" width: 75px;height: 75px;padding:3px;">
-								       <span > <img id="activeTabImage" ng-click="changeActiveTabImage()" style="width: 73px;height: 73px;"  src="../../../assets/global/images/leadsImages/session_data inactive.png"></span>
+								       <div ng-if="sessiondata == '0'" class="infoTabColor"  style=" width: 75px;height: 75px;padding:3px;">
+								       <span> <img id="activeTabImage" style="width: 73px;height: 73px;"  src="../../../assets/global/images/leadsImages/session_data inactive.png"></span>
+								        </div>
+								        <div  ng-if="sessiondata != '0'"  ng-class="infoColorFlag==1 ?'infoTabColor':'activeTabColor'"   style=" width: 75px;height: 75px;padding:3px;">
+								       <span> <img id="activeTabImage" ng-click="ch()" style="width: 73px;height: 73px;"  src="../../../assets/global/images/leadsImages/session_data inactive.png"></span>
 								        </div>
 								        </div>
 								                
