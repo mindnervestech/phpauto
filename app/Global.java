@@ -27,7 +27,7 @@ public class Global extends GlobalSettings {
 			Http.Response response = ctx.response();
 			response.setHeader("Access-Control-Allow-Origin", "*");
 			response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD"); 
-			response.setHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
+			response.setHeader("Access-Control-Allow-Headers","Cache-Control, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
 			return result;
 		}
 	}
