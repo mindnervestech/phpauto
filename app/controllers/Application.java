@@ -4059,11 +4059,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
    
 	
     
-    public static Result deleteImage(Long id,Integer userId) {
+    public static Result deleteImage(Long id) {
 	    //	AuthUser user = (AuthUser) getLocalUser();
 	    	VehicleImage image = VehicleImage.findById(id);
-	    	File file = new File(rootDir+File.separator+image.vin+"-"+userId+File.separator+image.imgName);
-	    	File thumbFile = new File(rootDir+File.separator+image.vin+"-"+userId+File.separator+"thumbnail_"+image.imgName);
+	    	File file = new File(rootDir+File.separator+image.path);
+	    	File thumbFile = new File(rootDir+File.separator+image.thumbPath);
 	    	file.delete();
 	    	thumbFile.delete();
 	    	image.delete();

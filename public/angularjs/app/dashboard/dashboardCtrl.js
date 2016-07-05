@@ -8969,7 +8969,7 @@ angular.module('newApp')
 	}
 	
 	$scope.deleteImage = function(img) {
-		$http.get('/deleteImage/'+img.id+"/"+userKey)
+		$http.get('/deleteImage/'+img.id)
 		.success(function(data) {
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
@@ -10011,29 +10011,23 @@ $scope.setAsDefault = function(image,index) {
 			$('#imgId'+index).css("border","3px solid");
 			$('#imgId'+index).css("color","red");
 		}
-		
-		
 	}
 	
 	$scope.deleteImage = function(img) {
-		$http.get('/getLocalUserId')
-		.success(function(data) {
-			console.log(data);
-			$scope.userId=data;
-			if($scope.userType == "Photographer"){	
-		  $http.get('/deleteImage/'+img.id+"/"+$scope.userId)
+		
+			if(userRole == "Photographer"){	
+		  $http.get('http://www.glider-autos.com/deleteImage/'+img.id)
 		.success(function(data) {
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
 			}else{
 				
-				 $http.get('/deleteImage/'+img.id+"/"+$scope.userId)
+				 $http.get('/deleteImage/'+img.id)
 					.success(function(data) {
 						$scope.imageList.splice($scope.imageList.indexOf(img),1);
 					});
 				
 			}
-		});
 	}
 	
 	$scope.showFullImage = function(image) {
