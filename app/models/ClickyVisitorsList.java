@@ -44,6 +44,13 @@ public class ClickyVisitorsList extends Model {
 	public String organization;
 	public String statsUrl;
 	public Date DateClick;
+	public String visitors;
+	public String uniqueVisitor;
+	public String action;
+	public String averageAction;
+	public String totalTime;
+	public String averageTime;
+	public String bounceRate;
 	
 	public static Finder<Long,ClickyVisitorsList> find = new Finder<>(Long.class,ClickyVisitorsList.class);
 	
@@ -241,6 +248,98 @@ public class ClickyVisitorsList extends Model {
 
 
 
+	public String getVisitors() {
+		return visitors;
+	}
+
+
+
+	public void setVisitors(String visitors) {
+		this.visitors = visitors;
+	}
+
+
+
+	
+
+
+
+	public String getAction() {
+		return action;
+	}
+
+
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+
+
+	
+
+
+
+	public String getUniqueVisitor() {
+		return uniqueVisitor;
+	}
+
+
+
+	public void setUniqueVisitor(String uniqueVisitor) {
+		this.uniqueVisitor = uniqueVisitor;
+	}
+
+
+
+	public String getAverageAction() {
+		return averageAction;
+	}
+
+
+
+	public void setAverageAction(String averageAction) {
+		this.averageAction = averageAction;
+	}
+
+
+
+	public String getTotalTime() {
+		return totalTime;
+	}
+
+
+
+	public void setTotalTime(String totalTime) {
+		this.totalTime = totalTime;
+	}
+
+
+
+	public String getAverageTime() {
+		return averageTime;
+	}
+
+
+
+	public void setAverageTime(String averageTime) {
+		this.averageTime = averageTime;
+	}
+
+
+
+	public String getBounceRate() {
+		return bounceRate;
+	}
+
+
+
+	public void setBounceRate(String bounceRate) {
+		this.bounceRate = bounceRate;
+	}
+
+
+
 	public String getLanguage() {
 		return language;
 	}
@@ -377,6 +476,9 @@ public class ClickyVisitorsList extends Model {
 
 	public static List<ClickyVisitorsList> getAll(Date sDate,Date eDate) {
 		return find.where().between("DateClick", sDate, eDate).findList();
+	}
+	public static List<ClickyVisitorsList> findByTitleAndDate(String geolocation, Date startdate, Date enddate) {
+		return find.where().eq("geolocation", geolocation).between("DateClick", startdate, enddate).findList();
 	}
 	
 	public static List<ClickyVisitorsList> getClickyUnikue(String uid,String sessionId) {

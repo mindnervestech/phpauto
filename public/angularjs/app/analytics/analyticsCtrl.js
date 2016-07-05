@@ -490,10 +490,18 @@ angular.module('newApp')
 			 
 			 
 			 $scope.gridOptions1.columnDefs = [
-                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
-									             {name: 'value', displayName: 'These visitors', width:'20%' },
-									            /*{name: 'title', displayName: 'All visitors', width:'20%'},
-									            {name: 'title', displayName: 'Difference', width:'20%'},*/
+			                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
+			                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',			
+			                                   },
+									             {name:'these_visitors', displayName:'These Visitors', width:'15%',
+			                                	   cellTemplate:'<div><span>{{row.entity.these_visitors.toFixed(2)}}%</span></div>',  
+									             },
+									             {name:'all_visitors', displayName:'All Visitors', width:'15%',
+									            	 cellTemplate:'<div><span>{{row.entity.all_visitors.toFixed(2)}}%</span></div>',	 
+									             },
+									             {name:'these_vis', displayName:'Difference', width:'15%',
+									            	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>', 
+									             },
 									            
 									         ]
 			 
