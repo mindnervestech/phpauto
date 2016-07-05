@@ -3956,7 +3956,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     }
     
-    public static Result uploadPhotos() {
+    public static Result uploadPhotos(Integer userId) {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
     	} else {
@@ -3965,7 +3965,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	
 	    	Identity user = getLocalUser();
 	    	AuthUser userObj = (AuthUser)user;
-	    	
+	    	//AuthUser userObj=AuthUser.findById(id);
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
@@ -7662,11 +7662,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	return ok();
     	}*/
     public static Result editImage() throws IOException {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
     		
-    		AuthUser user = (AuthUser) getLocalUser();
+    		//AuthUser user = (AuthUser) getLocalUser();
 	    	Form<EditImageVM> form = DynamicForm.form(EditImageVM.class).bindFromRequest();
 	    	EditImageVM vm = form.get();
 	    	
@@ -7678,11 +7675,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	BufferedImage croppedImage = originalImage.getSubimage(vm.x.intValue(), vm.y.intValue(), vm.w.intValue(), vm.h.intValue());
 	    	Thumbnails.of(croppedImage).scale(1.0).toFile(file);
 	    	
-	    	VehicleImageConfig config = VehicleImageConfig.findByUser(user);
+	    	//VehicleImageConfig config = VehicleImageConfig.findByUser(user);
 	    	Thumbnails.of(croppedImage).height(140).width(210).toFile(thumbFile);
 	    	
 	    	return ok();
-    	}	
     }
     
     
@@ -10236,9 +10232,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	
 	
     public static Result getImageDataById(Long id) throws IOException {
-    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-    		return ok(home.render("",userRegistration));
-    	} else {
     		
     		AuthUser user = (AuthUser) getLocalUser();
 	    	VehicleImage image = VehicleImage.findById(id);
@@ -10258,7 +10251,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			vm.width = config.cropWidth;
 			vm.height = config.cropHeight;
 	    	return ok(Json.toJson(vm));
-    	}	
     }
     
     

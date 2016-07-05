@@ -9670,6 +9670,8 @@ angular.module('newApp')
  		.success(function(data) {
  			$scope.siteList = data;
  		});
+	$scope.uploadPhotoUrl="/uploadPhotos/"+userKey;	
+		console.log($scope.uploadPhotoUrl);
 		
 		$http.get('/getVehicleById/'+$routeParams.id)
 		.success(function(data) {
@@ -10152,36 +10154,74 @@ angular.module('newApp')
 .controller('ImageCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
 
 	$scope.coords = {};
-	$scope.imgId = "/getImage/"+$routeParams.id+"/full?d=" + Math.random();
+	if(userRole == "Photographer"){
+	$scope.imgId = "http://www.glider-autos.com/getImage/"+$routeParams.id+"/full?d=" + Math.random();
+	}
+	else{
+		$scope.imgId = "/getImage/"+$routeParams.id+"/full?d=" + Math.random();
+	}
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
-		$http.get('/getImageById/'+$routeParams.id)
-		.success(function(data) {
-			imageW = data.col;
-			imageH = data.row;
+		if(userRole == "Photographer"){
 			
-			$('#set-height').val(data.height);
-			$('#set-width').val(data.width);
-			$scope.image = data;
-			$('#target').css({
-				width: Math.round(727) + 'px',
-				height: Math.round(727*(imageH/imageW)) + 'px'
+			$http.get('http://www.glider-autos.com/getImageById/'+$routeParams.id)
+			.success(function(data) {
+				imageW = data.col;
+				imageH = data.row;
+				
+				$('#set-height').val(data.height);
+				$('#set-width').val(data.width);
+				$scope.image = data;
+				$('#target').css({
+					width: Math.round(727) + 'px',
+					height: Math.round(727*(imageH/imageW)) + 'px'
+				});
+				    $('#target').Jcrop({
+				        onSelect: showCoords,
+				        onChange: showCoords,
+				        setSelect:   [ 0, 0, data.width, data.height ],
+				        minSize:[data.width,data.height],
+				        allowSelect: false,
+				        trueSize: [data.col,data.row],
+				        aspectRatio: data.width/data.height
+				    },function(){
+				    	var bounds = this.getBounds();
+				        boundx = bounds[0];
+				        boundy = bounds[1];
+				        //$('#preview')
+				    });
 			});
-			    $('#target').Jcrop({
-			        onSelect: showCoords,
-			        onChange: showCoords,
-			        setSelect:   [ 0, 0, data.width, data.height ],
-			        minSize:[data.width,data.height],
-			        allowSelect: false,
-			        trueSize: [data.col,data.row],
-			        aspectRatio: data.width/data.height
-			    },function(){
-			    	var bounds = this.getBounds();
-			        boundx = bounds[0];
-			        boundy = bounds[1];
-			        //$('#preview')
-			    });
-		});
+			
+		}else{
+			$http.get('/getImageById/'+$routeParams.id)
+			.success(function(data) {
+				imageW = data.col;
+				imageH = data.row;
+				
+				$('#set-height').val(data.height);
+				$('#set-width').val(data.width);
+				$scope.image = data;
+				$('#target').css({
+					width: Math.round(727) + 'px',
+					height: Math.round(727*(imageH/imageW)) + 'px'
+				});
+				    $('#target').Jcrop({
+				        onSelect: showCoords,
+				        onChange: showCoords,
+				        setSelect:   [ 0, 0, data.width, data.height ],
+				        minSize:[data.width,data.height],
+				        allowSelect: false,
+				        trueSize: [data.col,data.row],
+				        aspectRatio: data.width/data.height
+				    },function(){
+				    	var bounds = this.getBounds();
+				        boundx = bounds[0];
+				        boundy = bounds[1];
+				        //$('#preview')
+				    });
+			});
+		}
+		
 		 
 		 
 	}
@@ -10212,15 +10252,30 @@ angular.module('newApp')
 		 
 		$scope.saveImage = function() {
 			$scope.coords.imageId = $routeParams.id;
-			$http.post('/editImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Saved successfully",
+			if(userRole == "Photographer"){
+				
+				$http.post('http://www.glider-autos.com/editImage',$scope.coords)
+				.success(function(data) {
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Saved successfully",
+					});
+					$location.path('/editVehicle/'+$routeParams.vid+'/'+true);
 				});
-				$location.path('/editVehicle/'+$routeParams.vid+'/'+true);
-			});
+				
+			}else{
+				$http.post('/editImage',$scope.coords)
+				.success(function(data) {
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Saved successfully",
+					});
+					$location.path('/editVehicle/'+$routeParams.vid+'/'+true);
+				});
+			}
+			
 		}    
 }]);	
 
