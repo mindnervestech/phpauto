@@ -9436,7 +9436,7 @@ angular.module('newApp')
     		    			 }
     		    			 
     	$scope.editVehicle = function(row) {
-    		$location.path('/editVehicle/'+row.entity.id+"/"+false);
+    		$location.path('/editVehicleNew/'+row.entity.id+"/"+false+"/"+row.entity.vin);
     	}	 
     	
    $scope.vehiClesList = [];
@@ -9693,7 +9693,7 @@ angular.module('newApp')
 		$scope.photoUrl={};
 		 $http.get('/findLocation')
 			.success(function(data) {
-				console.log($routeParams.vin);
+				console.log($routeParams.vinNew);
 				$scope.vinForUrl=$routeParams.vin;
 				$scope.userLocationId = data;
 				$scope.photoUrl.locationId=$scope.userLocationId;
@@ -9706,12 +9706,10 @@ angular.module('newApp')
 					 		//$scope.uploadPhotoUrl="http://www.glider-autos.com/uploadPhotos/"+$scope.userLocationId;	
 				 }
 				else{
-					 var element1 = angular.element("<form role='form' id='dropzoneFrm' action='/uploadPhotos' method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$scope.vinForUrl+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+					 var element1 = angular.element("<form role='form' id='dropzoneFrm' action='/uploadPhotos' method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$routeParams.vinNew+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
 					 $("#showDiv").append(element1);
+					 $scope.getImages();
 				 }
-				console.log($scope.uploadPhotoUrl);
-				
-				
 			});
 	
 		
@@ -9862,19 +9860,16 @@ angular.module('newApp')
 	
 	$scope.getImages = function() {
 	$scope.isUpdated = false;
-		/*$$http.get('/findLocation')
-		.success(function(data) {
-			console.log(data);
-			$scope.userLocationId = data;*/
-	 if(userRole == "Photographer"){
-	 $http.get('http://www.glider-autos.com/getImagesByVin/'+$scope.vinData.specification.vin)
+	
+		 if(userRole == "Photographer"){
+	 $http.get('http://www.glider-autos.com/getImagesByVin/'+$routeParams.vin)
 		.success(function(data) {
 			console.log(data);
 			$scope.imageList = data;
 		});
 	 }
 	 else{
-		 $http.get('getImagesByVin/'+$scope.vinData.specification.vin)
+		 $http.get('getImagesByVin/'+$routeParams.vinNew)
 			.success(function(data) {
 				console.log(data);
 				$scope.imageList = data;
