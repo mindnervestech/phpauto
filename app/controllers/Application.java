@@ -10231,9 +10231,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	
 	
 	
-    public static Result getImageDataById(Long id) throws IOException {
+    public static Result getImageDataById(Long id,Long locationId) throws IOException {
     		
-    		AuthUser user = (AuthUser) getLocalUser();
+    	//	AuthUser user = (AuthUser) getLocalUser();
+    	    //AuthUser user=AuthUser.findById(userId);
 	    	VehicleImage image = VehicleImage.findById(id);
 	    	File file = new File(rootDir+image.path);
 	    	
@@ -10247,7 +10248,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			vm.col = originalImage.getWidth();
 			vm.path = image.path;
 			vm.vin = image.vin;
-			VehicleImageConfig config = VehicleImageConfig.findByUser(user);
+			VehicleImageConfig config = VehicleImageConfig.findByLocation(locationId);
 			vm.width = config.cropWidth;
 			vm.height = config.cropHeight;
 	    	return ok(Json.toJson(vm));

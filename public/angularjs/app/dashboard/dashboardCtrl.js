@@ -10163,8 +10163,11 @@ angular.module('newApp')
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		if(userRole == "Photographer"){
-			
-			$http.get('http://www.glider-autos.com/getImageById/'+$routeParams.id)
+			 $http.get('/findLocation')
+				.success(function(data) {
+					console.log(data);
+					$scope.userLocationId = data;
+			$http.get('http://www.glider-autos.com/getImageById/'+$routeParams.id+"/"+$scope.userLocationId)
 			.success(function(data) {
 				imageW = data.col;
 				imageH = data.row;
@@ -10191,9 +10194,14 @@ angular.module('newApp')
 				        //$('#preview')
 				    });
 			});
-			
+				});
 		}else{
-			$http.get('/getImageById/'+$routeParams.id)
+			$http.get('/findLocation')
+			.success(function(data) {
+				console.log(data);
+				$scope.userLocationId = data;
+			
+			$http.get('/getImageById/'+$routeParams.id+"/"+$scope.userLocationId)
 			.success(function(data) {
 				imageW = data.col;
 				imageH = data.row;
@@ -10219,6 +10227,7 @@ angular.module('newApp')
 				        boundy = bounds[1];
 				        //$('#preview')
 				    });
+			});
 			});
 		}
 		
