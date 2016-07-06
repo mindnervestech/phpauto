@@ -2142,14 +2142,7 @@ angular.module('newApp')
 		.success(function(data) {
 			if(data == ""){
 				console.log("fffffffffffff5555");
-				/*$http.get('/getSessionIdDataNew/'+$scope.sessionId).success(function(data1) {
-					console.log(data1);
-					if(data1 == ""){
 						$scope.sessiondata = '0';
-					}else{
-						$scope.sessiondata = data1;
-					}
-				});*/
 			}else{
 				$scope.sessiondata = data;
 			}
@@ -2162,7 +2155,7 @@ angular.module('newApp')
 		   console.log($scope.latitude);
 		   console.log($scope.longitude);
 			$scope.visitorInfo=data;
-			if($scope.sessionId != null && $scope.sessionId != undefined){
+			if($scope.clickySessionId != null && $scope.clickySessionId != undefined){
 				var today = new Date()
 				$scope.startDateFilter = $filter('date')(today,"yyyy-MM-dd");
 				$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
@@ -3623,7 +3616,7 @@ angular.module('newApp')
 			$scope.addChangeArrival = function(){
 				var aDate = $('#arrivalDate').val();
 				console.log(aDate);
-				
+				console.log("$scope.buttFlagNew"+$scope.buttFlagNew);
 				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
 				.success(function(data) {
 					 $('#changeDate').hide();
@@ -3633,7 +3626,9 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Arrival date Change successfully",
 					});
+					if($scope.buttFlagNew != 1){
 					$scope.notifCount();
+					}
 					
 				});
 			}
@@ -3669,8 +3664,9 @@ angular.module('newApp')
 			 }
 			 
 			 
-			 
+			 $scope.buttFlagNew=0;
 			 $scope.addPriceInVeh = function(price){
+				 
 				 var aDate = $('#changeArrivalDate').val();
 				 console.log(aDate);
 				 $scope.arrivalD=aDate;
@@ -3684,7 +3680,7 @@ angular.module('newApp')
 						    type:'success',
 						    text: "Price Add successfully",
 						});
-						$scope.buttFlag = 1;
+						$scope.buttFlagNew = 1;
 						$scope.notifCount();
 						
 					});
