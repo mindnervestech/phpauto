@@ -353,6 +353,7 @@ GET		/getSalesUserOnly/:locationValue				controllers.Application.getSalesUserOnl
 GET     /getSalesUserValue				controllers.Application.getSalesUserValue()
 GET		/changeAssignedUser/:id/:userId/:lead		controllers.Application.changeAssignedUser(id:Long,userId:Integer,lead:String)
 GET     /releaseLeads/:id/:leadType			controllers.Application.releaseLeads(id:Long,leadType:String)
+GET     /releaseFromNotif/:id/:leadType			controllers.Application.releaseFromNotif(id:Long,leadType:String)
 GET     /deletePremiumLead/:id/:leadType			controllers.Application.deletePremiumLead(id:Long,leadType:String)
 GET		/getNewToDoCount				controllers.Application.getNewToDoCount()
 GET		/setTodoSeen					controllers.Application.setTodoSeen()
