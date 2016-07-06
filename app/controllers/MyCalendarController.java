@@ -234,6 +234,7 @@ public class MyCalendarController extends Controller {
 		 {
 			 PortalNameVM pVm = new PortalNameVM();
 			 pVm.title = entry.getKey();
+			 pVm.locationId = 16L;
 			 if(pVm.title.equals("MavenFurniture")){
 				 pVm.color = "red";
 			 }else if(pVm.title.equals("AutoDealer")){
