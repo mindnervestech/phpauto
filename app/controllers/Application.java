@@ -29346,25 +29346,25 @@ private static void cancelTestDriveMail(Map map) {
     		double count7=0.0;
     		 for(ClickyVisitorsList lis:locationObjList){
     	     	if(lis.averageAction != null){
-    	     		count1=count1+Double.parseDouble(lis.averageAction);
+    	     		count1=Double.parseDouble(lis.averageAction);
     	     	}
     			if(lis.bounceRate != null){
-    				count6=count6+Double.parseDouble(lis.bounceRate);	
+    				count6=Double.parseDouble(lis.bounceRate);	
     				     	}
     			if(lis.averageTime != null){
-    				count5=count5+Double.parseDouble(lis.averageTime);	
+    				count5=Double.parseDouble(lis.averageTime);	
     				}
     			if(lis.totalTime != null){
-    				count4=count4+Double.parseDouble(lis.totalTime);
+    				count4=Double.parseDouble(lis.totalTime);
     				}
     			if(lis.visitors != null){
-    				 count2=count2+Double.parseDouble(lis.visitors);
+    				 count2=Double.parseDouble(lis.visitors);
     				}
     			if(lis.uniqueVisitor!= null){
-    				count3=count3+Double.parseDouble(lis.uniqueVisitor);
+    				count3=Double.parseDouble(lis.uniqueVisitor);
     				}
     			if(lis.action != null){
-    			count7=count7+Double.parseDouble(lis.action);
+    			count7=Double.parseDouble(lis.action);
     			}
     		   			
     		 }
@@ -29378,25 +29378,25 @@ private static void cancelTestDriveMail(Map map) {
     			double countAll7=0.0;
     			 for(ClickyVisitorsList list:alldatalist){
     				 if(list.averageAction != null){
-    					 countAll1=countAll1+Double.parseDouble(list.averageAction);
+    					 countAll1=count1+Double.parseDouble(list.averageAction);
     			     	}
     					if(list.bounceRate != null){
-    						 countAll6=countAll6+Double.parseDouble(list.bounceRate);	
+    						 countAll6=count6+Double.parseDouble(list.bounceRate);	
     						     	}
     					if(list.averageTime != null){
-    						countAll5=countAll5+Double.parseDouble(list.averageTime);	
+    						countAll5=count5+Double.parseDouble(list.averageTime);	
     						}
     					if(list.totalTime != null  && !list.totalTime.equals("")){
-    						 countAll4=countAll4+Double.parseDouble(list.totalTime);
+    						 countAll4=count4+Double.parseDouble(list.totalTime);
     						}
     					if(list.visitors != null){
-    						countAll2=countAll2+Double.parseDouble(list.visitors);
+    						countAll2=count2+Double.parseDouble(list.visitors);
     						}
     					if(list.uniqueVisitor != null){
-    						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+    						countAll3=count3+Double.parseDouble(list.uniqueVisitor);
     						}
     					if(list.action != null && !list.action.equals("")){
-    						 countAll7=countAll7+Double.parseDouble(list.action);
+    						 countAll7=count7+Double.parseDouble(list.action);
     					}
     				 
     				 
@@ -29627,25 +29627,25 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
        		double count7=0.0;
        		 for(ClickyVisitorsList lis:locationObjList){
        	     	if(lis.averageAction1 != null){
-       	     		count1=count1+Double.parseDouble(lis.averageAction1);
+       	     		count1=Double.parseDouble(lis.averageAction1);
        	     	}
        			if(lis.bounceRate1 != null){
-       				count6=count6+Double.parseDouble(lis.bounceRate1);	
+       				count6=Double.parseDouble(lis.bounceRate1);	
        				     	}
        			if(lis.averageTime1 != null){
-       				count5=count5+Double.parseDouble(lis.averageTime1);	
+       				count5=Double.parseDouble(lis.averageTime1);	
        				}
        			if(lis.totalTime1 != null){
-       				count4=count4+Double.parseDouble(lis.totalTime1);
+       				count4=Double.parseDouble(lis.totalTime1);
        				}
        			if(lis.visitors1 != null){
-       				 count2=count2+Double.parseDouble(lis.visitors1);
+       				 count2=Double.parseDouble(lis.visitors1);
        				}
        			if(lis.uniqueVisitor1!= null){
-       				count3=count3+Double.parseDouble(lis.uniqueVisitor1);
+       				count3=Double.parseDouble(lis.uniqueVisitor1);
        				}
        			if(lis.action1 != null){
-       			count7=count7+Double.parseDouble(lis.action1);
+       			count7=Double.parseDouble(lis.action1);
        			}
        		   			
        		 }
@@ -29659,25 +29659,25 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
        			double countAll7=0.0;
        			 for(ClickyVisitorsList list:alldatalist){
        				 if(list.averageAction1 != null){
-       					 countAll1=countAll1+Double.parseDouble(list.averageAction1);
+       					 countAll1=count1+Double.parseDouble(list.averageAction1);
        			     	}
        					if(list.bounceRate1 != null){
-       						 countAll6=countAll6+Double.parseDouble(list.bounceRate1);	
+       						 countAll6=count6+Double.parseDouble(list.bounceRate1);	
        						     	}
        					if(list.averageTime1 != null){
-       						countAll5=countAll5+Double.parseDouble(list.averageTime1);	
+       						countAll5=count5+Double.parseDouble(list.averageTime1);	
        						}
        					if(list.totalTime1 != null  && !list.totalTime1.equals("")){
-       						 countAll4=countAll4+Double.parseDouble(list.totalTime1);
+       						 countAll4=count4+Double.parseDouble(list.totalTime1);
        						}
        					if(list.visitors1 != null){
-       						countAll2=countAll2+Double.parseDouble(list.visitors1);
+       						countAll2=count2+Double.parseDouble(list.visitors1);
        						}
        					if(list.uniqueVisitor1 != null){
-       						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor1);
+       						countAll3=count3+Double.parseDouble(list.uniqueVisitor1);
        						}
        					if(list.action1 != null && !list.action1.equals("")){
-       						 countAll7=countAll7+Double.parseDouble(list.action1);
+       						 countAll7=count7+Double.parseDouble(list.action1);
        					}
        				 
        				 
@@ -29796,25 +29796,25 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     		double count7=0.0;
     		 for(ClickyVisitorsList lis:locationObjList){
     	     	if(lis.averageAction2 != null){
-    	     		count1=count1+Double.parseDouble(lis.averageAction2);
+    	     		count1=Double.parseDouble(lis.averageAction2);
     	     	}
     			if(lis.bounceRate2 != null){
-    				count6=count6+Double.parseDouble(lis.bounceRate2);	
+    				count6=Double.parseDouble(lis.bounceRate2);	
     				     	}
     			if(lis.averageTime2 != null){
-    				count5=count5+Double.parseDouble(lis.averageTime2);	
+    				count5=Double.parseDouble(lis.averageTime2);	
     				}
     			if(lis.totalTime2 != null){
-    				count4=count4+Double.parseDouble(lis.totalTime2);
+    				count4=Double.parseDouble(lis.totalTime2);
     				}
     			if(lis.visitors2 != null){
-    				 count2=count2+Double.parseDouble(lis.visitors2);
+    				 count2=Double.parseDouble(lis.visitors2);
     				}
     			if(lis.uniqueVisitor2!= null){
-    				count3=count3+Double.parseDouble(lis.uniqueVisitor2);
+    				count3=Double.parseDouble(lis.uniqueVisitor2);
     				}
     			if(lis.action2 != null){
-    			count7=count7+Double.parseDouble(lis.action2);
+    			count7=Double.parseDouble(lis.action2);
     			}
     		   			
     		 }
@@ -29828,25 +29828,25 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     			double countAll7=0.0;
     			 for(ClickyVisitorsList list:alldatalist){
     				 if(list.averageAction2 != null){
-    					 countAll1=countAll1+Double.parseDouble(list.averageAction2);
+    					 countAll1=count1+Double.parseDouble(list.averageAction2);
     			     	}
     					if(list.bounceRate2 != null){
-    						 countAll6=countAll6+Double.parseDouble(list.bounceRate2);	
+    						 countAll6=count6+Double.parseDouble(list.bounceRate2);	
     						     	}
     					if(list.averageTime2 != null){
-    						countAll5=countAll5+Double.parseDouble(list.averageTime2);	
+    						countAll5=count5+Double.parseDouble(list.averageTime2);	
     						}
     					if(list.totalTime2 != null  && !list.totalTime2.equals("")){
-    						 countAll4=countAll4+Double.parseDouble(list.totalTime2);
+    						 countAll4=count4+Double.parseDouble(list.totalTime2);
     						}
     					if(list.visitors2 != null){
-    						countAll2=countAll2+Double.parseDouble(list.visitors2);
+    						countAll2=count2+Double.parseDouble(list.visitors2);
     						}
     					if(list.uniqueVisitor2 != null){
-    						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor2);
+    						countAll3=count3+Double.parseDouble(list.uniqueVisitor2);
     						}
     					if(list.action2 != null && !list.action2.equals("")){
-    						 countAll7=countAll7+Double.parseDouble(list.action2);
+    						 countAll7=count7+Double.parseDouble(list.action2);
     					}
     				 
     				 
