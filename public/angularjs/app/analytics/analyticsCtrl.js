@@ -460,27 +460,52 @@ angular.module('newApp')
 						$scope.city=value.city;
 						console.log($scope.city);
 					}
-					if( value.title== "Average time / visit" && value.value != null  ){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-					 var splitTime1   = value.value.split(":");
-					 if(splitTime1[0] == 00){
-						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 else{
-						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 
-					}
-					if(value.title== "Total time" && value.value != null){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-						var splitTime   = value.value.split(":");
-						if(splitTime[0] == 00){
-							value.value = splitTime[1]+"m "+splitTime[2]+"s";
+					if(value.title=="totalT"){
+						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+						 var splitTime   = value.these_visitors.split(":");
+						 if(splitTime[0] == 00){
+							 value.these_visitors = splitTime[1]+"m "+splitTime[2]+"s";
 						 }
 						 else{
-							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 value.these_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
 						 }
-					}
+						 
+						}	
+					if(value.title=="averageT"){
+						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+						 var splitTime1   = value.these_visitors.split(":");
+						 if(splitTime1[0] == 00){
+							 value.these_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.these_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						}	 
+						 
+					if(value.title=="totalT"){
+						value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+						 var splitTime   = value.all_visitors.split(":");
+						 if(splitTime[0] == 00){
+							 value.all_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.all_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
+						 
+						}	
+					if(value.title=="averageT"){
+						value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+						 var splitTime1   = value.all_visitors.split(":");
+						 if(splitTime1[0] == 00){
+							 value.all_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.all_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						}
 					
 					
 				});
@@ -490,18 +515,14 @@ angular.module('newApp')
 			 
 			 
 			 $scope.gridOptions1.columnDefs = [
-			                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
-			                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',			
-			                                   },
-									             {name:'these_visitors', displayName:'These Visitors', width:'15%',
-			                                	   cellTemplate:'<div><span>{{row.entity.these_visitors.toFixed(2)}}%</span></div>',  
-									             },
-									             {name:'all_visitors', displayName:'All Visitors', width:'15%',
-									            	 cellTemplate:'<div><span>{{row.entity.all_visitors.toFixed(2)}}%</span></div>',	 
-									             },
-									             {name:'these_vis', displayName:'Difference', width:'15%',
-									            	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>', 
-									             },
+												{name: 'tt', displayName: 'Summary of filtered visitors', width:'40%',
+													   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>', 
+												},
+												  {name:'these_visitors', displayName:'These Visitors', width:'20%' },
+												  {name:'all_visitors', displayName:'All Visitors', width:'20%' },
+												  {name:'these', displayName:'Difference', width:'20%',
+												 	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>',
+												  },
 									            
 									         ]
 			 
@@ -529,27 +550,52 @@ angular.module('newApp')
 						$scope.city=value.city;
 						console.log($scope.city);
 					}
-					if( value.title== "Average time / visit" && value.value != null  ){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-					 var splitTime1   = value.value.split(":");
-					 if(splitTime1[0] == 00){
-						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 else{
-						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 
-					}
-					if(value.title== "Total time" && value.value != null){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-						var splitTime   = value.value.split(":");
-						if(splitTime[0] == 00){
-							value.value = splitTime[1]+"m "+splitTime[2]+"s";
+					if(value.title=="totalT"){
+						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+						 var splitTime   = value.these_visitors.split(":");
+						 if(splitTime[0] == 00){
+							 value.these_visitors = splitTime[1]+"m "+splitTime[2]+"s";
 						 }
 						 else{
-							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 value.these_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
 						 }
-					}
+						 
+						}	
+					if(value.title=="averageT"){
+						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+						 var splitTime1   = value.these_visitors.split(":");
+						 if(splitTime1[0] == 00){
+							 value.these_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.these_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						}	 
+						 
+					if(value.title=="totalT"){
+						value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+						 var splitTime   = value.all_visitors.split(":");
+						 if(splitTime[0] == 00){
+							 value.all_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.all_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
+						 
+						}	
+					if(value.title=="averageT"){
+						value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+						 var splitTime1   = value.all_visitors.split(":");
+						 if(splitTime1[0] == 00){
+							 value.all_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.all_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						}
 					
 					
 				});
@@ -559,10 +605,14 @@ angular.module('newApp')
 			 
 			 
 			 $scope.gridOptions1.columnDefs = [
-                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
-									             {name: 'value', displayName: 'These visitors', width:'20%' },
-									            /*{name: 'title', displayName: 'All visitors', width:'20%'},
-									            {name: 'title', displayName: 'Difference', width:'20%'},*/
+												{name: 'tt', displayName: 'Summary of filtered visitors', width:'40%',
+													   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>', 
+												},
+												  {name:'these_visitors', displayName:'These Visitors', width:'20%' },
+												  {name:'all_visitors', displayName:'All Visitors', width:'20%' },
+												  {name:'these', displayName:'Difference', width:'20%',
+												 	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>',
+												  },
 									            
 									         ]
 			 
@@ -583,27 +633,52 @@ angular.module('newApp')
 						$scope.city=value.city;
 						console.log($scope.city);
 					}
-					if( value.title== "Average time / visit" && value.value != null  ){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-					 var splitTime1   = value.value.split(":");
-					 if(splitTime1[0] == 00){
-						 value.value = splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 else{
-						 value.value = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
-					 }
-					 
-					}
-					if(value.title== "Total time" && value.value != null){
-						value.value=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.value)), 'HH:mm:ss');
-						var splitTime   = value.value.split(":");
-						if(splitTime[0] == 00){
-							value.value = splitTime[1]+"m "+splitTime[2]+"s";
+					if(value.title=="totalT"){
+						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+						 var splitTime   = value.these_visitors.split(":");
+						 if(splitTime[0] == 00){
+							 value.these_visitors = splitTime[1]+"m "+splitTime[2]+"s";
 						 }
 						 else{
-							 value.value = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 value.these_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
 						 }
-					}
+						 
+						}	
+					if(value.title=="averageT"){
+						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+						 var splitTime1   = value.these_visitors.split(":");
+						 if(splitTime1[0] == 00){
+							 value.these_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.these_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						}	 
+						 
+					if(value.title=="totalT"){
+						value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+						 var splitTime   = value.all_visitors.split(":");
+						 if(splitTime[0] == 00){
+							 value.all_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 value.all_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 
+						 
+						}	
+					if(value.title=="averageT"){
+						value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+						 var splitTime1   = value.all_visitors.split(":");
+						 if(splitTime1[0] == 00){
+							 value.all_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 else{
+							 value.all_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+						 }
+						 
+						}
 					
 					
 				});
@@ -613,10 +688,14 @@ angular.module('newApp')
 			 
 			 
 			 $scope.gridOptions1.columnDefs = [
-                                              {name: 'title', displayName: 'Summary of filtered visitors', width:'40%'},
-									             {name: 'value', displayName: 'These visitors', width:'20%' },
-									            /*{name: 'title', displayName: 'All visitors', width:'20%'},
-									            {name: 'title', displayName: 'Difference', width:'20%'},*/
+												{name: 'tt', displayName: 'Summary of filtered visitors', width:'40%',
+													   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>', 
+												},
+												  {name:'these_visitors', displayName:'These Visitors', width:'20%' },
+												  {name:'all_visitors', displayName:'All Visitors', width:'20%' },
+												  {name:'these', displayName:'Difference', width:'20%',
+												 	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>',
+												  },
 									            
 									         ]
 			 
@@ -719,7 +798,7 @@ angular.module('newApp')
 				                                 },
 				                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
 				                                 {name:'referrerUrl', displayName:'Searches & Refferals', width:'40%',
-				                                	 cellTemplate:'<div ><label ng-if="row.entity.referrerUrl != null" ><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"> </span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a> <a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">google.com</a> &nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a> </label></div>',
+				                                	 cellTemplate:'<div ><label ng-if="row.entity.referrerUrl != null" ><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"> </span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a> <a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a> &nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a> </label></div>',
 				                                	 },
 				                                 {name:'Sear', displayName:'Page', width:'10%',
 				                                	 cellTemplate:'<a   target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',

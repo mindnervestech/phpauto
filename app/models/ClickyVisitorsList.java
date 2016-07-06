@@ -52,10 +52,197 @@ public class ClickyVisitorsList extends Model {
 	public String averageTime;
 	public String bounceRate;
 	
+	public String visitors1;
+	public String uniqueVisitor1;
+	public String action1;
+	public String averageAction1;
+	public String totalTime1;
+	public String averageTime1;
+	public String bounceRate1;
+	
+	public String visitors2;
+	public String uniqueVisitor2;
+	public String action2;
+	public String averageAction2;
+	public String totalTime2;
+	public String averageTime2;
+	public String bounceRate2;
+	
 	public static Finder<Long,ClickyVisitorsList> find = new Finder<>(Long.class,ClickyVisitorsList.class);
 	
 	
 	
+	
+
+
+	public String getVisitors2() {
+		return visitors2;
+	}
+
+
+
+	public void setVisitors2(String visitors2) {
+		this.visitors2 = visitors2;
+	}
+
+
+
+	public String getUniqueVisitor2() {
+		return uniqueVisitor2;
+	}
+
+
+
+	public void setUniqueVisitor2(String uniqueVisitor2) {
+		this.uniqueVisitor2 = uniqueVisitor2;
+	}
+
+
+
+	public String getAction2() {
+		return action2;
+	}
+
+
+
+	public void setAction2(String action2) {
+		this.action2 = action2;
+	}
+
+
+
+	public String getAverageAction2() {
+		return averageAction2;
+	}
+
+
+
+	public void setAverageAction2(String averageAction2) {
+		this.averageAction2 = averageAction2;
+	}
+
+
+
+	public String getTotalTime2() {
+		return totalTime2;
+	}
+
+
+
+	public void setTotalTime2(String totalTime2) {
+		this.totalTime2 = totalTime2;
+	}
+
+
+
+	public String getAverageTime2() {
+		return averageTime2;
+	}
+
+
+
+	public void setAverageTime2(String averageTime2) {
+		this.averageTime2 = averageTime2;
+	}
+
+
+
+	public String getBounceRate2() {
+		return bounceRate2;
+	}
+
+
+
+	public void setBounceRate2(String bounceRate2) {
+		this.bounceRate2 = bounceRate2;
+	}
+
+
+
+	public String getVisitors1() {
+		return visitors1;
+	}
+
+
+
+	public void setVisitors1(String visitors1) {
+		this.visitors1 = visitors1;
+	}
+
+
+
+	public String getUniqueVisitor1() {
+		return uniqueVisitor1;
+	}
+
+
+
+	public void setUniqueVisitor1(String uniqueVisitor1) {
+		this.uniqueVisitor1 = uniqueVisitor1;
+	}
+
+
+
+	public String getAction1() {
+		return action1;
+	}
+
+
+
+	public void setAction1(String action1) {
+		this.action1 = action1;
+	}
+
+
+
+	public String getAverageAction1() {
+		return averageAction1;
+	}
+
+
+
+	public void setAverageAction1(String averageAction1) {
+		this.averageAction1 = averageAction1;
+	}
+
+
+
+	public String getTotalTime1() {
+		return totalTime1;
+	}
+
+
+
+	public void setTotalTime1(String totalTime1) {
+		this.totalTime1 = totalTime1;
+	}
+
+
+
+	public String getAverageTime1() {
+		return averageTime1;
+	}
+
+
+
+	public void setAverageTime1(String averageTime1) {
+		this.averageTime1 = averageTime1;
+	}
+
+
+
+	public String getBounceRate1() {
+		return bounceRate1;
+	}
+
+
+
+	public void setBounceRate1(String bounceRate1) {
+		this.bounceRate1 = bounceRate1;
+	}
+
+
+
 	public String getCustomSessionId() {
 		return customSessionId;
 	}
@@ -480,7 +667,9 @@ public class ClickyVisitorsList extends Model {
 	public static List<ClickyVisitorsList> findByTitleAndDate(String geolocation, Date startdate, Date enddate) {
 		return find.where().eq("geolocation", geolocation).between("DateClick", startdate, enddate).findList();
 	}
-	
+	public static List<ClickyVisitorsList> findByIdAndDate(Long id, Date startdate, Date enddate) {
+		return find.where().eq("id", id).between("DateClick", startdate, enddate).findList();
+	}
 	public static List<ClickyVisitorsList> getClickyUnikue(String uid,String sessionId) {
 		return find.where().eq("uid", uid).eq("sessionId", sessionId).findList();
 	}

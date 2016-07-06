@@ -29306,7 +29306,7 @@ private static void cancelTestDriveMail(Map map) {
      	List<ClickyPagesVM> clickyList = new ArrayList<>();
      	String city=null;
      	if(locationFlag.equalsIgnoreCase("location")){
-     		String location[]=type.split(",");
+     		/*String location[]=type.split(",");
      		city=location[0];
      		
      		String country[]=location[1].split(" ");
@@ -29320,7 +29320,163 @@ private static void cancelTestDriveMail(Map map) {
      		catch(Exception e)
      		{
      			params = "&type=segmentation&city="+city+"&country="+country[1]+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
-     		}
+     		}*/
+     		 Date d1= null;
+     		Date d2= null;
+     		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+     		try{
+     			 d1 = format.parse(startDate);
+     	         d2 = format.parse(endDate);
+     	    } catch (Exception e) {
+     	        e.printStackTrace();
+     	    }
+     		
+     		List<ClickyVisitorsList> locationObjList = ClickyVisitorsList.findByTitleAndDate(type, d1, d2);
+    		List<ClickyVisitorsList> alldatalist = ClickyVisitorsList.getAll(d1, d2);
+    		
+    		List <ClickyPagesVM> VMs = new ArrayList<>();
+    		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+    		ClickyPagesVM vm = new ClickyPagesVM();
+    		double count1=0.0;
+    		double count2=0.0;
+    		double count3=0.0;
+    		double count4=0.0;
+    		double count5=0.0;
+    		double count6=0.0;
+    		double count7=0.0;
+    		 for(ClickyVisitorsList lis:locationObjList){
+    	     	if(lis.averageAction != null){
+    	     		count1=count1+Double.parseDouble(lis.averageAction);
+    	     	}
+    			if(lis.bounceRate != null){
+    				count6=count6+Double.parseDouble(lis.bounceRate);	
+    				     	}
+    			if(lis.averageTime != null){
+    				count5=count5+Double.parseDouble(lis.averageTime);	
+    				}
+    			if(lis.totalTime != null){
+    				count4=count4+Double.parseDouble(lis.totalTime);
+    				}
+    			if(lis.visitors != null){
+    				 count2=count2+Double.parseDouble(lis.visitors);
+    				}
+    			if(lis.uniqueVisitor!= null){
+    				count3=count3+Double.parseDouble(lis.uniqueVisitor);
+    				}
+    			if(lis.action != null){
+    			count7=count7+Double.parseDouble(lis.action);
+    			}
+    		   			
+    		 }
+    		 
+    		 double countAll1=0.0;
+    			double countAll2=0.0;
+    			double countAll3=0.0;
+    			double countAll4=0.0;
+    			double countAll5=0.0;
+    			double countAll6=0.0;
+    			double countAll7=0.0;
+    			 for(ClickyVisitorsList list:alldatalist){
+    				 if(list.averageAction != null){
+    					 countAll1=countAll1+Double.parseDouble(list.averageAction);
+    			     	}
+    					if(list.bounceRate != null){
+    						 countAll6=countAll6+Double.parseDouble(list.bounceRate);	
+    						     	}
+    					if(list.averageTime != null){
+    						countAll5=countAll5+Double.parseDouble(list.averageTime);	
+    						}
+    					if(list.totalTime != null  && !list.totalTime.equals("")){
+    						 countAll4=countAll4+Double.parseDouble(list.totalTime);
+    						}
+    					if(list.visitors != null){
+    						countAll2=countAll2+Double.parseDouble(list.visitors);
+    						}
+    					if(list.uniqueVisitor != null){
+    						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+    						}
+    					if(list.action != null && !list.action.equals("")){
+    						 countAll7=countAll7+Double.parseDouble(list.action);
+    					}
+    				 
+    				 
+    		   			
+    			 }
+    		 
+    			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+    			 cVm.title = "visitors";
+    			 cVm.these_visitors =  count2;
+    			 cVm.all_visitors = countAll2;
+    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+    			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+    			 platformvm.add(cVm);
+    			 
+    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+    			 cVm1.title = "uniqueV";
+    			 cVm1.these_visitors = count3;
+    			 cVm1.all_visitors = countAll3;
+    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+    			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+    			 platformvm.add(cVm1);
+    			 
+    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+    			 cVm2.title = "action";
+    			 cVm2.these_visitors = count7;
+    			 cVm2.all_visitors = countAll7;
+    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+    			 platformvm.add(cVm2);
+    			 
+    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+    			 cVm3.title = "averageAct";
+    			 cVm3.these_visitors = count1;
+    			 cVm3.all_visitors = countAll1;
+    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+    			 platformvm.add(cVm3);
+    			 
+    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+    			 cVm4.title = "totalT";
+    			 cVm4.these_visitors = count4;
+    			 cVm4.all_visitors = countAll4;
+    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+    			 platformvm.add(cVm4);
+    			 
+    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+    			 cVm5.title = "averageT";
+    			 cVm5.these_visitors = count5;
+    			 cVm5.all_visitors = countAll5;
+    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+    			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+    			 platformvm.add(cVm5);
+    			 
+    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+    			 cVm6.title = "bounceR";
+    			 cVm6.these_visitors = count6;
+    			 cVm6.all_visitors = countAll6;
+    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+    			 if(countAll6 !=0){
+    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+    			 }
+    			 else{
+    				 cVm6.difference = 0.0;
+    			 }
+    			 platformvm.add(cVm6);
+    		 
+    		 vm.averageAct=count1;
+    		 vm.visitor=count2;
+    		 vm.uniqueV=count3;
+    		 vm.totalT=count4;
+    		 vm.averageT=count5;
+    		 vm.bounceR=count6;
+    		 vm.action=count7;
+    		
+    		 VMs.add(vm);
+
+    	 	
+    	 	return ok(Json.toJson(platformvm));
+     	
      	}
      	else if(locationFlag.equalsIgnoreCase("language")){
      		
@@ -29445,7 +29601,164 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     	params = "&type=segmentation&source=searches&title="+title+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
     	}
     	else if(flagForLanding.equalsIgnoreCase("ForDomain")){
-    		params = "&type=segmentation&source=searches&domain="+domain+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
+    		//params = "&type=segmentation&source=searches&domain="+domain+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
+    		 Date d1= null;
+        		Date d2= null;
+        		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        		try{
+        			 d1 = format.parse(startDate);
+        	         d2 = format.parse(endDate);
+        	    } catch (Exception e) {
+        	        e.printStackTrace();
+        	    }
+        		
+        	List<ClickyVisitorsList> locationObjList = ClickyVisitorsList.findByIdAndDate(id, d2, d1);
+       		List<ClickyVisitorsList> alldatalist = ClickyVisitorsList.getAll(d2, d1);
+       		
+       		List <ClickyPagesVM> VMs = new ArrayList<>();
+       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+       		ClickyPagesVM vm = new ClickyPagesVM();
+       		double count1=0.0;
+       		double count2=0.0;
+       		double count3=0.0;
+       		double count4=0.0;
+       		double count5=0.0;
+       		double count6=0.0;
+       		double count7=0.0;
+       		 for(ClickyVisitorsList lis:locationObjList){
+       	     	if(lis.averageAction1 != null){
+       	     		count1=count1+Double.parseDouble(lis.averageAction1);
+       	     	}
+       			if(lis.bounceRate1 != null){
+       				count6=count6+Double.parseDouble(lis.bounceRate1);	
+       				     	}
+       			if(lis.averageTime1 != null){
+       				count5=count5+Double.parseDouble(lis.averageTime1);	
+       				}
+       			if(lis.totalTime1 != null){
+       				count4=count4+Double.parseDouble(lis.totalTime1);
+       				}
+       			if(lis.visitors1 != null){
+       				 count2=count2+Double.parseDouble(lis.visitors1);
+       				}
+       			if(lis.uniqueVisitor1!= null){
+       				count3=count3+Double.parseDouble(lis.uniqueVisitor1);
+       				}
+       			if(lis.action1 != null){
+       			count7=count7+Double.parseDouble(lis.action1);
+       			}
+       		   			
+       		 }
+       		 
+       		 double countAll1=0.0;
+       			double countAll2=0.0;
+       			double countAll3=0.0;
+       			double countAll4=0.0;
+       			double countAll5=0.0;
+       			double countAll6=0.0;
+       			double countAll7=0.0;
+       			 for(ClickyVisitorsList list:alldatalist){
+       				 if(list.averageAction1 != null){
+       					 countAll1=countAll1+Double.parseDouble(list.averageAction1);
+       			     	}
+       					if(list.bounceRate1 != null){
+       						 countAll6=countAll6+Double.parseDouble(list.bounceRate1);	
+       						     	}
+       					if(list.averageTime1 != null){
+       						countAll5=countAll5+Double.parseDouble(list.averageTime1);	
+       						}
+       					if(list.totalTime1 != null  && !list.totalTime1.equals("")){
+       						 countAll4=countAll4+Double.parseDouble(list.totalTime1);
+       						}
+       					if(list.visitors1 != null){
+       						countAll2=countAll2+Double.parseDouble(list.visitors1);
+       						}
+       					if(list.uniqueVisitor1 != null){
+       						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor1);
+       						}
+       					if(list.action1 != null && !list.action1.equals("")){
+       						 countAll7=countAll7+Double.parseDouble(list.action1);
+       					}
+       				 
+       				 
+       		   			
+       			 }
+       		 
+       			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+       			 cVm.title = "visitors";
+       			 cVm.these_visitors =  count2;
+       			 cVm.all_visitors = countAll2;
+       			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+       			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+       			 platformvm.add(cVm);
+       			 
+       			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+       			 cVm1.title = "uniqueV";
+       			 cVm1.these_visitors = count3;
+       			 cVm1.all_visitors = countAll3;
+       			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+       			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+       			 platformvm.add(cVm1);
+       			 
+       			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+       			 cVm2.title = "action";
+       			 cVm2.these_visitors = count7;
+       			 cVm2.all_visitors = countAll7;
+       			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+       			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+       			 platformvm.add(cVm2);
+       			 
+       			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+       			 cVm3.title = "averageAct";
+       			 cVm3.these_visitors = count1;
+       			 cVm3.all_visitors = countAll1;
+       			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+       			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+       			 platformvm.add(cVm3);
+       			 
+       			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+       			 cVm4.title = "totalT";
+       			 cVm4.these_visitors = count4;
+       			 cVm4.all_visitors = countAll4;
+       			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+       			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+       			 platformvm.add(cVm4);
+       			 
+       			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+       			 cVm5.title = "averageT";
+       			 cVm5.these_visitors = count5;
+       			 cVm5.all_visitors = countAll5;
+       			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+       			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+       			 platformvm.add(cVm5);
+       			 
+       			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+       			 cVm6.title = "bounceR";
+       			 cVm6.these_visitors = count6;
+       			 cVm6.all_visitors = countAll6;
+       			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+       			 if(countAll6 !=0){
+       				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+       			 }
+       			 else{
+       				 cVm6.difference = 0.0;
+       			 }
+       			 platformvm.add(cVm6);
+       		 
+       		 vm.averageAct=count1;
+       		 vm.visitor=count2;
+       		 vm.uniqueV=count3;
+       		 vm.totalT=count4;
+       		 vm.averageT=count5;
+       		 vm.bounceR=count6;
+       		 vm.action=count7;
+       		
+       		 VMs.add(vm);
+
+       	 	
+       	 	return ok(Json.toJson(platformvm));
+
+    	
     	}
     	else if(flagForLanding.equalsIgnoreCase("ForRefferalUrl")){
     		String newUrl=null;
@@ -29457,7 +29770,164 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     			newUrl=url;
     		}
     		
-    		params = "&type=segmentation&search="+newUrl+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
+    		//params = "&type=segmentation&search="+newUrl+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
+    		 Date d1= null;
+     		Date d2= null;
+     		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+     		try{
+     			 d1 = format.parse(startDate);
+     	         d2 = format.parse(endDate);
+     	    } catch (Exception e) {
+     	        e.printStackTrace();
+     	    }
+     		
+     	List<ClickyVisitorsList> locationObjList = ClickyVisitorsList.findByIdAndDate(id, d2, d1);
+    		List<ClickyVisitorsList> alldatalist = ClickyVisitorsList.getAll(d2, d1);
+    		
+    		List <ClickyPagesVM> VMs = new ArrayList<>();
+    		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+    		ClickyPagesVM vm = new ClickyPagesVM();
+    		double count1=0.0;
+    		double count2=0.0;
+    		double count3=0.0;
+    		double count4=0.0;
+    		double count5=0.0;
+    		double count6=0.0;
+    		double count7=0.0;
+    		 for(ClickyVisitorsList lis:locationObjList){
+    	     	if(lis.averageAction2 != null){
+    	     		count1=count1+Double.parseDouble(lis.averageAction2);
+    	     	}
+    			if(lis.bounceRate2 != null){
+    				count6=count6+Double.parseDouble(lis.bounceRate2);	
+    				     	}
+    			if(lis.averageTime2 != null){
+    				count5=count5+Double.parseDouble(lis.averageTime2);	
+    				}
+    			if(lis.totalTime2 != null){
+    				count4=count4+Double.parseDouble(lis.totalTime2);
+    				}
+    			if(lis.visitors2 != null){
+    				 count2=count2+Double.parseDouble(lis.visitors2);
+    				}
+    			if(lis.uniqueVisitor2!= null){
+    				count3=count3+Double.parseDouble(lis.uniqueVisitor2);
+    				}
+    			if(lis.action2 != null){
+    			count7=count7+Double.parseDouble(lis.action2);
+    			}
+    		   			
+    		 }
+    		 
+    		 double countAll1=0.0;
+    			double countAll2=0.0;
+    			double countAll3=0.0;
+    			double countAll4=0.0;
+    			double countAll5=0.0;
+    			double countAll6=0.0;
+    			double countAll7=0.0;
+    			 for(ClickyVisitorsList list:alldatalist){
+    				 if(list.averageAction2 != null){
+    					 countAll1=countAll1+Double.parseDouble(list.averageAction2);
+    			     	}
+    					if(list.bounceRate2 != null){
+    						 countAll6=countAll6+Double.parseDouble(list.bounceRate2);	
+    						     	}
+    					if(list.averageTime2 != null){
+    						countAll5=countAll5+Double.parseDouble(list.averageTime2);	
+    						}
+    					if(list.totalTime2 != null  && !list.totalTime2.equals("")){
+    						 countAll4=countAll4+Double.parseDouble(list.totalTime2);
+    						}
+    					if(list.visitors2 != null){
+    						countAll2=countAll2+Double.parseDouble(list.visitors2);
+    						}
+    					if(list.uniqueVisitor2 != null){
+    						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor2);
+    						}
+    					if(list.action2 != null && !list.action2.equals("")){
+    						 countAll7=countAll7+Double.parseDouble(list.action2);
+    					}
+    				 
+    				 
+    		   			
+    			 }
+    		 
+    			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+    			 cVm.title = "visitors";
+    			 cVm.these_visitors =  count2;
+    			 cVm.all_visitors = countAll2;
+    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+    			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+    			 platformvm.add(cVm);
+    			 
+    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+    			 cVm1.title = "uniqueV";
+    			 cVm1.these_visitors = count3;
+    			 cVm1.all_visitors = countAll3;
+    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+    			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+    			 platformvm.add(cVm1);
+    			 
+    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+    			 cVm2.title = "action";
+    			 cVm2.these_visitors = count7;
+    			 cVm2.all_visitors = countAll7;
+    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+    			 platformvm.add(cVm2);
+    			 
+    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+    			 cVm3.title = "averageAct";
+    			 cVm3.these_visitors = count1;
+    			 cVm3.all_visitors = countAll1;
+    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+    			 platformvm.add(cVm3);
+    			 
+    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+    			 cVm4.title = "totalT";
+    			 cVm4.these_visitors = count4;
+    			 cVm4.all_visitors = countAll4;
+    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+    			 platformvm.add(cVm4);
+    			 
+    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+    			 cVm5.title = "averageT";
+    			 cVm5.these_visitors = count5;
+    			 cVm5.all_visitors = countAll5;
+    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+    			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+    			 platformvm.add(cVm5);
+    			 
+    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+    			 cVm6.title = "bounceR";
+    			 cVm6.these_visitors = count6;
+    			 cVm6.all_visitors = countAll6;
+    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+    			 if(countAll6 !=0){
+    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+    			 }
+    			 else{
+    				 cVm6.difference = 0.0;
+    			 }
+    			 platformvm.add(cVm6);
+    		 
+    		 vm.averageAct=count1;
+    		 vm.visitor=count2;
+    		 vm.uniqueV=count3;
+    		 vm.totalT=count4;
+    		 vm.averageT=count5;
+    		 vm.bounceR=count6;
+    		 vm.action=count7;
+    		
+    		 VMs.add(vm);
+
+    	 	
+    	 	return ok(Json.toJson(platformvm));
+
+    	
     	}
     	
     	else{
@@ -30329,7 +30799,9 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 					List<ClickyVisitorsList> cVisitorsLists = ClickyVisitorsList.getClickyUnikue(jsonArray.getJSONObject(i).get("uid").toString(),jsonArray.getJSONObject(i).get("session_id").toString());
 					
 					if(cVisitorsLists.size() == 0){
-						
+						String geolocation = null;
+						String referrer_domain = null;
+						String referrer_url = null;
 						String data = jsonArray.getJSONObject(i).get("time").toString();
 		    			String data1 = jsonArray.getJSONObject(i).get("time_pretty").toString();
 		    			ClickyVisitorsList cVisitorsList = new ClickyVisitorsList();
@@ -30350,6 +30822,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    			
 		    			try{
 		    				cVisitorsList.setReferrerUrl(jsonArray.getJSONObject(i).get("referrer_url").toString());
+		    				referrer_url=jsonArray.getJSONObject(i).get("referrer_url").toString();
 		    			}
 		    			catch(Exception e){
 		    				e.printStackTrace();
@@ -30372,7 +30845,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    			
                        try{
                     	   cVisitorsList.setReferrerDomain(jsonArray.getJSONObject(i).get("referrer_domain").toString());
-		    				
+                    	   referrer_domain=jsonArray.getJSONObject(i).get("referrer_domain").toString();
 		    			}
 		    			catch(Exception e){
 		    				e.printStackTrace();
@@ -30382,6 +30855,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    			//cVisitorsList.setReferrerType(jsonArray.getJSONObject(i).get("referrer_type").toString());
 		    			//cVisitorsList.setReferrerDomain(jsonArray.getJSONObject(i).get("referrer_domain").toString());
 		    			cVisitorsList.setGeolocation(jsonArray.getJSONObject(i).get("geolocation").toString());
+		    			geolocation=jsonArray.getJSONObject(i).get("geolocation").toString();
 		    			cVisitorsList.setCountryCode(jsonArray.getJSONObject(i).get("country_code").toString());
 		    			cVisitorsList.setLatitude(jsonArray.getJSONObject(i).get("latitude").toString());
 		    			cVisitorsList.setLongitude(jsonArray.getJSONObject(i).get("longitude").toString());
@@ -30400,7 +30874,202 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						if(geolocation.contains(","))
+						{
+							String city = null;
+							String location[]=geolocation.split(",");
+				     		city=location[0];
+				     		
+				     		String country[]=location[1].split(" ");
+				     		
+				     		System.out.println(country[1]);
+							
+				     		try{
+				     			String country1[]=location[2].split(" ");
+							paramsPages = "&type=segmentation&country="+country1[1]+"&segments=summary&date="+sDate+"&limit=all";
+				     		}
+				     		catch(Exception e){
+				     			paramsPages = "&type=segmentation&country="+country[1]+"&segments=summary&date="+sDate+"&limit=all";
+				     		}
+			     		
+						}
+						else{
+							paramsPages = "&type=segmentation&country="+geolocation+"&segments=summary&date="+sDate+"&limit=all";
+						}
+		    			JSONArray jsonArrayvisitorspage;
 		    			
+		    			jsonArrayvisitorspage = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+		    				//ClickyVisitorsList cPages = new ClickyVisitorsList();
+		    				for(int j=0;j<jsonArrayvisitorspage.length();j++){
+		    	    			
+		    					
+		    					
+		    					if(jsonArrayvisitorspage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+		    					
+		    						cVisitorsList.setAverageAction(jsonArrayvisitorspage.getJSONObject(j).get("value").toString());
+		    					}
+		    					
+		    					if(jsonArrayvisitorspage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+			    					
+		    						cVisitorsList.setAverageTime(jsonArrayvisitorspage.getJSONObject(j).get("value").toString());
+		    						
+		    					}
+		    					
+		    					if(jsonArrayvisitorspage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+			    					
+		    						cVisitorsList.setTotalTime(jsonArrayvisitorspage.getJSONObject(j).get("value").toString());
+		    						
+		    					}
+		    					
+		    					if(jsonArrayvisitorspage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+			    					
+		    						cVisitorsList.setBounceRate(jsonArrayvisitorspage.getJSONObject(j).get("value").toString());
+		    						
+		    					}
+		    					
+		    					if(jsonArrayvisitorspage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+			    					
+		    						cVisitorsList.setVisitors(jsonArrayvisitorspage.getJSONObject(j).get("value").toString());
+		    						
+		    					}
+		    					if(jsonArrayvisitorspage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+			    					
+		    						cVisitorsList.setUniqueVisitor(jsonArrayvisitorspage.getJSONObject(j).get("value").toString());
+		    						
+		    					}
+		    					
+		    					
+		    					if(jsonArrayvisitorspage.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+			    					
+		    						cVisitorsList.setAction(jsonArrayvisitorspage.getJSONObject(j).get("value").toString());
+		    						
+		    					}
+		    	    			
+		    			
+		    				}
+		    				//&type=segmentation&domain="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all
+		    				if(referrer_domain != null){
+		    				paramsPages = "&type=segmentation&domain="+referrer_domain+"&segments=summary&date="+sDate+"&limit=all";
+		    				
+		    				JSONArray jsonArrayvisitorspage1;
+			    			
+			    			jsonArrayvisitorspage1 = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+			    				//ClickyVisitorsList cPages = new ClickyVisitorsList();
+			    				for(int j=0;j<jsonArrayvisitorspage1.length();j++){
+			    	    			
+			    					
+			    					
+			    					if(jsonArrayvisitorspage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+				    					
+			    						cVisitorsList.setAverageAction1(jsonArrayvisitorspage1.getJSONObject(j).get("value").toString());
+			    					}
+			    					
+			    					if(jsonArrayvisitorspage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+				    					
+			    						cVisitorsList.setAverageTime1(jsonArrayvisitorspage1.getJSONObject(j).get("value").toString());
+			    						
+			    					}
+			    					
+			    					if(jsonArrayvisitorspage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+				    					
+			    						cVisitorsList.setTotalTime1(jsonArrayvisitorspage1.getJSONObject(j).get("value").toString());
+			    						
+			    					}
+			    					
+			    					if(jsonArrayvisitorspage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+				    					
+			    						cVisitorsList.setBounceRate1(jsonArrayvisitorspage1.getJSONObject(j).get("value").toString());
+			    						
+			    					}
+			    					
+			    					if(jsonArrayvisitorspage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+				    					
+			    						cVisitorsList.setVisitors1(jsonArrayvisitorspage1.getJSONObject(j).get("value").toString());
+			    						
+			    					}
+			    					if(jsonArrayvisitorspage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+				    					
+			    						cVisitorsList.setUniqueVisitor1(jsonArrayvisitorspage1.getJSONObject(j).get("value").toString());
+			    						
+			    					}
+			    					
+			    					
+			    					if(jsonArrayvisitorspage1.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+				    					
+			    						cVisitorsList.setAction1(jsonArrayvisitorspage1.getJSONObject(j).get("value").toString());
+			    						
+			    					}
+			    	    			
+			    			
+			    				}
+		    				}
+		    				
+		    				if(referrer_url != null){
+			    				String newUrl=null;
+			    	    		if(referrer_url.contains("=")){
+			    	    			String urlArr[]=referrer_url.split("=");
+			    	    			newUrl=urlArr[1];
+			    	    		}
+			    	    		else{
+			    	    			newUrl=referrer_url;
+			    	    		}
+			    	    		
+			    	    		//params = "&type=segmentation&search="+newUrl+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
+			    				
+			    				paramsPages = "&type=segmentation&search="+newUrl+"&segments=summary&date="+sDate+"&limit=all";
+			    				
+			    				JSONArray jsonArrayvisitorspage2;
+				    			
+				    			jsonArrayvisitorspage2 = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+				    				//ClickyVisitorsList cPages = new ClickyVisitorsList();
+				    				for(int j=0;j<jsonArrayvisitorspage2.length();j++){
+				    	    			
+				    					
+				    					
+				    					if(jsonArrayvisitorspage2.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
+					    					
+				    						cVisitorsList.setAverageAction2(jsonArrayvisitorspage2.getJSONObject(j).get("value").toString());
+				    					}
+				    					
+				    					if(jsonArrayvisitorspage2.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average time / visit")){
+					    					
+				    						cVisitorsList.setAverageTime2(jsonArrayvisitorspage2.getJSONObject(j).get("value").toString());
+				    						
+				    					}
+				    					
+				    					if(jsonArrayvisitorspage2.getJSONObject(j).get("title").toString().equalsIgnoreCase("Total time")){
+					    					
+				    						cVisitorsList.setTotalTime2(jsonArrayvisitorspage2.getJSONObject(j).get("value").toString());
+				    						
+				    					}
+				    					
+				    					if(jsonArrayvisitorspage2.getJSONObject(j).get("title").toString().equalsIgnoreCase("Bounce rate")){
+					    					
+				    						cVisitorsList.setBounceRate2(jsonArrayvisitorspage2.getJSONObject(j).get("value").toString());
+				    						
+				    					}
+				    					
+				    					if(jsonArrayvisitorspage2.getJSONObject(j).get("title").toString().equalsIgnoreCase("Visitors")){
+					    					
+				    						cVisitorsList.setVisitors2(jsonArrayvisitorspage2.getJSONObject(j).get("value").toString());
+				    						
+				    					}
+				    					if(jsonArrayvisitorspage2.getJSONObject(j).get("title").toString().equalsIgnoreCase("Unique visitors")){
+					    					
+				    						cVisitorsList.setUniqueVisitor2(jsonArrayvisitorspage2.getJSONObject(j).get("value").toString());
+				    						
+				    					}
+				    					
+				    					
+				    					if(jsonArrayvisitorspage2.getJSONObject(j).get("title").toString().equalsIgnoreCase("Actions")){
+					    					
+				    						cVisitorsList.setAction2(jsonArrayvisitorspage2.getJSONObject(j).get("value").toString());
+				    						
+				    					}
+				    	    			
+				    			
+				    				}
+		    				}
 		    			cVisitorsList.setDateClick(thedate);
 		    			
 		    			cVisitorsList.save();
