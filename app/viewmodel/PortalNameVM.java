@@ -7,6 +7,7 @@ public class PortalNameVM {
 	public Long id;
 	public String title;
 	public String color;
+	public Long locationId;
 	
 	
 }
