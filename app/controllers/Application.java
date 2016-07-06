@@ -14093,6 +14093,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     					Date newDate=sales.saveDate;
     					Date curDate1=null;
     					Date curDate=null;
+    					DateFormat form = new SimpleDateFormat("yyyy-MM-dd");
+    					String currD=form.format(date);
+    					String planD=form.format(newDate);
+    					//if(currD.equals(arg0))
     					DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
     					 DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
     				    Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
@@ -29508,11 +29512,121 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
 		
 	public static Result getSessionIdData(String id){
 			
-			
+			String sessionId=id;
 			List <ClickyVisitorsList> List = ClickyVisitorsList.getClickyCustomSessionData(id);
 			
 			if(List.size()==0){
-				return ok();
+				
+				String params = "&type=visitors-list&date=last-7-days&limit=all";
+				List<ClickyPagesVM> list =new ArrayList<>();
+				JSONArray jsonArray;
+				try {
+					jsonArray = new JSONArray(callClickAPI(params)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
+					for(int i=0;i<jsonArray.length();i++){
+						String customSessionId=null;
+			    			try{
+			    				
+			    				JSONObject jsonObj = new JSONObject(jsonArray.getJSONObject(i).get("custom").toString());
+			    				customSessionId=jsonObj.get("session_Id").toString();
+			    				
+			    				if(sessionId.equals(customSessionId)){
+			    					
+			    					ClickyPagesVM vm = new ClickyPagesVM();
+			    					
+			    					
+			    					String data = jsonArray.getJSONObject(i).get("time").toString();
+					    			String data1 = jsonArray.getJSONObject(i).get("time_pretty").toString();
+					    			ClickyVisitorsList cVisitorsList = new ClickyVisitorsList();
+					    			vm.time=jsonArray.getJSONObject(i).get("time").toString();
+					    			vm.timePretty=jsonArray.getJSONObject(i).get("time_pretty").toString();
+					    			vm.totalTime=jsonArray.getJSONObject(i).get("time_total").toString();
+					    			vm.ipAddress=jsonArray.getJSONObject(i).get("ip_address").toString();
+					    			vm.uid=jsonArray.getJSONObject(i).get("uid").toString();
+					    			vm.sessionId=jsonArray.getJSONObject(i).get("session_id").toString();
+					    			vm.actions=jsonArray.getJSONObject(i).get("actions").toString();
+					    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
+					    			vm.landingPage=jsonArray.getJSONObject(i).get("landing_page").toString();
+					    			vm.webBrowser=jsonArray.getJSONObject(i).get("web_browser").toString();
+					    			vm.operatingSystem=jsonArray.getJSONObject(i).get("operating_system").toString();
+					    			vm.screenResolution=jsonArray.getJSONObject(i).get("screen_resolution").toString();
+					    			vm.language=jsonArray.getJSONObject(i).get("language").toString();
+					    			
+					    			try{
+					    				vm.referrerUrl=jsonArray.getJSONObject(i).get("referrer_url").toString();
+					    			}
+					    			catch(Exception e){
+					    				e.printStackTrace();
+					    			}
+					    			try{
+					    				
+					    				JSONObject jsonObj1 = new JSONObject(jsonArray.getJSONObject(i).get("custom").toString());
+					    				vm.customSessionId=jsonObj1.get("session_Id").toString();
+					    				
+					    			}
+					    			catch(Exception e){
+					    				e.printStackTrace();
+					    			}
+					    			try{
+			                    	   vm.referrerType=jsonArray.getJSONObject(i).get("referrer_type").toString();
+					    			}
+					    			catch(Exception e){
+					    				e.printStackTrace();
+					    			}
+					    			
+			                       try{
+			                    	   vm.referrerDomain=jsonArray.getJSONObject(i).get("referrer_domain").toString();
+					    				
+					    			}
+					    			catch(Exception e){
+					    				e.printStackTrace();
+					    			}
+					    			
+					    			vm.geoLocation=jsonArray.getJSONObject(i).get("geolocation").toString();
+					    			vm.country=jsonArray.getJSONObject(i).get("country_code").toString();
+					    			vm.latitude=jsonArray.getJSONObject(i).get("latitude").toString();
+					    			vm.longitude=jsonArray.getJSONObject(i).get("longitude").toString();
+					    			//cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
+					    			vm.organization=jsonArray.getJSONObject(i).get("organization").toString();
+					    			vm.statsUrl=jsonArray.getJSONObject(i).get("stats_url").toString();
+					    		
+					    			SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
+					    			String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
+									String arrNew[] = arr[3].split(",");
+									String checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
+									Date thedate = null;
+									try {
+										thedate = df1.parse(checkDate);
+									} catch (ParseException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+					    			
+					    			vm.dateClick=thedate;
+					    			
+					    			list.add(vm);
+			    					
+			    				}
+			    				
+			   
+		   			}
+			    			catch(Exception e){
+			    				e.printStackTrace();
+			    			}
+			    			
+					}	
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(list.size() != 0){
+				
+					return ok(Json.toJson(list.get(0)));
+				}
+				else{
+					
+					return ok();
+				}
+				
 			}
 			else{
 				return ok(Json.toJson(List.get(0)));
@@ -41421,6 +41535,19 @@ if(vehicles.equals("All")){
 		
 		for(Integer saleId:vm.salesList){
 			Date date=new Date();
+			DateFormat df11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
+		    Location location = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				df11.setTimeZone(TimeZone.getTimeZone(location.time_zone));
+				String d1=df11.format(date);
+				Date newDate=null;
+				try {
+					newDate=df.parse(d1);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			AuthUser uAuthUser = AuthUser.findById(saleId);
 			PlanScheduleMonthlySalepeople pSalePer = PlanScheduleMonthlySalepeople.findByUserMonth(uAuthUser,vm.month);
 			
@@ -41436,14 +41563,14 @@ if(vehicles.equals("All")){
 				planMoth.setSuccessRate(vm.successRate);
 				planMoth.setTestDrives(vm.testDrives);
 				planMoth.setFlagMsg(1);
-				planMoth.setSaveDate(date);
+				planMoth.setSaveDate(newDate);
 				planMoth.setTotalBrought(vm.totalBrought);
 				planMoth.setVehicalesToSell(vm.vehicalesToSell);
 				planMoth.setUser(uAuthUser);
 				planMoth.setLocations(Location.findById(Long.valueOf(session("USER_LOCATION"))));
 				planMoth.save();
 			}else{
-				pSalePer.setSaveDate(date);
+				pSalePer.setSaveDate(newDate);
 				pSalePer.setCell(vm.cell);
 				pSalePer.setEmails(vm.emails);
 				pSalePer.setMonth(vm.month);

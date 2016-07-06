@@ -12,6 +12,42 @@ import play.db.ebean.Model.Finder;
 @Entity
 public class PhotographerHoursOfOperation extends Model {
 	
+
+	@Id
+	public Long id;
+	public Date sunOpenTime;
+	public Date monOpenTime;
+	public Date tueOpenTime;
+	public Date wedOpenTime;
+	public Date thuOpenTime;
+	public Date friOpenTime;
+	public Date satOpenTime;
+	public Date sunCloseTime;
+	public Date monCloseTime;
+	public Date tueCloseTime;
+	public Date wedCloseTime;
+	public Date thuCloseTime;
+	public Date friCloseTime;
+	public Date satCloseTime;
+	public Integer sunOpen;
+	public Integer monOpen;
+	public Integer tueOpen;
+	public Integer wedOpen;
+	public Integer thuOpen;
+	public Integer friOpen;
+	public Integer satOpen;
+	public String portalName;
+	public Date contractDurStartDate;
+	public Date contractDurEndDate;
+	
+	@ManyToOne
+	public AuthUser user;
+	
+	@ManyToOne
+	public Location locations;
+
+
+
 	public Date getSunCloseTime() {
 		return sunCloseTime;
 	}
@@ -67,40 +103,6 @@ public class PhotographerHoursOfOperation extends Model {
 	public void setSatCloseTime(Date satCloseTime) {
 		this.satCloseTime = satCloseTime;
 	}
-
-
-	@Id
-	public Long id;
-	public Date sunOpenTime;
-	public Date monOpenTime;
-	public Date tueOpenTime;
-	public Date wedOpenTime;
-	public Date thuOpenTime;
-	public Date friOpenTime;
-	public Date satOpenTime;
-	public Date sunCloseTime;
-	public Date monCloseTime;
-	public Date tueCloseTime;
-	public Date wedCloseTime;
-	public Date thuCloseTime;
-	public Date friCloseTime;
-	public Date satCloseTime;
-	public Integer sunOpen;
-	public Integer monOpen;
-	public Integer tueOpen;
-	public Integer wedOpen;
-	public Integer thuOpen;
-	public Integer friOpen;
-	public Integer satOpen;
-	public String portalName;
-	public Date contractDurStartDate;
-	public Date contractDurEndDate;
-	
-	@ManyToOne
-	public AuthUser user;
-	
-	@ManyToOne
-	public Location locations;
 
 	
 	public Long getId() {

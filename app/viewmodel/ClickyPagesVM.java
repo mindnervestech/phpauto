@@ -35,6 +35,7 @@ public class ClickyPagesVM {
 	public String ipAddress;
 	public String uid;
 	public String sessionId;
+	public String customSessionId;
 	public String actionType;
 	public String actionUrl;
 	public String newActionUrl;
@@ -46,7 +47,11 @@ public class ClickyPagesVM {
 	public String bounceRate;
 	public double bounceR;
 	public String geoLocation;
+	public String latitude;
+	public String longitude;
+	public String country;
 	public String organization;
+	public Date dateClick;
 	public String value_percent2;
 	public String chartDate;
 	public String startDate;
@@ -61,8 +66,11 @@ public class ClickyPagesVM {
 	public String bounceRate1;
 	public String operatingSystem;
 	public String webBrowser;
+	public String screenResolution;
+	public String language;
 	public String landingPage;
 	public String referrerDomain;
+	public String referrerType;
 	public String referrerUrl;
 	public Date curr_Date;
 	public double percentage;

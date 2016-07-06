@@ -2125,6 +2125,7 @@ angular.module('newApp')
     	  $scope.infoColorFlag=0;
     	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
       	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
+      	initialized();
       }
       
    	 $scope.infoColorFlag=1;
@@ -2136,22 +2137,30 @@ angular.module('newApp')
 	  }
 	  //document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
   	  //document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
-	
   	 console.log($scope.sessionId) ;
   	  $http.get('/getSessionIdData/'+$scope.sessionId)
 		.success(function(data) {
 			if(data == ""){
 				console.log("fffffffffffff5555");
-				$scope.sessiondata = '0';
+				/*$http.get('/getSessionIdDataNew/'+$scope.sessionId).success(function(data1) {
+					console.log(data1);
+					if(data1 == ""){
+						$scope.sessiondata = '0';
+					}else{
+						$scope.sessiondata = data1;
+					}
+				});*/
 			}else{
 				$scope.sessiondata = data;
 			}
+			
 			  console.log(data);
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
 			$scope.clickySessionId=data.sessionId;
 			console.log($scope.clickySessionId);
-		
+		   console.log($scope.latitude);
+		   console.log($scope.longitude);
 			$scope.visitorInfo=data;
 			if($scope.sessionId != null && $scope.sessionId != undefined){
 				var today = new Date()
@@ -2174,18 +2183,25 @@ angular.module('newApp')
 								                                 },
 								                                 
 								                          ];
-							
+							 
+							 google.maps.event.addDomListener(window, "load", initialized);
+							//	initialized();
 						});
 						
 			
 				  
 			 }
-			google.maps.event.addDomListener(window, "load", initialized);
-			initialized();
+			else{
+				//google.maps.event.addDomListener(window, "load", initialized);
+				//initialized();
+			}
+			
 			
 		}).error(function(data, status) {
 			$scope.changeInfoImage("1");
 		});
+				
+		
   	  
 	 }
    	 
