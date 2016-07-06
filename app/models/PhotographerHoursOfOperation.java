@@ -12,6 +12,63 @@ import play.db.ebean.Model.Finder;
 @Entity
 public class PhotographerHoursOfOperation extends Model {
 	
+	public Date getSunCloseTime() {
+		return sunCloseTime;
+	}
+
+	public void setSunCloseTime(Date sunCloseTime) {
+		this.sunCloseTime = sunCloseTime;
+	}
+
+	public Date getMonCloseTime() {
+		return monCloseTime;
+	}
+
+	public void setMonCloseTime(Date monCloseTime) {
+		this.monCloseTime = monCloseTime;
+	}
+
+	public Date getTueCloseTime() {
+		return tueCloseTime;
+	}
+
+	public void setTueCloseTime(Date tueCloseTime) {
+		this.tueCloseTime = tueCloseTime;
+	}
+
+	public Date getWedCloseTime() {
+		return wedCloseTime;
+	}
+
+	public void setWedCloseTime(Date wedCloseTime) {
+		this.wedCloseTime = wedCloseTime;
+	}
+
+	public Date getThuCloseTime() {
+		return thuCloseTime;
+	}
+
+	public void setThuCloseTime(Date thuCloseTime) {
+		this.thuCloseTime = thuCloseTime;
+	}
+
+	public Date getFriCloseTime() {
+		return friCloseTime;
+	}
+
+	public void setFriCloseTime(Date friCloseTime) {
+		this.friCloseTime = friCloseTime;
+	}
+
+	public Date getSatCloseTime() {
+		return satCloseTime;
+	}
+
+	public void setSatCloseTime(Date satCloseTime) {
+		this.satCloseTime = satCloseTime;
+	}
+
+
 	@Id
 	public Long id;
 	public Date sunOpenTime;
@@ -188,6 +245,13 @@ public class PhotographerHoursOfOperation extends Model {
 	}
 	public static PhotographerHoursOfOperation findByUser(AuthUser user) {
 		return find.where().eq("user", user).findUnique();
+	}
+	public static PhotographerHoursOfOperation findById(Long id) {
+		return find.where().eq("id", id).findUnique();
+	}
+	
+	public static PhotographerHoursOfOperation findByPortalNameAndLocation(String name,Long id) {
+		return find.where().eq("portalName", name).findUnique();
 	}
 	
 	

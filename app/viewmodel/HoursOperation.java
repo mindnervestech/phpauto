@@ -1,6 +1,7 @@
 package viewmodel;
 
 public class HoursOperation {
+	public String id;
 	public String friCloseTime;
 	public String friOpenTime;
 	public String monOpenTime;
