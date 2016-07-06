@@ -39,11 +39,11 @@ public class Global extends GlobalSettings {
 	
 	@Override
 	public void onStart(Application app) {
-	//	NewsLetter.newsletterSchedulling();
-	//	TestDriveScheduler.newsletterSchedulling();
+		NewsLetter.newsletterSchedulling();
+		TestDriveScheduler.newsletterSchedulling();
 		System.err.println("Testing..");
-	//	MeetingAndTestDriveScheduler.meetingSchedulling();
-	//	ClickyDataScheduler.clickySchedulling();
+		MeetingAndTestDriveScheduler.meetingSchedulling();
+		ClickyDataScheduler.clickySchedulling();
 	}
 	
 	
