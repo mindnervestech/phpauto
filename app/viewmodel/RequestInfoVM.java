@@ -23,6 +23,7 @@ public class RequestInfoVM {
 	public String leadTypeForNotif;
 	public String typeofVehicle;
 	public Integer price;
+	public int notifFlag;
 	public String stock;
 	public String  declineReason;
 	public String imagePath;

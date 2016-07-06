@@ -29,6 +29,7 @@ public class RequestMoreInfo extends Model {
 	public Date requestTime;
 	public String vin;
 	public int isRead;
+	public int notifFlag;
 	public String status;
 	public String reason;
 	public String bestDay;
@@ -59,6 +60,12 @@ public String message;
 	
 	
 	
+	public int getNotifFlag() {
+	return notifFlag;
+}
+public void setNotifFlag(int notifFlag) {
+	this.notifFlag = notifFlag;
+}
 	public String getSessionId() {
 	return sessionId;
 }

@@ -31,6 +31,7 @@ public class ScheduleTest extends Model {
 	public String declineReason;
 	public String vin;
 	public int isRead;
+	public int notifFlag;
 	public Date confirmDate;
 	public Date confirmTime;
 	public Date confirmEndTime;
@@ -41,14 +42,16 @@ public class ScheduleTest extends Model {
 	public void setConfirmEndTime(Date confirmEndTime) {
 		this.confirmEndTime = confirmEndTime;
 	}
-
-
-
-
 	public String sessionId;
 	public String leadStatus;
 	public String reason;
 	public String declineUser;
+	public int getNotifFlag() {
+		return notifFlag;
+	}
+	public void setNotifFlag(int notifFlag) {
+		this.notifFlag = notifFlag;
+	}
 	public Integer meeting;
 	//public Integer noteFlag;
 	@ManyToOne
@@ -60,6 +63,7 @@ public class ScheduleTest extends Model {
 		this.meeting = meeting;
 	}
 
+	
 	public Date getMeetingActionTime() {
 		return meetingActionTime;
 	}

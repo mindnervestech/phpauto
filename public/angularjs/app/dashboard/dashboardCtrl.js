@@ -3591,7 +3591,8 @@ angular.module('newApp')
 				console.log(vin);
 				$http.get('/sendComingSoonEmail/'+vin)
 				.success(function(data) {
-					  $scope.indexInitFunction();
+					 // $scope.indexInitFunction();
+					$scope.notifCount();
 					 $('#addPrice').modal("toggle");
 				});
 			}
@@ -3616,6 +3617,7 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Arrival date Change successfully",
 					});
+					$scope.notifCount();
 					
 				});
 			}

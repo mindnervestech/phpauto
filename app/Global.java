@@ -6,6 +6,10 @@ import play.libs.F.Promise;
 import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.SimpleResult;
+import scheduler.ClickyDataScheduler;
+import scheduler.MeetingAndTestDriveScheduler;
+import scheduler.NewsLetter;
+import scheduler.TestDriveScheduler;
 
 public class Global extends GlobalSettings {
 	public static final int CHAR_LEN = 200;

@@ -90,10 +90,16 @@ public class TradeIn extends Model {
 	public int onlineOrOfflineLeads;
 	public String testDriveStatus;
 	public String sessionId;
+	public int notifFlag;
 	
 	
 	
-	
+	public int getNotifFlag() {
+		return notifFlag;
+	}
+	public void setNotifFlag(int notifFlag) {
+		this.notifFlag = notifFlag;
+	}
 	public String getSessionId() {
 		return sessionId;
 	}

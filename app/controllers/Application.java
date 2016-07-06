@@ -14719,6 +14719,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm1.name=sc.name;
 	    		vm1.id=sc.id;
 	    		vm1.typeOfLead="Schedule Test";
+	    		vm1.type="Schedule Test";
+	    		vm1.notifFlag=sc.notifFlag;
 	    		vm1.leadTypeForNotif="Schedule Test Drive";
 	    		String imagePath=null;
 	    		if(sc.vin != null){
@@ -14799,6 +14801,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm1.typeOfLead="Trade In";
 	    		vm1.leadTypeForNotif="Trade In";
 	    		vm1.id=sc.id;
+	    		vm1.type="Trade In";
+	    		vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		if(sc.vin != null){
 	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
@@ -14873,6 +14877,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		RequestInfoVM vm1=new RequestInfoVM();
 	    		vm1.name=sc.name;
 	    		vm1.id=sc.id;
+	    		vm1.type="Request More Info";
+	    		vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		String typeoflead=null;
 	    		if(sc.vin != null || sc.isContactusType == null){
@@ -14968,6 +14974,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm1.leadTypeForNotif="Premium Lead";
 	    		vm1.type="Schedule Test";
 	    		vm1.id=sc.id;
+	    		vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		if(sc.vin != null){
 	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
@@ -15046,6 +15053,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm1.leadTypeForNotif="Premium Lead";
 	    		vm1.type="Trade In";
 	    		vm1.id=sc.id;
+	    		vm1.notifFlag=sc.notifFlag;
 	    		String imagePath=null;
 	    		if(sc.vin != null){
 	    			VehicleImage image=VehicleImage.getDefaultImage(sc.vin);
@@ -15124,6 +15132,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm1.typeOfLead="Premium";
 	    		vm1.leadTypeForNotif="Premium Lead";
 	    		vm1.id=sc.id;
+	    		vm1.notifFlag=sc.notifFlag;
 	    		vm1.type="Request More Info";
 	    		String imagePath=null;
 	    		if(sc.vin != null){
@@ -24856,6 +24865,41 @@ private static void cancelTestDriveMail(Map map) {
     		return ok();
     	}
     }
+    
+    
+    public static Result releaseFromNotif(Long id,String leadType) {
+    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+    		return ok(home.render("",userRegistration));
+    	} else {
+    		if(leadType.equals("Schedule Test")) {
+    			ScheduleTest schedule = ScheduleTest.findById(id);
+    			schedule.setNotifFlag(1);
+    			
+    			schedule.update();
+    			
+    		}
+			if(leadType.equals("Request More Info")) {
+			    RequestMoreInfo info = RequestMoreInfo.findById(id);
+			    info.setNotifFlag(1);
+			    info.update();
+			    
+               
+			}
+			if(leadType.equals("Trade In")) {
+				TradeIn tradeIn = TradeIn.findById(id);
+				tradeIn.setNotifFlag(1);
+				tradeIn.update();
+				
+			
+			}
+    		return ok();
+    	}
+    }
+    
+    
+    
+    
+    
     
     public static void scheduleTestReleaseMail(String vin,Location loc,String confirmDate,String confirmTime,String preferred,String leadType,String pdffilePath){
     	AuthUser locUser=getLocalUser();

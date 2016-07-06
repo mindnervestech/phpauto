@@ -91,6 +91,21 @@
    	        	
    	        }
             
+            $scope.releaseFromNotif = function(entity){
+            	console.log(entity);
+   			$http.get('/releaseFromNotif/'+entity.id+'/'+entity.type)
+   				.success(function(data) {
+   					$.pnotify({
+   					    title: "Success",
+   					    type:'success',
+   					    text: "This lead has been released from notification list ",
+   					});
+   					$scope.leadCount();
+   				});
+   			
+   		 }
+            
+            
             $scope.releaseLeads = function(entity){
             	console.log(entity.type);
    			$http.get('/releaseLeads/'+entity.id+'/'+entity.type)
@@ -458,6 +473,15 @@
             	$scope.leadData={};
                 $http.get('/getLeadInfo').success(function(data,status, headers, config){
                 	$scope.leadData=data;
+                	$scope.notifLength=0;
+                	angular.forEach(data, function(value, key) {
+                		if(value.notifFlag == 0){
+                			$scope.notifLength++;
+                			
+                		}
+                		
+                	});
+                	
                 	$scope.leadData = $filter('orderBy')($scope.leadData,'timeDiff');
                 	$scope.dataLength=$scope.leadData.length;
                    
