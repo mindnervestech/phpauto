@@ -5328,7 +5328,7 @@ float: right !important;
 								        </div>
 								    </div>
 								    
-								    
+							<button id="deeperInfoModal" data-toggle="modal" data-target="#secondModal" style="display: none;"></button>	    
 							<button id="btneditleads" data-toggle="modal" data-target="#editLeads" style="display: none;"></button>	    
 							<!-- <button id="btnStatusSchedule" data-toggle="modal" data-target="#scheduleStatusModal" style="display: none;"></button> -->
 							<button id="btnCancelSchedule" data-toggle="modal" data-target="#scheduleCancelModal" style="display: none;"></button>
@@ -5557,27 +5557,21 @@ float: right !important;
 								    </div> -->
 								    
 								    
-								    	<div class="modal fade" id="editLeads" tabindex="-1" role="dialog" aria-hidden="true" style="height: 938px;">
-								        <div class="col-sm-12">
-								        <div  class="col-sm-10">
-								        <div class="modal-dialog" style="width: 950px;">
-								         <div class="col-sm-12">
-								         
-								       <!-- -----  map tab -->
-								         <div ng-if="infoColorFlag==0"  class="col-sm-11" style="padding: 0px;" >
-								         <div class="modal-content">
+								    
+								    
+								      <div ng-if="flagForSecondmodal == 1"class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-hidden="true" style="z-index:30000 !important;">
+								        <div class="modal-dialog" style="width: 923px;" >
+								            <div class="modal-content">
 								                <div class="modal-header">
-												<div class="col-sm-12">
-								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-								                    <h4 class="modal-title" style="color: black;">Visitor Details</h4>
-												</div>	
+								                    <a data-dismiss="modal" class="glyphicon glyphicon-remove" style="float: right;"></a>
+								                    <h4 class="modal-title">PDF</h4>
 								                </div>
+								                <div class="modal-body" style="height:692px;overflow-x:auto;">
 								                
-								                <div class="modal-body" style="height:661px;overflow-x:auto;">
-								           
-								           
-								           <div>							                
-									    <div   class="col-sm-12" >
+								               
+								                   <div class="form-group col-sm-12">
+				
+															<div   class="col-sm-12" >
 										<h2> Visitor details </h2>
 										<hr style="border-color: black;">
 										<div  style="margin-top: 10px" class="col-sm-7">
@@ -5644,6 +5638,113 @@ float: right !important;
 									
 										<div  class="col-sm-5">
 										<div class="col-sm-12" > 
+											 <div id="canvas2" style="width:110%; height:270px"></div> 
+										</div>
+										</div>
+										</div>
+										
+										
+				
+			
+													</div>  
+													
+								                </div>
+								               
+								            </div>
+								        </div>
+								    </div> 
+								    
+								    
+								    
+								    
+								    
+								    	<div  class="modal fade" id="editLeads" tabindex="-1" role="dialog" aria-hidden="true" style="height: 938px;z-index:30000 !important;">
+								        <div class="col-sm-6"style="margin-left: 15%";>
+								        <div  class="col-sm-10">
+								        <div class="modal-dialog" style="width: 950px;">
+								         <div class="col-sm-12">
+								         
+								       <!-- -----  map tab -->
+								         <div ng-if="infoColorFlag==0"  class="col-sm-11" style="padding: 0px;" >
+								         <div class="modal-content">
+								                <div class="modal-header">
+												<div class="col-sm-12">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title" style="color: black;">Visitor Details</h4>
+												</div>	
+								                </div>
+								                
+								                <div class="modal-body" style="height:661px;overflow-x:auto;">
+								           
+								           
+								           <div>							                
+									    <div   class="col-sm-12" >
+										<h2> Visitor details </h2>
+										<hr style="border-color: black;">
+										<div  style="margin-top: 10px" class="col-sm-7">
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label  >Visits:</label>
+										</div>
+										<div class="col-sm-8">
+										<a style="color:black;" > {{visitorInfo.totalVisits}} </a>
+										</div>
+										</div>
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label>Unique ID:</label>
+										</div>
+										<div class="col-sm-7">
+										<a style="cursor: pointer;color:black;" >{{visitorInfo.uid}}</a>
+										</div>
+										<div class="col-sm-1" style="color: red"></div>
+										</div>
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label  >IP Address:</label>
+										</div>
+										<div class="col-sm-7">
+										<a  style="cursor: pointer;" ng-click="referrerTypeDataForIpAdress(visitorInfo.customSessionId)"  >{{visitorInfo.ipAddress}} (ARIN/RIPE)</a>
+										</div>
+										<div class="col-sm-1" style="color: red"></div>
+										</div>
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label>Locale:</label>
+										</div>
+										<div class="col-sm-8">
+										<a   style="cursor: pointer;"   >{{visitorInfo.geolocation}}</a>&nbsp;/&nbsp;<a  style="cursor: pointer;" ng-click="referrerTypeDataForLang(visitorInfo.language)" >{{visitorInfo.language}}</a>
+										</div>
+										</div>
+										
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label>Organization:</label>
+										</div>
+										<div class="col-sm-8">
+										<a  style="cursor: pointer;"  >{{visitorInfo.organization}}</a>&nbsp;/&nbsp;<a   style="cursor: pointer;" ng-click="referrerTypeDataForHost(visitorInfo.hostname)" >{{visitorInfo.hostname}}</a>
+										</div>
+										</div>
+										
+										
+										<div  class="col-sm-12">
+										<div class="col-sm-4">
+										<label>Platform:</label>
+										</div>
+										<div class="col-sm-8">
+										<a  style="cursor: pointer;" >{{visitorInfo.webBrowser}}</a> / <a style="cursor: pointer;" ng-click="referrerTypeDataForOs(visitorInfo.operatingSystem)">{{visitorInfo.operatingSystem}}</a>/<a style="cursor: pointer;" ng-click="referrerTypeDataForScreen(visitorInfo.screenResolution)" >{{visitorInfo.screenResolution}}</a>
+										</div>
+										</div>
+										
+										
+										</div>
+									
+										<div  class="col-sm-5">
+										<div class="col-sm-12" > 
 											 <div id="canvas1" style="width:110%; height:270px"></div> 
 										</div>
 										</div>
@@ -5659,7 +5760,7 @@ float: right !important;
 										<div class="col-sm-3">
 										<label >Date:</label>
 										</div>
-										<div class="col-sm-6">
+										<div class="col-sm-9">
 										<a style="color:black;" >{{visitorInfo.timePretty}}</a>
 										</div>
 										</div>

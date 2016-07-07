@@ -353,7 +353,8 @@
                     
                     
                     
-                      <li  ng-mouseleave="setNewFlag()" class="dropdown"><a ng-click="setFlagForPop()" data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i><span class="badge badge-primary badge-header">{{notifLength}}</span></a>
+                      <li  ng-mouseleave="setNewFlag()" class="dropdown"><a ng-click="setFlagForPop()" data-hover="dropdown" class="dropdown-toggle"><i class="fa fa-send-o fa-fw" style="color: #ffffff;"></i>
+                      <span ng-if="notifLength != 0" class="badge badge-primary badge-header">{{notifLength}}</span><span ng-if="notifLength == 0" class="badge badge-primary badge-header"></span></a>
                         <ul   ng-if="flagForPop == 1" class="dropdown-menu dropdown-alerts" style="max-width: 430px!important;width: 450px;height:450px; overflow: auto;">
                             <li  style="background: #33485c;padding: 10px 15px;color: #ffffff;"><p>You have {{notifLength}} new notifications</p></li>
                             <li>
@@ -369,7 +370,7 @@
                                          <span style="width: 150px;" class="col-sm-12">{{item.name}}</span>
                                          <b style="width: 150px;" class="col-sm-12">{{item.leadTypeForNotif}}</b>
                                          </div>
-                                         <div  style=" float:right;">
+                                         <div style="float: right;">
                                          <span   ng-click="releaseFromNotif(item)" title="Remove from Notifications" class="glyphicon glyphicon-remove"></span> 
                                           </div>
                                           <div style="padding: 0px;"  class="col-sm-4">

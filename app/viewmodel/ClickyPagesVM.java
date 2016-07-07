@@ -48,6 +48,7 @@ public class ClickyPagesVM {
 	public double bounceR;
 	public String geoLocation;
 	public String latitude;
+	public String heatmapUrl;
 	public String longitude;
 	public String country;
 	public String organization;

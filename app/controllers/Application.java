@@ -14100,6 +14100,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     					Date curDate=null;
     					DateFormat form = new SimpleDateFormat("yyyy-MM-dd");
     					String currD=form.format(date);
+    					//String currD="2016-07-01";
+    					String arr[]=currD.split("-");
+    					String newD=arr[0]+"-"+arr[1]+"-"+"01";
+    					if(currD.equals(newD)){
     					String planD=form.format(newDate);
     					//if(currD.equals(arg0))
     					DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
@@ -14160,6 +14164,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     			  	        	
     			  	        	
     					rList1.add(rVm);
+    					}
     			
     		}
 		}
@@ -29576,6 +29581,11 @@ private static void cancelTestDriveMail(Map map) {
       	  vm.actionUrl=obj.get("action_url").textValue();
       	  String newAction[]=vm.actionUrl.split(".com");
       	  vm.newActionUrl=newAction[1];
+      	vm.heatmapUrl=null;
+      	 List<ClickyPagesList> list=ClickyPagesList.getHeatMapUrl(vm.actionUrl);
+      	 if(list.size() != 0){
+      		 vm.heatmapUrl=list.get(0).url;
+      	 }
       	  vm.statsUrl=obj.get("stats_url").textValue();
       	   clickyList.add(vm);
       	   	

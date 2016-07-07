@@ -114,6 +114,9 @@ public class ClickyPagesList extends Model {
 		return find.where().eq("saveDate", sDate).findList();
 	}
 	
+	public static List<ClickyPagesList> getHeatMapUrl(String url) {
+		return find.where().eq("mainUrl", url).findList();
+	}
 	
 	public static List<ClickyPagesList> getfindAll() {
 		return find.all();

@@ -2121,6 +2121,49 @@ angular.module('newApp')
   		});
       }*/
 
+     /* $('#editLeads').modal({
+    	  backdrop: 'static',
+    	  keyboard: false
+    	})*/
+    /*  $(document).ready(function(){
+    	  $('#editLeads').bind('click', function(event){
+    	      if (event.target == $('#editLeads').get(0))
+    	           
+    	  });
+    	  
+      }*/
+      $('#editLeads').click(function() {
+    	  $('.popups-close').trigger('click');
+    	  });
+      
+      $scope.flagForSecondmodal=0;
+      $scope.referrerTypeDataForIpAdress = function(type) {
+			 console.log(type);
+			 $scope.ipData={};
+			 var today = new Date()
+				$scope.startDateFilter = $filter('date')(today,"yyyy-MM-dd");
+				$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
+			 $scope.flagForLocation='IP';
+				/*$http.get('/getreferrerTypeData/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
+				.success(function(data) {
+				console.log("::::::::");
+				console.log(data);
+				$scope.flagForSecondmodal=1;
+			    $scope.typeOfInfo == 'Visitor log';
+				$scope.ipData=data;
+				
+			});*/
+			 $scope.flagForSecondmodal=1;
+			 $('#deeperInfoModal').click();
+			 $scope.changeActiveTabImage(type);
+			/* 
+			 $('.modal-backdrop fade in').css("opacity","0");
+			 
+			 <style>.modal-backdrop fade in{ css}</style>*/
+		 }
+		 
+      
+      
       $scope.ch = function(){
     	  $scope.infoColorFlag=0;
     	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
@@ -2144,7 +2187,17 @@ angular.module('newApp')
 				console.log("fffffffffffff5555");
 						$scope.sessiondata = '0';
 			}else{
+				$scope.flagForSecondmodal=1;
 				$scope.sessiondata = data;
+				$scope.sessiondata.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(data.timeTotal)), 'HH:mm:ss');
+				 var splitTime   = data.timeTotal.split(":");
+				 if(splitTime[0] == '00'){
+					 $scope.sessiondata.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+				 }
+				 else{
+					 $scope.sessiondata.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+				 }
+					
 			}
 			
 			  console.log(data);
@@ -2168,13 +2221,15 @@ angular.module('newApp')
 							$scope.visitiorList = data;
 							
 							 $scope.gridForSession.columnDefs = [
-								                                 {name: 'newTimePretty', displayName: '', width:'40%',
-								                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> </br>   <label ">{{row.entity.newTime}}</label> </div>',	 
+								                                 {name: 'newTimePretty', displayName: 'Date & Time', width:'40%',
+								                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> &nbsp&nbsp  <label ">{{row.entity.newTime}}</label> </div>',	 
 								                                 },
-								                                 {name: 'actionUrl', displayName: '', width:'40%',
+								                                 {name: 'actionUrl', displayName: 'Viewed Pages', width:'40%',
 								                                	 cellTemplate:'<div ><a   target="_blank"   href="{{row.entity.actionUrl}}" >{{row.entity.newActionUrl}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
 								                                 },
-								                                 
+								                                 {name: 'heatmapUrl', displayName: 'Heatmap', width:'20%',
+								                                	 cellTemplate:'<div ><a href="{{row.entity.heatmapUrl}}" target="_blank"><img  ng-if="row.entity.heatmapUrl != null" class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="http://con.tent.network/media/icon_heatmap.png" ></a></div>',	 
+								                                 },
 								                          ];
 							 
 							 google.maps.event.addDomListener(window, "load", initialized);
