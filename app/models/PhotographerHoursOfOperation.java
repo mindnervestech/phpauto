@@ -252,8 +252,8 @@ public class PhotographerHoursOfOperation extends Model {
 		return find.where().eq("id", id).findUnique();
 	}
 	
-	public static PhotographerHoursOfOperation findByPortalNameAndLocation(String name,Long id) {
-		return find.where().eq("portalName", name).findUnique();
+	public static PhotographerHoursOfOperation findByPortalNameAndLocation(String name, AuthUser user,Long id) {
+		return find.where().eq("portalName", name).eq("user", user).findUnique();
 	}
 	
 	

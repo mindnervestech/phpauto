@@ -51,6 +51,8 @@ public class MyCalendarController extends Controller {
 	private static boolean simulate = false;
 
 	
+	
+	
 	 public static Result getTimeTableOfPhotos(){
 		 AuthUser user = getLocalUser();
 		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -315,6 +317,7 @@ public class MyCalendarController extends Controller {
 	 }*/
 	 
 	 public static Result deleteEvent(){
+		 AuthUser user = getLocalUser();	
 		 Form<HoursOperation> form = DynamicForm.form(HoursOperation.class).bindFromRequest();
  		 HoursOperation vm = form.get();
  		String arr[] = vm.contractDurStartDate.split("T");
@@ -323,7 +326,7 @@ public class MyCalendarController extends Controller {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance(); 
 		System.out.println(vm.portalName);
-		PhotographerHoursOfOperation hOperation = PhotographerHoursOfOperation.findByPortalNameAndLocation(vm.portalName, 16L);
+		PhotographerHoursOfOperation hOperation = PhotographerHoursOfOperation.findByPortalNameAndLocation(vm.portalName, user, 16L);
 		try {
 			ajDate = df.parse(arr[0]);
 		} catch (ParseException e) {
@@ -374,11 +377,11 @@ public class MyCalendarController extends Controller {
 	 }
 	 
 	 public static Result saveNewEvent(){
-			
+		 AuthUser user = getLocalUser();	
 	    		Form<HoursOperation> form = DynamicForm.form(HoursOperation.class).bindFromRequest();
 	    		HoursOperation vm = form.get();
 	    		
-	    		PhotographerHoursOfOperation hOperation = PhotographerHoursOfOperation.findByPortalNameAndLocation(vm.portalName, 16L);
+	    		PhotographerHoursOfOperation hOperation = PhotographerHoursOfOperation.findByPortalNameAndLocation(vm.portalName,user, 16L);
 	    		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    		DateFormat dfTime = new SimpleDateFormat("hh:mm:ss");
 	    		String arrEndDate[];
