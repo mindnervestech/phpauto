@@ -930,6 +930,11 @@ public class Application extends Controller {
 	public static Result adminHome() {
 		return ok(homeSA.render("",userRegistration));
 	}
+	public static Result photographerHome() {
+		return ok(homePhotographer.render("",userRegistration));
+	}
+	
+	
 	public static Result test() {
 		return ok(agreement.render("fdfdsf","fdsf","1"));
 	}
