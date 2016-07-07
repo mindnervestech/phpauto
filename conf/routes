@@ -11,7 +11,7 @@ GET     /                           controllers.Application.index()
 # Providers entry points
 OPTIONS /*all                           controllers.Application.preflight(all)
 GET     /login                      controllers.Application.home()
-GET     /adminLogin                      controllers.Application.adminHome()
+GET     /mainLogin                      controllers.Application.adminHome()
 GET     /test                      controllers.Application.test()
 POST    /authenticate     			controllers.Application.login()
 GET   /gmIsManager/:locationId       			controllers.Application.gmIsManager(locationId:Long)

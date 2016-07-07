@@ -619,7 +619,7 @@ angular.module('newApp')
 		if($scope.user.userType == "Photographer"){
 			if(angular.isUndefined(logofile)) {
 				if($scope.emailMsg == "") {
-					$http.post('http://45.33.50.143:9889/uploadImageFile',$scope.user)
+					$http.post('http://www.glider-autos.com:7071/uploadImageFile',$scope.user)
 					.success(function(data) {
 						$scope.user.firstName=" ";
 			            $scope.user.lastName=" ";
@@ -639,7 +639,7 @@ angular.module('newApp')
 			} else {
 				if($scope.emailMsg == "") {
 				   $upload.upload({
-			            url : 'http://45.33.50.143:9889/uploadImageFile',
+			            url : 'http://www.glider-autos.com:7071/uploadImageFile',
 			            method: 'post',
 			            file:logofile,
 			            data:$scope.user
