@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <!-- <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet"> -->
+
+    <!-- Custom CSS -->
+    <link href="../src/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+   
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <div id="">
+            <div class="row">
+                
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                        	Create Template
+                        </div>
+                        <div class="panel-body">
+                            <div class="">
+                                <div class="">
+                                    <form role="form" ng-submit="saveTemplate(data)">
+                                        <div class="form-group">
+                                            
+                                            <div class="row">
+                                            	<div class="col-md-4">
+		                                            <div class="radio col-md-6">
+		                                                <label class="">
+		                                                    <input type="radio" name="category" ng-model="data.type" value="order" ng-click="chooseOrder()">Choose Order
+		                                                </label>
+		                                            </div>
+		                                            <div class="radio col-md-6" style="margin-top: 4px;">     
+		                                                <select class="form-control" ng-model="data.orderValue" ng-change="selectOrderValue(data.type)" ng-disabled="isSelectOrder">
+												  			<option value="">Select Order</option>
+												  			<option value="order1">order1</option>
+											 				<option value="order2">order2</option>
+											  				<option value="order3">order3</option>
+												  		 </select>
+		                                            </div>
+	                                        	</div>
+	                                        <!-- </div>
+	                                        <div class="row">  --> 
+	                                        	<div class="col-md-4">
+		                                            <div class="radio col-md-6" style="margin-top: 10px;">
+		                                                <label>
+		                                                    <input type="radio" name="category" ng-model="data.type" value="product" ng-click="chooseProduct()">Choose Product
+		                                                </label>
+		                                            </div>
+		                                            <div class="radio col-md-6" style="margin-top: 4px;">
+		                                            	<select class="form-control" ng-model="data.productValue" ng-change="selectProductValue(data.type)" ng-disabled="isSelectProduct">
+													  		<option value="">Select Product</option>
+															<option value="product1">product1</option>
+															<option value="product2">product2</option>
+															<option value="product3">product3</option>
+															<option value="others">others</option>
+														</select>
+		                                            </div>
+		                                        </div>
+		                                        <div class="col-md-4">    
+
+	                                            <div class="radio col-md-6" style="margin-top: 5px;" ng-if="data.productValue == 'others'">
+	                                            	<input class="form-control" placeholder="Product" ng-model="data.newProduct">
+	                                            </div>
+	                                            </div>	
+	                                        </div>
+	                                        <!-- <div class="row">   
+	                                            <div class="radio col-md-2">
+	                                                <label>
+	                                                    <input type="radio" name="category" ng-model="master" value="master" ng-click="chooseMaster(master)">Master
+	                                                </label>
+	                                            </div>
+                                        	</div>
+ -->
+                                        	<!-- <div class="row">
+                                        		<label class='col-md-6 control-label'>Do you want to use existing template</label> 
+                                        	</div> -->
+
+                                        	<div class="row" ng-if="!isExistingTemplate">
+                                        		<div class="col-md-6">
+	                                        		<div class='radio col-md-7'>Do you want to use existing template?</div>
+	                                        		<div class="radio col-md-3" style="margin-top:10px;">
+		                                                <label class = "col-md-6">
+				    										<input type="radio" name="template" ng-model="data.template" value="true" ng-click="chooseForm()">
+				    										Yes
+				  										</label>
+				  										<label class = "col-md-6">
+				    										<input type="radio" name="template" ng-model="data.template" value="false" ng-click="createForm()">
+				    										No
+				  										</label>
+		                                            </div>
+		                                         </div>
+		                                        <div class="col-md-6" ng-show="isExistingForm">   
+
+	                                            <div class='radio col-md-4'>Choose Template</div>
+                                        		<div class="radio col-md-6" style="margin-top: 4px;">
+
+                                        			<select class="form-control" ng-model="data.opt" ng-change=	"changedTemplate(data.opt)" 
+            											data-ng-options="opt as opt.formname for opt in forms">
+      														<option value="">Select Template</option>
+    											</select>
+    											</div>
+    											</div>
+                                        	</div>
+                                        	
+                                        </div>
+                                        <div class="form-group" ng-show="isExistingForm">
+                                        	
+                                        	
+	                                        <!-- <div class="row">
+                                        		<label class='col-md-6 control-label'>Fork</label>
+                                        	</div> -->
+                                        </div>
+                                        <div class="form-group" ng-show="!isFork">
+                                        	<div class="row">
+                                        		<div class="col-md-6">
+	                                        		<div class='radio col-md-9'>Do you want to fork and create from existing template?</div>
+	                                        		<div class="radio col-md-3" style="margin-top:10px;">
+		                                                <label class = "col-md-6">
+				    										<input type="radio" name="fork" ng-model="data.fork" value="true" ng-click="selectYesfork()">
+				    										Yes
+				  										</label>
+				  										<label class = "col-md-6">
+				    										<input type="radio" name="fork" ng-model="data.fork" value="false" ng-click="selectNofork()">
+				    										No
+				  										</label>
+		                                            </div>
+	                                        	</div>
+                                        		<!-- <div class="radio col-md-6">
+	                                                <label class = "col-md-3">
+			    										<input type="radio" name="fork" ng-model="fork.yes" value="fork">
+			    										Yes
+			  										</label>
+			  										<label class = "col-md-3">
+			    										<input type="radio" name="fork" ng-model="fork.no" value="fork">
+			    										NO
+			  										</label>
+	                                            </div> -->
+                                        	</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" ng-show="newTemplate">Done</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    
+</body>
+
+</html>

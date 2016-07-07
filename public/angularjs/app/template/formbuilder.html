@@ -1,0 +1,61 @@
+<div class="row" ng-if="showForm">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Builder</h3>
+                </div>
+                <div style="margin-top: 10px;">
+                	<div class="row">
+                		<div class="col-md-1">
+                		</div>  
+                		<label class="col-md-4 control-label">{{bul}}</label>
+                		<div class="col">
+                			<input type="text" ng-model="formName" placeholder=""/>
+                		</div>
+                	</div>
+                </div>
+                <span  style = "cursor:pointer;"ng-click = "addSubsection()" class="glyphicon glyphicon-plus"></span>
+                <div ng-repeat = " b in FB" style = "padding: 5px;">{{b.name}}
+                    <div style = "border-style:dotted  !important; border:1px solid; " fb-builder={{b.name}} ng-model="b.initComponent"></div><hr/>    
+                </div>
+
+                <!-- <span  ng-click = "addSubsection()" class="glyphicon glyphicon-plus"></span>
+                <div ng-repeat = " b in builder.forms" style = "padding: 10px;">{{builder.forms}}
+                    <div style = "border-style:dotted  !important; border:1px solid; " fb-builder="b" ng-model="initComponent"></div><hr/>    
+                </div> -->
+                <!--  <div fb-builder="default" ng-model="initComponent"></div><hr/> -->
+                <!--<div fb-builder="default1" ng-model="initComponent"></div><hr/> -->
+
+                <div class="panel-footer">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="isShowScope" />
+                            Show scope
+                        </label>
+                    </div>
+                    <pre ng-if="isShowScope">{{form}}</pre>
+                    <div>
+                        <button class="btn btn-primary" type="submit" ng-click="saveDraft(formName)">Draft</button>
+                        <button class="btn btn-primary" type="submit" ng-click="savePublish(formName)">Publish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div fb-components></div>
+        </div>
+        <div class="col-md-4">
+            <iframe name="iframer" width="365" height="793" class="setImage" ng-src="http://localhost:8080/iframe.html"></iframe>
+        </div>
+    </div>
+<script>
+ var fields;
+ var model;
+ var options;
+ var columnDef;
+</script>
+<style>
+.setImage {
+    background-image:url(src/img/phone-case.png);
+    border: 0px;
+}
+</style>

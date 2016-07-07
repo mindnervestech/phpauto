@@ -1,0 +1,121 @@
+<!-- <form  id="readroot" ng-repeat = "p in poc" ng-submit="addForm2(poc)"  > -->
+<div  style = "width:50%;" id="readroot" ng-repeat = "p in poc" >
+<!-- 	<input ng-model = "poc[$index].label" type="button" value="Remove review"
+		onclick="this.parentNode.parentNode.removeChild(this.parentNode);" /><br /><br />
+ -->
+	<!-- <input ng-model = "poc[$index].name" name="cd" value="title" /> -->
+
+
+	<div class="form-group">
+		<label class='control-label'>Label</label>    
+		<input  ng-model = "poc[$index].label" type='text' validator="[required]" class='form-control'/>
+	</div>
+	<div class="form-group">
+		<label class='control-label'>Name</label>
+		<input ng-model = "poc[$index].name" type='text' class='form-control'/>
+	</div>
+	
+<div class="btn btn-primary" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{animate:true}" ng-hide="!list1.title">{{list1.title}}</div>
+
+<div class="thumbnail" data-drop="true" data-jqyoui-options ng-model="list2" jqyoui-droppable style='height:50px;'>
+  <div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="list2" jqyoui-draggable ng-hide="!list2.title">{{list2.title}}</div>
+</div>
+</div>
+	<!-- <select name="rankingsel">
+		<option>Rating</option>
+		<option value="excellent">Excellent</option>
+		<option value="good">Good</option>
+		<option value="ok">OK</option>
+		<option value="poor">Poor</option>
+		<option value="bad">Bad</option>
+	</select><br /><br />
+
+	<textarea rows="5" cols="20" name="review">Short review</textarea> -->
+	<!-- <br />Radio buttons included to test them in Explorer:<br />
+	<input type="radio" name="something" value="test1" />Test 1<br />
+	<input type="radio" name="something" value="test2" />Test 2 -->
+
+<form ng-submit="submitForm(poc)">
+	<input type="button" value="add form" ng-click= "addForm()" />
+	<input type="submit" value="send form" />
+</form>
+
+<!-- 
+<div id="readroot" ng-submit="addForm()"  style="display: none">
+
+	<input ng-model = "poc.label" type="button" value="Remove review"
+		onclick="this.parentNode.parentNode.removeChild(this.parentNode);" /><br /><br />
+
+	<input ng-model = "poc.name" name="cd" value="title" />
+
+	<select name="rankingsel">
+		<option>Rating</option>
+		<option value="excellent">Excellent</option>
+		<option value="good">Good</option>
+		<option value="ok">OK</option>
+		<option value="poor">Poor</option>
+		<option value="bad">Bad</option>
+	</select><br /><br />
+
+	<textarea rows="5" cols="20" name="review">Short review</textarea>
+	<!-- <br />Radio buttons included to test them in Explorer:<br />
+	<input type="radio" name="something" value="test1" />Test 1<br />
+	<input type="radio" name="something" value="test2" />Test 2 -->
+
+<!-- </div>
+ 
+<form method="post" ng-submit="addForm()">
+
+	<span id="writeroot"></span>
+
+	<input type="button" ng-click="moreFields()" id="moreFields" value="Give me more fields!" />
+	<input type="submit" value="Send form" />
+
+</form> -->
+<!-- 
+  <form method="post" action="#" class="inlineForm" enctype="multipart/form-data">
+        <div class="repeatingSection">
+            <a href="#" class="buttonGray buttonRight deleteFight">Delete</a>
+            <input type="hidden" name="fighter_a_id_1" id="fighter_a_id_1" value="" />
+            <input type="hidden" name="fighter_b_id_1" id="fighter_b_id_1" value="" />
+            <input type="hidden" name="winner_id_1" id="winner_id_1" value="" />
+            <div class="formRow">
+                <label for="fighter_a_1">Fighters</label>
+                <input type="text" name="fighter_a_1" id="fighter_a_1" value="" /> <span class="formTextExtraCenter">vs</span> <input type="text" name="fighter_b_1" id="fighter_b_1" value="" />
+            </div>
+            <div class="formRow">
+                <label for="fighter_a_pay_1">Fighter Pay $</label>
+                <input type="text" name="fighter_a_pay_1" id="fighter_a_pay_1" value="" /> <span class="formTextExtraCenter">vs</span> <input type="text" name="fighter_b_pay_1" id="fighter_b_pay_1" value="" />
+            </div>
+            <div class="formRow">
+                <label for="winner_1">Winner</label>
+                <input type="text" name="winner_1" id="winner_1" value="" />
+            </div>
+            <div class="formRow">
+                <label for="method_1">Method</label>
+                <input type="text" name="method_1" id="method_1" value="" />
+            </div>
+            <div class="formRow">
+                <label for="method_type_1">Method Type</label>
+                <input type="text" name="method_type_1" id="method_type_1" value="" />
+            </div>
+            <div class="formRow">
+                <label for="round_1">Round</label>
+                <input type="text" name="round_1" id="round_1" class="fieldSmall" value="" />
+            </div>
+            <div class="formRow">
+                <label for="time_1">Time</label>
+                <input type="text" name="time_1" id="time_1" class="fieldSmall" value="" />
+            </div>
+            <div class="formRow">
+                <label for="fight_number_1">Fight #</label>
+                <input type="text" name="fight_number_1" id="fight_number_1" class="fieldSmall" value="" />
+            </div>
+        </div>
+        <div class="formRowRepeatingSection">
+                <a href="#" class="buttonGray buttonRight addFight">Add Fight</a>
+            </div>
+        <div class="formRow">
+            <input type="submit" class="submitButton" ng-click="addEquation(equation)" value="SaveFights" />
+        </div>
+    </form> -->

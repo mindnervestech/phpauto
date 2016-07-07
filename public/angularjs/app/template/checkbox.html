@@ -1,0 +1,52 @@
+<form>
+	<ul id = "myTab" class = "nav nav-tabs">
+	   <li class = "active">
+	      <a href = "#check_box" data-toggle = "tab" style= "width:75px; padding-left: 5px">
+	        Properties
+	      </a>
+	   </li>
+	   
+	   <li><a href = "#checkbox_validation" data-toggle = "tab">Validation</a></li>
+		 <li><a href = "#checkbox_logic" data-toggle = "tab">Logic</a></li>
+	</ul>
+<div id = "CheckboxTabContent" class = "tab-content">
+		<div class = "tab-pane fade in active" id = "check_box">
+			<div class="form-group">
+				<label class='control-label'>Label</label>    
+				<input type='text' ng-model="label" validator="[required]" class='form-control'/>
+			</div>
+			<div class="form-group">
+				<label class='control-label'>Name</label>
+				<input type='text' ng-model="key" class='form-control'/>
+			</div>
+			<div class="form-group">    
+				<label class='control-label'>Options</label>    
+				<textarea class="form-control" rows="3" ng-model="optionsText"/>
+			</div>
+		</div>
+
+	    <div class = "tab-pane fade" id = "checkbox_validation">
+			<ng-include src = "'src/template/validation.html'"></ng-include>
+		</div>
+		<div class = "tab-pane fade" id = "checkbox_logic">
+			<ng-include src = "'src/template/logic.html'"></ng-include>
+		</div>
+	</div>
+
+	<hr/>
+	<div class='form-group'>
+	    <input type='submit' ng-click="popover.save($event)" class='btn btn-primary' value='Save'/>
+	    <input type='button' ng-click="popover.cancel($event)" class='btn btn-default' value='Cancel'/>    
+	    <input type='button' ng-click="popover.remove($event)" class='btn btn-danger' value='Delete'/>
+	</div>
+
+
+</form>
+<script>
+$('.nav-tabs a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+});
+</script>
+
+

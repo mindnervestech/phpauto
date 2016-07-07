@@ -1,0 +1,153 @@
+<div id = "section" class="row " style="margin-top: 15px;">
+	<div class="col-lg-12">
+		<div id ="section" class="col-md-3" >
+				<ul id = "myTab" class = "nav nav-tabs" style="width: 0px;margin-left: 27px;">
+				   <li class = "active">
+				      <a  data-toggle = "tab" style= "width:75px; padding-left: 5px">
+				        Section
+				      </a>
+				   </li>
+				</ul>
+					<div class="border-box col-md-3 tab-pane fade in active" style="border: 1px solid; width: 226px;height: 100%;">
+					<div class="col" >
+						<div class="row-md-1">&nbsp;</div>
+						<div id= "main_section" class="border-box row-md-2 " style="border: 1px solid;    height: 55px;" >
+							
+							<div style="height:100%;    background-color: #f6f6f6;">
+								<span style="float: left; padding: 15px 5px 15px 10px;">
+									<img style = "" src="src/img/square1.png" alt="Megamenu Image">
+								</span>
+							<div style="float: left;padding: 15px 10PX 15PX 5PX; ">Main Section</div>
+							<span style="float: right; padding :15px;">
+									<img style = "" src="src/img/info_icon.png" alt="Megamenu Image">
+								</span>
+							</div>
+							<!-- <span style="float: right;">
+								<img style = "" src="src/img/square1.png" alt="Megamenu Image">
+							</span> -->
+						</div>
+						<div class="row-md-1">&nbsp;</div>
+						<div class="row-md-2">
+						<div id= "main_section" class="border-box row-md-2" style="border: 1px solid;    height: 55px;" >
+							
+							<div style="height:100%;    background-color: #f6f6f6;">
+								<span style="float: left; padding: 15px 5px 15px 10px;">
+									<img style = "" src="src/img/square1.png" alt="Megamenu Image">
+								</span>
+							<div style=" float : left; padding: 15px 10PX 15PX 5PX; ">Subsection</div>
+							<span style="float: right; padding :15px;">
+									<img style = "" src="src/img/info_icon.png" alt="Megamenu Image">
+								</span>
+							</div>
+							<!-- <span style="float: right;">
+								<img style = "" src="src/img/square1.png" alt="Megamenu Image">
+							</span> -->
+						</div>
+						</div>
+						<div class="row-md-1">&nbsp;</div>
+						<div class="row-md-2">
+							<div id= "main_section" class="border-box row-md-2" style="border: 1px solid;    height: 55px;" >
+							<div style="height:100%; background-color: #f6f6f6;">
+								<span style="float: left; padding: 15px 5px 15px 10px;">
+									<img style = "" src="src/img/square1.png" alt="Megamenu Image">
+								</span>
+							<div style="float: left; padding: 15px 10PX 15PX 5PX;">Tabular Section</div>
+							<span style="float: right; padding :15px;">
+									<img style = "" src="src/img/info_icon.png" alt="Megamenu Image">
+								</span>
+							</div>
+							<!-- <span style="float: right;">
+								<img style = "" src="src/img/square1.png" alt="Megamenu Image">
+							</span> -->
+						</div>
+						</div>
+						<div class="row-md-1">&nbsp;</div>
+						<div class="row-md-2">
+							<div id= "main_section" class="border-box row-md-2" style="border: 1px solid;    height: 55px;" >
+							
+							<div style="height:100%; background-color: #f6f6f6;">
+								<span style="float: left; padding: 15px 5px 15px 10px;">
+									<img style = "" src="src/img/square1.png" alt="Megamenu Image">
+								</span>
+							<div style="float: left;     padding: 15px 10PX 15PX 5PX;">Repeatable</div>
+							<span style="float: right; padding :15px;">
+									<img style = "" src="src/img/info_icon.png" alt="Megamenu Image">
+								</span>
+							</div>
+							<!-- <span style="float: right;">
+								<img style = "" src="src/img/square1.png" alt="Megamenu Image">
+							</span> -->
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<div class="border-box col-md-5" style="border: 1px solid;    margin-top: 42px;height: 100%;">
+			aa
+		</div>
+		<div class="col-md-3" style="float: right;width: 30%;;height: 100%;">
+			<ul id = "DataForm" class = "nav nav-tabs">
+			   <li class = "active">
+			      <a data-target = "#data-fields" data-toggle = "tab" style= "width:75px; padding-left: 5px">
+			        Data Fields
+			      </a>
+			   </li>
+			   <li><a data-target = "#checklist" data-toggle = "tab">Checklist</a></li>
+				 <li><a data-target = "#Form-setting" data-toggle = "tab">Form setting</a></li>
+			</ul>
+			<div id = "DataFieldTabContent" class = "tab-content" style="border: 1px solid;">
+				<div class = "tab-pane fade in active" id = "data-fields" >
+					<div class="form-group">
+						<select class="form-control" ng-model="data.opt" ng-change=	"" data-ng-options="opt as opt for opt in dataSet" style=" padding:10px;">
+								<option value="">Select Template</option>
+						</select>
+					</div>
+
+					<div class="form-group border-box" style="border: 1px solid;">
+						<div class="form-group" style="padding:10px;">
+							<label class='control-label'>Label</label>
+							<table ng-table="tableParams" class="table">
+						        <tr style="text-align: center;background-color: #d3d3d3;border-bottom: 1px solid;">
+						            <td style="padding: 0px;">
+						               Label
+						            </td>
+						            <td style="padding: 0px;">
+						               Type
+						            </td>
+						        </tr>
+						        <tr style="text-align: center;border-bottom: 1px solid;">
+						            <td data-title="'Name'" >
+						                tracking_no
+						            </td>
+						            <td data-title="'field'" >
+						               Text_box
+						            </td>
+						        </tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class = "tab-pane fade" id = "checklist" style="margin-top: 10px;">
+					<div class="form-group">
+						<label class='control-label'>Label2</label>    
+						<input type='text' ng-model="label" validator="[required]" class='form-control'/>
+					</div>
+				</div>
+				<div class = "tab-pane fade" id = "Form-setting" style="margin-top: 10px;">
+					<div class="form-group">
+						<label class='control-label'>Label3</label>    
+						<input type='text' ng-model="label" validator="[required]" class='form-control'/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<script>
+$('.nav-tabs a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+});
+</script>

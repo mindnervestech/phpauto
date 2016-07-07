@@ -1,0 +1,77 @@
+<div class="row">
+	<div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Builder</h3>
+                </div>
+                <div style="margin-top: 10px;">
+                </div>
+                <div class="builder">
+
+                    
+                        <div class="row" ng-repeat="elem in element">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">{{elem.label}}</label>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-icon">
+                                        <input type="text" placeholder="{{elem.value}}"
+                                            class="form-control" readonly />
+                                    </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1" style="margin-top: 50px;">
+                                <div class="form-group">
+                                    <label class="control-label">{{sig.label}}</label>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <img ng-src="{{sig.value}}">
+                                </div>    
+                            </div>
+                            
+                        </div>
+
+                        
+                        <div class="row" >
+                            
+                            <div ng-hide="true" ui-grid="gridOptions" class="grid"></div>
+                        </div>
+
+                        <div class="row" ng-repeat="grid in mainArray">
+                            <div ng-hide="grid.data.length == 0" ui-grid="grid" class="grid"></div>
+                        </div>
+                            
+                        </div>    
+              
+
+                </div>
+            </div>
+        </div>
+</div>
+
+<style>
+.builder {
+    min-height: 250px;
+}
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+<style>
+.grid{
+    height:100% !important;
+}
+.grid .ui-grid-render-container-body .ui-grid-viewport{
+    height:100% !important;
+}
+</style>
+</style>	
