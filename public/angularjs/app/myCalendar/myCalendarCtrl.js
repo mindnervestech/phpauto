@@ -70,20 +70,25 @@ angular.module('newApp')
 	        eventDrag($(this));
 	    });
 		
-	    	    
-	    
+	    $scope.deleteActivityModal = function(){
+	    	console.log("hhhh11");
+	    }
+	    function deleteActivityModal(){
+	    	console.log("popo");
+	    }
 			$('#calendar').fullCalendar({
 				  
 			    defaultView: 'agendaWeek',
 			    editable: true,
 			    droppable: true,
 			    events: eventList,
-		        
-		        eventClick: function(event, jsEvent, view) {
+			    
+		        /*eventClick: function(event, jsEvent, view) {
 		        	console.log(event);
 		        	console.log(jsEvent);
 		        	console.log(view);
 		        	$scope.saveObj = {};
+		        	
 		        	
 			            	$scope.saveObj.portalName = event.title;
 			            	$scope.saveObj.contractDurStartDate = event._start._d;
@@ -101,10 +106,10 @@ angular.module('newApp')
 			       			 	$('#calendar').fullCalendar('removeEvents',event._id);
 			            	});
 
-			    },
-			    
+			    },*/
+			   			    
 			   
-		       /* eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+		        eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
 		        	 $scope.flagSave = 0;
 		        	$scope.saveObj = {};
 		            var flagDataAb = 0;
@@ -155,7 +160,8 @@ angular.module('newApp')
 		            	$('#calendar').fullCalendar('removeEvents',event.id);
 		            	alert("Event already exists");
 		            }
-		        },*/
+		        },
+		        
 		        
 		        eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
 		        	
@@ -179,18 +185,44 @@ angular.module('newApp')
 		            
 		        },
 		        eventRender: function(event, element) {
-		        	console.log(event);
-		        	angular.forEach($scope.eventList, function(obj, index){
-		        		if(obj.id == event.id){
-		        			console.log("DDD000");
-		        		}
-					});
+                   
+		        	element.bind('mousedown', function (e) {
+		        		console.log(e);
+		        		console.log(event);
+		                if (e.which == 3) {
+		                    //alert('Right mouse button pressed');
+		                	if (confirm('Are you sure you want to delete this event?')) {
+		                		$scope.saveObj = {};
+		    		        	
+		    		        	
+				            	$scope.saveObj.portalName = event.title;
+				            	$scope.saveObj.contractDurStartDate = event._start._d;
+				            	if(event._end == null){
+				            		$scope.saveObj.contractDurEndDate = "0";
+				            		$scope.saveObj.originEndDate = "0";
+				            	}else{
+				            		$scope.saveObj.contractDurEndDate = event._end._d;
+				            		$scope.saveObj.originEndDate = event._end._i;
+				            	}
+				            	console.log($scope.saveObj);
+				            	
+				            	$http.post("/deleteEvent",$scope.saveObj).success(function(data){
+				       			 	console.log("suuu888");
+				       			 	$('#calendar').fullCalendar('removeEvents',event._id);
+				            	});
+		                	} else {
+		                	    // Do nothing!
+		                	}
+		                }
+		            });
+                
 		        },
 		        disableResizing: true,
 		        // this allows things to be dropped onto the calendar !!!
 		        drop:function(date, allDay) { // this function is called when something is dropped
 		        	console.log(date);
 		        	console.log(allDay);
+		        	$scope.saveObj = {};
 		            // retrieve the dropped element's stored Event Object
 		            var originalEventObject = $(this).data('eventObject');
 		            // we need to copy it, so that multiple events don't have a reference to the same object
@@ -216,6 +248,21 @@ angular.module('newApp')
 			            // render the event on the calendar
 			            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 			            $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+			            
+			            
+			            
+			           
+			            	$scope.saveObj.portalName = copiedEventObject.title;
+			            	$scope.saveObj.contractDurStartDate = date._d;
+			            	$scope.saveObj.originStartDate = "0";
+			            	$scope.saveObj.contractDurEndDate = "0";
+			            	$http.post("/saveNewEvent",$scope.saveObj).success(function(data){
+			       			 	console.log("suuu888");
+			       			 //	$scope.initfunction();
+			            	});
+			            
+			            
+			            
 		            }else{
 		            	alert("Event already exists");
 		            }
