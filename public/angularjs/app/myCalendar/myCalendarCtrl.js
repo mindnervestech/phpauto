@@ -2,6 +2,7 @@ angular.module('newApp')
 .controller('myCalendarCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 	  //$.fn.Data.checkbox();
 	$scope.eventList = [];
+	$scope.eventdataValue = [];
 	$scope.flag = 0;
 	$scope.initfunction = function(){
 		$http.get('/getTimeTableOfPhotos').success(function(data) {
@@ -180,6 +181,7 @@ angular.module('newApp')
 		            
 		        },
 		        eventRender: function(event, element) {
+		        	$scope.eventdataValue.push(event);
 		        	 //element.append( "<span ng-click='deleteActivityModal()'>X</span>" );
 		        	element.bind('mousedown', function (e) {
 		        		console.log(e);
@@ -204,12 +206,12 @@ angular.module('newApp')
 		            console.log(copiedEventObject);
 		            console.log($filter('date')(date._d, 'yyyy-MM-dd'));
 		            var flagDataAb = 0;
-		            angular.forEach($scope.eventList, function(obj, index){
+		            angular.forEach($scope.eventdataValue, function(obj, index){
 		            	console.log(obj.backgroundColor);
 		        		if(obj.title == copiedEventObject.title){
-		        			var arr = [];
-		        			arr = obj.start.split('T');
-		        			if(arr[0] == $filter('date')(date._d, 'yyyy-MM-dd')){
+		        			//var arr = [];
+		        			//arr = obj._start._d.split('T');
+		        			if($filter('date')(obj._start._d, 'yyyy-MM-dd') == $filter('date')(date._d, 'yyyy-MM-dd')){
 		        				flagDataAb = 1;
 		        			}
 		        			copiedEventObject.backgroundColor = obj.backgroundColor;
