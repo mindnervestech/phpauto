@@ -70,6 +70,8 @@ angular.module('newApp')
 	        eventDrag($(this));
 	    });
 		
+	    	    
+	    
 			$('#calendar').fullCalendar({
 				  
 			    defaultView: 'agendaWeek',
@@ -81,18 +83,33 @@ angular.module('newApp')
 		        	console.log(event);
 		        	console.log(jsEvent);
 		        	console.log(view);
-		        	//$('#calendar').fullCalendar('removeEvents',event._id);
+		        	$scope.saveObj = {};
+		        	
+			            	$scope.saveObj.portalName = event.title;
+			            	$scope.saveObj.contractDurStartDate = event._start._d;
+			            	if(event._end == null){
+			            		$scope.saveObj.contractDurEndDate = "0";
+			            		$scope.saveObj.originEndDate = "0";
+			            	}else{
+			            		$scope.saveObj.contractDurEndDate = event._end._d;
+			            		$scope.saveObj.originEndDate = event._end._i;
+			            	}
+			            	console.log($scope.saveObj);
+			            	
+			            	$http.post("/deleteEvent",$scope.saveObj).success(function(data){
+			       			 	console.log("suuu888");
+			       			 	$('#calendar').fullCalendar('removeEvents',event._id);
+			            	});
 
 			    },
 			    
 			   
-		        eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+		       /* eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
 		        	 $scope.flagSave = 0;
 		        	$scope.saveObj = {};
 		            var flagDataAb = 0;
 		            $scope.date = 0;
-		            
-		            /*angular.forEach($scope.eventList, function(obj, index){
+		            angular.forEach($scope.eventList, function(obj, index){
 		            	console.log(obj);
 		            	console.log(event);
 		        		if(obj.title == event.title){
@@ -102,11 +119,14 @@ angular.module('newApp')
 		        			console.log(arr[0]);
 		        			console.log($filter('date')(event._start._d, 'yyyy-MM-dd'));
 		        			if(arr[0] == $filter('date')(event._start._d, 'yyyy-MM-dd')){
-		        				flagDataAb = 1;
+		        				
+		        				if(obj.id != event.id){
+		        					flagDataAb = 1;
+		        				}
 		        			}
 		        		}
-					});*/
-		            //if(flagDataAb == 0){
+					});
+		            if(flagDataAb == 0){
 		            	
 		           
 			            if(event._start._i instanceof Object == true){
@@ -131,10 +151,11 @@ angular.module('newApp')
 			       			 //	$scope.initfunction();
 			            	});
 		            
-		            //}else{
-		            //	alert("Event already exists");
-		            //}
-		        },
+		            }else{
+		            	$('#calendar').fullCalendar('removeEvents',event.id);
+		            	alert("Event already exists");
+		            }
+		        },*/
 		        
 		        eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
 		        	
@@ -169,6 +190,7 @@ angular.module('newApp')
 		        // this allows things to be dropped onto the calendar !!!
 		        drop:function(date, allDay) { // this function is called when something is dropped
 		        	console.log(date);
+		        	console.log(allDay);
 		            // retrieve the dropped element's stored Event Object
 		            var originalEventObject = $(this).data('eventObject');
 		            // we need to copy it, so that multiple events don't have a reference to the same object
@@ -189,7 +211,7 @@ angular.module('newApp')
 		            if(flagDataAb == 0){
 		            	// assign it the date that was reported
 			            copiedEventObject.start = date;
-			            copiedEventObject.allDay = allDay;
+			            copiedEventObject.allDay = false;
 
 			            // render the event on the calendar
 			            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
