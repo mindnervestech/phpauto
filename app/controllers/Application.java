@@ -46158,6 +46158,8 @@ public static Result getviniewsChartLeads(Long id, String vin,
 			vehicle = Vehicle.findByLocationAndSold(user.location.id);
 		}else if(user.role.equals("Sales Person")){
 			vehicle = Vehicle.findBySoldUserAndSold(user);
+		}else if(user.role.equals("Photographer")){
+			vehicle = Vehicle.findBySold();
 		}
 			for(Vehicle vhVehicle:vehicle){
 				if(vhVehicle.price != null){
