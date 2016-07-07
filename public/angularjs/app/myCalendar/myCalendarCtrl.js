@@ -70,44 +70,39 @@ angular.module('newApp')
 	        eventDrag($(this));
 	    });
 		
-	    $scope.deleteActivityModal = function(){
-	    	console.log("hhhh11");
-	    }
-	    function deleteActivityModal(){
-	    	console.log("popo");
-	    }
-			$('#calendar').fullCalendar({
+	   
+	   			$('#calendar').fullCalendar({
 				  
 			    defaultView: 'agendaWeek',
 			    editable: true,
 			    droppable: true,
 			    events: eventList,
 			    
-		        /*eventClick: function(event, jsEvent, view) {
-		        	console.log(event);
-		        	console.log(jsEvent);
-		        	console.log(view);
-		        	$scope.saveObj = {};
-		        	
-		        	
-			            	$scope.saveObj.portalName = event.title;
-			            	$scope.saveObj.contractDurStartDate = event._start._d;
-			            	if(event._end == null){
-			            		$scope.saveObj.contractDurEndDate = "0";
-			            		$scope.saveObj.originEndDate = "0";
-			            	}else{
-			            		$scope.saveObj.contractDurEndDate = event._end._d;
-			            		$scope.saveObj.originEndDate = event._end._i;
-			            	}
-			            	console.log($scope.saveObj);
-			            	
-			            	$http.post("/deleteEvent",$scope.saveObj).success(function(data){
-			       			 	console.log("suuu888");
-			       			 	$('#calendar').fullCalendar('removeEvents',event._id);
-			            	});
-
-			    },*/
-			   			    
+//		        eventClick: function(event, jsEvent, view) {
+//		        	//console.log(event);
+//		        	//console.log(jsEvent);
+//		        	//console.log(view);
+//		        	$scope.saveObj = {};
+//		        	
+//		        	
+//			            	/*$scope.saveObj.portalName = event.title;
+//			            	$scope.saveObj.contractDurStartDate = event._start._d;
+//			            	if(event._end == null){
+//			            		$scope.saveObj.contractDurEndDate = "0";
+//			            		$scope.saveObj.originEndDate = "0";
+//			            	}else{
+//			            		$scope.saveObj.contractDurEndDate = event._end._d;
+//			            		$scope.saveObj.originEndDate = event._end._i;
+//			            	}
+//			            	console.log($scope.saveObj);
+//			            	
+//			            	$http.post("/deleteEvent",$scope.saveObj).success(function(data){
+//			       			 	console.log("suuu888");
+//			       			 	$('#calendar').fullCalendar('removeEvents',event._id);
+//			            	});*/
+//
+//			    },
+			    			    
 			   
 		        eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
 		        	 $scope.flagSave = 0;
@@ -158,7 +153,7 @@ angular.module('newApp')
 		            
 		            }else{
 		            	$('#calendar').fullCalendar('removeEvents',event.id);
-		            	alert("Event already exists");
+		            	$('#eventExist').modal('show');
 		            }
 		        },
 		        
@@ -185,34 +180,13 @@ angular.module('newApp')
 		            
 		        },
 		        eventRender: function(event, element) {
-                   
+		        	 //element.append( "<span ng-click='deleteActivityModal()'>X</span>" );
 		        	element.bind('mousedown', function (e) {
 		        		console.log(e);
 		        		console.log(event);
 		                if (e.which == 3) {
-		                    //alert('Right mouse button pressed');
-		                	if (confirm('Are you sure you want to delete this event?')) {
-		                		$scope.saveObj = {};
-		    		        	
-		    		        	
-				            	$scope.saveObj.portalName = event.title;
-				            	$scope.saveObj.contractDurStartDate = event._start._d;
-				            	if(event._end == null){
-				            		$scope.saveObj.contractDurEndDate = "0";
-				            		$scope.saveObj.originEndDate = "0";
-				            	}else{
-				            		$scope.saveObj.contractDurEndDate = event._end._d;
-				            		$scope.saveObj.originEndDate = event._end._i;
-				            	}
-				            	console.log($scope.saveObj);
-				            	
-				            	$http.post("/deleteEvent",$scope.saveObj).success(function(data){
-				       			 	console.log("suuu888");
-				       			 	$('#calendar').fullCalendar('removeEvents',event._id);
-				            	});
-		                	} else {
-		                	    // Do nothing!
-		                	}
+		                	$scope.eventdata = event;
+		                	$('#deleteForeverModal').modal('show');
 		                }
 		            });
                 
@@ -231,6 +205,7 @@ angular.module('newApp')
 		            console.log($filter('date')(date._d, 'yyyy-MM-dd'));
 		            var flagDataAb = 0;
 		            angular.forEach($scope.eventList, function(obj, index){
+		            	console.log(obj.backgroundColor);
 		        		if(obj.title == copiedEventObject.title){
 		        			var arr = [];
 		        			arr = obj.start.split('T');
@@ -264,7 +239,7 @@ angular.module('newApp')
 			            
 			            
 		            }else{
-		            	alert("Event already exists");
+		            	$('#eventExist').modal('show');
 		            }
 		            
 		           
@@ -279,5 +254,30 @@ angular.module('newApp')
 			});
 
 	}
+	
+	$scope.deleteEvent = function(){
+		console.log("sddsd");
+		console.log($scope.eventdata);
+		
+		$scope.saveObj = {};
+    	
+    	
+    	$scope.saveObj.portalName = $scope.eventdata.title;
+    	$scope.saveObj.contractDurStartDate = $scope.eventdata._start._d;
+    	if($scope.eventdata._end == null){
+    		$scope.saveObj.contractDurEndDate = "0";
+    		$scope.saveObj.originEndDate = "0";
+    	}else{
+    		$scope.saveObj.contractDurEndDate = $scope.eventdata._end._d;
+    		$scope.saveObj.originEndDate = $scope.eventdata._end._i;
+    	}
+    	console.log($scope.saveObj);
+    	
+    	$http.post("/deleteEvent",$scope.saveObj).success(function(data){
+			 	console.log("suuu888");
+			 	$('#calendar').fullCalendar('removeEvents',$scope.eventdata._id);
+    	});
+	}
+	 
 	
 }]);	
