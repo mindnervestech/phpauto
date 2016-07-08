@@ -29364,8 +29364,8 @@ private static void cancelTestDriveMail(Map map) {
     			if(lis.averageTime != null){
     				count5=Double.parseDouble(lis.averageTime);	
     				}
-    			if(lis.totalTime != null){
-    				count4=Double.parseDouble(lis.totalTime);
+    			if(lis.timeTotal != null){
+    				count4=count4+Double.parseDouble(lis.timeTotal);
     				}
     			if(lis.visitors != null){
     				 count2=Double.parseDouble(lis.visitors);
@@ -29373,8 +29373,8 @@ private static void cancelTestDriveMail(Map map) {
     			if(lis.uniqueVisitor!= null){
     				count3=Double.parseDouble(lis.uniqueVisitor);
     				}
-    			if(lis.action != null){
-    			count7=Double.parseDouble(lis.action);
+    			if(lis.actions != null){
+    			count7=count7+Double.parseDouble(lis.actions);
     			}
     		   			
     		 }
@@ -29396,17 +29396,17 @@ private static void cancelTestDriveMail(Map map) {
     					if(list.averageTime != null){
     						countAll5=count5+Double.parseDouble(list.averageTime);	
     						}
-    					if(list.totalTime != null  && !list.totalTime.equals("")){
-    						 countAll4=count4+Double.parseDouble(list.totalTime);
+    					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+    						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
     						}
     					if(list.visitors != null){
-    						countAll2=count2+Double.parseDouble(list.visitors);
+    						countAll2=alldatalist.size();
     						}
     					if(list.uniqueVisitor != null){
-    						countAll3=count3+Double.parseDouble(list.uniqueVisitor);
+    						countAll3=alldatalist.size();
     						}
-    					if(list.action != null && !list.action.equals("")){
-    						 countAll7=count7+Double.parseDouble(list.action);
+    					if(list.actions != null && !list.actions.equals("")){
+    						 countAll7=countAll7+Double.parseDouble(list.actions);
     					}
     				 
     				 
@@ -29530,8 +29530,8 @@ private static void cancelTestDriveMail(Map map) {
        			if(lis.averageTimeorg != null){
        				count5=Double.parseDouble(lis.averageTimeorg);	
        				}
-       			if(lis.totalTimeorg != null){
-       				count4=Double.parseDouble(lis.totalTimeorg);
+       			if(lis.timeTotal != null){
+       				count4=count4+Double.parseDouble(lis.timeTotal);
        				}
        			if(lis.visitorsorg != null){
        				 count2=Double.parseDouble(lis.visitorsorg);
@@ -29539,8 +29539,8 @@ private static void cancelTestDriveMail(Map map) {
        			if(lis.uniqueVisitororg!= null){
        				count3=Double.parseDouble(lis.uniqueVisitororg);
        				}
-       			if(lis.actionorg != null){
-       			count7=Double.parseDouble(lis.actionorg);
+       			if(lis.actions != null){
+       			count7=count7+Double.parseDouble(lis.actions);
        			}
        		   			
        		 }
@@ -29562,17 +29562,17 @@ private static void cancelTestDriveMail(Map map) {
        					if(list.averageTimeorg != null){
        						countAll5=count5+Double.parseDouble(list.averageTimeorg);	
        						}
-       					if(list.totalTimeorg != null  && !list.totalTimeorg.equals("")){
-       						 countAll4=count4+Double.parseDouble(list.totalTimeorg);
+       					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+       						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
        						}
        					if(list.visitorsorg != null){
-       						countAll2=count2+Double.parseDouble(list.visitorsorg);
+       						countAll2=allOrglist.size();
        						}
        					if(list.uniqueVisitororg != null){
-       						countAll3=count3+Double.parseDouble(list.uniqueVisitororg);
+       						countAll3=allOrglist.size();
        						}
-       					if(list.actionorg != null && !list.actionorg.equals("")){
-       						 countAll7=count7+Double.parseDouble(list.actionorg);
+       					if(list.actions != null && !list.actions.equals("")){
+       						 countAll7=countAll7+Double.parseDouble(list.actions);
        					}
        				 
        				 
@@ -29696,8 +29696,8 @@ private static void cancelTestDriveMail(Map map) {
       			if(lis.averageTimeos != null){
       				count5=Double.parseDouble(lis.averageTimeos);	
       				}
-      			if(lis.totalTimeos != null){
-      				count4=Double.parseDouble(lis.totalTimeos);
+      			if(lis.timeTotal != null){
+      				count4=count4+Double.parseDouble(lis.timeTotal);
       				}
       			if(lis.visitorsos != null){
       				 count2=Double.parseDouble(lis.visitorsos);
@@ -29705,8 +29705,8 @@ private static void cancelTestDriveMail(Map map) {
       			if(lis.uniqueVisitoros!= null){
       				count3=Double.parseDouble(lis.uniqueVisitoros);
       				}
-      			if(lis.actionos != null){
-      			count7=Double.parseDouble(lis.actionos);
+      			if(lis.actions != null){
+      			count7=count7+Double.parseDouble(lis.actions);
       			}
       		   			
       		 }
@@ -29728,17 +29728,17 @@ private static void cancelTestDriveMail(Map map) {
       					if(list.averageTimeos != null){
       						countAll5=count5+Double.parseDouble(list.averageTimeos);	
       						}
-      					if(list.totalTimeos != null  && !list.totalTimeos.equals("")){
-      						 countAll4=count4+Double.parseDouble(list.totalTimeos);
+      					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+      						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
       						}
       					if(list.visitorsos != null){
-      						countAll2=count2+Double.parseDouble(list.visitorsos);
+      						countAll2=allOSlist.size();
       						}
       					if(list.uniqueVisitoros != null){
-      						countAll3=count3+Double.parseDouble(list.uniqueVisitoros);
+      						countAll3=allOSlist.size();
       						}
-      					if(list.actionos != null && !list.actionos.equals("")){
-      						 countAll7=count7+Double.parseDouble(list.actionos);
+      					if(list.actions != null && !list.actions.equals("")){
+      						 countAll7=countAll7+Double.parseDouble(list.actions);
       					}
       				 
       				 
@@ -29858,8 +29858,8 @@ private static void cancelTestDriveMail(Map map) {
         			if(lis.averageTimebrowser != null){
         				count5=Double.parseDouble(lis.averageTimebrowser);	
         				}
-        			if(lis.totalTimebrowser != null){
-        				count4=Double.parseDouble(lis.totalTimebrowser);
+        			if(lis.timeTotal != null){
+        				count4=count4+Double.parseDouble(lis.timeTotal);
         				}
         			if(lis.visitorsbrowser != null){
         				 count2=Double.parseDouble(lis.visitorsbrowser);
@@ -29867,8 +29867,8 @@ private static void cancelTestDriveMail(Map map) {
         			if(lis.uniqueVisitorbrowser!= null){
         				count3=Double.parseDouble(lis.uniqueVisitorbrowser);
         				}
-        			if(lis.actionbrowser != null){
-        			count7=Double.parseDouble(lis.actionbrowser);
+        			if(lis.actions != null){
+        			count7=count7+Double.parseDouble(lis.actions);
         			}
         		   			
         		 }
@@ -29890,17 +29890,17 @@ private static void cancelTestDriveMail(Map map) {
         					if(list.averageTimebrowser != null){
         						countAll5=count5+Double.parseDouble(list.averageTimebrowser);	
         						}
-        					if(list.totalTimebrowser != null  && !list.totalTimebrowser.equals("")){
-        						 countAll4=count4+Double.parseDouble(list.totalTimebrowser);
+        					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+        						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
         						}
         					if(list.visitorsbrowser != null){
-        						countAll2=count2+Double.parseDouble(list.visitorsbrowser);
+        						countAll2=allBrowserlist.size();
         						}
         					if(list.uniqueVisitorbrowser != null){
-        						countAll3=count3+Double.parseDouble(list.uniqueVisitorbrowser);
+        						countAll3=allBrowserlist.size();
         						}
-        					if(list.actionbrowser != null && !list.actionbrowser.equals("")){
-        						 countAll7=count7+Double.parseDouble(list.actionbrowser);
+        					if(list.actions != null && !list.actions.equals("")){
+        						 countAll7=countAll7+Double.parseDouble(list.actions);
         					}
         				 
         				 
@@ -30277,8 +30277,8 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
        			if(lis.averageTime1 != null){
        				count5=Double.parseDouble(lis.averageTime1);	
        				}
-       			if(lis.totalTime1 != null){
-       				count4=Double.parseDouble(lis.totalTime1);
+       			if(lis.timeTotal != null){
+       				count4=count4+Double.parseDouble(lis.timeTotal);
        				}
        			if(lis.visitors1 != null){
        				 count2=Double.parseDouble(lis.visitors1);
@@ -30286,8 +30286,8 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
        			if(lis.uniqueVisitor1!= null){
        				count3=Double.parseDouble(lis.uniqueVisitor1);
        				}
-       			if(lis.action1 != null){
-       			count7=Double.parseDouble(lis.action1);
+       			if(lis.actions != null){
+       			count7=count7+Double.parseDouble(lis.actions);
        			}
        		   			
        		 }
@@ -30309,17 +30309,17 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
        					if(list.averageTime1 != null){
        						countAll5=count5+Double.parseDouble(list.averageTime1);	
        						}
-       					if(list.totalTime1 != null  && !list.totalTime1.equals("")){
-       						 countAll4=count4+Double.parseDouble(list.totalTime1);
+       					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+       						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
        						}
        					if(list.visitors1 != null){
-       						countAll2=count2+Double.parseDouble(list.visitors1);
+       						countAll2=alldatalist.size();
        						}
        					if(list.uniqueVisitor1 != null){
-       						countAll3=count3+Double.parseDouble(list.uniqueVisitor1);
+       						countAll3=alldatalist.size();
        						}
-       					if(list.action1 != null && !list.action1.equals("")){
-       						 countAll7=count7+Double.parseDouble(list.action1);
+       					if(list.actions != null && !list.actions.equals("")){
+       						 countAll7=countAll7+Double.parseDouble(list.actions);
        					}
        				 
        				 
@@ -30446,8 +30446,8 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     			if(lis.averageTime2 != null){
     				count5=Double.parseDouble(lis.averageTime2);	
     				}
-    			if(lis.totalTime2 != null){
-    				count4=Double.parseDouble(lis.totalTime2);
+    			if(lis.timeTotal != null){
+    				count4=count4+Double.parseDouble(lis.timeTotal);
     				}
     			if(lis.visitors2 != null){
     				 count2=Double.parseDouble(lis.visitors2);
@@ -30455,8 +30455,8 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     			if(lis.uniqueVisitor2!= null){
     				count3=Double.parseDouble(lis.uniqueVisitor2);
     				}
-    			if(lis.action2 != null){
-    			count7=Double.parseDouble(lis.action2);
+    			if(lis.actions != null){
+    			count7=count7+Double.parseDouble(lis.actions);
     			}
     		   			
     		 }
@@ -30478,17 +30478,17 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     					if(list.averageTime2 != null){
     						countAll5=count5+Double.parseDouble(list.averageTime2);	
     						}
-    					if(list.totalTime2 != null  && !list.totalTime2.equals("")){
-    						 countAll4=count4+Double.parseDouble(list.totalTime2);
+    					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+    						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
     						}
     					if(list.visitors2 != null){
-    						countAll2=count2+Double.parseDouble(list.visitors2);
+    						countAll2=alldatalist.size();
     						}
     					if(list.uniqueVisitor2 != null){
-    						countAll3=count3+Double.parseDouble(list.uniqueVisitor2);
+    						countAll3=alldatalist.size();
     						}
-    					if(list.action2 != null && !list.action2.equals("")){
-    						 countAll7=count7+Double.parseDouble(list.action2);
+    					if(list.actions != null && !list.actions.equals("")){
+    						 countAll7=countAll7+Double.parseDouble(list.actions);
     					}
     				 
     				 
