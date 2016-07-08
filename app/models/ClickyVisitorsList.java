@@ -68,11 +68,287 @@ public class ClickyVisitorsList extends Model {
 	public String averageTime2;
 	public String bounceRate2;
 	
+	public String visitorsos;
+	public String uniqueVisitoros;
+	public String actionos;
+	public String averageActionos;
+	public String totalTimeos;
+	public String averageTimeos;
+	public String bounceRateos;
+	
+	public String visitorsbrowser;
+	public String uniqueVisitorbrowser;
+	public String actionbrowser;
+	public String averageActionbrowser;
+	public String totalTimebrowser;
+	public String averageTimebrowser;
+	public String bounceRatebrowser;
+	
+	public String visitorsorg;
+	public String uniqueVisitororg;
+	public String actionorg;
+	public String averageActionorg;
+	public String totalTimeorg;
+	public String averageTimeorg;
+	public String bounceRateorg;
+	
 	public static Finder<Long,ClickyVisitorsList> find = new Finder<>(Long.class,ClickyVisitorsList.class);
 	
 	
 	
 	
+
+
+	public String getVisitorsorg() {
+		return visitorsorg;
+	}
+
+
+
+	public void setVisitorsorg(String visitorsorg) {
+		this.visitorsorg = visitorsorg;
+	}
+
+
+
+	public String getUniqueVisitororg() {
+		return uniqueVisitororg;
+	}
+
+
+
+	public void setUniqueVisitororg(String uniqueVisitororg) {
+		this.uniqueVisitororg = uniqueVisitororg;
+	}
+
+
+
+	public String getActionorg() {
+		return actionorg;
+	}
+
+
+
+	public void setActionorg(String actionorg) {
+		this.actionorg = actionorg;
+	}
+
+
+
+	public String getAverageActionorg() {
+		return averageActionorg;
+	}
+
+
+
+	public void setAverageActionorg(String averageActionorg) {
+		this.averageActionorg = averageActionorg;
+	}
+
+
+
+	public String getTotalTimeorg() {
+		return totalTimeorg;
+	}
+
+
+
+	public void setTotalTimeorg(String totalTimeorg) {
+		this.totalTimeorg = totalTimeorg;
+	}
+
+
+
+	public String getAverageTimeorg() {
+		return averageTimeorg;
+	}
+
+
+
+	public void setAverageTimeorg(String averageTimeorg) {
+		this.averageTimeorg = averageTimeorg;
+	}
+
+
+
+	public String getBounceRateorg() {
+		return bounceRateorg;
+	}
+
+
+
+	public void setBounceRateorg(String bounceRateorg) {
+		this.bounceRateorg = bounceRateorg;
+	}
+
+
+
+	public String getVisitorsbrowser() {
+		return visitorsbrowser;
+	}
+
+
+
+	public void setVisitorsbrowser(String visitorsbrowser) {
+		this.visitorsbrowser = visitorsbrowser;
+	}
+
+
+
+	public String getUniqueVisitorbrowser() {
+		return uniqueVisitorbrowser;
+	}
+
+
+
+	public void setUniqueVisitorbrowser(String uniqueVisitorbrowser) {
+		this.uniqueVisitorbrowser = uniqueVisitorbrowser;
+	}
+
+
+
+	public String getActionbrowser() {
+		return actionbrowser;
+	}
+
+
+
+	public void setActionbrowser(String actionbrowser) {
+		this.actionbrowser = actionbrowser;
+	}
+
+
+
+	public String getAverageActionbrowser() {
+		return averageActionbrowser;
+	}
+
+
+
+	public void setAverageActionbrowser(String averageActionbrowser) {
+		this.averageActionbrowser = averageActionbrowser;
+	}
+
+
+
+	public String getTotalTimebrowser() {
+		return totalTimebrowser;
+	}
+
+
+
+	public void setTotalTimebrowser(String totalTimebrowser) {
+		this.totalTimebrowser = totalTimebrowser;
+	}
+
+
+
+	public String getAverageTimebrowser() {
+		return averageTimebrowser;
+	}
+
+
+
+	public void setAverageTimebrowser(String averageTimebrowser) {
+		this.averageTimebrowser = averageTimebrowser;
+	}
+
+
+
+	public String getBounceRatebrowser() {
+		return bounceRatebrowser;
+	}
+
+
+
+	public void setBounceRatebrowser(String bounceRatebrowser) {
+		this.bounceRatebrowser = bounceRatebrowser;
+	}
+
+
+
+	public String getVisitorsos() {
+		return visitorsos;
+	}
+
+
+
+	public void setVisitorsos(String visitorsos) {
+		this.visitorsos = visitorsos;
+	}
+
+
+
+	public String getUniqueVisitoros() {
+		return uniqueVisitoros;
+	}
+
+
+
+	public void setUniqueVisitoros(String uniqueVisitoros) {
+		this.uniqueVisitoros = uniqueVisitoros;
+	}
+
+
+
+	public String getActionos() {
+		return actionos;
+	}
+
+
+
+	public void setActionos(String actionos) {
+		this.actionos = actionos;
+	}
+
+
+
+	public String getAverageActionos() {
+		return averageActionos;
+	}
+
+
+
+	public void setAverageActionos(String averageActionos) {
+		this.averageActionos = averageActionos;
+	}
+
+
+
+	public String getTotalTimeos() {
+		return totalTimeos;
+	}
+
+
+
+	public void setTotalTimeos(String totalTimeos) {
+		this.totalTimeos = totalTimeos;
+	}
+
+
+
+	public String getAverageTimeos() {
+		return averageTimeos;
+	}
+
+
+
+	public void setAverageTimeos(String averageTimeos) {
+		this.averageTimeos = averageTimeos;
+	}
+
+
+
+	public String getBounceRateos() {
+		return bounceRateos;
+	}
+
+
+
+	public void setBounceRateos(String bounceRateos) {
+		this.bounceRateos = bounceRateos;
+	}
+
 
 
 	public String getVisitors2() {
@@ -666,6 +942,15 @@ public class ClickyVisitorsList extends Model {
 	}
 	public static List<ClickyVisitorsList> findByTitleAndDate(String geolocation, Date startdate, Date enddate) {
 		return find.where().eq("geolocation", geolocation).between("DateClick", startdate, enddate).findList();
+	}
+	public static List<ClickyVisitorsList> findByOsAndDate(String operatingSystem, Date startdate, Date enddate) {
+		return find.where().eq("operatingSystem", operatingSystem).between("DateClick", startdate, enddate).findList();
+	}
+	public static List<ClickyVisitorsList> findBybrowserAndDate(String webBrowser, Date startdate, Date enddate) {
+		return find.where().eq("webBrowser", webBrowser).between("DateClick", startdate, enddate).findList();
+	}
+	public static List<ClickyVisitorsList> findByOrgAndDate(String organization, Date startdate, Date enddate) {
+		return find.where().eq("organization", organization).between("DateClick", startdate, enddate).findList();
 	}
 	public static List<ClickyVisitorsList> findByIdAndDate(Long id, Date startdate, Date enddate) {
 		return find.where().eq("id", id).between("DateClick", startdate, enddate).findList();

@@ -825,7 +825,7 @@ angular.module('newApp')
 				$scope.gridOptions.columnDefs = [
 									             {name: 'timePretty', displayName: 'Time'},
 									             {name:'a', displayName:'User',
-									            	 cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></span><br><a  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geoLocation)" >{{row.entity.geoLocation}}</a>,&nbsp;&nbsp<a  ng-click="grid.appScope.referrerTypeDataForOs(row.entity.operatingSystem)" > {{row.entity.operatingSystem}}</a> <a  ng-click="grid.appScope.referrerTypeDataForBrowser(row.entity.webBrowser)" >{{row.entity.webBrowser}} </a> </div>',
+									            	 cellTemplate:'<div><span><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.vid)">{{row.entity.organization}}</label></span><br><a  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geoLocation)" >{{row.entity.geoLocation}}</a>,&nbsp;&nbsp<a  ng-click="grid.appScope.referrerTypeDataForOs(row.entity.operatingSystem)" > {{row.entity.operatingSystem}}</a> <a  ng-click="grid.appScope.referrerTypeDataForBrowser(row.entity.webBrowser)" >{{row.entity.webBrowser}} </a> </div>',
 									             },
 									             {name:'landingPage', displayName:'Action',
 									            	 cellTemplate:'<div><span><a href="{{row.entity.actionUrl}}" target="_blank">{{row.entity.actionUrl}}</a></span></div>',

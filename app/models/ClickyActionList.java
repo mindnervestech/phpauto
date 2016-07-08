@@ -28,9 +28,73 @@ public class ClickyActionList extends Model {
 	public Date currDate;
 	public String referrer_domain;
 	
+	public String visitors;
+	public String uniqueVisitor;
+	public String action;
+	public String averageAction;
+	public String totalTime;
+	public String averageTime;
+	public String bounceRate;
 	
 	public static Finder<Long,ClickyActionList> find = new Finder<>(Long.class,ClickyActionList.class);
 
+
+	
+	public String getVisitors() {
+		return visitors;
+	}
+
+	public void setVisitors(String visitors) {
+		this.visitors = visitors;
+	}
+
+	public String getUniqueVisitor() {
+		return uniqueVisitor;
+	}
+
+	public void setUniqueVisitor(String uniqueVisitor) {
+		this.uniqueVisitor = uniqueVisitor;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public String getAverageAction() {
+		return averageAction;
+	}
+
+	public void setAverageAction(String averageAction) {
+		this.averageAction = averageAction;
+	}
+
+	public String getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime(String totalTime) {
+		this.totalTime = totalTime;
+	}
+
+	public String getAverageTime() {
+		return averageTime;
+	}
+
+	public void setAverageTime(String averageTime) {
+		this.averageTime = averageTime;
+	}
+
+	public String getBounceRate() {
+		return bounceRate;
+	}
+
+	public void setBounceRate(String bounceRate) {
+		this.bounceRate = bounceRate;
+	}
 
 	public Long getId() {
 		return id;
@@ -131,7 +195,9 @@ public class ClickyActionList extends Model {
 	public static List<ClickyActionList> getAll(Date sDate,Date eDate) {
 		return find.where().between("currDate", sDate, eDate).findList();
 	}
-	
+	public static List<ClickyActionList> findByDomainAndDate(String referrer_domain, Date startdate, Date enddate) {
+		return find.where().eq("referrer_domain", referrer_domain).between("currDate", startdate, enddate).findList();
+	}
 	public static List<ClickyActionList> getfindAll() {
 		return find.all();
 	}

@@ -5,6 +5,7 @@ import java.util.Date;
 public class ClickyPagesVM {
 
 	public Long id;
+	public Long vid;
 	public String value;
 	public String urlForGraph;
 	public String newPrecentage;
