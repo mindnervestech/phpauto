@@ -31554,7 +31554,13 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    			organization=jsonArray.getJSONObject(i).get("organization").toString();
 		    			cVisitorsList.setStatsUrl(jsonArray.getJSONObject(i).get("stats_url").toString());
 		    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
-		    			
+		    			try {
+		    			cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
+		    			}
+		    			catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 		    			String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
 						String arrNew[] = arr[3].split(",");
 						String checkDate = arrNew[0]+"-"+arr[1]+"-"+arr[2];
@@ -49836,6 +49842,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 				stTest.setMeetingActionTime(date);
 				stTest.setAcceptMeeting(2);
 				stTest.setMeeting(0);
+				stTest.setMeetingAcceptFlag(1);
 				stTest.update();
 				AuthUser userEmail = AuthUser.findById(stTest.user.id);
 				AuthUser assigEmail = AuthUser.findById(stTest.assignedTo.id);
@@ -49857,6 +49864,7 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 				stTest.setMeetingActionTime(date);
 					stTest.setDeclineMeeting(2);
 				stTest.setMeeting(2);
+				stTest.setMeetingDeclineFlag(1);
 				stTest.setDeclineReason(reason);
 				//stTest.setReason(reason);
 				stTest.update();
