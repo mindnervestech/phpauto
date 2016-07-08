@@ -2144,25 +2144,82 @@ angular.module('newApp')
 				$scope.startDateFilter = $filter('date')(today,"yyyy-MM-dd");
 				$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
 			 $scope.flagForLocation='IP';
-				/*$http.get('/getreferrerTypeData/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
-				.success(function(data) {
-				console.log("::::::::");
-				console.log(data);
-				$scope.flagForSecondmodal=1;
-			    $scope.typeOfInfo == 'Visitor log';
-				$scope.ipData=data;
-				
-			});*/
+			 $('#editLeads').hide();
 			 $scope.flagForSecondmodal=1;
 			 $('#deeperInfoModal').click();
 			 $scope.changeActiveTabImage(type);
-			/* 
-			 $('.modal-backdrop fade in').css("opacity","0");
-			 
-			 <style>.modal-backdrop fade in{ css}</style>*/
+			 $http.get('/getSessionIdData/'+$scope.sessionId)
+				.success(function(data) {
+					if(data == ""){
+						console.log("fffffffffffff5555");
+								$scope.sessiondata = '0';
+					}else{
+						
+						$scope.flagForSecondMap=1;
+						$scope.sessiondata = data;
+						$scope.sessiondata.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(data.timeTotal)), 'HH:mm:ss');
+						 var splitTime   = data.timeTotal.split(":");
+						 if(splitTime[0] == '00'){
+							 $scope.sessiondata.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+						 else{
+							 $scope.sessiondata.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+						 }
+							
+					}
+					$scope.latitude=data.latitude; 
+					$scope.longitude=data.longitude;
+					$scope.clickySessionId=data.sessionId;
+					console.log($scope.clickySessionId);
+					
+					$scope.gridForSecondModal ={};
+					if($scope.clickySessionId != null && $scope.clickySessionId != undefined){
+						var today = new Date()
+						$scope.startDateFilter = $filter('date')(today,"yyyy-MM-dd");
+						$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
+						console.log($scope.startDateFilter);
+		        		console.log($scope.endDateFilter);
+						 $http.get('/getSessionData/'+$scope.clickySessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
+							.success(function(data) {
+								console.log(data);
+								$scope.gridForSecondModal.data=data;
+									$scope.visitiorList = data;
+									
+									$scope.gridForSecondModal.columnDefs = [
+										                                 {name: 'newTimePretty', displayName: 'Date & Time', width:'40%',
+										                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> &nbsp&nbsp  <label ">{{row.entity.newTime}}</label> </div>',	 
+										                                 },
+										                                 {name: 'actionUrl', displayName: 'Viewed Pages', width:'40%',
+										                                	 cellTemplate:'<div ><a   target="_blank"   href="{{row.entity.actionUrl}}" >{{row.entity.newActionUrl}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
+										                                 },
+										                                 {name: 'heatmapUrl', displayName: 'Heatmap', width:'20%',
+										                                	 cellTemplate:'<div ><a href="{{row.entity.heatmapUrl}}" target="_blank"><img  ng-if="row.entity.heatmapUrl != null" class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="http://con.tent.network/media/icon_heatmap.png" ></a></div>',	 
+										                                 },
+										                          ];
+									 
+									 google.maps.event.addDomListener(window, "load", initialized);
+									initialized();
+								});
+								
+					
+						  
+					 }
+					else{
+						//google.maps.event.addDomListener(window, "load", initialized);
+						initialized();
+					}
+					
+					
+					
+					
+					
+				});
 		 }
 		 
-      
+      $scope.goToVisitorDetails = function(entity){
+      $('#secondModal').hide();  
+      $('#editLeads').show();
+      }
       
       $scope.ch = function(){
     	  $scope.infoColorFlag=0;
@@ -2171,7 +2228,7 @@ angular.module('newApp')
       	initialized();
       }
       
-   	 $scope.infoColorFlag=1;
+   	$scope.infoColorFlag=1;
    	$scope.visitorInfo={};
    	 $scope.changeActiveTabImage = function(id){
 	  console.log("inside");
@@ -2187,7 +2244,6 @@ angular.module('newApp')
 				console.log("fffffffffffff5555");
 						$scope.sessiondata = '0';
 			}else{
-				$scope.flagForSecondmodal=1;
 				$scope.sessiondata = data;
 				$scope.sessiondata.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(data.timeTotal)), 'HH:mm:ss');
 				 var splitTime   = data.timeTotal.split(":");
@@ -2241,7 +2297,7 @@ angular.module('newApp')
 			 }
 			else{
 				//google.maps.event.addDomListener(window, "load", initialized);
-				//initialized();
+			initialized();
 			}
 			
 			
@@ -2267,7 +2323,11 @@ angular.module('newApp')
 	        center: myLatlng,
 	        mapTypeId: google.maps.MapTypeId.ROADMAP
 	      }
-	      var map = new google.maps.Map(document.getElementById("canvas1"), myOptions);
+	      if($scope.flagForSecondMap == 1){
+	      var map = new google.maps.Map(document.getElementById("canvas2"), myOptions);
+	      }else{
+	    	  var map = new google.maps.Map(document.getElementById("canvas1"), myOptions);
+	      }
 	      var marker = new google.maps.Marker({
    	      position: myLatlng,
    	      map: map,
@@ -2283,7 +2343,7 @@ angular.module('newApp')
    	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data inactive.png";
   	 }
    	 
-   	  	
+    
    	        $scope.financeData={};
    	  		$scope.editLeads = {};
    	  	$scope.stockWiseData = [];
@@ -3278,6 +3338,7 @@ angular.module('newApp')
 			 $scope.priceAlertMsg = function(){
 					$http.get('/sendComingSoonPOpUp').success(function(data){
 						angular.forEach(data, function(value, key) {
+							if(value.notifFlag != 1||$rootScope.comingSoonFlag ==1){
 							var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
 								+ '<div class="media-body width-100p col-md-12" style="padding: 0px;border-bottom: solid;margin-bottom: 7px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 165px;margin-top: 55px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;color: cornsilk;font-size: 16px;"><b>Vehicle Arriaval</b></h3></div><span class="col-md-12" style="margin-left: 22px;font-size: 16px;"><h3><span style="font-size: 16px;"><b>Year    : </b></span><span style="font-size: 16px;">'+value.year+'</span><br><span  style="font-size: 16px;"><span><b>Make   : </b></span>'+value.make+'</b></span><br><span  style="font-size: 16px;"><span><b>Model  : </b></span>'+value.model+'</b></span><br><span  style="font-size: 16px;"><span><b>Price     : </b></span>'+value.price+'</b></span>'
 								+'<br><span  style="font-size: 16px;"><span><b>Vin    :  </b></span>'+value.vin+'</b></span>'
@@ -3356,6 +3417,7 @@ angular.module('newApp')
 								}
 							}
 						});
+						}
 						});
 		    		});
 			 }		

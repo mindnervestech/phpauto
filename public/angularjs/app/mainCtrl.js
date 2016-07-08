@@ -262,7 +262,10 @@
             };
             
             
-            
+            $scope.invitationFlag=0;
+            $scope.acceptInvitationFlag=0;
+            $scope.declineInvitationFlag=0;
+            $rootScope.comingSoonFlag=0;
             $scope.showDetailsFunction = function(infoNotifiction){
             	$scope.arrayAdd = [];
             	console.log(infoNotifiction);
@@ -270,6 +273,7 @@
             		$scope.planForsalePersonForMonth(infoNotifiction.value.month);
             	}
             	if(infoNotifiction.findBy == "declined meeting"){
+            		$scope.declineInvitationFlag=1;
             		$scope.arrayAdd.push(infoNotifiction.value);
             		$scope.decline($scope.arrayAdd);
             	}
@@ -278,14 +282,17 @@
             		$scope.likeMsg($scope.arrayAdd);
             	}
             	if(infoNotifiction.findBy == "invitation received"){
+            		$scope.invitationFlag=1;
             		$scope.arrayAdd.push(infoNotifiction.value);
             		$scope.invitationMsg($scope.arrayAdd);
             	}
             	if(infoNotifiction.findBy == "coming soon"){
+            		$rootScope.comingSoonFlag=1;
             		$scope.arrayAdd.push(infoNotifiction.value);
             		$rootScope.$emit("CallComingSoonMethod", {});
             	}
             	if(infoNotifiction.findBy == "accept meeting"){
+            		$scope.acceptInvitationFlag=1;
             		$scope.arrayAdd.push(infoNotifiction.value);
             		$scope.acceptMsg($scope.arrayAdd);
             	}
@@ -407,6 +414,7 @@
 							findBy:"coming soon",
 							value:value,
 							timeDiff:value.diffDays,
+							id:value.id,
 						});
                 		$scope.notifictionCount++;
                 		
@@ -635,7 +643,7 @@
 	$scope.invitationMsg = function(data) {
 
 							angular.forEach(data, function(value, key) {
-								if(value.sendInvitation != 0){
+								if(value.sendInvitation != 0 || $scope.invitationFlag==1 ){
 								var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
 									+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">New meeting invitation received</h3></div><span class="col-md-12" style="margin-left: 22px;text-align: center;border-bottom: solid;"><h3><span>'+value.name+'</span><br><span style="color: cornflowerblue;"><b>'+value.confirmDate+'&nbsp;&nbsp;&nbsp;&nbsp;'+value.confirmTime+' </b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
 									+ '</div>';
@@ -732,7 +740,7 @@
 		
 				var notifContent;
 				angular.forEach(data, function(value, key) {
-					if(value.declineMeeting == 2){
+					if(value.declineMeeting == 2 || $scope.declineInvitationFlag==1){
 				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your invitation to "+value.firstName+"&nbsp;&nbsp;"+value.lastName+" has been declined</span><br><span> Reason: "+value.declineReason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
 				
 				var position = 'topRight';
@@ -770,7 +778,7 @@
              console.log(data);		
 				var notifContent;
 				angular.forEach(data, function(value, key) {
-					if(value.acceptMeeting == 2){
+					if(value.acceptMeeting == 2 || $scope.acceptInvitationFlag==1){
 				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.firstName+"&nbsp;&nbsp;"+value.lastName+" accepted your invitation to "+value.name+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
 				
 				var position = 'topRight';

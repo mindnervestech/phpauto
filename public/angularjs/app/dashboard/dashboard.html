@@ -5558,16 +5558,16 @@ float: right !important;
 								    
 								    
 								    
-								    
-								      <div ng-if="flagForSecondmodal == 1"class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-hidden="true" style="z-index:30000 !important;">
+								      <div class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog" style="width: 923px;" >
 								            <div class="modal-content">
 								                <div class="modal-header">
 								                    <a data-dismiss="modal" class="glyphicon glyphicon-remove" style="float: right;"></a>
-								                    <h4 class="modal-title">PDF</h4>
 								                </div>
 								                <div class="modal-body" style="height:692px;overflow-x:auto;">
-								                
+								                <div class="col-sm-12" style="float: left;>
+								                <button type="button" class="btn btn-blue" ng-click="goToVisitorDetails()">Back</button>
+												</div>
 								               
 								                   <div class="form-group col-sm-12">
 				
@@ -5641,6 +5641,13 @@ float: right !important;
 											 <div id="canvas2" style="width:110%; height:270px"></div> 
 										</div>
 										</div>
+										</div>
+										
+										
+										<div class="col-sm-12">
+										<div  ui-grid="gridForSecondModal" style="height:500px;" ui-grid-edit ui-grid-pagination>
+										</div>
+										
 										</div>
 										
 										

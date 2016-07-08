@@ -1541,7 +1541,7 @@ public class Application extends Controller {
     		List<Vehicle> vehList=Vehicle.findByComingSoonDate(curDate);
     		
     		for(Vehicle vehicle:vehList){
-    			if(vehicle.locations != null && vehicle.notifFlag != 1){
+    			if(vehicle.locations != null){
         	RequestInfoVM rVm = new RequestInfoVM();
         					rVm.id = vehicle.id;
         					rVm.vin = vehicle.vin;
@@ -1549,6 +1549,7 @@ public class Application extends Controller {
         					rVm.model = vehicle.model;
         					rVm.year = vehicle.year;
         					rVm.price = vehicle.price;
+        					rVm.notifFlag=vehicle.notifFlag;
         					int vCount = 0;
         					List<PriceAlert> vehCount = PriceAlert.getByVin(vehicle.vin);
         					for(PriceAlert pAlert:vehCount){
