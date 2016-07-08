@@ -32,6 +32,9 @@ public class ScheduleTest extends Model {
 	public String vin;
 	public int isRead;
 	public int notifFlag;
+	public int meetingNotifFlag;
+	public int meetingAcceptFlag;
+	public int meetingDeclineFlag;
 	public Date confirmDate;
 	public Date confirmTime;
 	public Date confirmEndTime;
@@ -46,6 +49,13 @@ public class ScheduleTest extends Model {
 	public String leadStatus;
 	public String reason;
 	public String declineUser;
+	
+	public int getMeetingNotifFlag() {
+		return meetingNotifFlag;
+	}
+	public void setMeetingNotifFlag(int meetingNotifFlag) {
+		this.meetingNotifFlag = meetingNotifFlag;
+	}
 	public int getNotifFlag() {
 		return notifFlag;
 	}
@@ -329,6 +339,18 @@ public class ScheduleTest extends Model {
 	}
 
 
+	public int getMeetingAcceptFlag() {
+		return meetingAcceptFlag;
+	}
+	public void setMeetingAcceptFlag(int meetingAcceptFlag) {
+		this.meetingAcceptFlag = meetingAcceptFlag;
+	}
+	public int getMeetingDeclineFlag() {
+		return meetingDeclineFlag;
+	}
+	public void setMeetingDeclineFlag(int meetingDeclineFlag) {
+		this.meetingDeclineFlag = meetingDeclineFlag;
+	}
 	public Long getParentId() {
 		return parentId;
 	}
@@ -451,6 +473,10 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest> getdecline(AuthUser user) {
 		return find.where().eq("user", user).eq("declineMeeting", 2).orderBy("scheduleDate desc").findList();
 	}
+	public static List<ScheduleTest> getdeclineMeeting(AuthUser user) {
+		return find.where().eq("user", user).eq("meetingDeclineFlag", 1).orderBy("scheduleDate desc").findList();
+	}
+	
 	
 	public static List<ScheduleTest> getdeleteMsg(AuthUser user) {
 		return find.where().add(Expr.or(Expr.eq("assignedTo", user),Expr.eq("user", user))).eq("deleteMsgFlag", 1).orderBy("scheduleDate desc").findList();
@@ -458,6 +484,9 @@ public class ScheduleTest extends Model {
 	
 	public static List<ScheduleTest> getaccepted(AuthUser user) {
 		return find.where().eq("user", user).eq("acceptMeeting", 2).orderBy("scheduleDate desc").findList();
+	}
+	public static List<ScheduleTest> getacceptMeeting(AuthUser user) {
+		return find.where().eq("user", user).eq("meetingAcceptFlag", 1).orderBy("scheduleDate desc").findList();
 	}
 	
 	public static List<ScheduleTest> getUpdateMeeting(AuthUser user) {
@@ -540,7 +569,9 @@ public class ScheduleTest extends Model {
 	public static List<ScheduleTest> findAllByInvitationTest(AuthUser user, Date currDate) {
 		return find.where().eq("assignedTo", user).ne("confirmDate",null).eq("lead_status", null).eq("sendInvitation", 1).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
 	}
-	
+	public static List<ScheduleTest> findAllByInvitation(AuthUser user, Date currDate) {
+		return find.where().eq("assignedTo", user).ne("confirmDate",null).eq("lead_status", null).eq("meetingNotifFlag", 0).ge("confirmDate", currDate).orderBy("confirmDate desc").findList();
+	}
 	public static List<ScheduleTest> findByVinAndAssignedUser(AuthUser user,String vin) {
 		return find.where().eq("assignedTo", user).eq("vin", vin).findList();
 	}

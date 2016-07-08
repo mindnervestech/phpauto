@@ -26,10 +26,19 @@ public class PlanScheduleMonthlySalepeople extends Model {
 	public String emails;
 	public String cell;
 	public Integer flagMsg;
+	public Integer notifFlag;
 	public String successRate;
 	public Date saveDate;
 	
 	
+	public Integer getNotifFlag() {
+		return notifFlag;
+	}
+
+	public void setNotifFlag(Integer notifFlag) {
+		this.notifFlag = notifFlag;
+	}
+
 	public Date getSaveDate() {
 		return saveDate;
 	}
@@ -195,6 +204,10 @@ public class PlanScheduleMonthlySalepeople extends Model {
 		return find.where().eq("user", user).eq("month", month).findUnique();
 	}
 	
+	public static List<PlanScheduleMonthlySalepeople> findByAllMsg(AuthUser user) {
+		return find.where().eq("notifFlag", 0).eq("user", user).findList();
+	}
+	
 	public static PlanScheduleMonthlySalepeople findByLocationAndMonth(Location location,String month) {
 		return find.where().eq("locations", location).eq("month", month).findUnique();
 	}
@@ -206,4 +219,5 @@ public class PlanScheduleMonthlySalepeople extends Model {
 	public static List<PlanScheduleMonthlySalepeople> findByAllMsgPlan(AuthUser user) {
 		return find.where().eq("flagMsg", 1).eq("user", user).findList();
 	}
+	
 }

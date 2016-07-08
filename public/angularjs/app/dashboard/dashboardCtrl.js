@@ -3321,7 +3321,7 @@ angular.module('newApp')
 							              addClass: 'general-button btnText', text: 'Close', onClick: function($noty)
 							              {
 							            	 // $scope.acceptDate(value);
-							            	 // $scope.addPrice(value);
+							            	  $scope.setNotifFlag(value);
 							                 $noty.close();
 							              }
 							          },
@@ -3359,6 +3359,15 @@ angular.module('newApp')
 						});
 		    		});
 			 }		
+			 
+			 $scope.setNotifFlag= function(value){
+				 console.log(value);
+					$http.get('/changeVehicleNotif/'+value.id)
+		    		.success(function(data){
+		    			
+		    		});
+			 }
+			 
 			$scope.PlanOnMonday = function(){
 				$http.get('/getPlanMonday')
 	    		.success(function(data){

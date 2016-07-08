@@ -1541,7 +1541,7 @@ public class Application extends Controller {
     		List<Vehicle> vehList=Vehicle.findByComingSoonDate(curDate);
     		
     		for(Vehicle vehicle:vehList){
-    			if(vehicle.locations != null){
+    			if(vehicle.locations != null && vehicle.notifFlag != 1){
         	RequestInfoVM rVm = new RequestInfoVM();
         					rVm.id = vehicle.id;
         					rVm.vin = vehicle.vin;
@@ -1573,6 +1573,44 @@ public class Application extends Controller {
     	return ok(Json.toJson(rList));
     }
     
+    public  static Result changeVehicleNotif(long id){
+    	
+    	Vehicle veh=Vehicle.findById(id);
+    	veh.setNotifFlag(1);
+    	veh.update();
+    	return ok();
+    }
+    
+ public  static Result changeNotifFlag(long id,String title){
+    	if(title.equalsIgnoreCase("month plan")){
+    		PlanScheduleMonthlySalepeople plan=PlanScheduleMonthlySalepeople.findById(id);
+    		plan.setNotifFlag(1);
+    		plan.update();
+    	}
+    	else if(title.equalsIgnoreCase("invitation received")){
+    		ScheduleTest plan=ScheduleTest.findById(id);
+    		plan.setMeetingNotifFlag(1);
+    		plan.update();
+    	}
+    	
+    	else if(title.equalsIgnoreCase("accept meeting")){
+    		ScheduleTest plan=ScheduleTest.findById(id);
+    		plan.setMeetingAcceptFlag(0);
+    		plan.update();
+    	}
+    	else if(title.equalsIgnoreCase("declined meeting")){
+    		ScheduleTest plan=ScheduleTest.findById(id);
+    		plan.setMeetingDeclineFlag(0);
+    		plan.update();
+    	}
+    	else if(title.equalsIgnoreCase("coming soon")){
+    		Vehicle veh=Vehicle.findById(id);
+        	veh.setNotifFlag(1);
+        	veh.update();
+    	}
+    	
+    	return ok();
+    }
     public  static Result sendComingSoonEmail(String vin){
     	
     	DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -14087,7 +14125,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	
     	/*----------------------------Plan schedule-----------------------*/
     	
-    	List<PlanScheduleMonthlySalepeople> salepeople = PlanScheduleMonthlySalepeople.findByAllMsgPlan(user);
+    	List<PlanScheduleMonthlySalepeople> salepeople = PlanScheduleMonthlySalepeople.findByAllMsg(user);
     	
     	List<RequestInfoVM> rList1 = new ArrayList<>();
     	for(PlanScheduleMonthlySalepeople sales:salepeople){
@@ -14103,7 +14141,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     					//String currD="2016-07-01";
     					String arr[]=currD.split("-");
     					String newD=arr[0]+"-"+arr[1]+"-"+"01";
-    					if(currD.equals(newD)){
+    					if(currD.equals(newD) && newDate != null){
     					String planD=form.format(newDate);
     					//if(currD.equals(arg0))
     					DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:a");
@@ -14161,8 +14199,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     			    	        	 rVm.diffDays=diffHr+" hours "+diffMinutes+" minutes ago";
     			    	        }
     			  	        	
-    			  	        	
-    			  	        	
+    			  	     rVm.id=sales.id;	
+    			  	     rVm.flagMsg=sales.flagMsg; 	
     					rList1.add(rVm);
     					}
     			
@@ -14268,7 +14306,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
   				e.printStackTrace();
   			}
   	        
-  		List<ScheduleTest> list = ScheduleTest.findAllByInvitationTest(user, datec);
+  		List<ScheduleTest> list = ScheduleTest.findAllByInvitation(user, datec);
   		
   		List<RequestInfoVM> checkData = new ArrayList<>();
   		for(ScheduleTest sche:list){
@@ -14284,7 +14322,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
           	sTestVM.name = sche.name;
       		sTestVM.phone = sche.phone;
       		sTestVM.email = sche.email;
-      		
+      		sTestVM.sendInvitation=sche.sendInvitation;
       		AuthUser user2 = AuthUser.findById(sche.user.id);
       		if(user2.imageUrl != null) {
   				if(user2.imageName !=null){
@@ -14367,7 +14405,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
   		/*-------------Decline Metting--------------------------------*/
   		
     	
-    	List<ScheduleTest> sche = ScheduleTest.getdecline(user);
+    	List<ScheduleTest> sche = ScheduleTest.getdeclineMeeting(user);
     	List<RequestInfoVM> acList1 = new ArrayList<>();
     	for(ScheduleTest sch1:sche){
     	if(sch1 != null){
@@ -14376,6 +14414,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     					rVm.firstName = user1.firstName;
     					rVm.lastName = user1.lastName;
     					rVm.name = sch1.name;
+    					rVm.id = sch1.id;
+    					rVm.declineMeeting=sch1.declineMeeting;
     					rVm.declineReason=sch1.declineReason;
     					Date schDate=new Date();
     					Date schcurDate11=null;
@@ -14452,7 +14492,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	
     	/*-----------------accept msg--------------------------*/
 		
-    	List<ScheduleTest> sche1 = ScheduleTest.getaccepted(user);
+    	List<ScheduleTest> sche1 = ScheduleTest.getacceptMeeting(user);
     	List<RequestInfoVM> acList = new ArrayList<>();
     	for(ScheduleTest sch1:sche1){
     	if(sch1 != null){
@@ -14461,6 +14501,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     					rVm.firstName = usersData.firstName;
     					rVm.lastName = usersData.lastName;
     					rVm.name = sch1.name;
+    					rVm.acceptMeeting=sch1.acceptMeeting;
+    					rVm.id = sch1.id;
     					Date schDate=new Date();
     					Date schcurDate11=null;
     					Date schcurDate1=null;

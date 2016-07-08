@@ -24,6 +24,8 @@ public class RequestInfoVM {
 	public String typeofVehicle;
 	public Integer price;
 	public int notifFlag;
+	public int declineMeeting;
+	public int flagMsg;
 	public String stock;
 	public String  declineReason;
 	public String imagePath;
@@ -49,6 +51,8 @@ public class RequestInfoVM {
 	public boolean is_google;
 	public List<NoteVM> note;
 	public Integer noteFlag;
+	public Integer acceptMeeting;
+	public Integer sendInvitation;
 	public String status;
 	public String notes;
 	public String action;

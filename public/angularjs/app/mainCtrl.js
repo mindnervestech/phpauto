@@ -309,6 +309,15 @@
             $scope.dismissFunction = function(infoNotifiction){
             	angular.forEach($scope.notificationArray, function(value, key) {
             		if(infoNotifiction.findBy == value.findBy){
+            			console.log(value);
+            			$http.get('/changeNotifFlag/'+value.id+"/"+value.findBy)
+    		    		.success(function(data){
+    		    			
+    		    			$scope.indexInitFunction();
+    		    			
+    		    		});
+            			
+            			
             			$scope.notificationArray.splice(key, 1);
             		}
             	});
@@ -335,7 +344,7 @@
             	
             	 $scope.notificationArray = [];
             	$http.get('/getNotificationData').success(function(data,status, headers, config){
-
+            		$scope.notifictionCount = 0;
                 	angular.forEach(data.commentLike, function(value, key) {
                 		$scope.notificationArray.push({
 							title: value.firstName+"  "+ value.lastName+" just Liked your work!"+ value.userComment,
@@ -361,6 +370,7 @@
 							findBy:"month plan",
 							value:value,
 							timeDiff:value.diffDays,
+							id:value.id,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -372,6 +382,7 @@
 							findBy:"invitation received",
 							value:value,
 							timeDiff:value.diffDays,
+							id:value.id,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -383,6 +394,7 @@
 							findBy:"declined meeting",
 							value:value,
 							timeDiff:value.diffDays,
+							id:value.id,
 						});
                 		$scope.notifictionCount++;
                 	});
@@ -460,6 +472,7 @@
                 	$scope.decline(data.declineMeeting);
                 	$scope.invitationMsg(data.invitationData);
                 	$scope.likeMsg(data.commentLike);
+                	console.log(data.planScheduleMonthly);
                 	$scope.planMsg(data.planScheduleMonthly);
                 	$scope.acceptMsg(data.acceptedMeeting);
                 	$scope.deleteMeeting(data.deleteMeeting);
@@ -542,6 +555,7 @@
 				
 	    				var notifContent;
 	    				angular.forEach(data, function(value, key) {
+	    					if(value.flagMsg != 0){
 	    					var month=value.month;
 	    					if(month !=null){
 	    						month = month.toLowerCase();
@@ -600,6 +614,8 @@
 		    	        
 		    	        var element = $('#cnt');
 						//$compile(element)($scope);
+		    	        
+	    				}
 	    				});
 			}
             
@@ -619,6 +635,7 @@
 	$scope.invitationMsg = function(data) {
 
 							angular.forEach(data, function(value, key) {
+								if(value.sendInvitation != 0){
 								var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
 									+ '<div class="media-body width-100p col-md-12" style="padding: 0px;"><div class="col-md-3" style="padding: 0px;"><img style="width: 120px;" src="'+value.imageUrl+'"></div><div class="col-md-9"><div class="col-md-12" style="text-align: center;"><h3 style="margin-top: 0px;">New meeting invitation received</h3></div><span class="col-md-12" style="margin-left: 22px;text-align: center;border-bottom: solid;"><h3><span>'+value.name+'</span><br><span style="color: cornflowerblue;"><b>'+value.confirmDate+'&nbsp;&nbsp;&nbsp;&nbsp;'+value.confirmTime+' </b></span></h3></span><hr><p class="pull-left" style="margin-left:85%;"></p></div></div>'
 									+ '</div>';
@@ -676,6 +693,9 @@
 									}
 								}
 							});
+							
+							
+							}
 							});
 			
 
@@ -712,6 +732,7 @@
 		
 				var notifContent;
 				angular.forEach(data, function(value, key) {
+					if(value.declineMeeting == 2){
 				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span> Your invitation to "+value.firstName+"&nbsp;&nbsp;"+value.lastName+" has been declined</span><br><span> Reason: "+value.declineReason+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
 				
 				var position = 'topRight';
@@ -738,6 +759,7 @@
     	        
     	        var element = $('#cnt');
 				//$compile(element)($scope);
+				}
 				});
 		
 	}
@@ -745,10 +767,11 @@
 	
 	$scope.acceptMsg = function(data){
 
-		
+             console.log(data);		
 				var notifContent;
 				angular.forEach(data, function(value, key) {
-				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.assignedTo.firstName+"&nbsp;&nbsp;"+value.assignedTo.lastName+" accepted your invitation to "+value.name+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
+					if(value.acceptMeeting == 2){
+				notifContent = "<div class='alert alert-dark media fade in bd-0' id='message-alert'><div class='media-left'></div><div class='media-body width-100p'><p class='row' style='margin-left:0;'><span>"+value.firstName+"&nbsp;&nbsp;"+value.lastName+" accepted your invitation to "+value.name+"</span></p><p class='row' style='margin-left:0;'></p><p class='pull-left' style='margin-left:65%;'><a class='f-12'>Close&nbsp;<i></i></a></p></div></div>";
 				
 				var position = 'topRight';
     	        if ($('body').hasClass('rtl')) position = 'topLeft';
@@ -774,6 +797,7 @@
     	        
     	        var element = $('#cnt');
 				//$compile(element)($scope);
+				}
 				});
 	}
 	

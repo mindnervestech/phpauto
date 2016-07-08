@@ -397,7 +397,7 @@ GET   /getActionListData/:startDate/:endDate			controllers.Application.getAction
 GET   /getVisitorData/:id			controllers.Application.getVisitorData(id:Long)
 GET   /getSessionData/:sessionId/:startDate/:endDate			controllers.Application.getSessionData(sessionId:String,startDate:String,endDate:String)
 GET   /getIPAddress/:id				controllers.Application.getIPAddress(id:String)
-
+GET   /changeVehicleNotif/:id				controllers.Application.changeVehicleNotif(id:Long)
 GET   /getSessionIdData/:id				controllers.Application.getSessionIdData(id:String)
 GET   /getSessionIdForRequest/:id				controllers.Application.getSessionIdForRequest(id:Long)
 GET   /getSessionIdForSchedule/:id				controllers.Application.getSessionIdForSchedule(id:Long)
@@ -469,6 +469,7 @@ GET   /getSearchList/:value 			controllers.Application.getSearchList(value:Integ
 GET   /getContentList/:value			controllers.Application.getContentList(value:Integer)
 GET	  /getStatusList/:value		controllers.Application.getStatusList(value:String)
 GET   /getAcceptAndDecline/:id/:reason/:status	controllers.Application.getAcceptAndDecline(id:Long,reason:String,status:String)
+GET   /changeNotifFlag/:id/:title	controllers.Application.changeNotifFlag(id:Long,title:String)
 GET  /getdecline		controllers.Application.getdecline()
 GET  /getPlanMsg		controllers.Application.getPlanMsg()
 GET  /getPlanMonday		controllers.Application.getPlanMonday()

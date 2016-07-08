@@ -122,10 +122,7 @@ public class Vehicle extends Model {
 	public Date soldDate;
 	public Date comingSoonDate;
 	public Integer comingSoonFlag;
-	
-	
-
-
+	public Integer notifFlag;
 
 	@ManyToMany
 	public List<Site> site;
@@ -140,6 +137,14 @@ public class Vehicle extends Model {
 	
 	@ManyToOne
 	public Location locations;
+
+	public Integer getNotifFlag() {
+		return notifFlag;
+	}
+
+	public void setNotifFlag(Integer notifFlag) {
+		this.notifFlag = notifFlag;
+	}
 	
 	public String getTitle() {
 		return title;
