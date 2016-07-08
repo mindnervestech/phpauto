@@ -29389,6 +29389,7 @@ private static void cancelTestDriveMail(Map map) {
     		
     		List <ClickyPagesVM> VMs = new ArrayList<>();
     		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+    		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
     		ClickyPagesVM vm = new ClickyPagesVM();
     		double count1=0.0;
     		double count2=0.0;
@@ -29397,6 +29398,7 @@ private static void cancelTestDriveMail(Map map) {
     		double count5=0.0;
     		double count6=0.0;
     		double count7=0.0;
+    		Integer vistValue = 0;
     		 for(ClickyVisitorsList lis:locationObjList){
     	     	if(lis.averageAction != null){
     	     		count1=Double.parseDouble(lis.averageAction);
@@ -29419,8 +29421,16 @@ private static void cancelTestDriveMail(Map map) {
     			if(lis.actions != null){
     			count7=count7+Double.parseDouble(lis.actions);
     			}
-    		   			
+    			
+    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+				if (langValue == null) {
+				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+				}
+    			
     		 }
+    		 
+    		 
     		 
     		 double countAll1=0.0;
     			double countAll2=0.0;
@@ -29458,7 +29468,7 @@ private static void cancelTestDriveMail(Map map) {
     		 
     			 ClickyPlatformVM cVm = new ClickyPlatformVM();
     			 cVm.title = "visitors";
-    			 cVm.these_visitors =  count2;
+    			 cVm.these_visitors = (double)vistValue;
     			 cVm.all_visitors = countAll2;
     			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
     			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
