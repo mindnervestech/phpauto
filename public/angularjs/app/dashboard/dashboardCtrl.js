@@ -3752,8 +3752,9 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Arrival date Change successfully",
 					});
+					console.log($scope.buttFlagNew);
 					if($scope.buttFlagNew != 1){
-					$scope.notifCount();
+				//	$scope.notifCount();
 					}
 					
 				});
