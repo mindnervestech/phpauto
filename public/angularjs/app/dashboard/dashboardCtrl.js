@@ -2095,8 +2095,14 @@ angular.module('newApp')
    	  		$scope.pdfFile = "/getPdfPath/"+id;
    	  		$('#openPdffile').click();
    	  	}
-   	  	
-							          
+   	 
+   	$scope.gridForReferrer = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 }; 				          
       $scope.gridForSession = {
 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 		 		    paginationPageSize: 150,
@@ -2104,7 +2110,13 @@ angular.module('newApp')
 		 		    useExternalFiltering: true,
 		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 		 		 }; 
-   	  	
+      $scope.gridForSecondModal = {
+		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+		 		    paginationPageSize: 150,
+		 		    enableFiltering: true,
+		 		    useExternalFiltering: true,
+		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+		 		 }; 
       
      /* $scope.changeActiveTabImage = function (id){
     	  $http.get('/getSessionIdData/'+$scope.sessionId)
@@ -2147,7 +2159,6 @@ angular.module('newApp')
 			 $('#editLeads').hide();
 			 $scope.flagForSecondmodal=1;
 			 $('#deeperInfoModal').click();
-			 $scope.changeActiveTabImage(type);
 			 $http.get('/getSessionIdData/'+$scope.sessionId)
 				.success(function(data) {
 					if(data == ""){
@@ -2172,7 +2183,6 @@ angular.module('newApp')
 					$scope.clickySessionId=data.sessionId;
 					console.log($scope.clickySessionId);
 					
-					$scope.gridForSecondModal ={};
 					if($scope.clickySessionId != null && $scope.clickySessionId != undefined){
 						var today = new Date()
 						$scope.startDateFilter = $filter('date')(today,"yyyy-MM-dd");
@@ -2182,11 +2192,11 @@ angular.module('newApp')
 						 $http.get('/getSessionData/'+$scope.clickySessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
 							.success(function(data) {
 								console.log(data);
-								$scope.gridForSecondModal.data=data;
+								$scope.gridForSession.data=data;
 									$scope.visitiorList = data;
 									
-									$scope.gridForSecondModal.columnDefs = [
-										                                 {name: 'newTimePretty', displayName: 'Date & Time', width:'40%',
+									$scope.gridForSession.columnDefs = [
+										                                 {name: 'abc', displayName: 'Date & Time', width:'40%',
 										                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> &nbsp&nbsp  <label ">{{row.entity.newTime}}</label> </div>',	 
 										                                 },
 										                                 {name: 'actionUrl', displayName: 'Viewed Pages', width:'40%',
@@ -2215,10 +2225,137 @@ angular.module('newApp')
 					
 				});
 		 }
+      
+      $scope.flagForReferrer=0;
+      $scope.getLoacationDetails = function(type){
+    	  $scope.typeOfReferrer=type;
+    	  $scope.locationFlag='location';
+    	  $scope.flagForReferrer=1;
+    	  $scope.getReferrerDetails();
+      }
+      
+      $scope.getOrgDetails = function(type){
+    	  $scope.typeOfReferrer=type;
+    	  $scope.locationFlag='org';
+    	  $scope.flagForReferrer=1;
+    	  $scope.getReferrerDetails();
+      }
+      
+      $scope.getBrowserDetails = function(type){
+    	  $scope.typeOfReferrer=type;
+    	  $scope.locationFlag='browser';
+    	  $scope.flagForReferrer=1;
+    	  $scope.getReferrerDetails();
+      }
+      $scope.getOsDetails = function(type){
+    	  $scope.typeOfReferrer=type;
+    	  $scope.locationFlag='os';
+    	  $scope.flagForReferrer=1;
+    	  $scope.getReferrerDetails();
+      }
+      
+      
 		 
+      $scope.getReferrerDetails = function(){
+		if($scope.typeOfReferrer != undefined && $scope.typeOfReferrer != null){
+			console.log("in domain functon");
+			 $('#editLeads').modal('hide');  
+			 $scope.flagForSecondmodal=1;
+			 $('#deeperInfoModal').click();
+			var todayDate = new Date(),
+			 weekDate = new Date();
+			weekDate.setTime(todayDate.getTime()-(7*24*3600000));
+			var today = new Date();
+			$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
+			$scope.startDateFilter = $filter('date')(weekDate,"yyyy-MM-dd");
+			console.log($scope.typeOfReferrer);
+			console.log($rootScope.startDateFilter);
+			console.log($rootScope.endDateFilter);
+			$http.get('/getreferrerTypeData/'+$scope.typeOfReferrer+"/"+$scope.locationFlag+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
+			.success(function(data) {
+			console.log($scope.data);
+			$scope.gridForReferrer.data = data;
+			console.log($scope.gridForReferrer.data);
+			angular.forEach($scope.gridForReferrer.data, function(value, key) {
+				if( value.city != null && value.city != undefined  ){
+					$scope.city=value.city;
+					console.log($scope.city);
+				}
+				if(value.title=="totalT"){
+					value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+					 var splitTime   = value.these_visitors.split(":");
+					 if(splitTime[0] == '00'){
+						 value.these_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.these_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					}	
+				if(value.title=="averageT"){
+					value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+					 var splitTime1   = value.these_visitors.split(":");
+					 if(splitTime1[0] == '00'){
+						 value.these_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.these_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					}	 
+					 
+				if(value.title=="totalT"){
+					value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+					 var splitTime   = value.all_visitors.split(":");
+					 if(splitTime[0] == '00'){
+						 value.all_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.all_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					 
+					}	
+				if(value.title=="averageT"){
+					value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+					 var splitTime1   = value.all_visitors.split(":");
+					 if(splitTime1[0] == '00'){
+						 value.all_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 else{
+						 value.all_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+					 }
+					 
+					}
+				
+				
+			});
+			$scope.visitiorList = data;
+			
+		});
+		 
+		 
+		 $scope.gridForReferrer.columnDefs = [
+											{name: 'tt', displayName: 'Summary of filtered visitors', width:'40%',
+												   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>', 
+											},
+											  {name:'these_visitors', displayName:'These Visitors', width:'20%' },
+											  {name:'all_visitors', displayName:'All Visitors', width:'20%' },
+											  {name:'these', displayName:'Difference', width:'20%',
+											 	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>',
+											  },
+								            
+								         ]
+		 
+		}
+      
+      }      
+      
+      
       $scope.goToVisitorDetails = function(entity){
-      $('#secondModal').hide();  
-      $('#editLeads').show();
+      $('#secondModal').modal('hide');  
+      $('#editLeads').modal('show');
+      
       }
       
       $scope.ch = function(){

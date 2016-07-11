@@ -5565,11 +5565,10 @@ float: right !important;
 								                    <a data-dismiss="modal" class="glyphicon glyphicon-remove" style="float: right;"></a>
 								                </div>
 								                <div class="modal-body" style="height:692px;overflow-x:auto;">
-								                <div class="col-sm-12" style="float: left;>
-								                <button type="button" class="btn btn-blue" ng-click="goToVisitorDetails()">Back</button>
-												</div>
+								               <!--  button " class="btn btn-primary btn-embossed" ng-click="goToVisitorDetails()"></button> -->
+								                <button type="button" class="btn btn-primary btn-embossed" ng-click="goToVisitorDetails()">Back</button>
 								               
-								                   <div class="form-group col-sm-12">
+								                   <div  ng-if="flagForReferrer != 1" class="form-group col-sm-12">
 				
 															<div   class="col-sm-12" >
 										<h2> Visitor details </h2>
@@ -5645,15 +5644,18 @@ float: right !important;
 										
 										
 										<div class="col-sm-12">
-										<div  ui-grid="gridForSecondModal" style="height:500px;" ui-grid-edit ui-grid-pagination>
+										<div  ui-grid="gridForSession" style="height:500px;" ui-grid-edit ui-grid-pagination>
 										</div>
 										
 										</div>
+										</div>  
+										<div class="col-sm-12">
+										<div style="margin-top: 20px;" ng-if="flagForReferrer == 1" class="col-sm-12">
+										<div  ui-grid="gridForReferrer" style="height:500px;" ui-grid-edit ui-grid-pagination>
+										</div>
 										
-										
-				
-			
-													</div>  
+										</div>
+										</div>
 													
 								                </div>
 								               
@@ -5723,7 +5725,7 @@ float: right !important;
 										<label>Locale:</label>
 										</div>
 										<div class="col-sm-8">
-										<a   style="cursor: pointer;"   >{{visitorInfo.geolocation}}</a>&nbsp;/&nbsp;<a  style="cursor: pointer;" ng-click="referrerTypeDataForLang(visitorInfo.language)" >{{visitorInfo.language}}</a>
+										<a   style="cursor: pointer;"  ng-click="getLoacationDetails(visitorInfo.geolocation)" >{{visitorInfo.geolocation}}</a>&nbsp;/&nbsp;<a  style="cursor: pointer;" ng-click="referrerTypeDataForLang(visitorInfo.language)" >{{visitorInfo.language}}</a>
 										</div>
 										</div>
 										
@@ -5733,7 +5735,7 @@ float: right !important;
 										<label>Organization:</label>
 										</div>
 										<div class="col-sm-8">
-										<a  style="cursor: pointer;"  >{{visitorInfo.organization}}</a>&nbsp;/&nbsp;<a   style="cursor: pointer;" ng-click="referrerTypeDataForHost(visitorInfo.hostname)" >{{visitorInfo.hostname}}</a>
+										<a  style="cursor: pointer;" ng-click="getOrgDetails(visitorInfo.organization)" >{{visitorInfo.organization}}</a>&nbsp;/&nbsp;<a   style="cursor: pointer;" ng-click="referrerTypeDataForHost(visitorInfo.hostname)" >{{visitorInfo.hostname}}</a>
 										</div>
 										</div>
 										
@@ -5743,7 +5745,7 @@ float: right !important;
 										<label>Platform:</label>
 										</div>
 										<div class="col-sm-8">
-										<a  style="cursor: pointer;" >{{visitorInfo.webBrowser}}</a> / <a style="cursor: pointer;" ng-click="referrerTypeDataForOs(visitorInfo.operatingSystem)">{{visitorInfo.operatingSystem}}</a>/<a style="cursor: pointer;" ng-click="referrerTypeDataForScreen(visitorInfo.screenResolution)" >{{visitorInfo.screenResolution}}</a>
+										<a  style="cursor: pointer;" ng-click="getBrowserDetails(visitorInfo.webBrowser)">{{visitorInfo.webBrowser}}</a> / <a style="cursor: pointer;" ng-click="getOsDetails(visitorInfo.operatingSystem)">{{visitorInfo.operatingSystem}}</a>/<a style="cursor: pointer;" ng-click="getScreenDetails(visitorInfo.screenResolution)" >{{visitorInfo.screenResolution}}</a>
 										</div>
 										</div>
 										
