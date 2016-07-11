@@ -77,6 +77,10 @@ public class ClickyPagesVM {
 	public String referrerDomain;
 	public String referrerType;
 	public String referrerUrl;
+	public String locationFlag;
+	public String typeOfReferrer;
+	public String startDateFilter;
+	public String endDateFilter;
 	public Date curr_Date;
 	public double percentage;
 	public double avgaction;

@@ -5788,7 +5788,7 @@ float: right !important;
 										<label>Landing Page:</label>
 										</div>
 										<div class="col-sm-8">
-										<a   target="_blank"   >{{visitorInfo.landingPage}}</a>
+										<a style="cursor: pointer;" ng-click="getLandingPage(visitorInfo.landingPage)">{{visitorInfo.landingPage}}</a>
 										</div>
 										</div>
 										
@@ -5804,7 +5804,10 @@ float: right !important;
 										
 										</div>
 										
-										<div  style="margin-top: 5%;" class="col-sm-12">
+										
+										
+										<div  style="margin-top: 15%;" class="col-sm-12">
+										<label style="margin-bottom:15px;font-size:20px;">Visitors Path </label>
 										<div  ui-grid="gridForSession" style="height:500px;" ui-grid-edit ui-grid-pagination>
 										</div> 
 										

@@ -943,6 +943,12 @@ public class ClickyVisitorsList extends Model {
 	public static List<ClickyVisitorsList> findByTitleAndDate(String geolocation, Date startdate, Date enddate) {
 		return find.where().eq("geolocation", geolocation).between("DateClick", startdate, enddate).findList();
 	}
+	public static List<ClickyVisitorsList> findByScreenAndDate(String screenResolution, Date startdate, Date enddate) {
+		return find.where().eq("screenResolution", screenResolution).between("DateClick", startdate, enddate).findList();
+	}
+	public static List<ClickyVisitorsList> findByLandingPageAndDate(String landingPage, Date startdate, Date enddate) {
+		return find.where().eq("landingPage", landingPage).between("DateClick", startdate, enddate).findList();
+	}
 	public static List<ClickyVisitorsList> findByOsAndDate(String operatingSystem, Date startdate, Date enddate) {
 		return find.where().eq("operatingSystem", operatingSystem).between("DateClick", startdate, enddate).findList();
 	}

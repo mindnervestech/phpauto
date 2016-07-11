@@ -2253,8 +2253,21 @@ angular.module('newApp')
     	  $scope.flagForReferrer=1;
     	  $scope.getReferrerDetails();
       }
-      
-      
+      $scope.getScreenDetails = function(type){
+    	  $scope.typeOfReferrer=type;
+    	  $scope.locationFlag='screen';
+    	  $scope.flagForReferrer=1;
+    	  $scope.getReferrerDetails();
+      }
+      $scope.getLandingPage = function(type){
+    	  $scope.typeOfReferrer=type;
+    	  $scope.locationFlag='landing';
+    	  $scope.flagForReferrer=1;
+    	  console.log(type);
+    	  console.log("in landing page");
+    	  $scope.getLendingDetails();
+    	  console.log("in referrer details funct");
+    	}
 		 
       $scope.getReferrerDetails = function(){
 		if($scope.typeOfReferrer != undefined && $scope.typeOfReferrer != null){
@@ -2349,8 +2362,109 @@ angular.module('newApp')
 		 
 		}
       
-      }      
+      }  
+      $scope.landingpage = {};
       
+      $scope.getLendingDetails = function(){
+  		if($scope.typeOfReferrer != undefined && $scope.typeOfReferrer != null){
+  			console.log("in domain functon");
+  			 $('#editLeads').modal('hide');  
+  			 $scope.flagForSecondmodal=1;
+  			 $('#deeperInfoModal').click();
+  			var todayDate = new Date(),
+  			 weekDate = new Date();
+  			weekDate.setTime(todayDate.getTime()-(7*24*3600000));
+  			var today = new Date();
+  			$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
+  			$scope.startDateFilter = $filter('date')(weekDate,"yyyy-MM-dd");
+  			console.log($scope.typeOfReferrer);
+  			console.log($rootScope.startDateFilter);
+  			console.log($rootScope.endDateFilter);
+  			
+  		  $scope.landingpage.startDateFilter=$scope.startDateFilter;
+  	      $scope.landingpage.endDateFilter=$scope.endDateFilter;
+  	      $scope.landingpage.locationFlag=$scope.locationFlag;
+  	      $scope.landingpage.typeOfReferrer=$scope.typeOfReferrer;
+  	      
+  			$http.post('/geLendingPageData',$scope.landingpage)
+  			.success(function(data) {
+  			console.log($scope.data);
+  			$scope.gridForReferrer.data = data;
+  			console.log($scope.gridForReferrer.data);
+  			angular.forEach($scope.gridForReferrer.data, function(value, key) {
+  				if( value.city != null && value.city != undefined  ){
+  					$scope.city=value.city;
+  					console.log($scope.city);
+  				}
+  				if(value.title=="totalT"){
+  					value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+  					 var splitTime   = value.these_visitors.split(":");
+  					 if(splitTime[0] == '00'){
+  						 value.these_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+  					 }
+  					 else{
+  						 value.these_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+  					 }
+  					 
+  					}	
+  				if(value.title=="averageT"){
+  					value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
+  					 var splitTime1   = value.these_visitors.split(":");
+  					 if(splitTime1[0] == '00'){
+  						 value.these_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+  					 }
+  					 else{
+  						 value.these_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+  					 }
+  					 
+  					}	 
+  					 
+  				if(value.title=="totalT"){
+  					value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+  					 var splitTime   = value.all_visitors.split(":");
+  					 if(splitTime[0] == '00'){
+  						 value.all_visitors = splitTime[1]+"m "+splitTime[2]+"s";
+  					 }
+  					 else{
+  						 value.all_visitors = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+  					 }
+  					 
+  					 
+  					}	
+  				if(value.title=="averageT"){
+  					value.all_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.all_visitors)), 'HH:mm:ss');
+  					 var splitTime1   = value.all_visitors.split(":");
+  					 if(splitTime1[0] == '00'){
+  						 value.all_visitors = splitTime1[1]+"m "+splitTime1[2]+"s";
+  					 }
+  					 else{
+  						 value.all_visitors = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+  					 }
+  					 
+  					}
+  				
+  				
+  			});
+  			$scope.visitiorList = data;
+  			
+  		});
+  		 
+  		 
+  		 $scope.gridForReferrer.columnDefs = [
+  											{name: 'tt', displayName: 'Summary of filtered visitors', width:'40%',
+  												   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>', 
+  											},
+  											  {name:'these_visitors', displayName:'These Visitors', width:'20%' },
+  											  {name:'all_visitors', displayName:'All Visitors', width:'20%' },
+  											  {name:'these', displayName:'Difference', width:'20%',
+  											 	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>',
+  											  },
+  								            
+  								         ]
+  		 
+  		}
+        
+        }
       
       $scope.goToVisitorDetails = function(entity){
       $('#secondModal').modal('hide');  

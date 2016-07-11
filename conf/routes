@@ -422,6 +422,7 @@ GET   /getEngagementActionChart/:startDate/:endDate/:title			controllers.Applica
 GET   /getEngagementTimeChart/:startDate/:endDate/:title			controllers.Application.getEngagementTimeChart(startDate:String,endDate:String,title:String)
 GET   /getTrafficScouresChart/:startDate/:endDate/:title			controllers.Application.getTrafficScouresChart(startDate:String,endDate:String,title:String)
 POST   /getPagesChart											controllers.Application.getPagesChart()
+POST   /geLendingPageData											controllers.Application.geLendingPageData()
 POST   /getEntranceChart								controllers.Application.getEntranceChart()
 POST   /getBrowserChart								controllers.Application.getBrowserChart()
 POST   /getSearchesPagesChart								controllers.Application.getSearchesPagesChart()
