@@ -31100,7 +31100,7 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
 					    			//cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
 					    			vm.organization=jsonArray.getJSONObject(i).get("organization").toString();
 					    			vm.statsUrl=jsonArray.getJSONObject(i).get("stats_url").toString();
-					    		
+					    			vm.hostname=jsonArray.getJSONObject(i).get("hostname").toString();
 					    			SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
 					    			String arr[] = jsonArray.getJSONObject(i).get("time_pretty").toString().split(" ");
 									String arrNew[] = arr[3].split(",");

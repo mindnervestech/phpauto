@@ -54,6 +54,7 @@ public class ClickyPagesVM {
 	public String heatmapUrl;
 	public String longitude;
 	public String country;
+	public String hostname;
 	public String totalVisits;
 	public String organization;
 	public Date dateClick;
