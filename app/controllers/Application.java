@@ -30704,7 +30704,7 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
 					    			ClickyVisitorsList cVisitorsList = new ClickyVisitorsList();
 					    			vm.time=jsonArray.getJSONObject(i).get("time").toString();
 					    			vm.timePretty=jsonArray.getJSONObject(i).get("time_pretty").toString();
-					    			vm.totalTime=jsonArray.getJSONObject(i).get("time_total").toString();
+					    			vm.timeTotal=jsonArray.getJSONObject(i).get("time_total").toString();
 					    			vm.ipAddress=jsonArray.getJSONObject(i).get("ip_address").toString();
 					    			vm.uid=jsonArray.getJSONObject(i).get("uid").toString();
 					    			vm.sessionId=jsonArray.getJSONObject(i).get("session_id").toString();
@@ -30745,8 +30745,8 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
 					    			catch(Exception e){
 					    				e.printStackTrace();
 					    			}
-					    			
-					    			vm.geoLocation=jsonArray.getJSONObject(i).get("geolocation").toString();
+					    			vm.totalVisits=jsonArray.getJSONObject(i).get("total_visits").toString();
+					    			vm.geolocation=jsonArray.getJSONObject(i).get("geolocation").toString();
 					    			vm.country=jsonArray.getJSONObject(i).get("country_code").toString();
 					    			vm.latitude=jsonArray.getJSONObject(i).get("latitude").toString();
 					    			vm.longitude=jsonArray.getJSONObject(i).get("longitude").toString();
