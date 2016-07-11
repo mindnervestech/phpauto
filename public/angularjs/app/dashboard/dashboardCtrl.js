@@ -2259,12 +2259,17 @@ angular.module('newApp')
     	  $scope.flagForReferrer=1;
     	  $scope.getReferrerDetails();
       }
+      $scope.getReferrerType = function(type){
+    	  $scope.typeOfReferrer=type;
+    	  $scope.locationFlag='source';
+    	  $scope.flagForReferrer=1;
+    	  $scope.getReferrerDetails();
+      }
       $scope.getLandingPage = function(type){
     	  $scope.typeOfReferrer=type;
     	  $scope.locationFlag='landing';
     	  $scope.flagForReferrer=1;
-    	  console.log(type);
-    	  console.log("in landing page");
+    	  
     	  $scope.getLendingDetails();
     	  console.log("in referrer details funct");
     	}
