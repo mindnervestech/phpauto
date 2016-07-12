@@ -29747,6 +29747,8 @@ private static void cancelTestDriveMail(Map map) {
        		
        		List <ClickyPagesVM> VMs = new ArrayList<>();
        		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+       		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+			
        		ClickyPagesVM vm = new ClickyPagesVM();
        		double count1=0.0;
        		double count2=0.0;
@@ -29755,6 +29757,7 @@ private static void cancelTestDriveMail(Map map) {
        		double count5=0.0;
        		double count6=0.0;
        		double count7=0.0;
+       		Integer vistValue = 0;
        		 for(ClickyVisitorsList lis:orgObjList){
        	     	if(lis.averageActionorg != null){
        	     		count1=Double.parseDouble(lis.averageActionorg);
@@ -29777,7 +29780,12 @@ private static void cancelTestDriveMail(Map map) {
        			if(lis.actions != null){
        			count7=count7+Double.parseDouble(lis.actions);
        			}
-       		   			
+       			
+    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+				if (langValue == null) {
+				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+				}		
        		 }
        		 
        		 double countAll1=0.0;
@@ -29900,6 +29908,8 @@ private static void cancelTestDriveMail(Map map) {
        		//params = "&type=segmentation&os="+encod+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
         	  Date d1= null;
        		Date d2= null;
+       		/*String Date1 = "2016-06-13";
+       		String Date2 = "2016-06-26";*/
        		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
        		try{
        			 d1 = format.parse(startDate);
@@ -29910,9 +29920,10 @@ private static void cancelTestDriveMail(Map map) {
        		
        		List<ClickyVisitorsList> operatingObjList = ClickyVisitorsList.findByOsAndDate(type, d1, d2);
       		List<ClickyVisitorsList> allOSlist = ClickyVisitorsList.getAll(d1, d2);
-      		
       		List <ClickyPagesVM> VMs = new ArrayList<>();
       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+      		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+			
       		ClickyPagesVM vm = new ClickyPagesVM();
       		double count1=0.0;
       		double count2=0.0;
@@ -29921,6 +29932,7 @@ private static void cancelTestDriveMail(Map map) {
       		double count5=0.0;
       		double count6=0.0;
       		double count7=0.0;
+      		Integer vistValue = 0;
       		 for(ClickyVisitorsList lis:operatingObjList){
       	     	if(lis.averageActionos != null){
       	     		count1=Double.parseDouble(lis.averageActionos);
@@ -29931,8 +29943,8 @@ private static void cancelTestDriveMail(Map map) {
       			if(lis.averageTimeos != null){
       				count5=Double.parseDouble(lis.averageTimeos);	
       				}
-      			if(lis.timeTotal != null){
-      				count4=count4+Double.parseDouble(lis.timeTotal);
+      			if(lis.totalTimeos != null){
+      				count4=count4+Double.parseDouble(lis.totalTimeos);
       				}
       			if(lis.visitorsos != null){
       				 count2=Double.parseDouble(lis.visitorsos);
@@ -29940,10 +29952,15 @@ private static void cancelTestDriveMail(Map map) {
       			if(lis.uniqueVisitoros!= null){
       				count3=Double.parseDouble(lis.uniqueVisitoros);
       				}
-      			if(lis.actions != null){
-      			count7=count7+Double.parseDouble(lis.actions);
+      			if(lis.action != null){
+      			count7=Double.parseDouble(lis.action);
       			}
-      		   			
+      			
+    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+				if (langValue == null) {
+				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+				}		
       		 }
       		 
       		 double countAll1=0.0;
@@ -30075,6 +30092,8 @@ private static void cancelTestDriveMail(Map map) {
         		
         		List <ClickyPagesVM> VMs = new ArrayList<>();
         		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+        		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+    			
         		ClickyPagesVM vm = new ClickyPagesVM();
         		double count1=0.0;
         		double count2=0.0;
@@ -30083,6 +30102,7 @@ private static void cancelTestDriveMail(Map map) {
         		double count5=0.0;
         		double count6=0.0;
         		double count7=0.0;
+        		Integer vistValue =0;
         		 for(ClickyVisitorsList lis:browserObjList){
         	     	if(lis.averageActionbrowser != null){
         	     		count1=Double.parseDouble(lis.averageActionbrowser);
@@ -30105,7 +30125,12 @@ private static void cancelTestDriveMail(Map map) {
         			if(lis.actions != null){
         			count7=count7+Double.parseDouble(lis.actions);
         			}
-        		   			
+        			
+        			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+    				if (langValue == null) {
+    				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+    				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+    				}
         		 }
         		 
         		 double countAll1=0.0;
@@ -30261,8 +30286,8 @@ private static void cancelTestDriveMail(Map map) {
       			if(lis.averageTime != null){
       				count5=Double.parseDouble(lis.averageTime);	
       				}
-      			if(lis.timeTotal != null){
-      				count4=count4+Double.parseDouble(lis.timeTotal);
+      			if(lis.totalTime != null){
+      				count4=count4+Double.parseDouble(lis.totalTime);
       				}
       			if(lis.visitors != null){
       				 count2=Double.parseDouble(lis.visitors);
@@ -30270,8 +30295,8 @@ private static void cancelTestDriveMail(Map map) {
       			if(lis.uniqueVisitor!= null){
       				count3=Double.parseDouble(lis.uniqueVisitor);
       				}
-      			if(lis.actions != null){
-      			count7=count7+Double.parseDouble(lis.actions);
+      			if(lis.action != null){
+      			count7=Double.parseDouble(lis.action);
       			}
       			
       			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
@@ -30410,6 +30435,8 @@ private static void cancelTestDriveMail(Map map) {
       		
       		List <ClickyPagesVM> VMs = new ArrayList<>();
       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+      		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+			
       		ClickyPagesVM vm = new ClickyPagesVM();
       		double count1=0.0;
       		double count2=0.0;
@@ -30418,6 +30445,7 @@ private static void cancelTestDriveMail(Map map) {
       		double count5=0.0;
       		double count6=0.0;
       		double count7=0.0;
+      		Integer vistValue = 0;
       		 for(ClickyActionList lis:domainObjList){
       	     	if(lis.averageAction != null){
       	     		count1=Double.parseDouble(lis.averageAction);
@@ -30440,7 +30468,12 @@ private static void cancelTestDriveMail(Map map) {
       			if(lis.action != null){
       			count7=Double.parseDouble(lis.action);
       			}
-      		   			
+      			
+    			Integer langValue = mapOffline.get(lis.currDate.toString()); 
+				if (langValue == null) {
+				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+				 mapOffline.put(lis.currDate.toString(), Integer.parseInt(lis.visitors));
+				}		
       		 }
       		 
       		 double countAll1=0.0;
@@ -30760,7 +30793,7 @@ private static void cancelTestDriveMail(Map map) {
       	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
       	   	ClickyPagesVM vm = new ClickyPagesVM();
       	   	vm.time=obj.get("time").textValue();
-      	  String newtime[]=obj.get("time_pretty").toString().split(",") ;	
+      	  String newtime[]=obj.get("time_pretty").textValue().split(",") ;	
       	  vm.newTime=newtime[1];
       	  String newDate[]=newtime[0].split(" ");
       	  vm.newDate=newDate[1]+" "+newDate[2]+" "+newDate[3];
@@ -30824,6 +30857,8 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
        		
        		List <ClickyPagesVM> VMs = new ArrayList<>();
        		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+       		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+			
        		ClickyPagesVM vm = new ClickyPagesVM();
        		double count1=0.0;
        		double count2=0.0;
@@ -30832,6 +30867,7 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
        		double count5=0.0;
        		double count6=0.0;
        		double count7=0.0;
+       		Integer vistValue = 0;
        		 for(ClickyVisitorsList lis:locationObjList){
        	     	if(lis.averageAction1 != null){
        	     		count1=Double.parseDouble(lis.averageAction1);
@@ -30854,7 +30890,12 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
        			if(lis.actions != null){
        			count7=count7+Double.parseDouble(lis.actions);
        			}
-       		   			
+       			
+    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+				if (langValue == null) {
+				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+				}		
        		 }
        		 
        		 double countAll1=0.0;
@@ -30993,6 +31034,8 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     		
     		List <ClickyPagesVM> VMs = new ArrayList<>();
     		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+    		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+			
     		ClickyPagesVM vm = new ClickyPagesVM();
     		double count1=0.0;
     		double count2=0.0;
@@ -31001,6 +31044,7 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     		double count5=0.0;
     		double count6=0.0;
     		double count7=0.0;
+    		Integer vistValue = 0;
     		 for(ClickyVisitorsList lis:locationObjList){
     	     	if(lis.averageAction2 != null){
     	     		count1=Double.parseDouble(lis.averageAction2);
@@ -31023,7 +31067,12 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     			if(lis.actions != null){
     			count7=count7+Double.parseDouble(lis.actions);
     			}
-    		   			
+    			
+    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+				if (langValue == null) {
+				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+				}		
     		 }
     		 
     		 double countAll1=0.0;
