@@ -2103,6 +2103,13 @@ angular.module('newApp')
 	 		    useExternalFiltering: true,
 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 }; 				          
+      $scope.gridForSessionNew = {
+		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+		 		    paginationPageSize: 150,
+		 		    enableFiltering: true,
+		 		    useExternalFiltering: true,
+		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+		 		 }; 
       $scope.gridForSession = {
 		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 		 		    paginationPageSize: 150,
@@ -2156,7 +2163,7 @@ angular.module('newApp')
 				$scope.startDateFilter = $filter('date')(today,"yyyy-MM-dd");
 				$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
 			 $scope.flagForLocation='IP';
-			 $('#editLeads').hide();
+			 $("#editLeads").modal('hide');
 			 $scope.flagForSecondmodal=1;
 			 $('#deeperInfoModal').click();
 			 $http.get('/getSessionIdData/'+$scope.sessionId)
@@ -2192,10 +2199,10 @@ angular.module('newApp')
 						 $http.get('/getSessionData/'+$scope.clickySessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
 							.success(function(data) {
 								console.log(data);
-								$scope.gridForSession.data=data;
-									$scope.visitiorList = data;
+								$scope.gridForSessionNew.data=data;
+									//$scope.visitiorList = data;
 									
-									$scope.gridForSession.columnDefs = [
+									$scope.gridForSessionNew.columnDefs = [
 										                                 {name: 'abc', displayName: 'Date & Time', width:'40%',
 										                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> &nbsp&nbsp  <label ">{{row.entity.newTime}}</label> </div>',	 
 										                                 },
