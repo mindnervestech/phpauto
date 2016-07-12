@@ -5642,9 +5642,8 @@ float: right !important;
 										</div>
 										</div>
 										
-										
 										<div class="col-sm-12">
-										<div  ui-grid="gridForSessionNew" style="height:500px;" ui-grid-edit ui-grid-pagination>
+										<div ng-if="gridForSessionNew.data.length > 0" ui-grid="gridForSessionNew" style="height:500px;" ui-grid-edit ui-grid-pagination>
 										</div>
 										
 										</div>
@@ -5653,7 +5652,10 @@ float: right !important;
 										<div style="margin-top: 20px;" ng-if="flagForReferrer == 1" class="col-sm-12">
 										<div  ui-grid="gridForReferrer" style="height:500px;" ui-grid-edit ui-grid-pagination>
 										</div>
-										
+										</div>
+										<div style="margin-top: 150px;" ng-if="flagForReferrer == 1" class="col-sm-12">
+										<div  ui-grid="gridForSessionNew" style="height:500px;" ui-grid-edit ui-grid-pagination>
+										</div>
 										</div>
 										</div>
 													

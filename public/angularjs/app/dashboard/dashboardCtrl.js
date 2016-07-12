@@ -2163,9 +2163,13 @@ angular.module('newApp')
 				$scope.startDateFilter = $filter('date')(today,"yyyy-MM-dd");
 				$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
 			 $scope.flagForLocation='IP';
-			 $("#editLeads").modal('hide');
+			 if(type != "0"){
+				 $("#editLeads").modal('hide');
+				 $('#deeperInfoModal').click();
+			 }
+			 
 			 $scope.flagForSecondmodal=1;
-			 $('#deeperInfoModal').click();
+			 
 			 $http.get('/getSessionIdData/'+$scope.sessionId)
 				.success(function(data) {
 					if(data == ""){
@@ -2201,28 +2205,19 @@ angular.module('newApp')
 								console.log(data);
 								$scope.gridForSessionNew.data=data;
 									//$scope.visitiorList = data;
-									
-									$scope.gridForSessionNew.columnDefs = [
-										                                 {name: 'abc', displayName: 'Date & Time', width:'40%',
-										                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> &nbsp&nbsp  <label ">{{row.entity.newTime}}</label> </div>',	 
-										                                 },
-										                                 {name: 'actionUrl', displayName: 'Viewed Pages', width:'40%',
-										                                	 cellTemplate:'<div ><a   target="_blank"   href="{{row.entity.actionUrl}}" >{{row.entity.newActionUrl}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
-										                                 },
-										                                 {name: 'heatmapUrl', displayName: 'Heatmap', width:'20%',
-										                                	 cellTemplate:'<div ><a href="{{row.entity.heatmapUrl}}" target="_blank"><img  ng-if="row.entity.heatmapUrl != null" class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="http://con.tent.network/media/icon_heatmap.png" ></a></div>',	 
-										                                 },
-										                          ];
-									 
+									$scope.openGrid(); 
 									 google.maps.event.addDomListener(window, "load", initialized);
 									initialized();
+									
+									
+									 	 
 								});
 								
 					
 						  
 					 }
 					else{
-						//google.maps.event.addDomListener(window, "load", initialized);
+						google.maps.event.addDomListener(window, "load", initialized);
 						initialized();
 					}
 					
@@ -2233,11 +2228,28 @@ angular.module('newApp')
 				});
 		 }
       
+      
+      $scope.openGrid = function(){
+			$scope.gridForSessionNew.columnDefs = [
+					                                 {name: 'abc', displayName: 'Date & Time', width:'40%',
+					                                	 cellTemplate:'<div><label >{{row.entity.newDate}}</label> &nbsp&nbsp  <label ">{{row.entity.newTime}}</label> </div>',	 
+					                                 },
+					                                 {name: 'actionUrl', displayName: 'Viewed Pages', width:'40%',
+					                                	 cellTemplate:'<div><a   target="_blank"   href="{{row.entity.actionUrl}}" >{{row.entity.newActionUrl}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
+					                                 },
+					                                 {name: 'heatmapUrl', displayName: 'Heatmap', width:'20%',
+					                                	 cellTemplate:'<div><a href="{{row.entity.heatmapUrl}}" target="_blank"><img  ng-if="row.entity.heatmapUrl != null" class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="http://con.tent.network/media/icon_heatmap.png" ></a></div>',	 
+					                                 },
+					                          ];
+
+      }
+      
       $scope.flagForReferrer=0;
       $scope.getLoacationDetails = function(type){
     	  $scope.typeOfReferrer=type;
     	  $scope.locationFlag='location';
     	  $scope.flagForReferrer=1;
+    	  $scope.referrerTypeDataForIpAdress("0");
     	  $scope.getReferrerDetails();
       }
       
@@ -2245,6 +2257,7 @@ angular.module('newApp')
     	  $scope.typeOfReferrer=type;
     	  $scope.locationFlag='org';
     	  $scope.flagForReferrer=1;
+    	  $scope.referrerTypeDataForIpAdress("0");
     	  $scope.getReferrerDetails();
       }
       
@@ -2258,25 +2271,28 @@ angular.module('newApp')
     	  $scope.typeOfReferrer=type;
     	  $scope.locationFlag='os';
     	  $scope.flagForReferrer=1;
+    	  $scope.referrerTypeDataForIpAdress("0");
     	  $scope.getReferrerDetails();
       }
       $scope.getScreenDetails = function(type){
     	  $scope.typeOfReferrer=type;
     	  $scope.locationFlag='screen';
     	  $scope.flagForReferrer=1;
+    	  $scope.referrerTypeDataForIpAdress("0");
     	  $scope.getReferrerDetails();
       }
       $scope.getReferrerType = function(type){
     	  $scope.typeOfReferrer=type;
     	  $scope.locationFlag='source';
     	  $scope.flagForReferrer=1;
+    	  $scope.referrerTypeDataForIpAdress("0");
     	  $scope.getReferrerDetails();
       }
       $scope.getLandingPage = function(type){
     	  $scope.typeOfReferrer=type;
     	  $scope.locationFlag='landing';
     	  $scope.flagForReferrer=1;
-    	  
+    	  $scope.referrerTypeDataForIpAdress("0");
     	  $scope.getLendingDetails();
     	  console.log("in referrer details funct");
     	}
@@ -2296,11 +2312,14 @@ angular.module('newApp')
 			console.log($scope.typeOfReferrer);
 			console.log($rootScope.startDateFilter);
 			console.log($rootScope.endDateFilter);
+			
+			
 			$http.get('/getreferrerTypeData/'+$scope.typeOfReferrer+"/"+$scope.locationFlag+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
 			.success(function(data) {
 			console.log($scope.data);
 			$scope.gridForReferrer.data = data;
 			console.log($scope.gridForReferrer.data);
+			$scope.openGrid();
 			angular.forEach($scope.gridForReferrer.data, function(value, key) {
 				if( value.city != null && value.city != undefined  ){
 					$scope.city=value.city;
@@ -2374,8 +2393,23 @@ angular.module('newApp')
 		 
 		}
       
-      }  
-      $scope.landingpage = {};
+      } 
+      
+      $scope.openGrid = function(){
+			$scope.gridForSessionNew.columnDefs = [
+					                                 {name: 'abc', displayName: 'Date & Time', width:'40%',
+					                                	 cellTemplate:'<div><label >{{row.entity.newDate}}</label> &nbsp&nbsp  <label ">{{row.entity.newTime}}</label> </div>',	 
+					                                 },
+					                                 {name: 'actionUrl', displayName: 'Viewed Pages', width:'40%',
+					                                	 cellTemplate:'<div><a   target="_blank"   href="{{row.entity.actionUrl}}" >{{row.entity.newActionUrl}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
+					                                 },
+					                                 {name: 'heatmapUrl', displayName: 'Heatmap', width:'20%',
+					                                	 cellTemplate:'<div><a href="{{row.entity.heatmapUrl}}" target="_blank"><img  ng-if="row.entity.heatmapUrl != null" class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="http://con.tent.network/media/icon_heatmap.png" ></a></div>',	 
+					                                 },
+					                          ];
+
+    }
+     $scope.landingpage = {};
       
       $scope.getLendingDetails = function(){
   		if($scope.typeOfReferrer != undefined && $scope.typeOfReferrer != null){
