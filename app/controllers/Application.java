@@ -30785,7 +30785,7 @@ private static void cancelTestDriveMail(Map map) {
      public static Result getSessionData(String sessionId,String startDate,String endDate){
      	String params=null;
      	List<ClickyPagesVM> clickyList = new ArrayList<>();
-     		params = "&type=actions-list&session_id="+sessionId+"&date="+startDate+","+endDate+"&limit=all";
+     		params = "&type=visitors-list&session_id="+sessionId+"&date="+startDate+","+endDate+"&limit=all";
      	//https://api.clicky.com/api/stats/4?output=json&site_id=100875513&session_id=4247626074&sitekey=d6e7550038b4a34c&type=actions-list&date=last-7-days
      		try {
 
@@ -30800,18 +30800,11 @@ private static void cancelTestDriveMail(Map map) {
       	  vm.timePretty=obj.get("time_pretty").textValue();
       	  vm.ipAddress=obj.get("ip_address").textValue();
       	  vm.uid=obj.get("uid").textValue();
-      	  vm.sessionId=obj.get("session_id").textValue();
-      	  vm.actionType=obj.get("action_type").textValue();
-      	  vm.actionTitle=obj.get("action_title").textValue();
-      	  vm.actionUrl=obj.get("action_url").textValue();
-      	  String newAction[]=vm.actionUrl.split(".com");
-      	  vm.newActionUrl=newAction[1];
-      	vm.heatmapUrl=null;
-      	 List<ClickyPagesList> list=ClickyPagesList.getHeatMapUrl(vm.actionUrl);
-      	 if(list.size() != 0){
-      		 vm.heatmapUrl=list.get(0).url;
-      	 }
-      	  vm.statsUrl=obj.get("stats_url").textValue();
+      	  vm.geolocation=obj.get("geolocation").textValue();
+      	  vm.organization=obj.get("organization").textValue();
+      	  vm.actions=obj.get("actions").textValue();
+      	  vm.timeTotal=obj.get("time_total").textValue();
+      	 
       	   clickyList.add(vm);
       	   	
       	   	}
@@ -30822,7 +30815,48 @@ private static void cancelTestDriveMail(Map map) {
      	
      	return ok(Json.toJson(clickyList));
      }
-     
+     public static Result getSession(String sessionId,String startDate,String endDate){
+      	String params=null;
+      	List<ClickyPagesVM> clickyList = new ArrayList<>();
+      		params = "&type=actions-list&session_id="+sessionId+"&date="+startDate+","+endDate+"&limit=all";
+      	//https://api.clicky.com/api/stats/4?output=json&site_id=100875513&session_id=4247626074&sitekey=d6e7550038b4a34c&type=actions-list&date=last-7-days
+      		try {
+
+       	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+       	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+       	   	ClickyPagesVM vm = new ClickyPagesVM();
+       	   	vm.time=obj.get("time").textValue();
+       	  String newtime[]=obj.get("time_pretty").textValue().split(",") ;	
+       	  vm.newTime=newtime[1];
+       	  String newDate[]=newtime[0].split(" ");
+       	  vm.newDate=newDate[1]+" "+newDate[2]+" "+newDate[3];
+       	  vm.timePretty=obj.get("time_pretty").textValue();
+       	  vm.ipAddress=obj.get("ip_address").textValue();
+       	  vm.uid=obj.get("uid").textValue();
+       	 
+        vm.sessionId=obj.get("session_id").textValue();
+       	  vm.actionType=obj.get("action_type").textValue();
+       	  vm.actionTitle=obj.get("action_title").textValue();
+       	  vm.actionUrl=obj.get("action_url").textValue();
+       	 
+       	  String newAction[]=vm.actionUrl.split(".com");
+       	  vm.newActionUrl=newAction[1];
+       	vm.heatmapUrl=null;
+       	 List<ClickyPagesList> list=ClickyPagesList.getHeatMapUrl(vm.actionUrl);
+       	 if(list.size() != 0){
+       		 vm.heatmapUrl=list.get(0).url;
+       	 }
+       	  vm.statsUrl=obj.get("stats_url").textValue();
+       	   clickyList.add(vm);
+       	   	
+       	   	}
+               
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+      	
+      	return ok(Json.toJson(clickyList));
+      }
      
      
      
