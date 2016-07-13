@@ -2207,6 +2207,19 @@ angular.module('newApp')
 							.success(function(data) {
 								console.log(data);
 								$scope.gridForSessionNew.data=data;
+								angular.forEach($scope.gridForSessionNew.data, function(value, key) {
+									 if(value.timeTotal!=null){
+											value.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.timeTotal)), 'HH:mm:ss');
+											 var splitTime   = value.timeTotal.split(":");
+											 if(splitTime[0] == '00'){
+												 value.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+											 }
+											 else{
+												 value.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+											 }
+											 
+											}
+									});
 									//$scope.visitiorList = data;
 									$scope.openGrid(); 
 									 google.maps.event.addDomListener(window, "load", initialized);
