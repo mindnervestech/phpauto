@@ -476,6 +476,12 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/cropInventoryImage.html',
             controller: 'InventoryCropCtrl'
         })
+        
+       .when('/cropInventoryImages/:id/:pId/:productId', {
+            templateUrl: '/dealer/addInventory/cropInventoryImage.html',
+            controller: 'InventoryImageCropCtrl'
+        })
+        
          .when('/cropCoverImage/:id/:findById', {
             templateUrl: '/dealer/addPhotos/cropCoverPhoto.html',
             controller: 'CoverCropCtrl'
@@ -514,6 +520,12 @@ var MakeApp = angular
             templateUrl: '/dealer/addPhotos/managePhotos.html',
             controller: 'ManagePhotoCtrl'
         })
+	
+	.when('/editInventory/:id/:temp/:productId', {
+            templateUrl: '/dealer/addInventory/editInventory.html',
+            controller: 'EditInventoryCtrl'
+        })
+	
         .when('/editVehicle/:id/:temp/:vin', {
             templateUrl: '/dealer/addVehicle/editVehicle.html',
             controller: 'EditVehicleCtrl'
@@ -530,6 +542,12 @@ var MakeApp = angular
          .when('/viewVehicles', {
             templateUrl: '/dealer/viewVehicle/viewVehicles.html',
             controller: 'ViewVehiclesCtrl'
+        })
+        
+        
+        .when('/inventoryPhotographer', {
+            templateUrl: '/dealer/inventory/inventoryPhotographer.html',
+            controller: 'inventoryPhotographer'
         })
         
         .when('/viewRegistration', {

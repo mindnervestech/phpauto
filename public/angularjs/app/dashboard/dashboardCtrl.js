@@ -10797,7 +10797,7 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Saved successfully",
 					});
-					$location.path('/editVehicle/'+$routeParams.vid+'/'+true);
+					$location.path('/editVehicle/'+$routeParams.vid+'/'+true+"/"+$routeParams.vin);
 				});
 			}
 			

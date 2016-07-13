@@ -1,0 +1,94 @@
+
+<h1><b>{{editInput.mainTitle}}</b></h1>
+
+
+<div class="form-group" ng-init="vehicleInit()">
+	<hr>
+
+
+<form ng-submit="saveVehicle()">
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Title
+				*</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="specification.title"
+					placeholder="Title" required>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Product Id</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="specification.productId"
+					placeholder="VIN Number" required>
+			</div>
+			
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Description</label>
+			<div class="col-sm-5">
+				<textarea class="form-control form-white"
+					ng-model="specification.description" rows="5"></textarea>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Collection this item is in</label>
+			<div class="col-sm-5">
+				<!-- <input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="vinData.specification.collectionItem" required> -->
+					<select class="form-control form-white" ng-model="specification.collection" style="border-color:red;" required>
+			  											<option ng-repeat="coll in collectionList" value="{{coll.id}}">{{coll.title}}</option>
+														
+												</select>
+			</div>
+			
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Cost</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="number"
+					style="border-color: red;" ng-model="specification.cost"
+					placeholder="COST" required>
+			</div>
+			
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Price</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="number"
+					style="border-color: red;" ng-model="specification.price"
+					placeholder="PRICE" required>
+			</div>
+			
+		</div>
+
+		<div class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
+
+<!-- <button type="submit" class="btn btn-primary" style="margin-left:11%;" ng-click="setFlagVal()">Publish</button> -->
+
+<button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button>
+
+</form>
+</div>
+<style>
+.txtClr{
+    background: white;
+    border-color: red;
+}
+.txt{
+    background: white;
+}
+</style>
+
+
+
+
+
+
+
+
+

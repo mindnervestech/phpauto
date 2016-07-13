@@ -153,6 +153,7 @@
                         <li ng-sec = "Website Editing" ng-class="{ active  : isActive('/sliderImages')}"><a href="#sliderImages"><i class="icon-home"></i><span>Website Editing</span></a></li>
                         <li ng-sec = "Add Vehicle" ng-class="{ active  : isActive('/addVehicle')}"><a href="#addVehicle"><i class="fa fa-car"></i><span>Add Vehicle</span></a></li>
 						<li ng-sec = "Inventory" ng-class="{ active  : isActive('/viewVehicles')}"><a href="#viewVehicles"><i class="fa fa-bus"></i><span>Inventory</span></a></li>
+						<li ng-sec = "Inventory Photographer" ng-class="{ active  : isActive('/inventoryPhotographer')}"><a href="#inventoryPhotographer"><i class="fa fa-bus"></i><span>Inventory</span></a></li>
 						 <li ng-sec="My Calendar" ng-class="{ active  : isActive('/myCalendar')}"><a href="#myCalendar"><i class="glyphicon glyphicon-plus-sign"></i><span>My Calendar</span></a></li>
 						<li ng-sec = "Registration" ng-class="{ active  : isActive('/viewRegistration')}"><a href="#viewRegistration"><i class="glyphicon glyphicon-retweet"></i><span>Registration</span></a></li>
 						<li ng-sec = "Client" ng-class="{ active  : isActive('/viewClient')}"><a href="#viewClient"><i class="glyphicon glyphicon-user"></i><span>Client</span></a></li>
@@ -769,8 +770,11 @@
         <script src="/dealerjs/js/plugins.js"></script> 
         <script src="/dealerjs/js/quickview.js"></script>
         <script src="/dealer/dashboard/dashboardCtrl.js"></script>
+  		<script src="/dealer/addInventory/addEditInventoryCtrl.js"></script>
+         <script src="/dealer/addInventory/addCropInventoryCtrl.js"></script>
         <script src="/dealer/myprofile/UserCtrl.js"></script>
-         <script src="/dealer/myCalendar/myCalendarCtrl.js"></script>
+        <script src="/dealer/inventory/inventoryPhotographer.js"></script>
+        <script src="/dealer/myCalendar/myCalendarCtrl.js"></script>
         <script src="/dealer/myprofile/LocationCtrl.js"></script>
         <script src="/dealer/customizationForm/customizationFormCtrl.js"></script>
         

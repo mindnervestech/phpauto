@@ -1,0 +1,315 @@
+<div ng-init="init()">
+<h2>Edit Inventory</h2>
+<tabset class="nav-tabs2">
+                                <tab ng-if="userRole != 'Photographer'">
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue">Details</button>
+                                    </tab-heading>
+                                    
+                                    
+                                    <form ng-submit="updateInventory()">
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Title
+				*</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="specification.title"
+					placeholder="Title" required>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Product Id</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="specification.productId"
+					placeholder="VIN Number" required>
+			</div>
+			
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Description</label>
+			<div class="col-sm-5">
+				<textarea class="form-control form-white"
+					ng-model="specification.description" rows="5"></textarea>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Collection this item is in</label>
+			<div class="col-sm-5">
+				<select class="form-control form-white" ng-model="specification.collection" style="border-color:red;" required>
+			  											<option ng-repeat="coll in collectionList" value="{{coll.id}}">{{coll.title}}</option>
+														
+												</select>
+			</div>
+			
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Cost</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="number"
+					style="border-color: red;" ng-model="specification.cost"
+					placeholder="COST" required>
+			</div>
+			
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Price</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="number"
+					style="border-color: red;" ng-model="specification.price"
+					placeholder="PRICE" required>
+			</div>
+			
+		</div>
+		<div class="col-md-12" style="margin-top: 32px;">
+								            <formly-form model="customData" fields="userFields">
+  											</formly-form>
+	</div>
+
+<!-- <button type="submit" class="btn btn-primary" style="margin-left:11%;" ng-click="setFlagVal()">Publish</button> -->
+
+<p style="color:green;margin-left:19%;" ng-show="isUpdated"><b>Vehicle updated successfully!</b></p>
+										<button type="submit" class="btn btn-primary" style="margin-left:11%;margin-left:19%;">Update!</button>
+										<button type="button" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+
+</form>
+                                    
+                                    
+                                </tab>
+                           <tab>
+                                    <tab-heading>
+                                        <button id="vImg" type="button" class="btn btn-blue" ng-click="getImages()">Images</button>
+                                    </tab-heading>
+                                    <div gridster="gridsterOpts">
+				                    	<ul>
+				                    		<li gridster-item="image" id="{{image.id}}" data-row="{{image.row}}" data-col="{{image.col}}" 
+				                    			data-sizex="1" data-sizey="1" ng-repeat="image in imageList"
+				                    		 	on-finish-render="ngRepeatFinished" >
+				                    		 	<div class="imageGroup">
+				                        			<img class="myImage"  ng-if="userRole == 'Photographer'" style="width:100%; height:100%;" src="http://www.glider-autos.com:9889/getImageInv/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                            		<img class="myImage"  ng-if="userRole != 'Photographer'" style="width:100%; height:100%;" src="/getImageInv/{{image.id}}/thumbnail" id="imgId{{$index}}" />
+				                            		<div>
+				                            		<a class="remImage1" ng-click="setAsDefault(image,$index)" style="cursor:pointer;color:#319DB5;"><b>Set Default</b></a>
+				                            		</div>
+				                            		<div>
+				                            			<a class="remImage" ng-click="deleteImage(image)" style="color:#319DB5;"><i class="btn fa fa-times" style="height:1px;width:1px;"></i></a>
+				                            		</div>
+				                            		<a class="remImage2" ng-click="showFullImage(image)" data-toggle="modal" data-target="#modal-image" style="cursor:pointer;"><i class="glyphicon glyphicon-zoom-in" style="height:1px;width:1px;"></i></a>
+				                        			<a class="remImage3" ng-click="editImage(image)" style="cursor:pointer;color:#319DB5;"><b>Edit</b></a>
+				                        		</div>
+				                        	</li>
+				                        </ul>
+				                        </div>{{uploadPhotoUrl}}
+				                        <h1>Upload your photographs</h1>
+				                        <div id="showDiv">
+				                        	<!-- <form ng-if="userRole == 'Photographer'" id="dropzoneFrm" action="http://www.glider-autos.com/uploadPhotos" class="dropzone">
+				                            	<div class="fallback">
+				                                	<input name="file" type="file" multiple />
+				                            	</div>
+				                        	</form> -->
+				                        </div>
+				                         <div id="showDiv1">
+				                        </div>
+				                          <!-- <form ng-if="userRole != 'Photographer'" id="dropzoneFrm" action="/uploadPhotos" class="dropzone">
+				                            <div class="fallback">
+				                            <
+				                                <input name="file" type="file" multiple />
+				                            </div>
+				                        </form>  -->
+										 <button class="btn btn-primary" ng-click="uploadFiles()" style="margin-left:44%;margin-top:3%;">Upload</button> 
+				                        <button type="button" style="margin-top: 48px;" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+				                        <div class="modal fade modal-image" id="modal-image" tabindex="-1" role="dialog" aria-hidden="true">
+									        <div class="modal-dialog">
+									            <div class="modal-content">
+									                <div class="modal-header">
+									                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+									                </div>
+									                <div class="modal-body">
+									                    <img ng-if="userRole == 'Photographer'" src="/getImageInv/{{imageId}}/full" alt="picture 1" class="img-responsive">
+									                  <img ng-if="userRole != 'Photographer'" src="http://www.glider-autos.com:9889/getImageInv/{{imageId}}/full" alt="picture 1" class="img-responsive">
+									                </div>
+									                <div class="modal-footer">
+									                    <p>{{imageName}}</p>
+									                </div>
+									            </div>
+									        </div>
+									    </div>  
+                                </tab>
+                                <!-- <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="getAllAudio()">Sound</button>
+                                    </tab-heading>
+                                    <h3>uploaded Files</h3>
+                                   
+                                    <table class="table" style="margin-left:35%;width:30%;">
+	                                    	<tr ng-repeat="audio in audioList">
+	                                    	<td>{{audio.fileName}}</td>
+	                                    	<td><i class="fa fa-trash" title="Delete" ng-click="confirmFileDelete(audio.id)" style="cursor:pointer;"></i></td>
+	                                    	</tr>
+                                    </table>
+                                    <form ng-submit="uploadAudio()" method="post" enctype="multipart/form-data" style="margin-top:5%;margin-left:35%;">
+                                    	<input type="file" name="soundFile" accept="audio/*" ng-file-select="onFileSelect($files)" required>
+                                    	<input type="hidden" name="vinNum" ng-model="vinData.specification.vin">
+                                    	 <button type="submit" class="btn btn-primary" style="margin-left:5%;margin-top:5%;">Upload</button>
+                                    	 <button type="button" style="margin-top: 48px;" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+                                    </form>
+                                    
+                                </tab> -->
+                                <!-- <tab>
+                                    <tab-heading>
+                                    	<button type="button" class="btn btn-blue" ng-click="getVirtualTourData()">Virtual Tour</button>
+                                    </tab-heading>
+                                    <form ng-submit="saveVData()">
+                                    	<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Desktop </label>
+											<div class="col-sm-5">
+												<textarea class="form-control form-white" type="text" ng-model="vData.desktopUrl" rows="5"></textarea>
+											</div>
+											<p>width="1170px" height="500px"</p>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Mobile </label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" type="text" ng-model="vData.mobileUrl">
+											</div>
+										</div>
+										<button type="submit" class="btn btn-primary" style="margin-left:25%;margin-top:5%;">Save</button>
+										<button type="button" style="margin-top: 78px;" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+                                    </form>
+                                </tab> -->
+                                
+                                <!--  <tab>
+                                    <tab-heading>
+                                    	<button type="button" class="btn btn-blue" ng-click="getVirtualTourData()">Video</button>
+                                    </tab-heading>
+                                    <form ng-submit="saveVideoData()">
+                                    	<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Desktop </label>
+											<div class="col-sm-5">
+												<textarea class="form-control form-white" type="text" ng-model="videoData.desktopUrl" rows="5"></textarea>
+											</div>
+											<p>width="1170px" height="500px"</p>
+										</div>
+										<div class="form-group col-sm-12">
+										<label class="col-sm-2 control-label" style="text-align: right;">Mobile </label>
+											<div class="col-sm-5">
+												<input class="form-control form-white" type="text" ng-model="videoData.mobileUrl">
+											</div>
+										</div>
+										<button type="submit" class="btn btn-primary" style="margin-left:25%;margin-top:5%;">Save</button>
+										<button type="button" style="margin-top: 78px;" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>
+                                    </form>
+                                </tab> -->
+                                
+                                
+                                
+                                
+                            </tabset>
+
+
+</div>
+
+<div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-basic"></div>
+<div class="modal fade" id="modal-basic" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Delete Vehicle</strong></h4>
+                </div>
+                <div class="modal-body">
+                   Are you sure to delete vehicle?<br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteVehicleRow()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+<div style="display:none;" id="deleteModal2" data-toggle="modal" data-target="#modal-basic2"></div>
+<div class="modal fade" id="modal-basic2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Delete Vehicle</strong></h4>
+                </div>
+                <div class="modal-body">
+                   Are you sure to delete file?<br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteAudioFile()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+<style>
+.portfolioContainer figure {
+height: 200px;
+margin: 2.5%;
+}
+.grid figure {
+  width: 27.5%;
+}
+
+.remImage{
+opacity:0;
+top:0;
+right:-15px;
+position:absolute;
+}
+
+.remImage1{
+opacity:0;
+top:0;
+left:7px;
+position:absolute;
+}
+
+.remImage2{
+opacity:0;
+top:88px;
+left:123px;
+position:absolute;
+}
+
+.remImage3{
+opacity:0;
+top:88px;
+left:10px;
+position:absolute;
+}
+
+.imageGroup{
+position:relative;
+float:left;
+}
+.imageGroup:hover .remImage{
+opacity:1;
+}
+.imageGroup:hover .remImage1{
+opacity:1;
+}
+.imageGroup:hover .remImage2{
+opacity:1;
+}
+.imageGroup:hover .remImage3{
+opacity:1;
+}
+.imageGroup:hover .myImage{
+opacity:0.2;
+}
+</style>   
+<style>
+.txtClr{
+    background: white;
+    border-color: red;
+}
+.txt{
+    background: white;
+}
+</style> 
