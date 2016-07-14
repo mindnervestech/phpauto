@@ -50,7 +50,7 @@ angular.module('newApp')
  		 	  			    type:'success',
  		 	  			    text: "Inventory saved successfully",
  		 	  			});
- 		 	  		$location.path('/editInventory/'+$scope.dataBeforePdf+"/"+true);
+ 		 	  		$location.path('/editInventory/'+$scope.dataBeforePdf+"/"+true+"/"+$scope.specification.productId);
  		 	      });
  			});
  	 	 }else{
@@ -61,7 +61,7 @@ angular.module('newApp')
  				    type:'success',
  				    text: "Inventory saved successfully",
  				});
- 				$location.path('/editInventory/'+data+"/"+true);
+ 				$location.path('/editInventory/'+data+"/"+true+"/"+$scope.specification.productId);
  			});
  	 	 }
 	   

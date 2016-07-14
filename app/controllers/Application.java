@@ -17496,9 +17496,6 @@ private static void cancelTestDriveMail(Map map) {
     	
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		MultipartFormData body = request().body().asMultipartFormData();
-    		
-    		
-    		
 	    	
 	    	UserVM vm = form.get();
 	    	
@@ -17776,7 +17773,7 @@ private static void cancelTestDriveMail(Map map) {
 		 			}
 		 		  });
 		  
-		 		try{
+		 		/*try{
 		 			
 		  			Message message = new MimeMessage(session);
 		  			try {
@@ -17833,7 +17830,7 @@ private static void cancelTestDriveMail(Map map) {
 	    			Transport.send(message);
 		       		} catch (MessagingException e) {
 		  			 throw new RuntimeException(e);
-		  		}
+		  		}*/
 	    	   
 	    	return ok();
     }

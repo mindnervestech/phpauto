@@ -211,7 +211,7 @@ angular.module('newApp')
     		    				 }
 		    							 }else if(portalType == "MavenFurniture"){
 		    								 if($scope.userType == "Photographer"){
-		    	    		    				 $http.get('http://www.glider-autos.com:9889/getAllInventory/'+16)
+		    	    		    				 $http.get('http://www.glider-autos.com:9889/getAllInventory/'+$scope.userLocationId)
 		    	    		    			 		.success(function(data) {
 		    	    		    			 			console.log(data);
 		    	    		    			 			for(var i=0;i<data.length;i++) {
