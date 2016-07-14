@@ -2256,7 +2256,7 @@ angular.module('newApp')
 													},
 													{name: 'organization', displayName: 'Orgainzation', width:'20%'},
 													{name: 'abcs', displayName: 'Action', width:'20%',
-														 cellTemplate:'<div><label >{{row.entity.actions}} action</label></div>',	 
+														 cellTemplate:'<div><label >{{row.entity.actions}} actions</label></div>',	 
 													},
 													{name: 'ad', displayName: 'Total Time', width:'20%',
 														 cellTemplate:'<div><label >{{row.entity.timeTotal}}</label></div>',	 
@@ -2317,6 +2317,22 @@ angular.module('newApp')
     	  $scope.referrerTypeDataForIpAdress("0");
     	  $scope.getReferrerDetails();
       }
+      $scope.referrerTypeDataForHost = function(type){
+    	  $scope.typeOfReferrer=type;
+    	  $scope.locationFlag='host';
+    	  $scope.flagForReferrer=1;
+    	  $scope.flagForData = 0;
+    	  $scope.referrerTypeDataForIpAdress("0");
+    	  $scope.getReferrerDetails();
+      }
+      $scope.referrerTypeDataForLang = function(type){
+    	  $scope.typeOfReferrer=type;
+    	  $scope.locationFlag='language';
+    	  $scope.flagForReferrer=1;
+    	  $scope.flagForData = 0;
+    	  $scope.referrerTypeDataForIpAdress("0");
+    	  $scope.getReferrerDetails();
+      }
       $scope.getLandingPage = function(type){
     	  $scope.typeOfReferrer=type;
     	  $scope.locationFlag='landing';
@@ -2334,15 +2350,18 @@ angular.module('newApp')
 			 $scope.flagForSecondmodal=1;
 			 $('#deeperInfoModal').click();
 			
+			$scope.date = $filter('date')($scope.date,"yyyy-MM-dd");
+			console.log($scope.date);
+			console.log("in date function");
 			var todayDate = new Date(),
 			 weekDate = new Date();
 			weekDate.setTime(todayDate.getTime()-(7*24*3600000));
 			var today = new Date();
-			$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
-			$scope.startDateFilter = $filter('date')(weekDate,"yyyy-MM-dd");
+			$scope.endDateFilter = $filter('date')($scope.date,"yyyy-MM-dd");
+			$scope.startDateFilter = $filter('date')($scope.date,"yyyy-MM-dd");
 			console.log($scope.typeOfReferrer);
-			console.log($rootScope.startDateFilter);
-			console.log($rootScope.endDateFilter);
+			console.log($scope.startDateFilter);
+			console.log($scope.endDateFilter);
 			console.log("flag is");
 			console.log($scope.flagForData);
 			$http.get('/getreferrerTypeData/'+$scope.typeOfReferrer+"/"+$scope.locationFlag+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
@@ -2441,7 +2460,7 @@ angular.module('newApp')
 					                                 },
 					                                 {name: 'ipAddress', displayName: 'Ip Address', width:'20%'},
 					                                 {name: 'abcs', displayName: 'Action', width:'20%',
-					                                	 cellTemplate:'<div><label >{{row.entity.actions}} action</label></div>',	 
+					                                	 cellTemplate:'<div><label >{{row.entity.actions}} actions</label></div>',	 
 					                                 },
 					                                 {name: 'ad', displayName: 'Total Time', width:'20%',
 					                                	 cellTemplate:'<div><label >{{row.entity.timeTotal}}</label></div>',	 
@@ -2460,7 +2479,7 @@ angular.module('newApp')
 				                                 },
 				                                 {name: 'organization', displayName: 'Orgainzation', width:'20%'},
 				                                 {name: 'abcs', displayName: 'Action', width:'20%',
-				                                	 cellTemplate:'<div><label >{{row.entity.actions}} action</label></div>',	 
+				                                	 cellTemplate:'<div><label >{{row.entity.actions}} actions</label></div>',	 
 				                                 },
 				                                 {name: 'ad', displayName: 'Total Time', width:'20%',
 				                                	 cellTemplate:'<div><label >{{row.entity.timeTotal}}</label></div>',	 
@@ -2616,6 +2635,8 @@ angular.module('newApp')
 			  console.log(data);
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
+			$scope.date = data.dateClick;
+			
 			$scope.clickySessionId=data.sessionId;
 			console.log($scope.clickySessionId);
 		   console.log($scope.latitude);
