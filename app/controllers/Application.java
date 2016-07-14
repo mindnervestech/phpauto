@@ -17498,107 +17498,115 @@ private static void cancelTestDriveMail(Map map) {
     		MultipartFormData body = request().body().asMultipartFormData();
     		
     		
-	    	AuthUser userObj = new AuthUser();
+    		
+	    	
 	    	UserVM vm = form.get();
 	    	
-	    	userObj.firstName = vm.firstName;
-	    	userObj.lastName = vm.lastName;
-	    	userObj.email = vm.email;
-	    	userObj.account = "active";
-	    	userObj.communicationemail = vm.email;
-	    	userObj.phone = vm.phone;
-	    	userObj.role = vm.userType;
-	    	userObj.location = Location.findById(vm.locationId);
-	    	userObj.age = vm.age;
-	    	userObj.commission =vm.commission;
-	    	userObj.contractDur = vm.contractDur;
-	    	userObj.experience = vm.experience;
-	    	userObj.trainingPro = vm.trainingPro;
-	    	userObj.trialPeriod = vm.trialPeriod;
-	    	userObj.trial = vm.trial;
-	    	userObj.userGender = vm.userGender;
-	    	userObj.salary = vm.salary;
-	    	userObj.trainingCost = vm.trainingCost;
-	    	userObj.trainingHours = vm.trainingHours;
-	    	userObj.quota = vm.quota;
-	    	userObj.imageUrl = vm.imageUrl;
-	    	if(vm.premiumFlag.equals("true")){
-	    		userObj.premiumFlag = "1";
-	    	}else{
-	    		userObj.premiumFlag = "0";
-	    	}
-	    	String arr2[] = null;
-	    	 if(body != null) {
-	    		 String abcd= vm.permissions.get(0);
-	 	    	abcd = abcd.replace("]", "");
-	 	    	abcd = abcd.replace("[", "");
-	 	    	abcd = abcd.replace("\"", "");
-	 	    	arr2 = abcd.split(",");
-	    	 }
-	    	
-	    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	    	Random rnd = new Random();
+	    	AuthUser uAuthUser = AuthUser.findByEmail(vm.email);
+	    	AuthUser userObj = new AuthUser();
+	    	if(uAuthUser == null){
+	    		
+		    	userObj.firstName = vm.firstName;
+		    	userObj.lastName = vm.lastName;
+		    	userObj.email = vm.email;
+		    	userObj.account = "active";
+		    	userObj.communicationemail = vm.email;
+		    	userObj.phone = vm.phone;
+		    	userObj.role = vm.userType;
+		    	userObj.location = Location.findById(vm.locationId);
+		    	userObj.age = vm.age;
+		    	userObj.commission =vm.commission;
+		    	userObj.contractDur = vm.contractDur;
+		    	userObj.experience = vm.experience;
+		    	userObj.trainingPro = vm.trainingPro;
+		    	userObj.trialPeriod = vm.trialPeriod;
+		    	userObj.trial = vm.trial;
+		    	userObj.userGender = vm.userGender;
+		    	userObj.salary = vm.salary;
+		    	userObj.trainingCost = vm.trainingCost;
+		    	userObj.trainingHours = vm.trainingHours;
+		    	userObj.quota = vm.quota;
+		    	userObj.imageUrl = vm.imageUrl;
+		    	if(vm.premiumFlag.equals("true")){
+		    		userObj.premiumFlag = "1";
+		    	}else{
+		    		userObj.premiumFlag = "0";
+		    	}
+		    	String arr2[] = null;
+		    	 if(body != null) {
+		    		 String abcd= vm.permissions.get(0);
+		 	    	abcd = abcd.replace("]", "");
+		 	    	abcd = abcd.replace("[", "");
+		 	    	abcd = abcd.replace("\"", "");
+		 	    	arr2 = abcd.split(",");
+		    	 }
+		    	
+		    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		    	Random rnd = new Random();
 
-	    	
-	    	
-	    	   StringBuilder sb = new StringBuilder( 6 );
-	    	   for( int i = 0; i < 6; i++ ) 
-	    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
-	    	
-	    	   userObj.setPassword(sb.toString());
-	    	   List<Permission> permissionList = Permission.getAllPermission();
-	    	   if(vm.userType.equals("General Manager")) {
-	    		  //userObj.permission = permissionList;
-	    		   List<Permission> permissionData = new ArrayList<>();
-	    		   for(Permission obj: permissionList) {
-	    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
-	    				   permissionData.add(obj);
-	    			   }
-	    		   }
-	    		   userObj.permission = permissionData;
-	    	   }
-	    	   
-	    	   if(vm.userType.equals("Photographer")) {
-	    		   List<Permission> permissionData = new ArrayList<>();
-	    		   for(Permission obj: permissionList) {
-	    			   if(obj.name.equals("My Calendar") || obj.name.equals("Dashboard") || obj.name.equals("Inventory")) {
-	    				   permissionData.add(obj);
-	    			   }
-	    		   }
-	    		   userObj.permission = permissionData;
-	    	   }
-	    	   
-	    	   
-	    	   if(vm.userType.equals("Sales Person")) {
-	    		   
-	    		  // String aa = vm.permissions.get(0);
-	    		   List<Permission> permissionData = new ArrayList<>();
-	    		   for(Permission obj: permissionList) {
-	    			   if(body != null) {
-	    				   for(String role:arr2){
-    						   if(obj.name.equals(role)) {
-			    				   permissionData.add(obj);
-	    					   }
-    				   
-	    				   }
-	    			   }else{
-	    				   for(String role:vm.permissions){
-    						   if(obj.name.equals(role)) {
-			    				   permissionData.add(obj);
-	    					   }
-    				   
-	    				   }
-	    			   }
-	    			   
-	    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
-	    				   permissionData.add(obj);
-	    			   }*/
-	    			   
-	    		   }
-	    		   userObj.setPermission(permissionData);
-	    	   }
-	    	   
-	    	   userObj.save();
+		    	
+		    	
+		    	   StringBuilder sb = new StringBuilder( 6 );
+		    	   for( int i = 0; i < 6; i++ ) 
+		    	      sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+		    	
+		    	   userObj.setPassword(sb.toString());
+		    	   List<Permission> permissionList = Permission.getAllPermission();
+		    	   if(vm.userType.equals("General Manager")) {
+		    		  //userObj.permission = permissionList;
+		    		   List<Permission> permissionData = new ArrayList<>();
+		    		   for(Permission obj: permissionList) {
+		    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
+		    				   permissionData.add(obj);
+		    			   }
+		    		   }
+		    		   userObj.permission = permissionData;
+		    	   }
+		    	   
+		    	   if(vm.userType.equals("Photographer")) {
+		    		   List<Permission> permissionData = new ArrayList<>();
+		    		   for(Permission obj: permissionList) {
+		    			   if(obj.name.equals("My Calendar") || obj.name.equals("Dashboard") || obj.name.equals("Inventory Photographer")) {
+		    				   permissionData.add(obj);
+		    			   }
+		    		   }
+		    		   userObj.permission = permissionData;
+		    	   }
+		    	   
+		    	   
+		    	   if(vm.userType.equals("Sales Person")) {
+		    		   
+		    		  // String aa = vm.permissions.get(0);
+		    		   List<Permission> permissionData = new ArrayList<>();
+		    		   for(Permission obj: permissionList) {
+		    			   if(body != null) {
+		    				   for(String role:arr2){
+	    						   if(obj.name.equals(role)) {
+				    				   permissionData.add(obj);
+		    					   }
+	    				   
+		    				   }
+		    			   }else{
+		    				   for(String role:vm.permissions){
+	    						   if(obj.name.equals(role)) {
+				    				   permissionData.add(obj);
+		    					   }
+	    				   
+		    				   }
+		    			   }
+		    			   
+		    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
+		    				   permissionData.add(obj);
+		    			   }*/
+		    			   
+		    		   }
+		    		   userObj.setPermission(permissionData);
+		    	   }
+		    	   
+		    	   userObj.save();
+	    		
+	    	}
+	    		    	
 	    	   DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 	    	   if(vm.userType.equals("Photographer")){
 	    		   PhotographerHoursOfOperation pOperation = new PhotographerHoursOfOperation();
@@ -17701,7 +17709,13 @@ private static void cancelTestDriveMail(Map map) {
 			    		pOperation.portalName = vm.portalName;
 			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
 			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);
-			    			pOperation.user = AuthUser.findById(userObj.id);
+			    			
+			    			if(uAuthUser == null){
+			    				pOperation.user = AuthUser.findById(userObj.id);
+			    			}else{
+			    				pOperation.user = AuthUser.findById(uAuthUser.id);
+			    			}
+			    			
 			    			pOperation.locations = Location.findById(vm.locationId);
 			    			
 					} catch (ParseException e1) {
