@@ -2,17 +2,17 @@
     
     
     <tabset class="nav-tabs2">
-                                <tab>
+                                <tab ng-repeat="portName in portalNameList">
                                     <tab-heading>
-                                        <button type="button"  class="btn btn-blue" ng-click="newlyArrivedTab('Autodealer')">Auto</button>
+                                        <button type="button"  class="btn btn-blue" ng-click="newlyArrivedTab('{{portName.title}}')">{{portName.title}}</button>
                                     </tab-heading>
 								    
     							</tab>
-                               <tab>
+                               <!-- <tab>
                                     <tab-heading>
                                         <button type="button" class="btn btn-blue" ng-click="newlyArrivedTab('MavenFurniture')">MavenFurniture</button>
                                     </tab-heading>
-                               </tab>    
+                               </tab> -->    
      </tabset>
 	<div>
 		<!-- <div class="col-sm-12">

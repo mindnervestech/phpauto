@@ -16,7 +16,7 @@ angular.module('newApp')
     		 $scope.gridOptions.enableVerticalScrollbar = 2;
     		 
      
-    		 
+    			
     		 
     		 $scope.editPhoto = function(row){
     			 console.log(row);
@@ -145,9 +145,9 @@ angular.module('newApp')
 		    						.success(function(data) {
 		    							console.log(data);
 		    							$scope.userLocationId = data;
-		    							if(portalType == "Autodealer"){
-		    							
+		    							if(portalType == "AutoDealer"){
     		    				 if($scope.userType == "Photographer"){
+    		    					 console.log($scope.userLocationId);
     		    				 $http.get('http://www.glider-autos.com/getAllVehicles/'+$scope.userLocationId)
     		    				 //$http.post('http://45.33.50.143:9889/uploadImageFile',$scope.user)
     		    			 		.success(function(data) {
@@ -231,8 +231,7 @@ angular.module('newApp')
 		    						    		                                	 cellTemplate: '<div> <a ng-mouseenter="grid.appScope.mouse(row)" ng-mouseleave="grid.appScope.mouseout(row)" style="line-height: 200%;" title="" data-content="{{row.entity.title}}">{{row.entity.title}}</a></div>',
 		    						    		                                 },
 		    						    		                                  
-		    						    		                                 { name: 'pageViewCount', displayName: 'Views',enableFiltering: false,type:'number',enableColumnMenu: false, width:'7%',cellEditableCondition: false,
-		    						    		                                	 cellTemplate:'<span style="margin-left:10px;">{{row.entity.pageViewCount}}</span><i ng-if="row.entity.sold" title="Vehicle History" style="margin-left:10px;"class="glyphicon glyphicon-eye-open" ng-click="grid.appScope.historyVehicle(row)"></i>',
+		    						    		                                 { name: 'description', displayName: 'Description',enableFiltering: false,type:'number',enableColumnMenu: false, width:'7%',cellEditableCondition: false,
 		    						    		                                 },
 		    						    		                                 { name: 'edit', displayName: '', width:'12%',enableFiltering: false, cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
 		    						    		                                	 cellTemplate:'<i class="glyphicon glyphicon-picture" ng-click="grid.appScope.editPhoto(row)" style="margin-top:7px;margin-left:8px;" title="Edit"></i>  ', 
@@ -254,7 +253,22 @@ angular.module('newApp')
    $scope.vehiClesList = [];
   
    $scope.viewInit = function() {
-	   $scope.newlyArrivedTab('Autodealer');
+	   
+	   $http.get('/getTimeTableOfPhotos').success(function(data) {
+				$scope.portalNameList = data.postalNameList;
+				var portal = 0;
+				   angular.forEach($scope.portalNameList, function(obj, index){
+					   if(index == 0){
+						   portal = obj.title
+						   console.log(portal);
+					   }
+				   });
+				   $scope.newlyArrivedTab(portal);
+		 });	
+	   
+	   
+	 
+	   
    }
    
    /*$scope.deleteVehicle = function(row){
