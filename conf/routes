@@ -41,6 +41,7 @@ POST    /UpdateLeadType	      controllers.Application.UpdateLeadType()
 POST    /UpdateName	      controllers.Application.UpdateName()
 POST     /addnewrUser           controllers.Application.addnewrUser()
 POST     /addnewForm           controllers.Application.addnewForm()
+POST     /addnewWebSiteForm           controllers.Application.addnewWebSiteForm()
 GET   /getAllLeadData			controllers.Application.getAllLeadData()
 GET   /allFormName			controllers.Application.allFormName()
 # Map static resources from the /public folder to the /assets URL path
@@ -207,6 +208,7 @@ POST	/editVehicleProfileImage		     controllers.Application.editVehicleProfileIm
 POST	/editContactImage		controllers.Application.editContactImage()
 GET		/getImageConfig				controllers.Application.getImageConfig
 GET		/getLeadTypeData				controllers.Application.getLeadTypeData()
+GET		/getFormWebSiteData				controllers.Application.getFormWebSiteData()
 GET		/getsystemInfo				controllers.Application.getsystemInfo()
 GET		/saveSliderConfig/:width/:height	controllers.Application.saveSliderConfig(width:Integer,height:Integer)
 GET		/saveFeaturedConfig/:width/:height	controllers.Application.saveFeaturedConfig(width:Integer,height:Integer)

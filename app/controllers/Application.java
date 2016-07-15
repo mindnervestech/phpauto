@@ -106,6 +106,7 @@ import models.LeadsDateWise;
 import models.Location;
 import models.MarketingAcounts;
 import models.MyProfile;
+import models.NewFormWebsite;
 import models.NewsletterDate;
 import models.Permission;
 import models.PhotographerHoursOfOperation;
@@ -199,6 +200,7 @@ import viewmodel.LeadVM;
 import viewmodel.LocationMonthPlanVM;
 import viewmodel.LocationVM;
 import viewmodel.LocationWiseDataVM;
+import viewmodel.NewFormWebsiteVM;
 import viewmodel.NoteVM;
 import viewmodel.PageVM;
 import viewmodel.PinVM;
@@ -10441,6 +10443,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	   lead.leadName = vm.leadName;
     	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     	   lead.save();
+    	   
+    	   NewFormWebsite site = new NewFormWebsite();
+    	   site.lead_name = vm.leadName;
+    	   site.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	   site.save();
    		
     	   return ok();
 	}
@@ -10521,7 +10528,49 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		       	   lead.save();*/
 			}
 		
-		
+		 public static Result addnewWebSiteForm() {
+				Form<NewFormWebsiteVM> form = DynamicForm.form(NewFormWebsiteVM.class).bindFromRequest();
+				NewFormWebsiteVM  vm=form.get();
+				//AuthUser user=new AuthUser();
+				Date date = new Date();
+				
+				NewFormWebsite lead = new NewFormWebsite();
+				    	 
+		    	   lead.id = vm.id;
+		    	   lead.title = vm.title;
+		    	   lead.form_type = vm.form_type;
+		    	   lead.lead_name = vm.lead_name;
+		    	   lead.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		    	   lead.save();
+		   		
+		    	   return ok();
+		    	   
+		    }
+		 public static Result getFormWebSiteData(){
+		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+		    		return ok(home.render("",userRegistration));
+		    	} else {
+		    		List<NewFormWebsite> leadtypeObjList = NewFormWebsite.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		    		
+			    	SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+			    	
+			    	ArrayList<NewFormWebsiteVM> leadVMs = new ArrayList<>(); 
+			     	for(NewFormWebsite vm : leadtypeObjList){
+			     		
+			     		NewFormWebsiteVM lead = new NewFormWebsiteVM();
+			     		lead.id = vm.id;
+			     		lead.title = vm.title;
+			     		lead.form_type = vm.form_type;
+			     		lead.lead_name = vm.lead_name;
+			     		
+			     		leadVMs.add(lead);
+			  	}
+			     	
+			     	return ok(Json.toJson(leadVMs));
+		    		
+		    	}
+		    }
+		 
 		public static Result getLeadTypeList() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
@@ -30809,7 +30858,7 @@ private static void cancelTestDriveMail(Map map) {
       				count3=Double.parseDouble(lis.uniqueVisitor);
       				}
       			if(lis.action != null){
-      			count7=Double.parseDouble(lis.action);
+      			count7=count7+Double.parseDouble(lis.action);
       			}
       			
     			Integer langValue = mapOffline.get(lis.currDate.toString()); 

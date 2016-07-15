@@ -13626,7 +13626,7 @@ $scope.leadTypeAll = function(){
 		                                 { name: 'leadName', displayName: 'Lead Type', width:'50%',cellEditableCondition: false
 		                                 },
 		                                 {name:'org', displayName:'Show on Website', width:'15%',
-		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Contact Us\'" ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row,checkValue)">  </div>',
+		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Contact Us\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Request For Appointment\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row,checkValue)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
     		                                 cellTemplate:'<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test\' && row.entity.leadName != \'Trade In\'  && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.removeUser(row)"  title="Delete"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test\' && row.entity.leadName != \'Trade In\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
@@ -13760,20 +13760,80 @@ $scope.leadTypeAll = function(){
 				//$('#createLeadPopup').click();
 				$('#completedPopup').modal('show');
 			}
-			
+		 
+		
+		 
 			$scope.savedNewForm = function(){
-			console.log("::::::insideRegester");
-			console.log($scope.leadcreate);
 			$http.post("/addnewForm",$scope.addform).success(function(data){
-					$scope.form = data;
-				 console.log("::::::success")
-					
-				 $("#completedPopup").modal('hide');
+				$scope.form = data;
+				$("#completedPopup").modal('hide');
 				 $scope.allFormName();
 				});
 			}
-		 
-		
+			//$scope.formweb = {}
+			$scope.flagForChart1 = true;
+			$scope.website = {};
+			$scope.savedNewFormWebsite = function(){
+				console.log($scope.website);
+				$http.post("/addnewWebSiteForm",$scope.website).success(function(data){
+					$scope.form = data;
+					console.log(data);
+					
+					 $("#completedPopup").modal('hide');
+					});
+				
+				
+				}
+			$scope.webSiteinfo = function(){
+				$http.get('/getFormWebSiteData').success(function(data){
+					
+					console.log(data);
+					
+		 			$scope.gridOptions.data = data;
+		 			console.log($scope.gridOptions.data);
+		 			console.log("grid data")
+				});
+				$scope.gridOptions.columnDefs = [
+				                                 { name: 'id', displayName: 'Id', width:'10%',cellEditableCondition: false
+				                                 },
+				                                 { name: 'title', displayName: 'Title', width:'30%',cellEditableCondition: false
+				                                 },
+				                                 {name:'form_type', displayName:'Form Type', width:'30%'},
+				                                 { name: 'lead_name', displayName: 'Lead Name ', width:'30%' },
+				                                   
+				                                 ];
+			}
+			
+			
+			 $scope.addNewFormWebSite = function(){
+					console.log("add form website");
+					$scope.website={"title":""};
+					$('#completedPopup').modal('show');
+					$scope.leadTypeAllData();
+					
+				}
+			 $scope.leadTypeAllData = function(){
+					
+					console.log("sdfghjkp0000");
+					$http.get('/getLeadTypeData').success(function(data){
+						console.log("lead type data");
+						console.log(data);
+						$scope.leadtypeObjList = data;
+			 		});
+				}
+			 
+			 $scope.showOtherFild = 0;
+			 $scope.selectOption = function(){
+					var type = $('#form_type').val();
+					console.log(type);
+					
+					if(type == "Contact Form"){
+						$scope.showOtherFild = 1;
+						
+					}
+				}
+				
+				
 		 $scope.EditUser = function(row){
 			
 			 $('#editPopup').click();
@@ -13816,6 +13876,11 @@ $scope.leadTypeAll = function(){
 	$scope.form = function() {
 		//console.log("ddd22");
 		$location.path('/form');
+		
+	}
+	$scope.webSite = function() {
+		console.log("wesite");
+		$location.path('/webSite');
 		
 	}
 	
