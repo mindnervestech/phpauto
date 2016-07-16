@@ -13898,9 +13898,10 @@ $scope.leadTypeAll = function(){
 					
 					if(type == "Contact Form"){
 						$scope.showOtherFild = 1;
-						
 					}
-					
+					if(type == "Call to Action" || type == "Survey"){
+						$scope.showOtherFild = 0;
+					}
 				}
 				
 			 
