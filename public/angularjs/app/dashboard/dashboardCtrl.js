@@ -13478,9 +13478,12 @@ angular.module('newApp')
 	 $scope.gridOptions.enableHorizontalScrollbar = 0;
 	 $scope.gridOptions.enableVerticalScrollbar = 2;
 	 
-	
+	$scope.formInit = function(){
+		$scope.systemInfo();
+	}
 	
 	$scope.init = function() {
+		
 		$http.get('/getImageConfig')
 		.success(function(data) {
 			$scope.cover=data.coverData;
@@ -13574,9 +13577,10 @@ angular.module('newApp')
 		
 	}
 	
+	
+	
 	$scope.flagForChart1 = true;
 	$scope.systemInfo = function(){
-		
 		console.log("sdfghjkp0000");
 		$http.get('/getsystemInfo').success(function(data){
 			console.log("systemInfo");
@@ -13784,6 +13788,19 @@ $scope.leadTypeAll = function(){
 				
 				
 				}
+			$scope.updateNewFormWebsite = function(){
+				console.log($scope.website);
+				console.log($scope.rowDataVal);
+				$scope.website.id = $scope.rowDataVal.id;
+				$http.post("/updatenewWebSiteForm",$scope.website).success(function(data){
+					$scope.form = data;
+					console.log(data);
+					//$('#outcome').click();
+					 $("#outcome").modal('hide');
+					});
+				
+				
+				}
 			$scope.webSiteinfo = function(){
 				$http.get('/getFormWebSiteData').success(function(data){
 					
@@ -13796,11 +13813,14 @@ $scope.leadTypeAll = function(){
 				$scope.gridOptions.columnDefs = [
 				                                 { name: 'id', displayName: 'Id', width:'10%',cellEditableCondition: false
 				                                 },
-				                                 { name: 'title', displayName: 'Title', width:'30%',cellEditableCondition: false
+				                                 { name: 'title', displayName: 'Title', width:'20%',cellEditableCondition: false
 				                                 },
-				                                 {name:'form_type', displayName:'Form Type', width:'30%'},
-				                                 { name: 'lead_name', displayName: 'Lead Name ', width:'30%' },
-				                                   
+				                                 {name:'form_type', displayName:'Form Type', width:'20%'},
+				                                 { name: 'lead_name', displayName: 'Lead Name ', width:'20%' },
+				                                 { name: 'outcome', displayName: 'Outcome ', width:'15%' },
+				                                 {name:'or', displayName:'', width:'15%',
+				                                	 cellTemplate:'<div class="link-domain"ng-click="grid.appScope.outcome(row)" >Outcome  &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click=""  title="Edit"></i></div>',
+				                                 }, 
 				                                 ];
 			}
 			
@@ -13812,6 +13832,12 @@ $scope.leadTypeAll = function(){
 					$scope.leadTypeAllData();
 					
 				}
+			 $scope.outcome = function(row){
+					console.log(row.entity);
+					$('#outcome').click();
+					$scope.rowDataVal = row.entity;
+				};
+			 
 			 $scope.leadTypeAllData = function(){
 					
 					console.log("sdfghjkp0000");

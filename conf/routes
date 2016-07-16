@@ -42,6 +42,7 @@ POST    /UpdateName	      controllers.Application.UpdateName()
 POST     /addnewrUser           controllers.Application.addnewrUser()
 POST     /addnewForm           controllers.Application.addnewForm()
 POST     /addnewWebSiteForm           controllers.Application.addnewWebSiteForm()
+POST     /updatenewWebSiteForm           controllers.Application.updatenewWebSiteForm()
 GET   /getAllLeadData			controllers.Application.getAllLeadData()
 GET   /allFormName			controllers.Application.allFormName()
 # Map static resources from the /public folder to the /assets URL path

@@ -10546,6 +10546,23 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	   return ok();
 		    	   
 		    }
+		 
+		 public static Result updatenewWebSiteForm() {
+				Form<NewFormWebsiteVM> form = DynamicForm.form(NewFormWebsiteVM.class).bindFromRequest();
+				NewFormWebsiteVM  vm=form.get();
+				//AuthUser user=new AuthUser();
+				Date date = new Date();
+				
+				NewFormWebsite lead =  NewFormWebsite.findById(vm.id);
+				    	 
+		    	   if(lead != null){
+		    	   lead.setOutcome(vm.outcome);
+		    	   }
+		    	   lead.update();
+		   		
+		    	   return ok();
+		    	   
+		    }
 		 public static Result getFormWebSiteData(){
 		    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 		    		return ok(home.render("",userRegistration));
@@ -10562,6 +10579,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			     		lead.title = vm.title;
 			     		lead.form_type = vm.form_type;
 			     		lead.lead_name = vm.lead_name;
+			     		lead.outcome = vm.outcome;
 			     		
 			     		leadVMs.add(lead);
 			  	}

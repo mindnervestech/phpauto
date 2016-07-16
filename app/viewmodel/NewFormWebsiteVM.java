@@ -8,4 +8,5 @@ public class NewFormWebsiteVM {
 	public String form_type;
 	public String lead_name;
 	public String form_type1;
+	public String outcome;
 }

@@ -12,8 +12,8 @@
   </ul>
     <ul id="myTabs" class="nav nav-tabs" role="tablist"> 
       
-      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="true"><button type="button" class="btn btn-blue"  ng-click="systemInfo()">System</button></a></li>
-      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  >Website</button></a></li>
+      <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue"  ng-click="form()">System</button></a></li>
+      <li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="true"><button type="button" class="btn btn-blue" ng-click="webSite() " >Website</button></a></li>
     </ul>
 	     
 	     <div class="col-md-12" id="createLeadPopup">
@@ -70,6 +70,31 @@
 								            </div>
 								        </div>
 								    </div>
+	     
+								     <div style="display:none;" id="outcome" data-toggle="modal" data-target="#modal-outcome"></div>
+							<div class="modal fade" id="modal-outcome" tabindex="-1" role="dialog" aria-hidden="true">
+							        <div class="modal-dialog">
+							            <div class="modal-content">
+							                <div class="modal-header">
+							                  
+							                </div>
+							                <form ng-submit="updateNewFormWebsite()">  
+							                    <h4 class="modal-title" style="margin-left:16px;"><strong>OutComes</strong></h4>
+							               <div class="col-sm-6" ">
+												  	 <select  class="form-control"  ng-model=" website.outcome"   required>
+													          	<option value="">---Select---</option>
+													          	<option  value="New Customer Request"> New Customer Request</option>
+													            <option  value=" Generate PDF">  Generate PDF</option>
+													 </select>
+											</div>
+							               <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal" style="margin-top:50px;">Close</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed" style="margin-top:50px;">Add</button>
+								           </div>
+							            </form>
+							            </div>
+							        </div>
+							</div>
 	     
 	     
 	 <div style="display:none;" id="editPopup" data-toggle="modal" data-target="#editPopups"></div>

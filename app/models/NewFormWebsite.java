@@ -17,7 +17,7 @@ public class NewFormWebsite extends Model {
 	public String title;
 	public String form_type;
 	public String lead_name;
-		
+	public String outcome;
 	
 	@ManyToOne
 	public Location locations;
@@ -34,6 +34,16 @@ public class NewFormWebsite extends Model {
 
 
 	
+
+	public String getOutcome() {
+		return outcome;
+	}
+
+
+	public void setOutcome(String outcome) {
+		this.outcome = outcome;
+	}
+
 
 	public String getLead_name() {
 		return lead_name;
