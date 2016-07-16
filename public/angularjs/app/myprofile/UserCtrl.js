@@ -618,7 +618,7 @@ angular.module('newApp')
 		$scope.user.imageUrl = $scope.img;
 		if($scope.user.userType == "Photographer"){
 			if(angular.isUndefined(logofile)) {
-				if($scope.emailMsg == "") {
+				//if($scope.emailMsg == "") {
 					$http.post('http://45.33.50.143:7071/uploadImageFile',$scope.user)
 					.success(function(data) {
 						$scope.user.firstName=" ";
@@ -635,9 +635,9 @@ angular.module('newApp')
 						});
 			          //  $scope.init();
 					});
-				}
+				//}
 			} else {
-				if($scope.emailMsg == "") {
+				//if($scope.emailMsg == "") {
 				   $upload.upload({
 			            url : 'http://45.33.50.143:7071/uploadImageFile',
 			            method: 'post',
@@ -660,11 +660,11 @@ angular.module('newApp')
 						});
 			            //$scope.init();
 			        });
-				}
+				//}
 			}
 		}else{
 			if(angular.isUndefined(logofile)) {
-				if($scope.emailMsg == "") {
+			//	if($scope.emailMsg == "") {
 					$http.post('/uploadImageFile',$scope.user)
 					.success(function(data) {
 						$scope.user.firstName=" ";
@@ -681,9 +681,9 @@ angular.module('newApp')
 						});
 			            $scope.init();
 					});
-				}
+				//}
 			} else {
-				if($scope.emailMsg == "") {
+				//if($scope.emailMsg == "") {
 				   $upload.upload({
 			            url : '/uploadImageFile',
 			            method: 'post',
@@ -706,7 +706,7 @@ angular.module('newApp')
 						});
 			            $scope.init();
 			        });
-				}
+				//}
 			}
 		}
 		
