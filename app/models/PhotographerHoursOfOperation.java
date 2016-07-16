@@ -245,6 +245,11 @@ public class PhotographerHoursOfOperation extends Model {
 	public static List<PhotographerHoursOfOperation> findByListUser(AuthUser user) {
 		return find.where().eq("user", user).findList();
 	}
+	
+	public static PhotographerHoursOfOperation findByUserAndLocation(AuthUser user,Location location) {
+		return find.where().eq("user", user).eq("locations", location).findUnique();
+	}
+	
 	public static PhotographerHoursOfOperation findByUser(AuthUser user) {
 		return find.where().eq("user", user).findUnique();
 	}
