@@ -82,8 +82,8 @@ public class MyCalendarController extends Controller {
 					 if(dayOfWeek == 1){
 						 HoursOperation hOperation = new HoursOperation();
 						 hOperation.id = pOperation.id+"_sun";
-						 hOperation.openTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.sunOpenTime);
-						 hOperation.closeTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.sunCloseTime);
+						 hOperation.openTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.sunOpenTime);
+						 hOperation.closeTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.sunCloseTime);
 						 hOperation.portalName = pOperation.portalName;
 						 hOperation.contractDurEndDate = df.format(dt);
 						 hOperation.contractDurStartDate = df.format(dt);
@@ -102,8 +102,8 @@ public class MyCalendarController extends Controller {
 					 if(dayOfWeek == 2){
 						 HoursOperation hOperation = new HoursOperation();
 						 hOperation.id = pOperation.id+"_mon";
-						 hOperation.openTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.monOpenTime);
-						 hOperation.closeTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.monCloseTime);
+						 hOperation.openTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.monOpenTime);
+						 hOperation.closeTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.monCloseTime);
 						 hOperation.portalName = pOperation.portalName;
 						 hOperation.contractDurEndDate = df.format(dt);
 						 hOperation.contractDurStartDate = df.format(dt);
@@ -122,8 +122,8 @@ public class MyCalendarController extends Controller {
 					 if(dayOfWeek == 3){
 						 HoursOperation hOperation = new HoursOperation();
 						 hOperation.id = pOperation.id+"_tue";
-						 hOperation.openTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.tueOpenTime);
-						 hOperation.closeTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.tueCloseTime);
+						 hOperation.openTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.tueOpenTime);
+						 hOperation.closeTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.tueCloseTime);
 						 hOperation.portalName = pOperation.portalName;
 						 hOperation.contractDurEndDate = df.format(dt);
 						 hOperation.contractDurStartDate = df.format(dt);
@@ -143,8 +143,8 @@ public class MyCalendarController extends Controller {
 					 if(dayOfWeek == 4){
 						 HoursOperation hOperation = new HoursOperation();
 						 hOperation.id = pOperation.id+"_wed";
-						 hOperation.openTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.wedOpenTime);
-						 hOperation.closeTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.wedCloseTime);
+						 hOperation.openTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.wedOpenTime);
+						 hOperation.closeTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.wedCloseTime);
 						 hOperation.portalName = pOperation.portalName;
 						 hOperation.contractDurEndDate = df.format(dt);
 						 hOperation.locationId = pOperation.locations.id;
@@ -164,8 +164,8 @@ public class MyCalendarController extends Controller {
 					 if(dayOfWeek == 5){
 						 HoursOperation hOperation = new HoursOperation();
 						 hOperation.id = pOperation.id+"_thu";
-						 hOperation.openTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.thuOpenTime);
-						 hOperation.closeTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.thuCloseTime);
+						 hOperation.openTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.thuOpenTime);
+						 hOperation.closeTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.thuCloseTime);
 						 hOperation.portalName = pOperation.portalName;
 						 hOperation.contractDurEndDate = df.format(dt);
 						 hOperation.contractDurStartDate = df.format(dt);
@@ -184,8 +184,8 @@ public class MyCalendarController extends Controller {
 					 if(dayOfWeek == 6){
 						 HoursOperation hOperation = new HoursOperation();
 						 hOperation.id = pOperation.id+"_fri";
-						 hOperation.openTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.friOpenTime);
-						 hOperation.closeTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.friCloseTime);
+						 hOperation.openTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.friOpenTime);
+						 hOperation.closeTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.friCloseTime);
 						 hOperation.portalName = pOperation.portalName;
 						 hOperation.contractDurEndDate = df.format(dt);
 						 hOperation.locationId = pOperation.locations.id;
@@ -204,8 +204,8 @@ public class MyCalendarController extends Controller {
 					 if(dayOfWeek == 7){
 						 HoursOperation hOperation = new HoursOperation();
 						 hOperation.id = pOperation.id+"_sat";
-						 hOperation.openTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.satOpenTime);
-						 hOperation.closeTime = new SimpleDateFormat("hh:mm:ss").format(pOperation.satCloseTime);
+						 hOperation.openTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.satOpenTime);
+						 hOperation.closeTime = new SimpleDateFormat("HH:mm:ss").format(pOperation.satCloseTime);
 						 hOperation.portalName = pOperation.portalName;
 						 hOperation.contractDurEndDate = df.format(dt);
 						 hOperation.locationId = pOperation.locations.id;
@@ -456,54 +456,56 @@ public class MyCalendarController extends Controller {
 				 }
 				 hOperation.update();
 				 
-				 
-				 if(!originArr[0].equals("0")){
-					 try {
-							ajDate = df.parse(originArr[0]);
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						 c.setTime(ajDate); 
-						 dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-						 if(dayOfWeek == 1){
-								hOperation.setSunOpenTime(null);
-								hOperation.setSunCloseTime(null);
-								hOperation.setSunOpen(0);
-							 
-						 }
-						 if(dayOfWeek == 2){
-								hOperation.setMonOpenTime(null);
-								hOperation.setMonCloseTime(null);
-								hOperation.setMonOpen(0);
-						 }
-						 if(dayOfWeek == 3){
-								hOperation.setTueOpenTime(null);
-								hOperation.setTueCloseTime(null);
-								hOperation.setTueOpen(0);
-						 }
-						 if(dayOfWeek == 4){
-								hOperation.setWedOpenTime(null);
-								hOperation.setWedCloseTime(null);
-								hOperation.setWedOpen(0);
-						 }
-						 if(dayOfWeek == 5){
-								hOperation.setThuOpenTime(null);
-								hOperation.setThuCloseTime(null);
-								hOperation.setThuOpen(0);
-						 }
-						 if(dayOfWeek == 6){
-								hOperation.setFriOpenTime(null);
-								hOperation.setFriCloseTime(null);
-								hOperation.setFriOpen(0);
-						 }
-						 if(dayOfWeek == 7){
-								hOperation.setSatOpenTime(null);
-								hOperation.setSatCloseTime(null);
-								hOperation.setSatOpen(0);
-						 }
-						 hOperation.update();
+				 if(!arr[0].equals(originArr[0])){
+					 if(!originArr[0].equals("0")){
+						 try {
+								ajDate = df.parse(originArr[0]);
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							 c.setTime(ajDate); 
+							 dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+							 if(dayOfWeek == 1){
+									hOperation.setSunOpenTime(null);
+									hOperation.setSunCloseTime(null);
+									hOperation.setSunOpen(0);
+								 
+							 }
+							 if(dayOfWeek == 2){
+									hOperation.setMonOpenTime(null);
+									hOperation.setMonCloseTime(null);
+									hOperation.setMonOpen(0);
+							 }
+							 if(dayOfWeek == 3){
+									hOperation.setTueOpenTime(null);
+									hOperation.setTueCloseTime(null);
+									hOperation.setTueOpen(0);
+							 }
+							 if(dayOfWeek == 4){
+									hOperation.setWedOpenTime(null);
+									hOperation.setWedCloseTime(null);
+									hOperation.setWedOpen(0);
+							 }
+							 if(dayOfWeek == 5){
+									hOperation.setThuOpenTime(null);
+									hOperation.setThuCloseTime(null);
+									hOperation.setThuOpen(0);
+							 }
+							 if(dayOfWeek == 6){
+									hOperation.setFriOpenTime(null);
+									hOperation.setFriCloseTime(null);
+									hOperation.setFriOpen(0);
+							 }
+							 if(dayOfWeek == 7){
+									hOperation.setSatOpenTime(null);
+									hOperation.setSatCloseTime(null);
+									hOperation.setSatOpen(0);
+							 }
+							 hOperation.update();
+					 }
 				 }
+				
 				 
 		    		
 	    		return ok();

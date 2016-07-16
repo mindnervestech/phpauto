@@ -180,7 +180,7 @@ angular.module('newApp')
 				 		//$scope.uploadPhotoUrl="http://www.glider-autos.com/uploadPhotos/"+$scope.userLocationId;	
 			 }
 			else{
-				 var element1 = angular.element("<form role='form' id='dropzoneFrm' action='/uploadPhotos' method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$routeParams.vinNew+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+				 var element1 = angular.element("<form role='form' id='dropzoneFrm' action='/uploadPhotos' method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='productId' value='"+$scope.productId+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
 				 $("#showDiv").append(element1);
 				 $scope.getImages();
 				 $scope.setDropZone();
@@ -195,6 +195,7 @@ angular.module('newApp')
 			 $scope.specification = data;
 			 $scope.customData = data.customMapData;
 			 console.log($scope.customData);
+			 $scope.specification.collection=data.collection;
 			 if($scope.customData.time_range != undefined){
 				 $("#bestTimes").val($scope.customData.time_range);
 			 }
@@ -270,7 +271,6 @@ angular.module('newApp')
 	   $scope.fuelTypeChange = function(){
 		   $('#fuelTypeSearch_value').val($scope.vinData.specification.fuelType);
 	   }*/
-	
 	
 	$scope.gridsterOpts = {
 			
