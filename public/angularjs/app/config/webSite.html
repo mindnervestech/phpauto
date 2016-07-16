@@ -58,7 +58,7 @@
 												</div>
 												<div class="col-md-12 form-group">
 													<div class="col-md-4">
-														<label class="control-label">Lead Name</label>
+														<label class="control-label"  ng-if="website.form_type == 'Contact Form'">Lead Name</label>
 													</div>
 													<div class="col-sm-6" ng-if="showOtherFild == 1">
 															 <select  class="form-control"  ng-model="website.lead_name"   required>
@@ -144,12 +144,13 @@
 					</div>
 					<div class="col-md-12 form-group">
 						<div class="col-md-4">
-							<label class="control-label">Lead Name</label>
+							<label class="control-label"  ng-if="website.form_type == 'Contact Form'">Lead Name</label>
 						</div>
+						
 						<div class="col-sm-6" ng-if="website.form_type == 'Contact Form'">
 								 <select  class="form-control"  ng-model="website.lead_name"   required>
 													          	
-										<option ng-repeat="item in leadtypeObjList" ng-if="item.leadName != 'Request More Info' && item.leadName != 'Request For Appointment'  && item.leadName != 'Contact Us'" value="{{item.leadName}}">{{item.leadName}}</option>
+										<option ng-repeat="item in leadtypeObjList" ng-if="item.leadName != 'Request More Info' && item.leadName != 'Request For Appointment'  && item.leadName != 'Contact Us'" value="{{item.leadName}}" ng-selected="item.leadName == website.lead_name">{{item.leadName}}</option>
 								 </select>
 													    
 						</div>

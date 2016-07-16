@@ -10572,12 +10572,17 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 				
 				NewFormWebsite lead =  NewFormWebsite.findById(vm.id);
 				    	 
-		    	   //if(lead != null){
+		    	   
 		    		   lead.setTitle(vm.title);
 		    		   lead.setForm_type(vm.form_type);
-		    		   lead.setLead_name(vm.lead_name);
-		    	   //lead.setOutcome(vm.outcome);
-		    	  // }
+		    		   if(vm.form_type == "Contact Form")
+		    		   {
+		    			   lead.setLead_name(vm.lead_name);
+		    		   }
+		    		   else
+		    		   {
+		    			   lead.setLead_name("");
+		    		   }
 		    	   lead.update();
 		   		
 		    	   return ok();
