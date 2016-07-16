@@ -17673,6 +17673,17 @@ private static void cancelTestDriveMail(Map map) {
 	    		    	
 	    	   DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 	    	   if(vm.userType.equals("Photographer")){
+	    		   
+	    		   AuthUser user = null;
+	   	    	if(uAuthUser == null){
+	   				user = AuthUser.findById(userObj.id);
+	   			}else{
+	   				user = AuthUser.findById(uAuthUser.id);
+	   			}
+	   	    	
+	   	    	PhotographerHoursOfOperation php = PhotographerHoursOfOperation.findByUserAndLocation(user, Location.findById(vm.locationId));
+	   	    	if(php == null){
+	   	    		
 	    		   PhotographerHoursOfOperation pOperation = new PhotographerHoursOfOperation();
 			    	
 			    	try {
@@ -17773,7 +17784,6 @@ private static void cancelTestDriveMail(Map map) {
 			    		pOperation.portalName = vm.portalName;
 			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
 			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);
-			    			
 			    			if(uAuthUser == null){
 			    				pOperation.user = AuthUser.findById(userObj.id);
 			    			}else{
@@ -17788,6 +17798,7 @@ private static void cancelTestDriveMail(Map map) {
 					}
 			    	
 			    	pOperation.save();
+	    	    }	
 	    	   }
 	    	  
 		    	
@@ -17825,8 +17836,15 @@ private static void cancelTestDriveMail(Map map) {
 	    		String gmail=details.host;
 	    	final	String emailUser=details.username;
 	    	final	String emailPass=details.passward;
-	    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
-	    	   SiteLogo logo = SiteLogo.findByLocation(vm.locationId);  //findByUser(logoUser);
+	    	
+	    	if(uAuthUser == null){
+	    		AuthUser logoUser = AuthUser.findById(userObj.id);
+			}else{
+				AuthUser logoUser = AuthUser.findById(uAuthUser.id);
+			}
+	    	
+	    	   
+	    	   SiteLogo logo = SiteLogo.findByLocation(vm.locationId);
 	    		Properties props = new Properties();
 		 		props.put("mail.smtp.auth", "true");
 		 		props.put("mail.smtp.starttls.enable", "true");
