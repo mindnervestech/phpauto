@@ -17709,7 +17709,7 @@ private static void cancelTestDriveMail(Map map) {
 	   				user = AuthUser.findById(uAuthUser.id);
 	   			}
 	   	    	
-	   	    	PhotographerHoursOfOperation php = PhotographerHoursOfOperation.findByUserAndLocation(user, Location.findById(vm.locationId));
+	   	    	PhotographerHoursOfOperation php = PhotographerHoursOfOperation.findByUserAndLocation(user, Location.findById(vm.locationId),"AutoDealer");
 	   	    	if(php == null){
 	   	    		
 	    		   PhotographerHoursOfOperation pOperation = new PhotographerHoursOfOperation();
