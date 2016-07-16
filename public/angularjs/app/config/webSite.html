@@ -45,7 +45,7 @@
         											<div class="form-group col-sm-12">
 												  	 <div class="col-sm-6">
 												  	 <h4 class="modal-title" style="margin-top:18px;margin-left:-30px">Form Type </h4>
-												  	 	<select  class="form-control" style="margin-top:-30px;margin-left:135px;margin-bottom:30px;" id="form_type" ng-model=" website.form_type"  ng-change="selectOption() "  required>
+												  	 	<select  class="form-control" style="margin-top:-30px;margin-left:135px;margin-bottom:30px;" id="form_type" ng-model="website.form_type"  ng-change="selectOption()"  required>
 													          	<option value="">---Select---</option>
 													          	<option value="Contact Form">Contact Form</option>
 													            <option value="Call to Action">Call to Action</option>
@@ -54,7 +54,7 @@
 													    </select>
 												  	 </div>
 												  	 <div class="col-sm-6" ng-if="showOtherFild == 1">
-												  	 <select  class="form-control" style="margin-top:64px;margin-left:-134px;margin-bottom:85px;width:239px;" ng-model=" website.lead_name"   required>
+												  	 <select  class="form-control" style="margin-top:64px;margin-left:-134px;margin-bottom:85px;width:239px;" ng-model="website.lead_name"   required>
 													          	
 													          	<option ng-repeat="item in leadtypeObjList" ng-if="item.leadName != 'Request More Info' && item.leadName != 'Request For Appointment'  && item.leadName != 'Contact Us'" value="{{item.leadName}}">{{item.leadName}}</option>
 													            
@@ -97,31 +97,60 @@
 							</div>
 	     
 	     
-	 <div style="display:none;" id="editPopup" data-toggle="modal" data-target="#editPopups"></div>
-	<div class="modal fade" id="editPopups" tabindex="-1" role="dialog" aria-hidden="true">
+	
+        
+         <div style="display:none;" id="editPopupwebsite" data-toggle="modal" data-target="#editPopupswebsite"></div>
+		<div class="modal fade" id="editPopupswebsite" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-                    <h4 class="modal-title"><strong>Name</strong></h4>
+                    <h4 class="modal-title"><strong>Form Website</strong></h4>
                 </div>
 			<div class="modal-body">
-				<form ng-submit="Updatename(name)">
+				<form ng-submit="editFormWebsite(website)">
 					
 					
 					<div class="col-md-12 form-group">
 						<div class="col-md-4">
-							<label> Lead Type</label>
+							<label>Title</label>
 						</div>
 						<div class="col-md-6">
-							<input type="text" name="Name" class="form-control"
-								ng-model="name" id="name"
+							<input type="text" name="title" class="form-control"
+								ng-model="website.title" id="title" 
 								required />
 						</div>
 					</div>
+					<div class="col-md-12 form-group">
+						<div class="col-md-4">
+							<label>Form Type</label>
+						</div>
+						<div class="col-md-6">
+							<select  class="form-control"  id="form_type" ng-model="website.form_type"  ng-change="selectOption(website.form_type)"  required>
+									<option value="">---Select---</option>
+									<option value="Contact Form">Contact Form</option>
+									<option value="Call to Action">Call to Action</option>
+									<option value="Survey">Survey</option>
+													           
+							 </select>
+						</div>
+					</div>
+					<div class="col-md-12 form-group">
+						<div class="col-md-4">
+							<label class="control-label">Lead Name</label>
+						</div>
+						<div class="col-sm-6" ng-if="website.form_type == 'Contact Form'">
+								 <select  class="form-control"  ng-model="website.lead_name"   required>
+													          	
+										<option ng-repeat="item in leadtypeObjList" ng-if="item.leadName != 'Request More Info' && item.leadName != 'Request For Appointment'  && item.leadName != 'Contact Us'" value="{{item.leadName}}">{{item.leadName}}</option>
+								 </select>
+													    
+						</div>
+					</div>
+					
 					
 					<input type="submit" class="btn btn-primary btn-embossed"
-						value="Edit Name">
+						value="submit">
 
 				</form>
 			</div>
@@ -131,6 +160,8 @@
                
             </div>
         </div>
+        
+        
   </div> 
 
    
