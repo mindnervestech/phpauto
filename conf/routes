@@ -38,7 +38,7 @@ POST     /registerUser           controllers.RegistrationController.registerUser
 POST    /updateRegisterUser	      controllers.RegistrationController.updateRegisterUser()
 POST    /updateClientUser	      controllers.RegistrationController.updateClientUser()
 POST    /UpdateLeadType	      controllers.Application.UpdateLeadType()
-POST    /UpdateName	      controllers.Application.UpdateName()
+
 POST     /addnewrUser           controllers.Application.addnewrUser()
 POST     /addnewForm           controllers.Application.addnewForm()
 POST     /addnewWebSiteForm           controllers.Application.addnewWebSiteForm()
