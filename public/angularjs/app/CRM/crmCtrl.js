@@ -20,7 +20,7 @@ angular.module('newApp')
    		    useExternalFiltering: true,
    		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
    		 };
-   		 $scope.gridOptions.enableHorizontalScrollbar = 0;
+   		 $scope.gridOptions.enableHorizontalScrollbar = 2;
    		 $scope.gridOptions.enableVerticalScrollbar = 2;
    		
    		 $scope.gridOptions.columnDefs = [
@@ -102,10 +102,69 @@ angular.module('newApp')
    		
    		$http.get('/getAllContactsData').success(function(data){
    			console.log(data);
-				$scope.gridOptions.data = data;
+				//$scope.gridOptions.data = data;
+   			$scope.editgirdData(data);
 				$scope.contactsList = data;
 				
    		});
+   		
+   		
+   		
+  	  $scope.editgirdData = function(data){
+		  $scope.gridOptions.data = data;
+		  $scope.gridMapObect = [];
+			var findFlag = 0;
+			angular.forEach($scope.gridOptions.data,function(value,key){
+				if(findFlag == 0){
+					angular.forEach(value.customData,function(value1,key1){
+						console.log(value1.displayGrid);
+						if(value1.displayGrid == "true"){
+						$scope.gridMapObect.push({values: value1.value , key: value1.key});
+					}
+						findFlag = 1;
+					});
+				}
+			});
+			angular.forEach($scope.gridOptions.data,function(value,key){
+				angular.forEach($scope.gridMapObect,function(value1,key1){
+					var name = value1.key;
+					name = name.replace(" ","");
+					value[name] = null;
+					angular.forEach(value.customData,function(value2,key2){
+						if(value1.key == value2.key){
+							value[name] = value2.value;
+						}
+					});
+				});
+			});	
+			
+			console.log($scope.gridMapObect);
+			angular.forEach($scope.gridMapObect,function(value,key){
+				var name = value.key;
+				name = name.replace(" ","");
+				console.log($scope.gridMapObect);
+				$scope.gridOptions.columnDefs.push({ name: name, displayName: name, width:'10%',cellEditableCondition: false,
+	              	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	              		if (row.entity.isRead === false) {
+                            return 'red';
+                        }
+	              	} ,
+	               });
+			});
+			
+			/*$scope.gridOptions.columnDefs.push({name: 'isRead', displayName: 'Claim',enableFiltering: false, width:'7%', cellEditableCondition: false, enableSorting: false, enableColumnMenu: false,
+          	 cellTemplate:'<div class="icheck-list"><input type="checkbox" ng-model="row.entity.isRead" ng-change="grid.appScope.setAsRead(row.entity.isRead,row.entity.id)" data-checkbox="icheckbox_flat-blue" title="Claim this lead" style="margin-left:18%;"></div>', 
+            	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                    if (row.entity.isRead === false) {
+                      return 'red';
+                  }
+            	} ,
+             });*/
+	  }
+	  
+   		
+   		
+   		
    		 
    		$http.get('/getUsers').success(function(data){
 			$scope.allUser = data;
@@ -143,7 +202,7 @@ angular.module('newApp')
    				$scope.contactsList = data;
    				
    				$scope.customData = data.customMapData;
-   			 console.log(data);
+   			 console.log($scope.customData);
    			 $scope.contactsList.collection=data.collection;
    			 if($scope.customData.time_range != undefined){
    				 $("#bestTimes").val($scope.customData.time_range);
