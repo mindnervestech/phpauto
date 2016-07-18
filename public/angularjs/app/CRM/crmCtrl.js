@@ -143,7 +143,7 @@ angular.module('newApp')
    				$scope.contactsList = data;
    				
    				$scope.customData = data.customMapData;
-   			 console.log($scope.customData);
+   			 console.log(data);
    			 $scope.contactsList.collection=data.collection;
    			 if($scope.customData.time_range != undefined){
    				 $("#bestTimes").val($scope.customData.time_range);

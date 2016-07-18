@@ -10480,7 +10480,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	   return ok();
 		}	
 		
-		/*public static Result UpdateName() {
+		public static Result UpdateName() {
 			Form<CreateNewFormVM> form = DynamicForm.form(CreateNewFormVM.class).bindFromRequest();
 			CreateNewFormVM vm=form.get();
 			Date date = new Date();
@@ -10493,7 +10493,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			newform.update();
 	    	  
 	    	   return ok();
-		}	*/
+		}	
 		
 		public static Result allFormName() {
 			
@@ -42532,7 +42532,7 @@ if(vehicles.equals("All")){
        			vm.workPhone1 = contact.workPhone1;
        			vm.email1 = contact.email1;
        			vm.phone1 = contact.phone1;
-       			
+       			findCustomCrmData(contact.contactId,vm);
     			if(contact.newsLetter == 0) {
     				vm.newsletter = false;
     			} else {
@@ -42618,6 +42618,7 @@ if(vehicles.equals("All")){
     			contacts.setRelationships(vm.relationships);
     			contacts.setNotes(vm.notes);
     			contacts.update();
+    			saveCustomCrmData(contacts.contactId,vm);
     		return ok();
     	}
 	}
