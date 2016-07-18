@@ -124,7 +124,7 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Saved successfully",
 					});
-					$location.path('/editInventory/'+$routeParams.vid+'/'+true+"/"+$routeParams.productId);
+					$location.path('/editInventory/'+$routeParams.id+'/'+true+"/"+$routeParams.productId);
 				});
 				
 			}else{
@@ -135,7 +135,7 @@ angular.module('newApp')
 					    type:'success',
 					    text: "Saved successfully",
 					});
-					$location.path('/editInventory/'+$routeParams.vid+'/'+true+"/"+$routeParams.productId);
+					$location.path('/editInventory/'+$routeParams.id+'/'+true+"/"+$routeParams.productId);
 				});
 			}
 		}        

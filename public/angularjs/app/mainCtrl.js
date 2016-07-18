@@ -1820,10 +1820,10 @@ angular.module('newApp').controller('customizationCtrl',
 	            	var place = autocomplete.getplace();
 	            }
 	            	
-	            	$http.get('/getAllVehicles')
+	            	/*$http.get('/getAllVehicles')
 	        		.success(function(data) {
 	        			$scope.prodSearchList = data;
-	        		});
+	        		});*/
 	            	
 	            	$scope.focusIn11 = function(index, stockRp){
 		    			stockRp.stockNumber = $scope.prodSearchList[index].title;

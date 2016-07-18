@@ -5866,7 +5866,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
         public static Result getAllVehicles(Long locationId) {
 	
 		int visitorCount = 0;
-    	/*List <Vehicle> vehicleObjList = Vehicle.getVehiclesByStatus("Newly Arrived");*/
 		
 		List <Vehicle> vehicleObjList = Vehicle.findByNewArrAndLocationNoDraft(locationId);
 		
