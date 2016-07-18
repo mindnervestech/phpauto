@@ -913,6 +913,961 @@
 	
 	
 	
+	 $scope.addFormField = function(editInput){
+     	console.log("");
+     		
+     		console.log(editInput);
+             $scope.fields = [];
+            // var subSectons = Object.keys($scope.form);  
+            // for(var i = 0; i < subSectons.length; i++) {
+               var formFields = [];
+               var form_details = {};  
+               angular.forEach(editInput,function(form){
+                 if(form.component === "textInput"){
+                   formFields.push(getJsonBForTextInput(form));
+                 }
+                 if(form.component === "sampleInput"){
+                   formFields.push(getJsonBForSampleInput(form));
+                 }
+                 if(form.component === "checkbox"){
+                   formFields.push(getJsonBForCheckBox(form));
+                 }
+                 if (form.component === "textArea") {
+                   formFields.push(getJsonBForTextArea(form));
+                 }
+                 if(form.component === "radio"){
+                   formFields.push(getJsonBForRadio(form));
+                 }
+                 if(form.component === "select"){
+                   formFields.push(getJsonBForSelect(form));
+                 }
+                 if(form.component === "date"){
+                   formFields.push(getJsonBForDate(form));
+                 }
+                 if(form.component === 'signature'){
+                   formFields.push(getJsonBForSignature(form));
+                 }
+                 if(form.component === 'ui-grid'){
+                   formFields.push(getJsonBForUIGrid(form));
+                 }
+                 if(form.component === 'image'){
+                   formFields.push(getJsonBForImage(form));
+                 }
+                 if(form.component === 'financialcalculator'){
+                     formFields.push(getJsonBForFinancialcalculator(form));
+                 }
+                 if(form.component === "daterange"){
+                     formFields.push(getJsonBForDateRange(form));
+                   }
+                 if(form.component === "autocompleteText"){
+                     formFields.push(getJsonBForAutocomplete(form));
+                   }
+                 if(form.component === "contactssearch"){
+                 	 formFields.push(getJsonBForContactssearch(form));
+                 }
+                 if(form.component === "inventorysearch"){
+                	 formFields.push(getJsonBForInventorysearch(form));
+                }
+                 if(form.component === "fileuploaders"){
+                   	 formFields.push(getJsonBForFileuploader(form));
+                   }
+                 if(form.component === "timerange"){
+                  	 formFields.push(getJsonBForTimeRange(form));
+                  }
+                 if(form.component === "headerlabel"){
+                 	 formFields.push(getJsonBForheaderlabel(form));
+                 }
+                 
+                 if(form.component === "numberInput"){
+                	 formFields.push(getJsonBForNumberInput(form));
+                }
+                 
+                 if(form.component === "multipleselect"){
+                   	 formFields.push(getJsonBForMultipleselect(form));
+                   }
+                   if(form.component === "singleSelect"){
+                 	console.log("insisdeee");
+                   	 formFields.push(getJsonBForSingleSelect(form));
+                   }
+               });
+               /* form_details.name = subSectons[i];
+                form_details.isRepeatable  = true;
+                form_details.isChild  = false;
+                form_details.fields = formFields;
+                if( formFields.length != 0) {
+                $scope.fields.push(form_details);
+
+                }*/
+             // }
+                
+                console.log("&**^^^^^^^^^^^^^^^^^^^^6");
+                console.log(formFields);
+                $scope.userFields = formFields;
+                console.log($scope.userFields);
+                return formFields;
+             //fields = angular.copy($scope.fields);
+             //model = $scope.model;
+             //options = $scope.options;
+           }; 	
+     	
+       	function getPropertiesForEditable(editable){
+ 	        var prop = {};
+ 	        if(editable){
+ 	         	return prop;
+ 	        }else{
+ 	        	prop = {
+ 	            	'templateOptions.disabled': '!model.text'
+ 	          	};
+ 	         	return prop;
+ 	        }
+ 	   	}
+
+       	
+       	function getJsonBForheaderlabel(jsonObject){
+       		var key;
+         	if(jsonObject.key === ""){
+           		key = jsonObject.label;
+           		key = key.replace(" ","_");
+ 		        key = key.toLowerCase();
+ 		   	}else{
+ 		    	key = jsonObject.key;
+ 		  	}
+
+         	var properties = getPropertiesForEditable(jsonObject.editable);
+         	var convertedObject = {
+           		"key": key,
+             	"type": 'headerlabel',
+             	"templateOptions": {
+               		"label": jsonObject.label,
+             	},	
+         	};
+         	return convertedObject;
+         }
+       	
+       	function getJsonBForNumberInput(jsonObject){
+       		var key;
+         	if(jsonObject.key === ""){
+           		key = jsonObject.label;
+           		key = key.replace(" ","_");
+ 		        key = key.toLowerCase();
+ 		   	}else{
+ 		    	key = jsonObject.key;
+ 		  	}
+
+         	var properties = getPropertiesForEditable(jsonObject.editable);
+         	var convertedObject = {
+               		"key": key,
+                 	"type": 'stacked-input',
+                 	"templateOptions": {
+                   		"type": "number",
+                   		"label": jsonObject.label,
+                   		"placeholder": jsonObject.placeholder,
+                   		"required": jsonObject.required
+                 	},	
+                   
+             	};
+         	return convertedObject;
+         }
+       	function getJsonBForTextInput(jsonObject){
+         	var key;
+         	if(jsonObject.key === ""){
+           		key = jsonObject.label;
+           		key = key.replace(" ","_");
+ 		        key = key.toLowerCase();
+ 		   	}else{
+ 		    	key = jsonObject.key;
+ 		  	}
+
+         	var properties = getPropertiesForEditable(jsonObject.editable);
+         	var convertedObject = {
+           		"key": key,
+             	"type": 'stacked-input',
+             	"templateOptions": {
+               		"type": "text",
+               		"label": jsonObject.label,
+               		"placeholder": jsonObject.placeholder,
+               		"required": jsonObject.required
+             	},	
+                // controller: 'formState.textCtrl',
+             	"expressionProperties": properties,
+                 "hideExpression" : function($viewValue, $modelValue, scope) {
+                   return isHideComponent(jsonObject);
+                 }
+         	};
+         	return convertedObject;
+       	}
+       	
+       	function getJsonBForAutocomplete(jsonObject){
+       		var key;
+         	if(jsonObject.key === ""){
+           		key = jsonObject.label;
+           		key = key.replace(" ","_");
+ 		        key = key.toLowerCase();
+ 		   	}else{
+ 		    	key = jsonObject.key;
+ 		  	}
+
+         	var properties = getPropertiesForEditable(jsonObject.editable);
+         	var convertedObject = {
+           		"key": key,
+             	"type": 'autocompleteText',
+             	"templateOptions": {
+               		"type": "text",
+               		"label": jsonObject.label,
+               		"placeholder": jsonObject.placeholder,
+               		"required": jsonObject.required
+             	},	
+                // controller: 'formState.textCtrl',
+             	"expressionProperties": properties,
+               
+         	};
+         	return convertedObject;
+       	}
+
+       	function getJsonBForSampleInput(jsonObject){
+         	var key;
+         	if(jsonObject.key === ""){
+           		key = jsonObject.label;
+           		key = key.replace(" ","_");
+           		key = key.toLowerCase();
+         	}else{
+           		key = jsonObject.key;
+         	}
+         	var properties = getPropertiesForEditable(jsonObject.editable);
+         	var convertedObject = {
+           		"key": key,
+             	"type": 'stacked-input',
+             	"templateOptions": {
+               		"type": "text",
+               		"label": jsonObject.label,
+ 	              	"placeholder": jsonObject.placeholder,
+ 	              	"required": jsonObject.required
+ 	            	},
+ 	            	"expressionProperties": properties,
+                 "hideExpression" : function($viewValue, $modelValue, scope) {
+                   return isHideComponent(jsonObject, scope); 
+                 }
+         	};
+         	return convertedObject;
+       	}
+
+       	$scope.getCheckboxOptions = function(options){
+         	$scope.options=[];
+         	angular.forEach(options,function(opt){
+           		//key = opt;
+           		//key = key.replace(" ","_");
+           		var data = {
+                 "checked":false,
+             		"id":opt,
+             		"value":opt
+           		}
+           		$scope.options.push(data)
+         	})
+         	return $scope.options;
+       	}
+
+       function getJsonBForCheckBox(jsonObject){
+
+         var key;
+         if(jsonObject.key === ""){
+           key = jsonObject.label;
+           //key = key.replace(" ","_");
+           //key = key.toLowerCase();
+         }else{
+           key = jsonObject.key;
+         }
+         var opt = getCheckboxOptions(jsonObject.options);
+         var convertedObject = {
+           "type": jsonObject.component,
+           "key": key,
+           "name":jsonObject.label,
+           "templateOptions": {
+             "label": opt,
+             "placeholder": jsonObject.placeholder,
+             "required": jsonObject.required
+           }, 
+            "hideExpression" : function($viewValue, $modelValue, scope) {
+             return isHideComponent(jsonObject); 
+           }
+         }
+         return convertedObject;
+       }
+
+       function getJsonBForTextArea(jsonObject){
+         var key;
+         if(jsonObject.key === ""){
+           key = jsonObject.label;
+           key = key.replace(" ","_");
+           key = key.toLowerCase();
+         }else{
+           key = jsonObject.key;
+         }
+         console.log(jsonObject, "logic");
+         var properties = getPropertiesForEditable(jsonObject.editable);
+         var convertedObject = {
+           "type": "textarea",
+           "key": key,
+           "templateOptions": {
+             "label": jsonObject.label,
+             "placeholder": jsonObject.placeholder,
+             "required": jsonObject.required
+             // "isRepeatable": jsonObject.isRepeatable
+           },
+          // controller: 'formState.textCtrl',
+           "expressionProperties" : properties,
+           "hideExpression" : function($viewValue, $modelValue, scope) {
+              console.log("-?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", jsonObject);
+                
+              return isHideComponent(jsonObject);
+           }
+         }
+         return convertedObject;
+       }
+       
+       function isHideComponent(jsonObject) {
+           if(jsonObject.logic.component == null) {
+               return false;
+           }      
+           var logic_component = JSON.parse(jsonObject.logic.component);
+           console.log(logic_component,"==");
+           switch (logic_component.component) {
+               case 'textInput':
+                 return isHide(jsonObject,  logic_component);
+               case 'checkbox':
+                   return isHide(jsonObject, logic_component);
+               case 'textArea':
+                   return isHide(jsonObject, logic_component);
+               case 'radio' :
+                   return isHide(jsonObject, logic_component);
+               case 'date':
+                 return isHide(jsonObject, logic_component);
+               case 'select':
+                 return isHide(jsonObject, logic_component);
+               case 'signature':
+                 return false;
+               case 'ui-grid':
+                 return false;
+             }
+         }
+
+         function isHide(jsonObject, logic_component) {
+           var flag = jsonObject.logic.comparator === undefined ? true : (jsonObject.logic.comparator == 'Equal to') ? true : false;
+           var modelValue = "";
+           var subSectons = Object.keys($scope.form);  
+           for(var i = 0; i < subSectons.length; i++) {
+               var formFields = [];  
+               angular.forEach($scope.form[subSectons[i]],function(form){
+               if (form.component ===  logic_component.component && form.id === logic_component.id ) {
+                 modelValue  = form.key;
+                
+               }
+               console.log(subSectons[i], "<>", form.id, "<>", logic_component.id,"<>", form.component, "<>", logic_component.component);
+               });
+           }
+           console.log(modelValue,"modelValue", model);
+           angular.forEach($scope.form, function(form){
+             
+           });
+           var isShow = jsonObject.logic.action === "Show";
+           if ((model[modelValue] === undefined )&& (isShow || !flag)) {
+             return isShow ? true : false;
+           }
+           if((model[modelValue] == jsonObject.logic.value)) {
+               return isShow ? !flag : flag;
+           }else{
+             return isShow ? flag : !flag;
+           }
+         }
+
+         function getPropertiesForRadioOptions(options){
+           var optionsArray = [];
+           for(var i=0;i<options.length;i++){
+             var data = {
+               "value":options[i],
+               "text":options[i]
+             }
+             optionsArray.push(data);
+           }
+           return optionsArray;
+         }
+
+         function getJsonBForRadio(jsonObject){
+           var key;
+           if(jsonObject.key === ""){
+             key = jsonObject.label;
+             key = key.replace(" ","_");
+             key = key.toLowerCase();
+           }else{
+             key = jsonObject.key;
+           }
+           var properties = getPropertiesForEditable(jsonObject.editable);
+           var options = [];
+           options = getPropertiesForRadioOptions(jsonObject.options);
+           var convertedObject = {
+             "key": key,
+             "type": jsonObject.component,
+             "name":jsonObject.label,
+             "templateOptions": {
+               "label": jsonObject.label,
+                "options": options,
+                "required": jsonObject.required
+               },
+               // controller: 'formState.textCtrl',
+               "expressionProperties": properties,
+               "hideExpression" : function($viewValue, $modelValue, scope) {
+                 return isHideComponent(jsonObject); 
+               }
+           }
+           return convertedObject;
+         }
+
+         function getPropertiesForSelectOptions(options){
+           var optionsArray = [];
+           for(var i=0;i<options.length;i++){
+             var data = {
+               "label":options[i],
+               "id":options[i]
+             }
+             optionsArray.push(data);
+           }
+           return optionsArray;
+         }
+
+         function getJsonBForSelect(jsonObject){
+           var key;
+           if(jsonObject.key === ""){
+             key = jsonObject.label;
+             key = key.replace(" ","_");
+             key = key.toLowerCase();
+           }else{
+             key = jsonObject.key;
+           }
+           var properties = getPropertiesForEditable(jsonObject.editable);
+           var options = [];
+           options = getPropertiesForSelectOptions(jsonObject.options);
+           var convertedObject = {
+             "key": key,
+             "type": jsonObject.component,
+             "templateOptions": {
+               "label": jsonObject.label,
+               "options": options,
+               "valueProp": "id",
+               "labelProp": "label",
+               "required": jsonObject.required
+               },
+               "expressionProperties": properties,
+               "hideExpression" : function($viewValue, $modelValue, scope) {
+                 return isHideComponent(jsonObject);
+               }
+           }
+           return convertedObject;
+         }
+         
+         function getJsonBForMultipleselect(jsonObject){
+             var key;
+             if(jsonObject.key === ""){
+               key = jsonObject.label;
+               key = key.replace(" ","_");
+               key = key.toLowerCase();
+             }else{
+               key = jsonObject.key;
+             }
+             var properties = getPropertiesForEditable(jsonObject.editable);
+             var options = [];
+             options = getPropertiesForSelectOptions(jsonObject.options);
+             var convertedObject = {
+               "key": key,
+               "type": jsonObject.component,
+               "templateOptions": {
+                 "label": jsonObject.label,
+                 "options": options,
+                 "valueProp": "id",
+                 "labelProp": "label",
+                 "required": jsonObject.required
+                 },
+                 "expressionProperties": properties,
+                 "hideExpression" : function($viewValue, $modelValue, scope) {
+                   return isHideComponent(jsonObject);
+                 }
+             }
+             return convertedObject;
+           }
+         
+         function  getJsonBForSingleSelect(jsonObject){
+             var key;
+             if(jsonObject.key === ""){
+               key = jsonObject.label;
+               key = key.replace(" ","_");
+               key = key.toLowerCase();
+             }else{
+               key = jsonObject.key;
+             }
+             var properties = getPropertiesForEditable(jsonObject.editable);
+             var options = [];
+             options = getPropertiesForSelectOptions(jsonObject.options);
+             var convertedObject = {
+               "key": key,
+               "type": jsonObject.component,
+               "templateOptions": {
+                 "label": jsonObject.label,
+                 "options": options,
+                 "valueProp": "id",
+                 "labelProp": "label",
+                 "required": jsonObject.required
+                 },
+                 "expressionProperties": properties,
+                 "hideExpression" : function($viewValue, $modelValue, scope) {
+                   return isHideComponent(jsonObject);
+                 }
+             }
+             return convertedObject;
+           }
+         
+         
+
+         function getJsonBForDate(jsonObject){
+           var key;
+           if(jsonObject.key === ""){
+             key = jsonObject.label;
+             key = key.replace(" ","_");
+             key = key.toLowerCase();
+           }else{
+             key = jsonObject.key;
+           }
+           var properties = getPropertiesForEditable(jsonObject.editable);
+           var convertedObject = {
+             "key": key,
+               "type": 'stacked-input',
+               "templateOptions": {
+                 "type": "date",
+                 "label": jsonObject.label,
+                 "placeholder": jsonObject.placeholder,
+                 "required": jsonObject.required
+               },
+               "expressionProperties": properties,
+               "hideExpression" : function($viewValue, $modelValue, scope) {
+                 return isHideComponent(jsonObject);
+               }
+           };
+           return convertedObject;
+         }
+         function getJsonBForTimeRange(jsonObject){
+         	 var key;
+              if(jsonObject.key === ""){
+                key = jsonObject.label;
+                key = key.replace(" ","_");
+                key = key.toLowerCase();
+              }else{
+                key = jsonObject.key;
+              }
+              var properties = getPropertiesForEditable(jsonObject.editable);
+              var convertedObject = {
+                "key": key,
+                  "type": 'timerange',
+                  "templateOptions": {
+                    "label": jsonObject.label,
+                    "placeholder": jsonObject.placeholder,
+                  },
+                  "expressionProperties": properties,
+                  
+              };
+              return convertedObject;
+         }
+         
+         function getJsonBForDateRange(jsonObject){
+         	 var key;
+              if(jsonObject.key === ""){
+                key = jsonObject.label;
+                key = key.replace(" ","_");
+                key = key.toLowerCase();
+              }else{
+                key = jsonObject.key;
+              }
+              var properties = getPropertiesForEditable(jsonObject.editable);
+              var convertedObject = {
+                "key": key,
+                  "type": 'daterange',
+                  "templateOptions": {
+                    "type": "date",
+                    "label": jsonObject.label,
+                    "placeholder": jsonObject.placeholder,
+                    "required": jsonObject.required
+                  },
+                  "expressionProperties": properties,
+                  
+              };
+              return convertedObject;
+         }
+
+         function getJsonBForSignature(jsonObject){
+           var key;
+           if(jsonObject.key === ""){
+             key = jsonObject.label;
+             key = key.replace(" ","_");
+             key = key.toLowerCase();
+           }else{
+             key = jsonObject.key;
+           }
+           var properties = getPropertiesForEditable(jsonObject.editable);
+           var convertedObject = {
+             "key": key,
+               "type": "signature",
+               "templateOptions": {
+                   "label": jsonObject.label
+               },
+               "hideExpression" : function($viewValue, $modelValue, scope) {
+                 return isHideComponent(jsonObject); 
+               }
+           };
+           return convertedObject;
+         }
+
+         function getPropertiesForColumnDefs(options){
+           var colArray = [];
+           angular.forEach(options,function(colName){
+             col = colName.split(":");
+             var columnOptions;
+             if(col[0] === ''){
+               columnOptions = {
+                 name:col[0],
+                 field:col[1],
+                 //cellTemplate:'<div class="custom-button"><button type="submit" class="button button-small button-assertive" ng-click="delete()">delete</button></div>',
+                 cellTemplate:'<div class="custom-button"><i class="icon ion-close-circled" style="cursor: pointer;"></i></div>',
+                 enableCellEdit:false,
+                 width: 30
+               }
+               colArray.push(columnOptions);
+             }else{
+               columnOptions = {
+                 name:col[0],
+                 field:col[1]
+               }
+               colArray.push(columnOptions);
+             }
+             
+           });
+           columnOptions = {
+             name:'',
+             field:'action',
+             //cellTemplate:'<div class="custom-button"><button type="submit" class="button button-small button-assertive" ng-click="delete()">delete</button></div>',
+             cellTemplate:'<div class="custom-button"><i class="icon ion-close-circled" style="cursor: pointer;"></i></div>',
+             enableCellEdit:false,
+             width: 30
+           }
+           colArray.push(columnOptions);
+           return colArray;
+         }
+
+           function getPropertiesForColumnDefs1(options){
+           var colArray = [];
+           angular.forEach(options,function(colName){
+
+             var columnOptions;
+             if(colName.column_name === ''){
+               columnOptions = {
+                 name : colName.column_name,
+                 field : colName.field,
+                 isDerivedCol : colName.grid_derived_col,
+                 col_id : colName.col_id,
+                 //cellTemplate:'<div class="custom-button"><button type="submit" class="button button-small button-assertive" ng-click="delete()">delete</button></div>',
+                 cellTemplate : '<div class="custom-button"><i class="icon ion-close-circled" style="cursor: pointer;"></i></div>',
+                 enableCellEdit : false,
+                 width : 30
+               }
+               colArray.push(columnOptions);
+             }else{
+               columnOptions = {
+                 name : colName.column_name,
+                 field : colName.field,
+                 isDerivedCol : colName.grid_derived_col,
+                 col_id : colName.col_id,
+               }
+               colArray.push(columnOptions);
+             }
+             
+           });
+           columnOptions = {
+             name:'',
+             field:'action',
+             //cellTemplate:'<div class="custom-button"><button type="submit" class="button button-small button-assertive" ng-click="delete()">delete</button></div>',
+             cellTemplate:'<div class="custom-button"><i class="icon ion-close-circled" style="cursor: pointer;"></i></div>',
+             enableCellEdit:false,
+             width: 30
+           }
+           colArray.push(columnOptions);
+           return colArray;
+         }
+
+         function getJsonBForUIGrid(jsonObject){
+           var columnDefs = [];
+           var columnDefs1 = [];
+           var properties = getPropertiesForEditable(jsonObject.editable);
+           columnDefs = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+           // columnDefs1 = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+           columnDef = columnDefs;
+           equation = jsonObject.equation;
+           
+           var convertedObject = {
+             key: 'list',
+             type: 'ui-grid',
+             templateOptions: {
+               label: jsonObject.label,
+               columnDefs: columnDefs,
+               enableColumnMenus:false,
+               enableSorting: false,
+               onRegisterApi: ''
+             },
+             controller: 'formState.uiGridCtrl',
+             "hideExpression" : function($viewValue, $modelValue, scope) {
+               return isHideComponent(jsonObject);
+             }
+           };
+           
+           return convertedObject;
+         }
+
+         function getJsonBForImage(jsonObject){
+           var properties = getPropertiesForEditable(jsonObject.editable);
+           var convertedObject = {
+             "key": jsonObject.key,
+               "type": 'image',
+               "templateOptions": {
+                 "type": "text",
+                 "label": jsonObject.label,
+                 "src":jsonObject.imageUrl,
+                 "placeholder": jsonObject.placeholder,
+                 "required": jsonObject.required
+               },
+               "expressionProperties": properties,
+               "controller": 'formState.imageCtrl',
+               "hideExpression" : function($viewValue, $modelValue, scope) {
+                 return isHideComponent(jsonObject, scope); 
+               }
+
+           };
+           return convertedObject;
+         };
+         function getJsonBForFileuploader(jsonObject){
+             
+             var convertedObject = {
+               key: 'fileuploaders',
+               type: 'fileuploaders',
+               templateOptions: {
+             	  "label": jsonObject.label,
+               }
+              
+             };
+             
+             return convertedObject;
+         	
+       
+         }
+         function getJsonBForInventorysearch(jsonObject){
+         	 var columnDefs = [];
+              var columnDefs1 = [];
+              var properties = getPropertiesForEditable(jsonObject.editable);
+              columnDefs = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+              // columnDefs1 = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+              columnDef = columnDefs;
+              equation = jsonObject.equation;
+              
+              var convertedObject = {
+                key: 'inventorysearch',
+                type: 'inventorysearch',
+                templateOptions: {
+                  label: 'Inventory'
+                },
+               
+              };
+              
+              return convertedObject;
+         }
+         
+         function getJsonBForContactssearch(jsonObject){
+        	 var columnDefs = [];
+             var columnDefs1 = [];
+             var properties = getPropertiesForEditable(jsonObject.editable);
+             columnDefs = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+             // columnDefs1 = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+             columnDef = columnDefs;
+             equation = jsonObject.equation;
+             
+             var convertedObject = {
+               key: 'contactssearch',
+               type: 'contactssearch',
+               templateOptions: {
+                 label: 'Contacts'
+               },
+              
+             };
+             
+             return convertedObject;
+        }
+         
+         
+         function getJsonBForFinancialcalculator(jsonObject){
+         	 var columnDefs = [];
+              var columnDefs1 = [];
+              var properties = getPropertiesForEditable(jsonObject.editable);
+              columnDefs = getPropertiesForColumnDefs1(jsonObject.columnOptions);
+              columnDef = columnDefs;
+              equation = jsonObject.equation;
+              
+              var convertedObject = {
+                key: 'financialcalculator',
+                type: 'financialcalculator',
+                templateOptions: {
+                  label: 'fina'
+                },
+               
+              };
+              
+              return convertedObject;
+         }
+         
+         $scope.saveJsonObject = function(object){
+           if($stateParams.templateId === ''){
+             service.saveJsonObject(object).then(
+               function(response){
+                 console.log('response',response);
+               },
+               function(error){
+                 console.log('error',error);
+               }
+             );
+           }else{
+             service.updateJsonObject(object,$stateParams.templateId).then(
+               function(response){
+                 console.log('response',response);
+               },
+               function(error){
+                 console.log('error',error);
+               }
+             );
+           }
+           
+         }
+
+         $scope.saveDraft = function(formName){
+           var object = {
+             'formname': formName,
+             'status':'Draft',
+             'component' : $scope.fields
+           }
+           $scope.saveJsonObject(object);
+         };
+
+         $scope.savePublish = function(formName){
+           var object = {
+             'formname': formName,
+             'status':'Publish',
+             'component' : $scope.fields
+           }
+           $scope.saveJsonObject(object);
+         } 
 	
 	
-        }]);
+	
+	
+   }]);
+
+angular.module('newApp').controller('customizationCtrl',
+	    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$http','$interval','$rootScope',
+	        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$http,$interval,$rootScope) {
+	    
+	    	
+	    	$http.get('/getDataFromCrm').success(function(data){
+	    		$scope.searchList = data;
+	    		console.log($scope.searchList);
+	    	 });
+	    	
+	    	$scope.financeData = {};
+	    	 $scope.financeData.downPayment=1000;
+  	  		  $scope.financeData.annualInterestRate=7;
+  	  		  $scope.financeData.numberOfYears=5;
+  	  		//  $scope.financeData.price=entity.price;
+  	  		  $scope.financeData.frequencyOfPayments=26;
+	    	
+	    	
+	    	 $scope.calculateFinancialData = function(financeData){
+	    	   	  	var cost         =financeData.price;
+	    			var down_payment =financeData.downPayment;
+	    			var interest     =financeData.annualInterestRate;
+	    			var loan_years   =financeData.numberOfYears;
+	    			var frequency_rate    =financeData.frequencyOfPayments;
+	    			
+	    			var interest_rate = (interest) / 100;
+	    			 var rate          = interest_rate / frequency_rate;
+	    			 $scope.payments      = loan_years * frequency_rate;
+	    			var difference    = cost - down_payment;
+	    			$scope.payment = Math.floor((difference*rate)/(1-Math.pow((1+rate),(-1* $scope.payments)))*100)/100;
+	          }
+	            
+	    	 
+	    	  $scope.test = function(){
+	            	$scope.initAutocomplete();
+	            };
+	            
+	           var placeSearch, autocomplete;
+	            
+	            $scope.initAutocomplete = function() {
+	            	 autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),
+	            	     {types: ['geocode']});
+	            	 autocomplete.addListener('place_changed', fillInAddress);
+	            	}
+
+	            function fillInAddress(){
+	            	var place = autocomplete.getplace();
+	            }
+	            	
+	            	$http.get('/getAllVehicles')
+	        		.success(function(data) {
+	        			$scope.prodSearchList = data;
+	        		});
+	            	
+	            	$scope.focusIn11 = function(index, stockRp){
+		    			stockRp.stockNumber = $scope.prodSearchList[index].title;
+		    			$scope.getStockDetails(stockRp)
+		    		}
+	            	
+	            	 $scope.stockWiseData = [];
+	     	  		$scope.stockWiseData.push({});  	
+	     	  		$scope.getStockDetails = function(stockRp) {
+		    			$scope.isStockError = false;
+		    			console.log(stockRp);
+		    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
+		    				console.log(response);
+		    				if(response.isData) {
+		    					$scope.isStockError = false;
+		    					stockRp.designer = response.designer;
+		    					stockRp.price = response.price;
+		    					stockRp.vehicleImage = response.vehicleImage;
+		    					stockRp.imgId = response.imgId;
+		    					stockRp.year = response.year;
+		    					stockRp.primaryTitle = response.primaryTitle;
+		    					stockRp.title = response.title; 
+		    					stockRp.id = response.id;
+		    					stockRp.productId = response.productId;
+		    				} else {
+		    					$scope.isStockError = true;
+		    				}
+		    			});
+		    		};
+		    		
+		    		$scope.pushRecord = function(){
+		    			$scope.stockWiseData.push({});
+		    		}
+		    		
+		    		$scope.onLogoFileSelect = function($files){
+		    			console.log($files);
+		    			$rootScope.fileCustom = $files; 
+		    			
+		    		}		
+		    		$scope.showtimepick = function(){
+		    			$('#bestTimes').timepicker();
+		    		}
+		    		/*$scope.selectedObjs = function(select){
+		    			console.log(select);
+		    		}*/
+}]);
+

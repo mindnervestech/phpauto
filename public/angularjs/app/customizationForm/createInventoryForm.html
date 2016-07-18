@@ -1,0 +1,152 @@
+	
+<div class="form-group col-sm-12" ng-init="initFunction()">
+	<!-- <div class="form-group col-sm-12">
+		<h2>FORM CUSTOMIZATION Inventory</h2>
+	</div> -->
+
+	<h1>
+		<b>{{setjson.mainTitle}}</b>
+	</h1>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Main Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a>
+
+	
+	<hr>
+	<form ng-submit="saveVehicle()">
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Title
+				*</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="specification.title"
+					placeholder="Title" required>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Product Id</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="specification.productId"
+					placeholder="VIN Number" minlength="17" required>
+			</div>
+			
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Description</label>
+			<div class="col-sm-5">
+				<textarea class="form-control form-white"
+					ng-model="specification.description" rows="5"></textarea>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Collection this item is in</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="specification.collectionItem" required>
+			</div>
+			
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Cost</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="specification.cost"
+					placeholder="COST" required>
+			</div>
+			
+		</div>
+		<div class="form-group col-sm-12">
+			<label class="col-sm-2 control-label" style="text-align: right;">Price</label>
+			<div class="col-sm-5">
+				<input class="form-control form-white" type="text"
+					style="border-color: red;" ng-model="specification.price"
+					placeholder="PRICE" required>
+			</div>
+			
+		</div>
+
+	</form>
+	<div class="form-group col-sm-12">
+		<div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">FIELDS</h3><br>
+                </div>
+                <div  ng-if="initComponent.length > 0" fb-builder="default" ng-model="initComponent"></div>
+                <div  ng-if="initComponent.length <= 0" fb-builder="default" ng-model="initComponent"></div>
+                <!-- <div class="panel-footer">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="isShowScope" />
+                            Show scope
+                        </label>
+                    </div>
+                    <pre ng-if="isShowScope">{{form}}</pre>
+                </div> -->
+            </div>
+        </div>
+
+        <div class="col-md-6">
+        	<div>
+                    <h2>BUILDER</h2>
+                    <h4>Drag & drop items to the "FIELDS" area.</h4>
+                </div>
+                <hr>
+            <div fb-components></div>
+        </div>
+        
+    </div>
+	</div>
+	<div class="form-group col-sm-12" style="text-align: right;" ng-if="showSaveButton == 'Edit'">
+		<button type="button" class="btn btn-primary" ng-click="saveCreateLeadForm()">Save</button>
+	</div>
+</div>	
+
+
+<div class="modal fade" id="edititle" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" id="scheduleCancelBtn" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <!-- <h4 class="modal-title">Close test drive</h4> -->
+								                </div>
+								                <form ng-submit="editAllTitle()">
+								                <div class="modal-body" ng-if="setjson.showFild == 'Main Title'">
+								                    <b style="margin-left:3%;">Main Title</b><br>
+								                     <div class="form-group col-sm-12">
+														<div class="col-sm-5=10">
+															<input class="form-control form-white" style="" ng-model="setjson.mainTitle" type="text" required>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-body" ng-if="setjson.showFild == 'Search Title'">
+								                    <b style="margin-left:3%;">Search Title</b><br>
+								                     <div class="form-group col-sm-12">
+														<div class="col-sm-5=10">
+															<input class="form-control form-white" style="" ng-model="setjson.searchTitle" type="text" required>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-body" ng-if="setjson.showFild == 'Search Sub Title'">
+								                    <b style="margin-left:3%;">Search Sub Title</b><br>
+								                     <div class="form-group col-sm-12">
+														<div class="col-sm-5=10">
+															<input class="form-control form-white" style="" ng-model="setjson.searchSubTitle" type="text" required>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-body" ng-if="setjson.showFild == 'Lead Type Title'">
+								                    <b style="margin-left:3%;">Lead Type Title</b><br>
+								                     <div class="form-group col-sm-12">
+														<div class="col-sm-5=10">
+															<input class="form-control form-white" style="" ng-model="setjson.leadTypeTitle" type="text" required>
+														</div>
+													</div>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Save</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>
+								    
