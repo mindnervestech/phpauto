@@ -25,8 +25,17 @@ var MakeApp = angular
     'ngAutocomplete',
     'angucomplete',
     'angucomplete-alt',
-    'textAngular',
+    'builder',
+    'builder.components',
+    'starter.apiservice',
+    'app.apiserviceUser',
+    'app.apiserviceAddEditInventory',
+   // 'textAngular',
     'nvd3',
+    'formly',
+    'ionic',
+    'formlyIonic',
+    'ngDialog',
     'ui.grid.cellNav'
   ])
   .config(function ($routeProvider) {

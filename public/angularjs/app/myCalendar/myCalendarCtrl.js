@@ -1,39 +1,44 @@
 angular.module('newApp')
-.controller('myCalendarCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('myCalendarCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiservice', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiservice) {
 	  //$.fn.Data.checkbox();
 	$scope.eventList = [];
 	$scope.eventdataValue = [];
 	$scope.flag = 0;
+	
+	
+	
 	$scope.initfunction = function(){
-		$http.get('/getTimeTableOfPhotos').success(function(data) {
-			$scope.postalNameList = data.postalNameList;
-			$scope.calenderTimeTable = data.calenderTimeTable;
-			angular.forEach(data.calenderTimeTable, function(obj, index){
-				$scope.eventList.push({
-					id:obj.id,
-					title:obj.portalName,
-					name:obj.portalName,
-					start: obj.contractDurStartDate+"T"+obj.openTime,
-					end: obj.contractDurStartDate+"T"+obj.closeTime,
-					backgroundColor:obj.setColor,
-					locationId:obj.locationId,
-					editable:true,
-					allDay: false,
-					
-	   	  			
-				});
-			});
-			
-			angular.forEach($scope.postalNameList, function(obj, index){
-				$('#external-events').append("<div class='external-event col-md-12' style='color: white;background:"+obj.color+";'>"+obj.title+"</div>");
-			});
-			
-			$('.external-event').addClass('fc-event-draggable');
 		
-			console.log($scope.eventList);
-			
-				$scope.initFirstFunction($scope.eventList);
-		});
+		apiservice.getTimeTableOfPhotos().then(
+				function(success){
+					$scope.postalNameList = success.postalNameList;
+					$scope.calenderTimeTable = success.calenderTimeTable;
+					angular.forEach(success.calenderTimeTable, function(obj, index){
+						$scope.eventList.push({
+							id:obj.id,
+							title:obj.portalName,
+							name:obj.portalName,
+							start: obj.contractDurStartDate+"T"+obj.openTime,
+							end: obj.contractDurStartDate+"T"+obj.closeTime,
+							backgroundColor:obj.setColor,
+							locationId:obj.locationId,
+							editable:true,
+							allDay: false,
+							
+			   	  			
+						});
+					});
+					
+					angular.forEach($scope.postalNameList, function(obj, index){
+						$('#external-events').append("<div class='external-event col-md-12' style='color: white;background:"+obj.color+";'>"+obj.title+"</div>");
+					});
+					
+					$('.external-event').addClass('fc-event-draggable');
+				
+					$scope.initFirstFunction($scope.eventList);
+				}
+			);
+	
 	}
 	
 	
@@ -97,10 +102,9 @@ angular.module('newApp')
 //			            	}
 //			            	console.log($scope.saveObj);
 //			            	
-//			            	$http.post("/deleteEvent",$scope.saveObj).success(function(data){
-//			       			 	console.log("suuu888");
-//			       			 	$('#calendar').fullCalendar('removeEvents',event._id);
-//			            	});*/
+//			            	apiservice.deleteEvent($scope.saveObj).then(function(success){
+//								$('#calendar').fullCalendar('removeEvents',event._id);
+//	   						});	;
 //
 //			    },
 			    			    
@@ -144,14 +148,12 @@ angular.module('newApp')
 			            		$scope.saveObj.contractDurEndDate = event._end._d;
 			            		$scope.saveObj.originEndDate = event._end._i;
 			            	}
-			            	//console.log($filter('date')(delta._milliseconds, 'hh:mm:ss'));
 			            	$scope.saveObj.openTime = delta._milliseconds;
 			            	
-			            	$http.post("/saveNewEvent",$scope.saveObj).success(function(data){
-			       			 	console.log("suuu888");
-			       			 //	$scope.initfunction();
-			            	});
-		            
+			            	apiservice.saveNewEvent($scope.saveObj).then(function(success){
+		            			console.log("succ");
+			            	});			
+			            	
 		            }else{
 		            	$('#calendar').fullCalendar('removeEvents',event.id);
 		            	$('#eventExist').modal('show');
@@ -175,9 +177,10 @@ angular.module('newApp')
 		            	}
 		            	$scope.saveObj.openTime = delta._milliseconds;
 		            	
-		            	$http.post("/saveNewEvent",$scope.saveObj).success(function(data){
-		       			 	console.log("suuu888");
-		            	});
+		            	
+		            	apiservice.saveNewEvent($scope.saveObj).then(function(success){
+	            			console.log("succ");
+		            	});	
 		            
 		        },
 		        eventRender: function(event, element) {
@@ -233,10 +236,9 @@ angular.module('newApp')
 			            	$scope.saveObj.contractDurStartDate = date._d;
 			            	$scope.saveObj.originStartDate = "0";
 			            	$scope.saveObj.contractDurEndDate = "0";
-			            	$http.post("/saveNewEvent",$scope.saveObj).success(function(data){
-			       			 	console.log("suuu888");
-			       			 //	$scope.initfunction();
-			            	});
+			            	apiservice.saveNewEvent($scope.saveObj).then(function(success){
+		            			console.log("succ");
+			            	});	
 			            
 			            
 			            
@@ -275,10 +277,10 @@ angular.module('newApp')
     	}
     	console.log($scope.saveObj);
     	
-    	$http.post("/deleteEvent",$scope.saveObj).success(function(data){
-			 	console.log("suuu888");
-			 	$('#calendar').fullCalendar('removeEvents',$scope.eventdata._id);
-    	});
+    	apiservice.deleteEvent($scope.saveObj).then(function(success){
+			$('#calendar').fullCalendar('removeEvents',$scope.eventdata._id);
+    	});	
+    	    	
 	}
 	 
 	

@@ -1,4 +1,4 @@
-angular.module('newApp')
+/*angular.module('newApp')
 .controller('createUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 	$scope.img = "/assets/images/profile-pic.jpg";
 	$scope.user = {};
@@ -582,4 +582,4 @@ angular.module('newApp')
 		});
 	}
 	
-}]);	
+}]);	*/

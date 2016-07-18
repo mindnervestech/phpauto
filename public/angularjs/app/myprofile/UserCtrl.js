@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('createUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('createUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceUser', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceUser) {
 	$scope.img = "/assets/images/profile-pic.jpg";
 	$scope.user = {};
 	$scope.permission = [];
@@ -147,12 +147,9 @@ angular.module('newApp')
 		$location.path('/myprofile');
 	};
 	$scope.goToDeactive = function() {
-		console.log("....");
 		$location.path('/deactiveUsers');
 	};
 	$scope.gotoHoursOfOperation = function() {
-			console.log(">>>>>>>>>>>>")
-			
 			$location.path('/hoursOfOperations');
 		};
 	
@@ -161,23 +158,34 @@ angular.module('newApp')
 	$scope.usersList = null;
 	$scope.assignUser = null;
 	$scope.userLeads = {};
-	$http.get('/getAllUsersToAssign')
+	
+	apiserviceUser.getAllUsersToAssign().then(function(data){
+		$scope.usersList = data;
+		angular.forEach($scope.usersList, function(obj, index){
+			 if ((obj.userType == "Manager")) {
+				 $scope.assignUser = obj.id;
+		    };
+		  });	
+	});
+	/*$http.get('/getAllUsersToAssign')
 	.success(function(data) {
-		//console.log(data);
 		$scope.usersList = data;
 		angular.forEach($scope.usersList, function(obj, index){
 			 if ((obj.userType == "Manager")) {
 				 $scope.assignUser = obj.id;
 		    };
 		  });
-		//console.log($scope.assignUser);
+	});*/
+	
+	apiserviceUser.getInternalPdfData().then(function(data){
+		$scope.internalPdfList=data;
 	});
 	
-	$http.get('/getInternalPdfData')
+	/*$http.get('/getInternalPdfData')
 		.success(function(data) {
 			
 			$scope.internalPdfList=data;
-		});		
+		});	*/	
 	
 	$scope.selectLead = function(row){
 		if(row.entity.check == true){
@@ -211,22 +219,14 @@ angular.module('newApp')
 		$scope.userLeads.leads = $scope.checked;
 		//console.log($scope.userLeads);
 		if($scope.userLeads.leads.length > 0){
-			$http.post('/assignToUser',$scope.userLeads)
-			.success(function(data) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Leads assign successfully",
+			
+			apiserviceUser.assignToUser($scope.userLeads).then(function(data){
+				apiserviceUser.getAllLeadsByUser($scope.userId).then(function(data){
+					$scope.gridOptions1.data = data;
 				});
-	            $http.get('/getAllLeadsByUser/'+$scope.userId)
-	    		.success(function(data) {
-	    			//console.log(data);
-	    		$scope.gridOptions1.data = data;
-	    		
-	    	});
-	            //$('#clsUserLead').click();
-	            $scope.clouseUserLead();
+		            $scope.clouseUserLead();
 			});
+			
 		}else{
 			$.pnotify({
 			    title: "Error",
@@ -238,17 +238,10 @@ angular.module('newApp')
 	$scope.deactivateAccount = function(){
 		console.log($scope.gridOptions1.data.length);
 		if($scope.gridOptions1.data.length <= 0){
-			//console.log($scope.userId);
-			 $http.get('/deactivateAccount/'+$scope.userId)
-	    		.success(function(data) {
-	    			$scope.init();
-	    			$('#clsUserLead').click();
-	    			$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Account deactive successfully",
-					});
-	    	});
+			apiserviceUser.deactivateAccount($scope.userId).then(function(data){
+				$scope.init();
+    			$('#clsUserLead').click();
+			});
 		}else{
 			$.pnotify({
 			    title: "Error",
@@ -257,14 +250,15 @@ angular.module('newApp')
 			});
 		}
 	};
+	
+	
 	$scope.clouseUserLead = function(){
 		$scope.checked = [];
 		$scope.usersList = null;
 		$scope.assignUser = null;
 		$scope.userLeads = {};
-		$http.get('/getAllUsersToAssign')
-		.success(function(data) {
-			//console.log(data);
+		
+		apiserviceUser.getAllUsersToAssign().then(function(data){
 			$scope.usersList = data;
 			angular.forEach($scope.usersList, function(obj, index){
 				 if ((obj.userType == "Manager")) {
@@ -312,12 +306,9 @@ angular.module('newApp')
 	}
 	
 	$scope.init = function() {
-		$http.get('/getAllUsers')
-		.success(function(data) {
-			//console.log(data);
-		$scope.gridOptions.data = data;
-		
-	});
+		apiserviceUser.getAllUsers().then(function(data){
+			$scope.gridOptions.data = data;
+		});
 	}
 	
 	$scope.contract = function(type){
@@ -478,12 +469,15 @@ angular.module('newApp')
 		//console.log(row.entity);
 		//console.log(row.entity.id);
 		$scope.userId = row.entity.id;
-		$http.get('/getAllLeadsByUser/'+$scope.userId)
+		apiserviceUser.getAllLeadsByUser($scope.userId).then(function(data){
+			$scope.gridOptions1.data = data;
+		});
+		/*$http.get('/getAllLeadsByUser/'+$scope.userId)
 		.success(function(data) {
 			//console.log(data);
 		$scope.gridOptions1.data = data;
 		
-	});
+	});*/
 		$('#deleteModal').click();
 		   $scope.rowDataVal = row;
 	};
@@ -524,8 +518,7 @@ angular.module('newApp')
 	   
 		$scope.hOperation = {};
 	$scope.saveImage = function() {
-		$http.get('/findLocation')
-		.success(function(data) {
+		apiserviceUser.findLocation().then(function(data){
 			console.log(data);
 			$scope.user.locationId = data;
 		
@@ -576,7 +569,7 @@ angular.module('newApp')
 				$scope.user.hOperation.satOpen = false;
 			}
 			
-				$scope.user.portalName = "Autodealer";
+				$scope.user.portalName = "MavenFurniture";
 			
 			if($scope.user.hOperation.sunClose == undefined){
 				$scope.user.hOperation.sunClose = false;
@@ -619,8 +612,7 @@ angular.module('newApp')
 		if($scope.user.userType == "Photographer"){
 			if(angular.isUndefined(logofile)) {
 				//if($scope.emailMsg == "") {
-					$http.post('http://45.33.50.143:7071/uploadImageFile',$scope.user)
-					.success(function(data) {
+					apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
 						$scope.user.firstName=" ";
 			            $scope.user.lastName=" ";
 			            $scope.user.email=" ";
@@ -628,45 +620,29 @@ angular.module('newApp')
 			            $scope.user.userType=" ";
 			            $scope.user.img=" ";
 			            $('#btnClose').click();
-			            $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "User saved successfully",
-						});
-			          //  $scope.init();
 					});
+					
+					
 				//}
 			} else {
 				//if($scope.emailMsg == "") {
-				   $upload.upload({
-			            url : 'http://45.33.50.143:7071/uploadImageFile',
-			            method: 'post',
-			            file:logofile,
-			            data:$scope.user
-			        }).success(function(data, status, headers, config) {
-			            console.log('success');
-			            $scope.user.firstName=" ";
-			            $scope.user.lastName=" ";
-			            $scope.user.email=" ";
-			            $scope.user.phone=" ";
-			            $scope.user.userType=" ";
-			            $scope.user.img=" ";
-			            $("#file").val('');
-			            $('#btnClose').click();
-			            $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "User saved successfully",
-						});
-			            //$scope.init();
-			        });
+					apiserviceUser.uploadImageFileLoad($scope.user, $scope.user.userType, logofile).then(function(data){
+						 console.log('success');
+				            $scope.user.firstName=" ";
+				            $scope.user.lastName=" ";
+				            $scope.user.email=" ";
+				            $scope.user.phone=" ";
+				            $scope.user.userType=" ";
+				            $scope.user.img=" ";
+				            $("#file").val('');
+				            $('#btnClose').click();
+					});
 				//}
 			}
 		}else{
 			if(angular.isUndefined(logofile)) {
-			//	if($scope.emailMsg == "") {
-					$http.post('/uploadImageFile',$scope.user)
-					.success(function(data) {
+				//if($scope.emailMsg == "") {
+					apiserviceUser.uploadImageFile($scope.user, $scope.user.userType).then(function(data){
 						$scope.user.firstName=" ";
 			            $scope.user.lastName=" ";
 			            $scope.user.email=" ";
@@ -674,72 +650,34 @@ angular.module('newApp')
 			            $scope.user.userType=" ";
 			            $scope.user.img=" ";
 			            $('#btnClose').click();
-			            $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "User saved successfully",
-						});
+			            
 			            $scope.init();
 					});
+				//}else{
+				//	console.log("9999");
 				//}
 			} else {
 				//if($scope.emailMsg == "") {
-				   $upload.upload({
-			            url : '/uploadImageFile',
-			            method: 'post',
-			            file:logofile,
-			            data:$scope.user
-			        }).success(function(data, status, headers, config) {
-			            console.log('success');
-			            $scope.user.firstName=" ";
-			            $scope.user.lastName=" ";
-			            $scope.user.email=" ";
-			            $scope.user.phone=" ";
-			            $scope.user.userType=" ";
-			            $scope.user.img=" ";
-			            $("#file").val('');
-			            $('#btnClose').click();
-			            $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "User saved successfully",
-						});
-			            $scope.init();
-			        });
+					
+					apiserviceUser.uploadImageFileLoad($scope.user, $scope.user.userType, logofile).then(function(data){
+						 console.log('success');
+				            $scope.user.firstName=" ";
+				            $scope.user.lastName=" ";
+				            $scope.user.email=" ";
+				            $scope.user.phone=" ";
+				            $scope.user.userType=" ";
+				            $scope.user.img=" ";
+				            $("#file").val('');
+				            $('#btnClose').click();
+				            $scope.init();
+					});
+				  
 				//}
 			}
 		}
 		
-		
-		
-		/*$scope.operation.typeOfOperation='sales';
-		$scope.operation.sunOpenTime = $('#sunOpen').val();
-		$scope.operation.sunCloseTime= $('#sunClose').val();
-		$scope.operation.monOpenTime = $('#monOpen').val();
-		$scope.operation.monCloseTime= $('#monClose').val();   
-		$scope.operation.tueOpenTime = $('#tueOpen').val();
-		$scope.operation.tueCloseTime= $('#tueClose').val();   
-		$scope.operation.wedOpenTime = $('#wedOpen').val();
-		$scope.operation.wedCloseTime= $('#wedClose').val();
-		$scope.operation.thuOpenTime = $('#thuOpen').val();
-		$scope.operation.thuCloseTime= $('#thuClose').val();
-		$scope.operation.friOpenTime = $('#friOpen').val();
-		$scope.operation.friCloseTime= $('#friClose').val();
-		$scope.operation.satOpenTime = $('#satOpen').val();
-		$scope.operation.satCloseTime= $('#satClose').val();
-		   console.log($scope.operation);
-		   
-		   $http.post('/saveHours',$scope.operation)
-			.success(function(data) {
-				
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: " saved successfully",
-				});
-	            //$scope.init();
-			});*/
 		});
+		
 	   }
 	
 	$scope.openClick = function(){
@@ -814,22 +752,24 @@ angular.module('newApp')
 			$scope.userData.imageUrl = $scope.img;
 			//console.log("no logofile");
 			if($scope.emailMsg == "") {
-					$http.post('/updateImageFile',$scope.userData)
+				apiserviceUser.updateImageFile($scope.userData).then(function(data){
+					$('#btnEditClose').click();
+		            $scope.init();
+				});
+					/*$http.post('/updateImageFile',$scope.userData)
 					.success(function(data) {
-						$('#btnEditClose').click();
-				           
-			            $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "User saved successfully",
-						});
-			            $scope.init();
-					});
+						
+					});*/
 				}
 			} else {
-				//console.log("in logofile = "+logofile);
 				if($scope.emailMsg == "") {
-					$upload.upload({
+					
+					apiserviceUser.updateImageFileLoad($scope.userData, logofile).then(function(data){
+						$('#btnEditClose').click();
+			            $scope.init();
+					});
+					
+					/*$upload.upload({
 			            url : '/updateImageFile',
 			            method: 'post',
 			            file:logofile,
@@ -844,7 +784,7 @@ angular.module('newApp')
 						    text: "User saved successfully",
 						});
 			            $scope.init();
-			        });
+			        });*/
 				}
 			}
 	   }
@@ -857,17 +797,20 @@ angular.module('newApp')
 		if(type == 'edit') {
 			$scope.email = $('#userEditEmail').val()
 		}
-		$http.get('/checkEmailOfUser/'+$scope.email)
-		.success(function(data) {
+		
+		apiserviceUser.checkEmailOfUser($scope.email).then(function(data){
 			$scope.emailMsg = data;
 		});
+		/*$http.get('/checkEmailOfUser/'+$scope.email)
+		.success(function(data) {
+			$scope.emailMsg = data;
+		});*/
 	}
 	
 }]);	
 
 angular.module('newApp')
 .controller('DeactivateUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
-
 	//console.log("in DeactivateUserCtrl");
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
