@@ -831,8 +831,8 @@
           if ((_base = $builder.forms)[_name = scope.formName] == null) {
             _base[_name] = [];
           }
-          
-          console.log('scope.ngModel',scope.ngModel);
+         
+        
           if(scope.ngModel.length>0){
             console.log('scope.ngModel',scope.ngModel);
             $builder.forms[scope.formName] = scope.ngModel;
@@ -979,8 +979,7 @@
           });
           scope.popover = {
             save: function($event) {
-
-              /*
+            /*
               The save event of the popover.
                */
               $event.preventDefault();
@@ -1202,24 +1201,16 @@
           input: '=ngModel',
           "default": '=fbDefault'
         },
-        
         template: "<div class='fb-form-object' ng-repeat=\"object in form\" fb-form-object=\"object\"></div>",
         controller: 'fbFormController',
         link: function(scope, element, attrs) {
-        	console.log("$$$$$$$");
           var $builder, _base, _name;
           $builder = $injector.get('$builder');
-          console.log($builder);
           if ((_base = $builder.forms)[_name = scope.formName] == null) {
             _base[_name] = [];
           }
-          console.log($builder.forms[scope.formName]);
-          console.log("&&&&&&&&&&&&&&&&7");
           return scope.form = $builder.forms[scope.formName];
-          
-         //return scope.form = [{"id":0,"component":"financialcalculator","editable":true,"index":0,"label":"Financial Calculator","description":"","key":"","imageUrl":"","placeholder":"","options":[],"columnOptions":[],"equation":"","required":false,"isRepeatable":false,"validation":"/.*/","logic":{"action":"Hide"},"pointRules":[],"column":[]},{"id":1,"component":"select","editable":true,"index":1,"label":"Select","description":"description","key":"","imageUrl":"","placeholder":"placeholder","options":["value one","value two"],"columnOptions":[],"equation":"","required":false,"isRepeatable":false,"validation":"/.*/","logic":{"action":"Hide"},"pointRules":[],"column":[]}];
         }
-       
       };
     }
   ]).directive('fbFormObject', [
