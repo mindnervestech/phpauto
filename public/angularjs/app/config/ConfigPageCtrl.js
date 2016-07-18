@@ -410,6 +410,7 @@ $scope.leadTypeAll = function(){
 				
 				 $scope.allLeadRender = function(row){
 						console.log(row);
+						if(row.entity.lead_name != ""){
 						 if(row.entity.lead_name == "Request More Info"){
 							$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.lead_name);
 						}
@@ -422,7 +423,7 @@ $scope.leadTypeAll = function(){
 						else{
 							$location.path('/otherForm/'+"Edit"+"/"+row.entity.lead_name);
 						}
-						
+						}
 						
 					}
 				 
