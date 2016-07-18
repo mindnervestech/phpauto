@@ -13462,7 +13462,6 @@ angular.module('newApp')
 }]);
 
 
-
 angular.module('newApp')
 .controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
 	$scope.myprofile = {};
