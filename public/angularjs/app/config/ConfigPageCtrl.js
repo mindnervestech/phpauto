@@ -167,7 +167,7 @@ $scope.leadTypeAll = function(){
 		                                 { name: 'leadName', displayName: 'Lead Type', width:'50%',cellEditableCondition: false
 		                                 },
 		                                 {name:'org', displayName:'Show on Website', width:'15%',
-		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Contact Us\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Request For Appointment\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row.checkValue)">  </div>',
+		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Contact Us\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Request For Appointment\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
     		                                 cellTemplate:'<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Request For Appointment\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.removeUser(row)"  title="Delete"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Request For Appointment\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
@@ -184,18 +184,21 @@ $scope.leadTypeAll = function(){
 		})
 	}	
 	
-	$scope.selectCheck = function(checkValue){
+	
+	
+	$scope.selectCheckbox = function(row){
+		console.log(row);
 		$scope.entityId=row.entity.id;
 		console.log($scope.entityId);
 		console.log(row);
-		console.log(checkValue);
+		console.log(row.entity.checkValue);
 		var intValue = 0;
-		if(checkValue == undefined){
+		if(row.entity.checkValue == undefined){
 			intValue = 1;
 		}
-		if(checkValue == true){
+		if(row.entity.checkValue == true){
 			intValue = 0;
-		}else if(checkValue == false){
+		}else if(row.entity.checkValue == false){
 			intValue = 1;
 		}
 		
@@ -204,6 +207,7 @@ $scope.leadTypeAll = function(){
 			//$scope.gridOptions.data=data;
 			//console.log(data);
 		})
+		
 	}
 	
 	$scope.ShowCreateNewForm = function(row){
@@ -292,21 +296,22 @@ $scope.leadTypeAll = function(){
 				});
 		 }
 		 
-		 /*$scope.editName = function(row){
+		 $scope.selectCheck = function(row){
 				
-			 $('#editPopup').click();
+			 $('#editPopupcheck').click();
 			 console.log(row.entity)
-			 $scope.name = row.entity.name;
+			
 			 $scope.editleadtype.id = row.entity.id;
+			 $scope.selectCheckbox(row);
 			 
 		 }
 			
 		 $scope.editleadtype={};
-		 $scope.Updatename = function(name){
+		 $scope.Updatecheckbox = function(){
 			 console.log($scope.editleadtype);
 			 console.log("out of funtion");
 			 $scope.editleadtype.name = name;
-			 $http.post("/UpdateName",$scope.editleadtype)
+			 $http.post("/Updatecheckbox",$scope.editleadtype)
 			 .success(function(data){
 				 console.log("in of funtion");
 				 $.pnotify({
@@ -314,10 +319,11 @@ $scope.leadTypeAll = function(){
 					    type:'success',
 					    text: "Update successfully",
 					});
-         		$("#editPopups").modal('hide');
-         		$scope.allFormName();
+         		$("#editPopupscheck").modal('hide');
+         		//$scope.allFormName();
     		});
-		 }*/
+			
+		 }
 		 
 		 $scope.addNewForm = function(){
 				console.log("Checkkkk");
@@ -516,7 +522,7 @@ $scope.leadTypeAll = function(){
 					});
          		$("#editPopups").modal('hide');
          		$scope.allLeaddata();
-         		$scope.selectCheck();
+         		$scope.selectCheckbox();
     		});
 		 }
 		 

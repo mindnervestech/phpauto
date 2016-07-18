@@ -109,6 +109,43 @@
             </div>
         </div>
 		
+	 <div style="display:none;" id="editPopupcheck" data-toggle="modal" data-target="#editPopupscheck"></div>
+	<div class="modal fade" id="editPopupscheck" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Name</strong></h4>
+                </div>
+			<div class="modal-body">
+				<form ng-submit="Updatecheckbox()">
+					
+					
+					<div class="col-md-12 form-group">
+						<div class="col-md-4">
+							<label>Select Value</label>
+						</div>
+						<div class="col-md-6">
+							<select  class="form-control"  id="form_type" ng-model="leadcreate.checkValue"    required>
+									<option value="">---Select---</option>
+									<option value="All Profile pages">All Profile pages</option>
+									
+													           
+							 </select>
+						</div>
+					</div>
+					
+					<input type="submit" class="btn btn-primary btn-embossed"
+						value="Edit CheckBox">
+
+				</form>
+			</div>
+
+		</div>
+		
+               
+            </div>
+        </div> 
 </div>		
    
 <style>

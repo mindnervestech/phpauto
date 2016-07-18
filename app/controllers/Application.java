@@ -10479,7 +10479,21 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	   return ok();
 		}	
 		
-		public static Result UpdateName() {
+		public static Result Updatecheckbox() {
+			Form<LeadTypeVM> form = DynamicForm.form(LeadTypeVM.class).bindFromRequest();
+			LeadTypeVM vm=form.get();
+			Date date = new Date();
+			
+			LeadType lead = LeadType.findById(vm.id);
+			  	 
+	    	   lead.setProfile(vm.profile);
+	    	  
+	    	  
+	    	  lead.update();
+	    	  
+	    	   return ok();
+		}	
+		/*public static Result UpdateName() {
 			Form<CreateNewFormVM> form = DynamicForm.form(CreateNewFormVM.class).bindFromRequest();
 			CreateNewFormVM vm=form.get();
 			Date date = new Date();
@@ -10492,7 +10506,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			newform.update();
 	    	  
 	    	   return ok();
-		}	
+		}	*/
 		
 		public static Result allFormName() {
 			

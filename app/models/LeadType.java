@@ -17,7 +17,7 @@ public class LeadType extends Model {
 	public Long id;
 	public String leadName;
 	public Integer shows;
-	
+	public String profile;
 		
 	@ManyToOne
 	public Location locations;
@@ -29,6 +29,15 @@ public class LeadType extends Model {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 
 	public String getLeadName() {
