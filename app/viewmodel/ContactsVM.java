@@ -1,5 +1,9 @@
 package viewmodel;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class ContactsVM {
 
 	public Long contactId;
@@ -44,7 +48,9 @@ public class ContactsVM {
 	public String fullName;
 	public String enthicity;
 	
-
+	public List<KeyValueDataVM> customData  = new ArrayList<KeyValueDataVM>();
+	public Map<String, String> customMapData;
+	
 	public String getEnthicity() {
 		return enthicity;
 	}

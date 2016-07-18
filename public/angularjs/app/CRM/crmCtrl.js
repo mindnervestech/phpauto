@@ -3,6 +3,15 @@ angular.module('newApp')
 	if(!$scope.$$phase) {
 		$scope.$apply();
 	}
+	
+	$http.get('/getCustomizationform/'+'CRM').success(function(response) {
+		console.log(response);
+		 $scope.editInput = response;
+		 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
+		 console.log($scope.userFields);
+		 $scope.user = {};
+		});
+	
 	$scope.allLoc = true;
 	$scope.gridOptions = {
    		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -92,9 +101,11 @@ angular.module('newApp')
    		}
    		
    		$http.get('/getAllContactsData').success(function(data){
+   			console.log(data);
 				$scope.gridOptions.data = data;
 				$scope.contactsList = data;
-			 });
+				
+   		});
    		 
    		$http.get('/getUsers').success(function(data){
 			$scope.allUser = data;
@@ -130,6 +141,37 @@ angular.module('newApp')
    			 $http.get('/getAllContactsData').success(function(data){
    				$scope.gridOptions.data = data;
    				$scope.contactsList = data;
+   				
+   				$scope.customData = data.customMapData;
+   			 console.log($scope.customData);
+   			 $scope.contactsList.collection=data.collection;
+   			 if($scope.customData.time_range != undefined){
+   				 $("#bestTimes").val($scope.customData.time_range);
+   			 }
+   			 
+   			 if($scope.customData.address_bar != undefined){
+   				 $("#autocomplete").val($scope.customData.address_bar);
+   			 }
+   			 
+   			
+   			 
+   			 $.each($scope.customData, function(attr, value) {
+   				 var res = value.split("[");
+   					 if(res[1] != undefined){
+   						 console.log(JSON.parse(value));
+   						 $scope.customData[attr] = JSON.parse(value);
+   				   	  			
+   					 }
+   							
+   				 });
+   			 
+   			 console.log($scope.customData);
+   				
+   				
+   				
+   				
+   				
+   				
    			 });
    		 }
    		 
@@ -197,10 +239,91 @@ angular.module('newApp')
 		   }else{
 			   $scope.showGroup = 0;
 		   }
+		   
+		   $scope.customData = row.entity.customMapData;
+			 console.log($scope.customData);
+			 $scope.contactsList.collection=row.entity.collection;
+			 if($scope.customData.time_range != undefined){
+				 $("#bestTimes").val($scope.customData.time_range);
+			 }
+			 
+			 if($scope.customData.address_bar != undefined){
+				 $("#autocomplete").val($scope.customData.address_bar);
+			 }
+			 
+			
+			 
+			 $.each($scope.customData, function(attr, value) {
+				 var res = value.split("[");
+					 if(res[1] != undefined){
+						 console.log(JSON.parse(value));
+						 $scope.customData[attr] = JSON.parse(value);
+				   	  			
+					 }
+							
+				 });
+			 
+			 console.log($scope.customData);
+		
+		   
+		   
+		   
+		   
+		   
+		   
 		   $('#contactsModal').modal();
 	   }
    		 
 	   $scope.updateContacts = function() {
+		   console.log("grfe");
+		   $scope.customList =[];
+		   console.log($("#autocomplete").val());
+		   console.log($scope.specification);
+		   $scope.customData.custName = $('#exCustoms_value').val();
+			if($scope.customData.custName == undefined){
+				delete $scope.customData.custName;
+			}
+			$scope.customData.address_bar = $("#autocomplete").val();
+			if($scope.customData.address_bar == undefined){
+				delete $scope.customData.address_bar;
+			}
+			$scope.customData.time_range = $("#bestTimes").val();
+			if($scope.customData.time_range == undefined){
+				delete $scope.customData.time_range;
+			}
+			
+			console.log($scope.customData);
+			console.log($scope.userFields);
+		
+		$.each($scope.customData, function(attr, value) {
+			angular.forEach($scope.userFields, function(value1, key) {
+				if(value1.key == attr){
+					if(angular.isObject(value) == true){
+						console.log(value);
+						console.log(angular.toJson(value));
+						$scope.customList.push({
+			   	  			key:attr,
+			   	  			value:angular.toJson(value),
+			   	  			savecrm:value1.savecrm,
+			   	  			displayGrid:value1.displayGrid,
+			   	  			
+						});
+					}else{
+						$scope.customList.push({
+			   	  			key:attr,
+			   	  			value:value,
+			   	  			savecrm:value1.savecrm,
+			   	  			displayGrid:value1.displayGrid,
+			   	  			
+						});
+					}
+					
+				} 
+			});
+		   });
+		console.log($scope.customList);
+		$scope.contactsDetails.customData = $scope.customList;
+		   
 		   $http.post('/updateContactsData',$scope.contactsDetails)
 			 .success(function(data) {
 				 $('#contactsModal').modal('hide');
@@ -230,7 +353,60 @@ angular.module('newApp')
 	   }
 	   
 	   $scope.saveContact = function() {
-		   $http.post('/saveContactsData',$scope.contactsDetails)
+		   console.log(">>>>>");
+		   $scope.customList =[];
+			
+			console.log($("#autocomplete").val());
+			   console.log($scope.specification);
+			   $scope.customData.custName = $('#exCustoms_value').val();
+				if($scope.customData.custName == undefined){
+					delete $scope.customData.custName;
+				}
+				$scope.customData.address_bar = $("#autocomplete").val();
+				if($scope.customData.address_bar == undefined){
+					delete $scope.customData.address_bar;
+				}
+				$scope.customData.time_range = $("#bestTimes").val();
+				if($scope.customData.time_range == undefined){
+					delete $scope.customData.time_range;
+				}
+				
+				console.log($scope.customData);
+				console.log($scope.userFields);
+			
+			$.each($scope.customData, function(attr, value) {
+				angular.forEach($scope.userFields, function(value1, key) {
+					if(value1.key == attr){
+						if(angular.isObject(value) == true){
+							console.log(value);
+							console.log(angular.toJson(value));
+							$scope.customList.push({
+				   	  			key:attr,
+				   	  			value:angular.toJson(value),
+				   	  			savecrm:value1.savecrm,
+				   	  			displayGrid:value1.displayGrid,
+				   	  			
+							});
+						}else{
+							$scope.customList.push({
+				   	  			key:attr,
+				   	  			value:value,
+				   	  			savecrm:value1.savecrm,
+				   	  			displayGrid:value1.displayGrid,
+				   	  			
+							});
+						}
+						
+					} 
+				});
+			   });
+			
+			 
+			
+			console.log($scope.customList);
+			$scope.contactsDetails.customData = $scope.customList;
+		   
+		  $http.post('/saveContactsData',$scope.contactsDetails)
 			 .success(function(data) {
 				 if(data == "") {
 					 $('#createcontactsModal').modal('hide');

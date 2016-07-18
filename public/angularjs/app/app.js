@@ -44,11 +44,46 @@ var MakeApp = angular
             templateUrl: '/dealer/dashboard/dashboard.html',
             controller: 'dashboardCtrl'
         })
-
-	 .when('/addInventory', {
+        .when('/addInventory', {
             templateUrl: '/dealer/addInventory/addInventory.html',
             controller: 'addInventoryCtrl'
         })
+
+        .when('/CreateLeadForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/createLeadForm.html',
+            controller: 'customizationFormCtrl'
+        })
+        .when('/RequestMoreInfoForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/allLead.html',
+            controller: 'customizationFormCtrl'
+        })
+        
+        .when('/ContactUsForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/allLead.html',
+            controller: 'customizationFormCtrl'
+        })
+        
+        .when('/otherForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/other.html',
+            controller: 'customizationFormCtrl'
+        })
+        
+        
+        .when('/RequestAppointmentForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/allLead.html',
+            controller: 'customizationFormCtrl'
+        })
+        
+        .when('/InventoryForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/createInventoryForm.html',
+            controller: 'customizationFormCtrl'
+        })
+        .when('/CRMForm/:pageType/:formType', {
+            templateUrl: '/dealer/customizationForm/createCrmForm.html',
+            controller: 'customizationFormCtrl'
+        })
+        
+        
         .when('/addVehicle', {
             templateUrl: '/dealer/addVehicle/addVehicle.html',
             controller: 'addVehicleCtrl'

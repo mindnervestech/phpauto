@@ -92,6 +92,7 @@ import models.Contacts;
 import models.CoverImage;
 import models.CreateNewForm;
 import models.CustomerPdf;
+import models.CustomizationCrm;
 import models.Domain;
 import models.EmailDetails;
 import models.FeaturedImage;
@@ -194,6 +195,7 @@ import viewmodel.HeardAboutUsVm;
 import viewmodel.HoursOperation;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
+import viewmodel.KeyValueDataVM;
 import viewmodel.LeadDateWiseVM;
 import viewmodel.LeadTypeVM;
 import viewmodel.LeadVM;
@@ -42542,6 +42544,39 @@ if(vehicles.equals("All")){
     	}
 	}
 	
+	
+	public static void findCustomCrmData(Long id,ContactsVM inventoryvm){
+    	List<CustomizationCrm> custData = CustomizationCrm.findByIdList(id);
+    	List<KeyValueDataVM> keyValueList = new ArrayList<>();
+    	Map<String, String> mapCar = new HashMap<String, String>();
+    	for(CustomizationCrm custD:custData){
+    		mapCar.put(custD.keyValue, custD.value);
+    		//if(custD.displayGrid.equals("true")){
+    			//if(keyValueList.size() == 0){
+    				KeyValueDataVM keyValue = new KeyValueDataVM();
+            		keyValue.key = custD.keyValue;
+            		keyValue.value = custD.value;
+            		keyValue.displayGrid = custD.displayGrid;
+            		keyValueList.add(keyValue);
+    			//}else{
+            		/*for(KeyValueDataVM ks:keyValueList){
+    					if(!ks.equals(custD.keyValue)){
+    						KeyValueDataVM keyValue = new KeyValueDataVM();
+    	            		keyValue.key = custD.keyValue;
+    	            		keyValue.value = custD.value;
+    	            		keyValue.displayGrid = custD.displayGrid;
+    	            		keyValueList.add(keyValue);
+    					}
+    				}
+    			}*/
+    			
+    		//}
+    		
+    	}
+    	inventoryvm.customData = keyValueList;
+    	inventoryvm.customMapData = mapCar;
+    }
+	
 	public static Result updateContactsData() {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));
@@ -42643,6 +42678,7 @@ if(vehicles.equals("All")){
  		    contacts.setType("Offline");
  		    contacts.setEnthicity(vm.enthicity);
  		    contacts.setCustZipCode(vm.zip);
+ 		   contacts.setLastName(vm.lastName);
  		   /*
  		     contacts.setAllEmail(vm.allEmail);
  		    contacts.setAllPhone(vm.allPhone);
@@ -42671,13 +42707,37 @@ if(vehicles.equals("All")){
     			}*/
  		   contacts.setNewsLetter(1);
     			contacts.save();
-    		} else {
+    			saveCustomCrmData(contacts.contactId,vm);
+    			
+    		} /*else {
     			msg = "Email already exists";
-    		}
+    		}*/
     		return ok(msg);
     	}
 	}
-	
+	private static void saveCustomCrmData(Long InventoryId,ContactsVM vm) {
+       	
+       	for(KeyValueDataVM custom:vm.customData){
+       		
+       		CustomizationCrm cDataValue = CustomizationCrm.findByKeyAndLeadId(custom.key,InventoryId);
+       		if(cDataValue == null){
+       			CustomizationCrm cValue = new CustomizationCrm();
+       			cValue.keyValue = custom.key;
+       			cValue.value = custom.value;
+       			cValue.crmId = InventoryId;
+       			cValue.displayGrid = custom.displayGrid;
+       			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+       			cValue.save();
+       			
+       		}else{
+       			cDataValue.setKeyValue(custom.key);
+       			cDataValue.setValue(custom.value);
+       			cDataValue.setDisplayGrid(custom.displayGrid);
+       			cDataValue.update();
+       		}
+   			
+   		}
+       }
 	public static Result saveNewsletterDate(String date,String time,Long id,String newsTimeZone) throws ParseException {
 		if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));

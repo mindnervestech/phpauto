@@ -130,7 +130,7 @@ angular.module('newApp')
 		
 		$scope.gridOptions.columnDefs = [
 		                                 { name: 'name', displayName: 'Name', width:'70%',
-		                                	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.ShowCreateNewForm1(row)">{{row.entity.name}}</label></div>',
+		                                	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.editName(row)">{{row.entity.name}}</label></div>',
 		                                 },
 		                                 
 		                                 { name: 'edit', displayName: ' ', width:'30%',
@@ -170,7 +170,7 @@ $scope.leadTypeAll = function(){
 		                                	 cellTemplate:'<div class="link-domain" ><input type="checkbox" ng-model="checkValue" ng-disabled="row.entity.leadName == \'Contact Us\' || row.entity.leadName == \'Request More Info\' || row.entity.leadName == \'Request For Appointment\'"  ng-checked="row.entity.checkValue" ng-click="grid.appScope.selectCheck(row,checkValue)">  </div>',
 		                                 },
 		                                 { name: 'edit', displayName: ' ', width:'20%',
-    		                                 cellTemplate:'<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Request For Appointment\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.removeUser(row)"  title="Delete"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Request For Appointment\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
+    		                                 cellTemplate:'<i class="fa fa-trash" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test\' && row.entity.leadName != \'Trade In\'  && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.removeUser(row)"  title="Delete"></i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.leadName != \'Request More Info\' && row.entity.leadName != \'Schedule Test\' && row.entity.leadName != \'Trade In\' && row.entity.leadName != \'Contact Us\'" ng-click="grid.appScope.EditUser(row)"  title="Edit"></i> ', 
     		                                 /*ng-if="(row.entity.leadName != "Request More Info" || row.entity.leadName != "Schedule Test" || row.entity.leadName != "Trade In")"*/
 		                                 },
 		                                    ];
@@ -206,7 +206,30 @@ $scope.leadTypeAll = function(){
 	}
 	
 	$scope.ShowCreateNewForm = function(row){
-		$location.path('/leadCreateForm/'+"Edit");
+		console.log(row);
+
+		if(row.entity.name == "Add Product"){
+
+			$location.path('/'+'InventoryForm/'+"Edit"+"/"+'Inventory');
+			
+		}
+		else if(row.entity.name == "Add to CRM"){
+
+			$location.path('/'+'CRMForm/'+"Edit"+"/"+'CRM');
+			
+		}else if(row.entity.name == "Request More Info"){
+			$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.name);
+		}
+		else if(row.entity.name == "Contact Us"){
+			$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.name);
+		}
+		else if(row.entity.name == "Request Appointment"){
+			$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.name);
+		}
+		else{
+			$location.path('/otherForm/'+"Edit"+"/"+row.entity.name);
+		}
+		
 	}
 
 	$scope.ShowCreateNewForm1 = function(row){
