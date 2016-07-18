@@ -44,6 +44,11 @@ var MakeApp = angular
             templateUrl: '/dealer/dashboard/dashboard.html',
             controller: 'dashboardCtrl'
         })
+
+	 .when('/addInventory', {
+            templateUrl: '/dealer/addInventory/addInventory.html',
+            controller: 'addInventoryCtrl'
+        })
         .when('/addVehicle', {
             templateUrl: '/dealer/addVehicle/addVehicle.html',
             controller: 'addVehicleCtrl'
@@ -557,6 +562,10 @@ var MakeApp = angular
             controller: 'ViewVehiclesCtrl'
         })
         
+	 .when('/viewInventory', {
+            templateUrl: '/dealer/viewInventory/viewInventory.html',
+            controller: 'viewInventoryCtrl'
+        })
         
         .when('/inventoryPhotographer', {
             templateUrl: '/dealer/inventory/inventoryPhotographer.html',
