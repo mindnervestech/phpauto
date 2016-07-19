@@ -468,6 +468,7 @@ angular.module('newApp')
 		  $http.post('/saveContactsData',$scope.contactsDetails)
 			 .success(function(data) {
 				 if(data == "") {
+					 $scope.contactMsg="";
 					 $('#createcontactsModal').modal('hide');
 					 $.pnotify({
 						    title: "Success",

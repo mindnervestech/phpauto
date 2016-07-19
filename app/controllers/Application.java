@@ -42723,9 +42723,9 @@ if(vehicles.equals("All")){
     			contacts.save();
     			saveCustomCrmData(contacts.contactId,vm);
     			
-    		} /*else {
+    		} else {
     			msg = "Email already exists";
-    		}*/
+    		}
     		return ok(msg);
     	}
 	}
