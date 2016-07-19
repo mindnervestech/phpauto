@@ -16855,8 +16855,57 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			todo.saveas = 0;
 			todo.save();
 		}
-		
+   
     }*/
+	
+	 private static void saveBilndVm(LeadVM leadVM,MultipartFormData bodys,Form<LeadVM> form) {
+    	 
+    	 JSONArray jArr,jArr1;
+    	 List<VehicleVM> vmList = new ArrayList<>();
+    	 List<KeyValueDataVM> vmList1 = new ArrayList<>();
+		try {
+			form.data().get("stockWiseData");
+			System.out.println(form.data().get("stockWiseData"));
+			jArr = new JSONArray(form.data().get("stockWiseData"));
+			
+			for (int i=0; i < jArr.length(); i++) {
+				VehicleVM vm = new VehicleVM();
+				JSONObject jsonObj = jArr.getJSONObject(i);
+				vm.id = Long.parseLong(String.valueOf(jsonObj.get("id")));
+				vm.imgId = String.valueOf(jsonObj.get("imgId")); 
+				vm.title = String.valueOf(jsonObj.get("title"));
+				vm.price =  String.valueOf(jsonObj.get("price"));
+				vm.stockNumber = String.valueOf(jsonObj.get("stockNumber"));
+				vmList.add(vm);
+				leadVM.stockWiseData.add(vm);
+			}
+			
+			jArr1 = new JSONArray(form.data().get("customData"));
+			
+			for (int i=0; i < jArr1.length(); i++) {
+				KeyValueDataVM vm1 = new KeyValueDataVM();
+				JSONObject jsonObj1 = jArr1.getJSONObject(i);
+				vm1.key = String.valueOf(jsonObj1.get("key"));
+				vm1.value = String.valueOf(jsonObj1.get("value"));
+				vmList1.add(vm1);
+				leadVM.customData.add(vm1);
+			}
+			
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		leadVM.id = form.data().get("id");
+		leadVM.custEmail = form.data().get("custEmail");
+		leadVM.custName = form.data().get("custName");
+		leadVM.custNumber = form.data().get("custNumber");
+		leadVM.custZipCode = form.data().get("custZipCode");
+		leadVM.prefferedContact = form.data().get("prefferedContact");
+		leadVM.leadType =form.data().get("leadType");
+		
+         
+    }
     
     private static void sendMailpremium() {
     	/*--------------------------------*/
