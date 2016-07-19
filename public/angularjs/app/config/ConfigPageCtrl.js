@@ -238,7 +238,30 @@ $scope.leadTypeAll = function(){
 	}
 
 	$scope.ShowCreateNewForm1 = function(row){
-		$location.path('/leadCreateForm/'+"Preview");
+		//$location.path('/leadCreateForm/'+"Preview");
+		console.log(row);
+
+		if(row.entity.name == "Add Product"){
+
+			$location.path('/'+'InventoryForm/'+"Preview"+"/"+'Inventory');
+			
+		}
+		else if(row.entity.name == "Add to CRM"){
+
+			$location.path('/'+'CRMForm/'+"Preview"+"/"+'CRM');
+			
+		}else if(row.entity.name == "Request More Info"){
+			$location.path('/RequestMoreInfoForm/'+"Preview"+"/"+row.entity.name);
+		}
+		else if(row.entity.name == "Contact Us"){
+			$location.path('/ContactUsForm/'+"Preview"+"/"+row.entity.name);
+		}
+		else if(row.entity.name == "Request Appointment"){
+			$location.path('/RequestAppointmentForm/'+"Preview"+"/"+row.entity.name);
+		}
+		else{
+			$location.path('/otherForm/'+"Preview"+"/"+row.entity.name);
+		}
 	}
 	
 	
@@ -524,7 +547,7 @@ $scope.leadTypeAll = function(){
 					    text: "Update successfully",
 					});
          		$("#editPopups").modal('hide');
-         		$scope.allLeaddata();
+         		//$scope.allLeaddata();
          		//$scope.selectCheckbox();
          		$scope.leadTypeAll();
     		});
