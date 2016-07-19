@@ -73,10 +73,10 @@ angular.module('newApp')
 		$scope.showSelectLocationDash = locationId;
 		
 	}
-	$http.get('/getAllVehicles')
+	/*$http.get('/getAllVehicles')
 		.success(function(data) {
 			$scope.vinSearchList = data;
-		});
+		});*/
 		//$scope.stockRp = {};
 		
 			$scope.stockWiseData = [];
