@@ -2780,47 +2780,6 @@ angular.module('newApp')
 		   	  	$scope.editLeads.custEmail = entity.email;
 		   	  	$scope.editLeads.custNumber = entity.phone;
 		   	  	$scope.editLeads.leadType = entity.typeOfLead;
-		   	  	
-		   	 if(entity.typeOfLead == "Trade In" || entity.typeOfLead == "Trade-In Appraisal") {
-				   $scope.pdffile = entity.pdfPath;
-				   $scope.lead = entity.leadsValue;
-				   
-				   $scope.tradeInId=entity.id;
-				   
-				   $http.get('/getSessionIdForTrade/'+$scope.tradeInId)
-				.success(function(data) {
-					console.log(data);
-					$scope.sessionId=data.sessionId;
-					//$scope.changeInfoImage("0");
-					$scope.changeActiveTabImage($scope.sessionId);
-				});
-				   
-			   }
-	  			
-	  		if(entity.typeOfLead == "Schedule Test Drive" || entity.typeOfLead == "Schedule Test") {
-	  			$scope.scheduleTestId=entity.id;
-				   $http.get('/getSessionIdForSchedule/'+$scope.scheduleTestId)
-				.success(function(data) {
-					console.log(data);
-					$scope.sessionId=data.sessionId;
-					//$scope.changeInfoImage("0");
-					$scope.changeActiveTabImage($scope.sessionId);
-				});
-			   }   
-	  		
-	 if(entity.typeOfLead == "Request More Info" || entity.typeOfLead == "Request More") {
-			$scope.requestTestId=entity.id;
-			   $http.get('/getSessionIdForRequest/'+$scope.requestTestId)
-			.success(function(data) {
-				console.log(data);
-				$scope.sessionId=data.sessionId;
-				//$scope.changeInfoImage("0");
-				$scope.changeActiveTabImage($scope.sessionId);
-			});
-		   }   
-		   	  	
-		   	  		
-		   	  	
    	  		}
    	  		
    	  		$scope.changesVin = function(vinNo,stockNo){
@@ -2849,6 +2808,7 @@ angular.module('newApp')
    	  			});
    	  		}
    	 $scope.calculateFinancialData = function(financeData){
+   		 
    	  	var cost         =financeData.price;
 		var down_payment =financeData.downPayment;
 		var interest     =financeData.annualInterestRate;
@@ -2863,10 +2823,56 @@ angular.module('newApp')
    	 }
    	  	
    	  		$scope.editleads = function(){
-   	  		
+   	  		$scope.customList = [];
+   	  		$scope.customData.setTime = $("#bestTimes").val()
+			if($scope.customData.setTime == undefined){
+				delete $scope.customData.setTime;
+			}
+			console.log($('#exCustoms_value').val());
+			$scope.customData.custName = $('#exCustoms_value').val();
+			if($scope.customData.custName == undefined){
+				delete $scope.customData.custName;
+			}
+			$scope.customData.autocompleteText = $("#autocomplete").val()
+			if($scope.customData.autocompleteText == undefined){
+				delete $scope.customData.autocompleteText;
+			}
+   	  		console.log($scope.customData);
+   	  	 $.each($scope.customData, function(attr, value) {
+		      $scope.customList.push({
+	   	  			key:attr,
+	   	  			value:value,
+	   	  			
+				});
+		   });
+   	  	 
+		
+   	  		$scope.editLeads.customData = $scope.customList;
    	  		$scope.editLeads.stockWiseData = $scope.stockWiseData;
-	   	  		 $http.post('/editLeads',$scope.editLeads).success(function(data) {
-	   	  			 
+   	  		console.log($scope.editLeads);
+   	  	var files = [];
+   	  	if($rootScope.fileCustom != undefined){
+			console.log($rootScope.fileCustom);
+			files = $rootScope.fileCustom;
+			
+			console.log(files.length);
+			console.log(files);
+			
+			// delete $scope.lead.customData;
+			// delete $scope.lead.options;
+			// delete $scope.lead.stockWiseData;
+			
+			 $upload.upload({
+	            url : '/editLeads',
+	            method: 'POST',
+	            file:files,
+	            data:$scope.editLeads
+	         }).success(function(data) {
+	   			console.log('success');
+	   			
+	   		 });
+			}else{ 
+   	  			$http.post('/editLeads',$scope.editLeads).success(function(data) {
 	   	  			 	$.pnotify({
 						    title: "Success",
 						    type:'success',
@@ -2876,6 +2882,7 @@ angular.module('newApp')
 	   	  			$("#editLeads").modal('hide');
 	   	  			$scope.getAllSalesPersonRecord($scope.salesPerson);
 				 });
+			 }
    	  		}
    	  		$scope.joinDatePick = function(index){
    	  			
@@ -4947,7 +4954,7 @@ angular.module('newApp')
 	    		$scope.removeLead = function(index){
 	    			$scope.stockWiseData.splice(index, 1);
 	    		}
-	    		
+	    		$scope.customList = [];
 	    		$scope.initialiase();
 	    		$scope.isInValid = false;
 	    		$scope.isStockError = false;
@@ -4956,38 +4963,94 @@ angular.module('newApp')
 	    		};
 	    		$scope.customData = {};
 	    		$scope.createLead = function() {
+	    			$scope.customList =[];
+	    			$scope.customData.setTime = $("#bestTimes").val();
+	    			console.log($scope.customData.setTime);
+	    			if($scope.customData.setTime == undefined){
+	    				delete $scope.customData.setTime;
+	    			}
+	    			console.log($scope.customData);
 	    			
-	    			if($scope.lead.custName == ''){
-	    				$scope.lead.custName = $('#ex1_value').val();
+	    			console.log($('#exCustoms_value').val());
+	    			$scope.customData.custName = $('#exCustoms_value').val();
+	    			if($scope.customData.custName == undefined){
+	    				delete $scope.customData.custName;
 	    			}
-	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' ||  
-	    					 $scope.lead.leadType =='' || $scope.lead.contactedFrom=='') {
-	    				$scope.isInValid = true;
-	    			} else {
-	    				$scope.isInValid = false;
+	    			$scope.customData.autocompleteText = $("#autocomplete").val()
+	    			if($scope.customData.autocompleteText == undefined){
+	    				delete $scope.customData.autocompleteText;
+	    			}
+	    			$scope.josnData = 0;
 	    			
-		    			if($scope.lead.leadType=='1') {
-		    				
-	    					$scope.makeLead();
-		    			} else if($scope.lead.leadType=='2') {
-		    				$scope.lead.bestDay = $("#leadBestDay").val();
-			    			$scope.lead.bestTime = $("#leadBestTime").val();
-			    			if($("input[name=leadPreffered]:checked").val())
-			    				$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
-			    			
-			    			if(!$scope.lead.bestDay || $scope.lead.bestDay == '' ||!$scope.lead.bestTime || $scope.lead.bestTime=='' || !$scope.lead.prefferedContact ||$scope.lead.prefferedContact=='') {
-			    				$scope.isInValid = true;
-			    			} else {
-			    				$scope.makeLead();
-			    			}
-		    			} else {
-		    				$("#createLeadPopup").modal('hide');
-		    				$("#tradeInApp").modal();
-		    			}
-	    			}
-	    			if($scope.lead.leadType != '3'){
-	    				window.location.reload();
-	    			}
+	    			
+	    			
+	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+	    				$scope.josnData = angular.fromJson(response.jsonData);
+	    				console.log($scope.josnData);
+	    					$.each($scope.customData, function(attr, value) {
+	    						angular.forEach($scope.josnData, function(value1, key) {
+	    							console.log(attr);
+	    							console.log(value1.key);
+	    							if(value1.key == attr){
+		    							$scope.customList.push({
+				    		   	  			key:attr,
+				    		   	  			value:value,
+				    		   	  			savecrm:value1.savecrm,
+				    		   	  			displayGrid:value1.displayGrid,
+				    		   	  			
+				    					});
+		    						} 
+		    					});
+			    			   });
+	    					
+	    					
+	    					
+	    					console.log($("#bestTimes").val());
+	    	    			console.log($scope.customData);
+	    	    			console.log($scope.customList);
+	    	    			 
+	    	    			
+	    	    			$scope.lead.customData = $scope.customList;
+	    	    			console.log($scope.lead);
+	    	    			console.log($("#autocomplete").val());
+	    	    			
+	    	    			if($scope.lead.custName == ''){
+	    	    				$scope.lead.custName = $('#ex1_value').val();
+	    	    			}
+	    	    			if($scope.lead.custName==''||$scope.lead.custZipCode==''||$scope.lead.custEmail==''||$scope.lead.custNumber=='' ||  
+	    	    					 $scope.lead.leadType =='') {
+	    	    				$scope.isInValid = true;
+	    	    			} else {
+	    	    				$scope.isInValid = false;
+	    	    			
+	    		    			if($scope.lead.leadType=='1') {
+	    		    				
+	    	    					$scope.makeLead();
+	    		    			} else if($scope.lead.leadType=='2') {
+	    		    				$scope.lead.bestDay = $("#leadBestDay").val();
+	    			    			$scope.lead.bestTime = $("#leadBestTime").val();
+	    			    			if($("input[name=leadPreffered]:checked").val())
+	    			    				$scope.lead.prefferedContact = $("input[name=leadPreffered]:checked").val();
+	    			    			
+	    			    			if(!$scope.lead.bestDay || $scope.lead.bestDay == '' ||!$scope.lead.bestTime || $scope.lead.bestTime=='' || !$scope.lead.prefferedContact ||$scope.lead.prefferedContact=='') {
+	    			    				$scope.isInValid = true;
+	    			    			} else {
+	    			    				$scope.makeLead();
+	    			    			}
+	    		    			} else if($scope.lead.leadType=='3') {
+	    		    				$("#createLeadPopup").modal('hide');
+	    		    				$("#tradeInApp").modal();
+	    		    			}else{
+	    		    				$scope.makeLead();
+	    		    			}
+	    	    			}
+	    	    			if($scope.lead.leadType != '3'){
+	    	    				//window.location.reload();
+	    	    			}
+	      	  		});
+	    			
+	    			
+	    			
 	    		};
 	    		
 	    		$scope.makeLeadEdit = function(){
@@ -4998,6 +5061,7 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.makeLead = function() {
+	    			
 	    			$scope.othertxt = $('#othertxt').val();
 	    			if($scope.lead.hearedFrom == "Other"){
 	    				if($scope.othertxt == null || $scope.othertxt == undefined){
@@ -5018,27 +5082,54 @@ angular.module('newApp')
 	    			
 	    			$("#createLeadPopup").modal('hide');
 	    			$scope.lead.stockWiseData = $scope.stockWiseData;
-	    			$http.post('/createLead',$scope.lead).success(function(response) {
-	    				//$scope.getVisitedData('week','countHigh','0','0','All');
-	    				$scope.topVisitedDataDatewise();
-	    				//$scope.userLocationData('Week','person');
-	    				 $scope.findMystatisData(startD,endD,'person');
-	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
-	    				if($scope.lead.leadType=='2')  {
-	    					$scope.getScheduleTestData();
-	    					$("#createLeadPopup").modal('hide');
+	    			
+	    			
+	    			var files = [];
+	    			console.log("^^^%%%*&&&&&&");
+	    			//console.log($scope.lead);
+	    			if($rootScope.fileCustom != undefined){
+	    				console.log($rootScope.fileCustom);
+	    				files = $rootScope.fileCustom;
+	    				
+	    				
+	    				console.log(files.length);
+	    				console.log(files);
+	    				console.log("bothfile");
+	    				
+	    				
+	    				 $upload.upload({
+	    		            url : '/createLead',
+	    		            method: 'POST',
+	    		            file:files,
+	    		            data:$scope.lead
+	    		         }).success(function(data) {
+	    		   			console.log('success');
+	    		   		 });
+	    				}else{
+	    					console.log($scope.lead);
+	    					
+	    					$http.post('/createLead',$scope.lead).success(function(response) {
+	    						//$scope.getVisitedData('week','countHigh','0','0','All');
+	    	    				$scope.topVisitedDataDatewise();
+	    	    				//$scope.userLocationData('Week','person');
+	    	    				 $scope.findMystatisData(startD,endD,'person');
+	    	    				$scope.getAllSalesPersonRecord($scope.salesPerson);
+	    	    				/*if($scope.lead.leadType=='2')  {
+	    	    					$scope.getScheduleTestData();
+	    	    					$("#createLeadPopup").modal('hide');
+	    	    				}
+	    	    				else*/ if($scope.lead.leadType=='1') {
+	    	    					$scope.getRequestMoreData();
+	    	    					$("#createLeadPopup").modal('hide');
+	    	    				}
+	    	    				/*else {
+	    	    					$scope.getTradeInData();
+	    	    					$("#tradeInApp").modal('hide');
+	    	    					window.location.reload();
+	    	    				}*/
+	    	    				$scope.initialiase();
+	    	    			});
 	    				}
-	    				else if($scope.lead.leadType=='1') {
-	    					$scope.getRequestMoreData();
-	    					$("#createLeadPopup").modal('hide');
-	    				}
-	    				else {
-	    					$scope.getTradeInData();
-	    					$("#tradeInApp").modal('hide');
-	    					window.location.reload();
-	    				}
-	    				$scope.initialiase();
-	    			});
 	    			$scope.getAllSalesPersonRecord($scope.salesPerson);
 	    		};
 	    		
@@ -5632,6 +5723,8 @@ angular.module('newApp')
 			var deferred = $q.defer();
 			$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
 			.success(function(data) {
+				console.log("oooppp00p0p34567");
+				console.log(data);
 				var countUnReadLead = 0;
 			$scope.gridOptions5.data = data;
 			$scope.AllRequestInfoSeenList = data;
@@ -9133,6 +9226,17 @@ angular.module('newApp')
 			   }); 
 			   
 		   }
+		   $scope.leadList = [];
+		   $http.get('/getSelectedLeadType').success(function(response) {
+				console.log(response);
+				
+				angular.forEach(response, function(value, key) {
+					if(value.id > 3){
+						$scope.leadList.push(value); 
+					}
+				});
+			
+			});
   }]);
 
 

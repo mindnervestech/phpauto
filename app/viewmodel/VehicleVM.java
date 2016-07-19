@@ -2,6 +2,7 @@ package viewmodel;
 
 public class VehicleVM {
 
+	public Long id;
 	public String title;
 	public String vin;
 	public String make;

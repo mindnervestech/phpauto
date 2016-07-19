@@ -49,7 +49,18 @@ public class ScheduleTest extends Model {
 	public String leadStatus;
 	public String reason;
 	public String declineUser;
+	public Long productId;
 	
+	
+	
+	
+	
+	public Long getProductId() {
+		return productId;
+	}
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
 	public int getMeetingNotifFlag() {
 		return meetingNotifFlag;
 	}

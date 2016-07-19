@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.AddCollection;
 import models.AuthUser;
+import models.LeadType;
 import play.Play;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -874,12 +875,12 @@ public class InventoryController extends Controller {
 			    	return ok(Json.toJson(collectionVMList));
 		   	}
 		}
-	   
+	   */
 	   
 	   public static Result getSelectedLeadType() {
 		   List<LeadType> lType = LeadType.findByLocationsAndSelected(Long.valueOf(session("USER_LOCATION")));
 		   return ok(Json.toJson(lType));
-	   }*/
+	   }
 	   
 	public static AuthUser getLocalUser() {
 		String id = session("USER_KEY");

@@ -56,10 +56,17 @@ public class RequestMoreInfo extends Model {
 public String testDriveStatus;
 public String isContactusType;
 public String message;	
+public Long productId;
 	
 	
 	
 	
+	public Long getProductId() {
+	return productId;
+}
+public void setProductId(Long productId) {
+	this.productId = productId;
+}
 	public int getNotifFlag() {
 	return notifFlag;
 }

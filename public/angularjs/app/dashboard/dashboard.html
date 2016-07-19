@@ -5952,10 +5952,10 @@ float: right !important;
 													
 													 <div class="row">
 								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>INTERESTED IN MODEL? <span style="color: red;">*</span></strong></h3>
-								                    		<div class="col-md-3">
-								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
-								                    			<div ng-show="isStockError" style="color: red;">Stock Number Not Found.</div>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.searchTitle}}<span style="color: red;">*</span></strong></h3>
+								                    		<div class="col-md-4">
+								                    			<div class="col-md-12"><label>{{editInput.searchSubTitle}}</label></div>
+								                    			<div ng-show="isStockError" style="color: red;"> Found.</div>
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="stockRp.stockNumber" ng-blur="getStockDetails(stockRp)"/>
 								                    			</div>
@@ -6055,6 +6055,8 @@ float: right !important;
 								                    			</div>
 								                    			
 								                    		</div> 
+								                    		
+								                    		
 								                    			<div class="col-md-1" style="font-size: 29px;margin-top: 54px;">
 								                    			<div class="col-sm-12">
 								                    			<a ng-click="cancelLead(childL,$parent.$index)"><span class="glyphicon glyphicon-remove"></span></a>
@@ -6067,10 +6069,14 @@ float: right !important;
 								                    		</div>
 								                    		
 								                    	</div>
-								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].vin != null">
-								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
+								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;">
+								                    	<a ng-click="pushRecord()">ADD ITEM</a>
 								                    	</div>
 								                    </div>
+								                    	<div class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
+								                    	</div>
 													
 												
 								                 <div ng-if="pdffile != null">
@@ -8838,7 +8844,6 @@ float: right !important;
 								        </div>
 								    </div>
 								    
-								    
 								    <div class="modal fade" id="tradeInApp" role="dialog" style="top:-75px;">
     									<div class="modal-dialog" style="width: 961px">
      										<form method="post" ng-submit="makeLead()">
@@ -9843,18 +9848,19 @@ float: right !important;
     <div class="modal fade" id="createLeadPopup" tabindex="-1" role="dialog" aria-hidden="true" style="top:-75px;">
 								        <div class="modal-dialog" style="width: 850px;">
 								            <div class="modal-content">
+								                <form ng-submit="createLead()">
 								                <div class="modal-header">
 								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 								                    <h2 class="modal-title" style="font-size: 25px;"><strong>CREATE NEW LEAD</strong></h2>
 								                </div>
 								                <div class="modal-body">
-								                	 <form ng-submit="createLead()">
+								                	
 								                    <div class="row">
 								                    	<div class="col-md-12">
 								                    		<div class="" ng-show="isInValid" style="color: red;">
 								                    			Please provide all mandatory fields.
 								                    		</div>
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>CUSTOMER'S INFO</strong></h3>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.mainTitle}}</strong></h3>
 								                    		<div class="col-md-6">
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				
@@ -9871,7 +9877,6 @@ float: right !important;
 															    </angucomplete-alt>
 															    
 								                    			</div>
-								                    			
 								                    			<div class="col-md-12" style="margin: 10px 0 10px 0;">
 								                    				<input type="text" ng-model="lead.custNumber" placeholder="PHONE NUMBER" required/> <span style="color: red;">*</span>
 								                    			</div>
@@ -9889,7 +9894,7 @@ float: right !important;
 								                    </div>
 								                    <div class="row">
 								                    	<div class="col-md-12" ng-repeat="stockRp in stockWiseData">
-								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>INTERESTED IN MODEL? <span style="color: red;">*</span></strong></h3>
+								                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.searchTitle}}<span style="color: red;">*</span></strong></h3>
 								                    		<div class="col-md-4">
 								                    			<div class="col-md-12"><label>Stock Number Search</label></div>
 								                    			<div ng-show="isStockError" style="color: red;">Stock Number Not Found.</div>
@@ -9940,7 +9945,7 @@ float: right !important;
 								                    		
 								                    	</div>
 								                    	<div class="col-md-12" style="text-align: center;font-size: 17px;" ng-if="stockWiseData[0].vin != null">
-								                    	<a ng-click="pushRecord()">ADD VEHICLES</a>
+								                    	<a ng-click="pushRecord()">ADD ITEM</a>
 								                    	</div>
 								                    </div>
 								                    <div>
@@ -9960,28 +9965,43 @@ float: right !important;
 								                    		</div>
 								                    	</div> -->
 								                    	<div class="col-md-12">
-								                    		<div class="col-md-5" style="width: 50%;">
-								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>WANTS TO? <span style="color: red;">*</span></strong></h3>
+								                    		 <div class="col-md-5" style="width: 50%;">
+								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>{{editInput.leadTypeTitle}}<span style="color: red;">*</span></strong></h3>
 								                    			<div>
 								                    				<select placeholder="TYPE OF REQUEST" ng-model="lead.leadType">
-								                    					<option value="1">REQUEST MORE INFO</option>
-								                    					<option value="2">SCHEDULE TEST DRIVE</option>
-								                    					<option value="3">TRADE-IN INQUIRIES</option>
+								                    					<option ng-repeat="lType in leadList" value="{{lType.id}}">{{lType.leadName}}</option>
 								                    				</select>
 								                    			</div>
-								                    		</div>
-								                    		<div class="col-md-5" ng-show="lead.leadType==2">
+								                    		</div> 
+								                    		 <div class="col-md-5" ng-show="lead.leadType==2">
 									                    		<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST DAY</strong> <span style="color: red;">*</span></h3>
 								                    			<div>
 																	<div>
 																		<input data-provide="datepicker" id="leadBestDay" ng-model="lead.bestDay" name="bestDay" class="form-control input-sm" data-date-format="dd-mm-yyyy">
 																	</div>
 																</div>
-								                    		</div>
+								                    		</div> 
 								                    	</div>
 								                    	<div class="col-md-12">
+								                    		<div class="col-md-5" style="width: 50%;">
+								                    		</div>
+								                    		<div class="col-md-5" ng-show="lead.leadType==2">
+								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>BEST TIME</strong> <span style="color: red;">*</span></h3>
+								                    			<div>
+																	<div>
+																		<div class="prepend-icon">
+								                              				<input type="text" name="timepicker" ng-model="lead.bestTime" class="timepicker form-control hasDatepicker" placeholder="Choose a time..." data-format="am-pm" id="leadBestTime">
+								                              				<i class="icon-clock"></i>
+								                            			</div>
+																	</div>
+																</div>
+								                    		</div>
+								                    	</div>
+								                    	<div class="col-md-12" style="margin-top: 32px;">
+								                				<formly-form model="customData" fields="userFields">
+  																</formly-form>
 								                    	</div>	
-								                    	<div class="row">
+								                    	<!-- <div class="row">
                           									<div class="col-sm-12">
 									                            <div class="form-group">
 									                             <div class="col-md-5">
@@ -9993,9 +10013,9 @@ float: right !important;
 									                              
 									                            </div>
 									                          </div>
-									                         </div>
+									                         </div> -->
 								                    </div>
-								                    <div>
+								                    <!-- <div>
 								                    	<div class="col-md-12">
 								                    		
 								                    		<div class="col-md-5" style="width: 50%;">
@@ -10021,8 +10041,8 @@ float: right !important;
 								                    	<div class="col-md-12" ng-if="lead.hearedFrom=='Other'" style="margin: 5px 0 0 10px;">
 								                    				<input type="text" id="othertxt" ng-model="othertxt" placeholder="HEAR ABOUT US?"/>
 								                    	</div>
-								                    </div>
-								                    <div>
+								                    </div> -->
+								                  <!--   <div>
 								                    	<div class="col-md-12">
 								                    		<div class="col-md-5" style="width: 50%;">
 								                    			<h3 style="margin-left:-30px;margin-top:10px; margin-bottom: 10px;"><strong>HOW DID HE/SHE CONTACTED US? <span style="color: red;">*</span></strong></h3>
@@ -10037,29 +10057,15 @@ float: right !important;
 								                    				</select>
 								                    			</div>
 								                    		</div>
-								                    		<!-- <div class="col-md-5" ng-show="lead.leadType==2">
-								                    			<h3 style="margin-top:10px; margin-bottom: 10px;"><strong>PREFERRED CONTACT</strong> <span style="color: red;">*</span></h3>
-								                    			<div class="form-group col-sm-12">
-																	<div class="col-sm-12">
-																		<input type="radio" name="leadPreffered" id="leadEmailCnt" value="email" ng-model="lead.prefferedContact" checked="checked">Email
-																		<input type="radio" name="leadPreffered" id="leadPhoneCnt" value="phone" ng-model="lead.prefferedContact">Phone
-																	</div>
-																</div>
-								                    		</div> -->
+								                    		
 								                    	</div>
-								                    </div>
-								                    <div class="col-md-12">
-								                    <div class="col-md-12" style="margin-top: 32px;">
-								                				<formly-form model="customData" fields="userFields">
-  																</formly-form>
-								                    	</div>	
-								                    </div>
-								                   </form>  
+								                    </div> -->
+								                    
 								                </div>
 								                <div class="modal-footer">
 								                    <button type="submit" class="btn btn-primary btn-embossed" id="lead-first-step">{{lead.leadType=='3'?'NEXT':'SUBMIT'}}</button>
 								                </div>
-								               
+								                </form>
 								            </div>
 								        </div>
 								    </div>

@@ -91,9 +91,17 @@ public class TradeIn extends Model {
 	public String testDriveStatus;
 	public String sessionId;
 	public int notifFlag;
+	public Long ProductId;
 	
 	
 	
+	
+	public Long getProductId() {
+		return ProductId;
+	}
+	public void setProductId(Long productId) {
+		ProductId = productId;
+	}
 	public int getNotifFlag() {
 		return notifFlag;
 	}

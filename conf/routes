@@ -79,6 +79,7 @@ GET		/getCustomerPdfData		 controllers.Application.getCustomerPdfData()
 GET		/getEmailDetails		 controllers.Application.getEmailDetails()
 GET   /getCheckButton/:leadId/:intValue				 controllers.Application.getCheckButton(leadId:Long,intValue:Integer)
 GET     /getColl				         controllers.productController.getCollectionList()
+GET     /getSelectedLeadType		     controllers.InventoryController.getSelectedLeadType()
 GET     /getTimeTableOfPhotos	         controllers.MyCalendarController.getTimeTableOfPhotos()
 
 
