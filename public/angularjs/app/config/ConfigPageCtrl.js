@@ -310,7 +310,7 @@ $scope.leadTypeAll = function(){
 		 $scope.Updatecheckbox = function(){
 			 console.log($scope.editleadtype);
 			 console.log("out of funtion");
-			 $scope.editleadtype.name = name;
+			// $scope.editleadtype.leadName = leadName;
 			 $http.post("/Updatecheckbox",$scope.editleadtype)
 			 .success(function(data){
 				 console.log("in of funtion");
