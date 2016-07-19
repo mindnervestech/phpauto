@@ -164,8 +164,19 @@ angular.module('newApp')
 		apiserviceAddEditInventory.getInventoryById($routeParams.id).then(function(data){
 			console.log(data);
 			
+			
 			 $scope.specification = data;
 			 $scope.customData = data.customMapData;
+			 console.log($scope.userFields);
+			 $.each($scope.customData, function(attr, value) {
+				 angular.forEach($scope.userFields, function(value1, key) {
+						if(value1.key == attr){
+							if(value1.templateOptions.type == "number"){
+								$scope.customData[attr] = parseInt(value);
+							}
+						}
+				 });	
+			});
 			 console.log($scope.customData);
 			 $scope.specification.collection=data.collection;
 			 if($scope.customData.time_range != undefined){
@@ -177,12 +188,21 @@ angular.module('newApp')
 			 }
 			 
 			 $.each($scope.customData, function(attr, value) {
-				 var res = value.split("[");
-					 if(res[1] != undefined){
-						 console.log(JSON.parse(value));
-						 $scope.customData[attr] = JSON.parse(value);
-				   	  			
-					 }
+				 
+				 angular.forEach($scope.userFields, function(value1, key) {
+						if(value1.key == attr){
+							if(value1.templateOptions.type != "number"){
+								var res = value.split("[");
+								 if(res[1] != undefined){
+									 console.log(JSON.parse(value));
+									 $scope.customData[attr] = JSON.parse(value);
+							   	  			
+								 }
+							}
+						}	
+					});			
+				 
+				 
 							
 				 });
 			 
