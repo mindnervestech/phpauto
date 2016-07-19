@@ -302,6 +302,8 @@ $scope.leadTypeAll = function(){
 			 console.log(row.entity)
 			
 			 $scope.editleadtype.id = row.entity.id;
+			 $scope.editleadtype.profile = row.entity.profile;
+			 console.log($scope.editleadtype.profile);
 			 $scope.selectCheckbox(row);
 			 
 		 }
@@ -310,9 +312,10 @@ $scope.leadTypeAll = function(){
 		 $scope.Updatecheckbox = function(){
 			 console.log($scope.editleadtype);
 			 console.log("out of funtion");
-			// $scope.editleadtype.leadName = leadName;
+			 
 			 $http.post("/Updatecheckbox",$scope.editleadtype)
 			 .success(function(data){
+				 console.log(data);
 				 console.log("in of funtion");
 				 $.pnotify({
 					    title: "Success",
