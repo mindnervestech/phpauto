@@ -393,8 +393,9 @@ $scope.leadTypeAll = function(){
 					console.log(data);
 					$('#outcome').click();
 					// $("#outcome").modal('hide');
+					$scope.webSiteinfo();
 					});
-				 	$scope.webSiteinfo();
+				 	
 				
 				}
 			$scope.webSiteinfo = function(){
@@ -483,8 +484,9 @@ $scope.leadTypeAll = function(){
 							    text: "Update successfully",
 							});
 		         		$("#editPopupswebsite").modal('hide');
-		         		 $scope.webSiteinfo();
+		         		$scope.webSiteinfo();
 		    		});
+					 
 				 }
 				
 				 $scope.showEditData = function(){

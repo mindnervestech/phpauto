@@ -10591,7 +10591,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	   
 		    		   lead.setTitle(vm.title);
 		    		   lead.setForm_type(vm.form_type);
-		    		   if(vm.form_type == "Contact Form")
+		    		   if(vm.form_type.equals("Contact Form"))
 		    		   {
 		    			   lead.setLead_name(vm.lead_name);
 		    		   }
