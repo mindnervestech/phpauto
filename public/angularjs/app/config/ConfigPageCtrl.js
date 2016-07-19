@@ -525,7 +525,8 @@ $scope.leadTypeAll = function(){
 					});
          		$("#editPopups").modal('hide');
          		$scope.allLeaddata();
-         		$scope.selectCheckbox();
+         		//$scope.selectCheckbox();
+         		$scope.leadTypeAll();
     		});
 		 }
 		 
