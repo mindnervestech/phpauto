@@ -29718,7 +29718,7 @@ private static void cancelTestDriveMail(Map map) {
     			 cVm.these_visitors = (double)vistValue;
     			 cVm.all_visitors = countAll2;
     			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-    			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+    			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
     			 platformvm.add(cVm);
     			 
     			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
@@ -29889,7 +29889,7 @@ private static void cancelTestDriveMail(Map map) {
      			 cVm.these_visitors = (double)vistValue;
      			 cVm.all_visitors = countAll2;
      			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-     			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+     			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
      			 platformvm.add(cVm);
      			 
      			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
@@ -30230,7 +30230,7 @@ private static void cancelTestDriveMail(Map map) {
        			 cVm.these_visitors = (double)vistValue;
        			 cVm.all_visitors = countAll2;
        			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-       			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+       			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
        			 platformvm.add(cVm);
        			 
        			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
@@ -30745,7 +30745,7 @@ private static void cancelTestDriveMail(Map map) {
       			 cVm.these_visitors = (double)vistValue;
       			 cVm.all_visitors = countAll2;
       			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-      			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+      			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
       			 platformvm.add(cVm);
       			 
       			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
@@ -31082,7 +31082,7 @@ private static void cancelTestDriveMail(Map map) {
      			 cVm.these_visitors = (double)vistValue;
      			 cVm.all_visitors = countAll2;
      			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-     			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+     			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
      			 platformvm.add(cVm);
      			 
      			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
