@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('BlogsCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
+.controller('BlogsCtrl', ['$scope','$http','$location','$filter','apiserviceBlog', function ($scope,$http,$location,$filter,apiserviceBlog) {
 	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -27,10 +27,12 @@ angular.module('newApp')
 	  
 	 	$scope.init = function() {
 	 		
-		 	$http.get('/getAllBlogs')
-			.success(function(data) {
+		 	
+		 	apiserviceBlog.getAllBlogData().then(function(data){
+				console.log(data);
 				$scope.gridOptions.data = data;
-			}); 
+			});
+		 	
 		 	
 	 	}	 
 	 	
@@ -45,21 +47,18 @@ angular.module('newApp')
 	 	}
 	 	
 	 	$scope.deleteBlogRow = function() {
-	 		$http.get('/deleteBlog/'+$scope.deleteId)
-			.success(function(data) {
-			$scope.init();
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Blog deleted successfuly!",
-			});
-		}); 
+	 		
+	 		apiserviceBlog.deleteBlogRowData($scope.deleteId).then(function(data){
+				console.log(data);
+				$scope.init();
+			});	
+	 		
 	 	}
 	 	
 }]);
 
 angular.module('newApp')
-.controller('CreateBlogCtrl', ['$scope','$http','$location','$filter','$upload', function ($scope,$http,$location,$filter,$upload) {
+.controller('CreateBlogCtrl', ['$scope','$http','$location','$filter','$upload','apiserviceBlog', function ($scope,$http,$location,$filter,$upload,apiserviceBlog) {
 
 	$scope.blogData = {};
 	$scope.descMsg = "";
@@ -77,19 +76,11 @@ angular.module('newApp')
 		} else {
 			$scope.descMsg = "";
 			
-			$upload.upload({
-	            url : '/saveBlog',
-	            method: 'post',
-	            file:logofile,
-	            data:$scope.blogData
-	        }).success(function(data, status, headers, config) {
-	        	$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Blog saved successfuly!",
-				});
-	        	$scope.blogImageUrl = data;
-	        });
+			apiserviceBlog.saveBlogData(logofile,$scope.blogData).then(function(data){
+				console.log("dddd");
+				console.log(data);
+				$scope.blogImageUrl = data;
+			});
 			
 		}
 	}
@@ -98,15 +89,15 @@ angular.module('newApp')
 }]);
 
 angular.module('newApp')
-.controller('EditBlogCtrl', ['$scope','$http','$location','$routeParams','$upload', function ($scope,$http,$location,$routeParams,$upload) {
+.controller('EditBlogCtrl', ['$scope','$http','$location','$routeParams','$upload','apiserviceBlog', function ($scope,$http,$location,$routeParams,$upload,apiserviceBlog) {
 
 	$scope.blogData = {};
 	$scope.descMsg = "";
-	$http.get('/getBlogById/'+$routeParams.id)
-	.success(function(data) {
+	
+	apiserviceBlog.getBlogById($routeParams.id).then(function(data){
 		console.log(data);
 		$scope.blogData = data;
-	}); 
+	});
 	
 	var logofile = null;
 	$scope.onLogoFileSelect = function($files) {
@@ -118,32 +109,15 @@ angular.module('newApp')
 			$scope.descMsg = "*Please add description";
 		} else {
 			$scope.descMsg = "";
-			if(logofile == null) {
-				$http.post('/updateBlog',$scope.blogData)
-				.success(function(data) {
-					
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Blog updated successfuly!",
-					});
-				});
-			} else {
-				$upload.upload({
-		            url : '/updateBlog',
-		            method: 'post',
-		            file:logofile,
-		            data:$scope.blogData
-		        }).success(function(data, status, headers, config) {
-		        	$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Blog updated successfuly!",
-					});
-		        	$scope.blogData.imageUrl = data;
-		        });
-			}
+			apiserviceBlog.updateBlogData(logofile,$scope.blogData).then(function(data){
+				console.log("dddd");
+				console.log(data);
+				$scope.blogData.imageUrl = data;
+			});
+			
 		}
+		
+		
 	}
 	
 	
