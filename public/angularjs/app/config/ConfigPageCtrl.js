@@ -288,7 +288,7 @@ $scope.leadTypeAll = function(){
 			 console.log("::::::success")
 				
 			 $("#completedPopup").modal('hide');
-			 $scope.allLeaddata();
+			 $scope.leadTypeAll();
 			});
 		}
 		
@@ -312,7 +312,7 @@ $scope.leadTypeAll = function(){
 						    text: "Remove User",
 						});
 					 
-					 $scope.allLeaddata();
+					 $scope.leadTypeAll();
 					 
 					 
 
