@@ -4864,9 +4864,19 @@ angular.module('newApp')
 	    		$scope.openCreateNewLeadPopup = function() {
 	    			$scope.stockWiseData = [];
 	    			$scope.stockWiseData = [{}];
+	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+	    				console.log(response);
+	    				console.log(angular.fromJson(response.jsonData));
+	    				
+	    				 $scope.editInput = response;
+	    				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
+	    				 console.log($scope.userFields);
+	    				 $scope.user = {};
+	    			
 	    			$scope.getMakes();
 	    			$("#createLeadPopup").modal();
-	    		};
+	    		});
+	    		}
 	    		
 	    		$scope.openCreateNewLeads = function(item) {
 	    			$scope.stockWiseData = [];
@@ -4944,7 +4954,61 @@ angular.module('newApp')
 	    		$scope.focusIn = function(itm){
 					$scope.len = itm;
 	    		};
+	    		$scope.customData = {};
 	    		$scope.createLead = function() {
+	    			$scope.customList =[];
+	    			$scope.customData.setTime = $("#bestTimes").val();
+	    			console.log($scope.customData.setTime);
+	    			if($scope.customData.setTime == undefined){
+	    				delete $scope.customData.setTime;
+	    			}
+	    			console.log($scope.customData);
+	    			
+	    			console.log($('#exCustoms_value').val());
+	    			$scope.customData.custName = $('#exCustoms_value').val();
+	    			if($scope.customData.custName == undefined){
+	    				delete $scope.customData.custName;
+	    			}
+	    			$scope.customData.autocompleteText = $("#autocomplete").val()
+	    			if($scope.customData.autocompleteText == undefined){
+	    				delete $scope.customData.autocompleteText;
+	    			}
+	    			$scope.josnData = 0;
+	    			
+	    			
+	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+	    				$scope.josnData = angular.fromJson(response.jsonData);
+	    				console.log($scope.josnData);
+	    					$.each($scope.customData, function(attr, value) {
+	    						angular.forEach($scope.josnData, function(value1, key) {
+	    							console.log(attr);
+	    							console.log(value1.key);
+	    							if(value1.key == attr){
+		    							$scope.customList.push({
+				    		   	  			key:attr,
+				    		   	  			value:value,
+				    		   	  			savecrm:value1.savecrm,
+				    		   	  			displayGrid:value1.displayGrid,
+				    		   	  			
+				    					});
+		    						} 
+		    					});
+			    			   });
+	    					
+	    					
+	    					
+	    					console.log($("#bestTimes").val());
+	    	    			console.log($scope.customData);
+	    	    			console.log($scope.customList);
+	    	    			 
+	    	    			
+	    	    			$scope.lead.customData = $scope.customList;
+	    	    			console.log($scope.lead);
+	    	    			console.log($("#autocomplete").val());
+	    			
+	    			
+	    			
+	    			
 	    			if($scope.lead.custName == ''){
 	    				$scope.lead.custName = $('#ex1_value').val();
 	    			}

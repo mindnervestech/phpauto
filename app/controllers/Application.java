@@ -93,6 +93,7 @@ import models.CoverImage;
 import models.CreateNewForm;
 import models.CustomerPdf;
 import models.CustomizationCrm;
+import models.CustomizationDataValue;
 import models.Domain;
 import models.EmailDetails;
 import models.FeaturedImage;
@@ -40978,7 +40979,72 @@ if(vehicles.equals("All")){
     	}
     	return ok();
     }
-    
+private static void saveCustomData(Long infoId,LeadVM leadVM,MultipartFormData bodys,Long leadtype) {
+    	
+    	for(KeyValueDataVM custom:leadVM.customData){
+    		
+    		CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId(custom.key,infoId);
+    		if(cDataValue == null){
+    			CustomizationDataValue cValue = new CustomizationDataValue();
+    			cValue.keyValue = custom.key;
+    			cValue.value = custom.value;
+    			cValue.leadId = infoId;
+    			cValue.leadType = leadtype;
+    			cValue.saveCrm = custom.savecrm;
+    			cValue.displayGrid = custom.displayGrid;
+    			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    			cValue.save();
+    			
+    		}else{
+    			cDataValue.setKeyValue(custom.key);
+    			cDataValue.setValue(custom.value);
+    			cDataValue.setSaveCrm(custom.savecrm);
+    			cDataValue.setDisplayGrid(custom.displayGrid);
+    			cDataValue.update();
+    		}
+			
+		}
+    	
+    	
+    	if(bodys != null){
+    		FilePart picture = bodys.getFile("file0");
+    		if (picture != null) {
+    			String fileName = picture.getFilename().replaceAll("[-+^:,() ]","");
+    			File file = picture.getFile();
+    			try {
+    				File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileName);
+    	    	    if(!fdir.exists()) {
+    	    	    	fdir.mkdir();
+    	    	    }
+    	    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileName;
+    	    	    FileUtils.moveFile(file, new File(filePath));
+    	    	    
+    				
+    				CustomizationDataValue cDataValue = CustomizationDataValue.findByKeyAndLeadId("fileupload",infoId);
+    	    		if(cDataValue == null){
+    	    			 CustomizationDataValue cValue = new CustomizationDataValue();
+    	    				cValue.keyValue = "fileupload";
+    	    				cValue.value = session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileName;
+    	    				cValue.leadId = infoId;
+    	    				cValue.leadType = leadtype;
+    	    				cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    				cValue.save();
+    	    			
+    	    		}else{
+    	    			//cDataValue.setKeyValue(custom.key);
+    	    			cDataValue.setValue(session("USER_LOCATION")+File.separator+"leads"+File.separator+infoId+File.separator+fileName);
+    	    			cDataValue.update();
+    	    		}
+    				
+    			} catch (Exception e) {
+					e.printStackTrace();
+				}
+    		}
+    	}
+    	
+		
+    }
+ 
     public static Result createLead() {
     	AuthUser user = (AuthUser)getLocalUser();
     	SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
