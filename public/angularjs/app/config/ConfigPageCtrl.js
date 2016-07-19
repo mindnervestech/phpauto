@@ -149,9 +149,9 @@ $scope.leadTypeAll = function(){
 			$scope.leadtypeObjList = data;
  			$scope.gridOptions.data = data;
  			angular.forEach($scope.gridOptions.data, function(obj, index){
-				if(obj.checkValue == 1){
+				if(obj.checkValue == true){
 					obj.checkValue = true;
-				}else if(obj.checkValue == 0){
+				}else if(obj.checkValue == false){
 					obj.checkValue = false;
 				}
 			});
@@ -323,7 +323,7 @@ $scope.leadTypeAll = function(){
 					    text: "Update successfully",
 					});
          		$("#editPopupscheck").modal('hide');
-         		//$scope.allFormName();
+         		
     		});
 			
 		 }
@@ -331,7 +331,7 @@ $scope.leadTypeAll = function(){
 		 $scope.addNewForm = function(){
 				console.log("Checkkkk");
 				$scope.addform={"name":""};
-				//$('#createLeadPopup').click();
+				
 				$('#completedPopup').modal('show');
 			}
 		 
@@ -344,7 +344,7 @@ $scope.leadTypeAll = function(){
 				 $scope.allFormName();
 				});
 			}
-			//$scope.formweb = {}
+			
 			$scope.flagForChart1 = true;
 			$scope.website = {};
 			$scope.savedNewFormWebsite = function(){
