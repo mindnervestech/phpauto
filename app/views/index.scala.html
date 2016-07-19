@@ -150,7 +150,7 @@
                     </div> -->
                     <ul class="nav nav-sidebar">
                         <li ng-sec = "Dashboard" ng-class="{ active  : isActive('/')}"><a href="#/"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-                        <!-- <li ng-sec = "Website Editing" ng-class="{ active  : isActive('/sliderImages')}"><a href="#sliderImages"><i class="icon-home"></i><span>Website Editing</span></a></li> -->
+                     <li ng-sec = "Website Editing" ng-class="{ active  : isActive('/sliderImages')}"><a href="#sliderImages"><i class="icon-home"></i><span>Website Editing</span></a></li> 
                         <li ng-sec = "Add Vehicle" ng-class="{ active  : isActive('/addVehicle')}"><a href="#addVehicle"><i class="fa fa-car"></i><span>Add Vehicle</span></a></li>
                          <li ng-sec = "Add Inventory" ng-class="{ active  : isActive('/addInventory')}"><a href="#addInventory"><i class="fa fa-car"></i><span>Add PRODUCT</span></a></li>
 						<!-- <li ng-sec = "Inventory" ng-class="{ active  : isActive('/viewVehicles')}"><a href="#viewVehicles"><i class="fa fa-bus"></i><span>Inventory</span></a></li> -->
@@ -811,6 +811,7 @@
          <script src="/dealer/addInventory/addEditInventoryCtrl.js"></script>
          <script src="/dealer/addInventory/addCropInventoryCtrl.js"></script>
         <script src="/dealer/myprofile/UserCtrl.js"></script>
+         <script src="/dealer/myprofile/myProfileCtrl.js"></script>
         <script src="/dealer/inventory/inventoryPhotographer.js"></script>
         <script src="/dealer/myCalendar/myCalendarCtrl.js"></script>
         <script src="/dealer/addVehicle/addVehicleCtrl.js"></script>
@@ -820,6 +821,8 @@
          <script src="/dealer/addInventory/apiserviceAddEditInventory.js"></script>
          <script src="/dealer/myprofile/apiserviceUser.js"></script>
         <script src="/dealer/myprofile/LocationCtrl.js"></script>
+         <script src="/dealer/addPhotos/cropImageCtrl.js"></script>
+         <script src="/dealer/homePage/homePageCtrl.js"></script>
         <script src="/dealer/customizationForm/customizationFormCtrl.js"></script>
         
         <!-- <script src="/dealer/charts/charts/chartsCtrl.js"></script>
