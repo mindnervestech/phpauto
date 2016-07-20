@@ -1223,16 +1223,16 @@ angular.module('newApp')
   	 		 $scope.gridOptions13.enableHorizontalScrollbar = 2;
   	 		 $scope.gridOptions13.enableVerticalScrollbar = 2;
   	 		 $scope.gridOptions13.columnDefs = [
-  	 		                                 { name: 'title', displayName: 'Title', width:'14%',cellEditableCondition: false,
-  	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.title}}</a> ',
+  	 		                                 { name: 'make', displayName: 'Make', width:'14%',cellEditableCondition: false,
+  	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.make}}</a> ',
   	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   	 		                                       if (row.entity.noteFlag != 1) {
   	 		                                         return 'red';
   	 		                                       }
   	 		                                	} ,
   	 		                                 },
-  	 		                                 { name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
-  	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.designer}}</a> ',
+  	 		                                 { name: 'model', displayName: 'model', width:'8%',cellEditableCondition: false,
+  	 		                                	cellTemplate:'<a ng-click="grid.appScope.editVinData(row.entity)" style="color: #5b5b5b;">{{row.entity.model}}</a> ',
   	 		                                	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
   	  		                                       if (row.entity.noteFlag != 1) {
   	  		                                         return 'red';
