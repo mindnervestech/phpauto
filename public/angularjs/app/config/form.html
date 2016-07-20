@@ -53,31 +53,31 @@
 								    </div>
 	     
 	     
-	 <!-- <div style="display:none;" id="editPopup" data-toggle="modal" data-target="#editPopups"></div>
-	<div class="modal fade" id="editPopups" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div style="display:none;" id="formEditPopup" data-toggle="modal" data-target="#formEditPopups"></div>
+	<div class="modal fade" id="formEditPopups" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
-                    <h4 class="modal-title"><strong>Name</strong></h4>
+                    <h4 class="modal-title"><strong>Form Type</strong></h4>
                 </div>
 			<div class="modal-body">
-				<form ng-submit="Updatename(name)">
+				<form ng-submit="editFormType(editform)">
 					
-					
-					<div class="col-md-12 form-group">
-						<div class="col-md-4">
-							<label> Lead Type</label>
-						</div>
-						<div class="col-md-6">
-							<input type="text" name="Name" class="form-control"
-								ng-model="name" id="name"
-								required />
-						</div>
-					</div>
+					 <div class="col-sm-12">
+							<label class="col-sm-4" style="text-align: right;">Select</label>
+							<div class="col-sm-7">
+							      <select  class="form-control"  id="form_type" ng-model="editform"  required>
+										<option value="">---Select---</option>						
+										<option value="autodealer">autodealer</option>
+										<option value="maven Furniture">maven Furniture</option>
+																				           
+								</select>
+							</div>
+					</div> 
 					
 					<input type="submit" class="btn btn-primary btn-embossed"
-						value="Edit Name">
+						value="OK">
 
 				</form>
 			</div>
@@ -86,7 +86,43 @@
 		
                
             </div>
-        </div> -->
+        </div> 
+        
+         <div style="display:none;" id="formEditPopup1" data-toggle="modal" data-target="#formEditPopups1"></div>
+	<div class="modal fade" id="formEditPopups1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                    <h4 class="modal-title"><strong>Form Type</strong></h4>
+                </div>
+			<div class="modal-body">
+				<form ng-submit="editFormType1(editform)">
+					
+					 <div class="col-sm-12">
+							<label class="col-sm-4" style="text-align: right;">Select</label>
+							<div class="col-sm-7">
+							      <select  class="form-control"  id="form_type" ng-model="editform"  required>
+										<option value="">---Select---</option>						
+										<option value="autodealer">autodealer</option>
+										<option value="maven Furniture">maven Furniture</option>
+																				           
+								</select>
+							</div>
+					</div> 
+					
+					<input type="submit" class="btn btn-primary btn-embossed"
+						value="OK">
+
+				</form>
+			</div>
+
+		</div>
+		
+               
+            </div>
+        </div> 
+        
   </div> 
 
    
