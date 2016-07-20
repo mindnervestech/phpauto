@@ -88,10 +88,11 @@
 							                <form ng-submit="updateNewFormWebsite()">  
 							                    <h4 class="modal-title" style="margin-left:16px;"><strong>OutComes</strong></h4>
 							               <div class="col-sm-6" ">
-												  	 <select  class="form-control"  ng-model=" website.outcome"   required>
+							               
+												  	 <select  class="form-control"  ng-model="website.outcome"   required>
 													          	<option value="">---Select---</option>
-													          	<option  value="New Customer Request"> New Customer Request</option>
-													            <option  value=" Generate PDF">  Generate PDF</option>
+													          	<option  value="New Customer Request" ng-selected="website.outcome=='New Customer Request'">New Customer Request</option>
+													            <option  value="Generate PDF" ng-selected="website.outcome=='Generate PDF'">Generate PDF</option>
 													 </select>
 											</div>
 							               <div class="modal-footer">

@@ -442,7 +442,10 @@ $scope.leadTypeAll = function(){
 				}
 			 $scope.outcome = function(row){
 					console.log(row.entity);
+					$scope.website.outcome = row.entity.outcome;
 					$('#outcome').click();
+					 
+
 					$scope.rowDataVal = row.entity;
 				};
 				
