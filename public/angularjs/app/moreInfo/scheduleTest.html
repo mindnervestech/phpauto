@@ -5,6 +5,7 @@
       <li role="presentation" class="active"><a id="home-tab" role="tab" id="profile-tab" data-toggle="tab" aria-controls="home" aria-expanded="false"><button type="button" class="btn btn-blue">Schedule Test Drive</button></a></li>
       <li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="tradeIn()">Trade In Inquiries</button></a></li>
       <li role="presentation" class="" ng-if="userRole == 'Manager' || premiumFlagForSale == 1""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goPremium()">Premium</button></a></li>
+  <li ng-repeat="lead in leadList" role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="otherLeads(lead)">{{lead.leadName}}</button></a></li>
       <li role="presentation" class="" ng-if="userRole == 'Manager' || premiumFlagForSale == 1""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="goContactUs()">ContactUs</button></a></li>
       
     </ul>

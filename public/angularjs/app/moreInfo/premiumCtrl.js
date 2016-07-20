@@ -1,5 +1,18 @@
 angular.module('newApp')
 .controller('premiumCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
+	$scope.leadList = [];
+	$http.get('/getSelectedLeadType').success(function(response) {
+		console.log(response);
+		
+		angular.forEach(response, function(value, key) {
+			if(value.id > 3){
+				$scope.leadList.push(value); 
+			}
+		});
+		console.log($scope.leadList);
+	
+	});
+	
 	
   $scope.gridOptions = {
  		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -250,6 +263,9 @@ angular.module('newApp')
 		}
 	  $scope.goContactUs = function() {
 			$location.path('/contactUsInfo');
+		}
+	  $scope.otherLeads = function(leads) {
+			$location.path('/otherLeads/'+leads.id);
 		}
 	  
 }]);
