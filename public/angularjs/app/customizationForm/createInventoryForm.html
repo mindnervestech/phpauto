@@ -8,7 +8,11 @@
 		<b>{{setjson.mainTitle}}</b>
 	</h1>&nbsp;&nbsp;&nbsp;&nbsp;<a ng-click="editLeadInfo('Main Title')" ng-if="showSaveButton == 'Edit'"><i class="glyphicon glyphicon-edit"></i></a>
 
-	<h1><b>Add Vehicle</b></h1>
+	
+	<hr>
+
+ 
+
 <h2><b>Your vehicle information</b></h2>
 <h4><b>Enter your 17 digit vin in the form below and click decode.</b></h4>
 
@@ -602,64 +606,10 @@
 <!-- <button type="submit" class="btn btn-primary" ng-click="addPhoto()">Save & Go To Photos</button> -->
 
 </form>
-	
-	
-	<hr>
-	<form ng-submit="saveVehicle()">
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Title
-				*</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.title"
-					placeholder="Title" required>
-			</div>
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Product Id</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.productId"
-					placeholder="VIN Number" minlength="17" required>
-			</div>
-			
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Description</label>
-			<div class="col-sm-5">
-				<textarea class="form-control form-white"
-					ng-model="specification.description" rows="5"></textarea>
-			</div>
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Collection this item is in</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.collectionItem" required>
-			</div>
-			
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Cost</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.cost"
-					placeholder="COST" required>
-			</div>
-			
-		</div>
-		<div class="form-group col-sm-12">
-			<label class="col-sm-2 control-label" style="text-align: right;">Price</label>
-			<div class="col-sm-5">
-				<input class="form-control form-white" type="text"
-					style="border-color: red;" ng-model="specification.price"
-					placeholder="PRICE" required>
-			</div>
-			
-		</div>
+ 
 
-	</form>
-	<div class="form-group col-sm-12">
+
+<div class="form-group col-sm-12">
 		<div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">

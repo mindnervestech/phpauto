@@ -33,6 +33,10 @@ angular.module('newApp')
 					}
 					
 			});
+			   $http.get('/getAllSites')
+		 		.success(function(data) {
+		 			$scope.siteList = data;
+		 		});
 		   }
 	  
 	  
