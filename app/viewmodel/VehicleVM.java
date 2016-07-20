@@ -25,6 +25,7 @@ public class VehicleVM {
 	public String extColor;
 	public String stereo;
 	public String fuelType;
+	public Long productId;
 	public String getDrivetrain() {
 		return drivetrain;
 	}

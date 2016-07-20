@@ -93,7 +93,6 @@ public class RequestInfoVM {
 	public String title;
 	public String isContactusType; 
 	public Long productId;
-		public String isContactusType;
 	public Long leadId;
 	public List<KeyValueDataVM> customData;
 	public Map<String, String> customMapData;

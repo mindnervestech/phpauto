@@ -5185,12 +5185,22 @@ angular.module('newApp')
 	    		            data:$scope.lead
 	    		         }).success(function(data) {
 	    		   			console.log('success');
+	    		   			$.pnotify({
+	    					    title: "Success",
+	    					    type:'success',
+	    					    text: "Lead created successfully",
+	    					});
 	    		   		 });
 	    				}else{
 	    					console.log($scope.lead);
 	    					
 	    					$http.post('/createLead',$scope.lead).success(function(response) {
 	    						//$scope.getVisitedData('week','countHigh','0','0','All');
+	    						$.pnotify({
+		    					    title: "Success",
+		    					    type:'success',
+		    					    text: "Lead created successfully",
+		    					});
 	    	    				$scope.topVisitedDataDatewise();
 	    	    				//$scope.userLocationData('Week','person');
 	    	    				 $scope.findMystatisData(startD,endD,'person');
