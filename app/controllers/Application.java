@@ -5400,7 +5400,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	    		info.setOnlineOrOfflineLeads(1);
     	    		info.setRequestDate(reqDate);
     	    		
-    	    		info.setIsContactusType(vm.leadType);
+    	    		
+    	    		LeadType lType = LeadType.findByName(vm.leadType);
+    	    		info.setIsContactusType(lType.id.toString());
     	    		/*PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
     	    		if(pLeads != null){
         				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
