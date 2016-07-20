@@ -1,5 +1,6 @@
 package viewmodel;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +90,11 @@ public class RequestInfoVM {
 	public String premiumFlagForSale;
 	public String comingSoonDate;
 	public Integer subscribers;
-   	public List<KeyValueDataVM> customData;
+	public String designer;
+	public String title;
+	public String isContactusType; 
+	public Long productId;
+	public List<KeyValueDataVM> customData;
 	public Map<String, String> customMapData;
 	
 }
