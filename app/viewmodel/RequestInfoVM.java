@@ -1,6 +1,5 @@
 package viewmodel;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +93,8 @@ public class RequestInfoVM {
 	public String title;
 	public String isContactusType; 
 	public Long productId;
+		public String isContactusType;
+	public Long leadId;
 	public List<KeyValueDataVM> customData;
 	public Map<String, String> customMapData;
 	

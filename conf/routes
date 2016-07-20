@@ -80,6 +80,8 @@ GET		/getEmailDetails		 controllers.Application.getEmailDetails()
 GET   /getCheckButton/:leadId/:intValue				 controllers.Application.getCheckButton(leadId:Long,intValue:Integer)
 GET     /getColl				         controllers.productController.getCollectionList()
 GET     /getSelectedLeadType		     controllers.InventoryController.getSelectedLeadType()
+GET     /getAllOtherLeadInfo/:leadId	 controllers.CustomersRequestController.getAllOtherLeadInfo(leadId:String)
+GET     /getAllSalesPersonOtherLead/:id  controllers.CustomersRequestController.getAllSalesPersonOtherLead(id:Integer)
 GET     /getTimeTableOfPhotos	         controllers.MyCalendarController.getTimeTableOfPhotos()
 
 

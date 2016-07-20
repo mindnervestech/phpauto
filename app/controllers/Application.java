@@ -11480,7 +11480,14 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			vm.isRead = true;
 	    		}
 	    		
-	    		findCustomeData(info.id,vm,1L);
+	    		LeadType lType = null;
+	    		if(!info.isContactusType.equals("contactUs")){
+	    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+	    		}else{
+	    			lType = LeadType.findByName(info.isContactusType);
+	    		}
+	    		
+	    		findCustomeData(info.id,vm,lType.id);
 	    		
 	    		infoVMList.add(vm);
 	    	}
@@ -23269,7 +23276,19 @@ private static void cancelTestDriveMail(Map map) {
 	    			vm.isRead = true;
 	    		}
 	    		
-	    		findCustomeData(info.id,vm,1L);
+	    		LeadType lType = null;
+	    		if(info.isContactusType != null){
+		    		if(!info.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(info.isContactusType);
+		    		}
+		    		findCustomeData(info.id,vm,lType.id);
+	    		}else{
+	    			findCustomeData(info.id,vm,1L);
+	    		}
+	    		
+	    		
 	    		
 	    		findRequestParentChildAndBro(infoVMList, info, df, vm);
 	    		
@@ -41903,102 +41922,102 @@ public static Result createLead() {
 			historyTitles.setBorder(Rectangle.NO_BORDER);
 			AddAllTableInMainTable.addCell(historyTitles);
 
-				PdfPCell historyTitleinfo = new PdfPCell(historyTitleData);
-				historyTitleinfo.setBorder(Rectangle.NO_BORDER);
-				AddAllTableInMainTable.addCell(historyTitleinfo);
+			PdfPCell historyTitleinfo = new PdfPCell(historyTitleData);
+			historyTitleinfo.setBorder(Rectangle.NO_BORDER);
+			AddAllTableInMainTable.addCell(historyTitleinfo);
 
-				PdfPCell vehicleTitleAssessment = new PdfPCell(
-						vehicleAssessmentTitle);
-				vehicleTitleAssessment.setBorder(Rectangle.NO_BORDER);
-				AddAllTableInMainTable.addCell(vehicleTitleAssessment);
+			PdfPCell vehicleTitleAssessment = new PdfPCell(
+					vehicleAssessmentTitle);
+			vehicleTitleAssessment.setBorder(Rectangle.NO_BORDER);
+			AddAllTableInMainTable.addCell(vehicleTitleAssessment);
 
-				PdfPCell vehicleAssessmentDataTitle = new PdfPCell(
-						vehicleAssessmentData);
-				vehicleAssessmentDataTitle.setBorder(Rectangle.NO_BORDER);
-				AddAllTableInMainTable.addCell(vehicleAssessmentDataTitle);
+			PdfPCell vehicleAssessmentDataTitle = new PdfPCell(
+					vehicleAssessmentData);
+			vehicleAssessmentDataTitle.setBorder(Rectangle.NO_BORDER);
+			AddAllTableInMainTable.addCell(vehicleAssessmentDataTitle);
 
-				// ----------main Table----------
+			// ----------main Table----------
 
-				PdfPTable AddMainTable = new PdfPTable(1);
-				AddMainTable.setWidthPercentage(100);
-				float[] AddMainTableWidth = { 2f };
-				AddMainTable.setWidths(AddMainTableWidth);
+			PdfPTable AddMainTable = new PdfPTable(1);
+			AddMainTable.setWidthPercentage(100);
+			float[] AddMainTableWidth = { 2f };
+			AddMainTable.setWidths(AddMainTableWidth);
 
-				PdfPCell AddAllTableInMainTable1 = new PdfPCell(
-						AddAllTableInMainTable);
-				AddAllTableInMainTable1.setPadding(10);
-				AddAllTableInMainTable1.setBorderWidth(1f);
-				AddMainTable.addCell(AddAllTableInMainTable1);
+			PdfPCell AddAllTableInMainTable1 = new PdfPCell(
+					AddAllTableInMainTable);
+			AddAllTableInMainTable1.setPadding(10);
+			AddAllTableInMainTable1.setBorderWidth(1f);
+			AddMainTable.addCell(AddAllTableInMainTable1);
 
-				document.add(AddMainTable);
+			document.add(AddMainTable);
 
-				document.close();
+			document.close();
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-			EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
-			String emailName=details.name;
-			String port=details.port;
-			String gmail=details.host;
-			final	String emailUser=details.username;
-			final	String emailPass=details.passward;
-			Properties props = new Properties();
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.host", gmail);
-			props.put("mail.smtp.port", port);
-			props.put("mail.smtp.starttls.enable", "true");
-			Session session = Session.getInstance(props,
-					new javax.mail.Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(emailUser,
-									emailPass);
-						}
-					});
-			try {
-				List<AuthUser> users = AuthUser.getAllUsers();
+		EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		String emailName=details.name;
+		String port=details.port;
+		String gmail=details.host;
+		final	String emailUser=details.username;
+		final	String emailPass=details.passward;
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.host", gmail);
+		props.put("mail.smtp.port", port);
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props,
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(emailUser,
+								emailPass);
+					}
+				});
+		try {
+			List<AuthUser> users = AuthUser.getAllUsers();
 
-				InternetAddress[] usersArray = new InternetAddress[users.size() + 1];
-				int index = 0;
-				usersArray[index] = new InternetAddress(user.getEmail());
-				
-				Message message = new MimeMessage(session);
-	    		try{
-				message.setFrom(new InternetAddress(emailUser,emailName));
-	    		}
-	    		catch(UnsupportedEncodingException e){
-	    			e.printStackTrace();
-	    			
-	    		}
-				message.setRecipients(Message.RecipientType.TO, usersArray);
-				message.setSubject("Trade-In Appraisal");
-				Multipart multipart = new MimeMultipart();
-				BodyPart messageBodyPart = new MimeBodyPart();
-				messageBodyPart = new MimeBodyPart();
+			InternetAddress[] usersArray = new InternetAddress[users.size() + 1];
+			int index = 0;
+			usersArray[index] = new InternetAddress(user.getEmail());
+			
+			Message message = new MimeMessage(session);
+    		try{
+			message.setFrom(new InternetAddress(emailUser,emailName));
+    		}
+    		catch(UnsupportedEncodingException e){
+    			e.printStackTrace();
+    			
+    		}
+			message.setRecipients(Message.RecipientType.TO, usersArray);
+			message.setSubject("Trade-In Appraisal");
+			Multipart multipart = new MimeMultipart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart = new MimeBodyPart();
 
-				VelocityEngine ve = new VelocityEngine();
-				ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-						"org.apache.velocity.runtime.log.Log4JLogChute");
-				ve.setProperty("runtime.log.logsystem.log4j.logger",
-						"clientService");
-				ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-				ve.setProperty("classpath.resource.loader.class",
-						ClasspathResourceLoader.class.getName());
-				ve.init();
+			VelocityEngine ve = new VelocityEngine();
+			ve.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+					"org.apache.velocity.runtime.log.Log4JLogChute");
+			ve.setProperty("runtime.log.logsystem.log4j.logger",
+					"clientService");
+			ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+			ve.setProperty("classpath.resource.loader.class",
+					ClasspathResourceLoader.class.getName());
+			ve.init();
 
-				String urlfind = "http://www.glider-autos.com/dealer/index.html#/tradeIn";
+			String urlfind = "http://www.glider-autos.com/dealer/index.html#/tradeIn";
 
-				Template t = ve.getTemplate("/public/emailTemplate/trade_in_app.vm");
-				VelocityContext context = new VelocityContext();
+			Template t = ve.getTemplate("/public/emailTemplate/trade_in_app.vm");
+			VelocityContext context = new VelocityContext();
 
-				// ---------Trad in info---------------
+			// ---------Trad in info---------------
 
-				// contact info
-				context.put("first_name", tradeIn.getFirstName());
-				context.put("last_name", "");
-				context.put("work_phone", "");
-				context.put("email", tradeIn.getEmail());
+			// contact info
+			context.put("first_name", tradeIn.getFirstName());
+			context.put("last_name", "");
+			context.put("work_phone", "");
+			context.put("email", tradeIn.getEmail());
 
 			context.put("year", tradeIn.getYear());
 			context.put("make", tradeIn.getMake());
@@ -42015,30 +42034,30 @@ public static Result createLead() {
 				context.put("preferred", "");
 			}
 
-				context.put("optionValue", buffer.toString());
+			context.put("optionValue", buffer.toString());
 
-				// vehicale info
+			// vehicale info
 
-				if (tradeIn.getYear() != null) {
-					context.put("yearValue", tradeIn.getYear());
-				} else {
-					context.put("yearValue", "");
-				}
-				if (tradeIn.getMake() != null) {
-					context.put("makeValue", tradeIn.getMake());
-				} else {
-					context.put("makeValue", "");
-				}
-				if (tradeIn.getModel() != null) {
-					context.put("modelValue", tradeIn.getModel());
-				} else {
-					context.put("modelValue", "");
-				}
-				if (tradeIn.getExteriorColour() != null) {
-					context.put("exterior_colour", tradeIn.getExteriorColour());
-				} else {
-					context.put("exterior_colour", "");
-				}
+			if (tradeIn.getYear() != null) {
+				context.put("yearValue", tradeIn.getYear());
+			} else {
+				context.put("yearValue", "");
+			}
+			if (tradeIn.getMake() != null) {
+				context.put("makeValue", tradeIn.getMake());
+			} else {
+				context.put("makeValue", "");
+			}
+			if (tradeIn.getModel() != null) {
+				context.put("modelValue", tradeIn.getModel());
+			} else {
+				context.put("modelValue", "");
+			}
+			if (tradeIn.getExteriorColour() != null) {
+				context.put("exterior_colour", tradeIn.getExteriorColour());
+			} else {
+				context.put("exterior_colour", "");
+			}
 
 				if (tradeIn.getKilometres() != null) {
 					context.put("kilometres", tradeIn.getKilometres());
