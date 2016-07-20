@@ -212,88 +212,60 @@ $scope.leadTypeAll = function(){
 	
 	$scope.ShowCreateNewForm = function(row){
 		console.log(row);
-		$scope.entityname = row.entity.name;
-		console.log($scope.entityname);
-		if($scope.entityname == "Add Product")
-		{
-			$('#formEditPopup').click();
-		
-		}
-		else{
-			$scope.editFormType();
-		}
-	}
-	
-	$scope.editFormType = function(){
-		console.log($scope.entityname);
-
-		if($scope.entityname == "Create Lead"){
-			$location.path('/'+'CreateLeadForm/'+"Edit"+"/"+'Create Lead');
-		}else if($scope.entityname == "Add Product"){
+		if(row.entity.name == "Create Lead"){
+			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
+			}
+		if(row.entity.name == "Add Product"){
 
 			$location.path('/'+'InventoryForm/'+"Edit"+"/"+'Inventory');
 			
 		}
-		else if($scope.entityname == "Add to CRM"){
+		else if(row.entity.name == "Add to CRM"){
 
 			$location.path('/'+'CRMForm/'+"Edit"+"/"+'CRM');
 			
-		}else if($scope.entityname == "Request More Info"){
-			$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+$scope.entityname);
+		}else if(row.entity.name == "Request More Info"){
+			$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.name);
 		}
-		else if($scope.entityname == "Contact Us"){
-			$location.path('/ContactUsForm/'+"Edit"+"/"+$scope.entityname);
+		else if(row.entity.name == "Contact Us"){
+			$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.name);
 		}
-		else if($scope.entityname == "Request Appointment"){
-			$location.path('/RequestAppointmentForm/'+"Edit"+"/"+$scope.entityname);
+		else if(row.entity.name == "Request Appointment"){
+			$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.name);
 		}
 		else{
-			$location.path('/otherForm/'+"Edit"+"/"+$scope.entityname);
+			$location.path('/otherForm/'+"Edit"+"/"+row.entity.name);
 		}
 		
 	}
 
 	$scope.ShowCreateNewForm1 = function(row){
-		console.log("Name Edit");
-		console.log(row);
-		$scope.entityname = row.entity.name;
-		console.log($scope.entityname);
-		if($scope.entityname == "Add Product")
-		{
-			$('#formEditPopup1').click();
-		
-		}
-		else{
-			$scope.editFormType1();
-		}
-	}
-	
-	$scope.editFormType1 = function(row){
 		//$location.path('/leadCreateForm/'+"Preview");
 		console.log($scope.entityname);
 
-		if($scope.entityname == "Create Lead"){
+		if(row.entity.name == "Create Lead"){
 			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
-		}else if($scope.entityname == "Add Product"){
+			}
+		if(row.entity.name == "Add Product"){
 
 			$location.path('/'+'InventoryForm/'+"Preview"+"/"+'Inventory');
 			
 		}
-		else if($scope.entityname == "Add to CRM"){
+		else if(row.entity.name == "Add to CRM"){
 
 			$location.path('/'+'CRMForm/'+"Preview"+"/"+'CRM');
 			
-		}else if($scope.entityname == "Request More Info"){
-			$location.path('/RequestMoreInfoForm/'+"Preview"+"/"+$scope.entityname);
+		}else if(row.entity.name == "Request More Info"){
+			$location.path('/RequestMoreInfoForm/'+"Preview"+"/"+row.entity.name);
 		}
-		else if($scope.entityname == "Contact Us"){
-			$location.path('/ContactUsForm/'+"Preview"+"/"+$scope.entityname);
+		else if(row.entity.name == "Contact Us"){
+			$location.path('/ContactUsForm/'+"Preview"+"/"+row.entity.name);
 		}
-		else if($scope.entityname == "Request Appointment"){
-			$location.path('/RequestAppointmentForm/'+"Preview"+"/"+$scope.entityname);
+		else if(row.entity.name == "Request Appointment"){
+			$location.path('/RequestAppointmentForm/'+"Preview"+"/"+row.entity.name);
 		}
 		else{
-			$location.path('/otherForm/'+"Preview"+"/"+$scope.entityname);
+			$location.path('/otherForm/'+"Preview"+"/"+row.entity.name);
 		}
 	}
 	
