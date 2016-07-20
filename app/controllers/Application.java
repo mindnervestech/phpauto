@@ -4153,46 +4153,36 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	} else {
     		AuthUser user = (AuthUser) getLocalUser();
     		Date currDate = new Date();
-	    	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
-	    	LeadVM vm = form.get();
+    		MultipartFormData bodys = request().body().asMultipartFormData();
+    		
+    		LeadVM vm = null;
+        	
+        	Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
+        	if(bodys != null){
+        		LeadVM leadVM1 = new LeadVM();
+        		saveBilndVm(leadVM1,bodys,form);
+        		vm = leadVM1;
+        	}else{
+        		vm = form.get();
+        	}
+    		
+    		
+	    	/*Form<LeadVM> form = DynamicForm.form(LeadVM.class).bindFromRequest();
+	    	LeadVM vm = form.get();*/
+	    	
+	    	
+	    	
 	    	int parentFlag = 0;
 	    	Long parentLeadId = 0L;
 	    	Date reqDate = null;
-	    	for(VehicleVM vehicleVM:vm.stockWiseData){
+	    	for(VehicleVM productVM:vm.stockWiseData){
 	    		if(parentFlag == 0){
 	    			
-		    	if(vm.leadType.equals("Request More Info")){
-		    		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
-		    		if(rInfo != null){
-		    			rInfo.setVin(vehicleVM.vin);
-		    			rInfo.setName(vm.custName);
-		    			rInfo.setEmail(vm.custEmail);
-		    			rInfo.setPhone(vm.custNumber);
-		    			rInfo.setCustZipCode(vm.custZipCode);
-		    			rInfo.setEnthicity(vm.enthicity);
-		    			rInfo.update();
-		    			
-		    			reqDate = rInfo.requestDate;
-		    			
-			    		if(parentFlag == 0){
-			    			parentFlag = 1;
-			    			parentLeadId = rInfo.getId();
-			    		}
-		    			
-		    			UserNotes uNotes = new UserNotes();
-		        		uNotes.setNote("Client interested in another vehicle");
-		        		uNotes.setAction("Other");
-		        		uNotes.createdDate = currDate;
-		        		uNotes.createdTime = currDate;
-		        		uNotes.user = user;
-		        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-		        		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
-		        		uNotes.save();
-		    		}
-		    	}else if(vm.leadType.equals("Schedule Test Drive")){
+		    	if(vm.leadType.equals("Schedule Test Drive")){
 		    		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
 		    		if(sInfo != null){
-		    			sInfo.setVin(vehicleVM.vin);
+		    			sInfo.setVin(productVM.vin);
+		    			//sInfo
 		    			sInfo.setName(vm.custName);
 		    			sInfo.setEmail(vm.custEmail);
 		    			sInfo.setPhone(vm.custNumber);
@@ -4220,7 +4210,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	}else if(vm.leadType.equals("Trade-In Appraisal")){
 		    		TradeIn tInfo = TradeIn.findById(Long.parseLong(vm.id));
 		    		if(tInfo != null){
-		    			tInfo.setVin(vehicleVM.vin);
+		    			tInfo.setVin(productVM.vin);
 		    			tInfo.setFirstName(vm.custName);
 		    			tInfo.setEmail(vm.custEmail);
 		    			tInfo.setPhone(vm.custNumber);
@@ -4245,79 +4235,42 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		        		uNotes.tradeIn = TradeIn.findById(tInfo.id);
 		        		uNotes.save();
 		    		}
+		    	}else {
+		    		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
+		    		if(rInfo != null){
+		    			rInfo.setVin(productVM.vin);
+		    			rInfo.setProductId(productVM.productId);
+		    			rInfo.setName(vm.custName);
+		    			rInfo.setEmail(vm.custEmail);
+		    			rInfo.setPhone(vm.custNumber);
+		    			rInfo.setCustZipCode(vm.custZipCode);
+		    			rInfo.setEnthicity(vm.enthicity);
+		    			rInfo.update();
+		    			if(rInfo.isContactusType != null){
+			    			if(!rInfo.isContactusType.equals("contactUs")){
+			    				saveCustomData(rInfo.id,vm,bodys, Long.parseLong(rInfo.isContactusType));
+			    			}
+		    			}
+		    			reqDate = rInfo.requestDate;
+		    			
+			    		if(parentFlag == 0){
+			    			parentFlag = 1;
+			    			parentLeadId = rInfo.getId();
+			    		}
+		    			
+		    			UserNotes uNotes = new UserNotes();
+		        		uNotes.setNote("Client interested in another vehicle");
+		        		uNotes.setAction("Other");
+		        		uNotes.createdDate = currDate;
+		        		uNotes.createdTime = currDate;
+		        		uNotes.user = user;
+		        		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+		        		uNotes.requestMoreInfo = RequestMoreInfo.findById(rInfo.id);
+		        		uNotes.save();
+		    		}
 		    	}
 	    	}else{
-	    		if(vm.leadType.equals("Request More Info")){
-	    			
-	    			RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
-	    			
-	    	    		RequestMoreInfo info = new RequestMoreInfo();
-	    	    		info.setIsReassigned(true);
-	    	    		info.setLeadStatus(null);
-	    	    		info.setEmail(vm.custEmail);
-	    	    		info.setName(vm.custName);
-	    	    		info.setPhone(vm.custNumber);
-	    	    		info.setCustZipCode(vm.custZipCode);
-	    	    		info.setEnthicity(vm.enthicity);
-	    	    		
-	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	    	    		info.setVin(vehicle.getVin());
-	    	    		info.setUser(user);
-	    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    	    		info.setIsScheduled(false);
-	    	    		info.setIsRead(1);
-	    	    		info.setHearedFrom(rInfo.hearedFrom);
-	    	    		info.setContactedFrom(rInfo.contactedFrom);
-	    	    		info.setAssignedTo(user);
-	    	    		info.setOnlineOrOfflineLeads(1);
-	    	    		info.setRequestDate(reqDate);
-	    	    		/*PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
-	    	    		if(pLeads != null){
-	        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
-	        					info.setPremiumFlag(1);
-	        				}else{
-	        					info.setPremiumFlag(0);
-	        					if(pLeads.premium_flag == 0){
-	        						info.setAssignedTo(user);
-	        					}
-	        				}
-	        				if(pLeads.premium_flag == 1){
-	        					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
-	        					info.setAssignedTo(aUser);
-	        				}
-	        			
-	    	    		}else{
-	    	    			info.setPremiumFlag(0);
-	    	    			info.setAssignedTo(user);
-	    	    		}*/
-	    	    		
-	    	    		if(parentFlag == 1){
-	    	    			info.setParentId(parentLeadId);
-	    	    		}
-	    	    		
-	    	    		info.save();
-	    	    		
-	    	    		if(parentFlag == 0){
-	    	    			parentFlag = 1;
-	    	    			parentLeadId = info.getId();
-	    	    		}
-	    	    		
-	    	    		UserNotes uNotes = new UserNotes();
-	    	    		uNotes.setNote("Lead has been created");
-	    	    		uNotes.setAction("Other");
-	    	    		uNotes.createdDate = currDate;
-	    	    		uNotes.createdTime = currDate;
-	    	    		uNotes.saveHistory = 1;
-	    	    		uNotes.user = user;
-	    	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
-	    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
-	    	    		uNotes.save();
-	    	    		
-	    	    		/*if(info.premiumFlag == 1){
-	    	    			sendMailpremium();
-	    	    		}*/
-	    	    		
-	        	}else if(vm.leadType.equals("Schedule Test Drive")){
+	    		 if(vm.leadType.equals("Schedule Test Drive")){
 	        		
 	        		ScheduleTest sInfo = ScheduleTest.findById(Long.parseLong(vm.id));
 	        		Date confirmDate = null;
@@ -4350,7 +4303,7 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    		//test.setScheduleDate(new Date());
 	    	    		test.setScheduleDate(reqDate);
 	    	    		test.setPreferredContact(sInfo.preferredContact);
-	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(vehicleVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
+	    	    		Vehicle vehicle = Vehicle.findByStockAndNew(productVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
 	    	    		test.setVin(vehicle.getVin());
 	    	    		test.setAssignedTo(user);
 	    	    		test.setOnlineOrOfflineLeads(1);
@@ -40929,8 +40882,19 @@ private static void saveCustomData(Long infoId,LeadVM leadVM,MultipartFormData b
     			cValue.value = custom.value;
     			cValue.leadId = infoId;
     			cValue.leadType = leadtype;
-    			cValue.saveCrm = custom.savecrm;
-    			cValue.displayGrid = custom.displayGrid;
+    			
+    			if(custom.savecrm == null){
+    				cValue.saveCrm = "false";
+    			}else{
+    				cValue.saveCrm = custom.savecrm;
+    			}
+    			
+    			if(custom.displayGrid == null){
+    				cValue.displayGrid = "false";
+    			}else{
+    				cValue.displayGrid = custom.displayGrid;
+    			}
+    			
     			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     			cValue.save();
     			
@@ -40938,7 +40902,12 @@ private static void saveCustomData(Long infoId,LeadVM leadVM,MultipartFormData b
     			cDataValue.setKeyValue(custom.key);
     			cDataValue.setValue(custom.value);
     			cDataValue.setSaveCrm(custom.savecrm);
-    			cDataValue.setDisplayGrid(custom.displayGrid);
+    			if(custom.displayGrid == null){
+    				cDataValue.setDisplayGrid("false");
+    			}else{
+    				cDataValue.setDisplayGrid(custom.displayGrid);
+    			}
+    			
     			cDataValue.update();
     		}
 			

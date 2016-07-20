@@ -4748,8 +4748,9 @@ float: right !important;
 				        <ul id="myTabs" class="nav nav-tabs" role="tablist">
 				        <li role="presentation" class="active"><a id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" ng-click="getAllLeadIn()">All </a></li>
 			      			<li role="presentation" class=" "><a id="tab" role="tab" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-click="requestMore()">Request More Info </a></li>
-			      			<li role="presentation" class=""><a role="tab" id="test-drive-tabSched" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="testDrive()">Schedule Test Drive</a></li>
-			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="tradeIn()">Trade In Inquiries</a></li>
+			      			 <li role="presentation" class=""><a role="tab" id="test-drive-tabSched" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="testDrive()">Schedule Test Drive</a></li>
+			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="tradeIn()">Trade In Inquiries</a></li> 
+			      			<li role="presentation" class="" ng-repeat="lead in leadList"><a role="tab" id="home" data-toggle="tab" aria-controls="profile" aria-expanded="false" ng-if="lead.id > 3" ng-click="otherLeadId(lead.id)">{{lead.leadName}}</a></li>
 			      			<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"ng-click="contactUs()">ContactUs</a></li>
 			      			
 			    		</ul>
@@ -4768,6 +4769,9 @@ float: right !important;
 											</div>	
 							<div ng-if="contact" ui-grid="gridOptions8" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
 							<div class="watermark" ng-show="!gridOptions8.data.length" >No Leads has been added</div>
+							 </div>
+							<div ng-if="otherLeads" ui-grid="gridOptions13" style="height:500px;font-size:12px;" ui-grid-edit ui-grid-pagination>
+							<div class="watermark" ng-show="!gridOptions13.data.length" >No Leads has been added</div>
 											</div>					
 																				
 																			
