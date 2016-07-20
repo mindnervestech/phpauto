@@ -214,7 +214,7 @@ $scope.leadTypeAll = function(){
 		console.log(row);
 		if(row.entity.name == "Create Lead"){
 			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
-			}
+		}else
 		if(row.entity.name == "Add Product"){
 
 			$location.path('/'+'InventoryForm/'+"Edit"+"/"+'Inventory');
@@ -245,8 +245,7 @@ $scope.leadTypeAll = function(){
 
 		if(row.entity.name == "Create Lead"){
 			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
-			}
-		if(row.entity.name == "Add Product"){
+			}else if(row.entity.name == "Add Product"){
 
 			$location.path('/'+'InventoryForm/'+"Preview"+"/"+'Inventory');
 			
