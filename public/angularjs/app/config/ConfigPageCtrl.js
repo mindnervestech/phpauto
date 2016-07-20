@@ -211,7 +211,6 @@ $scope.leadTypeAll = function(){
 	}
 	
 	$scope.ShowCreateNewForm = function(row){
-		console.log("Checkkkk");
 		console.log(row);
 		$scope.entityname = row.entity.name;
 		console.log($scope.entityname);
@@ -228,7 +227,9 @@ $scope.leadTypeAll = function(){
 	$scope.editFormType = function(){
 		console.log($scope.entityname);
 
-		if($scope.entityname == "Add Product"){
+		if(row.entity.name == "Create Lead"){
+			$location.path('/'+'CreateLeadForm/'+"Edit"+"/"+'Create Lead');
+		}else if($scope.entityname == "Add Product"){
 
 			$location.path('/'+'InventoryForm/'+"Edit"+"/"+'Inventory');
 			
@@ -271,7 +272,9 @@ $scope.leadTypeAll = function(){
 		//$location.path('/leadCreateForm/'+"Preview");
 		console.log($scope.entityname);
 
-		if($scope.entityname == "Add Product"){
+		if(row.entity.name == "Create Lead"){
+			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
+		}else if($scope.entityname == "Add Product"){
 
 			$location.path('/'+'InventoryForm/'+"Preview"+"/"+'Inventory');
 			
