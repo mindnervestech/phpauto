@@ -5376,6 +5376,76 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    			} catch (Exception e) {
 	    				e.printStackTrace();
 	    			}
+	        	}else{
+	        		RequestMoreInfo rInfo = RequestMoreInfo.findById(Long.parseLong(vm.id));
+	    			
+    	    		RequestMoreInfo info = new RequestMoreInfo();
+    	    		info.setIsReassigned(true);
+    	    		info.setLeadStatus(null);
+    	    		info.setEmail(vm.custEmail);
+    	    		info.setName(vm.custName);
+    	    		info.setPhone(vm.custNumber);
+    	    		info.setCustZipCode(vm.custZipCode);
+    	    		info.setEnthicity(vm.enthicity);
+    	    		
+    	    		Vehicle vehicle = Vehicle.findByStockAndNew(productVM.stockNumber, Location.findById(Long.valueOf(session("USER_LOCATION"))));
+    	    		info.setVin(vehicle.getVin());
+    	    		info.setUser(user);
+    				info.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		info.setIsScheduled(false);
+    	    		info.setIsRead(1);
+    	    		info.setHearedFrom(rInfo.hearedFrom);
+    	    		info.setContactedFrom(rInfo.contactedFrom);
+    	    		info.setAssignedTo(user);
+    	    		info.setOnlineOrOfflineLeads(1);
+    	    		info.setRequestDate(reqDate);
+    	    		
+    	    		info.setIsContactusType(vm.leadType);
+    	    		/*PremiumLeads pLeads = PremiumLeads.findByLocation(Long.valueOf(session("USER_LOCATION")));
+    	    		if(pLeads != null){
+        				if(Integer.parseInt(pLeads.premium_amount) <= vehicle.price){
+        					info.setPremiumFlag(1);
+        				}else{
+        					info.setPremiumFlag(0);
+        					if(pLeads.premium_flag == 0){
+        						info.setAssignedTo(user);
+        					}
+        				}
+        				if(pLeads.premium_flag == 1){
+        					AuthUser aUser = AuthUser.getlocationAndManagerOne(Location.findById(Long.valueOf(session("USER_LOCATION"))));
+        					info.setAssignedTo(aUser);
+        				}
+        			
+    	    		}else{
+    	    			info.setPremiumFlag(0);
+    	    			info.setAssignedTo(user);
+    	    		}*/
+    	    		
+    	    		if(parentFlag == 1){
+    	    			info.setParentId(parentLeadId);
+    	    		}
+    	    		
+    	    		info.save();
+    	    		
+    	    		if(parentFlag == 0){
+    	    			parentFlag = 1;
+    	    			parentLeadId = info.getId();
+    	    		}
+    	    		
+    	    		UserNotes uNotes = new UserNotes();
+    	    		uNotes.setNote("Lead has been created");
+    	    		uNotes.setAction("Other");
+    	    		uNotes.createdDate = currDate;
+    	    		uNotes.createdTime = currDate;
+    	    		uNotes.saveHistory = 1;
+    	    		uNotes.user = user;
+    	    		uNotes.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+    	    		uNotes.requestMoreInfo = RequestMoreInfo.findById(info.id);
+    	    		uNotes.save();
+    	    		
+    	    		/*if(info.premiumFlag == 1){
+    	    			sendMailpremium();
+    	    		}*/
 	        	}
 	    		
 	    	 }
