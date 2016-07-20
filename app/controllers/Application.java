@@ -94,6 +94,7 @@ import models.CreateNewForm;
 import models.CustomerPdf;
 import models.CustomizationCrm;
 import models.CustomizationDataValue;
+import models.CustomizationInventory;
 import models.Domain;
 import models.EmailDetails;
 import models.FeaturedImage;
@@ -2978,7 +2979,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	
     
     
-    
+    private static void saveCustomInventoryData(Long InventoryId,SpecificationVM vm) {
+       	
+       	for(KeyValueDataVM custom:vm.customData){
+       		
+       		CustomizationInventory cDataValue = CustomizationInventory.findByKeyAndLeadId(custom.key,InventoryId);
+       		if(cDataValue == null){
+       			CustomizationInventory cValue = new CustomizationInventory();
+       			cValue.keyValue = custom.key;
+       			cValue.value = custom.value;
+       			cValue.InventoryId = InventoryId;
+       			cValue.displayGrid = custom.displayGrid;
+       			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+       			cValue.save();
+       			
+       		}else{
+       			cDataValue.setKeyValue(custom.key);
+       			cDataValue.setValue(custom.value);
+       			cDataValue.setDisplayGrid(custom.displayGrid);
+       			cDataValue.update();
+       		}
+   			
+   		}
+       }
     
     
     
@@ -3123,6 +3146,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	}
 		    	vehicle.save();
 	    	}
+	    	
+	    	saveCustomInventoryData(vehicle.id,vm);
 	    	sendEmailToBrandFollowers(vehicle.make);
 	    	Vehicle vehicleObj2 = Vehicle.findByVinAndStatus(vm.vin);
 	    	List<Site> siteList = vehicleObj2.getSite();

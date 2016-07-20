@@ -1,6 +1,8 @@
 package viewmodel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SpecificationVM {
     
@@ -91,4 +93,7 @@ public class SpecificationVM {
 	public String fileName;
 	public String comingSoonDate;
 	public int comingSoonFlag; 
+	
+	public List<KeyValueDataVM> customData  = new ArrayList<KeyValueDataVM>();
+	public Map<String, String> customMapData;
 }
