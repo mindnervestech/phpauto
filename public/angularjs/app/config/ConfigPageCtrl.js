@@ -227,7 +227,7 @@ $scope.leadTypeAll = function(){
 	$scope.editFormType = function(){
 		console.log($scope.entityname);
 
-		if(row.entity.name == "Create Lead"){
+		if($scope.entityname == "Create Lead"){
 			$location.path('/'+'CreateLeadForm/'+"Edit"+"/"+'Create Lead');
 		}else if($scope.entityname == "Add Product"){
 
@@ -272,7 +272,7 @@ $scope.leadTypeAll = function(){
 		//$location.path('/leadCreateForm/'+"Preview");
 		console.log($scope.entityname);
 
-		if(row.entity.name == "Create Lead"){
+		if($scope.entityname == "Create Lead"){
 			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
 		}else if($scope.entityname == "Add Product"){
 
