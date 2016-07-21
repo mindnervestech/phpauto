@@ -3052,12 +3052,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		if(vm.comingSoonDate != ""){
 	    			vehicle.comingSoonFlag=1;
 	    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	    			try {
-						vehicle.comingSoonDate=formatter.parse(vm.comingSoonDate);
+	    			/*try {
+						//vehicle.comingSoonDate=formatter.parse(vm.comingSoonDate);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
+					}*/
 	    			
 	    		}
 		    	
@@ -6534,11 +6534,11 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			
 			
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			if(vehicle.getComingSoonFlag() != null && vehicle.getComingSoonFlag() == 1){
+			/*if(vehicle.getComingSoonFlag() != null && vehicle.getComingSoonFlag() == 1){
 			String dat=df.format(vehicle.getComingSoonDate());
 			specificationVM.comingSoonDate=dat;
 			specificationVM.comingSoonFlag=vehicle.comingSoonFlag;
-			}
+			}*/
 			specificationVM.mileage = vehicle.getMileage();
 			List<Long> siteIds = new ArrayList<>();
 			for(Site site: vehicle.getSite()) {
