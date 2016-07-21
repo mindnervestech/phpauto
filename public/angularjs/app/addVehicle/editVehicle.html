@@ -64,7 +64,7 @@
 										<div class="form-group col-sm-12">
 										<label class="col-sm-2 control-label" style="text-align: right;">VIN</label>
 											<div class="col-sm-5">
-												<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.vin" placeholder="VIN Number" minlength="17" required>
+												<input class="form-control form-white" type="text" style="border-color:red;" ng-model="vinData.specification.vin" ng-disabled="true" placeholder="VIN Number" minlength="17" required>
 											</div>
 											<div class="col-sm-6" style="margin-left:17%;">
 												<p>A valid vin is 17 digits and cannot contain the letters I,O or Q</p>
@@ -604,6 +604,16 @@
 												
 											</div>
 										</div>
+										
+										<div class="form-group col-sm-12">
+										       <div  class="col-md-8">
+										      		<formly-form model="customData" fields="userFields">
+										              </formly-form>
+										          	</div>
+										          	<div  class="col-md-4">
+										          	</div>
+										</div>
+										
 										<p style="color:green;margin-left:19%;" ng-show="isUpdated"><b>Vehicle updated successfully!</b></p>
 										<button type="submit" class="btn btn-primary" style="margin-left:11%;margin-left:19%;">Update!</button>
 										<button type="button" ng-if="isPublished" ng-click="publishVehicle(vinData.specification.id)" class="btn btn-primary">Publish</button>

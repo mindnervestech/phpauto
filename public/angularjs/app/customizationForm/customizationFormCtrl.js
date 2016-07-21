@@ -19,9 +19,11 @@ angular.module('newApp')
 		  $scope.appointFlag=1;
 		  
 	  }
+	  
 		   $scope.initFunction = function(){
 			   $http.get('/getCustomizationform/'+$routeParams.formType).success(function(response) {
 					console.log(response);
+
 					if(response == 0){
 						$scope.setjson = null;
 						$scope.setjson.jsonData = null;

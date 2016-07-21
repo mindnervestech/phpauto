@@ -197,6 +197,7 @@ import viewmodel.HeardAboutUsVm;
 import viewmodel.HoursOperation;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
+import viewmodel.InventoryVM;
 import viewmodel.KeyValueDataVM;
 import viewmodel.LeadDateWiseVM;
 import viewmodel.LeadTypeVM;
@@ -2989,7 +2990,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
        			cValue.keyValue = custom.key;
        			cValue.value = custom.value;
        			cValue.InventoryId = InventoryId;
-       			cValue.displayGrid = custom.displayGrid;
+       			
+    			
+    			if(custom.displayGrid == null){
+    				cValue.displayGrid = "false";
+    			}else{
+    				cValue.displayGrid = custom.displayGrid;
+    			}
        			cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
        			cValue.save();
        			
@@ -4043,12 +4050,12 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	FilePart picture = body.getFile("file");
 	    	  if (picture != null) {
 	    	    String fileName = picture.getFilename();
-	    	    File fdir = new File(rootDir+File.separator+locatioId+File.separator+vin+"-");
+	    	    File fdir = new File(rootDir+File.separator+locatioId+File.separator+vin);
 	    	    if(!fdir.exists()) {
 	    	    	fdir.mkdir();
 	    	    }
-	    	    String filePath = rootDir+File.separator+locatioId+File.separator+vin+"-"+File.separator+fileName;
-	    	    String thumbnailPath = rootDir+File.separator+locatioId+File.separator+vin+"-"+File.separator+"thumbnail_"+fileName;
+	    	    String filePath = rootDir+File.separator+locatioId+File.separator+vin+File.separator+fileName;
+	    	    String thumbnailPath = rootDir+File.separator+locatioId+File.separator+vin+File.separator+"thumbnail_"+fileName;
 	    	    File thumbFile = new File(thumbnailPath);
 	    	    File file = picture.getFile();
 	    	    
@@ -4058,13 +4065,13 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    File _f = new File(filePath);
 				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
 				
-				VehicleImage imageObj = VehicleImage.getByImagePath("/"+locatioId+"/"+vin+"-"+"/"+fileName);
+				VehicleImage imageObj = VehicleImage.getByImagePath("/"+locatioId+"/"+vin+"/"+fileName);
 				if(imageObj == null) {
 					VehicleImage vImage = new VehicleImage();
 					vImage.vin = vin;
 					vImage.imgName = fileName;
-					vImage.path = "/"+locatioId+"/"+vin+"-"+"/"+fileName;
-					vImage.thumbPath = "/"+locatioId+"/"+vin+"-"+"/"+"thumbnail_"+fileName;
+					vImage.path = "/"+locatioId+"/"+vin+"/"+fileName;
+					vImage.thumbPath = "/"+locatioId+"/"+vin+"/"+"thumbnail_"+fileName;
 					//vImage.user = userObj;
 					vImage.locations = Location.findById(locatioId);
 					vImage.save();
@@ -6522,6 +6529,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			specificationVM.fileName = vehicle.getPdfBrochureName();
 			specificationVM.standardSeating = vehicle.getStandardSeating();
 			
+			
+			findCustomeInventoryData(vehicle.id,specificationVM);
+			
+			
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			if(vehicle.getComingSoonFlag() != null && vehicle.getComingSoonFlag() == 1){
 			String dat=df.format(vehicle.getComingSoonDate());
@@ -6540,6 +6551,40 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	return ok(Json.toJson(pinVM));
     	}	
     }
+    
+    
+    public static void findCustomeInventoryData(Long id,SpecificationVM inventoryvm){
+    	List<CustomizationInventory> custData = CustomizationInventory.findByIdList(id);
+    	List<KeyValueDataVM> keyValueList = new ArrayList<>();
+    	Map<String, String> mapCar = new HashMap<String, String>();
+    	for(CustomizationInventory custD:custData){
+    		mapCar.put(custD.keyValue, custD.value);
+    		//if(custD.displayGrid.equals("true")){
+    			//if(keyValueList.size() == 0){
+    				KeyValueDataVM keyValue = new KeyValueDataVM();
+            		keyValue.key = custD.keyValue;
+            		keyValue.value = custD.value;
+            		keyValue.displayGrid = custD.displayGrid;
+            		keyValueList.add(keyValue);
+    			//}else{
+            		/*for(KeyValueDataVM ks:keyValueList){
+    					if(!ks.equals(custD.keyValue)){
+    						KeyValueDataVM keyValue = new KeyValueDataVM();
+    	            		keyValue.key = custD.keyValue;
+    	            		keyValue.value = custD.value;
+    	            		keyValue.displayGrid = custD.displayGrid;
+    	            		keyValueList.add(keyValue);
+    					}
+    				}
+    			}*/
+    			
+    		//}
+    		
+    	}
+    	inventoryvm.customData = keyValueList;
+    	inventoryvm.customMapData = mapCar;
+    }
+   
     
     public static void sendEmailToBrandFollowers(String brand) {
     	
@@ -7075,6 +7120,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	vehicle.setMileage(vm.mileage);
 		    	vehicle.setMadeIn(vm.made_in);
 		    	vehicle.setOptionalSeating(vm.optional_seating);
+		    	
+		    	
 		    	List<Site> siteList = new ArrayList<>();
 		    	if(vm.siteIds != null) {
 			    	for(Long obj: vm.siteIds) {
@@ -7084,6 +7131,8 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			    	vehicle.setSite(siteList);
 		    	}
 		    	vehicle.update();
+		    	
+		    	saveCustomInventoryData(vehicle.id,vm);
 		    	
 		    	if(flag==1){
 		    		sendPriceAlertMail(vehicle.vin);

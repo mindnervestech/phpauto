@@ -587,10 +587,10 @@ var MakeApp = angular
             templateUrl: '/dealer/addVehicle/editVehicle.html',
             controller: 'EditVehicleCtrl'
         })
-        .when('/editVehicle/:id/:temp', {
+       /* .when('/editVehicle/:id/:temp', {
             templateUrl: '/dealer/addVehicle/editVehicle.html',
             controller: 'EditVehicleCtrl'
-        })
+        })*/
         .when('/editVehicleNew/:id/:temp/:vinNew', {
             templateUrl: '/dealer/addVehicle/editVehicle.html',
             controller: 'EditVehicleCtrl'

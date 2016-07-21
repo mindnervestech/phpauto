@@ -202,6 +202,9 @@ angular.module('newApp')
  		if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
  	 		 var ele = document.getElementById('loadingmanual');	
  	     	$(ele).show();
+ 	     	
+ 	     	
+ 	     	
  	 		  if(pdffile != undefined){
  	 	 		$http.post('/saveVehicle',$scope.vinData.specification)
  	 			.success(function(data) {
@@ -222,7 +225,8 @@ angular.module('newApp')
  	 		 	  			    type:'success',
  	 		 	  			    text: "Vehicle saved successfully",
  	 		 	  			});
- 	 		 	  		$location.path('/editVehicle/'+$scope.dataBeforePdf+"/"+true);
+ 	 		 	  		console.log($scope.vinData.specification.vin);
+ 	 		 	  		$location.path('/editVehicle/'+$scope.dataBeforePdf+"/"+true+"/"+$scope.vinData.specification.vin);
  	 		 	      });
  	 			});
  	 	 	 }else{
@@ -233,7 +237,7 @@ angular.module('newApp')
  	 				    type:'success',
  	 				    text: "Vehicle saved successfully",
  	 				});
- 	 				$location.path('/editVehicle/'+data+"/"+true);
+ 	 				$location.path('/editVehicle/'+data+"/"+true+"/"+$scope.vinData.specification.vin);
  	 			});
  	 	 	 }
  	 	  }else{

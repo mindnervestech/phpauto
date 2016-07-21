@@ -63,7 +63,7 @@ GET		/getImagesByProductId/:productId  controllers.AddEditInventoryController.ge
 GET		/getImageInv/:id/:type			  controllers.AddEditInventoryController.getImageInv(id:Long,type:String)
 GET		/getInventoryImageById/:id		  controllers.AddEditInventoryController.getInventoryImageById(id: Long)
 POST    /editInventoryImage		    	  controllers.AddEditInventoryController.editInventoryImage()
-POST	/uploadPhotos					  controllers.AddEditInventoryController.uploadPhotos()
+#POST	/uploadPhotos					  controllers.AddEditInventoryController.uploadPhotos()
 GET		/deleteInventoryImage/:id		  controllers.AddEditInventoryController.deleteInventoryImage(id:Long)
 GET     /getAllInventory/:locationId      controllers.AddEditInventoryController.getAllInventory(locationId:Long)
 POST	/saveVehicle					  controllers.Application.saveVehicle()
