@@ -23348,7 +23348,7 @@ private static void cancelTestDriveMail(Map map) {
 	    		vm.enthicity = info.enthicity;
 	    		vm.price = vehicle.price;
 	    		vm.requestDate = df.format(info.requestDate);
-	    		vm.typeOfLead = "Request More Info";
+	    		
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		Integer nFlag = 0;
@@ -23385,8 +23385,10 @@ private static void cancelTestDriveMail(Map map) {
 		    		}else{
 		    			lType = LeadType.findByName(info.isContactusType);
 		    		}
+		    		vm.typeOfLead = lType.leadName;
 		    		findCustomeData(info.id,vm,lType.id);
 	    		}else{
+	    			vm.typeOfLead = "Request More Info";
 	    			findCustomeData(info.id,vm,1L);
 	    		}
 	    		

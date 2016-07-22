@@ -8848,7 +8848,48 @@ float: right !important;
 								        </div>
 								    </div>
 								    
-								    <div class="modal fade" id="tradeInApp" role="dialog" style="top:-75px;">
+								    
+  								
+  								<div class="modal fade" id="completedPopup" role="dialog" style="top:-75px;">
+    									<div class="modal-dialog" style="width: 610px">
+     										<form method="post" ng-submit="saveCompleted()">
+      											<div class="modal-content" style="width: 610px;height: 240px;margin-top: 200px;">
+        											<div class="modal-header">
+          												<button type="button" class="close" data-dismiss="modal">&times;</button>
+          												<h4 class="modal-title">Completed</h4>
+        											</div>
+        											<div class="modal-body">
+        												<div class="form-group col-sm-12">
+        													<div class="col-sm-4">
+        														<label>Duration</label>
+        													</div>
+        													<div class="col-sm-6">
+																<input class="form-control form-white" ng-model="testCompleted.duration" type="number" required>
+        													</div>
+        													<div class="col-sm-2">
+																<label>Minutes</label>
+        													</div>
+        													
+        												</div>
+        												<div class="form-group col-sm-12">
+        													<div class="col-sm-4">
+        														<label>Comment</label>
+        													</div>
+        													<div class="col-sm-8">
+        														<input type="text" class="form-control form-white" ng-model="testCompleted.comment">
+        													</div>
+        												</div>
+  													</div>
+  													<div class="modal-footer">
+								                    	<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    	<button type="submit" class="btn btn-primary btn-embossed">Completed</button>
+								                	</div>
+  												</div>
+  											</form>
+  										</div>
+  								</div>					
+  								
+  								<div class="modal fade" id="tradeInAppEdit" role="dialog" style="top:-75px;">
     									<div class="modal-dialog" style="width: 961px">
      										<form method="post" ng-submit="makeLead()">
       											<div class="modal-content" style="width: 996px;height: 670px;margin-top: 105px;">
@@ -8962,360 +9003,6 @@ float: right !important;
 		                										</tr>
 		                										<tr>
 		                											<td>VIN<br><input type="text" name="engine" ng-model="lead.vin" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
-		                    										<td>Drivetrain<br>
-		                    											<select name="drivetrain" ng-model="lead.drivetrain" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    												<option value="2WD">2WD</option>
-		                    												<option value="4WD">4WD</option>
-		                    												<option value="AWD">AWD</option>
-		                    											</select>
-		                    										</td>
-		                    										<td></td>
-		                										</tr>
-												    		</tbody>
-												  		</table>
-											            <table class="right_table" style="width: 50%;float: left;">
-		                									<tbody>
-		                										<tr>
-		                											<td colspan="2"><h4>Vehicle Rating</h4></td>
-		                										</tr>
-		               		 									<tr>
-												                    <td>Body (dents, dings, rust, rot, damage)<br>
-		                    											<select name="body_rating" ng-model="lead.bodyRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    												<option value="10">10 - best</option>
-		                    												<option value="9">9</option>
-		                    												<option value="8">8</option>
-		                    												<option value="7">7</option>
-		                    												<option value="6">6</option>
-		                    												<option value="5">5</option>
-		                    												<option value="4">4</option>
-		                    												<option value="3">3</option>
-		                    												<option value="2">2</option>
-		                    												<option value="1">1 - worst</option>
-		                    											</select>
-		                    										</td>
-		                    										<td>Tires ( tread  wear , mismatched )  <br>
-		                    											<select name="tire_rating" ng-model="lead.tireRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    												<option value="10">10 - best</option>
-		                    												<option value="9">9</option>
-		                    												<option value="8">8</option>
-		                    												<option value="7">7</option>
-		                    												<option value="6">6</option>
-		                    												<option value="5">5</option>
-		                    												<option value="4">4</option>
-		                    												<option value="3">3</option>
-		                    												<option value="2">2</option>
-		                    												<option value="1">1 - worst</option>
-		                    											</select>
-		                    										</td>
-		                										</tr>
-		                										<tr>
-		                    										<td>Engine (running condition, burns oil, knocking)<br>
-		                    											<select name="engine_rating" ng-model="lead.engineRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    												<option value="10">10 - best</option>
-		                    												<option value="9">9</option>
-		                    												<option value="8">8</option>
-		                    												<option value="7">7</option>
-		                    												<option value="6">6</option>
-		                    												<option value="5">5</option>
-		                    												<option value="4">4</option>
-		                    												<option value="3">3</option>
-		                    												<option value="2">2</option>
-		                    												<option value="1">1 - worst</option>
-		                    											</select>
-		                    										</td>
-		                    										<td>Transmission / Clutch (slipping, hard shift, grinds)<br>
-		                    	   										<select name="transmission_rating" ng-model="lead.transmissionRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    	   											<option value="10">10 - best</option>
-		                    	   											<option value="9">9</option>
-		                    	   											<option value="8">8</option>
-		                    	   											<option value="7">7</option>
-		                    	   											<option value="6">6</option>
-		                    	   											<option value="5">5</option>
-		                    	   											<option value="4">4</option>
-		                    	   											<option value="3">3</option>
-		                    	   											<option value="2">2</option>
-		                    	   											<option value="1">1 - worst</option>
-		                    	   										</select>
-		                    	   									</td>
-		                										</tr>
-		                										<tr>
-		                    										<td>Glass (chips, scratches, cracks, pitted)<br>
-		                    											<select name="glass_rating" ng-model="lead.glassRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    												<option value="10">10 - best</option>
-		                    												<option value="9">9</option>
-		                    												<option value="8">8</option>
-		                    												<option value="7">7</option>
-		                    												<option value="6">6</option>
-		                    												<option value="5">5</option>
-		                    												<option value="4">4</option>
-		                    												<option value="3">3</option>
-		                    												<option value="2">2</option>
-		                    												<option value="1">1 - worst</option>
-		                    											</select>
-		                    										</td>
-		                    										<td>Interior (rips, tears, burns, faded/worn, stains)<br>
-		                    											<select name="interior_rating" ng-model="lead.interiorRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    												<option value="10">10 - best</option>
-		                    												<option value="9">9</option>
-		                    												<option value="8">8</option>
-		                    												<option value="7">7</option>
-		                    												<option value="6">6</option>
-		                    												<option value="5">5</option>
-		                    												<option value="4">4</option>
-		                    												<option value="3">3</option>
-		                    												<option value="2">2</option>
-		                    												<option value="1">1 - worst</option>
-		                    											</select>
-		                    										</td>
-		                										</tr>
-		                										<tr>
-		                    										<td colspan="2">Exhaust (rusted, leaking, noisy)<br>
-		                    											<select name="exhaust_rating" ng-model="lead.exhaustRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    												<option value="10">10 - best</option>
-		                    												<option value="9">9</option>
-		                    												<option value="8">8</option>
-		                    												<option value="7">7</option>
-		                    												<option value="6">6</option>
-		                    												<option value="5">5</option>
-		                    												<option value="4">4</option>
-		                    												<option value="3">3</option>
-		                    												<option value="2">2</option>
-		                    												<option value="1">1 - worst</option>
-		                    											</select>
-		                    										</td>
-		                										</tr>
-		            										</tbody>
-		            									</table>
-											            <div style="clear:both;"></div>
-												            <table class="left_table" style="width: 50%;float: left;">
-		                										<tbody>
-		                											<tr>
-		                												<td><h4>Vehicle History</h4></td>
-		                											</tr>
-													                <tr>
-		        											            <td>Was it ever a lease or rental return? <br>
-		            											        	<select name="rental_return" ng-model="lead.rentalReturn" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                											    		<option value="Yes">Yes</option>
-		                    													<option value="No">No</option>
-		                    												</select>
-		                    											</td>
-		                											</tr>
-		                											<tr>
-		                    											<td>Is the odometer operational and accurate? <br>
-		                    												<select name="odometer_accurate" ng-model="lead.odometerAccurate" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    													<option value="Yes">Yes</option>
-		                    													<option value="No">No</option>
-		                    												</select>
-		                    											</td>
-		                											</tr>
-		                											<tr>
-		                    											<td>Detailed service records available? <br>
-		                    												<select name="service_records" ng-model="lead.serviceRecords" class="css-dropdowns"  style="width: 90%;border-radius:4px;">
-		                    													<option value="Yes">Yes</option>
-		                    													<option value="No">No</option>
-		                    												</select>
-		                    											</td>
-		                											</tr>
-		            											</tbody>
-		            										</table>
-		            										<table class="right_table" style="width: 50%;float: left;">
-											       	         	<tbody>
-											       	         		<tr>
-		                    											<td><h4>Title History</h4></td>
-		                											</tr>
-													                <tr>
-		    											                <td>Is there a lineholder? <br><input type="text"  ng-model="lead.lienholder" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);" name="lienholder"></td>
-		                											</tr>
-		                											<tr>
-		                    											<td>Who holds this title? <br><input type="text" ng-model="lead.titleholder" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);" name="titleholder"></td>
-		                											</tr>
-		            											</tbody>
-		            										</table>
-												            <div style="clear:both;"></div>
-												            <table style="width: 100%;">
-		                										<tbody>
-		                											<tr>
-		                												<td colspan="2"><h4>Vehicle Assessment</h4></td>
-		                											</tr>
-													                <tr>
-		                    											<td>Does all equipment and accessories work correctly?<br><textarea name="equipment" ng-model="lead.equipment" rows="5" style="width: 89%;"></textarea></td>
-		                    											<td>Did you buy the vehicle new?<br><textarea name="vehiclenew" ng-model="lead.vehiclenew" rows="5" style="width: 89%;"></textarea></td>
-		                											</tr>
-		                											<tr>
-		                    											<td>Has the vehicle ever been in any accidents? Cost of repairs?<br><textarea name="accidents" ng-model="lead.accidents" rows="5" style="width: 89%;"></textarea></td>
-		                    											<td>Is there existing damage on the vehicle? Where?<br><textarea name="damage" ng-model="lead.damage" rows="5" style="width: 89%;"></textarea></td>
-		                											</tr>
-		                											<tr>
-		                    											<td>Has the vehicle ever had paint work performed?<br><textarea name="paint" ng-model="lead.paint" rows="5" style="width: 89%;"></textarea></td>
-		                    											<td>Is the title designated 'Salvage' or 'Reconstructed'? Any other?<br><textarea name="salvage" ng-model="lead.salvage" rows="5" style="width: 89%;"></textarea></td>
-		                											</tr>
-													            </tbody>
-													    	</table>
-														</div>
-													</div>
-												</div>
-	        								</div>
-									        <div class="modal-footer">
- 									          <input type="submit" class="btn btn-primary" value="Submit">
-									        </div>
-									      </div>
-		      							</form>
-		      							
-    								</div>
-  								</div>
-  								
-  								<div class="modal fade" id="completedPopup" role="dialog" style="top:-75px;">
-    									<div class="modal-dialog" style="width: 610px">
-     										<form method="post" ng-submit="saveCompleted()">
-      											<div class="modal-content" style="width: 610px;height: 240px;margin-top: 200px;">
-        											<div class="modal-header">
-          												<button type="button" class="close" data-dismiss="modal">&times;</button>
-          												<h4 class="modal-title">Completed</h4>
-        											</div>
-        											<div class="modal-body">
-        												<div class="form-group col-sm-12">
-        													<div class="col-sm-4">
-        														<label>Duration</label>
-        													</div>
-        													<div class="col-sm-6">
-																<input class="form-control form-white" ng-model="testCompleted.duration" type="number" required>
-        													</div>
-        													<div class="col-sm-2">
-																<label>Minutes</label>
-        													</div>
-        													
-        												</div>
-        												<div class="form-group col-sm-12">
-        													<div class="col-sm-4">
-        														<label>Comment</label>
-        													</div>
-        													<div class="col-sm-8">
-        														<input type="text" class="form-control form-white" ng-model="testCompleted.comment">
-        													</div>
-        												</div>
-  													</div>
-  													<div class="modal-footer">
-								                    	<button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
-								                    	<button type="submit" class="btn btn-primary btn-embossed">Completed</button>
-								                	</div>
-  												</div>
-  											</form>
-  										</div>
-  								</div>					
-  								
-  								<div class="modal fade" id="tradeInAppEdit" role="dialog" style="top:-75px;">
-    									<div class="modal-dialog" style="width: 961px">
-     										<form method="post" ng-submit="makeLeadEdit()">
-      											<div class="modal-content" style="width: 996px;height: 670px;margin-top: 105px;">
-        											<div class="modal-header">
-          												<button type="button" class="close" data-dismiss="modal">&times;</button>
-          												<h4 class="modal-title">Trade-In</h4>
-        											</div>
-        											<div class="modal-body">
-          												<div class="fancybox-outer"><div class="fancybox-inner" style="overflow: auto; width: 970px; height: 516px;"><div id="trade_fancybox_form" class="" style="">
-		            										<table class="left_table" style="width: 50%;float: left;">
-		                										<tbody>
-		                											<tr>
-		                    											<td colspan="2"><h4>Contact Information</h4></td>
-		                											</tr>
-		                											<tr>
-		                    											<td><br>  
-		                    												<input type="radio" name="preferred" ng-model="lead.prefferedContact" value="email" checked="checked" id="email" style="width: 14%;" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"> Email  
-		                    												<input type="radio" name="preferred" ng-model="lead.prefferedContact" value="phone" id="phone" style="width: 14%;" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"> Phone </td>
-		                											</tr>
-		                											<tr>
-		                    											<td>Comments<br><textarea name="comments" ng-model="lead.comments" style="width: 89%;" rows="5" style="width: 90%;border-radius:4px;"></textarea></td>
-		                											</tr>
-		            											</tbody>
-		            										</table>
-		            
-		            										<table class="right_table" style="width: 50%;float: left;">
-		                										<tbody>
-		                											<tr>
-		                    											<td colspan="2"><h4>Options</h4></td>
-		                											</tr>
-		               						 		                <tr>
-		                												<td>
-		                													<select name="options" ng-model="lead.options" multiple style="height: 200px;" style="width: 90%;border-radius:4px;"> 
-			            												    	<option value="Adaptive Cruise Control">Adaptive Cruise Control</option>
-			                													<option value="Airbags">Airbags</option>
-			                													<option value="Air Conditioning">Air Conditioning</option>
-			                													<option value="Alarm System">Alarm System</option>
-			                													<option value="Anti-theft Protection">Anti-theft Protection</option>
-			                													<option value="Audio Interface">Audio Interface</option>
-			                													<option value="Automatic Climate Control">Automatic Climate Control</option>
-			                													<option value="Automatic Headlights">Automatic Headlights</option>
-			                													<option value="Auto Start/Stop">Auto Start/Stop</option>
-			                													<option value="Bi-Xenon Headlights">Bi-Xenon Headlights</option>
-			                													<option value="Bluetooth Handset">Bluetooth Handset</option>
-			                													<option value="BOSE Surround Sound">BOSE Surround Sound</option>
-			                													<option value="Burmester Surround Sound">Burmester Surround Sound</option>
-			                													<option value="CD/DVD Autochanger">CD/DVD Autochanger</option>
-			                													<option value="CDR Audio">CDR Audio</option>
-			                													<option value="Cruise Control">Cruise Control</option>
-			                													<option value="Direct Fuel Injection">Direct Fuel Injection</option>
-			                													<option value="Electric Parking Brake">Electric Parking Brake</option>
-			                													<option value="Floor Mats">Floor Mats</option>
-			                													<option value="Garage Door Opener">Garage Door Opener</option>
-			                													<option value="Leather Package">Leather Package</option>
-			                													<option value="Locking Rear Differential">Locking Rear Differential</option>
-			                													<option value="Luggage Compartments">Luggage Compartments</option>
-			                													<option value="Manual Transmission">Manual Transmission</option>
-			                													<option value="Navigation Module">Navigation Module</option>
-			                													<option value="Online Services">Online Services</option>
-			                													<option value="ParkAssist">ParkAssist</option>
-			                													<option value="Porsche Communication">Porsche Communication</option>
-			                													<option value="Power Steering">Power Steering</option>
-			                													<option value="Reversing Camera">Reversing Camera</option>
-			                													<option value="Roll-over Protection">Roll-over Protection</option>
-			                													<option value="Seat Heating">Seat Heating</option>
-			                													<option value="Seat Ventilation">Seat Ventilation</option>
-			                													<option value="Sound Package Plus">Sound Package Plus</option>
-			                													<option value="Sport Chrono Package">Sport Chrono Package</option>
-			                													<option value="Steering Wheel Heating">Steering Wheel Heating</option>
-			                													<option value="Tire Pressure Monitoring">Tire Pressure Monitoring</option>
-			                													<option value="Universal Audio Interface">Universal Audio Interface</option>
-			                													<option value="Voice Control System">Voice Control System</option>
-			                													<option value="Wind Deflector">Wind Deflector</option>		
-			             												</select>
-			             											</td>
-			             											<td>&nbsp;</td>
-												        		</tr>
-		            										</tbody>
-		            									</table>
-											            <div style="clear:both;"></div>
-											            <table class="left_table" style="width: 50%;float: left;">    
-		                									<tbody>
-		                										<tr>
-		                											<td colspan="2">
-		                												<h4>Vehicle Information</h4>
-		                											</td>
-		                										</tr>
-												                <tr>
-		                    										<td>Year<br><input type="text" ng-model="lead.year" name="year" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
-		                 	   										<td>Exterior Colour<br><input type="text" ng-model="lead.exteriorColour" name="exterior_colour" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
-		                										</tr>
-		               	 										<tr>
-		                    										<td>Kilometres<br><input type="text" ng-model="lead.kilometres" name="kilometres" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
-		                											<td>Engine<br><input type="text" name="engine" ng-model="lead.engine" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
-		                										</tr>
-		                										<tr>
-		                    										<td>Doors<br>
-		                    											<select name="doors" ng-model="lead.doors" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    												<option value="2">2</option>
-		                    												<option value="3">3</option>
-		                    												<option value="4">4</option>
-		                    												<option value="5">5</option>
-		                    											</select>
-		                    										</td>
-		                    										<td>Transmission<br>
-		                    											<select name="transmission" ng-model="lead.transmission" class="css-dropdowns" style="width: 90%;border-radius:4px;">
-		                    												<option value="Automatic">Automatic</option>
-		                    												<option value="Manual">Manual</option>
-		                    											</select>
-		                    										</td>
-		                										</tr>
-		                										<tr>
 		                    										<td>Drivetrain<br>
 		                    											<select name="drivetrain" ng-model="lead.drivetrain" class="css-dropdowns" style="width: 90%;border-radius:4px;">
 		                    												<option value="2WD">2WD</option>
@@ -10073,6 +9760,322 @@ float: right !important;
 								            </div>
 								        </div>
 								    </div>
+								    
+								    <div class="modal fade" id="tradeInApp" role="dialog" style="top:-75px;">
+    									<div class="modal-dialog" style="width: 961px">
+     										<form method="post" ng-submit="makeLead()">
+      											<div class="modal-content" style="width: 996px;height: 670px;margin-top: 105px;">
+        											<div class="modal-header">
+          												<button type="button" class="close" data-dismiss="modal">&times;</button>
+          												<h4 class="modal-title">Trade-In</h4>
+        											</div>
+        											<div class="modal-body">
+          												<div class="fancybox-outer"><div class="fancybox-inner" style="overflow: auto; width: 970px; height: 516px;"><div id="trade_fancybox_form" class="" style="">
+		            										<table class="left_table" style="width: 50%;float: left;">
+		                										<tbody>
+		                											<tr>
+		                    											<td colspan="2"><h4>Contact Information</h4></td>
+		                											</tr>
+		                											<tr>
+		                    											<td><br>  
+		                    												<input type="radio" name="preferred" ng-model="lead.prefferedContact" value="email" checked="checked" id="email" style="width: 14%;" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"> Email  
+		                    												<input type="radio" name="preferred" ng-model="lead.prefferedContact" value="phone" id="phone" style="width: 14%;" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"> Phone </td>
+		                											</tr>
+		                											<tr>
+		                    											<td>Comments<br><textarea name="comments" ng-model="lead.comments" style="width: 89%;" rows="5" style="width: 90%;border-radius:4px;"></textarea></td>
+		                											</tr>
+		            											</tbody>
+		            										</table>
+		            
+		            										<table class="right_table" style="width: 50%;float: left;">
+		                										<tbody>
+		                											<tr>
+		                    											<td colspan="2"><h4>Options</h4></td>
+		                											</tr>
+		               						 		                <tr>
+		                												<td>
+		                													<select name="options" ng-model="lead.options" multiple style="height: 200px;" style="width: 90%;border-radius:4px;"> 
+			            												    	<option value="Adaptive Cruise Control">Adaptive Cruise Control</option>
+			                													<option value="Airbags">Airbags</option>
+			                													<option value="Air Conditioning">Air Conditioning</option>
+			                													<option value="Alarm System">Alarm System</option>
+			                													<option value="Anti-theft Protection">Anti-theft Protection</option>
+			                													<option value="Audio Interface">Audio Interface</option>
+			                													<option value="Automatic Climate Control">Automatic Climate Control</option>
+			                													<option value="Automatic Headlights">Automatic Headlights</option>
+			                													<option value="Auto Start/Stop">Auto Start/Stop</option>
+			                													<option value="Bi-Xenon Headlights">Bi-Xenon Headlights</option>
+			                													<option value="Bluetooth Handset">Bluetooth Handset</option>
+			                													<option value="BOSE Surround Sound">BOSE Surround Sound</option>
+			                													<option value="Burmester Surround Sound">Burmester Surround Sound</option>
+			                													<option value="CD/DVD Autochanger">CD/DVD Autochanger</option>
+			                													<option value="CDR Audio">CDR Audio</option>
+			                													<option value="Cruise Control">Cruise Control</option>
+			                													<option value="Direct Fuel Injection">Direct Fuel Injection</option>
+			                													<option value="Electric Parking Brake">Electric Parking Brake</option>
+			                													<option value="Floor Mats">Floor Mats</option>
+			                													<option value="Garage Door Opener">Garage Door Opener</option>
+			                													<option value="Leather Package">Leather Package</option>
+			                													<option value="Locking Rear Differential">Locking Rear Differential</option>
+			                													<option value="Luggage Compartments">Luggage Compartments</option>
+			                													<option value="Manual Transmission">Manual Transmission</option>
+			                													<option value="Navigation Module">Navigation Module</option>
+			                													<option value="Online Services">Online Services</option>
+			                													<option value="ParkAssist">ParkAssist</option>
+			                													<option value="Porsche Communication">Porsche Communication</option>
+			                													<option value="Power Steering">Power Steering</option>
+			                													<option value="Reversing Camera">Reversing Camera</option>
+			                													<option value="Roll-over Protection">Roll-over Protection</option>
+			                													<option value="Seat Heating">Seat Heating</option>
+			                													<option value="Seat Ventilation">Seat Ventilation</option>
+			                													<option value="Sound Package Plus">Sound Package Plus</option>
+			                													<option value="Sport Chrono Package">Sport Chrono Package</option>
+			                													<option value="Steering Wheel Heating">Steering Wheel Heating</option>
+			                													<option value="Tire Pressure Monitoring">Tire Pressure Monitoring</option>
+			                													<option value="Universal Audio Interface">Universal Audio Interface</option>
+			                													<option value="Voice Control System">Voice Control System</option>
+			                													<option value="Wind Deflector">Wind Deflector</option>		
+			             												</select>
+			             											</td>
+			             											<td>&nbsp;</td>
+												        		</tr>
+		            										</tbody>
+		            									</table>
+											            <div style="clear:both;"></div>
+											            <table class="left_table" style="width: 50%;float: left;">    
+		                									<tbody>
+		                										<tr>
+		                											<td colspan="2">
+		                												<h4>Vehicle Information</h4>
+		                											</td>
+		                										</tr>
+												                <tr>
+		                    										<td>Year<br><input type="text" ng-model="lead.year" name="year" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
+		                 	   										<td>Exterior Colour<br><input type="text" ng-model="lead.exteriorColour" name="exterior_colour" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
+		                										</tr>
+		               	 										<tr>
+		                    										<td>Kilometres<br><input type="text" ng-model="lead.kilometres" name="kilometres" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
+		                											<td>Engine<br><input type="text" name="engine" ng-model="lead.engine" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
+		                										</tr>
+		                										<tr>
+		                    										<td>Doors<br>
+		                    											<select name="doors" ng-model="lead.doors" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    												<option value="2">2</option>
+		                    												<option value="3">3</option>
+		                    												<option value="4">4</option>
+		                    												<option value="5">5</option>
+		                    											</select>
+		                    										</td>
+		                    										<td>Transmission<br>
+		                    											<select name="transmission" ng-model="lead.transmission" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    												<option value="Automatic">Automatic</option>
+		                    												<option value="Manual">Manual</option>
+		                    											</select>
+		                    										</td>
+		                										</tr>
+		                										<tr>
+		                											<td>VIN<br><input type="text" name="engine" ng-model="lead.vin" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);"></td>
+		                    										<td>Drivetrain<br>
+		                    											<select name="drivetrain" ng-model="lead.drivetrain" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    												<option value="2WD">2WD</option>
+		                    												<option value="4WD">4WD</option>
+		                    												<option value="AWD">AWD</option>
+		                    											</select>
+		                    										</td>
+		                    										<td></td>
+		                										</tr>
+												    		</tbody>
+												  		</table>
+											            <table class="right_table" style="width: 50%;float: left;">
+		                									<tbody>
+		                										<tr>
+		                											<td colspan="2"><h4>Vehicle Rating</h4></td>
+		                										</tr>
+		               		 									<tr>
+												                    <td>Body (dents, dings, rust, rot, damage)<br>
+		                    											<select name="body_rating" ng-model="lead.bodyRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    												<option value="10">10 - best</option>
+		                    												<option value="9">9</option>
+		                    												<option value="8">8</option>
+		                    												<option value="7">7</option>
+		                    												<option value="6">6</option>
+		                    												<option value="5">5</option>
+		                    												<option value="4">4</option>
+		                    												<option value="3">3</option>
+		                    												<option value="2">2</option>
+		                    												<option value="1">1 - worst</option>
+		                    											</select>
+		                    										</td>
+		                    										<td>Tires ( tread  wear , mismatched )  <br>
+		                    											<select name="tire_rating" ng-model="lead.tireRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    												<option value="10">10 - best</option>
+		                    												<option value="9">9</option>
+		                    												<option value="8">8</option>
+		                    												<option value="7">7</option>
+		                    												<option value="6">6</option>
+		                    												<option value="5">5</option>
+		                    												<option value="4">4</option>
+		                    												<option value="3">3</option>
+		                    												<option value="2">2</option>
+		                    												<option value="1">1 - worst</option>
+		                    											</select>
+		                    										</td>
+		                										</tr>
+		                										<tr>
+		                    										<td>Engine (running condition, burns oil, knocking)<br>
+		                    											<select name="engine_rating" ng-model="lead.engineRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    												<option value="10">10 - best</option>
+		                    												<option value="9">9</option>
+		                    												<option value="8">8</option>
+		                    												<option value="7">7</option>
+		                    												<option value="6">6</option>
+		                    												<option value="5">5</option>
+		                    												<option value="4">4</option>
+		                    												<option value="3">3</option>
+		                    												<option value="2">2</option>
+		                    												<option value="1">1 - worst</option>
+		                    											</select>
+		                    										</td>
+		                    										<td>Transmission / Clutch (slipping, hard shift, grinds)<br>
+		                    	   										<select name="transmission_rating" ng-model="lead.transmissionRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    	   											<option value="10">10 - best</option>
+		                    	   											<option value="9">9</option>
+		                    	   											<option value="8">8</option>
+		                    	   											<option value="7">7</option>
+		                    	   											<option value="6">6</option>
+		                    	   											<option value="5">5</option>
+		                    	   											<option value="4">4</option>
+		                    	   											<option value="3">3</option>
+		                    	   											<option value="2">2</option>
+		                    	   											<option value="1">1 - worst</option>
+		                    	   										</select>
+		                    	   									</td>
+		                										</tr>
+		                										<tr>
+		                    										<td>Glass (chips, scratches, cracks, pitted)<br>
+		                    											<select name="glass_rating" ng-model="lead.glassRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    												<option value="10">10 - best</option>
+		                    												<option value="9">9</option>
+		                    												<option value="8">8</option>
+		                    												<option value="7">7</option>
+		                    												<option value="6">6</option>
+		                    												<option value="5">5</option>
+		                    												<option value="4">4</option>
+		                    												<option value="3">3</option>
+		                    												<option value="2">2</option>
+		                    												<option value="1">1 - worst</option>
+		                    											</select>
+		                    										</td>
+		                    										<td>Interior (rips, tears, burns, faded/worn, stains)<br>
+		                    											<select name="interior_rating" ng-model="lead.interiorRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    												<option value="10">10 - best</option>
+		                    												<option value="9">9</option>
+		                    												<option value="8">8</option>
+		                    												<option value="7">7</option>
+		                    												<option value="6">6</option>
+		                    												<option value="5">5</option>
+		                    												<option value="4">4</option>
+		                    												<option value="3">3</option>
+		                    												<option value="2">2</option>
+		                    												<option value="1">1 - worst</option>
+		                    											</select>
+		                    										</td>
+		                										</tr>
+		                										<tr>
+		                    										<td colspan="2">Exhaust (rusted, leaking, noisy)<br>
+		                    											<select name="exhaust_rating" ng-model="lead.exhaustRating" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    												<option value="10">10 - best</option>
+		                    												<option value="9">9</option>
+		                    												<option value="8">8</option>
+		                    												<option value="7">7</option>
+		                    												<option value="6">6</option>
+		                    												<option value="5">5</option>
+		                    												<option value="4">4</option>
+		                    												<option value="3">3</option>
+		                    												<option value="2">2</option>
+		                    												<option value="1">1 - worst</option>
+		                    											</select>
+		                    										</td>
+		                										</tr>
+		            										</tbody>
+		            									</table>
+											            <div style="clear:both;"></div>
+												            <table class="left_table" style="width: 50%;float: left;">
+		                										<tbody>
+		                											<tr>
+		                												<td><h4>Vehicle History</h4></td>
+		                											</tr>
+													                <tr>
+		        											            <td>Was it ever a lease or rental return? <br>
+		            											        	<select name="rental_return" ng-model="lead.rentalReturn" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                											    		<option value="Yes">Yes</option>
+		                    													<option value="No">No</option>
+		                    												</select>
+		                    											</td>
+		                											</tr>
+		                											<tr>
+		                    											<td>Is the odometer operational and accurate? <br>
+		                    												<select name="odometer_accurate" ng-model="lead.odometerAccurate" class="css-dropdowns" style="width: 90%;border-radius:4px;">
+		                    													<option value="Yes">Yes</option>
+		                    													<option value="No">No</option>
+		                    												</select>
+		                    											</td>
+		                											</tr>
+		                											<tr>
+		                    											<td>Detailed service records available? <br>
+		                    												<select name="service_records" ng-model="lead.serviceRecords" class="css-dropdowns"  style="width: 90%;border-radius:4px;">
+		                    													<option value="Yes">Yes</option>
+		                    													<option value="No">No</option>
+		                    												</select>
+		                    											</td>
+		                											</tr>
+		            											</tbody>
+		            										</table>
+		            										<table class="right_table" style="width: 50%;float: left;">
+											       	         	<tbody>
+											       	         		<tr>
+		                    											<td><h4>Title History</h4></td>
+		                											</tr>
+													                <tr>
+		    											                <td>Is there a lineholder? <br><input type="text"  ng-model="lead.lienholder" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);" name="lienholder"></td>
+		                											</tr>
+		                											<tr>
+		                    											<td>Who holds this title? <br><input type="text" ng-model="lead.titleholder" style="width: 90%;border-radius:4px;border: 1px solid rgb(169, 169, 169);" name="titleholder"></td>
+		                											</tr>
+		            											</tbody>
+		            										</table>
+												            <div style="clear:both;"></div>
+												            <table style="width: 100%;">
+		                										<tbody>
+		                											<tr>
+		                												<td colspan="2"><h4>Vehicle Assessment</h4></td>
+		                											</tr>
+													                <tr>
+		                    											<td>Does all equipment and accessories work correctly?<br><textarea name="equipment" ng-model="lead.equipment" rows="5" style="width: 89%;"></textarea></td>
+		                    											<td>Did you buy the vehicle new?<br><textarea name="vehiclenew" ng-model="lead.vehiclenew" rows="5" style="width: 89%;"></textarea></td>
+		                											</tr>
+		                											<tr>
+		                    											<td>Has the vehicle ever been in any accidents? Cost of repairs?<br><textarea name="accidents" ng-model="lead.accidents" rows="5" style="width: 89%;"></textarea></td>
+		                    											<td>Is there existing damage on the vehicle? Where?<br><textarea name="damage" ng-model="lead.damage" rows="5" style="width: 89%;"></textarea></td>
+		                											</tr>
+		                											<tr>
+		                    											<td>Has the vehicle ever had paint work performed?<br><textarea name="paint" ng-model="lead.paint" rows="5" style="width: 89%;"></textarea></td>
+		                    											<td>Is the title designated 'Salvage' or 'Reconstructed'? Any other?<br><textarea name="salvage" ng-model="lead.salvage" rows="5" style="width: 89%;"></textarea></td>
+		                											</tr>
+													            </tbody>
+													    	</table>
+														</div>
+													</div>
+												</div>
+	        								</div>
+									        <div class="modal-footer">
+ 									          <input type="submit" class="btn btn-primary" value="Submit">
+									        </div>
+									      </div>
+		      							</form>
+		      							
+    								</div>
+  								</div>
    						
 <style>
 

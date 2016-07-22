@@ -5212,12 +5212,11 @@ angular.module('newApp')
 	    	    				else*/ if($scope.lead.leadType=='1') {
 	    	    					$scope.getRequestMoreData();
 	    	    					$("#createLeadPopup").modal('hide');
-	    	    				}
-	    	    				/*else {
+	    	    				}else {
 	    	    					$scope.getTradeInData();
 	    	    					$("#tradeInApp").modal('hide');
 	    	    					window.location.reload();
-	    	    				}*/
+	    	    				}
 	    	    				$scope.initialiase();
 	    	    			});
 	    				}
@@ -9360,9 +9359,9 @@ angular.module('newApp')
 				console.log(response);
 				
 				angular.forEach(response, function(value, key) {
-					if(value.id > 3){
+					//if(value.id > 3){
 						$scope.leadList.push(value); 
-					}
+					//}
 				});
 			
 			});
