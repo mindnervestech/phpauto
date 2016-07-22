@@ -8,6 +8,7 @@ angular.module('newApp')
 		console.log(response);
 		 $scope.editInput = response;
 		 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
+		 $scope.josnData = angular.fromJson(response.jsonData);
 		 console.log($scope.userFields);
 		 $scope.user = {};
 		});
@@ -352,10 +353,10 @@ angular.module('newApp')
 			}
 			
 			console.log($scope.customData);
-			console.log($scope.userFields);
+			console.log($scope.josnData);
 		
 		$.each($scope.customData, function(attr, value) {
-			angular.forEach($scope.userFields, function(value1, key) {
+			angular.forEach($scope.josnData, function(value1, key) {
 				if(value1.key == attr){
 					if(angular.isObject(value) == true){
 						console.log(value);
@@ -434,7 +435,7 @@ angular.module('newApp')
 				console.log($scope.userFields);
 			
 			$.each($scope.customData, function(attr, value) {
-				angular.forEach($scope.userFields, function(value1, key) {
+				angular.forEach($scope.josnData, function(value1, key) {
 					if(value1.key == attr){
 						if(angular.isObject(value) == true){
 							console.log(value);
