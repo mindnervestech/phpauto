@@ -58,6 +58,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
 import models.ActionAdd;
+import models.AddCollection;
 import models.AuthUser;
 import models.AutoPortal;
 import models.Blog;
@@ -179,6 +180,7 @@ import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import viewmodel.AddCollectionVM;
 import viewmodel.AssignToVM;
 import viewmodel.AudioVM;
 import viewmodel.AutoPortalVM;
@@ -10738,6 +10740,47 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			
 		}
 		
+		public static Result getAllCollectionData() {
+			
+			List<AddCollection> collection = AddCollection.findByLocation(Long.valueOf(session("USER_LOCATION")));
+			//List<LeadType> lead = LeadType.getLeadData();
+			return ok(Json.toJson(collection)); 
+			
+		}
+		
+		 public static Result addNewCollection() {
+				Form<AddCollectionVM> form = DynamicForm.form(AddCollectionVM.class).bindFromRequest();
+				AddCollectionVM vm=form.get();
+				//AuthUser user=new AuthUser();
+				Date date = new Date();
+				
+				
+				AddCollection lead =  AddCollection.findById(vm.id);
+				if(lead != null){
+					
+					lead.setTitle(vm.title);
+					lead.update();
+				}
+				else{
+					AddCollection coll = new AddCollection();
+					   //lead.id = vm.id;
+			    	  coll.title = vm.title;
+			    	  coll.locations= Location.findById(Long.valueOf(session("USER_LOCATION")));
+			    	  coll.save();
+				}
+		    	   
+		    	return ok();
+			}
+		 
+		 public static Result deleteCollectionData(Long id) {
+				
+				AddCollection collect = AddCollection.findById(id);
+			    	
+				
+				collect.delete();
+			    	
+					return ok();
+				}
 		
     public static Result getImageConfig() {
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

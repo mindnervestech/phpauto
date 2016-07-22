@@ -51,18 +51,13 @@ public class InventoryController extends Controller {
 		} else {
 			AuthUser userObj = (AuthUser) getLocalUser();
 			List<AddCollection> collectionList = AddCollection
-					.getAllReadyMadeCollection();
+					.findByLocation(Long.valueOf(session("USER_LOCATION")));
 
 			List<AddCollectionVM> collectionVMList = new ArrayList<>();
 			for (AddCollection collection : collectionList) {
 				AddCollectionVM aCollectionVM = new AddCollectionVM();
-				aCollectionVM.setId(collection.getId());
-				aCollectionVM.setDescription(collection.getDescription());
-				aCollectionVM.setSection(collection.getSection());
-				aCollectionVM.setTitle(collection.getTitle());
-				aCollectionVM.setPath(collection.getPath());
-				aCollectionVM.setWebsite(collection.getWebsite());
-				aCollectionVM.setImage_name(collection.getImageName());
+				aCollectionVM.id = collection.id;
+				
 				collectionVMList.add(aCollectionVM);
 
 			}
@@ -84,7 +79,7 @@ public class InventoryController extends Controller {
 	    			
 	    			AddCollection cl = AddCollection.findById(id);
 	    			if(cl !=null){
-	    				cl.setCollectionOrder(i);
+	    				//cl.setCollectionOrder(i);
 	    				cl.update();
 	    			}
 			}

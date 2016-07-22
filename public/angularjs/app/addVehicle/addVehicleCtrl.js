@@ -13,6 +13,13 @@ angular.module('newApp')
  	});
    }
    
+   $http.get('/getAllCollectionData').success(function(data){
+		console.log(data);
+		$scope.colectiondata = data;
+		console.log($scope.colectiondata);
+	});
+
+   
    $http.get('/getCustomizationform/'+'Inventory').success(function(response) {
 		console.log(response);
 		 $scope.editInput = response;
@@ -202,6 +209,9 @@ angular.module('newApp')
  		if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
  	 		 var ele = document.getElementById('loadingmanual');	
  	     	$(ele).show();
+ 	     	
+ 	     	
+ 	     	console.log($scope.vinData.specification);
  	 		  if(pdffile != undefined){
  	 	 		$http.post('/saveVehicle',$scope.vinData.specification)
  	 			.success(function(data) {

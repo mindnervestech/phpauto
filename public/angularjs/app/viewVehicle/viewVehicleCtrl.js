@@ -586,4 +586,108 @@ angular.module('newApp')
 		});
    }
    
+  
+   
+   
+   
+   /*------------------------------------Add coll------------------------*/
+   
+   
+   $scope.gridOptions3 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	 $scope.gridOptions3.enableHorizontalScrollbar = 0;
+	 $scope.gridOptions3.enableVerticalScrollbar = 2;
+	 
+	
+	$scope.flagForChart1 = true;
+	$scope.allCollectionData = function(){
+		 $scope.doPublic = 3;
+		$http.get('/getAllCollectionData').success(function(data){
+			console.log("collection data");
+			console.log(data);
+			$scope.leadtypeObjList = data;
+			$scope.gridOptions3.data = data;
+			
+			console.log("gghgfhghghg");
+			console.log($scope.gridOptions3.data);
+		});
+		
+		
+		
+		$scope.gridOptions3.columnDefs = [
+		                                 { name: 'id', displayName: 'Id', width:'15%',cellEditableCondition: false
+		                                 },
+		                                 { name: 'title', displayName: 'Title', width:'60%',cellEditableCondition: false
+		                                 },
+		                                 
+		                                 { name: 'edit', displayName: ' ', width:'25%',
+  		                                 cellTemplate:'<i class="fa fa-trash" ng-if="row.entity.title != \'New\' && row.entity.title != \'Used\' && row.entity.title != \'Coming Soon\'" ng-click="grid.appScope.removeCollection(row)"  title="Delete"></i> &nbsp;&nbsp;&nbsp&nbsp;<i class="glyphicon glyphicon-pencil" ng-if="row.entity.title != \'New\' && row.entity.title != \'Used\' && row.entity.title != \'Coming Soon\'" ng-click="grid.appScope.editCollection(row)"  title="Edit"></i> ', 
+  		                                 
+		                                 },
+		                                    ];
+	}
+   
+	$scope.addCollection = function(){
+		console.log("Checkkkk");
+		$scope.collections = {};
+		
+		$('#collectionpopups').modal('show');
+	}
+	 $scope.collections = {};
+	$scope.saveCollectionData = function(){
+		console.log("in collection");
+		$scope.collections.title = $scope.collections.title;
+		if($scope.collections.id == undefined){
+			$scope.collections.id = 0;
+		}
+		console.log($scope.collections);
+		$http.post("/addNewCollection",$scope.collections).success(function(data){
+				$scope.form = data;
+			 console.log("::::::success")
+				
+			 $("#collectionpopups").modal('hide');
+			 $('#editcollectionpopup').modal('hide');
+			 $scope.allCollectionData();
+			});
+		}
+	
+	
+	$scope.editCollection = function(row){
+		console.log(row.entity);
+		$scope.collections = row.entity;
+		$('#editcollectionpopup').modal('show');
+	}
+	
+	$scope.removeCollection = function(row){
+		console.log(row.entity);
+		$scope.collections = row.entity.id;
+		console.log($scope.collections);
+		$('#deletepopup').modal('show');
+	}
+	
+	$scope.deleteCollection = function(){
+		 console.log("in deletend functio");
+		 console.log($scope.collections);
+		 $http.get('/deleteCollectionData/'+$scope.collections)
+			.success(function(data) {
+				 console.log("out deletend functio");
+				 $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Remove User",
+					});
+				 
+				 $scope.allCollectionData();
+				 
+				 
+
+			});
+	 }
+	
+	
 }]);

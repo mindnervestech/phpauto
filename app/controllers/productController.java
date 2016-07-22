@@ -66,36 +66,15 @@ public class productController extends Controller {
 	}*/
 	
 	 public static Result getCollectionList(){
-	    	AuthUser userObj = (AuthUser) getLocalUser();
-	    	List collection = new ArrayList<>();
-			List<AddCollection> listData = AddCollection.findAllCollection();
-	    	List<AddCollectionVM> proList = new ArrayList<>();
-	    	List<AddCollectionVM> readyList = new ArrayList<>();
-	    	List<AddCollectionVM> sectionList = new ArrayList<>();
+			List<AddCollection> listData = AddCollection.findByLocation(Long.valueOf(session("USER_LOCATION")));
+	    	List<AddCollectionVM> collList = new ArrayList<>();
 	    	for(AddCollection coll: listData) {
-	    		if(coll.section.equals("readymade")){
 	    			AddCollectionVM vm = new AddCollectionVM();
 	    			vm.title = coll.title;
 	    			vm.id = coll.id;
-	    			readyList.add(vm);
-	    		}else if(coll.section.equals("product")){
-	    			AddCollectionVM vm = new AddCollectionVM();
-	    			vm.title = coll.title;
-	    			vm.id = coll.id;
-	    			proList.add(vm);
-	    		}else if(coll.section.equals("accessories") || coll.section.equals("disable")){
-	    			
-	    		}else{
-	    			AddCollectionVM vm = new AddCollectionVM();
-	    			vm.title = coll.title;
-	    			vm.id = coll.id;
-	    			sectionList.add(vm);
-	    		}
+	    			collList.add(vm);
 	    	}
-	    	collection.add(readyList);
-	    	collection.add(proList);
-	    	collection.add(sectionList);
-			return ok(Json.toJson(collection));
+			return ok(Json.toJson(collList));
 	    
 	    }
 	 

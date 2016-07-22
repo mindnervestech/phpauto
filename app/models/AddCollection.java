@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class AddCollection extends Model {
@@ -15,65 +14,25 @@ public class AddCollection extends Model {
 	@Id
 	public Long id;
 	public String title;
-	public String description;
-	public String path;
-	public String thumbnailPath;
-	public String imageName;
-	public String thumbPath;
-	public String thumbnailImageName;
-	public String thumbnailThumbPath;
-	public String getThumbnailPath() {
-		return thumbnailPath;
-	}
-
-	public void setThumbnailPath(String thumbnailPath) {
-		this.thumbnailPath = thumbnailPath;
-	}
-
-	public String getThumbnailImageName() {
-		return thumbnailImageName;
-	}
-
-	public void setThumbnailImageName(String thumbnailImageName) {
-		this.thumbnailImageName = thumbnailImageName;
-	}
-
-	public String getThumbnailThumbPath() {
-		return thumbnailThumbPath;
-	}
-
-	public void setThumbnailThumbPath(String thumbnailThumbPath) {
-		this.thumbnailThumbPath = thumbnailThumbPath;
-	}
-
-	public String section;
-	public String website;
-	public String newFlag;
-	public Integer collectionOrder;
 	
-	public Integer getCollectionOrder() {
-		return collectionOrder;
-	}
-
-	public void setCollectionOrder(Integer collectionOrder) {
-		this.collectionOrder = collectionOrder;
-	}
-
-	public String getNewFlag() {
-		return newFlag;
-	}
-
-	public void setNewFlag(String newFlag) {
-		this.newFlag = newFlag;
-	}
 	@ManyToOne
-	public AuthUser user;
+	public Location locations;
+	
+	
 	
 	public static Finder<Long,AddCollection> find = new Finder<>(Long.class,AddCollection.class);
-	public String getTitle() {
-		return title;
+
+
+
+
+	public Location getLocations() {
+		return locations;
 	}
-	
+
+	public void setLocations(Location locations) {
+		this.locations = locations;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -82,58 +41,17 @@ public class AddCollection extends Model {
 		this.id = id;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public String getPath() {
-		return path;
-	}
-	public void setPath(String path) {
-		this.path = path;
-	}
-	public String getSection() {
-		return section;
-	}
-	public void setSection(String section) {
-		this.section = section;
-	}
+
 	
-	public String getImageName() {
-		return imageName;
-	}
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
-	public AuthUser getUser() {
-		return user;
-	}
-	public void setUser(AuthUser user) {
-		this.user = user;
-	}
 	
-	public String getWebsite() {
-		return website;
-	}
-
-	public void setWebsite(String website) {
-		this.website = website;
-	}
-
-	public String getThumbPath() {
-		return thumbPath;
-	}
-
-	public void setThumbPath(String thumbPath) {
-		this.thumbPath = thumbPath;
-	}
-
-	public static List<AddCollection> findAllCollection() {
+	/*public static List<AddCollection> findAllCollection() {
 		
 		return find.all();
 	}
@@ -178,6 +96,28 @@ public class AddCollection extends Model {
 	}
 	public static List<AddCollection> getAllByName( String name) {
 		return find.where().eq("section", name).findList();
+	}*/
+	public static List<AddCollection> getAllReadyMadeCollection() {
+		return find.where().eq("section", "readymade").orderBy("collectionOrder asc").findList();
+	}
+	
+	public static AddCollection findById(Long id) {
+		return find.byId(id);
+	}
+	
+	public static List<AddCollection> findByLocation(Long locations_id) {
+		return find.where().eq("locations_id", locations_id).findList();
+	}
+	public static AddCollection findByLocations(Long locations_id) {
+		return find.where().eq("locations_id", locations_id).findUnique();
+	}
+	
+	public static AddCollection findBytitle(String title) {
+		return find.where().eq("title", title).findUnique();
+	}
+	
+	public static List<AddCollection> findByLocationsAndSelected(Long locations_id) {
+		return find.where().eq("shows", 1).eq("locations_id", locations_id).findList();
 	}
 	
 }

@@ -33,6 +33,11 @@
                                     <tab-heading>
                                         <button type="button" class="btn btn-blue" ng-click="draftTab()">Drafts</button>
                                     </tab-heading>
+                               </tab>   
+                                <tab>
+                                    <tab-heading>
+                                        <button type="button" class="btn btn-blue" ng-click="allCollectionData()">Collection</button>
+                                    </tab-heading>
                                </tab>    
      </tabset>
      <div  ng-if="doPublic == 0"><div ui-grid="gridOptions" style="height:500px;" ui-grid-edit ui-grid-pagination>
@@ -41,10 +46,84 @@
 	</div></div>
 	<div ng-if="doPublic == 2"><div  ui-grid="gridOptions2" style="height:500px;" ui-grid-edit ui-grid-pagination>
 	</div></div>
-	    
+		<div class="col-md-12" ng-if="doPublic == 3" style="text-align:right;"><button type="button" id="comparisonSale" class="btn btn-blue"  ng-click="addCollection()">Add Collection</button></div>
+	    <div ng-if="doPublic == 3">
+	    <div  style="margin-top:5%;" ng-show="flagForChart1" ui-grid="gridOptions3" style="height:500px;" ui-grid-edit ui-grid-pagination>
+		   </div>  </div> 
+		 
+		 
+		
 	             
 </div>   
 
+					<div class="modal fade" id="collectionpopups" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                </div>
+								                <form ng-submit="saveCollectionData()">
+								                <div class="modal-body">
+								                <h4 class="modal-title">ADD NEW Collection</h4>
+								                    <div class="col-sm-6">
+																<input type="text" name="title" ng-model="collections.title" placeholder="TITLE " required>
+        											</div>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+								                    <button type="submit" class="btn btn-primary btn-embossed">Add</button>
+								                </div>
+								                </form>
+								            </div>
+								        </div>
+								    </div>  
+							<div class="modal fade" id="editcollectionpopup" tabindex="-1" role="dialog" aria-hidden="true">
+							        <div class="modal-dialog">
+							            <div class="modal-content">
+							                <div class="modal-header">
+							                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+							                    <h4 class="modal-title"><strong>Lead Type</strong></h4>
+							                </div>
+										<div class="modal-body">
+											<form ng-submit="saveCollectionData()">
+												
+												
+												<div class="col-md-12 form-group">
+													<div class="col-md-4">
+														<label>Title</label>
+													</div>
+													<div class="col-md-6">
+														<input type="text" name="title" class="form-control"
+															ng-model="collections.title" id="title" 
+															required />
+													</div>
+												</div>
+												
+												<input type="submit" class="btn btn-primary btn-embossed"
+													value="Edit Colllection">
+							
+											</form>
+										</div>
+								</div>
+									</div>
+							        </div>
+
+						<div class="modal fade" id="deletepopup" tabindex="-1" role="dialog" aria-hidden="true">
+								        <div class="modal-dialog">
+								            <div class="modal-content">
+								                <div class="modal-header">
+								                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+								                    <h4 class="modal-title">Collections</h4>
+								                </div>
+								                <div class="modal-body">
+								                    Are you sure to Delete?<br>
+								                </div>
+								                <div class="modal-footer">
+								                    <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">No</button>
+								                    <button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" ng-click="deleteCollection()">Yes</button>
+								                </div>
+								            </div>
+								        </div>
+								    </div> 
 <button id="btnStatusSchedule" data-toggle="modal" data-target="#vehicalStatusModal" style="display: none;"></button>
 
 <div style="display:none;" id="deleteModal" data-toggle="modal" data-target="#modal-basic"></div>
