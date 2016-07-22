@@ -421,11 +421,11 @@ $scope.leadTypeAll = function(){
 				                                 { name: 'outcome', displayName: 'Outcome ', width:'15%' },
 				                                 {name:'or', displayName:'', width:'15%',
 				                                	 /*cellTemplate:'<div><div class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome &nbsp;&nbsp;&nbsp </div><i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i></div>',*/
-				                                	 cellTemplate:'<i class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome</i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i> ',
+				                                	 cellTemplate:'<i class="link-domain" ng-click="grid.appScope.outcome(row)">Outcome</i> &nbsp;&nbsp;&nbsp<i class="glyphicon glyphicon-pencil" ng-if="row.entity.lead_name != \'Request More Info\' && row.entity.lead_name != \'Schedule Test Drive\' && row.entity.lead_name != \'Trade-In Appraisal\'" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i> ',
 				                                 }, 
 				                                 {name:'10', displayName:'LeadLink', width:'15%',
 				                                	 /*cellTemplate:'<div><div class="link-domain"ng-click="grid.appScope.outcome(row)">Outcome &nbsp;&nbsp;&nbsp </div><i class="glyphicon glyphicon-pencil" ng-click="grid.appScope.updateAllFormWebsite(row)"  title="Edit"></i></div>',*/
-				                                	 cellTemplate:'<div class="link-domain" ><i class="glyphicon glyphicon-edit" ng-click="grid.appScope.allLeadRender(row)"  title="Edit"></i></div>',
+				                                	 cellTemplate:'<div class="link-domain"><i class="glyphicon glyphicon-edit" ng-click="grid.appScope.allLeadRender(row)"  title="Edit"></i></div>',
 				                                 }, 
 				                                 
 				                                 ];
@@ -454,10 +454,10 @@ $scope.leadTypeAll = function(){
 						 if(row.entity.lead_name == "Request More Info"){
 							$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.lead_name);
 						}
-						else if(row.entity.lead_name == "Contact Us"){
-							$location.path('/ContactUsForm/'+"Edit"+"/"+row.entity.lead_name);
+						else if(row.entity.lead_name == "Trade-In Appraisal"){
+							$location.path('/TradeIn/'+"Edit"+"/"+row.entity.lead_name);
 						}
-						else if(row.entity.lead_name == "Request Appointment"){
+						else if(row.entity.lead_name == "Schedule Test Drive"){
 							$location.path('/RequestAppointmentForm/'+"Edit"+"/"+row.entity.lead_name);
 						}
 						else{

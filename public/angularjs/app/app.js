@@ -59,7 +59,7 @@ var MakeApp = angular
             controller: 'customizationFormCtrl'
         })
         
-        .when('/ContactUsForm/:pageType/:formType', {
+        .when('/TradeIn/:pageType/:formType', {
             templateUrl: '/dealer/customizationForm/allLead.html',
             controller: 'customizationFormCtrl'
         })

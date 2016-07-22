@@ -15,7 +15,7 @@ angular.module('newApp')
 	  	$scope.formType = $routeParams.formType;
 	  	console.log($routeParams.formType);
 	  	
-	  if($routeParams.formType == "Request Appointment"){
+	  if($routeParams.formType == "Schedule Test Drive"){
 		  $scope.appointFlag=1;
 		  
 	  }
