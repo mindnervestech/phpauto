@@ -4060,10 +4060,16 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    	    File file = picture.getFile();
 	    	    
 	    	    try {
-	    	    BufferedImage originalImage = ImageIO.read(file);
-	    	    Thumbnails.of(originalImage).size(originalImage.getWidth(), originalImage.getHeight()).toFile(thumbFile);
-	    	    File _f = new File(filePath);
-				Thumbnails.of(originalImage).scale(1.0).toFile(_f);
+	    	    	
+	    	    	
+	    	    	BufferedImage originalImage = ImageIO.read(file);
+			    	Thumbnails.of(originalImage).size(150, 150).toFile(thumbFile);
+			    	File _f = new File(filePath);
+					Thumbnails.of(originalImage).scale(1.0).toFile(_f);	
+	    	    	
+	    	    	
+	    	    	
+	    	   
 				
 				VehicleImage imageObj = VehicleImage.getByImagePath("/"+locatioId+"/"+vin+"/"+fileName);
 				if(imageObj == null) {
