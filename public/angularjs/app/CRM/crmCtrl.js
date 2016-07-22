@@ -314,6 +314,10 @@ angular.module('newApp')
 			
 			 
 			 $.each($scope.customData, function(attr, value) {
+				 value = JSON.stringify(value);
+	   				console.log(value);
+				 console.log(value);
+				 
 				 var res = value.split("[");
 					 if(res[1] != undefined){
 						 console.log(JSON.parse(value));
