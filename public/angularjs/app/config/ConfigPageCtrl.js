@@ -213,16 +213,16 @@ $scope.leadTypeAll = function(){
 	$scope.ShowCreateNewForm = function(row){
 		console.log(row);
 		if(row.entity.name == "Create Lead"){
-			$location.path('/'+'CreateLeadForm/'+"Preview"+"/"+'Create Lead');
+			$location.path('/CreateLeadForm/'+"Preview"+"/"+'Create Lead');
 		}else
 		if(row.entity.name == "Add Product"){
 
-			$location.path('/'+'InventoryForm/'+"Edit"+"/"+'Inventory');
+			$location.path('/InventoryForm/'+"Edit"+"/"+'Inventory');
 			
 		}
 		else if(row.entity.name == "Add to CRM"){
 
-			$location.path('/'+'CRMForm/'+"Edit"+"/"+'CRM');
+			$location.path('/CRMForm/'+"Edit"+"/"+'CRM');
 			
 		}else if(row.entity.name == "Request More Info"){
 			$location.path('/RequestMoreInfoForm/'+"Edit"+"/"+row.entity.name);
