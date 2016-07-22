@@ -202,9 +202,6 @@ angular.module('newApp')
  		if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
  	 		 var ele = document.getElementById('loadingmanual');	
  	     	$(ele).show();
- 	     	
- 	     	
- 	     	
  	 		  if(pdffile != undefined){
  	 	 		$http.post('/saveVehicle',$scope.vinData.specification)
  	 			.success(function(data) {

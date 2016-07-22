@@ -1,15 +1,7 @@
 
 angular.module('newApp')
 .controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
-	
-	
-	
-	
-	
-	 
-	
-	
-	
+      
       var ele = document.getElementById('loadingmanual');	
   	$(ele).hide();
 	$scope.publishVehicle = function(id){
@@ -22,8 +14,6 @@ angular.module('newApp')
 				   $location.path('/viewVehicles');
 		   });
 	   }
-	
-	
 	
 	$scope.gridsterOpts = {
 		    columns: 6, // the width of the grid, in columns
@@ -337,7 +327,7 @@ angular.module('newApp')
 		});
 	 }
 	 else{
-		 $http.get('getImagesByVin/'+$routeParams.vinNew)
+		 $http.get('getImagesByVin/'+$routeParams.vin)
 			.success(function(data) {
 				console.log(data);
 				$scope.imageList = data;

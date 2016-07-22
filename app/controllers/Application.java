@@ -4067,9 +4067,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			    	File _f = new File(filePath);
 					Thumbnails.of(originalImage).scale(1.0).toFile(_f);	
 	    	    	
-	    	    	
-	    	    	
-	    	   
 				
 				VehicleImage imageObj = VehicleImage.getByImagePath("/"+locatioId+"/"+vin+"/"+fileName);
 				if(imageObj == null) {
