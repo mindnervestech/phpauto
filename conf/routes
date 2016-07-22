@@ -56,7 +56,7 @@ GET     /dealer/*file               controllers.Assets.at(path="/public/angularj
 GET		/getVehicleInfo/:vin		controllers.Application.getVehicleInfo(vin:String)
 GET		/getAllSites				controllers.Application.getAllSites()
 POST	/saveInventory					  controllers.AddEditInventoryController.saveInventory()
-POST	/saveInventoryPdf/:id				  controllers.AddEditInventoryController.saveInventoryPdf(id:Long)
+POST	/saveVehiclePdf/:id				  controllers.Application.saveVehiclePdf(id:Long)
 GET		/getInventoryById/:id				  controllers.AddEditInventoryController.getInventoryById(id: Long)
 POST	/updateInventoryById				  controllers.AddEditInventoryController.updateInventoryById()
 GET		/getImagesByProductId/:productId  controllers.AddEditInventoryController.getImagesByProductId(productId:String)
