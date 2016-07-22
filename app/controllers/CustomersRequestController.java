@@ -172,8 +172,11 @@ public class CustomersRequestController extends Controller {
 		    		vm.productId = info.productId;
 		    		
 		    		LeadType lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		if(lType != null){
 		    			vm.typeOfLead = lType.leadName;
 		    			vm.leadId = lType.id;
+		    		}
+		    			
 		    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 		    		Integer nFlag = 0;
 		    		List<NoteVM> list = new ArrayList<>();

@@ -293,7 +293,7 @@ angular.module('newApp')
    					}
     				};
     				$scope.getImages = function(row) {
-    					$location.path('/editVehicle/'+row.entity.id+"/"+true);
+    					$location.path('/editVehicle/'+row.entity.id+"/"+true+"/"+row.entity.vin);
     				};
     				
     				
