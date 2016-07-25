@@ -3051,23 +3051,27 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    		}
 		    	}*/
 	    		int comingSoonFlag=0;
-	    		if(vm.comingSoonDate != ""){
+	    		if(vm.collection.equals("Coming Soon"))
+	    		{
 	    			vehicle.comingSoonFlag=1;
 	    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	    			/*try {
-						//vehicle.comingSoonDate=formatter.parse(vm.comingSoonDate);
+	    			try {
+						vehicle.comingSoonDate=formatter.parse(vm.comingSoonDate);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}*/
+					}
 	    			
+	    		}else{
+	    			vehicle.comingSoonFlag=0;
 	    		}
 		    	
 	    		vehicle.setTitle(vm.make+" "+vm.model+" "+vm.year);
 		    	vehicle.category = vm.category;
 		    	vehicle.vin = vm.vin;
-		    	vehicle.typeofVehicle=vm.typeofVehicle;
-		    	
+		    	if(vm.collection.equals("New") || vm.collection.equals("Used")){
+		    		vehicle.typeofVehicle=vm.collection;
+		    	}
 		    	vehicle.publicStatus = "draft";
 		    	vehicle.year = vm.year;
 		    	vehicle.make = vm.make;
@@ -3134,8 +3138,9 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	vehicle.remoteTrunkRelease = vm.remoteTrunkRelease;
 		    	vehicle.steeringWheel = vm.steeringWheel;
 		    	vehicle.steeringWheelControls = vm.steeringWheelControls;
+				vehicle.standardSeating = vm.standardSeating;
 				
-		    	vehicle.standardSeating = vm.standardSeating;
+				vehicle.collection = vm.collection;
 				
 		    	vehicle.mileage = vm.mileage;
 				vehicle.user = (AuthUser)user;
@@ -6533,17 +6538,19 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			specificationVM.steeringWheelControls = vehicle.getSteeringWheelControls();
 			specificationVM.fileName = vehicle.getPdfBrochureName();
 			specificationVM.standardSeating = vehicle.getStandardSeating();
+			specificationVM.collection = vehicle.getCollection();
+			
 			
 			
 			findCustomeInventoryData(vehicle.id,specificationVM);
 			
 			
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			/*if(vehicle.getComingSoonFlag() != null && vehicle.getComingSoonFlag() == 1){
+			if(vehicle.getComingSoonFlag() != null && vehicle.getComingSoonFlag() == 1){
 			String dat=df.format(vehicle.getComingSoonDate());
 			specificationVM.comingSoonDate=dat;
 			specificationVM.comingSoonFlag=vehicle.comingSoonFlag;
-			}*/
+			}
 			specificationVM.mileage = vehicle.getMileage();
 			List<Long> siteIds = new ArrayList<>();
 			for(Site site: vehicle.getSite()) {
@@ -7049,10 +7056,14 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 					}
 	    			
 	    		}
+	    		else{
+	    			vehicle.setComingSoonFlag(0);
+	    		}
 		    	
-		    	
+	    		if(vm.collection.equals("New") || vm.collection.equals("Used")){
+	    			vehicle.setTypeofVehicle(vm.collection);
+	    		}
 	    		
-	    		vehicle.setTypeofVehicle(vm.typeofVehicle);
 	    		vehicle.setCategory(vm.category);
 	    		vehicle.setTitle(vm.title);
 		    	vehicle.setYear(vm.year);
@@ -7119,13 +7130,19 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 		    	vehicle.setRemoteTrunkRelease(vm.remoteTrunkRelease);
 		    	vehicle.setSteeringWheel(vm.steeringWheel);
 		    	vehicle.setSteeringWheelControls(vm.steeringWheelControls);
-				vehicle.setComingSoonFlag(vm.comingSoonFlag);
+		    	if(vm.collection.equals("Coming Soon")){
+		    		vehicle.setComingSoonFlag(1);
+		    		vehicle.setTypeofVehicle(null);
+		    	}
+		    	else{
+		    		vehicle.setComingSoonFlag(0);
+		    	}
 		    	vehicle.setStandardSeating(vm.standardSeating);
 				
 		    	vehicle.setMileage(vm.mileage);
 		    	vehicle.setMadeIn(vm.made_in);
 		    	vehicle.setOptionalSeating(vm.optional_seating);
-		    	
+		    	vehicle.setCollection(vm.collection);
 		    	
 		    	List<Site> siteList = new ArrayList<>();
 		    	if(vm.siteIds != null) {

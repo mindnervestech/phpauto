@@ -15,6 +15,12 @@ angular.module('newApp')
 		   });
 	   }
 	
+	 $http.get('/getAllCollectionData').success(function(data){
+			console.log(data);
+			$scope.colectiondata = data;
+			console.log($scope.colectiondata);
+		});
+	
 	$scope.gridsterOpts = {
 		    columns: 6, // the width of the grid, in columns
 		    pushing: true, // whether to push other items out of the way on move or resize
@@ -174,7 +180,7 @@ angular.module('newApp')
 							
 				 });
 			 
-			 $('#comingsoonDateEdit').val(data.specification.comingSoonDate);
+			 $('#comingsoonDate').val(data.specification.comingSoonDate);
 			 if(data.specification.comingSoonFlag ==1){
 				 $scope.master=true;
 				 $scope.vinData.specification.commingSoonVehicle = true;
@@ -448,11 +454,11 @@ angular.module('newApp')
 		   
 		   var saveFlag = 0;
 		   
-		   if($scope.vinData.specification.commingSoonVehicle == true){
+		  // if($scope.vinData.specification.commingSoonDate == true){
 			   	$scope.vinData.specification.comingSoonFlag = 1;
-				  $scope.vinData.specification.comingSoonDate = $('#comingsoonDateEdit').val();
+				  $scope.vinData.specification.comingSoonDate = $('#comingsoonDate').val();
 				  saveFlag = 1;
-			  }else{
+			 // }else{
 				  $scope.vinData.specification.comingSoonFlag = 0;
 				  if($scope.vinData.specification.price == 0){
 					  $.pnotify({
@@ -464,7 +470,7 @@ angular.module('newApp')
 				  }else{
 					  	saveFlag = 1;
 				  }
-			  }
+			 // }
 		   
 		 if(saveFlag == 1){
 			   

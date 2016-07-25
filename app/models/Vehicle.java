@@ -123,6 +123,7 @@ public class Vehicle extends Model {
 	public Date comingSoonDate;
 	public Integer comingSoonFlag;
 	public Integer notifFlag;
+	public String collection;
 
 	@ManyToMany
 	public List<Site> site;
@@ -152,6 +153,16 @@ public class Vehicle extends Model {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	
+	
+	public String getCollection() {
+		return collection;
+	}
+
+	public void setCollection(String collection) {
+		this.collection = collection;
 	}
 
 	public Long getId() {

@@ -213,7 +213,7 @@ $scope.leadTypeAll = function(){
 	$scope.ShowCreateNewForm = function(row){
 		console.log(row);
 		if(row.entity.name == "Create Lead"){
-			$location.path('/CreateLeadForm/'+"Preview"+"/"+'Create Lead');
+			$location.path('/CreateLeadForm/'+"Edit"+"/"+'Create Lead');
 		}else
 		if(row.entity.name == "Add Product"){
 

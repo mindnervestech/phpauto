@@ -93,6 +93,7 @@ public class SpecificationVM {
 	public String fileName;
 	public String comingSoonDate;
 	public int comingSoonFlag; 
+	public String collection;
 	
 	public List<KeyValueDataVM> customData  = new ArrayList<KeyValueDataVM>();
 	public Map<String, String> customMapData;

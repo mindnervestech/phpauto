@@ -174,10 +174,10 @@ angular.module('newApp')
 		   
 		   $scope.vinData.specification.cost = $scope.vinData.specification.cost.split(',').join('');
 		   var comingSoonDate = {};
-	  if($scope.vinData.specification.commingSoonVehicle == true){
+	  //if($scope.vinData.specification.commingSoonVehicle == true){
 		  $scope.vinData.specification.comingSoonDate = $('#comingsoonDate').val();
 		  
-	  }
+	 // }
  	  $scope.vinData.specification.siteIds = $scope.siteIds;
  	  
  	  
