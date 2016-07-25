@@ -416,7 +416,7 @@ angular.module('newApp')
 		   $scope.contactMsg = "";
 		   $('#createcontactsModal').modal();
 	   }
-	   
+	   $scope.customData = {};
 	   $scope.saveContact = function() {
 		   console.log(">>>>>");
 		   $scope.customList =[];

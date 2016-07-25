@@ -51,53 +51,7 @@ public class AddCollection extends Model {
 
 	
 	
-	/*public static List<AddCollection> findAllCollection() {
-		
-		return find.all();
-	}
-	public static AddCollection findByUser(AuthUser userObj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public static AddCollection findById(Long id) {
-		return find.byId(id);
-	}
-	
-	public static List<AddCollection> findAllcollection() {
-		return find.all();
-	}
-	public static List<AddCollection> getAllBySection(String sec) {
-		return find.where().eq("section", sec).orderBy("collectionOrder asc").findList();
-	}
-	
-	public static List<AddCollection> getAllReadyMade() {
-		return find.where().eq("section", "readymade").findList();
-	}
-	
-	public static List<AddCollection> getAllAccessories() {
-		return find.where().eq("section", "accessories").findList();
-	}
-	public static List<AddCollection> getAllReadyMadeCollection() {
-		return find.where().eq("section", "readymade").orderBy("collectionOrder asc").findList();
-	}
-	public static List<AddCollection> getAllProductCollection() {
-		return find.where().eq("section", "product").orderBy("collectionOrder asc").findList();
-	}
-	public static List<AddCollection> getAllSection() {
-		return find.where().ne("section", "product").ne("section", "readymade").ne("section", "accessories").ne("section", "disable").findList();
-		//return find.where().eq("section", "product").findList();
-	}
-	public static List<AddCollection> getAllProducts() {
-		return find.where().eq("section", "product").findList();
-	}
-	public static AddCollection getCollectionName(Long id) {
-		return find.where().eq("id", id).findUnique();
-	}
-	public static List<AddCollection> getAllByName( String name) {
-		return find.where().eq("section", name).findList();
-	}*/
-	public static List<AddCollection> getAllReadyMadeCollection() {
+		public static List<AddCollection> getAllReadyMadeCollection() {
 		return find.where().eq("section", "readymade").orderBy("collectionOrder asc").findList();
 	}
 	
