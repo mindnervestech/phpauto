@@ -227,11 +227,6 @@ angular.module('newApp')
    			 
    			 console.log($scope.customData);
    				
-   				
-   				
-   				
-   				
-   				
    			 });
    		 }
    		 
@@ -262,6 +257,8 @@ angular.module('newApp')
 	   
    		$scope.contactsDetails = {};
 	   $scope.editContactsDetail = function(row) {
+		   $scope.showFormly = '0';
+		   $scope.showFormly1 = '1';
 		   $scope.contactsDetails = row.entity;
 		   if($scope.contactsDetails.email1 != null){
 			   $scope.showEmail1 = 1;
@@ -405,8 +402,12 @@ angular.module('newApp')
 				
 		});
 	   }
+	   $scope.showFormly = '0';
+	   $scope.showFormly1 = '0';
 	   $scope.contactMsg = "";
 	   $scope.createContact = function() {
+		   $scope.showFormly = '1';
+		   $scope.showFormly1 = '0';
 		   $scope.contactsDetails = {};
 		   $scope.contactsDetails.workEmail = "Work";
 		   $scope.contactsDetails.workEmail1 = "Work";

@@ -18,6 +18,9 @@ angular.module('newApp')
   .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$rootScope',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$rootScope) {
 	  var ele = document.getElementById('loadingmanual');	
    	$(ele).hide();
+   	
+   	$scope.showFormly = '1';
+	   $scope.showFormly1 = '0';
 	$http.get('/getLocationDays')
 	.success(function(data) {
 		$scope.locationDays = data;
@@ -73,10 +76,10 @@ angular.module('newApp')
 		$scope.showSelectLocationDash = locationId;
 		
 	}
-	/*$http.get('/getAllVehicles')
+	$http.get('/getAllVehicles')
 		.success(function(data) {
 			$scope.vinSearchList = data;
-		});*/
+		});
 		//$scope.stockRp = {};
 		
 			$scope.stockWiseData = [];
@@ -2802,7 +2805,8 @@ angular.module('newApp')
    	  		$scope.editVinData = function(entity){
    	  			console.log(entity);
    	  		$scope.customData = entity.customMapData;
-   	  	
+   	  			$scope.showFormly1 = '1';
+   	  	    $scope.showFormly = '1';
    	  			console.log($scope.customData);
    	  		$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
 				 $scope.editInput = response;
@@ -4949,7 +4953,10 @@ angular.module('newApp')
 	    				$scope.heardAboutUs = response;
 	    			});
 	    			$scope.othertxt=null;
+	    			
 	    		$scope.openCreateNewLeadPopup = function() {
+	    			 $scope.showFormly = '0';
+	    			   $scope.showFormly1 = '0';
 	    			$scope.stockWiseData = [];
 	    			$scope.stockWiseData = [{}];
 	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {

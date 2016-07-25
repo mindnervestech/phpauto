@@ -6077,10 +6077,10 @@ float: right !important;
 								                    	<a ng-click="pushRecord()">ADD ITEM</a>
 								                    	</div>
 								                    </div>
-								                    	<div class="col-md-12" style="margin-top: 32px;">
+								                    	 <div class="col-md-12" style="margin-top: 32px;" ng-if="userFields.length >= 0 && showFormly == '1'">
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
-								                    	</div>
+								                    	</div> 
 													
 												
 								                 <div ng-if="pdffile != null">
@@ -9688,7 +9688,7 @@ float: right !important;
 																</div>
 								                    		</div>
 								                    	</div>
-								                    	<div class="col-md-12" style="margin-top: 32px;">
+								                    	<div class="col-md-12" style="margin-top: 32px;" ng-if="userFields.length >= 0 && showFormly == '0'">
 								                				<formly-form model="customData" fields="userFields">
   																</formly-form>
 								                    	</div>	

@@ -1822,37 +1822,62 @@ angular.module('newApp').controller('customizationCtrl',
 	            	
 	            	/*$http.get('/getAllVehicles')
 	        		.success(function(data) {
-	        			$scope.prodSearchList = data;
+	        			$scope.vinSearchList = data;
 	        		});*/
 	            	
-	            	$scope.focusIn11 = function(index, stockRp){
-		    			stockRp.stockNumber = $scope.prodSearchList[index].title;
+	            	/*$scope.focusIn11 = function(index, stockRp){
+		    			stockRp.stockNumber = $scope.vinSearchList[index].title;
 		    			$scope.getStockDetails(stockRp)
-		    		}
+		    		}*/
+	            $scope.stockWiseData = [];
+     	  		$scope.stockWiseData.push({});  	
 	            	
-	            	 $scope.stockWiseData = [];
-	     	  		$scope.stockWiseData.push({});  	
-	     	  		$scope.getStockDetails = function(stockRp) {
+	            	$scope.getStockDetails1 = function(stockRp) {
+		    			$scope.isStockError = false;
+		    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
+		    				if(response.isData) {
+		    					$scope.isStockError = false;
+		    					stockRp.make = response.make;
+		    					stockRp.model = response.model;
+		    					stockRp.bodyStyle = response.bodyStyle;
+		    					stockRp.engine = response.engine;
+		    					stockRp.mileage = response.mileage;
+		    					stockRp.transmission = response.transmission;
+		    					stockRp.drivetrain = response.drivetrain;
+		    					stockRp.vehicleImage = response.vehicleImage;
+		    					stockRp.imgId = response.imgId;
+		    					stockRp.year = response.year;
+		    					stockRp.vin = response.vin;
+		    				} else {
+		    					$scope.isStockError = true;
+		    				}
+		    			});
+		    		};
+	            	
+	            	
+	     	  /*		$scope.getStockDetails = function(stockRp) {
 		    			$scope.isStockError = false;
 		    			console.log(stockRp);
 		    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
 		    				console.log(response);
 		    				if(response.isData) {
 		    					$scope.isStockError = false;
-		    					stockRp.designer = response.designer;
-		    					stockRp.price = response.price;
+		    					stockRp.make = response.make;
+		    					stockRp.model = response.model;
+		    					stockRp.bodyStyle = response.bodyStyle;
+		    					stockRp.engine = response.engine;
+		    					stockRp.mileage = response.mileage;
+		    					stockRp.transmission = response.transmission;
+		    					stockRp.drivetrain = response.drivetrain;
 		    					stockRp.vehicleImage = response.vehicleImage;
 		    					stockRp.imgId = response.imgId;
 		    					stockRp.year = response.year;
-		    					stockRp.primaryTitle = response.primaryTitle;
-		    					stockRp.title = response.title; 
-		    					stockRp.id = response.id;
-		    					stockRp.productId = response.productId;
+		    					stockRp.vin = response.vin;
 		    				} else {
 		    					$scope.isStockError = true;
 		    				}
 		    			});
-		    		};
+		    		};*/
 		    		
 		    		$scope.pushRecord = function(){
 		    			$scope.stockWiseData.push({});
