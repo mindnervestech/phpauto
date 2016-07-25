@@ -9,7 +9,7 @@
 	<div style="float:left;"><button class="btn btn-primary" ng-click="exportCarfaxCSV()">Carfax csv</button></div>    
 	<div style="margin-left:3%;"><button class="btn btn-primary" ng-click="exportCarGurusCSV()">CarGurus csv</button></div>
     </div> -->
-    <div class="col-sm-6" style="text-align: right;">
+    <div class="col-sm-6" style="text-align: right;" ng-show="flagForUser">
     <select class="form-control form-white" style="width:150px;" ng-model="type" ng-change="vehicleData(type)"  required>
 				<option value="All">All Vehicles</option>
 				<option value="New" >New</option>

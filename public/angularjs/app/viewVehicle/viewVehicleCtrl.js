@@ -298,6 +298,7 @@ angular.module('newApp')
     				
     				
     		    			 $scope.newlyArrivedTab = function() {
+    		    				 $scope.flagForUser = true;
     		    				 $scope.gridOptions.data = [];
     		    				 $scope.doPublic = 0;
     		    				 console.log($scope.userType);
@@ -354,7 +355,7 @@ angular.module('newApp')
     		    			 $scope.soldTab = function() {
     		    				 $scope.ch = false;
     		    				 $scope.doPublic = 2;
-    		    				 
+    		    				 $scope.flagForUser = true;
     		    				 $http.get('/getAllSoldVehicles')
     		    			 		.success(function(data) {
     		    			 			for(var i=0;i<data.length;i++) {
@@ -374,7 +375,7 @@ angular.module('newApp')
     		    			 		});
     		    			 }
     		    			 $scope.draftTab = function() {
-    		    				 
+    		    				 $scope.flagForUser = true;
     		    				 $scope.doPublic = 1;
     		    				 $http.get('/findLocation')
 		    						.success(function(data) {
@@ -605,7 +606,9 @@ angular.module('newApp')
 	 
 	
 	$scope.flagForChart1 = true;
+	$scope.flagForUser = true;
 	$scope.allCollectionData = function(){
+		$scope.flagForUser = false;
 		 $scope.doPublic = 3;
 		$http.get('/getAllCollectionData').success(function(data){
 			console.log("collection data");
@@ -631,7 +634,7 @@ angular.module('newApp')
 		                                 },
 		                                    ];
 	}
-   
+	
 	$scope.addCollection = function(){
 		console.log("Checkkkk");
 		$scope.collections = {};
