@@ -1829,8 +1829,8 @@ angular.module('newApp').controller('customizationCtrl',
 		    			stockRp.stockNumber = $scope.vinSearchList[index].title;
 		    			$scope.getStockDetails(stockRp)
 		    		}*/
-	            $scope.stockWiseData = [];
-     	  		$scope.stockWiseData.push({});  	
+	            $scope.stockWiseData1 = [];
+     	  		$scope.stockWiseData1.push({});  	
 	            	
 	            	$scope.getStockDetails1 = function(stockRp) {
 		    			$scope.isStockError = false;
@@ -1880,7 +1880,7 @@ angular.module('newApp').controller('customizationCtrl',
 		    		};*/
 		    		
 		    		$scope.pushRecord = function(){
-		    			$scope.stockWiseData.push({});
+		    			$scope.stockWiseData1.push({});
 		    		}
 		    		
 		    		$scope.onLogoFileSelect = function($files){

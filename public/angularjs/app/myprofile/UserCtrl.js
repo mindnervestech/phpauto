@@ -569,7 +569,7 @@ angular.module('newApp')
 				$scope.user.hOperation.satOpen = false;
 			}
 			
-				$scope.user.portalName = "MavenFurniture";
+				$scope.user.portalName = "AutoDealer";
 			
 			if($scope.user.hOperation.sunClose == undefined){
 				$scope.user.hOperation.sunClose = false;
