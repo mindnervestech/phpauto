@@ -31,7 +31,7 @@ public class ClickyDataScheduler {
 			Duration.create(1, TimeUnit.DAYS), new Runnable() {
 				public void run() {
 				    	   System.out.println("Get Clicky Data");
-				        controllers.Application.getClickyVisitorList();
+				        controllers.ClickyAnalyticsController.getClickyVisitorList();
 				}
 	}, newsLetter.dispatcher());
 	}

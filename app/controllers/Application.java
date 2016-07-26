@@ -32575,7 +32575,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	return ok(Json.toJson(infoVMList));
     }
     
-    public static Result getClickyVisitorList(){
+   /* public static Result getClickyVisitorList(){
     	Long id = 1L;
     	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
@@ -32592,10 +32592,10 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-    	    /* int b=13;
+    	     int b=13;
     	   	   
     	   	   for(int k=28;k>=b;b++)
-    	   	   {*/
+    	   	   {
     	   	   	//String sDate="2016-06-"+b;
     	         // String sDate="2016-06-28";
     	           Date sampleDate=(Date) maxDate.get("maxdate");
@@ -35615,7 +35615,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
     	}
     	return ok();
     }
-    
+*/    
     public static Result getPagesChart(){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {
     		return ok(home.render("",userRegistration));

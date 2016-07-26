@@ -2679,6 +2679,7 @@ angular.module('newApp')
     	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
       	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
       	initialized();
+      	//$scope.changeActiveTabImage();
       }
       
    	$scope.infoColorFlag=1;
@@ -2804,6 +2805,7 @@ angular.module('newApp')
    	  	$scope.stockWiseData = [];
    	  		$scope.editVinData = function(entity){
    	  			console.log(entity);
+   	  		 $scope.changeActiveTabImage();
    	  		$scope.customData = entity.customMapData;
    	  			$scope.showFormly1 = '1';
    	  	    $scope.showFormly = '1';
