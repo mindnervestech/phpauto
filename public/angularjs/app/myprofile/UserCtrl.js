@@ -810,7 +810,7 @@ angular.module('newApp')
 }]);	
 
 angular.module('newApp')
-.controller('DeactivateUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('DeactivateUserCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceUser', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceUser) {
 	//console.log("in DeactivateUserCtrl");
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -840,23 +840,16 @@ angular.module('newApp')
    		                                 },
 	     		                                 ];
 	 		$scope.init = function() {
-	 			$http.get('/getAllDeactivateUsers')
-	 			.success(function(data) {
-	 				//console.log(data);
-	 			$scope.gridOptions.data = data;
-	 			
+	 			apiserviceUser.getAllDeactivateUsers().then(function(data){
+	 				$scope.gridOptions.data = data;	
 	 			});
 	 		};
 	 		$scope.activateAccount = function(item){
-	 			//console.log(item);
 	 			$scope.userId = item.id;
 	 			$('#activateModal').click();
 	 		};
 	 		$scope.activeUserAccount = function(){
-	 			console.log($scope.userId);
-	 			$http.get('/activeAccount/'+$scope.userId)
-	 			.success(function(data) {
-	 				//console.log("success");
+	 			apiserviceUser.activeAccount($scope.userId).then(function(data){
 	 				$scope.init();
 	 			});
 	 		};

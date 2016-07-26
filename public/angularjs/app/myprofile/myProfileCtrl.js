@@ -1,26 +1,28 @@
 
 angular.module('newApp')
-.controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('myprofileCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceProfile', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceProfile) {
 	$scope.myprofile = {};
 	$scope.userKey = userKey;
 	var placeSearch, autocomplete;
 	$scope.imgGM="/assets/images/profile-pic.jpg ";
-	$http.get('/getUserRole').success(function(data) {
+	
+	
+	apiserviceProfile.getUserRole().then(function(data){
 		$scope.userRole = data.role;
 	});
-
-	$http.get('/getDealerProfile').success(function(data) {
+	
+	apiserviceProfile.getDealerProfile().then(function(data){
 		$scope.myprofile = data.dealer;
 		$scope.user = data.user;
 		$scope.myprofile.dealer_id = data.user.location.id;
 		$scope.imgGM = "http://glider-autos.com/glivrImg/images"+$scope.user.imageUrl;
 	});
-	
-	$http.get('/getMyProfile')
-	.success(function(data) {
+
+	apiserviceProfile.getMyProfile().then(function(data){
 		$scope.myprofile = data;
 		$scope.initAutocomplete();
 	});
+	
 	
 	$scope.saveMyprofile = function() {
 		var geocoder = new google.maps.Geocoder(); 
@@ -44,31 +46,18 @@ angular.module('newApp')
 		
    }
 	$scope.init =function(){
-	
-		$http.get('/getSaleHourData')
-		.success(function(data) {
+		
+		apiserviceProfile.getSaleHourData().then(function(data){
 			$scope.operation=data[0];
-			//$('#sunOpen').val($scope.operation.sunOpenTime);
-			
 		});
 		
-		
-		
-		$http.get('/getSaleHourDataForService')
-		.success(function(data) {
+		apiserviceProfile.getSaleHourDataForService().then(function(data){
 			$scope.operation1=data[0];
-			//$('#sunOpen').val($scope.operation.sunOpenTime);
-			
 		});
 		
-		$http.get('/getSaleHourDataForParts')
-		.success(function(data) {
+		apiserviceProfile.getSaleHourDataForParts().then(function(data){
 			$scope.operation2=data[0];
-			//$('#sunOpen').val($scope.operation.sunOpenTime);
-			
 		});
-		
-		
 		
 		
 	}
@@ -129,36 +118,8 @@ angular.module('newApp')
 	$scope.managerP = {};
 	$scope.getLatLong = function() {
 	
-		if(angular.isUndefined(logofile1)) {
-			
-			$http.post('/myprofile',$scope.myprofile)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Location saved successfully",
-				});
-	            
+			apiserviceProfile.myprofile(logofile1, $scope.myprofile).then(function(data){
 			});
-	} else {
-		   $upload.upload({
-	            url : '/myprofile',
-	            method: 'post',
-	            file:logofile1,
-	            data:$scope.myprofile
-	        }).success(function(data, status, headers, config) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Location saved successfully",
-				});
-	            
-	        });
-	}
-		
-		
-		
 	}
 	
 	$scope.goToLoaction = function() {
@@ -272,23 +233,11 @@ angular.module('newApp')
 		$scope.operation2.satOpenTime = $('#satOpen2').val();
 		$scope.operation2.satCloseTime= $('#satClose2').val();
 		   
-		   $http.post('/saveSalesHoursForParts',$scope.operation2)
-			.success(function(data) {
-				
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: " saved successfully",
-				});
-	            //$scope.init();
-			});
-		 
+		
+		apiserviceProfile.saveSalesHoursForParts($scope.operation2).then(function(data){
+		});
+		   		 
 	}; 	
-	
-	
-	
-	
-	
 	
 	$scope.operation={};
 	$scope.saveSalesHours = function() {
@@ -308,16 +257,9 @@ angular.module('newApp')
 		$scope.operation.satOpenTime = $('#satOpen').val();
 		$scope.operation.satCloseTime= $('#satClose').val();
 		   
-		   $http.post('/saveHours',$scope.operation)
-			.success(function(data) {
-				
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: " saved successfully",
-				});
-	            //$scope.init();
-			});
+		apiserviceProfile.saveHours($scope.operation).then(function(data){
+		});
+		   
 		 
 	}; 	
 	
@@ -331,11 +273,11 @@ angular.module('newApp')
 		else{
 			$scope.checkForServiceValue=0;
 		}
-		$http.get('/checkForService/'+$scope.checkForServiceValue)
-		.success(function(data) {
-			
+		
+		apiserviceProfile.checkForService($scope.checkForServiceValue).then(function(data){
 		});
 		
+				
 	}
 	
 	$scope.checkForServiceForPart = function() {
@@ -347,10 +289,13 @@ angular.module('newApp')
 		else{
 			$scope.checkForServiceValue=0;
 		}
-		$http.get('/checkForServiceForPart/'+$scope.checkForServiceValue)
+		
+		apiserviceProfile.checkForServiceForPart($scope.checkForServiceValue).then(function(data){
+		});
+		/*$http.get('/checkForServiceForPart/'+$scope.checkForServiceValue)
 		.success(function(data) {
 			
-		});
+		});*/
 		
 	}
 	
@@ -372,6 +317,10 @@ angular.module('newApp')
 		$scope.operation1.satOpenTime = $('#satOpen1').val();
 		$scope.operation1.satCloseTime= $('#satClose1').val();
 		   
+		
+		apiserviceProfile.saveSalesHoursForService($scope.operation1).then(function(data){
+		});
+		/*
 		   $http.post('/saveSalesHoursForService',$scope.operation1)
 			.success(function(data) {
 				
@@ -380,8 +329,7 @@ angular.module('newApp')
 				    type:'success',
 				    text: "saved successfully",
 				});
-	            //$scope.init();
-			});
+			});*/
 		 
 	}; 	
 	
@@ -414,36 +362,20 @@ angular.module('newApp')
 		$scope.user.id = $scope.userKey;
 		$scope.user.userType = "General Manager";
 		if(angular.isUndefined(logofile)) {
-				$http.post('/updateImageFile',$scope.user)
-				.success(function(data) {
-					$('#GM').click();
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
-					});
-		            //$scope.init();
-				});
+			
+			apiserviceProfile.updateImageFile(logofile, $scope.user).then(function(data){
+				$('#GM').click();
+	            $('#btnClose').click();
+			});
+				
 		} else {
-			//if($scope.emailMsg == "") {
-			   $upload.upload({
-		            url : '/updateImageFile',
-		            method: 'post',
-		            file:logofile,
-		            data:$scope.user
-		        }).success(function(data, status, headers, config) {
-		            $("#file").val('');
-		            $('#GM').click();
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
-					});
-		          //  $scope.init();
-		        });
-			//}
+			
+			apiserviceProfile.updateImageFile(logofile, $scope.user).then(function(data){
+				$("#file").val('');
+				$('#GM').click();
+	            $('#btnClose').click();
+			});
+			
 		}
 	   }
 	
@@ -453,12 +385,13 @@ angular.module('newApp')
 	
 	$scope.managerProfile = null;
 	$scope.initManager = function() {
-		$http.get('/getMangerAndLocation')
-		.success(function(data) {
+		
+		apiserviceProfile.getMangerAndLocation().then(function(data){
 			$scope.managerProfile = data;
 			$scope.imgLocation = "http://glider-autos.com/glivrImg/images/"+$scope.managerProfile.imageUrl;
 			$scope.img = "http://glider-autos.com/glivrImg/images"+$scope.managerProfile.mImageUrl;
 		});
+		
 	}
 	
 	
@@ -515,32 +448,11 @@ $scope.locationObj = {};
 		$scope.managerObj.phone = $scope.managerProfile.phone;
 		$scope.managerObj.mi = "false";
 			
-	if(angular.isUndefined(logofile)) {
+		
+		apiserviceProfile.UpdateuploadManagerImageFile(logofile, $scope.managerObj).then(function(data){
 			
-			$http.post('/UpdateuploadManagerImageFile',$scope.managerObj)
-			.success(function(data) {
-				
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Manager saved successfully",
-				});
-	            
-			});
-	} else {
-		   $upload.upload({
-	            url : '/UpdateuploadManagerImageFile',
-	            method: 'post',
-	            file:logofile,
-	            data:$scope.managerObj
-	        }).success(function(data, status, headers, config) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Manager saved successfully",
-				});
-	        });
-	}
+		});
+	
 	   }
 	
 	$scope.updateManager = function(){
