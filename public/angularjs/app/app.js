@@ -32,6 +32,7 @@ var MakeApp = angular
     'app.apiserviceAddEditInventory',
     'app.apiserviceBlog',
     'app.apiserviceProfile',
+    'app.apiserviceLocation',
    // 'textAngular',
     'nvd3',
     'formly',

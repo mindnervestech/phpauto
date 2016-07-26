@@ -187,7 +187,6 @@ angular.module('app.apiserviceUser', [])
 		return defer.promise;
 	};
 	
-	
 	this.activeAccount=function(userId){
 		var defer = $q.defer();
 		$http.get('/activeAccount/'+userId).success(function(data) {
@@ -195,5 +194,15 @@ angular.module('app.apiserviceUser', [])
 			});
 		return defer.promise;
 	};
+	
+	this.activeLocationById=function(id){
+		var defer = $q.defer();
+		$http.get('/activeLocationById/'+id).success(function(data) {
+			defer.resolve(data);
+			});
+		return defer.promise;
+	};
+	
+	
 	
 })

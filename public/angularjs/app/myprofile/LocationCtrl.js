@@ -1,8 +1,9 @@
 angular.module('newApp')
-.controller('createLocationCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('createLocationCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceLocation', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceLocation) {
 	$scope.img = "/assets/images/profile-pic.jpg";
 	$scope.user = {};
 	$scope.userData = {};
+	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -41,18 +42,16 @@ angular.module('newApp')
 	}
 	
 	$scope.init = function() {
-			$http.get('/getLocationForGM')
-			.success(function(data) {
-				console.log(data);
-				$scope.gridOptions.data = data;
-			});
+		
+		apiserviceLocation.getLocationForGM().then(function(data){
+			$scope.gridOptions.data = data;
+		});
+		
+		apiserviceLocation.getLocationValueForGM().then(function(data){
+			$scope.gmIsManager = data;
+		});
 			
-			$http.get('/getLocationValueForGM')
-			.success(function(data) {
-				console.log(data);
-				$scope.gmIsManager = data;
-			});
-		};
+	};
 	$scope.goToDeactivateLoaction = function() {
 			$location.path('/deactiveLocations');
 	};
@@ -80,16 +79,12 @@ angular.module('newApp')
 	
 	$scope.deactiveLocationById = function() {
 		console.log($scope.rowDataVal.entity.id);
-		$http.get('/deactiveLocationById/'+$scope.rowDataVal.entity.id)
-		.success(function(data) {
+		
+		apiserviceLocation.deactiveLocationById($scope.rowDataVal.entity.id).then(function(data){
 			$('#deleteClose').click();
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Location deactive succesfully!",
-			});
 			$scope.init();
 		});
+		
 	};
 	
 	 var logofile;
@@ -158,69 +153,43 @@ angular.module('newApp')
 		console.log($scope.managerObj);
 		console.log($scope.locationObj);
 			
+		
+		
 		if(angular.isUndefined(logofile1)) {
 			
-				$http.post('/uploadLocationImageFile',$scope.locationObj)
-				.success(function(data) {
-					$scope.managerObj.locationId = data;
-		    		$scope.saveManager();
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
-					});
-				});
+			apiserviceLocation.uploadLocationImageFile(logofile1, $scope.locationObj).then(function(data){
+				$scope.managerObj.locationId = data;
+	    		$scope.saveManager();
+	            $('#btnClose').click();
+			});
+			
 		} else {
-			   $upload.upload({
-		            url : '/uploadLocationImageFile',
-		            method: 'post',
-		            file:logofile1,
-		            data:$scope.locationObj
-		        }).success(function(data, status, headers, config) {
-		    		$scope.managerObj.locationId = data;
-		    		$scope.saveManager();
-		            $("#file").val('');
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "User saved successfully",
-					});
-		        });
+			
+			apiserviceLocation.uploadLocationImageFile(logofile1, $scope.locationObj).then(function(data){
+				$scope.managerObj.locationId = data;
+	    		$scope.saveManager();
+	    		$("#file").val('');
+	            $('#btnClose').click();
+			});
+			   
 		}
 		$scope.init();
 	   };
 	
 	$scope.saveManager = function(){
+		
 		if(angular.isUndefined(logofile)) {
-			
-			$http.post('/uploadManagerImageFile',$scope.managerObj)
-			.success(function(data) {
-				
+			apiserviceLocation.uploadManagerImageFile(logofile, $scope.managerObj).then(function(data){
 	            $('#btnClose').click();
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "User saved successfully",
-				});
 			});
-	} else {
-		   $upload.upload({
-	            url : '/uploadManagerImageFile',
-	            method: 'post',
-	            file:logofile,
-	            data:$scope.managerObj
-	        }).success(function(data, status, headers, config) {
-	            $("#file").val('');
+			
+		  } else {
+			apiserviceLocation.uploadManagerImageFile(logofile, $scope.managerObj).then(function(data){
+				$("#file").val('');
 	            $('#btnClose').click();
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "User saved successfully",
-				});
-	        });
-	}
+			});
+			   
+		}
 
         $scope.init();
 	};
@@ -251,79 +220,43 @@ angular.module('newApp')
 		console.log($scope.user);
 		console.log($scope.managerObj);
 		console.log($scope.locationObj);
-			
+		
+		
 		if(angular.isUndefined(logofile1)) {
+			apiserviceLocation.updateUploadLocationImageFile(logofile1, $scope.locationObj).then(function(data){
+				$scope.managerObj.locationId = data;
+				$scope.updateManager();
+	            $('#btnClose').click();
+	            $scope.init();
+			});
 			
-				$http.post('/updateUploadLocationImageFile',$scope.locationObj)
-				.success(function(data) {
-					$scope.managerObj.locationId = data;
-					$scope.updateManager();
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Location saved successfully",
-					});
-		            $scope.init();
-				});
-		} else {
-			   $upload.upload({
-		            url : '/updateUploadLocationImageFile',
-		            method: 'post',
-		            file:logofile1,
-		            data:$scope.locationObj
-		        }).success(function(data, status, headers, config) {
-		            console.log('success');
-		            console.log(data);
-		           
-		    		$scope.managerObj.locationId = data;
-		    		$scope.updateManager();
-		            
-		            $("#file").val('');
-		            $('#btnClose').click();
-		            $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Location saved successfully",
-					});
-		            $scope.init();
-		        });
+		  } else {
+			apiserviceLocation.updateUploadLocationImageFile(logofile1, $scope.locationObj).then(function(data){
+				$scope.managerObj.locationId = data;
+	    		$scope.updateManager();
+	            
+	            $("#file").val('');
+	            $('#btnClose').click();
+	            $scope.init();
+			});
+			   
 		}
+	
 	   }
 	
 	$scope.updateManager = function(){
+		
+		
 		if(angular.isUndefined(logofile)) {
-			
-			$http.post('/UpdateuploadManagerImageFile',$scope.managerObj)
-			.success(function(data) {
-				
-	            $('#btnClose1').click();
-	            
-	            if(data != "1"){
-	            	$.pnotify({
-					    title: "Error",
-					    type:'Success',
-					    text: "Please Complete all leads Before Deactivet Location...!!",
-					});
-	            }else{
-	            	$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Manager saved successfully",
-					});
-	            }
+			apiserviceLocation.UpdateuploadManagerImageFile(logofile, $scope.managerObj).then(function(data){
+				$('#btnClose1').click();
 	            
 	            $scope.init();
 			});
-	} else {
-		   $upload.upload({
-	            url : '/UpdateuploadManagerImageFile',
-	            method: 'post',
-	            file:logofile,
-	            data:$scope.managerObj
-	        }).success(function(data, status, headers, config) {
-	            console.log('success');
-	            $scope.user.firstName=" ";
+			
+		  } else {
+			apiserviceLocation.UpdateuploadManagerImageFile(logofile, $scope.locationObj).then(function(data){
+				$scope.user.firstName=" ";
 	            $scope.user.lastName=" ";
 	            $scope.user.email=" ";
 	            $scope.user.phone=" ";
@@ -331,14 +264,11 @@ angular.module('newApp')
 	            $scope.user.img=" ";
 	            $("#file").val('');
 	            $('#btnClose1').click();
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Manager saved successfully",
-				});
 	            $scope.init();
-	        });
-	}
+			});
+			   
+		}
+		
 		$('#btnClose1').click();
 	};
 	
@@ -388,16 +318,17 @@ angular.module('newApp')
 		if(type == 'edit') {
 			$scope.email = $('#userEditEmail').val()
 		}
-		$http.get('/checkEmailOfUser/'+$scope.email)
-		.success(function(data) {
+		
+		apiserviceLocation.checkEmailOfUser($scope.email).then(function(data){
 			$scope.emailMsg = data;
 		});
+		
 	}
 	
 }]);	
 
 angular.module('newApp')
-.controller('deactiveLocationCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('deactiveLocationCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceLocation', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceLocation) {
 	console.log("welcome");
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -441,11 +372,11 @@ angular.module('newApp')
 	 			$location.path('/deactiveLocations');
 	 		};
 	 		$scope.init = function() {
-	 			$http.get('/getDeactiveLocationForGM')
-	 			.success(function(data) {
-	 				console.log(data);
+	 			
+	 			apiserviceLocation.getDeactiveLocationForGM().then(function(data){
 	 				$scope.gridOptions.data = data;
 	 			});
+	 			
 	 		};
 	 		
 	 		$scope.activeLocation = function(row){
@@ -455,17 +386,12 @@ angular.module('newApp')
 	 		};
 	 		
 	 		$scope.activeLocationById = function() {
-	 			console.log($scope.rowDataVal.entity.id);
-	 			$http.get('/activeLocationById/'+$scope.rowDataVal.entity.id)
-	 			.success(function(data) {
+
+	 			apiserviceLocation.activeLocationById($scope.rowDataVal.entity.id).then(function(data){
 	 				$('#deleteClose').click();
-	 				$.pnotify({
-	 				    title: "Success",
-	 				    type:'success',
-	 				    text: "Location active succesfully!",
-	 				});
 	 				$scope.init();
 	 			});
+	 			
 	 		};
 
 }]);
