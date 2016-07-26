@@ -162,24 +162,24 @@ angular.module('newApp')
 						
 						
 						$scope.gridOptions1.columnDefs = [
-						                                 {name: 'newTimePretty', displayName: '', width:'20%',
+						                                 {name: 'newTimePretty', displayName: '', width:'15%',
 						                                	 cellTemplate:'<div ><label >{{row.entity.newDate}}</label> </br>   <label ">{{row.entity.newTime}}</label> </div>',	 
 						                                 },
-						                                 {name: 'actionUrl', displayName: '', width:'40%',
-						                                	 cellTemplate:'<div ><a   target="_blank"   href="{{row.entity.actionUrl}}" >{{row.entity.newActionUrl}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
+						                                 {name: 'actionUrl', displayName: '', width:'10%',
+						                                	 cellTemplate:'<div ><a   target="_blank"   href="{{row.entity.geolocation}}" >{{row.entity.geolocation}}</a> </br>   <label>{{row.entity.actionTitle}}</label> </div>',
 						                                 },
-						                                /* {name:'organization', displayName:'Internet Provider', width:'15%',
+						                                 {name:'organization', displayName:'Internet Provider', width:'15%',
 						                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
 						                                 },
-						                                 {name:'actions', displayName:'Actions', width:'8%',
+						                                 {name:'actions', displayName:'Actions', width:'10%',
 						                                	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
 						                                	 
 						                                 },
 						                                 {name:'timeTotal', displayName:'Time Spent', width:'10%'},
 						                                 {name:'referrerUrl', displayName:'Searches & Refferals', width:'40%',
-						                                	 cellTemplate:'<div ><label ng-if="row.entity.referrerUrl != null" ><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"> </span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a> <a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">google.com</a> &nbsp;&nbsp;<span ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</span> </label></div>',
+						                                	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
 						                                	 },
-						                                 {name:'Sear', displayName:'Page', width:'10%',
+						                                 /*{name:'Sear', displayName:'Page', width:'40%',
 						                                	 cellTemplate:'<a   target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
 						                                 }*/
 						                                 

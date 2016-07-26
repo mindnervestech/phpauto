@@ -32638,23 +32638,93 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 						String data = jsonArray.getJSONObject(i).get("time").toString();
 		    			String data1 = jsonArray.getJSONObject(i).get("time_pretty").toString();
 		    			ClickyVisitorsList cVisitorsList = new ClickyVisitorsList();
-		    			cVisitorsList.setTime(jsonArray.getJSONObject(i).get("time").toString());
-		    			cVisitorsList.setTimePretty(jsonArray.getJSONObject(i).get("time_pretty").toString());
-		    			cVisitorsList.setTimeTotal(jsonArray.getJSONObject(i).get("time_total").toString());
-		    			cVisitorsList.setIpAddress(jsonArray.getJSONObject(i).get("ip_address").toString());
-		    			cVisitorsList.setUid(jsonArray.getJSONObject(i).get("uid").toString());
-		    			cVisitorsList.setSessionId(jsonArray.getJSONObject(i).get("session_id").toString());
-		    			cVisitorsList.setActions(jsonArray.getJSONObject(i).get("actions").toString());
-		    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
-		    			cVisitorsList.setLandingPage(jsonArray.getJSONObject(i).get("landing_page").toString());
-		    			cVisitorsList.setWebBrowser(jsonArray.getJSONObject(i).get("web_browser").toString());
-		    			web_browser=jsonArray.getJSONObject(i).get("web_browser").toString();
-		    			cVisitorsList.setOperatingSystem(jsonArray.getJSONObject(i).get("operating_system").toString());
-		    			operating_system=jsonArray.getJSONObject(i).get("operating_system").toString();
-		    			cVisitorsList.setScreenResolution(jsonArray.getJSONObject(i).get("screen_resolution").toString());
-		    			cVisitorsList.setJavascript(jsonArray.getJSONObject(i).get("javascript").toString());
-		    			cVisitorsList.setLanguage(jsonArray.getJSONObject(i).get("language").toString());
+		    			try{
+		    				cVisitorsList.setTime(jsonArray.getJSONObject(i).get("time").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    	   			cVisitorsList.setTimePretty(jsonArray.getJSONObject(i).get("time_pretty").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setTimeTotal(jsonArray.getJSONObject(i).get("time_total").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setIpAddress(jsonArray.getJSONObject(i).get("ip_address").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setUid(jsonArray.getJSONObject(i).get("uid").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setSessionId(jsonArray.getJSONObject(i).get("session_id").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setActions(jsonArray.getJSONObject(i).get("actions").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setLandingPage(jsonArray.getJSONObject(i).get("landing_page").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setWebBrowser(jsonArray.getJSONObject(i).get("web_browser").toString());
+		    				web_browser=jsonArray.getJSONObject(i).get("web_browser").toString();
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setOperatingSystem(jsonArray.getJSONObject(i).get("operating_system").toString());
+		    				operating_system=jsonArray.getJSONObject(i).get("operating_system").toString();
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
 		    			
+		    			try{
+		    				cVisitorsList.setScreenResolution(jsonArray.getJSONObject(i).get("screen_resolution").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setJavascript(jsonArray.getJSONObject(i).get("javascript").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setLanguage(jsonArray.getJSONObject(i).get("language").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
 		    			try{
 		    				cVisitorsList.setReferrerUrl(jsonArray.getJSONObject(i).get("referrer_url").toString());
 		    				referrer_url=jsonArray.getJSONObject(i).get("referrer_url").toString();
@@ -32686,19 +32756,52 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    				e.printStackTrace();
 		    			}
 		    			
-		    			//cVisitorsList.setReferrerUrl(jsonArray.getJSONObject(i).get("referrer_url").toString());
-		    			//cVisitorsList.setReferrerType(jsonArray.getJSONObject(i).get("referrer_type").toString());
-		    			//cVisitorsList.setReferrerDomain(jsonArray.getJSONObject(i).get("referrer_domain").toString());
+		    			
+                       try{
 		    			cVisitorsList.setGeolocation(jsonArray.getJSONObject(i).get("geolocation").toString());
 		    			geolocation=jsonArray.getJSONObject(i).get("geolocation").toString();
-		    			cVisitorsList.setCountryCode(jsonArray.getJSONObject(i).get("country_code").toString());
-		    			cVisitorsList.setLatitude(jsonArray.getJSONObject(i).get("latitude").toString());
-		    			cVisitorsList.setLongitude(jsonArray.getJSONObject(i).get("longitude").toString());
+                       }
+                       catch(Exception e){
+                    	   e.printStackTrace();
+                       }
+		    			try{
+		    				cVisitorsList.setCountryCode(jsonArray.getJSONObject(i).get("country_code").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setLatitude(jsonArray.getJSONObject(i).get("latitude").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setLongitude(jsonArray.getJSONObject(i).get("longitude").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
 		    			//cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
-		    			cVisitorsList.setOrganization(jsonArray.getJSONObject(i).get("organization").toString());
-		    			organization=jsonArray.getJSONObject(i).get("organization").toString();
-		    			cVisitorsList.setStatsUrl(jsonArray.getJSONObject(i).get("stats_url").toString());
-		    			cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
+		    			try{
+		    				cVisitorsList.setOrganization(jsonArray.getJSONObject(i).get("organization").toString());
+		    				organization=jsonArray.getJSONObject(i).get("organization").toString();
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setStatsUrl(jsonArray.getJSONObject(i).get("stats_url").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
+		    			try{
+		    				cVisitorsList.setTotalVisits(jsonArray.getJSONObject(i).get("total_visits").toString());
+		    			}
+		    			catch(Exception e){
+		    				e.printStackTrace();
+		    			}
 		    			try {
 		    			cVisitorsList.setHostname(jsonArray.getJSONObject(i).get("hostname").toString());
 		    			}
@@ -32716,6 +32819,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						if(geolocation != null){
 						if(geolocation.contains(","))
 						{
 							String city = null;
@@ -32789,6 +32893,7 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 		    	    			
 		    			
 		    				}
+					}
 		    				//&type=segmentation&domain="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all
 		    				if(referrer_domain != null){
 		    				paramsPages = "&type=segmentation&domain="+referrer_domain+"&segments=summary&date="+sDate+"&limit=all";
@@ -32977,8 +33082,6 @@ public static Result getEngTimeData(String title,String startdate,String enddate
 			    				jsonArrayvisitorspagebrowser = new JSONArray(callClickAPI(paramsPages)).getJSONObject(0).getJSONArray("dates").getJSONObject(0).getJSONArray("items");
 				    				//ClickyVisitorsList cPages = new ClickyVisitorsList();
 				    				for(int j=0;j<jsonArrayvisitorspagebrowser.length();j++){
-				    	    			
-				    					
 				    					
 				    					if(jsonArrayvisitorspagebrowser.getJSONObject(j).get("title").toString().equalsIgnoreCase("Average actions / visit")){
 					    					

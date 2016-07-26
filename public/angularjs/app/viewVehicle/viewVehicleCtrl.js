@@ -641,7 +641,9 @@ angular.module('newApp')
 		
 		$('#collectionpopups').modal('show');
 	}
-	 $scope.collections = {};
+	
+	
+	$scope.collections = {};
 	$scope.saveCollectionData = function(){
 		console.log("in collection");
 		$scope.collections.title = $scope.collections.title;
@@ -657,7 +659,7 @@ angular.module('newApp')
 			 $('#editcollectionpopup').modal('hide');
 			 $scope.allCollectionData();
 			});
-		}
+	}
 	
 	
 	$scope.editCollection = function(row){
@@ -666,12 +668,14 @@ angular.module('newApp')
 		$('#editcollectionpopup').modal('show');
 	}
 	
+	
 	$scope.removeCollection = function(row){
 		console.log(row.entity);
 		$scope.collections = row.entity.id;
 		console.log($scope.collections);
 		$('#deletepopup').modal('show');
 	}
+	
 	
 	$scope.deleteCollection = function(){
 		 console.log("in deletend functio");

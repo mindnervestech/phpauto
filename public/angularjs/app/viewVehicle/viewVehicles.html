@@ -75,7 +75,7 @@
 								                </form>
 								            </div>
 								        </div>
-								    </div>  
+					</div>  
 							<div class="modal fade" id="editcollectionpopup" tabindex="-1" role="dialog" aria-hidden="true">
 							        <div class="modal-dialog">
 							            <div class="modal-content">
@@ -83,11 +83,9 @@
 							                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
 							                    <h4 class="modal-title"><strong>Lead Type</strong></h4>
 							                </div>
-										<div class="modal-body">
-											<form ng-submit="saveCollectionData()">
-												
-												
-												<div class="col-md-12 form-group">
+												<div class="modal-body">
+												<form ng-submit="saveCollectionData()">
+													<div class="col-md-12 form-group">
 													<div class="col-md-4">
 														<label>Title</label>
 													</div>
@@ -96,16 +94,15 @@
 															ng-model="collections.title" id="title" 
 															required />
 													</div>
-												</div>
+													</div>
 												
-												<input type="submit" class="btn btn-primary btn-embossed"
+													<input type="submit" class="btn btn-primary btn-embossed"
 													value="Edit Colllection">
-							
-											</form>
+												</form>
+											</div>
 										</div>
-								</div>
 									</div>
-							        </div>
+							</div>
 
 						<div class="modal fade" id="deletepopup" tabindex="-1" role="dialog" aria-hidden="true">
 								        <div class="modal-dialog">
