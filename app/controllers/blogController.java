@@ -1,17 +1,5 @@
 package controllers;
 
-import play.Play;
-import play.data.DynamicForm;
-import play.data.Form;
-import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Result;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
-import viewmodel.BlogVM;
-import views.html.home;
-
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,11 +8,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
-
 import models.AuthUser;
 import models.Blog;
 import models.Location;
+
+import org.apache.commons.io.FileUtils;
+
+import play.Play;
+import play.data.DynamicForm;
+import play.data.Form;
+import play.libs.Json;
+import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Result;
+import viewmodel.BlogVM;
+import views.html.home;
 public class blogController extends Controller {
 	
 	final static String rootDir = Play.application().configuration()

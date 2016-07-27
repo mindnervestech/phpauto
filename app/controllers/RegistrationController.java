@@ -1,17 +1,13 @@
 package controllers;
 
 import java.io.StringWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import javax.mail.BodyPart;
@@ -26,18 +22,15 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import models.AuthUser;
+import models.Registration;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
-import models.AuthUser;
-import models.Location;
-import models.Registration;
-import models.SiteLogo;
-import models.Vehicle;
-import models.VehicleImage;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;

@@ -1802,7 +1802,7 @@ angular.module('newApp').controller('customizationCtrl',
 	          }
 	            
 	    	 
-	    	  $scope.test = function(){
+	    	 /* $scope.test = function(){
 	            	$scope.initAutocomplete();
 	            };
 	            
@@ -1816,7 +1816,23 @@ angular.module('newApp').controller('customizationCtrl',
 
 	            function fillInAddress(){
 	            	var place = autocomplete.getplace();
-	            }
+	            }*/
+	    	 
+	    	  $scope.getbusinessname = function(){
+	    		  console.log($("#autocomplete").val());
+	    		  var loc = $("#autocomplete").val();
+	            	if(loc != '' && loc != undefined){
+	            		$http.get('/getbusinessData/'+loc)
+				 		.success(function(data) {
+				 			$scope.locationNameList = data.predictions;
+				 			console.log($scope.locationNameList);
+				 		});
+	            	}else{
+	            		$scope.locationNameList = null;
+	            	}           
+	            	
+	            	
+				 }
 	            	
 	            	/*$http.get('/getAllVehicles')
 	        		.success(function(data) {

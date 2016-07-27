@@ -110,7 +110,6 @@ angular.module('newApp').controller('mainLoginCtrl',
 	            		
 	            	}
 	            	
-	            	//$scope.register.businessAddress = businessName;
 	            	if(businessName != undefined){
 	            		$http.get('/getbusinessData/'+businessName)
 				 		.success(function(data) {
