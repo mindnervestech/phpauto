@@ -41209,6 +41209,8 @@ private static void saveCustomData(Long infoId,LeadVM leadVM,MultipartFormData b
     	    				cValue.value = session("USER_LOCATION")+File.separator+"leads"+File.separator+leadtype+File.separator+infoId+File.separator+fileName;
     	    				cValue.leadId = infoId;
     	    				cValue.leadType = leadtype;
+    	    				cValue.displayGrid = "false";
+    	    				cValue.saveCrm = "false";
     	    				cValue.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
     	    				cValue.save();
     	    			
