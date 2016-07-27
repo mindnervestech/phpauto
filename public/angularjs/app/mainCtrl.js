@@ -912,7 +912,6 @@
 	
 	
 	
-	
 	 $scope.addFormField = function(editInput){
      	console.log("");
      		
@@ -1216,7 +1215,6 @@
           // controller: 'formState.textCtrl',
            "expressionProperties" : properties,
            "hideExpression" : function($viewValue, $modelValue, scope) {
-              console.log("-?>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", jsonObject);
                 
               return isHideComponent(jsonObject);
            }

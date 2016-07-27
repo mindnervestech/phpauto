@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ViewRegistrationCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout) {
+.controller('ViewRegistrationCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','apiserviceRegistration', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,apiserviceRegistration) {
 	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
@@ -122,13 +122,17 @@ angular.module('newApp')
 		 
 		 $scope.pendingUser = function(){
 			 $scope.doShow = 0;
-			 $http.get('/getRegistrList')
-				.success(function(data) {
-					
-				$scope.gridOptions.data = data;
-				console.log($scope.gridOptions.data);
-				$scope.pendingList = data;
-			});
+			 
+			 
+			 
+			 
+			 apiserviceRegistration.getRegistrList().then(function(data){
+				 $scope.gridOptions.data = data;
+				 console.log($scope.gridOptions.data);
+				 $scope.pendingList = data;
+         	});	
+			 
+			 
 		 }
 		 
 		 /*$scope.activeUsers = function(row){
@@ -177,111 +181,104 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.MakeLive = function(){
-			$http.get('/getStatus/'+$scope.MakeLives.id)
-				.success(function(data) {
-					 $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Make Live Successfully",
-						});
-					 if($scope.MakeLives.options =="Cars"){
-						 $scope.goTocars();
-					 }
-					 if($scope.MakeLives.options =="Motorcycles"){
-						 $scope.goToMotorcycles();
-					 }
-					 if($scope.MakeLives.options =="Boat"){
-						 $scope.goToBoat();
-					 }
-					 if($scope.MakeLives.options =="DesignerFurniture"){
-						 $scope.goToDesignerFurniture();
-					 }
-					 if($scope.MakeLives.options =="RealEstate"){
-						 $scope.goToRealState();
-					 }
-					 if($scope.MakeLives.options =="Airplanes"){
-						 $scope.goToAirplanes();
-					 }
-					 if($scope.MakeLives.options =="ServiceProvider"){
-						 $scope.goToServiceProvider();
-					 }
-					 if($scope.MakeLives.options =="LuxuryProducts"){
-						 $scope.goToLuxuryProducts();
-					 }
-					 
-				});
-		   }
+			 
+			 apiserviceRegistration.getStatus($scope.MakeLives.id).then(function(data){
+				 $.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Make Live Successfully",
+					});
+				 if($scope.MakeLives.options =="Cars"){
+					 $scope.goTocars();
+				 }
+				 if($scope.MakeLives.options =="Motorcycles"){
+					 $scope.goToMotorcycles();
+				 }
+				 if($scope.MakeLives.options =="Boat"){
+					 $scope.goToBoat();
+				 }
+				 if($scope.MakeLives.options =="DesignerFurniture"){
+					 $scope.goToDesignerFurniture();
+				 }
+				 if($scope.MakeLives.options =="RealEstate"){
+					 $scope.goToRealState();
+				 }
+				 if($scope.MakeLives.options =="Airplanes"){
+					 $scope.goToAirplanes();
+				 }
+				 if($scope.MakeLives.options =="ServiceProvider"){
+					 $scope.goToServiceProvider();
+				 }
+				 if($scope.MakeLives.options =="LuxuryProducts"){
+					 $scope.goToLuxuryProducts();
+				 }
+         	});	
+			 
+		  }
 		 
 		
 		 
 		 $scope.removeUser = function(row){
-			 $http.get('/getRemoveUser/'+row.entity.id)
-				.success(function(data) {
-					 $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Remove User",
-						});
-					 if(row.entity.options =="Cars"){
-						 $scope.goTocars();
-					 }
-					 if(row.entity.options =="Motorcycles"){
-						 $scope.goToMotorcycles();
-					 }
-					 if(row.entity.options =="Boat"){
-						 $scope.goToBoat();
-					 }
-					 if(row.entity.options =="DesignerFurniture"){
-						 $scope.goToDesignerFurniture();
-					 }
-					 if(row.entity.options =="RealEstate"){
-						 $scope.goToRealState();
-					 }
-					 if(row.entity.options =="Airplanes"){
-						 $scope.goToAirplanes();
-					 }
-					 if(row.entity.options =="ServiceProvider"){
-						 $scope.goToServiceProvider();
-					 }
-					 if(row.entity.options =="LuxuryProducts"){
-						 $scope.goToLuxuryProducts();
-					 }
-			});
+			 
+			 apiserviceRegistration.getRemoveUser(row.entity.id).then(function(data){
+				 
+				 if(row.entity.options =="Cars"){
+					 $scope.goTocars();
+				 }
+				 if(row.entity.options =="Motorcycles"){
+					 $scope.goToMotorcycles();
+				 }
+				 if(row.entity.options =="Boat"){
+					 $scope.goToBoat();
+				 }
+				 if(row.entity.options =="DesignerFurniture"){
+					 $scope.goToDesignerFurniture();
+				 }
+				 if(row.entity.options =="RealEstate"){
+					 $scope.goToRealState();
+				 }
+				 if(row.entity.options =="Airplanes"){
+					 $scope.goToAirplanes();
+				 }
+				 if(row.entity.options =="ServiceProvider"){
+					 $scope.goToServiceProvider();
+				 }
+				 if(row.entity.options =="LuxuryProducts"){
+					 $scope.goToLuxuryProducts();
+				 }
+			 });
+		
 		 }
 		 
 		 $scope.sendDemoUrl = function(row){
-			 $http.get('/getSendDemoLink/'+row.entity.id)
-				.success(function(data) {
-					 $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Demo Link send",
-						});
-					 if(row.entity.options =="Cars"){
-						 $scope.goTocars();
-					 }
-					 if(row.entity.options =="Motorcycles"){
-						 $scope.goToMotorcycles();
-					 }
-					 if(row.entity.options =="Boat"){
-						 $scope.goToBoat();
-					 }
-					 if(row.entity.options =="DesignerFurniture"){
-						 $scope.goToDesignerFurniture();
-					 }
-					 if(row.entity.options =="RealEstate"){
-						 $scope.goToRealState();
-					 }
-					 if(row.entity.options =="Airplanes"){
-						 $scope.goToAirplanes();
-					 }
-					 if(row.entity.options =="ServiceProvider"){
-						 $scope.goToServiceProvider();
-					 }
-					 if(row.entity.options =="LuxuryProducts"){
-						 $scope.goToLuxuryProducts();
-					 }
-			});
+			 
+			 apiserviceRegistration.getSendDemoLink(row.entity.id).then(function(data){
+				 if(row.entity.options =="Cars"){
+					 $scope.goTocars();
+				 }
+				 if(row.entity.options =="Motorcycles"){
+					 $scope.goToMotorcycles();
+				 }
+				 if(row.entity.options =="Boat"){
+					 $scope.goToBoat();
+				 }
+				 if(row.entity.options =="DesignerFurniture"){
+					 $scope.goToDesignerFurniture();
+				 }
+				 if(row.entity.options =="RealEstate"){
+					 $scope.goToRealState();
+				 }
+				 if(row.entity.options =="Airplanes"){
+					 $scope.goToAirplanes();
+				 }
+				 if(row.entity.options =="ServiceProvider"){
+					 $scope.goToServiceProvider();
+				 }
+				 if(row.entity.options =="LuxuryProducts"){
+					 $scope.goToLuxuryProducts();
+				 }
+			 });
+		
 		 }
 		 
 		 $scope.register = {};

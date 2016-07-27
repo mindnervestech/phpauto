@@ -17000,10 +17000,10 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 			for (int i=0; i < jArr.length(); i++) {
 				VehicleVM vm = new VehicleVM();
 				JSONObject jsonObj = jArr.getJSONObject(i);
-				vm.id = Long.parseLong(String.valueOf(jsonObj.get("id")));
+				//vm.id = Long.parseLong(String.valueOf(jsonObj.get("id")));
 				vm.imgId = String.valueOf(jsonObj.get("imgId")); 
-				vm.title = String.valueOf(jsonObj.get("title"));
-				vm.price =  String.valueOf(jsonObj.get("price"));
+				//vm.title = String.valueOf(jsonObj.get("title"));
+				vm.vin =  String.valueOf(jsonObj.get("vin"));
 				vm.stockNumber = String.valueOf(jsonObj.get("stockNumber"));
 				vmList.add(vm);
 				leadVM.stockWiseData.add(vm);

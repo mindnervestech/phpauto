@@ -33,6 +33,7 @@ var MakeApp = angular
     'app.apiserviceBlog',
     'app.apiserviceProfile',
     'app.apiserviceLocation',
+    'app.apiserviceRegistration',
    // 'textAngular',
     'nvd3',
     'formly',

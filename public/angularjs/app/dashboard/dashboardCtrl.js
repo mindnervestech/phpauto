@@ -2679,7 +2679,6 @@ angular.module('newApp')
     	  document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
       	  document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
       	initialized();
-      	//$scope.changeActiveTabImage();
       }
       
    	$scope.infoColorFlag=1;
