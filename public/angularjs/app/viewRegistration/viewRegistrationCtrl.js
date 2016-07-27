@@ -183,11 +183,7 @@ angular.module('newApp')
 		 $scope.MakeLive = function(){
 			 
 			 apiserviceRegistration.getStatus($scope.MakeLives.id).then(function(data){
-				 $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Make Live Successfully",
-					});
+				
 				 if($scope.MakeLives.options =="Cars"){
 					 $scope.goTocars();
 				 }
@@ -296,14 +292,11 @@ angular.module('newApp')
 		 
 		 $scope.UpdateRegisterUser = function(){
 			 console.log($scope.register);
-			 $http.post("/updateRegisterUser",$scope.register).success(function(data){
-         		$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Update successfully",
-					});
-         		$("#editPopups").modal('hide');
-    		});
+			 
+			 apiserviceRegistration.updateRegisterUser($scope.register).then(function(data){
+				 $("#editPopups").modal('hide');
+			 });
+			 
 		 }
 		 
 	/*
@@ -319,7 +312,22 @@ angular.module('newApp')
 		 $scope.goTocars = function() {
 			 
 			 $scope.doPublic = 0;
-			 $http.get('/getAllCarsDetails')
+			 
+			 apiserviceRegistration.getAllCarsDetails().then(function(data){
+				//for(var i=0;i<data.length;i++) {
+		 			//	data[i].price = "$ "+data[i].price;
+		 			//}
+		 			
+		 			//$scope.doPublic = 1;
+		 			//$scope.vType = "cars";
+		 			//$scope.type = "All";
+		 			$scope.registrationObjList = data;
+		 			$scope.gridOptions.data = data;
+		 			//$scope.gridOptionscolumnDefs[8].displayName='Next Test Drive';
+		 			//$scope.gridOptions.columnDefs[9].displayName='Views';
+			 });
+			 
+			 /*$http.get('/getAllCarsDetails')
 		 		.success(function(data) {
 		 			
 		 			//for(var i=0;i<data.length;i++) {
@@ -335,83 +343,78 @@ angular.module('newApp')
 		 			//$scope.gridOptions.columnDefs[9].displayName='Views';
 		 			
 		 			
-		 		});
+		 		});*/
 		 }
 		 
 
 		 $scope.goToBoat = function() {
 			 
 			 $scope.doPublic = 0;
-			 $http.get('/getAllBoat')
-		 		.success(function(data) {
-		 			$scope.registrationObjList = data;
+			 apiserviceRegistration.getAllBoat().then(function(data){
+				    $scope.registrationObjList = data;
 		 			$scope.gridOptions.data = data;
-		 			
-		 		});
+			 });
+			
 			 }
 			 $scope.goToMotorcycles = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllMotorcycles')
-			 		.success(function(data) {
-			 			$scope.registrationObjList = data;
+				 
+				 apiserviceRegistration.getAllMotorcycles().then(function(data){
+					    $scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
-			 			
-			 		});
+				 });
+				 
+				 
 			 }
 			 
 			$scope.goToDesignerFurniture = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllDesignerFurniture')
-			 		.success(function(data) {
-			 			$scope.registrationObjList = data;
+				 apiserviceRegistration.getAllDesignerFurniture().then(function(data){
+					    $scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
-			 			
-			 		});
+				 });
+				
 			 }
 			
 			$scope.goToRealState = function() {
-				 
+				
 				 $scope.doPublic = 0;
-				 $http.get('/getAllRealState')
-			 		.success(function(data) {
-			 			$scope.registrationObjList = data;
+				 apiserviceRegistration.getAllRealState().then(function(data){
+					    $scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
-			 			
-			 		});
+				 });
+				 
 			 }
 				
 			$scope.goToAirplanes = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllAirplanes')
-			 		.success(function(data) {
-			 			$scope.registrationObjList = data;
+				 apiserviceRegistration.getAllAirplanes().then(function(data){
+					    $scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
-			 			
-			 		});
+				 });
+				
 			 }
 			
 			$scope.goToServiceProvider = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllServiceProvider')
-			 		.success(function(data) {
-			 			$scope.registrationObjList = data;
+				 apiserviceRegistration.getAllServiceProvider().then(function(data){
+					    $scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
-			 			
-			 		});
+				 });
+				 
 			 }
 			
 			$scope.goToLuxuryProducts = function() {
 				 
 				 $scope.doPublic = 0;
-				 $http.get('/getAllLuxuryProducts')
-			 		.success(function(data) {
-			 			$scope.registrationObjList = data;
+				 apiserviceRegistration.getAllLuxuryProducts().then(function(data){
+					    $scope.registrationObjList = data;
 			 			$scope.gridOptions.data = data;
-			 			
-			 		});
+				 });
+				 
 			 }
 }]);
