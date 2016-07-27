@@ -230,10 +230,10 @@ angular.module('newApp')
 	        	$http.get('/getTrafficSourceData/'+$scope.trafficSourceTitle+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
 				.success(function(data){
 					console.log(data);
-					$scope.gridOptions1.data = data;
+					$scope.gridOptions2.data = data;
 					$scope.browserObjList = data;
 					
-					angular.forEach($scope.gridOptions1.data, function(value, key) {
+					angular.forEach($scope.gridOptions2.data, function(value, key) {
 						if(value.title=="totalT"){
 							value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
 							 var splitTime   = value.these_visitors.split(":");
@@ -281,7 +281,7 @@ angular.module('newApp')
 							 
 							}	 
 					});
-					 $scope.gridOptions1.columnDefs = [
+					 $scope.gridOptions2.columnDefs = [
 					                                   {name: 'tt', displayName: 'Summary of filtered visitors', width:'40%',
 					                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>', 
 					                                   },
@@ -306,10 +306,10 @@ angular.module('newApp')
 		        	$http.get('/getEngTimeData/'+$scope.engTimeTitle+"/"+$scope.startDate+"/"+$scope.endDate)
 					.success(function(data){
 						console.log(data);
-						$scope.gridOptions1.data = data;
+						$scope.gridOptions2.data = data;
 						$scope.browserObjList = data;
-						
-						angular.forEach($scope.gridOptions1.data, function(value, key) {
+						console.log($scope.gridOptions2.data);
+						angular.forEach($scope.gridOptions2.data, function(value, key) {
 							if(value.title=="totalT"){
 								value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
 								 var splitTime   = value.these_visitors.split(":");
@@ -357,7 +357,7 @@ angular.module('newApp')
 								 
 								}	 
 						});
-						 $scope.gridOptions1.columnDefs = [
+						 $scope.gridOptions2.columnDefs = [
 						                                   {name: 'tit', displayName: 'Summary of filtered visitors', width:'40%',
 						                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',   
 						                                   },
@@ -381,10 +381,10 @@ angular.module('newApp')
 			.success(function(data){
 				console.log(data);
 				console.log("in get engaction function");
-				$scope.gridOptions1.data = data;
+				$scope.gridOptions2.data = data;
 				$scope.browserObjList = data;
 				
-				angular.forEach($scope.gridOptions1.data, function(value, key) {
+				angular.forEach($scope.gridOptions2.data, function(value, key) {
 					if(value.title=="totalT"){
 						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
 						 var splitTime   = value.these_visitors.split(":");
@@ -432,7 +432,7 @@ angular.module('newApp')
 						 
 						}	 
 				});
-				 $scope.gridOptions1.columnDefs = [
+				 $scope.gridOptions2.columnDefs = [
 				                                   {name: 'titl', displayName: 'Summary of filtered visitors', width:'40%',
 				                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',
 				                                   },
@@ -442,6 +442,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.difference.toFixed(2)}}%</span></div>',
 										             },
 										          ]
+			
 			});	
 			}
 			
@@ -712,6 +713,14 @@ angular.module('newApp')
 	 		 };
 	
 	$scope.gridOptions1 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
+	$scope.gridOptions2 = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
 	 		    enableFiltering: true,

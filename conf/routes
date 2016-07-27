@@ -434,7 +434,7 @@ GET   /getSessionIdForRequest/:id				controllers.Application.getSessionIdForRequ
 GET   /getSessionIdForSchedule/:id				controllers.Application.getSessionIdForSchedule(id:Long)
 GET   /getSessionIdForTrade/:id				controllers.Application.getSessionIdForTrade(id:Long)
 GET   /getEngActionData/:title/:startDate/:endDate				controllers.Application.getEngActionData(title:String,startDate:String,endDate:String)
-GET   /getEngTimeData/:title/:startDate/:endDate				controllers.Application.getEngTimeData(title:String,startDate:String,endDate:String)
+GET   /getEngTimeData/:title/:startDate/:endDate				controllers.ClickyAnalyticsController.getEngTimeData(title:String,startDate:String,endDate:String)
 GET   /getTrafficSourceData/:title/:startDate/:endDate				controllers.Application.getTrafficSourceData(title:String,startDate:String,endDate:String)
 GET   /getreferrerTypeData/:type/:locationFlag/:startDate/:endDate			controllers.Application.getreferrerTypeData(type:String,locationFlag:String,startDate:String,endDate:String)
 GET   /getVisitorDataForLanding/:id/:startDate/:endDate/:flagForLanding			controllers.Application.getVisitorDataForLanding(id:Long,startDate:String,endDate:String,flagForLanding:String)
