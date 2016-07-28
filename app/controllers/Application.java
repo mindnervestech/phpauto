@@ -27662,8 +27662,8 @@ private static void cancelTestDriveMail(Map map) {
 		 
 		 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 		 cVm3.title = "averageAct";
-		 cVm3.these_visitors = count1;
-		 cVm3.all_visitors = countAll1;
+		 cVm3.these_visitors = count1/count2;
+		 cVm3.all_visitors = countAll1/countAll2;
 		 cVm3.images = "//con.tent.network/media/icon_click.gif";
 		 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 		 platformvm.add(cVm3);
@@ -27678,8 +27678,8 @@ private static void cancelTestDriveMail(Map map) {
 		 
 		 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 		 cVm5.title = "averageT";
-		 cVm5.these_visitors = count5;
-		 cVm5.all_visitors = countAll5;
+		 cVm5.these_visitors = count5/count2;
+		 cVm5.all_visitors = countAll5/countAll2;
 		 cVm5.images = "//con.tent.network/media/icon_time.gif";
 		 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 		 platformvm.add(cVm5);
