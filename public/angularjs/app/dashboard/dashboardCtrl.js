@@ -2811,7 +2811,7 @@ angular.module('newApp')
    	  			console.log($scope.customData);
    	  		$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
 				 $scope.editInput = response;
-				 //$scope.josnData = angular.fromJson(response.jsonData);
+				 $scope.josnData = angular.fromJson(response.jsonData);
 				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
 				 console.log($scope.userFields);
 				 $scope.user = {};
@@ -2910,9 +2910,9 @@ angular.module('newApp')
    	  	
    	  		$scope.editleads = function(){
    	  		$scope.customList = [];
-   	  		$scope.customData.setTime = $("#bestTimes").val()
-			if($scope.customData.setTime == undefined){
-				delete $scope.customData.setTime;
+   	  		$scope.customData.time_range = $("#bestTimes").val()
+			if($scope.customData.time_range == undefined){
+				delete $scope.customData.time_range
 			}
 			console.log($('#exCustoms_value').val());
 			$scope.customData.custName = $('#exCustoms_value').val();
@@ -5053,10 +5053,10 @@ angular.module('newApp')
 	    		$scope.customData = {};
 	    		$scope.createLead = function() {
 	    			$scope.customList =[];
-	    			$scope.customData.setTime = $("#bestTimes").val();
+	    			$scope.customData.time_range = $("#bestTimes").val();
 	    			console.log($scope.customData.setTime);
-	    			if($scope.customData.setTime == undefined){
-	    				delete $scope.customData.setTime;
+	    			if($scope.customData.time_range == undefined){
+	    				delete $scope.customData.time_range;
 	    			}
 	    			console.log($scope.customData);
 	    			
