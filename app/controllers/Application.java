@@ -12957,7 +12957,29 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		rList1.phone = rMoreInfo.phone;
 	    		rList1.email = rMoreInfo.email;
 	    		rList1.requestDate = df.format(rMoreInfo.requestDate);
-	    		rList1.typeOfLead = "Request More Info";
+	    		/*rList1.typeOfLead = "Request More Info";
+	    		LeadType lType = LeadType.findById(Long.parseLong(rMoreInfo.isContactusType));
+	    		if(lType != null){
+	    			rList1.typeOfLead = lType.leadName;
+	    			vm.leadId = lType.id;
+	    		}
+	    		*/
+	    		
+	    		LeadType lType = null;
+	    		if(rMoreInfo.isContactusType != null){
+		    		if(!rMoreInfo.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(rMoreInfo.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(rMoreInfo.isContactusType);
+		    		}
+		    		rList1.typeOfLead = lType.leadName;
+		    		findCustomeData(rMoreInfo.id,rList1,lType.id);
+	    		}else{
+	    			rList1.typeOfLead = "Request More Info";
+	    			findCustomeData(rMoreInfo.id,rList1,1L);
+	    		}
+	    		
+	    		
 	    		
 	    		rList2.add(rList1);
 			}
@@ -12998,7 +13020,21 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		rList1.phone = info1.phone;
     		rList1.email = info1.email;
     		rList1.requestDate = df.format(info1.requestDate);
-    		rList1.typeOfLead = "Request More Info";
+    		//rList1.typeOfLead = "Request More Info";
+    		
+    		LeadType lType = null;
+    		if(info1.isContactusType != null){
+	    		if(!info1.isContactusType.equals("contactUs")){
+	    			lType = LeadType.findById(Long.parseLong(info1.isContactusType));
+	    		}else{
+	    			lType = LeadType.findByName(info1.isContactusType);
+	    		}
+	    		rList1.typeOfLead = lType.leadName;
+	    		findCustomeData(info1.id,rList1,lType.id);
+    		}else{
+    			rList1.typeOfLead = "Request More Info";
+    			findCustomeData(info1.id,rList1,1L);
+    		}
     		
     		rList2.add(rList1);
 		 }
@@ -13038,7 +13074,20 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		rList1.phone = info1.phone;
     		rList1.email = info1.email;
     		rList1.requestDate = df.format(info1.requestDate);
-    		rList1.typeOfLead = "Request More Info";
+    		//rList1.typeOfLead = "Request More Info";
+    		LeadType lType = null;
+    		if(info1.isContactusType != null){
+	    		if(!info1.isContactusType.equals("contactUs")){
+	    			lType = LeadType.findById(Long.parseLong(info1.isContactusType));
+	    		}else{
+	    			lType = LeadType.findByName(info1.isContactusType);
+	    		}
+	    		rList1.typeOfLead = lType.leadName;
+	    		findCustomeData(info1.id,rList1,lType.id);
+    		}else{
+    			rList1.typeOfLead = "Request More Info";
+    			findCustomeData(info1.id,rList1,1L);
+    		}
     		
     		rList2.add(rList1);
 		}
@@ -13634,7 +13683,23 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm.howFoundUs = info.hearedFrom;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
-	    		vm.typeOfLead = "Request More Info";
+	    		//vm.typeOfLead = "Request More Info";
+	    		
+	    		LeadType lType = null;
+	    		if(info.isContactusType != null){
+		    		if(!info.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(info.isContactusType);
+		    		}
+		    		vm.typeOfLead = lType.leadName;
+		    		findCustomeData(info.id,vm,lType.id);
+	    		}else{
+	    			vm.typeOfLead = "Request More Info";
+	    			findCustomeData(info.id,vm,1L);
+	    		}
+	    		
+	    		
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		Integer nFlag = 0;
@@ -13952,7 +14017,21 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
 	    		vm.requestDate = df.format(info.requestDate);
-	    		vm.leadType = "Request More Info";
+	    		//vm.leadType = "Request More Info";
+	    		
+	    		LeadType lType = null;
+	    		if(info.isContactusType != null){
+		    		if(!info.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(info.isContactusType);
+		    		}
+		    		vm.typeOfLead = lType.leadName;
+		    		findCustomeData(info.id,vm,lType.id);
+	    		}else{
+	    			vm.typeOfLead = "Request More Info";
+	    			findCustomeData(info.id,vm,1L);
+	    		}
 	    		
 	    		if(info.assignedTo == null) {
 	    			vm.status = "Unclaimed";
@@ -16251,7 +16330,21 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
            		acti.enthicity = rInfo.enthicity;
            		acti.status =rInfo.leadStatus;
            		
-           		acti.typeOfLead = "Request More Info";
+           		//acti.typeOfLead = "Request More Info";
+           		LeadType lType = null;
+	    		if(rInfo.isContactusType != null){
+		    		if(!rInfo.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(rInfo.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(rInfo.isContactusType);
+		    		}
+		    		acti.typeOfLead = lType.leadName;
+		    		findCustomeData(rInfo.id,acti,lType.id);
+	    		}else{
+	    			acti.typeOfLead = "Request More Info";
+	    			findCustomeData(rInfo.id,acti,1L);
+	    		}
+           		
            		findRequestParentChildAndBro(actionVM, rInfo, dfs, acti);
           		 actionVM.add(acti);
           		 }

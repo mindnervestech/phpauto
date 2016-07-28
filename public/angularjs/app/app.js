@@ -34,6 +34,7 @@ var MakeApp = angular
     'app.apiserviceProfile',
     'app.apiserviceLocation',
     'app.apiserviceRegistration',
+    'app.apiserviceAddEditVehicle',
    // 'textAngular',
     'nvd3',
     'formly',

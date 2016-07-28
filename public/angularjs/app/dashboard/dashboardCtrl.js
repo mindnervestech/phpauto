@@ -2815,8 +2815,20 @@ angular.module('newApp')
 				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
 				 console.log($scope.userFields);
 				 $scope.user = {};
+				 
+				 console.log($scope.josnData);
+		   	  	 $.each($scope.customData, function(attr, value) {
+			   	  	angular.forEach($scope.josnData, function(value1, key1) {
+				   	  			if(value1.key == attr){
+				   	  				if(value1.component == "timerange"){
+				   	  					console.log(value);
+				   	  				$scope.customData.timeSet = value;
+				   	  				}
+				   	  			}
+			   	  	});
+		   	  	 });
    	  		});
-   	  			
+   	  		
    	  		  $scope.financeData.downPayment=1000;
    	  		  $scope.financeData.annualInterestRate=7;
    	  		  $scope.financeData.numberOfYears=5;

@@ -1,16 +1,15 @@
 angular.module('newApp')
-.controller('addVehicleCtrl', ['$scope','$http','$location','$upload', function ($scope,$http,$location,$upload) {
+.controller('addVehicleCtrl', ['$scope','$http','$location','$upload','apiserviceAddEditVehicle', function ($scope,$http,$location,$upload,apiserviceAddEditVehicle) {
   
 	$scope.vinErr = false;
    $scope.vehicleInit = function() {
- 	  $http.get('/getAllSites')
- 		.success(function(data) {
- 			$scope.siteList = data;
- 		});
- 	 $http.get('/getDealerProfile').success(function(data) {
- 		
- 		$scope.vinData.specification.location = data.dealer.address;
- 	});
+	   apiserviceAddEditVehicle.getAllSites().then(function(data){
+		   $scope.siteList = data;
+	   });
+	   apiserviceAddEditVehicle.getDealerProfile().then(function(data){
+		   $scope.vinData.specification.location = data.dealer.address;
+	   });
+ 	 
    }
    
    $http.get('/getAllCollectionData').success(function(data){
