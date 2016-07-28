@@ -208,6 +208,8 @@ public class ClickyPlatformBrowser extends Model {
 	public static List<ClickyPlatformBrowser> findByTitleAndDate(String title, Date startdate, Date enddate) {
 		return find.where().eq("title", title).between("saveDate", startdate, enddate).findList();
 	}
-
+	public static List<ClickyPlatformBrowser> findByIdAndDate(Long id, Date startdate, Date enddate) {
+		return find.where().eq("id", id).between("saveDate", startdate, enddate).findList();
+	}
 }
 

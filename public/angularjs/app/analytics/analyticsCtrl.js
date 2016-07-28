@@ -36,7 +36,7 @@ angular.module('newApp')
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
 	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
 	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
-	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 27), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
 	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
 	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
@@ -1167,20 +1167,23 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.referrerTypeDataForIpAdress = function(type) {
-			 console.log(type);
+			
 			 var startDate = $("#cnfstartDateValue").val();
-				var endDate = $("#cnfendDateValue").val();
-				console.log($scope.startDate1);
+			 var endDate = $("#cnfendDateValue").val();
+			 console.log($scope.startDate1);
 			 $scope.flagForLocation='IP';
 			// $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
-			 
+			 $scope.latitude=undefined;
+			 $scope.longitude=undefined;
+			 google.maps.event.addDomListener(window, 'load', initialized);
+				
+				
 				$http.get('/getreferrerTypeData/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDate1+"/"+$scope.endDate1)
 				.success(function(data) {
-				
-				console.log("::::::::");
-				console.log(data);
-				$scope.flagForIpAdressData=1;
-			    $scope.typeOfInfo == 'Visitor log';
+					$scope.latitude=$scope.visitorInfo.latitude; 
+					$scope.longitude=$scope.visitorInfo.longitude;
+					initialized();
+				$scope.typeOfInfo == 'Visitor log';
 				$scope.DateWiseFind();
 				
 			});
@@ -2976,15 +2979,15 @@ angular.module('newApp')
 	                    ranges: {
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
 	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
-	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 27), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
 	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
 	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
 	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
 	                    },
-	                    startDate: moment().subtract('days', 7),
+	                    startDate: moment().subtract('days', 6),
 	                    endDate: moment()
 	                },
 	                function(start, end) {
@@ -3005,12 +3008,12 @@ angular.module('newApp')
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
-	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                console.log(moment().subtract('days', 6).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
-	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
-	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+	            $('.reportrange span').html(moment().subtract('days', 6).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 6).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
 
 	    }, 2000);
 	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
@@ -3037,7 +3040,19 @@ angular.module('newApp')
 		$scope.startDate=$rootScope.startDateFilter;
 		$scope.endDate=$rootScope.endDateFilter;
 	
-	
+		$scope.gridOptions1 = {
+		 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+		 		    paginationPageSize: 150,
+		 		    enableFiltering: true,
+		 		    useExternalFiltering: true,
+		 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+		 		 };
+		
+		
+		 $scope.gridOptions1.enableHorizontalScrollbar = 0;
+			 $scope.gridOptions1.enableVerticalScrollbar = 2;
+		
+		
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -3115,11 +3130,34 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
+			
+			angular.forEach($scope.gridOptions.data, function(value, key) {
+				
+				value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+				value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+				 var splitTime   = value.totalTime.split(":");
+				 var splitTime1   = value.averageTime.split(":");
+				 if(splitTime[0] == 00){
+					 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+				 }
+				 else{
+					 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+				 }
+				 
+				 if(splitTime1[0] == 00){
+					 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+				 }
+				 else{
+					 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+				 }
+				 
+				
+			});
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
 								              {name: 'title', displayName: 'Actions', width:'40%',
-								            	  cellTemplate: '<div><span ng-click="grid.appScope.goToBrowserpage(row.entity.title)">{{row.entity.title}}</span></div>',
+								            	  cellTemplate: '<div><span ng-click="grid.appScope.goToBrowserpage(row.entity.id)">{{row.entity.title}}</span></div>',
 								              },
 								             {name:'value', displayName:'Visitors', width:'10%',
 								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
@@ -3143,6 +3181,29 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
+			
+			angular.forEach($scope.gridOptions.data, function(value, key) {
+							
+							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+							value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+							 var splitTime   = value.totalTime.split(":");
+							 var splitTime1   = value.averageTime.split(":");
+							 if(splitTime[0] == 00){
+								 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 else{
+								 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 
+							 if(splitTime1[0] == 00){
+								 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 else{
+								 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 
+							
+				});
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
@@ -3171,6 +3232,29 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
+			
+			angular.forEach($scope.gridOptions.data, function(value, key) {
+							
+							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+							value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+							 var splitTime   = value.totalTime.split(":");
+							 var splitTime1   = value.averageTime.split(":");
+							 if(splitTime[0] == 00){
+								 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 else{
+								 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 
+							 if(splitTime1[0] == 00){
+								 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 else{
+								 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 
+							
+				});
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
@@ -3200,6 +3284,29 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
+			
+			angular.forEach($scope.gridOptions.data, function(value, key) {
+							
+							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
+							value.totalTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.totalTime)), 'HH:mm:ss');
+							 var splitTime   = value.totalTime.split(":");
+							 var splitTime1   = value.averageTime.split(":");
+							 if(splitTime[0] == 00){
+								 value.totalTime = splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 else{
+								 value.totalTime = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+							 }
+							 
+							 if(splitTime1[0] == 00){
+								 value.averageTime = splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 else{
+								 value.averageTime = splitTime1[0]+"h "+splitTime1[1]+"m "+splitTime1[2]+"s";
+							 }
+							 
+							
+			});
 		});
 		 
 		 $scope.gridOptions.columnDefs = [
@@ -3223,8 +3330,62 @@ angular.module('newApp')
 								            	 ]
 	}
  }
- 
-
+			 $scope.platformVisitorData = function(){
+			 $http.get('/getVisitorList/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
+				.success(function(data) {
+				$scope.gridOptions1.data = data;
+				console.log($scope.gridOptions1.data);
+				$scope.gridOptions1.data = $filter('orderBy')($scope.gridOptions1.data,'dateClick');
+				$scope.gridOptions1.data = $scope.gridOptions1.data.reverse();
+				//console.log($scope.gridOptions.data);
+				//cellFilter: 'date:"yyyy-MM-dd"',enableSorting: true,
+				angular.forEach($scope.gridOptions1.data, function(value, key) {
+					var array = value.timePretty.split(',');
+					var timeNew= value.timePretty.split(' ');
+					var newTimePretty;
+					value.timeSet = array[1];
+					value.newTimePretty=timeNew[1]+" "+timeNew[2]+" "+timeNew[3]+" "+timeNew[4];
+					//value.timeTotal = $filter('date')(value.timeTotal, 'hh:mm:ss');
+					value.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.timeTotal)), 'HH:mm:ss');
+					 var splitTime   = value.timeTotal.split(":");
+					 if(splitTime[0] == 00){
+						 value.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					
+				});
+				 console.log($scope.gridOptions1.data);
+				$scope.visitiorList = data;
+			});
+			
+			
+			$scope.gridOptions1.columnDefs = [
+			                              {name: 'newTimePretty', displayName: 'Date & Time', width:'12%'},
+			                              {name: 'geolocation', displayName: 'Location', width:'10%',
+			                             	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)">{{row.entity.geolocation}}</label></div>',
+			                              },
+			                              {name:'organization', displayName:'Internet Provider', width:'15%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
+			                              },
+			                              {name:'actions', displayName:'Actions', width:'8%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
+			                             	 
+			                              },
+			                              {name:'timeTotal', displayName:'Time Spent', width:'10%'},
+			                              {name:'abc', displayName:'Searches & Refferals', width:'40%',
+			                             	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
+			                             	 
+			                             },
+			                              {name:'Sear', displayName:'Page', width:'10%',
+			                             	 cellTemplate:'<a  target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+			                              }
+			                              
+			                          ];
+			 
+			 }
 	$scope.initFunction = function(){
 		console.log("in init function");
 		 var startDate = $rootScope.startDateFilter;
@@ -3303,6 +3464,7 @@ angular.module('newApp')
 											        
 										            	 ]
 		 });
+		 $scope.platformVisitorData();
 		 }
 		 else if($scope.titleForOS != undefined){
 			 
@@ -3383,6 +3545,7 @@ angular.module('newApp')
 												        
 											            	 ]
 			 });
+			 $scope.platformVisitorData();
 			 }
 		 
 		 else if($scope.titleForScreen != undefined){
@@ -3464,6 +3627,7 @@ angular.module('newApp')
 												        
 											            	 ]
 			 });
+			 $scope.platformVisitorData();
 			 }
 		  
 		 else if($scope.titleForHardware != undefined){
@@ -3545,6 +3709,7 @@ angular.module('newApp')
 												        
 											            	 ]
 			 });
+			 $scope.platformVisitorData();
 			 }
 		 
 		 

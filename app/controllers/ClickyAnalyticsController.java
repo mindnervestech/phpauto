@@ -5,13 +5,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.ClickyActionList;
 import models.ClickyContentDomain;
@@ -51,6 +54,7 @@ import viewmodel.ClickyPagesVM;
 import viewmodel.ClickyPlatformVM;
 
 import com.avaje.ebean.SqlRow;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class ClickyAnalyticsController extends Controller{
 
@@ -3223,6 +3227,2332 @@ public class ClickyAnalyticsController extends Controller{
 							}
 						 
 						}
+					 
+			   			
+				 }
+			 
+				 ClickyPlatformVM cVm = new ClickyPlatformVM();
+				 cVm.title = "visitors";
+				 cVm.these_visitors =  count2;
+				 cVm.all_visitors = countAll2;
+				 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+				 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+				 platformvm.add(cVm);
+				 
+				 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+				 cVm1.title = "uniqueV";
+				 cVm1.these_visitors = count3;
+				 cVm1.all_visitors = countAll3;
+				 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+				 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+				 platformvm.add(cVm1);
+				 
+				 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+				 cVm2.title = "action";
+				 cVm2.these_visitors = count7;
+				 cVm2.all_visitors = countAll7;
+				 cVm2.images = "//con.tent.network/media/icon_click.gif";
+				 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+				 platformvm.add(cVm2);
+				 
+				 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+				 cVm3.title = "averageAct";
+				 cVm3.these_visitors = count1;
+				 cVm3.all_visitors = countAll1;
+				 cVm3.images = "//con.tent.network/media/icon_click.gif";
+				 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+				 platformvm.add(cVm3);
+				 
+				 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+				 cVm4.title = "totalT";
+				 cVm4.these_visitors = count4;
+				 cVm4.all_visitors = countAll4;
+				 cVm4.images = "//con.tent.network/media/icon_time.gif";
+				 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+				 platformvm.add(cVm4);
+				 
+				 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+				 cVm5.title = "averageT";
+				 cVm5.these_visitors = count5;
+				 cVm5.all_visitors = countAll5;
+				 cVm5.images = "//con.tent.network/media/icon_time.gif";
+				 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+				 platformvm.add(cVm5);
+				 
+				 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+				 cVm6.title = "bounceR";
+				 cVm6.these_visitors = count6;
+				 cVm6.all_visitors = countAll6;
+				 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+				 if(countAll6 !=0){
+					 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+				 }
+				 else{
+					 cVm6.difference = 0.0;
+				 }
+				 platformvm.add(cVm6);
+			 
+			 vm.averageAct=count1;
+			 vm.visitor=count2;
+			 vm.uniqueV=count3;
+			 vm.totalT=count4;
+			 vm.averageT=count5;
+			 vm.bounceR=count6;
+			 vm.action=count7;
+			
+			 VMs.add(vm);
+
+		 	
+		 	return ok(Json.toJson(platformvm));
+
+
+	    }
+	 
+	 
+	 public static Result getreferrerTypeData(String type,String locationFlag,String startDate,String endDate){
+	     	//String startDate=null;
+	     	String params = null; 
+	     	startDate = startDate.replaceAll(" ","");
+	     	 
+	     	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			//startDate=dateFormat.format(date);
+	     	List<ClickyPagesVM> clickyList = new ArrayList<>();
+	     	String city=null;
+	     	if(locationFlag.equalsIgnoreCase("location")){
+	     		
+	     		 Date d1= null;
+	     		Date d2= null;
+	     		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	     		try{
+	     			 d1 = format.parse(startDate);
+	     	         d2 = format.parse(endDate);
+	     	    } catch (Exception e) {
+	     	        e.printStackTrace();
+	     	    }
+	     		
+	     		List<ClickyVisitorsList> locationObjList = ClickyVisitorsList.getAll(d1, d2);
+	    		List<ClickyVisitorsList> alldatalist = ClickyVisitorsList.getAll(d1, d2);
+	    		
+	    		List <ClickyPagesVM> VMs = new ArrayList<>();
+	    		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	    		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+	    		Map<String, Integer> timeline = new HashMap<String, Integer>();
+	    		ClickyPagesVM vm = new ClickyPagesVM();
+	    		double count1=0.0;
+	    		double count2=0.0;
+	    		double count3=0.0;
+	    		double count4=0.0;
+	    		double count5=0.0;
+	    		double count6=0.0;
+	    		double count7=0.0;
+	    		Integer vistValue = 0;
+	    		Integer timevalue = 0;
+	    		 for(ClickyVisitorsList lis:locationObjList){
+	    	     	if(lis.averageAction != null){
+	    	     		count1=Double.parseDouble(lis.averageAction);
+	    	     	}
+	    			if(lis.bounceRate != null){
+	    				count6=Double.parseDouble(lis.bounceRate);	
+	    				     	}
+	    			if(lis.averageTime != null){
+	    				count5=Double.parseDouble(lis.averageTime);	
+	    				}
+	    			if(lis.timeTotal != null){
+	    				count4=count4+Double.parseDouble(lis.timeTotal);
+	    				}
+	    			if(lis.visitors != null){
+	    				 count2=count2+Double.parseDouble(lis.visitors);
+	    				}
+	    			if(lis.uniqueVisitor!= null){
+	    				count3=count3+Double.parseDouble(lis.uniqueVisitor);
+	    				}
+	    			if(lis.actions != null){
+	    			count7=count7+Double.parseDouble(lis.actions);
+	    			}
+	    			
+	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+					if (langValue == null) {
+					 vistValue = vistValue + Integer.parseInt(lis.actions);
+					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.actions));
+					}
+					if(lis.geolocation != null){
+					Integer lang = timeline.get(lis.geolocation); 
+					if (lang == null) {
+						
+						timevalue = timevalue + Integer.parseInt(lis.timeTotal);
+						timeline.put(lis.DateClick.toString(), Integer.parseInt(lis.timeTotal));
+						}
+					}
+	    		 }
+	    		 
+	    		 
+	    		 
+	    		 double countAll1=0.0;
+	    			double countAll2=0.0;
+	    			double countAll3=0.0;
+	    			double countAll4=0.0;
+	    			double countAll5=0.0;
+	    			double countAll6=0.0;
+	    			double countAll7=0.0;
+	    			 for(ClickyVisitorsList list:alldatalist){
+	    				 if(list.averageAction != null){
+	    					 countAll1=count1+Double.parseDouble(list.averageAction);
+	    			     	}
+	    					if(list.bounceRate != null){
+	    						 countAll6=count6+Double.parseDouble(list.bounceRate);	
+	    						     	}
+	    					if(list.averageTime != null){
+	    						countAll5=count5+Double.parseDouble(list.averageTime);	
+	    						}
+	    					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	    						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	    						}
+	    					if(list.visitors != null){
+	    						countAll2=alldatalist.size();
+	    						}
+	    					if(list.uniqueVisitor != null){
+	    						countAll3=alldatalist.size();
+	    						}
+	    					if(list.actions != null && !list.actions.equals("")){
+	    						 countAll7=countAll7+Double.parseDouble(list.actions);
+	    					}
+	    				 
+	    				 
+	    		   			
+	    			 }
+	    		 
+	    			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	    			 cVm.title = "visitors";
+	    			 cVm.these_visitors = count2;
+	    			 cVm.all_visitors = countAll2;
+	    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+	    			 platformvm.add(cVm);
+	    			 
+	    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	    			 cVm1.title = "uniqueV";
+	    			 cVm1.these_visitors = count3;
+	    			 cVm1.all_visitors = countAll3;
+	    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	    			 platformvm.add(cVm1);
+	    			 
+	    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	    			 cVm2.title = "action";
+	    			 cVm2.these_visitors = (double)vistValue;
+	    			 cVm2.all_visitors = countAll7;
+	    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm2.difference = (((double)vistValue - countAll7) / countAll7) * 100;
+	    			 platformvm.add(cVm2);
+	    			 
+	    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	    			 cVm3.title = "averageAct";
+	    			 cVm3.these_visitors = (double)vistValue/count2;
+	    			 cVm3.all_visitors = countAll7/countAll2;
+	    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	    			 platformvm.add(cVm3);
+	    			 
+	    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	    			 cVm4.title = "totalT";
+	    			 cVm4.these_visitors = (double)timevalue;
+	    			 cVm4.all_visitors = countAll4;
+	    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm4.difference = (((double)timevalue - countAll4) / countAll4) * 100;
+	    			 platformvm.add(cVm4);
+	    			 
+	    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	    			 cVm5.title = "averageT";
+	    			 cVm5.these_visitors = (double)timevalue/count2;
+	    			 cVm5.all_visitors = countAll4/countAll2;
+	    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	    			 platformvm.add(cVm5);
+	    			 
+	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	    			 cVm6.title = "bounceR";
+	    			 cVm6.these_visitors = count6;
+	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	    			 if(countAll6 !=0){
+	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    			 }
+	    			 else{
+	    				 cVm6.difference = 0.0;
+	    			 }
+	    			 platformvm.add(cVm6);
+	    		 
+	    		 vm.averageAct=count1;
+	    		 vm.visitor=count2;
+	    		 vm.uniqueV=count3;
+	    		 vm.totalT=count4;
+	    		 vm.averageT=count5;
+	    		 vm.bounceR=count6;
+	    		 vm.action=count7;
+	    		
+	    		 VMs.add(vm);
+
+	    	 	
+	    	 	return ok(Json.toJson(platformvm));
+	     	
+	     	}
+	     	else if(locationFlag.equalsIgnoreCase("language")){
+	     		
+	     		//params = "&type=segmentation&language="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+	     		
+	     		 Date d1= null;
+	      		Date d2= null;
+	      		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	      		try{
+	      			 d1 = format.parse(startDate);
+	      	         d2 = format.parse(endDate);
+	      	    } catch (Exception e) {
+	      	        e.printStackTrace();
+	      	    }
+	      		
+	      		List<ClickyVisitorsList> languageObjList = ClickyVisitorsList.findByLanguageAndDate(type, d1, d2);
+	     		List<ClickyVisitorsList> allLanguagelist = ClickyVisitorsList.getAll(d1, d2);
+	     		
+	     		List <ClickyPagesVM> VMs = new ArrayList<>();
+	     		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	     		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+	     		ClickyPagesVM vm = new ClickyPagesVM();
+	     		double count1=0.0;
+	     		double count2=0.0;
+	     		double count3=0.0;
+	     		double count4=0.0;
+	     		double count5=0.0;
+	     		double count6=0.0;
+	     		double count7=0.0;
+	     		Integer vistValue = 0;
+	     		 for(ClickyVisitorsList lis:languageObjList){
+	     	     	if(lis.averageAction != null){
+	     	     		count1=Double.parseDouble(lis.averageAction);
+	     	     	}
+	     			if(lis.bounceRate != null){
+	     				count6=Double.parseDouble(lis.bounceRate);	
+	     				     	}
+	     			if(lis.averageTime != null){
+	     				count5=Double.parseDouble(lis.averageTime);	
+	     				}
+	     			if(lis.timeTotal != null){
+	     				count4=count4+Double.parseDouble(lis.timeTotal);
+	     				}
+	     			if(lis.visitors != null){
+	     				 count2=Double.parseDouble(lis.visitors);
+	     				}
+	     			if(lis.uniqueVisitor!= null){
+	     				count3=Double.parseDouble(lis.uniqueVisitor);
+	     				}
+	     			if(lis.actions != null){
+	     			count7=count7+Double.parseDouble(lis.actions);
+	     			}
+	     			
+	     			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+	 				if (langValue == null) {
+	 				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+	 				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+	 				}
+	     			
+	     		 }
+	     		 
+	     		 
+	     		 
+	     		 double countAll1=0.0;
+	     			double countAll2=0.0;
+	     			double countAll3=0.0;
+	     			double countAll4=0.0;
+	     			double countAll5=0.0;
+	     			double countAll6=0.0;
+	     			double countAll7=0.0;
+	     			 for(ClickyVisitorsList list:allLanguagelist){
+	     				 if(list.averageAction != null){
+	     					 countAll1=count1+Double.parseDouble(list.averageAction);
+	     			     	}
+	     					if(list.bounceRate != null){
+	     						 countAll6=count6+Double.parseDouble(list.bounceRate);	
+	     						     	}
+	     					if(list.averageTime != null){
+	     						countAll5=count5+Double.parseDouble(list.averageTime);	
+	     						}
+	     					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	     						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	     						}
+	     					if(list.visitors != null){
+	     						countAll2=allLanguagelist.size();
+	     						}
+	     					if(list.uniqueVisitor != null){
+	     						countAll3=allLanguagelist.size();
+	     						}
+	     					if(list.actions != null && !list.actions.equals("")){
+	     						 countAll7=countAll7+Double.parseDouble(list.actions);
+	     					}
+	     				 
+	     				 
+	     		   			
+	     			 }
+	     		 
+	     			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	     			 cVm.title = "visitors";
+	     			 cVm.these_visitors = (double)vistValue;
+	     			 cVm.all_visitors = countAll2;
+	     			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	     			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+	     			 platformvm.add(cVm);
+	     			 
+	     			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	     			 cVm1.title = "uniqueV";
+	     			 cVm1.these_visitors = count3;
+	     			 cVm1.all_visitors = countAll3;
+	     			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	     			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	     			 platformvm.add(cVm1);
+	     			 
+	     			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	     			 cVm2.title = "action";
+	     			 cVm2.these_visitors = count7;
+	     			 cVm2.all_visitors = countAll7;
+	     			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	     			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	     			 platformvm.add(cVm2);
+	     			 
+	     			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	     			 cVm3.title = "averageAct";
+	     			 cVm3.these_visitors = count7/count2;
+	     			 cVm3.all_visitors = countAll7/countAll2;
+	     			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	     			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	     			 platformvm.add(cVm3);
+	     			 
+	     			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	     			 cVm4.title = "totalT";
+	     			 cVm4.these_visitors = count4;
+	     			 cVm4.all_visitors = countAll4;
+	     			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	     			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	     			 platformvm.add(cVm4);
+	     			 
+	     			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	     			 cVm5.title = "averageT";
+	     			 cVm5.these_visitors = count4/count2;
+	     			 cVm5.all_visitors = countAll4/countAll2;
+	     			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	     			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	     			 platformvm.add(cVm5);
+	     			 
+	     			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	     			 cVm6.title = "bounceR";
+	     			 cVm6.these_visitors = count6;
+	     			 cVm6.all_visitors = countAll6;
+	     			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	     			 if(countAll6 !=0){
+	     				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	     			 }
+	     			 else{
+	     				 cVm6.difference = 0.0;
+	     			 }
+	     			 platformvm.add(cVm6);
+	     		 
+	     		 vm.averageAct=count1;
+	     		 vm.visitor=count2;
+	     		 vm.uniqueV=count3;
+	     		 vm.totalT=count4;
+	     		 vm.averageT=count5;
+	     		 vm.bounceR=count6;
+	     		 vm.action=count7;
+	     		
+	     		 VMs.add(vm);
+
+	     	 	
+	     	 	return ok(Json.toJson(platformvm));
+
+	     	}
+	          else if(locationFlag.equalsIgnoreCase("org")){
+	     		String encod=URLEncoder.encode(type);
+	     		//params = "&type=segmentation&org="+encod+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+	     		
+	     		 Date d1= null;
+	        		Date d2= null;
+	        		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	        		try{
+	        			 d1 = format.parse(startDate);
+	        	         d2 = format.parse(endDate);
+	        	    } catch (Exception e) {
+	        	        e.printStackTrace();
+	        	    }
+	        		
+	        		List<ClickyVisitorsList> orgObjList = ClickyVisitorsList.findByOrgAndDate(type, d1, d2);
+	       		List<ClickyVisitorsList> allOrglist = ClickyVisitorsList.getAll(d1, d2);
+	       		
+	       		List <ClickyPagesVM> VMs = new ArrayList<>();
+	       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	       		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+				
+	       		ClickyPagesVM vm = new ClickyPagesVM();
+	       		double count1=0.0;
+	       		double count2=0.0;
+	       		double count3=0.0;
+	       		double count4=0.0;
+	       		double count5=0.0;
+	       		double count6=0.0;
+	       		double count7=0.0;
+	       		Integer vistValue = 0;
+	       		 for(ClickyVisitorsList lis:orgObjList){
+	       	     	if(lis.averageActionorg != null){
+	       	     		count1=Double.parseDouble(lis.averageActionorg);
+	       	     	}
+	       			if(lis.bounceRateorg != null){
+	       				count6=Double.parseDouble(lis.bounceRateorg);	
+	       				     	}
+	       			if(lis.averageTimeorg != null){
+	       				count5=Double.parseDouble(lis.averageTimeorg);	
+	       				}
+	       			if(lis.timeTotal != null){
+	       				count4=count4+Double.parseDouble(lis.timeTotal);
+	       				}
+	       			if(lis.visitorsorg != null){
+	       				 count2=Double.parseDouble(lis.visitorsorg);
+	       				}
+	       			if(lis.uniqueVisitororg!= null){
+	       				count3=Double.parseDouble(lis.uniqueVisitororg);
+	       				}
+	       			if(lis.actions != null){
+	       			count7=count7+Double.parseDouble(lis.actions);
+	       			}
+	       			
+	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+					if (langValue == null) {
+					 vistValue = vistValue + Integer.parseInt(lis.visitors);
+					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+					}		
+	       		 }
+	       		 
+	       		 double countAll1=0.0;
+	       			double countAll2=0.0;
+	       			double countAll3=0.0;
+	       			double countAll4=0.0;
+	       			double countAll5=0.0;
+	       			double countAll6=0.0;
+	       			double countAll7=0.0;
+	       			 for(ClickyVisitorsList list:allOrglist){
+	       				 if(list.averageActionorg != null){
+	       					 countAll1=count1+Double.parseDouble(list.averageActionorg);
+	       			     	}
+	       					if(list.bounceRateorg != null){
+	       						 countAll6=count6+Double.parseDouble(list.bounceRateorg);	
+	       						     	}
+	       					if(list.averageTimeorg != null){
+	       						countAll5=count5+Double.parseDouble(list.averageTimeorg);	
+	       						}
+	       					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	       						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	       						}
+	       					if(list.visitorsorg != null){
+	       						countAll2=allOrglist.size();
+	       						}
+	       					if(list.uniqueVisitororg != null){
+	       						countAll3=allOrglist.size();
+	       						}
+	       					if(list.actions != null && !list.actions.equals("")){
+	       						 countAll7=countAll7+Double.parseDouble(list.actions);
+	       					}
+	       				 
+	       				 
+	       		   			
+	       			 }
+	       		 
+	       			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	       			 cVm.title = "visitors";
+	       			 cVm.these_visitors =  count2;
+	       			 cVm.all_visitors = countAll2;
+	       			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	       			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+	       			 platformvm.add(cVm);
+	       			 
+	       			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	       			 cVm1.title = "uniqueV";
+	       			 cVm1.these_visitors = count3;
+	       			 cVm1.all_visitors = countAll3;
+	       			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	       			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	       			 platformvm.add(cVm1);
+	       			 
+	       			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	       			 cVm2.title = "action";
+	       			 cVm2.these_visitors = count7;
+	       			 cVm2.all_visitors = countAll7;
+	       			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	       			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	       			 platformvm.add(cVm2);
+	       			 
+	       			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	       			 cVm3.title = "averageAct";
+	       			 cVm3.these_visitors = count7/count2;
+	       			 cVm3.all_visitors = countAll7/countAll2;
+	       			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	       			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	       			 platformvm.add(cVm3);
+	       			 
+	       			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	       			 cVm4.title = "totalT";
+	       			 cVm4.these_visitors = count4;
+	       			 cVm4.all_visitors = countAll4;
+	       			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	       			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	       			 platformvm.add(cVm4);
+	       			 
+	       			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	       			 cVm5.title = "averageT";
+	       			 cVm5.these_visitors = count4/count2;
+	       			 cVm5.all_visitors = countAll4/countAll2;
+	       			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	       			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	       			 platformvm.add(cVm5);
+	       			 
+	       			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	       			 cVm6.title = "bounceR";
+	       			 cVm6.these_visitors = count6;
+	       			 cVm6.all_visitors = countAll6;
+	       			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	       			 if(countAll6 !=0){
+	       				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	       			 }
+	       			 else{
+	       				 cVm6.difference = 0.0;
+	       			 }
+	       			 platformvm.add(cVm6);
+	       		 
+	       		 vm.averageAct=count1;
+	       		 vm.visitor=count2;
+	       		 vm.uniqueV=count3;
+	       		 vm.totalT=count4;
+	       		 vm.averageT=count5;
+	       		 vm.bounceR=count6;
+	       		 vm.action=count7;
+	       		
+	       		 VMs.add(vm);
+
+	       	 	
+	       	 	return ok(Json.toJson(platformvm));
+
+	     		
+	     	}
+	          else if(locationFlag.equalsIgnoreCase("host")){
+	       		
+	       		//params = "&type=segmentation&hostname="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+	       		
+	        	  Date d1= null;
+	        		Date d2= null;
+	        		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	        		try{
+	        			 d1 = format.parse(startDate);
+	        	         d2 = format.parse(endDate);
+	        	    } catch (Exception e) {
+	        	        e.printStackTrace();
+	        	    }
+	        		
+	        		List<ClickyVisitorsList> hostObjList = ClickyVisitorsList.findByHostAndDate(type, d1, d2);
+	       		List<ClickyVisitorsList> allHostlist = ClickyVisitorsList.getAll(d1, d2);
+	       		
+	       		List <ClickyPagesVM> VMs = new ArrayList<>();
+	       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	       		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+	       		ClickyPagesVM vm = new ClickyPagesVM();
+	       		double count1=0.0;
+	       		double count2=0.0;
+	       		double count3=0.0;
+	       		double count4=0.0;
+	       		double count5=0.0;
+	       		double count6=0.0;
+	       		double count7=0.0;
+	       		Integer vistValue = 0;
+	       		 for(ClickyVisitorsList lis:hostObjList){
+	       	     	if(lis.averageAction != null){
+	       	     		count1=Double.parseDouble(lis.averageAction);
+	       	     	}
+	       			if(lis.bounceRate != null){
+	       				count6=Double.parseDouble(lis.bounceRate);	
+	       				     	}
+	       			if(lis.averageTime != null){
+	       				count5=Double.parseDouble(lis.averageTime);	
+	       				}
+	       			if(lis.timeTotal != null){
+	       				count4=count4+Double.parseDouble(lis.timeTotal);
+	       				}
+	       			if(lis.visitors != null){
+	       				 count2=Double.parseDouble(lis.visitors);
+	       				}
+	       			if(lis.uniqueVisitor!= null){
+	       				count3=Double.parseDouble(lis.uniqueVisitor);
+	       				}
+	       			if(lis.actions != null){
+	       			count7=count7+Double.parseDouble(lis.actions);
+	       			}
+	       			
+	       			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+	   				if (langValue == null) {
+	   				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+	   				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+	   				}
+	       			
+	       		 }
+	       		 
+	       		 
+	       		 
+	       		 double countAll1=0.0;
+	       			double countAll2=0.0;
+	       			double countAll3=0.0;
+	       			double countAll4=0.0;
+	       			double countAll5=0.0;
+	       			double countAll6=0.0;
+	       			double countAll7=0.0;
+	       			 for(ClickyVisitorsList list:allHostlist){
+	       				 if(list.averageAction != null){
+	       					 countAll1=count1+Double.parseDouble(list.averageAction);
+	       			     	}
+	       					if(list.bounceRate != null){
+	       						 countAll6=count6+Double.parseDouble(list.bounceRate);	
+	       						     	}
+	       					if(list.averageTime != null){
+	       						countAll5=count5+Double.parseDouble(list.averageTime);	
+	       						}
+	       					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	       						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	       						}
+	       					if(list.visitors != null){
+	       						countAll2=allHostlist.size();
+	       						}
+	       					if(list.uniqueVisitor != null){
+	       						countAll3=allHostlist.size();
+	       						}
+	       					if(list.actions != null && !list.actions.equals("")){
+	       						 countAll7=countAll7+Double.parseDouble(list.actions);
+	       					}
+	       				 
+	       				 
+	       		   			
+	       			 }
+	       		 
+	       			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	       			 cVm.title = "visitors";
+	       			 cVm.these_visitors = (double)vistValue;
+	       			 cVm.all_visitors = countAll2;
+	       			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	       			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+	       			 platformvm.add(cVm);
+	       			 
+	       			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	       			 cVm1.title = "uniqueV";
+	       			 cVm1.these_visitors = count3;
+	       			 cVm1.all_visitors = countAll3;
+	       			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	       			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	       			 platformvm.add(cVm1);
+	       			 
+	       			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	       			 cVm2.title = "action";
+	       			 cVm2.these_visitors = count7;
+	       			 cVm2.all_visitors = countAll7;
+	       			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	       			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	       			 platformvm.add(cVm2);
+	       			 
+	       			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	       			 cVm3.title = "averageAct";
+	       			 cVm3.these_visitors = count7/count2;
+	       			 cVm3.all_visitors = countAll7/countAll2;
+	       			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	       			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	       			 platformvm.add(cVm3);
+	       			 
+	       			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	       			 cVm4.title = "totalT";
+	       			 cVm4.these_visitors = count4;
+	       			 cVm4.all_visitors = countAll4;
+	       			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	       			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	       			 platformvm.add(cVm4);
+	       			 
+	       			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	       			 cVm5.title = "averageT";
+	       			 cVm5.these_visitors = count4/count2;
+	       			 cVm5.all_visitors = countAll4/countAll2;
+	       			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	       			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	       			 platformvm.add(cVm5);
+	       			 
+	       			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	       			 cVm6.title = "bounceR";
+	       			 cVm6.these_visitors = count6;
+	       			 cVm6.all_visitors = countAll6;
+	       			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	       			 if(countAll6 !=0){
+	       				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	       			 }
+	       			 else{
+	       				 cVm6.difference = 0.0;
+	       			 }
+	       			 platformvm.add(cVm6);
+	       		 
+	       		 vm.averageAct=count1;
+	       		 vm.visitor=count2;
+	       		 vm.uniqueV=count3;
+	       		 vm.totalT=count4;
+	       		 vm.averageT=count5;
+	       		 vm.bounceR=count6;
+	       		 vm.action=count7;
+	       		
+	       		 VMs.add(vm);
+
+	       	 	
+	       	 	return ok(Json.toJson(platformvm));
+
+	       	}
+	          else if(locationFlag.equalsIgnoreCase("os")){
+	        	  String encod=URLEncoder.encode(type);
+	       		//params = "&type=segmentation&os="+encod+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+	        	  Date d1= null;
+	       		Date d2= null;
+	       		/*String Date1 = "2016-06-13";
+	       		String Date2 = "2016-06-26";*/
+	       		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	       		try{
+	       			 d1 = format.parse(startDate);
+	       	         d2 = format.parse(endDate);
+	       	    } catch (Exception e) {
+	       	        e.printStackTrace();
+	       	    }
+	       		
+	       		List<ClickyVisitorsList> operatingObjList = ClickyVisitorsList.findByOsAndDate(type, d1, d2);
+	      		List<ClickyVisitorsList> allOSlist = ClickyVisitorsList.getAll(d1, d2);
+	      		List <ClickyPagesVM> VMs = new ArrayList<>();
+	      		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	      		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+				
+	      		ClickyPagesVM vm = new ClickyPagesVM();
+	      		double count1=0.0;
+	      		double count2=0.0;
+	      		double count3=0.0;
+	      		double count4=0.0;
+	      		double count5=0.0;
+	      		double count6=0.0;
+	      		double count7=0.0;
+	      		Integer vistValue = 0;
+	      		 for(ClickyVisitorsList lis:operatingObjList){
+	      	     	if(lis.averageActionos != null){
+	      	     		count1=Double.parseDouble(lis.averageActionos);
+	      	     	}
+	      			if(lis.bounceRateos != null){
+	      				count6=Double.parseDouble(lis.bounceRateos);	
+	      				     	}
+	      			if(lis.averageTimeos != null){
+	      				count5=Double.parseDouble(lis.averageTimeos);	
+	      				}
+	      			if(lis.totalTimeos != null){
+	      				count4=count4+Double.parseDouble(lis.totalTimeos);
+	      				}
+	      			if(lis.visitorsos != null){
+	      				 count2=Double.parseDouble(lis.visitorsos);
+	      				}
+	      			if(lis.uniqueVisitoros!= null){
+	      				count3=Double.parseDouble(lis.uniqueVisitoros);
+	      				}
+	      			if(lis.action != null){
+	      			count7=Double.parseDouble(lis.action);
+	      			}
+	      			
+	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+					if (langValue == null) {
+					 vistValue = vistValue + Integer.parseInt(lis.visitors);
+					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+					}		
+	      		 }
+	      		 
+	      		 double countAll1=0.0;
+	      			double countAll2=0.0;
+	      			double countAll3=0.0;
+	      			double countAll4=0.0;
+	      			double countAll5=0.0;
+	      			double countAll6=0.0;
+	      			double countAll7=0.0;
+	      			 for(ClickyVisitorsList list:allOSlist){
+	      				 if(list.averageActionos != null){
+	      					 countAll1=count1+Double.parseDouble(list.averageActionos);
+	      			     	}
+	      					if(list.bounceRateos != null){
+	      						 countAll6=count6+Double.parseDouble(list.bounceRateos);	
+	      						     	}
+	      					if(list.averageTimeos != null){
+	      						countAll5=count5+Double.parseDouble(list.averageTimeos);	
+	      						}
+	      					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	      						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	      						}
+	      					if(list.visitorsos != null){
+	      						countAll2=allOSlist.size();
+	      						}
+	      					if(list.uniqueVisitoros != null){
+	      						countAll3=allOSlist.size();
+	      						}
+	      					if(list.actions != null && !list.actions.equals("")){
+	      						 countAll7=countAll7+Double.parseDouble(list.actions);
+	      					}
+	      				 
+	      				 
+	      		   			
+	      			 }
+	      		 
+	      			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	      			 cVm.title = "visitors";
+	      			 cVm.these_visitors =  count2;
+	      			 cVm.all_visitors = countAll2;
+	      			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	      			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+	      			 platformvm.add(cVm);
+	      			 
+	      			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	      			 cVm1.title = "uniqueV";
+	      			 cVm1.these_visitors = count3;
+	      			 cVm1.all_visitors = countAll3;
+	      			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	      			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	      			 platformvm.add(cVm1);
+	      			 
+	      			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	      			 cVm2.title = "action";
+	      			 cVm2.these_visitors = count7;
+	      			 cVm2.all_visitors = countAll7;
+	      			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	      			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	      			 platformvm.add(cVm2);
+	      			 
+	      			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	      			 cVm3.title = "averageAct";
+	      			 cVm3.these_visitors = count7/count2;
+	      			 cVm3.all_visitors = countAll7/countAll2;
+	      			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	      			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	      			 platformvm.add(cVm3);
+	      			 
+	      			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	      			 cVm4.title = "totalT";
+	      			 cVm4.these_visitors = count4;
+	      			 cVm4.all_visitors = countAll4;
+	      			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	      			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	      			 platformvm.add(cVm4);
+	      			 
+	      			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	      			 cVm5.title = "averageT";
+	      			 cVm5.these_visitors = count4/count2;
+	      			 cVm5.all_visitors = countAll4/countAll2;
+	      			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	      			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	      			 platformvm.add(cVm5);
+	      			 
+	      			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	      			 cVm6.title = "bounceR";
+	      			 cVm6.these_visitors = count6;
+	      			 cVm6.all_visitors = countAll6;
+	      			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	      			 if(countAll6 !=0){
+	      				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	      			 }
+	      			 else{
+	      				 cVm6.difference = 0.0;
+	      			 }
+	      			 platformvm.add(cVm6);
+	      		 
+	      		 vm.averageAct=count1;
+	      		 vm.visitor=count2;
+	      		 vm.uniqueV=count3;
+	      		 vm.totalT=count4;
+	      		 vm.averageT=count5;
+	      		 vm.bounceR=count6;
+	      		 vm.action=count7;
+	      		
+	      		 VMs.add(vm);
+
+	      	 	
+	      	 	return ok(Json.toJson(platformvm));
+
+	        	  
+	       	}
+	          else if(locationFlag.equalsIgnoreCase("browser")){
+	        	  String encod=URLEncoder.encode(type);
+	       		//params = "&type=segmentation&browser="+encod+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+	       		
+	        	  Date d1= null;
+	         		Date d2= null;
+	         		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	         		try{
+	         			 d1 = format.parse(startDate);
+	         	         d2 = format.parse(endDate);
+	         	    } catch (Exception e) {
+	         	        e.printStackTrace();
+	         	    }
+	         		
+	         		List<ClickyVisitorsList> browserObjList = ClickyVisitorsList.findBybrowserAndDate(type, d1, d2);
+	        		List<ClickyVisitorsList> allBrowserlist = ClickyVisitorsList.getAll(d1, d2);
+	        		
+	        		List <ClickyPagesVM> VMs = new ArrayList<>();
+	        		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	        		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+	    			
+	        		ClickyPagesVM vm = new ClickyPagesVM();
+	        		double count1=0.0;
+	        		double count2=0.0;
+	        		double count3=0.0;
+	        		double count4=0.0;
+	        		double count5=0.0;
+	        		double count6=0.0;
+	        		double count7=0.0;
+	        		Integer vistValue =0;
+	        		 for(ClickyVisitorsList lis:browserObjList){
+	        	     	if(lis.averageActionbrowser != null){
+	        	     		count1=Double.parseDouble(lis.averageActionbrowser);
+	        	     	}
+	        			if(lis.bounceRatebrowser != null){
+	        				count6=Double.parseDouble(lis.bounceRatebrowser);	
+	        				     	}
+	        			if(lis.averageTimebrowser != null){
+	        				count5=Double.parseDouble(lis.averageTimebrowser);	
+	        				}
+	        			if(lis.timeTotal != null){
+	        				count4=count4+Double.parseDouble(lis.timeTotal);
+	        				}
+	        			if(lis.visitorsbrowser != null){
+	        				 count2=Double.parseDouble(lis.visitorsbrowser);
+	        				}
+	        			if(lis.uniqueVisitorbrowser!= null){
+	        				count3=Double.parseDouble(lis.uniqueVisitorbrowser);
+	        				}
+	        			if(lis.actions != null){
+	        			count7=count7+Double.parseDouble(lis.actions);
+	        			}
+	        			
+	        			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+	    				if (langValue == null) {
+	    				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+	    				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+	    				}
+	        		 }
+	        		 
+	        		 double countAll1=0.0;
+	        			double countAll2=0.0;
+	        			double countAll3=0.0;
+	        			double countAll4=0.0;
+	        			double countAll5=0.0;
+	        			double countAll6=0.0;
+	        			double countAll7=0.0;
+	        			 for(ClickyVisitorsList list:allBrowserlist){
+	        				 if(list.averageActionbrowser != null){
+	        					 countAll1=count1+Double.parseDouble(list.averageActionbrowser);
+	        			     	}
+	        					if(list.bounceRatebrowser != null){
+	        						 countAll6=count6+Double.parseDouble(list.bounceRatebrowser);	
+	        						     	}
+	        					if(list.averageTimebrowser != null){
+	        						countAll5=count5+Double.parseDouble(list.averageTimebrowser);	
+	        						}
+	        					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	        						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	        						}
+	        					if(list.visitorsbrowser != null){
+	        						countAll2=allBrowserlist.size();
+	        						}
+	        					if(list.uniqueVisitorbrowser != null){
+	        						countAll3=allBrowserlist.size();
+	        						}
+	        					if(list.actions != null && !list.actions.equals("")){
+	        						 countAll7=countAll7+Double.parseDouble(list.actions);
+	        					}
+	        				 
+	        				 
+	        		   			
+	        			 }
+	        		 
+	        			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	        			 cVm.title = "visitors";
+	        			 cVm.these_visitors =  count2;
+	        			 cVm.all_visitors = countAll2;
+	        			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	        			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+	        			 platformvm.add(cVm);
+	        			 
+	        			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	        			 cVm1.title = "uniqueV";
+	        			 cVm1.these_visitors = count3;
+	        			 cVm1.all_visitors = countAll3;
+	        			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	        			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	        			 platformvm.add(cVm1);
+	        			 
+	        			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	        			 cVm2.title = "action";
+	        			 cVm2.these_visitors = count7;
+	        			 cVm2.all_visitors = countAll7;
+	        			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	        			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	        			 platformvm.add(cVm2);
+	        			 
+	        			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	        			 cVm3.title = "averageAct";
+	        			 cVm3.these_visitors = count7/count2;
+	        			 cVm3.all_visitors = countAll7/countAll2;
+	        			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	        			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	        			 platformvm.add(cVm3);
+	        			 
+	        			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	        			 cVm4.title = "totalT";
+	        			 cVm4.these_visitors = count4;
+	        			 cVm4.all_visitors = countAll4;
+	        			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	        			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	        			 platformvm.add(cVm4);
+	        			 
+	        			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	        			 cVm5.title = "averageT";
+	        			 cVm5.these_visitors = count4/count2;
+	        			 cVm5.all_visitors = countAll4/countAll2;
+	        			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	        			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	        			 platformvm.add(cVm5);
+	        			 
+	        			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	        			 cVm6.title = "bounceR";
+	        			 cVm6.these_visitors = count6;
+	        			 cVm6.all_visitors = countAll6;
+	        			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	        			 if(countAll6 !=0){
+	        				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	        			 }
+	        			 else{
+	        				 cVm6.difference = 0.0;
+	        			 }
+	        			 platformvm.add(cVm6);
+	        		 
+	        		 vm.averageAct=count1;
+	        		 vm.visitor=count2;
+	        		 vm.uniqueV=count3;
+	        		 vm.totalT=count4;
+	        		 vm.averageT=count5;
+	        		 vm.bounceR=count6;
+	        		 vm.action=count7;
+	        		
+	        		 VMs.add(vm);
+
+	        	 	
+	        	 	return ok(Json.toJson(platformvm));
+
+	        	  
+	       	}
+			else if(locationFlag.equalsIgnoreCase("Ip")){
+	       		
+	       		params = "&type=segmentation&ip_address="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+	       		
+	       	}
+	          else if(locationFlag.equalsIgnoreCase("screen")){
+	       		
+	       		//params = "&type=segmentation&resolution="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+	        	  Date d1= null;
+	       		Date d2= null;
+	       		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	       		try{
+	       			 d1 = format.parse(startDate);
+	       	         d2 = format.parse(endDate);
+	       	    } catch (Exception e) {
+	       	        e.printStackTrace();
+	       	    }
+	        	  
+	        	List<ClickyVisitorsList> screenObjList = ClickyVisitorsList.findByScreenAndDate(type, d1, d2);
+	      		List<ClickyVisitorsList> allScreenlist = ClickyVisitorsList.getAll(d1, d2);
+	      		
+	      		List <ClickyPagesVM> VMs = new ArrayList<>();
+	      		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	      		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+	      		ClickyPagesVM vm = new ClickyPagesVM();
+	      		double count1=0.0;
+	      		double count2=0.0;
+	      		double count3=0.0;
+	      		double count4=0.0;
+	      		double count5=0.0;
+	      		double count6=0.0;
+	      		double count7=0.0;
+	      		Integer vistValue = 0;
+	      		 for(ClickyVisitorsList lis:screenObjList){
+	      	     	if(lis.averageAction != null){
+	      	     		count1=Double.parseDouble(lis.averageAction);
+	      	     	}
+	      			if(lis.bounceRate != null){
+	      				count6=Double.parseDouble(lis.bounceRate);	
+	      				     	}
+	      			if(lis.averageTime != null){
+	      				count5=Double.parseDouble(lis.averageTime);	
+	      				}
+	      			if(lis.totalTime != null){
+	      				count4=count4+Double.parseDouble(lis.totalTime);
+	      				}
+	      			if(lis.visitors != null){
+	      				 count2=Double.parseDouble(lis.visitors);
+	      				}
+	      			if(lis.uniqueVisitor!= null){
+	      				count3=Double.parseDouble(lis.uniqueVisitor);
+	      				}
+	      			if(lis.action != null){
+	      			count7=Double.parseDouble(lis.action);
+	      			}
+	      			
+	      			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+	  				if (langValue == null) {
+	  				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+	  				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+	  				}
+	      			
+	      		 }
+	      		 
+	      		 
+	      		 
+	      		 double countAll1=0.0;
+	      			double countAll2=0.0;
+	      			double countAll3=0.0;
+	      			double countAll4=0.0;
+	      			double countAll5=0.0;
+	      			double countAll6=0.0;
+	      			double countAll7=0.0;
+	      			 for(ClickyVisitorsList list:allScreenlist){
+	      				 if(list.averageAction != null){
+	      					 countAll1=count1+Double.parseDouble(list.averageAction);
+	      			     	}
+	      					if(list.bounceRate != null){
+	      						 countAll6=count6+Double.parseDouble(list.bounceRate);	
+	      						     	}
+	      					if(list.averageTime != null){
+	      						countAll5=count5+Double.parseDouble(list.averageTime);	
+	      						}
+	      					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	      						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	      						}
+	      					if(list.visitors != null){
+	      						countAll2=allScreenlist.size();
+	      						}
+	      					if(list.uniqueVisitor != null){
+	      						countAll3=allScreenlist.size();
+	      						}
+	      					if(list.actions != null && !list.actions.equals("")){
+	      						 countAll7=countAll7+Double.parseDouble(list.actions);
+	      					}
+	      				 
+	      				 
+	      		   			
+	      			 }
+	      		 
+	      			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	      			 cVm.title = "visitors";
+	      			 cVm.these_visitors = (double)vistValue;
+	      			 cVm.all_visitors = countAll2;
+	      			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	      			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+	      			 platformvm.add(cVm);
+	      			 
+	      			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	      			 cVm1.title = "uniqueV";
+	      			 cVm1.these_visitors = count3;
+	      			 cVm1.all_visitors = countAll3;
+	      			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	      			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	      			 platformvm.add(cVm1);
+	      			 
+	      			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	      			 cVm2.title = "action";
+	      			 cVm2.these_visitors = count7;
+	      			 cVm2.all_visitors = countAll7;
+	      			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	      			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	      			 platformvm.add(cVm2);
+	      			 
+	      			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	      			 cVm3.title = "averageAct";
+	      			 cVm3.these_visitors = count7/count2;
+	      			 cVm3.all_visitors = countAll7/countAll2;
+	      			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	      			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	      			 platformvm.add(cVm3);
+	      			 
+	      			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	      			 cVm4.title = "totalT";
+	      			 cVm4.these_visitors = count4;
+	      			 cVm4.all_visitors = countAll4;
+	      			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	      			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	      			 platformvm.add(cVm4);
+	      			 
+	      			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	      			 cVm5.title = "averageT";
+	      			 cVm5.these_visitors = count4/count2;
+	      			 cVm5.all_visitors = countAll4/countAll2;
+	      			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	      			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	      			 platformvm.add(cVm5);
+	      			 
+	      			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	      			 cVm6.title = "bounceR";
+	      			 cVm6.these_visitors = count6;
+	      			 cVm6.all_visitors = countAll6;
+	      			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	      			 if(countAll6 !=0){
+	      				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	      			 }
+	      			 else{
+	      				 cVm6.difference = 0.0;
+	      			 }
+	      			 platformvm.add(cVm6);
+	      		 
+	      		 vm.averageAct=count1;
+	      		 vm.visitor=count2;
+	      		 vm.uniqueV=count3;
+	      		 vm.totalT=count4;
+	      		 vm.averageT=count5;
+	      		 vm.bounceR=count6;
+	      		 vm.action=count7;
+	      		
+	      		 VMs.add(vm);
+
+	      	 	
+	      	 	return ok(Json.toJson(platformvm));
+
+	       	}
+	          else if(locationFlag.equalsIgnoreCase("Domain")){
+	      		//params = "&type=segmentation&domain="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+	        	  Date d1= null;
+	       		Date d2= null;
+	       		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	       		try{
+	       			 d1 = format.parse(startDate);
+	       	         d2 = format.parse(endDate);
+	       	    } catch (Exception e) {
+	       	        e.printStackTrace();
+	       	    }
+	       		
+	       		List<ClickyActionList> domainObjList = ClickyActionList.findByDomainAndDate(type, d1, d2);
+	      		List<ClickyActionList> allDomainlist = ClickyActionList.getAll(d1, d2);
+	      		
+	      		List <ClickyPagesVM> VMs = new ArrayList<>();
+	      		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	      		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+				
+	      		ClickyPagesVM vm = new ClickyPagesVM();
+	      		double count1=0.0;
+	      		double count2=0.0;
+	      		double count3=0.0;
+	      		double count4=0.0;
+	      		double count5=0.0;
+	      		double count6=0.0;
+	      		double count7=0.0;
+	      		Integer vistValue = 0;
+	      		 for(ClickyActionList lis:domainObjList){
+	      	     	if(lis.averageAction != null){
+	      	     		count1=Double.parseDouble(lis.averageAction);
+	      	     	}
+	      			if(lis.bounceRate != null){
+	      				count6=Double.parseDouble(lis.bounceRate);	
+	      				     	}
+	      			if(lis.averageTime != null){
+	      				count5=Double.parseDouble(lis.averageTime);	
+	      				}
+	      			if(lis.totalTime != null){
+	      				count4=Double.parseDouble(lis.totalTime);
+	      				}
+	      			if(lis.visitors != null){
+	      				 count2=Double.parseDouble(lis.visitors);
+	      				}
+	      			if(lis.uniqueVisitor!= null){
+	      				count3=Double.parseDouble(lis.uniqueVisitor);
+	      				}
+	      			if(lis.action != null){
+	      			count7=count7+Double.parseDouble(lis.action);
+	      			}
+	      			
+	    			Integer langValue = mapOffline.get(lis.currDate.toString()); 
+					if (langValue == null) {
+					 vistValue = vistValue + Integer.parseInt(lis.visitors);
+					 mapOffline.put(lis.currDate.toString(), Integer.parseInt(lis.visitors));
+					}		
+	      		 }
+	      		 
+	      		 double countAll1=0.0;
+	      			double countAll2=0.0;
+	      			double countAll3=0.0;
+	      			double countAll4=0.0;
+	      			double countAll5=0.0;
+	      			double countAll6=0.0;
+	      			double countAll7=0.0;
+	      			 for(ClickyActionList list:allDomainlist){
+	      				 if(list.averageAction != null){
+	      					 countAll1=count1+Double.parseDouble(list.averageAction);
+	      			     	}
+	      					if(list.bounceRate != null){
+	      						 countAll6=count6+Double.parseDouble(list.bounceRate);	
+	      						     	}
+	      					if(list.averageTime != null){
+	      						countAll5=count5+Double.parseDouble(list.averageTime);	
+	      						}
+	      					if(list.totalTime != null  && !list.totalTime.equals("")){
+	      						 countAll4=count4+Double.parseDouble(list.totalTime);
+	      						}
+	      					if(list.visitors != null){
+	      						countAll2=count2+Double.parseDouble(list.visitors);
+	      						}
+	      					if(list.uniqueVisitor != null){
+	      						countAll3=count3+Double.parseDouble(list.uniqueVisitor);
+	      						}
+	      					if(list.action != null && !list.action.equals("")){
+	      						 countAll7=count7+Double.parseDouble(list.action);
+	      					}
+	      				 
+	      				 
+	      		   			
+	      			 }
+	      		 
+	      			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	      			 cVm.title = "visitors";
+	      			 cVm.these_visitors =  count2;
+	      			 cVm.all_visitors = countAll2;
+	      			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	      			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+	      			 platformvm.add(cVm);
+	      			 
+	      			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	      			 cVm1.title = "uniqueV";
+	      			 cVm1.these_visitors = count3;
+	      			 cVm1.all_visitors = countAll3;
+	      			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	      			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	      			 platformvm.add(cVm1);
+	      			 
+	      			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	      			 cVm2.title = "action";
+	      			 cVm2.these_visitors = count7;
+	      			 cVm2.all_visitors = countAll7;
+	      			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	      			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	      			 platformvm.add(cVm2);
+	      			 
+	      			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	      			 cVm3.title = "averageAct";
+	      			 cVm3.these_visitors = count7/count2;
+	      			 cVm3.all_visitors = countAll7/countAll2;
+	      			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	      			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	      			 platformvm.add(cVm3);
+	      			 
+	      			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	      			 cVm4.title = "totalT";
+	      			 cVm4.these_visitors = count4;
+	      			 cVm4.all_visitors = countAll4;
+	      			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	      			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	      			 platformvm.add(cVm4);
+	      			 
+	      			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	      			 cVm5.title = "averageT";
+	      			 cVm5.these_visitors = count4/count2;
+	      			 cVm5.all_visitors = countAll4/countAll2;
+	      			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	      			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	      			 platformvm.add(cVm5);
+	      			 
+	      			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	      			 cVm6.title = "bounceR";
+	      			 cVm6.these_visitors = count6;
+	      			 cVm6.all_visitors = countAll6;
+	      			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	      			 if(countAll6 !=0){
+	      				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	      			 }
+	      			 else{
+	      				 cVm6.difference = 0.0;
+	      			 }
+	      			 platformvm.add(cVm6);
+	      		 
+	      		 vm.averageAct=count1;
+	      		 vm.visitor=count2;
+	      		 vm.uniqueV=count3;
+	      		 vm.totalT=count4;
+	      		 vm.averageT=count5;
+	      		 vm.bounceR=count6;
+	      		 vm.action=count7;
+	      		
+	      		 VMs.add(vm);
+
+	      	 	
+	      	 	return ok(Json.toJson(platformvm));
+
+	          
+	          }
+	     	else if(locationFlag.equalsIgnoreCase("source")){
+	     		//params = "&type=segmentation&source="+type+"&segments=summary&date="+startDate+","+endDate+"&limit=all";
+	     		 Date d1= null;
+	      		Date d2= null;
+	      		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	      		try{
+	      			 d1 = format.parse(startDate);
+	      	         d2 = format.parse(endDate);
+	      	    } catch (Exception e) {
+	      	        e.printStackTrace();
+	      	    }
+	      		
+	      		List<ClickyVisitorsList> referrerObjList = ClickyVisitorsList.findByReferrerTypeAndDate(type, d1, d2);
+	     		List<ClickyVisitorsList> allReferrerlist = ClickyVisitorsList.getAll(d1, d2);
+	     		
+	     		List <ClickyPagesVM> VMs = new ArrayList<>();
+	     		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	     		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+	     		ClickyPagesVM vm = new ClickyPagesVM();
+	     		double count1=0.0;
+	     		double count2=0.0;
+	     		double count3=0.0;
+	     		double count4=0.0;
+	     		double count5=0.0;
+	     		double count6=0.0;
+	     		double count7=0.0;
+	     		Integer vistValue = 0;
+	     		 for(ClickyVisitorsList lis:referrerObjList){
+	     	     	if(lis.averageAction != null){
+	     	     		count1=Double.parseDouble(lis.averageAction);
+	     	     	}
+	     			if(lis.bounceRate != null){
+	     				count6=Double.parseDouble(lis.bounceRate);	
+	     				     	}
+	     			if(lis.averageTime != null){
+	     				count5=Double.parseDouble(lis.averageTime);	
+	     				}
+	     			if(lis.timeTotal != null){
+	     				count4=count4+Double.parseDouble(lis.timeTotal);
+	     				}
+	     			if(lis.visitors != null){
+	     				 count2=Double.parseDouble(lis.visitors);
+	     				}
+	     			if(lis.uniqueVisitor!= null){
+	     				count3=Double.parseDouble(lis.uniqueVisitor);
+	     				}
+	     			if(lis.actions != null){
+	     			count7=count7+Double.parseDouble(lis.actions);
+	     			}
+	     			
+	     			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+	 				if (langValue == null) {
+	 				 vistValue = vistValue + Integer.parseInt(lis.visitors);
+	 				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+	 				}
+	     			
+	     		 }
+	     		 
+	     		 
+	     		 
+	     		 double countAll1=0.0;
+	     			double countAll2=0.0;
+	     			double countAll3=0.0;
+	     			double countAll4=0.0;
+	     			double countAll5=0.0;
+	     			double countAll6=0.0;
+	     			double countAll7=0.0;
+	     			 for(ClickyVisitorsList list:allReferrerlist){
+	     				 if(list.averageAction != null){
+	     					 countAll1=count1+Double.parseDouble(list.averageAction);
+	     			     	}
+	     					if(list.bounceRate != null){
+	     						 countAll6=count6+Double.parseDouble(list.bounceRate);	
+	     						     	}
+	     					if(list.averageTime != null){
+	     						countAll5=count5+Double.parseDouble(list.averageTime);	
+	     						}
+	     					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	     						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	     						}
+	     					if(list.visitors != null){
+	     						countAll2=allReferrerlist.size();
+	     						}
+	     					if(list.uniqueVisitor != null){
+	     						countAll3=allReferrerlist.size();
+	     						}
+	     					if(list.actions != null && !list.actions.equals("")){
+	     						 countAll7=countAll7+Double.parseDouble(list.actions);
+	     					}
+	     				 
+	     				 
+	     		   			
+	     			 }
+	     		 
+	     			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	     			 cVm.title = "visitors";
+	     			 cVm.these_visitors = (double)vistValue;
+	     			 cVm.all_visitors = countAll2;
+	     			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	     			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+	     			 platformvm.add(cVm);
+	     			 
+	     			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	     			 cVm1.title = "uniqueV";
+	     			 cVm1.these_visitors = count3;
+	     			 cVm1.all_visitors = countAll3;
+	     			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	     			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	     			 platformvm.add(cVm1);
+	     			 
+	     			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	     			 cVm2.title = "action";
+	     			 cVm2.these_visitors = count7;
+	     			 cVm2.all_visitors = countAll7;
+	     			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	     			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	     			 platformvm.add(cVm2);
+	     			 
+	     			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	     			 cVm3.title = "averageAct";
+	     			 cVm3.these_visitors = count7/count2;
+	     			 cVm3.all_visitors = countAll7/countAll2;
+	     			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	     			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	     			 platformvm.add(cVm3);
+	     			 
+	     			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	     			 cVm4.title = "totalT";
+	     			 cVm4.these_visitors = count4;
+	     			 cVm4.all_visitors = countAll4;
+	     			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	     			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	     			 platformvm.add(cVm4);
+	     			 
+	     			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	     			 cVm5.title = "averageT";
+	     			 cVm5.these_visitors = count4/count2;
+	     			 cVm5.all_visitors = countAll4/countAll2;
+	     			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	     			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	     			 platformvm.add(cVm5);
+	     			 
+	     			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	     			 cVm6.title = "bounceR";
+	     			 cVm6.these_visitors = count6;
+	     			 cVm6.all_visitors = countAll6;
+	     			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	     			 if(countAll6 !=0){
+	     				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	     			 }
+	     			 else{
+	     				 cVm6.difference = 0.0;
+	     			 }
+	     			 platformvm.add(cVm6);
+	     		 
+	     		 vm.averageAct=count1;
+	     		 vm.visitor=count2;
+	     		 vm.uniqueV=count3;
+	     		 vm.totalT=count4;
+	     		 vm.averageT=count5;
+	     		 vm.bounceR=count6;
+	     		 vm.action=count7;
+	     		
+	     		 VMs.add(vm);
+
+	     	 	
+	     	 	return ok(Json.toJson(platformvm));
+
+	     	}
+	     	
+	     	try {
+
+	      	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+	      	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+	      	   	ClickyPagesVM vm = new ClickyPagesVM();
+	 			vm.title = obj.get("title").textValue();
+	 			vm.value = obj.get("value").textValue();
+	 			if(locationFlag.equalsIgnoreCase("location")){
+	 			vm.city=city;
+	 			}
+	      	   clickyList.add(vm);
+	      	   	
+	      	   	}
+	              
+	          } catch (Exception e) {
+	              e.printStackTrace();
+	          }
+	     	
+	     	
+	     	
+	     	
+	     	return ok(Json.toJson(clickyList));
+	     }
+
+	 public static Result getVisitorDataForLanding(Long id,String flagForLanding ,String endDate,String startDate){
+	    	//public static Result getUrlData(Long id){
+	    	ClickyVisitorsList List = ClickyVisitorsList.findById(id);
+	    	String title=List.referrerUrl;
+	    	String domain=List.referrerDomain;
+	    	String url=List.referrerUrl;
+	    	String params = null; 
+	    	List<ClickyPagesVM> clickyList = new ArrayList<>();
+	    	if(flagForLanding.equalsIgnoreCase("ForSearch")){
+	    	params = "&type=segmentation&source=searches&title="+title+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
+	    	}
+	    	else if(flagForLanding.equalsIgnoreCase("ForDomain")){
+	    		//params = "&type=segmentation&source=searches&domain="+domain+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
+	    		 Date d1= null;
+	        		Date d2= null;
+	        		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	        		try{
+	        			 d1 = format.parse(startDate);
+	        	         d2 = format.parse(endDate);
+	        	    } catch (Exception e) {
+	        	        e.printStackTrace();
+	        	    }
+	        		
+	        	List<ClickyVisitorsList> locationObjList = ClickyVisitorsList.findByIdAndDate(id, d2, d1);
+	       		List<ClickyVisitorsList> alldatalist = ClickyVisitorsList.getAll(d2, d1);
+	       		
+	       		List <ClickyPagesVM> VMs = new ArrayList<>();
+	       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	       		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+				
+	       		ClickyPagesVM vm = new ClickyPagesVM();
+	       		double count1=0.0;
+	       		double count2=0.0;
+	       		double count3=0.0;
+	       		double count4=0.0;
+	       		double count5=0.0;
+	       		double count6=0.0;
+	       		double count7=0.0;
+	       		Integer vistValue = 0;
+	       		 for(ClickyVisitorsList lis:locationObjList){
+	       	     	if(lis.averageAction1 != null){
+	       	     		count1=Double.parseDouble(lis.averageAction1);
+	       	     	}
+	       			if(lis.bounceRate1 != null){
+	       				count6=Double.parseDouble(lis.bounceRate1);	
+	       				     	}
+	       			if(lis.averageTime1 != null){
+	       				count5=Double.parseDouble(lis.averageTime1);	
+	       				}
+	       			if(lis.timeTotal != null){
+	       				count4=count4+Double.parseDouble(lis.timeTotal);
+	       				}
+	       			if(lis.visitors1 != null){
+	       				 count2=Double.parseDouble(lis.visitors1);
+	       				}
+	       			if(lis.uniqueVisitor1!= null){
+	       				count3=Double.parseDouble(lis.uniqueVisitor1);
+	       				}
+	       			if(lis.actions != null){
+	       			count7=count7+Double.parseDouble(lis.actions);
+	       			}
+	       			
+	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+					if (langValue == null) {
+					 vistValue = vistValue + Integer.parseInt(lis.visitors);
+					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+					}		
+	       		 }
+	       		 
+	       		 double countAll1=0.0;
+	       			double countAll2=0.0;
+	       			double countAll3=0.0;
+	       			double countAll4=0.0;
+	       			double countAll5=0.0;
+	       			double countAll6=0.0;
+	       			double countAll7=0.0;
+	       			 for(ClickyVisitorsList list:alldatalist){
+	       				 if(list.averageAction1 != null){
+	       					 countAll1=count1+Double.parseDouble(list.averageAction1);
+	       			     	}
+	       					if(list.bounceRate1 != null){
+	       						 countAll6=count6+Double.parseDouble(list.bounceRate1);	
+	       						     	}
+	       					if(list.averageTime1 != null){
+	       						countAll5=count5+Double.parseDouble(list.averageTime1);	
+	       						}
+	       					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	       						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	       						}
+	       					if(list.visitors1 != null){
+	       						countAll2=alldatalist.size();
+	       						}
+	       					if(list.uniqueVisitor1 != null){
+	       						countAll3=alldatalist.size();
+	       						}
+	       					if(list.actions != null && !list.actions.equals("")){
+	       						 countAll7=countAll7+Double.parseDouble(list.actions);
+	       					}
+	       				 
+	       				 
+	       		   			
+	       			 }
+	       		 
+	       			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	       			 cVm.title = "visitors";
+	       			 cVm.these_visitors =  count2;
+	       			 cVm.all_visitors = countAll2;
+	       			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	       			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+	       			 platformvm.add(cVm);
+	       			 
+	       			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	       			 cVm1.title = "uniqueV";
+	       			 cVm1.these_visitors = count3;
+	       			 cVm1.all_visitors = countAll3;
+	       			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	       			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	       			 platformvm.add(cVm1);
+	       			 
+	       			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	       			 cVm2.title = "action";
+	       			 cVm2.these_visitors = count7;
+	       			 cVm2.all_visitors = countAll7;
+	       			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	       			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	       			 platformvm.add(cVm2);
+	       			 
+	       			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	       			 cVm3.title = "averageAct";
+	       			 cVm3.these_visitors = count7/count2;
+	       			 cVm3.all_visitors = countAll7/countAll2;
+	       			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	       			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	       			 platformvm.add(cVm3);
+	       			 
+	       			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	       			 cVm4.title = "totalT";
+	       			 cVm4.these_visitors = count4;
+	       			 cVm4.all_visitors = countAll4;
+	       			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	       			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	       			 platformvm.add(cVm4);
+	       			 
+	       			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	       			 cVm5.title = "averageT";
+	       			 cVm5.these_visitors = count4/count2;
+	       			 cVm5.all_visitors = countAll4/countAll2;
+	       			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	       			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	       			 platformvm.add(cVm5);
+	       			 
+	       			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	       			 cVm6.title = "bounceR";
+	       			 cVm6.these_visitors = count6;
+	       			 cVm6.all_visitors = countAll6;
+	       			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	       			 if(countAll6 !=0){
+	       				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	       			 }
+	       			 else{
+	       				 cVm6.difference = 0.0;
+	       			 }
+	       			 platformvm.add(cVm6);
+	       		 
+	       		 vm.averageAct=count1;
+	       		 vm.visitor=count2;
+	       		 vm.uniqueV=count3;
+	       		 vm.totalT=count4;
+	       		 vm.averageT=count5;
+	       		 vm.bounceR=count6;
+	       		 vm.action=count7;
+	       		
+	       		 VMs.add(vm);
+
+	       	 	
+	       	 	return ok(Json.toJson(platformvm));
+
+	    	
+	    	}
+	    	else if(flagForLanding.equalsIgnoreCase("ForRefferalUrl")){
+	    		String newUrl=null;
+	    		if(url.contains("=")){
+	    			String urlArr[]=url.split("=");
+	    			newUrl=urlArr[1];
+	    		}
+	    		else{
+	    			newUrl=url;
+	    		}
+	    		
+	    		//params = "&type=segmentation&search="+newUrl+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
+	    		 Date d1= null;
+	     		Date d2= null;
+	     		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	     		try{
+	     			 d1 = format.parse(startDate);
+	     	         d2 = format.parse(endDate);
+	     	    } catch (Exception e) {
+	     	        e.printStackTrace();
+	     	    }
+	     		
+	     	List<ClickyVisitorsList> locationObjList = ClickyVisitorsList.findByIdAndDate(id, d2, d1);
+	    		List<ClickyVisitorsList> alldatalist = ClickyVisitorsList.getAll(d2, d1);
+	    		
+	    		List <ClickyPagesVM> VMs = new ArrayList<>();
+	    		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	    		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+				
+	    		ClickyPagesVM vm = new ClickyPagesVM();
+	    		double count1=0.0;
+	    		double count2=0.0;
+	    		double count3=0.0;
+	    		double count4=0.0;
+	    		double count5=0.0;
+	    		double count6=0.0;
+	    		double count7=0.0;
+	    		Integer vistValue = 0;
+	    		 for(ClickyVisitorsList lis:locationObjList){
+	    	     	if(lis.averageAction != null){
+	    	     		count1=Double.parseDouble(lis.averageAction);
+	    	     	}
+	    			if(lis.bounceRate != null){
+	    				count6=Double.parseDouble(lis.bounceRate);	
+	    				     	}
+	    			if(lis.averageTime != null){
+	    				count5=Double.parseDouble(lis.averageTime);	
+	    				}
+	    			if(lis.timeTotal != null){
+	    				count4=count4+Double.parseDouble(lis.timeTotal);
+	    				}
+	    			if(lis.visitors != null){
+	    				 count2=Double.parseDouble(lis.visitors);
+	    				}
+	    			if(lis.uniqueVisitor!= null){
+	    				count3=Double.parseDouble(lis.uniqueVisitor);
+	    				}
+	    			if(lis.actions != null){
+	    			count7=count7+Double.parseDouble(lis.actions);
+	    			}
+	    			
+	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+					if (langValue == null) {
+					 vistValue = vistValue + Integer.parseInt(lis.visitors);
+					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+					}		
+	    		 }
+	    		 
+	    		 double countAll1=0.0;
+	    			double countAll2=0.0;
+	    			double countAll3=0.0;
+	    			double countAll4=0.0;
+	    			double countAll5=0.0;
+	    			double countAll6=0.0;
+	    			double countAll7=0.0;
+	    			 for(ClickyVisitorsList list:alldatalist){
+	    				 if(list.averageAction != null){
+	    					 countAll1=count1+Double.parseDouble(list.averageAction);
+	    			     	}
+	    					if(list.bounceRate != null){
+	    						 countAll6=count6+Double.parseDouble(list.bounceRate);	
+	    						     	}
+	    					if(list.averageTime != null){
+	    						countAll5=count5+Double.parseDouble(list.averageTime);	
+	    						}
+	    					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	    						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	    						}
+	    					if(list.visitors != null){
+	    						countAll2=alldatalist.size();
+	    						}
+	    					if(list.uniqueVisitor != null){
+	    						countAll3=alldatalist.size();
+	    						}
+	    					if(list.actions != null && !list.actions.equals("")){
+	    						 countAll7=countAll7+Double.parseDouble(list.actions);
+	    					}
+	    				 
+	    				 
+	    		   			
+	    			 }
+	    		 
+	    			 ClickyPlatformVM cVm = new ClickyPlatformVM();
+	    			 cVm.title = "visitors";
+	    			 cVm.these_visitors =  count2;
+	    			 cVm.all_visitors = countAll2;
+	    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+	    			 platformvm.add(cVm);
+	    			 
+	    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	    			 cVm1.title = "uniqueV";
+	    			 cVm1.these_visitors = count3;
+	    			 cVm1.all_visitors = countAll3;
+	    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	    			 platformvm.add(cVm1);
+	    			 
+	    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	    			 cVm2.title = "action";
+	    			 cVm2.these_visitors = count7;
+	    			 cVm2.all_visitors = countAll7;
+	    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	    			 platformvm.add(cVm2);
+	    			 
+	    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	    			 cVm3.title = "averageAct";
+	    			 cVm3.these_visitors = count7/count2;
+	    			 cVm3.all_visitors = countAll7/countAll2;
+	    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	    			 platformvm.add(cVm3);
+	    			 
+	    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	    			 cVm4.title = "totalT";
+	    			 cVm4.these_visitors = count4;
+	    			 cVm4.all_visitors = countAll4;
+	    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	    			 platformvm.add(cVm4);
+	    			 
+	    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	    			 cVm5.title = "averageT";
+	    			 cVm5.these_visitors = count4/count2;
+	    			 cVm5.all_visitors = countAll4/countAll2;
+	    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	    			 platformvm.add(cVm5);
+	    			 
+	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	    			 cVm6.title = "bounceR";
+	    			 cVm6.these_visitors = count6;
+	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	    			 if(countAll6 !=0){
+	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    			 }
+	    			 else{
+	    				 cVm6.difference = 0.0;
+	    			 }
+	    			 platformvm.add(cVm6);
+	    		 
+	    		 vm.averageAct=count1;
+	    		 vm.visitor=count2;
+	    		 vm.uniqueV=count3;
+	    		 vm.totalT=count4;
+	    		 vm.averageT=count5;
+	    		 vm.bounceR=count6;
+	    		 vm.action=count7;
+	    		
+	    		 VMs.add(vm);
+
+	    	 	
+	    	 	return ok(Json.toJson(platformvm));
+
+	    	
+	    	}
+	    	
+	    	else{
+	    		params = "&type=segmentation&search="+title+"&segments=summary&date="+endDate+","+startDate+"&limit=all";
+	    	}
+	    	 try {
+
+	     	   	JsonNode jsonList = Json.parse(callClickAPI(params));
+	     	   	for(JsonNode obj : jsonList.get(0).get("dates").get(0).get("items")) {
+	     	   	ClickyPagesVM vm = new ClickyPagesVM();
+				vm.title = obj.get("title").textValue();
+				vm.value = obj.get("value").textValue();
+	     	   	
+	     	   clickyList.add(vm);
+	     	   	
+	     	   	}
+	             
+	         } catch (Exception e) {
+	             e.printStackTrace();
+	         }
+	    	
+	    	
+	    	
+	    	
+	    	return ok(Json.toJson(clickyList));
+	    }
+	 
+	 public static Result getEngActionData(String title,String startdate,String enddate){
+	    	
+
+		    Date d1= null;
+			Date d2= null;
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try{
+				 d1 = format.parse(startdate);
+		         d2 = format.parse(enddate);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+			
+			List<ClickyVisitorEngagementAction> browserObjList = ClickyVisitorEngagementAction.findByTitleAndDate(title, d1, d2);
+			List<ClickyVisitorEngagementAction> allbrowserlist = ClickyVisitorEngagementAction.getAll(d1, d2);
+			List <ClickyPagesVM> VMs = new ArrayList<>();
+			List<ClickyPlatformVM> platformvm =new ArrayList<>();
+			ClickyPagesVM vm = new ClickyPagesVM();
+			double count1=0.0;
+			double count2=0.0;
+			double count3=0.0;
+			double count4=0.0;
+			double count5=0.0;
+			double count6=0.0;
+			double count7=0.0;
+			 for(ClickyVisitorEngagementAction lis:browserObjList){
+				 
+				 if(lis.averageAction != null && !lis.averageAction.equals("")){
+			     		count1=count1+Double.parseDouble(lis.averageAction);
+			     	}
+					if(lis.bounceRate != null && !lis.bounceRate.equals("")){
+						count6=count6+Double.parseDouble(lis.bounceRate);	
+						     	}
+					if(lis.averageTime != null && !lis.averageTime.equals("")){
+						count5=count5+Double.parseDouble(lis.averageTime);	
+						}
+					if(lis.totalTime != null && !lis.totalTime.equals("")){
+						count4=count4+Double.parseDouble(lis.totalTime);
+						}
+					if(lis.visitors != null && !lis.visitors.equals("")){
+						 count2=count2+Double.parseDouble(lis.visitors);
+						}
+					if(lis.uniqueVisitor!= null && !lis.uniqueVisitor.equals("")){
+						count3=count3+Double.parseDouble(lis.uniqueVisitor);
+						}
+					if(lis.action != null && !lis.action.equals("")){
+					count7=count7+Double.parseDouble(lis.action);
+					}
+				 
+				 
+			 }
+			 
+			 double countAll1=0.0;
+				double countAll2=0.0;
+				double countAll3=0.0;
+				double countAll4=0.0;
+				double countAll5=0.0;
+				double countAll6=0.0;
+				double countAll7=0.0;
+				 for(ClickyVisitorEngagementAction list:allbrowserlist){
+		      	String titleNew=list.title;
+				if(!titleNew.contains("1-10 actions")){
+		      	if(list.averageAction != null && !list.averageAction.equals("")){
+						 countAll1=countAll1+Double.parseDouble(list.averageAction);
+			     	}
+					if(list.bounceRate != null && !list.bounceRate.equals("")){
+						 countAll6=countAll6+Double.parseDouble(list.bounceRate);	
+						     	}
+					if(list.averageTime != null && !list.averageTime.equals("")){
+						countAll5=countAll5+Double.parseDouble(list.averageTime);
+						}
+					if(list.totalTime != null && !list.totalTime.equals("")){
+						 countAll4=countAll4+Double.parseDouble(list.totalTime);
+						}
+					if(list.visitors != null && !list.visitors.equals("")){
+						countAll2=countAll2+Double.parseDouble(list.visitors);
+						}
+					if(list.uniqueVisitor!= null && !list.uniqueVisitor.equals("")){
+						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+						}
+					if(list.action != null && !list.action.equals("")){
+						 countAll7=countAll7+Double.parseDouble(list.action);
+					}
+				 
+				}
+			   			
+				 }
+			 
+				 ClickyPlatformVM cVm = new ClickyPlatformVM();
+				 cVm.title = "visitors";
+				 cVm.these_visitors =  count2;
+				 cVm.all_visitors = countAll2;
+				 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+				 if(countAll2 !=0){
+				 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+				 }
+				 else{
+					 cVm.difference =0.0;
+				 }
+				 platformvm.add(cVm);
+				 
+				 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+				 cVm1.title = "uniqueV";
+				 cVm1.these_visitors = count3;
+				 cVm1.all_visitors = countAll3;
+				 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+				
+				 
+				 if(countAll3 !=0){
+					 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+					 }
+					 else{
+						 cVm1.difference =0.0;
+					 }
+				 
+				 platformvm.add(cVm1);
+				 
+				 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+				 cVm2.title = "action";
+				 cVm2.these_visitors = count7;
+				 cVm2.all_visitors = countAll7;
+				 cVm2.images = "//con.tent.network/media/icon_click.gif";
+				
+				 
+				 if(countAll7 !=0){
+					 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+					 }
+					 else{
+						 cVm2.difference =0.0;
+					 }
+				 
+				 
+				 platformvm.add(cVm2);
+				 
+				 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+				 cVm3.title = "averageAct";
+				 cVm3.these_visitors = count1;
+				 cVm3.all_visitors = countAll7/countAll3;
+				 cVm3.images = "//con.tent.network/media/icon_click.gif";
+				
+				 if(countAll3 !=0){
+					 cVm3.difference = ((count1 - (countAll7/countAll3)) / (countAll7/countAll3)) * 100;
+					 }
+					 else{
+						 cVm3.difference =0.0;
+					 }
+				 platformvm.add(cVm3);
+				 
+				 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+				 cVm4.title = "totalT";
+				 cVm4.these_visitors = count4;
+				 cVm4.all_visitors = countAll4;
+				 cVm4.images = "//con.tent.network/media/icon_time.gif";
+				
+				 if(countAll4 !=0){
+					 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+					 }
+					 else{
+						 cVm4.difference =0.0;
+					 }
+				 platformvm.add(cVm4);
+				 
+				 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+				 cVm5.title = "averageT";
+				 cVm5.these_visitors = count5;
+				 cVm5.all_visitors = countAll4/countAll3;
+				 cVm5.images = "//con.tent.network/media/icon_time.gif";
+				 
+				 if(countAll5 !=0){
+					 cVm5.difference = ((count5 - (countAll4/countAll3)) / (countAll4/countAll3)) * 100;
+					 }
+					 else{
+						 cVm5.difference =0.0;
+					 }
+				 platformvm.add(cVm5);
+				 
+				 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+				 cVm6.title = "bounceR";
+				 cVm6.these_visitors = count6;
+				 cVm6.all_visitors = countAll6;
+				 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+				 if(countAll6 !=0){
+					 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+				 }
+				 else{
+					 cVm6.difference = 0.0;
+				 }
+				 platformvm.add(cVm6);
+			 
+			 vm.averageAct=count1;
+			 vm.visitor=count2;
+			 vm.uniqueV=count3;
+			 vm.totalT=count4;
+			 vm.averageT=count5;
+			 vm.bounceR=count6;
+			 vm.action=count7;
+			
+			 VMs.add(vm);
+
+		 	
+		 	return ok(Json.toJson(platformvm));
+
+
+	    }
+	 
+	 public static Result getTrafficSourceData(String title,String startdate,String enddate){
+	    	
+
+		    Date d1= null;
+			Date d2= null;
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try{
+				 d1 = format.parse(startdate);
+		         d2 = format.parse(enddate);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+			
+			List<ClickyVisitorTrafficSource> browserObjList = ClickyVisitorTrafficSource.findByTitleAndDate(title, d1, d2);
+			List<ClickyVisitorTrafficSource> allbrowserlist = ClickyVisitorTrafficSource.getAll(d1, d2);
+			List <ClickyPagesVM> VMs = new ArrayList<>();
+			List<ClickyPlatformVM> platformvm =new ArrayList<>();
+			ClickyPagesVM vm = new ClickyPagesVM();
+			double count1=0.0;
+			double count2=0.0;
+			double count3=0.0;
+			double count4=0.0;
+			double count5=0.0;
+			double count6=0.0;
+			double count7=0.0;
+			 for(ClickyVisitorTrafficSource lis:browserObjList){
+		     	if(lis.averageAction != null){
+		     		count1=count1+Double.parseDouble(lis.averageAction);
+		     	}
+				if(lis.bounceRate != null){
+					count6=count6+Double.parseDouble(lis.bounceRate);	
+					     	}
+				if(lis.averageTime != null){
+					count5=count5+Double.parseDouble(lis.averageTime);	
+					}
+				if(lis.totalTime != null){
+					count4=count4+Double.parseDouble(lis.totalTime);
+					}
+				if(lis.visitors != null){
+					 count2=count2+Double.parseDouble(lis.visitors);
+					}
+				if(lis.uniqueVisitor!= null){
+					count3=count3+Double.parseDouble(lis.uniqueVisitor);
+					}
+				if(lis.action != null){
+				count7=count7+Double.parseDouble(lis.action);
+				}
+			   			
+			 }
+			 
+			 double countAll1=0.0;
+				double countAll2=0.0;
+				double countAll3=0.0;
+				double countAll4=0.0;
+				double countAll5=0.0;
+				double countAll6=0.0;
+				double countAll7=0.0;
+				 for(ClickyVisitorTrafficSource list:allbrowserlist){
+					 if(list.averageAction != null){
+						 countAll1=countAll1+Double.parseDouble(list.averageAction);
+				     	}
+						if(list.bounceRate != null){
+							 countAll6=countAll6+Double.parseDouble(list.bounceRate);	
+							     	}
+						if(list.averageTime != null){
+							countAll5=countAll5+Double.parseDouble(list.averageTime);	
+							}
+						if(list.totalTime != null  && !list.totalTime.equals("")){
+							 countAll4=countAll4+Double.parseDouble(list.totalTime);
+							}
+						if(list.visitors != null){
+							countAll2=countAll2+Double.parseDouble(list.visitors);
+							}
+						if(list.uniqueVisitor != null){
+							countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+							}
+						if(list.action != null && !list.action.equals("")){
+							 countAll7=countAll7+Double.parseDouble(list.action);
+						}
+					 
 					 
 			   			
 				 }
