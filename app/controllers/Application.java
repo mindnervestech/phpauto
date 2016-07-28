@@ -31339,7 +31339,10 @@ private static void cancelTestDriveMail(Map map) {
       	  vm.organization=obj.get("organization").textValue();
       	  vm.actions=obj.get("actions").textValue();
       	  vm.timeTotal=obj.get("time_total").textValue();
-      	 
+      	  vm.latitude=obj.get("latitude").textValue();
+      	  vm.longitude=obj.get("longitude").textValue();
+      	  vm.referrerDomain=obj.get("referrerDomain").textValue();
+      	  vm.referrerUrl=obj.get("referrerUrl").textValue();
       	   clickyList.add(vm);
       	   	
       	   	}
@@ -31615,23 +31618,23 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     		double count7=0.0;
     		Integer vistValue = 0;
     		 for(ClickyVisitorsList lis:locationObjList){
-    	     	if(lis.averageAction2 != null){
-    	     		count1=Double.parseDouble(lis.averageAction2);
+    	     	if(lis.averageAction != null){
+    	     		count1=Double.parseDouble(lis.averageAction);
     	     	}
-    			if(lis.bounceRate2 != null){
-    				count6=Double.parseDouble(lis.bounceRate2);	
+    			if(lis.bounceRate != null){
+    				count6=Double.parseDouble(lis.bounceRate);	
     				     	}
-    			if(lis.averageTime2 != null){
-    				count5=Double.parseDouble(lis.averageTime2);	
+    			if(lis.averageTime != null){
+    				count5=Double.parseDouble(lis.averageTime);	
     				}
     			if(lis.timeTotal != null){
     				count4=count4+Double.parseDouble(lis.timeTotal);
     				}
-    			if(lis.visitors2 != null){
-    				 count2=Double.parseDouble(lis.visitors2);
+    			if(lis.visitors != null){
+    				 count2=Double.parseDouble(lis.visitors);
     				}
-    			if(lis.uniqueVisitor2!= null){
-    				count3=Double.parseDouble(lis.uniqueVisitor2);
+    			if(lis.uniqueVisitor!= null){
+    				count3=Double.parseDouble(lis.uniqueVisitor);
     				}
     			if(lis.actions != null){
     			count7=count7+Double.parseDouble(lis.actions);
@@ -31652,22 +31655,22 @@ public static Result getVisitorDataForLanding(Long id,String flagForLanding ,Str
     			double countAll6=0.0;
     			double countAll7=0.0;
     			 for(ClickyVisitorsList list:alldatalist){
-    				 if(list.averageAction2 != null){
-    					 countAll1=count1+Double.parseDouble(list.averageAction2);
+    				 if(list.averageAction != null){
+    					 countAll1=count1+Double.parseDouble(list.averageAction);
     			     	}
-    					if(list.bounceRate2 != null){
-    						 countAll6=count6+Double.parseDouble(list.bounceRate2);	
+    					if(list.bounceRate != null){
+    						 countAll6=count6+Double.parseDouble(list.bounceRate);	
     						     	}
-    					if(list.averageTime2 != null){
-    						countAll5=count5+Double.parseDouble(list.averageTime2);	
+    					if(list.averageTime != null){
+    						countAll5=count5+Double.parseDouble(list.averageTime);	
     						}
     					if(list.timeTotal != null  && !list.timeTotal.equals("")){
     						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
     						}
-    					if(list.visitors2 != null){
+    					if(list.visitors != null){
     						countAll2=alldatalist.size();
     						}
-    					if(list.uniqueVisitor2 != null){
+    					if(list.uniqueVisitor != null){
     						countAll3=alldatalist.size();
     						}
     					if(list.actions != null && !list.actions.equals("")){
