@@ -1518,6 +1518,14 @@ angular.module('newApp')
 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 };
 	
+	$scope.gridOptions2 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
+	
 	
 	  setTimeout(function(){
 
@@ -1526,15 +1534,15 @@ angular.module('newApp')
 	                    ranges: {
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
-	                        'Last 14 Days':[moment().subtract('days', 14), moment()],
-	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
+	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 27), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
 	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
 	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
 	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
 	                    },
-	                    startDate: moment().subtract('days', 7),
+	                    startDate: moment().subtract('days', 6),
 	                    endDate: moment()
 	                },
 	                function(start, end) {
@@ -1555,12 +1563,12 @@ angular.module('newApp')
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
-	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD');
+	                console.log(moment().subtract('days', 6).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
-	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
-	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+	            $('.reportrange span').html(moment().subtract('days', 6).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 6).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
 
 	    }, 2000);
 	
@@ -1579,7 +1587,7 @@ angular.module('newApp')
 		}
 	else{
 		console.log("in else");
-		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+		 $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
          $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 	}
 		
@@ -1661,7 +1669,7 @@ angular.module('newApp')
 			
 			});	
 				
-				
+				$scope.contentVisitorData();	
 		}
 		
 			if($scope.idForPages != undefined){
@@ -1732,7 +1740,7 @@ angular.module('newApp')
 										          ]
 			
 			});	
-				
+				$scope.contentVisitorData();	
 				
 		}
 			
@@ -1804,6 +1812,7 @@ angular.module('newApp')
 										          ]
 			
 			});	
+				$scope.contentVisitorData();
 			}
 			
 			
@@ -1876,6 +1885,7 @@ angular.module('newApp')
 										          ]
 			
 			});	
+				$scope.contentVisitorData();
 			}
 			
 			 $scope.gridOptions.onRegisterApi = function(gridApi){
@@ -1891,7 +1901,62 @@ angular.module('newApp')
 	
 	  }
 	
-	
+		 $scope.contentVisitorData = function(){
+			 $http.get('/getVisitorList/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
+				.success(function(data) {
+				$scope.gridOptions2.data = data;
+				console.log($scope.gridOptions2.data);
+				$scope.gridOptions2.data = $filter('orderBy')($scope.gridOptions2.data,'dateClick');
+				$scope.gridOptions2.data = $scope.gridOptions2.data.reverse();
+				//console.log($scope.gridOptions.data);
+				//cellFilter: 'date:"yyyy-MM-dd"',enableSorting: true,
+				angular.forEach($scope.gridOptions2.data, function(value, key) {
+					var array = value.timePretty.split(',');
+					var timeNew= value.timePretty.split(' ');
+					var newTimePretty;
+					value.timeSet = array[1];
+					value.newTimePretty=timeNew[1]+" "+timeNew[2]+" "+timeNew[3]+" "+timeNew[4];
+					//value.timeTotal = $filter('date')(value.timeTotal, 'hh:mm:ss');
+					value.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.timeTotal)), 'HH:mm:ss');
+					 var splitTime   = value.timeTotal.split(":");
+					 if(splitTime[0] == 00){
+						 value.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					
+				});
+				 console.log($scope.gridOptions2.data);
+				$scope.visitiorList = data;
+			});
+			
+			
+			$scope.gridOptions2.columnDefs = [
+			                              {name: 'newTimePretty', displayName: 'Date & Time', width:'12%'},
+			                              {name: 'geolocation', displayName: 'Location', width:'10%',
+			                             	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)">{{row.entity.geolocation}}</label></div>',
+			                              },
+			                              {name:'organization', displayName:'Internet Provider', width:'15%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
+			                              },
+			                              {name:'actions', displayName:'Actions', width:'8%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
+			                             	 
+			                              },
+			                              {name:'timeTotal', displayName:'Time Spent', width:'10%'},
+			                              {name:'abc', displayName:'Searches & Refferals', width:'40%',
+			                             	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
+			                             	 
+			                             },
+			                              {name:'Sear', displayName:'Page', width:'10%',
+			                             	 cellTemplate:'<a  target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+			                              }
+			                              
+			                          ];
+			 
+			 }
 		
   		
 	
@@ -3024,7 +3089,7 @@ angular.module('newApp')
 		}
 	else{
 		console.log("in else");
-		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+		 $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
        $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 	}
 	
@@ -3951,7 +4016,9 @@ angular.module('newApp')
      });
  };
  
- 
+ $scope.goToContentInfo = function(){
+		$location.path('/goToContentInfo');
+	}
  
  $scope.goToVisitors = function() {
 		$location.path('/visitorsAnalytics');
@@ -4360,15 +4427,15 @@ angular.module('newApp')
 	                    ranges: {
 	                        'Today': [moment(), moment()],
 	                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-	                        'Last 7 Days': [moment().subtract('days', 7), moment()],
+	                        'Last 7 Days': [moment().subtract('days', 6), moment()],
 	                        'Last 14 Days':[moment().subtract('days', 13), moment()],
-	                        'Last 28 Days': [moment().subtract('days', 28), moment()],
+	                        'Last 28 Days': [moment().subtract('days', 27), moment()],
 	                        'Last 60 Days': [moment().subtract('days', 60), moment()],
 	                        'Last 90 Days': [moment().subtract('days', 90), moment()],
 	                        'This Month': [moment().startOf('month'), moment().endOf('month')],
 	                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
 	                    },
-	                    startDate: moment().subtract('days', 7),
+	                    startDate: moment().subtract('days', 6),
 	                    endDate: moment()
 	                },
 	                function(start, end) {
@@ -4389,12 +4456,12 @@ angular.module('newApp')
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 7).format('YYYY-MM-DD '));
-	                $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+	                console.log(moment().subtract('days', 6).format('YYYY-MM-DD '));
+	                $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
-	            $('.reportrange span').html(moment().subtract('days', 7).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
-	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 7).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
+	            $('.reportrange span').html(moment().subtract('days', 6).format('MMM D, YYYY') + ' - ' + moment().format('MMM D, YYYY'));
+	            $scope.$emit('reportDateChange', { startDate: moment().subtract('days', 6).format('MMDDYYYY'), endDate:  moment().format('MMDDYYYY') });
 
 	    }, 2000);
 	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
@@ -4405,7 +4472,7 @@ angular.module('newApp')
 		}
 	else{
 		console.log("in else");
-		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
+		 $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
        $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 	}
 	
@@ -4430,7 +4497,13 @@ angular.module('newApp')
 	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
 	 		 };
 	
-	
+	$scope.gridOptions2 = {
+	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
+	 		    paginationPageSize: 150,
+	 		    enableFiltering: true,
+	 		    useExternalFiltering: true,
+	 		    rowTemplate: "<div style=\"cursor:pointer;\" ng-dblclick=\"grid.appScope.showInfo(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell></div>"
+	 		 };
 	
 		 $scope.gridOptions.onRegisterApi = function(gridApi){
 			 $scope.gridApi = gridApi;
@@ -4771,7 +4844,62 @@ angular.module('newApp')
 		 
 	 }	 
 		 
-		 
+		 $scope.searchVisitorData = function(){
+			 $http.get('/getVisitorList/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
+				.success(function(data) {
+				$scope.gridOptions2.data = data;
+				console.log($scope.gridOptions2.data);
+				$scope.gridOptions2.data = $filter('orderBy')($scope.gridOptions2.data,'dateClick');
+				$scope.gridOptions2.data = $scope.gridOptions2.data.reverse();
+				//console.log($scope.gridOptions.data);
+				//cellFilter: 'date:"yyyy-MM-dd"',enableSorting: true,
+				angular.forEach($scope.gridOptions2.data, function(value, key) {
+					var array = value.timePretty.split(',');
+					var timeNew= value.timePretty.split(' ');
+					var newTimePretty;
+					value.timeSet = array[1];
+					value.newTimePretty=timeNew[1]+" "+timeNew[2]+" "+timeNew[3]+" "+timeNew[4];
+					//value.timeTotal = $filter('date')(value.timeTotal, 'hh:mm:ss');
+					value.timeTotal=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.timeTotal)), 'HH:mm:ss');
+					 var splitTime   = value.timeTotal.split(":");
+					 if(splitTime[0] == 00){
+						 value.timeTotal = splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 else{
+						 value.timeTotal = splitTime[0]+"h "+splitTime[1]+"m "+splitTime[2]+"s";
+					 }
+					 
+					
+				});
+				 console.log($scope.gridOptions2.data);
+				$scope.visitiorList = data;
+			});
+			
+			
+			$scope.gridOptions2.columnDefs = [
+			                              {name: 'newTimePretty', displayName: 'Date & Time', width:'12%'},
+			                              {name: 'geolocation', displayName: 'Location', width:'10%',
+			                             	 cellTemplate:'<div ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.referrerTypeDataForLocation(row.entity.geolocation)">{{row.entity.geolocation}}</label></div>',
+			                              },
+			                              {name:'organization', displayName:'Internet Provider', width:'15%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.organization}}</label></div>',
+			                              },
+			                              {name:'actions', displayName:'Actions', width:'8%',
+			                             	 cellTemplate:'<div class="link-domain" ><label  style="color:#319DB5;cursor:pointer;"  ng-click="grid.appScope.showVisitorInfo(row.entity.id)">{{row.entity.actions}} actions </label></div>',
+			                             	 
+			                              },
+			                              {name:'timeTotal', displayName:'Time Spent', width:'10%'},
+			                              {name:'abc', displayName:'Searches & Refferals', width:'40%',
+			                             	 cellTemplate:'<div ng-if="row.entity.referrerUrl != null"><span ng-click="grid.appScope.showUrlInfo(row.entity.id)" ><img src="//con.tent.network/media/icon_search.gif"></span><a href="{{row.entity.referrerUrl}}"> <img src="//con.tent.network/media/arrow.gif"></a><a class="link-domain" ng-click="grid.appScope.showUrlInfoForDomain(row.entity.id)">{{row.entity.referrerDomain}}</a>&nbsp;&nbsp;<a  class="link-domain"  ng-click="grid.appScope.showUrlInfoForRefferal(row.entity.id)">{{row.entity.referrerUrl}}</a></div>',
+			                             	 
+			                             },
+			                              {name:'Sear', displayName:'Page', width:'10%',
+			                             	 cellTemplate:'<a  target="_blank"  href="{{row.entity.landingPage}}"><img class="mb-2" style="margin-left: 8px;width: 21px;" title="View heatmap for this page" src="https://con.tent.network/media/icon_spy.gif"></a>',
+			                              }
+			                              
+			                          ];
+			 
+			 }
 		 
 		 
 		 $scope.uniqueDataForAllTab = function(){
@@ -4839,7 +4967,7 @@ angular.module('newApp')
 					 
 					 
 				});
-					
+					$scope.searchVisitorData();
 					
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
@@ -4854,6 +4982,7 @@ angular.module('newApp')
 												        
 											            	 ]
 			 
+					 
 		 }
 			 
 			 
@@ -4921,7 +5050,7 @@ angular.module('newApp')
 					 
 				});
 					
-					
+					 $scope.searchVisitorData();
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'tit', displayName: 'Summary of filtered visitors', width:'55%',
 					                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',			
@@ -4934,7 +5063,7 @@ angular.module('newApp')
 												        
 												        
 											            	 ]
-			 
+					
 		 }
 			 
 
@@ -5001,7 +5130,7 @@ angular.module('newApp')
 					 
 				});
 					
-					
+					 $scope.searchVisitorData();
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'tea', displayName: 'Summary of filtered visitors', width:'55%',
 					                                	   cellTemplate: '<div> <img  src={{row.entity.images}} >&nbsp;{{row.entity.title}}</div>',			
@@ -5014,7 +5143,7 @@ angular.module('newApp')
 												        
 												        
 											            	 ]
-			 
+					
 		 }
 			 
 			 
@@ -5080,7 +5209,7 @@ angular.module('newApp')
 					 
 					 
 				});
-					
+					 $scope.searchVisitorData();
 					
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
@@ -5094,12 +5223,13 @@ angular.module('newApp')
 												        
 												        
 											            	 ]
-			 
+					
 		 }
 		 
 
 			 
 			 if($scope.idForRanking != undefined){
+				 
 					$http.get('/getRankingInfo/'+$scope.idForRanking+"/"+$scope.startDate+"/"+$scope.endDate)
 						.success(function(data) {
 							$scope.gridOptions.data=data;
@@ -5161,7 +5291,7 @@ angular.module('newApp')
 					 
 					 
 				});
-					
+					 $scope.searchVisitorData();
 					
 					 $scope.gridOptions.columnDefs = [
 					                                   {name: 'title', displayName: 'Summary of filtered visitors', width:'55%',
@@ -5173,7 +5303,7 @@ angular.module('newApp')
 												        
 												        
 											            	 ]
-			 
+					
 		 }
 		
 			 
