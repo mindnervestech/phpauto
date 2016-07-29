@@ -12187,7 +12187,20 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     		if(info.statusDate != null){
     			vm.statusDate = df.format(info.statusDate);
     		}
-    		vm.typeOfLead = "Request More Info";
+    		//vm.typeOfLead = "Request More Info";
+    		LeadType lType = null;
+    		if(info.isContactusType != null){
+	    		if(!info.isContactusType.equals("contactUs")){
+	    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+	    		}else{
+	    			lType = LeadType.findByName(info.isContactusType);
+	    		}
+	    		vm.typeOfLead = lType.leadName;
+	    		findCustomeData(info.id,vm,lType.id);
+    		}else{
+    			vm.typeOfLead = "Request More Info";
+    			findCustomeData(info.id,vm,1L);
+    		}
     		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
     		List<UserNotes> notesList = UserNotes.findRequestMore(info);
     		Integer nFlag = 0;
@@ -12592,7 +12605,20 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
 	    		}
 	    		
 	    		vm.enthicity = info.enthicity;
-	    		vm.typeOfLead = "Request More Info";
+	    		//vm.typeOfLead = "Request More Info";
+	    		LeadType lType = null;
+	    		if(info.isContactusType != null){
+		    		if(!info.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(info.isContactusType);
+		    		}
+		    		vm.typeOfLead = lType.leadName;
+		    		findCustomeData(info.id,vm,lType.id);
+	    		}else{
+	    			vm.typeOfLead = "Request More Info";
+	    			findCustomeData(info.id,vm,1L);
+	    		}
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		List<NoteVM> list = new ArrayList<>();
@@ -16376,6 +16402,20 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
            		acti.status =rInfo.leadStatus;
            		
            		acti.typeOfLead = "Request More Info";
+           		
+           		LeadType lType = null;
+	    		if(rInfo.isContactusType != null){
+		    		if(!rInfo.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(rInfo.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(rInfo.isContactusType);
+		    		}
+		    		acti.typeOfLead = lType.leadName;
+		    		findCustomeData(rInfo.id,acti,lType.id);
+	    		}else{
+	    			acti.typeOfLead = "Request More Info";
+	    			findCustomeData(rInfo.id,acti,1L);
+	    		}
            		findRequestParentChildAndBro(actionVM, rInfo, dfs, acti);
            		
            		
@@ -23203,7 +23243,22 @@ private static void cancelTestDriveMail(Map map) {
 	    			vm.bestDay = info.bestDay;
 	    		}
 	    		vm.bestTime = info.bestTime;
-	    		vm.typeOfLead = "Request More Info";
+	    		//vm.typeOfLead = "Request More Info";
+	    		
+	    		LeadType lType = null;
+	    		if(info.isContactusType != null){
+		    		if(!info.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(info.isContactusType);
+		    		}
+		    		vm.typeOfLead = lType.leadName;
+		    		findCustomeData(info.id,vm,lType.id);
+	    		}else{
+	    			vm.typeOfLead = "Request More Info";
+	    			findCustomeData(info.id,vm,1L);
+	    		}
+	    		
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		Integer nFlag = 0;
@@ -23377,6 +23432,22 @@ private static void cancelTestDriveMail(Map map) {
 	    		
 	    		vm.requestDate = df.format(info.requestDate);
 	    		vm.typeOfLead = "Request More Info";
+	    		
+	    		
+	    		LeadType lType = null;
+	    		if(info.isContactusType != null){
+		    		if(!info.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(info.isContactusType);
+		    		}
+		    		vm.typeOfLead = lType.leadName;
+		    		findCustomeData(info.id,vm,lType.id);
+	    		}else{
+	    			vm.typeOfLead = "Request More Info";
+	    			findCustomeData(info.id,vm,1L);
+	    		}
+	    		
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
 	    		List<UserNotes> notesList = UserNotes.findRequestMore(info);
 	    		Integer nFlag = 0;
@@ -24952,7 +25023,22 @@ private static void cancelTestDriveMail(Map map) {
 	    		}
 	    		vm.note = list;
 	    		vm.noteFlag = nFlag;
-	    		vm.typeOfLead = "Request More Info";
+	    		//vm.typeOfLead = "Request More Info";
+	    		
+	    		LeadType lType = null;
+	    		if(info.isContactusType != null){
+		    		if(!info.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(info.isContactusType);
+		    		}
+		    		vm.typeOfLead = lType.leadName;
+		    		findCustomeData(info.id,vm,lType.id);
+	    		}else{
+	    			vm.typeOfLead = "Request More Info";
+	    			findCustomeData(info.id,vm,1L);
+	    		}
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	
@@ -25117,7 +25203,22 @@ private static void cancelTestDriveMail(Map map) {
 	    		}
 	    		vm.note = list;
 	    		vm.noteFlag = nFlag;
-	    		vm.typeOfLead = "Request More Info";
+	    		//vm.typeOfLead = "Request More Info";
+	    		
+	    		LeadType lType = null;
+	    		if(info.isContactusType != null){
+		    		if(!info.isContactusType.equals("contactUs")){
+		    			lType = LeadType.findById(Long.parseLong(info.isContactusType));
+		    		}else{
+		    			lType = LeadType.findByName(info.isContactusType);
+		    		}
+		    		vm.typeOfLead = lType.leadName;
+		    		findCustomeData(info.id,vm,lType.id);
+	    		}else{
+	    			vm.typeOfLead = "Request More Info";
+	    			findCustomeData(info.id,vm,1L);
+	    		}
+	    		
 	    		infoVMList.add(vm);
 	    	}
 	    	
