@@ -3283,8 +3283,8 @@ angular.module('newApp')
     			  
     			  $scope.stringArray = [];
     			  $scope.visitiorListMap = [];
-    			  $http.get('/getVisitorList/'+startDate+"/"+endDate)
-    		  		.success(function(data) {
+    			  
+    			  apiserviceDashborad.getVisitorList(startDate,endDate).then(function(data){
     		  			
     		  			$scope.gridOptions.data = data;
     		  			$scope.visitiorList = data;
@@ -3339,9 +3339,8 @@ angular.module('newApp')
     			}, 10000)
     		  
     		$scope.onlineVisitorFind = function(){
-    			  
-    			  $http.get('/getVisitorOnline').success(function(response) {
-    				  $scope.onlineVisitorsCount = response;
+    			  apiserviceDashborad.getVisitorOnline().then(function(data){
+    				  $scope.onlineVisitorsCount = data;
     			  });
     		  }	
     			
@@ -3415,10 +3414,7 @@ angular.module('newApp')
    			   	$scope.checkManagerLogin();
    			   	
    			   	$scope.schedulmultidatepicker();
-   			   
-    		  
-		    		  $http.get('/getUsersToAssign')
-						.success(function(data) {
+		   			 apiserviceDashborad.getUsersToAssign().then(function(data){
 						$scope.usersList = data;
 					});  
 		    		  $scope.getToDoList();
@@ -3436,8 +3432,8 @@ angular.module('newApp')
     		  };  
     		  
     		  $scope.getClickyVisitorListData = function(){
-    			  $http.get('/getClickyVisitorList').success(function(data) {
-					});
+    			  apiserviceDashborad.getClickyVisitorList().then(function(data){
+    			  });
     		  }
     		  
     		  
@@ -3456,19 +3452,20 @@ angular.module('newApp')
     		  month[10] = "November";
     		  month[11] = "December";
     		  var monthNam = month[d.getMonth()];
-    		  $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+monthNam)
-				.success(function(data) {
-					if(data == 1){
+    		  
+    		  apiserviceDashborad.getPlanByMonthAndUser($scope.userKey,monthNam).then(function(data){
+    			  if(data == 1){
 						$scope.flagForPlan = 1;
 					}
-				});
+			  });
     		  
-    		  $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+monthNam)
-				.success(function(data) {
-					if(data == 1){
+    		  apiserviceDashborad.getPlanByMonthAndUserForLocation($scope.userKey,monthNam).then(function(data){
+    			  if(data == 1){
 						$scope.flagForPlanForLocation = 1;
 					}
-				});
+			  });
+    		  
+    		
     		  $scope.heatMapShow = function(startD,endD){
     			  $scope.showHeatMap = 0;
     				$scope.gridOptions12 = {
@@ -3518,9 +3515,8 @@ angular.module('newApp')
     			 		};
     			 		
     			 		
-    					 $http.get('/getHeatMapListDale/'+startD+"/"+endD)
-    						.success(function(data) {
-    							
+    			 		apiserviceDashborad.getHeatMapListDale(startD,endD).then(function(data){
+    			 			
     							$scope.gridOptions12.data = data;
     							$scope.heatMapList = data;
     							/*$scope.gridOptions12.data = data[0].dates[0].items;

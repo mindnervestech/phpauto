@@ -425,6 +425,60 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.getVisitorOnline = function(){
+		var defer = $q.defer();
+		$http.get('/getVisitorOnline').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getUsersToAssign = function(){
+		var defer = $q.defer();
+		$http.get('/getUsersToAssign').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getClickyVisitorList = function(){
+		var defer = $q.defer();
+		$http.get('/getClickyVisitorList').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getPlanByMonthAndUser = function(userKey,monthNam){
+		var defer = $q.defer();
+		$http.get('/getPlanByMonthAndUser/'+userKey+'/'+monthNam).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	
+	this.getPlanByMonthAndUserForLocation = function(userKey,monthNam){
+		var defer = $q.defer();
+		$http.get('/getPlanByMonthAndUserForLocation/'+userKey+'/'+monthNam).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getHeatMapListDale = function(startD,endD){
+		var defer = $q.defer();
+		$http.get('/getHeatMapListDale/'+startD+'/'+endD).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
 	
 	
 	
