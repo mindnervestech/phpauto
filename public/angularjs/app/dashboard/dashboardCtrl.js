@@ -2579,8 +2579,8 @@ angular.module('newApp')
   	      $scope.landingpage.locationFlag=$scope.locationFlag;
   	      $scope.landingpage.typeOfReferrer=$scope.typeOfReferrer;
   	      
-  			$http.post('/geLendingPageData',$scope.landingpage)
-  			.success(function(data) {
+  	    apiserviceDashborad.geLendingPageData($scope.landingpage).then(function(data){
+  	    
   			console.log($scope.data);
   			$scope.gridForReferrer.data = data;
   			console.log($scope.gridForReferrer.data);
@@ -2682,10 +2682,10 @@ angular.module('newApp')
 	  //document.getElementById("activeTabImage").src = "../../../assets/global/images/leadsImages/session_data active.png";
   	  //document.getElementById("infoImage").src = "../../../assets/global/images/leadsImages/information-button inactive.png";
   	 console.log($scope.sessionId) ;
-  	  $http.get('/getSessionIdData/'+$scope.sessionId)
-		.success(function(data) {
+  	 
+  	apiserviceDashborad.getSessionIdData($scope.sessionId).then(function(data){
+  	 
 			if(data == ""){
-				console.log("fffffffffffff5555");
 						$scope.sessiondata = '0';
 			}else{
 				$scope.sessiondata = data;
@@ -2716,9 +2716,7 @@ angular.module('newApp')
 				$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
 				console.log($scope.startDateFilter);
         		console.log($scope.endDateFilter);
-				 $http.get('/getSession/'+$scope.clickySessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
-					.success(function(data) {
-						console.log(data);
+        		apiserviceDashborad.getSession($scope.clickySessionId,$scope.startDateFilter,$scope.endDateFilter).then(function(data){
 						$scope.gridForSession.data=data;
 							$scope.visitiorList = data;
 							
@@ -2772,7 +2770,7 @@ angular.module('newApp')
 	      if($scope.flagForSecondMap == 1){
 	      var map = new google.maps.Map(document.getElementById("canvas2"), myOptions);
 	      }else{
-	    	  var map = new google.maps.Map(document.getElementById("canvas1"), myOptions);
+	    	  //var map = new google.maps.Map(document.getElementById("canvas1"), myOptions);
 	      }
 	      var marker = new google.maps.Marker({
    	      position: myLatlng,
@@ -2800,7 +2798,9 @@ angular.module('newApp')
    	  			$scope.showFormly1 = '1';
    	  	    $scope.showFormly = '1';
    	  			console.log($scope.customData);
-   	  		$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+   	  		
+   	  		 apiserviceDashborad.getCustomizationform('Create Lead').then(function(response){
+   	  		 
 				 $scope.editInput = response;
 				 $scope.josnData = angular.fromJson(response.jsonData);
 				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
@@ -2944,31 +2944,15 @@ angular.module('newApp')
 			console.log($rootScope.fileCustom);
 			files = $rootScope.fileCustom;
 			
-			console.log(files.length);
-			console.log(files);
-			
 			// delete $scope.lead.customData;
 			// delete $scope.lead.options;
 			// delete $scope.lead.stockWiseData;
-			
-			 $upload.upload({
-	            url : '/editLeads',
-	            method: 'POST',
-	            file:files,
-	            data:$scope.editLeads
-	         }).success(function(data) {
-	   			console.log('success');
-	   			
-	   		 });
+			 apiserviceDashborad.editLeads($scope.editLeads,files).then(function(data){
+			 });
+			 
 			}else{ 
-   	  			$http.post('/editLeads',$scope.editLeads).success(function(data) {
-	   	  			 	$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Lead's information has been successfully saved.",
-						    //text: "Email with updated information has been sent to"+" "+$scope.editLeads.custName,
-						});
-	   	  			$("#editLeads").modal('hide');
+				apiserviceDashborad.editLeads($scope.editLeads,$rootScope.fileCustom).then(function(data){
+					$("#editLeads").modal('hide');
 	   	  			$scope.getAllSalesPersonRecord($scope.salesPerson);
 				 });
 			 }
@@ -2994,31 +2978,33 @@ angular.module('newApp')
     			  $('#createcontactsModal').modal();
     		  }
     		  
-    		  $http.get('/getUsers').success(function(data){
-    				$scope.allUser = data;
-    			 });
-
-    	   		$http.get('/getgroupInfo').success(function(data){
-    				$scope.allGroup = data;
-    			 });
-    	   		
+    		  apiserviceDashborad.getUsers().then(function(data){
+    			  $scope.allUser = data;
+    		  });
+    		 
+    		  apiserviceDashborad.getgroupInfo().then(function(data){
+    			  $scope.allGroup = data;
+    		  });
+    	   		    	   		
+    		  
     	   	 $scope.saveGroup = function(createGroup){
-    			   $http.get('/saveGroup/'+createGroup)
-    				.success(function(data) {
-    					$.pnotify({
-    					    title: "Success",
-    					    type:'success',
-    					    text: "group saved successfully",
-    					});
-    					$http.get('/getgroupInfo').success(function(data){
-    						$scope.allGroup = data;
-    					 });
-    				});
+    	   		 
+    	   	  apiserviceDashborad.saveGroup(createGroup).then(function(data){
+    	   		apiserviceDashborad.getgroupInfo().then(function(data){
+    	   			$scope.allGroup = data;
+    	   		});
+    		  });
     			   
     		   }
     		   
     		   $scope.deleteGroup = function(groupId){
-    			   $http.get('/deleteGroup/'+groupId)
+    			   apiserviceDashborad.deleteGroup(groupId).then(function(data){
+    				   apiserviceDashborad.getgroupInfo().then(function(data){
+    	    	   			$scope.allGroup = data;
+    	    	   		});
+    			   });
+    			   
+    			   /*$http.get('/deleteGroup/'+groupId)
     				.success(function(data) {
     					$.pnotify({
     					    title: "Success",
@@ -3028,24 +3014,18 @@ angular.module('newApp')
     					$http.get('/getgroupInfo').success(function(data){
     						$scope.allGroup = data;
     					 });
-    				});
+    				});*/
     		   }
     		   
     		  
     		  $scope.saveContact = function() {
-    			   $http.post('/saveContactsData',$scope.contactsDetails)
-    				 .success(function(data) {
-	    					 if(data == "") {
-		    					 $('#createcontactsModal').modal('hide');
-		    					 $.pnotify({
-		    						    title: "Success",
-		    						    type:'success',
-		    						    text: "contact saved successfully",
-		    						});
-	    					 } else {
-	    						 $scope.contactMsg = data;
-	    					 }
-    					});
+    			  apiserviceDashborad.saveContactsData($scope.contactsDetails).then(function(data){
+    				  if(data == "") {
+	    					 $('#createcontactsModal').modal('hide');
+ 					 } else {
+ 						 $scope.contactMsg = data;
+ 					 }
+    			  });
     		   }
     		  $scope.flags = {};
     		 $scope.checkIndex = function(item,values){
@@ -3084,9 +3064,9 @@ angular.module('newApp')
      			$scope.comparisonperson = [];
      			
      			angular.forEach($scope.arrId, function(value, key) {
-     				$http.get('/getComperSalePersonData/'+value+"/"+startDate+"/"+endDate).success(function(response) {
-					 	$scope.comparisonperson.push(response);
-				 });
+     				  apiserviceDashborad.getComperSalePersonData(value,startDate,endDate).then(function(data){
+     					 $scope.comparisonperson.push(data);
+     				  });
      			});
      			
     		 }
@@ -3115,12 +3095,11 @@ angular.module('newApp')
     					 if(values == false || values == undefined){
     						 $scope.flagvalue++;
     						 item.flag = 1;
-    						 $http.get('/getComperSalePersonData/'+item.id+"/"+startDate+"/"+endDate).success(function(response) {
-    							 	$scope.comparisonperson.push(response);
-    	    						
+    						 
+    						 apiserviceDashborad.getComperSalePersonData(item.id,startDate,endDate).then(function(data){
+    							 $scope.comparisonperson.push(data);
     						 });
-
-    						
+    						 
     					 }else{
 					 $scope.flagvalue--;
 					  item.flag = 0;
@@ -3156,16 +3135,16 @@ angular.module('newApp')
   			 var startDate = arr[2]+"-"+arr[1]+"-"+arr[0];
   			 var endDate = arr1[2]+"-"+arr1[1]+"-"+arr1[0];
     			 
- 				$http.get('/getComperSalePersonData/'+$scope.salesPerson+"/"+startDate+"/"+endDate).success(function(response) {
-				 	$scope.comparisonperson.push(response);
- 				});
+  			 apiserviceDashborad.getComperSalePersonData($scope.salesPerson,startDate,endDate).then(function(data){
+				 $scope.comparisonperson.push(data);
+			 });
  				
- 				$http.get('/getDateRangSalePerson/'+startDate+"/"+endDate).success(function(response) {
+  			   apiserviceDashborad.getDateRangSalePerson(startDate,endDate).then(function(response){
  					if(response != $scope.salesPerson){
- 						$http.get('/getComperSalePersonData/'+response+"/"+startDate+"/"+endDate).success(function(response) {
- 						 	$scope.comparisonperson.push(response);
+ 						apiserviceDashborad.getComperSalePersonData(response,startDate,endDate).then(function(data){
+ 						 	$scope.comparisonperson.push(data);
  						 	$scope.flagvalue = 2;
- 						 	 $scope.comparisonPassSalePerson($scope.comparisonperson);
+ 						 	$scope.comparisonPassSalePerson($scope.comparisonperson);
  		 				});
  					}else{
  						$('#btncomparisonBest').click();
@@ -3198,7 +3177,8 @@ angular.module('newApp')
     			 /*var ctx = document.getElementById("visitors-chart").getContext("2d");
 			        var myNewChart = new Chart(ctx).Line(visitorsData, chartOptions);
     			 */
-    			  $http.get('/getMonthlyVisitorsStats/'+startDate+"/"+endDate).success(function(response) {
+    			 
+    			 apiserviceDashborad.getMonthlyVisitorsStats(startDate,endDate).then(function(response){
     				  
   			        $scope.onlineVisitorsCount = response.onlineVisitors;
 			        $scope.totalVisitorsCount = response.totalVisitors;

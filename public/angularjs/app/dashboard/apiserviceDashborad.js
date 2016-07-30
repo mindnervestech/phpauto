@@ -280,6 +280,153 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.geLendingPageData = function(landingpage){
+		var defer = $q.defer();
+		$http.post('/geLendingPageData',landingpage).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	
+	this.getSession = function(clickySessionId, startDateFilter, endDateFilter){
+		var defer = $q.defer();
+		$http.get('/getSession/'+clickySessionId+"/"+startDateFilter+"/"+endDateFilter).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getCustomizationform = function(formType){
+		var defer = $q.defer();
+		$http.get('/getCustomizationform/'+formType).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.editLeads = function(editLeads,file){
+		var defer = $q.defer();
+		
+		if(file != undefined){
+			$upload.upload({
+	            url : '/editLeads',
+	            method: 'POST',
+	            file:files,
+	            data:$scope.editLeads
+	         }).success(function(data) {
+	        	 defer.resolve(data);
+	   			console.log('success');
+	   			
+	   		 });
+		}else{
+			$http.post('/editLeads',$scope.editLeads).success(function(data) {
+	  			 	$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Lead's information has been successfully saved.",
+				});
+	  			 	defer.resolve(data);
+			});	 	
+		}
+		
+		return defer.promise;
+	};
+	
+	
+	this.getUsers = function(){
+		var defer = $q.defer();
+		$http.get('/getUsers').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getgroupInfo = function(){
+		var defer = $q.defer();
+		$http.get('/getgroupInfo').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.saveGroup = function(createGroup){
+		var defer = $q.defer();
+		$http.get('/saveGroup/'+createGroup).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "group saved successfully",
+			});
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.deleteGroup = function(groupId){
+		var defer = $q.defer();
+		$http.get('/deleteGroup/'+groupId).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "group deleted successfully",
+			});
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.saveContactsData = function(contactsDetails){
+		var defer = $q.defer();
+		$http.post('/saveContactsData',$scope.contactsDetails).success(function(data) {
+			 $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "contact saved successfully",
+				});
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	
+	this.getComperSalePersonData = function(value, startDate, endDate){
+		var defer = $q.defer();
+		$http.get('/getComperSalePersonData/'+value+"/"+startDate+"/"+endDate).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getDateRangSalePerson = function(startDate, endDate){
+		var defer = $q.defer();
+		$http.get('/getDateRangSalePerson/'+startDate+"/"+endDate).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getMonthlyVisitorsStats = function(startDate, endDate){
+		var defer = $q.defer();
+		$http.get('/getMonthlyVisitorsStats/'+startDate+"/"+endDate).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	
+	
 	
 	
 })
