@@ -3217,13 +3217,13 @@ public class ClickyAnalyticsController extends Controller{
 								 countAll4=count4+Double.parseDouble(list.totalTime);
 								}
 							if(list.visitors != null && !list.visitors.equals("")){
-								countAll2=count2+Double.parseDouble(list.visitors);
+								countAll2=countAll2+Double.parseDouble(list.visitors);
 								}
 							if(list.uniqueVisitor!= null && !list.uniqueVisitor.equals("")){
 								countAll3=count3+Double.parseDouble(list.uniqueVisitor);
 								}
 							if(list.action != null && !list.action.equals("")){
-								 countAll7=count7+Double.parseDouble(list.action);
+								 countAll7=countAll7+Double.parseDouble(list.action);
 							}
 						 
 						}
@@ -3384,8 +3384,7 @@ public class ClickyAnalyticsController extends Controller{
 	    		 }
 	    		 
 	    		 
-	    		 
-	    		 double countAll1=0.0;
+	    		 	double countAll1=0.0;
 	    			double countAll2=0.0;
 	    			double countAll3=0.0;
 	    			double countAll4=0.0;
@@ -3417,10 +3416,10 @@ public class ClickyAnalyticsController extends Controller{
 	    					}
 	    					Integer langValue1 = timeline.get(list.DateClick.toString()); 
 	    					if(list.uniqueVisitor != null){
-	    					if (langValue1 == null) {
-	    						uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
-	    					 timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
-	    					}
+	    						if (langValue1 == null) {
+	    							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
+	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
+	    						}
 	    					}
 	    			 }
 	    		 
@@ -3519,15 +3518,17 @@ public class ClickyAnalyticsController extends Controller{
 	     		List <ClickyPagesVM> VMs = new ArrayList<>();
 	     		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	     		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
-	     		ClickyPagesVM vm = new ClickyPagesVM();
-	     		double count1=0.0;
-	     		double count2=0.0;
-	     		double count3=0.0;
-	     		double count4=0.0;
-	     		double count5=0.0;
-	     		double count6=0.0;
-	     		double count7=0.0;
-	     		Integer vistValue = 0;
+	     		Map<String, Integer> timeline = new HashMap<String, Integer>();
+	    		ClickyPagesVM vm = new ClickyPagesVM();
+	    		double count1=0.0;
+	    		double count2=0.0;
+	    		double count3=0.0;
+	    		double count4=0.0;
+	    		double count5=0.0;
+	    		double count6=0.0;
+	    		double count7=0.0;
+	    		Integer vistValue = 0;
+	    		Integer vistValue1 = 0;
 	     		 for(ClickyVisitorsList lis:languageObjList){
 	     	     	if(lis.averageAction != null){
 	     	     		count1=Double.parseDouble(lis.averageAction);
@@ -3552,10 +3553,15 @@ public class ClickyAnalyticsController extends Controller{
 	     			}
 	     			
 	     			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
-	 				if (langValue == null) {
-	 				 vistValue = vistValue + Integer.parseInt(lis.visitors);
-	 				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
-	 				}
+	    			if(lis.visitors != null){
+	    				if (langValue == null) {
+	    					vistValue = vistValue + Integer.parseInt(lis.visitors);
+	    					mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+					 
+	    					vistValue1 = vistValue1 + Integer.parseInt(lis.uniqueVisitor);
+	    					mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.uniqueVisitor));
+	    				}
+	    			}
 	     			
 	     		 }
 	     		 
@@ -3568,6 +3574,7 @@ public class ClickyAnalyticsController extends Controller{
 	     			double countAll5=0.0;
 	     			double countAll6=0.0;
 	     			double countAll7=0.0;
+	     			Integer uniquevisit = 0;
 	     			 for(ClickyVisitorsList list:allLanguagelist){
 	     				 if(list.averageAction != null){
 	     					 countAll1=count1+Double.parseDouble(list.averageAction);
@@ -3590,70 +3597,77 @@ public class ClickyAnalyticsController extends Controller{
 	     					if(list.actions != null && !list.actions.equals("")){
 	     						 countAll7=countAll7+Double.parseDouble(list.actions);
 	     					}
-	     				 
+	     					
+	    					Integer langValue1 = timeline.get(list.DateClick.toString()); 
+	    					if(list.uniqueVisitor != null){
+	    						if (langValue1 == null) {
+	    							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
+	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
+	    						}
+	    					}
 	     				 
 	     		   			
 	     			 }
 	     		 
-	     			 ClickyPlatformVM cVm = new ClickyPlatformVM();
-	     			 cVm.title = "visitors";
-	     			 cVm.these_visitors = (double)vistValue;
-	     			 cVm.all_visitors = countAll2;
-	     			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-	     			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
-	     			 platformvm.add(cVm);
-	     			 
-	     			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-	     			 cVm1.title = "uniqueV";
-	     			 cVm1.these_visitors = count3;
-	     			 cVm1.all_visitors = countAll3;
-	     			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
-	     			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
-	     			 platformvm.add(cVm1);
-	     			 
-	     			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-	     			 cVm2.title = "action";
-	     			 cVm2.these_visitors = count7;
-	     			 cVm2.all_visitors = countAll7;
-	     			 cVm2.images = "//con.tent.network/media/icon_click.gif";
-	     			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
-	     			 platformvm.add(cVm2);
-	     			 
-	     			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-	     			 cVm3.title = "averageAct";
-	     			 cVm3.these_visitors = count7/count2;
-	     			 cVm3.all_visitors = countAll7/countAll2;
-	     			 cVm3.images = "//con.tent.network/media/icon_click.gif";
-	     			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
-	     			 platformvm.add(cVm3);
-	     			 
-	     			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-	     			 cVm4.title = "totalT";
-	     			 cVm4.these_visitors = count4;
-	     			 cVm4.all_visitors = countAll4;
-	     			 cVm4.images = "//con.tent.network/media/icon_time.gif";
-	     			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
-	     			 platformvm.add(cVm4);
-	     			 
-	     			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-	     			 cVm5.title = "averageT";
-	     			 cVm5.these_visitors = count4/count2;
-	     			 cVm5.all_visitors = countAll4/countAll2;
-	     			 cVm5.images = "//con.tent.network/media/icon_time.gif";
-	     			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
-	     			 platformvm.add(cVm5);
-	     			 
-	     			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-	     			 cVm6.title = "bounceR";
-	     			 cVm6.these_visitors = count6;
-	     			 cVm6.all_visitors = countAll6;
-	     			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-	     			 if(countAll6 !=0){
-	     				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
-	     			 }
-	     			 else{
-	     				 cVm6.difference = 0.0;
-	     			 }
+	     			ClickyPlatformVM cVm = new ClickyPlatformVM();
+	    			 cVm.title = "visitors";
+	    			 cVm.these_visitors = (double)vistValue;
+	    			 cVm.all_visitors = countAll2;
+	    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+	    			 platformvm.add(cVm);
+	    			 
+	    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	    			 cVm1.title = "uniqueV";
+	    			 cVm1.these_visitors = (double)vistValue1;
+	    			 cVm1.all_visitors = (double)uniquevisit;
+	    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm1.difference = (((double)vistValue1 - (double)uniquevisit) / (double)uniquevisit) * 100;
+	    			 platformvm.add(cVm1);
+	    			 
+	    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	    			 cVm2.title = "action";
+	    			 cVm2.these_visitors = count7;
+	    			 cVm2.all_visitors = countAll7;
+	    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	    			 platformvm.add(cVm2);
+	    			 
+	    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	    			 cVm3.title = "averageAct";
+	    			 cVm3.these_visitors = count7/(double)vistValue;
+	    			 cVm3.all_visitors = countAll7/countAll2;
+	    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	    			 platformvm.add(cVm3);
+	    			 
+	    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	    			 cVm4.title = "totalT";
+	    			 cVm4.these_visitors = count4;
+	    			 cVm4.all_visitors = countAll4;
+	    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	    			 platformvm.add(cVm4);
+	    			 
+	    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	    			 cVm5.title = "averageT";
+	    			 cVm5.these_visitors = count4/(double)vistValue;
+	    			 cVm5.all_visitors = countAll4/countAll2;
+	    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm5.difference = (((count4/(double)vistValue) - (countAll4/countAll2)) / (countAll4/countAll2)) * 100;
+	    			 platformvm.add(cVm5);
+	    			 
+	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	    			 cVm6.title = "bounceR";
+	    			 cVm6.these_visitors = count6;
+	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	    			 if(countAll6 !=0){
+	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    			 }
+	    			 else{
+	    				 cVm6.difference = 0.0;
+	    			 }
 	     			 platformvm.add(cVm6);
 	     		 
 	     		 vm.averageAct=count1;
@@ -3690,7 +3704,7 @@ public class ClickyAnalyticsController extends Controller{
 	       		List <ClickyPagesVM> VMs = new ArrayList<>();
 	       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	       		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
-				
+	       		Map<String, Integer> timeline = new HashMap<String, Integer>();
 	       		ClickyPagesVM vm = new ClickyPagesVM();
 	       		double count1=0.0;
 	       		double count2=0.0;
@@ -3700,6 +3714,8 @@ public class ClickyAnalyticsController extends Controller{
 	       		double count6=0.0;
 	       		double count7=0.0;
 	       		Integer vistValue = 0;
+    			Integer vistValue1 = 0;
+    			
 	       		 for(ClickyVisitorsList lis:orgObjList){
 	       	     	if(lis.averageActionorg != null){
 	       	     		count1=Double.parseDouble(lis.averageActionorg);
@@ -3724,10 +3740,15 @@ public class ClickyAnalyticsController extends Controller{
 	       			}
 	       			
 	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+	    			if(lis.visitorsorg != null){
 					if (langValue == null) {
-					 vistValue = vistValue + Integer.parseInt(lis.visitors);
-					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+					 vistValue = vistValue + Integer.parseInt(lis.visitorsorg);
+				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitorsorg));
+				 
+				 vistValue1 = vistValue1 + Integer.parseInt(lis.uniqueVisitororg);
+				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.uniqueVisitororg));
 					}		
+	       		 }
 	       		 }
 	       		 
 	       		 double countAll1=0.0;
@@ -3737,6 +3758,7 @@ public class ClickyAnalyticsController extends Controller{
 	       			double countAll5=0.0;
 	       			double countAll6=0.0;
 	       			double countAll7=0.0;
+	       			Integer uniquevisit = 0;
 	       			 for(ClickyVisitorsList list:allOrglist){
 	       				 if(list.averageActionorg != null){
 	       					 countAll1=count1+Double.parseDouble(list.averageActionorg);
@@ -3759,71 +3781,77 @@ public class ClickyAnalyticsController extends Controller{
 	       					if(list.actions != null && !list.actions.equals("")){
 	       						 countAll7=countAll7+Double.parseDouble(list.actions);
 	       					}
-	       				 
+	       				 Integer langValue1 = timeline.get(list.DateClick.toString()); 
+    					if(list.uniqueVisitororg != null){
+    					if (langValue1 == null) {
+    						uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitororg);
+    					 timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitororg));
+    					}
+    					}
 	       				 
 	       		   			
 	       			 }
 	       		 
-	       			 ClickyPlatformVM cVm = new ClickyPlatformVM();
-	       			 cVm.title = "visitors";
-	       			 cVm.these_visitors =  count2;
-	       			 cVm.all_visitors = countAll2;
-	       			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-	       			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
-	       			 platformvm.add(cVm);
-	       			 
-	       			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-	       			 cVm1.title = "uniqueV";
-	       			 cVm1.these_visitors = count3;
-	       			 cVm1.all_visitors = countAll3;
-	       			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
-	       			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
-	       			 platformvm.add(cVm1);
-	       			 
-	       			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-	       			 cVm2.title = "action";
-	       			 cVm2.these_visitors = count7;
-	       			 cVm2.all_visitors = countAll7;
-	       			 cVm2.images = "//con.tent.network/media/icon_click.gif";
-	       			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
-	       			 platformvm.add(cVm2);
-	       			 
-	       			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-	       			 cVm3.title = "averageAct";
-	       			 cVm3.these_visitors = count7/count2;
-	       			 cVm3.all_visitors = countAll7/countAll2;
-	       			 cVm3.images = "//con.tent.network/media/icon_click.gif";
-	       			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
-	       			 platformvm.add(cVm3);
-	       			 
-	       			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-	       			 cVm4.title = "totalT";
-	       			 cVm4.these_visitors = count4;
-	       			 cVm4.all_visitors = countAll4;
-	       			 cVm4.images = "//con.tent.network/media/icon_time.gif";
-	       			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
-	       			 platformvm.add(cVm4);
-	       			 
-	       			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-	       			 cVm5.title = "averageT";
-	       			 cVm5.these_visitors = count4/count2;
-	       			 cVm5.all_visitors = countAll4/countAll2;
-	       			 cVm5.images = "//con.tent.network/media/icon_time.gif";
-	       			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
-	       			 platformvm.add(cVm5);
-	       			 
-	       			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-	       			 cVm6.title = "bounceR";
-	       			 cVm6.these_visitors = count6;
-	       			 cVm6.all_visitors = countAll6;
-	       			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-	       			 if(countAll6 !=0){
-	       				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
-	       			 }
-	       			 else{
-	       				 cVm6.difference = 0.0;
-	       			 }
-	       			 platformvm.add(cVm6);
+	       		 ClickyPlatformVM cVm = new ClickyPlatformVM();
+    			 cVm.title = "visitors";
+    			 cVm.these_visitors = (double)vistValue;
+    			 cVm.all_visitors = countAll2;
+    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+    			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+    			 platformvm.add(cVm);
+    			 
+    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+    			 cVm1.title = "uniqueV";
+    			 cVm1.these_visitors = (double)vistValue1;
+    			 cVm1.all_visitors = (double)uniquevisit;
+    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+    			 cVm1.difference = (((double)vistValue1 - (double)uniquevisit) / (double)uniquevisit) * 100;
+    			 platformvm.add(cVm1);
+    			 
+    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+    			 cVm2.title = "action";
+    			 cVm2.these_visitors = count7;
+    			 cVm2.all_visitors = countAll7;
+    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+    			 platformvm.add(cVm2);
+    			 
+    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+    			 cVm3.title = "averageAct";
+    			 cVm3.these_visitors = count7/(double)vistValue;
+    			 cVm3.all_visitors = countAll7/countAll2;
+    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+    			 platformvm.add(cVm3);
+    			 
+    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+    			 cVm4.title = "totalT";
+    			 cVm4.these_visitors = count4;
+    			 cVm4.all_visitors = countAll4;
+    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+    			 platformvm.add(cVm4);
+    			 
+    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+    			 cVm5.title = "averageT";
+    			 cVm5.these_visitors = count4/(double)vistValue;
+    			 cVm5.all_visitors = countAll4/countAll2;
+    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+    			 cVm5.difference = (((count4/(double)vistValue) - (countAll4/countAll2)) / (countAll4/countAll2)) * 100;
+    			 platformvm.add(cVm5);
+    			 
+    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+    			 cVm6.title = "bounceR";
+    			 cVm6.these_visitors = count6;
+    			 cVm6.all_visitors = countAll6;
+    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+    			 if(countAll6 !=0){
+    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+    			 }
+    			 else{
+    				 cVm6.difference = 0.0;
+    			 }
+    			 platformvm.add(cVm6);
 	       		 
 	       		 vm.averageAct=count1;
 	       		 vm.visitor=count2;
@@ -3854,159 +3882,173 @@ public class ClickyAnalyticsController extends Controller{
 	        	        e.printStackTrace();
 	        	    }
 	        		
-	        		List<ClickyVisitorsList> hostObjList = ClickyVisitorsList.findByHostAndDate(type, d1, d2);
+	        	List<ClickyVisitorsList> hostObjList = ClickyVisitorsList.findByHostAndDate(type, d1, d2);
 	       		List<ClickyVisitorsList> allHostlist = ClickyVisitorsList.getAll(d1, d2);
 	       		
 	       		List <ClickyPagesVM> VMs = new ArrayList<>();
-	       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
-	       		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
-	       		ClickyPagesVM vm = new ClickyPagesVM();
-	       		double count1=0.0;
-	       		double count2=0.0;
-	       		double count3=0.0;
-	       		double count4=0.0;
-	       		double count5=0.0;
-	       		double count6=0.0;
-	       		double count7=0.0;
-	       		Integer vistValue = 0;
-	       		 for(ClickyVisitorsList lis:hostObjList){
-	       	     	if(lis.averageAction != null){
-	       	     		count1=Double.parseDouble(lis.averageAction);
-	       	     	}
-	       			if(lis.bounceRate != null){
-	       				count6=Double.parseDouble(lis.bounceRate);	
-	       				     	}
-	       			if(lis.averageTime != null){
-	       				count5=Double.parseDouble(lis.averageTime);	
-	       				}
-	       			if(lis.timeTotal != null){
-	       				count4=count4+Double.parseDouble(lis.timeTotal);
-	       				}
-	       			if(lis.visitors != null){
-	       				 count2=Double.parseDouble(lis.visitors);
-	       				}
-	       			if(lis.uniqueVisitor!= null){
-	       				count3=Double.parseDouble(lis.uniqueVisitor);
-	       				}
-	       			if(lis.actions != null){
-	       			count7=count7+Double.parseDouble(lis.actions);
-	       			}
-	       			
-	       			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
-	   				if (langValue == null) {
-	   				 vistValue = vistValue + Integer.parseInt(lis.visitors);
-	   				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
-	   				}
-	       			
-	       		 }
-	       		 
-	       		 
-	       		 
-	       		 double countAll1=0.0;
-	       			double countAll2=0.0;
-	       			double countAll3=0.0;
-	       			double countAll4=0.0;
-	       			double countAll5=0.0;
-	       			double countAll6=0.0;
-	       			double countAll7=0.0;
-	       			 for(ClickyVisitorsList list:allHostlist){
-	       				 if(list.averageAction != null){
-	       					 countAll1=count1+Double.parseDouble(list.averageAction);
-	       			     	}
-	       					if(list.bounceRate != null){
-	       						 countAll6=count6+Double.parseDouble(list.bounceRate);	
-	       						     	}
-	       					if(list.averageTime != null){
-	       						countAll5=count5+Double.parseDouble(list.averageTime);	
-	       						}
-	       					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	       						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
-	       						}
-	       					if(list.visitors != null){
-	       						countAll2=allHostlist.size();
-	       						}
-	       					if(list.uniqueVisitor != null){
-	       						countAll3=allHostlist.size();
-	       						}
-	       					if(list.actions != null && !list.actions.equals("")){
-	       						 countAll7=countAll7+Double.parseDouble(list.actions);
-	       					}
-	       				 
-	       				 
-	       		   			
-	       			 }
-	       		 
-	       			 ClickyPlatformVM cVm = new ClickyPlatformVM();
-	       			 cVm.title = "visitors";
-	       			 cVm.these_visitors = (double)vistValue;
-	       			 cVm.all_visitors = countAll2;
-	       			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-	       			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
-	       			 platformvm.add(cVm);
-	       			 
-	       			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-	       			 cVm1.title = "uniqueV";
-	       			 cVm1.these_visitors = count3;
-	       			 cVm1.all_visitors = countAll3;
-	       			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
-	       			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
-	       			 platformvm.add(cVm1);
-	       			 
-	       			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-	       			 cVm2.title = "action";
-	       			 cVm2.these_visitors = count7;
-	       			 cVm2.all_visitors = countAll7;
-	       			 cVm2.images = "//con.tent.network/media/icon_click.gif";
-	       			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
-	       			 platformvm.add(cVm2);
-	       			 
-	       			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-	       			 cVm3.title = "averageAct";
-	       			 cVm3.these_visitors = count7/count2;
-	       			 cVm3.all_visitors = countAll7/countAll2;
-	       			 cVm3.images = "//con.tent.network/media/icon_click.gif";
-	       			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
-	       			 platformvm.add(cVm3);
-	       			 
-	       			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-	       			 cVm4.title = "totalT";
-	       			 cVm4.these_visitors = count4;
-	       			 cVm4.all_visitors = countAll4;
-	       			 cVm4.images = "//con.tent.network/media/icon_time.gif";
-	       			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
-	       			 platformvm.add(cVm4);
-	       			 
-	       			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-	       			 cVm5.title = "averageT";
-	       			 cVm5.these_visitors = count4/count2;
-	       			 cVm5.all_visitors = countAll4/countAll2;
-	       			 cVm5.images = "//con.tent.network/media/icon_time.gif";
-	       			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
-	       			 platformvm.add(cVm5);
-	       			 
-	       			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-	       			 cVm6.title = "bounceR";
-	       			 cVm6.these_visitors = count6;
-	       			 cVm6.all_visitors = countAll6;
-	       			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-	       			 if(countAll6 !=0){
-	       				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
-	       			 }
-	       			 else{
-	       				 cVm6.difference = 0.0;
-	       			 }
-	       			 platformvm.add(cVm6);
-	       		 
-	       		 vm.averageAct=count1;
-	       		 vm.visitor=count2;
-	       		 vm.uniqueV=count3;
-	       		 vm.totalT=count4;
-	       		 vm.averageT=count5;
-	       		 vm.bounceR=count6;
-	       		 vm.action=count7;
-	       		
-	       		 VMs.add(vm);
-
+	     		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+	     		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+	     		Map<String, Integer> timeline = new HashMap<String, Integer>();
+	    		ClickyPagesVM vm = new ClickyPagesVM();
+	    		double count1=0.0;
+	    		double count2=0.0;
+	    		double count3=0.0;
+	    		double count4=0.0;
+	    		double count5=0.0;
+	    		double count6=0.0;
+	    		double count7=0.0;
+	    		Integer vistValue = 0;
+	    		Integer vistValue1 = 0;
+	     		 for(ClickyVisitorsList lis:hostObjList){
+	     	     	if(lis.averageAction != null){
+	     	     		count1=Double.parseDouble(lis.averageAction);
+	     	     	}
+	     			if(lis.bounceRate != null){
+	     				count6=Double.parseDouble(lis.bounceRate);	
+	     				     	}
+	     			if(lis.averageTime != null){
+	     				count5=Double.parseDouble(lis.averageTime);	
+	     				}
+	     			if(lis.timeTotal != null){
+	     				count4=count4+Double.parseDouble(lis.timeTotal);
+	     				}
+	     			if(lis.visitors != null){
+	     				 count2=Double.parseDouble(lis.visitors);
+	     				}
+	     			if(lis.uniqueVisitor!= null){
+	     				count3=Double.parseDouble(lis.uniqueVisitor);
+	     				}
+	     			if(lis.actions != null){
+	     			count7=count7+Double.parseDouble(lis.actions);
+	     			}
+	     			
+	     			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+	    			if(lis.visitors != null){
+	    				if (langValue == null) {
+	    					vistValue = vistValue + Integer.parseInt(lis.visitors);
+	    					mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+					 
+	    					vistValue1 = vistValue1 + Integer.parseInt(lis.uniqueVisitor);
+	    					mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.uniqueVisitor));
+	    				}
+	    			}
+	     			
+	     		 }
+	     		 
+	     		 
+	     		 
+	     		 double countAll1=0.0;
+	     			double countAll2=0.0;
+	     			double countAll3=0.0;
+	     			double countAll4=0.0;
+	     			double countAll5=0.0;
+	     			double countAll6=0.0;
+	     			double countAll7=0.0;
+	     			Integer uniquevisit = 0;
+	     			 for(ClickyVisitorsList list:allHostlist){
+	     				 if(list.averageAction != null){
+	     					 countAll1=count1+Double.parseDouble(list.averageAction);
+	     			     	}
+	     					if(list.bounceRate != null){
+	     						 countAll6=count6+Double.parseDouble(list.bounceRate);	
+	     						     	}
+	     					if(list.averageTime != null){
+	     						countAll5=count5+Double.parseDouble(list.averageTime);	
+	     						}
+	     					if(list.timeTotal != null  && !list.timeTotal.equals("")){
+	     						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	     						}
+	     					if(list.visitors != null){
+	     						countAll2=allHostlist.size();
+	     						}
+	     					if(list.uniqueVisitor != null){
+	     						countAll3=allHostlist.size();
+	     						}
+	     					if(list.actions != null && !list.actions.equals("")){
+	     						 countAll7=countAll7+Double.parseDouble(list.actions);
+	     					}
+	     					
+	    					Integer langValue1 = timeline.get(list.DateClick.toString()); 
+	    					if(list.uniqueVisitor != null){
+	    						if (langValue1 == null) {
+	    							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
+	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
+	    						}
+	    					}
+	     				 
+	     		   			
+	     			 }
+	     		 
+	     			ClickyPlatformVM cVm = new ClickyPlatformVM();
+	    			 cVm.title = "visitors";
+	    			 cVm.these_visitors = (double)vistValue;
+	    			 cVm.all_visitors = countAll2;
+	    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+	    			 platformvm.add(cVm);
+	    			 
+	    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	    			 cVm1.title = "uniqueV";
+	    			 cVm1.these_visitors = (double)vistValue1;
+	    			 cVm1.all_visitors = (double)uniquevisit;
+	    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm1.difference = (((double)vistValue1 - (double)uniquevisit) / (double)uniquevisit) * 100;
+	    			 platformvm.add(cVm1);
+	    			 
+	    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	    			 cVm2.title = "action";
+	    			 cVm2.these_visitors = count7;
+	    			 cVm2.all_visitors = countAll7;
+	    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	    			 platformvm.add(cVm2);
+	    			 
+	    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	    			 cVm3.title = "averageAct";
+	    			 cVm3.these_visitors = count7/(double)vistValue;
+	    			 cVm3.all_visitors = countAll7/countAll2;
+	    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	    			 platformvm.add(cVm3);
+	    			 
+	    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	    			 cVm4.title = "totalT";
+	    			 cVm4.these_visitors = count4;
+	    			 cVm4.all_visitors = countAll4;
+	    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	    			 platformvm.add(cVm4);
+	    			 
+	    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	    			 cVm5.title = "averageT";
+	    			 cVm5.these_visitors = count4/(double)vistValue;
+	    			 cVm5.all_visitors = countAll4/countAll2;
+	    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm5.difference = (((count4/(double)vistValue) - (countAll4/countAll2)) / (countAll4/countAll2)) * 100;
+	    			 platformvm.add(cVm5);
+	    			 
+	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	    			 cVm6.title = "bounceR";
+	    			 cVm6.these_visitors = count6;
+	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	    			 if(countAll6 !=0){
+	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    			 }
+	    			 else{
+	    				 cVm6.difference = 0.0;
+	    			 }
+	     			 platformvm.add(cVm6);
+	     		 
+	     		 vm.averageAct=count1;
+	     		 vm.visitor=count2;
+	     		 vm.uniqueV=count3;
+	     		 vm.totalT=count4;
+	     		 vm.averageT=count5;
+	     		 vm.bounceR=count6;
+	     		 vm.action=count7;
+	     		
+	     		 VMs.add(vm);
 	       	 	
 	       	 	return ok(Json.toJson(platformvm));
 
@@ -4026,12 +4068,12 @@ public class ClickyAnalyticsController extends Controller{
 	       	        e.printStackTrace();
 	       	    }
 	       		
-	       		List<ClickyVisitorsList> operatingObjList = ClickyVisitorsList.findByOsAndDate(type, d1, d2);
+	       		List<ClickyVisitorsList> operatingObjList = ClickyVisitorsList.getAll(d1, d2);
 	      		List<ClickyVisitorsList> allOSlist = ClickyVisitorsList.getAll(d1, d2);
 	      		List <ClickyPagesVM> VMs = new ArrayList<>();
 	      		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	      		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
-				
+				Map<String, Integer> timeline = new HashMap<String, Integer>();
 	      		ClickyPagesVM vm = new ClickyPagesVM();
 	      		double count1=0.0;
 	      		double count2=0.0;
@@ -4041,6 +4083,7 @@ public class ClickyAnalyticsController extends Controller{
 	      		double count6=0.0;
 	      		double count7=0.0;
 	      		Integer vistValue = 0;
+				Integer vistValue1 = 0;
 	      		 for(ClickyVisitorsList lis:operatingObjList){
 	      	     	if(lis.averageActionos != null){
 	      	     		count1=Double.parseDouble(lis.averageActionos);
@@ -4060,15 +4103,20 @@ public class ClickyAnalyticsController extends Controller{
 	      			if(lis.uniqueVisitoros!= null){
 	      				count3=Double.parseDouble(lis.uniqueVisitoros);
 	      				}
-	      			if(lis.action != null){
-	      			count7=Double.parseDouble(lis.action);
+	      			if(lis.actions != null){
+	      			count7=count7+Double.parseDouble(lis.actions);
 	      			}
 	      			
 	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+					if(lis.visitorsos != null){
 					if (langValue == null) {
-					 vistValue = vistValue + Integer.parseInt(lis.visitors);
-					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
-					}		
+				 		vistValue = vistValue + Integer.parseInt(lis.visitorsos);
+			 			mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitorsos));
+			 
+			 			vistValue1 = vistValue1 + Integer.parseInt(lis.uniqueVisitoros);
+			 			mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.uniqueVisitoros));
+						}		
+       		 		}	
 	      		 }
 	      		 
 	      		 double countAll1=0.0;
@@ -4078,6 +4126,7 @@ public class ClickyAnalyticsController extends Controller{
 	      			double countAll5=0.0;
 	      			double countAll6=0.0;
 	      			double countAll7=0.0;
+	      			Integer uniquevisit = 0;
 	      			 for(ClickyVisitorsList list:allOSlist){
 	      				 if(list.averageActionos != null){
 	      					 countAll1=count1+Double.parseDouble(list.averageActionos);
@@ -4100,71 +4149,77 @@ public class ClickyAnalyticsController extends Controller{
 	      					if(list.actions != null && !list.actions.equals("")){
 	      						 countAll7=countAll7+Double.parseDouble(list.actions);
 	      					}
+	      					Integer langValue1 = timeline.get(list.DateClick.toString());
+	      					if(list.uniqueVisitororg != null){
+								if(langValue1 == null) {
+									uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitoros);
+					 				timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitoros));
+								}
+							}
 	      				 
 	      				 
-	      		   			
 	      			 }
 	      		 
-	      			 ClickyPlatformVM cVm = new ClickyPlatformVM();
-	      			 cVm.title = "visitors";
-	      			 cVm.these_visitors =  count2;
-	      			 cVm.all_visitors = countAll2;
-	      			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-	      			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
-	      			 platformvm.add(cVm);
-	      			 
-	      			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-	      			 cVm1.title = "uniqueV";
-	      			 cVm1.these_visitors = count3;
-	      			 cVm1.all_visitors = countAll3;
-	      			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
-	      			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
-	      			 platformvm.add(cVm1);
-	      			 
-	      			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-	      			 cVm2.title = "action";
-	      			 cVm2.these_visitors = count7;
-	      			 cVm2.all_visitors = countAll7;
-	      			 cVm2.images = "//con.tent.network/media/icon_click.gif";
-	      			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
-	      			 platformvm.add(cVm2);
-	      			 
-	      			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-	      			 cVm3.title = "averageAct";
-	      			 cVm3.these_visitors = count7/count2;
-	      			 cVm3.all_visitors = countAll7/countAll2;
-	      			 cVm3.images = "//con.tent.network/media/icon_click.gif";
-	      			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
-	      			 platformvm.add(cVm3);
-	      			 
-	      			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-	      			 cVm4.title = "totalT";
-	      			 cVm4.these_visitors = count4;
-	      			 cVm4.all_visitors = countAll4;
-	      			 cVm4.images = "//con.tent.network/media/icon_time.gif";
-	      			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
-	      			 platformvm.add(cVm4);
-	      			 
-	      			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-	      			 cVm5.title = "averageT";
-	      			 cVm5.these_visitors = count4/count2;
-	      			 cVm5.all_visitors = countAll4/countAll2;
-	      			 cVm5.images = "//con.tent.network/media/icon_time.gif";
-	      			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
-	      			 platformvm.add(cVm5);
-	      			 
-	      			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-	      			 cVm6.title = "bounceR";
-	      			 cVm6.these_visitors = count6;
-	      			 cVm6.all_visitors = countAll6;
-	      			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-	      			 if(countAll6 !=0){
-	      				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
-	      			 }
-	      			 else{
-	      				 cVm6.difference = 0.0;
-	      			 }
-	      			 platformvm.add(cVm6);
+	      			ClickyPlatformVM cVm = new ClickyPlatformVM();
+	    			 cVm.title = "visitors";
+	    			 cVm.these_visitors = (double)vistValue;
+	    			 cVm.all_visitors = countAll2;
+	    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+	    			 platformvm.add(cVm);
+	    			 
+	    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	    			 cVm1.title = "uniqueV";
+	    			 cVm1.these_visitors = (double)vistValue1;
+	    			 cVm1.all_visitors = (double)uniquevisit;
+	    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm1.difference = (((double)vistValue1 - (double)uniquevisit) / (double)uniquevisit) * 100;
+	    			 platformvm.add(cVm1);
+	    			 
+	    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	    			 cVm2.title = "action";
+	    			 cVm2.these_visitors = count7;
+	    			 cVm2.all_visitors = countAll7;
+	    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	    			 platformvm.add(cVm2);
+	    			 
+	    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	    			 cVm3.title = "averageAct";
+	    			 cVm3.these_visitors = count7/(double)vistValue;
+	    			 cVm3.all_visitors = countAll7/countAll2;
+	    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	    			 platformvm.add(cVm3);
+	    			 
+	    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	    			 cVm4.title = "totalT";
+	    			 cVm4.these_visitors = count4;
+	    			 cVm4.all_visitors = countAll4;
+	    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	    			 platformvm.add(cVm4);
+	    			 
+	    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	    			 cVm5.title = "averageT";
+	    			 cVm5.these_visitors = count4/(double)vistValue;
+	    			 cVm5.all_visitors = countAll4/countAll2;
+	    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm5.difference = (((count4/(double)vistValue) - (countAll4/countAll2)) / (countAll4/countAll2)) * 100;
+	    			 platformvm.add(cVm5);
+	    			 
+	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	    			 cVm6.title = "bounceR";
+	    			 cVm6.these_visitors = count6;
+	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	    			 if(countAll6 !=0){
+	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    			 }
+	    			 else{
+	    				 cVm6.difference = 0.0;
+	    			 }
+	    			 platformvm.add(cVm6);
 	      		 
 	      		 vm.averageAct=count1;
 	      		 vm.visitor=count2;
@@ -4201,7 +4256,7 @@ public class ClickyAnalyticsController extends Controller{
 	        		List <ClickyPagesVM> VMs = new ArrayList<>();
 	        		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	        		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
-	    			
+	    			Map<String, Integer> timeline = new HashMap<String, Integer>();
 	        		ClickyPagesVM vm = new ClickyPagesVM();
 	        		double count1=0.0;
 	        		double count2=0.0;
@@ -4210,7 +4265,8 @@ public class ClickyAnalyticsController extends Controller{
 	        		double count5=0.0;
 	        		double count6=0.0;
 	        		double count7=0.0;
-	        		Integer vistValue =0;
+	        		Integer vistValue = 0;
+					Integer vistValue1 = 0;
 	        		 for(ClickyVisitorsList lis:browserObjList){
 	        	     	if(lis.averageActionbrowser != null){
 	        	     		count1=Double.parseDouble(lis.averageActionbrowser);
@@ -4235,10 +4291,15 @@ public class ClickyAnalyticsController extends Controller{
 	        			}
 	        			
 	        			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
-	    				if (langValue == null) {
-	    				 vistValue = vistValue + Integer.parseInt(lis.visitors);
-	    				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
-	    				}
+			if(lis.visitorsbrowser != null){
+			if (langValue == null) {
+		 		vistValue = vistValue + Integer.parseInt(lis.visitorsbrowser);
+	 			mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitorsbrowser));
+	 
+	 			vistValue1 = vistValue1 + Integer.parseInt(lis.uniqueVisitorbrowser);
+	 			mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.uniqueVisitorbrowser));
+				}		
+		 		}	
 	        		 }
 	        		 
 	        		 double countAll1=0.0;
@@ -4248,6 +4309,7 @@ public class ClickyAnalyticsController extends Controller{
 	        			double countAll5=0.0;
 	        			double countAll6=0.0;
 	        			double countAll7=0.0;
+	        			Integer uniquevisit = 0;
 	        			 for(ClickyVisitorsList list:allBrowserlist){
 	        				 if(list.averageActionbrowser != null){
 	        					 countAll1=count1+Double.parseDouble(list.averageActionbrowser);
@@ -4270,70 +4332,76 @@ public class ClickyAnalyticsController extends Controller{
 	        					if(list.actions != null && !list.actions.equals("")){
 	        						 countAll7=countAll7+Double.parseDouble(list.actions);
 	        					}
-	        				 
+	        					Integer langValue1 = timeline.get(list.DateClick.toString());
+	        					if(list.uniqueVisitororg != null){
+	        						if(langValue1 == null) {
+	        							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitorbrowser);
+	        							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitorbrowser));
+	        						}
+	        					}		 
 	        				 
 	        		   			
 	        			 }
 	        		 
 	        			 ClickyPlatformVM cVm = new ClickyPlatformVM();
-	        			 cVm.title = "visitors";
-	        			 cVm.these_visitors =  count2;
-	        			 cVm.all_visitors = countAll2;
-	        			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-	        			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
-	        			 platformvm.add(cVm);
-	        			 
-	        			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-	        			 cVm1.title = "uniqueV";
-	        			 cVm1.these_visitors = count3;
-	        			 cVm1.all_visitors = countAll3;
-	        			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
-	        			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
-	        			 platformvm.add(cVm1);
-	        			 
-	        			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-	        			 cVm2.title = "action";
-	        			 cVm2.these_visitors = count7;
-	        			 cVm2.all_visitors = countAll7;
-	        			 cVm2.images = "//con.tent.network/media/icon_click.gif";
-	        			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
-	        			 platformvm.add(cVm2);
-	        			 
-	        			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-	        			 cVm3.title = "averageAct";
-	        			 cVm3.these_visitors = count7/count2;
-	        			 cVm3.all_visitors = countAll7/countAll2;
-	        			 cVm3.images = "//con.tent.network/media/icon_click.gif";
-	        			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
-	        			 platformvm.add(cVm3);
-	        			 
-	        			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-	        			 cVm4.title = "totalT";
-	        			 cVm4.these_visitors = count4;
-	        			 cVm4.all_visitors = countAll4;
-	        			 cVm4.images = "//con.tent.network/media/icon_time.gif";
-	        			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
-	        			 platformvm.add(cVm4);
-	        			 
-	        			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-	        			 cVm5.title = "averageT";
-	        			 cVm5.these_visitors = count4/count2;
-	        			 cVm5.all_visitors = countAll4/countAll2;
-	        			 cVm5.images = "//con.tent.network/media/icon_time.gif";
-	        			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
-	        			 platformvm.add(cVm5);
-	        			 
-	        			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-	        			 cVm6.title = "bounceR";
-	        			 cVm6.these_visitors = count6;
-	        			 cVm6.all_visitors = countAll6;
-	        			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-	        			 if(countAll6 !=0){
-	        				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
-	        			 }
-	        			 else{
-	        				 cVm6.difference = 0.0;
-	        			 }
+		    			 cVm.title = "visitors";
+		    			 cVm.these_visitors = (double)vistValue;
+		    			 cVm.all_visitors = countAll2;
+		    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+		    			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+		    			 platformvm.add(cVm);
+		    			 
+		    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+		    			 cVm1.title = "uniqueV";
+		    			 cVm1.these_visitors = (double)vistValue1;
+		    			 cVm1.all_visitors = (double)uniquevisit;
+		    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+		    			 cVm1.difference = (((double)vistValue1 - (double)uniquevisit) / (double)uniquevisit) * 100;
+		    			 platformvm.add(cVm1);
+		    			 
+		    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+		    			 cVm2.title = "action";
+		    			 cVm2.these_visitors = count7;
+		    			 cVm2.all_visitors = countAll7;
+		    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+		    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+		    			 platformvm.add(cVm2);
+		    			 
+		    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+		    			 cVm3.title = "averageAct";
+		    			 cVm3.these_visitors = count7/(double)vistValue;
+		    			 cVm3.all_visitors = countAll7/countAll2;
+		    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+		    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+		    			 platformvm.add(cVm3);
+		    			 
+		    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+		    			 cVm4.title = "totalT";
+		    			 cVm4.these_visitors = count4;
+		    			 cVm4.all_visitors = countAll4;
+		    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+		    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+		    			 platformvm.add(cVm4);
+		    			 
+		    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+		    			 cVm5.title = "averageT";
+		    			 cVm5.these_visitors = count4/(double)vistValue;
+		    			 cVm5.all_visitors = countAll4/countAll2;
+		    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+		    			 cVm5.difference = (((count4/(double)vistValue) - (countAll4/countAll2)) / (countAll4/countAll2)) * 100;
+		    			 platformvm.add(cVm5);
+		    			 
+		    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+		    			 cVm6.title = "bounceR";
+		    			 cVm6.these_visitors = count6;
+		    			 cVm6.all_visitors = countAll6;
+		    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+		    			 if(countAll6 !=0){
+		    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		    			 }
+		    			 else{
+		    				 cVm6.difference = 0.0;
+		    			 }
 	        			 platformvm.add(cVm6);
 	        		 
 	        		 vm.averageAct=count1;
@@ -4375,15 +4443,17 @@ public class ClickyAnalyticsController extends Controller{
 	      		List <ClickyPagesVM> VMs = new ArrayList<>();
 	      		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	      		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
-	      		ClickyPagesVM vm = new ClickyPagesVM();
-	      		double count1=0.0;
-	      		double count2=0.0;
-	      		double count3=0.0;
-	      		double count4=0.0;
-	      		double count5=0.0;
-	      		double count6=0.0;
-	      		double count7=0.0;
-	      		Integer vistValue = 0;
+	      		Map<String, Integer> timeline = new HashMap<String, Integer>();
+	    		ClickyPagesVM vm = new ClickyPagesVM();
+	    		double count1=0.0;
+	    		double count2=0.0;
+	    		double count3=0.0;
+	    		double count4=0.0;
+	    		double count5=0.0;
+	    		double count6=0.0;
+	    		double count7=0.0;
+	    		Integer vistValue = 0;
+	    		Integer vistValue1 = 0;
 	      		 for(ClickyVisitorsList lis:screenObjList){
 	      	     	if(lis.averageAction != null){
 	      	     		count1=Double.parseDouble(lis.averageAction);
@@ -4403,15 +4473,20 @@ public class ClickyAnalyticsController extends Controller{
 	      			if(lis.uniqueVisitor!= null){
 	      				count3=Double.parseDouble(lis.uniqueVisitor);
 	      				}
-	      			if(lis.action != null){
-	      			count7=Double.parseDouble(lis.action);
+	      			if(lis.actions != null){
+	      			count7=count7+Double.parseDouble(lis.actions);
 	      			}
 	      			
 	      			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
-	  				if (langValue == null) {
-	  				 vistValue = vistValue + Integer.parseInt(lis.visitors);
-	  				 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
-	  				}
+	    			if(lis.visitors != null){
+	    				if (langValue == null) {
+	    					vistValue = vistValue + Integer.parseInt(lis.visitors);
+	    					mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+					 
+	    					vistValue1 = vistValue1 + Integer.parseInt(lis.uniqueVisitor);
+	    					mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.uniqueVisitor));
+	    				}
+	    			}
 	      			
 	      		 }
 	      		 
@@ -4424,6 +4499,7 @@ public class ClickyAnalyticsController extends Controller{
 	      			double countAll5=0.0;
 	      			double countAll6=0.0;
 	      			double countAll7=0.0;
+	      			Integer uniquevisit = 0;
 	      			 for(ClickyVisitorsList list:allScreenlist){
 	      				 if(list.averageAction != null){
 	      					 countAll1=count1+Double.parseDouble(list.averageAction);
@@ -4446,70 +4522,77 @@ public class ClickyAnalyticsController extends Controller{
 	      					if(list.actions != null && !list.actions.equals("")){
 	      						 countAll7=countAll7+Double.parseDouble(list.actions);
 	      					}
-	      				 
+	      					
+	    					Integer langValue1 = timeline.get(list.DateClick.toString()); 
+	    					if(list.uniqueVisitor != null){
+	    						if (langValue1 == null) {
+	    							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
+	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
+	    						}
+	    					}
 	      				 
 	      		   			
 	      			 }
 	      		 
-	      			 ClickyPlatformVM cVm = new ClickyPlatformVM();
-	      			 cVm.title = "visitors";
-	      			 cVm.these_visitors = (double)vistValue;
-	      			 cVm.all_visitors = countAll2;
-	      			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-	      			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
-	      			 platformvm.add(cVm);
-	      			 
-	      			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
-	      			 cVm1.title = "uniqueV";
-	      			 cVm1.these_visitors = count3;
-	      			 cVm1.all_visitors = countAll3;
-	      			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
-	      			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
-	      			 platformvm.add(cVm1);
-	      			 
-	      			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
-	      			 cVm2.title = "action";
-	      			 cVm2.these_visitors = count7;
-	      			 cVm2.all_visitors = countAll7;
-	      			 cVm2.images = "//con.tent.network/media/icon_click.gif";
-	      			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
-	      			 platformvm.add(cVm2);
-	      			 
-	      			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
-	      			 cVm3.title = "averageAct";
-	      			 cVm3.these_visitors = count7/count2;
-	      			 cVm3.all_visitors = countAll7/countAll2;
-	      			 cVm3.images = "//con.tent.network/media/icon_click.gif";
-	      			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
-	      			 platformvm.add(cVm3);
-	      			 
-	      			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
-	      			 cVm4.title = "totalT";
-	      			 cVm4.these_visitors = count4;
-	      			 cVm4.all_visitors = countAll4;
-	      			 cVm4.images = "//con.tent.network/media/icon_time.gif";
-	      			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
-	      			 platformvm.add(cVm4);
-	      			 
-	      			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
-	      			 cVm5.title = "averageT";
-	      			 cVm5.these_visitors = count4/count2;
-	      			 cVm5.all_visitors = countAll4/countAll2;
-	      			 cVm5.images = "//con.tent.network/media/icon_time.gif";
-	      			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
-	      			 platformvm.add(cVm5);
-	      			 
-	      			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
-	      			 cVm6.title = "bounceR";
-	      			 cVm6.these_visitors = count6;
-	      			 cVm6.all_visitors = countAll6;
-	      			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
-	      			 if(countAll6 !=0){
-	      				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
-	      			 }
-	      			 else{
-	      				 cVm6.difference = 0.0;
-	      			 }
+	      			ClickyPlatformVM cVm = new ClickyPlatformVM();
+	    			 cVm.title = "visitors";
+	    			 cVm.these_visitors = (double)vistValue;
+	    			 cVm.all_visitors = countAll2;
+	    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
+	    			 platformvm.add(cVm);
+	    			 
+	    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+	    			 cVm1.title = "uniqueV";
+	    			 cVm1.these_visitors = (double)vistValue1;
+	    			 cVm1.all_visitors = (double)uniquevisit;
+	    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+	    			 cVm1.difference = (((double)vistValue1 - (double)uniquevisit) / (double)uniquevisit) * 100;
+	    			 platformvm.add(cVm1);
+	    			 
+	    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+	    			 cVm2.title = "action";
+	    			 cVm2.these_visitors = count7;
+	    			 cVm2.all_visitors = countAll7;
+	    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+	    			 platformvm.add(cVm2);
+	    			 
+	    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+	    			 cVm3.title = "averageAct";
+	    			 cVm3.these_visitors = count7/(double)vistValue;
+	    			 cVm3.all_visitors = countAll7/countAll2;
+	    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+	    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+	    			 platformvm.add(cVm3);
+	    			 
+	    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+	    			 cVm4.title = "totalT";
+	    			 cVm4.these_visitors = count4;
+	    			 cVm4.all_visitors = countAll4;
+	    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+	    			 platformvm.add(cVm4);
+	    			 
+	    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+	    			 cVm5.title = "averageT";
+	    			 cVm5.these_visitors = count4/(double)vistValue;
+	    			 cVm5.all_visitors = countAll4/countAll2;
+	    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+	    			 cVm5.difference = (((count4/(double)vistValue) - (countAll4/countAll2)) / (countAll4/countAll2)) * 100;
+	    			 platformvm.add(cVm5);
+	    			 
+	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+	    			 cVm6.title = "bounceR";
+	    			 cVm6.these_visitors = count6;
+	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+	    			 if(countAll6 !=0){
+	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    			 }
+	    			 else{
+	    				 cVm6.difference = 0.0;
+	    			 }
 	      			 platformvm.add(cVm6);
 	      		 
 	      		 vm.averageAct=count1;
@@ -5576,7 +5659,7 @@ public class ClickyAnalyticsController extends Controller{
 				 
 				 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 				 cVm3.title = "averageAct";
-				 cVm3.these_visitors = count1;
+				 cVm3.these_visitors = count7/count2;
 				 cVm3.all_visitors = countAll7/countAll3;
 				 cVm3.images = "//con.tent.network/media/icon_click.gif";
 				
@@ -5604,7 +5687,7 @@ public class ClickyAnalyticsController extends Controller{
 				 
 				 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 				 cVm5.title = "averageT";
-				 cVm5.these_visitors = count5;
+				 cVm5.these_visitors = count4/count2;
 				 cVm5.all_visitors = countAll4/countAll3;
 				 cVm5.images = "//con.tent.network/media/icon_time.gif";
 				 
@@ -5806,4 +5889,532 @@ public class ClickyAnalyticsController extends Controller{
 
 	    }
 	 
+	    public static Result getbrowserdata(String title , String startdate, String enddate){
+    		Date d1= null;
+    		Date d2= null;
+    		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    		try{
+	    		 d1 = format.parse(startdate);
+	             d2 = format.parse(enddate);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+    		
+    		List<ClickyPlatformBrowser> browserObjList = ClickyPlatformBrowser.findByTitleAndDate(title, d1, d2);
+    		List<ClickyPlatformBrowser> allbrowserlist = ClickyPlatformBrowser.getAll(d1, d2);
+    		List <ClickyPagesVM> VMs = new ArrayList<>();
+    		List<ClickyPlatformVM> platformvm =new ArrayList<>();
+    		ClickyPagesVM vm = new ClickyPagesVM();
+    		double count1=0.0;
+    		double count2=0.0;
+    		double count3=0.0;
+    		double count4=0.0;
+    		double count5=0.0;
+    		double count6=0.0;
+    		double count7=0.0;
+    		 for(ClickyPlatformBrowser lis:browserObjList){
+             	
+    			 count1=count1+Double.parseDouble(lis.averageAction1);
+    			 count2=count2+Double.parseDouble(lis.visitors1);
+    			 count3=count3+Double.parseDouble(lis.uniqueVisitor1);
+    			 count4=count4+Double.parseDouble(lis.totalTime1);
+    			 count5=count5+Double.parseDouble(lis.averageTime1);
+    			 count6=count6+Double.parseDouble(lis.bounceRate1);
+    			 count7=count7+Double.parseDouble(lis.action1);
+       	   			
+    		 }
+    		 
+    		 double countAll1=0.0;
+     		double countAll2=0.0;
+     		double countAll3=0.0;
+     		double countAll4=0.0;
+     		double countAll5=0.0;
+     		double countAll6=0.0;
+     		double countAll7=0.0;
+     		 for(ClickyPlatformBrowser list:allbrowserlist){
+              	
+     			 countAll1=countAll1+Double.parseDouble(list.averageAction1);
+     			 countAll2=countAll2+Double.parseDouble(list.visitors1);
+     			 countAll3=countAll3+Double.parseDouble(list.uniqueVisitor1);
+     			 countAll4=countAll4+Double.parseDouble(list.totalTime1);
+     			 countAll5=countAll5+Double.parseDouble(list.averageTime1);
+     			 countAll6=countAll6+Double.parseDouble(list.bounceRate1);
+     			 countAll7=countAll7+Double.parseDouble(list.action1);
+        	   			
+     		 }
+    		 
+     		ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
+    		 
+    		 vm.averageAct=count1;
+    		 vm.visitor=count2;
+    		 vm.uniqueV=count3;
+    		 vm.totalT=count4;
+    		 vm.averageT=count5;
+    		 vm.bounceR=count6;
+    		 vm.action=count7;
+    		
+    		 VMs.add(vm);
+    
+	     	
+	     	
+    		 
+	     	return ok(Json.toJson(platformvm));
+    		
+    	}
+	 
+	    public static Result getOperatingSystemdata(String title , String startdate, String enddate){
+			Date d1= null;
+			Date d2= null;
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try{
+	    		 d1 = format.parse(startdate);
+	             d2 = format.parse(enddate);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+			
+			List<ClickyPlatformOperatingSystem> operatingObjList = ClickyPlatformOperatingSystem.findByTitleAndDate(title, d1, d2);
+			List<ClickyPlatformOperatingSystem> allOSlist = ClickyPlatformOperatingSystem.getAll(d1, d2);
+			List <ClickyPagesVM> VMs = new ArrayList<>();
+			List<ClickyPlatformVM> platformvm =new ArrayList<>();
+			ClickyPagesVM vm = new ClickyPagesVM();
+			double count1=0.0;
+			double count2=0.0;
+			double count3=0.0;
+			double count4=0.0;
+			double count5=0.0;
+			double count6=0.0;
+			double count7=0.0;
+			 for(ClickyPlatformOperatingSystem lis:operatingObjList){
+	         	
+				 count1=count1+Double.parseDouble(lis.averageAction1);
+				 count2=count2+Double.parseDouble(lis.visitors1);
+				 count3=count3+Double.parseDouble(lis.uniqueVisitor1);
+				 count4=count4+Double.parseDouble(lis.totalTime1);
+				 count5=count5+Double.parseDouble(lis.averageTime1);
+				 count6=count6+Double.parseDouble(lis.bounceRate1);
+				 count7=count7+Double.parseDouble(lis.action1);
+	         	
+			 }
+			 
+			 double countAll1=0.0;
+	 		double countAll2=0.0;
+	 		double countAll3=0.0;
+	 		double countAll4=0.0;
+	 		double countAll5=0.0;
+	 		double countAll6=0.0;
+	 		double countAll7=0.0;
+	 		 for(ClickyPlatformOperatingSystem list:allOSlist){
+	          	
+	 			 countAll1=countAll1+Double.parseDouble(list.averageAction1);
+	 			 countAll2=countAll2+Double.parseDouble(list.visitors1);
+	 			 countAll3=countAll3+Double.parseDouble(list.uniqueVisitor1);
+	 			 countAll4=countAll4+Double.parseDouble(list.totalTime1);
+	 			 countAll5=countAll5+Double.parseDouble(list.averageTime1);
+	 			 countAll6=countAll6+Double.parseDouble(list.bounceRate1);
+	 			 countAll7=countAll7+Double.parseDouble(list.action1);
+	    	   			
+	 		 }
+			 
+	 		ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1/count2;
+			 cVm3.all_visitors = countAll1/countAll2;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5/count2;
+			 cVm5.all_visitors = countAll5/countAll2;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
+			 
+			 vm.averageAct=count1;
+			 vm.visitor=count2;
+			 vm.uniqueV=count3;
+			 vm.totalT=count4;
+			 vm.averageT=count5;
+			 vm.bounceR=count6;
+			 vm.action=count7;
+			
+			 VMs.add(vm);
+
+	     	
+	     	
+			 
+	     	return ok(Json.toJson(platformvm));
+			
+		}
+	    
+	    
+	    public static Result getResolutiondata(String title , String startdate, String enddate){
+			Date d1= null;
+			Date d2= null;
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try{
+	    		 d1 = format.parse(startdate);
+	             d2 = format.parse(enddate);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+			
+			List<ClickyPlatformScreen> screenObjList = ClickyPlatformScreen.findByTitleAndDate(title, d1, d2);
+			List<ClickyPlatformScreen> allscreenlist = ClickyPlatformScreen.getAll(d1, d2);
+			List <ClickyPagesVM> VMs = new ArrayList<>();
+			List<ClickyPlatformVM> platformvm =new ArrayList<>();
+			ClickyPagesVM vm = new ClickyPagesVM();
+			double count1=0.0;
+			double count2=0.0;
+			double count3=0.0;
+			double count4=0.0;
+			double count5=0.0;
+			double count6=0.0;
+			double count7=0.0;
+			 for(ClickyPlatformScreen lis:screenObjList){
+	         	
+				 count1=count1+Double.parseDouble(lis.averageAction1);
+				 count2=count2+Double.parseDouble(lis.visitors1);
+				 count3=count3+Double.parseDouble(lis.uniqueVisitor1);
+				 count4=count4+Double.parseDouble(lis.totalTime1);
+				 count5=count5+Double.parseDouble(lis.averageTime1);
+				 count6=count6+Double.parseDouble(lis.bounceRate1);
+				 count7=count7+Double.parseDouble(lis.action1);
+	   	   			
+			 }
+			 
+			 double countAll1=0.0;
+	 		double countAll2=0.0;
+	 		double countAll3=0.0;
+	 		double countAll4=0.0;
+	 		double countAll5=0.0;
+	 		double countAll6=0.0;
+	 		double countAll7=0.0;
+	 		 for(ClickyPlatformScreen list:allscreenlist){
+	          	
+	 			 countAll1=countAll1+Double.parseDouble(list.averageAction1);
+	 			 countAll2=countAll2+Double.parseDouble(list.visitors1);
+	 			 countAll3=countAll3+Double.parseDouble(list.uniqueVisitor1);
+	 			 countAll4=countAll4+Double.parseDouble(list.totalTime1);
+	 			 countAll5=countAll5+Double.parseDouble(list.averageTime1);
+	 			 countAll6=countAll6+Double.parseDouble(list.bounceRate1);
+	 			 countAll7=countAll7+Double.parseDouble(list.action1);
+	    	   			
+	 		 }
+			 
+	 		ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);
+			 
+			 vm.averageAct=count1;
+			 vm.visitor=count2;
+			 vm.uniqueV=count3;
+			 vm.totalT=count4;
+			 vm.averageT=count5;
+			 vm.bounceR=count6;
+			 vm.action=count7;
+			
+			 VMs.add(vm);
+
+	     	
+	     	
+			 
+	     	return ok(Json.toJson(platformvm));
+			
+		}
+	    
+	    public static Result getHardwaredata(String title , String startdate, String enddate){
+			Date d1= null;
+			Date d2= null;
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			try{
+	    		 d1 = format.parse(startdate);
+	             d2 = format.parse(enddate);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+			
+			List<ClickyPlatformHardware> hardwareObjList = ClickyPlatformHardware.findByTitleAndDate(title, d1, d2);
+			List<ClickyPlatformHardware> allhardwarelist = ClickyPlatformHardware.getAll(d1, d2);
+			List <ClickyPagesVM> VMs = new ArrayList<>();
+			List<ClickyPlatformVM> platformvm =new ArrayList<>();
+			ClickyPagesVM vm = new ClickyPagesVM();
+			double count1=0.0;
+			double count2=0.0;
+			double count3=0.0;
+			double count4=0.0;
+			double count5=0.0;
+			double count6=0.0;
+			double count7=0.0;
+			 for(ClickyPlatformHardware lis:hardwareObjList){
+	         	
+				 count1=count1+Double.parseDouble(lis.averageAction1);
+				 count2=count2+Double.parseDouble(lis.visitors1);
+				 count3=count3+Double.parseDouble(lis.uniqueVisitor1);
+				 count4=count4+Double.parseDouble(lis.totalTime1);
+				 count5=count5+Double.parseDouble(lis.averageTime1);
+				 count6=count6+Double.parseDouble(lis.bounceRate1);
+				 count7=count7+Double.parseDouble(lis.action1);
+	   	   			
+			 }
+			 
+			 double countAll1=0.0;
+	 		double countAll2=0.0;
+	 		double countAll3=0.0;
+	 		double countAll4=0.0;
+	 		double countAll5=0.0;
+	 		double countAll6=0.0;
+	 		double countAll7=0.0;
+	 		 for(ClickyPlatformHardware list:allhardwarelist){
+	          	
+	 			 countAll1=countAll1+Double.parseDouble(list.averageAction1);
+	 			 countAll2=countAll2+Double.parseDouble(list.visitors1);
+	 			 countAll3=countAll3+Double.parseDouble(list.uniqueVisitor1);
+	 			 countAll4=countAll4+Double.parseDouble(list.totalTime1);
+	 			 countAll5=countAll5+Double.parseDouble(list.averageTime1);
+	 			 countAll6=countAll6+Double.parseDouble(list.bounceRate1);
+	 			 countAll7=countAll7+Double.parseDouble(list.action1);
+	    	   			
+	 		 }
+			 
+	 		ClickyPlatformVM cVm = new ClickyPlatformVM();
+			 cVm.title = "visitors";
+			 cVm.these_visitors =  count2;
+			 cVm.all_visitors = countAll2;
+			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+			 platformvm.add(cVm);
+			 
+			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
+			 cVm1.title = "uniqueV";
+			 cVm1.these_visitors = count3;
+			 cVm1.all_visitors = countAll3;
+			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
+			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+			 platformvm.add(cVm1);
+			 
+			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
+			 cVm2.title = "action";
+			 cVm2.these_visitors = count7;
+			 cVm2.all_visitors = countAll7;
+			 cVm2.images = "//con.tent.network/media/icon_click.gif";
+			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
+			 platformvm.add(cVm2);
+			 
+			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
+			 cVm3.title = "averageAct";
+			 cVm3.these_visitors = count1;
+			 cVm3.all_visitors = countAll1;
+			 cVm3.images = "//con.tent.network/media/icon_click.gif";
+			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
+			 platformvm.add(cVm3);
+			 
+			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
+			 cVm4.title = "totalT";
+			 cVm4.these_visitors = count4;
+			 cVm4.all_visitors = countAll4;
+			 cVm4.images = "//con.tent.network/media/icon_time.gif";
+			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
+			 platformvm.add(cVm4);
+			 
+			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
+			 cVm5.title = "averageT";
+			 cVm5.these_visitors = count5;
+			 cVm5.all_visitors = countAll5;
+			 cVm5.images = "//con.tent.network/media/icon_time.gif";
+			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+			 platformvm.add(cVm5);
+			 
+			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
+			 cVm6.title = "bounceR";
+			 cVm6.these_visitors = count6;
+			 cVm6.all_visitors = countAll6;
+			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
+			 if(countAll6 !=0){
+				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+			 }
+			 else{
+				 cVm6.difference = 0.0;
+			 }
+			 platformvm.add(cVm6);		 
+			 vm.averageAct=count1;
+			 vm.visitor=count2;
+			 vm.uniqueV=count3;
+			 vm.totalT=count4;
+			 vm.averageT=count5;
+			 vm.bounceR=count6;
+			 vm.action=count7;
+			
+			 VMs.add(vm);
+
+	     	
+	     	
+			 
+	     	return ok(Json.toJson(platformvm));
+			
+		}
+	    
 }

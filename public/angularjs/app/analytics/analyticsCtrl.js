@@ -3222,7 +3222,7 @@ angular.module('newApp')
 		 
 		 $scope.gridOptions.columnDefs = [
 								              {name: 'title', displayName: 'Actions', width:'40%',
-								            	  cellTemplate: '<div><span ng-click="grid.appScope.goToBrowserpage(row.entity.id)">{{row.entity.title}}</span></div>',
+								            	  cellTemplate: '<div><span ng-click="grid.appScope.goToBrowserpage(row.entity.title)">{{row.entity.title}}</span></div>',
 								              },
 								             {name:'value', displayName:'Visitors', width:'10%',
 								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
