@@ -131,8 +131,8 @@ public class ClickyAnalyticsController extends Controller{
 	    				GregorianCalendar gcal = new GregorianCalendar();
 	    				gcal.setTime(sampleDate);
 	    				while (gcal.getTime().before(newcurrDate)) {
-	    				    Date d = gcal.getTime();
-	    				    sDate=df.format(d);
+	    				    Date dateClicky = gcal.getTime();
+	    				    sDate=df.format(dateClicky);
 	    				   // startDateForList=d;
 	    				    System.out.println(sDate);
 	    	          
@@ -719,7 +719,7 @@ public class ClickyAnalyticsController extends Controller{
 					    				}
 				    				}
 			    				
-			    			cVisitorsList.setDateClick(thedate);
+			    			cVisitorsList.setDateClick(dateClicky);
 			    			
 			    			cVisitorsList.save();
 						}
@@ -812,7 +812,7 @@ public class ClickyAnalyticsController extends Controller{
 		    				
 		    			
 		    				    				
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -906,7 +906,7 @@ public class ClickyAnalyticsController extends Controller{
 		    				
 		    			
 		    				    				
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -1000,7 +1000,7 @@ public class ClickyAnalyticsController extends Controller{
 		    			
 		    			
 		    			
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -1144,7 +1144,7 @@ public class ClickyAnalyticsController extends Controller{
 		    				
 		    				
 		    				
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -1288,7 +1288,7 @@ public class ClickyAnalyticsController extends Controller{
 		    				
 		    				
 		    				
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -1325,7 +1325,7 @@ public class ClickyAnalyticsController extends Controller{
 		    				e.printStackTrace();
 		    			}
 		    				    				
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -1364,7 +1364,7 @@ public class ClickyAnalyticsController extends Controller{
 			    			catch(Exception e){
 			    				e.printStackTrace();
 			    			}
-			    				cPages.setSaveDate(curr);
+			    				cPages.setSaveDate(dateClicky);
 			    				cPages.save();
 						}
 					}
@@ -1509,7 +1509,7 @@ public class ClickyAnalyticsController extends Controller{
 		    				
 		    				
 		    				
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -1615,7 +1615,7 @@ public class ClickyAnalyticsController extends Controller{
 		    			
 		    			
 		    			
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 				}
@@ -1717,7 +1717,7 @@ public class ClickyAnalyticsController extends Controller{
 		    			
 		    				}
 		    	
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 				}
@@ -1867,7 +1867,7 @@ public class ClickyAnalyticsController extends Controller{
 		    	    			
 		    			
 		    				}
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -2021,7 +2021,7 @@ public class ClickyAnalyticsController extends Controller{
 		    	    			
 		    			
 		    				}
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -2176,7 +2176,7 @@ public class ClickyAnalyticsController extends Controller{
 		    	    			
 		    			
 		    				}
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -2327,7 +2327,7 @@ public class ClickyAnalyticsController extends Controller{
 		    	    			
 		    			
 		    				}
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.save();
 					}
 					}
@@ -2503,7 +2503,7 @@ public class ClickyAnalyticsController extends Controller{
 		    	    			
 		    			
 		    				}
-		    				cPage.setSaveDate(curr);
+		    				cPage.setSaveDate(dateClicky);
 		    				cPage.setUrl(url);
 		    				cPage.setClickyPagesId(idForPage);
 		    				cPage.save();
@@ -2559,7 +2559,7 @@ public class ClickyAnalyticsController extends Controller{
 		    			
 		    			
 		    			
-		    			cPages.setSaveDate(curr);
+		    			cPages.setSaveDate(dateClicky);
 		    			//	cPages1.setClickyPagesId(idForPage);
 		    				cPages.save();
 					}
@@ -2662,7 +2662,7 @@ public class ClickyAnalyticsController extends Controller{
 		    			
 		    				}
 		    			
-		    			cPages.setSaveDate(curr);
+		    			cPages.setSaveDate(dateClicky);
 		    			//	cPages1.setClickyPagesId(idForPage);
 		    				cPages.save();
 					}
@@ -2766,7 +2766,7 @@ public class ClickyAnalyticsController extends Controller{
 		    			
 		    			
 		    			
-		    			cPages.setSaveDate(curr);
+		    			cPages.setSaveDate(dateClicky);
 		    			//	cPages1.setClickyPagesId(idForPage);
 		    				cPages.save();
 					}
@@ -2809,7 +2809,7 @@ public class ClickyAnalyticsController extends Controller{
 		    			cPages.setStatsUrl(jsonArrayContentDownLoad.getJSONObject(i).get("stats_url").toString());
 		    			cPages.setUrl(jsonArrayContentDownLoad.getJSONObject(i).get("url").toString());
 		    			
-		    			cPages.setSaveDate(curr);
+		    			cPages.setSaveDate(dateClicky);
 		    			//	cPages1.setClickyPagesId(idForPage);
 		    				cPages.save();
 					}
@@ -2916,7 +2916,7 @@ public class ClickyAnalyticsController extends Controller{
 		    			
 		    				}
 		    			
-		    			cPages.setSaveDate(curr);
+		    			cPages.setSaveDate(dateClicky);
 		    			//	cPages1.setClickyPagesId(idForPage);
 		    				cPages.save();
 					}
@@ -3017,7 +3017,7 @@ public class ClickyAnalyticsController extends Controller{
 		    	    			
 		    			
 		    				}
-		    				cPages.setSaveDate(curr);
+		    				cPages.setSaveDate(dateClicky);
 		    				cPages.setUrl(url);
 		    			//	cPages1.setClickyPagesId(idForPage);
 		    				cPages.save();
@@ -3127,7 +3127,7 @@ public class ClickyAnalyticsController extends Controller{
 				    				}
 			    				}
 			    			
-			    			cAction.setCurrDate(curr);
+			    			cAction.setCurrDate(dateClicky);
 			    			cAction.save();
 						}
 		    			
@@ -3347,7 +3347,7 @@ public class ClickyAnalyticsController extends Controller{
 	    		double count6=0.0;
 	    		double count7=0.0;
 	    		Integer vistValue = 0;
-	    		Integer timevalue = 0;
+	    		Integer vistValue1 = 0;
 	    		 for(ClickyVisitorsList lis:locationObjList){
 	    	     	if(lis.averageAction != null){
 	    	     		count1=Double.parseDouble(lis.averageAction);
@@ -3372,18 +3372,15 @@ public class ClickyAnalyticsController extends Controller{
 	    			}
 	    			
 	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
+	    			if(lis.visitors != null){
 					if (langValue == null) {
-					 vistValue = vistValue + Integer.parseInt(lis.actions);
-					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.actions));
+					 vistValue = vistValue + Integer.parseInt(lis.visitors);
+					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.visitors));
+					 
+					 vistValue1 = vistValue1 + Integer.parseInt(lis.uniqueVisitor);
+					 mapOffline.put(lis.DateClick.toString(), Integer.parseInt(lis.uniqueVisitor));
 					}
-					if(lis.geolocation != null){
-					Integer lang = timeline.get(lis.geolocation); 
-					if (lang == null) {
-						
-						timevalue = timevalue + Integer.parseInt(lis.timeTotal);
-						timeline.put(lis.DateClick.toString(), Integer.parseInt(lis.timeTotal));
-						}
-					}
+	    			}
 	    		 }
 	    		 
 	    		 
@@ -3395,6 +3392,7 @@ public class ClickyAnalyticsController extends Controller{
 	    			double countAll5=0.0;
 	    			double countAll6=0.0;
 	    			double countAll7=0.0;
+	    			Integer uniquevisit = 0;
 	    			 for(ClickyVisitorsList list:alldatalist){
 	    				 if(list.averageAction != null){
 	    					 countAll1=count1+Double.parseDouble(list.averageAction);
@@ -3417,38 +3415,42 @@ public class ClickyAnalyticsController extends Controller{
 	    					if(list.actions != null && !list.actions.equals("")){
 	    						 countAll7=countAll7+Double.parseDouble(list.actions);
 	    					}
-	    				 
-	    				 
-	    		   			
+	    					Integer langValue1 = timeline.get(list.DateClick.toString()); 
+	    					if(list.uniqueVisitor != null){
+	    					if (langValue1 == null) {
+	    						uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
+	    					 timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
+	    					}
+	    					}
 	    			 }
 	    		 
 	    			 ClickyPlatformVM cVm = new ClickyPlatformVM();
 	    			 cVm.title = "visitors";
-	    			 cVm.these_visitors = count2;
+	    			 cVm.these_visitors = (double)vistValue;
 	    			 cVm.all_visitors = countAll2;
 	    			 cVm.images = "//con.tent.network/media/icon_visitors.gif";
-	    			 cVm.difference = ((count2 - countAll2) / countAll2) * 100;
+	    			 cVm.difference = (((double)vistValue - countAll2) / countAll2) * 100;
 	    			 platformvm.add(cVm);
 	    			 
 	    			 ClickyPlatformVM cVm1 = new ClickyPlatformVM();
 	    			 cVm1.title = "uniqueV";
-	    			 cVm1.these_visitors = count3;
-	    			 cVm1.all_visitors = countAll3;
+	    			 cVm1.these_visitors = (double)vistValue1;
+	    			 cVm1.all_visitors = (double)uniquevisit;
 	    			 cVm1.images = "//con.tent.network/media/icon_visitors.gif";
-	    			 cVm1.difference = ((count3 - countAll3) / countAll3) * 100;
+	    			 cVm1.difference = (((double)vistValue1 - (double)uniquevisit) / (double)uniquevisit) * 100;
 	    			 platformvm.add(cVm1);
 	    			 
 	    			 ClickyPlatformVM cVm2 = new ClickyPlatformVM();
 	    			 cVm2.title = "action";
-	    			 cVm2.these_visitors = (double)vistValue;
+	    			 cVm2.these_visitors = count7;
 	    			 cVm2.all_visitors = countAll7;
 	    			 cVm2.images = "//con.tent.network/media/icon_click.gif";
-	    			 cVm2.difference = (((double)vistValue - countAll7) / countAll7) * 100;
+	    			 cVm2.difference = ((count7 - countAll7) / countAll7) * 100;
 	    			 platformvm.add(cVm2);
 	    			 
 	    			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 	    			 cVm3.title = "averageAct";
-	    			 cVm3.these_visitors = (double)vistValue/count2;
+	    			 cVm3.these_visitors = count7/(double)vistValue;
 	    			 cVm3.all_visitors = countAll7/countAll2;
 	    			 cVm3.images = "//con.tent.network/media/icon_click.gif";
 	    			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
@@ -3456,18 +3458,18 @@ public class ClickyAnalyticsController extends Controller{
 	    			 
 	    			 ClickyPlatformVM cVm4 = new ClickyPlatformVM();
 	    			 cVm4.title = "totalT";
-	    			 cVm4.these_visitors = (double)timevalue;
+	    			 cVm4.these_visitors = count4;
 	    			 cVm4.all_visitors = countAll4;
 	    			 cVm4.images = "//con.tent.network/media/icon_time.gif";
-	    			 cVm4.difference = (((double)timevalue - countAll4) / countAll4) * 100;
+	    			 cVm4.difference = ((count4 - countAll4) / countAll4) * 100;
 	    			 platformvm.add(cVm4);
 	    			 
 	    			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 	    			 cVm5.title = "averageT";
-	    			 cVm5.these_visitors = (double)timevalue/count2;
+	    			 cVm5.these_visitors = count4/(double)vistValue;
 	    			 cVm5.all_visitors = countAll4/countAll2;
 	    			 cVm5.images = "//con.tent.network/media/icon_time.gif";
-	    			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
+	    			 cVm5.difference = (((count4/(double)vistValue) - (countAll4/countAll2)) / (countAll4/countAll2)) * 100;
 	    			 platformvm.add(cVm5);
 	    			 
 	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
