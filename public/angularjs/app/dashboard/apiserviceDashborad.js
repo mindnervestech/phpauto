@@ -175,5 +175,111 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.getSoldVehicleDetails = function(volumeStatStartDateId, volumeStatEndDateId){
+		var defer = $q.defer();
+		$http.get('/getSoldVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getFinancialVehicleDetailsByBodyStyle = function(volumeStatStartDateId, volumeStatEndDateId){
+		var defer = $q.defer();
+		$http.get('/getFinancialVehicleDetailsByBodyStyle/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getFinancialVehicleDetails = function(volumeStatStartDateId, volumeStatEndDateId){
+		var defer = $q.defer();
+		$http.get('/getFinancialVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getSoldVehicleDetailsAvgSale = function(volumeStatStartDateId, volumeStatEndDateId){
+		var defer = $q.defer();
+		$http.get('/getSoldVehicleDetailsAvgSale/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getAllRequestInfoSeen = function(){
+		var defer = $q.defer();
+		$http.get('/getAllRequestInfoSeen').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getAllContactUsSeen = function(){
+		var defer = $q.defer();
+		$http.get('/getAllContactUsSeen').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getAllLostAndCompLeads = function(){
+		var defer = $q.defer();
+		$http.get('/getAllLostAndCompLeads').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.saveCompletedLeads = function(duration, comment, id, typeOfLead){
+		var defer = $q.defer();
+		$http.get('/saveCompletedLeads/'+duration+'/'+comment+'/'+id+'/'+typeOfLead).success(function(data) {
+			$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Completed successfully",
+					});
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getSessionIdData = function(sessionId){
+		var defer = $q.defer();
+		$http.get('/getSessionIdData/'+sessionId).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	
+	this.getSessionData = function(clickySessionId, startDateFilter, endDateFilter){
+		var defer = $q.defer();
+		$http.get('/getSessionData/'+clickySessionId+"/"+startDateFilter+"/"+endDateFilter).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getreferrerTypeData = function(typeOfReferrer, locationFlag, startDateFilter, endDateFilter){
+		var defer = $q.defer();
+		$http.get('/getreferrerTypeData/'+typeOfReferrer+"/"+locationFlag+"/"+startDateFilter+"/"+endDateFilter).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	
 	
 })

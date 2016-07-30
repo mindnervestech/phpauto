@@ -831,8 +831,9 @@ angular.module('newApp')
     		  volumeStatEndDateId = $('#volumeStatEndDateId').val();
     	  }
     	  if(volumeStatStartDateId != '' && volumeStatEndDateId != ''){
-    			$http.get('/getSoldVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId)
-    	   		.success(function(data) {
+    		  
+    		  apiserviceDashborad.getSoldVehicleDetails(volumeStatStartDateId,volumeStatEndDateId).then(function(data){
+    		 
     	   		$scope.locationDataList = data;	
     	       if(data.length == 0){
     	    	   $scope.msgShow = 1;
@@ -912,7 +913,8 @@ angular.module('newApp')
 		  
     	  $scope.showBarvehical = 0;
     	  $scope.showvehical = 1;
-    	  	$http.get('/getFinancialVehicleDetailsByBodyStyle/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
+    	  apiserviceDashborad.getFinancialVehicleDetailsByBodyStyle(volumeStatStartDateId,volumeStatEndDateId).then(function(data){
+    		  
     	  		$scope.msgShow = 0;
     	  		/*angular.forEach(data, function(value, key) {
     	  			if(value.data.length != 0){
@@ -932,9 +934,9 @@ angular.module('newApp')
     	  
     	  var volumeStatStartDateId = $('#volumeStatStartDateId').val();
 		  var volumeStatEndDateId = $('#volumeStatEndDateId').val();
-    	  
-    	  	$http.get('/getFinancialVehicleDetails/'+volumeStatStartDateId+"/"+volumeStatEndDateId).success(function(data) {
-    	  		$scope.msgShow = 1;
+		  apiserviceDashborad.getFinancialVehicleDetails(volumeStatStartDateId,volumeStatEndDateId).then(function(data){
+			  
+		  		$scope.msgShow = 1;
     	  		angular.forEach(data.data, function(value, key) {
     	  			if(value.data.length != 0){
     	  				$scope.msgShow = 0;
@@ -1076,8 +1078,8 @@ angular.module('newApp')
     	  $scope.showBarvehical = 1;
     	  $scope.showvehical = 0;
     	  
-    	  $http.get('/getSoldVehicleDetailsAvgSale/'+volumeStatStartDateId+"/"+volumeStatEndDateId)
-  		.success(function(data) {
+    	  apiserviceDashborad.getSoldVehicleDetailsAvgSale(volumeStatStartDateId,volumeStatEndDateId).then(function(data){
+    		  
   			$scope.locationDataList = data;	
   			if(data.length == 0){
 	     	   $scope.msgShow = 1;
@@ -2070,18 +2072,17 @@ angular.module('newApp')
      			 		 		$('#timepicker1').timepicker(); 
      			 		 		
      			 		 		
-    		  $http.get('/getAllRequestInfoSeen')
-    				.success(function(data) {
-    				$scope.gridOptions5.data = data;
-    				$scope.AllRequestInfoSeenList = data;
-    			});
+     			 		 		apiserviceDashborad.getAllRequestInfoSeen().then(function(data){
+     			 		 			$scope.gridOptions5.data = data;
+     			    				$scope.AllRequestInfoSeenList = data;
+     			 		 		});
+    		 
+     			 		 		apiserviceDashborad.getAllContactUsSeen().then(function(data){
+     			 		 			$scope.gridOptions5.data = data;
+     			    				$scope.AllRequestInfoSeenList = data;
+     			 		 		});
     		  
-    		  $http.get('/getAllContactUsSeen')
-				.success(function(data) {
-				$scope.gridOptions8.data = data;
-				$scope.AllContactUsInfoSeenList = data;
-			});
-    		  
+    		    		  
 	    		  $scope.gridOptions7.onRegisterApi = function(gridApi){
 	 				 $scope.gridApi = gridApi;
 	 				 
@@ -2111,11 +2112,13 @@ angular.module('newApp')
     		   		
     	  		};
     	  		
-    	  		 $http.get('/getAllLostAndCompLeads')
- 				.success(function(data) {
- 				$scope.gridOptions6.data = data;
- 				$scope.AllLostAndCompl = data;
- 			});
+    	  		
+    	  		apiserviceDashborad.getAllLostAndCompLeads().then(function(data){
+    	  			$scope.gridOptions6.data = data;
+     				$scope.AllLostAndCompl = data;
+	 		 		});
+    	  		
+    	  		
      		  
      		  $scope.gridOptions6.onRegisterApi = function(gridApi){
    				 $scope.gridApi = gridApi;
@@ -2128,8 +2131,7 @@ angular.module('newApp')
    	  		};
    	  		
    	  		$scope.allVehical = null;
-   	  	$http.get('/getAllVehical')
-		.success(function(data) {
+   	  	apiserviceDashborad.getAllVehicles().then(function(data){
 			$scope.allVehicalss = data;
 		});
    	  		/*$scope.getAllVehical = function(){
@@ -2142,13 +2144,9 @@ angular.module('newApp')
    	  	
    	 
    	  	$scope.saveCompleted = function(){
-	   	  	 $http.get('/saveCompletedLeads/'+$scope.testCompleted.duration+'/'+$scope.testCompleted.comment+'/'+$scope.testCompleted.id+'/'+$scope.testCompleted.typeOfLead)
-				.success(function(data) {
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Completed successfully",
-					});
+   	  		
+	   	  	apiserviceDashborad.saveCompletedLeads($scope.testCompleted.duration,$scope.testCompleted.comment,$scope.testCompleted.id,$scope.testCompleted.typeOfLead).then(function(data){
+					
 					$("#completedPopup").modal('hide');
 					$scope.getAllSalesPersonRecord($scope.salesPerson);
 					
@@ -2249,11 +2247,10 @@ angular.module('newApp')
 			 }
 			 
 			 $scope.flagForSecondmodal=1;
-			 
-			 $http.get('/getSessionIdData/'+$scope.sessionId)
-				.success(function(data) {
+			
+			 apiserviceDashborad.getSessionIdData($scope.sessionId).then(function(data){
+				 
 					if(data == ""){
-						console.log("fffffffffffff5555");
 								$scope.sessiondata = '0';
 					}else{
 						
@@ -2280,8 +2277,9 @@ angular.module('newApp')
 						$scope.endDateFilter = $filter('date')(today,"yyyy-MM-dd");
 						console.log($scope.startDateFilter);
 		        		console.log($scope.endDateFilter);
-						 $http.get('/getSessionData/'+$scope.clickySessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
-							.success(function(data) {
+		        		
+		        		 apiserviceDashborad.getSessionData($scope.clickySessionId, $scope.startDateFilter, $scope.endDateFilter).then(function(data){
+		        			 
 								console.log(data);
 								$scope.gridForSessionNew.data=data;
 								angular.forEach($scope.gridForSessionNew.data, function(value, key) {
@@ -2301,22 +2299,14 @@ angular.module('newApp')
 									$scope.openGrid(); 
 									 google.maps.event.addDomListener(window, "load", initialized);
 									initialized();
-									
-									
 									 	 
 								});
-								
-					
 						  
 					 }
 					else{
 						google.maps.event.addDomListener(window, "load", initialized);
 						initialized();
 					}
-					
-					
-					
-					
 					
 				});
 		 }
@@ -2441,8 +2431,9 @@ angular.module('newApp')
 			console.log($scope.endDateFilter);
 			console.log("flag is");
 			console.log($scope.flagForData);
-			$http.get('/getreferrerTypeData/'+$scope.typeOfReferrer+"/"+$scope.locationFlag+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
-			.success(function(data) {
+			
+			apiserviceDashborad.getreferrerTypeData($scope.typeOfReferrer, $scope.locationFlag, $scope.startDateFilter,$scope.endDateFilter).then(function(data){
+			
 			console.log($scope.data);
 			$scope.gridForReferrer.data = data;
 			console.log($scope.gridForReferrer.data);
