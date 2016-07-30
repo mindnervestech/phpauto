@@ -1,25 +1,19 @@
 
 angular.module('newApp')
-.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route', function ($filter,$scope,$http,$location,$routeParams,$upload,$route) {
+.controller('EditVehicleCtrl', ['$filter','$scope','$http','$location','$routeParams','$upload','$route','apiserviceAddEditVehicle', function ($filter,$scope,$http,$location,$routeParams,$upload,$route,apiserviceAddEditVehicle) {
       
       var ele = document.getElementById('loadingmanual');	
   	$(ele).hide();
 	$scope.publishVehicle = function(id){
-		   $http.get('/addPublicCar/'+id).success(function(data){
-				   $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Vehicle published SuccessFully",
-					});
-				   $location.path('/viewVehicles');
-		   });
-	   }
-	
-	 $http.get('/getAllCollectionData').success(function(data){
-			console.log(data);
-			$scope.colectiondata = data;
-			console.log($scope.colectiondata);
+		apiserviceAddEditVehicle.addPublicCar(id).then(function(data){
+			$location.path('/viewVehicles');
 		});
+	  }
+	
+	apiserviceAddEditVehicle.getAllCollectionData().then(function(data){
+		$scope.colectiondata = data;
+	});
+	
 	
 	$scope.gridsterOpts = {
 		    columns: 6, // the width of the grid, in columns
@@ -95,23 +89,39 @@ angular.module('newApp')
 	
 	$scope.init = function() {
 		
+		apiserviceAddEditVehicle.getCustomizationform('Inventory').then(function(data){
+			$scope.editInput = data;
+			 $scope.userFields = $scope.addFormField(angular.fromJson(data.jsonData));
+			 console.log($scope.userFields);
+			 $scope.user = {};
+		});
 		
-		 $http.get('/getCustomizationform/'+'Inventory').success(function(response) {
-				console.log(response);
-				 $scope.editInput = response;
-				 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
-				 console.log($scope.userFields);
-				 $scope.user = {};
-				});
 		
 		$scope.isUpdated = false;
-		$http.get('/getAllSites')
- 		.success(function(data) {
- 			$scope.siteList = data;
- 		});
+		apiserviceAddEditVehicle.getAllSites().then(function(data){
+			$scope.siteList = data;
+		});
+		
 		
 		$scope.photoUrl={};
-		 $http.get('/findLocation')
+		apiserviceAddEditVehicle.findLocation().then(function(data){
+			$scope.vinForUrl=$routeParams.vin;
+			$scope.userLocationId = data;
+			$scope.photoUrl.locationId=$scope.userLocationId;
+			$scope.photoUrl.vin=$scope.vinForUrl;
+			//$scope.photoUrl=$scope.userLocationId+"/"+$scope.vinForUrl;
+			 if(userRole == "Photographer"){
+				 var element1 = angular.element("<form  role='form' id='dropzoneFrm' action='http://www.glider-autos.com/uploadPhotos'  method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$scope.vinForUrl+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+				 $("#showDiv").append(element1);
+				 		//$scope.uploadPhotoUrl="http://www.glider-autos.com/uploadPhotos/"+$scope.userLocationId;	
+			 }
+			else{
+				 var element1 = angular.element("<form role='form' id='dropzoneFrm' action='/uploadPhotos' method='POST' class='dropzone'> <div> <input type='text'style='display: none;'name='vin' value='"+$routeParams.vin+"' /> <input type='text'style='display: none;'name='locationIdNew' value='"+$scope.userLocationId+"' /> </div>  <div class='fallback'><input name='file' type='file' multiple /></div></form>");
+				 $("#showDiv").append(element1);
+				 $scope.getImages();
+			 }
+		});
+		/* $http.get('/findLocation')
 			.success(function(data) {
 				console.log($routeParams.vinNew);
 				$scope.vinForUrl=$routeParams.vin;
@@ -130,18 +140,16 @@ angular.module('newApp')
 					 $("#showDiv").append(element1);
 					 $scope.getImages();
 				 }
-			});
+			});*/
 	
 		
 		 $scope.customData = {};
-		$http.get('/getVehicleById/'+$routeParams.id)
-		.success(function(data) {
+			 
+		 
+		 apiserviceAddEditVehicle.getVehicleById($routeParams.id).then(function(data){
 			 $scope.vinData = data;
 			 
-			 console.log($scope.vinData);
 			 $scope.customData = data.specification.customMapData;
-			 console.log($scope.customData);
-			 console.log($scope.userFields);
 			 $.each($scope.customData, function(attr, value) {
 				 angular.forEach($scope.userFields, function(value1, key) {
 						if(value1.key == attr){
@@ -186,13 +194,21 @@ angular.module('newApp')
 				 $scope.vinData.specification.commingSoonVehicle = true;
 			 }
 			//for publish button flag
-				$http.get('/isCarPublic/'+$scope.vinData.specification.id).success(function(data){
+				 apiserviceAddEditVehicle.isCarPublic($scope.vinData.specification.id).then(function(data){
+					 if(data == 'true'){
+							$scope.isPublished = true;						
+						}else{
+							$scope.isPublished = false;
+						}
+				 });
+			 
+				/*$http.get('/isCarPublic/'+$scope.vinData.specification.id).success(function(data){
 					if(data == 'true'){
 						$scope.isPublished = true;						
 					}else{
 						$scope.isPublished = false;
 					}
-				});
+				});*/
 			   $('#modelSearch_value').val($scope.vinData.specification.model);
 			   $('#makeSearch_value').val($scope.vinData.specification.make);
 			   $('#trimSearch_value').val($scope.vinData.specification.trim_level);
@@ -203,25 +219,23 @@ angular.module('newApp')
 			   $('#stereoSearch_value').val($scope.vinData.specification.stereo);
 			   $('#driveTypeSearch_value').val($scope.vinData.specification.drivetrain);
 			 
-			   $http.get('/getModelList/'+$scope.vinData.specification.make)
-				.success(function(data) {
-					$scope.modelList = data;
-				});
 			   
-			   $http.get('/getTrimList/'+$scope.vinData.specification.model)
-				.success(function(data) {
-					$scope.trimList = data;
-				});
+			   apiserviceAddEditVehicle.getModelList($scope.vinData.specification.make).then(function(data){
+				   $scope.modelList = data;
+			   });
+			  
+			   apiserviceAddEditVehicle.getTrimList($scope.vinData.specification.model).then(function(data){
+				   $scope.trimList = data;
+			   });
 			   
-			 $http.get('/getPriceHistory/'+data.vin)
-				.success(function(data) {
-					$scope.priceHistory = data;
+			   apiserviceAddEditVehicle.getPriceHistory(data.vin).then(function(data){
+				   $scope.priceHistory = data;
 					angular.forEach($scope.priceHistory, function(value, key) {
 						value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
 					});
-					
-				});
-			 
+			   });
+			   			   
+						 
 				if($scope.vinData.specification.siteIds != null) {
 					for(var i=0;i<$scope.vinData.specification.siteIds.length;i++) {
 						for(var j=0;j<$scope.siteList.length;j++) {
@@ -244,30 +258,30 @@ angular.module('newApp')
 		
 	}
 	
-	   
-	   $http.get('/getMakeList').success(function(data) {
-			$scope.labelList = data.label;
+	//9561093868
+	
+	   apiserviceAddEditVehicle.getMakeList().then(function(data){
+		   $scope.labelList = data.label;
 			$scope.makeList = data.make;
 			$scope.madeInList = data.madeIn;
 			$scope.stereoList = data.stereo;
 			$scope.driveTypeList = data.driveType;
 			$scope.fuelTypeList = data.fuelType;
 			$scope.exteriorColorList = data.exteriorColor;
-		});
+	   });
+	   
 	   $scope.selectedMake = function (selectObj) {
 			if(selectObj != undefined){
 				$scope.vinData.specification.make = selectObj.title;
-				$http.get('/getModelList/'+selectObj.title)
-				.success(function(data) {
-					$scope.modelList = data;
-				});
+				 apiserviceAddEditVehicle.getModelList(selectObj.title).then(function(data){
+					 $scope.modelList = data;
+				 });
 			}
 		};
 		$scope.selectedModel = function (selectObj) {
 				if(selectObj != undefined){
 					$scope.vinData.specification.model = selectObj.title;
-					$http.get('/getTrimList/'+selectObj.title)
-					.success(function(data) {
+					apiserviceAddEditVehicle.getTrimList(selectObj.title).then(function(data){
 						$scope.trimList = data;
 					});
 				}
@@ -324,21 +338,10 @@ angular.module('newApp')
 	
 	$scope.getImages = function() {
 	$scope.isUpdated = false;
-	
-		 if(userRole == "Photographer"){
-	 $http.get('http://www.glider-autos.com/getImagesByVin/'+$routeParams.vin)
-		.success(function(data) {
-			console.log(data);
+		apiserviceAddEditVehicle.getImagesByVin($routeParams.vin, userRole).then(function(data){
 			$scope.imageList = data;
 		});
-	 }
-	 else{
-		 $http.get('getImagesByVin/'+$routeParams.vin)
-			.success(function(data) {
-				console.log(data);
-				$scope.imageList = data;
-			});
-	 }
+	
 	}
 	
 	   $scope.setSiteId = function(id,flag) {
@@ -357,13 +360,7 @@ angular.module('newApp')
 		}
 	   
 		$scope.removePdf = function(){
-			$http.get('/removeVehiclePdf/'+$routeParams.id)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Pdf remove successfuly",
-				});
+			apiserviceAddEditVehicle.removeVehiclePdf($routeParams.id).then(function(data){
 				$route.reload();
 			});
 		};
@@ -476,49 +473,35 @@ angular.module('newApp')
 			   
 		   if(($scope.vinData.specification.model != null && $scope.vinData.specification.model != "") && ($scope.vinData.specification.make != null && $scope.vinData.specification.make != " ")){
 				if(pdfFile != undefined){
-					$http.post('/updateVehicleById',$scope.vinData.specification)
-					.success(function(data) {
-						$scope.isUpdated = true;
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Vehicle updated successfuly",
-						});
+					apiserviceAddEditVehicle.updateVehicleById($scope.vinData.specification).then(function(data){
 						
-						$scope.vinData.specification.siteIds = null;
-						$upload.upload({
-				 	         url : '/updateVehicleByIdPdf/'+$scope.vinData.specification.id,
-				 	         method: 'POST',
-				 	         file:pdfFile,
-				 	      }).success(function(data) {
-				 	  			$http.get('/getPriceHistory/'+data.vin)
-								.success(function(data) {
-									$scope.priceHistory = data;
-									angular.forEach($scope.priceHistory, function(value, key) {
-										value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
-									});
-									$route.reload();
-								});
-				 	      });
-					});
-			 	 }else{
-			 		$http.post('/updateVehicleById',$scope.vinData.specification)
-					.success(function(data) {
 						$scope.isUpdated = true;
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Vehicle updated successfuly",
+						$scope.vinData.specification.siteIds = null;
+						apiserviceAddEditVehicle.updateVehicleByIdPdf($scope.vinData.specification.id, pdfFile).then(function(data){
+							apiserviceAddEditVehicle.getPriceHistory(data.vin).then(function(data){
+								$scope.priceHistory = data;
+								angular.forEach($scope.priceHistory, function(value, key) {
+									value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
+								});
+								$route.reload();
+							});
 						});
-						$http.get('/getPriceHistory/'+data.vin)
-						.success(function(data) {
-							$scope.priceHistory = data;
+							
+					});
+					
+			 	 }else{
+			 		 
+			 		apiserviceAddEditVehicle.updateVehicleById($scope.vinData.specification).then(function(data){
+			 			$scope.isUpdated = true;
+			 			apiserviceAddEditVehicle.getPriceHistory(data.vin).then(function(data){
+			 				$scope.priceHistory = data;
 							angular.forEach($scope.priceHistory, function(value, key) {
 								value.dateTime = $filter('date')(value.dateTime,"dd/MM/yyyy HH:mm:ss")
 							});
-							
-						});
-					});
+			 			});
+			 			
+			 		});
+			 		
 			 	 }
 		   }else{
 			   $.pnotify({
@@ -543,9 +526,10 @@ $scope.setAsDefault = function(image,index) {
 		
 		for(var i=0;i<$scope.imageList.length;i++) {
 			if($scope.imageList[i].defaultImage == true) {
-				$http.get('/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
-				.success(function(data) {
+				apiserviceAddEditVehicle.removeDefault($scope.imageList[i].id, image.id).then(function(data){
+					
 				});
+				
 				$('#imgId'+i).removeAttr("style","");
 				$scope.imageList[i].defaultImage = false;
 				image.defaultImage = true;
@@ -556,8 +540,8 @@ $scope.setAsDefault = function(image,index) {
 		}
 		
 		if(i == $scope.imageList.length) {
-			$http.get('/setDefaultImage/'+image.id)
-			.success(function(data) {
+			apiserviceAddEditVehicle.setDefaultImage(image.id).then(function(data){
+				
 			});
 			
 			image.defaultImage = true;
@@ -568,19 +552,10 @@ $scope.setAsDefault = function(image,index) {
 	
 	$scope.deleteImage = function(img) {
 		
-			if(userRole == "Photographer"){	
-		  $http.get('http://www.glider-autos.com/deleteImage/'+img.id)
-		.success(function(data) {
+		apiserviceAddEditVehicle.deleteImage(image.id, userRole).then(function(data){
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
-			}else{
-				
-				 $http.get('/deleteImage/'+img.id)
-					.success(function(data) {
-						$scope.imageList.splice($scope.imageList.indexOf(img),1);
-					});
-				
-			}
+			
 	}
 	
 	$scope.showFullImage = function(image) {
@@ -589,14 +564,9 @@ $scope.setAsDefault = function(image,index) {
 	}
 	
 	$scope.updateVehicleStatus = function(){
-		   $http.get('/updateVehicleStatus/'+$routeParams.id+'/'+"Sold")
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status saved successfully",
-				});
-			});
+		apiserviceAddEditVehicle.updateVehicleStatus($routeParams.id, "Sold").then(function(data){
+		});
+		   
 	   }
 	
 	$scope.deleteVehicle = function(){
@@ -605,10 +575,10 @@ $scope.setAsDefault = function(image,index) {
 	   }
 	
 	$scope.deleteVehicleRow = function() {
-		$http.get('/deleteVehicleById/'+$routeParams.id)
-		.success(function(data) {
+		apiserviceAddEditVehicle.deleteVehicleById($routeParams.id).then(function(data){
 			$location.path('/addVehicle');
 		});
+		
 	}
 	
 	var file;
@@ -617,7 +587,11 @@ $scope.setAsDefault = function(image,index) {
 	}
 	
 	$scope.uploadAudio = function() {
-		$upload.upload({
+		apiserviceAddEditVehicle.uploadSoundFile(file,{"vinNum":$scope.vinData.specification.vin}).then(function(data){
+			 $scope.getAllAudio();
+		});
+		
+		/*$upload.upload({
             url : '/uploadSoundFile',
             method: 'post',
             file:file,
@@ -629,7 +603,7 @@ $scope.setAsDefault = function(image,index) {
 			    type:'success',
 			    text: "Saved successfully",
 			});
-        });
+        });*/
 	}
 	
 	$scope.confirmFileDelete = function(id) {
@@ -638,60 +612,53 @@ $scope.setAsDefault = function(image,index) {
 	}
 	
 	$scope.deleteAudioFile = function() {
-		$http.get('/deleteAudioFile/'+$scope.audioFileId)
-		.success(function(data) {
+		apiserviceAddEditVehicle.deleteAudioFile($scope.audioFileId).then(function(data){
 			$scope.getAllAudio();
 		});
 	}
 	
 	$scope.getAllAudio = function() {
-		$http.get('/getAllAudio/'+$scope.vinData.specification.vin)
-		.success(function(data) {
+		apiserviceAddEditVehicle.getAllAudio($scope.vinData.specification.vin).then(function(data){
 			$scope.audioList = data;
 		});
 	}
 	$scope.vData = {};
 	$scope.videoData={};
 	$scope.getVirtualTourData = function() {
-		$http.get('/getVirtualTour/'+$scope.vinData.specification.id)
-		.success(function(data) {
-			
-			$scope.vData = data.virtualTour;
-			$scope.videoData = data.video;
-		});
+		
+		$scope.getAllAudio = function() {
+			apiserviceAddEditVehicle.getVirtualTour($scope.vinData.specification.id).then(function(data){
+				$scope.vData = data.virtualTour;
+				$scope.videoData = data.video;
+			});
+		}
+		
 	}
 	
 	$scope.saveVData = function() {
 		
 		$scope.vData.vin = $scope.vinData.specification.vin;
 		$scope.vData.vehicleId = $scope.vinData.specification.id;
-		$http.post('/saveVData',$scope.vData)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Saved successfully",
-			});
+		apiserviceAddEditVehicle.saveVData($scope.vData).then(function(data){
+			
 		});
+		
 	}
 	
 	
 	$scope.saveVideoData = function() {
 		
 		$scope.videoData.vin = $scope.vinData.specification.vin;
-		$scope.videoData.vehicleId = $scope.vinData.specification.id;
-		$http.post('/saveVideoData',$scope.videoData)
-		.success(function(data) {
-			$.pnotify({
-			    title: "Success",
-			    type:'success',
-			    text: "Saved successfully",
+			$scope.videoData.vehicleId = $scope.vinData.specification.id;
+			apiserviceAddEditVehicle.saveVideoData($scope.videoData).then(function(data){
+			
 			});
-		});
+		
 	}
 	
 	
 	$scope.editImage = function(image) {
+		 
 		$location.path('/cropImage/'+image.id+'/'+$routeParams.id+'/'+$routeParams.vin);
 	}
 	

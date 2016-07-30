@@ -5928,6 +5928,100 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
     	}
     }
 
+    public static Result getAllVehiclesData(){
+int visitorCount = 0;
+		
+		List <Vehicle> vehicleObjList = Vehicle.findByNewArrAndLocationNoDraft(Long.valueOf(session("USER_LOCATION")));
+		
+    	SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    	ArrayList<SpecificationVM> NewVMs = new ArrayList<>();
+    	//String params = "&date=last-28-days&type=visitors-list&limit=all";
+     	for(Vehicle vm : vehicleObjList){
+     		int len=0;
+     		VehicleImage vehicleImg = VehicleImage.getDefaultImage(vm.vin);
+     		
+     		SpecificationVM vehicle = new SpecificationVM();
+     		vehicle.id = vm.id;
+     	    vehicle.title=vm.getTitle();
+	    	vehicle.category = vm.category;
+	    	vehicle.vin = vm.vin;
+	    	len=vehicle.vin.length();
+	    	//vehicle.last4Vin=vehicle.vin.charAt(len-3)+""+vehicle.vin.charAt(len-2)+""+vehicle.vin.charAt(len-1)+""+vehicle.vin.charAt(len);
+	    	vehicle.last4Vin=vehicle.vin.substring(Math.max(len - 4, 0));
+	    	vehicle.year = vm.year;
+	    	vehicle.make = vm.make;
+	    	vehicle.model = vm.model;
+	    	vehicle.trim_level = vm.trim;
+	    	vehicle.label = vm.label;
+	    	vehicle.stock = vm.stock;
+	    	vehicle.mileage = vm.mileage;
+	    	vehicle.cost = vm.cost;
+	    	vehicle.price = vm.price;
+	    	vehicle.extColor = vm.exteriorColor;
+	    	vehicle.intColor = vm.interiorColor;
+	    	vehicle.colorDesc = vm.colorDescription;
+	    	vehicle.doors = vm.doors;
+	    	vehicle.stereo = vm.stereo;
+	    	vehicle.engine = vm.engine;
+	    	vehicle.fuel = vm.fuel;
+	    	vehicle.city_mileage = vm.cityMileage;
+	    	vehicle.highway_mileage = vm.highwayMileage;
+	    	vehicle.bodyStyle = vm.bodyStyle;
+	    	vehicle.drivetrain = vm.drivetrain;
+	    	vehicle.transmission = vm.transmission;
+	    	vehicle.location = vm.location;
+	    	vehicle.status  =  vm.status;
+	    	if(vehicleImg != null){
+	    		vehicle.imagePath = vehicleImg.thumbPath;
+	    		vehicle.imgId = vehicleImg.id;
+	    	}	
+	    	
+	    	vehicle.sold = false;
+	    	visitorCount = 0;
+	    	
+	    	List<ClickyVisitorsList> cList = ClickyVisitorsList.getfindAll();
+	    	for(ClickyVisitorsList clickData:cList){
+	    		String data = clickData.landingPage;
+	    		String arr[] = data.split("/");
+    			if(arr.length > 5){
+    			  if(arr[5] != null){
+    				  if(arr[5].equals(vm.vin)){
+    					  visitorCount = visitorCount + 1;
+    				  }
+    			  }
+    			}
+	    	}
+    	    	
+    		vehicle.pageViewCount = visitorCount;
+	    	
+	    	List<SqlRow> rows = Vehicle.getDriveTimeAndName(vehicle.vin);
+	    	for(SqlRow row : rows) {
+	    		Date date = (Date) row.get("confirm_date");
+	    		Date timeObj = (Date) row.get("confirm_time");
+	    		vehicle.testDrive = df.format(date) +" ";
+	    		Calendar time = Calendar.getInstance();
+	    		if(timeObj != null){
+	    			time.setTime(timeObj);
+	    		}
+	    		
+    			String ampm = "";
+    			if(time.get(Calendar.AM_PM) == Calendar.PM) {
+    				ampm = "PM";
+    			} else {
+    				ampm = "AM";
+    			}
+    			vehicle.testDrive = vehicle.testDrive + time.get(Calendar.HOUR) + ":" + time.get(Calendar.MINUTE) + " " + ampm;
+	    		Integer userId = (Integer) row.get("assigned_to_id");
+	    		AuthUser userData = AuthUser.findById(userId);
+	    		vehicle.salesRep = userData.firstName +" "+userData.lastName;
+	    		break;
+	    	}
+	    	vehicle.vehicleCnt = VehicleImage.getVehicleImageCountByVIN(vm.vin);
+	    	NewVMs.add(vehicle);
+     	}
+     	
+    	return ok(Json.toJson(NewVMs));
+    }
     
         public static Result getAllVehicles(Long locationId) {
 	

@@ -15,19 +15,23 @@ angular.module('newApp').directive('myPostRepeatDirective', function() {
   };
 });
 angular.module('newApp')
-  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$rootScope',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$rootScope) {
+  .controller('dashboardCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$rootScope','apiserviceDashborad',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$rootScope,apiserviceDashborad) {
 	  var ele = document.getElementById('loadingmanual');	
    	$(ele).hide();
    	
    	$scope.showFormly = '1';
 	   $scope.showFormly1 = '0';
-	$http.get('/getLocationDays')
-	.success(function(data) {
-		$scope.locationDays = data;
-	});
-	$http.get('/getDealerProfile').success(function(data) {
-		$scope.userProfile = data.dealer;
-	});
+	   
+	   apiserviceDashborad.getLocationDays().then(function(data){
+		   $scope.locationDays = data;
+	   });
+	   
+
+	   
+	   apiserviceDashborad.getDealerProfile().then(function(data){
+		   $scope.userProfile = data.dealer;
+	   });
+	
 	
 	
 	 $rootScope.$on("CallComingSoonMethod", function(){
@@ -76,11 +80,11 @@ angular.module('newApp')
 		$scope.showSelectLocationDash = locationId;
 		
 	}
-	$http.get('/getAllVehicles')
-		.success(function(data) {
-			$scope.vinSearchList = data;
-		});
-		//$scope.stockRp = {};
+	
+	apiserviceDashborad.getAllVehicles().then(function(data){
+		$scope.vinSearchList = data;
+	   });
+	
 		
 			$scope.stockWiseData = [];
 	$scope.selectedVin = function (selectObj) {
@@ -103,9 +107,9 @@ angular.module('newApp')
 			$('#vinSearch_value').val($scope.item.vin);
 		}
 	};
-	$http.get('/getUserType')
-	  .success(function(data) {
-	 	$scope.userType = data;
+	
+	apiserviceDashborad.getUserType().then(function(data){
+		$scope.userType = data;
 	 	if($scope.userType == "Manager") {
 	 		$scope.getGMData();
 	 		$scope.getToDoNotification();
@@ -265,20 +269,23 @@ angular.module('newApp')
 	
 	$scope.saveComment = function(){
 		if($scope.userComment !=null && $scope.userComment !=""){
-			$http.get('/updateUserComment/'+$scope.userId+"/"+$scope.userComment)
-			.success(function(data) {
+			apiserviceDashborad.updateUserComment($scope.userId, $scope.userComment).then(function(data){
 			});
 		}
 		$scope.userId = null;
 		$scope.userComment = null;
 	};
 	
-	$http.get('/getUserPermission').success(function(data){
+	
+	apiserviceDashborad.getUserPermission().then(function(data){
 		$scope.userPer = data;
-	 });	
-	$http.get('/getDataFromCrm').success(function(data){
+	});
+	
+	apiserviceDashborad.getDataFromCrm().then(function(data){
 		$scope.searchList = data;
-	 });
+	});
+	
+	
 	$scope.editPrice = function(vin,index,id){
 		$scope.priceLbl = 'false';
 		$scope.priceTxt = 'true';
@@ -296,41 +303,36 @@ angular.module('newApp')
 	$scope.setLable = function(price,vin){
 		$scope.priceLbl = 'true';
 		$scope.priceTxt = 'false';
-		$http.get('/updateVehiclePrice/'+vin+"/"+price)
-		.success(function(data) {
+		
+		apiserviceDashborad.updateVehiclePrice(vin, price).then(function(data){
 		});
 	};
 	$scope.setName = function(name,vin){
 		$scope.nameLbl = 'true';
 		$scope.nameTxt = 'false';
-		$http.get('/updateVehicleName/'+vin+"/"+name)
-		.success(function(data) {
+		apiserviceDashborad.updateVehicleName(vin, name).then(function(data){
 		});
 	};
 	$scope.showBackGmButton = 0;
-		$http.get('/getUserRole').success(function(data) {
-			
+		
+		apiserviceDashborad.getUserRole().then(function(data){
 			$scope.userRole = data.role;
 			 var startD = $('#cnfstartDateValue').val();
 			   var endD = $('#cnfendDateValue').val();
-			
-			$http.get('/getfindGmIsManager')
-			.success(function(data) {
-				$scope.showBackGmButton = data;
-			});
-			
+			   
+			   apiserviceDashborad.getfindGmIsManager().then(function(data){
+				   $scope.showBackGmButton = data;
+				});
 			
 			$scope.getSalesDataValue($scope.locationValue);
 			
 			if($scope.userRole == "Manager"){
 				//$scope.userLocationData('Week','location');
-				
 				   $scope.findMystatisData(startD,endD,'location');
 			}else if($scope.userRole != "General Manager"){
 				$scope.locationValue = data.location.id;
 				$scope.findMystatisData(startD,endD,'person');
 				//$scope.userLocationData('Week','person');
-				
 			}
 			
 			
@@ -349,6 +351,11 @@ angular.module('newApp')
 				  $location.path('/myprofile');
 			}
 		});
+	
+	/*	$http.get('/getUserRole').success(function(data) {
+			
+	
+		});*/
 		
 		$('#cnfmeetingtime').timepicker().on('hide.timepicker', function (e) {
 			$scope.checked = [];
@@ -376,17 +383,17 @@ angular.module('newApp')
 						});
 					}
 				});
-				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
-				.success(function(data) {
-					$scope.gridOptions11.data = data;
-					angular.forEach($scope.gridOptions11.data, function(obj, index){
-						if(obj.userStatus == 'N/A'){
-							obj.disabled = false;
-						}else{
-							obj.disabled = true;
-						}
-					});
-				});
+				
+				   apiserviceDashborad.getUserForMeeting($scope.bestDt, $scope.bestTm, $scope.bestEndTm).then(function(data){
+					   $scope.gridOptions11.data = data;
+						angular.forEach($scope.gridOptions11.data, function(obj, index){
+							if(obj.userStatus == 'N/A'){
+								obj.disabled = false;
+							}else{
+								obj.disabled = true;
+							}
+						});
+				   });
 			}else{
 				$.pnotify({
 					    title: "Success",
@@ -402,8 +409,8 @@ angular.module('newApp')
 			$scope.bestTm = $('#cnfmeetingtime').val();
 			$scope.bestEndTm = $('#cnfmeetingtimeEnd').val();
 			if(($scope.bestDt != null && $scope.bestDt != "")  && ($scope.bestTm !=null && $scope.bestTm !="") && ($scope.bestEndTm !=null && $scope.bestEndTm !="")){
-				$http.get('/getUserAppointment/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
-				.success(function(data) {
+				
+				apiserviceDashborad.getUserAppointment($scope.bestDt, $scope.bestTm, $scope.bestEndTm).then(function(data){
 					if(data.length > 0){
 						if(data[0].meetingStatus != null){
 							$scope.appoTitle = data[0].name +"(Meeting)";
@@ -423,8 +430,8 @@ angular.module('newApp')
 						});
 					}
 				});
-				$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm)
-				.success(function(data) {
+				
+				apiserviceDashborad.getUserForMeeting($scope.bestDt, $scope.bestTm, $scope.bestEndTm).then(function(data){
 					$scope.gridOptions11.data = data;
 					angular.forEach($scope.gridOptions11.data, function(obj, index){
 						if(obj.userStatus == 'N/A'){
@@ -434,6 +441,7 @@ angular.module('newApp')
 						}
 					});
 				});
+				
 			}else{
 				$.pnotify({
 					    title: "Success",
@@ -531,9 +539,7 @@ angular.module('newApp')
 														];
 	
 	$scope.topLocations = function(timeSet){
-		$http.get('/getAllLocation/'+timeSet)
-		.success(function(data) {
-			
+		apiserviceDashborad.getAllLocation(timeSet).then(function(data){
 			if(locationId == 0){
 				$scope.showSelectLocationDash = $scope.locationValue;
 			}
@@ -557,7 +563,9 @@ angular.module('newApp')
 				value.avgSaleLocation = 0;
 			}
 		});
-	});
+		});
+		
+		
 	}
 	
 	
@@ -565,13 +573,12 @@ angular.module('newApp')
 	$scope.findMystatisData = function(startD,endD,locOrPer){
 		
 		if(locationId != 0){
-			$http.get('/gmLocationManager/'+locationId)
-			.success(function(data) {
-				$http.get('/getUserLocationByDateInfo/'+data.id+"/"+startD+'/'+endD+'/'+locOrPer)
-				.success(function(data) {
+			
+			apiserviceDashborad.gmLocationManager(locationId).then(function(data){
+				apiserviceDashborad.getUserLocationByDateInfo(data.id,startD,endD,locOrPer).then(function(data){
 					$scope.flagForBestSale=data.flagForBestSaleIcon;
-					$http.get('/getPlanTarget/'+locOrPer)
-					.success(function(data1) {
+					apiserviceDashborad.getPlanTarget(locOrPer).then(function(data1){
+						
 						data.sendData[0].plan = data1.data[0].price;
 						$scope.stackchart = data.sendData;
 						if($scope.stackchart[0].data[0] == 0){
@@ -595,16 +602,12 @@ angular.module('newApp')
 					$scope.leadsTime.goalSetTime = data.goalTime;
 					$scope.showLeads = data.leads;	
 				});
-				
 			});
 			
 		}else{
-			
-			$http.get('/getUserLocationByDateInfo/'+$scope.userKey+"/"+startD+'/'+endD+'/'+locOrPer)
-			.success(function(data) {
+			apiserviceDashborad.getUserLocationByDateInfo($scope.userKey,startD,endD,locOrPer).then(function(data){
 				$scope.flagForBestSale=data.flagForBestSaleIcon;
-				$http.get('/getPlanTarget/'+locOrPer)
-				.success(function(data1) {
+				apiserviceDashborad.getPlanTarget(locOrPer).then(function(data1){
 					data.sendData[0].plan = data1.data[0].price;
 					$scope.stackchart = data.sendData;
 					if($scope.stackchart[0].data[0] == 0){
@@ -621,14 +624,15 @@ angular.module('newApp')
 				        chart.yAxis[0].removePlotLine('plotline-1');
 					}
 					
-			});
+				});
 				
 				   $scope.countTestDrives=data.countTestDrives;
 					$scope.parLocationData = data;
 					$scope.leadsTime.leads = data.leads;
 					$scope.leadsTime.goalSetTime = data.goalTime;
-					$scope.showLeads = data.leads;	
-				});
+					$scope.showLeads = data.leads;
+			});
+			
 		}
 		
 	 }
@@ -682,20 +686,18 @@ angular.module('newApp')
 	   };
 	   $scope.leadsTime = {};
 	$scope.saveLeads = function(){
-		
 		 var startD = $('#cnfstartDateValue').val();
 		   var endD = $('#cnfendDateValue').val();
-		   
-		$http.post("/saveLeads",$scope.leadsTime).success(function(data){
-			 $('#Locationwise-model').modal("toggle");
-			 if($scope.userRole == "Manager"){
-					//$scope.userLocationData('Week','location');
-				 $scope.findMystatisData(startD,endD,'location');
-			   }else{
-				   $scope.findMystatisData(startD,endD,'person');
-				   //$scope.userLocationData('Week','person');
-			   }
-		});
+		   apiserviceDashborad.saveLeads($scope.leadsTime).then(function(data){
+			   $('#Locationwise-model').modal("toggle");
+				 if($scope.userRole == "Manager"){
+						//$scope.userLocationData('Week','location');
+					 $scope.findMystatisData(startD,endD,'location');
+				   }else{
+					   $scope.findMystatisData(startD,endD,'person');
+					   //$scope.userLocationData('Week','person');
+				   }
+		   });
 		
 	}
 	   $scope.callChart = function(stackchart){
@@ -765,10 +767,8 @@ angular.module('newApp')
     	  var startDate =  $("#vstartDate").val();
 		   var endDate = $("#vendDate").val();
     	  
-		   
-    	  $http.get('/getVisitorList/'+$scope.startDateV+"/"+$scope.endDateV)
-  		.success(function(data) {
-  			
+		   apiserviceDashborad.getVisitorList($scope.startDateV,$scope.endDateV).then(function(data){
+			   
   			$scope.gridOptions.data = data;
   			$scope.visitiorList = data;
   			angular.forEach($scope.visitiorList, function(value, key) {

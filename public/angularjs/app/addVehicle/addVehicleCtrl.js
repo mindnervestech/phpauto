@@ -12,23 +12,18 @@ angular.module('newApp')
  	 
    }
    
-   $http.get('/getAllCollectionData').success(function(data){
-		console.log(data);
-		$scope.colectiondata = data;
-		console.log($scope.colectiondata);
-	});
-
+   apiserviceAddEditVehicle.getAllCollectionData().then(function(data){
+	   $scope.colectiondata = data;
+   });
    
-   $http.get('/getCustomizationform/'+'Inventory').success(function(response) {
-		console.log(response);
-		 $scope.editInput = response;
-		 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
+   apiserviceAddEditVehicle.getCustomizationform('Inventory').then(function(data){
+	   $scope.editInput = data;
+		 $scope.userFields = $scope.addFormField(angular.fromJson(data.jsonData));
 		 console.log($scope.userFields);
 		 $scope.user = {};
-		});
+   });
    
-   
-   
+      
    $scope.makeList = [];
    $scope.modelList = [];
    $scope.trimList = [];
@@ -39,7 +34,16 @@ angular.module('newApp')
    $scope.fuelTypeList = [];
    $scope.exteriorColorList = [];
    
-   $http.get('/getMakeList').success(function(data) {
+   apiserviceAddEditVehicle.getMakeList().then(function(data){
+	   $scope.labelList = data.label;
+		$scope.makeList = data.make;
+		$scope.madeInList = data.madeIn;
+		$scope.stereoList = data.stereo;
+		$scope.driveTypeList = data.driveType;
+		$scope.fuelTypeList = data.fuelType;
+		$scope.exteriorColorList = data.exteriorColor;
+   });
+   /*$http.get('/getMakeList').success(function(data) {
 		$scope.labelList = data.label;
 		$scope.makeList = data.make;
 		$scope.madeInList = data.madeIn;
@@ -47,23 +51,29 @@ angular.module('newApp')
 		$scope.driveTypeList = data.driveType;
 		$scope.fuelTypeList = data.fuelType;
 		$scope.exteriorColorList = data.exteriorColor;
-	});
+	});*/
    $scope.selectedMake = function (selectObj) {
 		if(selectObj != undefined){
 			$scope.vinData.specification.make = selectObj.title;
-			$http.get('/getModelList/'+selectObj.title)
-			.success(function(data) {
+			apiserviceAddEditVehicle.getModelList(selectObj.title).then(function(data){
 				$scope.modelList = data;
 			});
+			/*$http.get('/getModelList/'+selectObj.title)
+			.success(function(data) {
+				$scope.modelList = data;
+			});*/
 		}
 	};
 	$scope.selectedModel = function (selectObj) {
 			if(selectObj != undefined){
 				$scope.vinData.specification.model = selectObj.title;
-				$http.get('/getTrimList/'+selectObj.title)
-				.success(function(data) {
+				apiserviceAddEditVehicle.getTrimList(selectObj.title).then(function(data){
 					$scope.trimList = data;
 				});
+				/*$http.get('/getTrimList/'+selectObj.title)
+				.success(function(data) {
+					$scope.trimList = data;
+				});*/
 			}
 	};
 	$scope.selectedTrim = function (selectObj) {
@@ -110,7 +120,18 @@ angular.module('newApp')
 			    text: "Please Enter Unique Stock Number",
 			});
 	   }else{
-		   $http.get('/checkStockNumber/'+stock)
+		   apiserviceAddEditVehicle.checkStockNumber(stock).then(function(data){
+			   if(data != 0){
+					$.pnotify({
+					    title: "Error",
+					    type:'success',
+					    text: "Please Enter Unique Stock Number",
+					});
+					$scope.vinData.specification.stock = null;
+				}
+			});
+		   
+		   /*$http.get('/checkStockNumber/'+stock)
 			.success(function(data) {
 				if(data != 0){
 					$.pnotify({
@@ -120,7 +141,7 @@ angular.module('newApp')
 					});
 					$scope.vinData.specification.stock = null;
 				}
-			});
+			});*/
 	   }
    }
 		
@@ -130,8 +151,7 @@ angular.module('newApp')
    
    $scope.getVinData = function() {
 	   if(!angular.isUndefined($scope.vinNumber)) {
-	 	  $http.get('/getVehicleInfo/'+$scope.vinNumber)
-			.success(function(data) {
+		   apiserviceAddEditVehicle.getVehicleInfo($scope.vinNumber).then(function(data){
 				if(data.success == true) {
 					$scope.vinData = data;
 					if($scope.vinData.specification.siteIds != null) {
@@ -150,8 +170,7 @@ angular.module('newApp')
 				} else {
 					$scope.vinErr = false;
 				}
-				
-			});
+		   });
 	   }
    }
    $scope.dataShow1 = function(check){
@@ -212,39 +231,18 @@ angular.module('newApp')
  	     	
  	     	console.log($scope.vinData.specification);
  	 		  if(pdffile != undefined){
- 	 	 		$http.post('/saveVehicle',$scope.vinData.specification)
- 	 			.success(function(data) {
- 	 				$.pnotify({
- 	 				    title: "Success",
- 	 				    type:'success',
- 	 				    text: "Vehicle saved successfully",
- 	 				});
- 	 				
+ 	 			  
+ 	 			 apiserviceAddEditVehicle.saveVehicle($scope.vinData.specification).then(function(data){
  	 				$scope.dataBeforePdf=data;
- 	 				$upload.upload({
- 	 		 	         url : '/saveVehiclePdf/'+data,
- 	 		 	         method: 'POST',
- 	 		 	         file:pdffile,
- 	 		 	      }).success(function(data) {
- 	 		 	  			$.pnotify({
- 	 		 	  			    title: "Success",
- 	 		 	  			    type:'success',
- 	 		 	  			    text: "Vehicle saved successfully",
- 	 		 	  			});
- 	 		 	  		console.log($scope.vinData.specification.vin);
- 	 		 	  		$location.path('/editVehicle/'+$scope.dataBeforePdf+"/"+true+"/"+$scope.vinData.specification.vin);
- 	 		 	      });
- 	 			});
+ 	 				 apiserviceAddEditVehicle.saveVehiclePdf(data, pdffile).then(function(data){
+ 	 					$location.path('/editVehicle/'+$scope.dataBeforePdf+"/"+true+"/"+$scope.vinData.specification.vin);
+ 	 				 });
+ 	 			 });
+ 	 	 		
  	 	 	 }else{
- 	 	 		$http.post('/saveVehicle',$scope.vinData.specification)
- 	 			.success(function(data) {
- 	 				$.pnotify({
- 	 				    title: "Success",
- 	 				    type:'success',
- 	 				    text: "Vehicle saved successfully",
- 	 				});
- 	 				$location.path('/editVehicle/'+data+"/"+true+"/"+$scope.vinData.specification.vin);
- 	 			});
+ 	 	 		apiserviceAddEditVehicle.saveVehicle($scope.vinData.specification).then(function(data){
+ 	 	 			$location.path('/editVehicle/'+data+"/"+true+"/"+$scope.vinData.specification.vin);
+ 	 	 		});
  	 	 	 }
  	 	  }else{
  	 		 $.pnotify({
