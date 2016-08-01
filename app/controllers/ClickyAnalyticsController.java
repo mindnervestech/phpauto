@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,6 +42,7 @@ import models.ClickyVisitorEngagementTime;
 import models.ClickyVisitorTrafficSource;
 import models.ClickyVisitorsList;
 import models.Location;
+import models.SchedularDate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,11 +109,14 @@ public class ClickyAnalyticsController extends Controller{
 	    	Long id = 1L;
 	    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	    	SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd");
+	    	SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss");
 	    	List<Location> locations = Location.findAllData();
 	    	
 				SqlRow maxDate = ClickyVisitorsList.getMaxDate();
 	    	    System.out.println(maxDate.get("maxdate"));
 	    	     Date curr = new Date();
+	    	     Long currtime = curr.getTime();
+	    	     
 	    	    String sDate = df.format(curr);
 	    	    Date newcurrDate = null;
 				try {
@@ -120,22 +125,18 @@ public class ClickyAnalyticsController extends Controller{
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
-	    	    /* int b=13;
-	    	   	   
-	    	   	   for(int k=28;k>=b;b++)
-	    	   	   {*/
-	    	   	   	//String sDate="2016-06-"+b;
-	    	         // String sDate="2016-06-28";
+	    	    
 	    	           Date sampleDate=(Date) maxDate.get("maxdate");
 	    		     	System.out.println(maxDate.get("maxdate"));
-	    				GregorianCalendar gcal = new GregorianCalendar();
+	    		     	
+	    		     	GregorianCalendar gcal = new GregorianCalendar();
 	    				gcal.setTime(sampleDate);
 	    				while (gcal.getTime().before(newcurrDate)) {
 	    				    Date dateClicky = gcal.getTime();
 	    				    sDate=df.format(dateClicky);
 	    				   // startDateForList=d;
 	    				    System.out.println(sDate);
-	    	          
+	    	        
 	    	          
 	               Date startDateForList=null;
 	           try {
@@ -3141,6 +3142,11 @@ public class ClickyAnalyticsController extends Controller{
 				
 				gcal.add(Calendar.DAY_OF_WEEK, 1);
 	    	}
+	    	SchedularDate schdate = new SchedularDate();
+	    	schdate.start_date = df.format(sampleDate);
+	    	schdate.end_date = df.format(newcurrDate);	
+	    	schdate.curr_time = df2.format(currtime);
+	    	schdate.save();
 	    	return ok();
 	    }
 
@@ -3346,6 +3352,7 @@ public class ClickyAnalyticsController extends Controller{
 	    		double count5=0.0;
 	    		double count6=0.0;
 	    		double count7=0.0;
+	    		double bounceSize = 0;
 	    		Integer vistValue = 0;
 	    		Integer vistValue1 = 0;
 	    		 for(ClickyVisitorsList lis:locationObjList){
@@ -3353,7 +3360,8 @@ public class ClickyAnalyticsController extends Controller{
 	    	     		count1=Double.parseDouble(lis.averageAction);
 	    	     	}
 	    			if(lis.bounceRate != null){
-	    				count6=Double.parseDouble(lis.bounceRate);	
+	    				count6=count6+Double.parseDouble(lis.bounceRate);
+	    				
 	    				     	}
 	    			if(lis.averageTime != null){
 	    				count5=Double.parseDouble(lis.averageTime);	
@@ -3370,7 +3378,7 @@ public class ClickyAnalyticsController extends Controller{
 	    			if(lis.actions != null){
 	    			count7=count7+Double.parseDouble(lis.actions);
 	    			}
-	    			
+	    			bounceSize = locationObjList.size();
 	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 	    			if(lis.visitors != null){
 					if (langValue == null) {
@@ -3392,6 +3400,7 @@ public class ClickyAnalyticsController extends Controller{
 	    			double countAll6=0.0;
 	    			double countAll7=0.0;
 	    			Integer uniquevisit = 0;
+	    			Integer uniquebounce = 0;
 	    			 for(ClickyVisitorsList list:alldatalist){
 	    				 if(list.averageAction != null){
 	    					 countAll1=count1+Double.parseDouble(list.averageAction);
@@ -3402,8 +3411,8 @@ public class ClickyAnalyticsController extends Controller{
 	    					if(list.averageTime != null){
 	    						countAll5=count5+Double.parseDouble(list.averageTime);	
 	    						}
-	    					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	    						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	    					if(list.averageTime != null  && !list.averageTime.equals("")){
+	    						 countAll4=countAll4+Double.parseDouble(list.averageTime);
 	    						}
 	    					if(list.visitors != null){
 	    						countAll2=alldatalist.size();
@@ -3419,6 +3428,9 @@ public class ClickyAnalyticsController extends Controller{
 	    						if (langValue1 == null) {
 	    							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
 	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
+	    							
+	    							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRate));
 	    						}
 	    					}
 	    			 }
@@ -3473,11 +3485,11 @@ public class ClickyAnalyticsController extends Controller{
 	    			 
 	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	    			 cVm6.title = "bounceR";
-	    			 cVm6.these_visitors = count6;
-	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.these_visitors = count6/bounceSize;
+	    			 cVm6.all_visitors = (double)uniquebounce;
 	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	    			 if(countAll6 !=0){
-	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    				 cVm6.difference = (((count6/bounceSize) - (double)uniquebounce) / (double)uniquebounce) * 100;
 	    			 }
 	    			 else{
 	    				 cVm6.difference = 0.0;
@@ -3527,6 +3539,7 @@ public class ClickyAnalyticsController extends Controller{
 	    		double count5=0.0;
 	    		double count6=0.0;
 	    		double count7=0.0;
+	    		double bounceSize = 0;
 	    		Integer vistValue = 0;
 	    		Integer vistValue1 = 0;
 	     		 for(ClickyVisitorsList lis:languageObjList){
@@ -3534,7 +3547,7 @@ public class ClickyAnalyticsController extends Controller{
 	     	     		count1=Double.parseDouble(lis.averageAction);
 	     	     	}
 	     			if(lis.bounceRate != null){
-	     				count6=Double.parseDouble(lis.bounceRate);	
+	     				count6=count6+Double.parseDouble(lis.bounceRate);	
 	     				     	}
 	     			if(lis.averageTime != null){
 	     				count5=Double.parseDouble(lis.averageTime);	
@@ -3551,7 +3564,7 @@ public class ClickyAnalyticsController extends Controller{
 	     			if(lis.actions != null){
 	     			count7=count7+Double.parseDouble(lis.actions);
 	     			}
-	     			
+	     			bounceSize = languageObjList.size();
 	     			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 	    			if(lis.visitors != null){
 	    				if (langValue == null) {
@@ -3574,6 +3587,7 @@ public class ClickyAnalyticsController extends Controller{
 	     			double countAll5=0.0;
 	     			double countAll6=0.0;
 	     			double countAll7=0.0;
+	     			Integer uniquebounce = 0;
 	     			Integer uniquevisit = 0;
 	     			 for(ClickyVisitorsList list:allLanguagelist){
 	     				 if(list.averageAction != null){
@@ -3585,8 +3599,8 @@ public class ClickyAnalyticsController extends Controller{
 	     					if(list.averageTime != null){
 	     						countAll5=count5+Double.parseDouble(list.averageTime);	
 	     						}
-	     					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	     						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	     					if(list.averageTime != null  && !list.averageTime.equals("")){
+	     						 countAll4=countAll4+Double.parseDouble(list.averageTime);
 	     						}
 	     					if(list.visitors != null){
 	     						countAll2=allLanguagelist.size();
@@ -3603,6 +3617,9 @@ public class ClickyAnalyticsController extends Controller{
 	    						if (langValue1 == null) {
 	    							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
 	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
+	    							
+	    							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRate));
 	    						}
 	    					}
 	     				 
@@ -3659,11 +3676,11 @@ public class ClickyAnalyticsController extends Controller{
 	    			 
 	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	    			 cVm6.title = "bounceR";
-	    			 cVm6.these_visitors = count6;
-	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.these_visitors = count6/bounceSize;
+	    			 cVm6.all_visitors = (double)uniquebounce;
 	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	    			 if(countAll6 !=0){
-	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    				 cVm6.difference = (((count6/bounceSize) - (double)uniquebounce) / (double)uniquebounce) * 100;
 	    			 }
 	    			 else{
 	    				 cVm6.difference = 0.0;
@@ -3699,7 +3716,7 @@ public class ClickyAnalyticsController extends Controller{
 	        	    }
 	        		
 	        		List<ClickyVisitorsList> orgObjList = ClickyVisitorsList.findByOrgAndDate(type, d1, d2);
-	       		List<ClickyVisitorsList> allOrglist = ClickyVisitorsList.getAll(d1, d2);
+	        		List<ClickyVisitorsList> allOrglist = ClickyVisitorsList.getAll(d1, d2);
 	       		
 	       		List <ClickyPagesVM> VMs = new ArrayList<>();
 	       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
@@ -3713,6 +3730,7 @@ public class ClickyAnalyticsController extends Controller{
 	       		double count5=0.0;
 	       		double count6=0.0;
 	       		double count7=0.0;
+	       		double bounceSize = 0;
 	       		Integer vistValue = 0;
     			Integer vistValue1 = 0;
     			
@@ -3721,7 +3739,7 @@ public class ClickyAnalyticsController extends Controller{
 	       	     		count1=Double.parseDouble(lis.averageActionorg);
 	       	     	}
 	       			if(lis.bounceRateorg != null){
-	       				count6=Double.parseDouble(lis.bounceRateorg);	
+	       				count6=count6+Double.parseDouble(lis.bounceRateorg);	
 	       				     	}
 	       			if(lis.averageTimeorg != null){
 	       				count5=Double.parseDouble(lis.averageTimeorg);	
@@ -3738,7 +3756,7 @@ public class ClickyAnalyticsController extends Controller{
 	       			if(lis.actions != null){
 	       			count7=count7+Double.parseDouble(lis.actions);
 	       			}
-	       			
+	       			bounceSize = orgObjList.size();
 	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 	    			if(lis.visitorsorg != null){
 					if (langValue == null) {
@@ -3758,6 +3776,7 @@ public class ClickyAnalyticsController extends Controller{
 	       			double countAll5=0.0;
 	       			double countAll6=0.0;
 	       			double countAll7=0.0;
+	       			Integer uniquebounce = 0;
 	       			Integer uniquevisit = 0;
 	       			 for(ClickyVisitorsList list:allOrglist){
 	       				 if(list.averageActionorg != null){
@@ -3769,8 +3788,8 @@ public class ClickyAnalyticsController extends Controller{
 	       					if(list.averageTimeorg != null){
 	       						countAll5=count5+Double.parseDouble(list.averageTimeorg);	
 	       						}
-	       					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	       						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	       					if(list.averageTimeorg != null  && !list.averageTimeorg.equals("")){
+	       						 countAll4=countAll4+Double.parseDouble(list.averageTimeorg);
 	       						}
 	       					if(list.visitorsorg != null){
 	       						countAll2=allOrglist.size();
@@ -3781,11 +3800,15 @@ public class ClickyAnalyticsController extends Controller{
 	       					if(list.actions != null && !list.actions.equals("")){
 	       						 countAll7=countAll7+Double.parseDouble(list.actions);
 	       					}
+	       					
 	       				 Integer langValue1 = timeline.get(list.DateClick.toString()); 
     					if(list.uniqueVisitororg != null){
     					if (langValue1 == null) {
     						uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitororg);
-    					 timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitororg));
+    						timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitororg));
+    					
+    						uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+    						timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRate));
     					}
     					}
 	       				 
@@ -3842,11 +3865,11 @@ public class ClickyAnalyticsController extends Controller{
     			 
     			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
     			 cVm6.title = "bounceR";
-    			 cVm6.these_visitors = count6;
-    			 cVm6.all_visitors = countAll6;
+    			 cVm6.these_visitors = count6/bounceSize;
+    			 cVm6.all_visitors = (double)uniquebounce;
     			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
     			 if(countAll6 !=0){
-    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+    				 cVm6.difference = (((count6/bounceSize) - (double)uniquebounce) / (double)uniquebounce) * 100;
     			 }
     			 else{
     				 cVm6.difference = 0.0;
@@ -3897,6 +3920,7 @@ public class ClickyAnalyticsController extends Controller{
 	    		double count5=0.0;
 	    		double count6=0.0;
 	    		double count7=0.0;
+	    		double bounceSize = 0;
 	    		Integer vistValue = 0;
 	    		Integer vistValue1 = 0;
 	     		 for(ClickyVisitorsList lis:hostObjList){
@@ -3904,7 +3928,7 @@ public class ClickyAnalyticsController extends Controller{
 	     	     		count1=Double.parseDouble(lis.averageAction);
 	     	     	}
 	     			if(lis.bounceRate != null){
-	     				count6=Double.parseDouble(lis.bounceRate);	
+	     				count6=count6+Double.parseDouble(lis.bounceRate);	
 	     				     	}
 	     			if(lis.averageTime != null){
 	     				count5=Double.parseDouble(lis.averageTime);	
@@ -3921,7 +3945,7 @@ public class ClickyAnalyticsController extends Controller{
 	     			if(lis.actions != null){
 	     			count7=count7+Double.parseDouble(lis.actions);
 	     			}
-	     			
+	     			bounceSize = hostObjList.size();
 	     			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 	    			if(lis.visitors != null){
 	    				if (langValue == null) {
@@ -3945,6 +3969,7 @@ public class ClickyAnalyticsController extends Controller{
 	     			double countAll6=0.0;
 	     			double countAll7=0.0;
 	     			Integer uniquevisit = 0;
+	     			Integer uniquebounce = 0;
 	     			 for(ClickyVisitorsList list:allHostlist){
 	     				 if(list.averageAction != null){
 	     					 countAll1=count1+Double.parseDouble(list.averageAction);
@@ -3955,8 +3980,8 @@ public class ClickyAnalyticsController extends Controller{
 	     					if(list.averageTime != null){
 	     						countAll5=count5+Double.parseDouble(list.averageTime);	
 	     						}
-	     					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	     						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	     					if(list.averageTime != null  && !list.averageTime.equals("")){
+	     						 countAll4=countAll4+Double.parseDouble(list.averageTime);
 	     						}
 	     					if(list.visitors != null){
 	     						countAll2=allHostlist.size();
@@ -3973,6 +3998,9 @@ public class ClickyAnalyticsController extends Controller{
 	    						if (langValue1 == null) {
 	    							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
 	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
+	    							
+	    							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRate));
 	    						}
 	    					}
 	     				 
@@ -4029,11 +4057,11 @@ public class ClickyAnalyticsController extends Controller{
 	    			 
 	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	    			 cVm6.title = "bounceR";
-	    			 cVm6.these_visitors = count6;
-	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.these_visitors = count6/bounceSize;
+	    			 cVm6.all_visitors = (double)uniquebounce;
 	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	    			 if(countAll6 !=0){
-	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    				 cVm6.difference = (((count6/bounceSize) - (double)uniquebounce) / (double)uniquebounce) * 100;
 	    			 }
 	    			 else{
 	    				 cVm6.difference = 0.0;
@@ -4082,6 +4110,7 @@ public class ClickyAnalyticsController extends Controller{
 	      		double count5=0.0;
 	      		double count6=0.0;
 	      		double count7=0.0;
+	      		double bounceSize = 0;
 	      		Integer vistValue = 0;
 				Integer vistValue1 = 0;
 	      		 for(ClickyVisitorsList lis:operatingObjList){
@@ -4089,13 +4118,13 @@ public class ClickyAnalyticsController extends Controller{
 	      	     		count1=Double.parseDouble(lis.averageActionos);
 	      	     	}
 	      			if(lis.bounceRateos != null){
-	      				count6=Double.parseDouble(lis.bounceRateos);	
+	      				count6=count6+Double.parseDouble(lis.bounceRateos);	
 	      				     	}
 	      			if(lis.averageTimeos != null){
 	      				count5=Double.parseDouble(lis.averageTimeos);	
 	      				}
-	      			if(lis.totalTimeos != null){
-	      				count4=count4+Double.parseDouble(lis.totalTimeos);
+	      			if(lis.totalTime != null){
+	      				count4=count4+Double.parseDouble(lis.timeTotal);
 	      				}
 	      			if(lis.visitorsos != null){
 	      				 count2=Double.parseDouble(lis.visitorsos);
@@ -4106,7 +4135,7 @@ public class ClickyAnalyticsController extends Controller{
 	      			if(lis.actions != null){
 	      			count7=count7+Double.parseDouble(lis.actions);
 	      			}
-	      			
+	      			bounceSize = operatingObjList.size();
 	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 					if(lis.visitorsos != null){
 					if (langValue == null) {
@@ -4126,6 +4155,7 @@ public class ClickyAnalyticsController extends Controller{
 	      			double countAll5=0.0;
 	      			double countAll6=0.0;
 	      			double countAll7=0.0;
+	      			Integer uniquebounce = 0;
 	      			Integer uniquevisit = 0;
 	      			 for(ClickyVisitorsList list:allOSlist){
 	      				 if(list.averageActionos != null){
@@ -4137,8 +4167,8 @@ public class ClickyAnalyticsController extends Controller{
 	      					if(list.averageTimeos != null){
 	      						countAll5=count5+Double.parseDouble(list.averageTimeos);	
 	      						}
-	      					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	      						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	      					if(list.averageTimeos != null  && !list.averageTimeos.equals("")){
+	      						 countAll4=countAll4+Double.parseDouble(list.averageTimeos);
 	      						}
 	      					if(list.visitorsos != null){
 	      						countAll2=allOSlist.size();
@@ -4154,6 +4184,9 @@ public class ClickyAnalyticsController extends Controller{
 								if(langValue1 == null) {
 									uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitoros);
 					 				timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitoros));
+					 				
+					 				uniquebounce = uniquebounce + Integer.parseInt(list.bounceRateos);
+					 				timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRateos));
 								}
 							}
 	      				 
@@ -4210,11 +4243,11 @@ public class ClickyAnalyticsController extends Controller{
 	    			 
 	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	    			 cVm6.title = "bounceR";
-	    			 cVm6.these_visitors = count6;
-	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.these_visitors = count6/bounceSize;
+	    			 cVm6.all_visitors = (double)uniquebounce;
 	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	    			 if(countAll6 !=0){
-	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    				 cVm6.difference = (((count6/bounceSize) - (double)uniquebounce) / (double)uniquebounce) * 100;
 	    			 }
 	    			 else{
 	    				 cVm6.difference = 0.0;
@@ -4265,6 +4298,7 @@ public class ClickyAnalyticsController extends Controller{
 	        		double count5=0.0;
 	        		double count6=0.0;
 	        		double count7=0.0;
+	        		double bounceSize = 0;
 	        		Integer vistValue = 0;
 					Integer vistValue1 = 0;
 	        		 for(ClickyVisitorsList lis:browserObjList){
@@ -4272,7 +4306,7 @@ public class ClickyAnalyticsController extends Controller{
 	        	     		count1=Double.parseDouble(lis.averageActionbrowser);
 	        	     	}
 	        			if(lis.bounceRatebrowser != null){
-	        				count6=Double.parseDouble(lis.bounceRatebrowser);	
+	        				count6=count6+Double.parseDouble(lis.bounceRatebrowser);	
 	        				     	}
 	        			if(lis.averageTimebrowser != null){
 	        				count5=Double.parseDouble(lis.averageTimebrowser);	
@@ -4289,7 +4323,7 @@ public class ClickyAnalyticsController extends Controller{
 	        			if(lis.actions != null){
 	        			count7=count7+Double.parseDouble(lis.actions);
 	        			}
-	        			
+	        			bounceSize = browserObjList.size();
 	        			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 			if(lis.visitorsbrowser != null){
 			if (langValue == null) {
@@ -4309,6 +4343,7 @@ public class ClickyAnalyticsController extends Controller{
 	        			double countAll5=0.0;
 	        			double countAll6=0.0;
 	        			double countAll7=0.0;
+	        			Integer uniquebounce = 0;
 	        			Integer uniquevisit = 0;
 	        			 for(ClickyVisitorsList list:allBrowserlist){
 	        				 if(list.averageActionbrowser != null){
@@ -4320,8 +4355,8 @@ public class ClickyAnalyticsController extends Controller{
 	        					if(list.averageTimebrowser != null){
 	        						countAll5=count5+Double.parseDouble(list.averageTimebrowser);	
 	        						}
-	        					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	        						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	        					if(list.averageTimebrowser != null  && !list.averageTimebrowser.equals("")){
+	        						 countAll4=countAll4+Double.parseDouble(list.averageTimebrowser);
 	        						}
 	        					if(list.visitorsbrowser != null){
 	        						countAll2=allBrowserlist.size();
@@ -4337,6 +4372,9 @@ public class ClickyAnalyticsController extends Controller{
 	        						if(langValue1 == null) {
 	        							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitorbrowser);
 	        							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitorbrowser));
+	        						
+	        							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRatebrowser);
+	        							timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRatebrowser));
 	        						}
 	        					}		 
 	        				 
@@ -4393,11 +4431,11 @@ public class ClickyAnalyticsController extends Controller{
 		    			 
 		    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 		    			 cVm6.title = "bounceR";
-		    			 cVm6.these_visitors = count6;
-		    			 cVm6.all_visitors = countAll6;
+		    			 cVm6.these_visitors = count6/bounceSize;
+		    			 cVm6.all_visitors = (double)uniquebounce;
 		    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 		    			 if(countAll6 !=0){
-		    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+		    				 cVm6.difference = (((count6/bounceSize) - (double)uniquebounce) / (double)uniquebounce) * 100;
 		    			 }
 		    			 else{
 		    				 cVm6.difference = 0.0;
@@ -4452,6 +4490,7 @@ public class ClickyAnalyticsController extends Controller{
 	    		double count5=0.0;
 	    		double count6=0.0;
 	    		double count7=0.0;
+	    		double bounceSize = 0;
 	    		Integer vistValue = 0;
 	    		Integer vistValue1 = 0;
 	      		 for(ClickyVisitorsList lis:screenObjList){
@@ -4459,13 +4498,13 @@ public class ClickyAnalyticsController extends Controller{
 	      	     		count1=Double.parseDouble(lis.averageAction);
 	      	     	}
 	      			if(lis.bounceRate != null){
-	      				count6=Double.parseDouble(lis.bounceRate);	
+	      				count6=count6+Double.parseDouble(lis.bounceRate);	
 	      				     	}
 	      			if(lis.averageTime != null){
 	      				count5=Double.parseDouble(lis.averageTime);	
 	      				}
-	      			if(lis.totalTime != null){
-	      				count4=count4+Double.parseDouble(lis.totalTime);
+	      			if(lis.timeTotal != null){
+	      				count4=count4+Double.parseDouble(lis.timeTotal);
 	      				}
 	      			if(lis.visitors != null){
 	      				 count2=Double.parseDouble(lis.visitors);
@@ -4476,7 +4515,7 @@ public class ClickyAnalyticsController extends Controller{
 	      			if(lis.actions != null){
 	      			count7=count7+Double.parseDouble(lis.actions);
 	      			}
-	      			
+	      			bounceSize = screenObjList.size();
 	      			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 	    			if(lis.visitors != null){
 	    				if (langValue == null) {
@@ -4499,6 +4538,7 @@ public class ClickyAnalyticsController extends Controller{
 	      			double countAll5=0.0;
 	      			double countAll6=0.0;
 	      			double countAll7=0.0;
+	      			Integer uniquebounce = 0;
 	      			Integer uniquevisit = 0;
 	      			 for(ClickyVisitorsList list:allScreenlist){
 	      				 if(list.averageAction != null){
@@ -4510,8 +4550,8 @@ public class ClickyAnalyticsController extends Controller{
 	      					if(list.averageTime != null){
 	      						countAll5=count5+Double.parseDouble(list.averageTime);	
 	      						}
-	      					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	      						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	      					if(list.averageTime != null  && !list.averageTime.equals("")){
+	      						 countAll4=countAll4+Double.parseDouble(list.averageTime);
 	      						}
 	      					if(list.visitors != null){
 	      						countAll2=allScreenlist.size();
@@ -4528,6 +4568,9 @@ public class ClickyAnalyticsController extends Controller{
 	    						if (langValue1 == null) {
 	    							uniquevisit = uniquevisit + Integer.parseInt(list.uniqueVisitor);
 	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.uniqueVisitor));
+	    							
+	    							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRate));
 	    						}
 	    					}
 	      				 
@@ -4584,8 +4627,8 @@ public class ClickyAnalyticsController extends Controller{
 	    			 
 	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	    			 cVm6.title = "bounceR";
-	    			 cVm6.these_visitors = count6;
-	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.these_visitors = count6/bounceSize;
+	    			 cVm6.all_visitors = (double)uniquebounce;
 	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	    			 if(countAll6 !=0){
 	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
@@ -4627,7 +4670,8 @@ public class ClickyAnalyticsController extends Controller{
 	      		List <ClickyPagesVM> VMs = new ArrayList<>();
 	      		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	      		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
-				
+	      		Map<String, Integer> timeline = new HashMap<String, Integer>();
+	      		
 	      		ClickyPagesVM vm = new ClickyPagesVM();
 	      		double count1=0.0;
 	      		double count2=0.0;
@@ -4636,13 +4680,14 @@ public class ClickyAnalyticsController extends Controller{
 	      		double count5=0.0;
 	      		double count6=0.0;
 	      		double count7=0.0;
+	      		double bounceSize = 0;
 	      		Integer vistValue = 0;
 	      		 for(ClickyActionList lis:domainObjList){
 	      	     	if(lis.averageAction != null){
 	      	     		count1=Double.parseDouble(lis.averageAction);
 	      	     	}
 	      			if(lis.bounceRate != null){
-	      				count6=Double.parseDouble(lis.bounceRate);	
+	      				count6=count6+Double.parseDouble(lis.bounceRate);	
 	      				     	}
 	      			if(lis.averageTime != null){
 	      				count5=Double.parseDouble(lis.averageTime);	
@@ -4659,7 +4704,7 @@ public class ClickyAnalyticsController extends Controller{
 	      			if(lis.action != null){
 	      			count7=count7+Double.parseDouble(lis.action);
 	      			}
-	      			
+	      			bounceSize = domainObjList.size();
 	    			Integer langValue = mapOffline.get(lis.currDate.toString()); 
 					if (langValue == null) {
 					 vistValue = vistValue + Integer.parseInt(lis.visitors);
@@ -4674,6 +4719,7 @@ public class ClickyAnalyticsController extends Controller{
 	      			double countAll5=0.0;
 	      			double countAll6=0.0;
 	      			double countAll7=0.0;
+	      			double uniquebounce = 0;
 	      			 for(ClickyActionList list:allDomainlist){
 	      				 if(list.averageAction != null){
 	      					 countAll1=count1+Double.parseDouble(list.averageAction);
@@ -4684,8 +4730,8 @@ public class ClickyAnalyticsController extends Controller{
 	      					if(list.averageTime != null){
 	      						countAll5=count5+Double.parseDouble(list.averageTime);	
 	      						}
-	      					if(list.totalTime != null  && !list.totalTime.equals("")){
-	      						 countAll4=count4+Double.parseDouble(list.totalTime);
+	      					if(list.averageTime != null  && !list.averageTime.equals("")){
+	      						 countAll4=count4+Double.parseDouble(list.averageTime);
 	      						}
 	      					if(list.visitors != null){
 	      						countAll2=count2+Double.parseDouble(list.visitors);
@@ -4696,8 +4742,16 @@ public class ClickyAnalyticsController extends Controller{
 	      					if(list.action != null && !list.action.equals("")){
 	      						 countAll7=count7+Double.parseDouble(list.action);
 	      					}
-	      				 
-	      				 
+	      					
+	      		      		Integer langValue1 = timeline.get(list.currDate.toString()); 
+	      					if(list.uniqueVisitor != null){
+	      						if (langValue1 == null) {
+	      							
+	      							
+	      							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+	      							timeline.put(list.currDate.toString(), Integer.parseInt(list.bounceRate));
+	      						}
+	      					}
 	      		   			
 	      			 }
 	      		 
@@ -4751,11 +4805,11 @@ public class ClickyAnalyticsController extends Controller{
 	      			 
 	      			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	      			 cVm6.title = "bounceR";
-	      			 cVm6.these_visitors = count6;
-	      			 cVm6.all_visitors = countAll6;
+	      			 cVm6.these_visitors = count6/bounceSize;
+	      			 cVm6.all_visitors = (double)uniquebounce;
 	      			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	      			 if(countAll6 !=0){
-	      				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	      				 cVm6.difference = (((count6/bounceSize) - (double)uniquebounce) / (double)uniquebounce) * 100;
 	      			 }
 	      			 else{
 	      				 cVm6.difference = 0.0;
@@ -4795,6 +4849,8 @@ public class ClickyAnalyticsController extends Controller{
 	     		List <ClickyPagesVM> VMs = new ArrayList<>();
 	     		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	     		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+	     		Map<String, Integer> timeline = new HashMap<String, Integer>();
+	      		
 	     		ClickyPagesVM vm = new ClickyPagesVM();
 	     		double count1=0.0;
 	     		double count2=0.0;
@@ -4803,13 +4859,14 @@ public class ClickyAnalyticsController extends Controller{
 	     		double count5=0.0;
 	     		double count6=0.0;
 	     		double count7=0.0;
+	     		double bounceSize = 0;
 	     		Integer vistValue = 0;
 	     		 for(ClickyVisitorsList lis:referrerObjList){
 	     	     	if(lis.averageAction != null){
 	     	     		count1=Double.parseDouble(lis.averageAction);
 	     	     	}
 	     			if(lis.bounceRate != null){
-	     				count6=Double.parseDouble(lis.bounceRate);	
+	     				count6=count6+Double.parseDouble(lis.bounceRate);	
 	     				     	}
 	     			if(lis.averageTime != null){
 	     				count5=Double.parseDouble(lis.averageTime);	
@@ -4826,7 +4883,7 @@ public class ClickyAnalyticsController extends Controller{
 	     			if(lis.actions != null){
 	     			count7=count7+Double.parseDouble(lis.actions);
 	     			}
-	     			
+	     			bounceSize = referrerObjList.size();
 	     			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 	 				if (langValue == null) {
 	 				 vistValue = vistValue + Integer.parseInt(lis.visitors);
@@ -4844,6 +4901,7 @@ public class ClickyAnalyticsController extends Controller{
 	     			double countAll5=0.0;
 	     			double countAll6=0.0;
 	     			double countAll7=0.0;
+	     			Integer uniquebounce = 0;
 	     			 for(ClickyVisitorsList list:allReferrerlist){
 	     				 if(list.averageAction != null){
 	     					 countAll1=count1+Double.parseDouble(list.averageAction);
@@ -4854,8 +4912,8 @@ public class ClickyAnalyticsController extends Controller{
 	     					if(list.averageTime != null){
 	     						countAll5=count5+Double.parseDouble(list.averageTime);	
 	     						}
-	     					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	     						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	     					if(list.averageTime != null  && !list.averageTime.equals("")){
+	     						 countAll4=countAll4+Double.parseDouble(list.averageTime);
 	     						}
 	     					if(list.visitors != null){
 	     						countAll2=allReferrerlist.size();
@@ -4867,8 +4925,14 @@ public class ClickyAnalyticsController extends Controller{
 	     						 countAll7=countAll7+Double.parseDouble(list.actions);
 	     					}
 	     				 
-	     				 
-	     		   			
+	     					
+	     		      		Integer langValue1 = timeline.get(list.DateClick.toString()); 
+	     					if(list.uniqueVisitor != null){
+	     						if (langValue1 == null) {
+	     							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+	     							timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRate));
+	     						}
+	     					}
 	     			 }
 	     		 
 	     			 ClickyPlatformVM cVm = new ClickyPlatformVM();
@@ -4921,11 +4985,11 @@ public class ClickyAnalyticsController extends Controller{
 	     			 
 	     			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	     			 cVm6.title = "bounceR";
-	     			 cVm6.these_visitors = count6;
-	     			 cVm6.all_visitors = countAll6;
+	     			 cVm6.these_visitors = count6/bounceSize;
+	     			 cVm6.all_visitors = (double)uniquebounce;
 	     			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	     			 if(countAll6 !=0){
-	     				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	     				 cVm6.difference = ((count6/bounceSize - (double)uniquebounce) / (double)uniquebounce) * 100;
 	     			 }
 	     			 else{
 	     				 cVm6.difference = 0.0;
@@ -4965,6 +5029,8 @@ public class ClickyAnalyticsController extends Controller{
 	     		List <ClickyPagesVM> VMs = new ArrayList<>();
 	     		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	     		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
+	     		Map<String, Integer> timeline = new HashMap<String, Integer>();
+	      		
 	     		ClickyPagesVM vm = new ClickyPagesVM();
 	     		double count1=0.0;
 	     		double count2=0.0;
@@ -4973,6 +5039,7 @@ public class ClickyAnalyticsController extends Controller{
 	     		double count5=0.0;
 	     		double count6=0.0;
 	     		double count7=0.0;
+	     		double bounceSize = 0;
 	     		Integer vistValue = 0;
 	     		 for(ClickyVisitorsList lis:referrerObjList){
 	     	     	if(lis.averageAction != null){
@@ -4996,7 +5063,7 @@ public class ClickyAnalyticsController extends Controller{
 	     			if(lis.actions != null){
 	     			count7=count7+Double.parseDouble(lis.actions);
 	     			}
-	     			
+	     			bounceSize = referrerObjList.size();
 	     			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 	 				if (langValue == null) {
 	 				 vistValue = vistValue + Integer.parseInt(lis.visitors);
@@ -5014,6 +5081,7 @@ public class ClickyAnalyticsController extends Controller{
 	     			double countAll5=0.0;
 	     			double countAll6=0.0;
 	     			double countAll7=0.0;
+	     			Integer uniquebounce = 0;
 	     			 for(ClickyVisitorsList list:allReferrerlist){
 	     				 if(list.averageAction != null){
 	     					 countAll1=count1+Double.parseDouble(list.averageAction);
@@ -5024,8 +5092,8 @@ public class ClickyAnalyticsController extends Controller{
 	     					if(list.averageTime != null){
 	     						countAll5=count5+Double.parseDouble(list.averageTime);	
 	     						}
-	     					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	     						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	     					if(list.averageTime != null  && !list.averageTime.equals("")){
+	     						 countAll4=countAll4+Double.parseDouble(list.averageTime);
 	     						}
 	     					if(list.visitors != null){
 	     						countAll2=allReferrerlist.size();
@@ -5036,8 +5104,15 @@ public class ClickyAnalyticsController extends Controller{
 	     					if(list.actions != null && !list.actions.equals("")){
 	     						 countAll7=countAll7+Double.parseDouble(list.actions);
 	     					}
-	     				 
-	     				 
+	     					
+	     		      		Integer langValue1 = timeline.get(list.DateClick.toString()); 
+	     					if(list.uniqueVisitor != null){
+	     						if (langValue1 == null) {
+	     							
+	     							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+	     							timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRate));
+	     						}
+	     					}
 	     		   			
 	     			 }
 	     		 
@@ -5091,11 +5166,11 @@ public class ClickyAnalyticsController extends Controller{
 	     			 
 	     			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	     			 cVm6.title = "bounceR";
-	     			 cVm6.these_visitors = count6;
-	     			 cVm6.all_visitors = countAll6;
+	     			 cVm6.these_visitors = count6/bounceSize;
+	     			 cVm6.all_visitors = (double)uniquebounce;
 	     			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	     			 if(countAll6 !=0){
-	     				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	     				 cVm6.difference = ((count6/bounceSize - (double)uniquebounce) / (double)uniquebounce) * 100;
 	     			 }
 	     			 else{
 	     				 cVm6.difference = 0.0;
@@ -5170,7 +5245,8 @@ public class ClickyAnalyticsController extends Controller{
 	       		List <ClickyPagesVM> VMs = new ArrayList<>();
 	       		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	       		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
-				
+	       		Map<String, Integer> timeline = new HashMap<String, Integer>();
+	      		
 	       		ClickyPagesVM vm = new ClickyPagesVM();
 	       		double count1=0.0;
 	       		double count2=0.0;
@@ -5179,13 +5255,14 @@ public class ClickyAnalyticsController extends Controller{
 	       		double count5=0.0;
 	       		double count6=0.0;
 	       		double count7=0.0;
+	       		double bounceSize =0;
 	       		Integer vistValue = 0;
 	       		 for(ClickyVisitorsList lis:locationObjList){
 	       	     	if(lis.averageAction1 != null){
 	       	     		count1=Double.parseDouble(lis.averageAction1);
 	       	     	}
 	       			if(lis.bounceRate1 != null){
-	       				count6=Double.parseDouble(lis.bounceRate1);	
+	       				count6=count6+Double.parseDouble(lis.bounceRate1);	
 	       				     	}
 	       			if(lis.averageTime1 != null){
 	       				count5=Double.parseDouble(lis.averageTime1);	
@@ -5202,7 +5279,7 @@ public class ClickyAnalyticsController extends Controller{
 	       			if(lis.actions != null){
 	       			count7=count7+Double.parseDouble(lis.actions);
 	       			}
-	       			
+	       			bounceSize = locationObjList.size();
 	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 					if (langValue == null) {
 					 vistValue = vistValue + Integer.parseInt(lis.visitors);
@@ -5217,6 +5294,7 @@ public class ClickyAnalyticsController extends Controller{
 	       			double countAll5=0.0;
 	       			double countAll6=0.0;
 	       			double countAll7=0.0;
+	       			double uniquebounce =0;
 	       			 for(ClickyVisitorsList list:alldatalist){
 	       				 if(list.averageAction1 != null){
 	       					 countAll1=count1+Double.parseDouble(list.averageAction1);
@@ -5227,8 +5305,8 @@ public class ClickyAnalyticsController extends Controller{
 	       					if(list.averageTime1 != null){
 	       						countAll5=count5+Double.parseDouble(list.averageTime1);	
 	       						}
-	       					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	       						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	       					if(list.averageTime != null  && !list.averageTime.equals("")){
+	       						 countAll4=countAll4+Double.parseDouble(list.averageTime);
 	       						}
 	       					if(list.visitors1 != null){
 	       						countAll2=alldatalist.size();
@@ -5239,8 +5317,15 @@ public class ClickyAnalyticsController extends Controller{
 	       					if(list.actions != null && !list.actions.equals("")){
 	       						 countAll7=countAll7+Double.parseDouble(list.actions);
 	       					}
-	       				 
-	       				 
+	       					
+	       		      		Integer langValue1 = timeline.get(list.DateClick.toString()); 
+	       					if(list.uniqueVisitor != null){
+	       						if (langValue1 == null) {
+	       							
+	       							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+	       							timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRate));
+	       						}
+	       					}
 	       		   			
 	       			 }
 	       		 
@@ -5294,11 +5379,11 @@ public class ClickyAnalyticsController extends Controller{
 	       			 
 	       			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	       			 cVm6.title = "bounceR";
-	       			 cVm6.these_visitors = count6;
-	       			 cVm6.all_visitors = countAll6;
+	       			 cVm6.these_visitors = count6/bounceSize;
+	       			 cVm6.all_visitors = (double)uniquebounce;
 	       			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	       			 if(countAll6 !=0){
-	       				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	       				 cVm6.difference = ((count6/bounceSize - (double)uniquebounce) / (double)uniquebounce) * 100;
 	       			 }
 	       			 else{
 	       				 cVm6.difference = 0.0;
@@ -5347,7 +5432,8 @@ public class ClickyAnalyticsController extends Controller{
 	    		List <ClickyPagesVM> VMs = new ArrayList<>();
 	    		List<ClickyPlatformVM> platformvm =new ArrayList<>();
 	    		Map<String, Integer> mapOffline = new HashMap<String, Integer>();
-				
+	    		Map<String, Integer> timeline = new HashMap<String, Integer>();
+	      		
 	    		ClickyPagesVM vm = new ClickyPagesVM();
 	    		double count1=0.0;
 	    		double count2=0.0;
@@ -5356,13 +5442,14 @@ public class ClickyAnalyticsController extends Controller{
 	    		double count5=0.0;
 	    		double count6=0.0;
 	    		double count7=0.0;
+	    		double bounceSize = 0;
 	    		Integer vistValue = 0;
 	    		 for(ClickyVisitorsList lis:locationObjList){
 	    	     	if(lis.averageAction != null){
 	    	     		count1=Double.parseDouble(lis.averageAction);
 	    	     	}
 	    			if(lis.bounceRate != null){
-	    				count6=Double.parseDouble(lis.bounceRate);	
+	    				count6=count6+Double.parseDouble(lis.bounceRate);	
 	    				     	}
 	    			if(lis.averageTime != null){
 	    				count5=Double.parseDouble(lis.averageTime);	
@@ -5379,7 +5466,7 @@ public class ClickyAnalyticsController extends Controller{
 	    			if(lis.actions != null){
 	    			count7=count7+Double.parseDouble(lis.actions);
 	    			}
-	    			
+	    			bounceSize = locationObjList.size();
 	    			Integer langValue = mapOffline.get(lis.DateClick.toString()); 
 					if (langValue == null) {
 					 vistValue = vistValue + Integer.parseInt(lis.visitors);
@@ -5394,6 +5481,7 @@ public class ClickyAnalyticsController extends Controller{
 	    			double countAll5=0.0;
 	    			double countAll6=0.0;
 	    			double countAll7=0.0;
+	    			Integer uniquebounce = 0;
 	    			 for(ClickyVisitorsList list:alldatalist){
 	    				 if(list.averageAction != null){
 	    					 countAll1=count1+Double.parseDouble(list.averageAction);
@@ -5404,8 +5492,8 @@ public class ClickyAnalyticsController extends Controller{
 	    					if(list.averageTime != null){
 	    						countAll5=count5+Double.parseDouble(list.averageTime);	
 	    						}
-	    					if(list.timeTotal != null  && !list.timeTotal.equals("")){
-	    						 countAll4=countAll4+Double.parseDouble(list.timeTotal);
+	    					if(list.averageTime != null  && !list.averageTime.equals("")){
+	    						 countAll4=countAll4+Double.parseDouble(list.averageTime);
 	    						}
 	    					if(list.visitors != null){
 	    						countAll2=alldatalist.size();
@@ -5416,8 +5504,15 @@ public class ClickyAnalyticsController extends Controller{
 	    					if(list.actions != null && !list.actions.equals("")){
 	    						 countAll7=countAll7+Double.parseDouble(list.actions);
 	    					}
-	    				 
-	    				 
+	    					
+	    		      		Integer langValue1 = timeline.get(list.DateClick.toString()); 
+	    					if(list.uniqueVisitor != null){
+	    						if (langValue1 == null) {
+	    							
+	    							uniquebounce = uniquebounce + Integer.parseInt(list.bounceRate);
+	    							timeline.put(list.DateClick.toString(), Integer.parseInt(list.bounceRate));
+	    						}
+	    					}
 	    		   			
 	    			 }
 	    		 
@@ -5471,11 +5566,11 @@ public class ClickyAnalyticsController extends Controller{
 	    			 
 	    			 ClickyPlatformVM cVm6 = new ClickyPlatformVM();
 	    			 cVm6.title = "bounceR";
-	    			 cVm6.these_visitors = count6;
-	    			 cVm6.all_visitors = countAll6;
+	    			 cVm6.these_visitors = count6/bounceSize;
+	    			 cVm6.all_visitors = (double)uniquebounce;
 	    			 cVm6.images = "//con.tent.network/media/icon_bounce.gif";
 	    			 if(countAll6 !=0){
-	    				 cVm6.difference = ((count6 - countAll6) / countAll6) * 100;
+	    				 cVm6.difference = (((count6/bounceSize) - (double)uniquebounce) / (double)uniquebounce) * 100;
 	    			 }
 	    			 else{
 	    				 cVm6.difference = 0.0;
@@ -5660,7 +5755,7 @@ public class ClickyAnalyticsController extends Controller{
 				 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 				 cVm3.title = "averageAct";
 				 cVm3.these_visitors = count7/count2;
-				 cVm3.all_visitors = countAll7/countAll3;
+				 cVm3.all_visitors = countAll7/countAll2;
 				 cVm3.images = "//con.tent.network/media/icon_click.gif";
 				
 				 if(countAll3 !=0){
@@ -5688,7 +5783,7 @@ public class ClickyAnalyticsController extends Controller{
 				 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 				 cVm5.title = "averageT";
 				 cVm5.these_visitors = count4/count2;
-				 cVm5.all_visitors = countAll4/countAll3;
+				 cVm5.all_visitors = countAll4/countAll2;
 				 cVm5.images = "//con.tent.network/media/icon_time.gif";
 				 
 				 if(countAll5 !=0){
@@ -5838,8 +5933,8 @@ public class ClickyAnalyticsController extends Controller{
 				 
 				 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 				 cVm3.title = "averageAct";
-				 cVm3.these_visitors = count1;
-				 cVm3.all_visitors = countAll1;
+				 cVm3.these_visitors = count7/count2;
+				 cVm3.all_visitors = countAll7/countAll2;
 				 cVm3.images = "//con.tent.network/media/icon_click.gif";
 				 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 				 platformvm.add(cVm3);
@@ -5854,8 +5949,8 @@ public class ClickyAnalyticsController extends Controller{
 				 
 				 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 				 cVm5.title = "averageT";
-				 cVm5.these_visitors = count5;
-				 cVm5.all_visitors = countAll5;
+				 cVm5.these_visitors = count4/count2;
+				 cVm5.all_visitors = countAll4/countAll2;
 				 cVm5.images = "//con.tent.network/media/icon_time.gif";
 				 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 				 platformvm.add(cVm5);
@@ -5969,8 +6064,8 @@ public class ClickyAnalyticsController extends Controller{
 			 
 			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 			 cVm3.title = "averageAct";
-			 cVm3.these_visitors = count1;
-			 cVm3.all_visitors = countAll1;
+			 cVm3.these_visitors = count7/count2;
+			 cVm3.all_visitors = countAll7/countAll2;
 			 cVm3.images = "//con.tent.network/media/icon_click.gif";
 			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 			 platformvm.add(cVm3);
@@ -5985,8 +6080,8 @@ public class ClickyAnalyticsController extends Controller{
 			 
 			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 			 cVm5.title = "averageT";
-			 cVm5.these_visitors = count5;
-			 cVm5.all_visitors = countAll5;
+			 cVm5.these_visitors = count4/count2;
+			 cVm5.all_visitors = countAll4/countAll2;
 			 cVm5.images = "//con.tent.network/media/icon_time.gif";
 			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 			 platformvm.add(cVm5);
@@ -6234,8 +6329,8 @@ public class ClickyAnalyticsController extends Controller{
 			 
 			 ClickyPlatformVM cVm3 = new ClickyPlatformVM();
 			 cVm3.title = "averageAct";
-			 cVm3.these_visitors = count1;
-			 cVm3.all_visitors = countAll1;
+			 cVm3.these_visitors = count7/count2;
+			 cVm3.all_visitors = countAll7/countAll2;
 			 cVm3.images = "//con.tent.network/media/icon_click.gif";
 			 cVm3.difference = ((count1 - countAll1) / countAll1) * 100;
 			 platformvm.add(cVm3);
@@ -6250,8 +6345,8 @@ public class ClickyAnalyticsController extends Controller{
 			 
 			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 			 cVm5.title = "averageT";
-			 cVm5.these_visitors = count5;
-			 cVm5.all_visitors = countAll5;
+			 cVm5.these_visitors = count4/count2;
+			 cVm5.all_visitors = countAll4/countAll2;
 			 cVm5.images = "//con.tent.network/media/icon_time.gif";
 			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 			 platformvm.add(cVm5);
@@ -6382,8 +6477,8 @@ public class ClickyAnalyticsController extends Controller{
 			 
 			 ClickyPlatformVM cVm5 = new ClickyPlatformVM();
 			 cVm5.title = "averageT";
-			 cVm5.these_visitors = count5;
-			 cVm5.all_visitors = countAll5;
+			 cVm5.these_visitors = count4/countAll2;
+			 cVm5.all_visitors = countAll4/countAll2;
 			 cVm5.images = "//con.tent.network/media/icon_time.gif";
 			 cVm5.difference = ((count5 - countAll5) / countAll5) * 100;
 			 platformvm.add(cVm5);

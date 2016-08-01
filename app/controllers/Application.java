@@ -28296,13 +28296,13 @@ private static void cancelTestDriveMail(Map map) {
 						 countAll4=countAll4+Double.parseDouble(list.totalTime);
 						}
 					if(list.visitors != null && !list.visitors.equals("")){
-						countAll2=countAll2+Double.parseDouble(list.visitors);
+						countAll2=count2+Double.parseDouble(list.visitors);
 						}
 					if(list.uniqueVisitor!= null && !list.uniqueVisitor.equals("")){
-						countAll3=countAll3+Double.parseDouble(list.uniqueVisitor);
+						countAll3=count3+Double.parseDouble(list.uniqueVisitor);
 						}
 					if(list.action != null && !list.action.equals("")){
-						 countAll7=countAll7+Double.parseDouble(list.action);
+						 countAll7=count7+Double.parseDouble(list.action);
 					}
 				 
 		   			
