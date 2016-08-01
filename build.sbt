@@ -17,6 +17,7 @@ libraryDependencies ++= Seq(
 "com.google.http-client" % "google-http-client-jackson2" % "1.19.0",
 "com.google.oauth-client" % "google-oauth-client-jetty" % "1.19.0",
 "com.google.oauth-client" % "google-oauth-client" % "1.19.0",
+"org.apache.xmlrpc" % "xmlrpc-client" % "3.1.3",
 "org.apache.velocity" % "velocity-tools" % "2.0",
 javaJdbc,
   javaEbean,

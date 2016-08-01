@@ -19,6 +19,8 @@ GET   /locationWise/:locationId      			controllers.Application.locationWise(loc
 POST    /acceptAgreement     			controllers.Application.acceptAgreement()
 GET    /authenticate     			controllers.Application.index()
 GET		/logout						controllers.Application.logout()
+
+GET		/callList						controllers.Application.callList()
 GET    /gmLogin							controllers.Application.gmLogin()
 GET    /salePLogin						controllers.Application.salePLogin()
 GET    /mgLogin						controllers.Application.mgLogin()

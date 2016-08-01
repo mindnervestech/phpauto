@@ -547,5 +547,16 @@ angular.module('newApp')
 
 		 	});
 		}
+		 $scope.callListMailChim = function(){
+			 $http.get('/callList')
+				.success(function(data) {
+					console.log("log");
+					$.pnotify({
+					    title: "Success",
+					    type:'success',
+					    text: "Import successfully",
+					 });
+				});
+		}
 	   
 }]);

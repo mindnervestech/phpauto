@@ -287,6 +287,8 @@ import com.mnt.dataone.Specification;
 import com.mnt.dataone.Specification_;
 import com.mnt.dataone.Value;
 
+import controllers.MailchipControllers.MailIntegrationServices;
+
 public class Application extends Controller {
   
 	final static String rootDir = Play.application().configuration()
@@ -931,6 +933,13 @@ public class Application extends Controller {
 	public static Result logout() {
 		session().clear();
 		return ok(home.render("",userRegistration));
+	}
+	
+	public static Result callList() {
+		MailIntegrationServices obj = new MailIntegrationServices();
+		obj.getLists();
+		//getLists();
+		return ok();
 	}
 	
 	public static Result home() {
@@ -3011,11 +3020,6 @@ public static Result sendEmailForComingSoonVehicle(String email,String subject,S
    			
    		}
        }
-    
-    
-    
-    
-    
     
     
     public static Result saveVehicle() throws IOException {
