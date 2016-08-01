@@ -937,7 +937,7 @@ public class Application extends Controller {
 	
 	public static Result callList() {
 		MailIntegrationServices obj = new MailIntegrationServices();
-		obj.getLists();
+		obj.getLists(Long.valueOf(session("USER_LOCATION")));
 		//getLists();
 		return ok();
 	}

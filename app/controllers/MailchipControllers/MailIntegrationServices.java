@@ -107,7 +107,7 @@ public class MailIntegrationServices {
 	}*/
 	
 	
-	public void getLists() {
+	public void getLists(Long location) {
 		
 		initialize();
 		final Object[] lists = mcServices.lists(apiKey);
@@ -119,10 +119,10 @@ public class MailIntegrationServices {
 				System.out.print(key + " = " + value );
 			}
 		}
-		subscribe();
+		subscribe(location);
 	}
 	
-	private void getDetails(String email) {
+	private void getDetails(String email,Long location) {
 		try {
 			final Map<String, Object> listMemberInfo = mcServices.listMemberInfo(apiKey, listId,email);
 			System.out.println("listMemberInfo: ");
@@ -145,8 +145,10 @@ public class MailIntegrationServices {
 							contacts.email = jsonObj.get("EMAIL").toString();
 							contacts.firstName = jsonObj.get("FNAME").toString();
 							contacts.lastName = jsonObj.get("LNAME").toString();
+							contacts.locations = Location.findById(location);
 							contacts.newsLetter = 1;
 							contacts.save();
+							
 						}else{
 							editContacts.setFirstName(jsonObj.get("FNAME").toString());
 							editContacts.setLastName(jsonObj.get("LNAME").toString());
@@ -169,7 +171,7 @@ public class MailIntegrationServices {
 		}
 	}
 	
-	public void subscribe() {
+	public void subscribe(Long location) {
 		final Object[] listMembers = getMemberList();
 		//System.out.println("listMembers got " + listMembers.length + " members");
 		for (final Object member : listMembers) {
@@ -178,7 +180,7 @@ public class MailIntegrationServices {
 				final Object value = map.get(key);
 				if (key.equals(IMailChimpServices.MEMBER_FIELD_TIMESTAMP)) {
 				} else {
-					getDetails(value.toString());
+					getDetails(value.toString(), location);
 					System.out.print(key + " = " + value + "("+ value.getClass().getSimpleName() + ")\t");
 					/*mcServices.listUnsubscribe(apiKey, listId, value+"", true, true, true);*/
 				}
