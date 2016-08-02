@@ -103,6 +103,7 @@ GET		/getCustomerPdfForVehicle/:vin 	controllers.Application.getCustomerPdfForVe
 GET		/getSocialMediadetail		controllers.Application.getSocialMediadetail()
 GET		/deletePdfById/:id	   controllers.Application.deletePdfById(id:Long)
 POST	/saveDomain  	      controllers.Application.saveDomain()
+POST	/saveWebsite  	      controllers.ConfigPagesController.saveWebsite()
 POST    /saveSiteInventory		      controllers.Application.saveSiteInventory()
 GET		/deleteInternalPdf/:id	   controllers.Application.deleteInternalPdf(id:Long)
 GET		/getInternalPdfDataById/:id	   controllers.Application.getInternalPdfDataById(id:Long)

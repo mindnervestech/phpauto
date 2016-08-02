@@ -619,6 +619,16 @@ $scope.leadTypeAll = function(){
 		
 	}
 	
+	$scope.websiteAnalytics= function() {
+		$location.path('/webAnalytics');
+		
+	}
+	
+	$scope.mailchimp= function() {
+		$location.path('/mailchimpPage');
+		
+	}
+	
 	$scope.saveEmailDetails= function(auto) {
 		$http.post('/saveEmailDetails',auto)
 		.success(function(data) {
@@ -656,15 +666,24 @@ $scope.leadTypeAll = function(){
             
 		});
 		
-		
-		
 	}
 	
-	
-	
-	
-	
-	
+	$scope.saveWebsite= function(webanlyatics) {
+		console.log(webanlyatics);
+		
+		console.log("web analytics");
+		$http.post('/saveWebsite',webanlyatics)
+		.success(function(data) {
+			console.log("In Function web analytics");
+            $.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Tracking Code saved successfully",
+			});
+            
+		});
+		
+	}
 	
 	
 	$scope.autoPort={};
@@ -912,5 +931,7 @@ $scope.leadTypeAll = function(){
 			});
 		});
 	}
+	
+	
 	
 }]);	

@@ -189,6 +189,15 @@ var MakeApp = angular
             controller: 'ConfigPageCtrl'
         })
         
+         .when('/webAnalytics', {
+            templateUrl: '/dealer/config/websiteAnalytics.html',
+            controller: 'ConfigPageCtrl'
+        })
+         .when('/mailchimpPage', {
+            templateUrl: '/dealer/config/mailchimp.html',
+            controller: 'ConfigPageCtrl'
+        })
+        
         .when('/leadtype', {
             templateUrl: '/dealer/config/leadtype.html',
             controller: 'ConfigPageCtrl'
