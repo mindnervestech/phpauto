@@ -685,7 +685,27 @@ $scope.leadTypeAll = function(){
 		
 	}
 	
+	$scope.mailchimpPage= function(schedular) {
+		
+		$http.post('/savemailchimpPage',schedular)
+		.success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "mailchimpPage saved successfully",
+			});
+        });
+	}
+	$scope.mailchimpData = function(){
+		$http.get('/getmailchimpData')
+		.success(function(data) {
+		
+		$scope.schedular = data;
+		console.log($scope.schedular);
+		
+	});	
 	
+	}
 	$scope.autoPort={};
 	$scope.saveAutoPortal= function(auto,siteName) {
 		auto.sitename=siteName;

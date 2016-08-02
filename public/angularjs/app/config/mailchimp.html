@@ -1,4 +1,4 @@
-<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="" >
+<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs" ng-init="mailchimpData()" >
   <ul id="myTabs" class="nav nav-tabs" role="tablist">
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="graphicInfo()">Graphics</button></a></li>
        	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
@@ -19,7 +19,22 @@
     </ul>
   		<h2><b>Mailchimp Page</b></h2>
   
-    	
+    	<div class="form-group col-sm-12">
+
+			<div class="col-md-4">
+					<select  class="form-control"  id="form_type" ng-model="schedular.schedular_time"    required>
+							<option value="">{{schedular.schedularTime}}</option>
+							<option value="Immediately">Immediately</option>
+							<option value="Daily">Daily</option>
+							<option value="Weekly">Weekly</option>
+							<option value="Monthly">Monthly</option>
+											           
+					 </select>
+				</div>
+		</div>
+		<div class="form-group col-sm-12" >
+					 <button  type="submit" ng-click="mailchimpPage(schedular)" class="btn btn-primary btn-embossed ">Save</button>
+		</div>
 		
 </div> 
 

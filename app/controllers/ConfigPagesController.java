@@ -1,16 +1,21 @@
 package controllers;
 
-import models.Domain;
+import java.util.Date;
+import java.util.List;
+
+import models.AddCollection;
+import models.LeadType;
 import models.Location;
+import models.MailchimpSchedular;
 import models.WebAnalytics;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import securesocial.core.Identity;
+import viewmodel.MailchimpPageVM;
 import viewmodel.WebAnalyticsVM;
-import viewmodel.domainVM;
 
 public class ConfigPagesController extends Controller{
 	
@@ -50,8 +55,40 @@ public class ConfigPagesController extends Controller{
     			web.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
     			web.save();
     		
-    		
     		return ok();
-    	
+    	}
+		
+		public static Result savemailchimpPage(){
+			
+    		Form<MailchimpPageVM> form = DynamicForm.form(MailchimpPageVM.class).bindFromRequest();
+    		MailchimpPageVM vm = form.get();
+    		Date date = new Date();
+    		
+    		MailchimpSchedular lead =  MailchimpSchedular.findById(vm.id);
+			if(lead == null){
+				MailchimpSchedular mail=new MailchimpSchedular();
+    			mail.schedularTime = vm.schedular_time;
+    			mail.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
+    			mail.currDate = date;
+    			mail.save();
+				
+				
+			}
+			else{
+				lead.setSchedularTime(vm.schedular_time);
+				lead.setCurrDate(date);
+				lead.update();
+    			
+			}
+    		return ok();
+    	}
+		
+		public static Result getmailchimpData() {
+			
+			MailchimpSchedular lead = MailchimpSchedular.findByLocations(Long.valueOf(session("USER_LOCATION")));
+			
+			return ok(Json.toJson(lead)); 
+			
 		}
+		
 }
