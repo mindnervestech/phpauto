@@ -50,11 +50,17 @@ public class ConfigPagesController extends Controller{
     		Form<WebAnalyticsVM> form = DynamicForm.form(WebAnalyticsVM.class).bindFromRequest();
     		WebAnalyticsVM vm = form.get();
     		
+    		WebAnalytics analytics =  WebAnalytics.findById(vm.id);
+			if(analytics == null){
     			WebAnalytics web=new WebAnalytics();
     			web.tracking_code = vm.tracking_code;
     			web.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
     			web.save();
-    		
+			}
+			else{
+				analytics.setTracking_code(vm.tracking_code);
+				analytics.update();
+			}
     		return ok();
     	}
 		
@@ -67,15 +73,13 @@ public class ConfigPagesController extends Controller{
     		MailchimpSchedular lead =  MailchimpSchedular.findById(vm.id);
 			if(lead == null){
 				MailchimpSchedular mail=new MailchimpSchedular();
-    			mail.schedularTime = vm.schedular_time;
+    			mail.schedularTime = vm.schedularTime;
     			mail.locations=Location.findById(Long.valueOf(session("USER_LOCATION")));
     			mail.currDate = date;
     			mail.save();
-				
-				
 			}
 			else{
-				lead.setSchedularTime(vm.schedular_time);
+				lead.setSchedularTime(vm.schedularTime);
 				lead.setCurrDate(date);
 				lead.update();
     			
@@ -83,6 +87,14 @@ public class ConfigPagesController extends Controller{
     		return ok();
     	}
 		
+		public static Result getwebsiteAnalyticsData() {
+			
+			WebAnalytics lead = WebAnalytics.findByLocations(Long.valueOf(session("USER_LOCATION")));
+			
+			return ok(Json.toJson(lead)); 
+			
+		}
+
 		public static Result getmailchimpData() {
 			
 			MailchimpSchedular lead = MailchimpSchedular.findByLocations(Long.valueOf(session("USER_LOCATION")));
@@ -90,5 +102,6 @@ public class ConfigPagesController extends Controller{
 			return ok(Json.toJson(lead)); 
 			
 		}
+
 		
 }

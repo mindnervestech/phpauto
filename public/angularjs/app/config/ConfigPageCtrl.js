@@ -685,6 +685,17 @@ $scope.leadTypeAll = function(){
 		
 	}
 	
+	$scope.websiteAnalyticsData = function(){
+		$http.get('/getwebsiteAnalyticsData')
+		.success(function(data) {
+		
+		$scope.webanlyatics = data;
+		console.log($scope.webanlyatics);
+		
+	});	
+	
+	}
+	
 	$scope.mailchimpPage= function(schedular) {
 		
 		$http.post('/savemailchimpPage',schedular)
@@ -706,6 +717,7 @@ $scope.leadTypeAll = function(){
 	});	
 	
 	}
+	
 	$scope.autoPort={};
 	$scope.saveAutoPortal= function(auto,siteName) {
 		auto.sitename=siteName;

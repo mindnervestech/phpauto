@@ -4,12 +4,12 @@
        	<li  role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="premiumLeadsInfo()">Leads</button></a></li>
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="newsLetterSetting()">Email</button></a></li>
       	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="documentationSetting()">Documentation </button></a></li>
-      	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="socialMedia()">Marketing</button></a></li>
+      	<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="socialMedia()">Marketing</button></a></li>
        	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="autoPortal()">Auto Portals </button></a></li>
        	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="plansAndBill()">Plans & Billing </button></a></li>
        	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="domainDetails()">Domain </button></a></li>
        	<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="form()">Form </button></a></li>
-  		<li role="presentation" class="active"><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="websiteAnalytics()">Website Analytics</button></a></li>
+  		<li role="presentation" class=""><a role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false"><button type="button" class="btn btn-blue" ng-click="websiteAnalytics()">Website Analytics</button></a></li>
   </ul>
   
    <ul id="myTabs" class="nav nav-tabs" role="tablist"> 
@@ -22,8 +22,8 @@
     	<div class="form-group col-sm-12">
 
 			<div class="col-md-4">
-					<select  class="form-control"  id="form_type" ng-model="schedular.schedular_time"    required>
-							<option value="">{{schedular.schedularTime}}</option>
+					<select  class="form-control"  id="form_type" ng-model="schedular.schedularTime"    required>
+							
 							<option value="Immediately">Immediately</option>
 							<option value="Daily">Daily</option>
 							<option value="Weekly">Weekly</option>
