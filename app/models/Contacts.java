@@ -320,8 +320,6 @@ public class Contacts extends Model {
 		this.workPhone1 = workPhone1;
 	}
 
-
-
 	public String getEmail1() {
 		return email1;
 	}
@@ -334,7 +332,6 @@ public class Contacts extends Model {
 	public void setPhone1(String phone1) {
 		this.phone1 = phone1;
 	}
-
 
 
 	public static Finder<Long,Contacts> find = new Finder<>(Long.class,Contacts.class);
@@ -371,6 +368,10 @@ public class Contacts extends Model {
 	}
 	public static List<Contacts> findAll() {
 		return find.all();
+	}
+	
+	public static List<Contacts> findByDateWise(Date curDate) {
+		return find.where().ge("version", curDate).findList();
 	}
 	
 }

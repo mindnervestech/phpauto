@@ -194,6 +194,25 @@ public class MailIntegrationServices {
 		return listMembers;
 	}
 	
+	public void addUser(String lastname, String firstname, String email) {
+		initialize();
+		final Map<String, String> merges = new HashMap<String, String>();
+		merges.put("LNAME", lastname);
+		merges.put("FNAME", firstname);
+		merges.put("EMAIL", email);
+		merges.put("OPTINIP", "127.0.0.1");
+		
+		try{
+			final boolean listSubscribe = mcServices.listSubscribe(apiKey,
+				listId, email, merges,
+				IMailChimpServices.EMAIL_TYPE_HTML, false);
+			System.out.println("listSubscribe: " + listSubscribe);
+		}catch(Exception e){
+			System.out.println("Member already present");
+		}
+		
+	}
+	
 	/*public void sendCampaign(String subject, String text, int templeteId) {
 		final Map<String, Object> options = new HashMap<String, Object>();
 		options.put("list_id", listId);

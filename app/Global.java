@@ -7,6 +7,7 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.SimpleResult;
 import scheduler.ClickyDataScheduler;
+import scheduler.MailChimpScheduler;
 import scheduler.MeetingAndTestDriveScheduler;
 import scheduler.NewsLetter;
 import scheduler.TestDriveScheduler;
@@ -48,6 +49,7 @@ public class Global extends GlobalSettings {
 		System.err.println("Testing..");
 		MeetingAndTestDriveScheduler.meetingSchedulling();
 		ClickyDataScheduler.clickySchedulling();
+        MailChimpScheduler.mailChimpSchedulling();
 	}
 	
 	

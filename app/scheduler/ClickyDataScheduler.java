@@ -2,6 +2,8 @@ package scheduler;
 
 import java.util.concurrent.TimeUnit;
 
+import models.MailchimpSchedular;
+
 import play.libs.Akka;
 import scala.concurrent.duration.Duration;
 import akka.actor.ActorSystem;

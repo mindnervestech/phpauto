@@ -324,14 +324,6 @@ angular.module('newApp')
 							
 				 });
 			 
-			 console.log($scope.customData);
-		
-		   
-		   
-		   
-		   
-		   
-		   
 		   $('#contactsModal').modal();
 	   }
    		 
@@ -418,7 +410,6 @@ angular.module('newApp')
 	   }
 	   $scope.customData = {};
 	   $scope.saveContact = function() {
-		   console.log(">>>>>");
 		   $scope.customList =[];
 			
 			console.log($("#autocomplete").val());
@@ -548,16 +539,17 @@ angular.module('newApp')
 		 	});
 		}
 		 $scope.callListMailChim = function(){
-			 $http.get('/callList')
-				.success(function(data) {
-				$scope.getContactsData();
-					console.log("log");
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Import successfully",
-					 });
-				});
+			
+					 $http.get('/callList')
+						.success(function(data) {
+							$scope.getContactsData();
+							$.pnotify({
+							    title: "Success",
+							    type:'success',
+							    text: "Import successfully",
+							 });
+						});
+			
 		}
 	   
 }]);
