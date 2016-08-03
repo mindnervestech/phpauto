@@ -1,11 +1,14 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 public class MailchimpSchedular extends Model{
@@ -31,9 +34,6 @@ public class MailchimpSchedular extends Model{
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-	
 
 
 	public String getSchedularTime() {
@@ -68,6 +68,11 @@ public class MailchimpSchedular extends Model{
 	public static MailchimpSchedular findById(Long id) {
 		return find.byId(id);
 	}
+	
+	public static List<MailchimpSchedular> getAllContact() {
+		return find.all();
+	}
+
 	
 	public static MailchimpSchedular findByLocations(Long location) {
 		return find.where().eq("locations.id", location).findUnique();
