@@ -3789,7 +3789,8 @@ angular.module('newApp')
 			   }
 			 
 			 $scope.priceAlertMsg = function(){
-					$http.get('/sendComingSoonPOpUp').success(function(data){
+				 
+				 apiserviceDashborad.sendComingSoonPOpUp().then(function(data){
 						angular.forEach(data, function(value, key) {
 							if(value.notifFlag != 1||$rootScope.comingSoonFlag ==1){
 							var notifContent = '<div class="alert alert-dark media fade in bd-0" id="message-alert"><div class="media-left"></div>'
@@ -3877,15 +3878,13 @@ angular.module('newApp')
 			 
 			 $scope.setNotifFlag= function(value){
 				 console.log(value);
-					$http.get('/changeVehicleNotif/'+value.id)
-		    		.success(function(data){
-		    			
-		    		});
+				 apiserviceDashborad.changeVehicleNotif(value.id).then(function(data){
+					 
+				 });
 			 }
 			 
 			$scope.PlanOnMonday = function(){
-				$http.get('/getPlanMonday')
-	    		.success(function(data){
+				 apiserviceDashborad.getPlanMonday().then(function(data){
 	    			if(data == 1){
 	    				$scope.callForLocalCheck();
 	    				if($scope.aValue == false){
@@ -4134,8 +4133,9 @@ angular.module('newApp')
 			}
 			
 			$scope.declineMeeting = function(reason){
-				$http.get('/getAcceptAndDecline/'+$scope.valueId.id+"/"+reason+"/"+"decline")
-				.success(function(data) {
+				
+				apiserviceDashborad.getAcceptAndDecline($scope.valueId.id, reason, "decline").then(function(data){
+					
 					 $('#decline-model').modal("toggle");
 					$.pnotify({
 					    title: "Success",
@@ -4159,14 +4159,8 @@ angular.module('newApp')
 			}
 
 			$scope.addByPriceMakeIt = function(price){
-				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price+"/"+$scope.arrivalD)
-					.success(function(data) {
+				 apiserviceDashborad.getAddPrice($scope.priceDetail.id,price,$scope.arrivalD).then(function(data){
 						 $('#addPriceOther').modal("toggle");
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Price Add successfully",
-						});
 						
 						$scope.addMakeIt($scope.vinForPopup);
 						
@@ -4177,8 +4171,8 @@ angular.module('newApp')
 			$scope.addMakeIt = function(vin){
 				console.log("inside coming soon");
 				console.log(vin);
-				$http.get('/sendComingSoonEmail/'+vin)
-				.success(function(data) {
+				
+				apiserviceDashborad.sendComingSoonEmail(vin).then(function(data){
 					 // $scope.indexInitFunction();
 					$scope.notifCount();
 					 $('#addPrice').modal("toggle");
@@ -4196,8 +4190,9 @@ angular.module('newApp')
 				var aDate = $('#arrivalDate').val();
 				console.log(aDate);
 				console.log("$scope.buttFlagNew"+$scope.buttFlagNew);
-				$http.get('/setArrivelDate/'+$scope.priceDetail.id+"/"+aDate)
-				.success(function(data) {
+				
+				apiserviceDashborad.setArrivelDate($scope.priceDetail.id,aDate).then(function(data){
+					
 					 $('#changeDate').hide();
 					// $scope.indexInitFunction();
 					$.pnotify({
@@ -4250,16 +4245,11 @@ angular.module('newApp')
 				 var aDate = $('#changeArrivalDate').val();
 				 console.log(aDate);
 				 $scope.arrivalD=aDate;
-				 $http.get('/getAddPrice/'+$scope.priceDetail.id+"/"+price+"/"+aDate)
-					.success(function(data) {
+				 apiserviceDashborad.getAddPrice($scope.priceDetail.id, price, aDate).then(function(data){
 						 //$scope.indexInitFunction();
 						//$scope.notifictionCount=$scope.notifictionCount-1;
 						 $('#addPrice').modal("toggle");
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Price Add successfully",
-						});
+						
 						$scope.buttFlagNew = 1;
 						$scope.notifCount();
 						
@@ -4273,8 +4263,7 @@ angular.module('newApp')
     			  $scope.showToDoList = false;
 				  $scope.showCalendar = true;
 				  
-		    		  $http.get('/getScheduleDates')
-						.success(function(data) {
+				  apiserviceDashborad.getScheduleDates().then(function(data){
 						$scope.scheduleDates = data;
 						 var datesArray = [];
 						 for(var i=0;i<$scope.scheduleDates.length;i++) {
