@@ -4299,10 +4299,10 @@ angular.module('newApp')
     		  }
     		  
     		  $scope.getToDoList = function() {
-    			  $http.get('/getToDoList')
-					.success(function(data) {
-					$scope.toDoList = data;
-				});  
+    			  apiserviceDashborad.getToDoList().then(function(data){
+    				  $scope.toDoList = data;
+    			  });
+    			  
     		  }
     		  
     		  $scope.showCalendarData = function() {
@@ -4620,47 +4620,35 @@ angular.module('newApp')
     		  }
     		  
     		  $scope.restoreLead = function(entity){
-    			  $http.get('/restoreLead/'+entity.id+'/'+entity.leadType)
-					.success(function(data) {
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Lead Restore successfully",
-						});
-						$scope.getAllCanceledLeads();
-				});
+    			  apiserviceDashborad.restoreLead(entity.id, entity.leadType).then(function(data){
+    				  $scope.getAllCanceledLeads();
+    			  });
     		  }
     		  
     		  $scope.deleteMyLead = function() {
-    			  $http.get('/deleteCanceledLead/'+$scope.leadId+'/'+$scope.leadType)
-					.success(function(data) {
-						$.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Lead deleted successfully",
-						});
-						$scope.getAllCanceledLeads();
-				});
+    			  apiserviceDashborad.deleteCanceledLead($scope.leadId, entity.leadType).then(function(data){
+    				  $scope.getAllCanceledLeads();
+    			  });
     		  }
     		  
     		  $scope.getScheduleBySelectedDate = function(date) {
-    			  $http.get('/getScheduleBySelectedDate/'+date)
-					.success(function(data) {
-					$scope.scheduleList = data;
-				});  
     			  
-    			  $http.get('/getToDoBySelectedDate/'+date)
-					.success(function(data) {
-					$scope.toDoDateList = data;
-				}); 
+    			  apiserviceDashborad.getScheduleBySelectedDate(date).then(function(data){
+    				  $scope.scheduleList = data;
+    			  });
+    			  
+    			  apiserviceDashborad.getToDoBySelectedDate(date).then(function(data){
+    				  $scope.toDoDateList = data;
+    			  });
     			  
     		  }
     		  
-    			  $http.get('/getAllScheduleTestAssigned')
-    					.success(function(data) {
-    					$scope.gridOptions2.data = data;
-    					$scope.AllScheduleTestAssignedList = data;
-    				});
+    		  
+	    		  apiserviceDashborad.getAllScheduleTestAssigned().then(function(data){
+	    			  $scope.gridOptions2.data = data;
+  					  $scope.AllScheduleTestAssignedList = data;
+				  });			 
+    			  
     	
     			  $scope.gridOptions2.onRegisterApi = function(gridApi){
      				 $scope.gridApi = gridApi;
@@ -4671,12 +4659,11 @@ angular.module('newApp')
      			        });
      		   		
      	  		};
-    			  
-    			  $http.get('/getAllTradeInSeen')
-    				.success(function(data) {
-    			 		$scope.gridOptions3.data = data;
-    			 		$scope.AllTradeInSeenList = data;
-    			 });
+     	  		
+     	  	 apiserviceDashborad.getAllTradeInSeen().then(function(data){
+     	  		$scope.gridOptions3.data = data;
+		 		$scope.AllTradeInSeenList = data;
+			  });
     			  
     			  $scope.gridOptions3.onRegisterApi = function(gridApi){
       				 $scope.gridApi = gridApi;
@@ -4699,9 +4686,8 @@ angular.module('newApp')
   	  		};
       	  		
       	  	
-    			  
-	    		$http.get('/getUserType')
-	  			  .success(function(data) {
+  	  	 apiserviceDashborad.getUserType().then(function(data){
+  	  		
 	  			 	$scope.userType = data;
 	  			 	if($scope.userType == "Manager") {
 	  			 		$scope.getGMData();
@@ -4723,8 +4709,8 @@ angular.module('newApp')
 	    		},900000);
 	    		
 	    		$scope.reminderPopup = function(){
-	    			$http.get('/getReminderPopup').success(function(data) {
-		  				  
+	    			
+	    			apiserviceDashborad.getReminderPopup().then(function(data){
 		  				var notifContent;
 	    				angular.forEach(data, function(value, key) {
 	    					if(value.action == "Test drive reminder"){
@@ -4806,8 +4792,7 @@ angular.module('newApp')
 		  			  });
 	    		}
 	    		
-	    		
-	    		$http.get('/getAllMakeList').success(function(response) {
+	    		apiserviceDashborad.getAllMakeList().then(function(response){
 	    			console.log(response);
 	    			$scope.makelist = response;
     			});
@@ -4816,7 +4801,8 @@ angular.module('newApp')
 	    		$scope.visitors = [];
 	    		$scope.newUsers = [];
 	    		$scope.bounceRate = [];
-	    		$http.get('/getVisitorStats').success(function(response) {
+	    		
+	    		apiserviceDashborad.getVisitorStats().then(function(response){
 	    			$scope.visitors[0] = {'title':'Visit Today','value':response[0].dates[0].items[0].value};
 		    		$scope.visitors[1] = {'title':'Visit Yesterday','value':response[0].dates[1].items[0].value};
 		    		$scope.newUsers[0] = Math.round($scope.visitors[0].value==0?0:(response[1].dates[0].items[0].value/$scope.visitors[0].value)*100);
@@ -4864,9 +4850,8 @@ angular.module('newApp')
 	    		$scope.notchange = 0;
 	    		$scope.getVisitedData = function(type,filterBy,search,searchBy,vehicles,startD,endD) {
 	    			if(locationId != 0){
-		    				$http.get('/gmLocationManager/'+locationId)
-		    				.success(function(data) {
-		    						$http.get('/getVisitedData/'+data.id+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(response) {
+	    				apiserviceDashborad.gmLocationManager(locationId).then(function(data){
+	    					apiserviceDashborad.getVisitedData(data.id,type,filterBy,search,searchBy,vehicles,startD,endD).then(function(response){
 		    				$scope.weekData = response;
 		    				
 		    				if(response.topVisited.length == 0){
@@ -4887,7 +4872,7 @@ angular.module('newApp')
 		    					
 		    				});
 	    			}else{
-	    				$http.get('/getVisitedData/'+$scope.userKey+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(response) {
+	    				apiserviceDashborad.getVisitedData($scope.userKey,type,filterBy,search,searchBy,vehicles,startD,endD).then(function(response){
 	    				$scope.weekData = response;
 	    				
 	    				if(response.topVisited.length == 0){
@@ -4918,7 +4903,8 @@ angular.module('newApp')
 		    			$scope.lead.custZipCode = $scope.item.zip;
 	    			}
 	    		};
-	    			$http.get('/getHeardAboutUs').success(function(response) {
+	    		
+	    		apiserviceDashborad.getHeardAboutUs().then(function(response){
 	    				$scope.heardAboutUs = response;
 	    			});
 	    			$scope.othertxt=null;
@@ -4928,7 +4914,7 @@ angular.module('newApp')
 	    			   $scope.showFormly1 = '0';
 	    			$scope.stockWiseData = [];
 	    			$scope.stockWiseData = [{}];
-	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+	    			apiserviceDashborad.getCustomizationform('Create Lead').then(function(response){
 	    				console.log(response);
 	    				console.log(angular.fromJson(response.jsonData));
 	    				
@@ -4944,7 +4930,7 @@ angular.module('newApp')
 	    		
 	    		$scope.openCreateNewLeads = function(item) {
 	    			$scope.stockWiseData = [];
-	    			$http.get('/getStockDetails/'+item).success(function(response) {
+	    			apiserviceDashborad.getStockDetails(item).then(function(response){
 	    				if(response.isData) {
 	    					 $scope.stockWiseData.push({
 	    							model:response.model,
@@ -5040,8 +5026,7 @@ angular.module('newApp')
 	    			$scope.josnData = 0;
 	    			
 	    			
-	    			
-	    			$http.get('/getCustomizationform/'+'Create Lead').success(function(response) {
+	    			apiserviceDashborad.getCustomizationform('Create Lead').then(function(response){
 	    				$scope.josnData = angular.fromJson(response.jsonData);
 	    				console.log($scope.josnData);
 	    					$.each($scope.customData, function(attr, value) {
@@ -5112,7 +5097,7 @@ angular.module('newApp')
 	    		
 	    		$scope.makeLeadEdit = function(){
 	    				$scope.lead.leadType = '3';
-	    			$http.post('/createLead',$scope.lead).success(function(response) {
+	    			apiserviceDashborad.createLead($scope.lead).then(function(response){
 	    					$("#tradeInAppEdit").modal('hide');
 	    			});
 	    		}

@@ -557,5 +557,133 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.getToDoList = function(){
+		var defer = $q.defer();
+		$http.get('/getToDoList').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.restoreLead = function(id,leadType){
+		var defer = $q.defer();
+		$http.get('/restoreLead/'+id+"/"+leadType).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Lead Restore successfully",
+			});
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.deleteCanceledLead = function(leadId,leadType){
+		var defer = $q.defer();
+		$http.get('/deleteCanceledLead/'+leadId+"/"+leadType).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Lead deleted successfully",
+			});
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getScheduleBySelectedDate = function(data){
+		var defer = $q.defer();
+		$http.get('/getScheduleBySelectedDate/'+data).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getToDoBySelectedDate = function(data){
+		var defer = $q.defer();
+		$http.get('/getToDoBySelectedDate/'+data).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	this.getAllScheduleTestAssigned = function(){
+		var defer = $q.defer();
+		$http.get('/getAllScheduleTestAssigned').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllTradeInSeen = function(){
+		var defer = $q.defer();
+		$http.get('/getAllTradeInSeen').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getReminderPopup = function(){
+		var defer = $q.defer();
+		$http.get('/getReminderPopup').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllMakeList = function(){
+		var defer = $q.defer();
+		$http.get('/getAllMakeList').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getVisitorStats = function(){
+		var defer = $q.defer();
+		$http.get('/getVisitorStats').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	this.getVisitedData = function(id,type,filterBy,search,searchBy,vehicles,startD,endD){
+		var defer = $q.defer();
+		$http.get('/getVisitedData/'+id+"/"+type+'/'+filterBy+'/'+search+'/'+searchBy+'/'+vehicles+'/'+startD+'/'+endD).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getHeardAboutUs = function(){
+		var defer = $q.defer();
+		$http.get('/getHeardAboutUs').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	this.getStockDetails = function(item){
+		var defer = $q.defer();
+		$http.get('/getStockDetails/'+item).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.createLead = function(lead){
+		var defer = $q.defer();
+		$http.post('/createLead',lead).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 	
 })
