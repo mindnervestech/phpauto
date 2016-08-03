@@ -1,10 +1,10 @@
 angular.module('newApp')
-.controller('crmCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload', function ($scope,$http,$location,$filter,$routeParams,$upload) {
+.controller('crmCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','apiserviceCrm', function ($scope,$http,$location,$filter,$routeParams,$upload,apiserviceCrm) {
 	if(!$scope.$$phase) {
 		$scope.$apply();
 	}
 	
-	$http.get('/getCustomizationform/'+'CRM').success(function(response) {
+	apiserviceCrm.getCustomizationform('CRM').then(function(response){
 		console.log(response);
 		 $scope.editInput = response;
 		 $scope.userFields = $scope.addFormField(angular.fromJson(response.jsonData));
@@ -64,13 +64,8 @@ angular.module('newApp')
    			$('#removeModal').click();
    		};
    		$scope.removeAllContactsData = function(){
-   			$http.get('/removeAllContactsData').success(function(data){
+   			apiserviceCrm.removeAllContactsData().then(function(data){
    				console.log("success.");
-   				$.pnotify({
-						title: "Success",
-						type:'success',
-						text: "File download successfully",
-   					});
    				$scope.getContactsData();
    			});
    		};
@@ -78,7 +73,8 @@ angular.module('newApp')
    			$('#exportModal').click();
    		};
    		$scope.exportCsv = function(){
-   			$http.get('/exportContactsData').success(function(data){
+   			
+   			apiserviceCrm.exportContactsData().then(function(data){
    				$.fileDownload('/downloadStatusFile',
 						{	   	
 							   /*httpMethod : "POST",
@@ -101,7 +97,7 @@ angular.module('newApp')
    			});
    		}
    		
-   		$http.get('/getAllContactsData').success(function(data){
+   		apiserviceCrm.getAllContactsData().then(function(data){
    			console.log(data);
 				//$scope.gridOptions.data = data;
    			$scope.editgirdData(data);
@@ -166,14 +162,15 @@ angular.module('newApp')
    		
    		
    		
-   		 
-   		$http.get('/getUsers').success(function(data){
+  	    apiserviceCrm.getUsers().then(function(data){
 			$scope.allUser = data;
 		 });
-   		$http.get('/getlocations').success(function(data){
+  	    
+  	    apiserviceCrm.getlocations().then(function(data){
 			$scope.locationData = data;
 		 });
-   		$http.get('/getUserRole').success(function(data) {
+  	    
+  	    apiserviceCrm.getUserRole().then(function(data){
 			$scope.userRole = data.role;
 			if($scope.userRole != "General Manager"){
 			}
@@ -183,22 +180,21 @@ angular.module('newApp')
    			$scope.locId = locatnId;
    			console.log($scope.locId);
    			if(locatnId !=null){
-   				$http.get('/getAllContactsByLocation/'+locatnId)
-   				.success(function(data) {
+   				apiserviceCrm.getAllContactsByLocation(locatnId).then(function(data){
    					$scope.gridOptions.data = data;
    	   				$scope.contactsList = data;
    				});
    			}
    		};
 
-   		$http.get('/getgroupInfo').success(function(data){
+   		 apiserviceCrm.getgroupInfo().then(function(data){
 			$scope.allGroup = data;
 		 });
    		 
    		 $scope.getContactsData = function() {
    			 $scope.allLoc = true;
    			$scope.locId = null;
-   			 $http.get('/getAllContactsData').success(function(data){
+   		  apiserviceCrm.getAllContactsData().then(function(data){
    				$scope.gridOptions.data = data;
    				$scope.contactsList = data;
    				
@@ -237,22 +233,9 @@ angular.module('newApp')
 	   $scope.progress;
 	   $scope.showProgress = false;
 	   $scope.saveContactsFile = function() {
-		   $upload.upload({
-	            url : '/uploadContactsFile',
-	            method: 'post',
-	            file:logofile,
-		   }).progress(function(evt) {
-			   $scope.showProgress = true;
-			   $scope.progress = parseInt((100.0 * evt.loaded) / evt.total)+"%";
-	        }).success(function(data, status, headers, config) {
-	            console.log('success');
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "file uploaded successfully",
-				});
-	            $scope.getContactsData();
-	        });
+		   apiserviceCrm.uploadContactsFile(logofile).then(function(data){
+			   $scope.getContactsData();
+		   });
 	   }
 	   
    		$scope.contactsDetails = {};
@@ -376,23 +359,17 @@ angular.module('newApp')
 		   });
 		console.log($scope.customList);
 		$scope.contactsDetails.customData = $scope.customList;
+		 apiserviceCrm.updateContactsData($scope.contactsDetails).then(function(data){
+			 $('#contactsModal').modal('hide');
+		 });
 		   
-		   $http.post('/updateContactsData',$scope.contactsDetails)
-			 .success(function(data) {
-				 $('#contactsModal').modal('hide');
-				 $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "contact updated successfully",
-					});
-				});
 	   }
 	   
 	   $scope.setAsRead = function(newsletter,id) {
-		   $http.get('/addNewsLetter/'+newsletter+'/'+id)
-			.success(function(data) {
-				
-		});
+		   
+		   apiserviceCrm.addNewsLetter(newsletter,id).then(function(data){
+		   });
+		   
 	   }
 	   $scope.showFormly = '0';
 	   $scope.showFormly1 = '0';
@@ -461,17 +438,10 @@ angular.module('newApp')
 			
 			console.log($scope.customList);
 			$scope.contactsDetails.customData = $scope.customList;
-		   
-		  $http.post('/saveContactsData',$scope.contactsDetails)
-			 .success(function(data) {
+			apiserviceCrm.saveContactsData($scope.contactsDetails).then(function(data){
 				 if(data == "") {
 					 $scope.contactMsg="";
 					 $('#createcontactsModal').modal('hide');
-					 $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "contact saved successfully",
-						});
 					 $scope.getContactsData();
 				 } else {
 					 $scope.contactMsg = data;
@@ -481,15 +451,8 @@ angular.module('newApp')
 	   }
 	   
 	   $scope.saveGroup = function(createGroup){
-		   $http.get('/saveGroup/'+createGroup)
-			.success(function(data) {
-				console.log("sccess");
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "group saved successfully",
-				});
-				$http.get('/getgroupInfo').success(function(data){
+		   apiserviceCrm.saveGroup(createGroup).then(function(data){
+			   apiserviceCrm.getgroupInfo().then(function(data){
 					$scope.allGroup = data;
 				 });
 			});
@@ -497,14 +460,8 @@ angular.module('newApp')
 	   
 	   $scope.deleteGroup = function(groupId){
 		   console.log(groupId);
-		   $http.get('/deleteGroup/'+groupId)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "group deleted successfully",
-				});
-				$http.get('/getgroupInfo').success(function(data){
+		   apiserviceCrm.deleteGroup(groupId).then(function(data){
+			   apiserviceCrm.getgroupInfo().then(function(data){
 					console.log(data);
 					$scope.allGroup = data;
 				 });
@@ -517,8 +474,7 @@ angular.module('newApp')
 	    }
 		   
 		 $scope.deleteContactRow = function() {
-		 $http.get('/deleteContactsById/'+$scope.rowDataVal.entity.contactId)
-		 .success(function(data) {
+			apiserviceCrm.deleteContactsById($scope.rowDataVal.entity.contactId).then(function(data){
 			 if(data=='success'){
 				 $.pnotify({
 				    title: "Success",
@@ -539,15 +495,9 @@ angular.module('newApp')
 		 	});
 		}
 		 $scope.callListMailChim = function(){
-			
-					 $http.get('/callList')
-						.success(function(data) {
+			 apiserviceCrm.callList().then(function(data){
 							$scope.getContactsData();
-							$.pnotify({
-							    title: "Success",
-							    type:'success',
-							    text: "Import successfully",
-							 });
+							
 						});
 			
 		}
