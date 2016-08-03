@@ -480,7 +480,82 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.sendComingSoonPOpUp = function(){
+		var defer = $q.defer();
+		$http.get('/sendComingSoonPOpUp').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
 	
+	this.changeVehicleNotif = function(id){
+		var defer = $q.defer();
+		$http.get('/changeVehicleNotif/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getPlanMonday = function(){
+		var defer = $q.defer();
+		$http.get('/getPlanMonday').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getAcceptAndDecline = function(id,reason,decline){
+		var defer = $q.defer();
+		$http.get('/getAcceptAndDecline/'+id+'/'+reason+"/"+decline).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getAddPrice = function(id,price,arrivalD){
+		var defer = $q.defer();
+		$http.get('/getAddPrice/'+id+"/"+price+"/"+arrivalD).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Price Add successfully",
+			});
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.sendComingSoonEmail = function(vin){
+		var defer = $q.defer();
+		$http.get('/sendComingSoonEmail/'+vin).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.setArrivelDate = function(id,aDate){
+		var defer = $q.defer();
+		$http.get('/setArrivelDate/'+id+"/"+aDate).success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
+	
+	this.getScheduleDates = function(){
+		var defer = $q.defer();
+		$http.get('/getScheduleDates').success(function(data) {
+			defer.resolve(data);
+		});
+		
+		return defer.promise;
+	};
 	
 	
 })
