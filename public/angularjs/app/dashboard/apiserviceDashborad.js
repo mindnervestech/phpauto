@@ -900,11 +900,146 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.getAllCanceledLeads = function(id){
+		var defer = $q.defer();
+		$http.get('/getAllCanceledLeads/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllSalesPersonLostAndComp = function(id){
+		var defer = $q.defer();
+		$http.get('/getAllSalesPersonLostAndComp/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getTestDirConfirById = function(id){
+		var defer = $q.defer();
+		$http.get('/getTestDirConfirById/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+
+	this.getAllCompletedLeadsbyId = function(id){
+		var defer = $q.defer();
+		$http.get('/getAllCompletedLeadsbyId/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.sendPdfEmail = function(pdf){
+		var defer = $q.defer();
+		$http.post('/sendPdfEmail',pdf).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "PDF sent successfully",
+			});
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	this.deletePdfById = function(customePdfId){
+		var defer = $q.defer();
+		$http.get('/deletePdfById/'+customePdfId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getCustomerPdfForVehicle = function(vin){
+		var defer = $q.defer();
+		$http.get('/getCustomerPdfForVehicle/'+vin).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getCustomerPdfData = function(){
+		var defer = $q.defer();
+		$http.get('/getCustomerPdfData').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveCustomerPdf = function(logofile1){
+		var defer = $q.defer();
+		$upload.upload({
+	         url : '/saveCustomerPdf',
+	         method: 'POST',
+	         file:logofile1,
+	      }).success(function(data) {
+	    	  defer.resolve(data);
+	  			$.pnotify({
+	  			    title: "Success",
+	  			    type:'success',
+	  			    text: "pdf saved successfully",
+	  			});
+	      });	
+		return defer.promise;
+	};
 	
 	
 	
+	this.setScheduleConfirmClose = function(id, typeOfLead){
+		var defer = $q.defer();
+		$http.get('/setScheduleConfirmClose/'+id+'/'+typeOfLead).success(function(data) {
+			defer.resolve(data);
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Cancel successfully",
+			});
+		});
+		return defer.promise;
+	};
 	
-		
+	this.setScheduleStatusClose = function(id, typeOfLead, reasonToCancel){
+		var defer = $q.defer();
+		$http.get('/setScheduleStatusClose/'+id+'/'+typeOfLead+'/'+reasonToCancel).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Status changed successfully",
+			});
+			defer.resolve(data);
+			
+		});
+		return defer.promise;
+	};
+	
+	
+	this.setRequestStatusCancel = function(id, reasonToCancel){
+		var defer = $q.defer();
+		$http.get('/setRequestStatusCancel/'+id+'/'+reasonToCancel).success(function(data) {
+			defer.resolve(data);
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Status changed successfully",
+			});
+		});
+		return defer.promise;
+	};
+	
+	this.setRequestStatusComplete = function(soldContact){
+		var defer = $q.defer();
+		$http.get('/setRequestStatusComplete/'+soldContact).success(function(data) {
+			defer.resolve(data);
+			
+		});
+		return defer.promise;
+	};
+	
 	
 	
 	

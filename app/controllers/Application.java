@@ -45767,10 +45767,6 @@ public static Result sendEmailAfterDay(String email, String subject ,String comm
 			e.printStackTrace();
 		}
 	}
-	
-    
-    
-    
     
     public static Result deactiveLocationById(Long id){
     	if(session("USER_KEY") == null || session("USER_KEY") == "") {

@@ -5899,20 +5899,17 @@ angular.module('newApp')
 		    		    				           	        	
 		    		    				           	        	//$scope.getAllCanceledLeads();
 		    		    				           	        	//added by vinayak 23-Apr-2016
-		    		    				           	        	$http.get('/getAllCanceledLeads/'+id)
-		    		    				           				.success(function(data) {
+		    		    		    		       				apiserviceDashborad.getAllCanceledLeads(id).then(function(data){
 		    		    				           					$scope.gridOptions4.data = data;
 		    		    				           					$scope.canceledLead = data;
 		    		    				           				});
 		    		    				           	        	
-		    		    						       			 $http.get('/getAllSalesPersonLostAndComp/'+id)
-		    		    						       				.success(function(data) {
+		    		    		    		       				apiserviceDashborad.getAllSalesPersonLostAndComp(id).then(function(data){
 		    		    						       			 		$scope.gridOptions6.data = data;
 		    		    						       			 		$scope.AllTradeInSeenList = data;
 		    		    						       			 });
 		    		    						       			 
-		    		    						       			 $http.get('/getTestDirConfirById/'+id)
-		    		    						       				.success(function(data) {
+		    		    		    		       				apiserviceDashborad.getTestDirConfirById(id).then(function(data){
 		    		    						       					$scope.gridOptions9.data = data;
 		    		    						       					angular.forEach($scope.gridOptions9.data,function(value,key){
 		    		    						       						 value.check = false;
@@ -5922,8 +5919,8 @@ angular.module('newApp')
 		    		    						       				
 		    		    						       				});
 		    		    						       			 
-		    		    						       			 $http.get('/getAllCompletedLeadsbyId/'+id)
-		    		    						       				.success(function(data) {
+		    		    		    		       				
+		    		    		    		       				apiserviceDashborad.getAllCompletedLeadsbyId(id).then(function(data){
 		    		    						       					$scope.gridOptions10.data = data;
 		    		    						       					$scope.completedL = data;
 		    		    						       				});
@@ -5967,14 +5964,7 @@ angular.module('newApp')
 			$scope.flagForMsg=0;
 			
 			if($scope.pdfDoc.length != 0 || $scope.pdf.vin != null){
-			$http.post('/sendPdfEmail',$scope.pdf)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "PDF sent successfully",
-				});
-				
+			apiserviceDashborad.sendPdfEmail($scope.pdf).then(function(data){
 				
 				console.log("$scope.customePdfmodel"+$scope.customePdfmodel);
 				
@@ -5987,13 +5977,7 @@ angular.module('newApp')
 				console.log(" after $scope.customePdfmodel"+$scope.customePdfmodel);
 				if($scope.customePdfmodel == true && $scope.customePdfId != null && $scope.customePdfId != undefined ){
 					console.log("iiiiinnnnn");
-					$http.get('/deletePdfById/'+$scope.customePdfId)
-		  			.success(function(data) {
-		  				/*$.pnotify({
-		  				    title: "Success",
-		  				    type:'success',
-		  				    text: "Slider config saved successfully",
-		  				});*/
+					apiserviceDashborad.deletePdfById($scope.customePdfId).then(function(data){
 				
 		  			});
 				}
@@ -6018,9 +6002,7 @@ angular.module('newApp')
 		$scope.actionOnPdf= function (entity,option){
 			console.log("inside pdf");
 			console.log(entity);
-			
-			$http.get('/getCustomerPdfForVehicle/'+entity.vin)
-				.success(function(data) {
+			apiserviceDashborad.getCustomerPdfForVehicle(entity.vin).then(function(data){
 					$scope.vehiclePdfList=data;
 					console.log(data);
 				
@@ -6050,8 +6032,7 @@ angular.module('newApp')
 					$('#sendPdfRequest').click();
 					
 					
-					$http.get('/getCustomerPdfData')
-       				.success(function(data) {
+					apiserviceDashborad.getCustomerPdfData().then(function(data){
        					$scope.customerPdfList=data;
        					console.log(data);
        				
@@ -6110,45 +6091,32 @@ angular.module('newApp')
 		  	$(ele).show();
 			console.log("??????????");
 			console.log(logofile1);
-			$upload.upload({
-		 	         url : '/saveCustomerPdf',
-		 	         method: 'POST',
-		 	         file:logofile1,
-		 	      }).success(function(data) {
-		 	  			$.pnotify({
-		 	  			    title: "Success",
-		 	  			    type:'success',
-		 	  			    text: "pdf saved successfully",
-		 	  			});
-		 	  		 var ele = document.getElementById('loadingmanual');	
+			apiserviceDashborad.saveCustomerPdf(logofile1).then(function(data){
+			
+				 var ele = document.getElementById('loadingmanual');	
 		 		   	$(ele).hide();
-		 	  				/*$.pnotify({
-		 	  				    title: "Success",
-		 	  				    type:'success',
-		 	  				    text: "Slider config saved successfully",
-		 	  				});*/
+		 	  			
 		 	  				$scope.flagForUpload=1;
-		 	  				$http.get('/getCustomerPdfData')
-		       				.success(function(data) {
+		 	  				apiserviceDashborad.getCustomerPdfData().then(function(data){
 		       				  console.log("ddddddddd");
 		       				  console.log(data);
 		       					$scope.lengths=data.length-1;
 			 	  				$scope.uploadData=data;
 			 	  				
-       						angular.forEach($scope.uploadData,function(obj, index){
-       							console.log(index);
-       							console.log($scope.lengths);
-       						 if(index == $scope.lengths) {
-       							 console.log(obj);
-       							 $scope.pdfIdForUndefinedModel=obj.customerPdfId;
-           					$scope.pdfDoc.push(obj.customerPdfId);
-       					    }
-       						console.log("Customer pdfData");
-       					   $scope.customerPdfList=data;
+    						angular.forEach($scope.uploadData,function(obj, index){
+    							console.log(index);
+    							console.log($scope.lengths);
+    						 if(index == $scope.lengths) {
+    							 console.log(obj);
+    							 $scope.pdfIdForUndefinedModel=obj.customerPdfId;
+        					$scope.pdfDoc.push(obj.customerPdfId);
+    					    }
+    						console.log("Customer pdfData");
+    					   $scope.customerPdfList=data;
 	       					console.log(data);
-       					  });
+    					  });
 		       				});
-			
+				
 		});	
 		}
 		
@@ -6248,14 +6216,9 @@ angular.module('newApp')
     	
     	$scope.cancelScheduleTestDriveComfir = function(){
     		
-    		$http.get('/setScheduleConfirmClose/'+$scope.entityVar.id+'/'+$scope.entityVar.typeOfLead)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Cancel successfully",
-				});
-    	});
+    		apiserviceDashborad.setScheduleConfirmClose($scope.entityVar.id, $scope.entityVar.typeOfLead).then(function(data){
+			
+    	    });
     		$route.reload();
     	}
     	
@@ -6274,15 +6237,10 @@ angular.module('newApp')
     	}
     	
     	$scope.saveScheduleClose = function() {
-	    		$http.get('/setScheduleStatusClose/'+$scope.scheduleStatusCancel.id+'/'+$scope.scheduleStatusCancel.typeOfLead+'/'+$scope.reasonToCancel)
-				.success(function(data) {
+    		apiserviceDashborad.setScheduleStatusClose($scope.scheduleStatusCancel.id, $scope.scheduleStatusCancel.typeOfLead,$scope.reasonToCancel).then(function(data){
 					$scope.getScheduleTestData();
 					$('#scheduleCancelBtn').click();
-					$.pnotify({
-    				    title: "Success",
-    				    type:'success',
-    				    text: "Status changed successfully",
-    				});
+					
 					//$scope.getAllSalesPersonRecord($scope.salesPerson);
 					$route.reload();
 					/*for(var i=0;i<$scope.scheduleList.length;i++) {
@@ -6331,14 +6289,8 @@ angular.module('newApp')
     	};
     	
     	$scope.saveRequestStatusCancel = function() {
-    		$http.get('/setRequestStatusCancel/'+$scope.requestStatusCancel.id+'/'+$scope.reasonToCancel)
-			.success(function(data) {
+    		apiserviceDashborad.setRequestStatusCancel($scope.requestStatusCancel.id, $scope.reasonToCancel).then(function(data){
 				$('#requestCancelBtn').click();
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
 				$scope.getAllSalesPersonRecord($scope.salesPerson);
 			});
     	};
@@ -6375,8 +6327,7 @@ angular.module('newApp')
     	$scope.saveRequestStatus = function() {
     		
     		$('#soldBtn').attr("disabled", true);
-    		$http.post('/setRequestStatusComplete',$scope.soldContact)
-			.success(function(data) {
+    		apiserviceDashborad.setRequestStatusComplete($scope.soldContact).then(function(data){
 				$route.reload();
 				if(data=='contact error'){
 					$.pnotify({
@@ -6406,14 +6357,8 @@ angular.module('newApp')
     			leads.option = 2;
     		}
     		var change = "0";
-    		$http.get('/setScheduleStatusClose/'+leads.id+'/'+leads.typeOfLead+'/'+change)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Status changed successfully",
-				});
-				
+    		apiserviceDashborad.setScheduleStatusClose(leads.id,leads.typeOfLead,change).then(function(data){
+								
 			});
     		
     		$scope.editLeads.parentChildLead.splice(index, 1);
