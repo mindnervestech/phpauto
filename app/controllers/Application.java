@@ -8,9 +8,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -56,6 +58,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
 import models.ActionAdd;
+import models.AddCollection;
 import models.AuthUser;
 import models.AutoPortal;
 import models.Blog;
@@ -71,9 +74,10 @@ import models.ClickyPagesActionList;
 import models.ClickyPagesList;
 import models.ClickyPlatformBrowser;
 import models.ClickyPlatformHardware;
-import models.ClickyPlatformOperatingSystem;
 import models.ClickyPlatformScreen;
+import models.ClickyPlatformOperatingSystem;
 import models.ClickySearchesEngine;
+import models.ClickySearchesKeyword;
 import models.ClickySearchesNewest;
 import models.ClickySearchesRanking;
 import models.ClickySearchesRecent;
@@ -104,6 +108,7 @@ import models.InternalPdf;
 import models.LeadType;
 import models.LeadsDateWise;
 import models.Location;
+import models.MailchimpSchedular;
 import models.MarketingAcounts;
 import models.MyProfile;
 import models.NewFormWebsite;
@@ -158,6 +163,9 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -173,10 +181,12 @@ import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import viewmodel.AddCollectionVM;
 import viewmodel.AssignToVM;
 import viewmodel.AudioVM;
 import viewmodel.AutoPortalVM;
 import viewmodel.BarChartVM;
+import viewmodel.BlogVM;
 import viewmodel.CampaignsVMs;
 import viewmodel.ClickyContentVM;
 import viewmodel.ClickyPagesVM;
@@ -190,6 +200,7 @@ import viewmodel.HeardAboutUsVm;
 import viewmodel.HoursOperation;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
+import viewmodel.InventoryVM;
 import viewmodel.KeyValueDataVM;
 import viewmodel.LeadDateWiseVM;
 import viewmodel.LeadTypeVM;
@@ -204,6 +215,7 @@ import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
 import viewmodel.PriceFormatDate;
+import viewmodel.RegisterVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
@@ -247,6 +259,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.oauth2.Oauth2;
@@ -274,6 +287,8 @@ import com.mnt.dataone.ResponseData;
 import com.mnt.dataone.Specification;
 import com.mnt.dataone.Specification_;
 import com.mnt.dataone.Value;
+
+import controllers.MailchipControllers.MailIntegrationServices;
 
 public class Application extends Controller {
   
@@ -26117,8 +26132,17 @@ private static void cancelTestDriveMail(Map map) {
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
      	   List <ClickyContentMedia> list=ClickyContentMedia.getAll(d1, d2) ;
+     	  Map<String, String> mapOffline = new HashMap<String, String>();
+        	 String uniqueurl = null;
+         	
 	            for(ClickyContentMedia lis:list){
          	ClickyPagesVM vm = new ClickyPagesVM();
+         	
+            	String langValue = mapOffline.get(lis.url); 
+          	if (langValue == null) {
+          		uniqueurl = lis.url;
+          		mapOffline.put(lis.url, lis.url);
+	   	       
    	     	   	vm.id=lis.id;
    				vm.value=lis.value;
    				vm.valuePercent = lis.valuePercent;
@@ -26126,7 +26150,7 @@ private static void cancelTestDriveMail(Map map) {
    				vm.title = lis.title;
    				}
    				vm.statsUrl =lis.statsUrl;
-   				vm.url = lis.url;
+   				vm.url = uniqueurl;
    	   		List <ClickyContentMedia> list2=ClickyContentMedia.getAll(beforeStart, d1) ;
    	   		//JsonNode jsonActionsList = Json.parse(callClickAPI("&type=pages&heatmap_url=1&date="+newDate+","+startD+""));
    	   	    double count=0;
@@ -26156,10 +26180,28 @@ private static void cancelTestDriveMail(Map map) {
      	   vm.averagePercent=((count1-count)/count1)*100;
    	   				
    	   		    clickyList.add(vm);
-   	   			
+          	}	
 		
 	}
-
+	            for(ClickyPagesVM vm:clickyList) {
+   	   	    	  double value = 0;
+   	   	    	 for(ClickyContentMedia lis:list){
+   	   	    		 if(vm.url.equals(lis.url)){
+   	   	    			value = value+Double.parseDouble(lis.value);
+   	   	    			vm.value = String.valueOf(value);
+   	   	    			
+   	   	    			vm.averageActions = lis.averageAction; 
+   	   	    			
+   	   	    			vm.totalTime = lis.totalTime; 
+   	   	    			
+   	   	    			vm.averageTime = lis.averageTime; 
+   	   	    			
+   	   	    			vm.bounceRate = lis.bounceRate; 
+   	   	    		
+   	   	    		 }
+   	   	    	  }
+   	   	    
+       	   }
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -26585,16 +26627,7 @@ private static void cancelTestDriveMail(Map map) {
     }
     
 
-    
-    
-    
-   
-   
-    
-   
-    
-    
-    public static Result getbrowser(String startDate,String endDate){
+   public static Result getbrowser(String startDate,String endDate){
     	String params = null;
     	System.out.println(startDate);
     	System.out.println(endDate);
@@ -26619,49 +26652,78 @@ private static void cancelTestDriveMail(Map map) {
              System.out.print(newDate + " newDate ");
              
              List <ClickyPlatformBrowser> list=ClickyPlatformBrowser.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+             	String uniquetitle = null;
+             	
        	   	            for(ClickyPlatformBrowser lis:list){
        	            	ClickyPagesVM vm = new ClickyPagesVM();
+       	            	
+       	            	String langValue = mapOffline.get(lis.title); 
+    	 				if (langValue == null) {
+    	 					uniquetitle = lis.title;
+    	 					mapOffline.put(lis.title, lis.title);
+    	 				
                  	     	   	vm.id=lis.id;
                  				vm.value=lis.value;
-                 				vm.valuePercent = lis.valuePercent;
-                 				vm.title = lis.title;
+                 				//vm.valuePercent = lis.valuePercent;
+                 				vm.title = uniquetitle;
                  				vm.statsUrl =lis.statsUrl;
                  	   			vm.averageActions=lis.averageAction;
                  	   			vm.averageTime=lis.averageTime;
                  	   			vm.totalTime=lis.totalTime;
                  	   			vm.bounceRate=lis.bounceRate;
-                 	   		List <ClickyPlatformBrowser> list2=ClickyPlatformBrowser.getAll(beforeStart, d1) ;
-                 	   		//JsonNode jsonActionsList = Json.parse(callClickAPI("&type=pages&heatmap_url=1&date="+newDate+","+startD+""));
-                 	   	    double count=0;
-                 	   	    double count1=0;
+                 	   			
+                 	   		
+       	   	    			
+             	   		List <ClickyPlatformBrowser> list2=ClickyPlatformBrowser.getAll(beforeStart, d1) ;
+             	   		//JsonNode jsonActionsList = Json.parse(callClickAPI("&type=pages&heatmap_url=1&date="+newDate+","+startD+""));
+             	   	    double count=0;
+             	   	    double count1=0;
                  	   	for(ClickyPlatformBrowser lis2:list) {
                	    	String url = lis2.title;
-               	   		if(url.equals(vm.title)){
-               	   			vm.value_percent2 = lis2.value;
-               	   		  count1=count1+Double.parseDouble(vm.value_percent2);
-               	   		
-               	   		}
-               	   		
-                 	   	}	
-                 	   	    
-                   	   	for(ClickyPlatformBrowser lis2:list2) {
+	               	   		if(url.equals(vm.title)){
+	               	   			vm.value_percent2 = lis2.value;
+	               	   		  count1=count1+Double.parseDouble(vm.value_percent2);
+	               	   		
+	               	   		}
+               	   		}	
+                 	   	for(ClickyPlatformBrowser lis2:list2) {
                    	    	String url = lis2.title;
                    	   		if(url.equals(vm.title)){
                    	   			vm.value_percent2 = lis2.value;
                    	   		  count=count+Double.parseDouble(vm.value_percent2);
-                   	   		
                    	   		}
-                 	   			
-                   	   	}
+                 	   	}
                    	   vm.averagePercent=((count1-count)/count1)*100;
-                 	   				
+                   	   
                  	   		    clickyList.add(vm);
-                 	   			
-       	   		
-       	   	}
-       	   	
-
-         } catch (Exception e) {
+                 	   	}	
+       	   	      }
+       	   	       
+       	   	           
+       	   	      for(ClickyPagesVM vm:clickyList) {
+       	   	    	  double value = 0;
+       	   	    	 double valueper = 0;
+       	   	    	  
+       	   	    	  for(ClickyPlatformBrowser lis:list){
+       	   	    		 if(vm.title.equals(lis.title)){
+       	   	    			value = value+Double.parseDouble(lis.value);
+       	   	    			vm.value = String.valueOf(value);
+       	   	    			
+       	   	    			vm.averageActions = lis.averageAction; 
+       	   	    			
+       	   	    			vm.totalTime = lis.totalTime; 
+       	   	    			
+       	   	    			vm.averageTime = lis.averageTime; 
+       	   	    			
+       	   	    			vm.bounceRate = lis.bounceRate; 
+       	   	    		
+       	   	    		 }
+       	   	    	  }
+       	   	    
+	       	   }
+       	   	          
+    	 } catch (Exception e) {
              e.printStackTrace();
          }
     	
@@ -26694,12 +26756,19 @@ private static void cancelTestDriveMail(Map map) {
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
              List <ClickyPlatformHardware> list=ClickyPlatformHardware.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+          	 String uniquetitlehardware = null;
    	            for(ClickyPlatformHardware lis:list){
             	ClickyPagesVM vm = new ClickyPagesVM();
+            	String langValue = mapOffline.get(lis.title); 
+            	if (langValue == null) {
+            		uniquetitlehardware = lis.title;
+            		mapOffline.put(lis.title, lis.title);
+            	
       	     	   	vm.id=lis.id;
       				vm.value=lis.value;
       				vm.valuePercent = lis.valuePercent;
-      				vm.title = lis.title;
+      				vm.title = uniquetitlehardware;
       				vm.statsUrl =lis.statsUrl;
       	   			vm.averageActions=lis.averageAction;
       	   			vm.averageTime=lis.averageTime;
@@ -26730,9 +26799,29 @@ private static void cancelTestDriveMail(Map map) {
         	   vm.averagePercent=((count1-count)/count1)*100;
       	   				
       	   		    clickyList.add(vm);
-      	   			
-   		
-   	}
+   	            }
+    	 }   
+   	         for(ClickyPagesVM vm:clickyList) {
+	   	    	  double value = 0;
+	   	    	 
+	   	    	  System.out.println(vm.title);
+	   	    	  for(ClickyPlatformHardware lis:list){
+	   	    		 if(vm.title.equals(lis.title)){
+	   	    			value = value+Double.parseDouble(lis.value);
+	   	    			vm.value = String.valueOf(value);
+	   	    			
+	   	    			vm.averageActions = lis.averageAction; 
+	   	    			
+	   	    			vm.totalTime = lis.totalTime; 
+	   	    			
+	   	    			vm.averageTime = lis.averageTime; 
+	   	    			
+	   	    			vm.bounceRate = lis.bounceRate; 
+	   	    		
+	   	    		 }
+	   	    	  }
+
+     	   }
 
          } catch (Exception e) {
              e.printStackTrace();
@@ -26767,12 +26856,18 @@ private static void cancelTestDriveMail(Map map) {
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
              List <ClickyPlatformOperatingSystem> list=ClickyPlatformOperatingSystem.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+          	 String uniquetitleos = null;
 	            for(ClickyPlatformOperatingSystem lis:list){
-         	ClickyPagesVM vm = new ClickyPagesVM();
+	            	ClickyPagesVM vm = new ClickyPagesVM();
+	            	String langValue = mapOffline.get(lis.title); 
+	            	if (langValue == null) {
+	            		uniquetitleos = lis.title;
+	            		mapOffline.put(lis.title, lis.title);
    	     	   	vm.id=lis.id;
    				vm.value=lis.value;
    				vm.valuePercent = lis.valuePercent;
-   				vm.title = lis.title;
+   				vm.title = uniquetitleos;
    				vm.statsUrl =lis.statsUrl;
    	   			vm.averageActions=lis.averageAction;
    	   			vm.averageTime=lis.averageTime;
@@ -26803,10 +26898,29 @@ private static void cancelTestDriveMail(Map map) {
      	   vm.averagePercent=((count1-count)/count1)*100;
    	   				
    	   		    clickyList.add(vm);
-   	   			
-		
-	}
+			}
+	            }         
+	            for(ClickyPagesVM vm:clickyList) {
+     	   	    	  double value = 0;
+     	   	    	 
+     	   	    	  System.out.println(vm.title);
+     	   	    	  for(ClickyPlatformOperatingSystem lis:list){
+     	   	    		 if(vm.title.equals(lis.title)){
+     	   	    			value = value+Double.parseDouble(lis.value);
+     	   	    			vm.value = String.valueOf(value);
+     	   	    			
+     	   	    			vm.averageActions = lis.averageAction; 
+     	   	    			
+     	   	    			vm.totalTime = lis.totalTime; 
+     	   	    			
+     	   	    			vm.averageTime = lis.averageTime; 
+     	   	    			
+     	   	    			vm.bounceRate = lis.bounceRate; 
+     	   	    		
+     	   	    		 }
+     	   	    	  }
 
+	       	   }
 
          } catch (Exception e) {
              e.printStackTrace();
@@ -27651,12 +27765,20 @@ private static void cancelTestDriveMail(Map map) {
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
              List <ClickyPlatformScreen> list=ClickyPlatformScreen.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+          	 String uniquetitlescreen = null;
    	            for(ClickyPlatformScreen lis:list){
             	ClickyPagesVM vm = new ClickyPagesVM();
+            	
+            	String langValue = mapOffline.get(lis.title); 
+            	if (langValue == null) {
+            		uniquetitlescreen = lis.title;
+            		mapOffline.put(lis.title, lis.title);
+            		
       	     	   	vm.id=lis.id;
       				vm.value=lis.value;
       				vm.valuePercent = lis.valuePercent;
-      				vm.title = lis.title;
+      				vm.title = uniquetitlescreen;
       				vm.statsUrl =lis.statsUrl;
       	   			vm.averageActions=lis.averageAction;
       	   			vm.averageTime=lis.averageTime;
@@ -27687,10 +27809,30 @@ private static void cancelTestDriveMail(Map map) {
         	   vm.averagePercent=((count1-count)/count1)*100;
       	   				
       	   		    clickyList.add(vm);
-      	   			
-   		
-   	}
-             
+   	            }
+   	            }
+   	         for(ClickyPagesVM vm:clickyList) {
+	   	    	  double value = 0;
+	   	    	 
+	   	    	  System.out.println(vm.title);
+	   	    	  for(ClickyPlatformScreen lis:list){
+	   	    		 if(vm.title.equals(lis.title)){
+	   	    			value = value+Double.parseDouble(lis.value);
+	   	    			vm.value = String.valueOf(value);
+	   	    			
+	   	    			vm.averageActions = lis.averageAction; 
+	   	    			
+	   	    			vm.totalTime = lis.totalTime; 
+	   	    			
+	   	    			vm.averageTime = lis.averageTime; 
+	   	    			
+	   	    			vm.bounceRate = lis.bounceRate; 
+	   	    		
+	   	    		 }
+	   	    	  }
+
+      	   }
+
 
          } catch (Exception e) {
              e.printStackTrace();
@@ -28388,15 +28530,24 @@ private static void cancelTestDriveMail(Map map) {
              System.out.print(newDate + " newDate ");
 
              List <ClickyContentExit> list=ClickyContentExit.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+           	 String uniqueurl = null;
+            	
       	   	            for(ClickyContentExit lis:list){
       	            	ClickyPagesVM vm = new ClickyPagesVM();
+      	            	
+        	            	String langValue = mapOffline.get(lis.editedUrl); 
+      	            	if (langValue == null) {
+      	            		uniqueurl = lis.editedUrl;
+      	            		mapOffline.put(lis.editedUrl, lis.editedUrl);
+          	   	      
                 	     	   	vm.id=lis.id;
                 				vm.value=lis.value;
                 				vm.valuePercent = lis.valuePercent;
                 				vm.title = lis.title;
                 				vm.statsUrl =lis.statsUrl;
                 				vm.url = lis.url;
-                				vm.editedUrl=lis.editedUrl;
+                				vm.editedUrl= uniqueurl;
                 	   		List <ClickyContentExit> list2=ClickyContentExit.getAll(beforeStart, d1) ;
                 	   		//JsonNode jsonActionsList = Json.parse(callClickAPI("&type=pages&heatmap_url=1&date="+newDate+","+startD+""));
                 	   	    double count=0;
@@ -28423,10 +28574,28 @@ private static void cancelTestDriveMail(Map map) {
                   	   vm.averagePercent=((count1-count)/count1)*100;
                 	   				
                 	   		    clickyList.add(vm);
-                	   			
-      	   		
-      	   	}
-      	   	
+      	            	}
+      	   	            }
+      	   	      
+    	   	       for(ClickyPagesVM vm:clickyList) {
+      	   	    	  double value = 0;
+      	   	    	 for(ClickyContentExit lis:list){
+      	   	    		 if(vm.editedUrl.equals(lis.editedUrl)){
+      	   	    			value = value+Double.parseDouble(lis.value);
+      	   	    			vm.value = String.valueOf(value);
+      	   	    			
+      	   	    			vm.averageActions = lis.averageAction; 
+      	   	    			
+      	   	    			vm.totalTime = lis.totalTime; 
+      	   	    			
+      	   	    			vm.averageTime = lis.averageTime; 
+      	   	    			
+      	   	    			vm.bounceRate = lis.bounceRate; 
+      	   	    		
+      	   	    		 }
+      	   	    	  }
+      	   	    
+	       	   }
 
          } catch (Exception e) {
              e.printStackTrace();
@@ -28530,14 +28699,23 @@ private static void cancelTestDriveMail(Map map) {
              System.out.print(newDate + " newDate ");
      	   	
      	   List <ClickyContentEvent> list=ClickyContentEvent.getAll(d1, d2) ;
+     	  Map<String, String> mapOffline = new HashMap<String, String>();
+        	 String uniqueurl = null;
+         	
 	            for(ClickyContentEvent lis:list){
          	ClickyPagesVM vm = new ClickyPagesVM();
+         	
+            	String langValue = mapOffline.get(lis.url); 
+          	if (langValue == null) {
+          		uniqueurl = lis.url;
+          		mapOffline.put(lis.url, lis.url);
+	   	       
    	     	   	vm.id=lis.id;
    				vm.value=lis.value;
    				vm.valuePercent = lis.valuePercent;
    				vm.title = lis.title;
    				vm.statsUrl =lis.statsUrl;
-   				vm.url = lis.url;
+   				vm.url = uniqueurl;
    	   		List <ClickyContentEvent> list2=ClickyContentEvent.getAll(beforeStart, d1) ;
    	   		//JsonNode jsonActionsList = Json.parse(callClickAPI("&type=pages&heatmap_url=1&date="+newDate+","+startD+""));
    	   	    double count=0;
@@ -28564,10 +28742,29 @@ private static void cancelTestDriveMail(Map map) {
      	   vm.averagePercent=((count1-count)/count1)*100;
    	   				
    	   		    clickyList.add(vm);
-   	   			
-		
-	}
+          	}
 
+	            }
+	   	       for(ClickyPagesVM vm:clickyList) {
+	   	    	  double value = 0;
+	   	    	 for(ClickyContentEvent lis:list){
+	   	    		 if(vm.url.equals(lis.url)){
+	   	    			value = value+Double.parseDouble(lis.value);
+	   	    			vm.value = String.valueOf(value);
+	   	    			
+	   	    			vm.averageActions = lis.averageAction; 
+	   	    			
+	   	    			vm.totalTime = lis.totalTime; 
+	   	    			
+	   	    			vm.averageTime = lis.averageTime; 
+	   	    			
+	   	    			vm.bounceRate = lis.bounceRate; 
+	   	    		
+	   	    		 }
+	   	    	  }
+	   	    
+    	   }
+          	
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -29009,13 +29206,23 @@ private static void cancelTestDriveMail(Map map) {
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
      	   List <ClickyContentDomain> list=ClickyContentDomain.getAll(d1, d2) ;
+     	  Map<String, String> mapOffline = new HashMap<String, String>();
+        	 String uniquetitle = null;
+         	
 	            for(ClickyContentDomain lis:list){
          	ClickyPagesVM vm = new ClickyPagesVM();
+         	
+            	String langValue = mapOffline.get(lis.title); 
+          	if (langValue == null) {
+          		uniquetitle = lis.title;
+          		mapOffline.put(lis.title, lis.title);
+	   	       
+    	   
    	     	   	vm.id=lis.id;
    				vm.value=lis.value;
    				vm.valuePercent = lis.valuePercent;
    				if(lis.title != null){
-   				vm.title = lis.title;
+   				vm.title = uniquetitle;
    				}
    			//	vm.statsUrl =lis.statsUrl;
    			//	vm.url = lis.url;
@@ -29046,9 +29253,28 @@ private static void cancelTestDriveMail(Map map) {
    	   				
    	   		    clickyList.add(vm);
    	   			
-		
+          	}
 	}
-
+	           
+ 	   	       for(ClickyPagesVM vm:clickyList) {
+   	   	    	  double value = 0;
+   	   	    	 for(ClickyContentDomain lis:list){
+   	   	    		 if(vm.title.equals(lis.title)){
+   	   	    			value = value+Double.parseDouble(lis.value);
+   	   	    			vm.value = String.valueOf(value);
+   	   	    			
+   	   	    			/*vm.averageActions = lis.averageAction; 
+   	   	    			
+   	   	    			vm.totalTime = lis.totalTime; 
+   	   	    			
+   	   	    			vm.averageTime = lis.averageTime; 
+   	   	    			
+   	   	    			vm.bounceRate = lis.bounceRate; */
+   	   	    		
+   	   	    		 }
+   	   	    	  }
+   	   	    
+       	   }
              
 
          } catch (Exception e) {
@@ -29083,10 +29309,17 @@ private static void cancelTestDriveMail(Map map) {
              System.out.print(newDate + " newDate ");
              
              List <ClickyEntranceList> list=ClickyEntranceList.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+          	 String uniqueurl = null;
       	   	//JsonNode jsonList = Json.parse(callClickAPI(params));
       	   	//List<ClickyPagesActionList>list1=ClickyPagesActionList.getAll(d1,d2);
       	   	            for(ClickyEntranceList lis:list){
       	            	ClickyPagesVM vm = new ClickyPagesVM();
+      	            	String langValue = mapOffline.get(lis.url); 
+    	            	if (langValue == null) {
+    	            		uniqueurl = lis.url;
+    	            		mapOffline.put(lis.url, lis.url);
+      	            	
                 	   			String data = lis.url;
                 				String arr[] = data.split("#_");	
                 	     	   	vm.id=lis.id;
@@ -29094,7 +29327,7 @@ private static void cancelTestDriveMail(Map map) {
                 				vm.valuePercent = lis.valuePercent;
                 				vm.title = lis.title;
                 				vm.statsUrl =lis.statsUrl;
-                				vm.url = lis.url;
+                				vm.url = uniqueurl;
                 				vm.showUrl = arr[0];
                 				vm.mainUrl=lis.mainUrl;
                 	   			vm.averageActions=lis.averageAction;
@@ -29131,11 +29364,28 @@ private static void cancelTestDriveMail(Map map) {
                   	   vm.averagePercent=((count1-count)/count1)*100;
                 	   				
                 	   		    clickyList.add(vm);
-                	   			
-      	   		
-      	   	}
-      	   	
-             
+      	   	            }
+      	   	            }
+      	   	            
+      	   	       for(ClickyPagesVM vm:clickyList) {
+        	   	    	  double value = 0;
+        	   	    	 for(ClickyEntranceList lis:list){
+        	   	    		 if(vm.url.equals(lis.url)){
+        	   	    			value = value+Double.parseDouble(lis.value);
+        	   	    			vm.value = String.valueOf(value);
+        	   	    			
+        	   	    			vm.averageActions = lis.averageAction; 
+        	   	    			
+        	   	    			vm.totalTime = lis.totalTime; 
+        	   	    			
+        	   	    			vm.averageTime = lis.averageTime; 
+        	   	    			
+        	   	    			vm.bounceRate = lis.bounceRate; 
+        	   	    		
+        	   	    		 }
+        	   	    	  }
+        	   	    
+ 	       	   }
              
              
          } catch (Exception e) {
