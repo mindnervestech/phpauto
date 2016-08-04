@@ -5110,8 +5110,8 @@ angular.module('newApp')
 	    					$scope.lead.hearedFrom = "Other";
 	    				}else{
 	    					$scope.lead.hearedFrom = $scope.othertxt;
-	    					$http.get('/addHeard/'+$scope.lead.hearedFrom).success(function(response) {
-	    						$http.get('/getHeardAboutUs').success(function(response) {
+	    					apiserviceDashborad.addHeard($scope.lead.hearedFrom).then(function(response){
+	    						apiserviceDashborad.getHeardAboutUs().then(function(response){	
 	    		    				$scope.heardAboutUs = response;
 	    		    			});
 	    					});
@@ -5138,30 +5138,13 @@ angular.module('newApp')
 	    				console.log(files);
 	    				console.log("bothfile");
 	    				
-	    				
-	    				 $upload.upload({
-	    		            url : '/createLead',
-	    		            method: 'POST',
-	    		            file:files,
-	    		            data:$scope.lead
-	    		         }).success(function(data) {
-	    		   			console.log('success');
-	    		   			$.pnotify({
-	    					    title: "Success",
-	    					    type:'success',
-	    					    text: "Lead created successfully",
-	    					});
-	    		   		 });
+	    				apiserviceDashborad.createLeads($scope.lead, files).then(function(response){
+	    					
+	    				});
 	    				}else{
 	    					console.log($scope.lead);
-	    					
-	    					$http.post('/createLead',$scope.lead).success(function(response) {
+	    					apiserviceDashborad.createLeads($scope.lead, $rootScope.fileCustom).then(function(response){
 	    						//$scope.getVisitedData('week','countHigh','0','0','All');
-	    						$.pnotify({
-		    					    title: "Success",
-		    					    type:'success',
-		    					    text: "Lead created successfully",
-		    					});
 	    	    				$scope.topVisitedDataDatewise();
 	    	    				//$scope.userLocationData('Week','person');
 	    	    				 $scope.findMystatisData(startD,endD,'person');
@@ -5191,7 +5174,7 @@ angular.module('newApp')
 	    		$scope.getModelsByMake = function(makeSelect) {
 	    			$scope.lead.makeSelect = makeSelect;
 	    			$scope.lead.modelSelect = '';
-	    			$http.get('/getModels/'+makeSelect).success(function(response) {
+	    			apiserviceDashborad.getModels(makeSelect).then(function(response){
 	    				$scope.models = response;
 	    			});
 	    		};
@@ -5199,7 +5182,7 @@ angular.module('newApp')
 	    		$scope.stockWiseData.push({});
 	    		$scope.getStockDetails = function(stockRp) {
 	    			$scope.isStockError = false;
-	    			$http.get('/getStockDetails/'+stockRp.stockNumber).success(function(response) {
+	    			apiserviceDashborad.getStockDetails(stockRp.stockNumber).then(function(response){
 	    				if(response.isData) {
 	    					$scope.isStockError = false;
 	    					stockRp.make = response.make;
@@ -5226,7 +5209,7 @@ angular.module('newApp')
 	    		$scope.makes = [];
 	    		$scope.models = [];
 	    		$scope.getMakes = function() {
-	    			$http.get('/getMakes').success(function(response) {
+	    			apiserviceDashborad.getMakes().then(function(response){
 	    				$scope.makes = response.makes;
 	    			});
 	    		};
@@ -5267,7 +5250,7 @@ angular.module('newApp')
 					if(value.length == 0){
 	    				$scope.getVisitedData('week','countHigh','0','0','All',startD,endD);
 	    			}
-					$http.get('/getAllModelList/'+value).success(function(response) {
+	    			apiserviceDashborad.getAllModelList(value).then(function(response){
 		    			$scope.modellist = response;
 	    			});
 	    		}
@@ -5304,7 +5287,7 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.getAnalystData = function() {
-	    			$http.get('/getAnalystData').success(function(response) {
+	    			apiserviceDashborad.getAnalystData().then(function(response){
 	    			});
 	    		};
 	    		
@@ -5314,8 +5297,7 @@ angular.module('newApp')
 	 			    }
 	    			
 	    			$scope.locationValue = locationValue;
-	    			$http.get('/getSalesUserOnly/'+locationValue)
-		    		.success(function(data){
+	    			apiserviceDashborad.getSalesUserOnly(locationValue).then(function(data){
 		    			$scope.salesPersonPerf = data;
 		    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 		    			angular.forEach($scope.salesPersonPerf, function(value, key) {
@@ -5325,8 +5307,7 @@ angular.module('newApp')
 	    		}
 
 	    		$scope.getGMData1 = function() {
-		    		$http.get('/getSalesUserList/'+locationId)
-		    		.success(function(data){
+	    			apiserviceDashborad.getSalesUserList(locationId).then(function(data){
 		    			$scope.salesPersonList =data;
 		    			$scope.user=data;
 		    			if($scope.salesPersonList.length > 0){
@@ -5336,16 +5317,14 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.getGMData = function() {
-		    		$http.get('/getSalesUser')
-		    		.success(function(data){
+	    			apiserviceDashborad.getSalesUser().then(function(data){
 		    			$scope.salesPersonList =data;
 		    			$scope.getAllSalesPersonRecord($scope.salesPersonList[0].id);
 		    		});
 	    		}
 	    		
 	    		$scope.getAssignedLeads = function() {
-	    			$http.get('/getAssignedLeads')
-		    		.success(function(data){
+	    			apiserviceDashborad.getAssignedLeads().then(function(data){
 		    			$scope.leadCount = data.count;
 		    			if($scope.leadCount != '0') {
 		    				var notifContent;
@@ -5424,8 +5403,7 @@ angular.module('newApp')
 	    		};
 	    		
 	    		$scope.getToDoNotification = function() {
-	    			$http.get('/getNewToDoCount')
-		    		.success(function(data){
+	    			apiserviceDashborad.getNewToDoCount().then(function(data){
 		    			$scope.toDoCount = data.count;
 		    			if($scope.toDoCount != '0'&& $scope.flagForPopUp !=1) {
 		    				var notifContent;
@@ -5481,17 +5459,14 @@ angular.module('newApp')
 	    		}
 	    		
 	    		$scope.setLeadSeen = function() {
-	    			$http.get('/setLeadSeen')
-		    		.success(function(data){
+	    			apiserviceDashborad.setLeadSeen().then(function(data){
 		    		});
 	    		};
 	    		
 	    		
 	    		
 	    		$scope.setTodoSeen = function() {
-	    			$http.get('/setTodoSeen')
-		    		.success(function(data){
-		    			
+	    			apiserviceDashborad.setTodoSeen().then(function(data){
 		    		});
 	    		}
 	    		
@@ -5644,8 +5619,7 @@ angular.module('newApp')
         }
         
         $scope.schedulTestDir = function(){
-        	$http.get('/getTestDirConfir')
-			.success(function(data) {
+        	apiserviceDashborad.getTestDirConfir().then(function(data){
 				$scope.gridOptions9.data = data;
 				 angular.forEach($scope.gridOptions9.data,function(value,key){
 					 value.check = false;
@@ -5669,23 +5643,20 @@ angular.module('newApp')
         }
         
         $scope.getCompletedData = function(){
-        	$http.get('/getAllCompletedLeads')
-			.success(function(data) {
+        	apiserviceDashborad.getAllCompletedLeads().then(function(data){
 				$scope.gridOptions10.data = data;
 				$scope.completedL = data;
 			});
         }
         
         $scope.getAllLostAndComLeads = function(){
-        	$http.get('/getAllLostAndCompLeads')
-			.success(function(data) {
+        	apiserviceDashborad.getAllLostAndCompLeads().then(function(data){
 				$scope.gridOptions6.data = data;
 			});
         }
         
         $scope.getAllCanceledLeads = function() {
-        	$http.get('/getAllCanceledLeads')
-			.success(function(data) {
+        	apiserviceDashborad.getAllCanceledLeads().then(function(data){
 				$scope.gridOptions4.data = data;
 				$scope.canceledLead = data;
 			});
@@ -5708,8 +5679,7 @@ angular.module('newApp')
         }
         
         $scope.changeAssignedUser = function() {
-        	$http.get('/changeAssignedUser/'+$scope.cancelId+'/'+$scope.changedUser+'/'+$scope.leadType)
-			.success(function(data) {
+        	apiserviceDashborad.changeAssignedUser($scope.cancelId,$scope.changedUser,$scope.leadType).then(function(data){
 				$('#closeChangeUser').click();
 				$.pnotify({
 				    title: "Success",
@@ -5723,24 +5693,21 @@ angular.module('newApp')
         }
         
     	$scope.getScheduleTestData = function() {
-	    		$http.get('/getAllScheduleTestAssigned')
-				.success(function(data) {
+    		apiserviceDashborad.getAllScheduleTestAssigned().then(function(data){
 					$scope.gridOptions2.data = data;
 					$scope.AllScheduleTestAssignedList = data;
 			});
     	};
     	
     	$scope.getRequestMoreData = function() {
-    		$http.get('/getAllRequestInfoSeen')
-			.success(function(data) {
+    	apiserviceDashborad.getAllRequestInfoSeen().then(function(data){
 			$scope.gridOptions.data = data;
 			$scope.AllRequestInfoSeenList = data;
 		});
 	};
     	
 		$scope.getTradeInData = function() {
-			 $http.get('/getAllTradeInSeen')
-				.success(function(data) {
+			apiserviceDashborad.getAllTradeInSeen().then(function(data){
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;
 			 });
@@ -5757,8 +5724,7 @@ angular.module('newApp')
 	
 		$scope.getScheduleData = function(id){
 			var deferred = $q.defer();
-			$http.get('/getAllSalesPersonScheduleTestAssigned/'+id)
-			.success(function(data) {
+			apiserviceDashborad.getAllSalesPersonScheduleTestAssigned(id).then(function(data){
 			$scope.gridOptions2.data = data;
 			$scope.AllScheduleTestAssignedList = data;
 			var countUnReadLead = 0;
@@ -5780,10 +5746,7 @@ angular.module('newApp')
 		
 		$scope.getRequestData = function(id){
 			var deferred = $q.defer();
-			$http.get('/getAllSalesPersonRequestInfoSeen/'+id)
-			.success(function(data) {
-				console.log("oooppp00p0p34567");
-				console.log(data);
+			apiserviceDashborad.getAllSalesPersonRequestInfoSeen(id).then(function(data){
 				var countUnReadLead = 0;
 			$scope.gridOptions5.data = data;
 			$scope.AllRequestInfoSeenList = data;
@@ -5805,8 +5768,7 @@ angular.module('newApp')
 		
 		$scope.getOtherLeadInfo = function(id){
 			var deferred = $q.defer();
-			$http.get('/getAllSalesPersonOtherLead/'+id)
-			.success(function(data) {
+			apiserviceDashborad.getAllSalesPersonOtherLead(id).then(function(data){
 				$scope.otherLead = data;
 				//$scope.gridOptions13.data = data;
 				//$scope.AllOtherLeadSeenList = data;
@@ -5829,8 +5791,7 @@ angular.module('newApp')
 		
 		$scope.getContactUsData = function(id){
 			var deferred = $q.defer();
-			$http.get('/getAllSalesPersonContactUsSeen/'+id)
-			.success(function(data) {
+			apiserviceDashborad.getAllSalesPersonContactUsSeen(id).then(function(data){
 				var countUnReadLead = 0;
 			$scope.gridOptions8.data = data;
 			$scope.AllContactUsInfoSeenList = data;
@@ -5854,8 +5815,7 @@ angular.module('newApp')
 		$scope.getTradeInData = function(id){
 			
 			var deferred = $q.defer();
-			 $http.get('/getAllSalesPersonTradeInSeen/'+id)
-				.success(function(data) {
+			apiserviceDashborad.getAllSalesPersonTradeInSeen(id).then(function(data){
 					var countUnReadLead = 0;
 			 		$scope.gridOptions3.data = data;
 			 		$scope.AllTradeInSeenList = data;

@@ -97,8 +97,8 @@ angular.module('app.apiserviceCrm', [])
 	            method: 'post',
 	            file:logofile,
 		   }).progress(function(evt) {
-			   $scope.showProgress = true;
-			   $scope.progress = parseInt((100.0 * evt.loaded) / evt.total)+"%";
+			  // $scope.showProgress = true;
+			   //$scope.progress = parseInt((100.0 * evt.loaded) / evt.total)+"%";
 	        }).success(function(data, status, headers, config) {
 	            $.pnotify({
 				    title: "Success",

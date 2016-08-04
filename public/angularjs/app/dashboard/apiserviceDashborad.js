@@ -686,4 +686,228 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.addHeard = function(hearedFrom){
+		var defer = $q.defer();
+		$http.get('/addHeard/'+hearedFrom).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getHeardAboutUs = function(){
+		var defer = $q.defer();
+		$http.get('/getHeardAboutUs').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.createLeads = function(lead, file){
+		var defer = $q.defer();
+		if(file != undefined){
+			$upload.upload({
+	            url : '/createLead',
+	            method: 'POST',
+	            file:files,
+	            data:lead
+	         }).success(function(data) {
+	   			$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Lead created successfully",
+				});
+	   		 });
+		}else{
+			$http.post('/createLead',lead).success(function(data) {
+				defer.resolve(data);
+				$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Lead created successfully",
+				});
+			});
+		}
+		
+		return defer.promise;
+	};
+	
+	
+	this.getModels = function(makeSelect){
+		var defer = $q.defer();
+		$http.get('/getModels/'+makeSelect).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getMakes = function(){
+		var defer = $q.defer();
+		$http.get('/getMakes').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllModelList = function(value){
+		var defer = $q.defer();
+		$http.get('/getAllModelList/'+value).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAnalystData = function(){
+		var defer = $q.defer();
+		$http.get('/getAnalystData').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getSalesUserOnly = function(locationValue){
+		var defer = $q.defer();
+		$http.get('/getSalesUserOnly/'+locationValue).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getSalesUserList = function(locationId){
+		var defer = $q.defer();
+		$http.get('/getSalesUserList/'+locationId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getSalesUser = function(){
+		var defer = $q.defer();
+		$http.get('/getSalesUser').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAssignedLeads = function(){
+		var defer = $q.defer();
+		$http.get('/getAssignedLeads').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getNewToDoCount = function(){
+		var defer = $q.defer();
+		$http.get('/getNewToDoCount').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	this.setLeadSeen = function(){
+		var defer = $q.defer();
+		$http.get('/setLeadSeen').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.setTodoSeen = function(){
+		var defer = $q.defer();
+		$http.get('/setTodoSeen').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+
+	
+	this.getTestDirConfir = function(){
+		var defer = $q.defer();
+		$http.get('/getTestDirConfir').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllCompletedLeads = function(){
+		var defer = $q.defer();
+		$http.get('/getAllCompletedLeads').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllLostAndCompLeads = function(){
+		var defer = $q.defer();
+		$http.get('/getAllLostAndCompLeads').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllCanceledLeads = function(){
+		var defer = $q.defer();
+		$http.get('/getAllCanceledLeads').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.changeAssignedUser = function(cancelId, changedUser, leadType){
+		var defer = $q.defer();
+		$http.get('/changeAssignedUser/'+cancelId+'/'+changedUser+'/'+leadType).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllSalesPersonScheduleTestAssigned = function(id){
+		var defer = $q.defer();
+		$http.get('/getAllSalesPersonScheduleTestAssigned/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllSalesPersonRequestInfoSeen = function(id){
+		var defer = $q.defer();
+		$http.get('/getAllSalesPersonRequestInfoSeen/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllSalesPersonOtherLead = function(id){
+		var defer = $q.defer();
+		$http.get('/getAllSalesPersonOtherLead/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllSalesPersonContactUsSeen = function(id){
+		var defer = $q.defer();
+		$http.get('/getAllSalesPersonContactUsSeen/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllSalesPersonTradeInSeen = function(id){
+		var defer = $q.defer();
+		$http.get('/getAllSalesPersonTradeInSeen/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	
+	
+	
+		
+	
+	
+	
+	
+	
 })
