@@ -2630,9 +2630,7 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
@@ -2645,29 +2643,10 @@ angular.module('newApp')
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 $scope.urlobj={};
@@ -2677,9 +2656,7 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
@@ -2692,29 +2669,10 @@ angular.module('newApp')
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 $scope.urlobj={};
@@ -2724,9 +2682,7 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
@@ -2739,29 +2695,10 @@ angular.module('newApp')
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 
@@ -2772,9 +2709,7 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
@@ -2787,29 +2722,10 @@ angular.module('newApp')
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 
@@ -2820,9 +2736,7 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(url);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
@@ -2835,29 +2749,10 @@ angular.module('newApp')
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 $scope.urlobj={};
@@ -2867,9 +2762,7 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
@@ -2882,29 +2775,10 @@ angular.module('newApp')
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 $scope.urlobj={};
@@ -2914,10 +2788,6 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
-				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
 				$scope.urlobj.title=title;
@@ -2929,29 +2799,10 @@ angular.module('newApp')
 					$scope.flagForChart=1;
 					$scope.flagForChart1 = false;
 					createChart(data);
-					//$('#functional-chart').css('height', '500px');
-					//$('#functional-chart').css('width','500px');
+					
 					$scope.value = [];
 					$scope.dates = [];
-					/*angular.forEach(data, function(obj, index){
-						if(parseInt(obj.value)>0){
-							var val=1;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-						}
-						else{
-							var val=0;
-							$scope.value.push(val);
-							$scope.dates.push(obj.chartDate);
-							
-						}
-						
-					
-					});*/
-				
 			});
-				
-			 
 			}
 		 
 		 
@@ -3477,15 +3328,7 @@ angular.module('newApp')
 		};
 	
 	
-		/*$http.get('/getAllVehicleDemographicsInData').success(function(data) {
-		console.log(data);
-		$scope.langmap = data.language;
-		$scope.webBrosmap = data.webBrowser;
-		$scope.operatingSystem = data.operatingSystem;
-		$scope.location = data.location;
-		$scope.screenResoluations = data.screenResoluation;
-		$scope.changeTab('browser');
-	});*/
+		
 	
 	$scope.valueSet = {};
 	$scope.typSet = [];
@@ -4115,9 +3958,7 @@ angular.module('newApp')
 	 console.log(">>>>>>>>");
 	 var startDate =$rootScope.startDateFilter;
 		var endDate =$rootScope.endDateFilter;
-		console.log(endDate);
-		console.log(startDate);
-		console.log(title);
+		
 		
 		$scope.urlobj.startDate=startDate;
 		$scope.urlobj.endDate=endDate;
@@ -4130,29 +3971,10 @@ angular.module('newApp')
 			$scope.flagForChart=1;
 			$scope.flagForChart1 = false;
 			createChart(data);
-			//$('#functional-chart').css('height', '500px');
-			//$('#functional-chart').css('width','500px');
+			
 			$scope.value = [];
 			$scope.dates = [];
-			/*angular.forEach(data, function(obj, index){
-				if(parseInt(obj.value)>0){
-					var val=1;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-				}
-				else{
-					var val=0;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-					
-				}
-				
-			
-			});*/
-		
 	});
-		
-	 
 	}
  
  
@@ -4163,9 +3985,7 @@ angular.module('newApp')
 	 console.log(">>>>>>>>");
 	 var startDate =$rootScope.startDateFilter;
 		var endDate =$rootScope.endDateFilter;
-		console.log(endDate);
-		console.log(startDate);
-		console.log(title);
+		
 		
 		$scope.urlobj.startDate=startDate;
 		$scope.urlobj.endDate=endDate;
@@ -4178,29 +3998,10 @@ angular.module('newApp')
 			$scope.flagForChart=1;
 			$scope.flagForChart1 = false;
 			createChart(data);
-			//$('#functional-chart').css('height', '500px');
-			//$('#functional-chart').css('width','500px');
+			
 			$scope.value = [];
 			$scope.dates = [];
-			/*angular.forEach(data, function(obj, index){
-				if(parseInt(obj.value)>0){
-					var val=1;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-				}
-				else{
-					var val=0;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-					
-				}
-				
-			
-			});*/
-		
 	});
-		
-	 
 	}
  
  $scope.urlobj={};
@@ -4210,9 +4011,7 @@ angular.module('newApp')
 	 console.log(">>>>>>>>");
 	 var startDate =$rootScope.startDateFilter;
 		var endDate =$rootScope.endDateFilter;
-		console.log(endDate);
-		console.log(startDate);
-		console.log(title);
+		
 		
 		$scope.urlobj.startDate=startDate;
 		$scope.urlobj.endDate=endDate;
@@ -4225,29 +4024,10 @@ angular.module('newApp')
 			$scope.flagForChart=1;
 			$scope.flagForChart1 = false;
 			createChart(data);
-			//$('#functional-chart').css('height', '500px');
-			//$('#functional-chart').css('width','500px');
+			
 			$scope.value = [];
 			$scope.dates = [];
-			/*angular.forEach(data, function(obj, index){
-				if(parseInt(obj.value)>0){
-					var val=1;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-				}
-				else{
-					var val=0;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-					
-				}
-				
-			
-			});*/
-		
 	});
-		
-	 
 	}
  
  $scope.urlobj={};
@@ -4257,9 +4037,7 @@ angular.module('newApp')
 	 console.log(">>>>>>>>");
 	 var startDate =$rootScope.startDateFilter;
 		var endDate =$rootScope.endDateFilter;
-		console.log(endDate);
-		console.log(startDate);
-		console.log(title);
+		
 		
 		$scope.urlobj.startDate=startDate;
 		$scope.urlobj.endDate=endDate;
@@ -4272,29 +4050,10 @@ angular.module('newApp')
 			$scope.flagForChart=1;
 			$scope.flagForChart1 = false;
 			createChart(data);
-			//$('#functional-chart').css('height', '500px');
-			//$('#functional-chart').css('width','500px');
+			
 			$scope.value = [];
 			$scope.dates = [];
-			/*angular.forEach(data, function(obj, index){
-				if(parseInt(obj.value)>0){
-					var val=1;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-				}
-				else{
-					var val=0;
-					$scope.value.push(val);
-					$scope.dates.push(obj.chartDate);
-					
-				}
-				
-			
-			});*/
-		
 	});
-		
-	 
 	}
 
  
@@ -5642,9 +5401,7 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
@@ -5677,9 +5434,7 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
@@ -5708,9 +5463,7 @@ angular.module('newApp')
 			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;
-				console.log(endDate);
-				console.log(startDate);
-				console.log(title);
+				
 				
 				$scope.urlobj.startDate=startDate;
 				$scope.urlobj.endDate=endDate;
