@@ -56,6 +56,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.net.ssl.HttpsURLConnection;
 
 import models.ActionAdd;
+import models.AddCollection;
 import models.AuthUser;
 import models.AutoPortal;
 import models.Blog;
@@ -71,9 +72,10 @@ import models.ClickyPagesActionList;
 import models.ClickyPagesList;
 import models.ClickyPlatformBrowser;
 import models.ClickyPlatformHardware;
-import models.ClickyPlatformOperatingSystem;
 import models.ClickyPlatformScreen;
+import models.ClickyPlatformOperatingSystem;
 import models.ClickySearchesEngine;
+import models.ClickySearchesKeyword;
 import models.ClickySearchesNewest;
 import models.ClickySearchesRanking;
 import models.ClickySearchesRecent;
@@ -89,6 +91,7 @@ import models.Contacts;
 import models.CoverImage;
 import models.CreateNewForm;
 import models.CustomerPdf;
+import models.CustomizationCrm;
 import models.CustomizationDataValue;
 import models.CustomizationInventory;
 import models.Domain;
@@ -103,6 +106,7 @@ import models.InternalPdf;
 import models.LeadType;
 import models.LeadsDateWise;
 import models.Location;
+import models.MailchimpSchedular;
 import models.MarketingAcounts;
 import models.MyProfile;
 import models.NewFormWebsite;
@@ -157,6 +161,9 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -172,10 +179,12 @@ import play.mvc.Result;
 import scheduler.NewsLetter;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import viewmodel.AddCollectionVM;
 import viewmodel.AssignToVM;
 import viewmodel.AudioVM;
 import viewmodel.AutoPortalVM;
 import viewmodel.BarChartVM;
+import viewmodel.BlogVM;
 import viewmodel.CampaignsVMs;
 import viewmodel.ClickyContentVM;
 import viewmodel.ClickyPagesVM;
@@ -189,6 +198,7 @@ import viewmodel.HeardAboutUsVm;
 import viewmodel.HoursOperation;
 import viewmodel.ImageVM;
 import viewmodel.InfoCountVM;
+import viewmodel.InventoryVM;
 import viewmodel.KeyValueDataVM;
 import viewmodel.LeadDateWiseVM;
 import viewmodel.LeadTypeVM;
@@ -203,6 +213,7 @@ import viewmodel.PinVM;
 import viewmodel.PlanScheduleVM;
 import viewmodel.PriceChangeVM;
 import viewmodel.PriceFormatDate;
+import viewmodel.RegisterVM;
 import viewmodel.RequestInfoVM;
 import viewmodel.SalepeopleMonthPlanVM;
 import viewmodel.ScheduleTestVM;
@@ -246,6 +257,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.oauth2.Oauth2;
@@ -273,6 +285,8 @@ import com.mnt.dataone.ResponseData;
 import com.mnt.dataone.Specification;
 import com.mnt.dataone.Specification_;
 import com.mnt.dataone.Value;
+
+import controllers.MailchipControllers.MailIntegrationServices;
 
 public class Application extends Controller {
   
@@ -26116,7 +26130,7 @@ private static void cancelTestDriveMail(Map map) {
              String newDate=format.format(beforeStart);
              System.out.print(newDate + " newDate ");
      	   List <ClickyContentMedia> list=ClickyContentMedia.getAll(d1, d2) ;
-     	  Map<String, String> mapOffline = new HashMap<String, String>();
+     	   Map<String, String> mapOffline = new HashMap<String, String>();
         	 String uniqueurl = null;
          	
 	            for(ClickyContentMedia lis:list){
@@ -26167,6 +26181,7 @@ private static void cancelTestDriveMail(Map map) {
           	}	
 		
 	}
+	            
 	            for(ClickyPagesVM vm:clickyList) {
    	   	    	  double value = 0;
    	   	    	 for(ClickyContentMedia lis:list){
@@ -28781,12 +28796,21 @@ private static void cancelTestDriveMail(Map map) {
              System.out.print(newDate + " newDate ");
               
              List <ClickySearchesSearch> list=ClickySearchesSearch.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+          	 String uniquetitle = null;
+               	
        	   	            for(ClickySearchesSearch lis:list){
        	            	ClickyPagesVM vm = new ClickyPagesVM();
+       	            	
+       	               	String langValue = mapOffline.get(lis.title); 
+       	             	if (langValue == null) {
+       	             		uniquetitle = lis.title;
+       	             		mapOffline.put(lis.title, lis.title);
+       	            
                  	     	   	vm.id=lis.id;
                  				vm.value=lis.value;
                  				vm.valuePercent = lis.valuePercent;
-                 				vm.title = lis.title;
+                 				vm.title = uniquetitle;
                  				vm.statsUrl =lis.statsUrl;
                  	   			vm.averageActions=lis.averageAction;
                  	   			vm.averageTime=lis.averageTime;
@@ -28817,11 +28841,28 @@ private static void cancelTestDriveMail(Map map) {
                    	   vm.averagePercent=((count1-count)/count1)*100;
                  	   				
                  	   		    clickyList.add(vm);
-                 	   			
-       	   		
-       	   	}
-     
-             
+       	             	}
+       	   	       }
+       	   	     
+ 	            for(ClickyPagesVM vm:clickyList) {
+    	   	    	  double value = 0;
+    	   	    	 for(ClickySearchesSearch lis:list){
+    	   	    		 if(vm.title.equals(lis.title)){
+    	   	    			value = value+Double.parseDouble(lis.value);
+    	   	    			vm.value = String.valueOf(value);
+    	   	    			
+    	   	    			vm.averageActions = lis.averageAction; 
+    	   	    			
+    	   	    			vm.totalTime = lis.totalTime; 
+    	   	    			
+    	   	    			vm.averageTime = lis.averageTime; 
+    	   	    			
+    	   	    			vm.bounceRate = lis.bounceRate; 
+    	   	    		
+    	   	    		 }
+    	   	    	  }
+    	   	    
+        	   }
              
              
 
@@ -29057,16 +29098,26 @@ private static void cancelTestDriveMail(Map map) {
              System.out.print(newDate + " newDate ");
               
              List <ClickySearchesRecent> list=ClickySearchesRecent.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+          	 String uniqueurl = null;
+               	
        	   	            for(ClickySearchesRecent lis:list){
        	            	ClickyPagesVM vm = new ClickyPagesVM();
+       	            	
+       	            	String langValue = mapOffline.get(lis.title); 
+       	             	if (langValue == null) {
+       	             		uniqueurl = lis.title;
+       	             		mapOffline.put(lis.title, lis.title);
+       	            
                  	     	   	vm.id=lis.id;
                  				vm.time=lis.time;
                  				vm.timePretty=lis.timePretty;
                  				vm.statsUrl = lis.statsUrl;
-                 				vm.title = lis.title;
+                 				vm.title = uniqueurl;
                  	   		    clickyList.add(vm);
        	   	}
-             
+       	   	            }   
+    	            
 
          } catch (Exception e) {
              e.printStackTrace();
@@ -29095,16 +29146,26 @@ private static void cancelTestDriveMail(Map map) {
              System.out.print(newDate + " newDate ");
               
              List <ClickySearchesNewest> list=ClickySearchesNewest.getAll(d1, d2) ;
+             Map<String, String> mapOffline = new HashMap<String, String>();
+          	 String uniqueurl = null;
+               	
        	   	            for(ClickySearchesNewest lis:list){
        	            	ClickyPagesVM vm = new ClickyPagesVM();
+       	            	
+       	            	
+       	               	String langValue = mapOffline.get(lis.title); 
+       	             	if (langValue == null) {
+       	             		uniqueurl = lis.title;
+       	             		mapOffline.put(lis.title, lis.title);
+       	            
                  	     	   	vm.id=lis.id;
                  				vm.time=lis.time;
                  				vm.timePretty=lis.timePretty;
                  				vm.statsUrl = lis.statsUrl;
-                 				vm.title = lis.title;
+                 				vm.title = uniqueurl;
                  	   		    clickyList.add(vm);
        	   	}
-             
+       	   	            }
 
          } catch (Exception e) {
              e.printStackTrace();

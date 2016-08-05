@@ -1037,7 +1037,7 @@ angular.module('newApp')
 								            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.newValuePrecentage.toFixed(2)}}%)</span></div>',
 								             },
 								             {name:'statsUrl', displayName:'', width:'20%',
-								            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+								            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 								             },
 								             {name:'Per', displayName:'', width:'10%',		
 								            	 cellTemplate:'<div  style="margin-left:47px;"><span title="{{row.entity.secondCount}}" ng-click="grid.appScope.showEngagementActionChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -1116,7 +1116,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div  ><span > {{row.entity.newValuePrecentage.toFixed(2)}}% </span></div>',
 									            	 },
 									             {name:'stats_url', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'url', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEngagementTimeChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -1180,7 +1180,7 @@ angular.module('newApp')
 									             {name: 'totTime', displayName: 'Total Time', width:'15%'},
 									             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
 									             {name:'stats_url', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'Percent', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showTrafficScouresChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -1212,7 +1212,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'stats_url', displayName:'', width:'30%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									            
 									         ]
@@ -2138,6 +2138,8 @@ angular.module('newApp')
 					
 					 console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 					angular.forEach($scope.gridOptions.data, function(value, key) {
 						
 						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -2198,7 +2200,8 @@ angular.module('newApp')
 						$scope.gridOptions.data = data;
 					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
-					
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 					angular.forEach($scope.gridOptions.data, function(value, key) {
 						
 						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -2250,7 +2253,8 @@ angular.module('newApp')
 					console.log(data);	
 					$scope.gridOptions.data = data;
 					$scope.visitiorList = data;
-					
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 					angular.forEach($scope.gridOptions.data, function(value, key) {
 						
 						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -2284,7 +2288,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'20%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
 										             {name:'percentage', displayName:'', width:'10%',		
 										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showExitChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -2301,7 +2305,8 @@ angular.module('newApp')
 				console.log($scope.gridOptions.data);
 				console.log("fghjhhhhhhhhhhhhhhhhh");
 				$scope.visitiorList = data/*[0].dates[0].items*/;
-				
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				angular.forEach($scope.gridOptions.data, function(value, key) {
 					
 					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -2335,7 +2340,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'statsUrl', displayName:'', width:'15%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'point', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showDownloadsChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -2351,7 +2356,8 @@ angular.module('newApp')
 				$scope.gridOptions.data = data/*[0].dates[0].items*/;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data/*[0].dates[0].items*/;
-				
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				angular.forEach($scope.gridOptions.data, function(value, key) {
 					
 					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -2385,7 +2391,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 									             },
 									             {name:'statsUrl', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'po', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEventChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -2402,7 +2408,8 @@ angular.module('newApp')
 			    $scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
-				
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				angular.forEach($scope.gridOptions.data, function(value, key) {
 					
 					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -2435,7 +2442,7 @@ angular.module('newApp')
 									             {name:'value', displayName:'Views', width:'10%'},
 									             {name:'valuePercent', displayName:'value_Percent', width:'10%'},
 									             {name:'statsUrl', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'poi', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showMediaChart(row.entity.url)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -2452,7 +2459,8 @@ angular.module('newApp')
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
-				
+				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				angular.forEach($scope.gridOptions.data, function(value, key) {
 					
 					value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -2486,7 +2494,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 									             },
 									             {name:'statsUrl', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'p', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showDomainsChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -3270,7 +3278,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'', width:'25%',
-										            	 cellTemplate:'<div><span> {{row.entity.value_percent}}% &nbsp;&nbsp; <img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div><span> {{row.entity.value}}% &nbsp;&nbsp; <img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										            	 						             },
 										            
 										         ]
@@ -3506,7 +3514,8 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
-			
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			angular.forEach($scope.gridOptions.data, function(value, key) {
 				
 				value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -3557,7 +3566,8 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
-			
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			angular.forEach($scope.gridOptions.data, function(value, key) {
 							
 							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -3608,7 +3618,8 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
-			
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			angular.forEach($scope.gridOptions.data, function(value, key) {
 							
 							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -3660,7 +3671,8 @@ angular.module('newApp')
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.visitiorList = data;
-			
+			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			angular.forEach($scope.gridOptions.data, function(value, key) {
 							
 							value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -4921,7 +4933,7 @@ angular.module('newApp')
 										            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.valuePercent}}%)</span></div>',
 										             },
 										             {name:'stats_url', displayName:'Rank', width:'20%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
 										            
 										         ]
@@ -4934,6 +4946,8 @@ angular.module('newApp')
 						console.log(data);
 					$scope.gridOptions.data = data;
 					$scope.visitiorList = data;
+					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
+					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 					angular.forEach($scope.gridOptions.data, function(value, key) {
 						
 						value.averageTime=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.averageTime)), 'HH:mm:ss');
@@ -4975,7 +4989,7 @@ angular.module('newApp')
 										             {name: 'totalTime', displayName: 'Total Time', width:'15%'},
 										             {name: 'bounceRate', displayName: 'Bounce Rate', width:'10%'},
 										             {name:'statsUrl', displayName:'', width:'15%',
-										            	 cellTemplate:'<div><span><img width="{{row.entity.valuePercent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+										            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 										             },
 										             {name:'url', displayName:'', width:'10%',		
 										            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showEnginesChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
@@ -5055,7 +5069,7 @@ angular.module('newApp')
 									            	 cellTemplate:'<div><span>{{row.entity.value}}&nbsp;&nbsp;&nbsp;({{row.entity.value_percent}}%)</span></div>',
 									             },
 									             {name:'stats_url', displayName:'', width:'20%',
-									            	 cellTemplate:'<div><span><img width="{{row.entity.value_percent}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
+									            	 cellTemplate:'<div><span><img width="{{row.entity.value}}" height="20" src="//con.tent.network/media/graph_bar_standard.gif"</span></div>',
 									             },
 									             {name:'chart', displayName:'', width:'10%',		
 									            	 cellTemplate:'<div  style="margin-left:47px;"><span ng-click="grid.appScope.showRankingsChart(row.entity.title)"> {{row.entity.averagePercent.toFixed(2)}}% </span></div>',
