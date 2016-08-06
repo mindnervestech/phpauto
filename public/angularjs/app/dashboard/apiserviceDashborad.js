@@ -1040,9 +1040,189 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.setTradeInStatusCancel = function(id, reasonToCancel){
+		var defer = $q.defer();
+		$http.get('/setTradeInStatusCancel/'+id+'/'+reasonToCancel).success(function(data) {
+			defer.resolve(data);
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Trad in Lead Cancelled successfully",
+			});
+		});
+		return defer.promise;
+	};
+	
+	this.getScheduleTime = function(vin, sDate){
+		var defer = $q.defer();
+		$http.get("/getScheduleTime/"+vin+'/'+sDate).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveConfirmData = function(scheduleTestData){
+		var defer = $q.defer();
+		 $http.post('/saveConfirmData',scheduleTestData).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveToDoData = function(todoData){
+		var defer = $q.defer();
+		 $http.post('/saveToDoData',todoData).success(function(data) {
+			 $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Saved successfully",
+				});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveCompleteTodoStatus = function(toDoId){
+		var defer = $q.defer();
+		$http.get('/saveCompleteTodoStatus/'+toDoId).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Status changed successfully",
+			});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveCancelTodoStatus = function(toDoId){
+		var defer = $q.defer();
+		$http.get('/saveCancelTodoStatus/'+toDoId).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Status changed successfully",
+			});
+			
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getWeekChartData = function(userId){
+		var defer = $q.defer();
+		$http.get('/getWeekChartData/'+userId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getMonthChartData = function(userId){
+		var defer = $q.defer();
+		$http.get('/getMonthChartData/'+userId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getThreeMonthChartData = function(userId){
+		var defer = $q.defer();
+		$http.get('/getThreeMonthChartData/'+userId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getSixMonthChartData = function(userId){
+		var defer = $q.defer();
+		$http.get('/getSixMonthChartData/'+userId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getYearChartData = function(userId){
+		var defer = $q.defer();
+		$http.get('/getYearChartData/'+userId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getRangeChartData = function(userId, startDate, endDate){
+		var defer = $q.defer();
+		$http.get('/getRangeChartData/'+userId+'/'+startDate+'/'+endDate).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getPerformanceOfUser = function(topPerformers, worstPerformers, weekPerformance, monthPerformance, yearPerformance, allTimePerformance, salesPersonUser, locationValue, startD, endD){
+		var defer = $q.defer();
+		$http.get('/getPerformanceOfUser/'+topPerformers+'/'+worstPerformers+'/'+weekPerformance+'/'+monthPerformance+'/'+yearPerformance+"/"+allTimePerformance+'/'+salesPersonUser+'/'+locationValue+'/'+startD+'/'+endD).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getAllAction = function(){
+		var defer = $q.defer();
+		$http.get('/getAllAction').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveAction = function(actionValue){
+		var defer = $q.defer();
+		$http.get('/saveAction/'+actionValue).success(function(data) {
+			$.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Action saved successfully",
+				});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveNoteOfUser = function(userNoteId, typeOfNote, userNote, action){
+		var defer = $q.defer();
+		$http.get('/saveNoteOfUser/'+userNoteId+'/'+typeOfNote+'/'+userNote+'/'+action).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Note saved successfully",
+			});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveTestDrive = function(testDriveData){
+		var defer = $q.defer();
+		$http.post('/saveTestDrive',testDriveData).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getscheduletest = function(){
+		var defer = $q.defer();
+		$http.get('/getscheduletest').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 	
 	
-	
+	this.deleteAppointById = function(id, typeOfLead, resone){
+		var defer = $q.defer();
+		$http.get('/deleteAppointById/'+id+'/'+typeOfLead+'/'+resone).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
 	
 	
 })
