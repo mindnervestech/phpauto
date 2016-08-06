@@ -1,8 +1,9 @@
 angular.module('newApp')
-.controller('contactUsInfoCtrl', ['$scope','$http','$location','$filter','$interval', function ($scope,$http,$location,$filter,$interval) {
+.controller('contactUsInfoCtrl', ['$scope','$http','$location','$filter','$interval','apiserviceMoreInfo', function ($scope,$http,$location,$filter,$interval,apiserviceMoreInfo) {
 	
 	$scope.leadList = [];
-	$http.get('/getSelectedLeadType').success(function(response) {
+	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
+		
 		console.log(response);
 		
 		angular.forEach(response, function(value, key) {
@@ -89,9 +90,9 @@ angular.module('newApp')
 		        });
 	   		
   		};
- 		 
-	  $http.get('/getAllContactInfo')
-			.success(function(data) {
+  		
+  		apiserviceMoreInfo.getAllContactInfo().then(function(data){ 
+	 
 				console.log(data);
 				
 			$scope.gridOptions.data = data;
@@ -118,30 +119,29 @@ angular.module('newApp')
 	  
 	  
 	  $scope.getAllRequestInfo = function() {
-		  $http.get('/getAllContactInfo')
-			.success(function(data) {
-			$scope.gridOptions.data = data;
-			$scope.requsetMoreList = data;
-		});
+		
+		  apiserviceMoreInfo.getAllContactInfo().then(function(data){
+			    $scope.gridOptions.data = data;
+				$scope.requsetMoreList = data;
+		  });
 	  
 	  }
 	  
-	  var promo =  $interval(function(){
-			  $http.get('/getAllContactInfo')
-				.success(function(data) {
+	  	  var promo =  $interval(function(){
+		  apiserviceMoreInfo.getAllContactInfo().then(function(data){
+			  
 				$scope.gridOptions.data = data;
 				$scope.requsetMoreList = data;
 			});
 	  },60000);
 	  
 	  $scope.premiumFlagForSale = 0;
-  $scope.setAsRead = function(flag,id) {
+	  $scope.setAsRead = function(flag,id) {
+	  apiserviceMoreInfo.requestInfoMarkRead(flag,id).then(function(data){
 	  
-	  $http.get('/requestInfoMarkRead/'+flag+'/'+id)
-		.success(function(data) {
 			//$scope.gridOptions.data = data;
-			$http.get('/getAllContactInfo')
-			.success(function(data) {
+		  apiserviceMoreInfo.getAllContactInfo().then(function(data){
+			
 				console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.requsetMoreList = data;
