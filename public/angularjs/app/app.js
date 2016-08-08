@@ -38,6 +38,8 @@ var MakeApp = angular
     'app.apiserviceDashborad',
     'app.apiserviceCrm',
     'app.apiserviceMoreInfo',
+    'app.apiserviceViewInventory',
+    'app.apiserviceViewClient',
    // 'textAngular',
     'nvd3',
     'formly',

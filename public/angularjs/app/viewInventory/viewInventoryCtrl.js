@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('viewInventoryCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
+.controller('viewInventoryCtrl', ['$scope','$http','$location','$filter','apiserviceViewInventory', function ($scope,$http,$location,$filter,apiserviceViewInventory) {
 	$scope.tempDate = new Date().getTime();
 	$scope.type = "All";
 	$scope.vType;
@@ -138,13 +138,12 @@ angular.module('newApp')
     				
     		    			 $scope.newlyArrivedTab = function() {
     		    				 $scope.gridOptions.data = [];
-    		    				    		    				
-    		    				 $http.get('/findLocation')
-		    						.success(function(data) {
+    		    				 apiserviceViewInventory.findLocation().then(function(data){   		    				
+    		    				 
 		    							console.log(data);
 		    							$scope.userLocationId = data;
-		    	    		    				 $http.get('/getAllInventory/'+$scope.userLocationId)
-		    	    		    			 		.success(function(data) {
+		    							apiserviceViewInventory.getAllInventory($scope.userLocationId).then(function(data){
+		    	    		    				 
 		    	    		    			 			console.log(data);
 		    	    		    			 			for(var i=0;i<data.length;i++) {
 		    	    		    			 				data[i].userRole = $scope.userRole;
