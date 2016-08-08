@@ -1,14 +1,13 @@
 angular.module('newApp')
-.controller('otherLeadCtrl', ['$scope','$http','$location','$filter','$interval','$routeParams', function ($scope,$http,$location,$filter,$interval,$routeParams) {
+.controller('otherLeadCtrl', ['$scope','$http','$location','$filter','$interval','$routeParams','apiserviceMoreInfo', function ($scope,$http,$location,$filter,$interval,$routeParams,apiserviceMoreInfo) {
 	
 	console.log("&&");
 	console.log($routeParams.leadId);
 	$scope.leadId = $routeParams.leadId;
 	
 	$scope.leadList = [];
-	$http.get('/getSelectedLeadType').success(function(response) {
+	apiserviceMoreInfo.getSelectedLeadType().then(function(response){
 		console.log(response);
-		
 		angular.forEach(response, function(value, key) {
 			if(value.id > 3){
 				$scope.leadList.push(value); 
@@ -114,13 +113,10 @@ angular.module('newApp')
 		        });
 	   		
   		};
- 		 
-	  $http.get('/getAllOtherLeadInfo/'+$scope.leadId)
-			.success(function(data) {
-				console.log(data);
-				
+  	  apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){ 
+  		  console.log(data);
 			//$scope.gridOptions.data = data;
-				$scope.editgirdData(data);
+			$scope.editgirdData(data);
 			$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'status');
 			$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 			
@@ -185,33 +181,27 @@ angular.module('newApp')
 		  }
 	  
 	  $scope.getAllRequestInfo = function() {
-		  $http.get('/getAllOtherLeadInfo/'+$scope.leadId)
-			.success(function(data) {
-			//$scope.gridOptions.data = data;
-				$scope.editgirdData(data);
+		  apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
+			$scope.editgirdData(data);
 			$scope.requsetMoreList = data;
 		});
 	  
 	  }
 	  
 	  var promo =  $interval(function(){
-			  $http.get('/getAllOtherLeadInfo/'+$scope.leadId)
-				.success(function(data) {
-				//$scope.gridOptions.data = data;
-					$scope.editgirdData(data);
+		  apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
+			  	$scope.editgirdData(data);
 				$scope.requsetMoreList = data;
 			});
 	  },60000);
 	  
 	  $scope.premiumFlagForSale = 0;
   $scope.setAsRead = function(flag,id) {
+	  apiserviceMoreInfo.requestInfoMarkRead(flag,id).then(function(data){
 	  
-	  $http.get('/requestInfoMarkRead/'+flag+'/'+id)
-		.success(function(data) {
 			//$scope.gridOptions.data = data;
-			$http.get('/getAllOtherLeadInfo/'+$scope.leadId)
-			.success(function(data) {
-				console.log(data);
+		  apiserviceMoreInfo.getAllOtherLeadInfo($scope.leadId).then(function(data){
+			console.log(data);
 			$scope.gridOptions.data = data;
 			$scope.requsetMoreList = data;
 			if(data.length > 0){
