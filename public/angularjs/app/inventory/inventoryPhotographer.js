@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('inventoryPhotographer', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
+.controller('inventoryPhotographer', ['$scope','$http','$location','$filter','apiserviceInventory', function ($scope,$http,$location,$filter,apiserviceInventory) {
 	$scope.tempDate = new Date().getTime();
 	$scope.type = "All";
 	$scope.vType;
@@ -140,17 +140,16 @@ angular.module('newApp')
     		    			 $scope.newlyArrivedTab = function(portalType) {
     		    				 $scope.gridOptions.data = [];
     		    				 console.log(portalType);
-    		    				    		    				
-    		    				 $http.get('/findLocation')
-		    						.success(function(data) {
+    		    				 apiserviceInventory.findLocation().then(function(data){   		    				
+    		    				 
 		    							console.log(data);
 		    							$scope.userLocationId = data;
 		    							if(portalType == "AutoDealer"){
     		    				 if($scope.userType == "Photographer"){
     		    					 console.log($scope.userLocationId);
-    		    				 $http.get('http://www.glider-autos.com/getAllVehicles/'+$scope.userLocationId)
-    		    				 //$http.post('http://45.33.50.143:9889/uploadImageFile',$scope.user)
-    		    			 		.success(function(data) {
+    		    					 
+    		    				 apiserviceInventory.getAllVehicles($scope.userLocationId).then(function(data){
+    		    				 
     		    			 			console.log(data);
     		    			 			/*for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -211,8 +210,8 @@ angular.module('newApp')
     		    				 }
 		    							 }else if(portalType == "MavenFurniture"){
 		    								 if($scope.userType == "Photographer"){
-		    	    		    				 $http.get('http://www.glider-autos.com:9889/getAllInventory/'+$scope.userLocationId)
-		    	    		    			 		.success(function(data) {
+		    									 apiserviceInventory.getAllInventory($scope.userLocationId).then(function(data){
+		    	    		    				 
 		    	    		    			 			console.log(data);
 		    	    		    			 			for(var i=0;i<data.length;i++) {
 		    	    		    			 				data[i].userRole = $scope.userRole;
@@ -253,8 +252,8 @@ angular.module('newApp')
    $scope.vehiClesList = [];
   
    $scope.viewInit = function() {
+	   apiserviceInventory.getTimeTableOfPhotos().then(function(data){
 	   
-	   $http.get('/getTimeTableOfPhotos').success(function(data) {
 				$scope.portalNameList = data.postalNameList;
 				var portal = 0;
 				   angular.forEach($scope.portalNameList, function(obj, index){

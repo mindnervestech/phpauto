@@ -9,7 +9,7 @@
  */
 
 angular.module('newApp')
-  .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$routeParams',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder,$routeParams) {
+  .controller('customizationFormCtrl', ['$scope', 'dashboardService', 'pluginsService', '$http','$compile','$interval','$filter','$location','$timeout','$route','$q','$upload','$builder','$routeParams','apiserviceCustomizationForm',function ($scope, dashboardService, pluginsService,$http,$compile,$interval,$filter,$location,$timeout,$route,$q,$upload,$builder,$routeParams,apiserviceCustomizationForm) {
 
 	  	$scope.showSaveButton = $routeParams.pageType;
 	  	$scope.formType = $routeParams.formType;
@@ -21,7 +21,8 @@ angular.module('newApp')
 	  }
 	  
 		   $scope.initFunction = function(){
-			   $http.get('/getCustomizationform/'+$routeParams.formType).success(function(response) {
+			   apiserviceCustomizationForm.getCustomizationform($routeParams.formType).then(function(response){
+			   
 					console.log(response);
 
 					if(response == 0){
@@ -35,9 +36,8 @@ angular.module('newApp')
 					}
 					
 			});
-			   $http.get('/getAllSites')
-		 		.success(function(data) {
-		 			$scope.siteList = data;
+			   apiserviceCustomizationForm.getAllSites().then(function(data){
+				   $scope.siteList = data;
 		 		});
 		   }
 	  
@@ -103,13 +103,8 @@ angular.module('newApp')
 			 $scope.editform.jsonform = $builder.forms['default'];
 			 
 			 console.log($scope.editform);
-			  $http.post('/getLeadCrateForm', $scope.editform)
-				 .success(function(data) {
-					 $.pnotify({
-	    				    title: "Success",
-	    				    type:'success',
-	    				    text: "Form Created successfully",
-	    				});
+			 apiserviceCustomizationForm.getLeadCrateForm($scope.editform).then(function(data){
+			  
 					});
 		  }     
 		  $scope.editLeadInfo = function(title){
@@ -123,14 +118,9 @@ angular.module('newApp')
 			  delete $scope.setjson.showFild;
 			  delete $scope.setjson.jsonData;
 			  $scope.setjson.formType = $routeParams.formType;
-			  $http.post('/getLeadCrateFormTitle', $scope.setjson)
-				 .success(function(data) {
-					 $.pnotify({
-	    				    title: "Success",
-	    				    type:'success',
-	    				    text: "Title Edit successfully",
-	    				});
-					 $scope.initFunction();
+			  apiserviceCustomizationForm.getLeadCrateFormTitle($scope.setjson).then(function(data){
+
+				  		$scope.initFunction();
 						$('#edititle').modal('hide');
 					});
 			  

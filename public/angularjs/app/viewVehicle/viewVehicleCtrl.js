@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('ViewVehiclesCtrl', ['$scope','$http','$location','$filter', function ($scope,$http,$location,$filter) {
+.controller('ViewVehiclesCtrl', ['$scope','$http','$location','$filter','apiserviceViewVehicle', function ($scope,$http,$location,$filter,apiserviceViewVehicle) {
 	$scope.tempDate = new Date().getTime();
 	$scope.type = "All";
 	$scope.vType;
@@ -68,8 +68,8 @@ angular.module('newApp')
     			 $scope.$apply();
     				 var str = $scope.rowData.price.split(" ");
     				 $scope.rowData.price = str[1];
-    			 $http.post('/updateVehicle',$scope.rowData)
-    			 .success(function(data) {
+    				 apiserviceViewVehicle.updateVehicle($scope.rowData).then(function(data){
+    			 
     				 	$scope.rowData.price = "$ "+$scope.rowData.price;
     				});
     			 });
@@ -135,8 +135,8 @@ angular.module('newApp')
     		    			 $scope.$apply();
     		    				 var str = $scope.rowData.price.split(" ");
     		    				 $scope.rowData.price = str[1];
-    		    			 $http.post('/updateVehicle',$scope.rowData)
-    		    			 .success(function(data) {
+    		    				 apiserviceViewVehicle.updateVehicle($scope.rowData).then(function(data){
+    		    			 
     		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
     		    				
     		    				});
@@ -201,8 +201,8 @@ angular.module('newApp')
     		    		    			 $scope.$apply();
     		    		    				 var str = $scope.rowData.price.split(" ");
     		    		    				 $scope.rowData.price = str[1];
-    		    		    			 $http.post('/updateVehicle',$scope.rowData)
-    		    		    			 .success(function(data) {
+    		    		    				 apiserviceViewVehicle.updateVehicle($scope.rowData).then(function(data){
+    		    		    			 
     		    		    				 	$scope.rowData.price = "$ "+$scope.rowData.price;
     		    		    				});
     		    		    			 });
@@ -221,24 +221,24 @@ angular.module('newApp')
     					 var str = $scope.rowData.price.split(" ");
         				 $scope.rowData.price = str[1];
     				 }
-    				 $http.post('/updateVehicle',$scope.rowData)
-        			 .success(function(data) {
+    				 apiserviceViewVehicle.updateVehicle($scope.rowData).then(function(data){
+    				 
         					$scope.rowData.price = "$ "+$scope.rowData.price;
         				});
     			 };
     			 
     			 
     			 $scope.historyVehicle = function(row){
-    				 $http.get('/getVehicleHistory/'+row.entity.vin)
-    					.success(function(data) {
+    				 apiserviceViewVehicle.getVehicleHistory(row.entity.vin).then(function(data){
+    				 
     						$scope.vehicleHistory = data;
     						$('#vehicleHistory').click();
     					});
     			 };
     			 
     			 $scope.hideVehicle = function(row){
-    				 $http.get('/getGoTodraft/'+row.entity.id)
- 						.success(function(data) {
+    				 apiserviceViewVehicle.getGoTodraft(row.entity.id).then(function(data){
+    				 
  							$scope.hideText = "Vehicle has been hidden from the website and moved to Drafts list";
  							$scope.hideTitle = "Vehicle moved to drafts";
  							$scope.newlyArrivedTab();
@@ -265,8 +265,8 @@ angular.module('newApp')
     				$scope.vehicleData = function(sts){
     					if($scope.vType == 'new'){
     						 $scope.doPublic = 0;
-    						 $http.get('/getAllVehiclesByType/'+sts)
-		    			 		.success(function(data) {
+    						 apiserviceViewVehicle.getAllVehiclesByType(sts).then(function(data){
+    						 
 		    			 			for(var i=0;i<data.length;i++) {
 		    			 				data[i].price = "$ "+data[i].price;
 		    			 			}
@@ -279,8 +279,8 @@ angular.module('newApp')
     					}
     					if($scope.vType == 'sold'){
     						 $scope.doPublic = 2;
-   						 $http.get('/getAllSoldVehiclesByType/'+sts)
-		    			 		.success(function(data) {
+    						 apiserviceViewVehicle.getAllSoldVehiclesByType(sts).then(function(data){
+   						 
 		    			 			for(var i=0;i<data.length;i++) {
 		    			 				data[i].price = "$ "+data[i].price;
 		    			 			}
@@ -302,14 +302,13 @@ angular.module('newApp')
     		    				 $scope.gridOptions.data = [];
     		    				 $scope.doPublic = 0;
     		    				 console.log($scope.userType);
-    		    				 $http.get('/findLocation')
-		    						.success(function(data) {
+    		    				 apiserviceViewVehicle.findLocation().then(function(data){
+    		    				 
 		    							console.log(data);
 		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
-    		    				 $http.get('http://www.glider-autos.com/getAllVehicles/'+$scope.userLocationId)
-    		    				 //$http.post('http://45.33.50.143:9889/uploadImageFile',$scope.user)
-    		    			 		.success(function(data) {
+    		    					 apiserviceViewVehicle.getAllVehiclesImage($scope.userLocationId).then(function(data){
+    		    				
     		    			 			console.log(data);
     		    			 			/*for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
@@ -329,17 +328,14 @@ angular.module('newApp')
     		    			 		});
     		    				 }
     		    				 else{
-    		    					 $http.get('/getAllVehicles/'+$scope.userLocationId)
-     		    			 		.success(function(data) {
+    		    					 apiserviceViewVehicle.getAllVehicles($scope.userLocationId).then(function(data){
+    		    					 
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
      		    			 			}
      		    			 			for(var i=0;i<data.length;i++) {
-     		    			 				
      		    			 				data[i].userRole=$scope.userRole;
-     		    			 				
-     		    							}
-     		    			 			
+     		    			 			}
      		    			 			$scope.vType = "new";
      		    			 			$scope.vehiClesList = data;
      		    			 			$scope.gridOptions.data = data;
@@ -356,17 +352,15 @@ angular.module('newApp')
     		    				 $scope.ch = false;
     		    				 $scope.doPublic = 2;
     		    				 $scope.flagForUser = true;
-    		    				 $http.get('/getAllSoldVehicles')
-    		    			 		.success(function(data) {
+    		    				 apiserviceViewVehicle.getAllSoldVehicles().then(function(data){
+    		    				 
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
 		    			 				for(var i=0;i<data.length;i++) {
-		    			 				
-		    			 				data[i].userRole=$scope.userRole;
-		    			 				
-		    							}
-                               $scope.vType = "sold";
+		    			 					data[i].userRole=$scope.userRole;
+		    			 				}
+		    			 				$scope.vType = "sold";
     		    			 			$scope.type = "All";
     		    			 			$scope.vehiClesList = data;
     		    			 			$scope.gridOptions2.data = data;
@@ -377,14 +371,14 @@ angular.module('newApp')
     		    			 $scope.draftTab = function() {
     		    				 $scope.flagForUser = true;
     		    				 $scope.doPublic = 1;
-    		    				 $http.get('/findLocation')
-		    						.success(function(data) {
+    		    				 apiserviceViewVehicle.findLocation().then(function(data){
+    		    				 
 		    							console.log(data);
 		    							$scope.userLocationId = data;
     		    				 if($scope.userType == "Photographer"){
     		    					 console.log($scope.userLocationId);
-    		    					 $http.get('http://www.glider-autos.com/getAllDraftVehicles/'+$scope.userLocationId)
-    		    			 		.success(function(data) {
+    		    					 apiserviceViewVehicle.getAllDraftVehiclesdata($scope.userLocationId).then(function(data){
+    		    					 
     		    			 			for(var i=0;i<data.length;i++) {
     		    			 				data[i].price = "$ "+data[i].price;
     		    			 			}
@@ -405,16 +399,14 @@ angular.module('newApp')
     		    			 		});
     		    				 }
     		    				 else{
-    		    					 $http.get('/getAllDraftVehicles/'+$scope.userLocationId)
-     		    			 		.success(function(data) {
+    		    					 apiserviceViewVehicle.getAllDraftVehicles($scope.userLocationId).then(function(data){
+    		    					 
      		    			 			for(var i=0;i<data.length;i++) {
      		    			 				data[i].price = "$ "+data[i].price;
      		    			 			}
      		    			 			for(var i=0;i<data.length;i++) {
-     		    			 				
      		    			 				data[i].userRole=$scope.userRole;
-     		    			 				
-     		    							}
+     		    			 			}
      		    			 			$scope.doPublic = 1;
      		    			 			$scope.vType = "sold";
      		    			 			$scope.type = "All";
@@ -448,8 +440,9 @@ angular.module('newApp')
    }
    
    $scope.deleteVehicleRow = function() {
-	   $http.get('/deleteVehicleById/'+$scope.rowDataVal.entity.id)
-		.success(function(data) {
+	   
+	   apiserviceViewVehicle.deleteVehicleById($scope.rowDataVal.entity.id).then(function(data){
+	   
 			if($scope.rowDataVal.entity.status == 'Newly Arrived') {
 				 $scope.viewVehiclesInit();
 			} 
@@ -462,15 +455,12 @@ angular.module('newApp')
    $scope.soldContact = {};
    
    $scope.updateVehicleStatusPublic = function(row){
-	   $http.get('/addPublicCar/'+row.entity.id).success(function(data){
+	   apiserviceViewVehicle.addPublicCar(row.entity.id).then(function(data){
+	   
 		   	$scope.hideText = "Vehicle has been published";
 		   	$scope.hideTitle = "Vehicle has been published";
 			$('#hideVehicle').click();
-			   $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Vehicle published",
-				});
+			   
 			   $scope.draftTab();
 	   });
    }
@@ -486,7 +476,9 @@ angular.module('newApp')
 		  
 		  }
 	   $scope.addtoinventory = function() {
-		   $http.get('/addSameNewCar/'+row.entity.id).success(function(data){
+		   
+		   apiserviceViewVehicle.addSameNewCar(row.entity.id).then(function(data){
+		   
 			   if(data=='success'){
 				   $scope.soldContact.statusVal = "Newly Arrived";
 				   $.pnotify({
@@ -517,8 +509,8 @@ angular.module('newApp')
    }
    
 	$scope.saveVehicalStatus = function() {
-		$http.post('/setVehicleStatus',$scope.soldContact)
-		.success(function(data) {
+		apiserviceViewVehicle.setVehicleStatus($scope.soldContact).then(function(data){
+		
 			$('#vehicalStatusModal').modal('hide');
 			if($scope.soldContact.statusVal == 'Newly Arrived') {
 				 $scope.viewVehiclesInit();
@@ -559,8 +551,8 @@ angular.module('newApp')
    $scope.update = function(tableData){
        $scope.editingData[tableData.id] = false;
        $scope.viewField = false;
-       $http.post('/updateVehicle',tableData)
-		.success(function(data) {
+       apiserviceViewVehicle.updateVehicle(tableData).then(function(data){
+      
 		});
    };
    
@@ -570,20 +562,20 @@ angular.module('newApp')
    }
    
    $scope.exportDataAsCSV = function() {
-	   $http.get('/exportDataAsCSV')
-		.success(function(data) {
+	   apiserviceViewVehicle.exportDataAsCSV().then(function(data){
+	   
 		});
    }
    
    $scope.exportCarfaxCSV = function() {
-	   $http.get('/exportCarfaxCSV')
-		.success(function(data) {
+	   apiserviceViewVehicle.exportCarfaxCSV().then(function(data){
+	   
 		});
    }
    
    $scope.exportCarGurusCSV = function() {
-	   $http.get('/exportCarGurusCSV')
-		.success(function(data) {
+	   apiserviceViewVehicle.exportCarGurusCSV().then(function(data){
+	   
 		});
    }
    
@@ -610,8 +602,8 @@ angular.module('newApp')
 	$scope.allCollectionData = function(){
 		$scope.flagForUser = false;
 		 $scope.doPublic = 3;
-		$http.get('/getAllCollectionData').success(function(data){
-			console.log("collection data");
+		 apiserviceViewVehicle.getAllCollectionData().then(function(data){
+		
 			console.log(data);
 			$scope.leadtypeObjList = data;
 			$scope.gridOptions3.data = data;
@@ -651,7 +643,8 @@ angular.module('newApp')
 			$scope.collections.id = 0;
 		}
 		console.log($scope.collections);
-		$http.post("/addNewCollection",$scope.collections).success(function(data){
+		apiserviceViewVehicle.addNewCollection($scope.collections).then(function(data){
+		
 				$scope.form = data;
 			 console.log("::::::success")
 				
@@ -680,15 +673,9 @@ angular.module('newApp')
 	$scope.deleteCollection = function(){
 		 console.log("in deletend functio");
 		 console.log($scope.collections);
-		 $http.get('/deleteCollectionData/'+$scope.collections)
-			.success(function(data) {
+		 apiserviceViewVehicle.deleteCollectionData($scope.collections).then(function(data){
+		
 				 console.log("out deletend functio");
-				 $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Remove User",
-					});
-				 
 				 $scope.allCollectionData();
 				 
 				 

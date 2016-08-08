@@ -135,7 +135,7 @@ angular.module('app.apiserviceMoreInfo', [])
 	this.saveConfirmData=function(scheduleTestData){
 		var defer = $q.defer();
 		
-		$http.post('/saveConfirmData/'+scheduleTestData).success(function(data) {
+		$http.post('/saveConfirmData',scheduleTestData).success(function(data) {
 			$.pnotify({
 			    title: "Success",
 			    type:'success',

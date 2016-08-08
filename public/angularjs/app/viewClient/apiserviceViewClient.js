@@ -36,7 +36,7 @@ angular.module('app.apiserviceViewClient', [])
 	this.updateClientUser=function(register){
 		var defer = $q.defer();
 		
-		$http.post('/updateClientUser/'+register).success(function(data) {
+		$http.post('/updateClientUser',register).success(function(data) {
 			$.pnotify({
 			    title: "Success",
 			    type:'success',
