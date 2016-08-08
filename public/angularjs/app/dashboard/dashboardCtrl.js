@@ -7081,7 +7081,8 @@ angular.module('newApp')
 			   
 			   $('#cnfDate').on('changeDate', function(e) {
 				   var sDate = $('#cnfDate').val();
-				   $http.get("/getScheduleTime/"+$scope.scheduleTestData.vin+'/'+sDate).success(function(data){
+				   
+				   apiserviceDashborad.getScheduleTime($scope.scheduleTestData.vin, sDate).then(function(data){
 					   $scope.cnTimeList = data;
 					   $scope.timeList = [];
 					   $.each(data, function(i, el){
@@ -7233,8 +7234,7 @@ angular.module('newApp')
 			   if(locationId != 0){
 				   $scope.locationValue = locationId;
 			   }
-   			$http.get('/getSalesUserOnly/'+$scope.locationValue)
-	    		.success(function(data){
+			   apiserviceDashborad.getSalesUserOnly($scope.locationValue).then(function(data){
 	    			$scope.salesPersonPerf = data;
 	    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
@@ -7259,8 +7259,7 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.schPlan.scheduleBy = 'location';
-			   $http.get("/getLocationPlan/"+locationId).success(function(data){
-				   
+			   apiserviceDashborad.getLocationPlan(locationId).then(function(data){
 				   $scope.MonthTotal = {};
 				   	$scope.totalLocationPlanData = data;
 				   
@@ -7323,8 +7322,7 @@ angular.module('newApp')
 		   
 		   $scope.planForsalePerson = function(){
 			   $('#salepersonPlanModel').modal();
-			   $http.get('/getPlanByMonthAndUser/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
-				.success(function(data) {
+			   apiserviceDashborad.getPlanByMonthAndUser($scope.userKey, $scope.parLocationData.monthCurr).then(function(data){
 					$scope.saleMonthTotalPer=data;
 					$scope.monthFlagForSale=0;
 				});
@@ -7344,8 +7342,7 @@ angular.module('newApp')
 		   
 		   $scope. planForLocationManager = function(){
 			   $('#locationPlanModel').modal();
-			   $http.get('/getPlanByMonthAndUserForLocation/'+$scope.userKey+'/'+$scope.parLocationData.monthCurr)
-				.success(function(data) {
+			   apiserviceDashborad.getPlanByMonthAndUserForLocation($scope.userKey, $scope.parLocationData.monthCurr).then(function(data){
 					$scope.locationTotalPer=data;
 				});
 		   }
@@ -7358,8 +7355,7 @@ angular.module('newApp')
 			   value = $scope.leadsTime.totalEarning;
 			   
 			   if(locationId != 0){
-				   $http.get('/gmLocationManager/'+locationId)
-					.success(function(data) {
+				   apiserviceDashborad.gmLocationManager(locationId).then(function(data){
 						$scope.leadsTime.userkey = data.id;
 					});
 				}else{
@@ -7367,7 +7363,7 @@ angular.module('newApp')
 				}
 			   
 			   $scope.leadsTime.month = month;
-			   $http.post("/saveLocationPlan",$scope.leadsTime).success(function(data){
+			   apiserviceDashborad.saveLocationPlan($scope.leadsTime).then(function(data){
 				   $scope.janOpen = 0;
 				   $scope.julyOpen = 0;
 				   $scope.februaryOpen = 0;
@@ -7412,40 +7408,25 @@ angular.module('newApp')
 				   locationIds = locationId;
 			   }
 			   
-			   $http.get("/saveLocationTotal/"+total+"/"+locationIds).success(function(data){
+			   apiserviceDashborad.saveLocationTotal(total, locationIds).then(function(data){
 				   $('#plan-model').modal("toggle");
-				   $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Plan Scheduled successfully",
-					});
 			   });
 		   }
 		   
 		   $scope.saveSalesTotal = function(total){
 			   $scope.userkey=$scope.userKeyforSalestotal;
 			   if(locationId != 0){
-				   $http.get('/gmLocationManager/'+locationId)
-					.success(function(data) {
-						$http.get("/saveSalesTotal/"+total+"/"+data.id).success(function(data){
+				   
+				   apiserviceDashborad.gmLocationManager(locationId).then(function(data){
+					   apiserviceDashborad.saveSalesTotal(total,data.id).then(function(data){
 							   $('#plan-model').modal("toggle");
-							   $.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Plan Scheduled successfully",
-								});
 						   });
 					});
 				   
 				   
 			   }else{
-				   $http.get("/saveSalesTotal/"+total+"/"+$scope.userkey).success(function(data){
+				   apiserviceDashborad.saveSalesTotal(total,$scope.userkey).then(function(data){
 					   $('#plan-model').modal("toggle");
-					   $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Plan Scheduled successfully",
-						});
 				   });
 			   }
 			   
@@ -7459,7 +7440,7 @@ angular.module('newApp')
 			  value = $scope.saleleadsTime.totalBrought;
 			   $scope.saleleadsTime.salesList = $scope.salesList;
 			   $scope.saleleadsTime.month = month;
-			   $http.post("/saveSalePlan",$scope.saleleadsTime).success(function(data){
+			   apiserviceDashborad.saveSalePlan($scope.saleleadsTime).then(function(data){
 				   $scope.janOpen = 0;
 				   $scope.julyOpen = 0;
 				   $scope.februaryOpen = 0;
@@ -7541,7 +7522,7 @@ angular.module('newApp')
 			   $scope.saleMonthTotal = {};
 			   $scope.salePerId = saleId;
 			   $scope.userKeyforSalestotal=saleId;
-			   $http.get("/getSaleMonthlyPlan/"+saleId).success(function(data){
+			   apiserviceDashborad.getSaleMonthlyPlan(saleId).then(function(data){
 				   $scope.totalLocationPlanData = data;
 				   var d = new Date();
 				   var n = d.getMonth()+1;
@@ -7797,8 +7778,7 @@ angular.module('newApp')
 			   if(locationId != 0){
 				   $scope.locationValue = locationId;
 			   }
-   			$http.get('/getSalesUserOnly/'+$scope.locationValue)
-	    		.success(function(data){
+			   apiserviceDashborad.getSalesUserOnly($scope.locationValue).then(function(data){
 	    			$scope.salesPersonPerf = data;
 	    			 $scope.gridOptionsValue.data = $scope.salesPersonPerf;
 	    			angular.forEach($scope.salesPersonPerf, function(value, key) {
@@ -7831,9 +7811,8 @@ angular.module('newApp')
 			   var d = new Date();
 			   var n = d.getMonth()+1;
 			   if(locationId != 0){
-				   $http.get('/gmLocationManager/'+locationId)
-					.success(function(datas) {
-						 $http.get("/getlocationsMonthlyPlan/"+datas.id).success(function(data){
+				   apiserviceDashborad.gmLocationManager(locationId).then(function(data){
+				   apiserviceDashborad.getlocationsMonthlyPlan(datas.id).then(function(data){
 							   $scope.totalLocationPlanData = data;
 							   var d = new Date();
 							   var n = d.getMonth()+1;
@@ -8015,7 +7994,7 @@ angular.module('newApp')
 					});
 				  
 			   }else{
-				   $http.get("/getlocationsMonthlyPlan/"+$scope.userKey).success(function(data){
+				   apiserviceDashborad.getlocationsMonthlyPlan($scope.userKey).then(function(data){
 					   $scope.totalLocationPlanData = data;
 					   angular.forEach(data, function(obj, index){
 						   $scope.locationTotal = parseInt($scope.locationTotal) + parseInt(obj.totalEarning);
@@ -8218,7 +8197,7 @@ angular.module('newApp')
 			  
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"january").success(function(data){
+			   apiserviceDashborad.getSalePerson("january").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8272,7 +8251,7 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"july").success(function(data){
+			   apiserviceDashborad.getSalePerson("july").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8329,7 +8308,7 @@ angular.module('newApp')
 			   
 			   
 			   $scope.salesList = [];
-				   $http.get("/getSalePerson/"+"february").success(function(data){
+			   apiserviceDashborad.getSalePerson("february").then(function(data){
 					  angular.forEach($scope.salesPersonPerf, function(obj, index){
 						  angular.forEach(data, function(obj1, index1){
 							  if(obj.id == obj1.user.id){
@@ -8385,7 +8364,7 @@ angular.module('newApp')
 			   
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"august").success(function(data){
+			   apiserviceDashborad.getSalePerson("august").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8447,7 +8426,7 @@ angular.module('newApp')
 			   
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"march").success(function(data){
+			   apiserviceDashborad.getSalePerson("march").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8502,7 +8481,7 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"september").success(function(data){
+			   apiserviceDashborad.getSalePerson("september").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8558,7 +8537,7 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"april").success(function(data){
+			   apiserviceDashborad.getSalePerson("april").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8616,7 +8595,7 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"october").success(function(data){
+			   apiserviceDashborad.getSalePerson("october").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8671,7 +8650,7 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"may").success(function(data){
+			   apiserviceDashborad.getSalePerson("may").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8726,7 +8705,7 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"november").success(function(data){
+			   apiserviceDashborad.getSalePerson("november").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8781,7 +8760,7 @@ angular.module('newApp')
 			   });
 			   
 			   $scope.salesList = [];
-			   $http.get("/getSalePerson/"+"june").success(function(data){
+			   apiserviceDashborad.getSalePerson("june").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8838,7 +8817,7 @@ angular.module('newApp')
 				   obj.isSelected = false;
 			   });
 			   
-			   $http.get("/getSalePerson/"+"december").success(function(data){
+			   apiserviceDashborad.getSalePerson("december").then(function(data){
 				  angular.forEach($scope.salesPersonPerf, function(obj, index){
 					  angular.forEach(data, function(obj1, index1){
 						  if(obj.id == obj1.user.id){
@@ -8883,7 +8862,7 @@ angular.module('newApp')
 			   $scope.nextbutton = 1;
 		   }
 		   
-		   $http.get("/getlocations").success(function(data){
+		   apiserviceDashborad.getlocations().then(function(data){
 			   $scope.locationdata = data;
 			   angular.forEach($scope.locationdata, function(obj, index){
 				   obj.isSelected = false;
@@ -8933,7 +8912,8 @@ angular.module('newApp')
 			   }
 			  
 			if($scope.planIs == "save"){
-				$http.post("/savePlan",$scope.schPlan).success(function(data){
+				
+				apiserviceDashborad.savePlan($scope.schPlan).then(function(data){
 					if(data == 1){
 						$.pnotify({
 							  title: "Error",
@@ -8952,7 +8932,7 @@ angular.module('newApp')
 					   
 				   }); 
 			}else if($scope.planIs == "update"){
-				$http.post("/updatePlan",$scope.schPlan).success(function(data){
+				apiserviceDashborad.updatePlan($scope.schPlan).then(function(data){
 					if(data == 1){
 						$.pnotify({
 							  title: "Error",
@@ -8975,11 +8955,11 @@ angular.module('newApp')
 			
 		   $scope.checkManagerLogin = function(){
 			   if(angular.equals($scope.userType,"Manager") || angular.equals($scope.userType,"Sales Person")){
-				   $http.get("/getloginuserinfo").success(function(data){
+				   apiserviceDashborad.getloginuserinfo().then(function(data){
 					  //alert(JSON.stringify(data));
 					  $scope.schmeeting.location = data.location.id;
 					  $scope.locationValueForPlan=data.location.id;
-					  $http.get("/getuser/"+$scope.schmeeting.location).success(function(data){
+					  apiserviceDashborad.getuser($scope.schmeeting.location).then(function(data){
 						   $scope.user = data;
 					   });
 				   });
@@ -9005,8 +8985,7 @@ angular.module('newApp')
 			   }
 			   
 			   if($scope.schPlan.scheduleBy == "location"){
-				   
-				   $http.get("/isValidDatecheck/"+$scope.schPlan.location+'/'+startD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+				   apiserviceDashborad.isValidDatecheck($scope.schPlan.location, startD, $scope.schPlan.scheduleBy).then(function(data){
 					   if(data == 1){
 						   if($scope.planIs != "update"){
 							   $('#cnfstartdate').val("");
@@ -9022,7 +9001,7 @@ angular.module('newApp')
 				   
 			   }
 			   if($scope.schPlan.scheduleBy == "salePerson"){
-				   $http.get("/isValidDatecheck/"+$scope.schPlan.salePerson+'/'+startD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+				   apiserviceDashborad.isValidDatecheck($scope.schPlan.salePerson, startD, $scope.schPlan.scheduleBy).then(function(data){
 						   if(data == 1){
 							   if($scope.planIs != "update"){
 								   $('#cnfstartdate').val("");
@@ -9043,8 +9022,7 @@ angular.module('newApp')
 				   $scope.schPlan.scheduleBy = "location"; 
 			   }
 			   if($scope.schPlan.scheduleBy == "location"){
-				   
-				   $http.get("/isValidDatecheck/"+$scope.schPlan.location+'/'+endD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+				   apiserviceDashborad.isValidDatecheck($scope.schPlan.location, endD, $scope.schPlan.scheduleBy).then(function(data){
 					   if(data == 1){
 						   if($scope.planIs != "update"){
 							   $('#cnfstartdate').val("");
@@ -9058,7 +9036,7 @@ angular.module('newApp')
 				   });
 			   }
 			   if($scope.schPlan.scheduleBy == "salePerson"){
-				   $http.get("/isValidDatecheck/"+$scope.schPlan.salePerson+'/'+endD+'/'+$scope.schPlan.scheduleBy).success(function(data){
+				   apiserviceDashborad.isValidDatecheck($scope.schPlan.salePerson, endD, $scope.schPlan.scheduleBy).then(function(data){
 						   if(data == 1){
 							   if($scope.planIs != "update"){
 								   $('#cnfstartdate').val("");
@@ -9082,7 +9060,7 @@ angular.module('newApp')
 			   $scope.locationList = [];
 			   if(checkAll == false){
 				   angular.forEach($scope.locationdata, function(obj, index){
-					   $http.get("/isValidCheckbok/"+obj.id+'/'+startD+'/'+endD).success(function(data){
+					   apiserviceDashborad.isValidCheckbok(obj.id, startD, endD).then(function(data){
 						   if(data == 0){
 							   obj.isSelected = true;
 							   $scope.locationList.push(obj.id);
@@ -9112,7 +9090,7 @@ angular.module('newApp')
 		   }
 		   
 		   $scope.showuser = function(location){
-			   $http.get("/getmanager/"+location).success(function(data){
+			   apiserviceDashborad.getmanager(location).then(function(data){
 				   $scope.user = data;
 			   });
 		   };
@@ -9123,15 +9101,9 @@ angular.module('newApp')
 				   $scope.schmeeting.bestDay = $('#cnfmeetingdate').val();
 				   $scope.schmeeting.bestTime = $('#cnfmeetingtime').val();
 				   $scope.schmeeting.bestEndTime = $('#cnfmeetingtimeEnd').val();
-				   $http.post("/savemeeting",$scope.schmeeting).success(function(data){
+				   apiserviceDashborad.savemeeting($scope.schmeeting).then(function(data){
 					   $('#meeting-model').modal("toggle");
-					   $.pnotify({
-						    title: "Success",
-						    type:'success',
-						    text: "Meeting invitation has been sent",
-						});
-					   
-					   $http.get("/getscheduletest").success(function(data){
+					   apiserviceDashborad.getscheduletest().then(function(data){
 						   $scope.scheduleListData = data;
 					   });
 					   $scope.schedulmultidatepicker();
@@ -9153,21 +9125,14 @@ angular.module('newApp')
 			   
 			  $scope.data1.usersList = $scope.checked;
 			  $scope.data1.isRead=0;
-			   $http.post("/updateScheduleTest",$scope.data1).success(function(data){
+			  apiserviceDashborad.updateScheduleTest($scope.data1).then(function(data){
 				   $('#colored-header').modal("toggle");
-				   $.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Meeting's infomation has been updated",
-					});
 				   
 				   $scope.data1.confirmDate = $('#cnfReSchDate').val();
 				   $scope.data1.confirmTime = $('#timeSchPick').val();
 				   $scope.data1.confirmEndTime = $('#timeSchPickEnd').val();
 				   
-				   
-                 $http.get("/getscheduletest").success(function(data){
-					   
+				   apiserviceDashborad.getscheduletest().then(function(data){
 					   $scope.scheduleListData = data;
 				   });
 				   
@@ -9177,8 +9142,7 @@ angular.module('newApp')
 			   
 		   }
 		   $scope.leadList = [];
-		   $http.get('/getSelectedLeadType').success(function(response) {
-				console.log(response);
+		   apiserviceDashborad.getSelectedLeadType().then(function(response){
 				
 				angular.forEach(response, function(value, key) {
 					//if(value.id > 3){
@@ -9361,8 +9325,7 @@ angular.module('newApp')
 	$scope.imageList = [];
 	$scope.init = function() {
 		 $timeout(function(){
-			$http.get('/getImagesByVin/'+$routeParams.num)
-			.success(function(data) {
+			apiserviceDashborad.getImagesByVin($routeParams.num).then(function(data){
 				$scope.imageList = data;
 			});
 		 }, 3000);
@@ -9381,8 +9344,7 @@ angular.module('newApp')
 		
 		for(var i=0;i<$scope.imageList.length;i++) {
 			if($scope.imageList[i].defaultImage == true) {
-				$http.get('/removeDefault/'+$scope.imageList[i].id+'/'+image.id)
-				.success(function(data) {
+				apiserviceDashborad.removeDefault($scope.imageList[i].id, image.id).then(function(data){
 				});
 				$('#imgId'+i).removeAttr("style","");
 				$scope.imageList[i].defaultImage = false;
@@ -9394,8 +9356,8 @@ angular.module('newApp')
 		}
 		
 		if(i == $scope.imageList.length) {
-			$http.get('/setDefaultImage/'+image.id)
-			.success(function(data) {
+			
+			apiserviceDashborad.setDefaultImage(image.id).then(function(data){
 			});
 			
 			image.defaultImage = true;
@@ -9407,8 +9369,8 @@ angular.module('newApp')
 	}
 	
 	$scope.deleteImage = function(img) {
-		$http.get('/deleteImage/'+img.id)
-		.success(function(data) {
+		
+		apiserviceDashborad.deleteImage(img.id).then(function(data){
 			$scope.imageList.splice($scope.imageList.indexOf(img),1);
 		});
 		

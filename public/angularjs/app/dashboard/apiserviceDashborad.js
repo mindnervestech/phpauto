@@ -1224,5 +1224,222 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
+	this.getLocationPlan = function(locationId){
+		var defer = $q.defer();
+		$http.get('/getLocationPlan/'+locationId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getPlanByMonthAndUser = function(userKey, monthCurr){
+		var defer = $q.defer();
+		$http.get('/getPlanByMonthAndUser/'+userKey+'/'+monthCurr).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.saveLocationPlan = function(leadsTime){
+		var defer = $q.defer();
+		$http.get('/saveLocationPlan/'+leadsTime).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	this.saveLocationTotal = function(total, locationIds){
+		var defer = $q.defer();
+		$http.get('/saveLocationTotal/'+total+'/'+locationIds).success(function(data) {
+			defer.resolve(data);
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Plan Scheduled successfully",
+			});
+		});
+		return defer.promise;
+	};
+	
+	this.saveSalesTotal = function(total, id){
+		var defer = $q.defer();
+		$http.get("/saveSalesTotal/"+total+"/"+id).success(function(data) {
+			defer.resolve(data);
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "Plan Scheduled successfully",
+			});
+		});
+		return defer.promise;
+	};
+	
+	this.saveSalePlan = function(saleleadsTime){
+		var defer = $q.defer();
+		$http.get('/saveSalePlan/'+saleleadsTime).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getSaleMonthlyPlan = function(saleId){
+		var defer = $q.defer();
+		$http.get('/getSaleMonthlyPlan/'+saleId).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getlocationsMonthlyPlan = function(id){
+		var defer = $q.defer();
+		$http.get('/getlocationsMonthlyPlan/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getSalePerson = function(month){
+		var defer = $q.defer();
+		$http.get('/getSalePerson/'+month).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getlocations = function(){
+		var defer = $q.defer();
+		$http.get('/getlocations').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.savePlan = function(schPlan){
+		var defer = $q.defer();
+		$http.post("/savePlan",schPlan).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.updatePlan = function(schPlan){
+		var defer = $q.defer();
+		$http.post("/updatePlan",schPlan).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getloginuserinfo = function(){
+		var defer = $q.defer();
+		$http.get("/getloginuserinfo").success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getuser = function(location){
+		var defer = $q.defer();
+		$http.get("/getuser/"+location).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.isValidDatecheck = function(location, startD, scheduleBy){
+		var defer = $q.defer();
+		$http.get('/isValidDatecheck/'+location+'/'+startD+'/'+scheduleBy).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.isValidCheckbok = function(id, startD, endD){
+		var defer = $q.defer();
+		$http.get('/isValidCheckbok/'+id+'/'+startD+'/'+endD).success(function(data) {
+			defer.resolve(data);
+			
+		});
+		return defer.promise;
+	};
+	
+	this.getmanager = function(location){
+		var defer = $q.defer();
+		$http.get('/getmanager/'+location).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.savemeeting = function(schmeeting){
+		var defer = $q.defer();
+		 $http.post("/savemeeting",schmeeting).success(function(data) {
+			 $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Meeting invitation has been sent",
+				});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.updateScheduleTest = function(data1){
+		var defer = $q.defer();
+		 $http.post("/updateScheduleTest",data1).success(function(data) {
+			 $.pnotify({
+				    title: "Success",
+				    type:'success',
+				    text: "Meeting's infomation has been updated",
+				});
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getSelectedLeadType = function(){
+		var defer = $q.defer();
+		$http.get('/getSelectedLeadType').success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.getImagesByVin = function(num){
+		var defer = $q.defer();
+		$http.get('/getImagesByVin/'+num).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	this.removeDefault = function(imageListId, id){
+		var defer = $q.defer();
+		$http.get('/removeDefault/'+imageListId+"/"+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	this.setDefaultImage = function(id){
+		var defer = $q.defer();
+		$http.get('/setDefaultImage/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	this.deleteImage = function(id){
+		var defer = $q.defer();
+		$http.get('/deleteImage/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
+	
+	
+	
 	
 })
