@@ -43,6 +43,8 @@ var MakeApp = angular
     'app.apiserviceInventory',
     'app.apiserviceCustomizationForm',
     'app.apiserviceViewVehicle',
+    'app.apiserviceHomePage',
+    'app.apiserviceConfigPage',
    // 'textAngular',
     'nvd3',
     'formly',

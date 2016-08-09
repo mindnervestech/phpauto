@@ -1,6 +1,6 @@
 
 angular.module('newApp')
-.controller('HomePageCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload', function ($scope,$http,$location,$filter,$routeParams,$upload) {
+.controller('HomePageCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','apiserviceHomePage', function ($scope,$http,$location,$filter,$routeParams,$upload,apiserviceHomePage) {
 	if(!$scope.$$phase) {
 		$scope.$apply();
 	}
@@ -74,13 +74,9 @@ angular.module('newApp')
 				    		   delete $scope.sliderList[i].vin;
 				    		   delete $scope.sliderList[i].defaultImage;
 				    	   }
-				    	   $http.post('/saveSliderPosition',$scope.sliderList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
+				    	   apiserviceHomePage.saveSliderPosition($scope.sliderList).then(function(data){
+				    	   
+					   			
 					   		});
 				    	   
 				       } // optional callback fired when item is finished dragging
@@ -136,14 +132,8 @@ angular.module('newApp')
 				    		   delete $scope.featuredList[i].vin;
 				    		   delete $scope.featuredList[i].defaultImage;
 				    	   }
-				    	   $http.post('/saveFeaturedPosition',$scope.featuredList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
+				    	   apiserviceHomePage.saveFeaturedPosition($scope.featuredList).then(function(data){
+				    	   });
 				    	   
 				       } // optional callback fired when item is finished dragging
 				    }
@@ -201,13 +191,8 @@ angular.module('newApp')
 				    		   delete $scope.coverList[i].vin;
 				    		   delete $scope.coverList[i].defaultImage;
 				    	   }
-				    	   $http.post('/saveCoveredPosition',$scope.coverList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
+				    	   apiserviceHomePage.saveCoveredPosition($scope.coverList).then(function(data){
+				    	   
 					   		});
 				    	   
 				       } // optional callback fired when item is finished dragging
@@ -264,14 +249,8 @@ angular.module('newApp')
 				    		   delete $scope.compareList[i].vin;
 				    		   delete $scope.compareList[i].defaultImage;
 				    	   }
-				    	   $http.post('/saveComparePosition',$scope.compareList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
+				    	   apiserviceHomePage.saveComparePosition($scope.compareList).then(function(data){
+				    	   });
 				    	   
 				       } // optional callback fired when item is finished dragging
 				    }
