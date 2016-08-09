@@ -308,14 +308,8 @@ angular.module('newApp')
 				    		   delete $scope.blogList[i].vin;
 				    		   delete $scope.blogList[i].defaultImage;
 				    	   }
-				    	   $http.post('/saveBlogPosition',$scope.blogList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
+				    	   apiserviceHomePage.saveBlogPosition($scope.blogList).then(function(data){
+				    	   });
 				    	   
 				       } // optional callback fired when item is finished dragging
 				    }
@@ -371,14 +365,8 @@ angular.module('newApp')
 				    		   delete $scope.vehicleProfileList[i].vin;
 				    		   delete $scope.vehicleProfileList[i].defaultImage;
 				    	   }
-				    	   $http.post('/saveVehiclePosition',$scope.vehicleProfileList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
+				    	   apiserviceHomePage.saveVehiclePosition($scope.vehicleProfileList).then(function(data){
+				    	   });
 				    	   
 				       } // optional callback fired when item is finished dragging
 				    }
@@ -439,14 +427,8 @@ angular.module('newApp')
 				    		   delete $scope.warrantyList[i].vin;
 				    		   delete $scope.warrantyList[i].defaultImage;
 				    	   }
-				    	   $http.post('/saveWarrantyPosition',$scope.warrantyList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
+				    	   apiserviceHomePage.saveWarrantyPosition($scope.warrantyList).then(function(data){
+				    	   });
 				    	   
 				       } // optional callback fired when item is finished dragging
 				    }
@@ -505,14 +487,8 @@ angular.module('newApp')
 				    		   delete $scope.contactList[i].vin;
 				    		   delete $scope.contactList[i].defaultImage;
 				    	   }
-				    	   $http.post('/saveContactPosition',$scope.contactList)
-					   		.success(function(data) {
-					   			$.pnotify({
-								    title: "Success",
-								    type:'success',
-								    text: "Position saved successfully",
-								});
-					   		});
+				    	   apiserviceHomePage.saveContactPosition($scope.contactList).then(function(data){
+				    	   });
 				    	   
 				       } // optional callback fired when item is finished dragging
 				    }
@@ -529,9 +505,8 @@ angular.module('newApp')
 	$scope.siteHeading = "";
 	$scope.inventoryImg = [];
 	$scope.init = function() {
-		
-		 $http.get('/getAllMakeList')
-			.success(function(data) {
+		apiserviceHomePage.getAllMakeList().then(function(data){
+		 
 				console.log(">>>>>>>>>");
 				console.log(data);
 				$scope.makeList=data;
@@ -540,12 +515,9 @@ angular.module('newApp')
 				
 			});
 		
+			 $scope.makeWiseData = function() {
+			 apiserviceHomePage.getMakeWiseData($scope.makeValue).then(function(data){
 		 
-		 
-		 $scope.makeWiseData = function() {
-		 $http.get('/getMakeWiseData/'+$scope.makeValue)
-			.success(function(data) {
-				
 				console.log(data);
 				console.log(data.vehProfData);
 				$scope.vehProfDataByMake=data.vehProfData;
@@ -613,9 +585,8 @@ angular.module('newApp')
 		 }
 		
 		$scope.tempDate = new Date().getTime();
-		 $http.get('/getSliderAndFeaturedImages')
-			.success(function(data) {
-			
+		apiserviceHomePage.getSliderAndFeaturedImages().then(function(data){
+		 
 				$scope.sliderList = data.sliderList;
 				$scope.featuredList = data.featuredList;
 				$scope.configList = data.configList;
@@ -1114,68 +1085,68 @@ angular.module('newApp')
 	   
 	   
 	   $scope.deleteSliderImage = function(image) {
-		   $http.get('/deleteSliderImage/'+image.id)
-			.success(function(data) {
+		   apiserviceHomePage.deleteSliderImage(image.id).then(function(data){
+		   
 				$scope.sliderList.splice($scope.sliderList.indexOf(image),1);
 			});
 	   }
 	   
 	   $scope.deleteFeaturedImage = function(image) {
-		   $http.get('/deleteFeaturedImage/'+image.id)
-			.success(function(data) {
+		   apiserviceHomePage.deleteFeaturedImage(image.id).then(function(data){
+		  
 				$scope.featuredList.splice($scope.featuredList.indexOf(image),1);
 			});
 	   }
 	   
 	   $scope.deleteInventoryImage = function(image) {
 		   console.log($scope.vTypes);
-		   $http.get('/deleteInventoryImage/'+image.id)
-			.success(function(data) {
+		   apiserviceHomePage.deleteInventoryImage(image.id).then(function(data){
+		   
 				$scope.inventoryImg.splice($scope.inventoryImg.indexOf(image),1);
 			});
 	   }
 	   
 	    $scope.deleteCvrImage = function(image) {
-		   $http.get('/deleteCvrImage/'+image.id)
-			.success(function(data) {
+	    	apiserviceHomePage.deleteCvrImage(image.id).then(function(data){
+		   
 				$scope.coverList.splice($scope.coverList.indexOf(image),1);
 			});
 	   }
 
 	    $scope.deleteBlogImage = function(image) {
-			   $http.get('/deleteBlogImage/'+image.id)
-				.success(function(data) {
+	    	apiserviceHomePage.deleteBlogImage(image.id).then(function(data){
+			   
 					$scope.blogList.splice($scope.blogList.indexOf(image),1);
 				});
 		   }
 	    
 	    
 	    $scope.deleteVehicleImage = function(image) {
-			   $http.get('/deleteVehicleImage/'+image.id+"/"+$scope.makeValue)
-				.success(function(data) {
+	    	apiserviceHomePage.deleteVehicleImage(image.id, $scope.makeValue).then(function(data){
+			   
 					$scope.vehicleProfileList.splice($scope.vehicleProfileList.indexOf(image),1);
 				});
 		   }
 	    
 	    
 	    $scope.deleteCompareImage = function(image) {
-			   $http.get('/deleteCompareImage/'+image.id)
-				.success(function(data) {
+	    	apiserviceHomePage.deleteCompareImage(image.id).then(function(data){
+			   
 					$scope.compareList.splice($scope.compareList.indexOf(image),1);
 				});
 		   }
 	    
 	    $scope.deleteWarImage = function(image) {
-			   $http.get('/deleteWarImage/'+image.id)
-				.success(function(data) {
+	    	apiserviceHomePage.deleteWarImage(image.id).then(function(data){
+			   
 					$scope.warrantyList.splice($scope.warrantyList.indexOf(image),1);
 				});
 		   }
 	    
 	    
 	    $scope.deleteContactImage = function(image) {
-			   $http.get('/deleteContactImage/'+image.id)
-				.success(function(data) {
+	    	apiserviceHomePage.deleteContactImage(image.id).then(function(data){
+			   
 					$scope.contactList.splice($scope.contactList.indexOf(image),1);
 				});
 		   }
@@ -1243,23 +1214,16 @@ angular.module('newApp')
 	   }
 	   
 	   $scope.saveSiteHeading = function(siteHeading) {
-		   $http.get('/saveSiteHeading/'+siteHeading)
-			.success(function(data) {
+		   apiserviceHomePage.saveSiteHeading(siteHeading).then(function(data){
+		   
 			});
 	   }
 	   
 	   $scope.saveSiteTestimonials = function(){
-		   $http.post('/saveSitetestiMonial',$scope.testiMonial)
-	   		.success(function(data) {
-	   			console.log('success');
-	   			$.pnotify({
- 				    title: "Success",
- 				    type:'success',
- 				    text: "Testimonails have been successfully saved",
- 				});
+		   apiserviceHomePage.saveSitetestiMonial($scope.testiMonial).then(function(data){
+			   console.log('success');
 	   		});
-		   
-	   }
+		}
 	   var aboutUsfile;
 	   $scope.onAboutUsImgSelect = function ($files) {
 			aboutUsfile = $files;
@@ -1269,33 +1233,15 @@ angular.module('newApp')
 	   
 	   $scope.saveAboutUsHeader = function(header) {
 		   console.log(header);
-		   $http.post('/saveSiteAboutUsHeader',header)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "AboutUs have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
+		   apiserviceHomePage.saveSiteAboutUsHeader(header).then(function(data){
+		   }); 
+		}
 	   
 	   $scope.saveBlogHeader = function(header) {
 		   console.log(header);
-		   $http.post('/saveBlogHeader',header)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Blog have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
+		   apiserviceHomePage.saveBlogHeader(header).then(function(data){
+		   }); 
+		}
 	   
 	   $scope.saveCompareHeader = function(header1) {
 		   console.log(header1);
@@ -1306,18 +1252,9 @@ angular.module('newApp')
 		   else{
 			   header1.headerFlag =0;
 		   }
-		   $http.post('/saveCompareHeader',header1)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Compare have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
+		   apiserviceHomePage.saveCompareHeader(header1).then(function(data){
+		   }); 
+		}
 	   
 	   
 	   $scope.saveMakeFlag = function() {
@@ -1330,11 +1267,8 @@ angular.module('newApp')
 			   $scope.makeFlag1=0;
 		   }
 		   
-		   
-		   $http.get('/saveMakeFlag/'+$scope.makeFlag1)
-			.success(function(data) {
-				
-			});
+		   apiserviceHomePage.saveMakeFlag($scope.makeFlag1).then(function(data){
+		   });
 	   }
 	   
 	   $scope.saveSocialFlag = function() {
@@ -1346,11 +1280,8 @@ angular.module('newApp')
 		   else{
 			   $scope.socialFlag1=0;
 		   }
-		   
-		   $http.get('/saveSocialFlag/'+$scope.socialFlag1)
-			.success(function(data) {
-				
-			});
+		   apiserviceHomePage.saveSocialFlag($scope.socialFlag1).then(function(data){
+		   });
 	   }
 	   
 	   
@@ -1364,11 +1295,8 @@ angular.module('newApp')
 			   $scope.financeFlag1=0;
 		   }
 		   
-		   
-		   $http.get('/saveFinanceFlag/'+$scope.financeFlag1)
-			.success(function(data) {
-				
-			});
+		   apiserviceHomePage.saveFinanceFlag($scope.financeFlag1).then(function(data){
+		   });
 	   }
 	    
 	   
@@ -1406,18 +1334,9 @@ angular.module('newApp')
 				   
 				
 	     ProfileHeader.makeValue=$scope.makeValue;
-			
-		   $http.post('/saveprofileHeader',ProfileHeader)
-			.success(function(data) {
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "profileHeader have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
+	     apiserviceHomePage.saveprofileHeader(ProfileHeader).then(function(data){
+		   }); 
+		}
 	   
 	   
 	   $scope.uploadImageForMake = function(make) {
@@ -1435,32 +1354,15 @@ angular.module('newApp')
 		   if(header.hideMenu == undefined){
 			   header.hideMenu = false;
 		   }
-		   $http.post('/saveHeader',header)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Blog have been successfully saved",
-				});
-	            
-			}); 
-		   
-	   }
+		   apiserviceHomePage.saveHeader(header).then(function(data){
+		   }); 
+		}
 
 	   
 	   $scope.saveContactHeader = function(header) {
 		   console.log(header);
-		   $http.post('/saveContactHeader',header)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Contact have been successfully saved",
-				});
-	            
-			}); 
+		   apiserviceHomePage.saveContactHeader(header).then(function(data){
+		   }); 
 		   
 	   }
 	   
@@ -1471,17 +1373,9 @@ angular.module('newApp')
 	
 	
 		if(angular.isUndefined(aboutUsfile)) {
-		
-			$http.post('/saveSiteAboutUs',$scope.aboutUs)
-			.success(function(data) {
-
-	            $.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "AboutUs have been successfully saved",
-				});
-	            
+			apiserviceHomePage.saveSiteAboutUs($scope.aboutUs).then(function(data){
 			});
+			
 		} else {
 			$scope.aboutUs.id = 0;
 		
@@ -1516,14 +1410,14 @@ angular.module('newApp')
 	   }*/
 	   
 	   $scope.saveSiteDescription = function() {
-		   $http.post('/saveSiteDescription',$scope.siteDescription)
-	   		.success(function(data) {
+		   apiserviceHomePage.saveSiteDescription($scope.siteDescription).then(function(data){
+		   
 	   		});
 	   }
 	  
 	   $scope.getLogoData = function() {
-		   $http.get('/getLogoData')
-			.success(function(data) {
+		   apiserviceHomePage.getLogoData().then(function(data){
+		   
 				$scope.logoName = data.logoName;
 				$scope.feviconName = data.feviconName;
 				$scope.tabText = data.tabText;
@@ -1571,14 +1465,8 @@ angular.module('newApp')
 	   }
 	   $scope.tabText;
 	   $scope.saveTabText = function(tabText) {
-		   $http.get('/saveSiteTabText/'+tabText)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Tab text saved successfully",
-				});
-				$scope.getLogoData();
+		   apiserviceHomePage.saveSiteTabText(tabText).then(function(data){
+			   $scope.getLogoData();
 			});
 	   }
 	   
@@ -1589,14 +1477,8 @@ angular.module('newApp')
 			   $scope.siteInventory.applyAll = false;
 		   }
 		   $scope.siteInventory.vType = type;
-		   $http.post('/saveSiteInventory',$scope.siteInventory)
-	   		.success(function(data) {
-	   			$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Inventory saved successfully",
-				});
-	   		});
+		   apiserviceHomePage.saveSiteInventory($scope.siteInventory).then(function(data){
+		   });
 		   
 	   }
 	   var myDropzone4;
