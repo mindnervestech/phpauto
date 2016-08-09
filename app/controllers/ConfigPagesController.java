@@ -86,7 +86,7 @@ public class ConfigPagesController extends Controller{
     		Form<WebAnalyticsVM> form = DynamicForm.form(WebAnalyticsVM.class).bindFromRequest();
     		WebAnalyticsVM vm = form.get();
     		
-    		WebAnalytics analytics =  WebAnalytics.findById(vm.id);
+    		WebAnalytics analytics =  WebAnalytics.findByLocations(Long.valueOf(session("USER_LOCATION")));
 			if(analytics == null){
     			WebAnalytics web=new WebAnalytics();
     			web.tracking_code = vm.tracking_code;
@@ -106,7 +106,7 @@ public class ConfigPagesController extends Controller{
     		MailchimpPageVM vm = form.get();
     		Date date = new Date();
     		
-    		MailchimpSchedular lead =  MailchimpSchedular.findById(vm.id);
+    		MailchimpSchedular lead =  MailchimpSchedular.findByLocations(Long.valueOf(session("USER_LOCATION")));
 			if(lead == null){
 				MailchimpSchedular mail=new MailchimpSchedular();
     			mail.schedularTime = vm.schedularTime;
