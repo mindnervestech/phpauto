@@ -1,5 +1,5 @@
 angular.module('newApp')
-.controller('VisitorsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope) {
+.controller('VisitorsCtrl', ['$scope','$http','$location','$filter','$routeParams','$upload','$timeout','$rootScope','apiserviceAnalytics', function ($scope,$http,$location,$filter,$routeParams,$upload,$timeout,$rootScope,apiserviceAnalytics) {
 	
 	$scope.engTimeTitle=$routeParams.engTimeTitle;
 	$scope.trafficSourceTitle = $routeParams.trafficSourceTitle;
@@ -102,9 +102,8 @@ angular.module('newApp')
 
 	 $scope.selectedData = function(){
 		 $scope.gridOptions3.data = [];
+		 apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
 		 
-		 $http.get('/getVisitorList/'+$scope.startDateFilter+"/"+$scope.endDateFilter)
-			.success(function(data) {
 				console.log(data);
 				angular.forEach(data, function(value, key) {
 					var array = value.timePretty.split(',');
@@ -265,8 +264,8 @@ angular.module('newApp')
 			$scope.longitude=undefined;
 			 google.maps.event.addDomListener(window, 'load', initialized);
 			 if($scope.visitorInfos != undefined){
-			$http.get('/getVisitorData/'+$scope.visitorInfos)
-			.success(function(data) {
+				 apiserviceAnalytics.getVisitorData($scope.visitorInfos).then(function(data){
+			
 			$scope.latitude=data.latitude; 
 			$scope.longitude=data.longitude;
 			initialized();
@@ -284,11 +283,9 @@ angular.module('newApp')
 			 $scope.sessionId=data.sessionId;
 			 if($scope.sessionId != null && $scope.sessionId != undefined){
 				 
-				 console.log($scope.startDate1);
-				 console.log($scope.startDate1);
-				 console.log($scope.endDateFilter);
-				 $http.get('/getSessionData/'+$scope.sessionId+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter)
-					.success(function(data) {
+				 
+				 apiserviceAnalytics.getSessionData($scope.sessionId, $scope.startDateFilter, $scope.endDateFilter).then(function(data){
+				 
 						
 						$scope.gridOptions1.data=data;
 						 console.log($scope.gridOptions1.data);
@@ -331,8 +328,8 @@ angular.module('newApp')
 			 else if($scope.ipAddressInfo != undefined){
 			
 				console.log($scope.ipAddressInfo);
-				$http.get('/getIPAddress/'+$scope.ipAddressInfo)
-				.success(function(data){
+				apiserviceAnalytics.getIPAddress($scope.ipAddressInfo).then(function(data){
+				
 					console.log("ip Address");
 					$scope.latitude=data.latitude; 
 					$scope.longitude=data.longitude;
@@ -362,8 +359,8 @@ angular.module('newApp')
 			
 			else if( $scope.trafficSourceTitle != undefined ){
 	        	$scope.typeOfInfo="";	
-	        	$http.get('/getTrafficSourceData/'+$scope.trafficSourceTitle+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
-				.success(function(data){
+	        	apiserviceAnalytics.getTrafficSourceData($scope.trafficSourceTitle, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
+	        	
 					console.log(data);
 					$scope.gridOptions2.data = data;
 					$scope.browserObjList = data;
@@ -439,8 +436,8 @@ angular.module('newApp')
 		        	$scope.typeOfInfo="";	
 		        	console.log($scope.startDate);
 		        	console.log($scope.endDate);
-		        	$http.get('/getEngTimeData/'+$scope.engTimeTitle+"/"+$scope.startDate+"/"+$scope.endDate)
-					.success(function(data){
+		        	apiserviceAnalytics.getEngTimeData($scope.engTimeTitle, $scope.startDate, $scope.endDate).then(function(data){
+		        	
 						console.log(data);
 						$scope.gridOptions2.data = data;
 						$scope.browserObjList = data;
@@ -514,8 +511,8 @@ angular.module('newApp')
 			  else if( $scope.engActionTitle != undefined ){
         	$scope.typeOfInfo="";	
         	console.log("out of engaction function");
-        	$http.get('/getEngActionData/'+$scope.engActionTitle+"/"+$rootScope.startDateFilter+"/"+$rootScope.endDateFilter)
-			.success(function(data){
+        	apiserviceAnalytics.getEngActionData($scope.engActionTitle, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
+        	
 				console.log(data);
 				console.log("in get engaction function");
 				$scope.gridOptions2.data = data;

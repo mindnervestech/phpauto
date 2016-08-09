@@ -184,6 +184,11 @@ angular.module('app.apiserviceViewVehicle', [])
 		var defer = $q.defer();
 		
 		$http.post('/addNewCollection',collections).success(function(data) {
+			$.pnotify({
+			    title: "Success",
+			    type:'success',
+			    text: "saved successfully",
+			});
 			defer.resolve(data);
 		});
 		return defer.promise;

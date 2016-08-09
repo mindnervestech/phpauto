@@ -308,10 +308,10 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.editLeads = function(editLeads,file){
+	this.editLeads = function(editLeads,files){
 		var defer = $q.defer();
 		
-		if(file != undefined){
+		if(files != undefined){
 			$upload.upload({
 	            url : '/editLeads',
 	            method: 'POST',
@@ -702,9 +702,9 @@ angular.module('app.apiserviceDashborad', [])
 		return defer.promise;
 	};
 	
-	this.createLeads = function(lead, file){
+	this.createLeads = function(lead, files){
 		var defer = $q.defer();
-		if(file != undefined){
+		if(files != undefined){
 			$upload.upload({
 	            url : '/createLead',
 	            method: 'POST',
