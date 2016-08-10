@@ -566,14 +566,6 @@ angular.module('app.apiserviceAnalytics', [])
 		return defer.promise;
 	};
 	
-	this.getVisitorList=function(time){
-		var defer = $q.defer();
-		$http.get('/getVisitorList/'+time).success(function(data){
-			defer.resolve(data);
-		});
-		return defer.promise;
-	};
-	
 	this.getContentList=function(){
 		var defer = $q.defer();
 		$http.get('/getContentList').success(function(data){

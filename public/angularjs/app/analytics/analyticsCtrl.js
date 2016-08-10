@@ -909,7 +909,7 @@ angular.module('newApp')
 				$scope.tabClickFlag=1;
 				console.log($scope.startDateFilter);
 				console.log($scope.endDateFilter);
-				apiserviceAnalytics.getVisitorList($scope.startDateFilter,$scope.endDateFilter).then(function(data){
+				apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
 				 
 					$scope.gridOptions.data = data;
 					console.log(data);
