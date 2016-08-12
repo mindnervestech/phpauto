@@ -1284,7 +1284,7 @@ angular.module('newApp')
   				 
   		   		$scope.gridApi.core.on.filterChanged( $scope, function() {
   			          var grid = this.grid;
-  			          $scope.gridOptions13.data = $filter('filter')($scope.AllRequestInfoSeenList,{'vin':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'make':grid.columns[2].filters[0].term,'name':grid.columns[3].filters[0].term,'phone':grid.columns[4].filters[0].term,'email':grid.columns[5].filters[0].term,'requestDate':grid.columns[6].filters[0].term},undefined);
+  			          $scope.gridOptions13.data = $filter('filter')($scope.AllOtherLeadSeenList,{'make':grid.columns[0].filters[0].term,'model':grid.columns[1].filters[0].term,'name':grid.columns[2].filters[0].term,'phone':grid.columns[3].filters[0].term,'email':grid.columns[4].filters[0].term,'requestDate':grid.columns[5].filters[0].term},undefined);
   			        });
   		   		
   	  		};
