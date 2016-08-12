@@ -114,7 +114,7 @@ angular.module('app.apiserviceDashborad', [])
 	
 	this.getUserAppointment = function(bestDt,bestTm,bestEndTm){
 		var defer = $q.defer();
-		$http.get('/getUserForMeeting/'+$scope.bestDt+"/"+$scope.bestTm+"/"+$scope.bestEndTm).success(function(data) {
+		$http.get('/getUserForMeeting/'+bestDt+"/"+bestTm+"/"+bestEndTm).success(function(data) {
 			defer.resolve(data);
 		});
 		
@@ -1405,41 +1405,5 @@ angular.module('app.apiserviceDashborad', [])
 		});
 		return defer.promise;
 	};
-	
-	this.getImagesByVin = function(num){
-		var defer = $q.defer();
-		$http.get('/getImagesByVin/'+num).success(function(data) {
-			defer.resolve(data);
-		});
-		return defer.promise;
-	};
-	this.removeDefault = function(imageListId, id){
-		var defer = $q.defer();
-		$http.get('/removeDefault/'+imageListId+"/"+id).success(function(data) {
-			defer.resolve(data);
-		});
-		return defer.promise;
-	};
-	
-	
-	this.setDefaultImage = function(id){
-		var defer = $q.defer();
-		$http.get('/setDefaultImage/'+id).success(function(data) {
-			defer.resolve(data);
-		});
-		return defer.promise;
-	};
-	
-	this.deleteImage = function(id){
-		var defer = $q.defer();
-		$http.get('/deleteImage/'+id).success(function(data) {
-			defer.resolve(data);
-		});
-		return defer.promise;
-	};
-	
-	
-	
-	
 	
 })

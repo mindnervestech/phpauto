@@ -1,7 +1,7 @@
 
 	
 angular.module('newApp')
-.controller('ImageCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('ImageCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 
 	$scope.coords = {};
 	if(userRole == "Photographer"){
@@ -13,12 +13,12 @@ angular.module('newApp')
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		if(userRole == "Photographer"){
-			 $http.get('/findLocation')
-				.success(function(data) {
+			apiserviceAddPhotos.findLocation().then(function(data){
+			 
 					console.log(data);
 					$scope.userLocationId = data;
-			$http.get('http://www.glider-autos.com/getImageById/'+$routeParams.id+"/"+$scope.userLocationId)
-			.success(function(data) {
+					apiserviceAddPhotos.getImageById($routeParams.id, $scope.userLocationId).then(function(data){
+			
 				imageW = data.col;
 				imageH = data.row;
 				
@@ -46,13 +46,12 @@ angular.module('newApp')
 			});
 				});
 		}else{
-			$http.get('/findLocation')
-			.success(function(data) {
+			apiserviceAddPhotos.findLocation().then(function(data){
+			
 				console.log(data);
 				$scope.userLocationId = data;
+				apiserviceAddPhotos.getImageById($routeParams.id, $scope.userLocationId).then(function(data){
 			
-			$http.get('/getImageById/'+$routeParams.id+"/"+$scope.userLocationId)
-			.success(function(data) {
 				imageW = data.col;
 				imageH = data.row;
 				
@@ -112,25 +111,15 @@ angular.module('newApp')
 		$scope.saveImage = function() {
 			$scope.coords.imageId = $routeParams.id;
 			if(userRole == "Photographer"){
+				apiserviceAddPhotos.editImage($scope.coords).then(function(data){
 				
-				$http.post('http://www.glider-autos.com/editImage',$scope.coords)
-				.success(function(data) {
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Saved successfully",
-					});
+					
 					$location.path('/editVehicle/'+$routeParams.vid+'/'+true+"/"+$routeParams.vin);
 				});
 				
 			}else{
-				$http.post('/editImage',$scope.coords)
-				.success(function(data) {
-					$.pnotify({
-					    title: "Success",
-					    type:'success',
-					    text: "Saved successfully",
-					});
+				apiserviceAddPhotos.editImage($scope.coords).then(function(data){
+				
 					$location.path('/editVehicle/'+$routeParams.vid+'/'+true+"/"+$routeParams.vin);
 				});
 			}
@@ -142,14 +131,14 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('SliderCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('SliderCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 
 	$scope.coords = {};
 	$scope.imgId = "/getSliderImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
-		 $http.get('/getSliderImageDataById/'+$routeParams.id)
-			.success(function(data) {
+		apiserviceAddPhotos.getSliderImageDataById($routeParams.id).then(function(data){
+		 
 				imageW = data.width;
 				imageH = data.height;
 				$('#set-height').val(data.height);
@@ -209,14 +198,9 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
+			apiserviceAddPhotos.editSliderImage($scope.coords).then(function(data){
 			
-			$http.post('/editSliderImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "All changed has been saved",
-				});
+				
 				$location.path('/homePage');
 				$scope.$apply();
 			});
@@ -227,15 +211,14 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('CoverCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('CoverCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 	$scope.coords = {};
 	$scope.imgId = "/aboutUsCoverImageById/"+$routeParams.findById+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		
-		
-		 $http.get('/getCoverDataById/'+$routeParams.id)
-			.success(function(data) {
+		apiserviceAddPhotos.getCoverDataById($routeParams.id).then(function(data){
+		 
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
@@ -303,15 +286,8 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
+			apiserviceAddPhotos.editCovrImage($scope.coords).then(function(data){
 			
-			$http.post('/editCovrImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
 				$location.path('/siteAboutUs');
 				//$scope.$apply();
 			});
@@ -321,11 +297,8 @@ angular.module('newApp')
 }]);	
 
 
-
-
-
 angular.module('newApp')
-.controller('VehicleCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('VehicleCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 	$scope.coords = {};
 	$scope.imgId = "/vehicleProfileImageByIdForCrop/"+$routeParams.id+"/"+$routeParams.makeValue+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
@@ -333,9 +306,8 @@ angular.module('newApp')
 	$scope.minImgwidth;
 	$scope.init = function() {
 		$scope.makeValue=$routeParams.makeValue;	
-		
-		 $http.get('/getVehicleProfileDataById/'+$routeParams.id)
-			.success(function(data) {
+		apiserviceAddPhotos.getVehicleProfileDataById($routeParams.id).then(function(data){
+		 
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
@@ -408,14 +380,9 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
+			apiserviceAddPhotos.editVehicleProfileImage($scope.coords).then(function(data){
 			
-			$http.post('/editVehicleProfileImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
+				
 				console.log("/vehicleProfile/"+$scope.makeValue);
 				//$location.path('/vehicleProfile/'+$scope.makeValue);
 				//$scope.$apply();
@@ -431,7 +398,7 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('WarrantyCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('WarrantyCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 	$scope.coords = {};
 	console.log("jjjjhhh");
 	console.log($routeParams.findById);
@@ -441,10 +408,8 @@ angular.module('newApp')
 	$scope.minImgwidth;
 	$scope.init = function() {
 		
-		
-		 $http.get('/getWarDataById/'+$routeParams.id)
-			.success(function(data) {
-				
+		apiserviceAddPhotos.getWarDataById($routeParams.id).then(function(data){
+		 
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
@@ -517,15 +482,8 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
+			apiserviceAddPhotos.editWarImage($scope.coords).then(function(data){
 			
-			$http.post('/editWarImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
 				$location.path('/warranty');
 				//$scope.$apply();
 			});
@@ -535,12 +493,8 @@ angular.module('newApp')
 }]);	
 
 
-
-
-
-
 angular.module('newApp')
-.controller('BlogCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('BlogCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 	$scope.coords = {};
 	$scope.imgId = "/blogImageById/"+$routeParams.findById+"/full?d="+ Math.random();
 	var imageW, imageH, boundx, boundy;
@@ -549,9 +503,8 @@ angular.module('newApp')
 	$scope.showErrorMsg = 0;
 	$scope.init = function() {
 		
-		
-		 $http.get('/getBlogDataById/'+$routeParams.id)
-			.success(function(data) {
+		apiserviceAddPhotos.getBlogDataById($routeParams.id).then(function(data){
+		 
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
@@ -624,15 +577,8 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
+			apiserviceAddPhotos.editBlogImage($scope.coords).then(function(data){
 			
-			$http.post('/editBlogImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
 				$location.path('/blog');
 				//$scope.$apply();
 			});
@@ -643,15 +589,14 @@ angular.module('newApp')
 
 
 angular.module('newApp')
-.controller('CompareCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('CompareCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 	$scope.coords = {};
 	$scope.imgId = "/compareImageById/"+$routeParams.findById+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
 		
-		
-		 $http.get('/getCompareDataById/'+$routeParams.id)
-			.success(function(data) {
+		apiserviceAddPhotos.getCompareDataById($routeParams.id).then(function(data){
+		 
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
@@ -719,15 +664,8 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
+			apiserviceAddPhotos.editCompareImage($scope.coords).then(function(data){
 			
-			$http.post('/editCompareImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
 				$location.path('/comparision');
 				//$scope.$apply();
 			});
@@ -737,14 +675,8 @@ angular.module('newApp')
 }]);	
 
 
-
-
-
-
-
-
 angular.module('newApp')
-.controller('ContactCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('ContactCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 	$scope.coords = {};
 	$scope.imgId = "/contactImageById/"+$routeParams.findById+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
@@ -752,9 +684,8 @@ angular.module('newApp')
 	$scope.minImgwidth;
 	$scope.init = function() {
 		
-		
-		 $http.get('/getContactDataById/'+$routeParams.id)
-			.success(function(data) {
+		apiserviceAddPhotos.getContactDataById($routeParams.id).then(function(data){
+		 
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
@@ -827,15 +758,8 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
+			apiserviceAddPhotos.editContactImage($scope.coords).then(function(data){
 			
-			$http.post('/editContactImage',$scope.coords)
-			.success(function(data) {
-				$.pnotify({
-				    title: "Success",
-				    type:'success',
-				    text: "Croped Image has been saved",
-				});
-				
 				$location.path('/contactUs');
 				//$scope.$apply();
 			});
@@ -845,18 +769,15 @@ angular.module('newApp')
 }]);	
 
 
-
-
-
 angular.module('newApp')
-.controller('FeaturedCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('FeaturedCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 
 	$scope.coords = {};
 	$scope.imgId = "/getFeaturedImage/"+$routeParams.id+"/full?d=" + Math.random();
 	var imageW, imageH, boundx, boundy;
 	$scope.init = function() {
-		 $http.get('/getFeaturedImageDataById/'+$routeParams.id)
-			.success(function(data) {
+		apiserviceAddPhotos.getFeaturedImageDataById($routeParams.id).then(function(data){
+		 
 				imageW = data.width;
 				imageH = data.height;
 				$('#set-height').val(data.height);
@@ -916,9 +837,8 @@ angular.module('newApp')
 			$scope.coords.imgName = image.imgName;
 			$scope.coords.description = image.description;
 			$scope.coords.link = image.link;
+			apiserviceAddPhotos.editFeaturedImage($scope.coords).then(function(data){
 			
-			$http.post('/editFeaturedImage',$scope.coords)
-			.success(function(data) {
 				$location.path('/homePage');
 				$scope.$apply();
 			});
@@ -928,7 +848,7 @@ angular.module('newApp')
 }]);	
 
 angular.module('newApp')
-.controller('InventoryCropCtrl', ['$scope','$http','$location','$filter','$routeParams', function ($scope,$http,$location,$filter,$routeParams) {
+.controller('InventoryCropCtrl', ['$scope','$http','$location','$filter','$routeParams','apiserviceAddPhotos', function ($scope,$http,$location,$filter,$routeParams,apiserviceAddPhotos) {
 
 	$scope.coords = {};
 	$scope.imgId = "/getInventoryImage/"+$routeParams.findById+"/"+$routeParams.vType+"/full?d=" + Math.random();
@@ -936,8 +856,8 @@ angular.module('newApp')
 	$scope.minImgheight;
 	$scope.minImgwidth;
 	$scope.init = function() {
-		 $http.get('/getInventoryImageDataById/'+$routeParams.id)
-			.success(function(data) {
+		apiserviceAddPhotos.getInventoryImageDataById($routeParams.id).then(function(data){
+		
 				console.log(data);
 				imageW = data.col;
 				imageH = data.row;
@@ -1006,9 +926,8 @@ angular.module('newApp')
 			//$scope.coords.imgName = image.imgName;
 			//$scope.coords.description = image.description;
 			//$scope.coords.link = image.link;
+			apiserviceAddPhotos.editInventoryImages($scope.coords).then(function(data){
 			
-			$http.post('/editInventoryImage',$scope.coords)
-			.success(function(data) {
 				$location.path('/goToInventoryNew/New');
 				$scope.$apply();
 			});
@@ -1017,3 +936,153 @@ angular.module('newApp')
 		
 }]);
 
+
+
+angular.module('newApp')
+.controller('PhotoUploadCtrl', ['$scope','$routeParams','$location','apiserviceAddPhotos', function ($scope,$routeParams,$location,apiserviceAddPhotos) {
+   var myDropzone = new Dropzone("#dropzoneFrm",{
+	   parallelUploads: 30,
+	   headers: { "vinNum": $routeParams.num },
+	   acceptedFiles:"image/*",
+	   addRemoveLinks:true,
+	   autoProcessQueue:false,
+	   init:function () {
+		   this.on("queuecomplete", function (file) {
+		          
+		          $location.path('/managePhotos/'+$routeParams.num);
+		          $scope.$apply();
+		      });
+		   this.on("complete", function() {
+			   this.removeAllFiles();
+		   });
+	   }
+   });
+   $scope.uploadFiles = function() {
+	   Dropzone.autoDiscover = false;
+	   myDropzone.processQueue();
+	   
+   }
+   
+}]);
+
+
+angular.module('newApp')
+.controller('ManagePhotoCtrl', ['$scope','$routeParams','$location','$http','$timeout','apiserviceAddPhotos', function ($scope,$routeParams,$location,$http,$timeout,apiserviceAddPhotos) {
+	$scope.gridsterOpts = {
+		    columns: 6, // the width of the grid, in columns
+		    pushing: true, // whether to push other items out of the way on move or resize
+		    floating: true, // whether to automatically float items up so they stack (you can temporarily disable if you are adding unsorted items with ng-repeat)
+		    swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
+		     width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
+		     colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
+		    rowHeight: 'match', // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
+		    margins: [10, 10], // the pixel distance between each widget
+		    outerMargin: true, // whether margins apply to outer edges of the grid
+		    isMobile: false, // stacks the grid items if true
+		    mobileBreakPoint: 600, // if the screen is not wider that this, remove the grid layout and stack the items
+		    mobileModeEnabled: true, // whether or not to toggle mobile mode when screen width is less than mobileBreakPoint
+		    minColumns: 6, // the minimum columns the grid must have
+		    minRows: 1, // the minimum height of the grid, in rows
+		    maxRows: 100,
+		    defaultSizeX: 1, // the default width of a gridster item, if not specifed
+		    defaultSizeY: 1, // the default height of a gridster item, if not specified
+		    resizable: {
+			       enabled: false,
+			       handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
+			       start: function(event, $element, widget) {}, // optional callback fired when resize is started,
+			       resize: function(event, $element, widget) {}, // optional callback fired when item is resized,
+			       stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
+			    },
+		    /* minSizeX: 1, // minimum column width of an item
+		    maxSizeX: null, // maximum column width of an item
+		    minSizeY: 1, // minumum row height of an item
+		    maxSizeY: null, // maximum row height of an item
+		   */
+			    draggable: {
+				       enabled: true, // whether dragging items is supported
+				       handle: '.my-class', // optional selector for resize handle
+				       start: function(event, $element, widget) {}, // optional callback fired when drag is started,
+				       drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
+				       stop: function(event, $element, widget) {
+				    	   if($(event.target).html() == 'Set Default' || $(event.target).html() == 'Edit' || $(event.target)[0].className == 'glyphicon glyphicon-zoom-in' || $(event.target)[0].className == 'btn fa fa-times') {
+				    		   return;
+				    	   };
+				    	   for(var i=0;i<$scope.imageList.length;i++) {
+				    		   delete $scope.imageList[i].description;
+				    		   delete $scope.imageList[i].width;
+				    		   delete $scope.imageList[i].height;
+				    		   delete $scope.imageList[i].link;
+				    	   }
+				    	   apiserviceAddPhotos.savePosition($scope.imageList).then(function(data){
+				    	   
+					   			
+					   		});
+				    	   
+				    	   
+				       } // optional callback fired when item is finished dragging
+				    }
+		};
+	$scope.imageList = [];
+	$scope.init = function() {
+		 $timeout(function(){
+			 apiserviceAddPhotos.getImagesByVin($routeParams.num).then(function(data){
+				$scope.imageList = data;
+			});
+		 }, 3000);
+	}
+   
+	$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+		for(var i=0;i<$scope.imageList.length;i++) {
+			if($scope.imageList[i].defaultImage == true) {
+				$('#imgId'+i).css("border","3px solid");
+				$('#imgId'+i).css("color","red");
+			}
+		}
+	});
+	
+	$scope.setAsDefault = function(image,index) {
+		
+		for(var i=0;i<$scope.imageList.length;i++) {
+			if($scope.imageList[i].defaultImage == true) {
+				apiserviceAddPhotos.removeDefault($scope.imageList[i].id, image.id).then(function(data){
+				});
+				$('#imgId'+i).removeAttr("style","");
+				$scope.imageList[i].defaultImage = false;
+				image.defaultImage = true;
+				$('#imgId'+index).css("border","3px solid");
+				$('#imgId'+index).css("color","red");
+				break;
+			}
+		}
+		
+		if(i == $scope.imageList.length) {
+			
+			apiserviceAddPhotos.setDefaultImage(image.id).then(function(data){
+			});
+			
+			image.defaultImage = true;
+			$('#imgId'+index).css("border","3px solid");
+			$('#imgId'+index).css("color","red");
+		}
+		
+		
+	}
+	
+	$scope.deleteImage = function(img) {
+		
+		apiserviceAddPhotos.deleteImage(img.id).then(function(data){
+			$scope.imageList.splice($scope.imageList.indexOf(img),1);
+		});
+		
+	}
+	
+	$scope.showFullImage = function(image) {
+		$scope.imageId = image.id;
+		$scope.imageName = image.imgName;
+	}
+	
+	$scope.editImage = function(image) {
+		$location.path('/cropImage/'+image.id);
+	}
+	
+}]);
