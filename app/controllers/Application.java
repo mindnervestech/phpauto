@@ -14021,7 +14021,6 @@ private static void cancelTestDriveMail(Map map) {
 	    		vm.email = info.email;
 	    		vm.custZipCode = info.custZipCode;
 	    		vm.enthicity = info.enthicity;
-	    		vm.price = vehicle.price;
 	    		vm.requestDate = df.format(info.requestDate);
 	    		
 	    		//List<UserNotes> notesList = UserNotes.findRequestMoreByUser(info, info.assignedTo);
