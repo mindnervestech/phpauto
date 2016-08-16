@@ -30,14 +30,14 @@ angular.module('newApp')
  		 $scope.gridOptions.enableHorizontalScrollbar = 2;
  		 $scope.gridOptions.enableVerticalScrollbar = 2;
  		 $scope.gridOptions.columnDefs = [
-										{ name: 'title', displayName: 'Title', width:'12%',cellEditableCondition: false,
+										{ name: 'make', displayName: 'Make', width:'12%',cellEditableCondition: false,
 										 	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 										        if (row.entity.isRead === false) {
 										          return 'red';
 										        }
 										 	} ,
 										  },
-										  { name: 'designer', displayName: 'Designer', width:'8%',cellEditableCondition: false,
+										  { name: 'model', displayName: 'Model', width:'8%',cellEditableCondition: false,
 										 	cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
 										         if (row.entity.isRead === false) {
 										           return 'red';

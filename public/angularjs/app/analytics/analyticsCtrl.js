@@ -6561,7 +6561,7 @@ angular.module('newApp')
 
 	$scope.lineChartMap = function(lasttime){
 		console.log(lasttime);
-		apiserviceAnalytics.getAllVehicleSession(lasttime).then(function(data){
+		apiserviceAnalytics.getAllVehicleSession(lasttime).then(function(response){
 		
 			var randomScalingFactor = [10,20,30,40,50,60,70,80];
 			var lineChartData = {
