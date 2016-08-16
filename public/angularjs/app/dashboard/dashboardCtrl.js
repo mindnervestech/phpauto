@@ -2946,6 +2946,8 @@ angular.module('newApp')
 			// delete $scope.lead.options;
 			// delete $scope.lead.stockWiseData;
 			 apiserviceDashborad.editLeads($scope.editLeads,files).then(function(data){
+				 $("#editLeads").modal('hide');
+	   	  			$scope.getAllSalesPersonRecord($scope.salesPerson);
 			 });
 			 
 			}else{ 
