@@ -256,6 +256,8 @@ angular.module('app.apiserviceDashborad', [])
 		var defer = $q.defer();
 		$http.get('/getSessionIdData/'+sessionId).success(function(data) {
 			defer.resolve(data);
+		}).error(function(error){
+			defer.reject(error);
 		});
 		
 		return defer.promise;

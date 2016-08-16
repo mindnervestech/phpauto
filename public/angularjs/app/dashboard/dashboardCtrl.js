@@ -2745,12 +2745,10 @@ angular.module('newApp')
 			}
 			
 			
-		}).error(function(data, status) {
-			$scope.changeInfoImage("1");
-		});
-				
+		},function(error){
+  			$scope.changeInfoImage("1");
+  		});
 		
-  	  
 	 }
    	 
    	 
