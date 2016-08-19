@@ -358,7 +358,7 @@ var MakeApp = angular
           templateUrl: '/dealer/analytics/referrerTypeData.html',
           controller: 'VisitorsCtrl'
       })
-      .when('/visitorInfoForDomain/:idForDomain/:flagForLocation/:startDate2/:endDate2', {
+      .when('/visitorInfoForDomain/:idForDomain/:flagForLocation/:startDate2/:endDate2/:refDomain', {
           templateUrl: '/dealer/analytics/referrerTypeData.html',
           controller: 'VisitorsCtrl'
       })

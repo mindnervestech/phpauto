@@ -446,6 +446,7 @@ GET   /getTrafficSourceData/:title/:startDate/:endDate				controllers.ClickyAnal
 GET   /getreferrerTypeData/:type/:locationFlag/:startDate/:endDate			controllers.ClickyAnalyticsController.getreferrerTypeData(type:String,locationFlag:String,startDate:String,endDate:String)
 GET   /getVisitorDataForLanding/:id/:startDate/:endDate/:flagForLanding			controllers.ClickyAnalyticsController.getVisitorDataForLanding(id:Long,startDate:String,endDate:String,flagForLanding:String)
 GET   /getDataForSearch/:url/:startDate/:endDate			                    controllers.ClickyAnalyticsController.getDataForSearch(url:String,startDate:String,endDate:String)
+GET   /getReferrerDomain/:id			                    controllers.ClickyAnalyticsController.getReferrerDomain(id:Long)
 GET   /getEngagementAct/:startDate/:endDate			controllers.ClickyAnalyticsController.getEngagementAct(startDate:String,endDate:String)
 GET   /getsearchInfo/:id/:startDate/:endDate			controllers.ClickyAnalyticsController.getsearchInfo(id:Long,startDate:String,endDate:String)
 GET   /getEngineInfo/:title/:startDate/:endDate			controllers.ClickyAnalyticsController.getEngineInfo(title:String,startDate:String,endDate:String)

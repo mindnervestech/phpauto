@@ -13,6 +13,15 @@ angular.module('app.apiserviceAnalytics', [])
 		return defer.promise;
 	};
 	
+	this.getReferrerDomain=function(id){
+		var defer = $q.defer();
+		console.log(id);
+		$http.get('/getReferrerDomain/'+id).success(function(data) {
+			defer.resolve(data);
+		});
+		return defer.promise;
+	};
+	
 	this.getVisitorData=function(visitorInfos){
 		var defer = $q.defer();
 		$http.get('/getVisitorData/'+visitorInfos).success(function(data) {
