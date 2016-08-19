@@ -421,7 +421,7 @@ angular.module('newApp')
 						$scope.dateTime = data[0].confDate;
 						$scope.dateTime1 = data[0].confirmTime;
 						$scope.dateEndTime = data[0].confirmEndTime;
-						$('#userAppointment').click();
+						//$('#userAppointment').click();
 						angular.forEach(data, function(obj, index){
 							if(obj.fullName != null){
 								var name = obj.fullName+", ";

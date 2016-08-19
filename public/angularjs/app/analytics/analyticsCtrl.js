@@ -6,8 +6,6 @@ angular.module('newApp')
 	$scope.engActionTitle = $routeParams.title;
 	$scope.visitorInfos = $routeParams.visitorInfo;
 	$scope.ipAddressInfo = $routeParams.ipAddressInfo;
-	console.log($scope.ipAddressInfo);
-	console.log($routeParams.ipAddressInfo);
 	$scope.infoType = $routeParams.typeOfInfo;
 	$scope.typeOfReferrer = $routeParams.type;
 	$scope.idForDomain = $routeParams.idForDomain;
@@ -21,8 +19,6 @@ angular.module('newApp')
 	$scope.typeOfLand=$routeParams.flagForLandingUrl;
 	$scope.startDateForLand=$routeParams.startDateForLand;
 	$scope.endDateForLand=$routeParams.endDateForLand;
-	console.log("}}}}");
-	console.log($scope.engTimeTitle);
 	
 	//$rootScope.startDateFilter = moment().subtract('days', 7).format("YYYY-MM-DD");;
 	//$rootScope.endDateFilter = moment().add('days', -1).format("YYYY-MM-DD");
@@ -52,18 +48,14 @@ angular.module('newApp')
 	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD");
 	                    if($scope.typeOfInfo != undefined){
 	                    	
-	                    console.log($scope.typeOfInfo);	
 	                    $scope.setShowVisitorsInfoType($scope.typeOfInfo); 
 	                    
 	                    }
-	                    console.log($rootScope.startDateFilter);
-	            		console.log($rootScope.endDateFilter);
 	                    $scope.$emit('reportDateChange', { startDate: startDate, endDate: endDate });
 	                    $('.reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 6).format('YYYY-MM-DD'));
 	                $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
@@ -104,7 +96,6 @@ angular.module('newApp')
 		 $scope.gridOptions3.data = [];
 		 apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
 		 
-				console.log(data);
 				angular.forEach(data, function(value, key) {
 					var array = value.timePretty.split(',');
 					var timeNew= value.timePretty.split(' ');
@@ -128,16 +119,12 @@ angular.module('newApp')
 					
 					if($scope.engActionTitle != undefined){
 						var newactions = $scope.engActionTitle.split(" ");
-						console.log(value.actions);
-						console.log(newactions[1]);
 						if(newactions[1] == "actions" ||newactions[1] == "action"){
-							console.log(value.actions);
-							console.log(newactions[0]);
 							if(value.actions == newactions[0]){
 								$scope.gridOptions3.data.push(value);
 							}
 							else{
-								console.log("is else condition");
+								
 							}
 						}
 					}
@@ -145,7 +132,6 @@ angular.module('newApp')
 					if($scope.engTimeTitle != undefined){
 						
 						var newtime = $scope.engTimeTitle.split('');
-						console.log(newtime);
 						if($scope.engTimeTitle.length == 3){
 							
 							timedata = value.timeTotal.split("m");
@@ -200,9 +186,6 @@ angular.module('newApp')
 					
 			$scope.gridOptions3.data = $filter('orderBy')($scope.gridOptions3.data,'dateClick');
 			$scope.gridOptions3.data = $scope.gridOptions3.data.reverse();
-			console.log($scope.gridOptions3.data);
-			
-			 console.log($scope.gridOptions3.data);
 			$scope.visitiorList = data;
 		});
 		
@@ -249,12 +232,10 @@ angular.module('newApp')
 	  var startdate= new Date(date.getFullYear(), date.getMonth(), 1);
 	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
 		{
-		  console.log("in if");
 		$scope.startDate=$rootScope.startDateFilter;
 		$scope.endDate=$rootScope.endDateFilter;
 		}
 	else{
-		console.log("in else");
 		 $rootScope.startDateFilter= moment().subtract('days', 7).format('YYYY-MM-DD ');
        $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 	}
@@ -288,7 +269,6 @@ angular.module('newApp')
 				 
 						
 						$scope.gridOptions1.data=data;
-						 console.log($scope.gridOptions1.data);
 							$scope.visitiorList = data;
 						});
 						
@@ -327,10 +307,8 @@ angular.module('newApp')
 			 
 			 else if($scope.ipAddressInfo != undefined){
 			
-				console.log($scope.ipAddressInfo);
 				apiserviceAnalytics.getIPAddress($scope.ipAddressInfo).then(function(data){
 				
-					console.log("ip Address");
 					$scope.latitude=data.latitude; 
 					$scope.longitude=data.longitude;
 					initialized();
@@ -350,7 +328,6 @@ angular.module('newApp')
 			
 			else if($scope.infoType != undefined && $scope.infoType != null  ){
 				
-				console.log($scope.infoType);
 				$scope.typeOfInfo = $scope.infoType;
 				$scope.DateWiseFind();
 				
@@ -361,7 +338,6 @@ angular.module('newApp')
 	        	$scope.typeOfInfo="";	
 	        	apiserviceAnalytics.getTrafficSourceData($scope.trafficSourceTitle, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
 	        	
-					console.log(data);
 					$scope.gridOptions2.data = data;
 					$scope.browserObjList = data;
 					
@@ -434,14 +410,10 @@ angular.module('newApp')
 			
 			else if( $scope.engTimeTitle != undefined ){
 		        	$scope.typeOfInfo="";	
-		        	console.log($scope.startDate);
-		        	console.log($scope.endDate);
 		        	apiserviceAnalytics.getEngTimeData($scope.engTimeTitle, $scope.startDate, $scope.endDate).then(function(data){
 		        	
-						console.log(data);
 						$scope.gridOptions2.data = data;
 						$scope.browserObjList = data;
-						console.log($scope.gridOptions2.data);
 						angular.forEach($scope.gridOptions2.data, function(value, key) {
 							if(value.title=="totalT"){
 								value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
@@ -510,11 +482,8 @@ angular.module('newApp')
 			
 			  else if( $scope.engActionTitle != undefined ){
         	$scope.typeOfInfo="";	
-        	console.log("out of engaction function");
         	apiserviceAnalytics.getEngActionData($scope.engActionTitle, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
         	
-				console.log(data);
-				console.log("in get engaction function");
 				$scope.gridOptions2.data = data;
 				$scope.browserObjList = data;
 				
@@ -584,17 +553,13 @@ angular.module('newApp')
 			
 			
 			if($scope.typeOfReferrer != undefined && $scope.typeOfReferrer != null){
-				console.log("in domain functon");
 				apiserviceAnalytics.getreferrerTypeData($scope.typeOfReferrer,$scope.locationFlag, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
 				
 				$scope.chartFlag1=false;
-				console.log("out domain functon"+$scope.gridOptions1.data);
 				$scope.gridOptions1.data = data;
-				console.log(data);
 				angular.forEach($scope.gridOptions1.data, function(value, key) {
 					if( value.city != null && value.city != undefined  ){
 						$scope.city=value.city;
-						console.log($scope.city);
 					}
 					if(value.title=="totalT"){
 						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
@@ -677,18 +642,14 @@ angular.module('newApp')
 				
 			}
 			if($scope.idForDomain != undefined && $scope.idForDomain != null){
-				console.log("in domain functon");
 				$scope.flagForLanding="ForDomain";
 				apiserviceAnalytics.getVisitorDataForLanding($scope.idForDomain,$scope.flagForLanding, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
 				
 				$scope.chartFlag1=false;
-				console.log("out domain functon"+$scope.gridOptions1.data);
 				$scope.gridOptions1.data = data;
-				console.log(data);
 				angular.forEach($scope.gridOptions1.data, function(value, key) {
 					if( value.city != null && value.city != undefined  ){
 						$scope.city=value.city;
-						console.log($scope.city);
 					}
 					if(value.title=="totalT"){
 						value.these_visitors=$filter('date')(new Date(0, 0, 0).setSeconds(parseInt(value.these_visitors)), 'HH:mm:ss');
@@ -760,12 +721,10 @@ angular.module('newApp')
 			}
 			
 			if($scope.idForRefferal != undefined && $scope.idForRefferal != null){
-				console.log("in domain functon");
 				$scope.flagForLanding="ForRefferalUrl";
 				apiserviceAnalytics.getVisitorDataForLanding($scope.idForRefferal,$scope.flagForLanding, $rootScope.startDateFilter, $rootScope.endDateFilter).then(function(data){
 				
 				$scope.chartFlag1=false;
-				console.log("out domain functon"+$scope.gridOptions1.data);
 				$scope.gridOptions1.data = data;
 				console.log(data);
 				angular.forEach($scope.gridOptions1.data, function(value, key) {
@@ -912,7 +871,6 @@ angular.module('newApp')
 				apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
 				 
 					$scope.gridOptions.data = data;
-					console.log(data);
 					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'dateClick');
 					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 					//console.log($scope.gridOptions.data);
@@ -966,12 +924,9 @@ angular.module('newApp')
 				
 			}else if($scope.typeOfInfo == 'Action log'){
 				$scope.tabClickFlag=2;
-				console.log($scope.startDateFilter);
-				console.log($scope.endDateFilter);
 				apiserviceAnalytics.getActionListData($scope.startDateFilter,$scope.endDateFilter).then(function(data){
 				 
 					$scope.gridOptions.data = data;
-					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
 					
 					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'curr_Date');
@@ -993,13 +948,8 @@ angular.module('newApp')
 									         ]
 			}else if($scope.typeOfInfo == 'Engagement action'){
 				$scope.tabClickFlag=3;
-				console.log($scope.startDateFilter);
-				console.log($scope.endDateFilter);
 				apiserviceAnalytics.getEngagementAct($scope.startDateFilter,$scope.endDateFilter).then(function(data){
-				 
-						console.log(data);
 					$scope.gridOptions.data = data;
-					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
 					
 					
@@ -1022,8 +972,6 @@ angular.module('newApp')
 					
 					
 					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'sortingValue');
-					console.log($scope.gridOptions.data);
-					//$scope.gridOptions.data = $scope.gridOptions.data.reverse();
 				});
 				 
 				 $scope.gridOptions.columnDefs = [
@@ -1091,7 +1039,6 @@ angular.module('newApp')
 						value.sortingValue = parseInt("10");
 					}
 					else if(value.title == '>60m'){
-						console.log("inn<60m");
 						value.sortingValue = parseInt("70");
 					}
 				});
@@ -1099,7 +1046,6 @@ angular.module('newApp')
 				
 				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'sortingValue');
 				
-				console.log($scope.gridOptions.data);
 				
 				
 			});
@@ -1125,12 +1071,9 @@ angular.module('newApp')
 				
 			}else if($scope.typeOfInfo == 'Traffic soures'){
 				$scope.tabClickFlag=6;
-				console.log($scope.startDateFilter);
-				console.log($scope.endDateFilter);
 				apiserviceAnalytics.getTrafficScoures($scope.startDateFilter,$scope.endDateFilter).then(function(data){
 				
 				$scope.gridOptions.data = data;
-				console.log(data);
 				$scope.visitiorList = data;
 				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
@@ -1192,7 +1135,6 @@ angular.module('newApp')
 				console.log($scope.endDateFilter);
 				apiserviceAnalytics.getActiveVisitors($scope.startDateFilter,$scope.endDateFilter).then(function(data){
 				
-					console.log(data);
 				$scope.gridOptions.data = data;
 				console.log($scope.gridOptions.data);
 				$scope.clickyList = data;
@@ -1231,17 +1173,6 @@ angular.module('newApp')
 		 $scope.flagForVisitor = false;
 		 $scope.visitorInfo={};
 		 $scope.showVisitorInfo = function(id) {
-			 console.log(id);
-			// $scope.visitorInfo=data;
-			/* $scope.flagForChart1 = false;
-			 $scope.flagForChart = false;
-			 $scope.visitorInfo=data;
-			 $scope.latitude=data.latitude;
-			 $scope.longitude=data.longitude;
-			
-			 initialized();
-			// loadScript()
-			 $scope.flagForVisitor = true;*/
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
 					$location.path('/visitorInfo/'+id+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
@@ -1268,7 +1199,6 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.getTrafficInfo= function(title) {
-			 console.log(title);
 		  $location.path('/getTrafficInfo/'+title);
 		 }
 		 
@@ -1279,35 +1209,28 @@ angular.module('newApp')
 			 
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log(endDate);
 			 $scope.flagForLocation='other';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDate1+"/"+$scope.endDate1);
 			 
 		 }
 		 
 		 $scope.referrerTypeDataForLocation = function(type) {
-			 console.log("location is " +type);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log($scope.endDate1);
 			 $scope.flagForLocation='location';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.startDateFilter);
 			 
 		 }
 		 $scope.showUrlInfoForDomain = function(id) {
-			 console.log("google.com " + id);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log($scope.endDate1);
 			 $scope.flagForLocation='location';
 			 $location.path('/visitorInfoForDomain/'+id+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.startDateFilter);
 			 
 		 }
 		 $scope.showUrlInfoForRefferal = function(id) {
-			 console.log("Referrer id is " + id);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log($scope.endDate1);
 			 $scope.flagForLocation='location';
 			 $location.path('/visitorInfoForRefferal/'+id+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.startDateFilter);
 			 
@@ -1317,7 +1240,6 @@ angular.module('newApp')
 			
 			 var startDate = $("#cnfstartDateValue").val();
 			 var endDate = $("#cnfendDateValue").val();
-			 console.log($scope.startDate1);
 			 $scope.flagForLocation='IP';
 			// $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+startDate+"/"+endDate);
 			 $scope.latitude=undefined;
@@ -1338,20 +1260,16 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.referrerTypeDataForLang = function(type) {
-			 console.log(type);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log(endDate);
 			 $scope.flagForLocation='language';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
 		 }
 		 
 		 $scope.referrerTypeDataForOrg = function(type) {
-			 console.log(type);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log(endDate);
 			 $scope.flagForLocation='org';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
@@ -1359,10 +1277,8 @@ angular.module('newApp')
 		 
 		 
 		 $scope.referrerTypeDataForHost = function(type) {
-			 console.log(type);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log(endDate);
 			 $scope.flagForLocation='host';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
@@ -1370,10 +1286,8 @@ angular.module('newApp')
 		 
 		 
 		 $scope.referrerTypeDataForBrowser = function(type) {
-			 console.log(type);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log(endDate);
 			 $scope.flagForLocation='browser';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
@@ -1381,10 +1295,8 @@ angular.module('newApp')
 		
 		 
 		 $scope.referrerTypeDataForOs = function(type) {
-			 console.log(type);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log(endDate);
 			 $scope.flagForLocation='os';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
@@ -1392,17 +1304,13 @@ angular.module('newApp')
 		
 		 
 		 $scope.referrerTypeDataForScreen = function(type) {
-			 console.log(type);
 			 var startDate = $("#cnfstartDateValue").val();
 				var endDate = $("#cnfendDateValue").val();
-				console.log(endDate);
 			 $scope.flagForLocation='screen';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
 		 }
 		 $scope.referrerTypeDataForDomain = function(type) {
-			 console.log("domain type"+type);
-			 
 			 $scope.flagForLocation='Domain';
 			 $location.path('/visitorInfoForMap/'+type+"/"+$scope.flagForLocation+"/"+$scope.startDateFilter+"/"+$scope.endDateFilter);
 			 
@@ -1413,18 +1321,12 @@ angular.module('newApp')
 		 
 		 
 		 $scope.showUrlInfo = function(id) {
-			 console.log(id);
 			 var startDate = $("#cnfstartDateValue").val();
 			var endDate = $("#cnfendDateValue").val();	 
 				console.log(endDate);
 				$scope.flagForLanding="ForSearch";
 				apiserviceAnalytics.getVisitorDataForLanding(id, $scope.startDateFilter, $scope.endDateFilter,$scope.flagForLanding).then(function(data){
-			 
-				console.log("::::::::");
-				console.log(data);
-				
 				$scope.gridOptions.data = data;
-				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
 				
 			});
@@ -1450,7 +1352,6 @@ angular.module('newApp')
 		 $scope.flagForChart1 = true;
 		 $scope.flagForChart = true;
 		 $scope.showEngagementActionChart = function(title) {
-			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
 				
@@ -1509,7 +1410,6 @@ angular.module('newApp')
 		 $scope.flagForChart1 = true;
 		 $scope.flagForChart = true;
 		 $scope.showTrafficScouresChart = function(title) {
-			 console.log(">>>>>>>>");
 			 var startDate =$rootScope.startDateFilter;
 				var endDate =$rootScope.endDateFilter;	 
 				
@@ -1632,9 +1532,6 @@ angular.module('newApp')
 	$scope.idForEvent=$routeParams.idForEvent;
 	$scope.idForPages=$routeParams.idForPages;
 	$scope.idForExit=$routeParams.idForExit;
-	console.log($scope.idForPages);
-	console.log("pages id");
-	
 	$scope.gridOptions = {
 	 		 paginationPageSizes: [10, 25, 50, 75,100,125,150,175,200],
 	 		    paginationPageSize: 150,
@@ -1685,7 +1582,6 @@ angular.module('newApp')
 	                    $rootScope.endDateFilter = moment(end).format("YYYY-MM-DD");
 	                    if($scope.typeOfInfo != undefined){
 	                    	
-	                    console.log($scope.typeOfInfo);	
 	                    $scope.setShowPagesInfoType($scope.typeOfInfo); 
 	                    
 	                    }
@@ -1696,7 +1592,6 @@ angular.module('newApp')
 	                    $scope.$apply();
 	                }
 	            );
-	                console.log(moment().subtract('days', 6).format('YYYY-MM-DD '));
 	                $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD');
 	                $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 
@@ -1714,12 +1609,10 @@ angular.module('newApp')
 
 	  if($rootScope.startDateFilter != undefined && $rootScope.endDateFilter !=undefined )
 		{
-		  console.log("in if");
 		$scope.startDate=$rootScope.startDateFilter;
 		$scope.endDate=$rootScope.endDateFilter;
 		}
 	else{
-		console.log("in else");
 		 $rootScope.startDateFilter= moment().subtract('days', 6).format('YYYY-MM-DD ');
          $rootScope.endDateFilter = moment().format("YYYY-MM-DD");
 	}
@@ -1730,14 +1623,9 @@ angular.module('newApp')
 			$scope.endDate=$rootScope.endDateFilter;
 			
 			$scope.DateWiseFind();
-			console.log($scope.startDate);
-			console.log($scope.endDate);
-			
 			if($scope.idForGrid != undefined){
-				console.log($scope.idForGrid);
 				apiserviceAnalytics.getEntranceData($scope.idForGrid, $scope.startDate, $scope.endDate).then(function(data){
 				
-				console.log(data);
 				$scope.gridOptions1.data = data;
 				$scope.browserObjList = data;
 				
@@ -1806,10 +1694,8 @@ angular.module('newApp')
 		}
 		
 			if($scope.idForPages != undefined){
-				console.log($scope.idForPages);
 				apiserviceAnalytics.getPagesData($scope.idForPages, $scope.startDate, $scope.endDate).then(function(data){
 				
-				console.log("In pages function");
 				$scope.gridOptions1.data = data;
 				$scope.pagesObjList = data;
 				
@@ -1878,10 +1764,8 @@ angular.module('newApp')
 		}
 			
 			if($scope.idForEvent != undefined){
-				console.log($scope.idForEvent);
 				apiserviceAnalytics.getEventData($scope.idForEvent, $scope.startDate, $scope.endDate).then(function(data){
 				
-				console.log(data);
 				$scope.gridOptions1.data = data;
 				$scope.browserObjList = data;
 				
@@ -1950,11 +1834,8 @@ angular.module('newApp')
 			
 			
 			if($scope.idForExit != undefined){
-				console.log($scope.idForExit);
-				console.log("inside exit");
 				apiserviceAnalytics.getExitData($scope.idForExit, $scope.startDate, $scope.endDate).then(function(data){
 				
-				console.log(data);
 				$scope.gridOptions1.data = data;
 				$scope.browserObjList = data;
 				
@@ -2038,11 +1919,8 @@ angular.module('newApp')
 			 apiserviceAnalytics.getVisitorList($scope.startDateFilter, $scope.endDateFilter).then(function(data){
 			
 				$scope.gridOptions2.data = data;
-				console.log($scope.gridOptions2.data);
 				$scope.gridOptions2.data = $filter('orderBy')($scope.gridOptions2.data,'dateClick');
 				$scope.gridOptions2.data = $scope.gridOptions2.data.reverse();
-				//console.log($scope.gridOptions.data);
-				//cellFilter: 'date:"yyyy-MM-dd"',enableSorting: true,
 				angular.forEach($scope.gridOptions2.data, function(value, key) {
 					var array = value.timePretty.split(',');
 					var timeNew= value.timePretty.split(' ');
@@ -2061,7 +1939,6 @@ angular.module('newApp')
 					 
 					
 				});
-				 console.log($scope.gridOptions2.data);
 				$scope.visitiorList = data;
 			});
 			
@@ -2103,22 +1980,15 @@ angular.module('newApp')
 		 $scope.DateWiseFind = function(){
 			 var startDate =$rootScope.startDateFilter;
 			var endDate =$rootScope.endDateFilter;
-			console.log(endDate);
-			
 			if(endDate == '' || startDate == ''){
 				 var startDate = $scope.startDate;
 					var endDate = $scope.endDate;
 			}
 			if($scope.typeOfInfo == 'Pages'){
 				$scope.gridOptions.data = [];
-				console.log(startDate);
-				console.log(endDate);
 				apiserviceAnalytics.getPagesListDale(startDate, endDate).then(function(data){
 				 
 					$scope.gridOptions.data = data;
-					//console.log($scope.gridOptions.data);
-					
-					 console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
 					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
@@ -2179,7 +2049,6 @@ angular.module('newApp')
 				apiserviceAnalytics.getEntranceList(startDate, endDate).then(function(data){
 				 
 						$scope.gridOptions.data = data;
-					console.log($scope.gridOptions.data);
 					$scope.visitiorList = data;
 					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 					$scope.gridOptions.data = $scope.gridOptions.data.reverse();
@@ -2230,8 +2099,6 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Exit'){
 				$scope.gridOptions.data = [];
 				apiserviceAnalytics.getExit(startDate, endDate).then(function(data){
-				 
-					console.log(data);	
 					$scope.gridOptions.data = data;
 					$scope.visitiorList = data;
 					$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
@@ -2283,8 +2150,6 @@ angular.module('newApp')
 				apiserviceAnalytics.getDownloads(startDate, endDate).then(function(data){
 				
 				$scope.gridOptions.data = data/*[0].dates[0].items*/;
-				console.log($scope.gridOptions.data);
-				console.log("fghjhhhhhhhhhhhhhhhhh");
 				$scope.visitiorList = data/*[0].dates[0].items*/;
 				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
@@ -2335,7 +2200,6 @@ angular.module('newApp')
 				apiserviceAnalytics.getEvent(startDate, endDate).then(function(data){
 				
 				$scope.gridOptions.data = data/*[0].dates[0].items*/;
-				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data/*[0].dates[0].items*/;
 				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
@@ -2384,10 +2248,7 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Media'){
 				$scope.gridOptions.data = [];
 				apiserviceAnalytics.getMediaDetails(startDate, endDate).then(function(data){
-				
-					console.log(data);
 			    $scope.gridOptions.data = data;
-				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
 				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
@@ -2435,10 +2296,7 @@ angular.module('newApp')
 			}else if($scope.typeOfInfo == 'Domains'){
 				$scope.gridOptions.data = [];
 				apiserviceAnalytics.getDomains(startDate, endDate).then(function(data){
-				
-					console.log(data);
 				$scope.gridOptions.data = data;
-				console.log($scope.gridOptions.data);
 				$scope.visitiorList = data;
 				$scope.gridOptions.data = $filter('orderBy')($scope.gridOptions.data,'value');
 				$scope.gridOptions.data = $scope.gridOptions.data.reverse();
@@ -2489,7 +2347,6 @@ angular.module('newApp')
 		 }
 		 
 		 $scope.mediaFunction = function(){
-				console.log("in media function");
 				 var startDate = $rootScope.startDateFilter;
 				 var endDate = $rootScope.endDateFilter;	 
 				 console.log(startDate);
