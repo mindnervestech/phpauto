@@ -980,7 +980,10 @@
                  if(form.component === "numberInput"){
                 	 formFields.push(getJsonBForNumberInput(form));
                 }
-                 
+                if(form.component === "leadTypeSelector"){
+                  	formFields.push(getJsonBForleadTypeSelector(form));
+                 }
+                
                  if(form.component === "multipleselect"){
                    	 formFields.push(getJsonBForMultipleselect(form));
                    }
@@ -1331,6 +1334,36 @@
            return optionsArray;
          }
 
+         function getJsonBForleadTypeSelector(jsonObject){
+             var key;
+             if(jsonObject.key === ""){
+               key = jsonObject.label;
+               key = key.replace(" ","_");
+               key = key.toLowerCase();
+             }else{
+               key = jsonObject.key;
+             }
+             var properties = getPropertiesForEditable(jsonObject.editable);
+             var options = [];
+             options = getPropertiesForSelectOptions(jsonObject.options);
+             var convertedObject = {
+               "key": key,
+               "type": jsonObject.component,
+               "templateOptions": {
+                 "label": jsonObject.label,
+                 "options": options,
+                 "valueProp": "id",
+                 "labelProp": "label",
+                 "required": jsonObject.required
+                 },
+                 "expressionProperties": properties,
+                 "hideExpression" : function($viewValue, $modelValue, scope) {
+                   return isHideComponent(jsonObject);
+                 }
+             }
+             return convertedObject;
+           }
+         
          function getJsonBForSelect(jsonObject){
            var key;
            if(jsonObject.key === ""){
@@ -1778,7 +1811,12 @@ angular.module('newApp').controller('customizationCtrl',
 	    		$scope.searchList = data;
 	    		console.log($scope.searchList);
 	    	 });
-	    	
+	    	$http.get('/getSelectedLeadType').success(function(data) {
+    			
+				console.log(data);
+				$scope.leadList = data; 
+			
+			});
 	    	$scope.financeData = {};
 	    	 $scope.financeData.downPayment=1000;
   	  		  $scope.financeData.annualInterestRate=7;
