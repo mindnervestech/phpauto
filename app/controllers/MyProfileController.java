@@ -2223,10 +2223,12 @@ public class MyProfileController extends Controller{
 		    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
 		    	UserVM vm = form.get();
 		    	AuthUser userObj = AuthUser.findById(vm.id);
-		    	
+		    	System.out.println("hiiiiiii");
 		    	if(body != null) {
-			    	   File file1 = new File(rootDir+userObj.imageUrl);
-			    	   file1.delete();
+		    		
+			    	   //File file1 = new File(rootDir+userObj.imageUrl);
+			    	   System.out.println(userObj.imageUrl);
+			    	   //file1.delete();
 			    		FilePart picture = body.getFile("file0");
 				    	  if (picture != null) {
 				    	    String fileName = picture.getFilename();
@@ -2235,6 +2237,7 @@ public class MyProfileController extends Controller{
 				    	    	fdir.mkdir();
 				    	    }
 				    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+				    	    System.out.println(filePath);
 				    	    File file = picture.getFile();
 				    	    try {
 					    	    	if(new File(filePath).exists()) {
@@ -2934,8 +2937,6 @@ public static Result saveUser() {
 		    	userObj.trainingCost = vm.trainingCost;
 		    	userObj.trainingHours = vm.trainingHours;
 		    	userObj.quota = vm.quota;
-		    	System.out.println("909090900000000000000()()()()()()()(09)()()()0_________________--------------------");
-		    	System.out.println(vm.imageUrl);
 		    	if(!vm.userType.equals("Photographer")){
 		    		userObj.imageUrl = vm.imageUrl;
 		    	}
