@@ -2214,9 +2214,6 @@ public class MyProfileController extends Controller{
 		}
 	    
 	    public static Result updateUserMaven() {
-	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	    		return ok(home.render("",userRegistration));
-	    	} else {
 	    		boolean isNew = true;
 	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 	    		MultipartFormData body = request().body().asMultipartFormData();
@@ -2263,8 +2260,7 @@ public class MyProfileController extends Controller{
 			    	   }
 		    	
 			 		return ok();
-	    	}    	
-	    }
+	    }    	
 	    
 	    public static Result updateUser() {
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
@@ -3257,8 +3253,19 @@ public static Result saveUser() {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-		  			message.setRecipients(Message.RecipientType.TO,
-		  			InternetAddress.parse(userObj.email));
+		  			if(userObj != null){
+		  				if(userObj.email != null){
+		  					message.setRecipients(Message.RecipientType.TO,
+		  				  			InternetAddress.parse(userObj.email));
+		  				}else{
+		  					message.setRecipients(Message.RecipientType.TO,
+		  				  			InternetAddress.parse("abc@gmail.com"));
+		  				}
+		  			}else{
+		  				message.setRecipients(Message.RecipientType.TO,
+	  				  			InternetAddress.parse("abc@gmail.com"));
+		  			}
+		  			
 		  			message.setSubject("Your username and password ");	  			
 		  			Multipart multipart = new MimeMultipart();
 	    			BodyPart messageBodyPart = new MimeBodyPart();
