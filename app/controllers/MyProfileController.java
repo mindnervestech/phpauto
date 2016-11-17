@@ -2884,7 +2884,9 @@ public static Result saveUser() {
 		    	userObj.trainingCost = vm.trainingCost;
 		    	userObj.trainingHours = vm.trainingHours;
 		    	userObj.quota = vm.quota;
-		    	userObj.imageUrl = vm.imageUrl;
+		    	System.out.println("909090900000000000000()()()()()()()(09)()()()0_________________--------------------");
+		    	System.out.println(vm.imageUrl);
+		    	//userObj.imageUrl = vm.imageUrl;
 		    	if(vm.premiumFlag.equals("true")){
 		    		userObj.premiumFlag = "1";
 		    	}else{
