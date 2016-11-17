@@ -3284,17 +3284,22 @@ public static Result saveUser() {
 	    			if(vm.pdfIds != null){
 	    			for(Long ls:vm.pdfIds){
 	 	    		   iPdf = InternalPdf.findPdfById(ls);  
-	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
-	 	    		  File f = new File(PdfFile);
-	 	    		 MimeBodyPart attachPart = new MimeBodyPart();
-	 	    		 try {
-	    					attachPart.attachFile(f);
-	    		  	      } catch (IOException e) {
-	    		  	       	// TODO Auto-generated catch block
-	    		  	       		e.printStackTrace();
-	    		  	    }
-	    			 multipart.addBodyPart(attachPart);
-	 	    	   }
+	 	    		   if(iPdf != null){
+	 	    			   if(iPdf.pdf_path != null){
+	 	    			   
+		 	    			  String PdfFile = rootDir + File.separator + iPdf.pdf_path;
+			 	    		  File f = new File(PdfFile);
+			 	    		 MimeBodyPart attachPart = new MimeBodyPart();
+			 	    		 try {
+			    					attachPart.attachFile(f);
+			    		  	      } catch (IOException e) {
+			    		  	       	// TODO Auto-generated catch block
+			    		  	       		e.printStackTrace();
+			    		  	    }
+			    			 multipart.addBodyPart(attachPart);
+		 	    		   }
+	 	    		   }
+	 	    	   	   }
 	    			}
 	 	    		
 	    			
