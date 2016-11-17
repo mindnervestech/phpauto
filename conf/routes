@@ -335,6 +335,7 @@ POST    /UpdateuploadManagerImageFile	controllers.MyProfileController.Updateuplo
 POST    /uploadLocationImageFile	controllers.MyProfileController.uploadLocationImageFile()
 POST	/updateUploadLocationImageFile		controllers.MyProfileController.updateUploadLocationImageFile()
 POST    /updateImageFile            controllers.MyProfileController.updateUser() 
+POST   /updateUserMaven             controllers.MyProfileController.updateUserMaven()
 POST    /saveSalesHoursForService          controllers.MyProfileController.saveSalesHoursForService()  
 POST    /saveSalesHoursForParts          controllers.MyProfileController.saveSalesHoursForParts()  
 POST    /saveHours           controllers.MyProfileController.saveHours() 
