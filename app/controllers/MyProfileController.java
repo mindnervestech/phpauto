@@ -2227,7 +2227,7 @@ public class MyProfileController extends Controller{
 		    	if(body != null) {
 		    		
 			    	   //File file1 = new File(rootDir+userObj.imageUrl);
-			    	   System.out.println(userObj.imageUrl);
+			    	  // System.out.println(userObj.imageUrl);
 			    	   //file1.delete();
 			    		FilePart picture = body.getFile("file0");
 				    	  if (picture != null) {
