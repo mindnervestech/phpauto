@@ -2886,7 +2886,10 @@ public static Result saveUser() {
 		    	userObj.quota = vm.quota;
 		    	System.out.println("909090900000000000000()()()()()()()(09)()()()0_________________--------------------");
 		    	System.out.println(vm.imageUrl);
-		    	//userObj.imageUrl = vm.imageUrl;
+		    	if(!vm.userType.equals("Photographer")){
+		    		userObj.imageUrl = vm.imageUrl;
+		    	}
+		    	
 		    	if(vm.premiumFlag.equals("true")){
 		    		userObj.premiumFlag = "1";
 		    	}else{
