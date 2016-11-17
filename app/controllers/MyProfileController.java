@@ -2852,7 +2852,7 @@ public class MyProfileController extends Controller{
 			   return ok(Json.toJson(Long.valueOf(session("USER_LOCATION"))));
 		   }
 	    
-	    public static Result saveUser() {
+public static Result saveUser() {
 	    	
     		Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
     		MultipartFormData body = request().body().asMultipartFormData();
@@ -2861,6 +2861,7 @@ public class MyProfileController extends Controller{
 	    	
 	    	AuthUser uAuthUser = AuthUser.findByEmail(vm.email);
 	    	AuthUser userObj = new AuthUser();
+	    	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	    	if(uAuthUser == null){
 	    		
 		    	userObj.firstName = vm.firstName;
@@ -2889,6 +2890,16 @@ public class MyProfileController extends Controller{
 		    	}else{
 		    		userObj.premiumFlag = "0";
 		    	}
+		    	
+		    	try {
+		    		if(vm.contractDurEndDate != null)
+		    			userObj.contractDurEndDate = dateFormat.parse(vm.contractDurEndDate);
+		    		if(vm.contractDurStartDate != null)
+		    			userObj.contractDurStartDate = dateFormat.parse(vm.contractDurStartDate);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		    	
 		    	String arr2[] = null;
 		    	 if(body != null) {
 		    		 String abcd= vm.permissions.get(0);
@@ -2897,6 +2908,14 @@ public class MyProfileController extends Controller{
 		 	    	abcd = abcd.replace("\"", "");
 		 	    	arr2 = abcd.split(",");
 		    	 }
+		    	 
+		    	 if(body != null){
+		    		String[] roles = vm.permissions.get(0).replaceAll("[\\[\\](){}\"]","").split(",");
+		    		vm.permissions = new ArrayList<>();
+		    		for (int i = 0; i < roles.length; i++) {
+		    			vm.permissions.add(roles[i]);
+					}
+		    	}
 		    	
 		    	final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		    	Random rnd = new Random();
@@ -2913,9 +2932,11 @@ public class MyProfileController extends Controller{
 		    		  //userObj.permission = permissionList;
 		    		   List<Permission> permissionData = new ArrayList<>();
 		    		   for(Permission obj: permissionList) {
-		    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
-		    				   permissionData.add(obj);
-		    			   }
+    					   for(String per: vm.permissions) {//obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")
+    						   if(obj.name.equals(per)) {
+    		    				   permissionData.add(obj);
+    		    			   }
+    					   }
 		    		   }
 		    		   userObj.permission = permissionData;
 		    	   }
@@ -2929,28 +2950,41 @@ public class MyProfileController extends Controller{
 		    		   }
 		    		   userObj.permission = permissionData;
 		    	   }
-		    	   
+		    	   if(vm.userType.equals("Front Desk")) {
+		    		   List<Permission> permissionData = new ArrayList<>();
+		    		   for(Permission obj: permissionList) {
+		    			   for(String per: vm.permissions) {
+		    				   if(obj.name.equals(per)) {
+    		    				   permissionData.add(obj);
+    		    			   }
+		    			   }
+		    			   /*if(obj.name.equals("Calendar")) {
+		    				   permissionData.add(obj);
+		    			   }*/
+		    		   }
+		    		   userObj.permission = permissionData;
+		    	   }
 		    	   
 		    	   if(vm.userType.equals("Sales Person")) {
 		    		   
 		    		  // String aa = vm.permissions.get(0);
 		    		   List<Permission> permissionData = new ArrayList<>();
 		    		   for(Permission obj: permissionList) {
-		    			   if(body != null) {
+		    			   /*if(body != null) {
 		    				   for(String role:arr2){
 	    						   if(obj.name.equals(role)) {
 				    				   permissionData.add(obj);
 		    					   }
 	    				   
 		    				   }
-		    			   }else{
+		    			   }else{*/
 		    				   for(String role:vm.permissions){
 	    						   if(obj.name.equals(role)) {
 				    				   permissionData.add(obj);
 		    					   }
 	    				   
 		    				   }
-		    			   }
+		    			   //}
 		    			   
 		    			   /*if(!obj.name.equals("Home Page Editing") && !obj.name.equals("Blogs") && !obj.name.equals("My Profile") && !obj.name.equals("Account Settings")) {
 		    				   permissionData.add(obj);
@@ -3075,7 +3109,9 @@ public class MyProfileController extends Controller{
 			    				pOperation.satOpen = 0;
 			    			}
 			    		pOperation.portalName = vm.portalName;
+			    		if(vm.contractDurEndDate != null){
 			    			pOperation.contractDurEndDate = df.parse(vm.contractDurEndDate);
+			    		}
 			    			pOperation.contractDurStartDate = df.parse(vm.contractDurStartDate);
 			    			if(uAuthUser == null){
 			    				pOperation.user = AuthUser.findById(userObj.id);
@@ -3109,10 +3145,15 @@ public class MyProfileController extends Controller{
 		    	    File file = picture.getFile();
 		    	    try {
 		    	    		FileUtils.moveFile(file, new File(filePath));
-		    	    		AuthUser user = AuthUser.findById(userObj.id);
-		    	    		user.setImageUrl("/"+vm.locationId+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
-		    	    		user.setImageName(fileName);
-		    	    		user.update();	
+		    	    		if(userObj != null){
+			    	    		AuthUser user = AuthUser.findById(userObj.id);
+			    	    		if(user != null){
+			    	    			user.setImageUrl("/"+vm.locationId+"/"+user.id+"/"+"userPhoto"+"/"+fileName);
+				    	    		user.setImageName(fileName);
+				    	    		user.update();	
+			    	    		}
+		    	    		}
+		    	    		
 		    	    		
 		    	  } catch (FileNotFoundException e) {
 		  			e.printStackTrace();
@@ -3151,7 +3192,7 @@ public class MyProfileController extends Controller{
 		 			}
 		 		  });
 		  
-		 		/*try{
+		 		try{
 		 			
 		  			Message message = new MimeMessage(session);
 		  			try {
@@ -3185,7 +3226,7 @@ public class MyProfileController extends Controller{
 	    	        String content = writer.toString(); 
 	    			
 	    			messageBodyPart.setContent(content, "text/html");
-	    			if(vm.pdfIds != null){
+	    			/*if(vm.pdfIds != null){
 	    			for(Long ls:vm.pdfIds){
 	 	    		   iPdf = InternalPdf.findPdfById(ls);  
 	 	    		   String PdfFile = rootDir + File.separator + iPdf.pdf_path;
@@ -3199,7 +3240,7 @@ public class MyProfileController extends Controller{
 	    		  	    }
 	    			 multipart.addBodyPart(attachPart);
 	 	    	   }
-	    			}
+	    			}*/
 	 	    		
 	    			
 	    			
@@ -3207,10 +3248,11 @@ public class MyProfileController extends Controller{
 	    			message.setContent(multipart);
 	    			Transport.send(message);
 		       		} catch (MessagingException e) {
-		  			 throw new RuntimeException(e);
-		  		}*/
-	    	   
-	    	return ok();
+		       			e.printStackTrace();
+		  			 //throw new RuntimeException(e);
+		  		}
+		 		System.out.println("save user END ??????????????????????????????????????");
+	    	return ok(Json.toJson(userObj));
     }
 	    
 	    public static Result getAllDeactivateUsers(){
