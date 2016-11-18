@@ -294,7 +294,7 @@ GET     /showPdf/:id                controllers.Application.showPdf(id:Long)
 GET		/getMyProfile				controllers.MyProfileController.getMyProfile()
 POST     /forgotPassword            controllers.Application.forgotPass()  
 POST	/saveConfirmData			controllers.CustomersRequestController.saveConfirmData()
-
+GET		/activePhotographerAccount/:id		controllers.MyProfileController.activePhotographerAccount(id:Integer)
 GET		/activeAccount/:id		controllers.MyProfileController.activeAccount(id:Integer)
 GET		/getAllUsers				controllers.MyProfileController.getAllUsers()
 GET     /getAllSalesUsers 			controllers.ConfigPagesController.getAllSalesUsers()

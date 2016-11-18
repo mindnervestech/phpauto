@@ -3797,6 +3797,17 @@ public static Result saveUser() {
 	    	}
 	    }
 	    
+	    public static Result activePhotographerAccount(Integer id){
+	    	
+	    		AuthUser user = AuthUser.findById(id);
+	    		if(user !=null){
+	    			user.setAccount("active");
+	        		user.update();
+	    		}
+	        	return ok();
+	    	
+	    }
+	    
 	    public static Result activeLocationById(Long id){
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
 	    		return ok(home.render("",userRegistration));
