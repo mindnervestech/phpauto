@@ -228,7 +228,7 @@ public class MyProfileController extends Controller{
 	    	}
 	    }
 	    
-	    public static Result getAllPhotographer(Long location) {
+	    public static Result getAllPhotographer(String name, Long location) {
 	    		
 	    		//AuthUser users = getLocalUser();
 	    		List<AuthUser> userList = AuthUser.findByPhotographer(location);
@@ -274,7 +274,7 @@ public class MyProfileController extends Controller{
 	    			if(user.role.equals("Photographer")){
 	    				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
 	    				
-	    				PhotographerHoursOfOperation pOperation = PhotographerHoursOfOperation.findByUser(user);
+	    				PhotographerHoursOfOperation pOperation = PhotographerHoursOfOperation.findByPortalNameAndUser(name,user);
 	    				if(pOperation != null){
 	    					if(pOperation.friOpen != null){
 	    						if(pOperation.friOpen == 0){
