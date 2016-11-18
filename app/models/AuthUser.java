@@ -417,4 +417,8 @@ public class AuthUser extends Model implements Identity {
 	public static AuthUser getlocationAndManagerOne(Location locations) {
 		return find.where().eq("location", locations).eq("role", "Manager").eq("account", "active").findUnique();
 	}
+	
+	public static List<AuthUser> findByPhotographer(Location locations) {
+		return find.where().eq("location", locations).eq("account", "active").eq("role", "Photographer").findList();
+	}
 }

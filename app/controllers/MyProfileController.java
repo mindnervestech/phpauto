@@ -228,6 +228,145 @@ public class MyProfileController extends Controller{
 	    	}
 	    }
 	    
+	    public static Result getAllPhotographer() {
+	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
+	    		return ok(home.render("",userRegistration));
+	    	} else {
+	    		
+	    		AuthUser users = getLocalUser();
+	    		List<AuthUser> userList = AuthUser.findByPhotographer(users.location);
+	    		List<UserVM> vmList = new ArrayList<>();
+	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    	
+	    		for(AuthUser user : userList) {
+	    			List<String> parmi = new ArrayList<>();
+	    			UserVM vm = new UserVM();
+	    			vm.fullName = user.firstName + " "+ user.lastName;
+	    			vm.firstName = user.firstName;
+	    			vm.lastName = user.lastName;
+	    			vm.email = user.email;
+	    			vm.phone = user.phone;
+	    			vm.userType = user.role;
+	    			vm.commission =user.commission;
+	    			vm.contractDur = user.contractDur;
+	    			vm.age = user.age;
+	    			vm.userGender = user.userGender;
+	    			vm.experience = user.experience;
+	    			vm.trainingPro = user.trainingPro;
+	    			vm.salary = user.salary;
+	    			vm.trialPeriod = user.trialPeriod;
+	    			vm.trainingCost = user.trainingCost;
+	    			vm.trainingHours = user.trainingHours;
+	    			vm.quota = user.quota;
+	    			vm.premiumFlag = user.premiumFlag;
+	    			vm.imageName = user.imageName;
+	    			vm.imageUrl = user.imageUrl;
+	    			vm.trial = user.trial;
+	    			vm.id = user.id;
+	    			if(user.contractDurEndDate != null)
+	    				vm.contractDurEndDate = dateFormat.format(user.contractDurEndDate);
+	    			if(user.contractDurStartDate != null)
+	    				vm.contractDurStartDate = dateFormat.format(user.contractDurStartDate);
+	    			for(Permission permission:user.permission){
+	    				parmi.add(permission.name);
+	    			}
+	    			for(Permission permission:user.permission){
+	    				parmi.add(permission.name);
+	    			}
+	    			vm.permissions = parmi;
+	    			if(user.role.equals("Photographer")){
+	    				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
+	    				
+	    				PhotographerHoursOfOperation pOperation = PhotographerHoursOfOperation.findByUser(user);
+	    				if(pOperation != null){
+	    					if(pOperation.friOpen != null){
+	    						if(pOperation.friOpen == 0){
+	    							vm.hOperation.friOpen = false;
+	    						}else{
+	    							vm.hOperation.friOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.tueOpen != null){
+	        					if(pOperation.tueOpen == 0){
+	    							vm.hOperation.tueOpen = false;
+	    						}else{
+	    							vm.hOperation.tueOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.thuOpen != null){
+	        					if(pOperation.thuOpen == 0){
+	    							vm.hOperation.thuOpen = false;
+	    						}else{
+	    							vm.hOperation.thuOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.wedOpen != null){
+	        					if(pOperation.wedOpen == 0){
+	    							vm.hOperation.wedOpen = false;
+	    						}else{
+	    							vm.hOperation.wedOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.monOpen != null){
+	        					if(pOperation.monOpen == 0){
+	    							vm.hOperation.monOpen = false;
+	    						}else{
+	    							vm.hOperation.monOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.satOpen != null){
+	        					if(pOperation.satOpen == 0){
+	    							vm.hOperation.satOpen = false;
+	    						}else{
+	    							vm.hOperation.satOpen = true;
+	    						}
+	        				}
+	        				if(pOperation.sunOpen != null){
+	        					if(pOperation.sunOpen == 0){
+	    							vm.hOperation.sunOpen = false;
+	    						}else{
+	    							vm.hOperation.sunOpen = true;
+	    						}
+	        				}
+	        				
+	        				
+	        				
+	        				
+	        				if(pOperation.friOpenTime != null){
+	        					vm.hOperation.friOpenTime = parseTime.format(pOperation.friOpenTime);
+	        				}
+	        				if(pOperation.tueOpenTime != null){
+	        					vm.hOperation.tueOpenTime = parseTime.format(pOperation.tueOpenTime);
+	        				}
+	        				if(pOperation.thuOpenTime != null){
+	        					vm.hOperation.thuOpenTime = parseTime.format(pOperation.thuOpenTime);
+	        				}
+	        				if(pOperation.wedOpenTime != null){
+	        					vm.hOperation.wedOpenTime = parseTime.format(pOperation.wedOpenTime);
+	        				}
+	        				if(pOperation.monOpenTime != null){
+	        					vm.hOperation.monOpenTime = parseTime.format(pOperation.monOpenTime);
+	        				}
+	        				if(pOperation.satOpenTime != null){
+	        					vm.hOperation.satOpenTime = parseTime.format(pOperation.satOpenTime);
+	        				}
+	        				if(pOperation.sunOpenTime != null){
+	        					vm.hOperation.sunOpenTime = parseTime.format(pOperation.sunOpenTime);
+	        				}
+	    				}
+	    				
+	    				
+	    			}
+	    			
+	    			if(!vm.userType.equals("Manager")){
+	    				vmList.add(vm);
+	    			}
+	    		}
+	    		return ok(Json.toJson(vmList));
+	    	}
+	    }
+	    
+	    
 	    public static Result uploadManagerImageFile(){
 	    	
 	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
