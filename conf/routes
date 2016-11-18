@@ -19,7 +19,7 @@ GET   /locationWise/:locationId      			controllers.Application.locationWise(loc
 POST    /acceptAgreement     			controllers.Application.acceptAgreement()
 GET    /authenticate     			controllers.Application.index()
 GET		/logout						controllers.Application.logout()
-GET		/getAllPhotographer				controllers.MyProfileController.getAllPhotographer()
+GET		/getAllPhotographer/:location				controllers.MyProfileController.getAllPhotographer(location:Long)
 GET		/callList						controllers.CrmController.callList()
 GET    /gmLogin							controllers.Application.gmLogin()
 GET    /salePLogin						controllers.Application.salePLogin()

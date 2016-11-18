@@ -228,13 +228,10 @@ public class MyProfileController extends Controller{
 	    	}
 	    }
 	    
-	    public static Result getAllPhotographer() {
-	    	if(session("USER_KEY") == null || session("USER_KEY") == "") {
-	    		return ok(home.render("",userRegistration));
-	    	} else {
+	    public static Result getAllPhotographer(Long location) {
 	    		
-	    		AuthUser users = getLocalUser();
-	    		List<AuthUser> userList = AuthUser.findByPhotographer(users.location);
+	    		//AuthUser users = getLocalUser();
+	    		List<AuthUser> userList = AuthUser.findByPhotographer(location);
 	    		List<UserVM> vmList = new ArrayList<>();
 	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	    	
@@ -363,7 +360,6 @@ public class MyProfileController extends Controller{
 	    			}
 	    		}
 	    		return ok(Json.toJson(vmList));
-	    	}
 	    }
 	    
 	    
