@@ -244,7 +244,7 @@ public class MyProfileController extends Controller{
 	    			vm.email = user.email;
 	    			vm.phone = user.phone;
 	    			vm.userType = user.role;
-	    			vm.commission =user.commission;
+	    			/*vm.commission =user.commission;
 	    			vm.contractDur = user.contractDur;
 	    			vm.age = user.age;
 	    			vm.userGender = user.userGender;
@@ -354,7 +354,7 @@ public class MyProfileController extends Controller{
 	    				
 	    				
 	    			}
-	    			
+	    			*/
 	    			if(!vm.userType.equals("Manager")){
 	    				vmList.add(vm);
 	    			}
