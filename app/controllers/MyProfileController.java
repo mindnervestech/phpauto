@@ -228,6 +228,232 @@ public class MyProfileController extends Controller{
 	    	}
 	    }
 	    
+	    public static Result updateImagePhotographer() {
+	    	
+	    		boolean isNew = true;
+	    		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+	    		MultipartFormData body = request().body().asMultipartFormData();
+		    	Form<UserVM> form = DynamicForm.form(UserVM.class).bindFromRequest();
+		    	UserVM vm = form.get();
+		    	AuthUser userObj = AuthUser.findById(vm.id);
+		    	
+		    	if(body != null) {
+			    	   File file1 = new File(rootDir+userObj.imageUrl);
+			    	   file1.delete();
+			    		FilePart picture = body.getFile("file0");
+				    	  if (picture != null) {
+				    	    String fileName = picture.getFilename();
+				    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto");
+				    	    if(!fdir.exists()) {
+				    	    	fdir.mkdir();
+				    	    }
+				    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+				    	    File file = picture.getFile();
+				    	    try {
+					    	    	if(new File(filePath).exists()) {
+					    	    		new File(filePath).delete();
+						    	    }
+				    	    		FileUtils.moveFile(file, new File(filePath));
+				    	    		userObj.setImageUrl("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"userPhoto"+"/"+fileName);
+				    	    		userObj.setImageName(fileName);
+				    	    		userObj.update();	
+				    	    		
+				    	  } catch (FileNotFoundException e) {
+				  			e.printStackTrace();
+					  		} catch (IOException e) {
+					  			e.printStackTrace();
+					  		} 
+				    	  } 
+				    	  return ok();
+			    	   }else{
+			    		   if("null".equals(vm.imageName)){
+			    			   userObj.setImageName(null);
+					   	       userObj.setImageUrl(vm.imageUrl);
+			    		   }
+			    	   }
+		    	
+		    	userObj.setFirstName(vm.firstName);
+		    	userObj.setLastName(vm.lastName);
+		    	userObj.setEmail(vm.email);
+		    	userObj.setPhone(vm.phone);
+		    	userObj.setRole(vm.userType);
+		    	//userObj.setPassword(vm.password);
+		    	userObj.setAge(vm.age);
+		    	userObj.setCommission(vm.commission);
+		    	userObj.setContractDur(vm.contractDur);
+		    	userObj.setExperience(vm.experience);
+		    	userObj.setTrainingPro(vm.trainingPro);
+		    	userObj.setTrialPeriod(vm.trialPeriod);
+		    	userObj.setTrial(vm.trial);
+		    	userObj.setUserGender(vm.userGender);
+		    	userObj.setSalary(vm.salary);
+		    	userObj.setTrainingCost(vm.trainingCost);
+		    	userObj.setTrainingHours(vm.trainingHours);
+		    	userObj.setQuota(vm.quota);
+		    	
+		    	try {
+		    		userObj.contractDurEndDate = dateFormat.parse(vm.contractDurEndDate);
+		    		userObj.contractDurStartDate = dateFormat.parse(vm.contractDurStartDate);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		    	
+		    	String arr2[] = null;
+		    	
+		    	if(vm.userType.equals("General Manager")  || vm.userType.equals("Manager")){
+		    		session("USER_ROLE", vm.userType+"");
+		    	}else{
+		    		if(body != null) {
+			    		String abcd= vm.permissions.get(0);
+			 	    	abcd = abcd.replace("]", "");
+			 	    	abcd = abcd.replace("[", "");
+			 	    	abcd = abcd.replace("\"", "");
+			 	    	arr2 = abcd.split(",");
+			    	 }
+		    	}
+		    	userObj.deleteManyToManyAssociations("permission");
+		    	List<Permission> permissionList = Permission.getAllPermission();
+		    	
+		    	if(vm.userType.equals("General Manager")) {
+		    		  //userObj.permission = permissionList;
+		    		List<Permission> permissionData = new ArrayList<>();
+		    		   for(Permission obj: permissionList) {
+		    			   if(obj.name.equals("CRM") || obj.name.equals("My Profile") || obj.name.equals("Dashboard") || obj.name.equals("Show Location")) {
+		    				   permissionData.add(obj);
+		    			   }
+		    		   }
+		    		   userObj.permission = permissionData;
+		    	   }
+		    	   if(vm.userType.equals("Manager")) {
+		    		   List<Permission> permissionData = new ArrayList<>();
+		    		   for(Permission obj: permissionList) {
+						   if(!obj.name.equals("Show Location")) {
+							   permissionData.add(obj);
+						   }
+		    		   }
+		    		   userObj.permission = permissionData;
+		    	   }
+		    	   
+		    	   if(vm.userType.equals("Sales Person") || vm.userType.equals("Front Desk")) {
+		    		   List<Permission> permissionData = new ArrayList<>();
+		    		   for(Permission obj: permissionList) {
+		    			   if(body != null) {
+		    				   for(String role:arr2){
+	    						   if(obj.name.equals(role)) {
+				    				   permissionData.add(obj);
+		    					   }
+	    				   
+		    				   }
+		    			   }else{
+		    				   for(String role:vm.permissions){
+	    						   if(obj.name.equals(role)) {
+				    				   permissionData.add(obj);
+		    					   }
+	    				   
+		    				   }
+		    			   }
+		    		   }
+		    		   userObj.permission.addAll(permissionData);
+		    	   }
+		    	   
+		    	   /*if(vm.userType.equals("Photographer")){
+		    		   PhotographerHoursOfOperation pOperation = PhotographerHoursOfOperation.findByUser(userObj);
+				    	
+				    	
+				    	try {
+				    			
+				    			if(vm.hOperation.sunOpen == true){
+				    				pOperation.sunOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.sunOpenTime);
+				    				pOperation.sunOpen = 1;
+				    			}else{
+				    				pOperation.sunOpen = 0;
+				    			}
+				    			
+				    			if(vm.hOperation.monOpen == true){
+				    				pOperation.monOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monOpenTime);
+				    				pOperation.monOpen = 1;
+				    			}else{
+				    				pOperation.monOpen = 0;
+				    			}
+				    			
+				    			if(vm.hOperation.thuOpen == true){
+				    				pOperation.thuOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.thuOpenTime);
+				    				pOperation.thuOpen = 1;
+				    			}else{
+				    				pOperation.thuOpen = 0;
+				    			}
+				    			
+				    			if(vm.hOperation.tueOpen == true){
+				    				pOperation.tueOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueOpenTime);
+				    				pOperation.tueOpen = 1;
+				    			}else{
+				    				pOperation.tueOpen = 0;
+				    			}
+				    			
+				    			if(vm.hOperation.wedOpen == true){
+				    				pOperation.wedOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.wedOpenTime);
+				    				pOperation.wedOpen = 1;
+				    			}else{
+				    				pOperation.wedOpen = 0;
+				    			}
+				    			
+				    			if(vm.hOperation.friOpen == true){
+				    				pOperation.friOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friOpenTime);
+				    				pOperation.friOpen = 1;
+				    			}else{
+				    				pOperation.friOpen = 0;
+				    			}
+				    			
+				    			if(vm.hOperation.satOpen == true){
+				    				pOperation.satOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.satOpenTime);
+				    				pOperation.satOpen = 1;
+				    			}else{
+				    				pOperation.satOpen = 0;
+				    			}
+					    	
+				    			pOperation.user = AuthUser.findById(userObj.id);
+				    			pOperation.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				    			
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				    	
+				    	pOperation.update();
+		    	   }
+*/		    	   
+		    	   
+		    	   
+		    	   userObj.update();
+		    	   
+
+		    	   InternalPdf iPdf = null;
+		    	   
+		    	   EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		    		String emailName=details.name;
+		    		String port=details.port;
+		    		String gmail=details.host;
+		    	final	String emailUser=details.username;
+		    	final	String emailPass=details.passward;
+		    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
+		    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
+		    		Properties props = new Properties();
+			 		props.put("mail.smtp.auth", "true");
+			 		props.put("mail.smtp.starttls.enable", "true");
+			 		props.put("mail.smtp.host", gmail);
+			 		props.put("mail.smtp.port", port);
+			  
+			 		Session session = Session.getInstance(props,
+			 		  new javax.mail.Authenticator() {
+			 			protected PasswordAuthentication getPasswordAuthentication() {
+			 				return new PasswordAuthentication(emailUser, emailPass);
+			 			}
+			 		  });
+			 	
+			  
+			 	return ok();   	
+	    }
+	    
 	    public static Result getAllDeactivatePhotographer(String name, Long location){
 	    	
     		List<AuthUser> userList = AuthUser.findByLocationDeactivePhoto(location);
