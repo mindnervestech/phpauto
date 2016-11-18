@@ -270,7 +270,7 @@ public class MyProfileController extends Controller{
 	    			for(Permission permission:user.permission){
 	    				parmi.add(permission.name);
 	    			}
-	    			vm.permissions = parmi;
+	    			vm.permissions = parmi;*/
 	    			if(user.role.equals("Photographer")){
 	    				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
 	    				
@@ -354,7 +354,7 @@ public class MyProfileController extends Controller{
 	    				
 	    				
 	    			}
-	    			*/
+	    			
 	    			if(!vm.userType.equals("Manager")){
 	    				vmList.add(vm);
 	    			}
