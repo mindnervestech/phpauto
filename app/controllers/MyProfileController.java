@@ -244,7 +244,7 @@ public class MyProfileController extends Controller{
 	    			vm.email = user.email;
 	    			vm.phone = user.phone;
 	    			vm.userType = user.role;
-	    			/*vm.commission =user.commission;
+	    			vm.commission =user.commission;
 	    			vm.contractDur = user.contractDur;
 	    			vm.age = user.age;
 	    			vm.userGender = user.userGender;
@@ -260,7 +260,7 @@ public class MyProfileController extends Controller{
 	    			vm.imageUrl = user.imageUrl;
 	    			vm.trial = user.trial;
 	    			vm.id = user.id;
-	    			if(user.contractDurEndDate != null)
+	    			/*if(user.contractDurEndDate != null)
 	    				vm.contractDurEndDate = dateFormat.format(user.contractDurEndDate);
 	    			if(user.contractDurStartDate != null)
 	    				vm.contractDurStartDate = dateFormat.format(user.contractDurStartDate);
