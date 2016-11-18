@@ -228,6 +228,48 @@ public class MyProfileController extends Controller{
 	    	}
 	    }
 	    
+	    public static Result getAllDeactivatePhotographer(String name, Long location){
+	    	
+    		List<AuthUser> userList = AuthUser.findByLocationDeactivePhoto(location);
+    		List<UserVM> vmList = new ArrayList<>();
+    	
+    		for(AuthUser user : userList) {
+    			List<String> parmi = new ArrayList<>();
+    			UserVM vm = new UserVM();
+    			vm.fullName = user.firstName + " "+ user.lastName;
+    			vm.firstName = user.firstName;
+    			vm.lastName = user.lastName;
+    			vm.email = user.email;
+    			vm.phone = user.phone;
+    			vm.userType = user.role;
+    			vm.commission =user.commission;
+    			vm.contractDur = user.contractDur;
+    			vm.age = user.age;
+    			vm.userGender = user.userGender;
+    			vm.experience = user.experience;
+    			vm.trainingPro = user.trainingPro;
+    			vm.salary = user.salary;
+    			vm.trialPeriod = user.trialPeriod;
+    			vm.trainingCost = user.trainingCost;
+    			vm.trainingHours = user.trainingHours;
+    			vm.quota = user.quota;
+    			vm.imageName = user.imageName;
+    			vm.imageUrl = user.imageUrl;
+    			vm.trial = user.trial;
+    			vm.id = user.id;
+    			for(Permission permission:user.permission){
+    				parmi.add(permission.name);
+    			}
+    			vm.permissions = parmi;
+    			
+    			if(!vm.userType.equals("Manager")){
+    				vmList.add(vm);
+    			}
+    		}
+    		return ok(Json.toJson(vmList));
+    	
+    }
+	    
 	    public static Result getAllPhotographer(String name, Long location) {
 	    		
 	    		//AuthUser users = getLocalUser();
