@@ -260,7 +260,7 @@ public class MyProfileController extends Controller{
 	    			vm.imageUrl = user.imageUrl;
 	    			vm.trial = user.trial;
 	    			vm.id = user.id;
-	    			/*if(user.contractDurEndDate != null)
+	    			if(user.contractDurEndDate != null)
 	    				vm.contractDurEndDate = dateFormat.format(user.contractDurEndDate);
 	    			if(user.contractDurStartDate != null)
 	    				vm.contractDurStartDate = dateFormat.format(user.contractDurStartDate);
@@ -270,7 +270,7 @@ public class MyProfileController extends Controller{
 	    			for(Permission permission:user.permission){
 	    				parmi.add(permission.name);
 	    			}
-	    			vm.permissions = parmi;*/
+	    			vm.permissions = parmi;
 	    			if(user.role.equals("Photographer")){
 	    				SimpleDateFormat parseTime = new SimpleDateFormat("hh:mm a");
 	    				
