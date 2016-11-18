@@ -454,6 +454,17 @@ public class MyProfileController extends Controller{
 			 	return ok();   	
 	    }
 	    
+	    public static Result deactivatePhotographerAccount(Integer id){
+	    	
+	    		AuthUser user = AuthUser.findById(id);
+	    		if(user !=null){
+	    			user.setAccount("deactive");
+	        		user.update();
+	    		}
+	        	return ok();
+	    	
+	    }
+	    
 	    public static Result getAllDeactivatePhotographer(String name, Long location){
 	    	
     		List<AuthUser> userList = AuthUser.findByLocationDeactivePhoto(location);
