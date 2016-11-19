@@ -361,62 +361,48 @@ public class MyProfileController extends Controller{
 				    	
 				    	if(pOperation != null){
 				    	try {
-				    		if(vm.hOperation.sunOpenTime != null){	
 				    			if(vm.hOperation.sunOpen == true){
-				    				pOperation.sunOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.sunOpenTime);
-				    				pOperation.sunOpen = 1;
+				    				pOperation.setSunOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.sunOpenTime));
+				    				pOperation.setSunOpen(1);
 				    			}else{
-				    				pOperation.sunOpen = 0;
+				    				pOperation.setSunOpen(0);
 				    			}
-				    		}
-				    		if(vm.hOperation.monOpenTime != null){
 				    			if(vm.hOperation.monOpen == true){
-				    				pOperation.monOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monOpenTime);
-				    				pOperation.monOpen = 1;
+				    				pOperation.setMonOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.monOpenTime));
+				    				pOperation.setMonOpen(1);
 				    			}else{
-				    				pOperation.monOpen = 0;
+				    				pOperation.setMonOpen(0);
 				    			}
-				    		}
-				    		if(vm.hOperation.thuOpenTime != null){
 				    			if(vm.hOperation.thuOpen == true){
-				    				pOperation.thuOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.thuOpenTime);
-				    				pOperation.thuOpen = 1;
+				    				pOperation.setThuOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.thuOpenTime));
+				    				pOperation.setThuOpen(1);
 				    			}else{
-				    				pOperation.thuOpen = 0;
+				    				pOperation.setThuOpen(0);
 				    			}
-				    		}
-				    		if(vm.hOperation.tueOpenTime != null){
 				    			if(vm.hOperation.tueOpen == true){
-				    				pOperation.tueOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueOpenTime);
-				    				pOperation.tueOpen = 1;
+				    				pOperation.setTueOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.tueOpenTime));
+				    				pOperation.setTueOpen(1);
 				    			}else{
-				    				pOperation.tueOpen = 0;
+				    				pOperation.setTueOpen(0);
 				    			}
-				    		}
-				    		if(vm.hOperation.wedOpenTime != null){
 				    			if(vm.hOperation.wedOpen == true){
-				    				pOperation.wedOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.wedOpenTime);
-				    				pOperation.wedOpen = 1;
+				    				pOperation.setWedOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.wedOpenTime));
+				    				pOperation.setWedOpen(1);
 				    			}else{
-				    				pOperation.wedOpen = 0;
+				    				pOperation.setWedOpen(0);
 				    			}
-				    		}
-				    		if(vm.hOperation.friOpenTime != null){
 				    			if(vm.hOperation.friOpen == true){
-				    				pOperation.friOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friOpenTime);
-				    				pOperation.friOpen = 1;
+				    				pOperation.setFriOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.friOpenTime));
+				    				pOperation.setFriOpen(1);
 				    			}else{
-				    				pOperation.friOpen = 0;
+				    				pOperation.setFriOpen(0);
 				    			}
-				    		}
-				    		if(vm.hOperation.satOpenTime != null){
 				    			if(vm.hOperation.satOpen == true){
-				    				pOperation.satOpenTime = new SimpleDateFormat("hh:mm a").parse(vm.hOperation.satOpenTime);
-				    				pOperation.satOpen = 1;
+				    				pOperation.setSatOpenTime(new SimpleDateFormat("hh:mm a").parse(vm.hOperation.satOpenTime));
+				    				pOperation.setSatOpen(1);
 				    			}else{
-				    				pOperation.satOpen = 0;
+				    				pOperation.setSatOpen(0);
 				    			}
-				    		}
 				    			pOperation.user = AuthUser.findById(userObj.id);
 				    			pOperation.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
 				    			
@@ -427,8 +413,7 @@ public class MyProfileController extends Controller{
 				    	
 				    	pOperation.update();
 				    	}
-		    	   }
-		    	   
+		    	   }		    	   
 		    	   
 		    	   userObj.update();
 		    	   
