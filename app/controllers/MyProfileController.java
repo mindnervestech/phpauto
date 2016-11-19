@@ -417,33 +417,8 @@ public class MyProfileController extends Controller{
 		    	   }		    	   
 		    	   
 		    	   userObj.update();
-		    	   
-
-		    	   InternalPdf iPdf = null;
-		    	   
-		    	   EmailDetails details=EmailDetails.findByLocation(vm.loca);
-		    		String emailName=details.name;
-		    		String port=details.port;
-		    		String gmail=details.host;
-		    	final	String emailUser=details.username;
-		    	final	String emailPass=details.passward;
-		    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
-		    	   SiteLogo logo = SiteLogo.findByLocation(vm.loca);  //findByUser(logoUser);
-		    		Properties props = new Properties();
-			 		props.put("mail.smtp.auth", "true");
-			 		props.put("mail.smtp.starttls.enable", "true");
-			 		props.put("mail.smtp.host", gmail);
-			 		props.put("mail.smtp.port", port);
-			  
-			 		Session session = Session.getInstance(props,
-			 		  new javax.mail.Authenticator() {
-			 			protected PasswordAuthentication getPasswordAuthentication() {
-			 				return new PasswordAuthentication(emailUser, emailPass);
-			 			}
-			 		  });
 			 	
-			  
-			 	return ok();   	
+			 	return ok(Json.toJson(userObj));   	
 	    }
 	    
 	    public static Result deactivatePhotographerAccount(Integer id){
