@@ -46,6 +46,7 @@ public class UserVM {
 	public boolean isSelect;
 	public List<String> permissions;
 	public int per;
+	public Long loca;
 	public Long locationId;
 	public List<Long> pdfIds;
 	public String type;

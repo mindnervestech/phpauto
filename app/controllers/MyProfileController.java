@@ -404,7 +404,7 @@ public class MyProfileController extends Controller{
 				    				pOperation.setSatOpen(0);
 				    			}
 				    			pOperation.user = AuthUser.findById(userObj.id);
-				    			pOperation.locations = Location.findById(Long.valueOf(session("USER_LOCATION")));
+				    			pOperation.locations = Location.findById(vm.loca);
 				    			
 						} catch (ParseException e1) {
 							// TODO Auto-generated catch block
