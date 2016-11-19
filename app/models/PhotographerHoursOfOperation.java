@@ -264,5 +264,7 @@ public class PhotographerHoursOfOperation extends Model {
 	public static PhotographerHoursOfOperation findByPortalNameAndUser(String name, AuthUser user) {
 		return find.where().eq("portalName", name).eq("user", user).findUnique();
 	}
-	
+	public static PhotographerHoursOfOperation findByUserId(Integer user) {
+		return find.where().eq("user.id", user).findUnique();
+	}
 }
