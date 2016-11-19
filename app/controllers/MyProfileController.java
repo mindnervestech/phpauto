@@ -577,24 +577,31 @@ public class MyProfileController extends Controller{
 	        				
 	        				if(pOperation.friOpenTime != null){
 	        					vm.hOperation.friOpenTime = parseTime.format(pOperation.friOpenTime);
+	        					vm.hOperation.friCloseTime = parseTime.format(pOperation.friCloseTime);
 	        				}
 	        				if(pOperation.tueOpenTime != null){
 	        					vm.hOperation.tueOpenTime = parseTime.format(pOperation.tueOpenTime);
+	        					vm.hOperation.tueCloseTime = parseTime.format(pOperation.tueCloseTime);
 	        				}
 	        				if(pOperation.thuOpenTime != null){
 	        					vm.hOperation.thuOpenTime = parseTime.format(pOperation.thuOpenTime);
+	        					vm.hOperation.thuCloseTime = parseTime.format(pOperation.thuCloseTime);
 	        				}
 	        				if(pOperation.wedOpenTime != null){
 	        					vm.hOperation.wedOpenTime = parseTime.format(pOperation.wedOpenTime);
+	        					vm.hOperation.wedCloseTime = parseTime.format(pOperation.wedCloseTime);
 	        				}
 	        				if(pOperation.monOpenTime != null){
 	        					vm.hOperation.monOpenTime = parseTime.format(pOperation.monOpenTime);
+	        					vm.hOperation.monCloseTime = parseTime.format(pOperation.monCloseTime);
 	        				}
 	        				if(pOperation.satOpenTime != null){
 	        					vm.hOperation.satOpenTime = parseTime.format(pOperation.satOpenTime);
+	        					vm.hOperation.satCloseTime = parseTime.format(pOperation.satCloseTime);
 	        				}
 	        				if(pOperation.sunOpenTime != null){
 	        					vm.hOperation.sunOpenTime = parseTime.format(pOperation.sunOpenTime);
+	        					vm.hOperation.sunCloseTime = parseTime.format(pOperation.sunCloseTime);
 	        				}
 	    				}
 	    				
