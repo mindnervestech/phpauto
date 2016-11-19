@@ -420,14 +420,14 @@ public class MyProfileController extends Controller{
 
 		    	   InternalPdf iPdf = null;
 		    	   
-		    	   EmailDetails details=EmailDetails.findByLocation(Long.valueOf(session("USER_LOCATION")));
+		    	   EmailDetails details=EmailDetails.findByLocation(vm.loca);
 		    		String emailName=details.name;
 		    		String port=details.port;
 		    		String gmail=details.host;
 		    	final	String emailUser=details.username;
 		    	final	String emailPass=details.passward;
 		    	   AuthUser logoUser = AuthUser.findById(userObj.id);//Integer.getInteger(session("USER_KEY")));
-		    	   SiteLogo logo = SiteLogo.findByLocation(Long.valueOf(session("USER_LOCATION")));  //findByUser(logoUser);
+		    	   SiteLogo logo = SiteLogo.findByLocation(vm.loca);  //findByUser(logoUser);
 		    		Properties props = new Properties();
 			 		props.put("mail.smtp.auth", "true");
 			 		props.put("mail.smtp.starttls.enable", "true");
