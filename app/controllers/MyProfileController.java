@@ -405,8 +405,7 @@ public class MyProfileController extends Controller{
 				    			}
 				    			pOperation.user = AuthUser.findById(userObj.id);
 				    			pOperation.locations = Location.findById(vm.loca);
-				    			pOperation.setContractDurEndDate(dateFormat.parse(vm.hOperation.contractDurEndDate));
-					    		pOperation.setContractDurStartDate(dateFormat.parse(vm.hOperation.contractDurStartDate));
+				    			
 				    			
 						} catch (ParseException e1) {
 							// TODO Auto-generated catch block
