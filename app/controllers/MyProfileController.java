@@ -243,18 +243,18 @@ public class MyProfileController extends Controller{
 			    		FilePart picture = body.getFile("file0");
 				    	  if (picture != null) {
 				    	    String fileName = picture.getFilename();
-				    	    File fdir = new File(rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto");
+				    	    File fdir = new File(rootDir+File.separator+"contractor"+File.separator+"Photographer"+File.separator+userObj.id+File.separator+"userPhoto");
 				    	    if(!fdir.exists()) {
 				    	    	fdir.mkdir();
 				    	    }
-				    	    String filePath = rootDir+File.separator+session("USER_LOCATION")+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
+				    	    String filePath = rootDir+File.separator+"contractor"+File.separator+"Photographer"+File.separator+userObj.id+File.separator+"userPhoto"+File.separator+fileName;
 				    	    File file = picture.getFile();
 				    	    try {
 					    	    	if(new File(filePath).exists()) {
 					    	    		new File(filePath).delete();
 						    	    }
 				    	    		FileUtils.moveFile(file, new File(filePath));
-				    	    		userObj.setImageUrl("/"+session("USER_LOCATION")+"/"+userObj.id+"/"+"userPhoto"+"/"+fileName);
+				    	    		userObj.setImageUrl("/"+"contractor"+"/"+"Photographer"+"/"+userObj.id+"/"+"userPhoto"+"/"+fileName);
 				    	    		userObj.setImageName(fileName);
 				    	    		userObj.update();	
 				    	    		
