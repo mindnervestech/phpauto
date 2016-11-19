@@ -292,8 +292,8 @@ public class MyProfileController extends Controller{
 		    	userObj.setQuota(vm.quota);
 		    	
 		    	try {
-		    		userObj.contractDurEndDate = dateFormat.parse(vm.contractDurEndDate);
-		    		userObj.contractDurStartDate = dateFormat.parse(vm.contractDurStartDate);
+		    		userObj.setContractDurEndDate(dateFormat.parse(vm.contractDurEndDate));
+		    		userObj.setContractDurStartDate(dateFormat.parse(vm.contractDurStartDate));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -405,6 +405,8 @@ public class MyProfileController extends Controller{
 				    			}
 				    			pOperation.user = AuthUser.findById(userObj.id);
 				    			pOperation.locations = Location.findById(vm.loca);
+				    			pOperation.setContractDurEndDate(dateFormat.parse(vm.hOperation.contractDurEndDate));
+					    		pOperation.setContractDurStartDate(dateFormat.parse(vm.hOperation.contractDurStartDate));
 				    			
 						} catch (ParseException e1) {
 							// TODO Auto-generated catch block

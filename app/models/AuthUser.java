@@ -52,6 +52,27 @@ public class AuthUser extends Model implements Identity {
 		return account;
 	}
 
+	
+	public Date getContractDurEndDate() {
+		return contractDurEndDate;
+	}
+
+
+	public void setContractDurEndDate(Date contractDurEndDate) {
+		this.contractDurEndDate = contractDurEndDate;
+	}
+
+
+	public Date getContractDurStartDate() {
+		return contractDurStartDate;
+	}
+
+
+	public void setContractDurStartDate(Date contractDurStartDate) {
+		this.contractDurStartDate = contractDurStartDate;
+	}
+
+
 	public void setAccount(String account) {
 		this.account = account;
 	}
